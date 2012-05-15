@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Wammer.Cloud;
 using Wammer.Utility;
 
 namespace Wammer.Station
 {
 	[Serializable]
-	class NotifyCloudOfBodySyncedTask: ITask
+	internal class NotifyCloudOfBodySyncedTask : Retry.DelayedRetryTask
 	{
-		private string object_id;
-		private string session_token;
+		private readonly string object_id;
+		private readonly string session_token;
+		private int retry_count;
 
 		public NotifyCloudOfBodySyncedTask(string object_id, string session_token)
+			:base(Retry.RetryQueue.Instance, TaskPriority.Low)
 		{
 			if (object_id == null || session_token == null)
 				throw new ArgumentNullException();
@@ -21,12 +21,26 @@ namespace Wammer.Station
 			this.session_token = session_token;
 		}
 
-		public void Execute()
+		#region DelayedRetryTask Members
+		protected override void Run()
 		{
-			using (DefaultWebClient agent = new DefaultWebClient())
+			if (++retry_count >= 100)
 			{
-				Cloud.AttachmentApi.SetSync(agent, object_id, session_token);
+				this.LogWarnMsg("Abort reporting body synced to cloud. Failure too many times.");
+				return;
+			}
+
+			using (var agent = new DefaultWebClient())
+			{
+				AttachmentApi.SetSync(agent, object_id, session_token);
 			}
 		}
+
+		public override void ScheduleToRun()
+		{
+			TaskQueue.Enqueue(this, this.priority, true);
+		}
+		#endregion
+
 	}
 }

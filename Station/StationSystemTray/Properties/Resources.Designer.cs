@@ -61,6 +61,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stream.
+        /// </summary>
+        public static string APP_NAME {
+            get {
+                return ResourceManager.GetString("APP_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid user name or password. Please try again..
         /// </summary>
         public static string AuthError {
@@ -134,6 +143,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Current account).
+        /// </summary>
+        public static string CURRENT_ACCOUT {
+            get {
+                return ResourceManager.GetString("CURRENT_ACCOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect Now.
         /// </summary>
         public static string DropboxUI_ConnectNow {
@@ -151,6 +169,20 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap fb_btn {
+            get {
+                object obj = ResourceManager.GetObject("fb_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap fb_btn_press {
+            get {
+                object obj = ResourceManager.GetObject("fb_btn_press", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap FB_Logo {
             get {
                 object obj = ResourceManager.GetObject("FB_Logo", resourceCulture);
@@ -164,6 +196,13 @@ namespace StationSystemTray.Properties {
         public static string FillAllFields {
             get {
                 return ResourceManager.GetString("FillAllFields", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap input_box {
+            get {
+                object obj = ResourceManager.GetObject("input_box", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -185,8 +224,22 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap login_btn {
+            get {
+                object obj = ResourceManager.GetObject("login_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap login_btn_press {
+            get {
+                object obj = ResourceManager.GetObject("login_btn_press", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
-        ///   Looks up a localized string similar to Log In error. Please try again..
+        ///   Looks up a localized string similar to Login error. Please try again..
         /// </summary>
         public static string LogInError {
             get {
@@ -275,6 +328,13 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap or {
+            get {
+                object obj = ResourceManager.GetObject("or", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Pause sync.
         /// </summary>
@@ -313,7 +373,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resume Stream sync.
+        ///   Looks up a localized string similar to Resume sync.
         /// </summary>
         public static string ResumeWFService {
             get {
@@ -322,7 +382,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resuming Stream sync....
+        ///   Looks up a localized string similar to Resuming sync....
         /// </summary>
         public static string ResumingWFService {
             get {
@@ -331,7 +391,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Starting Stream sync....
+        ///   Looks up a localized string similar to Starting Stream....
         /// </summary>
         public static string StartingWFService {
             get {
@@ -349,7 +409,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Station Down.
+        ///   Looks up a localized string similar to Stream service down.
         /// </summary>
         public static string StationDown {
             get {
@@ -358,7 +418,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The registration information of this Stream Station is expired. Please restart the program to re-register the station..
+        ///   Looks up a localized string similar to The registration information of this computer is expired. Please restart the program to re-register..
         /// </summary>
         public static string StationExpired {
             get {
@@ -367,11 +427,18 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service..
+        ///   Looks up a localized string similar to Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service..
         /// </summary>
         public static string StationServiceDown {
             get {
                 return ResourceManager.GetString("StationServiceDown", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_logo {
+            get {
+                object obj = ResourceManager.GetObject("stream_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -427,7 +494,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Testing ....
+        ///   Looks up a localized string similar to Testing....
         /// </summary>
         public static string Testing {
             get {
@@ -454,7 +521,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already an account with that name. Please type a different name..
+        ///   Looks up a localized string similar to There is already an account with that name. Please try a different name..
         /// </summary>
         public static string UserExisted {
             get {
@@ -463,7 +530,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Driver account is deleted. Please restart the program to re-register the station with a valid driver account..
+        ///   Looks up a localized string similar to Your account is deleted. Please restart the program and login with a valid Stream account..
         /// </summary>
         public static string UserNotExisted {
             get {
@@ -481,7 +548,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All Stream files up to date.
+        ///   Looks up a localized string similar to Sync complete.
         /// </summary>
         public static string WFServiceRunning {
             get {
@@ -490,7 +557,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to start Stream sync.
+        ///   Looks up a localized string similar to Unable to connect to Stream server.
         /// </summary>
         public static string WFServiceStartFail {
             get {
@@ -499,7 +566,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stream sync paused.
+        ///   Looks up a localized string similar to Sync paused.
         /// </summary>
         public static string WFServiceStopped {
             get {
@@ -508,7 +575,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stream is syncing.
+        ///   Looks up a localized string similar to Sync in progress.
         /// </summary>
         public static string WFServiceSyncing {
             get {

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Wammer.Station.Retry
 {
@@ -11,8 +9,9 @@ namespace Wammer.Station.Retry
 		public IRetryTask Task { get; set; }
 	}
 
-	public class NullRetryQueuePersistentStorage: IRetryQueuePersistentStorage
+	public class NullRetryQueuePersistentStorage : IRetryQueuePersistentStorage
 	{
+		#region IRetryQueuePersistentStorage Members
 
 		public ICollection<RetryQueueItem> LoadSavedTasks()
 		{
@@ -26,6 +25,8 @@ namespace Wammer.Station.Retry
 		public void Remove(DateTime key)
 		{
 		}
+
+		#endregion
 	}
 
 	public interface IRetryQueuePersistentStorage

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using StationSystemTray.Properties;
 
 namespace StationSystemTray
 {
@@ -13,10 +9,10 @@ namespace StationSystemTray
 	{
 		public CleanResourceForm(string email)
 		{
-			this.Font = SystemFonts.MessageBoxFont;
+			Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
-			this.pictureBox1.Image = SystemIcons.Question.ToBitmap();
-			this.lblConfirm.Text = string.Format(Properties.Resources.CleanResourceMsg, email);
+			pictureBox1.Image = SystemIcons.Question.ToBitmap();
+			lblConfirm.Text = string.Format(Resources.CleanResourceMsg, email);
 		}
 
 		private void btnYes_Click(object sender, EventArgs e)

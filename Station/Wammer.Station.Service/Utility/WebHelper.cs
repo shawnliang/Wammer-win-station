@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -11,12 +13,12 @@ using System.Text;
 
 namespace Waveface
 {
+
 	#region MyWebClient
 
 	public class MyWebClient : WebClient
 	{
 		//time in milliseconds
-		public int Timeout { get; set; }
 
 		public MyWebClient()
 		{
@@ -28,10 +30,14 @@ namespace Waveface
 			Timeout = timeout;
 		}
 
+		public int Timeout { get; set; }
+
 		protected override WebRequest GetWebRequest(Uri address)
 		{
-			var _result = base.GetWebRequest(address);
-			_result.Timeout = this.Timeout;
+			WebRequest _result = base.GetWebRequest(address);
+
+			Debug.Assert(_result != null, "_result != null");
+			_result.Timeout = Timeout;
 			return _result;
 		}
 	}
@@ -43,21 +49,23 @@ namespace Waveface
 	public static class MultipartFormDataPostHelper
 	{
 		#region Const
-		const string FORM_DATA_BOUNDARY = "--ABCDEFG";
-		const string MULTIPART_CONTENT_TYPE = "multipart/form-data; boundary=" + FORM_DATA_BOUNDARY;
+
+		private const string FORM_DATA_BOUNDARY = "--ABCDEFG";
+		private const string MULTIPART_CONTENT_TYPE = "multipart/form-data; boundary=" + FORM_DATA_BOUNDARY;
+
 		#endregion
 
 		#region Private Property
+
 		private static Encoding m_Encoding
 		{
-			get
-			{
-				return Encoding.UTF8;
-			}
+			get { return Encoding.UTF8; }
 		}
+
 		#endregion
 
 		#region Private Method
+
 		/// <summary>
 		/// Fills the post parameters.
 		/// </summary>
@@ -65,13 +73,15 @@ namespace Waveface
 		/// <param name="boundary">The boundary.</param>
 		/// <param name="formDataStream">The form data stream.</param>
 		/// <returns></returns>
-		private static byte[] FillPostParameters(Dictionary<string, object> postParameters, string boundary, Stream formDataStream)
+		private static byte[] FillPostParameters(Dictionary<string, object> postParameters, string boundary,
+		                                         Stream formDataStream)
 		{
 			formDataStream.Write(m_Encoding.GetBytes("\r\n"), 0, 2);
 
 			foreach (var param in postParameters)
 			{
-				string postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n", boundary, param.Key, param.Value);
+				string postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n", boundary,
+				                                param.Key, param.Value);
 				formDataStream.Write(postData, m_Encoding);
 			}
 
@@ -81,7 +91,7 @@ namespace Waveface
 
 			// Dump the Stream into a byte[]
 			formDataStream.Position = 0;
-			byte[] formData = new byte[formDataStream.Length];
+			var formData = new byte[formDataStream.Length];
 			formDataStream.Read(formData, 0, formData.Length);
 
 			return formData;
@@ -96,12 +106,17 @@ namespace Waveface
 		/// <param name="mimeType">Type of the MIME.</param>
 		/// <param name="appendDataProcess">The append data process.</param>
 		/// <returns></returns>
-		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName, string mimeType, Action<Stream> appendDataProcess)
+		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
+		                                           string mimeType, Action<Stream> appendDataProcess)
 		{
 			using (Stream ms = new MemoryStream())
 			{
 				// Add just the first part of this param, since we will write the file data directly to the Stream
-				string _header = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n", boundary, "file", string.IsNullOrEmpty(fileName) ? "file" : fileName, string.IsNullOrEmpty(mimeType) ? "application/octet-stream" : mimeType);
+				string _header =
+					string.Format(
+						"--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"\r\nContent-Type: {3}\r\n\r\n", boundary,
+						"file", string.IsNullOrEmpty(fileName) ? "file" : fileName,
+						string.IsNullOrEmpty(mimeType) ? "application/octet-stream" : mimeType);
 
 				ms.Write(_header, m_Encoding);
 
@@ -112,7 +127,7 @@ namespace Waveface
 			}
 		}
 
-		
+
 		/// <summary>
 		/// Turn the key and value pairs into a multipart form.
 		/// See http://www.ietf.org/rfc/rfc2388.txt for issues about file uploads
@@ -123,9 +138,10 @@ namespace Waveface
 		/// <param name="mimeType">Type of the MIME.</param>
 		/// <param name="dataStream">The data stream.</param>
 		/// <returns></returns>
-		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName, string mimeType, Stream dataStream)
+		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
+		                                           string mimeType, Stream dataStream)
 		{
-			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, (stream) => { stream.Write(dataStream); });
+			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, stream => { stream.Write(dataStream); });
 		}
 
 
@@ -139,13 +155,20 @@ namespace Waveface
 		/// <param name="mimeType">Type of the MIME.</param>
 		/// <param name="fileData">The file data.</param>
 		/// <returns></returns>
-		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName, string mimeType, ArraySegment<byte> fileData)
+		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
+		                                           string mimeType, ArraySegment<byte> fileData)
 		{
-			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, (stream) => { stream.Write(fileData.Array, fileData.Offset, fileData.Count); });
+			return GetMultipartFormData(postParameters, boundary, fileName, mimeType,
+			                            stream => { stream.Write(fileData.Array, fileData.Offset, fileData.Count); });
 		}
+
 		#endregion
 
-		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, Stream dataStream, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent,
+		                                                    Dictionary<string, object> postParameters, string fileName,
+		                                                    string mimeType, Stream dataStream, int bufferSize = 1024,
+		                                                    Action<object, ProgressChangedEventArgs> progressChangedCallBack =
+		                                                    	null)
 		{
 			byte[] formData = GetMultipartFormData(postParameters, FORM_DATA_BOUNDARY, fileName, mimeType, dataStream);
 
@@ -155,7 +178,12 @@ namespace Waveface
 		// Post the data as a multipart form
 		// postParameters with a value of type byte[] will be passed in the form as a file, and value of type string will be
 		// passed as a name/value pair.
-		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, ArraySegment<byte> fileData, int bufferSize = 1024, Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent,
+		                                                    Dictionary<string, object> postParameters, string fileName,
+		                                                    string mimeType, ArraySegment<byte> fileData,
+		                                                    int bufferSize = 1024,
+		                                                    Action<object, ProgressChangedEventArgs> progressChangedCallBack =
+		                                                    	null)
 		{
 			byte[] formData = GetMultipartFormData(postParameters, FORM_DATA_BOUNDARY, fileName, mimeType, fileData);
 
@@ -163,7 +191,9 @@ namespace Waveface
 		}
 
 
-		public static HttpWebResponse PostWammerImage(string postUrl, string userAgent, Dictionary<string, object> postParameters, string fileName, string mimeType, ArraySegment<byte> fileData)
+		public static HttpWebResponse PostWammerImage(string postUrl, string userAgent,
+		                                              Dictionary<string, object> postParameters, string fileName,
+		                                              string mimeType, ArraySegment<byte> fileData)
 		{
 			byte[] formData = GetMultipartFormData(postParameters, FORM_DATA_BOUNDARY, fileName, mimeType, fileData);
 
@@ -171,9 +201,11 @@ namespace Waveface
 		}
 
 		// Post a form
-		private static HttpWebResponse PostForm(string postUrl, string userAgent, string contentType, byte[] formData, int bufferSize = 1024 , Action<object, System.ComponentModel.ProgressChangedEventArgs> progressChangedCallBack = null)
+		private static HttpWebResponse PostForm(string postUrl, string userAgent, string contentType, byte[] formData,
+		                                        int bufferSize = 1024,
+		                                        Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
-			HttpWebRequest request = WebRequest.Create(postUrl) as HttpWebRequest;
+			var request = WebRequest.Create(postUrl) as HttpWebRequest;
 
 			if (request == null)
 			{
@@ -223,7 +255,7 @@ namespace Waveface
 			try
 			{
 				// Open a connection
-				HttpWebRequest _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+				var _httpWebRequest = (HttpWebRequest) WebRequest.Create(url);
 
 				_httpWebRequest.AllowWriteStreamBuffering = true;
 
@@ -241,6 +273,7 @@ namespace Waveface
 				Stream _webStream = _webResponse.GetResponseStream();
 
 				// convert webstream to image
+				Debug.Assert(_webStream != null, "_webStream != null");
 				_tmpImage = Image.FromStream(_webStream);
 
 				// Cleanup
@@ -263,12 +296,10 @@ namespace Waveface
 		/// <returns>HTML contents as a string</returns>
 		public static string DownloadHTMLPage(string url)
 		{
-			string _pageContent = null;
-
 			try
 			{
 				// Open a connection
-				HttpWebRequest _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+				var _httpWebRequest = (HttpWebRequest) WebRequest.Create(url);
 
 				// You can also specify additional header values like the user agent or the referer: (Optional)
 				_httpWebRequest.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)";
@@ -284,34 +315,36 @@ namespace Waveface
 				Stream _webStream = _webResponse.GetResponseStream();
 
 				// Create reader object:
-				StreamReader _streamReader = new StreamReader(_webStream);
+				Debug.Assert(_webStream != null, "_webStream != null");
+				var _streamReader = new StreamReader(_webStream);
 
 				// Read the entire stream content:
-				_pageContent = _streamReader.ReadToEnd();
+				string _pageContent = _streamReader.ReadToEnd();
 
 				// Cleanup
 				_streamReader.Close();
 				_webStream.Close();
 				_webResponse.Close();
+
+				return _pageContent;
 			}
 			catch (Exception _e)
 			{
 				Console.WriteLine("Exception caught in process: {0}", _e);
 				return null;
 			}
-
-			return _pageContent;
 		}
 
 		/// <summary>
 		/// Function to download a file from URL and save it to local drive
 		/// </summary>
 		/// <param name="url">URL address to download file</param>
+		/// <param name="saveAs">The save as.</param>
 		public static void DownloadFile(string url, string saveAs)
 		{
 			try
 			{
-				WebClient _webClient = new WebClient();
+				var _webClient = new WebClient();
 
 				// Downloads the resource with the specified URI to a local file.
 				_webClient.DownloadFile(url, saveAs);
@@ -355,7 +388,6 @@ namespace Waveface
 		//    _WebClient.DownloadProgressChanged += new System.Net.DownloadProgressChangedEventHandler(_DownloadProgressChanged);
 		//    _WebClient.DownloadFileAsync(new Uri("http://www.youdomain.com/sample-file.zip"), @"C:\sample-file.zip");
 		//}
-
 	}
 
 	#endregion

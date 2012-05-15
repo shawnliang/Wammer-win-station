@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Wammer.Utility
 {
@@ -10,35 +8,32 @@ namespace Wammer.Utility
 	public class BackOff
 	{
 		#region Var
+
 		private int _level;
 		private Random _random;
+
 		#endregion
 
 		#region Private Property
+
 		private ReadOnlyCollection<int> m_BackOffWindows { get; set; }
 
 		private Random m_Random
 		{
-			get
-			{
-				if (_random == null)
-					_random = new Random(Guid.NewGuid().GetHashCode());
-				return _random;
-			}
+			get { return _random ?? (_random = new Random(Guid.NewGuid().GetHashCode())); }
 		}
+
 		#endregion
 
 		#region Public Property
+
 		/// <summary>
 		/// Gets or sets the level.
 		/// </summary>
 		/// <value>The level.</value>
 		public int Level
 		{
-			get
-			{
-				return _level;
-			}
+			get { return _level; }
 			set
 			{
 				if (value <= 0)
@@ -50,10 +45,11 @@ namespace Wammer.Utility
 				_level = value;
 			}
 		}
+
 		#endregion
 
-
 		#region Constructor
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BackOff"/> class.
 		/// </summary>
@@ -62,13 +58,14 @@ namespace Wammer.Utility
 		{
 			CheckBackOffWindows(backOffWindows);
 
-			this.m_BackOffWindows = new ReadOnlyCollection<int>(backOffWindows.ToList());
+			m_BackOffWindows = new ReadOnlyCollection<int>(backOffWindows.ToList());
 			ResetLevel();
 		}
+
 		#endregion
 
-
 		#region Private Method
+
 		/// <summary>
 		/// Checks the back off windows.
 		/// </summary>
@@ -82,27 +79,28 @@ namespace Wammer.Utility
 				throw new ArgumentException("backOffWindows must contains elements!");
 
 			if (backOffWindows.First() <= 0)
-				throw new ArgumentOutOfRangeException("First backOffWindow must bigger than zero!");
+				throw new ArgumentOutOfRangeException("backOffWindows", "First backOffWindow must bigger than zero!");
 
-			var minValue = -1;
-			foreach (var backOffWindow in backOffWindows)
+			int minValue = -1;
+			foreach (int backOffWindow in backOffWindows)
 			{
 				if (backOffWindow < 0)
-					throw new ArgumentOutOfRangeException("backOffWindows must bigger than zero!");
+					throw new ArgumentOutOfRangeException("backOffWindow", "backOffWindows must bigger than zero!");
 
 				if (minValue > backOffWindow)
-					throw new ArgumentOutOfRangeException("backOffWindows must order by increase!");
+					throw new ArgumentOutOfRangeException("backOffWindow", "backOffWindows must order by increase!");
 
 				if (minValue == backOffWindow)
-					throw new ArgumentOutOfRangeException("Can't contains duplicated elements!");
+					throw new ArgumentOutOfRangeException("backOffWindow", "Can't contains duplicated elements!");
 
 				minValue = backOffWindow;
 			}
 		}
+
 		#endregion
 
-
 		#region Public Method
+
 		/// <summary>
 		/// Increases the level.
 		/// </summary>
@@ -141,11 +139,12 @@ namespace Wammer.Utility
 		/// <returns></returns>
 		public int NextValue()
 		{
-			var minValue = (Level == 1) ? 0 : m_BackOffWindows[Level - 2];
-			var maxValue = m_BackOffWindows[Level - 1];
+			int minValue = (Level == 1) ? 0 : m_BackOffWindows[Level - 2];
+			int maxValue = m_BackOffWindows[Level - 1];
 
 			return m_Random.Next(minValue, maxValue);
 		}
+
 		#endregion
 	}
 }

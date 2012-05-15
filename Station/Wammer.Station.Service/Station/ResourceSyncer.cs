@@ -1,35 +1,47 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Net;
-using System.IO;
-using System.ComponentModel;
-using System.Security.Cryptography;
-using System.Drawing;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Wammer.Model;
 using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Station.Timeline;
 using Wammer.Utility;
 
 namespace Wammer.Station
 {
-	class ResourceSyncer : NonReentrantTimer
+	internal class ResourceSyncer : NonReentrantTimer
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ResourceSyncer));
+		private readonly ResourceDownloader downloader;
+		private readonly TimelineSyncer syncer;
 		private bool isFirstRun = true;
-		private Timeline.TimelineSyncer syncer;
-		private ResourceDownloader downloader;
 
 		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
 			: base(timerPeriod)
 		{
-			this.downloader = new ResourceDownloader(bodySyncQueue, stationId);
-			this.syncer = new Timeline.TimelineSyncer(new Timeline.PostProvider(), new Timeline.TimelineSyncerDB(), new UserTracksApi());
-			syncer.PostsRetrieved += new EventHandler<Timeline.TimelineSyncEventArgs>(downloader.PostRetrieved);
+			downloader = new ResourceDownloader(bodySyncQueue, stationId);
+			syncer = new TimelineSyncer(new PostProvider(), new TimelineSyncerDB(), new UserTracksApi());
+			syncer.PostsRetrieved += downloader.PostRetrieved;
+			syncer.BodyAvailable += syncer_BodyAvailable;
+		}
+
+		private void syncer_BodyAvailable(object sender, BodyAvailableEventArgs e)
+		{
+			try
+			{
+				Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", e.user_id));
+				if (user != null && user.isPrimaryStation)
+				{
+					using (WebClient agent = new DefaultWebClient())
+					{
+						AttachmentInfo info = AttachmentApi.GetInfo(agent, e.object_id, user.session_token);
+						downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				this.LogWarnMsg("Unable to enqueue body download task", ex);
+			}
 		}
 
 		protected override void ExecuteOnTimedUp(object state)
@@ -45,13 +57,22 @@ namespace Wammer.Station
 
 		public void OnIsPrimaryChanged(object sender, IsPrimaryChangedEvtArgs args)
 		{
-			if (args.driver.isPrimaryStation)
+			try
 			{
-				// just upgraded to primary station
-				foreach (var attachment in AttachmentCollection.Instance.FindAll())
+				if (args.driver.isPrimaryStation)
 				{
-					downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
+					// just upgraded to primary station
+					// download missing original attachments
+					foreach (Attachment attachment in AttachmentCollection.Instance.Find(Query.EQ("group_id", args.driver.groups[0].group_id)))
+					{
+						if (string.IsNullOrEmpty(attachment.saved_file_name))
+							downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Error when adding downstream task", e);
 			}
 		}
 

@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -686,7 +686,9 @@ namespace Waveface
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(I18n.L.T("ForceLogout") + "\r\n" + e.ToString());
+                s_logger.Error("Cannot login: " + e.ToString());
+                MessageBox.Show(I18n.L.T("ForceLogout"));
+                QuitOption = Waveface.QuitOption.Logout;
 				Close();
 			}
         }

@@ -1,9 +1,8 @@
+using System;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
-using Wammer.Cloud;
-using System;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
 
 namespace Wammer.Model
 {
@@ -14,10 +13,14 @@ namespace Wammer.Model
 	public class Driver
 	{
 		#region Var
+
 		private List<UserGroup> _groups;
+		private List<UserStation> _stations;
+
 		#endregion
 
 		#region Public Property
+
 		/// <summary>
 		/// Gets or sets the user_id.
 		/// </summary>
@@ -46,16 +49,19 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public List<UserGroup> groups
 		{
-			get
-			{
-				if (_groups == null)
-					_groups = new List<UserGroup>();
-				return _groups;
-			}
-			set
-			{
-				_groups = value;
-			}
+			get { return _groups ?? (_groups = new List<UserGroup>()); }
+			set { _groups = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the stations
+		/// </summary>
+		/// <value>The stations.</value>
+		[BsonIgnoreIfNull]
+		public List<UserStation> stations
+		{
+			get { return _stations ?? (_stations = new List<UserStation>()); }
+			set { _stations = value; }
 		}
 
 		/// <summary>
@@ -64,7 +70,7 @@ namespace Wammer.Model
 		/// <value>The session_token.</value>
 		[BsonIgnoreIfNull]
 		public string session_token { get; set; }
-		
+
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is primary station.
 		/// </summary>
@@ -102,12 +108,13 @@ namespace Wammer.Model
 		[BsonDefaultValue(1)]
 		[BsonIgnoreIfNull]
 		public int ref_count { get; set; }
+
 		#endregion
 	}
 
 	public class DriverCollection : Collection<Driver>
 	{
-		private static DriverCollection instance;
+		private static readonly DriverCollection instance;
 
 		static DriverCollection()
 		{
@@ -115,7 +122,7 @@ namespace Wammer.Model
 		}
 
 		private DriverCollection()
-			:base("drivers")
+			: base("drivers")
 		{
 		}
 
@@ -138,14 +145,16 @@ namespace Wammer.Model
 	{
 		[BsonIgnoreIfNull]
 		public DateTime start_time { get; set; }
+
 		[BsonIgnoreIfNull]
 		public DateTime end_time { get; set; }
+
 		[BsonIgnoreIfNull]
-		public Nullable<DateTime> first_post_time { get; set; }
+		public DateTime? first_post_time { get; set; }
 
 		public SyncRange Clone()
 		{
-			return (SyncRange)this.MemberwiseClone();
+			return (SyncRange) MemberwiseClone();
 		}
 	}
 }

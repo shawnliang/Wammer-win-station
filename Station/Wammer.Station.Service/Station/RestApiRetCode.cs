@@ -1,5 +1,4 @@
-﻿
-namespace Wammer.Station
+﻿namespace Wammer.Station
 {
 	public enum StationLocalApiError
 	{
@@ -26,6 +25,12 @@ namespace Wammer.Station
 		GetOAuthFailed = Base + 4,
 		ConnectDropboxFailed = Base + 5,
 		LinkWrongAccount = Base + 6
+	}
+
+	public enum GeneralApiError
+	{
+		Base = 0x0000,
+		SessionNotExist = Base + 12
 	}
 
 	public enum AuthApiError

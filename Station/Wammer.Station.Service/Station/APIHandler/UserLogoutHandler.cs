@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
-using Wammer.Station;
 using System.Net;
-using Wammer.Cloud;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
 using Wammer.Model;
-using System.Net.NetworkInformation;
 using Wammer.Utility;
 
 namespace Wammer.Station
@@ -13,6 +10,7 @@ namespace Wammer.Station
 	public class UserLogoutHandler : HttpHandler
 	{
 		#region Protected Method
+
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
@@ -31,17 +29,18 @@ namespace Wammer.Station
 					User.LogOut(client, sessionToken, apiKey);
 				}
 			}
-			catch (System.Exception)
+			catch (Exception)
 			{
 			}
 
-			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+			LoginedSession loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession != null)
 				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", loginedSession.user.email));
 
 			RespondSuccess();
 		}
+
 		#endregion
 	}
 }

@@ -117,8 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="APP_NAME" xml:space="preserve">
+    <value>Stream</value>
+  </data>
   <data name="AuthError" xml:space="preserve">
     <value>Invalid user name or password. Please try again.</value>
   </data>
@@ -144,11 +146,20 @@
   <data name="Connected" xml:space="preserve">
     <value>Accessible from internet</value>
   </data>
+  <data name="CURRENT_ACCOUT" xml:space="preserve">
+    <value>(Current account)</value>
+  </data>
   <data name="DropboxUI_ConnectNow" xml:space="preserve">
     <value>Connect Now</value>
   </data>
   <data name="DropboxUI_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
+  </data>
+  <data name="fb_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fb_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fb_btn_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fb_btn_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FB_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FB_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -156,14 +167,23 @@
   <data name="FillAllFields" xml:space="preserve">
     <value>Please fill all the fields!</value>
   </data>
+  <data name="input_box" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\input_box.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="InvalidDriverError" xml:space="preserve">
     <value>The user name is different to the driver account of this Stream Station. Please try again.</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
     <value>invalid email</value>
   </data>
+  <data name="login_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\login_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="login_btn_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\login_btn_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="LogInError" xml:space="preserve">
-    <value>Log In error. Please try again.</value>
+    <value>Login error. Please try again.</value>
   </data>
   <data name="LoginMenuItem" xml:space="preserve">
     <value>Login...</value>
@@ -192,6 +212,9 @@
   <data name="OpenStream" xml:space="preserve">
     <value>Open Stream</value>
   </data>
+  <data name="or" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\or.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="PauseWFService" xml:space="preserve">
     <value>Pause sync</value>
   </data>
@@ -206,25 +229,28 @@
       Please restart the program to initialize Stream Station.</value>
   </data>
   <data name="ResumeWFService" xml:space="preserve">
-    <value>Resume Stream sync</value>
+    <value>Resume sync</value>
   </data>
   <data name="ResumingWFService" xml:space="preserve">
-    <value>Resuming Stream sync...</value>
+    <value>Resuming sync...</value>
   </data>
   <data name="StartingWFService" xml:space="preserve">
-    <value>Starting Stream sync...</value>
+    <value>Starting Stream...</value>
   </data>
   <data name="Station401Exception" xml:space="preserve">
     <value>Your authentication is expired. Please log in again.</value>
   </data>
   <data name="StationDown" xml:space="preserve">
-    <value>Station Down</value>
+    <value>Stream service down</value>
   </data>
   <data name="StationExpired" xml:space="preserve">
-    <value>The registration information of this Stream Station is expired. Please restart the program to re-register the station.</value>
+    <value>The registration information of this computer is expired. Please restart the program to re-register.</value>
   </data>
   <data name="StationServiceDown" xml:space="preserve">
-    <value>Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service.</value>
+    <value>Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service.</value>
+  </data>
+  <data name="stream_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stream_tray_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stream_tray_init.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -248,7 +274,7 @@
     <value>There appears to be an error with the system. Please try again later.</value>
   </data>
   <data name="Testing" xml:space="preserve">
-    <value>Testing ...</value>
+    <value>Testing...</value>
   </data>
   <data name="UnknownSigninError" xml:space="preserve">
     <value>UnknownSigninError</value>
@@ -257,24 +283,24 @@
     <value>Unable to disconnect from Dropbox</value>
   </data>
   <data name="UserExisted" xml:space="preserve">
-    <value>There is already an account with that name. Please type a different name.</value>
+    <value>There is already an account with that name. Please try a different name.</value>
   </data>
   <data name="UserNotExisted" xml:space="preserve">
-    <value>Driver account is deleted. Please restart the program to re-register the station with a valid driver account.</value>
+    <value>Your account is deleted. Please restart the program and login with a valid Stream account.</value>
   </data>
   <data name="WFPreference" xml:space="preserve">
     <value>Preference...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>All Stream files up to date</value>
+    <value>Sync complete</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
-    <value>Unable to start Stream sync</value>
+    <value>Unable to connect to Stream server</value>
   </data>
   <data name="WFServiceStopped" xml:space="preserve">
-    <value>Stream sync paused</value>
+    <value>Sync paused</value>
   </data>
   <data name="WFServiceSyncing" xml:space="preserve">
-    <value>Stream is syncing</value>
+    <value>Sync in progress</value>
   </data>
 </root>

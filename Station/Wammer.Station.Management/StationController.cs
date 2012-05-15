@@ -149,7 +149,7 @@ namespace Wammer.Station.Management
 		/// <exception cref="Wammer.Station.Management.ConnectToCloudException">
 		/// Unable to connect to waveface cloud, network down?
 		/// </exception>
-		public static AddUserResult AddUser(string email, string password, string deviceId, string deviceName)
+		public static AddUserResponse AddUser(string email, string password, string deviceId, string deviceName)
 		{
 			try
 			{
@@ -165,7 +165,7 @@ namespace Wammer.Station.Management
 					false
 				);
 
-				return new AddUserResult() { UserId = res.UserId, IsPrimaryStation = res.IsPrimaryStation };
+				return res;
 			}
 			catch (Cloud.WammerCloudException e)
 			{
@@ -190,7 +190,7 @@ namespace Wammer.Station.Management
 			}
 		}
 
-		public static AddUserResult AddUser(string userId, string sessionToken)
+		public static AddUserResponse AddUser(string userId, string sessionToken)
 		{
 			try
 			{
@@ -204,7 +204,7 @@ namespace Wammer.Station.Management
 					false
 				);
 
-				return new AddUserResult() { UserId = res.UserId, IsPrimaryStation = res.IsPrimaryStation };
+				return res;
 			}
 			catch (Cloud.WammerCloudException e)
 			{
@@ -558,8 +558,10 @@ namespace Wammer.Station.Management
 
 		public static void ConnectToInternet()
 		{
-			WebClient agent = new WebClient();
-			agent.DownloadData("http://www.google.com");
+			using (DefaultWebClient agent = new DefaultWebClient())
+			{
+				agent.DownloadData("http://www.google.com");
+			}
 		}
 
 		public static void PingForAvailability()
@@ -979,11 +981,4 @@ namespace Wammer.Station.Management
 		public long quota { get; set; }
 		public long used { get; set; }
 	}
-
-	public class AddUserResult
-	{
-		public string UserId { get; set; }
-		public bool IsPrimaryStation { get; set; }
-	}
-
 }

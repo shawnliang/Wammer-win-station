@@ -1,8 +1,8 @@
-﻿
+﻿using System;
+using Wammer.Model;
 
 namespace Wammer.Station.JSONClass
 {
-
 	public class AttachmentView
 	{
 		public string creator_id { get; set; }
@@ -24,20 +24,20 @@ namespace Wammer.Station.JSONClass
 		public Thumbnail large { get; set; }
 		public Thumbnail square { get; set; }
 
-		public Thumbnail GetThumbnail(Wammer.Model.ImageMeta meta)
+		public Thumbnail GetThumbnail(ImageMeta meta)
 		{
 			switch (meta)
 			{
-				case Wammer.Model.ImageMeta.Small:
+				case ImageMeta.Small:
 					return small;
-				case Model.ImageMeta.Medium:
+				case ImageMeta.Medium:
 					return medium;
-				case Model.ImageMeta.Large:
+				case ImageMeta.Large:
 					return large;
-				case Model.ImageMeta.Square:
+				case ImageMeta.Square:
 					return square;
 				default:
-					throw new System.ArgumentException("Unknown meta: " + meta);
+					throw new ArgumentException("Unknown meta: " + meta);
 			}
 		}
 	}
@@ -46,7 +46,5 @@ namespace Wammer.Station.JSONClass
 	{
 		public int width { get; set; }
 		public int height { get; set; }
-
 	}
-
 }

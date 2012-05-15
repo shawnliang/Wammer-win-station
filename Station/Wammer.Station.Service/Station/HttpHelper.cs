@@ -1,15 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using log4net;
 using Wammer.Cloud;
 using Wammer.Utility;
+using fastJSON;
+using log4net;
 
 namespace Wammer.Station
 {
 	public class HttpHelper
 	{
-		private static ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+		private static readonly ILog logger = LogManager.GetLogger("HttpHandler");
 
 		public static void RespondFailure(HttpListenerResponse response, CloudResponse json)
 		{
@@ -20,7 +21,7 @@ namespace Wammer.Station
 				response.StatusCode = json.status;
 				response.ContentType = "application/json";
 
-				using (StreamWriter w = new StreamWriter(response.OutputStream))
+				using (var w = new StreamWriter(response.OutputStream))
 				{
 					w.Write(resText);
 				}
@@ -33,21 +34,16 @@ namespace Wammer.Station
 
 		public static void RespondFailure(HttpListenerResponse response, WammerStationException e, int status)
 		{
-
-			CloudResponse json = null;
-
-			if (e.ErrorResponse != null)
-				json = e.ErrorResponse;
-			else
-				json = new CloudResponse(status,DateTime.Now.ToUniversalTime(), e.WammerError, e.Message);
+			CloudResponse json = e.ErrorResponse ??
+				new CloudResponse(status, DateTime.Now.ToUniversalTime(), e.WammerError, e.Message);
 
 			RespondFailure(response, json);
 		}
 
 		public static void RespondFailure(HttpListenerResponse response, Exception e, int status)
 		{
-			CloudResponse json = new CloudResponse(status,
-					DateTime.Now.ToUniversalTime(), -1, e.Message);
+			var json = new CloudResponse(status,
+			                             DateTime.Now.ToUniversalTime(), -1, e.Message);
 
 			RespondFailure(response, json);
 		}
@@ -57,13 +53,13 @@ namespace Wammer.Station
 			response.StatusCode = 200;
 			response.ContentType = "application/json";
 
-			using (StreamWriter w = new StreamWriter(response.OutputStream))
+			using (var w = new StreamWriter(response.OutputStream))
 			{
 				if (jsonObj is string)
-					w.Write((string)jsonObj);
+					w.Write(jsonObj);
 				else
 				{
-					string json = fastJSON.JSON.Instance.ToJSON(jsonObj, false, false, false, false);
+					string json = JSON.Instance.ToJSON(jsonObj, false, false, false, false);
 					w.Write(json);
 				}
 			}

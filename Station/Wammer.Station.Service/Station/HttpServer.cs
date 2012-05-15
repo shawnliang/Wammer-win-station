@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using System.Net;
-
-using Wammer.Utility;
+using fastJSON;
 using log4net;
-using Wammer;
-using Wammer.PerfMonitor;
+using Wammer.Cloud;
 
 namespace Wammer.Station
 {
@@ -20,82 +18,60 @@ namespace Wammer.Station
 
 	public class HttpServer : IDisposable
 	{
-
 		#region Var
-		private ILog _logger;
-		private Object _lockSwitchObj;
-		private int _port;
-		private HttpListener _listener;
-		private Dictionary<string, IHttpHandler> _handlers;
+
 		private IHttpHandler _defaultHandler;
+		private Dictionary<string, IHttpHandler> _handlers;
+		private HttpListener _listener;
+		private Object _lockSwitchObj;
+		private ILog _logger;
 		private bool _started;
+
 		#endregion
 
-
 		#region Private Property
+
 		private ILog m_Logger
 		{
-			get
-			{
-				if (_logger == null)
-					_logger = LogManager.GetLogger("HttpServer");
-				return _logger;
-			}
+			get { return _logger ?? (_logger = LogManager.GetLogger("HttpServer")); }
 		}
 
 		private object m_LockSwitchObj
 		{
-			get
-			{
-				if (_lockSwitchObj == null)
-					_lockSwitchObj = new object();
-				return _lockSwitchObj;
-			}
+			get { return _lockSwitchObj ?? (_lockSwitchObj = new object()); }
 		}
 
-		private int m_Port
-		{
-			get { return _port; }
-			set { _port = value; }
-		}
+		private int m_Port { get; set; }
 
 		private HttpListener m_Listener
 		{
-			get
-			{
-				if (_listener == null)
-					_listener = new HttpListener();
-				return _listener;
-			}
+			get { return _listener ?? (_listener = new HttpListener()); }
 		}
 
 		public Dictionary<string, IHttpHandler> m_Handlers
 		{
-			get
-			{
-				if (_handlers == null)
-					_handlers = new Dictionary<string, IHttpHandler>();
-				return _handlers;
-			}
+			get { return _handlers ?? (_handlers = new Dictionary<string, IHttpHandler>()); }
 		}
-		#endregion
 
+		#endregion
 
 		#region Event
+
 		public event EventHandler<TaskQueueEventArgs> TaskEnqueue;
+
 		#endregion
 
-
-
 		#region Constructor
+
 		public HttpServer(int port)
 		{
 			m_Port = port;
 		}
+
 		#endregion
 
-
 		#region Private Method
+
 		/// <summary>
 		/// Responds 404 not found.
 		/// </summary>
@@ -104,7 +80,7 @@ namespace Wammer.Station
 		{
 			try
 			{
-				ctx.Response.StatusCode = (int)HttpStatusCode.NotFound;
+				ctx.Response.StatusCode = (int) HttpStatusCode.NotFound;
 				ctx.Response.Close();
 			}
 			catch (Exception e)
@@ -138,31 +114,31 @@ namespace Wammer.Station
 		//    }
 		//}
 
-		/// <summary>
-		/// Responds 401 unauthorized.
-		/// </summary>
-		/// <param name="ctx">The CTX.</param>
-		private void respond401Unauthorized(HttpListenerContext ctx)
-		{
-			try
-			{
-				ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-				using (StreamWriter w = new StreamWriter(ctx.Response.OutputStream))
-				{
-					Cloud.CloudResponse json = new Cloud.CloudResponse(
-						ctx.Response.StatusCode,
-						DateTime.UtcNow,
-						(int)StationLocalApiError.AlreadyHasStaion,
-						"Driver already registered another station"
-					);
-					w.Write(json.ToFastJSON());
-				}
-			}
-			catch (Exception e)
-			{
-				m_Logger.Warn("Unable to respond 401 Unauthorized", e);
-			}
-		}
+		///// <summary>
+		///// Responds 401 unauthorized.
+		///// </summary>
+		///// <param name="ctx">The CTX.</param>
+		//private void respond401Unauthorized(HttpListenerContext ctx)
+		//{
+		//    try
+		//    {
+		//        ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+		//        using (var w = new StreamWriter(ctx.Response.OutputStream))
+		//        {
+		//            var json = new CloudResponse(
+		//                ctx.Response.StatusCode,
+		//                DateTime.UtcNow,
+		//                (int) StationLocalApiError.AlreadyHasStaion,
+		//                "Driver already registered another station"
+		//                );
+		//            w.Write(json.ToFastJSON());
+		//        }
+		//    }
+		//    catch (Exception e)
+		//    {
+		//        m_Logger.Warn("Unable to respond 401 Unauthorized", e);
+		//    }
+		//}
 
 		/// <summary>
 		/// Finds the best match.
@@ -177,25 +153,35 @@ namespace Wammer.Station
 
 			if (m_Handlers.ContainsKey(path))
 				return m_Handlers[path];
-			else
-				return _defaultHandler;
+			return _defaultHandler;
 		}
+
 		#endregion
 
-
 		#region Protected Method
+
 		/// <summary>
 		/// Raises the <see cref="E:TaskQueue"/> event.
 		/// </summary>
 		/// <param name="e">The <see cref="Wammer.TaskQueueEventArgs"/> instance containing the event data.</param>
 		protected void OnTaskQueue(TaskQueueEventArgs e)
 		{
-			this.RaiseEvent<TaskQueueEventArgs>(TaskEnqueue, e);
+			this.RaiseEvent(TaskEnqueue, e);
 		}
+
 		#endregion
 
-
 		#region Public Method
+
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+		public void Dispose()
+		{
+			Close();
+			GC.SuppressFinalize(true);
+		}
+
 		/// <summary>
 		/// Adds the handler.
 		/// </summary>
@@ -220,7 +206,7 @@ namespace Wammer.Station
 			else
 			{
 				urlPrefix += "/" + path;
-				absPath = "/" + absPath;
+				absPath = "/";
 			}
 
 			if (!path.EndsWith("/"))
@@ -257,7 +243,7 @@ namespace Wammer.Station
 
 				m_Listener.Start();
 				_started = true;
-				m_Listener.BeginGetContext(this.ConnectionAccepted, null);
+				m_Listener.BeginGetContext(ConnectionAccepted, null);
 			}
 		}
 
@@ -286,41 +272,33 @@ namespace Wammer.Station
 		}
 
 		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-		/// </summary>
-		public void Dispose()
-		{
-			Close();
-		}
-
-		/// <summary>
 		/// Connections the accepted.
 		/// </summary>
 		/// <param name="result">The result.</param>
 		private void ConnectionAccepted(IAsyncResult result)
 		{
-			HttpListenerContext context = null;
-
 			try
 			{
-				context = m_Listener.EndGetContext(result);
-				long beginTime = System.Diagnostics.Stopwatch.GetTimestamp();
+				var context = m_Listener.EndGetContext(result);
 
-				m_Listener.BeginGetContext(this.ConnectionAccepted, null);
+				if (context == null)
+					return;
 
-				if (context != null)
+				var beginTime = Stopwatch.GetTimestamp();
+				m_Listener.BeginGetContext(ConnectionAccepted, null);
+
+
+				var handler = FindBestMatch(context.Request.Url.AbsolutePath);
+
+				if (handler != null)
 				{
-					IHttpHandler handler = FindBestMatch(context.Request.Url.AbsolutePath);
-
-					if (handler != null)
-					{
-						var task = new HttpHandlingTask(handler, context, beginTime);
-						OnTaskQueue(new TaskQueueEventArgs(task, handler));
-						TaskQueue.Enqueue(task, TaskPriority.High);
-					}
-					else
-						respond404NotFound(context);
+					var task = new HttpHandlingTask(handler, context, beginTime);
+					OnTaskQueue(new TaskQueueEventArgs(task, handler));
+					TaskQueue.Enqueue(task, TaskPriority.High);
 				}
+				else
+					respond404NotFound(context);
+
 			}
 			catch (ObjectDisposedException)
 			{
@@ -329,26 +307,27 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				m_Logger.Info("Shutdown server", e);
-				return;
 			}
 		}
-		#endregion
 
+		#endregion
 	}
 
-	class HttpHandlingTask : ITask
+	internal class HttpHandlingTask : ITask
 	{
-		private IHttpHandler handler;
-		private HttpListenerContext context;
-		private long beginTime;
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HttpHandler");
+		private static readonly ILog logger = LogManager.GetLogger("HttpHandler");
+		private readonly long beginTime;
+		private readonly HttpListenerContext context;
+		private readonly IHttpHandler handler;
 
 		public HttpHandlingTask(IHttpHandler handler, HttpListenerContext context, long beginTime)
 		{
-			this.handler = (IHttpHandler)handler.Clone();
+			this.handler = (IHttpHandler) handler.Clone();
 			this.context = context;
 			this.beginTime = beginTime;
 		}
+
+		#region ITask Members
 
 		public void Execute()
 		{
@@ -357,41 +336,50 @@ namespace Wammer.Station
 				handler.SetBeginTimestamp(beginTime);
 				handler.HandleRequest(context.Request, context.Response);
 			}
-			catch (Cloud.WammerCloudException e)
+			catch (WammerCloudException e)
 			{
 				// cannot connect to Waveface cloud
 				if (e.HttpError != WebExceptionStatus.ProtocolError)
 				{
-					HttpHelper.RespondFailure(context.Response, new WammerStationException(e.InnerException.Message, (int)StationLocalApiError.ConnectToCloudError), (int)HttpStatusCode.BadRequest);
+					HttpHelper.RespondFailure(context.Response,
+											  new WammerStationException(e.InnerException.Message,
+																		 (int)StationLocalApiError.ConnectToCloudError),
+											  (int)HttpStatusCode.BadRequest);
 					logger.Debug("Connection to cloud error", e);
 					return;
 				}
 
 				// if cloud returns bad request error, bypass it to client
-				WebException webex = (WebException)e.InnerException;
+				var webex = (WebException)e.InnerException;
 				if (webex != null)
 				{
-					HttpWebResponse webres = (HttpWebResponse)webex.Response;
+					var webres = (HttpWebResponse)webex.Response;
 					if (webres != null)
 					{
 						if (webres.StatusCode == HttpStatusCode.BadRequest)
 						{
-							Cloud.CloudResponse cloudres = fastJSON.JSON.Instance.ToObject<Cloud.CloudResponse>(e.response);
+							var cloudres = JSON.Instance.ToObject<CloudResponse>(e.response);
 							HttpHelper.RespondFailure(context.Response, cloudres);
 							logger.Debug("Connection to cloud error", e);
 							return;
 						}
 
 						HttpHelper.RespondFailure(context.Response,
-							new WammerStationException(e.InnerException.Message, e.WammerError), (int)webres.StatusCode);
+												  new WammerStationException(e.InnerException.Message, e.WammerError),
+												  (int)webres.StatusCode);
 						logger.Debug("Connecting to cloud error", e);
 						return;
 					}
 				}
 
 				HttpHelper.RespondFailure(context.Response,
-					new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
+										  new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
 				logger.Debug("Connecting to cloud error", e);
+			}
+			catch (SessionNotExistException e)
+			{
+				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.Unauthorized);
+				logger.Debug("Service unavailable", e);
 			}
 			catch (ServiceUnavailableException e)
 			{
@@ -410,7 +398,7 @@ namespace Wammer.Station
 			}
 			catch (WebException webex)
 			{
-				Wammer.Cloud.WammerCloudException ex = new Cloud.WammerCloudException("Request to cloud failed", webex);
+				var ex = new WammerCloudException("Request to cloud failed", webex);
 				HttpHelper.RespondFailure(context.Response, webex, (int)HttpStatusCode.InternalServerError);
 				logger.Debug("Connecting to cloud error", ex);
 			}
@@ -420,5 +408,7 @@ namespace Wammer.Station
 				logger.Warn("Internal server error", e);
 			}
 		}
+
+		#endregion
 	}
 }

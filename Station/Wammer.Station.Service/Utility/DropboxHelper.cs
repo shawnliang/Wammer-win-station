@@ -2,15 +2,16 @@
 using System.Data.SQLite;
 using System.IO;
 using System.Text;
+using log4net;
 
 namespace Wammer.Utility
 {
 	public class DropboxHelper
 	{
-		private static string hostDb = @"Dropbox\host.db";
-		private static string configDb = @"Dropbox\config.db";
-		private static string syncFolder = @"Stream";
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DropboxHelper));
+		private const string hostDb = @"Dropbox\host.db";
+		private const string configDb = @"Dropbox\config.db";
+		private const string syncFolder = @"Stream";
+		private static readonly ILog logger = LogManager.GetLogger(typeof (DropboxHelper));
 
 		public static bool IsInstalled()
 		{
@@ -30,12 +31,16 @@ namespace Wammer.Utility
 			if (!File.Exists(hostDbPath))
 				return string.Empty;
 
-			using (FileStream fs = new FileStream(hostDbPath, FileMode.Open))
+			using (var fs = new FileStream(hostDbPath, FileMode.Open))
 			{
-				using (StreamReader reader = new StreamReader(fs))
+				using (var reader = new StreamReader(fs))
 				{
 					reader.ReadLine();
-					string line = reader.ReadLine().Trim();
+					string readLine = reader.ReadLine();
+					if (readLine == null)
+						return string.Empty;
+
+					string line = readLine.Trim();
 					byte[] data = Convert.FromBase64String(line);
 
 					string syncFolderPath = Path.Combine(Encoding.UTF8.GetString(data), syncFolder);

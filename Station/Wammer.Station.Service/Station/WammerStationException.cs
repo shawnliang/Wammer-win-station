@@ -1,22 +1,23 @@
 ﻿using System;
+using Wammer.Cloud;
 
 namespace Wammer.Station
 {
 	public class WammerStationException : Exception
 	{
-		private int wammerError;
+		private readonly int wammerError;
 
 		public WammerStationException(string msg, int wammerError)
-			:base(msg)
+			: base(msg)
 		{
 			this.wammerError = wammerError;
 		}
 
-		public WammerStationException(Cloud.CloudResponse errorResp)
+		public WammerStationException(CloudResponse errorResp)
 			: base(errorResp.api_ret_message)
 		{
-			this.wammerError = errorResp.api_ret_code;
-			this.ErrorResponse = errorResp;
+			wammerError = errorResp.api_ret_code;
+			ErrorResponse = errorResp;
 		}
 
 		public int WammerError
@@ -24,6 +25,6 @@ namespace Wammer.Station
 			get { return wammerError; }
 		}
 
-		public Cloud.CloudResponse ErrorResponse { get; private set; }
+		public CloudResponse ErrorResponse { get; private set; }
 	}
 }

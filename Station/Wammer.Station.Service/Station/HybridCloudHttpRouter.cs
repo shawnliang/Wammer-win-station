@@ -1,55 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.IO;
-using System.Web;
 using System.Collections.Specialized;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Web;
 using MongoDB.Driver.Builders;
-
 using Wammer.Cloud;
-using Wammer.MultiPart;
 using Wammer.Model;
-
+using Wammer.MultiPart;
+using Wammer.Utility;
+using log4net;
 
 namespace Wammer.Station
 {
 	public class HybridCloudHttpRouter : IHttpHandler
 	{
-		public HttpListenerRequest Request { get; private set; }
-		public HttpListenerResponse Response { get; private set; }
-		public NameValueCollection Parameters { get; private set; }
-		public List<UploadedFile> Files { get; private set; }
-		public byte[] RawPostData { get; private set; }
-		private long beginTime;
-
 		private const string BOUNDARY = "boundary=";
 		private const string URL_ENCODED_FORM = "application/x-www-form-urlencoded";
 		private const string MULTIPART_FORM = "multipart/form-data";
-
-		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
+		private static readonly ILog logger = LogManager.GetLogger("HybridCloudHttpRouter");
+		private long beginTime;
 
 		private BypassHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl);
 		private HttpHandler handler;
-
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("HybridCloudHttpRouter");
 
 		public HybridCloudHttpRouter(HttpHandler handler)
 		{
 			this.handler = handler;
 		}
 
+		public HttpListenerRequest Request { get; private set; }
+		public HttpListenerResponse Response { get; private set; }
+		public NameValueCollection Parameters { get; private set; }
+		public List<UploadedFile> Files { get; private set; }
+		public byte[] RawPostData { get; private set; }
+
+		#region IHttpHandler Members
+
+		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
+
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
+			Debug.Assert(request.RemoteEndPoint != null, "request.RemoteEndPoint != null");
+
 			// handle request locally for local client, otherwise bypass to cloud
 			if ("127.0.0.1" == request.RemoteEndPoint.Address.ToString())
 			{
-				this.Files = new List<UploadedFile>();
-				this.Request = request;
-				this.Response = response;
-				this.RawPostData = InitRawPostData();
-				this.Parameters = InitParameters(request);
+				Files = new List<UploadedFile>();
+				Request = request;
+				Response = response;
+				RawPostData = InitRawPostData();
+				Parameters = InitParameters(request);
 
 				if (HasMultiPartFormData(request))
 				{
@@ -59,11 +62,14 @@ namespace Wammer.Station
 				LogRequest();
 
 				LoginedSession session = GetSessionFromCache();
+				if (session == null)
+					throw new SessionNotExistException("session not exist", (int)GeneralApiError.SessionNotExist);
+
 				handler.Session = session;
 				handler.Request = request;
 				handler.Response = response;
-				handler.Parameters = this.Parameters;
-				handler.RawPostData = this.RawPostData;
+				handler.Parameters = Parameters;
+				handler.RawPostData = RawPostData;
 				(handler as IHttpHandler).HandleRequest();
 			}
 			else
@@ -71,7 +77,7 @@ namespace Wammer.Station
 				bypass.HandleRequest(request, response);
 			}
 
-			long end = System.Diagnostics.Stopwatch.GetTimestamp();
+			long end = Stopwatch.GetTimestamp();
 
 			long duration = end - beginTime;
 			if (duration < 0)
@@ -89,18 +95,29 @@ namespace Wammer.Station
 
 		public object Clone()
 		{
-			HybridCloudHttpRouter router = (HybridCloudHttpRouter)this.MemberwiseClone();
-			router.bypass = (BypassHttpHandler)this.bypass.Clone();
-			router.handler = (HttpHandler)this.handler.Clone();
+			var router = (HybridCloudHttpRouter) MemberwiseClone();
+			router.bypass = (BypassHttpHandler) bypass.Clone();
+			router.handler = (HttpHandler) handler.Clone();
 			return router;
 		}
+
+		public void HandleRequest()
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
 
 		private void LogRequest()
 		{
 			if (logger.IsDebugEnabled)
 			{
+				Debug.Assert(Request != null, "Request != null");
+				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
+				Debug.Assert(Request.Url != null, "Request.Url != null");
+
 				logger.Debug("====== Request " + Request.Url.AbsolutePath +
-								" from " + Request.RemoteEndPoint.Address.ToString() + " ======");
+				             " from " + Request.RemoteEndPoint.Address + " ======");
 				foreach (string key in Parameters.AllKeys)
 				{
 					if (key == "password")
@@ -118,12 +135,12 @@ namespace Wammer.Station
 				}
 				foreach (UploadedFile file in Files)
 					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
-			}	
+			}
 		}
 
 		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
 		{
-			EventHandler<HttpHandlerEventArgs> handler = this.ProcessSucceeded;
+			EventHandler<HttpHandlerEventArgs> handler = ProcessSucceeded;
 
 			if (handler != null)
 			{
@@ -150,7 +167,7 @@ namespace Wammer.Station
 			try
 			{
 				string boundary = GetMultipartBoundary(request.ContentType);
-				MultiPart.Parser parser = new Parser(boundary);
+				var parser = new Parser(boundary);
 
 				Part[] parts = parser.Parse(RawPostData);
 				foreach (Part part in parts)
@@ -164,9 +181,9 @@ namespace Wammer.Station
 			catch (FormatException)
 			{
 				string filename = Guid.NewGuid().ToString();
-				using (BinaryWriter w = new BinaryWriter(File.OpenWrite(@"log\" + filename)))
+				using (var w = new BinaryWriter(File.OpenWrite(@"log\" + filename)))
 				{
-					w.Write(this.RawPostData);
+					w.Write(RawPostData);
 				}
 				this.LogWarnMsg("Parsing multipart data error. Post data written to log\\" + filename);
 				throw;
@@ -177,18 +194,17 @@ namespace Wammer.Station
 		{
 			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
 			{
-				int initialSize = (int)Request.ContentLength64;
+				var initialSize = (int) Request.ContentLength64;
 				if (initialSize <= 0)
 					initialSize = 65535;
 
-				using (MemoryStream buff = new MemoryStream(initialSize))
+				using (var buff = new MemoryStream(initialSize))
 				{
-					Wammer.Utility.StreamHelper.Copy(Request.InputStream, buff);
+					StreamHelper.Copy(Request.InputStream, buff);
 					return buff.ToArray();
 				}
 			}
-			else
-				return null;
+			return null;
 		}
 
 		private void ExtractParamsFromMultiPartFormData(Part part)
@@ -197,7 +213,7 @@ namespace Wammer.Station
 
 			if (disp == null)
 				throw new ArgumentException("incorrect use of this function: " +
-														"input part.ContentDisposition is null");
+				                            "input part.ContentDisposition is null");
 
 			if (disp.Value.Equals("form-data", StringComparison.CurrentCultureIgnoreCase))
 			{
@@ -205,14 +221,14 @@ namespace Wammer.Station
 
 				if (filename != null)
 				{
-					UploadedFile file = new UploadedFile(filename, part.Bytes,
-																	part.Headers["Content-Type"]);
-					this.Files.Add(file);
+					var file = new UploadedFile(filename, part.Bytes,
+					                            part.Headers["Content-Type"]);
+					Files.Add(file);
 				}
 				else
 				{
 					string name = part.ContentDisposition.Parameters["name"];
-					this.Parameters.Add(name, part.Text);
+					Parameters.Add(name, part.Text);
 				}
 			}
 		}
@@ -220,7 +236,7 @@ namespace Wammer.Station
 		private static bool HasMultiPartFormData(HttpListenerRequest request)
 		{
 			return request.ContentType != null &&
-							request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
+			       request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		private static string GetMultipartBoundary(string contentType)
@@ -245,16 +261,18 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				throw new FormatException("Error finding multipart boundary. Content-Type: " +
-																					contentType, e);
+				                          contentType, e);
 			}
 		}
 
 		private NameValueCollection InitParameters(HttpListenerRequest req)
 		{
-			if (this.RawPostData != null &&
-				req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
+			Debug.Assert(req != null, "req != null");
+
+			if (RawPostData != null &&
+			    req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
 			{
-				string postData = Encoding.UTF8.GetString(this.RawPostData);
+				string postData = Encoding.UTF8.GetString(RawPostData);
 				return HttpUtility.ParseQueryString(postData);
 			}
 			else if (req.HttpMethod.ToUpper().Equals("GET"))
@@ -263,12 +281,6 @@ namespace Wammer.Station
 			}
 
 			return new NameValueCollection();
-		}
-
-
-		public void HandleRequest()
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

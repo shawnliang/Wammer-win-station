@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Wammer.Station
 {
-
 	public interface INamedTask : ITask
 	{
 		string Name { get; }
 	}
 
-	class NamedTask: SimpleTask, INamedTask
+	internal class NamedTask : SimpleTask, INamedTask
 	{
 		public NamedTask(WaitCallback cb, object state, string name)
-			:base(cb, state)
+			: base(cb, state)
 		{
 			if (cb == null)
 				throw new ArgumentNullException("cb");
@@ -23,18 +20,22 @@ namespace Wammer.Station
 			if (name == null)
 				throw new ArgumentNullException("name");
 
-			this.Name = name;
+			Name = name;
 		}
 
+		#region INamedTask Members
+
 		public string Name { get; set; }
+
+		#endregion
 	}
 
 	public class DequeuedTask<T> where T : ITask
 	{
 		public DequeuedTask(T t, object key)
 		{
-			this.Task = t;
-			this.Key = key;
+			Task = t;
+			Key = key;
 		}
 
 		public T Task { get; private set; }
@@ -42,12 +43,12 @@ namespace Wammer.Station
 	}
 
 
-	public interface ITaskEnqueuable<T> where T : ITask
+	public interface ITaskEnqueuable<in T> where T : ITask
 	{
 		void Enqueue(T task, TaskPriority priority);
 	}
 
-	public interface ITaskDequeuable<T> where T :ITask
+	public interface ITaskDequeuable<T> where T : ITask
 	{
 		DequeuedTask<T> Dequeue();
 		void AckDequeue(DequeuedTask<T> task);
@@ -56,13 +57,54 @@ namespace Wammer.Station
 
 	public class DedupTaskQueue : ITaskEnqueuable<INamedTask>, ITaskDequeuable<INamedTask>
 	{
-		private Semaphore hasItem = new Semaphore(0, int.MaxValue);
-		private Queue<INamedTask> highPriorityCallbacks = new Queue<INamedTask>();
-		private Queue<INamedTask> mediumPriorityCallbacks = new Queue<INamedTask>();
-		private Queue<INamedTask> lowPriorityCallbacks = new Queue<INamedTask>();
-		private HashSet<string> keys = new HashSet<string>();
+		private readonly Semaphore hasItem = new Semaphore(0, int.MaxValue);
+		private readonly Queue<INamedTask> highPriorityCallbacks = new Queue<INamedTask>();
+		private readonly HashSet<string> keys = new HashSet<string>();
+		private readonly Queue<INamedTask> lowPriorityCallbacks = new Queue<INamedTask>();
+		private readonly Queue<INamedTask> mediumPriorityCallbacks = new Queue<INamedTask>();
 
-		public event EventHandler Enqueued;
+		#region ITaskDequeuable<INamedTask> Members
+
+		public DequeuedTask<INamedTask> Dequeue()
+		{
+			hasItem.WaitOne();
+
+			lock (keys)
+			{
+				INamedTask dequeued = null;
+
+				if (highPriorityCallbacks.Count > 0)
+				{
+					dequeued = highPriorityCallbacks.Dequeue();
+				}
+				else if (mediumPriorityCallbacks.Count > 0)
+				{
+					dequeued = mediumPriorityCallbacks.Dequeue();
+				}
+				else
+					dequeued = lowPriorityCallbacks.Dequeue();
+
+				if (dequeued == null)
+					return null;
+				keys.Remove(dequeued.Name);
+				return new DequeuedTask<INamedTask>(dequeued, dequeued.Name);
+			}
+		}
+
+		public void AckDequeue(DequeuedTask<INamedTask> task)
+		{
+			// This is not a persistent queue so that 
+			// we don't need to implement a this method
+		}
+
+		public void EnqueueDummyTask()
+		{
+			Enqueue(new NullNamedTask(), TaskPriority.High);
+		}
+
+		#endregion
+
+		#region ITaskEnqueuable<INamedTask> Members
 
 		public void Enqueue(INamedTask task, TaskPriority priority)
 		{
@@ -90,43 +132,12 @@ namespace Wammer.Station
 					OnEnqueued(EventArgs.Empty);
 					hasItem.Release();
 				}
-			}				
-		}
-
-		public DequeuedTask<INamedTask> Dequeue()
-		{
-			hasItem.WaitOne();
-
-			lock (keys)
-			{
-				INamedTask dequeued = null;
-
-				if (highPriorityCallbacks.Count > 0)
-				{
-					dequeued = highPriorityCallbacks.Dequeue();
-				}
-				else if (mediumPriorityCallbacks.Count > 0)
-				{
-					dequeued = mediumPriorityCallbacks.Dequeue();
-				}
-				else
-					dequeued = lowPriorityCallbacks.Dequeue();
-
-				if (dequeued == null)
-					return null;
-				else
-				{
-					keys.Remove(dequeued.Name);
-					return new DequeuedTask<INamedTask>(dequeued, dequeued.Name);
-				}
 			}
 		}
 
-		public void AckDequeue(DequeuedTask<INamedTask> task)
-		{
-			// This is not a persistent queue so that 
-			// we don't need to implement a this method
-		}
+		#endregion
+
+		public event EventHandler Enqueued;
 
 		private void OnEnqueued(EventArgs arg)
 		{
@@ -136,12 +147,5 @@ namespace Wammer.Station
 				handler(this, arg);
 			}
 		}
-
-		public void EnqueueDummyTask()
-		{
-			Enqueue(new NullNamedTask(), TaskPriority.High);
-		}
-
-
 	}
 }

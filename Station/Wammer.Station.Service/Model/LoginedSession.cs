@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Model
@@ -13,6 +10,7 @@ namespace Wammer.Model
 	public class LoginedSession
 	{
 		#region Public Property
+
 		[BsonIgnoreIfNull]
 		public int status { get; set; }
 
@@ -45,6 +43,7 @@ namespace Wammer.Model
 
 		[BsonIgnoreIfNull]
 		public List<Station> stations { get; set; }
+
 		#endregion
 	}
 
@@ -89,5 +88,4 @@ namespace Wammer.Model
 		public string location { get; set; }
 		public int last_seen { get; set; }
 	}
-
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace StationSystemTray
 {
@@ -13,10 +10,13 @@ namespace StationSystemTray
 		Syncing,
 		Stopping,
 		Stopped,
+		ErrorStopped
 	}
 
 	public interface StationState
 	{
+		StationStateEnum Value { get; }
+
 		/// <summary>
 		/// Entering this state
 		/// </summary>
@@ -28,17 +28,22 @@ namespace StationSystemTray
 		event EventHandler Leaving;
 
 		void Onlining();
+
 		void Onlined();
+
 		void StartSyncing();
+
 		void StopSyncing();
+
 		void Offlining();
+
 		void Offlined();
+
 		void Error();
 
 		void OnEntering(object sender, EventArgs evt);
-		void OnLeaving(object sender, EventArgs evt);
 
-		StationStateEnum Value { get; }
+		void OnLeaving(object sender, EventArgs evt);
 	}
 
 	public interface StationStateContext
@@ -46,18 +51,21 @@ namespace StationSystemTray
 		void GoToState(StationStateEnum state);
 	}
 
-	abstract class StationStateBase: StationState
+	internal abstract class StationStateBase : StationState
 	{
 		protected StationStateContext context;
 
-		public event EventHandler Entering;
-		public event EventHandler Leaving;
-		
-		public StationStateBase(StationStateContext context, StationStateEnum value)
+		protected StationStateBase(StationStateContext context, StationStateEnum value)
 		{
 			this.context = context;
-			this.Value = value;
+			Value = value;
 		}
+
+		#region StationState Members
+
+		public event EventHandler Entering;
+
+		public event EventHandler Leaving;
 
 		public void OnEntering(object sender, EventArgs evt)
 		{
@@ -106,12 +114,14 @@ namespace StationSystemTray
 		}
 
 		public StationStateEnum Value { get; private set; }
+
+		#endregion StationState Members
 	}
 
-	class StationStateInitial : StationStateBase
+	internal class StationStateInitial : StationStateBase
 	{
 		public StationStateInitial(StationStateContext context)
-			:base(context, StationStateEnum.Initial)
+			: base(context, StationStateEnum.Initial)
 		{
 		}
 
@@ -126,10 +136,10 @@ namespace StationSystemTray
 		}
 	}
 
-	class StationStateStarting: StationStateBase
+	internal class StationStateStarting : StationStateBase
 	{
 		public StationStateStarting(StationStateContext context)
-			:base(context, StationStateEnum.Starting)
+			: base(context, StationStateEnum.Starting)
 		{
 		}
 
@@ -140,14 +150,14 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Stopped);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
-	class StationStateRunning : StationStateBase
+	internal class StationStateRunning : StationStateBase
 	{
 		public StationStateRunning(StationStateContext context)
-			:base(context, StationStateEnum.Running)
+			: base(context, StationStateEnum.Running)
 		{
 		}
 
@@ -168,14 +178,14 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Running);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
-	class StationStateSyncing : StationStateBase
+	internal class StationStateSyncing : StationStateBase
 	{
 		public StationStateSyncing(StationStateContext context)
-			:base(context, StationStateEnum.Syncing)
+			: base(context, StationStateEnum.Syncing)
 		{
 		}
 
@@ -196,11 +206,11 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Syncing);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
-	class StationStateStopping : StationStateBase
+	internal class StationStateStopping : StationStateBase
 	{
 		public StationStateStopping(StationStateContext context)
 			: base(context, StationStateEnum.Stopping)
@@ -214,14 +224,27 @@ namespace StationSystemTray
 
 		public override void Error()
 		{
-			context.GoToState(StationStateEnum.Running);
+			context.GoToState(StationStateEnum.ErrorStopped);
 		}
 	}
 
-	class StationStateStopped : StationStateBase
+	internal class StationStateStopped : StationStateBase
 	{
 		public StationStateStopped(StationStateContext context)
-			:base(context, StationStateEnum.Stopped)
+			: base(context, StationStateEnum.Stopped)
+		{
+		}
+
+		public override void Onlining()
+		{
+			context.GoToState(StationStateEnum.Starting);
+		}
+	}
+
+	internal class StationStateErrorStopped : StationStateBase
+	{
+		public StationStateErrorStopped(StationStateContext context)
+			: base(context, StationStateEnum.ErrorStopped)
 		{
 		}
 

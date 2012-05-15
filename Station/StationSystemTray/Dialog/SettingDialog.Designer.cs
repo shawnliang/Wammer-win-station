@@ -42,8 +42,9 @@
 			// btnUnlink
 			// 
 			resources.ApplyResources(this.btnUnlink, "btnUnlink");
+			this.btnUnlink.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.btnUnlink.Name = "btnUnlink";
-			this.btnUnlink.UseVisualStyleBackColor = true;
+			this.btnUnlink.UseVisualStyleBackColor = false;
 			this.btnUnlink.Click += new System.EventHandler(this.btnUnlink_Click);
 			// 
 			// cmbStations
@@ -63,8 +64,9 @@
 			// button1
 			// 
 			resources.ApplyResources(this.button1, "button1");
+			this.button1.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.button1.Name = "button1";
-			this.button1.UseVisualStyleBackColor = true;
+			this.button1.UseVisualStyleBackColor = false;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// groupBox1
@@ -92,6 +94,7 @@
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.button1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

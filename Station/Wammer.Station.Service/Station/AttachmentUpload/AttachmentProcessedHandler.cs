@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Wammer.Cloud;
 using Wammer.Model;
-using MongoDB.Driver.Builders;
-using MongoDB.Bson;
-
-using System.IO;
-using Wammer.Cloud;
-using System.Drawing;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -16,14 +7,21 @@ namespace Wammer.Station.AttachmentUpload
 	{
 		Attachment FindAttachmentInDB(string object_id);
 		Driver FindUserByGroupIdInDB(string group_id);
-		ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user, string origin_filename);
+
+		ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user,
+		                                string origin_filename);
+
 		void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority);
 		void GenerateThumbnailAsyncAndUpstream(string object_id, ImageMeta thumbnailType, TaskPriority priority);
 
 		void UpdateThumbnailInfoToDB(string object_id, ImageMeta thumbnailType, ThumbnailInfo Info);
 
-		void UpstreamImageNow(byte[] imageRaw, string group_id, string object_id, string file_name, string mime_type, ImageMeta meta, string apikey, string session_token);
-		void UpstreamAttachmentNow(string filename, Driver user, string object_id, string file_name, string mime_type, ImageMeta meta, AttachmentType type);
+		void UpstreamImageNow(byte[] imageRaw, string group_id, string object_id, string file_name, string mime_type,
+		                      ImageMeta meta, string apikey, string session_token);
+
+		void UpstreamAttachmentNow(string filename, Driver user, string object_id, string file_name, string mime_type,
+		                           ImageMeta meta, AttachmentType type, string session);
+
 		void UpstreamAttachmentAsync(string object_id, ImageMeta meta, TaskPriority priority);
 	}
 
@@ -49,7 +47,7 @@ namespace Wammer.Station.AttachmentUpload
 				if (args.UpsertResult == UpsertResult.Insert)
 				{
 					ThumbnailInfo medium = util.GenerateThumbnail(attachment.saved_file_name,
-					   ImageMeta.Medium, attachment.object_id, user, attachment.file_name);
+					                                              ImageMeta.Medium, attachment.object_id, user, attachment.file_name);
 
 					util.UpdateThumbnailInfoToDB(attachment.object_id, ImageMeta.Medium, medium);
 
@@ -59,9 +57,9 @@ namespace Wammer.Station.AttachmentUpload
 					}
 					else
 					{
-						util.UpstreamImageNow(medium.RawData, attachment.group_id, attachment.object_id, attachment.file_name, medium.mime_type, ImageMeta.Medium, CloudServer.APIKey, user.session_token);
+						util.UpstreamImageNow(medium.RawData, attachment.group_id, attachment.object_id, attachment.file_name,
+						                      medium.mime_type, ImageMeta.Medium, CloudServer.APIKey, args.UserSession);
 					}
-
 				}
 				else
 				{
@@ -71,7 +69,7 @@ namespace Wammer.Station.AttachmentUpload
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Small, TaskPriority.Medium);
 				util.GenerateThumbnailAsyncAndUpstream(attachment.object_id, ImageMeta.Large, TaskPriority.Low);
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Square, TaskPriority.Low);
-				
+
 				if (!user.isPrimaryStation)
 					util.UpstreamAttachmentAsync(attachment.object_id, ImageMeta.Origin, TaskPriority.VeryLow);
 			}
@@ -83,7 +81,8 @@ namespace Wammer.Station.AttachmentUpload
 				}
 				else
 				{
-					util.UpstreamAttachmentNow(attachment.saved_file_name, user, args.AttachmentId, attachment.file_name, attachment.mime_type, ImageMeta.None, attachment.type);
+					util.UpstreamAttachmentNow(attachment.saved_file_name, user, args.AttachmentId, attachment.file_name,
+					                           attachment.mime_type, ImageMeta.None, attachment.type, args.UserSession);
 				}
 			}
 			else
@@ -95,7 +94,8 @@ namespace Wammer.Station.AttachmentUpload
 				else
 				{
 					IAttachmentInfo info = attachment.GetInfoByMeta(args.ImgMeta);
-					util.UpstreamAttachmentNow(info.saved_file_name, user, args.AttachmentId, attachment.file_name, info.mime_type, args.ImgMeta, AttachmentType.image);
+					util.UpstreamAttachmentNow(info.saved_file_name, user, args.AttachmentId, attachment.file_name, info.mime_type,
+					                           args.ImgMeta, AttachmentType.image, args.UserSession);
 				}
 			}
 		}

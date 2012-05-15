@@ -19,7 +19,6 @@
     <Property Id="INSTALLLEVEL" Value="100" />
     <Property Id="ALLUSERS" Value="1" />
     <Property Id="TEST" Value="NO" />
-    <Icon Id="icon.ico" SourceFile="..\ProductBuild\install_icon.ico" />
 
     <!-- Upgrade -->
     <MajorUpgrade DowngradeErrorMessage="A newer version of this product is found. Cannot proceed."
@@ -116,6 +115,8 @@
                       WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe"/>
             <Shortcut Id="Desktop.Shortcut.Waveface" Name="!(loc.APPNAME)"
                       WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe" Directory="DesktopFolder"/>
+            <Shortcut Id="UninstallerExeShortcut" Name="!(loc.SHORTCUT.UNINSTALLER.NAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[UninstallDir]Uninstaller.exe" Arguments="!(loc.CULTURE)" />
           </Component>
          
         </Directory>

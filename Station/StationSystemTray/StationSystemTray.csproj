@@ -49,28 +49,33 @@
     <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
-    <Reference Include="StationSystemTray, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <ExecutableExtension>.exe</ExecutableExtension>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountEventArgs.cs" />
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Control\CueComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Control\CueTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Control\FBLoginButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Control\FBLoginButton.Designer.cs">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Control\LoginButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Control\LoginInputPanel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Control\TabControlEx.cs">
       <SubType>Component</SubType>
@@ -128,9 +133,11 @@
     </Compile>
     <EmbeddedResource Include="CleanResourceForm.resx">
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CleanResourceForm.zh-TW.resx">
       <DependentUpon>CleanResourceForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
       <SubType>Designer</SubType>
@@ -167,6 +174,13 @@
     <None Include="Resources\stream_tray_syncing1.png" />
     <None Include="Resources\stream_tray_syncing2.png" />
     <None Include="Resources\stream_tray_init.png" />
+    <Content Include="Resources\fb_btn.png" />
+    <Content Include="Resources\fb_btn_press.png" />
+    <Content Include="Resources\input_box.png" />
+    <Content Include="Resources\login_btn.png" />
+    <Content Include="Resources\login_btn_press.png" />
+    <Content Include="Resources\or.png" />
+    <Content Include="Resources\stream_logo.png" />
     <Content Include="SystemTrayML.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

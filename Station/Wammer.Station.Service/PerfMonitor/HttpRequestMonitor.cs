@@ -1,33 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Wammer.Station;
 using log4net;
 
 namespace Wammer.PerfMonitor
 {
 	public class HttpRequestMonitor
 	{
-		private IPerfCounter avgTime;
-		private IPerfCounter avgTimeBase;
-		private IPerfCounter throughput;
-		private IPerfCounter inQueue;
-
-		private static ILog logger = LogManager.GetLogger("HttpRequestMonitor");
+		private static readonly ILog logger = LogManager.GetLogger("HttpRequestMonitor");
 
 		private static HttpRequestMonitor _instance;
-
-		public static HttpRequestMonitor Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = new HttpRequestMonitor();
-				}
-				return _instance;
-			}
-		}
+		private readonly IPerfCounter avgTime;
+		private readonly IPerfCounter avgTimeBase;
+		private readonly IPerfCounter inQueue;
+		private readonly IPerfCounter throughput;
 
 		public HttpRequestMonitor()
 		{
@@ -37,7 +22,12 @@ namespace Wammer.PerfMonitor
 			inQueue = PerfCounter.GetCounter(PerfCounter.HTTP_REQUESTS_IN_QUEUE);
 		}
 
-		public void OnProcessSucceeded(object sender, Wammer.Station.HttpHandlerEventArgs evt)
+		public static HttpRequestMonitor Instance
+		{
+			get { return _instance ?? (_instance = new HttpRequestMonitor()); }
+		}
+
+		public void OnProcessSucceeded(object sender, HttpHandlerEventArgs evt)
 		{
 			try
 			{
@@ -52,9 +42,9 @@ namespace Wammer.PerfMonitor
 			}
 		}
 
-		public void OnTaskEnqueue(object sender,  TaskQueueEventArgs e)
+		public void OnTaskEnqueue(object sender, TaskQueueEventArgs e)
 		{
-			this.Enqueue();
+			Enqueue();
 		}
 
 		public void Enqueue()

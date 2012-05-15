@@ -5,8 +5,8 @@ namespace Wammer.Utility
 {
 	public static class TimeHelper
 	{
-		private static DateTime JAN_1_1970 = new DateTime(1970, 1, 1, 0 ,0, 0, DateTimeKind.Utc);
 		private const string CLOUD_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+		private static DateTime JAN_1_1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		public static DateTime ConvertToDateTime(long unixTimeStamp)
 		{
@@ -15,13 +15,14 @@ namespace Wammer.Utility
 
 		public static long ConvertToUnixTimeStamp(DateTime datetime)
 		{
-			return (long)(datetime - JAN_1_1970).TotalSeconds;
+			return (long) (datetime - JAN_1_1970).TotalSeconds;
 		}
 
 		public static DateTime ParseCloudTimeString(string cloudTimeString)
 		{
-			DateTime dt = DateTime.ParseExact(cloudTimeString, CLOUD_TIME_FORMAT, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
-			
+			DateTime dt = DateTime.ParseExact(cloudTimeString, CLOUD_TIME_FORMAT, CultureInfo.InvariantCulture,
+			                                  DateTimeStyles.AssumeUniversal);
+
 			return dt.ToUniversalTime();
 		}
 

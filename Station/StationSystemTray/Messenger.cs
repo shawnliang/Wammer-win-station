@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace StationSystemTray
 {
 	public class Messenger
 	{
-		private object cs;
 		private const string TITLE = "Stream";
-		private Form _form;
-
-		private delegate DialogResult ShowMessageDelegate(Form form, string msg, string title);
+		private readonly Form _form;
+		private readonly object cs;
 
 		public Messenger(Form form)
 		{
-			this._form = form;
-			this.cs = new object();
+			_form = form;
+			cs = new object();
 		}
 
 		public void ShowMessage(string msg)
@@ -33,5 +27,11 @@ namespace StationSystemTray
 					MessageBox.Show(_form, msg, TITLE);
 			}
 		}
+
+		#region Nested type: ShowMessageDelegate
+
+		private delegate DialogResult ShowMessageDelegate(Form form, string msg, string title);
+
+		#endregion
 	}
 }

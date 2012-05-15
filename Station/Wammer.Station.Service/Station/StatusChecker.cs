@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading;
-using System.Linq;
-using System.Diagnostics;
+using log4net;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
@@ -26,39 +26,42 @@ namespace Wammer.Station
 	{
 		//private Timer timer;
 		//private long timerPeriod;
-		private bool logon = false;  // logOn is needed for every time service start
-		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(StatusChecker));
+		private static readonly ILog logger = LogManager.GetLogger(typeof (StatusChecker));
 
 		public EventHandler<IsPrimaryChangedEvtArgs> IsPrimaryChanged;
+		private bool logon; // logOn is needed for every time service start
 
 		public StatusChecker(long timerPeriod)
-			:base(timerPeriod)
+			: base(timerPeriod)
 		{
 		}
 
 		public static StationDetail GetDetail()
 		{
-			string baseurl = NetworkHelper.GetBaseURL();
+			var baseurl = NetworkHelper.GetBaseURL();
 
-			StationDetail status = new StationDetail
+			var status = new StationDetail
+			             	{
+			             		location = baseurl,
+			             		diskusage = new List<DiskUsage>(),
+			             		upnp = PublicPortMapping.Instance.GetUPnPInfo(),
+			             		computer_name = Environment.MachineName,
+			             		version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
+			             	};
+
+			var drivers = DriverCollection.Instance.FindAll();
+
+			foreach (var driver in drivers)
 			{
-				location = baseurl,
-				diskusage = new List<DiskUsage>(),
-				upnp = PublicPortMapping.Instance.GetUPnPInfo(),
-				computer_name = Environment.MachineName,
-				version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
-			};
-
-			MongoDB.Driver.MongoCursor<Driver> drivers = DriverCollection.Instance.FindAll();
-
-			foreach (Driver driver in drivers)
-			{
-				FileStorage storage = new FileStorage(driver);
-				foreach (UserGroup group in driver.groups)
+				var storage = new FileStorage(driver);
+				foreach (var group in driver.groups)
 				{
-					status.diskusage.Add(new DiskUsage { group_id = group.group_id,
-														 used = storage.GetUsedSize(),
-														 avail = storage.GetAvailSize() });
+					status.diskusage.Add(new DiskUsage
+					                     	{
+					                     		group_id = group.group_id,
+					                     		used = storage.GetUsedSize(),
+					                     		avail = storage.GetAvailSize()
+					                     	});
 				}
 			}
 
@@ -67,19 +70,19 @@ namespace Wammer.Station
 
 		protected override void ExecuteOnTimedUp(object state)
 		{
-			SendHeartbeat(state);
+			SendHeartbeat();
 		}
 
-		private void SendHeartbeat(Object obj)
+		private void SendHeartbeat()
 		{
-			StationDetail detail = GetDetail();
+			var detail = GetDetail();
 
-			Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
+			var sinfo = StationCollection.Instance.FindOne();
 			if (sinfo != null)
 			{
 				try
 				{
-					string baseurl = NetworkHelper.GetBaseURL();
+					var baseurl = NetworkHelper.GetBaseURL();
 					if (baseurl != sinfo.Location)
 					{
 						// update location if baseurl changed
@@ -88,13 +91,13 @@ namespace Wammer.Station
 
 						// update station info in database
 						logger.Debug("update station information");
-						Model.StationCollection.Instance.Save(sinfo);
+						StationCollection.Instance.Save(sinfo);
 					}
 
-					using (WebClient client = new DefaultWebClient())
+					using (var client = new DefaultWebClient())
 					{
 						LogonAndHeartbeat(client, sinfo, detail);
-						UpdatePrimaryStationSetting(client, sinfo);
+						UpdatePrimaryStationSetting(client);
 					}
 				}
 				catch (Exception ex)
@@ -106,47 +109,78 @@ namespace Wammer.Station
 
 		private void LogonAndHeartbeat(WebClient client, StationInfo sinfo, StationDetail detail)
 		{
-			// use any driver's session token to send heartbeat
-			var user = DriverCollection.Instance.FindOne();
-			Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, user.session_token);
-
-			if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
+			try
 			{
-				logger.Debug("cloud logon start");
-				api.LogOn(client, detail);
-				logon = true;
+				// use any driver's session token to send heartbeat
+				var user = DriverCollection.Instance.FindOne(Query.NE("session_token", string.Empty));
+				if (user != null)
+				{
+					var api = new StationApi(sinfo.Id, user.session_token);
 
-				// update station info in database
-				logger.Debug("update station information");
-				sinfo.LastLogOn = DateTime.Now;
-				Model.StationCollection.Instance.Save(sinfo);
+					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
+					{
+						logger.Debug("cloud logon start");
+						api.LogOn(client, detail);
+						logon = true;
+
+						// update station info in database
+						logger.Debug("update station information");
+						sinfo.LastLogOn = DateTime.Now;
+						StationCollection.Instance.Save(sinfo);
+					}
+
+					api.Heartbeat(client, detail);
+				}
+				else
+				{
+					this.LogDebugMsg("no available sessions for heartbeat");
+				}
 			}
-
-			api.Heartbeat(client, detail);
+			catch (WammerCloudException e)
+			{
+				this.LogDebugMsg("unable to send heartbeat", e);
+			}
 		}
 
-		private void UpdatePrimaryStationSetting(WebClient client, StationInfo sinfo)
+		private void UpdatePrimaryStationSetting(WebClient client)
 		{
 			foreach (var user in DriverCollection.Instance.FindAll())
 			{
-				var res = Cloud.User.FindMyStation(client, user.session_token);
-				var currStation = (from station in res.stations 
-								   where station.station_id == StationRegistry.StationId
-								   select station).FirstOrDefault();
-
-				Debug.Assert(currStation != null);
-
-				if (currStation != null)
+				try
 				{
-					bool isCurrPrimaryStation = (currStation.type == "primary");
+					var res = User.FindMyStation(client, user.session_token);
+					var currStation = (from station in res.stations
+									   where station.station_id == StationRegistry.StationId
+									   select station).FirstOrDefault();
+
+					Debug.Assert(currStation != null);
+
+					if (currStation == null)
+						return;
+
+					var isCurrPrimaryStation = (currStation.type == "primary");
 					if (user.isPrimaryStation != isCurrPrimaryStation)
 					{
 						user.isPrimaryStation = isCurrPrimaryStation;
 						DriverCollection.Instance.Update(
 							Query.EQ("_id", user.user_id),
 							Update.Set("isPrimaryStation", isCurrPrimaryStation)
-						);
+							);
 						OnIsPrimaryChanged(new IsPrimaryChangedEvtArgs(user));
+					}
+				}
+				catch (WammerCloudException e)
+				{
+					if (CloudServer.IsSessionError(e))
+					{
+						user.session_token = string.Empty;
+						DriverCollection.Instance.Save(user);
+						LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", user.email));
+						this.LogDebugMsg(string.Format("cloud returns 401, clear session of {0}", user.email));
+					}
+					else
+					{
+						this.LogDebugMsg(string.Format("unable to update primary settings of user {0}", user.email), e);
 					}
 				}
 			}
@@ -154,7 +188,7 @@ namespace Wammer.Station
 
 		private void OnIsPrimaryChanged(IsPrimaryChangedEvtArgs args)
 		{
-			var handler = this.IsPrimaryChanged;
+			var handler = IsPrimaryChanged;
 
 			if (handler != null)
 				handler(this, args);
@@ -163,14 +197,14 @@ namespace Wammer.Station
 		public override void Stop()
 		{
 			base.Stop();
-			using (WebClient client = new DefaultWebClient())
+			using (var client = new DefaultWebClient())
 			{
-				Model.StationInfo sinfo = Model.StationCollection.Instance.FindOne();
+				var sinfo = StationCollection.Instance.FindOne();
 				if (sinfo != null)
 				{
 					try
 					{
-						Cloud.StationApi api = new Cloud.StationApi(sinfo.Id, sinfo.SessionToken);
+						var api = new StationApi(sinfo.Id, sinfo.SessionToken);
 						api.Offline(client);
 					}
 					catch (Exception ex)

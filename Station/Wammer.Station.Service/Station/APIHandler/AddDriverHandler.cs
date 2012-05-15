@@ -1,28 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
-using log4net;
-using MongoDB.Driver.Builders;
 using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using System.Linq;
 
 namespace Wammer.Station
 {
 	public class AddDriverHandler: HttpHandler
 	{
-		private static ILog logger = LogManager.GetLogger("AddDriverHandler");
-		private readonly string stationId;
 		private readonly string resourceBasePath;
-
-		private const int ERR_USER_HAS_ANOTHER_STATION = 16387;
-		private const int ERR_BAD_NAME_PASSWORD = 4097;
-
-		public event EventHandler<DriverAddedEvtArgs> DriverAdded;
-		public event EventHandler<BeforeDriverSavedEvtArgs> BeforeDriverSaved;
+		private readonly string stationId;
 
 		public AddDriverHandler(string stationId, string resourceBasePath)
 		{
@@ -30,14 +22,17 @@ namespace Wammer.Station
 			this.resourceBasePath = resourceBasePath;
 		}
 
+		public event EventHandler<DriverAddedEvtArgs> DriverAdded;
+		public event EventHandler<BeforeDriverSavedEvtArgs> BeforeDriverSaved;
+
 		public override void HandleRequest()
 		{
 			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{
-				var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
-				var userId = Parameters[CloudServer.PARAM_USER_ID];
+				string sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
+				string userId = Parameters[CloudServer.PARAM_USER_ID];
 
-				var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
+				Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
 				if (existingDriver != null)
 				{
 					existingDriver.ref_count += 1;
@@ -50,7 +45,7 @@ namespace Wammer.Station
 				}
 				else
 				{
-					var res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId);
+					StationSignUpResponse res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId);
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
@@ -67,7 +62,9 @@ namespace Wammer.Station
 						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
 						session_token = res.session_token,
 						isPrimaryStation = IsThisPrimaryStation(res.stations),
-						ref_count = 1
+						ref_count = 1,
+						user = res.user,
+						stations = res.stations
 					};
 
 					Directory.CreateDirectory(driver.folder);
@@ -81,7 +78,8 @@ namespace Wammer.Station
 					RespondSuccess(new AddUserResponse
 					{
 						UserId = driver.user_id,
-						IsPrimaryStation = driver.isPrimaryStation
+					               		IsPrimaryStation = driver.isPrimaryStation,
+					               		Stations = driver.stations
 					});
 				}
 			}
@@ -92,14 +90,14 @@ namespace Wammer.Station
 							   CloudServer.PARAM_DEVICE_ID,
 							   CloudServer.PARAM_DEVICE_NAME);
 
-				var email = Parameters[CloudServer.PARAM_EMAIL];
-				var password = Parameters[CloudServer.PARAM_PASSWORD];
-				var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
-				var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
+				string email = Parameters[CloudServer.PARAM_EMAIL];
+				string password = Parameters[CloudServer.PARAM_PASSWORD];
+				string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+				string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
 
-				using (var agent = new DefaultWebClient())
+				using (WebClient agent = new DefaultWebClient())
 				{
-					var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
+					Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
 
 					if (existingDriver != null)
 					{
@@ -117,7 +115,8 @@ namespace Wammer.Station
 							RespondSuccess(new AddUserResponse
 							{
 								UserId = existingDriver.user_id,
-								IsPrimaryStation = existingDriver.isPrimaryStation
+							               		IsPrimaryStation = existingDriver.isPrimaryStation,
+							               		Stations = existingDriver.stations
 							});
 							return;
 						}
@@ -133,7 +132,8 @@ namespace Wammer.Station
 							StationCollection.Instance.RemoveAll();
 					}
 
-					var res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId, deviceName);
+					StationSignUpResponse res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId,
+					                                                             deviceName);
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
@@ -150,8 +150,9 @@ namespace Wammer.Station
 						groups = res.groups,
 						session_token = res.session_token,
 						isPrimaryStation = IsThisPrimaryStation(res.stations),
+						ref_count = 1,
 						user = res.user,
-						ref_count = 1
+						stations = res.stations
 					};
 
 					Directory.CreateDirectory(driver.folder);
@@ -166,32 +167,26 @@ namespace Wammer.Station
 					RespondSuccess(new AddUserResponse
 					{
 						UserId = driver.user_id,
-						IsPrimaryStation = driver.isPrimaryStation
+					               		IsPrimaryStation = driver.isPrimaryStation,
+					               		Stations = driver.stations
 					});
 				}
 			}
 		}
 
-		private bool IsThisPrimaryStation(List<UserStation> stations)
+		private bool IsThisPrimaryStation(IEnumerable<UserStation> stations)
 		{
 			if (stations == null)
 				return false;
 
-			foreach (UserStation s in stations)
-				if (s.station_id == this.stationId)
-				{
-					if (string.Compare(s.type, "primary", true) == 0)
-						return true;
-					else
-						return false;
+			return (from s in stations 
+					where s.station_id == stationId 
+					select string.Compare(s.type, "primary", true) == 0).FirstOrDefault();
 				}
-
-			return false;
-		}
 
 		private void OnDriverAdded(DriverAddedEvtArgs args)
 		{
-			EventHandler<DriverAddedEvtArgs> handler = this.DriverAdded;
+			EventHandler<DriverAddedEvtArgs> handler = DriverAdded;
 
 			if (handler != null)
 				handler(this, args);
@@ -199,7 +194,7 @@ namespace Wammer.Station
 
 		private void OnBeforeDriverSaved(BeforeDriverSavedEvtArgs args)
 		{
-			EventHandler<BeforeDriverSavedEvtArgs> handler = this.BeforeDriverSaved;
+			EventHandler<BeforeDriverSavedEvtArgs> handler = BeforeDriverSaved;
 
 			if (handler != null)
 				handler(this, args);
@@ -207,41 +202,40 @@ namespace Wammer.Station
 
 		public override object Clone()
 		{
-			return this.MemberwiseClone();
+			return MemberwiseClone();
 		}
 	}
 
 
 	public class AddUserResponse : CloudResponse
 	{
-		public string UserId { get; set; }
-		public bool IsPrimaryStation { get; set; }
-
 		public AddUserResponse()
 			: base(200, DateTime.UtcNow, 0, "success")
 		{
 		}
+
+		public string UserId { get; set; }
+		public bool IsPrimaryStation { get; set; }
+		public List<UserStation> Stations { get; set; }
 	}
 
 	public class DriverAddedEvtArgs : EventArgs
 	{
-		public Driver Driver { get; private set; }
-
 		public DriverAddedEvtArgs(Driver driver)
-			: base()
 		{
-			this.Driver = driver;
+			Driver = driver;
 		}
+
+		public Driver Driver { get; private set; }
 	}
 
 	public class BeforeDriverSavedEvtArgs : EventArgs
 	{
-		public Driver Driver { get; private set; }
-
 		public BeforeDriverSavedEvtArgs(Driver driver)
-			: base()
 		{
-			this.Driver = driver;
+			Driver = driver;
 		}
+
+		public Driver Driver { get; private set; }
 	}
 }

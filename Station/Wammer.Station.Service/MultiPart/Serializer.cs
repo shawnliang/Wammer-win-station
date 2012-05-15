@@ -6,9 +6,9 @@ namespace Wammer.MultiPart
 {
 	public class Serializer
 	{
-		private readonly Stream output;
 		private readonly string boundary;
 		private readonly byte[] boundaryData;
+		private readonly Stream output;
 
 		public Serializer(Stream output)
 		{
@@ -30,6 +30,11 @@ namespace Wammer.MultiPart
 			boundaryData = Encoding.UTF8.GetBytes(boundary);
 		}
 
+		public string Boundary
+		{
+			get { return boundary; }
+		}
+
 		public void Put(Part part)
 		{
 			part.CopyTo(output, boundaryData);
@@ -37,13 +42,8 @@ namespace Wammer.MultiPart
 
 		public void Put(Part[] parts)
 		{
-			for (int i = 0; i < parts.Length; i++)
-				Put(parts[i]);
-		}
-
-		public string Boundary
-		{
-			get { return boundary; }
+			foreach (Part t in parts)
+				Put(t);
 		}
 
 		public void PutNoMoreData()

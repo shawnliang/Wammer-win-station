@@ -1,27 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Cloud;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Wammer.Cloud;
 
 namespace Wammer.Model
 {
 	[BsonIgnoreExtraElements]
 	public class UserTracks
 	{
-		[BsonId]
-		public BsonObjectId id { get; set; }
-		[BsonIgnoreIfNull]
-		public List<string> post_id_list { get; set; }
-		[BsonIgnoreIfNull]
-		public string group_id { get; set; }
-		[BsonIgnoreIfNull]
-		public DateTime latest_timestamp { get; set; }
-		[BsonIgnoreIfNull]
-		public List<UserTrackDetail> usertrack_list { get; set; }
-
 		public UserTracks()
 		{
 		}
@@ -33,11 +20,26 @@ namespace Wammer.Model
 			latest_timestamp = res.latest_timestamp;
 			usertrack_list = res.usertrack_list;
 		}
+
+		[BsonId]
+		public BsonObjectId id { get; set; }
+
+		[BsonIgnoreIfNull]
+		public List<string> post_id_list { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string group_id { get; set; }
+
+		[BsonIgnoreIfNull]
+		public DateTime latest_timestamp { get; set; }
+
+		[BsonIgnoreIfNull]
+		public List<UserTrackDetail> usertrack_list { get; set; }
 	}
 
 	public class UserTrackCollection : Collection<UserTracks>
 	{
-		private static UserTrackCollection instance;
+		private static readonly UserTrackCollection instance;
 
 		static UserTrackCollection()
 		{
@@ -45,7 +47,7 @@ namespace Wammer.Model
 		}
 
 		private UserTrackCollection()
-			:base("usertracks")
+			: base("usertracks")
 		{
 		}
 
@@ -54,5 +56,4 @@ namespace Wammer.Model
 			get { return instance; }
 		}
 	}
-
 }

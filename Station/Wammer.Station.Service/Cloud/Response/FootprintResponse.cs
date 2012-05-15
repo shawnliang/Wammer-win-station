@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Wammer.Cloud
 {
 	public class FootprintResponse : CloudResponse
 	{
-		public LastScanInfo last_scan { get; set; }
-
 		public FootprintResponse()
-			: base()
 		{
 		}
 
@@ -18,12 +12,13 @@ namespace Wammer.Cloud
 			: base(status, timestamp)
 		{
 		}
+
+		public LastScanInfo last_scan { get; set; }
 	}
 
 	public class FootprintSetLastScanResponse : FootprintResponse
 	{
 		public FootprintSetLastScanResponse()
-			: base()
 		{
 		}
 
@@ -36,7 +31,6 @@ namespace Wammer.Cloud
 	public class FootprintGetLastScanResponse : FootprintResponse
 	{
 		public FootprintGetLastScanResponse()
-			: base()
 		{
 		}
 

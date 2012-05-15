@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace StationSystemTray
@@ -11,7 +8,6 @@ namespace StationSystemTray
 		public object param;
 
 		public SimpleEventArgs(object param)
-			: base()
 		{
 			this.param = param;
 		}
@@ -19,20 +15,17 @@ namespace StationSystemTray
 
 	public abstract class SimpleUIController
 	{
-		private delegate object PerformActionDelegate(object obj);
-		private delegate void UpdateUIInCallbackDelegate(object obj);
-		private delegate void UpdateUIInErrorDelegate(Exception ex);
-
-		public event EventHandler<SimpleEventArgs> UICallback;
-		public event EventHandler<SimpleEventArgs> UIError;
-
 		protected Form _form;
 		protected object _parameter;
 
 		protected SimpleUIController(Form form)
 		{
-			this._form = form;
+			_form = form;
 		}
+
+		public event EventHandler<SimpleEventArgs> UICallback;
+
+		public event EventHandler<SimpleEventArgs> UIError;
 
 		public void PerformAction()
 		{
@@ -41,10 +34,10 @@ namespace StationSystemTray
 
 		public void PerformAction(object obj)
 		{
-			this._parameter = obj;
+			_parameter = obj;
 
-			PerformActionDelegate performActionDelegate = new PerformActionDelegate(Action);
-			performActionDelegate.BeginInvoke(obj, new AsyncCallback(PerformActionCallback), performActionDelegate);
+			PerformActionDelegate performActionDelegate = Action;
+			performActionDelegate.BeginInvoke(obj, PerformActionCallback, performActionDelegate);
 		}
 
 		private void PerformActionCallback(IAsyncResult result)
@@ -80,7 +73,7 @@ namespace StationSystemTray
 			}
 			catch (InvalidOperationException)
 			{
-				// On some condition, the UI forms has been closed before this UI controller is processing 
+				// On some condition, the UI forms has been closed before this UI controller is processing
 				// and InvalidOperationException is then throw on _form.Invoke().
 				//
 				// just ignore the exception and abort the original UI update.
@@ -105,7 +98,7 @@ namespace StationSystemTray
 			}
 			catch (InvalidOperationException)
 			{
-				// On some condition, the UI forms has been closed before this UI controller is processing 
+				// On some condition, the UI forms has been closed before this UI controller is processing
 				// and InvalidOperationException is then throw on _form.Invoke().
 				//
 				// just ignore the exception and abort the original UI update.
@@ -117,5 +110,11 @@ namespace StationSystemTray
 		protected abstract void ActionCallback(object obj);
 
 		protected abstract void ActionError(Exception ex);
+
+		#region Nested type: PerformActionDelegate
+
+		private delegate object PerformActionDelegate(object obj);
+
+		#endregion Nested type: PerformActionDelegate
 	}
 }

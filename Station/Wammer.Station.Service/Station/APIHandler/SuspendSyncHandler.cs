@@ -1,18 +1,19 @@
 ﻿using System;
-using log4net;
-using System.Linq;
 using Wammer.PostUpload;
 
 namespace Wammer.Station
 {
-	class SuspendSyncHandler : HttpHandler
+	internal class SuspendSyncHandler : HttpHandler
 	{
-		private readonly StationTimer stationTimer;
 		private readonly AbstrackTaskRunner[] bodySyncRunners;
 		private readonly PostUploadTaskRunner postUploadRunner;
+		private readonly StationTimer stationTimer;
 		private readonly AbstrackTaskRunner[] upstreamRunners;
 
-		public SuspendSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer, AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
+		public event EventHandler SyncSuspended;
+
+		public SuspendSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer,
+		                          AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
 		{
 			this.stationTimer = stationTimer;
 			this.bodySyncRunners = bodySyncRunners;
@@ -24,11 +25,20 @@ namespace Wammer.Station
 		{
 			postUploadRunner.Stop();
 			stationTimer.Stop();
-			Array.ForEach(bodySyncRunners, (taskRunner) => taskRunner.Stop());
-			Array.ForEach(upstreamRunners, (taskRunner) => taskRunner.Stop());
+			Array.ForEach(bodySyncRunners, taskRunner => taskRunner.Stop());
+			Array.ForEach(upstreamRunners, taskRunner => taskRunner.Stop());
 
 			this.LogDebugMsg("Stop function server successfully");
 			RespondSuccess();
+
+			OnSyncSuspended();
+		}
+
+		private void OnSyncSuspended()
+		{
+			EventHandler handler = SyncSuspended;
+			if (handler != null)
+				handler(this, EventArgs.Empty);
 		}
 	}
 }
