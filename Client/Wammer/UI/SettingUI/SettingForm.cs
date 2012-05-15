@@ -52,7 +52,10 @@ namespace Waveface.SettingUI
 
         private void linkLegalNotice_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(WService.WebURL + "/page/privacy", null);
+            if (this.cultureManager.UICulture.Name == "zh-TW")
+                Process.Start(WService.WebURL + "/tw/privacy.html", null);
+            else
+                Process.Start(WService.WebURL + "/en/privacy.html", null);
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
