@@ -498,7 +498,7 @@
 </value>
   </data>
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>登入 - Stream</value>
@@ -533,7 +533,7 @@
 現在請按下「確定」進入您的 Stream，稍後您可以隨時在主視窗的帳戶設定中調整相關的項目。</value>
   </data>
   <data name="lblSignUp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
-    <value>7, 10</value>
+    <value>6, 5</value>
   </data>
   <data name="lblSignUp.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 418</value>

@@ -73,5 +73,17 @@ namespace StationSystemTray
 			img = Resources.fb_btn;
 			Invalidate();
 		}
+
+		private void FBLoginButton_MouseHover(object sender, System.EventArgs e)
+		{
+			img = Resources.fb_btn_press;
+			Invalidate();
+		}
+
+		private void FBLoginButton_MouseLeave(object sender, System.EventArgs e)
+		{
+			img = Resources.fb_btn;
+			Invalidate();
+		}
 	}
 }

@@ -694,17 +694,8 @@
   <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
     <value>btnOK</value>
   </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
   <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -712,29 +703,14 @@
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Name" xml:space="preserve">
-    <value>btnOK2</value>
-  </data>
   <data name="&gt;&gt;btnOK2.Name" xml:space="preserve">
     <value>btnOK2</value>
   </data>
   <data name="&gt;&gt;btnOK2.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
   </data>
-  <data name="&gt;&gt;btnOK2.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;btnOK2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;btnOK2.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -808,17 +784,8 @@
   <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
     <value>lblMainStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
-    <value>lblMainStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -826,29 +793,14 @@
   <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Name" xml:space="preserve">
-    <value>lblSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblSecondStationSetup.Name" xml:space="preserve">
     <value>lblSecondStationSetup</value>
   </data>
   <data name="&gt;&gt;lblSecondStationSetup.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblSecondStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;lblSecondStationSetup.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -868,17 +820,8 @@
   <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
     <value>lblWelcome</value>
   </data>
-  <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
-    <value>lblWelcome</value>
-  </data>
   <data name="&gt;&gt;lblWelcome.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -886,29 +829,14 @@
   <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Name" xml:space="preserve">
-    <value>lblWelcome2</value>
-  </data>
   <data name="&gt;&gt;lblWelcome2.Name" xml:space="preserve">
     <value>lblWelcome2</value>
   </data>
   <data name="&gt;&gt;lblWelcome2.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblWelcome2.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblWelcome2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;lblWelcome2.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -1261,7 +1189,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>NoControl</value>
   </data>
   <data name="lblSignUp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
-    <value>26, 27</value>
+    <value>27, 15</value>
   </data>
   <data name="lblSignUp.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 418</value>
