@@ -694,17 +694,8 @@
   <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
     <value>btnOK</value>
   </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
   <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -712,29 +703,14 @@
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Name" xml:space="preserve">
-    <value>btnOK2</value>
-  </data>
   <data name="&gt;&gt;btnOK2.Name" xml:space="preserve">
     <value>btnOK2</value>
   </data>
   <data name="&gt;&gt;btnOK2.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
   </data>
-  <data name="&gt;&gt;btnOK2.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;btnOK2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;btnOK2.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -749,7 +725,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;checkStationTimer.Name" xml:space="preserve">
     <value>checkStationTimer</value>
@@ -808,17 +784,8 @@
   <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
     <value>lblMainStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
-    <value>lblMainStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -826,29 +793,14 @@
   <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Name" xml:space="preserve">
-    <value>lblSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblSecondStationSetup.Name" xml:space="preserve">
     <value>lblSecondStationSetup</value>
   </data>
   <data name="&gt;&gt;lblSecondStationSetup.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblSecondStationSetup.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;lblSecondStationSetup.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -868,17 +820,8 @@
   <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
     <value>lblWelcome</value>
   </data>
-  <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
-    <value>lblWelcome</value>
-  </data>
   <data name="&gt;&gt;lblWelcome.Parent" xml:space="preserve">
     <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -886,29 +829,14 @@
   <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Name" xml:space="preserve">
-    <value>lblWelcome2</value>
-  </data>
   <data name="&gt;&gt;lblWelcome2.Name" xml:space="preserve">
     <value>lblWelcome2</value>
   </data>
   <data name="&gt;&gt;lblWelcome2.Parent" xml:space="preserve">
     <value>tabSecondStationSetup</value>
   </data>
-  <data name="&gt;&gt;lblWelcome2.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
   <data name="&gt;&gt;lblWelcome2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="&gt;&gt;lblWelcome2.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -979,6 +907,12 @@
   <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="&gt;&gt;settingToolStripMenuItem.Name" xml:space="preserve">
+    <value>settingToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;settingToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;tabControl.Name" xml:space="preserve">
     <value>tabControl</value>
   </data>
@@ -1039,6 +973,12 @@
   <data name="&gt;&gt;tbxEMail.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
+    <value>toolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
     <value>toolStripSeparator1</value>
   </data>
@@ -1079,7 +1019,7 @@
     <value>StationSystemTray.CueTextBox, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;txtPassword.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="btnOK.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1261,7 +1201,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>NoControl</value>
   </data>
   <data name="lblSignUp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
-    <value>26, 27</value>
+    <value>27, 15</value>
   </data>
   <data name="lblSignUp.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 418</value>
@@ -1531,6 +1471,12 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
   <data name="pictureBox2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
+  <data name="settingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="settingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Setting...</value>
+  </data>
   <data name="tabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -1588,6 +1534,9 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
   <data name="tbxEMail.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 6</value>
   </data>
@@ -1601,7 +1550,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>True</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 104</value>
+    <value>153, 132</value>
   </data>
   <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>

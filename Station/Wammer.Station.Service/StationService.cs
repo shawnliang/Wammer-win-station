@@ -31,6 +31,7 @@ namespace Wammer.Station.Service
 		private string stationId;
 		private StationTimer stationTimer;
 		private TaskRunner<ITask>[] upstreamTaskRunner;
+		private AttachmentViewHandler viewHandler;
 
 		public StationService()
 		{
@@ -163,11 +164,14 @@ namespace Wammer.Station.Service
 
 		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
 		{
-			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"),
-			                            new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner));
-			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"),
-			                            new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners,
-			                                                   upstreamTaskRunner));
+			var resumeHandler = new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner);
+			resumeHandler.SyncResumed += viewHandler.OnSyncResumed;
+			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), resumeHandler);
+
+			var suspendHandler = new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner);
+			suspendHandler.SyncSuspended += viewHandler.OnSyncSuspended;
+			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), suspendHandler);
+
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), new RemoveOwnerHandler(stationId));
@@ -253,7 +257,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
 			                          new UserLogoutHandler());
 
-			var viewHandler = new AttachmentViewHandler(stationId);
+			viewHandler = new AttachmentViewHandler(stationId);
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),
 			                          viewHandler);
 

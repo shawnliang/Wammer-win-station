@@ -78,7 +78,7 @@ namespace Wammer.Station.AttachmentUpload
 
 
 		public void UpstreamAttachmentNow(string filename, Driver user, string object_id, string origFileName,
-		                                  string mime_type, ImageMeta meta, AttachmentType type, string session)
+		                                  string mime_type, ImageMeta meta, AttachmentType type, string session, string apikey)
 		{
 			var fileStorage = new FileStorage(user);
 
@@ -87,7 +87,7 @@ namespace Wammer.Station.AttachmentUpload
 				try
 				{
 					uploadTaskCounter.Increment();
-					Attachment.Upload(f, user.groups[0].group_id, object_id, origFileName, mime_type, meta, type, CloudServer.APIKey,
+					Attachment.Upload(f, user.groups[0].group_id, object_id, origFileName, mime_type, meta, type, apikey,
 					                  session, 1024, UpstreamProgressChanged);
 				}
 				finally

@@ -141,6 +141,9 @@
   <data name="Connected" xml:space="preserve">
     <value>外部網路存取正常</value>
   </data>
+  <data name="CURRENT_ACCOUT" xml:space="preserve">
+    <value>(當前帳號)</value>
+  </data>
   <data name="DropboxUI_ConnectNow" xml:space="preserve">
     <value>立刻進行連結</value>
   </data>

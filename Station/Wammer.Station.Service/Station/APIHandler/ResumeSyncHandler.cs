@@ -11,6 +11,8 @@ namespace Wammer.Station
 		private readonly StationTimer stationTimer;
 		private readonly AbstrackTaskRunner[] upstreamRunners;
 
+		public event EventHandler SyncResumed;
+
 		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer,
 		                         AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
 		{
@@ -30,6 +32,15 @@ namespace Wammer.Station
 			this.LogDebugMsg("Start function server successfully");
 
 			RespondSuccess();
+
+			OnSyncResumed();
+		}
+
+		private void OnSyncResumed()
+		{
+			EventHandler handler = SyncResumed;
+			if (handler != null)
+				handler(this, EventArgs.Empty);
 		}
 	}
 

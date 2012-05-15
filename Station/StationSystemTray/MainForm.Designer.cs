@@ -37,14 +37,16 @@ namespace StationSystemTray
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsmiOpenStream = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuSignIn = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
 			this.tabControl = new StationSystemTray.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
 			this.loginInputPanel1 = new StationSystemTray.LoginInputPanel();
-			this.txtPassword = new StationSystemTray.CueTextBox();
 			this.button1 = new System.Windows.Forms.Button();
+			this.txtPassword = new StationSystemTray.CueTextBox();
 			this.tbxEMail = new StationSystemTray.CueTextBox();
 			this.cmbEmail = new StationSystemTray.CueComboBox();
 			this.fbLoginButton1 = new StationSystemTray.FBLoginButton();
@@ -85,6 +87,8 @@ namespace StationSystemTray
             this.toolStripSeparator1,
             this.tsmiOpenStream,
             this.menuSignIn,
+            this.toolStripMenuItem1,
+            this.settingToolStripMenuItem,
             this.toolStripSeparator3,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
@@ -114,6 +118,17 @@ namespace StationSystemTray
 			this.menuSignIn.Name = "menuSignIn";
 			resources.ApplyResources(this.menuSignIn, "menuSignIn");
 			this.menuSignIn.Click += new System.EventHandler(this.menuSignIn_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+			// 
+			// settingToolStripMenuItem
+			// 
+			this.settingToolStripMenuItem.Name = "settingToolStripMenuItem";
+			resources.ApplyResources(this.settingToolStripMenuItem, "settingToolStripMenuItem");
+			this.settingToolStripMenuItem.Click += new System.EventHandler(this.settingToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator3
 			// 
@@ -160,18 +175,12 @@ namespace StationSystemTray
 			// 
 			// loginInputPanel1
 			// 
-			this.loginInputPanel1.Controls.Add(this.txtPassword);
 			this.loginInputPanel1.Controls.Add(this.button1);
+			this.loginInputPanel1.Controls.Add(this.txtPassword);
 			this.loginInputPanel1.Controls.Add(this.tbxEMail);
 			this.loginInputPanel1.Controls.Add(this.cmbEmail);
 			resources.ApplyResources(this.loginInputPanel1, "loginInputPanel1");
 			this.loginInputPanel1.Name = "loginInputPanel1";
-			// 
-			// txtPassword
-			// 
-			this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			resources.ApplyResources(this.txtPassword, "txtPassword");
-			this.txtPassword.Name = "txtPassword";
 			// 
 			// button1
 			// 
@@ -183,6 +192,12 @@ namespace StationSystemTray
 			this.button1.TabStop = false;
 			this.button1.UseVisualStyleBackColor = false;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// txtPassword
+			// 
+			this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			resources.ApplyResources(this.txtPassword, "txtPassword");
+			this.txtPassword.Name = "txtPassword";
 			// 
 			// tbxEMail
 			// 
@@ -207,7 +222,6 @@ namespace StationSystemTray
 			// loginButton1
 			// 
 			resources.ApplyResources(this.loginButton1, "loginButton1");
-			this.loginButton1.MaximumSize = new System.Drawing.Size(110, 40);
 			this.loginButton1.Name = "loginButton1";
 			this.loginButton1.Click += new System.EventHandler(this.btnSignIn_Click);
 			// 
@@ -361,6 +375,8 @@ namespace StationSystemTray
 		private LoginInputPanel loginInputPanel1;
 		private System.Windows.Forms.Button button1;
 		internal CueTextBox tbxEMail;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem;
 	}
 }
 

@@ -95,6 +95,13 @@ namespace Wammer.Model
 		public bool is_change_history_synced { get; set; }
 
 		/// <summary>
+		/// Gets or sets the user.
+		/// </summary>
+		/// <value>The user.</value>
+		[BsonIgnoreIfNull]
+		public UserInfo user { get; set; }
+
+		/// <summary>
 		/// Gets or sets the ref_count.
 		/// </summary>
 		/// <value>The ref_count.</value>

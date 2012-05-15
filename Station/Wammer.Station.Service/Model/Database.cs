@@ -1,6 +1,8 @@
+using System;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Wammer.Station;
+using log4net;
 
 namespace Wammer.Model
 {
@@ -8,13 +10,31 @@ namespace Wammer.Model
 	{
 		public static MongoServer mongodb;
 		public static MongoDatabase wammer;
+		private static readonly ILog logger = LogManager.GetLogger(typeof(Database));
 
 		static Database()
 		{
 			mongodb = MongoServer.Create(
 				string.Format("mongodb://127.0.0.1:{0}/?safe=true;connectTimeoutMS=10000",
-				              StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
+							  StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
 			wammer = mongodb.GetDatabase("wammer");
+
+			int retry = 5;
+			while (retry > 0)
+			{
+				try
+				{
+					mongodb.Connect(TimeSpan.FromSeconds(1));
+					break;
+				}
+				catch (MongoConnectionException e)
+				{
+					logger.WarnFormat("Unable to connect to mongodb server, retry={0}, exception={1}", retry, e.Message);
+					retry--;
+				}
+			}
+			if (retry == 0)
+				throw new InvalidOperationException("Unable to connect to mongodb server");
 		}
 
 

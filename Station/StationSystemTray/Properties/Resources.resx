@@ -146,6 +146,9 @@
   <data name="Connected" xml:space="preserve">
     <value>Accessible from internet</value>
   </data>
+  <data name="CURRENT_ACCOUT" xml:space="preserve">
+    <value>(Current account)</value>
+  </data>
   <data name="DropboxUI_ConnectNow" xml:space="preserve">
     <value>Connect Now</value>
   </data>

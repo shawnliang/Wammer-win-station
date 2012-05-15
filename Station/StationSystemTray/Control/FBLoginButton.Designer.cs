@@ -39,6 +39,8 @@ namespace StationSystemTray
 			this.Name = "FBLoginButton";
 			this.Size = new System.Drawing.Size(194, 60);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FBLoginButton_MouseDown);
+			this.MouseLeave += new System.EventHandler(this.FBLoginButton_MouseLeave);
+			this.MouseHover += new System.EventHandler(this.FBLoginButton_MouseHover);
 			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FBLoginButton_MouseUp);
 			this.ResumeLayout(false);
 
