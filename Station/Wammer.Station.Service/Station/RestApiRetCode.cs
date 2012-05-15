@@ -27,6 +27,12 @@
 		LinkWrongAccount = Base + 6
 	}
 
+	public enum GeneralApiError
+	{
+		Base = 0x0000,
+		SessionNotExist = Base + 12
+	}
+
 	public enum AuthApiError
 	{
 		Base = 0x1000,
