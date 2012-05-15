@@ -168,14 +168,15 @@
             // 
             // buttonRemovePreview
             // 
-            resources.ApplyResources(this.buttonRemovePreview, "buttonRemovePreview");
             this.buttonRemovePreview.CenterAlignImage = false;
+            resources.ApplyResources(this.buttonRemovePreview, "buttonRemovePreview");
             this.buttonRemovePreview.ForeColor = System.Drawing.Color.White;
             this.buttonRemovePreview.Image = global::Waveface.Properties.Resources.FB_blue_btn;
             this.buttonRemovePreview.ImageDisable = global::Waveface.Properties.Resources.FB_blue_btn_hl;
             this.buttonRemovePreview.ImageFront = global::Waveface.Properties.Resources.FB_edit_delete;
             this.buttonRemovePreview.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
             this.buttonRemovePreview.Name = "buttonRemovePreview";
+            this.buttonRemovePreview.TextShadow = true;
             this.buttonRemovePreview.Click += new System.EventHandler(this.buttonRemovePreview_Click);
             // 
             // cultureManager
@@ -192,6 +193,7 @@
             this.btnSend.ImageFront = null;
             this.btnSend.ImageHover = global::Waveface.Properties.Resources.FB_creat_btn_hl;
             this.btnSend.Name = "btnSend";
+            this.btnSend.TextShadow = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // WebLink

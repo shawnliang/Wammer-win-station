@@ -75,20 +75,12 @@
             this.imageListView.AllowDrag = true;
             this.imageListView.AllowDrop = true;
             resources.ApplyResources(this.imageListView, "imageListView");
-            this.imageListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.imageListView.Columns.AddRange(new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader[] {
-            new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.Name, "", 100, 0, true),
-            new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.DateTaken, "", 100, 1, true),
-            new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.Dimensions, "", 100, 2, true),
-            new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.FileSize, "", 100, 3, true),
-            new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.DateCreated, "", 100, 4, true),
-            new Manina.Windows.Forms.ImageListView.ImageListViewColumnHeader(Manina.Windows.Forms.ColumnType.DateModified, "", 100, 5, true)});
             this.imageListView.ContextMenuStrip = this.columnContextMenu;
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.imageListView.IsWaveface = true;
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(120, 120);
             this.imageListView.DropFiles += new Manina.Windows.Forms.DropFilesEventHandler(this.imageListView_DropFiles);
@@ -156,6 +148,7 @@
             this.btnDeletePhoto.ImageFront = global::Waveface.Properties.Resources.FB_edit_delete;
             this.btnDeletePhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
             this.btnDeletePhoto.Name = "btnDeletePhoto";
+            this.btnDeletePhoto.TextShadow = true;
             this.toolTip.SetToolTip(this.btnDeletePhoto, resources.GetString("btnDeletePhoto.ToolTip"));
             this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
             // 
@@ -169,6 +162,7 @@
             this.btnAddPhoto.ImageFront = global::Waveface.Properties.Resources.FB_edit_add_photo;
             this.btnAddPhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
             this.btnAddPhoto.Name = "btnAddPhoto";
+            this.btnAddPhoto.TextShadow = true;
             this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
             this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
@@ -301,6 +295,7 @@
             this.btnSend.ImageFront = null;
             this.btnSend.ImageHover = global::Waveface.Properties.Resources.FB_creat_btn_hl;
             this.btnSend.Name = "btnSend";
+            this.btnSend.TextShadow = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // Photo

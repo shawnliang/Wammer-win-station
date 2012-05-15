@@ -134,6 +134,7 @@
     <Compile Include="Component\CustomDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Component\ExifStuff.cs" />
     <Compile Include="Component\ImageBox.cs">
       <SubType>Component</SubType>
     </Compile>

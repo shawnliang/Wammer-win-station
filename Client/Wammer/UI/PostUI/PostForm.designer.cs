@@ -128,6 +128,7 @@ namespace Waveface
             this.btnAddPhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
             this.btnAddPhoto.Name = "btnAddPhoto";
             this.btnAddPhoto.TabStop = false;
+            this.btnAddPhoto.TextShadow = true;
             this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
             this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
@@ -184,6 +185,7 @@ namespace Waveface
             this.btnPureText.ImageHover = null;
             this.btnPureText.Name = "btnPureText";
             this.btnPureText.TabStop = false;
+            this.btnPureText.TextShadow = true;
             this.btnPureText.Click += new System.EventHandler(this.btnPureText_Click);
             // 
             // Page_P_D_W
@@ -287,6 +289,7 @@ namespace Waveface
             resources.ApplyResources(this.btnAddDoc, "btnAddDoc");
             this.btnAddDoc.Name = "btnAddDoc";
             this.btnAddDoc.TabStop = false;
+            this.btnAddDoc.TextShadow = true;
             this.btnAddDoc.Click += new System.EventHandler(this.btnAddDoc_Click);
             // 
             // btnSend
@@ -300,6 +303,7 @@ namespace Waveface
             this.btnSend.ImageHover = global::Waveface.Properties.Resources.FB_creat_btn_hl;
             this.btnSend.Name = "btnSend";
             this.btnSend.TabStop = false;
+            this.btnSend.TextShadow = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // labelPreviewMsg
@@ -327,6 +331,7 @@ namespace Waveface
             this.buttonRichText.ImageHover = null;
             this.buttonRichText.Name = "buttonRichText";
             this.buttonRichText.TabStop = false;
+            this.buttonRichText.TextShadow = true;
             this.buttonRichText.Click += new System.EventHandler(this.buttonRichText_Click);
             // 
             // pureTextBox

@@ -415,7 +415,7 @@ namespace Waveface.DetailUI
             imageBox.Left = 0;
             imageBox.Top = panelTop.Height;
             imageBox.Width = imageListView.Width;
-            imageBox.Height = imageListView.Height - 158;
+            imageBox.Height = imageListView.Height - 164;
             imageBox.Refresh();
         }
 
@@ -471,6 +471,7 @@ namespace Waveface.DetailUI
         private void imageBox_Click(object sender, EventArgs e)
         {
             imageBox.SizeToFit = false;
+            imageBox.AutoPan = true;
             imageBox.AdjustLayout();
         }
     }

@@ -460,7 +460,7 @@
     <value>NoControl</value>
   </data>
   <data name="labelSummary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 8</value>
+    <value>117, 8</value>
   </data>
   <data name="labelSummary.Size" type="System.Drawing.Size, System.Drawing">
     <value>481, 16</value>
@@ -480,9 +480,6 @@
   <data name="&gt;&gt;labelSummary.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="buttonRemovePreview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
   <data name="buttonRemovePreview.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
@@ -490,7 +487,7 @@
     <value>NoControl</value>
   </data>
   <data name="buttonRemovePreview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>498, 3</value>
+    <value>8, 3</value>
   </data>
   <data name="buttonRemovePreview.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 25</value>
