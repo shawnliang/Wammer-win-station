@@ -139,6 +139,9 @@
   <data name="contextMenuStripEdit.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 70</value>
   </data>
+  <data name="buttonAddComment.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
+  </data>
   <data name="buttonAddComment.Text" xml:space="preserve">
     <value>發送</value>
   </data>

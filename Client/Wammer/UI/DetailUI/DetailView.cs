@@ -3,7 +3,6 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Web;
 using System.Windows.Forms;
@@ -217,7 +216,6 @@ namespace Waveface
             this.panelTop.Controls.Add(this.labelTitle);
             this.panelTop.Name = "panelTop";
             this.toolTip.SetToolTip(this.panelTop, resources.GetString("panelTop.ToolTip"));
-            this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
             // 
             // labelTitle
             // 
@@ -595,34 +593,6 @@ namespace Waveface
                 m_currentView.MoreFonction1();
             }
         }
-
-        #region BorderlessForm
-
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, uint Msg, long lParam, long wParam);
-
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        private void panelTop_MouseMove(object sender, MouseEventArgs e)
-        {
-            /*
-            if (!Main.Current.BorderlessFormTheme.HostWindow.WinMaxed)
-            {
-                if ((MouseButtons.ToString() == "Left") && (e.Y < 24))
-                {
-                    ReleaseCapture();
-
-                    uint WM_NCLBUTTONDOWN = 161;
-                    int HT_CAPTION = 0x2;
-
-                    SendMessage(Parent.Parent.Parent.Parent.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-                }
-            }
-            */
-        }
-
-        #endregion
 
         public void SetClock(bool visible, DateTime dateTime)
         {

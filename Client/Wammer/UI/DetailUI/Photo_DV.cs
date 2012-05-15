@@ -10,7 +10,6 @@ using System.Text;
 using System.Web;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
-using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 
@@ -54,7 +53,6 @@ namespace Waveface.DetailUI
         private bool m_canEdit;
         private ToolStripMenuItem miOpen;
         private ImageButton btnSaveAllPhotos;
-        private SaveFileDialog saveFileDialog;
         private ImageListViewItem m_selectedItem;
 
         #endregion
@@ -138,7 +136,6 @@ namespace Waveface.DetailUI
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.contextMenuStripImageList.SuspendLayout();
@@ -176,16 +173,15 @@ namespace Waveface.DetailUI
             // imageListView
             // 
             this.imageListView.AllowDuplicateFileNames = true;
-            this.imageListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.CacheLimit = "0";
-            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStripImageList;
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
             resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.imageListView.IsWaveface = false;
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
@@ -218,7 +214,7 @@ namespace Waveface.DetailUI
             // 
             // panelPictureInfo
             // 
-            this.panelPictureInfo.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panelPictureInfo.BackColor = System.Drawing.Color.White;
             this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
             resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.Name = "panelPictureInfo";
@@ -407,7 +403,7 @@ namespace Waveface.DetailUI
                 }
             }
 
-            timer.Interval = ((m_imageAttachments.Count / 200) + 3) * 1000;
+            timer.Interval = ((m_imageAttachments.Count / 100) + 3) * 1000;
 
             if (!FillImageListView(true))
                 timer.Enabled = true;
@@ -670,6 +666,7 @@ namespace Waveface.DetailUI
         public void SaveAllPics()
         {
             string _fileName = string.Empty;
+            bool _OriginFileExist = false;
 
             using (FolderBrowserDialog _dialog = new FolderBrowserDialog())
             {
@@ -681,12 +678,24 @@ namespace Waveface.DetailUI
                 {
                     string _folder = _dialog.SelectedPath + "\\";
 
-                    foreach (ImageListViewItem _item in imageListView.Items)
+                    for (int i = 0; i < imageListView.Items.Count; i++)
                     {
-                        if (CheckIfLoadingImage(_item))
+                        if (CheckIfLoadingImage(imageListView.Items[i]))
                             continue;
 
-                        _fileName = new FileInfo(_item.FileName).Name;
+                        _fileName = new FileInfo(imageListView.Items[i].FileName).Name;
+
+                        _OriginFileExist = false;
+
+                        // if (Main.Current.IsPrimaryStation) // Todo
+                        {
+                            if (File.Exists(m_filePathOrigins[i]))
+                            {
+                                _fileName = new FileInfo(m_filePathOrigins[i]).Name;
+
+                                _OriginFileExist = true;
+                            }
+                        }
 
                         if (m_filesMapping.ContainsKey(_fileName))
                             _fileName = m_filesMapping[_fileName]; // 取出真實名稱
@@ -695,7 +704,14 @@ namespace Waveface.DetailUI
 
                         try
                         {
-                            File.Copy(_item.FileName, _fileName);
+                            if (_OriginFileExist)
+                            {
+                                File.Copy(m_filePathOrigins[i], _fileName);
+                            }
+                            else
+                            {
+                                File.Copy(imageListView.Items[i].FileName, _fileName);
+                            }                          
                         }
                         catch
                         {

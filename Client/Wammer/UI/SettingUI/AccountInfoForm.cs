@@ -1,8 +1,6 @@
 ﻿#region
 
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Web;
 using System.Windows.Forms;
@@ -35,8 +33,14 @@ namespace Waveface
         {
             Cursor = Cursors.WaitCursor;
 
+            string _device_id = HttpUtility.UrlEncode(StationRegHelper.GetValue("stationId", string.Empty).ToString());
+            string _device_name = HttpUtility.UrlEncode(Environment.MachineName);
+
             string _url = WService.WebURL + "/client/user/profile?";
+
             _url += "session_token=" + HttpUtility.UrlEncode(Main.Current.RT.Login.session_token) + "&" +
+                    "device_id=" + HttpUtility.UrlEncode(_device_id) + "&" +
+                    "device_name=" + HttpUtility.UrlEncode(_device_name) + "&" +
                     "device=windows" + "&" +
                     "l=" + CultureManager.ApplicationUICulture.Name;
 

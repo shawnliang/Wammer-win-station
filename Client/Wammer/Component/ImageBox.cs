@@ -757,6 +757,8 @@ namespace Waveface.Component
                 {
                     m_image = value;
 
+                    ExifStuff.OrientImage(m_image);
+
                     OnImageChanged(EventArgs.Empty);
                 }
             }

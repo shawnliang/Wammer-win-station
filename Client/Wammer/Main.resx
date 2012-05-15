@@ -331,7 +331,7 @@
     <value>0, 0</value>
   </data>
   <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 568</value>
+    <value>492, 568</value>
   </data>
   <data name="detailView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -358,7 +358,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 568</value>
+    <value>492, 568</value>
   </data>
   <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -472,7 +472,7 @@
     <value>7, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>992, 568</value>
+    <value>1004, 568</value>
   </data>
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>179, 21</value>
@@ -915,8 +915,11 @@
         //8=
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 606</value>
+    <value>1020, 606</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface</value>

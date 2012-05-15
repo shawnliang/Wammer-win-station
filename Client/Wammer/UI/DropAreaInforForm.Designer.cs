@@ -37,8 +37,8 @@
             // 
             // pictureBox
             // 
-            this.pictureBox.Image = global::Waveface.Properties.Resources.dragdrop_tutorial;
             resources.ApplyResources(this.pictureBox, "pictureBox");
+            this.pictureBox.Image = global::Waveface.Properties.Resources.dragdrop_tutorial;
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.TabStop = false;
             // 
@@ -49,8 +49,8 @@
             // 
             // btnSend
             // 
-            this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
             resources.ApplyResources(this.btnSend, "btnSend");
+            this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnSend.Name = "btnSend";
@@ -65,6 +65,7 @@
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.label);
             this.Controls.Add(this.btnSend);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DropAreaInforForm";

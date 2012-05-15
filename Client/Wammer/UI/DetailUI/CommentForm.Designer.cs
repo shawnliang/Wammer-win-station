@@ -87,6 +87,7 @@
             this.buttonAddComment.ImageFront = null;
             this.buttonAddComment.ImageHover = global::Waveface.Properties.Resources.FB_creat_btn_hl;
             this.buttonAddComment.Name = "buttonAddComment";
+            this.buttonAddComment.TextShadow = true;
             this.buttonAddComment.UseVisualStyleBackColor = true;
             this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 

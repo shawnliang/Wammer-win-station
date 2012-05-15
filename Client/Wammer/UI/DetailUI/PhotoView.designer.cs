@@ -65,7 +65,6 @@ namespace Waveface.DetailUI
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BackColor = System.Drawing.Color.White;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStrip;
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
