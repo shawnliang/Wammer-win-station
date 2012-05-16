@@ -1078,6 +1078,9 @@
   <data name="chkRememberPassword.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="chkRememberPassword.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9.75pt</value>
+  </data>
   <data name="chkRememberPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1085,7 +1088,7 @@
     <value>46, 219</value>
   </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 19</value>
+    <value>149, 20</value>
   </data>
   <data name="chkRememberPassword.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
