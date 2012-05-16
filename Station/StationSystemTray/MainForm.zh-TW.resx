@@ -507,7 +507,7 @@
     <value>確定</value>
   </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 19</value>
+    <value>91, 20</value>
   </data>
   <data name="chkRememberPassword.Text" xml:space="preserve">
     <value>記住密碼</value>

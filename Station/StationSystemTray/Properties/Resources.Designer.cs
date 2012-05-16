@@ -503,7 +503,16 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UnknownSigninError.
+        ///   Looks up a localized string similar to Unknow signup error occur!.
+        /// </summary>
+        public static string UNKNOW_SIGNUP_ERROR {
+            get {
+                return ResourceManager.GetString("UNKNOW_SIGNUP_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknow signin error occur!.
         /// </summary>
         public static string UnknownSigninError {
             get {

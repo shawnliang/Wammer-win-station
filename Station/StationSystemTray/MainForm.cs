@@ -954,110 +954,141 @@ namespace StationSystemTray
 
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			Hide();
-
-			string signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
-			var postData = new FBPostData
-							{
-								device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
-								device_name = Environment.MachineName,
-								device = "windows",
-								api_key = CLIENT_API_KEY,
-								xurl =
-									string.Format(
-										"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s",
-										signUpUrl),
-								locale = Thread.CurrentThread.CurrentCulture.ToString()
-							};
-
-			var browser = new WebBrowser
-							{
-								WebBrowserShortcutsEnabled = false,
-								IsWebBrowserContextMenuEnabled = false,
-								Dock = DockStyle.Fill
-							};
-
-			var dialog = new Form
-							{
-								Width = 750,
-								Height = 700,
-								Text = Text,
-								StartPosition = FormStartPosition.CenterParent,
-								Icon = Icon
-							};
-			dialog.Controls.Add(browser);
-
-			browser.Navigated += (s, ex) =>
-									{
-										Uri url = browser.Url;
-										if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
-														  RegexOptions.IgnoreCase))
-										{
-											dialog.DialogResult = DialogResult.OK;
-										}
-									};
-
-			browser.Navigate(m_SignUpUrl,
-							 string.Empty,
-							 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
-							 "Content-Type: application/json");
-
-			if (dialog.ShowDialog() == DialogResult.OK)
+			try
 			{
-				Uri url = browser.Url;
-				NameValueCollection parameters = HttpUtility.ParseQueryString(url.Query);
-				string apiRetCode = parameters["api_ret_code"];
+				Hide();
 
-				if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+				string signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
+				var postData = new FBPostData
+				               	{
+				               		device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+				               		device_name = Environment.MachineName,
+				               		device = "windows",
+				               		api_key = CLIENT_API_KEY,
+				               		xurl =
+				               			string.Format(
+				               				"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s",
+				               				signUpUrl),
+				               		locale = Thread.CurrentThread.CurrentCulture.ToString()
+				               	};
+
+				var browser = new WebBrowser
+				              	{
+				              		WebBrowserShortcutsEnabled = false,
+				              		IsWebBrowserContextMenuEnabled = false,
+				              		Dock = DockStyle.Fill
+				              	};
+
+				var dialog = new Form
+				             	{
+				             		Width = 750,
+				             		Height = 700,
+				             		Text = Text,
+				             		StartPosition = FormStartPosition.CenterParent,
+				             		Icon = Icon
+				             	};
+				dialog.Controls.Add(browser);
+
+				browser.Navigated += (s, ex) =>
+				                     	{
+				                     		Uri url = browser.Url;
+				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
+				                     		                  RegexOptions.IgnoreCase))
+				                     		{
+				                     			dialog.DialogResult = DialogResult.OK;
+				                     		}
+				                     	};
+
+				browser.Navigate(m_SignUpUrl,
+				                 string.Empty,
+				                 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
+				                 "Content-Type: application/json");
+
+				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					if (!IsDisposed)
-						Show();
+					Uri url = browser.Url;
+					NameValueCollection parameters = HttpUtility.ParseQueryString(url.Query);
+					string apiRetCode = parameters["api_ret_code"];
+
+					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+					{
+						if (!IsDisposed)
+							Show();
+						return;
+					}
+
+					string sessionToken = parameters["session_token"];
+					string userID = parameters["user_id"];
+					string email = parameters["email"];
+					string password = parameters["password"];
+					string accountType = parameters["account_type"];
+
+					if (accountType.Equals("native", StringComparison.CurrentCultureIgnoreCase))
+					{
+						cmbEmail.Text = email;
+						txtPassword.Text = password;
+
+						if (!IsDisposed)
+							Show();
+						return;
+					}
+
+					m_LoginAction = () => LoginAndLaunchClient(sessionToken, userID);
+
+					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+					if (driver == null)
+					{
+						AddUserResponse res = StationController.AddUser(userID, sessionToken);
+
+						UserStation station = GetPrimaryStation(res.Stations);
+						lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
+						                                         (station == null) ? "None" : station.computer_name);
+						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
+						                                           (station == null) ? "None" : station.computer_name);
+
+						//Show welcome msg
+						GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
+
+						if (!IsDisposed)
+							Show();
+						return;
+					}
+
+					m_LoginAction();
 					return;
 				}
 
-				string sessionToken = parameters["session_token"];
-				string userID = parameters["user_id"];
-				string email = parameters["email"];
-				string password = parameters["password"];
-				string accountType = parameters["account_type"];
-
-				if (accountType.Equals("native", StringComparison.CurrentCultureIgnoreCase))
-				{
-					cmbEmail.Text = email;
-					txtPassword.Text = password;
-
-					if (!IsDisposed)
-						Show();
-					return;
-				}
-
-				m_LoginAction = () => LoginAndLaunchClient(sessionToken, userID);
-
-				Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-				if (driver == null)
-				{
-					AddUserResponse res = StationController.AddUser(userID, sessionToken);
-
-					UserStation station = GetPrimaryStation(res.Stations);
-					lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-															 (station == null) ? "None" : station.computer_name);
-					lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-															   (station == null) ? "None" : station.computer_name);
-
-					//Show welcome msg
-					GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
-
-					if (!IsDisposed)
-						Show();
-					return;
-				}
-
-				m_LoginAction();
-				return;
+				if (!IsDisposed)
+					Show();
 			}
+			catch (AuthenticationException)
+			{
+				if (!IsDisposed)
+					Show();
 
-			if (!IsDisposed)
-				Show();
+				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+				txtPassword.Text = string.Empty;
+				txtPassword.Focus();
+			}
+			catch (StationServiceDownException)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (ConnectToCloudException)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (Exception)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		private void LogoutFB()
@@ -1222,95 +1253,125 @@ namespace StationSystemTray
 
 		private void fbLoginButton1_Click(object sender, EventArgs e)
 		{
-			Hide();
-			string fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
-			var postData = new FBPostData
-							{
-								device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
-								device_name = Environment.MachineName,
-								device = "windows",
-								api_key = CLIENT_API_KEY,
-								xurl =
-									string.Format(
-										"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s",
-										fbLoginUrl),
-								locale = Thread.CurrentThread.CurrentCulture.ToString()
-							};
-
-			var browser = new WebBrowser
-							{
-								WebBrowserShortcutsEnabled = false,
-								IsWebBrowserContextMenuEnabled = false,
-								Dock = DockStyle.Fill
-							};
-
-			var dialog = new Form
-							{
-								Width = 750,
-								Height = 700,
-								Text = Text,
-								StartPosition = FormStartPosition.CenterParent,
-								Icon = Icon
-							};
-			dialog.Controls.Add(browser);
-
-			browser.Navigated += (s, ex) =>
-									{
-										Uri url = browser.Url;
-										if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
-														  RegexOptions.IgnoreCase))
-										{
-											dialog.DialogResult = DialogResult.OK;
-										}
-									};
-
-			browser.Navigate(m_FBLoginUrl,
-							 string.Empty,
-							 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
-							 "Content-Type: application/json");
-
-			if (dialog.ShowDialog() == DialogResult.OK)
+			try
 			{
-				string url = browser.Url.Query;
-				NameValueCollection parameters = HttpUtility.ParseQueryString(url);
-				string apiRetCode = parameters["api_ret_code"];
+				Hide();
+				string fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
+				var postData = new FBPostData
+				               	{
+				               		device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+				               		device_name = Environment.MachineName,
+				               		device = "windows",
+				               		api_key = CLIENT_API_KEY,
+				               		xurl =
+				               			string.Format(
+				               				"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s",
+				               				fbLoginUrl),
+				               		locale = Thread.CurrentThread.CurrentCulture.ToString()
+				               	};
 
-				if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+				var browser = new WebBrowser
+				              	{
+				              		WebBrowserShortcutsEnabled = false,
+				              		IsWebBrowserContextMenuEnabled = false,
+				              		Dock = DockStyle.Fill
+				              	};
+
+				var dialog = new Form
+				             	{
+				             		Width = 750,
+				             		Height = 700,
+				             		Text = Text,
+				             		StartPosition = FormStartPosition.CenterParent,
+				             		Icon = Icon
+				             	};
+				dialog.Controls.Add(browser);
+
+				browser.Navigated += (s, ex) =>
+				                     	{
+				                     		Uri url = browser.Url;
+				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
+				                     		                  RegexOptions.IgnoreCase))
+				                     		{
+				                     			dialog.DialogResult = DialogResult.OK;
+				                     		}
+				                     	};
+
+				browser.Navigate(m_FBLoginUrl,
+				                 string.Empty,
+				                 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
+				                 "Content-Type: application/json");
+
+				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					if (!IsDisposed)
-						Show();
+					string url = browser.Url.Query;
+					NameValueCollection parameters = HttpUtility.ParseQueryString(url);
+					string apiRetCode = parameters["api_ret_code"];
+
+					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+					{
+						if (!IsDisposed)
+							Show();
+						return;
+					}
+
+					string sessionToken = parameters["session_token"];
+					string userID = parameters["user_id"];
+
+					m_LoginAction = () => LoginAndLaunchClient(sessionToken, userID);
+
+					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+					if (driver == null)
+					{
+						AddUserResponse res = StationController.AddUser(userID, sessionToken);
+
+						UserStation station = GetPrimaryStation(res.Stations);
+						lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
+						                                         (station == null) ? "None" : station.computer_name);
+						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
+						                                           (station == null) ? "None" : station.computer_name);
+
+						//Show welcome msg
+						GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
+
+						if (!IsDisposed)
+							Show();
+						return;
+					}
+
+					m_LoginAction();
 					return;
 				}
+				if (!IsDisposed)
+					Show();
+			}			
+			catch (AuthenticationException)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-				string sessionToken = parameters["session_token"];
-				string userID = parameters["user_id"];
-
-				m_LoginAction = () => LoginAndLaunchClient(sessionToken, userID);
-
-				Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-				if (driver == null)
-				{
-					AddUserResponse res = StationController.AddUser(userID, sessionToken);
-
-					UserStation station = GetPrimaryStation(res.Stations);
-					lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-															 (station == null) ? "None" : station.computer_name);
-					lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-															   (station == null) ? "None" : station.computer_name);
-
-					//Show welcome msg
-					GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
-
-					if (!IsDisposed)
-						Show();
-					return;
-				}
-
-				m_LoginAction();
-				return;
+				txtPassword.Text = string.Empty;
+				txtPassword.Focus();
 			}
-			if (!IsDisposed)
-				Show();
+			catch (StationServiceDownException)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (ConnectToCloudException)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (Exception)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.UnknownSigninError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
@@ -1406,10 +1467,16 @@ namespace StationSystemTray
 					
 					m_SettingDialog.Location = this.Location;
 					m_SettingDialog.Icon = this.Icon;
-					m_SettingDialog.TopMost = true;
+					//m_SettingDialog.TopMost = true;
 					m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
 					m_SettingDialog.ShowInTaskbar = !isOpenInTimeline;
-					
+
+					//if (isOpenInTimeline)
+					//{
+					//    var clientHandle = Win32Helper.FindWindow(null, "Waveface ");
+					//    Win32Helper.SetParent(m_SettingDialog.Handle, clientHandle);
+					//}
+
 					m_SettingDialog.FormClosed += (senderEx, ex) =>
 					                              	{
 														m_SettingDialog.AccountRemoving -= removeAccountAction;
