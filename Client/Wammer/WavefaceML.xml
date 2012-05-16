@@ -327,9 +327,14 @@
   </WItem>
   <WItem>
     <ID>ForceLogout</ID>
-    <en-US>System Error. Re-enter your password to log in again.</en-US>
-    <zh-TW>系統發生不可預期的錯誤, 請重新輸入密碼以便登入.</zh-TW>
-  </WItem>  
+    <en-US>Please re-enter your password to login again.</en-US>
+    <zh-TW>請輸入密碼重新登入.</zh-TW>
+  </WItem>
+  <WItem>
+    <ID>SystemErrorCaption</ID>
+    <en-US>System Error</en-US>
+    <zh-TW>系統錯誤</zh-TW>
+  </WItem>
   <WItem>
     <ID>MinimizetoTrayApp</ID>
     <en-US>Minimize to Tray App</en-US>

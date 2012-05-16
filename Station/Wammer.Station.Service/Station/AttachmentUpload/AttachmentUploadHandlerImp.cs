@@ -99,11 +99,7 @@ namespace Wammer.Station.AttachmentUpload
 			            	};
 
 			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
-			Driver user = db.GetUserByGroupId(uploadData.group_id);
-			if (user == null)
-				throw new WammerStationException("User is not associated with this station", (int)StationLocalApiError.InvalidDriver);
-
-			var storage = new FileStorage(user);
+			var storage = GetUserStorage(uploadData);
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
@@ -148,6 +144,16 @@ namespace Wammer.Station.AttachmentUpload
 			);
 
 			return ObjectUploadResponse.CreateSuccess(uploadData.object_id);
+		}
+
+		private FileStorage GetUserStorage(UploadData uploadData)
+		{
+			Driver user = db.GetUserByGroupId(uploadData.group_id);
+			if (user == null)
+				throw new WammerStationException("User is not associated with this station", (int)StationLocalApiError.InvalidDriver);
+
+			var storage = new FileStorage(user);
+			return storage;
 		}
 
 		private void OnAttachmentProcessed(AttachmentEventArgs evt)
