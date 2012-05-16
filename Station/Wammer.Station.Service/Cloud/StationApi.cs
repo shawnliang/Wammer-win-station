@@ -15,13 +15,14 @@ namespace Wammer.Cloud
 		public string Id { get; private set; }
 		public string Token { get; private set; }
 
-		public static StationSignUpResponse SignUpBySession(WebClient agent, string sessionToken, string stationId)
+		public static StationSignUpResponse SignUpBySession(WebClient agent, string sessionToken, string stationId, StationDetail detail)
 		{
 			var param = new Dictionary<object, object>
 			            	{
 			            		{CloudServer.PARAM_STATION_ID, stationId},
 			            		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-			            		{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
+			            		{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
+								{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
 			            	};
 
 			var res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
@@ -29,7 +30,7 @@ namespace Wammer.Cloud
 		}
 
 		public static StationSignUpResponse SignUpByEmailPassword(WebClient agent, string stationId, string email,
-		                                                          string passwd, string deviceId, string deviceName)
+		                                                          string passwd, string deviceId, string deviceName, StationDetail detail)
 		{
 			var param = new Dictionary<object, object>
 			            	{
@@ -38,7 +39,8 @@ namespace Wammer.Cloud
 			            		{CloudServer.PARAM_DEVICE_ID, deviceId},
 			            		{CloudServer.PARAM_DEVICE_NAME, deviceName},
 			            		{CloudServer.PARAM_STATION_ID, stationId},
-			            		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			            		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+								{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
 			            	};
 
 			var res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);

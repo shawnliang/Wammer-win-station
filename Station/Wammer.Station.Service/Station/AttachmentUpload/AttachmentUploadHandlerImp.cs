@@ -99,7 +99,11 @@ namespace Wammer.Station.AttachmentUpload
 			            	};
 
 			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
-			var storage = new FileStorage(db.GetUserByGroupId(uploadData.group_id));
+			Driver user = db.GetUserByGroupId(uploadData.group_id);
+			if (user == null)
+				throw new WammerStationException("User is not associated with this station", (int)StationLocalApiError.InvalidDriver);
+
+			var storage = new FileStorage(user);
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
