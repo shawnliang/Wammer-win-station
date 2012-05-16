@@ -196,6 +196,8 @@ namespace Waveface
             //System.Net.ServicePointManager.DefaultConnectionLimit = 64;
 
             m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+            m_autoUpdator.ApplicationIcon = Resources.software_update_available;
+            m_autoUpdator.ApplicationWindowIcon = Resources.UpdateAvailable;
             m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;

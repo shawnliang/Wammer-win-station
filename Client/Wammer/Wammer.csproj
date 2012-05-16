@@ -995,6 +995,8 @@
     <None Include="Resources\MaxMinClose\MMC_Restore.png" />
     <None Include="Resources\MaxMinClose\MMC_Restore_hl.png" />
     <None Include="Resources\ToLeft.png" />
+    <None Include="Resources\software-update-available.png" />
+    <None Include="Resources\UpdateAvailable.ico" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
