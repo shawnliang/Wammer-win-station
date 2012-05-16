@@ -4,7 +4,25 @@
     <ID>DefaultFont</ID>
     <en-US>Arial</en-US>
     <zh-TW>微軟正黑體</zh-TW>
-  </WItem>  
+  </WItem>
+
+  <WItem>
+    <ID>TitleSystemError</ID>
+    <en-US>System Error</en-US>
+    <zh-TW>系統錯誤</zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>TitleAuthExpired</ID>
+    <en-US>Authentication Expired</en-US>
+    <zh-TW>認證資訊過期</zh-TW>
+  </WItem>
+  
+  <WItem>
+    <ID>TitleCancelEdit</ID>
+    <en-US>Cancel Edit</en-US>
+    <zh-TW>取消編輯</zh-TW>
+  </WItem>
   
   <WItem>
     <ID>CoverImage</ID>
@@ -32,7 +50,7 @@
   
   <WItem>
     <ID>DiscardEditPost</ID>
-    <en-US>Discard this post?</en-US>
+    <en-US>Are you sure you want to cancel?</en-US>
     <zh-TW>您確定要放棄編輯本貼文嗎?</zh-TW>
   </WItem>
 
@@ -194,7 +212,7 @@
   </WItem>
   <WItem>
     <ID>BatchPostManager.DragDropHere</ID>
-    <en-US>Drop Photos here</en-US>
+    <en-US>Drop Photos Here</en-US>
     <zh-TW>拖拉照片至此處</zh-TW>
   </WItem>
 
@@ -239,7 +257,7 @@
   </WItem>
   <WItem>
     <ID>DetailView.CommentEmpty</ID>
-    <en-US>Comment Text cannot be empty!</en-US>
+    <en-US>Comment text box is empty!</en-US>
     <zh-TW>留言欄位不能為空白!</zh-TW>
   </WItem>
   <WItem>
@@ -322,13 +340,13 @@
   </WItem>
   <WItem>
     <ID>Station401Exception</ID>
-    <en-US>Your authentication is expired. Re-enter your password to log in again.</en-US>
-    <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
+    <en-US>Re-enter your password to login again.</en-US>
+    <zh-TW>請重新輸入密碼以便登入.</zh-TW>
   </WItem>
   <WItem>
     <ID>ForceLogout</ID>
-    <en-US>System Error. Re-enter your password to log in again.</en-US>
-    <zh-TW>系統發生不可預期的錯誤, 請重新輸入密碼以便登入.</zh-TW>
+    <en-US>Re-enter your password to login again.</en-US>
+    <zh-TW>請重新輸入密碼以便登入.</zh-TW>
   </WItem>  
   <WItem>
     <ID>MinimizetoTrayApp</ID>

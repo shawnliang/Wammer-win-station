@@ -172,7 +172,7 @@
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btnAddFootNote.ToolTip" xml:space="preserve">
-    <value>Add Footnote</value>
+    <value>Add Note</value>
   </data>
   <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
     <value>2</value>

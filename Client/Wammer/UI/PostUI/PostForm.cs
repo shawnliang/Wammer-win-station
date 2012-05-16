@@ -228,7 +228,7 @@ namespace Waveface
 
             if (!m_closeOK)
             {
-                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), "Stream", MessageBoxButtons.YesNo,
+                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), I18n.L.T("TitleCancelEdit"), MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question);
 
                 if (_dr != DialogResult.Yes)

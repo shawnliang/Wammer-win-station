@@ -280,7 +280,7 @@
     <value>3</value>
   </data>
   <data name="btnSetting.ToolTip" xml:space="preserve">
-    <value>Setting</value>
+    <value>About</value>
   </data>
   <data name="&gt;&gt;labelStatus.Name" xml:space="preserve">
     <value>labelStatus</value>

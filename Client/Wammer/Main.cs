@@ -352,7 +352,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("Station401Exception"), "Stream", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("Station401Exception"), I18n.L.T("TitleAuthExpired"), MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 QuitOption = QuitOption.Logout;
@@ -371,7 +371,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("ForceLogout"), "Stream", MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("ForceLogout"), I18n.L.T("TitleSystemError"), MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 QuitOption = QuitOption.Logout;
