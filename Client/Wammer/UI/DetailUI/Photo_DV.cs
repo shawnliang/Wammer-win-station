@@ -687,7 +687,7 @@ namespace Waveface.DetailUI
 
                         _OriginFileExist = false;
 
-                        // if (Main.Current.IsPrimaryStation) // Todo
+                        if (Main.Current.IsPrimaryStation)
                         {
                             if (File.Exists(m_filePathOrigins[i]))
                             {

@@ -1093,6 +1093,8 @@ namespace Waveface
 
             if (_ret != null)
             {
+                detailView.ResetUI();
+
                 RemovePostLocalAndRefresh(postId);
 
                 MessageBox.Show(I18n.L.T("PostRemoved"), "Stream", MessageBoxButtons.OK,
