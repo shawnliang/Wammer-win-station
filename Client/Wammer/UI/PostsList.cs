@@ -22,15 +22,14 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private const int PicHeight = 75;
-        private const int PicWidth = 75;
+        private int PicHeight = 78;
+        private int PicWidth = 78;
 
         private IContainer components;
         private CustomDataGridView dataGridView;
         private int m_clickedIndex;
         private string m_clickedPostID;
         private DetailView m_detailView;
-        private Font m_font;
         private BindingSource m_postBS;
         private DataGridViewTextBoxColumn creatoridDataGridViewTextBoxColumn;
         private Timer timer;
@@ -41,6 +40,8 @@ namespace Waveface
 
         private int m_oldFirstDisplayedIndex;
         private string m_oldFirstDisplayedPostID;
+
+        private string m_defaultFont;
 
         #region Properties
 
@@ -90,11 +91,23 @@ namespace Waveface
 
         private void PostsList_Load(object sender, EventArgs e)
         {
+            dataGridView.RowTemplate.Height = 118;
+
             SetFont();
 
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 
             MouseWheelRedirector.Attach(dataGridView);
+        }
+
+        private void SetFont()
+        {
+            m_defaultFont = I18n.L.T("DefaultFont");
+
+            m_fontInfo = new Font(m_defaultFont, 8, FontStyle.Bold, GraphicsUnit.Point);
+            m_fontLinkURL = new Font(m_defaultFont, 8, FontStyle.Italic | FontStyle.Bold, GraphicsUnit.Point);
+            m_fontLinkTitle = new Font(m_defaultFont, 10, FontStyle.Bold, GraphicsUnit.Point);
+            m_fontText = new Font(m_defaultFont, 10, GraphicsUnit.Point);
         }
 
         public void SetPosts(List<Post> posts)
@@ -227,7 +240,9 @@ namespace Waveface
         {
             try
             {
-                //dataGridView.Rows[e.RowIndex].Height = 120 + (e.RowIndex % 10) * 20;
+                PicHeight = (int) (m_fontText.Height * 4.8);
+                PicWidth = (int) (m_fontText.Height * 4.8);
+                dataGridView.Rows[e.RowIndex].Height = (m_fontText.Height * 7) + 6;
 
                 bool _isDrawThumbnail;
 
@@ -321,14 +336,14 @@ namespace Waveface
             Rectangle _rURL = new Rectangle(rect.X + 4, _rTitle.Bottom + 2, rect.Width - thumbnailRectWidth - 8,
                                             _sizeURL.Height);
 
-            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_linkURLColor, TextFormatFlags.EndEllipsis);
+            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_selectedTextColor, TextFormatFlags.EndEllipsis);
 
             Rectangle _rText = new Rectangle(rect.X + 4, _rURL.Bottom + 2, rect.Width - thumbnailRectWidth - 8,
                                              rect.Height - _rTitle.Height - _rURL.Height - 20);
 
             if (!string.IsNullOrEmpty(post.preview.description))
             {
-                TextRenderer.DrawText(g, post.preview.description.Trim(), m_fontText, _rText, m_selectedTextColor,
+                TextRenderer.DrawText(g, post.preview.description.Trim(), m_fontText, _rText, m_linkURLColor,
                                       TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
             }
         }
@@ -340,7 +355,7 @@ namespace Waveface
                            ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
             Rectangle _rect = new Rectangle(rect.X + rect.Width - _sizeInfo.Width - 2,
-                                            rect.Y + rect.Height - underThumbnailHeight - 8, _sizeInfo.Width,
+                                            rect.Y + rect.Height - underThumbnailHeight - (_sizeInfo.Height / 2), _sizeInfo.Width,
                                             _sizeInfo.Height);
 
             TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor);
@@ -644,18 +659,6 @@ namespace Waveface
             SetFont();
         }
 
-        private void SetFont()
-        {
-            m_font = SystemFonts.IconTitleFont;
-
-            if (Font != m_font)
-            {
-                Font = m_font;
-
-                dataGridView.RowTemplate.Height = 118;
-            }
-        }
-
         private void timer_Tick(object sender, EventArgs e)
         {
             if (Main.Current != null) //VS.NET_Bug
@@ -720,7 +723,7 @@ namespace Waveface
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources =
-                new System.ComponentModel.ComponentResourceManager(typeof (PostsList));
+                new System.ComponentModel.ComponentResourceManager(typeof(PostsList));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 =
                 new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 =
@@ -733,8 +736,8 @@ namespace Waveface
             this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) (this.m_postBS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStrip
@@ -769,9 +772,9 @@ namespace Waveface
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int) (((byte) (234)))),
-                                                                              ((int) (((byte) (234)))),
-                                                                              ((int) (((byte) (234)))));
+            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))),
+                                                                              ((int)(((byte)(234)))),
+                                                                              ((int)(((byte)(234)))));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.dataGridView.ColumnHeadersHeightSizeMode =
@@ -834,7 +837,7 @@ namespace Waveface
             // 
             // m_postBS
             // 
-            this.m_postBS.DataSource = typeof (Waveface.API.V2.Post);
+            this.m_postBS.DataSource = typeof(Waveface.API.V2.Post);
             this.m_postBS.PositionChanged += new System.EventHandler(this.postBS_PositionChanged);
             // 
             // PostsList
@@ -845,8 +848,8 @@ namespace Waveface
             this.Name = "PostsList";
             this.Load += new System.EventHandler(this.PostsList_Load);
             this.contextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) (this.dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize) (this.m_postBS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).EndInit();
             this.ResumeLayout(false);
         }
 
@@ -892,9 +895,9 @@ namespace Waveface
 
         private void dataGridView_Scroll(object sender, ScrollEventArgs e)
         {
-            if (m_postBS.Count <= 0) 
+            if (m_postBS.Count <= 0)
                 return;
-            
+
             Post _post = m_postBS[dataGridView.FirstDisplayedScrollingRowIndex] as Post;
 
             DateTime _dateTime = DateTimeHelp.ISO8601ToDateTime(_post.timestamp);

@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="panelMain.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnAddFootNote.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
@@ -130,9 +127,6 @@
   </data>
   <data name="btnAddFootNote.ToolTip" xml:space="preserve">
     <value>新增註腳</value>
-  </data>
-  <data name="btnFunction1.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="btnFavorite.ToolTip" xml:space="preserve">
     <value>設定/取消 喜好</value>
@@ -176,13 +170,10 @@
   <data name="btnEdit.ToolTip" xml:space="preserve">
     <value>編輯貼文</value>
   </data>
-  <data name="labelTitle.ToolTip" xml:space="preserve">
-    <value />
+  <data name="labelTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 9.75pt, style=Bold</value>
   </data>
-  <data name="panelTop.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
+  <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 17</value>
   </data>
 </root>
