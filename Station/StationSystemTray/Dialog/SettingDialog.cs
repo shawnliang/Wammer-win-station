@@ -98,6 +98,9 @@ namespace StationSystemTray
 			             		: item.user.nickname
 			                    	}).ToList();
 
+			lblStorageUsageValue.Text = "0 MB";
+			lblUserEmail.Text = string.Empty;
+
 			cmbStations.DisplayMember = "DisplayName";
 			cmbStations.ValueMember = "User";
 			cmbStations.DataSource = users;
