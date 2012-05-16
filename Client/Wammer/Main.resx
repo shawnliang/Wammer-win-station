@@ -140,9 +140,6 @@
   <data name="postsArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="postsArea.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>337, 2</value>
-  </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>340, 504</value>
   </data>
@@ -379,22 +376,22 @@
     <value>1</value>
   </data>
   <metadata name="mnuTray.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>283, 21</value>
+    <value>468, 17</value>
   </metadata>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="regionMenuItem.Text" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="windowsMenuItem.Text" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="screenMenuItem.Text" xml:space="preserve">
     <value>Desktop</value>
@@ -424,7 +421,7 @@
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="timerDelayPost.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>378, 25</value>
+    <value>571, 17</value>
   </metadata>
   <data name="splitterRight.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -460,16 +457,16 @@
     <value>2</value>
   </data>
   <metadata name="bgWorkerGetAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>182, 17</value>
   </metadata>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1089, 21</value>
+    <value>1100, 17</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>76</value>
+    <value>44</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 15</value>
@@ -478,7 +475,7 @@
     <value>1004, 568</value>
   </data>
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>179, 21</value>
+    <value>355, 17</value>
   </metadata>
   <data name="statusStrip.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1021,12 +1018,12 @@
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="timerShowStatuMessage.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1233, 21</value>
+    <value>4, 18</value>
   </metadata>
   <metadata name="backgroundWorkerPreloadAllImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>537, 17</value>
+    <value>711, 17</value>
   </metadata>
   <metadata name="timerPolling.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>967, 21</value>
+    <value>978, 17</value>
   </metadata>
 </root>
