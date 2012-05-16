@@ -36,124 +36,67 @@ namespace Waveface.DetailUI
             this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.miSaveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.miSetAsCoverImage = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnCoverImage = new Waveface.Component.XPButton();
-            this.btnSlideShow = new Waveface.Component.XPButton();
-            this.btnSave = new Waveface.Component.XPButton();
-            this.btnSaveAll = new Waveface.Component.XPButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabelFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.imageSizeToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.positionToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.zoomToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.panelTop = new System.Windows.Forms.Panel();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.imageBox = new Waveface.Component.ImageBox();
+            this.btnSave = new Waveface.Component.ImageButton();
+            this.btnCoverImage = new Waveface.Component.ImageButton();
+            this.btnSlideShow = new Waveface.Component.ImageButton();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageListView
             // 
-            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.AllowDuplicateFileNames = true;
-            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
+            this.imageListView.BackColor = System.Drawing.Color.White;
+            this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStrip;
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.Name = "imageListView";
-            this.toolTip.SetToolTip(this.imageListView, resources.GetString("imageListView.ToolTip"));
             this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
             // 
             // contextMenuStrip
             // 
-            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSave,
-            this.miSaveAll,
             this.miSetAsCoverImage});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
             // miSave
             // 
-            resources.ApplyResources(this.miSave, "miSave");
-            this.miSave.Image = global::Waveface.Properties.Resources.Save;
+            this.miSave.Image = global::Waveface.Properties.Resources.FB_save;
             this.miSave.Name = "miSave";
+            resources.ApplyResources(this.miSave, "miSave");
             this.miSave.Click += new System.EventHandler(this.miSave_Click);
-            // 
-            // miSaveAll
-            // 
-            resources.ApplyResources(this.miSaveAll, "miSaveAll");
-            this.miSaveAll.Image = global::Waveface.Properties.Resources.SaveAll;
-            this.miSaveAll.Name = "miSaveAll";
-            this.miSaveAll.Click += new System.EventHandler(this.miSaveAll_Click);
             // 
             // miSetAsCoverImage
             // 
-            resources.ApplyResources(this.miSetAsCoverImage, "miSetAsCoverImage");
-            this.miSetAsCoverImage.Image = global::Waveface.Properties.Resources.CoverImage;
+            this.miSetAsCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
             this.miSetAsCoverImage.Name = "miSetAsCoverImage";
+            resources.ApplyResources(this.miSetAsCoverImage, "miSetAsCoverImage");
             this.miSetAsCoverImage.Click += new System.EventHandler(this.miSetAsCoverImage_Click);
-            // 
-            // saveFileDialog
-            // 
-            resources.ApplyResources(this.saveFileDialog, "saveFileDialog");
             // 
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
-            // 
-            // btnCoverImage
-            // 
-            resources.ApplyResources(this.btnCoverImage, "btnCoverImage");
-            this.btnCoverImage.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnCoverImage.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnCoverImage.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnCoverImage.Image = global::Waveface.Properties.Resources.CoverImage;
-            this.btnCoverImage.Name = "btnCoverImage";
-            this.toolTip.SetToolTip(this.btnCoverImage, resources.GetString("btnCoverImage.ToolTip"));
-            this.btnCoverImage.UseVisualStyleBackColor = true;
-            this.btnCoverImage.Click += new System.EventHandler(this.btnCoverImage_Click);
-            // 
-            // btnSlideShow
-            // 
-            resources.ApplyResources(this.btnSlideShow, "btnSlideShow");
-            this.btnSlideShow.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnSlideShow.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnSlideShow.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSlideShow.Image = global::Waveface.Properties.Resources.SlideShow;
-            this.btnSlideShow.Name = "btnSlideShow";
-            this.toolTip.SetToolTip(this.btnSlideShow, resources.GetString("btnSlideShow.ToolTip"));
-            this.btnSlideShow.UseVisualStyleBackColor = true;
-            this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
-            // 
-            // btnSave
-            // 
-            resources.ApplyResources(this.btnSave, "btnSave");
-            this.btnSave.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnSave.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnSave.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSave.Image = global::Waveface.Properties.Resources.Save;
-            this.btnSave.Name = "btnSave";
-            this.toolTip.SetToolTip(this.btnSave, resources.GetString("btnSave.ToolTip"));
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnSaveAll
-            // 
-            resources.ApplyResources(this.btnSaveAll, "btnSaveAll");
-            this.btnSaveAll.AdjustImageLocation = new System.Drawing.Point(0, 0);
-            this.btnSaveAll.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnSaveAll.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.btnSaveAll.Image = global::Waveface.Properties.Resources.SaveAll;
-            this.btnSaveAll.Name = "btnSaveAll";
-            this.toolTip.SetToolTip(this.btnSaveAll, resources.GetString("btnSaveAll.ToolTip"));
-            this.btnSaveAll.UseVisualStyleBackColor = true;
-            this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
             // 
             // statusStrip
             // 
@@ -161,50 +104,146 @@ namespace Waveface.DetailUI
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusLabelFileName,
             this.StatusLabelCurrentSize,
+            this.imageSizeToolStripStatusLabel,
+            this.positionToolStripStatusLabel,
+            this.zoomToolStripStatusLabel,
             this.StatusLabel});
             this.statusStrip.Name = "statusStrip";
-            this.toolTip.SetToolTip(this.statusStrip, resources.GetString("statusStrip.ToolTip"));
             // 
             // StatusLabelFileName
             // 
-            resources.ApplyResources(this.StatusLabelFileName, "StatusLabelFileName");
             this.StatusLabelFileName.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.StatusLabelFileName.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.StatusLabelFileName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.StatusLabelFileName.Name = "StatusLabelFileName";
+            resources.ApplyResources(this.StatusLabelFileName, "StatusLabelFileName");
             // 
             // StatusLabelCurrentSize
             // 
-            resources.ApplyResources(this.StatusLabelCurrentSize, "StatusLabelCurrentSize");
             this.StatusLabelCurrentSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.StatusLabelCurrentSize.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.StatusLabelCurrentSize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.StatusLabelCurrentSize.Name = "StatusLabelCurrentSize";
+            resources.ApplyResources(this.StatusLabelCurrentSize, "StatusLabelCurrentSize");
+            // 
+            // imageSizeToolStripStatusLabel
+            // 
+            this.imageSizeToolStripStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.imageSizeToolStripStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.imageSizeToolStripStatusLabel.Image = global::Waveface.Properties.Resources.ObjectSize;
+            this.imageSizeToolStripStatusLabel.Name = "imageSizeToolStripStatusLabel";
+            resources.ApplyResources(this.imageSizeToolStripStatusLabel, "imageSizeToolStripStatusLabel");
+            // 
+            // positionToolStripStatusLabel
+            // 
+            this.positionToolStripStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.positionToolStripStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.positionToolStripStatusLabel.Image = global::Waveface.Properties.Resources.ObjectPosition;
+            this.positionToolStripStatusLabel.Name = "positionToolStripStatusLabel";
+            resources.ApplyResources(this.positionToolStripStatusLabel, "positionToolStripStatusLabel");
+            // 
+            // zoomToolStripStatusLabel
+            // 
+            this.zoomToolStripStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.zoomToolStripStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.zoomToolStripStatusLabel.Image = global::Waveface.Properties.Resources.Magnifier;
+            this.zoomToolStripStatusLabel.Name = "zoomToolStripStatusLabel";
+            resources.ApplyResources(this.zoomToolStripStatusLabel, "zoomToolStripStatusLabel");
             // 
             // StatusLabel
             // 
-            resources.ApplyResources(this.StatusLabel, "StatusLabel");
             this.StatusLabel.Name = "StatusLabel";
+            resources.ApplyResources(this.StatusLabel, "StatusLabel");
             // 
             // panelMain
             // 
             resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.Controls.Add(this.btnCoverImage);
-            this.panelMain.Controls.Add(this.btnSlideShow);
-            this.panelMain.Controls.Add(this.btnSave);
-            this.panelMain.Controls.Add(this.btnSaveAll);
+            this.panelMain.Controls.Add(this.imageBox);
+            this.panelMain.Controls.Add(this.panelTop);
             this.panelMain.Controls.Add(this.imageListView);
             this.panelMain.Name = "panelMain";
-            this.toolTip.SetToolTip(this.panelMain, resources.GetString("panelMain.ToolTip"));
+            // 
+            // panelTop
+            // 
+            this.panelTop.BackColor = System.Drawing.Color.White;
+            this.panelTop.Controls.Add(this.btnSave);
+            this.panelTop.Controls.Add(this.btnCoverImage);
+            this.panelTop.Controls.Add(this.btnSlideShow);
+            resources.ApplyResources(this.panelTop, "panelTop");
+            this.panelTop.Name = "panelTop";
             // 
             // timer
             // 
             this.timer.Interval = 3000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // imageBox
+            // 
+            this.imageBox.AutoPan = false;
+            resources.ApplyResources(this.imageBox, "imageBox");
+            this.imageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.imageBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imageBox.GridDisplayMode = Waveface.Component.ImageBoxGridDisplayMode.None;
+            this.imageBox.Name = "imageBox";
+            this.imageBox.SizeToFit = true;
+            this.imageBox.ZoomIncrement = 10;
+            this.imageBox.ZoomChanged += new System.EventHandler(this.imageBox_ZoomChanged);
+            this.imageBox.Scroll += new System.Windows.Forms.ScrollEventHandler(this.imageBox_Scroll);
+            this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
+            this.imageBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageBox_KeyDown);
+            this.imageBox.Resize += new System.EventHandler(this.imageBox_Resize);
+            // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.White;
+            this.btnSave.CenterAlignImage = false;
+            this.btnSave.Image = global::Waveface.Properties.Resources.FB_save;
+            this.btnSave.ImageDisable = global::Waveface.Properties.Resources.FB_save_hl;
+            this.btnSave.ImageFront = null;
+            this.btnSave.ImageHover = global::Waveface.Properties.Resources.FB_save_hl;
+            resources.ApplyResources(this.btnSave, "btnSave");
+            this.btnSave.Name = "btnSave";
+            this.toolTip.SetToolTip(this.btnSave, resources.GetString("btnSave.ToolTip"));
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnCoverImage
+            // 
+            resources.ApplyResources(this.btnCoverImage, "btnCoverImage");
+            this.btnCoverImage.BackColor = System.Drawing.Color.White;
+            this.btnCoverImage.CenterAlignImage = false;
+            this.btnCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
+            this.btnCoverImage.ImageDisable = global::Waveface.Properties.Resources.FB_cover_hl;
+            this.btnCoverImage.ImageFront = null;
+            this.btnCoverImage.ImageHover = global::Waveface.Properties.Resources.FB_cover_hl;
+            this.btnCoverImage.Name = "btnCoverImage";
+            this.toolTip.SetToolTip(this.btnCoverImage, resources.GetString("btnCoverImage.ToolTip"));
+            this.btnCoverImage.UseVisualStyleBackColor = false;
+            this.btnCoverImage.Click += new System.EventHandler(this.btnCoverImage_Click);
+            // 
+            // btnSlideShow
+            // 
+            resources.ApplyResources(this.btnSlideShow, "btnSlideShow");
+            this.btnSlideShow.BackColor = System.Drawing.Color.White;
+            this.btnSlideShow.CenterAlignImage = false;
+            this.btnSlideShow.Image = global::Waveface.Properties.Resources.FB_slide1;
+            this.btnSlideShow.ImageDisable = global::Waveface.Properties.Resources.FB_slide1_hl;
+            this.btnSlideShow.ImageFront = null;
+            this.btnSlideShow.ImageHover = global::Waveface.Properties.Resources.FB_slide1_hl;
+            this.btnSlideShow.Name = "btnSlideShow";
+            this.toolTip.SetToolTip(this.btnSlideShow, resources.GetString("btnSlideShow.ToolTip"));
+            this.btnSlideShow.UseVisualStyleBackColor = false;
+            this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
             // 
             // PhotoView
             // 
@@ -215,12 +254,14 @@ namespace Waveface.DetailUI
             this.MinimizeBox = false;
             this.Name = "PhotoView";
             this.ShowInTaskbar = false;
-            this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.Load += new System.EventHandler(this.PhotoView_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PhotoView_KeyDown);
+            this.Resize += new System.EventHandler(this.PhotoView_Resize);
             this.contextMenuStrip.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -230,9 +271,7 @@ namespace Waveface.DetailUI
         private ImageListView imageListView;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem miSave;
-        private System.Windows.Forms.ToolStripMenuItem miSaveAll;
-        private XPButton btnSave;
-        private XPButton btnSaveAll;
+        private Component.ImageButton btnSave;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private Localization.CultureManager cultureManager;
         private System.Windows.Forms.ToolTip toolTip;
@@ -242,9 +281,14 @@ namespace Waveface.DetailUI
         private System.Windows.Forms.ToolStripStatusLabel StatusLabelCurrentSize;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
-        private XPButton btnSlideShow;
-        private XPButton btnCoverImage;
+        private Component.ImageButton btnSlideShow;
+        private Component.ImageButton btnCoverImage;
         private System.Windows.Forms.ToolStripMenuItem miSetAsCoverImage;
+        private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.ToolStripStatusLabel positionToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel imageSizeToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel zoomToolStripStatusLabel;
+        private ImageBox imageBox;
     }
 }
 

@@ -24,7 +24,7 @@ namespace Waveface
         private Button m_buttonAddNewFilter;
         private string m_dropAreaMessage;
         private Image m_dropAreaImage;
-        private Font m_font = new Font("Arial", 9, FontStyle.Regular);
+        private Font m_font;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         #region Properties
@@ -33,7 +33,7 @@ namespace Waveface
         {
             get
             {
-                panelCalendar.Height = monthCalendar.Height + 4;
+                //panelCalendar.Height = monthCalendar.Height + 4;
 
                 return monthCalendar.Width + 4;
             }
@@ -45,9 +45,11 @@ namespace Waveface
             {
                 panelCalendar.Visible = true;
 
+                if (monthCalendar.Font.Size != 8)
+                    monthCalendar.Font = new Font("Tahoma", 8);
+
                 return monthCalendar;
             }
-            set { monthCalendar = value; }
         }
 
         #endregion
@@ -55,6 +57,8 @@ namespace Waveface
         public LeftArea()
         {
             InitializeComponent();
+
+            m_font = new Font(I18n.L.T("DefaultFont"), 9, FontStyle.Bold);
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
             pbDropArea.AllowDrop = true;
@@ -404,8 +408,10 @@ namespace Waveface
         {
             using (Graphics _g = Graphics.FromImage(m_dropAreaImage))
             {
+                int _off = -3;
+
                 _g.Clear(Color.Transparent);
-                _g.DrawImage(bmp, 0, 0);
+                _g.DrawImage(bmp, _off, 0);
 
                 if ((percent > 0) && (percent < 100))
                 {
@@ -420,7 +426,7 @@ namespace Waveface
                 }
 
                 Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), (bmp.Width - _size.Width) / 2, bmp.Height - _size.Height - 12);
+                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), ((bmp.Width - _size.Width) / 2) + _off, bmp.Height - _size.Height - 8);
             }
 
             pbDropArea.Image = m_dropAreaImage;
@@ -465,6 +471,8 @@ namespace Waveface
         {
             if (m_buttonAddNewFilter != null)
                 m_buttonAddNewFilter.Width = Width - 8;
+
+            btnNewPost.Left = (Width - btnNewPost.Width) / 2;
         }
 
         private void tvTimeline_AfterSelect(object sender, TreeViewEventArgs e)
@@ -473,7 +481,7 @@ namespace Waveface
             {
                 FilterItem _item = (FilterItem)e.Node.Tag;
 
-                Main.Current.DoTimelineFilter(_item, true);
+                // Main.Current.DoTimelineFilter(_item, true);
             }
         }
 
@@ -483,13 +491,18 @@ namespace Waveface
             {
                 FilterItem _item = (FilterItem)e.Node.Tag;
 
-                Main.Current.DoTimelineFilter(_item, false);
+                // Main.Current.DoTimelineFilter(_item, false);
             }
         }
 
         private void btnNewPost_Click(object sender, EventArgs e)
         {
             Main.Current.Post();
+        }
+
+        private void btnToday_Click(object sender, EventArgs e)
+        {
+            Main.Current.ClickCalendar(DateTime.Now.Date);
         }
     }
 }

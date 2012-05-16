@@ -22,26 +22,26 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private const int PicHeight = 75; //102
-        private const int PicWidth = 75; //102
+        private int PicHeight = 78;
+        private int PicWidth = 78;
 
         private IContainer components;
         private CustomDataGridView dataGridView;
-        private int m_clickIndex;
+        private int m_clickedIndex;
+        private string m_clickedPostID;
         private DetailView m_detailView;
-        private Font m_font;
         private BindingSource m_postBS;
         private DataGridViewTextBoxColumn creatoridDataGridViewTextBoxColumn;
         private Timer timer;
         private List<Post> m_posts;
-        private Timer timerDisplayedScrolling;
-        private int m_lastRead;
         private CultureManager cultureManager;
         private ContextMenuStrip contextMenuStrip;
         private ToolStripMenuItem miRemovePost;
-        private bool m_manualRefresh;
 
-        private bool doScrollAction;
+        private int m_oldFirstDisplayedIndex;
+        private string m_oldFirstDisplayedPostID;
+
+        private string m_defaultFont;
 
         #region Properties
 
@@ -98,67 +98,37 @@ namespace Waveface
             MouseWheelRedirector.Attach(dataGridView);
         }
 
-        public void Thumbnail_EventHandler(ImageItem item)
+        private void SetFont()
         {
-            RefreshUI();
+            float _d = 0;
+
+            m_defaultFont = I18n.L.T("DefaultFont");
+
+            Font _font = new Font(m_defaultFont, 10, GraphicsUnit.Point);
+
+            if (_font.Height > 17)
+                _d = 0.5f;
+
+            m_fontInfo = new Font(m_defaultFont, 8, FontStyle.Bold, GraphicsUnit.Point);
+            m_fontLinkURL = new Font(m_defaultFont, 8, FontStyle.Italic | FontStyle.Bold, GraphicsUnit.Point);
+            m_fontLinkTitle = new Font(m_defaultFont, 10 - _d, FontStyle.Bold, GraphicsUnit.Point);
+            m_fontText = new Font(m_defaultFont, 10 - _d, GraphicsUnit.Point);
+
+            PicHeight = (int)(m_fontText.Height * 4.8);
+            PicWidth = (int)(m_fontText.Height * 4.8);
+            dataGridView.RowTemplate.Height = (m_fontText.Height * 7) + 6;
         }
 
-        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        public void SetPosts(List<Post> posts)
         {
-            SetFont();
-        }
+            // Test: 
+            // posts = posts.GetRange(0, DateTime.Now.Second % 5);
 
-        public void SetFilterPosts(List<Post> posts, bool refreshCurrentPost, bool isFirstTimeGetData)
-        {
-            dataGridView.Enabled = false;
-
-            m_posts = posts;
-            m_postBS.DataSource = posts;
-
-            if (m_postBS.Position == m_clickIndex)
-                NotifyDetailView();
-
-            if (isFirstTimeGetData)
-            {
-                m_postBS.Position = 0;
-            }
-            else
-            {
-                if (m_clickIndex >= posts.Count)
-                    m_postBS.Position = 0;
-                else
-                    m_postBS.Position = m_clickIndex;
-            }
+            dataGridView.SuspendLayout();
 
             try
             {
-                dataGridView.DataSource = null;
-                dataGridView.DataSource = m_postBS;
-                dataGridView.Refresh();
-            }
-            catch (Exception _e)
-            {
-                Console.WriteLine(_e.Message);
-            }
-
-            dataGridView.Enabled = true;
-        }
-
-        public void SetPosts(List<Post> posts, int lastRead, bool manualRefresh)
-        {
-            doScrollAction = false;
-
-            try
-            {
-                if (lastRead >= posts.Count)
-                    lastRead = posts.Count - 1;
-
-                if (lastRead < 0)
-                    lastRead = 0;
-
-                m_manualRefresh = manualRefresh;
-
-                dataGridView.Enabled = false;
+                GetFirstDisplayed(posts);
 
                 m_posts = posts;
                 m_postBS.DataSource = posts;
@@ -167,31 +137,102 @@ namespace Waveface
                 {
                     dataGridView.DataSource = null;
                     dataGridView.DataSource = m_postBS;
-                    dataGridView.Refresh();
                 }
-                catch (Exception _e)
+                catch
                 {
-                    NLogUtility.Exception(s_logger, _e, "SetPosts-1");
                 }
 
-                dataGridView.Enabled = true;
+                if (m_posts.Count == 0)
+                {
+                    ResetDetailViewUI();
+                }
+                else
+                {
+                    SetFirstDisplayed(posts);
 
-                DoDisplayedScrolling(lastRead);
-
-                NotifyDetailView();
+                    NotifyDetailView();
+                }
             }
-            catch (Exception _e)
+            catch
             {
-                NLogUtility.Exception(s_logger, _e, "SetPosts-2");
             }
 
-            doScrollAction = true;
+            dataGridView.ResumeLayout();
+        }
+
+        private void SetFirstDisplayed(List<Post> posts)
+        {
+            int _idxFirst = -1;
+            int _idxClicked = -1;
+
+            for (int i = 0; i < posts.Count; i++)
+            {
+                if (posts[i].post_id == m_oldFirstDisplayedPostID)
+                {
+                    _idxFirst = i;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < posts.Count; i++)
+            {
+                if (posts[i].post_id == m_clickedPostID)
+                {
+                    _idxClicked = i;
+                    break;
+                }
+            }
+
+            if (_idxClicked != -1) // Old Clicked Item Exist
+            {
+                if (_idxFirst != -1) // Old First Displayed Item Exist
+                {
+                    dataGridView.FirstDisplayedScrollingRowIndex = _idxFirst;
+                }
+                else
+                {
+                    int _d = m_clickedIndex - m_oldFirstDisplayedIndex;
+
+                    if (_d < 0)
+                    {
+                        dataGridView.FirstDisplayedScrollingRowIndex = _idxClicked;
+                    }
+                    else
+                    {
+                        dataGridView.FirstDisplayedScrollingRowIndex = _idxClicked - _d;
+                    }
+                }
+            }
+            else
+            {
+                if (_idxFirst == -1)
+                {
+                    dataGridView.FirstDisplayedScrollingRowIndex = 0;
+                }
+                else
+                {
+                    dataGridView.FirstDisplayedScrollingRowIndex = _idxFirst;
+                }
+            }
+        }
+
+        private void GetFirstDisplayed(List<Post> posts)
+        {
+            m_oldFirstDisplayedIndex = dataGridView.FirstDisplayedScrollingRowIndex;
+
+            if (m_oldFirstDisplayedIndex < 0)
+            {
+                m_oldFirstDisplayedPostID = "";
+            }
+            else
+            {
+                m_oldFirstDisplayedPostID = posts[m_oldFirstDisplayedIndex].post_id;
+            }
         }
 
         #region DataGridView
 
         private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
-        private Brush m_bgReadBrush = new SolidBrush(Color.FromArgb(234, 234,234));
         private Brush m_bgUnReadBrush = new SolidBrush(Color.FromArgb(234, 234, 234)); // 217, 217, 217
 
         private Color m_inforColor = Color.FromArgb(95, 121, 143);
@@ -208,8 +249,6 @@ namespace Waveface
         {
             try
             {
-                //dataGridView.Rows[e.RowIndex].Height = 120 + (e.RowIndex % 10) * 20;
-
                 bool _isDrawThumbnail;
 
                 Graphics _g = e.Graphics;
@@ -236,14 +275,7 @@ namespace Waveface
                 }
                 else
                 {
-                    if (Main.Current.RT.CurrentGroupHaveReadPosts.Contains(_post.post_id))
-                    {
-                        _g.FillRectangle(m_bgReadBrush, e.CellBounds);
-                    }
-                    else
-                    {
-                        _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
-                    }
+                    _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
                 }
 
                 _g.DrawRectangle(Pens.LightGray, e.CellBounds.X, e.CellBounds.Y, e.CellBounds.Width, e.CellBounds.Height);
@@ -309,14 +341,14 @@ namespace Waveface
             Rectangle _rURL = new Rectangle(rect.X + 4, _rTitle.Bottom + 2, rect.Width - thumbnailRectWidth - 8,
                                             _sizeURL.Height);
 
-            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_linkURLColor, TextFormatFlags.EndEllipsis);
+            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_selectedTextColor, TextFormatFlags.EndEllipsis);
 
             Rectangle _rText = new Rectangle(rect.X + 4, _rURL.Bottom + 2, rect.Width - thumbnailRectWidth - 8,
                                              rect.Height - _rTitle.Height - _rURL.Height - 20);
 
             if (!string.IsNullOrEmpty(post.preview.description))
             {
-                TextRenderer.DrawText(g, post.preview.description.Trim(), m_fontText, _rText, m_selectedTextColor,
+                TextRenderer.DrawText(g, post.preview.description.Trim(), m_fontText, _rText, m_linkURLColor,
                                       TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
             }
         }
@@ -327,10 +359,11 @@ namespace Waveface
             string _info = post.attachment_count + " " +
                            ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
-            Rectangle _rect = new Rectangle(rect.X + rect.Width - PicWidth - 8,
-                                            rect.Y + rect.Height - underThumbnailHeight - 8, PicWidth, _sizeInfo.Height);
+            Rectangle _rect = new Rectangle(rect.X + rect.Width - _sizeInfo.Width - 2,
+                                            rect.Y + rect.Height - underThumbnailHeight - (_sizeInfo.Height / 2), _sizeInfo.Width,
+                                            _sizeInfo.Height);
 
-            TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor, TextFormatFlags.Right);
+            TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor);
 
             Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8,
                                                rect.Height - underThumbnailHeight - 18);
@@ -450,8 +483,10 @@ namespace Waveface
                 {
                     string _url = post.preview.thumbnail_url;
 
-                    string _localPic = Path.Combine(Main.GCONST.ImageCachePath,
-                                                    post.post_id + "_previewthumbnail_" + ".jpg");
+                    int _hashCode = Math.Abs(post.preview.thumbnail_url.GetHashCode());
+
+                    string _localPic = Path.Combine(Main.GCONST.AppDataPath,
+                                                    post.post_id + "_previewthumbnail_" + _hashCode + ".jpg");
 
                     Bitmap _img = LoadThumbnail(_url, _localPic);
 
@@ -558,38 +593,33 @@ namespace Waveface
 
         private void dataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            //if (e.RowIndex == m_postBS.Position)
-            //{
-            //    e.DrawFocus(e.RowBounds, true);
-            //}
-            //else
+            using (Pen _p = new Pen(Color.LightGray))
             {
-                using (Pen _p = new Pen(Color.LightGray))
-                {
-                    e.Graphics.DrawRectangle(_p, e.RowBounds);
-                }
+                e.Graphics.DrawRectangle(_p, e.RowBounds);
             }
         }
 
         private void postBS_PositionChanged(object sender, EventArgs e)
         {
-            m_clickIndex = m_postBS.Position;
+            m_clickedIndex = m_postBS.Position;
 
-            if (m_clickIndex < 0)
+            if (m_clickedIndex < 0)
                 return;
 
-            Main.Current.PostListClick(m_clickIndex, m_postBS[m_postBS.Position] as Post);
+            Post _p = m_postBS[m_postBS.Position] as Post;
 
-            if (m_clickIndex > -1)
+            m_clickedPostID = _p.post_id;
+
+            if (m_clickedIndex > -1)
             {
                 NotifyDetailView();
 
                 setCalendarDay();
             }
 
-            if (m_clickIndex == (m_postBS.Count - 1))
+            if (m_clickedIndex == (m_postBS.Count - 1))
             {
-                //@ Main.Current.FilterReadMorePost(); 
+                // Main.Current.FilterReadMorePost(); 
             }
         }
 
@@ -615,20 +645,23 @@ namespace Waveface
             m_detailView.Post = _post;
         }
 
+        private void ResetDetailViewUI()
+        {
+            m_detailView.ResetUI();
+        }
+
         #endregion
 
         #region Misc
 
-        private void SetFont()
+        public void Thumbnail_EventHandler(ImageItem item)
         {
-            m_font = SystemFonts.IconTitleFont;
+            RefreshUI();
+        }
 
-            if (Font != m_font)
-            {
-                Font = m_font;
-
-                dataGridView.RowTemplate.Height = 118;
-            }
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            SetFont();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -661,6 +694,12 @@ namespace Waveface
             }
         }
 
+        public void ScrollTo(int index)
+        {
+            dataGridView.FirstDisplayedScrollingRowIndex = index;
+            m_postBS.Position = index;
+        }
+
         public void ScrollToDay(DateTime date)
         {
             int k = -1;
@@ -683,55 +722,20 @@ namespace Waveface
 
         #endregion
 
-        public void DoDisplayedScrolling(int lastRead)
-        {
-            if (lastRead >= m_postBS.Count)
-                lastRead = m_postBS.Count - 1;
-
-            if (lastRead < 0)
-                lastRead = 0;
-
-            m_lastRead = lastRead;
-            m_postBS.Position = m_lastRead;
-
-            timerDisplayedScrolling.Enabled = true;
-        }
-
-        private void timerDisplayedScrolling_Tick(object sender, EventArgs e)
-        {
-            doScrollAction = false;
-
-            timerDisplayedScrolling.Enabled = false;
-
-            try
-            {
-                dataGridView.FirstDisplayedScrollingRowIndex = m_lastRead;
-
-                if (m_manualRefresh)
-                {
-                    dataGridView.FirstDisplayedScrollingRowIndex = 0;
-                }
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "timerDisplayedScrolling_Tick");
-            }
-
-            doScrollAction = true;
-        }
-
         #region Component Designer generated code
 
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostsList));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(PostsList));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 =
+                new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 =
+                new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.timerDisplayedScrolling = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.dataGridView = new Waveface.Component.CustomDataGridView();
             this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -743,8 +747,10 @@ namespace Waveface
             // 
             // contextMenuStrip
             // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miRemovePost});
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+                                                     {
+                                                         this.miRemovePost
+                                                     });
             this.contextMenuStrip.Name = "contextMenuStripImageList";
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
@@ -761,11 +767,6 @@ namespace Waveface
             this.timer.Interval = 30000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // timerDisplayedScrolling
-            // 
-            this.timerDisplayedScrolling.Interval = 500;
-            this.timerDisplayedScrolling.Tick += new System.EventHandler(this.timerDisplayedScrolling_Tick);
-            // 
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
@@ -776,13 +777,18 @@ namespace Waveface
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
+            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))),
+                                                                              ((int)(((byte)(234)))),
+                                                                              ((int)(((byte)(234)))));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView.ColumnHeadersHeightSizeMode =
+                System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.ColumnHeadersVisible = false;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.creatoridDataGridViewTextBoxColumn});
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+                                                   {
+                                                       this.creatoridDataGridViewTextBoxColumn
+                                                   });
             this.dataGridView.ContextMenuStrip = this.contextMenuStrip;
             this.dataGridView.DataSource = this.m_postBS;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -801,21 +807,31 @@ namespace Waveface
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionBackColor =
+                System.Drawing.SystemColors.InactiveCaption;
+            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor =
+                System.Drawing.SystemColors.InactiveCaptionText;
             this.dataGridView.RowTemplate.Height = 64;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.VirtualMode = true;
-            this.dataGridView.ContextMenuStripNeeded += new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(this.dataGridView_ContextMenuStripNeeded);
-            this.dataGridView.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.dataGridView_CellContextMenuStripNeeded);
-            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
-            this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
-            this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
+            this.dataGridView.ContextMenuStripNeeded +=
+                new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(
+                    this.dataGridView_ContextMenuStripNeeded);
+            this.dataGridView.CellContextMenuStripNeeded +=
+                new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(
+                    this.dataGridView_CellContextMenuStripNeeded);
+            this.dataGridView.CellPainting +=
+                new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
+            this.dataGridView.DataError +=
+                new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
+            this.dataGridView.RowPostPaint +=
+                new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
             this.dataGridView.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dataGridView_Scroll);
             // 
             // creatoridDataGridViewTextBoxColumn
             // 
-            this.creatoridDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.creatoridDataGridViewTextBoxColumn.AutoSizeMode =
+                System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.creatoridDataGridViewTextBoxColumn.DataPropertyName = "creator_id";
             dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 0);
             this.creatoridDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
@@ -840,7 +856,6 @@ namespace Waveface
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -869,7 +884,7 @@ namespace Waveface
         {
             Post _post = m_postBS[m_postBS.Position] as Post;
 
-            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Waveface", MessageBoxButtons.YesNo,
+            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Stream", MessageBoxButtons.YesNo,
                                                MessageBoxIcon.Question);
 
             if (_dr != DialogResult.Yes)
@@ -880,23 +895,20 @@ namespace Waveface
 
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            //�ФŧR����Mathod
+            //
         }
 
         private void dataGridView_Scroll(object sender, ScrollEventArgs e)
         {
-            if (!doScrollAction)
+            if (m_postBS.Count <= 0)
                 return;
 
-            if (m_postBS.Count > 0)
-            {
-                Post _post = m_postBS[dataGridView.FirstDisplayedScrollingRowIndex] as Post;
+            Post _post = m_postBS[dataGridView.FirstDisplayedScrollingRowIndex] as Post;
 
-                DateTime _dateTime = DateTimeHelp.ISO8601ToDateTime(_post.timestamp); //Todo Event Time
+            DateTime _dateTime = DateTimeHelp.ISO8601ToDateTime(_post.timestamp);
 
-                if (_dateTime != null)
-                    Main.Current.SetClock(true, _dateTime);
-            }
+            if (_dateTime != null)
+                Main.Current.SetClock(true, _dateTime);
         }
     }
 }

@@ -11,6 +11,25 @@ namespace Wammer.Station
 	{
 		public event EventHandler<UserLoginEventArgs> UserLogined;
 
+
+		private void CheckAndUpdateDriver(LoginedSession loginInfo)
+		{
+			if (loginInfo == null)
+				return;
+
+			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", loginInfo.user.user_id));
+			
+			if (driver != null)
+				return;
+
+			driver = DriverCollection.Instance.FindOne(Query.EQ("email", loginInfo.user.email));
+
+			if(driver == null)
+				throw new WammerStationException("Driver not existed", (int)StationLocalApiError.NotFound);
+
+			throw new WammerStationException("Existed driver has been expired", (int)StationLocalApiError.InvalidDriver);
+		}
+
 		#region Protected Method
 
 		/// <summary>
@@ -30,6 +49,8 @@ namespace Wammer.Station
 					string userId = Parameters[CloudServer.PARAM_USER_ID];
 
 					LoginedSession loginInfo = User.GetLoginInfo(userId, apikey, sessionToken);
+					CheckAndUpdateDriver(loginInfo);
+
 					LoginedSessionCollection.Instance.Save(loginInfo);
 
 					RespondSuccess(loginInfo);
@@ -72,6 +93,8 @@ namespace Wammer.Station
 
 					Debug.Assert(user != null, "user != null");
 					LoginedSession loginInfo = user.LoginedInfo;
+
+					CheckAndUpdateDriver(loginInfo);
 
 					LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", email));
 					LoginedSessionCollection.Instance.Save(loginInfo);

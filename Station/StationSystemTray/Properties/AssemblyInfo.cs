@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: SuppressIldasm]
-[assembly: AssemblyTitle("Waveface Station System Tray")]
+[assembly: AssemblyTitle("Stream")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Waveface")]

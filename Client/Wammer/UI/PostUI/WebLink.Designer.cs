@@ -44,9 +44,9 @@
             this.buttonPrev = new Waveface.Component.XPButton();
             this.panelToolbar = new System.Windows.Forms.Panel();
             this.labelSummary = new System.Windows.Forms.Label();
-            this.buttonRemovePreview = new Waveface.Component.XPButton();
+            this.buttonRemovePreview = new Waveface.Component.ImageButton();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.btnSend = new Waveface.Component.XPButton();
+            this.btnSend = new Waveface.Component.ImageButton();
             this.panel.SuspendLayout();
             this.panelPreview.SuspendLayout();
             this.panelContent.SuspendLayout();
@@ -64,7 +64,7 @@
             // panelPreview
             // 
             resources.ApplyResources(this.panelPreview, "panelPreview");
-            this.panelPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelPreview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.panelPreview.Controls.Add(this.panelContent);
             this.panelPreview.Controls.Add(this.panelSelectPicture);
             this.panelPreview.Name = "panelPreview";
@@ -72,6 +72,7 @@
             // panelContent
             // 
             resources.ApplyResources(this.panelContent, "panelContent");
+            this.panelContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.panelContent.Controls.Add(this.labelProvider);
             this.panelContent.Controls.Add(this.labelTitle);
             this.panelContent.Controls.Add(this.richTextBoxDescription);
@@ -81,7 +82,7 @@
             // 
             resources.ApplyResources(this.labelProvider, "labelProvider");
             this.labelProvider.AutoEllipsis = true;
-            this.labelProvider.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.labelProvider.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.labelProvider.ForeColor = System.Drawing.Color.Gray;
             this.labelProvider.Name = "labelProvider";
             // 
@@ -89,19 +90,20 @@
             // 
             resources.ApplyResources(this.labelTitle, "labelTitle");
             this.labelTitle.AutoEllipsis = true;
-            this.labelTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.labelTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.labelTitle.Name = "labelTitle";
             // 
             // richTextBoxDescription
             // 
             resources.ApplyResources(this.richTextBoxDescription, "richTextBoxDescription");
-            this.richTextBoxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.richTextBoxDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.richTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBoxDescription.Name = "richTextBoxDescription";
             this.richTextBoxDescription.ReadOnly = true;
             // 
             // panelSelectPicture
             // 
+            this.panelSelectPicture.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.panelSelectPicture.Controls.Add(this.pictureBoxPreview);
             this.panelSelectPicture.Controls.Add(this.buttonNext);
             this.panelSelectPicture.Controls.Add(this.labelPictureIndex);
@@ -152,7 +154,7 @@
             // panelToolbar
             // 
             resources.ApplyResources(this.panelToolbar, "panelToolbar");
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.panelToolbar.Controls.Add(this.labelSummary);
             this.panelToolbar.Controls.Add(this.buttonRemovePreview);
             this.panelToolbar.Name = "panelToolbar";
@@ -161,18 +163,20 @@
             // 
             resources.ApplyResources(this.labelSummary, "labelSummary");
             this.labelSummary.AutoEllipsis = true;
-            this.labelSummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(220)))), ((int)(((byte)(221)))));
+            this.labelSummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(97)))), ((int)(((byte)(101)))));
             this.labelSummary.Name = "labelSummary";
             // 
             // buttonRemovePreview
             // 
-            this.buttonRemovePreview.AdjustImageLocation = new System.Drawing.Point(0, 0);
+            this.buttonRemovePreview.CenterAlignImage = false;
             resources.ApplyResources(this.buttonRemovePreview, "buttonRemovePreview");
-            this.buttonRemovePreview.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.buttonRemovePreview.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
-            this.buttonRemovePreview.Image = global::Waveface.Properties.Resources.trash;
+            this.buttonRemovePreview.ForeColor = System.Drawing.Color.White;
+            this.buttonRemovePreview.Image = global::Waveface.Properties.Resources.FB_blue_btn;
+            this.buttonRemovePreview.ImageDisable = global::Waveface.Properties.Resources.FB_blue_btn_hl;
+            this.buttonRemovePreview.ImageFront = global::Waveface.Properties.Resources.FB_edit_delete;
+            this.buttonRemovePreview.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
             this.buttonRemovePreview.Name = "buttonRemovePreview";
-            this.buttonRemovePreview.UseVisualStyleBackColor = true;
+            this.buttonRemovePreview.TextShadow = true;
             this.buttonRemovePreview.Click += new System.EventHandler(this.buttonRemovePreview_Click);
             // 
             // cultureManager
@@ -181,19 +185,22 @@
             // 
             // btnSend
             // 
-            this.btnSend.AdjustImageLocation = new System.Drawing.Point(0, 0);
             resources.ApplyResources(this.btnSend, "btnSend");
-            this.btnSend.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
-            this.btnSend.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
+            this.btnSend.CenterAlignImage = false;
+            this.btnSend.ForeColor = System.Drawing.Color.White;
+            this.btnSend.Image = global::Waveface.Properties.Resources.FB_creat_btn;
+            this.btnSend.ImageDisable = global::Waveface.Properties.Resources.FB_creat_btn_hl;
+            this.btnSend.ImageFront = null;
+            this.btnSend.ImageHover = global::Waveface.Properties.Resources.FB_creat_btn_hl;
             this.btnSend.Name = "btnSend";
-            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.TextShadow = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // WebLink
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(242)))), ((int)(((byte)(238)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.Controls.Add(this.panelToolbar);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
@@ -213,7 +220,7 @@
 
         #endregion
 
-        private Component.XPButton btnSend;
+        private Component.ImageButton btnSend;
         private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.Panel panelPreview;
         private System.Windows.Forms.RichTextBox richTextBoxDescription;
@@ -222,7 +229,7 @@
         private System.Windows.Forms.CheckBox cbNoThumbnail;
         private System.Windows.Forms.Label labelPictureIndex;
         private System.Windows.Forms.Panel panelToolbar;
-        private Component.XPButton buttonRemovePreview;
+        private Component.ImageButton buttonRemovePreview;
         private Component.XPButton buttonNext;
         private Component.XPButton buttonPrev;
         private Localization.CultureManager cultureManager;

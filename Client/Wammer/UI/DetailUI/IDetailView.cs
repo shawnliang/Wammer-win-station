@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
+﻿#region
+
+using Waveface.Component;
+
+#endregion
 
 namespace Waveface
 {
-    interface IDetailView
+    internal interface IDetailView
     {
         bool CanEdit();
 
-        List<ToolStripMenuItem> GetMoreMenuItems();
+        ImageButton GetMoreFonction1();
+        void MoreFonction1();
     }
 }

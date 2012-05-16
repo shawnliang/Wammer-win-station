@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
+using Waveface.Component;
 using Waveface.Configuration;
 
 #endregion
@@ -181,15 +183,19 @@ namespace Waveface.DetailUI
             else
                 m_index = (m_index + 1) % m_fileCount;
 
+            Image _image = Image.FromFile(m_imageFilesPath[m_index]);
+            ExifStuff.OrientImage(_image);
+            pictureBox.Image = _image;
+
             if (Loop)
             {
-                pictureBox.ImageLocation = m_imageFilesPath[m_index];
+                pictureBox.Image = _image;
             }
             else
             {
                 if (m_displayCount <= m_fileCount - 1)
                 {
-                    pictureBox.ImageLocation = m_imageFilesPath[m_index];
+                    pictureBox.Image = _image;
                     m_displayCount += 1;
                 }
                 else
@@ -260,7 +266,10 @@ namespace Waveface.DetailUI
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_index = (m_index + 1) % m_fileCount;
-            pictureBox.ImageLocation = m_imageFilesPath[m_index];
+
+            Image _image = Image.FromFile(m_imageFilesPath[m_index]);
+            ExifStuff.OrientImage(_image);
+            pictureBox.Image = _image;
 
             timer.Stop();
 
@@ -275,7 +284,9 @@ namespace Waveface.DetailUI
             else
                 m_index = m_fileCount - 1;
 
-            pictureBox.ImageLocation = m_imageFilesPath[m_index];
+            Image _image = Image.FromFile(m_imageFilesPath[m_index]);
+            ExifStuff.OrientImage(_image);
+            pictureBox.Image = _image;
 
             timer.Stop();
 

@@ -133,6 +133,10 @@
   <data name="pbDropArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 155</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="panelCustomFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="&gt;&gt;tvTimeline.Type" xml:space="preserve">
     <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -140,15 +144,11 @@
     <value>13, 6</value>
   </data>
   <data name="monthCalendar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>3, 25</value>
   </data>
   <data name="&gt;&gt;panelTimeline.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="vsNetListBarGroups.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 26</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="panelTimeline.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
@@ -170,12 +170,21 @@
   <data name="&gt;&gt;pbDropArea.Parent" xml:space="preserve">
     <value>panelMain</value>
   </data>
+  <data name="&gt;&gt;imageListTimeline.Name" xml:space="preserve">
+    <value>imageListTimeline</value>
+  </data>
+  <data name="&gt;&gt;btnToday.Parent" xml:space="preserve">
+    <value>panelCalendar</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pbDropArea.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;pbDropArea.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tvCustomFilter.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="panelCalendar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="pbDropArea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -183,8 +192,11 @@
   <data name="vsNetListBarGroups.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 155</value>
   </data>
+  <data name="vsNetListBarGroups.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
   <data name="btnNewPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 29</value>
+    <value>152, 29</value>
   </data>
   <data name="panelFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -195,8 +207,11 @@
   <data name="&gt;&gt;pbDropArea.Name" xml:space="preserve">
     <value>pbDropArea</value>
   </data>
-  <data name="tvTimeline.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 4</value>
+  <data name="btnNewPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pbDropArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="&gt;&gt;panelCalendar.Name" xml:space="preserve">
     <value>panelCalendar</value>
@@ -209,9 +224,6 @@
   </data>
   <data name="&gt;&gt;btnNewPost.Parent" xml:space="preserve">
     <value>panelMain</value>
-  </data>
-  <data name="panelFilter.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
   </data>
   <data name="panelMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -243,9 +255,6 @@
   <data name="&gt;&gt;vsNetListBarGroups.Type" xml:space="preserve">
     <value>Waveface.Component.ListBarControl.VSNetListBar, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;tvTimeline.Name" xml:space="preserve">
-    <value>tvTimeline</value>
-  </data>
   <data name="&gt;&gt;panelCustomFilter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
@@ -255,29 +264,29 @@
   <data name="&gt;&gt;panelBottom.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="tvCustomFilter.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="panelBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
+  </data>
+  <data name="&gt;&gt;vsNetListBarGroups.Parent" xml:space="preserve">
+    <value>panelMain</value>
   </data>
   <data name="panelTimeline.Size" type="System.Drawing.Size, System.Drawing">
     <value>176, 145</value>
   </data>
-  <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="pbDropArea.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>CenterImage</value>
   </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 652</value>
+  </data>
   <data name="panelCalendar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 182</value>
+    <value>176, 199</value>
   </data>
-  <data name="panelFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 253</value>
-  </data>
-  <data name="tvTimeline.ImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="btnNewPost.Text" xml:space="preserve">
+    <value>Create New Post</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
@@ -285,8 +294,11 @@
   <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;monthCalendar.Parent" xml:space="preserve">
-    <value>panelCalendar</value>
+  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;btnNewPost.Name" xml:space="preserve">
+    <value>btnNewPost</value>
   </data>
   <data name="panelCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 145</value>
@@ -296,7 +308,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
-        CAAAAk1TRnQBSQFMAgEBAgEAASwBBQE8AQUBEAEAARABAAT/AQkBEAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAfgBBgEEAQcBEAEAARABAAT/AQkBEAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -335,10 +347,13 @@
 </value>
   </data>
   <data name="panelCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 108</value>
+    <value>176, 91</value>
   </data>
   <data name="tvTimeline.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;btnToday.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="panelCalendar.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -352,30 +367,24 @@
   <data name="pbDropArea.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Center</value>
   </data>
-  <data name="&gt;&gt;panelCustomFilter.Parent" xml:space="preserve">
-    <value>panelFilter</value>
+  <data name="&gt;&gt;btnToday.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="btnNewPost.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9.75pt, style=Bold</value>
+    <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
-  <data name="btnNewPost.Text" xml:space="preserve">
-    <value>Create New Post</value>
+  <data name="panelCalendar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 181</value>
   </data>
-  <data name="&gt;&gt;tvTimeline.ZOrder" xml:space="preserve">
+  <data name="tvCustomFilter.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
-  </data>
-  <data name="tvCustomFilter.SelectedImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="pbDropArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
   </data>
   <data name="imageListTimeline.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADo
-        CAAAAk1TRnQBSQFMAgEBAgEAAUwBBQFcAQUBEAEAARABAAT/AQkBEAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAARgBBwEkAQcBEAEAARABAAT/AQkBEAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -419,8 +428,8 @@
   <data name="panelBottom.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 616</value>
   </data>
-  <data name="tvCustomFilter.ImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="vsNetListBarGroups.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;tvCustomFilter.Name" xml:space="preserve">
     <value>tvCustomFilter</value>
@@ -428,8 +437,8 @@
   <data name="&gt;&gt;panelFilter.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;tvCustomFilter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnToday.Text" xml:space="preserve">
+    <value>Today</value>
   </data>
   <data name="&gt;&gt;panelMain.Parent" xml:space="preserve">
     <value>$this</value>
@@ -443,23 +452,32 @@
   <data name="&gt;&gt;imageListTimeline.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;imageListTimeline.Name" xml:space="preserve">
-    <value>imageListTimeline</value>
+  <data name="btnToday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
   </data>
-  <data name="panelCalendar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
+  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;btnNewPost.Name" xml:space="preserve">
-    <value>btnNewPost</value>
+  <data name="&gt;&gt;tvTimeline.Name" xml:space="preserve">
+    <value>tvTimeline</value>
+  </data>
+  <data name="&gt;&gt;panelTimeline.Name" xml:space="preserve">
+    <value>panelTimeline</value>
+  </data>
+  <data name="&gt;&gt;panelCalendar.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;panelFilter.Parent" xml:space="preserve">
     <value>panelMain</value>
   </data>
   <data name="&gt;&gt;monthCalendar.Type" xml:space="preserve">
-    <value>CustomControls.MonthCalendar, MonthCalendarControl, Version=1.0.4496.27845, Culture=neutral, PublicKeyToken=null</value>
+    <value>CustomControls.MonthCalendar, MonthCalendarControl, Version=1.0.4510.17720, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="panelCalendar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 181</value>
+  <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Name" xml:space="preserve">
+    <value>panelBottom</value>
   </data>
   <data name="panelTimeline.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -473,26 +491,32 @@
   <data name="vsNetListBarGroups.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 652</value>
+  <data name="vsNetListBarGroups.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 26</value>
   </data>
-  <data name="&gt;&gt;tvTimeline.Parent" xml:space="preserve">
-    <value>panelTimeline</value>
+  <data name="btnToday.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
   <data name="pbDropArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 11.25pt</value>
   </data>
+  <data name="&gt;&gt;tvTimeline.Parent" xml:space="preserve">
+    <value>panelTimeline</value>
+  </data>
+  <data name="tvTimeline.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 4</value>
+  </data>
   <data name="panelBottom.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;vsNetListBarGroups.Parent" xml:space="preserve">
-    <value>panelMain</value>
+  <data name="&gt;&gt;monthCalendar.Parent" xml:space="preserve">
+    <value>panelCalendar</value>
   </data>
-  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;tvTimeline.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
-    <value>panelMain</value>
+  <data name="panelFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 236</value>
   </data>
   <data name="tvTimeline.SelectedImageIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -500,8 +524,14 @@
   <data name="monthCalendar.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;tvCustomFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;btnNewPost.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;imageListCustomFilter.Name" xml:space="preserve">
+    <value>imageListCustomFilter</value>
   </data>
   <data name="panelMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -510,22 +540,19 @@
     <value>0</value>
   </data>
   <data name="panelFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 363</value>
+    <value>0, 380</value>
   </data>
-  <data name="&gt;&gt;imageListCustomFilter.Name" xml:space="preserve">
-    <value>imageListCustomFilter</value>
+  <data name="&gt;&gt;btnToday.Name" xml:space="preserve">
+    <value>btnToday</value>
   </data>
-  <data name="vsNetListBarGroups.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;panelCustomFilter.Parent" xml:space="preserve">
+    <value>panelFilter</value>
   </data>
-  <data name="panelCustomFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="btnToday.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
-  <data name="vsNetListBarGroups.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="&gt;&gt;panelTimeline.Name" xml:space="preserve">
-    <value>panelTimeline</value>
+  <data name="panelFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="tvTimeline.Size" type="System.Drawing.Size, System.Drawing">
     <value>155, 135</value>
@@ -533,26 +560,32 @@
   <data name="&gt;&gt;imageListCustomFilter.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panelCalendar.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="tvCustomFilter.SelectedImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnToday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 25</value>
   </data>
   <data name="&gt;&gt;monthCalendar.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;pbDropArea.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;monthCalendar.Name" xml:space="preserve">
     <value>monthCalendar</value>
   </data>
   <data name="btnNewPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 6</value>
+    <value>8, 10</value>
   </data>
-  <data name="&gt;&gt;panelBottom.Name" xml:space="preserve">
-    <value>panelBottom</value>
+  <data name="btnToday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="tvTimeline.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -560,11 +593,8 @@
   <metadata name="imageListTimeline.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>621, 17</value>
   </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>zh-TW</value>
-  </metadata>
-  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>57</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -572,7 +602,7 @@
   <metadata name="imageListCustomFilter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>440, 17</value>
   </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>57</value>
+  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
 </root>

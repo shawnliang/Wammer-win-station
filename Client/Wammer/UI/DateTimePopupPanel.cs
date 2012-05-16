@@ -39,6 +39,8 @@ namespace Waveface
         public DateTimePopupPanel()
         {
             InitializeComponent();
+
+            monthCalendar.Font = new Font("Tahoma", 8);
         }
 
         private void timer_Tick(object sender, EventArgs e)

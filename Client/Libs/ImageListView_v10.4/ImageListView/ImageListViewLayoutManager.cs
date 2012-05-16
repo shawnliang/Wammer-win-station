@@ -213,11 +213,21 @@ namespace Manina.Windows.Forms
                 location.Y += cachedItemMargin.Height / 2 - mImageListView.ViewOffset.Y;
 
                 if (mImageListView.View == View.Gallery)
+                {
                     location.X += itemIndex * mItemSizeWithMargin.Width;
+                }
                 else
                 {
-                    location.X += (itemIndex % mDisplayedCols) * mItemSizeWithMargin.Width;
-                    location.Y += (itemIndex / mDisplayedCols) * mItemSizeWithMargin.Height;
+                    if (ImageListView.IsWaveface)
+                    {
+                        location.X += (itemIndex % mDisplayedCols) * mItemSizeWithMargin.Width + cachedItemMargin.Width / 2;
+                        location.Y += (itemIndex / mDisplayedCols) * mItemSizeWithMargin.Height + cachedItemMargin.Height / 2;
+                    }
+                    else
+                    {
+                        location.X += (itemIndex % mDisplayedCols) * mItemSizeWithMargin.Width;
+                        location.Y += (itemIndex / mDisplayedCols) * mItemSizeWithMargin.Height;
+                    }
                 }
             }
 

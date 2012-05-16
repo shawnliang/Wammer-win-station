@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
@@ -61,9 +62,6 @@ namespace Waveface.DetailUI
 
             if (m_onlyOnePhoto)
             {
-                btnSaveAll.Visible = false;
-                miSaveAll.Visible = false;
-
                 btnCoverImage.Visible = false;
                 miSetAsCoverImage.Visible = false;
             }
@@ -84,16 +82,18 @@ namespace Waveface.DetailUI
 
         private void PhotoView_Load(object sender, EventArgs e)
         {
+            imageListView.Dock = DockStyle.Fill; //Hack
+
             timer.Interval = ((m_imageAttachments.Count / 200) + 2) * 1000;
 
             if (!FillImageListView(true))
                 timer.Enabled = true;
 
-            imageListView.Dock = DockStyle.Fill; //Hack
+            ReArrangeUI();
 
             setSelectedItem(m_initSelectedImageIndex);
 
-            SendKeys.Send("{LEFT}"); //Hack
+            imageListView.Select();
         }
 
         private void setSelectedItem(int selectedIndex)
@@ -276,7 +276,16 @@ namespace Waveface.DetailUI
                     btnSave.Visible = true;
                     miSave.Visible = true;
                 }
+
+                SetImageBox();
             }
+        }
+
+        private void SetImageBox()
+        {
+            imageBox.Image = new Bitmap(m_selectedImage.FileName);
+
+            imageBox.ZoomToFit();
         }
 
         private void btnSlideShow_Click(object sender, EventArgs e)
@@ -307,16 +316,6 @@ namespace Waveface.DetailUI
             }
         }
 
-        private bool CheckIfLoadingImage(ImageListViewItem imageListViewItem)
-        {
-            string _trueName = new FileInfo(imageListViewItem.FileName).Name;
-
-            if (m_filesMapping.ContainsKey(_trueName))
-                _trueName = m_filesMapping[_trueName];
-
-            return (_trueName == "LoadingImage.jpg");
-        }
-
         #region Save
 
         private void miSave_Click(object sender, EventArgs e)
@@ -324,19 +323,9 @@ namespace Waveface.DetailUI
             SavePic();
         }
 
-        private void miSaveAll_Click(object sender, EventArgs e)
-        {
-            SaveAllPics();
-        }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             SavePic();
-        }
-
-        private void btnSaveAll_Click(object sender, EventArgs e)
-        {
-            SaveAllPics();
         }
 
         private void SavePic()
@@ -372,47 +361,6 @@ namespace Waveface.DetailUI
             }
         }
 
-        private void SaveAllPics()
-        {
-            string _fileName = string.Empty;
-
-            using (FolderBrowserDialog _dialog = new FolderBrowserDialog())
-            {
-                _dialog.Description = I18n.L.T("PhotoView.SelectLoc");
-                _dialog.ShowNewFolderButton = true;
-                _dialog.RootFolder = Environment.SpecialFolder.Desktop;
-
-                if (_dialog.ShowDialog() == DialogResult.OK)
-                {
-                    string _folder = _dialog.SelectedPath + "\\";
-
-                    foreach (ImageListViewItem _item in imageListView.Items)
-                    {
-                        if (CheckIfLoadingImage(_item))
-                            continue;
-
-                        _fileName = new FileInfo(_item.FileName).Name;
-
-                        if (m_filesMapping.ContainsKey(_fileName))
-                            _fileName = m_filesMapping[_fileName]; // 取出真實名稱
-
-                        _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
-
-                        try
-                        {
-                            File.Copy(_item.FileName, _fileName);
-                        }
-                        catch
-                        {
-                        }
-                    }
-
-                    MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Waveface", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                }
-            }
-        }
-
         #endregion
 
         private void SetAsCoverImage()
@@ -434,7 +382,7 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)
@@ -445,6 +393,86 @@ namespace Waveface.DetailUI
         private void miSetAsCoverImage_Click(object sender, EventArgs e)
         {
             SetAsCoverImage();
+        }
+
+        private void PhotoView_Resize(object sender, EventArgs e)
+        {
+            ReArrangeUI();
+        }
+
+        private void ReArrangeUI()
+        {
+            int _x = (Width - 240 - 20) / 2;
+
+            btnCoverImage.Left = _x;
+            btnSlideShow.Left = _x + 120;
+            btnSave.Left = _x + 240;
+
+            btnCoverImage.Visible = true;
+            btnSlideShow.Visible = true;
+            btnSave.Visible = true;
+
+            imageBox.Left = 0;
+            imageBox.Top = panelTop.Height;
+            imageBox.Width = imageListView.Width;
+            imageBox.Height = imageListView.Height - 164;
+            imageBox.Refresh();
+        }
+
+        private void UpdateStatusBar()
+        {
+            positionToolStripStatusLabel.Text = imageBox.AutoScrollPosition.ToString();
+            imageSizeToolStripStatusLabel.Text = imageBox.GetImageViewPort().ToString();
+            zoomToolStripStatusLabel.Text = string.Format("{0}%", imageBox.Zoom);
+        }
+
+        private void imageBox_ZoomChanged(object sender, EventArgs e)
+        {
+            UpdateStatusBar();
+        }
+
+        private void imageBox_Resize(object sender, EventArgs e)
+        {
+            UpdateStatusBar();
+        }
+
+        private void imageBox_Scroll(object sender, ScrollEventArgs e)
+        {
+            UpdateStatusBar();
+        }
+
+        private void imageBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            SendKeyToImageListView(e);
+        }
+
+        private void SendKeyToImageListView(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Left:
+                    imageListView.Focus();
+                    SendKeys.Send("{LEFT}");
+
+                    break;
+                case Keys.Right:
+                    imageListView.Focus();
+                    SendKeys.Send("{RIGHT}");
+
+                    break;
+            }
+        }
+
+        private void PhotoView_KeyDown(object sender, KeyEventArgs e)
+        {
+            SendKeyToImageListView(e);
+        }
+
+        private void imageBox_Click(object sender, EventArgs e)
+        {
+            imageBox.SizeToFit = false;
+            imageBox.AutoPan = true;
+            imageBox.AdjustLayout();
         }
     }
 }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using Waveface.API.V2;
+using Waveface.Component;
 
 #endregion
 
@@ -212,9 +213,13 @@ namespace Waveface.DetailUI
             Application.DoEvents();
         }
 
-        public List<ToolStripMenuItem> GetMoreMenuItems()
+        public ImageButton GetMoreFonction1()
         {
             return null;
+        }
+
+        public void MoreFonction1()
+        {
         }
     }
 }

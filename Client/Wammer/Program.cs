@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -80,7 +81,7 @@ namespace Waveface
                 }
                 else if (args.Length == 1)
                 {
-                    Waveface.Main mainUI = new Main(args[0]);
+                    Main mainUI = new Main(args[0]);
                     Application.Run(mainUI);
 
                     if (mainUI.QuitOption == QuitOption.Unlink)
@@ -92,7 +93,15 @@ namespace Waveface
                 }
                 else
                 {
+#if DEBUG
                     _loginForm = new LoginForm();
+#else
+                    var path = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+                    var systemTrayFile = System.IO.Path.Combine(path, "StationSystemTray.exe");
+                    Process.Start(systemTrayFile);
+
+                    return;
+#endif
                 }
 
                 #region force window to have focus

@@ -43,24 +43,26 @@ namespace Waveface
             // monthCalendar
             // 
             this.monthCalendar.CellDimensions = new System.Drawing.Size(17, 10);
-            this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.Gainsboro;
-            this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.BackgroundGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.BackgroundGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.monthCalendar.ColorTable.Border = System.Drawing.Color.Silver;
             this.monthCalendar.ColorTable.DayActiveGradientBegin = System.Drawing.Color.NavajoWhite;
-            this.monthCalendar.ColorTable.DayActiveTodayCircleBorder = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.DayActiveTodayCircleBorder = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.DayHeaderText = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(69)))), ((int)(((byte)(99)))));
             this.monthCalendar.ColorTable.DaySelectedGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
             this.monthCalendar.ColorTable.DaySelectedGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
             this.monthCalendar.ColorTable.DaySelectedText = System.Drawing.Color.White;
-            this.monthCalendar.ColorTable.DaySelectedTodayCircleBorder = System.Drawing.Color.Gainsboro;
-            this.monthCalendar.ColorTable.DayText = System.Drawing.Color.DarkGray;
-            this.monthCalendar.ColorTable.DayTodayCircleBorder = System.Drawing.Color.Gainsboro;
-            this.monthCalendar.ColorTable.DayTrailingText = System.Drawing.Color.Gainsboro;
-            this.monthCalendar.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar.ColorTable.DaySelectedTodayCircleBorder = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.DayTextBold = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.monthCalendar.ColorTable.DayTodayCircleBorder = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.DayTrailingText = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.monthCalendar.ColorTable.HeaderActiveGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
             this.monthCalendar.ColorTable.HeaderArrow = System.Drawing.Color.Silver;
-            this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.monthCalendar.ColorTable.HeaderGradientBegin = System.Drawing.Color.Gainsboro;
+            this.monthCalendar.ColorTable.HeaderGradientEnd = System.Drawing.Color.Gainsboro;
             this.monthCalendar.ColorTable.MonthSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.monthCalendar.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.monthCalendar.HeaderFont = new System.Drawing.Font("Segoe UI", 10F);
+            this.monthCalendar.HeaderFont = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.monthCalendar.IsWaveface = true;
             this.monthCalendar.Location = new System.Drawing.Point(74, 9);
             this.monthCalendar.Name = "monthCalendar";

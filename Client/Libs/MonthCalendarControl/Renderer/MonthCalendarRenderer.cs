@@ -294,14 +294,20 @@
                    boldDate.Category.BackColorEnd.IsEmpty || boldDate.Category.BackColorEnd == Color.Transparent ? boldDate.Category.BackColorStart : boldDate.Category.BackColorEnd,
                    boldDate.Category.GradientMode);
             }
-            
-            //@ 
-            if(day.TrailingDate)
+
+            //@
+            if (day.TrailingDate)
             {
-                if(MonthCalendar.IsWaveface)
+                if (MonthCalendar.IsWaveface)
                 {
                     g.FillRectangle(Brushes.White, rect);
                 }
+            }
+
+            //@
+            if (day.IsWaveface)
+            {
+                g.FillRectangle(Brushes.LemonChiffon, rect);
             }
 
             // get bolded dates
@@ -318,6 +324,12 @@
                    : (day.TrailingDate ? colors.DayTrailingText
                    : colors.DayText)));
 
+                if (MonthCalendar.IsWaveface)
+                {
+                    if (day.Selected)
+                        textColor = colors.DaySelectedText;
+                }
+
                 using (SolidBrush brush = new SolidBrush(textColor))
                 {
                     using (Font font = new Font(
@@ -327,7 +339,13 @@
                     {
                         // adjust width
                         Rectangle textRect = day.Bounds;
-                        textRect.Width -= 2;
+                        //@ textRect.Width -= 2;
+
+                        if (MonthCalendar.IsWaveface)
+                        {
+                            textRect.Width += 2;
+                            textRect.Height += 2;
+                        }
 
                         // determine if to use bold font
                         bool useBoldFont = day.Date == DateTime.Today || bold;
@@ -358,27 +376,46 @@
                 }
             }
 
+            if (MonthCalendar.IsWaveface)
+            {
+                g.DrawRectangle(Pens.LightGray, rect);
+            }
+
             // if today, draw border
             if (day.Date == DateTime.Today)
             {
                 rect.Height -= 1;
                 rect.Width -= 2;
+
                 Color borderColor = day.Selected ? colors.DaySelectedTodayCircleBorder
                    : (day.MouseOver ? colors.DayActiveTodayCircleBorder : colors.DayTodayCircleBorder);
 
-                using (Pen p = new Pen(borderColor))
+                if (MonthCalendar.IsWaveface)
                 {
-                    g.DrawRectangle(p, rect);
+                    int k = 3;
 
-                    rect.Offset(1, 0);
+                    //rect = new Rectangle(rect.Left + 1, rect.Top, rect.Width, rect.Height);
+                    g.DrawRectangle(Pens.LightGray, rect);
 
-                    g.DrawRectangle(p, rect);
+                    g.FillRectangle(Brushes.White, rect.Left + 1, rect.Top + 1, rect.Width, k);
+                    g.FillRectangle(Brushes.White, rect.Left + 1, rect.Top + rect.Height - k + 1, rect.Width, k);
+                    g.FillRectangle(Brushes.White, rect.Left + 1, rect.Top + 1, k, rect.Height - 1);
+                    g.FillRectangle(Brushes.White, rect.Left + rect.Width - k + 2, rect.Top + 1, k, rect.Height);
+
+                    g.DrawRectangle(Pens.LightGray, rect.Left + k, rect.Top + k, rect.Width - (2 * k) + 2, rect.Height - (2 * k) + 1);
+                }
+                else
+                {
+                    using (Pen p = new Pen(borderColor))
+                    {
+                        g.DrawRectangle(p, rect);
+
+                        rect.Offset(1, 0);
+
+                        g.DrawRectangle(p, rect);
+                    }
                 }
             }
-
-            //@
-            if (MonthCalendar.IsWaveface)
-                g.DrawRectangle(Pens.LightGray, rect);
         }
 
         /// <summary>

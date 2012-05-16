@@ -157,6 +157,12 @@ namespace Manina.Windows.Forms
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// 
+		/// </summary>
+		[Category("Behavior"), DefaultValue(false)]
+        public bool IsWaveface { get; set; }
 		/// <summary>
 		/// Gets or sets whether thumbnail images are automatically rotated.
 		/// </summary>
@@ -877,6 +883,9 @@ namespace Manina.Windows.Forms
 			SetRenderer (new ImageListViewRenderer ());
 			
 			// Property defaults
+
+		    IsWaveface = false;
+
 			AutoRotateThumbnails = true;
 			AllowCheckBoxClick = true;
 			AllowColumnClick = true;

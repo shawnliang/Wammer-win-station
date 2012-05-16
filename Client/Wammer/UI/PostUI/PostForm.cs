@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using NLog;
@@ -19,7 +20,7 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        public PostType m_postType;
+        private PostType m_postType;
         private bool m_generateWebPreview = true;
         private bool m_isFixHeight;
         private int m_fixHeight;
@@ -38,6 +39,7 @@ namespace Waveface
         public BatchPostItem BatchPostItem { get; set; }
         public bool EditMode { get; set; }
         public string OldText { get; set; }
+        public bool IsBackFromEditMode { get; set; }
 
         public PostForm(List<string> files, PostType postType, Post post, bool editMode)
         {
@@ -76,13 +78,25 @@ namespace Waveface
             }
         }
 
+        [DllImport("User32.dll")]  
+        private static extern bool SetForegroundWindow(IntPtr hWnd); 
+
+        private void PostForm_Load(object sender, EventArgs e)
+        {
+            SetForegroundWindow(Handle);
+        }
+
         private void InitEditMode()
         {
             List<string> _pics = new List<string>();
 
             ChangeToEditModeUI();
-            weblink_UI.ChangeToEditModeUI(Post);
-            photo_UI.ChangeToEditModeUI(Post);
+
+            if (Post.type == "link")
+                weblink_UI.ChangeToEditModeUI(Post);
+
+            if (Post.type == "image")
+                photo_UI.ChangeToEditModeUI(Post);
 
             OldText = Post.content;
 
@@ -122,7 +136,7 @@ namespace Waveface
 
             btnSend.Text = I18n.L.T("Update");
 
-            btnAddPhoto.Visible = false;
+            //btnAddPhoto.Visible = false;
         }
 
         private void InitNewMode(List<string> files, PostType postType)
@@ -214,7 +228,7 @@ namespace Waveface
 
             if (!m_closeOK)
             {
-                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), "Waveface", MessageBoxButtons.YesNo,
+                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), "Stream", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question);
 
                 if (_dr != DialogResult.Yes)
@@ -328,9 +342,16 @@ namespace Waveface
 
             MaximizeBox = true;
 
-            if (EditMode)
+            if (EditMode && !IsBackFromEditMode)
             {
-                photo_UI.AddEditModePhotoFiles(files, Post.attachments);
+                if (files == null)
+                {
+                    photo_UI.AddPhoto();
+                }
+                else
+                {
+                    photo_UI.AddEditModePhotoFiles(files, Post.attachments);
+                }
             }
             else
             {
@@ -363,11 +384,6 @@ namespace Waveface
 
         #endregion
 
-        private void cbGenerateWebPreview_CheckedChanged(object sender, EventArgs e)
-        {
-            m_generateWebPreview = cbGenerateWebPreview.Checked;
-        }
-
         private void btnSend_Click(object sender, EventArgs e)
         {
             if (!Main.Current.CheckNetworkStatus())
@@ -375,16 +391,17 @@ namespace Waveface
 
             if (pureTextBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("TextEmpty"), "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(I18n.L.T("TextEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (EditMode)
             {
-                if (!pureTextBox.Text.Trim().Equals(OldText))
+                if (!pureTextBox.Text.Trim().Equals(OldText) || (Post.type != "text"))
                 {
                     Dictionary<string, string> _params = new Dictionary<string, string>();
-                    _params.Add("content", pureTextBox.Text.Trim());
+                    _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(pureTextBox.Text, 80000)));
+                    _params.Add("type", "text");
 
                     Main.Current.PostUpdate(Post, _params, true);
                 }
@@ -396,12 +413,12 @@ namespace Waveface
                 try
                 {
                     MR_posts_new _np =
-                        Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(pureTextBox.Text),
+                        Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(pureTextBox.Text, 80000)),
                                                        "", "", "text");
 
                     if (_np == null)
                     {
-                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Waveface", MessageBoxButtons.OK,
+                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK,
                                         MessageBoxIcon.Error);
                         return;
                     }
@@ -413,7 +430,7 @@ namespace Waveface
                 }
                 catch (Exception _e)
                 {
-                    MessageBox.Show(_e.Message, "Waveface", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(_e.Message, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -437,6 +454,13 @@ namespace Waveface
             }
 
             pureTextBox.BatchFormat(_instructions);
+        }
+
+        public void BackFromEditMode()
+        {
+            IsBackFromEditMode = true;
+
+            btnAddPhoto.Visible = true;
         }
 
         #region richTextBox

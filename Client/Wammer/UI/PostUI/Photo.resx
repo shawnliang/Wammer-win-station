@@ -124,36 +124,33 @@
   <data name="imageListView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="imageListView.Colors" xml:space="preserve">
-    <value>ControlBackColor = fff0f0f0; BackColor = fff3f2ee; BorderColor = 406d6d6d; UnFocusedColor1 = 106d6d6d; UnFocusedColor2 = 406d6d6d; UnFocusedBorderColor = 806d6d6d; HoverColor1 = 83399ff; HoverColor2 = 403399ff; HoverBorderColor = 403399ff; SelectedColor1 = 103399ff; SelectedColor2 = 803399ff; SelectedBorderColor = 803399ff; ColumnHeaderBackColor1 = 20f0f0f0; ColumnHeaderBackColor2 = c4f0f0f0; ColumnHeaderHoverColor1 = 103399ff; ColumnHeaderHoverColor2 = 403399ff; ColumnSelectColor = 106d6d6d; ColumnSeparatorColor = 206d6d6d; PaneBackColor = 106d6d6d; PaneSeparatorColor = 806d6d6d; SelectionRectangleColor1 = 803399ff; SelectionRectangleColor2 = 803399ff</value>
-  </data>
   <metadata name="columnContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>248, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="toolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 6</value>
+    <value>140, 6</value>
   </data>
   <data name="sortAscendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="sortAscendingToolStripMenuItem.Text" xml:space="preserve">
     <value>Ascending</value>
   </data>
   <data name="sortDescendingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="sortDescendingToolStripMenuItem.Text" xml:space="preserve">
     <value>Descending</value>
   </data>
   <data name="sortByToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 22</value>
+    <value>115, 22</value>
   </data>
   <data name="sortByToolStripMenuItem.Text" xml:space="preserve">
     <value>Sort By</value>
   </data>
   <data name="columnContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 26</value>
+    <value>116, 26</value>
   </data>
   <data name="&gt;&gt;columnContextMenu.Name" xml:space="preserve">
     <value>columnContextMenu</value>
@@ -221,16 +218,16 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="labelSummary.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8.25pt</value>
+    <value>Tahoma, 9pt</value>
   </data>
   <data name="labelSummary.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="labelSummary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 10</value>
+    <value>220, 8</value>
   </data>
   <data name="labelSummary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>405, 16</value>
+    <value>379, 16</value>
   </data>
   <data name="labelSummary.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -247,8 +244,8 @@
   <data name="&gt;&gt;labelSummary.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="btnDeletePhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+  <data name="btnDeletePhoto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
   <data name="btnDeletePhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -257,16 +254,13 @@
     <value>3, 3</value>
   </data>
   <data name="btnDeletePhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 26</value>
+    <value>102, 25</value>
   </data>
   <data name="btnDeletePhoto.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
   <data name="btnDeletePhoto.Text" xml:space="preserve">
     <value>Remove</value>
-  </data>
-  <data name="btnDeletePhoto.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
   </data>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>567, 17</value>
@@ -278,7 +272,7 @@
     <value>btnDeletePhoto</value>
   </data>
   <data name="&gt;&gt;btnDeletePhoto.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnDeletePhoto.Parent" xml:space="preserve">
     <value>panelToolbar</value>
@@ -286,17 +280,17 @@
   <data name="&gt;&gt;btnDeletePhoto.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="btnAddPhoto.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+  <data name="btnAddPhoto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
   <data name="btnAddPhoto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 3</value>
+    <value>112, 3</value>
   </data>
   <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 26</value>
+    <value>102, 25</value>
   </data>
   <data name="btnAddPhoto.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -311,7 +305,7 @@
     <value>btnAddPhoto</value>
   </data>
   <data name="&gt;&gt;btnAddPhoto.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAddPhoto.Parent" xml:space="preserve">
     <value>panelToolbar</value>
@@ -507,7 +501,7 @@
     <value>6, 25</value>
   </data>
   <data name="toolStripLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 22</value>
+    <value>47, 22</value>
   </data>
   <data name="toolStripLabel1.Text" xml:space="preserve">
     <value>Resize:</value>
@@ -585,7 +579,7 @@
     <value>6, 242</value>
   </data>
   <data name="toolStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>352, 25</value>
+    <value>357, 25</value>
   </data>
   <data name="toolStrip.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -627,31 +621,28 @@
     <value>Bottom, Right</value>
   </data>
   <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="btnSend.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+    <value>Tahoma, 9.75pt, style=Bold</value>
   </data>
   <data name="btnSend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>538, 381</value>
+    <value>502, 377</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
+    <value>108, 30</value>
   </data>
   <data name="btnSend.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="btnSend.Text" xml:space="preserve">
-    <value>Create</value>
+    <value>Create Post</value>
   </data>
   <data name="&gt;&gt;btnSend.Name" xml:space="preserve">
     <value>btnSend</value>
   </data>
   <data name="&gt;&gt;btnSend.Type" xml:space="preserve">
-    <value>Waveface.Component.XPButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnSend.Parent" xml:space="preserve">
     <value>$this</value>

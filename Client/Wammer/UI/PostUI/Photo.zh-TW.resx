@@ -155,26 +155,32 @@
   <data name="imageListView.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="labelSummary.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 9pt</value>
+  </data>
   <data name="labelSummary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 9</value>
+    <value>219, 9</value>
   </data>
   <data name="labelSummary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>417, 16</value>
+    <value>378, 16</value>
   </data>
   <data name="labelSummary.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="btnDeletePhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 26</value>
+  <data name="btnDeletePhoto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
   </data>
   <data name="btnDeletePhoto.Text" xml:space="preserve">
-    <value>移除</value>
+    <value>移除照片</value>
   </data>
   <data name="btnDeletePhoto.ToolTip" xml:space="preserve">
     <value>刪除照片</value>
   </data>
+  <data name="btnAddPhoto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
+  </data>
   <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 3</value>
+    <value>111, 3</value>
   </data>
   <data name="btnAddPhoto.Text" xml:space="preserve">
     <value>新增照片</value>
@@ -266,6 +272,9 @@
   </data>
   <data name="toolStrip.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
   </data>
   <data name="btnSend.Text" xml:space="preserve">
     <value>貼文</value>

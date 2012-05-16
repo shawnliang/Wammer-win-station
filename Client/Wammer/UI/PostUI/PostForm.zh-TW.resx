@@ -120,6 +120,10 @@
   <data name="contextMenuStripEdit.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnAddPhoto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
+  </data>
   <data name="btnAddPhoto.Text" xml:space="preserve">
     <value>新增照片</value>
   </data>
@@ -192,6 +196,9 @@
   <data name="panelToolbar.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
+  </data>
   <data name="btnSend.Text" xml:space="preserve">
     <value>貼文</value>
   </data>
@@ -201,21 +208,14 @@
   <data name="labelPreviewMsg.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="cbGenerateWebPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 18</value>
-  </data>
-  <data name="cbGenerateWebPreview.Text" xml:space="preserve">
-    <value>產生網頁預覽</value>
-  </data>
-  <data name="cbGenerateWebPreview.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="panelMiddleBar.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="buttonRichText.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="pureTextBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 11.25pt</value>
   </data>
   <data name="pureTextBox.ToolTip" xml:space="preserve">
     <value />

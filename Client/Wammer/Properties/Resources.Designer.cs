@@ -137,13 +137,6 @@ namespace Waveface.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap divider {
-            get {
-                object obj = ResourceManager.GetObject("divider", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap dragdrop_tutorial {
             get {
                 object obj = ResourceManager.GetObject("dragdrop_tutorial", resourceCulture);
@@ -179,9 +172,65 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_blue_btn {
+            get {
+                object obj = ResourceManager.GetObject("FB_blue_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_blue_btn_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_blue_btn_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_cover {
+            get {
+                object obj = ResourceManager.GetObject("FB_cover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_cover_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_cover_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_creat_btn {
+            get {
+                object obj = ResourceManager.GetObject("FB_creat_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_creat_btn_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_creat_btn_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_edit {
             get {
                 object obj = ResourceManager.GetObject("FB_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_edit_add_photo {
+            get {
+                object obj = ResourceManager.GetObject("FB_edit_add_photo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_edit_delete {
+            get {
+                object obj = ResourceManager.GetObject("FB_edit_delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -305,6 +354,48 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_remove_post {
+            get {
+                object obj = ResourceManager.GetObject("FB_remove_post", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_remove_post_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_remove_post_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_save {
+            get {
+                object obj = ResourceManager.GetObject("FB_save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_save_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_save_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_saveall {
+            get {
+                object obj = ResourceManager.GetObject("FB_saveall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_saveall_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_saveall_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_setting {
             get {
                 object obj = ResourceManager.GetObject("FB_setting", resourceCulture);
@@ -329,6 +420,34 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap FB_slide_hl {
             get {
                 object obj = ResourceManager.GetObject("FB_slide_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_slide1 {
+            get {
+                object obj = ResourceManager.GetObject("FB_slide1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_slide1_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_slide1_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_today_btn {
+            get {
+                object obj = ResourceManager.GetObject("FB_today_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_today_btn_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_today_btn_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -361,6 +480,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FBT_newpost {
+            get {
+                object obj = ResourceManager.GetObject("FBT_newpost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FBT_newpost_hl_hl {
+            get {
+                object obj = ResourceManager.GetObject("FBT_newpost_hl_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FBT_refresh {
             get {
                 object obj = ResourceManager.GetObject("FBT_refresh", resourceCulture);
@@ -371,20 +504,6 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap FBT_refresh_hl {
             get {
                 object obj = ResourceManager.GetObject("FBT_refresh_hl", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FBT_remove {
-            get {
-                object obj = ResourceManager.GetObject("FBT_remove", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FBT_remove_hl {
-            get {
-                object obj = ResourceManager.GetObject("FBT_remove_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -417,6 +536,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap LD {
+            get {
+                object obj = ResourceManager.GetObject("LD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap lightbulb {
             get {
                 object obj = ResourceManager.GetObject("lightbulb", resourceCulture);
@@ -434,6 +560,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap LoadingImage {
             get {
                 object obj = ResourceManager.GetObject("LoadingImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Magnifier {
+            get {
+                object obj = ResourceManager.GetObject("Magnifier", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap MD {
+            get {
+                object obj = ResourceManager.GetObject("MD", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -541,6 +681,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ObjectPosition {
+            get {
+                object obj = ResourceManager.GetObject("ObjectPosition", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ObjectSize {
+            get {
+                object obj = ResourceManager.GetObject("ObjectSize", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap page {
             get {
                 object obj = ResourceManager.GetObject("page", resourceCulture);
@@ -558,6 +712,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap Post {
             get {
                 object obj = ResourceManager.GetObject("Post", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RD {
+            get {
+                object obj = ResourceManager.GetObject("RD", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

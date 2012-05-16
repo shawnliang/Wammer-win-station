@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -117,6 +117,9 @@
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
     </Reference>
@@ -130,6 +133,13 @@
     </Compile>
     <Compile Include="Component\CustomDataGridView.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\ExifStuff.cs" />
+    <Compile Include="Component\ImageBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Component\ImageBox.designer.cs">
+      <DependentUpon>ImageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Component\ImageButton.cs">
       <SubType>Component</SubType>
@@ -220,7 +230,6 @@
     <Compile Include="Libs\Utility\ControlUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
     <Compile Include="Libs\Utility\WebBrowser.cs" />
-    <Compile Include="Data\ShowTimelineIndexType.cs" />
     <Compile Include="Libs\Utility\AttachmentUtility.cs" />
     <Compile Include="Data\RT_REST.cs" />
     <Compile Include="Libs\Utility\NLogUtility.cs" />
@@ -232,17 +241,23 @@
     <Compile Include="UI\DateTimePopupPanel.designer.cs">
       <DependentUpon>DateTimePopupPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\DetailUI\CommentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\DetailUI\CommentForm.Designer.cs">
+      <DependentUpon>CommentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DVTopPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\SettingUI\AccountInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SettingUI\AccountInfoForm.Designer.cs">
+      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\TitlePanel.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\DetailUI\CommentPopupPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\DetailUI\CommentPopupPanel.designer.cs">
-      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\DetailUI\IDetailView.cs" />
     <Compile Include="UI\DetailUI\ImageViewItemTAG.cs" />
@@ -332,19 +347,6 @@
     <Compile Include="Component\FlashWindow.cs" />
     <Compile Include="Component\FlatTabControl.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\ImageViewer\ImageBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component\ImageViewer\ImageBox.designer.cs">
-      <DependentUpon>ImageBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Component\ImageViewer\ImageBoxGridScale.cs" />
-    <Compile Include="Component\ImageViewer\ImageViewerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Component\ImageViewer\ImageViewerForm.designer.cs">
-      <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Component\ListBarControl\CustomBorderColor.cs" />
     <Compile Include="Component\ListBarControl\frmListBarTest.cs">
@@ -582,9 +584,6 @@
     <EmbeddedResource Include="Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\ImageViewer\ImageViewerForm.resx">
-      <DependentUpon>ImageViewerForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Component\ListBarControl\frmListBarTest.resx">
       <DependentUpon>frmListBarTest.cs</DependentUpon>
     </EmbeddedResource>
@@ -654,17 +653,23 @@
     <EmbeddedResource Include="UI\DateTimePopupPanel.zh-TW.resx">
       <DependentUpon>DateTimePopupPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\CommentForm.resx">
+      <DependentUpon>CommentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DetailUI\CommentForm.zh-TW.resx">
+      <DependentUpon>CommentForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DVTopPanel.resx">
       <DependentUpon>DVTopPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\AccountInfoForm.resx">
+      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SettingUI\AccountInfoForm.zh-TW.resx">
+      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\TitlePanel.resx">
       <DependentUpon>TitlePanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\CommentPopupPanel.resx">
-      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\CommentPopupPanel.zh-TW.resx">
-      <DependentUpon>CommentPopupPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\DetailView.zh-TW.resx">
       <DependentUpon>DetailView.cs</DependentUpon>
@@ -799,6 +804,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\UnlinkForm.zh-TW.resx">
       <DependentUpon>UnlinkForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TitlePanel.zh-TW.resx">
+      <DependentUpon>TitlePanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\TrayIconPanel.resx">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>
@@ -946,13 +954,21 @@
     <None Include="Resources\FlatButton\FBT_account_hl.png" />
     <None Include="Resources\FlatButton\FBT_refresh.png" />
     <None Include="Resources\FlatButton\FBT_refresh_hl.png" />
-    <None Include="Resources\FlatButton\FBT_remove.png" />
-    <None Include="Resources\FlatButton\FBT_remove_hl.png" />
     <None Include="Resources\FlatButton\FBT_setting.png" />
     <None Include="Resources\FlatButton\FBT_setting_hl.png" />
+    <None Include="Resources\FlatButton\FBT_newpost.png" />
+    <None Include="Resources\FlatButton\FBT_newpost_hl_hl.png" />
+    <None Include="Resources\FlatButton\FB_blue_btn.png" />
+    <None Include="Resources\FlatButton\FB_blue_btn_hl.png" />
+    <None Include="Resources\FlatButton\FB_creat_btn.png" />
+    <None Include="Resources\FlatButton\FB_creat_btn_hl.png" />
+    <None Include="Resources\FlatButton\FB_cover.png" />
+    <None Include="Resources\FlatButton\FB_cover_hl.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />
+    <None Include="Resources\FlatButton\FB_edit_add_photo.png" />
+    <None Include="Resources\FlatButton\FB_edit_delete.png" />
     <Content Include="Resources\FlatButton\FB_edit_hl.png" />
     <Content Include="Resources\FlatButton\FB_fav.png" />
     <Content Include="Resources\FlatButton\FB_fav_hl.png" />
@@ -972,6 +988,16 @@
     <None Include="Resources\FlatButton\FB_slide_hl.png" />
     <None Include="Resources\FlatButton\FB_setting.png" />
     <None Include="Resources\FlatButton\FB_setting_hl.png" />
+    <None Include="Resources\FlatButton\FB_today_btn.png" />
+    <None Include="Resources\FlatButton\FB_today_btn_hl.png" />
+    <None Include="Resources\FlatButton\FB_remove_post.png" />
+    <None Include="Resources\FlatButton\FB_remove_post_hl.png" />
+    <None Include="Resources\FlatButton\FB_save_hl.png" />
+    <None Include="Resources\FlatButton\FB_saveall.png" />
+    <None Include="Resources\FlatButton\FB_saveall_hl.png" />
+    <None Include="Resources\FlatButton\FB_slide1.png" />
+    <None Include="Resources\FlatButton\FB_slide1_hl.png" />
+    <None Include="Resources\FlatButton\FB_save.png" />
     <Content Include="Resources\FlatButton\FB_unfav.png" />
     <Content Include="Resources\FlatButton\FB_unfav_hl.png" />
     <None Include="Resources\Title\Title1.png" />
@@ -997,6 +1023,12 @@
     <None Include="Resources\ToLeft.png" />
     <None Include="Resources\software-update-available.png" />
     <None Include="Resources\UpdateAvailable.ico" />
+    <None Include="Resources\Title\LD.png" />
+    <None Include="Resources\Title\MD.png" />
+    <None Include="Resources\Title\RD.png" />
+    <None Include="Resources\Magnifier.png" />
+    <None Include="Resources\ObjectPosition.png" />
+    <None Include="Resources\ObjectSize.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

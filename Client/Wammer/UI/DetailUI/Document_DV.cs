@@ -422,9 +422,13 @@ namespace Waveface.DetailUI
             {}
         }
 
-        public List<ToolStripMenuItem> GetMoreMenuItems()
+        public ImageButton GetMoreFonction1()
         {
             return null;
+        }
+
+        public void MoreFonction1()
+        {
         }
     }
 }
