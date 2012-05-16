@@ -687,9 +687,9 @@ namespace Waveface
 			catch (Exception e)
 			{
                 s_logger.Error("Cannot login: " + e.ToString());
-                MessageBox.Show(I18n.L.T("ForceLogout"));
+                MessageBox.Show(I18n.L.T("ForceLogout"), I18n.L.T("SystemErrorCaption"));
                 QuitOption = Waveface.QuitOption.Logout;
-				Close();
+                Close();
 			}
         }
 
