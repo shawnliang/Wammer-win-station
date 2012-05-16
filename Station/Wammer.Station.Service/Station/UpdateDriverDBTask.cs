@@ -31,7 +31,7 @@ namespace Wammer.Station
 
 			using (var agent = new DefaultWebClient())
 			{
-				StationSignUpResponse api = StationApi.SignUpBySession(agent, args.session_token, station_id);
+				StationSignUpResponse api = StationApi.SignUpBySession(agent, args.session_token, station_id, StatusChecker.GetDetail());
 
 				DriverCollection.Instance.Update(
 					Query.EQ("_id", args.user_id),
