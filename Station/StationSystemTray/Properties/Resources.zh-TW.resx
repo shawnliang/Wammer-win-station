@@ -226,8 +226,11 @@
   <data name="Testing" xml:space="preserve">
     <value>測試中...</value>
   </data>
+  <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
+    <value>未知的註冊錯誤!</value>
+  </data>
   <data name="UnknownSigninError" xml:space="preserve">
-    <value>未知的登入錯誤</value>
+    <value>未知的登入錯誤!</value>
   </data>
   <data name="UnlinkCloudStorageFail" xml:space="preserve">
     <value>無法解除 Dropbox 的連結</value>

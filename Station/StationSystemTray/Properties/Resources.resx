@@ -276,8 +276,11 @@
   <data name="Testing" xml:space="preserve">
     <value>Testing...</value>
   </data>
+  <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
+    <value>Unknow signup error occur!</value>
+  </data>
   <data name="UnknownSigninError" xml:space="preserve">
-    <value>UnknownSigninError</value>
+    <value>Unknow signin error occur!</value>
   </data>
   <data name="UnlinkCloudStorageFail" xml:space="preserve">
     <value>Unable to disconnect from Dropbox</value>
