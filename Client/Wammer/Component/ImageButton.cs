@@ -15,6 +15,8 @@ namespace Waveface.Component
         private Image m_imageDisable;
         private Image m_imageHover;
 
+        private Brush m_shadowBrush;
+
         private bool m_hover;
         private bool m_down;
 
@@ -75,6 +77,8 @@ namespace Waveface.Component
             SetStyle(ControlStyles.DoubleBuffer, true);
             // SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.UserPaint, true);
+
+            m_shadowBrush = new SolidBrush(Color.FromArgb(127, 0, 0, 0));
 
             TextShadow = true;
         }
@@ -141,14 +145,14 @@ namespace Waveface.Component
 
             if (!string.IsNullOrEmpty(Text))
             {
-                Size _size = TextRenderer.MeasureText(Text, Font);// , Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                Size _size = TextRenderer.MeasureText(Text, Font);
 
                 if (m_imageFront == null)
                 {
                     if (TextShadow)
                     {
-                        _g.DrawString(Text, Font, Brushes.Black, ((Width - _size.Width)/2) + 3,
-                                      ((Height - _size.Height)/2) + 2);
+                        _g.DrawString(Text, Font, m_shadowBrush, ((Width - _size.Width) / 2) + 3,
+                                      ((Height - _size.Height) / 2) + 2);
                     }
 
                     _g.DrawString(Text, Font, new SolidBrush(ForeColor), ((Width - _size.Width) / 2) + 2,
@@ -160,8 +164,8 @@ namespace Waveface.Component
 
                     if (TextShadow)
                     {
-                        _g.DrawString(Text, Font, Brushes.Black, _offX + (((Width - _offX) - _size.Width)/2) + 1,
-                                      ((Height - _size.Height)/2) + 1);
+                        _g.DrawString(Text, Font, m_shadowBrush, _offX + (((Width - _offX) - _size.Width) / 2) + 1,
+                                      ((Height - _size.Height) / 2) + 1);
                     }
 
                     _g.DrawString(Text, Font, new SolidBrush(ForeColor), _offX + ((Width - _offX) - _size.Width) / 2,

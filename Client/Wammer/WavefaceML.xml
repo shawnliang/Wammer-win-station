@@ -1,6 +1,12 @@
 <?xml version="1.0" standalone="yes"?>
 <WItems>
   <WItem>
+    <ID>DefaultFont</ID>
+    <en-US>Arial</en-US>
+    <zh-TW>微軟正黑體</zh-TW>
+  </WItem>  
+  
+  <WItem>
     <ID>CoverImage</ID>
     <en-US>Cover Image</en-US>
     <zh-TW>封面照片</zh-TW>

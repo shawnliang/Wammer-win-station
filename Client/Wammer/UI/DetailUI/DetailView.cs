@@ -118,10 +118,10 @@ namespace Waveface
             this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnAddFootNote = new Waveface.Component.ImageButton();
+            this.panelTop = new Waveface.DVTopPanel();
+            this.btnFunction1 = new Waveface.Component.ImageButton();
             this.btnFavorite = new Waveface.Component.ImageButton();
             this.btnEdit = new Waveface.Component.ImageButton();
-            this.btnFunction1 = new Waveface.Component.ImageButton();
-            this.panelTop = new Waveface.DVTopPanel();
             this.labelTitle = new System.Windows.Forms.Label();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -158,9 +158,37 @@ namespace Waveface
             this.btnAddFootNote.ImageFront = null;
             this.btnAddFootNote.ImageHover = global::Waveface.Properties.Resources.FB_edit_footnote_hl;
             this.btnAddFootNote.Name = "btnAddFootNote";
+            this.btnAddFootNote.TextShadow = true;
             this.toolTip.SetToolTip(this.btnAddFootNote, resources.GetString("btnAddFootNote.ToolTip"));
             this.btnAddFootNote.UseVisualStyleBackColor = false;
             this.btnAddFootNote.Click += new System.EventHandler(this.btnAddFootNote_Click);
+            // 
+            // panelTop
+            // 
+            resources.ApplyResources(this.panelTop, "panelTop");
+            this.panelTop.BackColor = System.Drawing.Color.White;
+            this.panelTop.Controls.Add(this.btnFunction1);
+            this.panelTop.Controls.Add(this.btnFavorite);
+            this.panelTop.Controls.Add(this.btnEdit);
+            this.panelTop.Controls.Add(this.labelTitle);
+            this.panelTop.Name = "panelTop";
+            this.toolTip.SetToolTip(this.panelTop, resources.GetString("panelTop.ToolTip"));
+            // 
+            // btnFunction1
+            // 
+            resources.ApplyResources(this.btnFunction1, "btnFunction1");
+            this.btnFunction1.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFunction1.CenterAlignImage = false;
+            this.btnFunction1.Image = global::Waveface.Properties.Resources.FB_moreoption;
+            this.btnFunction1.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
+            this.btnFunction1.ImageFront = null;
+            this.btnFunction1.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
+            this.btnFunction1.Name = "btnFunction1";
+            this.btnFunction1.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnFunction1, resources.GetString("btnFunction1.ToolTip"));
+            this.btnFunction1.UseVisualStyleBackColor = false;
+            this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
+            this.btnFunction1.Click += new System.EventHandler(this.btnMoreOption1_Click);
             // 
             // btnFavorite
             // 
@@ -173,6 +201,7 @@ namespace Waveface
             this.btnFavorite.ImageFront = null;
             this.btnFavorite.ImageHover = global::Waveface.Properties.Resources.FB_fav_hl;
             this.btnFavorite.Name = "btnFavorite";
+            this.btnFavorite.TextShadow = true;
             this.toolTip.SetToolTip(this.btnFavorite, resources.GetString("btnFavorite.ToolTip"));
             this.btnFavorite.UseVisualStyleBackColor = false;
             this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
@@ -187,35 +216,10 @@ namespace Waveface
             this.btnEdit.ImageFront = null;
             this.btnEdit.ImageHover = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageHover")));
             this.btnEdit.Name = "btnEdit";
+            this.btnEdit.TextShadow = true;
             this.toolTip.SetToolTip(this.btnEdit, resources.GetString("btnEdit.ToolTip"));
             this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
-            // btnFunction1
-            // 
-            resources.ApplyResources(this.btnFunction1, "btnFunction1");
-            this.btnFunction1.BackColor = System.Drawing.SystemColors.Control;
-            this.btnFunction1.CenterAlignImage = false;
-            this.btnFunction1.Image = global::Waveface.Properties.Resources.FB_moreoption;
-            this.btnFunction1.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
-            this.btnFunction1.ImageFront = null;
-            this.btnFunction1.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
-            this.btnFunction1.Name = "btnFunction1";
-            this.toolTip.SetToolTip(this.btnFunction1, resources.GetString("btnFunction1.ToolTip"));
-            this.btnFunction1.UseVisualStyleBackColor = false;
-            this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
-            this.btnFunction1.Click += new System.EventHandler(this.btnMoreOption1_Click);
-            // 
-            // panelTop
-            // 
-            resources.ApplyResources(this.panelTop, "panelTop");
-            this.panelTop.BackColor = System.Drawing.Color.White;
-            this.panelTop.Controls.Add(this.btnFunction1);
-            this.panelTop.Controls.Add(this.btnFavorite);
-            this.panelTop.Controls.Add(this.btnEdit);
-            this.panelTop.Controls.Add(this.labelTitle);
-            this.panelTop.Name = "panelTop";
-            this.toolTip.SetToolTip(this.panelTop, resources.GetString("panelTop.ToolTip"));
             // 
             // labelTitle
             // 

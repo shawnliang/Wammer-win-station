@@ -124,15 +124,11 @@
   <data name="copyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 22</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="buttonAddComment.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 14</value>
   </data>
-  <data name="&gt;&gt;pasteToolStripMenuItem.Name" xml:space="preserve">
-    <value>pasteToolStripMenuItem</value>
+  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Copy</value>
   </data>
   <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
     <value>Paste</value>
@@ -515,17 +511,11 @@
         //8=
 </value>
   </data>
-  <data name="&gt;&gt;buttonAddComment.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="cutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 22</value>
   </data>
   <data name="buttonAddComment.Text" xml:space="preserve">
     <value>Create</value>
-  </data>
-  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
-    <value>Cut</value>
   </data>
   <data name="textBoxComment.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 14</value>
@@ -539,8 +529,8 @@
   <data name="&gt;&gt;contextMenuStripEdit.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="contextMenuStripEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 70</value>
+  <data name="&gt;&gt;pasteToolStripMenuItem.Name" xml:space="preserve">
+    <value>pasteToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;textBoxComment.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -561,6 +551,9 @@
   <data name="buttonAddComment.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 4, 3, 4</value>
   </data>
+  <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
+    <value>595, 146</value>
+  </data>
   <data name="&gt;&gt;buttonAddComment.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -573,6 +566,9 @@
   <data name="pasteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 22</value>
   </data>
+  <data name="textBoxComment.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 3, 4</value>
+  </data>
   <data name="textBoxComment.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 11.25pt</value>
   </data>
@@ -582,11 +578,12 @@
   <data name="&gt;&gt;buttonAddComment.Name" xml:space="preserve">
     <value>buttonAddComment</value>
   </data>
-  <data name="copyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Copy</value>
+  <data name="&gt;&gt;buttonAddComment.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="textBoxComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>595, 146</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="buttonAddComment.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="&gt;&gt;buttonAddComment.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
@@ -615,6 +612,9 @@
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 4, 3, 4</value>
   </data>
+  <data name="contextMenuStripEdit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 70</value>
+  </data>
   <data name="textBoxComment.Text" xml:space="preserve">
     <value />
   </data>
@@ -630,8 +630,8 @@
   <data name="buttonAddComment.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="textBoxComment.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
+  <data name="cutToolStripMenuItem.Text" xml:space="preserve">
+    <value>Cut</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Add Footnote</value>
