@@ -45,7 +45,7 @@ namespace Wammer.Station
 				}
 				else
 				{
-					StationSignUpResponse res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId);
+					StationSignUpResponse res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId, StatusChecker.GetDetail());
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
@@ -133,7 +133,7 @@ namespace Wammer.Station
 					}
 
 					StationSignUpResponse res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId,
-					                                                             deviceName);
+					                                                             deviceName, StatusChecker.GetDetail());
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
