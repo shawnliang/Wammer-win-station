@@ -140,6 +140,9 @@
   <data name="postsArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
+  <data name="postsArea.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>337, 2</value>
+  </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>337, 504</value>
   </data>
@@ -379,25 +382,25 @@
     <value>283, 21</value>
   </metadata>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="regionMenuItem.Text" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="windowsMenuItem.Text" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="screenMenuItem.Text" xml:space="preserve">
     <value>Desktop</value>
   </data>
   <data name="screenShotMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 22</value>
+    <value>136, 22</value>
   </data>
   <data name="screenShotMenu.Text" xml:space="preserve">
     <value>Screen Shot</value>
@@ -406,13 +409,13 @@
     <value>False</value>
   </data>
   <data name="logoutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 22</value>
+    <value>136, 22</value>
   </data>
   <data name="logoutMenuItem.Text" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 48</value>
+    <value>137, 48</value>
   </data>
   <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
     <value>mnuTray</value>

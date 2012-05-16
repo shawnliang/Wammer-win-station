@@ -24,7 +24,9 @@ namespace Wammer.Station
 				throw new ArgumentNullException("driver");
 
 			basePath = driver.folder;
-			CreateFolder(basePath);
+
+			if (!Directory.Exists(basePath))
+				CreateFolder(basePath);
 		}
 
 		private static void CreateFolder(string basePath)

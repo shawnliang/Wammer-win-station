@@ -39,6 +39,7 @@ namespace StationSystemTray
 
 			m_CurrentUserSession = currentUserSession;
 
+			lblUserEmail.Text = string.Empty;
 			AdjustUserEMail();
 		}
 
@@ -84,7 +85,7 @@ namespace StationSystemTray
 		{
 			var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", m_CurrentUserSession));
 			var users = (from item in DriverCollection.Instance.FindAll()
-			             where item != null
+			             where item != null && item.user != null
 			             select new
 			                    	{
 			                    		User = item.user,
@@ -99,6 +100,9 @@ namespace StationSystemTray
 			cmbStations.DisplayMember = "DisplayName";
 			cmbStations.ValueMember = "User";
 			cmbStations.DataSource = users;
+
+			if (loginedUser != null)
+				cmbStations.Text = loginedUser.user.nickname + " " + Properties.Resources.CURRENT_ACCOUT;
 			AdjustRemoveButton();
 		}
 
