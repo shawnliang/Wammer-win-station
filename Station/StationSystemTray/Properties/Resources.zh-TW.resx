@@ -226,6 +226,9 @@
   <data name="Testing" xml:space="preserve">
     <value>測試中...</value>
   </data>
+  <data name="UNKNOW_REMOVEACCOUNT_ERROR" xml:space="preserve">
+    <value>移除帳號時發生未知的錯誤!</value>
+  </data>
   <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
     <value>未知的註冊錯誤!</value>
   </data>

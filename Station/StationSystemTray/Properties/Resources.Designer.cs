@@ -503,6 +503,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknow error occur when remove account!.
+        /// </summary>
+        public static string UNKNOW_REMOVEACCOUNT_ERROR {
+            get {
+                return ResourceManager.GetString("UNKNOW_REMOVEACCOUNT_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknow signup error occur!.
         /// </summary>
         public static string UNKNOW_SIGNUP_ERROR {

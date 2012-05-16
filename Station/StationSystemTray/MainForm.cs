@@ -1479,11 +1479,11 @@ namespace StationSystemTray
 
 					m_SettingDialog.FormClosed += (senderEx, ex) =>
 					                              	{
-														m_SettingDialog.AccountRemoving -= removeAccountAction;
+														m_SettingDialog.AccountRemoved -= removeAccountAction;
 					                              		m_SettingDialog = null;
 					                              	};
 
-					m_SettingDialog.AccountRemoving += removeAccountAction;
+					m_SettingDialog.AccountRemoved += removeAccountAction;
 					this.Hide();
 					m_SettingDialog.ShowDialog();
 				}
