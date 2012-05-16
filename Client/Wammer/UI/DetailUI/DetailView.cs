@@ -347,9 +347,16 @@ namespace Waveface
 
         private string GetTime(string iso8601Time)
         {
-            iso8601Time = DateTimeHelp.ISO8601ToDotNet(iso8601Time, false);
-            iso8601Time = DateTimeHelp.PrettyDate(iso8601Time, true);
-            return iso8601Time;
+            try
+            {
+                iso8601Time = DateTimeHelp.ISO8601ToDotNet(iso8601Time, false);
+                iso8601Time = DateTimeHelp.PrettyDate(iso8601Time, true);
+                return iso8601Time;
+            }
+            catch
+            {
+                return DateTime.Now.ToString("MM/dd HH:mm:ss");
+            }
         }
 
         private PostType getPostType(string postType)

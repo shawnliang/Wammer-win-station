@@ -91,8 +91,6 @@ namespace Waveface
 
         private void PostsList_Load(object sender, EventArgs e)
         {
-            dataGridView.RowTemplate.Height = 118;
-
             SetFont();
 
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
@@ -102,12 +100,23 @@ namespace Waveface
 
         private void SetFont()
         {
+            float _d = 0;
+
             m_defaultFont = I18n.L.T("DefaultFont");
+
+            Font _font = new Font(m_defaultFont, 10, GraphicsUnit.Point);
+
+            if (_font.Height > 17)
+                _d = 0.5f;
 
             m_fontInfo = new Font(m_defaultFont, 8, FontStyle.Bold, GraphicsUnit.Point);
             m_fontLinkURL = new Font(m_defaultFont, 8, FontStyle.Italic | FontStyle.Bold, GraphicsUnit.Point);
-            m_fontLinkTitle = new Font(m_defaultFont, 10, FontStyle.Bold, GraphicsUnit.Point);
-            m_fontText = new Font(m_defaultFont, 10, GraphicsUnit.Point);
+            m_fontLinkTitle = new Font(m_defaultFont, 10 - _d, FontStyle.Bold, GraphicsUnit.Point);
+            m_fontText = new Font(m_defaultFont, 10 - _d, GraphicsUnit.Point);
+
+            PicHeight = (int)(m_fontText.Height * 4.8);
+            PicWidth = (int)(m_fontText.Height * 4.8);
+            dataGridView.RowTemplate.Height = (m_fontText.Height * 7) + 6;
         }
 
         public void SetPosts(List<Post> posts)
@@ -240,10 +249,6 @@ namespace Waveface
         {
             try
             {
-                PicHeight = (int) (m_fontText.Height * 4.8);
-                PicWidth = (int) (m_fontText.Height * 4.8);
-                dataGridView.Rows[e.RowIndex].Height = (m_fontText.Height * 7) + 6;
-
                 bool _isDrawThumbnail;
 
                 Graphics _g = e.Graphics;
