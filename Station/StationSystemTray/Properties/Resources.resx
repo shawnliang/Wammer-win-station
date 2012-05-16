@@ -301,7 +301,7 @@
     <value>Preference...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Sync complete</value>
+    <value>Sync is complete</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
     <value>Unable to connect to Stream server</value>

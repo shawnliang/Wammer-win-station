@@ -498,7 +498,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>登入 - Stream</value>
+    <value>登入</value>
   </data>
   <data name="btnOK.Text" xml:space="preserve">
     <value>確定</value>
