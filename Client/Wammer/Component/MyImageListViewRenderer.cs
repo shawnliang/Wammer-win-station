@@ -3,6 +3,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.DetailUI;
@@ -41,6 +42,11 @@ namespace Waveface.Component
 
         public override void DrawItem(Graphics g, ImageListViewItem item, ItemState state, Rectangle bounds)
         {
+            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+
             Clip = (ImageListView.View == View.Details);
 
             if (ImageListView.View == View.Details)
@@ -249,7 +255,7 @@ namespace Waveface.Component
 
                                 g.FillRectangle(_brush, _rect);
 
-                                Font _font = new Font("Arial", _h2 * (1 - 0.7f), FontStyle.Bold);
+                                Font _font = new Font(I18n.L.T("DefaultFont"), _h2 * (1 - 0.6f), FontStyle.Bold);
 
                                 TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                             }

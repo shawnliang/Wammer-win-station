@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
 using CustomControls;
@@ -408,6 +410,11 @@ namespace Waveface
         {
             using (Graphics _g = Graphics.FromImage(m_dropAreaImage))
             {
+                _g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                _g.SmoothingMode = SmoothingMode.HighQuality;
+
                 int _off = -3;
 
                 _g.Clear(Color.Transparent);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -126,6 +127,8 @@ namespace Waveface
 
             dataGridView.SuspendLayout();
 
+            ResetDetailViewUI();
+
             try
             {
                 GetFirstDisplayed(posts);
@@ -142,11 +145,7 @@ namespace Waveface
                 {
                 }
 
-                if (m_posts.Count == 0)
-                {
-                    ResetDetailViewUI();
-                }
-                else
+                if (m_posts.Count != 0)
                 {
                     SetFirstDisplayed(posts);
 
@@ -252,6 +251,8 @@ namespace Waveface
                 bool _isDrawThumbnail;
 
                 Graphics _g = e.Graphics;
+                _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                _g.SmoothingMode = SmoothingMode.HighQuality;
 
                 Post _post = m_postBS[e.RowIndex] as Post;
 

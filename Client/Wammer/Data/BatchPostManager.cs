@@ -343,14 +343,14 @@ namespace Waveface
 
                                 // Cache Medium
                                 string _localFileMedium = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_medium_" + _text);
-                                string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "512", 100);
+                                string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "1024", 100); //512 -> 1024
                                 File.Copy(_resizedMediumImageFilePath, _localFileMedium);
 
                                 // Small
                                 if (_count == 0)
                                 {
                                     string _localFileSmall = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_small_" + _text);
-                                    string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "120", 100);
+                                    string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "256", 100); //120 -> 256
                                     File.Copy(_resizedSmallImageFilePath, _localFileSmall);
                                 }
                             }
