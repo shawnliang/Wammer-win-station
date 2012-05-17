@@ -33,6 +33,7 @@
 			this.btnNo = new System.Windows.Forms.Button();
 			this.lblConfirm = new System.Windows.Forms.Label();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -64,13 +65,20 @@
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.TabStop = false;
 			// 
+			// checkBox1
+			// 
+			resources.ApplyResources(this.checkBox1, "checkBox1");
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			// 
 			// CleanResourceForm
 			// 
 			this.AcceptButton = this.btnYes;
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.CancelButton = this.btnNo;
-			resources.ApplyResources(this, "$this");
+			this.Controls.Add(this.checkBox1);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.lblConfirm);
 			this.Controls.Add(this.btnNo);
@@ -92,5 +100,6 @@
 		private System.Windows.Forms.Button btnNo;
 		private System.Windows.Forms.Label lblConfirm;
 		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.CheckBox checkBox1;
 	}
 }

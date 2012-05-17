@@ -29,10 +29,10 @@ namespace Wammer.Station
 		{
 			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{
-				string sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
-				string userId = Parameters[CloudServer.PARAM_USER_ID];
+				var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
+				var userId = Parameters[CloudServer.PARAM_USER_ID];
 
-				Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
+				var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
 				if (existingDriver != null)
 				{
 					existingDriver.ref_count += 1;
@@ -45,7 +45,7 @@ namespace Wammer.Station
 				}
 				else
 				{
-					StationSignUpResponse res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId, StatusChecker.GetDetail());
+					var res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId, StatusChecker.GetDetail());
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
 						Update.Set("SessionToken", res.session_token)
@@ -54,16 +54,17 @@ namespace Wammer.Station
 						UpdateFlags.Upsert
 					);
 
+					var user = res.user;
 					var driver = new Driver
 					{
-						user_id = res.user.user_id,
-						email = res.user.email,
+						user_id = user.user_id,
+						email = user.email,
 						groups = res.groups,
-						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
+						folder = Path.Combine(resourceBasePath, "user_" + user.user_id),
 						session_token = res.session_token,
 						isPrimaryStation = IsThisPrimaryStation(res.stations),
 						ref_count = 1,
-						user = res.user,
+						user = user,
 						stations = res.stations
 					};
 
@@ -90,19 +91,19 @@ namespace Wammer.Station
 							   CloudServer.PARAM_DEVICE_ID,
 							   CloudServer.PARAM_DEVICE_NAME);
 
-				string email = Parameters[CloudServer.PARAM_EMAIL];
-				string password = Parameters[CloudServer.PARAM_PASSWORD];
-				string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
-				string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
+				var email = Parameters[CloudServer.PARAM_EMAIL];
+				var password = Parameters[CloudServer.PARAM_PASSWORD];
+				var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+				var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
 
-				using (WebClient agent = new DefaultWebClient())
+				using (var agent = new DefaultWebClient())
 				{
-					Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
+					var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
 
 					if (existingDriver != null)
 					{
 						// check if this email is re-registered, if yes, delete old driver's data
-						User user = User.LogIn(agent, email, password, deviceId, deviceName);
+						var user = User.LogIn(agent, email, password, deviceId, deviceName);
 
 						if (user == null)
 							throw new WammerStationException("Logined user not found", (int)StationLocalApiError.AuthFailed);
@@ -132,7 +133,7 @@ namespace Wammer.Station
 							StationCollection.Instance.RemoveAll();
 					}
 
-					StationSignUpResponse res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId,
+					var res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId,
 					                                                             deviceName, StatusChecker.GetDetail());
 					StationCollection.Instance.Update(
 						Query.EQ("_id", stationId),
@@ -186,7 +187,7 @@ namespace Wammer.Station
 
 		private void OnDriverAdded(DriverAddedEvtArgs args)
 		{
-			EventHandler<DriverAddedEvtArgs> handler = DriverAdded;
+			var handler = DriverAdded;
 
 			if (handler != null)
 				handler(this, args);
@@ -194,7 +195,7 @@ namespace Wammer.Station
 
 		private void OnBeforeDriverSaved(BeforeDriverSavedEvtArgs args)
 		{
-			EventHandler<BeforeDriverSavedEvtArgs> handler = BeforeDriverSaved;
+			var handler = BeforeDriverSaved;
 
 			if (handler != null)
 				handler(this, args);

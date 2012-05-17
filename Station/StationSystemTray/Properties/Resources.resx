@@ -135,7 +135,7 @@
     <value>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</value>
   </data>
   <data name="CleanResourceMsg" xml:space="preserve">
-    <value>Do you want to remove all files of {0} on this computer?</value>
+    <value>Do you want to remove {0}  account from this computer?</value>
   </data>
   <data name="ConnectCloudError" xml:space="preserve">
     <value>Unable to connect to Stream Cloud</value>

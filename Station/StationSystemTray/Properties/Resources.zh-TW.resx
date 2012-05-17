@@ -130,7 +130,7 @@
     <value>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</value>
   </data>
   <data name="CleanResourceMsg" xml:space="preserve">
-    <value>是否要將 {0} 在本機儲存的所有檔案刪除？</value>
+    <value>是否要將 {0} 帳號至本機移除？</value>
   </data>
   <data name="ConnectCloudError" xml:space="preserve">
     <value>無法連接 Stream 伺服器</value>
