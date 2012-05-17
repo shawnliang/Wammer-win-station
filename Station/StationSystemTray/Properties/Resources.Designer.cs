@@ -170,7 +170,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Existed account info maybe expire, may be remove account and readd, or try again latter!.
+        ///   Looks up a localized string similar to Existed account info has expired. Please go to the &quot;Settings&quot; page to remove this account and login again. Or you can try again latter. Your original files stored on this computer will not be deleted..
         /// </summary>
         public static string EXISTED_DRIVER_MAYBE_EXPIRE {
             get {
