@@ -22,9 +22,9 @@ namespace Wammer.Station.Service
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
-		private readonly DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
+		private readonly BodySyncQueue bodySyncTaskQueue = new BodySyncQueue();
 		private readonly PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
-		private TaskRunner<INamedTask>[] bodySyncRunners;
+		private TaskRunner<ResourceDownloadTask>[] bodySyncRunners;
 		private HttpServer functionServer;
 		private HttpServer managementServer;
 		private string resourceBasePath;
@@ -111,10 +111,10 @@ namespace Wammer.Station.Service
 				stationTimer.Start();
 
 				const int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner<INamedTask>[bodySyncThreadNum];
+				bodySyncRunners = new TaskRunner<ResourceDownloadTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
-					var bodySyncRunner = new TaskRunner<INamedTask>(bodySyncTaskQueue);
+					var bodySyncRunner = new TaskRunner<ResourceDownloadTask>(bodySyncTaskQueue);
 					bodySyncRunners[i] = bodySyncRunner;
 
 					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;

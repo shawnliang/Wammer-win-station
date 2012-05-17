@@ -225,6 +225,7 @@
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRetryTimer.cs" />
     <Compile Include="Station\AbstrackTaskRunner.cs" />
+    <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />
     <Compile Include="Station\Timeline\TimelineSyncer.cs" />
