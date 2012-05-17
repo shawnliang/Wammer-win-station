@@ -44,6 +44,7 @@ namespace Wammer.Cloud
 		public const string PARAM_COVER_ATTACH = "cover_attach";
 		public const string PARAM_FAVORITE = "favorite";
 		public const string PARAM_UPDATE_TIME = "update_time";
+		public const string PARAM_REMOVE_ALL_DATA = "remove_resource";
 
 		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
 		                                                    	{
@@ -92,7 +93,7 @@ namespace Wammer.Cloud
 		{
 			//0ffd0a63-65ef-512b-94c7-ab3b33117363
 
-			byte[] buffer = new byte[36];
+			var buffer = new byte[36];
 			buffer[0] = 0x30;
 			buffer[1] = 0x66;
 			buffer[2] = 0x66;
@@ -130,7 +131,7 @@ namespace Wammer.Cloud
 			buffer[34] = 0x36;
 			buffer[35] = 0x33;
 
-			return System.Text.Encoding.UTF8.GetString(buffer);
+			return Encoding.UTF8.GetString(buffer);
 		}
 
 
@@ -143,7 +144,7 @@ namespace Wammer.Cloud
 			{
 				foreach (var pair in parameters)
 				{
-					if (pair.Key == CloudServer.PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+					if (pair.Key == PARAM_SESSION_TOKEN && pair.Value == string.Empty)
 						throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
 					buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -159,11 +160,8 @@ namespace Wammer.Cloud
 
 				Debug.Assert(stream != null, "stream != null");
 				stream.WriteTo(filepath, 1024,
-				               (sender, e) =>
-				               	{
-				               		PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(
-				               			long.Parse(e.UserState.ToString()));
-				               	});
+				               (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(
+				               	long.Parse(e.UserState.ToString())));
 				stream.Close();
 			}
 			catch (WebException e)
@@ -182,7 +180,7 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in parameters)
 			{
-				if (pair.Key == CloudServer.PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+				if (pair.Key == PARAM_SESSION_TOKEN && pair.Value == string.Empty)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -293,7 +291,7 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in param)
 			{
-				if (pair.Key == CloudServer.PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+				if (pair.Key == PARAM_SESSION_TOKEN && pair.Value == string.Empty)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -371,7 +369,7 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in param)
 			{
-				if (pair.Key == CloudServer.PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+				if (pair.Key == PARAM_SESSION_TOKEN && pair.Value == string.Empty)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -464,22 +462,19 @@ namespace Wammer.Cloud
 			{
 				return (e.WammerError == (int)GeneralApiError.SessionNotExist);
 			}
-			else
+			var webex = (WebException)e.InnerException;
+			if (webex != null)
 			{
-				var webex = (WebException)e.InnerException;
-				if (webex != null)
+				var response = (HttpWebResponse)webex.Response;
+				if (response != null)
 				{
-					var response = (HttpWebResponse)webex.Response;
-					if (response != null)
+					if (response.StatusCode == HttpStatusCode.Unauthorized)
 					{
-						if (response.StatusCode == HttpStatusCode.Unauthorized)
-						{
-							return true;
-						}
+						return true;
 					}
 				}
-				return false;
 			}
+			return false;
 		}
 	}
 }

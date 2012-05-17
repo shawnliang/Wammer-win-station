@@ -120,7 +120,9 @@
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
+    <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
+    <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
     <Compile Include="Station\NullNamedTask.cs" />
     <Compile Include="Station\SessionNotExistException.cs" />
     <Compile Include="Station\TaskRunner.cs" />
@@ -224,8 +226,10 @@
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRetryTimer.cs" />
     <Compile Include="Station\AbstrackTaskRunner.cs" />
+    <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />
+    <Compile Include="Station\Timeline\ResourceDownloadTask.cs" />
     <Compile Include="Station\Timeline\TimelineSyncer.cs" />
     <Compile Include="Station\Timeline\TimelineSyncerDB.cs" />
     <Compile Include="Station\APIHandler\UserLoginHandler.cs" />

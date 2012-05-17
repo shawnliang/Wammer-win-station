@@ -1,101 +1,78 @@
 using System;
-using System.IO;
-using System.Net;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
-using Wammer.Model;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {
 	public class RemoveOwnerHandler : HttpHandler
 	{
-		private readonly string stationId;
+		#region Var
+		private DriverController _driverAgent;
+		#endregion
 
+		#region Property
+		/// <summary>
+		/// Gets or sets the m_ station ID.
+		/// </summary>
+		/// <value>The m_ station ID.</value>
+		private String m_StationID { get; set; }
+
+		/// <summary>
+		/// Gets the m_ driver agent.
+		/// </summary>
+		/// <value>The m_ driver agent.</value>
+		private DriverController m_DriverAgent
+		{
+			get
+			{
+				return _driverAgent ?? (_driverAgent = new DriverController());
+			}
+		}
+		#endregion
+
+		#region Events
+		public event EventHandler<DriverRemovedEventArgs> DriverRemoved;
+		#endregion
+
+		#region Constructor
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RemoveOwnerHandler"/> class.
+		/// </summary>
+		/// <param name="stationId">The station id.</param>
 		public RemoveOwnerHandler(string stationId)
 		{
-			this.stationId = stationId;
-		}
+			m_StationID = stationId;
+		} 
+		#endregion
+
 
 		public override void HandleRequest()
 		{
-			string userID = Parameters["user_ID"];
-			bool removeResource = bool.Parse(Parameters["remove_resource"]);
+			CheckParameter(CloudServer.PARAM_USER_ID, CloudServer.PARAM_REMOVE_ALL_DATA);
 
-			if (userID == null)
-				throw new FormatException("user_ID is missing");
+			var userID = Parameters[CloudServer.PARAM_USER_ID];
+			var removeAllData = bool.Parse(Parameters[CloudServer.PARAM_REMOVE_ALL_DATA]);
 
-			//Try to find existing driver
-			Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-			Boolean isDriverExists = existingDriver != null;
+			m_DriverAgent.RemoveDriver(m_StationID, userID, removeAllData);
 
-			//Driver not exists => return
-			if (!isDriverExists)
-			{
-				RespondSuccess();
-				return;
-			}
-
-			//reference count > 1 => reference count decrease one
-			if (existingDriver.ref_count > 1)
-			{
-				--existingDriver.ref_count;
-				DriverCollection.Instance.Save(existingDriver);
-				RespondSuccess();
-				return;
-			}
-
-			//Notify cloud server that the user signoff
-			using (WebClient client = new DefaultWebClient())
-			{
-				try
-				{
-					StationApi.SignOff(client, stationId, existingDriver.session_token, userID);
-				}
-				catch (WammerCloudException e)
-				{
-					this.LogWarnMsg(string.Format("Unable to notify cloud to unlink user {0} from this computer", userID), e);
-
-					// continue removing user even if session expired
-					if (e.WammerError != (int)GeneralApiError.SessionNotExist)
-						throw;
-				}
-			}
-
-			//Remove the user from db, and stop service this user
-			DriverCollection.Instance.Remove(Query.EQ("_id", userID));
-
-			//Remove login session if existed
-			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", existingDriver.session_token));
-
-			//Remove all user data
-			if (removeResource)
-			{
-				if (Directory.Exists(existingDriver.folder))
-				{
-					Directory.Delete(existingDriver.folder, true);
-				}
-				foreach (PostInfo post in PostCollection.Instance.Find(Query.EQ("creator_id", userID)))
-				{
-					foreach (String attachmentId in post.attachment_id_array)
-					{
-						AttachmentCollection.Instance.Remove(Query.EQ("_id", attachmentId));
-					}
-				}
-				PostCollection.Instance.Remove(Query.EQ("creator_id", userID));
-			}
-
-			//All driver removed => Remove station from db
-			Driver driver = DriverCollection.Instance.FindOne();
-			if (driver == null)
-				StationCollection.Instance.RemoveAll();
-
+			OnDriverRemoved(userID);
 			RespondSuccess();
 		}
 
-		public override object Clone()
+		private void OnDriverRemoved(string userId)
 		{
-			return MemberwiseClone();
+			EventHandler<DriverRemovedEventArgs> handler = DriverRemoved;
+			if (handler != null)
+				handler(this, new DriverRemovedEventArgs(userId));
+		}
+	}
+
+	public class DriverRemovedEventArgs: EventArgs
+	{
+		public string UserId { get; private set; }
+
+		public DriverRemovedEventArgs(string user_id)
+		{
+			this.UserId = user_id;
 		}
 	}
 }

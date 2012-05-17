@@ -85,13 +85,13 @@ namespace Wammer.Utility
 			foreach (int backOffWindow in backOffWindows)
 			{
 				if (backOffWindow < 0)
-					throw new ArgumentOutOfRangeException("backOffWindow", "backOffWindows must bigger than zero!");
+					throw new ArgumentOutOfRangeException("backOffWindows", "backOffWindows must bigger than zero!");
 
 				if (minValue > backOffWindow)
-					throw new ArgumentOutOfRangeException("backOffWindow", "backOffWindows must order by increase!");
+					throw new ArgumentOutOfRangeException("backOffWindows", "backOffWindows must order by increase!");
 
 				if (minValue == backOffWindow)
-					throw new ArgumentOutOfRangeException("backOffWindow", "Can't contains duplicated elements!");
+					throw new ArgumentOutOfRangeException("backOffWindows", "Can't contains duplicated elements!");
 
 				minValue = backOffWindow;
 			}

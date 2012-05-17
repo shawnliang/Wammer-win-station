@@ -64,7 +64,7 @@ namespace UT_WammerStation
 			Reset();
 
 			server = new HttpServer(8080);
-			handler = new UserLoginHandler();
+			handler = new UserLoginHandler("stationId", "resource");
 			server.AddHandler("/v2/auth/login", handler);
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);

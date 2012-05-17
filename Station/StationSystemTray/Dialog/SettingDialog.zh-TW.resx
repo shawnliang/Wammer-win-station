@@ -134,7 +134,7 @@
     <value>94, 13</value>
   </data>
   <data name="lblStorageUsage.Text" xml:space="preserve">
-    <value>以使用磁碟空間:</value>
+    <value>已使用磁碟空間:</value>
   </data>
   <data name="lblStorageUsageValue.Location" type="System.Drawing.Point, System.Drawing">
     <value>107, 85</value>

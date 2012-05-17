@@ -773,7 +773,7 @@ namespace StationSystemTray
 			}
 			catch (StationServiceDownException)
 			{
-				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{
@@ -817,24 +817,19 @@ namespace StationSystemTray
 
 				return true;
 			}
-			catch (InvalidDriverException)
-			{
-				MessageBox.Show(Resources.EXISTED_DRIVER_MAYBE_EXPIRE);
-				GotoTabPage(tabSignIn, userlogin);
-			}
 			catch (AuthenticationException)
 			{
-				MessageBox.Show(Resources.AuthError);
+				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			catch (ConnectToCloudException)
 			{
-				MessageBox.Show(Resources.ConnectCloudError);
+				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(Resources.LogInError + Environment.NewLine + e.Message);
+				MessageBox.Show(Resources.LogInError + Environment.NewLine + e.Message, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			finally
@@ -1080,7 +1075,7 @@ namespace StationSystemTray
 			{
 				if (!IsDisposed)
 					Show();
-				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{
@@ -1103,16 +1098,20 @@ namespace StationSystemTray
 
 		public void LogOut(WebClient agent, string sessionToken, string apiKey)
 		{
-			LogoutFB();
-			userloginContainer.CleartCurLoginedSession();
-
-			var parameters = new Dictionary<object, object>
-			                 	{
-			                 		{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
-			                 		{CloudServer.PARAM_API_KEY, apiKey}
-			                 	};
-
-			CloudServer.requestPath(agent, "http://127.0.0.1:9981/v2/", "auth/logout", parameters, false);
+			try
+			{
+				LogoutFB();
+				userloginContainer.CleartCurLoginedSession();
+				StationController.UserLogout(apiKey, sessionToken);
+			}
+			catch (StationServiceDownException)
+			{
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (ConnectToCloudException)
+			{
+				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		private void menuSignIn_Click(object sender, EventArgs e)
@@ -1367,7 +1366,7 @@ namespace StationSystemTray
 			{
 				if (!IsDisposed)
 					Show();
-				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{

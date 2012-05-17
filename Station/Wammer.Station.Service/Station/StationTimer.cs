@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using log4net;
+using Wammer.Station.Timeline;
 
 namespace Wammer.Station
 {
@@ -24,7 +25,7 @@ namespace Wammer.Station
 
 		private readonly List<IStationTimer> timers;
 
-		public StationTimer(ITaskEnqueuable<INamedTask> bodySyncQueue, string stationId)
+		public StationTimer(ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue, string stationId)
 		{
 			var resourceSyncer = new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue, stationId);
 			var statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);

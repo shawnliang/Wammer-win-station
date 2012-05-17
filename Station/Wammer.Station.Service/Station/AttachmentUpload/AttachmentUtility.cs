@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
-using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Utility;

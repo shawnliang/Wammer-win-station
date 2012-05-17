@@ -270,6 +270,7 @@ namespace Wammer.Station
 			Debug.Assert(req != null, "req != null");
 
 			if (RawPostData != null &&
+				req.ContentType != null &&
 			    req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
 			{
 				string postData = Encoding.UTF8.GetString(RawPostData);

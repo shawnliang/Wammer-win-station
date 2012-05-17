@@ -22,9 +22,9 @@ namespace Wammer.Station.Service
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
-		private readonly DedupTaskQueue bodySyncTaskQueue = new DedupTaskQueue();
+		private readonly BodySyncQueue bodySyncTaskQueue = new BodySyncQueue();
 		private readonly PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
-		private TaskRunner<INamedTask>[] bodySyncRunners;
+		private TaskRunner<ResourceDownloadTask>[] bodySyncRunners;
 		private HttpServer functionServer;
 		private HttpServer managementServer;
 		private string resourceBasePath;
@@ -111,15 +111,16 @@ namespace Wammer.Station.Service
 				stationTimer.Start();
 
 				const int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner<INamedTask>[bodySyncThreadNum];
+				bodySyncRunners = new TaskRunner<ResourceDownloadTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
-					var bodySyncRunner = new TaskRunner<INamedTask>(bodySyncTaskQueue);
+					var bodySyncRunner = new TaskRunner<ResourceDownloadTask>(bodySyncTaskQueue);
 					bodySyncRunners[i] = bodySyncRunner;
 
 					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
 					bodySyncRunner.Start();
 				}
+				bodySyncTaskQueue.TaskDropped += downstreamMonitor.OnDownstreamTaskDone;
 
 				postUploadRunner.Start();
 
@@ -174,7 +175,11 @@ namespace Wammer.Station.Service
 
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), new RemoveOwnerHandler(stationId));
+
+			var removeOwnerHandler = new RemoveOwnerHandler(stationId);
+			removeOwnerHandler.DriverRemoved += new EventHandler<DriverRemovedEventArgs>(removeOwnerHandler_DriverRemoved);
+
+			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), removeOwnerHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/status/get/"), new StatusGetHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/list"), new ListCloudStorageHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/oauth/"), new DropBoxOAuthHandler());
@@ -182,6 +187,18 @@ namespace Wammer.Station.Service
 			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/update/"), new DropBoxUpdateHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/disconnect/"), new DropboxDisconnectHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/availability/ping/"), new PingHandler());
+		}
+
+		void removeOwnerHandler_DriverRemoved(object sender, DriverRemovedEventArgs e)
+		{
+			try
+			{
+				bodySyncTaskQueue.RemoveAllByUserId(e.UserId);
+			}
+			catch (Exception ex)
+			{
+				logger.Warn("Unable to remove body sync tasks of removed user " + e.UserId, ex);
+			}
 		}
 
 		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder,
@@ -248,14 +265,14 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 			                          new HybridCloudHttpRouter(new UserTrackHandler()));
 
-			var loginHandler = new UserLoginHandler();
+			var loginHandler = new UserLoginHandler(stationId, resourceBasePath);
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 			                          loginHandler);
 
 			loginHandler.UserLogined += loginHandler_UserLogined;
 
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
-			                          new UserLogoutHandler());
+									  new UserLogoutHandler());
 
 			viewHandler = new AttachmentViewHandler(stationId);
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),

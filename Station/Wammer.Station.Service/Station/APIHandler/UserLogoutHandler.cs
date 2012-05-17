@@ -29,8 +29,9 @@ namespace Wammer.Station
 					User.LogOut(client, sessionToken, apiKey);
 				}
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
+				this.LogDebugMsg("Unable to logout from Stream cloud", e);
 			}
 
 			LoginedSession loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));

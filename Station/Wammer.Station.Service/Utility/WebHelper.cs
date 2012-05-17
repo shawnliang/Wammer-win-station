@@ -141,7 +141,7 @@ namespace Waveface
 		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
 		                                           string mimeType, Stream dataStream)
 		{
-			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, stream => { stream.Write(dataStream); });
+			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, stream => stream.Write(dataStream));
 		}
 
 
@@ -159,7 +159,7 @@ namespace Waveface
 		                                           string mimeType, ArraySegment<byte> fileData)
 		{
 			return GetMultipartFormData(postParameters, boundary, fileName, mimeType,
-			                            stream => { stream.Write(fileData.Array, fileData.Offset, fileData.Count); });
+			                            stream => stream.Write(fileData.Array, fileData.Offset, fileData.Count));
 		}
 
 		#endregion
@@ -250,8 +250,6 @@ namespace Waveface
 		/// <returns>Image</returns>
 		public static Image DownloadImage(string url)
 		{
-			Image _tmpImage = null;
-
 			try
 			{
 				// Open a connection
@@ -267,26 +265,26 @@ namespace Waveface
 				_httpWebRequest.Timeout = 20000;
 
 				// Request response:
-				WebResponse _webResponse = _httpWebRequest.GetResponse();
+				var _webResponse = _httpWebRequest.GetResponse();
 
 				// Open data stream:
-				Stream _webStream = _webResponse.GetResponseStream();
+				var _webStream = _webResponse.GetResponseStream();
 
 				// convert webstream to image
 				Debug.Assert(_webStream != null, "_webStream != null");
-				_tmpImage = Image.FromStream(_webStream);
+				var image = Image.FromStream(_webStream);
 
 				// Cleanup
 				_webResponse.Close();
 				_webResponse.Close();
+
+				return image;
 			}
 			catch (Exception _e)
 			{
 				Console.WriteLine("Exception caught in process: {0}", _e);
 				return null;
 			}
-
-			return _tmpImage;
 		}
 
 		/// <summary>

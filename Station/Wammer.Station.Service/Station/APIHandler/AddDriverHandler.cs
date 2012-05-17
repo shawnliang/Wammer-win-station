@@ -1,87 +1,118 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public class AddDriverHandler: HttpHandler
 	{
-		private readonly string resourceBasePath;
-		private readonly string stationId;
+		#region Var
+		private DriverController _driverAgent;
+		#endregion
 
+		#region Property
+		/// <summary>
+		/// Gets or sets the m_ resource base path.
+		/// </summary>
+		/// <value>The m_ resource base path.</value>
+		private String m_ResourceBasePath { get; set; }
+
+		/// <summary>
+		/// Gets or sets the m_ station ID.
+		/// </summary>
+		/// <value>The m_ station ID.</value>
+		private String m_StationID { get; set; }	
+
+		/// <summary>
+		/// Gets the m_ driver agent.
+		/// </summary>
+		/// <value>The m_ driver agent.</value>
+		private DriverController m_DriverAgent
+		{
+			get
+			{
+				if (_driverAgent == null)
+				{
+					_driverAgent = new DriverController();
+					_driverAgent.BeforeDriverSaved += _driverAgent_BeforeDriverSaved;
+					_driverAgent.DriverAdded += _driverAgent_DriverAdded;
+				}
+				return _driverAgent;
+			}
+		} 
+		#endregion
+		
+		#region Constructor
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AddDriverHandler"/> class.
+		/// </summary>
+		/// <param name="stationId">The station id.</param>
+		/// <param name="resourceBasePath">The resource base path.</param>
 		public AddDriverHandler(string stationId, string resourceBasePath)
 		{
-			this.stationId = stationId;
-			this.resourceBasePath = resourceBasePath;
+			m_StationID = stationId;
+			m_ResourceBasePath = resourceBasePath;
+		} 
+		#endregion
+
+
+		#region Event
+		/// <summary>
+		/// Occurs when [driver added].
+		/// </summary>
+		public event EventHandler<DriverAddedEvtArgs> DriverAdded;
+
+		/// <summary>
+		/// Occurs when [before driver saved].
+		/// </summary>
+		public event EventHandler<BeforeDriverSavedEvtArgs> BeforeDriverSaved; 
+		#endregion
+
+
+		#region Protected Method
+		/// <summary>
+		/// Called when [driver added].
+		/// </summary>
+		/// <param name="args">The args.</param>
+		protected void OnDriverAdded(DriverAddedEvtArgs args)
+		{
+			var handler = DriverAdded;
+
+			if (handler != null)
+				handler(this, args);
 		}
 
-		public event EventHandler<DriverAddedEvtArgs> DriverAdded;
-		public event EventHandler<BeforeDriverSavedEvtArgs> BeforeDriverSaved;
+		/// <summary>
+		/// Called when [before driver saved].
+		/// </summary>
+		/// <param name="args">The args.</param>
+		protected void OnBeforeDriverSaved(BeforeDriverSavedEvtArgs args)
+		{
+			var handler = BeforeDriverSaved;
 
+			if (handler != null)
+				handler(this, args);
+		}
+		#endregion
+
+
+
+		#region Public Method
+		/// <summary>
+		/// Handles the request.
+		/// </summary>
 		public override void HandleRequest()
 		{
 			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{
-				string sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
-				string userId = Parameters[CloudServer.PARAM_USER_ID];
+				var sessionToken = Parameters[CloudServer.SessionToken];
+				var userID = Parameters[CloudServer.PARAM_USER_ID];
 
-				Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userId));
-				if (existingDriver != null)
-				{
-					existingDriver.ref_count += 1;
-					DriverCollection.Instance.Save(existingDriver);
-					RespondSuccess(new AddUserResponse
-					{
-						UserId = existingDriver.user_id,
-						IsPrimaryStation = existingDriver.isPrimaryStation
-					});
-				}
-				else
-				{
-					StationSignUpResponse res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId, StatusChecker.GetDetail());
-					StationCollection.Instance.Update(
-						Query.EQ("_id", stationId),
-						Update.Set("SessionToken", res.session_token)
-							.Set("Location", NetworkHelper.GetBaseURL())
-							.Set("LastLogOn", DateTime.Now),
-						UpdateFlags.Upsert
-					);
-
-					var driver = new Driver
-					{
-						user_id = res.user.user_id,
-						email = res.user.email,
-						groups = res.groups,
-						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
-						session_token = res.session_token,
-						isPrimaryStation = IsThisPrimaryStation(res.stations),
-						ref_count = 1,
-						user = res.user,
-						stations = res.stations
-					};
-
-					Directory.CreateDirectory(driver.folder);
-
-					OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
-
-					DriverCollection.Instance.Save(driver);
-
-					OnDriverAdded(new DriverAddedEvtArgs(driver));
-
-					RespondSuccess(new AddUserResponse
-					{
-						UserId = driver.user_id,
-					               		IsPrimaryStation = driver.isPrimaryStation,
-					               		Stations = driver.stations
-					});
-				}
+				RespondSuccess(m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, userID, sessionToken));
 			}
 			else
 			{
@@ -90,120 +121,39 @@ namespace Wammer.Station
 							   CloudServer.PARAM_DEVICE_ID,
 							   CloudServer.PARAM_DEVICE_NAME);
 
-				string email = Parameters[CloudServer.PARAM_EMAIL];
-				string password = Parameters[CloudServer.PARAM_PASSWORD];
-				string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
-				string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
+				var email = Parameters[CloudServer.PARAM_EMAIL];
+				var password = Parameters[CloudServer.PARAM_PASSWORD];
+				var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+				var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
 
-				using (WebClient agent = new DefaultWebClient())
-				{
-					Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
-
-					if (existingDriver != null)
-					{
-						// check if this email is re-registered, if yes, delete old driver's data
-						User user = User.LogIn(agent, email, password, deviceId, deviceName);
-
-						if (user == null)
-							throw new WammerStationException("Logined user not found", (int)StationLocalApiError.AuthFailed);
-
-						if (user.Id == existingDriver.user_id)
-						{
-							existingDriver.ref_count += 1;
-							DriverCollection.Instance.Save(existingDriver);
-
-							RespondSuccess(new AddUserResponse
-							{
-								UserId = existingDriver.user_id,
-							               		IsPrimaryStation = existingDriver.isPrimaryStation,
-							               		Stations = existingDriver.stations
-							});
-							return;
-						}
-
-						//Remove the user from db, and stop service this user
-						DriverCollection.Instance.Remove(Query.EQ("_id", existingDriver.user_id));
-
-						if (Directory.Exists(existingDriver.folder))
-							Directory.Delete(existingDriver.folder, true);
-
-						//All driver removed => Remove station from db
-						if (DriverCollection.Instance.FindOne() == null)
-							StationCollection.Instance.RemoveAll();
-					}
-
-					StationSignUpResponse res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceId,
-					                                                             deviceName, StatusChecker.GetDetail());
-					StationCollection.Instance.Update(
-						Query.EQ("_id", stationId),
-						Update.Set("SessionToken", res.session_token)
-							.Set("Location", NetworkHelper.GetBaseURL())
-							.Set("LastLogOn", DateTime.Now),
-						UpdateFlags.Upsert
-					);
-
-					var driver = new Driver
-					{
-						user_id = res.user.user_id,
-						email = email,
-						folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
-						groups = res.groups,
-						session_token = res.session_token,
-						isPrimaryStation = IsThisPrimaryStation(res.stations),
-						ref_count = 1,
-						user = res.user,
-						stations = res.stations
-					};
-
-					Directory.CreateDirectory(driver.folder);
-
-					OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
-
-					DriverCollection.Instance.Save(driver);
-
-
-					OnDriverAdded(new DriverAddedEvtArgs(driver));
-
-					RespondSuccess(new AddUserResponse
-					{
-						UserId = driver.user_id,
-					               		IsPrimaryStation = driver.isPrimaryStation,
-					               		Stations = driver.stations
-					});
-				}
+				RespondSuccess(m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, email, password, deviceId, deviceName));
 			}
 		}
+		#endregion
 
-		private bool IsThisPrimaryStation(IEnumerable<UserStation> stations)
+
+
+		#region Event Process
+		/// <summary>
+		/// _drivers the agent_ driver added.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		void _driverAgent_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
-			if (stations == null)
-				return false;
-
-			return (from s in stations 
-					where s.station_id == stationId 
-					select string.Compare(s.type, "primary", true) == 0).FirstOrDefault();
-				}
-
-		private void OnDriverAdded(DriverAddedEvtArgs args)
-		{
-			EventHandler<DriverAddedEvtArgs> handler = DriverAdded;
-
-			if (handler != null)
-				handler(this, args);
+			OnDriverAdded(e);
 		}
 
-		private void OnBeforeDriverSaved(BeforeDriverSavedEvtArgs args)
+		/// <summary>
+		/// _drivers the agent_ before driver saved.
+		/// </summary>
+		/// <param name="sender">The sender.</param>
+		/// <param name="e">The e.</param>
+		void _driverAgent_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
 		{
-			EventHandler<BeforeDriverSavedEvtArgs> handler = BeforeDriverSaved;
-
-			if (handler != null)
-				handler(this, args);
+			OnBeforeDriverSaved(e);
 		}
-
-		public override object Clone()
-		{
-			return MemberwiseClone();
-		}
+		#endregion
 	}
 
 
