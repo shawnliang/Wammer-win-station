@@ -1085,7 +1085,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkRememberPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 219</value>
+    <value>46, 226</value>
   </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 20</value>
@@ -1127,7 +1127,7 @@
     <value>Arial, 14.25pt, style=Bold</value>
   </data>
   <data name="fbLoginButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 320</value>
+    <value>46, 319</value>
   </data>
   <data name="fbLoginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>6, 5, 6, 5</value>
@@ -1142,7 +1142,7 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 285</value>
+    <value>46, 288</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>382, 1</value>
@@ -1207,7 +1207,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>27, 15</value>
   </data>
   <data name="lblSignUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 418</value>
+    <value>14, 407</value>
   </data>
   <data name="lblSignUp.Size" type="System.Drawing.Size, System.Drawing">
     <value>448, 27</value>
@@ -1267,10 +1267,13 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>Arial, 12.75pt, style=Bold</value>
   </data>
   <data name="loginButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>318, 219</value>
+    <value>318, 220</value>
   </data>
   <data name="loginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
+  </data>
+  <data name="loginButton1.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>110, 40</value>
   </data>
   <data name="loginButton1.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 40</value>
@@ -1282,7 +1285,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>Login</value>
   </data>
   <data name="loginInputPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 67</value>
+    <value>46, 87</value>
   </data>
   <data name="loginInputPanel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>382, 121</value>
@@ -1408,7 +1411,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>NoControl</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 21</value>
+    <value>180, 32</value>
   </data>
   <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>115, 40</value>
@@ -1460,7 +1463,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>NoControl</value>
   </data>
   <data name="pictureBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>225, 273</value>
+    <value>225, 276</value>
   </data>
   <data name="pictureBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>25, 25</value>
