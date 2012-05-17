@@ -4,6 +4,9 @@ using System.Net;
 using System.Reflection;
 using System.ServiceProcess;
 using System.Threading;
+using System.Management;
+using System.Security.Cryptography;
+using System.Text;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
 using Wammer.PostUpload;
@@ -359,9 +362,53 @@ namespace Wammer.Station.Service
 
 			if (stationId == null)
 			{
-				stationId = Guid.NewGuid().ToString();
+				stationId = GenerateUniqueDeviceId();
+
 				StationRegistry.SetValue("stationId", stationId);
 			}
+		}
+
+		private string GenerateUniqueDeviceId()
+		{
+			// uniqueness is at least guaranteed by volume serial number
+			string volumeSN = string.Empty;
+			try
+			{
+				string drive = Path.GetPathRoot(Environment.CurrentDirectory).TrimEnd('\\');
+				ManagementObject disk = new ManagementObject(string.Format("win32_logicaldisk.deviceid=\"{0}\"", drive));
+				disk.Get();
+				volumeSN = disk["VolumeSerialNumber"].ToString();
+				logger.DebugFormat("volume serial number = {0}", volumeSN);
+			}
+			catch (Exception e)
+			{
+				logger.Debug("Unable to retrieve volume serial number", e);
+				return Guid.NewGuid().ToString();
+			}
+
+			string cpuID = "DEFAULT";
+			try
+			{
+				ManagementClass mc = new ManagementClass("win32_processor");
+				ManagementObjectCollection moc = mc.GetInstances();
+				foreach (var mo in moc)
+				{
+					// use first CPU's ID
+					cpuID = mo.Properties["processorID"].Value.ToString();
+					break;
+				}
+				logger.DebugFormat("processor ID = {0}", cpuID);
+			}
+			catch (Exception e)
+			{
+				logger.Debug("Unable to retrieve processor ID", e);
+			}
+
+			byte[] md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
+			StringBuilder hex = new StringBuilder(md5.Length * 2);
+			foreach (byte b in md5)
+				hex.AppendFormat("{0:x2}", b);
+			return hex.ToString();
 		}
 
 		private void ConfigThreadPool()
