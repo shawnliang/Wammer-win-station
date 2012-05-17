@@ -150,6 +150,9 @@
   <data name="DropboxUI_Disconnect" xml:space="preserve">
     <value>解除連結</value>
   </data>
+  <data name="EXISTED_DRIVER_MAYBE_EXPIRE" xml:space="preserve">
+    <value>存在的帳號資訊可能過期，請刪除後重新加入正確的帳號，或是稍後再重試。</value>
+  </data>
   <data name="FillAllFields" xml:space="preserve">
     <value>請填寫所有欄位.</value>
   </data>
@@ -225,6 +228,9 @@
   </data>
   <data name="Testing" xml:space="preserve">
     <value>測試中...</value>
+  </data>
+  <data name="UNKNOW_REMOVEACCOUNT_ERROR" xml:space="preserve">
+    <value>移除帳號時發生未知的錯誤!</value>
   </data>
   <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
     <value>未知的註冊錯誤!</value>

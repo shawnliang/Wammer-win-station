@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -1023,6 +1023,8 @@
     <None Include="Resources\MaxMinClose\MMC_Restore.png" />
     <None Include="Resources\MaxMinClose\MMC_Restore_hl.png" />
     <None Include="Resources\ToLeft.png" />
+    <None Include="Resources\software-update-available.png" />
+    <None Include="Resources\UpdateAvailable.ico" />
     <None Include="Resources\Title\LD.png" />
     <None Include="Resources\Title\MD.png" />
     <None Include="Resources\Title\RD.png" />

@@ -817,6 +817,11 @@ namespace StationSystemTray
 
 				return true;
 			}
+			catch (InvalidDriverException)
+			{
+				MessageBox.Show(Resources.EXISTED_DRIVER_MAYBE_EXPIRE);
+				GotoTabPage(tabSignIn, userlogin);
+			}
 			catch (AuthenticationException)
 			{
 				MessageBox.Show(Resources.AuthError);
@@ -1124,7 +1129,7 @@ namespace StationSystemTray
 			var lastLoginUser = userloginContainer.GetLastUserLogin();
 			if (menuSignIn.Text == Resources.LogoutMenuItem)
 			{
-				string lastLogin = userloginContainer.GetCurLoginedSession();
+				var lastLogin = userloginContainer.GetCurLoginedSession();
 
 				if (lastLogin != null)
 				{
@@ -1133,8 +1138,12 @@ namespace StationSystemTray
 						clientProcess.CloseMainWindow();
 					}
 
-					LoginedSession loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
-					LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
+					var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
+
+					Debug.Assert(loginedSession != null);
+
+					if (loginedSession != null)
+						LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
 			GotoTabPage(tabSignIn, lastLoginUser);
@@ -1142,20 +1151,20 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-			string lastLogin = userloginContainer.GetCurLoginedSession();
+			var lastLogin = userloginContainer.GetCurLoginedSession();
 			LoginedSession loginedSession = null;
 
 			if (lastLogin != null)
 				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
-			bool isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
+			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
 
 			menuSignIn.Text = isUserLogined ? Resources.LogoutMenuItem : Resources.LoginMenuItem;
 		}
 
 		private void cmbEmail_TextChanged(object sender, EventArgs e)
 		{
-			UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
+			var userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
 			if (userlogin != null)
 			{
 				txtPassword.Text = userlogin.RememberPassword ? SecurityHelper.DecryptPassword(userlogin.Password) : string.Empty;
@@ -1479,11 +1488,11 @@ namespace StationSystemTray
 
 					m_SettingDialog.FormClosed += (senderEx, ex) =>
 					                              	{
-														m_SettingDialog.AccountRemoving -= removeAccountAction;
+														m_SettingDialog.AccountRemoved -= removeAccountAction;
 					                              		m_SettingDialog = null;
 					                              	};
 
-					m_SettingDialog.AccountRemoving += removeAccountAction;
+					m_SettingDialog.AccountRemoved += removeAccountAction;
 					this.Hide();
 					m_SettingDialog.ShowDialog();
 				}

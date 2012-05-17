@@ -177,7 +177,9 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            m_autoUpdator = new Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+            m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+            m_autoUpdator.ApplicationIcon = Resources.software_update_available;
+            m_autoUpdator.ApplicationWindowIcon = Resources.UpdateAvailable;
             m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
@@ -660,7 +662,7 @@ namespace Waveface
             catch (Exception e)
             {
                 s_logger.Error("Cannot login: " + e.ToString());
-                MessageBox.Show(I18n.L.T("ForceLogout"));
+                MessageBox.Show(I18n.L.T("ForceLogout"), I18n.L.T("SystemErrorCaption"));
                 QuitOption = Waveface.QuitOption.Logout;
                 Close();
             }

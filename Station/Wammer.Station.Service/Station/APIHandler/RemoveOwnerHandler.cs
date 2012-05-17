@@ -19,12 +19,11 @@ namespace Wammer.Station
 
 		public override void HandleRequest()
 		{
-			string sessionToken = Parameters["session_token"];
 			string userID = Parameters["user_ID"];
 			bool removeResource = bool.Parse(Parameters["remove_resource"]);
 
-			if (sessionToken == null || userID == null)
-				throw new FormatException("One of parameters is missing: email/password/session_token/userID");
+			if (userID == null)
+				throw new FormatException("user_ID is missing");
 
 			//Try to find existing driver
 			Driver existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
@@ -51,16 +50,15 @@ namespace Wammer.Station
 			{
 				try
 				{
-					StationApi.SignOff(client, stationId, sessionToken, userID);
+					StationApi.SignOff(client, stationId, existingDriver.session_token, userID);
 				}
 				catch (WammerCloudException e)
 				{
-					if (e.WammerError == -1)
-					{
-						RespondSuccess();
-						return;
-					}
-					throw;
+					this.LogWarnMsg(string.Format("Unable to notify cloud to unlink user {0} from this computer", userID), e);
+
+					// continue removing user even if session expired
+					if (e.WammerError != (int)GeneralApiError.SessionNotExist)
+						throw;
 				}
 			}
 
@@ -68,7 +66,7 @@ namespace Wammer.Station
 			DriverCollection.Instance.Remove(Query.EQ("_id", userID));
 
 			//Remove login session if existed
-			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", sessionToken));
+			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", existingDriver.session_token));
 
 			//Remove all user data
 			if (removeResource)

@@ -7,6 +7,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.Management;
+using StationSystemTray.Properties;
 
 namespace StationSystemTray
 {
@@ -97,6 +98,9 @@ namespace StationSystemTray
 			             		: item.user.nickname
 			                    	}).ToList();
 
+			lblStorageUsageValue.Text = "0 MB";
+			lblUserEmail.Text = string.Empty;
+
 			cmbStations.DisplayMember = "DisplayName";
 			cmbStations.ValueMember = "User";
 			cmbStations.DataSource = users;
@@ -132,10 +136,29 @@ namespace StationSystemTray
 
 			OnAccountRemoving(new AccountEventArgs(user.email));
 
-			StationController.RemoveOwner(user.user_id, false);
-			RefreshAccountList();
+			try
+			{
+				StationController.RemoveOwner(user.user_id, false);
+				OnAccountRemoved(new AccountEventArgs(user.email));
+			}
+			catch (AuthenticationException)
+			{
+				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (StationServiceDownException)
+			{
+				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (ConnectToCloudException)
+			{
+				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (Exception)
+			{
+				MessageBox.Show(Resources.UNKNOW_REMOVEACCOUNT_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 
-			OnAccountRemoved(new AccountEventArgs(user.email));
+			RefreshAccountList();
 		}
 
 		private void cmbStations_SelectedIndexChanged(object sender, EventArgs e)
