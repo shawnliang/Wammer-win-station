@@ -6,6 +6,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
 using Wammer.Utility;
+using System.Collections.Generic;
 
 namespace Wammer.Station
 {
@@ -62,11 +63,22 @@ namespace Wammer.Station
 				if (args.driver.isPrimaryStation)
 				{
 					// just upgraded to primary station
-					// download missing original attachments
 					foreach (Attachment attachment in AttachmentCollection.Instance.Find(Query.EQ("group_id", args.driver.groups[0].group_id)))
 					{
+						List<String> syncedOriginalAttachments = new List<string>();
+
 						if (string.IsNullOrEmpty(attachment.saved_file_name))
+							// download missing original attachments
 							downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
+						else
+							syncedOriginalAttachments.Add(attachment.object_id);
+
+						if (syncedOriginalAttachments.Count > 0)
+						{
+							TaskQueue.Enqueue(
+								   new NotifyCloudOfMultiBodySyncedTask(syncedOriginalAttachments, args.driver.user_id),
+								   TaskPriority.Low, true);
+						}
 					}
 				}
 			}
