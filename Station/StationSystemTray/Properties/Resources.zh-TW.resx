@@ -151,7 +151,7 @@
     <value>解除連結</value>
   </data>
   <data name="EXISTED_DRIVER_MAYBE_EXPIRE" xml:space="preserve">
-    <value>存在的帳號資訊可能過期，請刪除後重新加入正確的帳號，或是稍後再重試。</value>
+    <value>存在的帳號資訊已過期，請至"設定"將此帳號刪除後重新加入正確的帳號，或是稍後再重試。您儲存在本機的圖片將不會被刪除。</value>
   </data>
   <data name="FillAllFields" xml:space="preserve">
     <value>請填寫所有欄位.</value>

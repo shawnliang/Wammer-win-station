@@ -125,7 +125,7 @@ namespace UT_WammerStation
         ""name"": ""Android""
     },
     ""user"": {
-        ""user_id"": ""driver01-ea71-44b9-941d-5285568114b6"",
+        ""user_id"": ""exist_uid"",
         ""devices"": [
             {
                 ""device_id"": ""device0001"",
