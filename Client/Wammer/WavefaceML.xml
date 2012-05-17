@@ -3,111 +3,105 @@
   <WItem>
     <ID>DefaultFont</ID>
     <en-US>Arial</en-US>
-    <zh-TW>微���/zh-TW>
+    <zh-TW>微軟正黑體</zh-TW>
   </WItem>
 
-  <WItem>
-    <ID>TitleSystemError</ID>
-    <en-US>System Error</en-US>
-    <zh-TW>系統�誤</zh-TW>
-  </WItem>
-
-  <WItem>
-    <ID>TitleAuthExpired</ID>
-    <en-US>Authentication Expired</en-US>
-    <zh-TW>認�資��</zh-TW>
-  </WItem>
-  
-  <WItem>
-    <ID>TitleCancelEdit</ID>
-    <en-US>Cancel Edit</en-US>
-    <zh-TW>��編輯</zh-TW>
-  </WItem>
-  
   <WItem>
     <ID>CoverImage</ID>
     <en-US>Cover Image</en-US>
-    <zh-TW>封面��</zh-TW>
-  </WItem>    
-  
+    <zh-TW>封面照片</zh-TW>
+  </WItem>
+
   <WItem>
     <ID>ErrorAndTry</ID>
     <en-US>An error occurred, please try again.</en-US>
-    <zh-TW>系統��誤, 請�後��</zh-TW>
-  </WItem>  
-  
+    <zh-TW>系統發生錯誤, 請稍後再試.</zh-TW>
+  </WItem>
+
   <WItem>
     <ID>PostRemoved</ID>
     <en-US>Post removed.</en-US>
-    <zh-TW>移除貼��.</zh-TW>
-  </WItem>  
-  
+    <zh-TW>移除貼文成功.</zh-TW>
+  </WItem>
+
   <WItem>
     <ID>AskRemovePost</ID>
     <en-US>Remove this post?</en-US>
-    <zh-TW>�是�確定�移除�貼</zh-TW>
-  </WItem>    
+    <zh-TW>您是否確定要移除本貼文?</zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>TitleCancelEdit</ID>
+    <en-US>Cancel Edit</en-US>
+    <zh-TW>系統訊息</zh-TW>
+  </WItem>  
+  
+  <WItem>
+    <ID>TitleCancelPost</ID>
+    <en-US>Cancel Post</en-US>
+    <zh-TW>系統訊息</zh-TW>
+  </WItem>   
   
   <WItem>
     <ID>DiscardEditPost</ID>
     <en-US>Are you sure you want to cancel?</en-US>
-    <zh-TW>�確定��編輯�貼��?</zh-TW>
+    <zh-TW>您確定要放棄編輯本貼文嗎?</zh-TW>
   </WItem>
 
   <WItem>
     <ID>Update</ID>
     <en-US>Update</en-US>
-    <zh-TW>�改</zh-TW>
-  </WItem>  
+    <zh-TW>更改</zh-TW>
+  </WItem>
   <WItem>
     <ID>EditPost</ID>
-    <en-US>Edit Post</en-US>
-    <zh-TW>編輯貼�</zh-TW>
-  </WItem>   
+    <en-US>Edit</en-US>
+    <zh-TW>編輯</zh-TW>
+  </WItem>
   <WItem>
     <ID>Continue</ID>
     <en-US>Continue</en-US>
-    <zh-TW>繼�</zh-TW>
+    <zh-TW>繼續</zh-TW>
   </WItem>
   <WItem>
     <ID>Retry</ID>
     <en-US>Retry</en-US>
-    <zh-TW>�試</zh-TW>
+    <zh-TW>重試</zh-TW>
   </WItem>
   <WItem>
     <ID>Cancel</ID>
     <en-US>Cancel</en-US>
-    <zh-TW>��</zh-TW>
+    <zh-TW>取消</zh-TW>
   </WItem>
   <WItem>
     <ID>LoginForm.FillAllFields</ID>
     <en-US>Please fill all the fields!</en-US>
-    <zh-TW>請填寫���</zh-TW>
+    <zh-TW>請填寫所有欄位.</zh-TW>
   </WItem>
   <WItem>
     <ID>LoginForm.LogInError</ID>
     <en-US>Log In error. Please try again.</en-US>
-    <zh-TW>帳��碼錯� 請�輸</zh-TW>
+    <zh-TW>帳號或密碼錯誤, 請重新輸入.</zh-TW>
   </WItem>
   <WItem>
     <ID>LoginForm.StationRequired</ID>
     <en-US>Please install and log in our Stream Station on Windows to use this App!</en-US>
-    <zh-TW>��要�裝�Windows�本�Stream Station, �能��使用��</zh-TW>
-  </WItem>  
+    <zh-TW>您需要安裝我們Windows版本的Stream Station, 才能開始使用喔！</zh-TW>
+  </WItem>
   <WItem>
     <ID>Main.Logout</ID>
     <en-US>Logout</en-US>
-    <zh-TW>�出</zh-TW>
+    <zh-TW>登出</zh-TW>
   </WItem>
   <WItem>
     <ID>MainBgPanel.AccountStatus</ID>
     <en-US>Account Status</en-US>
-    <zh-TW>帳戶資�</zh-TW>
+    <zh-TW>帳戶資訊</zh-TW>
   </WItem>
   <WItem>
     <ID>Main.ChangeOwnerWarning</ID>
-    <en-US>Once you switch accounts, all the original files saved by the prior account can�t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</en-US>
-    <zh-TW>��使用�帳��，您上�帳�內����檔�將無法被�端存�並且�如您��裝置上使���一�帳���內容��檔�，�不��份�此�電��/zh-TW>
+    <en-US>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</en-US>
+    <zh-TW>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</zh-TW>
   </WItem>
   <WItem>
     <ID>Main.ChangeOwnerSuccess</ID>
@@ -116,8 +110,9 @@
       Please restart Stream to continue assign a new Stream Station user
     </en-US>
     <zh-TW>
-      Stream Station已��� {0} �離
-      請���式�繼��Stream Station使用    </zh-TW>
+      Stream Station已經成功的和 {0} 分離
+      請重新啟動程式後繼續指定Stream Station使用者
+    </zh-TW>
   </WItem>
   <WItem>
     <ID>StationServiceDown</ID>
@@ -125,7 +120,7 @@
       Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service.
     </en-US>
     <zh-TW>
-      Stream Station���� 請���入, �確認Stream Station���
+      Stream Station服務未完全啟動, 請稍候一會再登入, 或確認Stream Station服務啟動狀態.
     </zh-TW>
   </WItem>
   <WItem>
@@ -135,84 +130,84 @@
       Please restart the program to initialize Stream Station.
     </en-US>
     <zh-TW>
-      ��使用Stream Station, �為{0}設�了另一�Stream Station�是該帳��存在
-      請���式�次�始�Stream Station
+      無法使用Stream Station, 因為{0}設定了另一個Stream Station或是該帳號不存在
+      請重新啟動程式再次初始化Stream Station
     </zh-TW>
   </WItem>
   <WItem>
     <ID>PostError</ID>
     <en-US>Unable to post. Please try again.</en-US>
-    <zh-TW>��張貼�� 請�試��/zh-TW>
+    <zh-TW>無法張貼文章 請再試一次</zh-TW>
   </WItem>
   <WItem>
     <ID>ChangeOwnerError</ID>
     <en-US>Unable to deassociate user with Stream Station. Please try again.</en-US>
-    <zh-TW>��離使用��Stream station  請�試��/zh-TW>
+    <zh-TW>無法分離使用者與Stream station  請再試一次</zh-TW>
   </WItem>
   <WItem>
     <ID>AnotherInstanceRunning</ID>
     <en-US>Program is already running</en-US>
-    <zh-TW>程�已���/zh-TW>
+    <zh-TW>程式已經啟動了</zh-TW>
   </WItem>
   <WItem>
     <ID>Connected</ID>
     <en-US>Accessible from internet</en-US>
-    <zh-TW>外部網路存�歸�</zh-TW>
+    <zh-TW>外部網路存取正常</zh-TW>
   </WItem>
   <WItem>
     <ID>NotConnected</ID>
     <en-US>Inaccessible from internet</en-US>
-    <zh-TW>��從�網路�/zh-TW>
+    <zh-TW>無法從外部網路存取</zh-TW>
   </WItem>
   <WItem>
     <ID>Testing</ID>
     <en-US>Testing ...</en-US>
-    <zh-TW>測試�...</zh-TW>
+    <zh-TW>測試中 ...</zh-TW>
   </WItem>
   <WItem>
     <ID>MonthlyUsage_Unlimited</ID>
     <en-US>Unlimited</en-US>
-    <zh-TW>��/zh-TW>
+    <zh-TW>無上限</zh-TW>
   </WItem>
   <WItem>
     <ID>DropboxUI_ConnectNow</ID>
     <en-US>Connect Now</en-US>
-    <zh-TW>立刻��</zh-TW>
+    <zh-TW>立刻進行連結</zh-TW>
   </WItem>
   <WItem>
     <ID>DropboxUI_Disconnect</ID>
     <en-US>Disconnect</en-US>
-    <zh-TW>觙�</zh-TW>
+    <zh-TW>解除連結</zh-TW>
   </WItem>
   <WItem>
     <ID>MonthlyUsage_NotConnectedYet</ID>
     <en-US>Not connected yet</en-US>
-    <zh-TW>尚未</zh-TW>
+    <zh-TW>尚未連結</zh-TW>
   </WItem>
   <WItem>
     <ID>PhotoView.SaveOK</ID>
     <en-US>File Save Successful!</en-US>
-    <zh-TW>��檔��!</zh-TW>
+    <zh-TW>儲存檔案成功!</zh-TW>
   </WItem>
   <WItem>
     <ID>PhotoView.SaveError</ID>
     <en-US>File Save Error!</en-US>
-    <zh-TW>��檔�失�!</zh-TW>
+    <zh-TW>儲存檔案失敗!</zh-TW>
   </WItem>
   <WItem>
     <ID>PhotoView.SaveAllOK</ID>
     <en-US>All images are saved.</en-US>
-    <zh-TW>�倉�案�</zh-TW>
+    <zh-TW>儲存所有檔案成功!</zh-TW>
   </WItem>
   <WItem>
     <ID>PhotoView.SelectLoc</ID>
     <en-US>Select location to save files</en-US>
-    <zh-TW>��存�路�</zh-TW>
+    <zh-TW>選擇存檔路徑</zh-TW>
   </WItem>
   <WItem>
     <ID>BatchPostManager.DragDropHere</ID>
     <en-US>Drop Photos Here</en-US>
-    <zh-TW>���此/zh-TW>
+    <zh-TW>拖拉照片至此處</zh-TW>
   </WItem>
 
   <WItem>
@@ -226,13 +221,13 @@
     </en-US>
     <zh-TW>
       <![CDATA[
-      上傳��不� [{0}]. �可以�
-        1.��[繼�], 移除此��案�繼�上傳���.
-        2.��[�試], �次�試上傳此�
-        3.��[��], ��個貼]]>
+      上傳圖片不存在: [{0}]. 您可以：
+        1.選擇[繼續], 移除此圖片檔案後繼續上傳其他照片.
+        2.選擇[重試], 再次嘗試上傳此圖片.
+        3.選擇[取消], 放棄整個貼文.]]>
     </zh-TW>
   </WItem>
-  
+
   <WItem>
     <ID>BatchPostManager.OverQuota</ID>
     <en-US>
@@ -243,11 +238,23 @@
     </en-US>
     <zh-TW>
       <![CDATA[
-      �本��輸使用�已經��� �此��繼�上傳��. �可以� 
-        1.��[�試], �次�試上傳此� 
-        2.��[��], ��個貼]]>
+      您本月的傳輸使用量已經達到上限值, 因此無法繼續上傳圖片. 您可以： 
+        1.選擇[重試], 再次嘗試上傳此圖片. 
+        2.選擇[取消], 放棄整個貼文.]]>
     </zh-TW>
+  </WItem>
+
+  <WItem>
+    <ID>Favorite</ID>
+    <en-US>Favorite</en-US>
+    <zh-TW>設為"我的最愛"</zh-TW>
   </WItem>  
+  
+  <WItem>
+    <ID>Unfavorite</ID>
+    <en-US>Unfavorite</en-US>
+    <zh-TW>取消設為"我的最愛"</zh-TW>
+  </WItem>   
   
   <WItem>
     <ID>DetailView.Via</ID>
@@ -257,190 +264,184 @@
   <WItem>
     <ID>DetailView.CommentEmpty</ID>
     <en-US>Comment text box is empty!</en-US>
-    <zh-TW>��欄�不能�空</zh-TW>
+    <zh-TW>留言欄位不能為空白!</zh-TW>
   </WItem>
   <WItem>
     <ID>TextEmpty</ID>
     <en-US>Text cannot be empty!</en-US>
-    <zh-TW>�容不能�空</zh-TW>
+    <zh-TW>內容不能為空白!</zh-TW>
   </WItem>
   <WItem>
     <ID>PostForm.PuretextWaterMark</ID>
     <en-US>Write down the description here...</en-US>
-    <zh-TW>�此寫����...</zh-TW>
+    <zh-TW>在此寫下您的隻字片語...</zh-TW>
   </WItem>
-  
+
   <WItem>
     <ID>PostForm.PostSuccess</ID>
     <en-US>Post success!</en-US>
-    <zh-TW>貼��!</zh-TW>
+    <zh-TW>貼文成功!</zh-TW>
   </WItem>
   <WItem>
     <ID>PostForm.PostError</ID>
     <en-US>Post Error!</en-US>
-    <zh-TW>貼�失�!</zh-TW>
+    <zh-TW>貼文失敗!</zh-TW>
   </WItem>
-  
+
   <WItem>
     <ID>PostForm.EditPostSuccess</ID>
     <en-US>Edit post success!</en-US>
-    <zh-TW>編輯貼��!</zh-TW>
+    <zh-TW>編輯貼文成功!</zh-TW>
   </WItem>
   <WItem>
     <ID>PostForm.EditPostError</ID>
     <en-US>Edit post error!</en-US>
-    <zh-TW>編輯貼�失�!</zh-TW>
-  </WItem>  
+    <zh-TW>編輯貼文失敗!</zh-TW>
+  </WItem>
   <WItem>
     <ID>PostForm.TextBoxDescription</ID>
     <en-US>Write down the description here...</en-US>
-    <zh-TW>�此寫�述...</zh-TW>
+    <zh-TW>在此寫下描述...</zh-TW>
   </WItem>
   <WItem>
     <ID>PostForm.GetWebPreview</ID>
     <en-US>Getting the web preview for</en-US>
-    <zh-TW>��網�覽</zh-TW>
+    <zh-TW>取得網站預覽</zh-TW>
   </WItem>
   <WItem>
     <ID>PostForm.NoWebPreview</ID>
     <en-US>No web preview for</en-US>
-    <zh-TW>���網�覽</zh-TW>
-  </WItem>  
-   <WItem>
+    <zh-TW>無法取得網站預覽</zh-TW>
+  </WItem>
+  <WItem>
     <ID>WebLink.ComeFrom</ID>
     <en-US>Web link preview for</en-US>
-    <zh-TW>網�覽來自</zh-TW>
-  </WItem> 
-   <WItem>
+    <zh-TW>網站預覽來自</zh-TW>
+  </WItem>
+  <WItem>
     <ID>Photo.Summary</ID>
     <en-US>Photo Preview ({0} photo added)</en-US>
-    <zh-TW>��覽 (�{0}�</zh-TW>
-  </WItem>   
-  
+    <zh-TW>照片預覽 (共{0}張)</zh-TW>
+  </WItem>
+
   <WItem>
     <ID>SystemError</ID>
     <en-US>There appears to be an error with the system. Please try again later.</en-US>
-    <zh-TW>��, 系統���錯� 請�後��</zh-TW>
+    <zh-TW>抱歉, 系統發生未預期錯誤, 請稍後再試.</zh-TW>
   </WItem>
   <WItem>
     <ID>PhotoStorageQuotaExceeded</ID>
     <en-US>Photos storage quota exceeded ({0}).</en-US>
-    <zh-TW>��! �可以���已經�系統�許�{0}).</zh-TW>
+    <zh-TW>抱歉! 您可以上傳的照片數已經超過系統允許值({0}).</zh-TW>
   </WItem>
   <WItem>
     <ID>photo</ID>
     <en-US>photo</en-US>
-    <zh-TW>張�</zh-TW>
+    <zh-TW>張圖</zh-TW>
   </WItem>
   <WItem>
     <ID>photos</ID>
     <en-US>photos</en-US>
-    <zh-TW>張�</zh-TW>
+    <zh-TW>張圖</zh-TW>
   </WItem>
   <WItem>
     <ID>Station401Exception</ID>
-    <en-US>Re-enter your password to login again.</en-US>
-    <zh-TW>請�輸��碼以便登</zh-TW>
+    <en-US>Your authentication is expired. Re-enter your password to log in again.</en-US>
+    <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
   </WItem>
   <WItem>
     <ID>ForceLogout</ID>
-    <en-US>System Error. Re-enter your password to log in again.</en-US>
-    <zh-TW>系統��不可��錯� 請�輸��碼以便登</zh-TW>
-  </WItem>  
-    <en-US>Re-enter your password to login again.</en-US>
-    <zh-TW>請�輸��碼以便登</zh-TW>
-  </WItem>  
     <en-US>Please re-enter your password to login again.</en-US>
-    <zh-TW>請輸��碼�登</zh-TW>
+    <zh-TW>請輸入密碼重新登入.</zh-TW>
   </WItem>
   <WItem>
     <ID>SystemErrorCaption</ID>
     <en-US>System Error</en-US>
-    <zh-TW>系統�誤</zh-TW>
+    <zh-TW>系統錯誤</zh-TW>
   </WItem>
   <WItem>
     <ID>MinimizetoTrayApp</ID>
     <en-US>Minimize to Tray App</en-US>
-    <zh-TW>縮�系統工��</zh-TW>
+    <zh-TW>縮小至系統工具列</zh-TW>
   </WItem>
   <WItem>
     <ID>NetworkDisconnected</ID>
     <en-US>Network Disconnected.</en-US>
-    <zh-TW>網路中斷.</zh-TW>
+    <zh-TW>網路連線中斷.</zh-TW>
   </WItem>
   <WItem>
     <ID>RemoveAllFiles</ID>
     <en-US>Do you really want to remove all files?</en-US>
-    <zh-TW>你是�確定�移除����</zh-TW>
+    <zh-TW>你是否確定要移除所有檔案?</zh-TW>
   </WItem>
   <WItem>
     <ID>RemoveSelectedFiles</ID>
     <en-US>Do you really want to remove selected file(s)?</en-US>
-    <zh-TW>你是�確定�移除�����</zh-TW>
+    <zh-TW>你是否確定要移除所選取的檔案?</zh-TW>
   </WItem>
 
   <WItem>
     <ID>NetworkConnected</ID>
     <en-US>Network connected</en-US>
-    <zh-TW>網路</zh-TW>
+    <zh-TW>網路連線</zh-TW>
   </WItem>
 
   <WItem>
     <ID>NetworkDisconnected</ID>
     <en-US>Network disconnected</en-US>
-    <zh-TW>網路��</zh-TW>
+    <zh-TW>網路斷線</zh-TW>
   </WItem>
 
   <WItem>
     <ID>OnePostUpload</ID>
-    <en-US>Uploading in progress: {0} files uploaded, {1} files remaining/en-US>
-    <zh-TW>檔�上傳中�{0}��案已上傳，剩下{1}���/zh-TW>
+    <en-US>Uploading in progress: {0} files uploaded, {1} files remaining…</en-US>
+    <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案</zh-TW>
   </WItem>
 
   <WItem>
     <ID>MultiplePostUpload</ID>
-    <en-US>Uploading in progress: {0} files uploaded, {1} files remaining and {2} post waited/en-US>
-    <zh-TW>檔�上傳中�{0}��案已上傳，剩下{1}��案�{2}篇貼/zh-TW>
+    <en-US>Uploading in progress: {0} files uploaded, {1} files remaining and {2} post waited…</en-US>
+    <zh-TW>檔案上傳中：{0}個檔案已上傳，剩下{1}個檔案，和{2}篇貼文</zh-TW>
   </WItem>
 
   <WItem>
     <ID>CheckForUpdates</ID>
     <en-US>Check for Updates</en-US>
-    <zh-TW>檢查�新</zh-TW>
+    <zh-TW>檢查更新</zh-TW>
   </WItem>
 
   <WItem>
     <ID>CheckingUpdates</ID>
     <en-US>Checking</en-US>
-    <zh-TW>檢查�/zh-TW>
+    <zh-TW>檢查中</zh-TW>
   </WItem>
 
   <WItem>
     <ID>AlreadyUpdated</ID>
     <en-US>Your Stream has been updated to the latest version.</en-US>
-    <zh-TW>��Stream已�新����/zh-TW>
+    <zh-TW>您的Stream已經更新到最新版了</zh-TW>
   </WItem>
 
   <WItem>
     <ID>UnlinkButton</ID>
     <en-US>Unlink...</en-US>
-    <zh-TW>移除...</zh-TW>
+    <zh-TW>移除連結...</zh-TW>
   </WItem>
   <WItem>
     <ID>ThisPC</ID>
     <en-US>(this PC)</en-US>
-    <zh-TW>(�台�腦)</zh-TW>
+    <zh-TW>(這台電腦)</zh-TW>
   </WItem>
   <WItem>
     <ID>LoadDataFailed</ID>
     <en-US>Unable to retrieve data</en-US>
-    <zh-TW>���資�</zh-TW>
+    <zh-TW>無法取得資料</zh-TW>
   </WItem>
-  
+
   <WItem>
     <ID>ChangedCoverImageOK</ID>
     <en-US>Cover image changed successfully.</en-US>
-    <zh-TW>�改封面���.</zh-TW>
-  </WItem>  
-  
+    <zh-TW>更改封面照片成功.</zh-TW>
+  </WItem>
+
 </WItems>

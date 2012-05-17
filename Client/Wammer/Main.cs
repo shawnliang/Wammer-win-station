@@ -916,12 +916,6 @@ namespace Waveface
 
         public void EditPost(Post post)
         {
-            if (!RT.LoginOK)
-            {
-                MessageBox.Show("Please Login first.", "Stream"); //Todo - i18n
-                return;
-            }
-
             try
             {
                 m_postForm = new PostForm(new List<string>(), PostType.All, post, true);
@@ -959,12 +953,6 @@ namespace Waveface
 
         private void DoRealPostForm(List<string> pics, PostType postType)
         {
-            if (!RT.LoginOK)
-            {
-                MessageBox.Show("Please Login first.", "Stream"); //Todo - i18n
-                return;
-            }
-
             try
             {
                 m_postForm = new PostForm(pics, postType, null, false);

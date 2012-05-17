@@ -122,10 +122,13 @@
     <value>45, 67</value>
   </data>
   <data name="label.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft JhengHei, 9.75pt, style=Bold</value>
+    <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
+  </data>
+  <data name="label.Size" type="System.Drawing.Size, System.Drawing">
+    <value>461, 48</value>
   </data>
   <data name="label.Text" xml:space="preserve">
-    <value>只要簡單的拖曳照片到這個區域, Waveface 會將所有的照片快速地上傳至你擁有的裝置中.
+    <value>只要簡單的拖曳照片到這個區域, 系統會將所有的照片快速地上傳至你擁有的裝置中.
 </value>
   </data>
   <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
@@ -519,6 +522,6 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>訊息</value>
+    <value>開始使用</value>
   </data>
 </root>

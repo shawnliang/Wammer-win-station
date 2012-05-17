@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -584,6 +584,9 @@
     <EmbeddedResource Include="Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Component\ImageButton.resx">
+      <DependentUpon>ImageButton.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Component\ListBarControl\frmListBarTest.resx">
       <DependentUpon>frmListBarTest.cs</DependentUpon>
     </EmbeddedResource>
@@ -966,6 +969,8 @@
     <None Include="Resources\FlatButton\FB_creat_btn_hl.png" />
     <None Include="Resources\FlatButton\FB_cover.png" />
     <None Include="Resources\FlatButton\FB_cover_hl.png" />
+    <None Include="Resources\FlatButton\FB_blue_btn_2.png" />
+    <None Include="Resources\FlatButton\FB_blue_btn_hl_2.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />
