@@ -248,14 +248,14 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 			                          new HybridCloudHttpRouter(new UserTrackHandler()));
 
-			var loginHandler = new UserLoginHandler();
+			var loginHandler = new UserLoginHandler(stationId, resourceBasePath);
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 			                          loginHandler);
 
 			loginHandler.UserLogined += loginHandler_UserLogined;
 
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
-			                          new UserLogoutHandler());
+									  new UserLogoutHandler());
 
 			viewHandler = new AttachmentViewHandler(stationId);
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),

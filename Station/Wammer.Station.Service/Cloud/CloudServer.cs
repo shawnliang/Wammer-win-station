@@ -44,6 +44,7 @@ namespace Wammer.Cloud
 		public const string PARAM_COVER_ATTACH = "cover_attach";
 		public const string PARAM_FAVORITE = "favorite";
 		public const string PARAM_UPDATE_TIME = "update_time";
+		public const string PARAM_REMOVE_ALL_DATA = "remove_resource";
 
 		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
 		                                                    	{
