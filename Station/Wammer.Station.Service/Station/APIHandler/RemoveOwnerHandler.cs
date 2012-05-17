@@ -34,6 +34,9 @@ namespace Wammer.Station
 		}
 		#endregion
 
+		#region Events
+		public event EventHandler<DriverRemovedEventArgs> DriverRemoved;
+		#endregion
 
 		#region Constructor
 		/// <summary>
@@ -56,7 +59,25 @@ namespace Wammer.Station
 
 			m_DriverAgent.RemoveDriver(m_StationID, userID, removeAllData);
 
+			OnDriverRemoved(userID);
 			RespondSuccess();
+		}
+
+		private void OnDriverRemoved(string userId)
+		{
+			EventHandler<DriverRemovedEventArgs> handler = DriverRemoved;
+			if (handler != null)
+				handler(this, new DriverRemovedEventArgs(userId));
+		}
+	}
+
+	public class DriverRemovedEventArgs: EventArgs
+	{
+		public string UserId { get; private set; }
+
+		public DriverRemovedEventArgs(string user_id)
+		{
+			this.UserId = user_id;
 		}
 	}
 }

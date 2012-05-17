@@ -229,6 +229,7 @@
     <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />
+    <Compile Include="Station\Timeline\ResourceDownloadTask.cs" />
     <Compile Include="Station\Timeline\TimelineSyncer.cs" />
     <Compile Include="Station\Timeline\TimelineSyncerDB.cs" />
     <Compile Include="Station\APIHandler\UserLoginHandler.cs" />

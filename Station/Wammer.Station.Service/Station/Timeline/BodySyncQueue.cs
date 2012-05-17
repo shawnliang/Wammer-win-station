@@ -15,6 +15,8 @@ namespace Wammer.Station.Timeline
 		private readonly Queue<ResourceDownloadTask> mediumPriorityQueue = new Queue<ResourceDownloadTask>();
 		private readonly Queue<ResourceDownloadTask> highPriorityQueue = new Queue<ResourceDownloadTask>();
 
+		public event EventHandler TaskDropped;
+
 		#region ITaskDequeuable<INamedTask> Members
 
 		public DequeuedTask<ResourceDownloadTask> Dequeue()
@@ -126,7 +128,11 @@ namespace Wammer.Station.Timeline
 				if (!task.UserId.Equals(user_id))
 					newQueue.Enqueue(task);
 				else
+				{
 					keys.Remove(task.Name);
+					hasItem.WaitOne();
+					OnTaskDropped();
+				}
 			}
 
 			if (oldQueue.Count != newQueue.Count)
@@ -135,6 +141,13 @@ namespace Wammer.Station.Timeline
 				foreach (var task in newQueue)
 					oldQueue.Enqueue(task);
 			}
+		}
+
+		private void OnTaskDropped()
+		{
+			EventHandler handler = TaskDropped;
+			if (handler != null)
+				handler(this, EventArgs.Empty);
 		}
 	}
 }
