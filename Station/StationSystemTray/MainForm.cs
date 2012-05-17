@@ -773,7 +773,7 @@ namespace StationSystemTray
 			}
 			catch (StationServiceDownException)
 			{
-				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{
@@ -819,22 +819,22 @@ namespace StationSystemTray
 			}
 			catch (InvalidDriverException)
 			{
-				MessageBox.Show(Resources.EXISTED_DRIVER_MAYBE_EXPIRE);
+				MessageBox.Show(Resources.EXISTED_DRIVER_MAYBE_EXPIRE, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			catch (AuthenticationException)
 			{
-				MessageBox.Show(Resources.AuthError);
+				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			catch (ConnectToCloudException)
 			{
-				MessageBox.Show(Resources.ConnectCloudError);
+				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(Resources.LogInError + Environment.NewLine + e.Message);
+				MessageBox.Show(Resources.LogInError + Environment.NewLine + e.Message, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
 			finally
@@ -1080,7 +1080,7 @@ namespace StationSystemTray
 			{
 				if (!IsDisposed)
 					Show();
-				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{
@@ -1367,7 +1367,7 @@ namespace StationSystemTray
 			{
 				if (!IsDisposed)
 					Show();
-				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{

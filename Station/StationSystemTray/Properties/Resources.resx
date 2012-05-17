@@ -138,7 +138,7 @@
     <value>Do you want to remove all files of {0} on this computer?</value>
   </data>
   <data name="ConnectCloudError" xml:space="preserve">
-    <value>Unable to connect to Stream Cloud</value>
+    <value>Unable to connect to Stream server</value>
   </data>
   <data name="ConnectCloudStorageFail" xml:space="preserve">
     <value>Unable to connect to Dropbox</value>
@@ -243,9 +243,6 @@
   <data name="Station401Exception" xml:space="preserve">
     <value>Your authentication is expired. Please log in again.</value>
   </data>
-  <data name="StationDown" xml:space="preserve">
-    <value>Stream service down</value>
-  </data>
   <data name="StationExpired" xml:space="preserve">
     <value>The registration information of this computer is expired. Please restart the program to re-register.</value>
   </data>
@@ -280,13 +277,13 @@
     <value>Testing...</value>
   </data>
   <data name="UNKNOW_REMOVEACCOUNT_ERROR" xml:space="preserve">
-    <value>Unknow error occur when remove account!</value>
+    <value>Unknown error occur when remove account!</value>
   </data>
   <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
-    <value>Unknow signup error occur!</value>
+    <value>Unknown signup error occur!</value>
   </data>
   <data name="UnknownSigninError" xml:space="preserve">
-    <value>Unknow signin error occur!</value>
+    <value>Unknown signin error occur!</value>
   </data>
   <data name="UnlinkCloudStorageFail" xml:space="preserve">
     <value>Unable to disconnect from Dropbox</value>
