@@ -147,7 +147,7 @@ namespace StationSystemTray
 			}
 			catch (StationServiceDownException)
 			{
-				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{
