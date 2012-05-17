@@ -287,6 +287,29 @@ namespace Wammer.Station.Management
 			}
 		}
 
+		/// <summary>
+		/// logout from station
+		/// </summary>
+		/// <param name="sessionToken"></param>
+		public static void UserLogout(string apikey, string sessionToken)
+		{
+			try
+			{
+				CloudServer.request<CloudResponse>(
+					new WebClient(),
+					StationFuncURL + "auth/logout",
+					new Dictionary<object, object> { 
+						{CloudServer.PARAM_API_KEY, apikey},
+						{CloudServer.PARAM_SESSION_TOKEN, sessionToken}
+					},
+					false
+				);
+			}
+			catch (WammerCloudException e)
+			{
+				throw ExtractApiRetMsg(e);
+			}
+		}
 
 
 		/// <summary>
@@ -698,6 +721,12 @@ namespace Wammer.Station.Management
 		{
 			if (e.HttpError != WebExceptionStatus.ProtocolError)
 			{
+#if !DEBUG
+				if (ServiceStatus != ServiceControllerStatus.Running)
+				{
+					return new StationServiceDownException("Station service down");
+				}
+#endif
 				if (e.InnerException != null)
 				{
 					return new ConnectToCloudException(e.InnerException.Message);
