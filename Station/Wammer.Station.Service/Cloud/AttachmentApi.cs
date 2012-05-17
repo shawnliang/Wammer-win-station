@@ -7,6 +7,7 @@ using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.JSONClass;
 using Wammer.Utility;
+using System.Text;
 
 namespace Wammer.Cloud
 {
@@ -130,11 +131,35 @@ namespace Wammer.Cloud
 				throw new ArgumentNullException();
 
 			var parameters = new Dictionary<object, object>
-			                 	{
-			                 		{CloudServer.PARAM_OBJECT_IDS, "[\"" + object_id + "\"]"},
-			                 		{CloudServer.PARAM_SESSION_TOKEN, session_token},
-			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			                 	};
+			{
+				{CloudServer.PARAM_OBJECT_IDS, "[\"" + object_id + "\"]"},
+				{CloudServer.PARAM_SESSION_TOKEN, session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
+
+			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
+		}
+
+		public static void SetSync(WebClient agent, ICollection<string> object_ids, string session_token)
+		{
+			if (agent == null || session_token == null || object_ids == null || object_ids.Count == 0)
+				throw new ArgumentNullException();
+
+			StringBuilder buffer = new StringBuilder();
+			buffer.Append("[");
+			foreach (var object_id in object_ids)
+				buffer.Append("\"").Append(object_id).Append("\",");
+
+			buffer.Remove(buffer.Length - 1, 1); // remove the trailing comma
+			buffer.Append("]");
+			string objIdArray = buffer.ToString();
+
+			var parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_OBJECT_IDS, objIdArray},
+				{CloudServer.PARAM_SESSION_TOKEN, session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
 		}

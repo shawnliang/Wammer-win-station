@@ -121,6 +121,7 @@
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
+    <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
     <Compile Include="Station\NullNamedTask.cs" />
     <Compile Include="Station\SessionNotExistException.cs" />
     <Compile Include="Station\TaskRunner.cs" />
