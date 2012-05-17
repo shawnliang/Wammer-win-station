@@ -65,7 +65,7 @@ namespace Wammer.Station
 					// just upgraded to primary station
 					foreach (Attachment attachment in AttachmentCollection.Instance.Find(Query.EQ("group_id", args.driver.groups[0].group_id)))
 					{
-						List<String> syncedOriginalAttachments = new List<string>();
+						var syncedOriginalAttachments = new List<string>();
 
 						if (string.IsNullOrEmpty(attachment.saved_file_name))
 							// download missing original attachments

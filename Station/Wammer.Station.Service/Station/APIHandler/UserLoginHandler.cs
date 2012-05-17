@@ -32,14 +32,7 @@ namespace Wammer.Station
 		/// <value>The m_ driver agent.</value>
 		private DriverController m_DriverAgent
 		{
-			get
-			{
-				if (_driverAgent == null)
-				{
-					_driverAgent = new DriverController();
-				}
-				return _driverAgent;
-			}
+			get { return _driverAgent ?? (_driverAgent = new DriverController()); }
 		}
 		#endregion
 
@@ -77,7 +70,7 @@ namespace Wammer.Station
 			if(driver == null)
 				throw new WammerStationException("Driver not existed", (int)StationLocalApiError.NotFound);
 
-			m_DriverAgent.RemoveDriver(m_StationID, user.user_id, false);
+			m_DriverAgent.RemoveDriver(m_StationID, user.user_id);
 
 			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{

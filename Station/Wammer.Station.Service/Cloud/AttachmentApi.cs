@@ -148,7 +148,7 @@ namespace Wammer.Cloud
 			if (agent == null || session_token == null || object_ids == null || object_ids.Count == 0)
 				throw new ArgumentNullException();
 
-			StringBuilder buffer = new StringBuilder();
+			var buffer = new StringBuilder();
 			buffer.Append("[");
 			foreach (var object_id in object_ids)
 				buffer.Append("\"").Append(object_id).Append("\",");

@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -44,8 +38,8 @@ namespace Wammer.Station
 				if (_driverAgent == null)
 				{
 					_driverAgent = new DriverController();
-					_driverAgent.BeforeDriverSaved += new EventHandler<BeforeDriverSavedEvtArgs>(_driverAgent_BeforeDriverSaved);
-					_driverAgent.DriverAdded += new EventHandler<DriverAddedEvtArgs>(_driverAgent_DriverAdded);
+					_driverAgent.BeforeDriverSaved += _driverAgent_BeforeDriverSaved;
+					_driverAgent.DriverAdded += _driverAgent_DriverAdded;
 				}
 				return _driverAgent;
 			}

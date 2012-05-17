@@ -1,10 +1,5 @@
 using System;
-using System.IO;
-using System.Net;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
-using Wammer.Model;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -29,7 +24,7 @@ namespace Wammer.Station
 		{
 			get
 			{
-				return _driverAgent ?? new DriverController();
+				return _driverAgent ?? (_driverAgent = new DriverController());
 			}
 		}
 		#endregion
@@ -42,7 +37,7 @@ namespace Wammer.Station
 		/// <param name="stationId">The station id.</param>
 		public RemoveOwnerHandler(string stationId)
 		{
-			this.m_StationID = stationId;
+			m_StationID = stationId;
 		} 
 		#endregion
 
