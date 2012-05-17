@@ -139,11 +139,11 @@ namespace Wammer.Station
 			{
 				OnFileDownloadStarted();
 
-				DownloadResult downloadResult = AttachmentApi.DownloadImageWithMetadata(
+				var downloadResult = AttachmentApi.DownloadImageWithMetadata(
 					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id,
 					(sender, e) => { OnFileDownloadInProgress(e); });
 
-				Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", downloadResult.Metadata.creator_id));
+				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", downloadResult.Metadata.creator_id));
 
 				if (driver == null)
 					throw new WammerStationException("driver does not exist: " + downloadResult.Metadata.creator_id,
@@ -154,7 +154,7 @@ namespace Wammer.Station
 					                                 (int) StationLocalApiError.AccessDenied);
 
 				var storage = new FileStorage(driver);
-				string fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
+				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
 				storage.SaveFile(fileName, new ArraySegment<byte>(downloadResult.Image));
 
 				SetAttachementToDB(meta, downloadResult, fileName);
