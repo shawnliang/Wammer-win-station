@@ -236,8 +236,8 @@ namespace Waveface
             }
 
             // Todo
-            // CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
-            // CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+            //CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+            //CultureManager.ApplicationUICulture = new CultureInfo("en-US");
         }
 
         private void doLogin(string email, string password)

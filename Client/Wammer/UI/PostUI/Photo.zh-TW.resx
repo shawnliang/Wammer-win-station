@@ -170,6 +170,9 @@
   <data name="btnDeletePhoto.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
   </data>
+  <data name="btnDeletePhoto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
+  </data>
   <data name="btnDeletePhoto.Text" xml:space="preserve">
     <value>移除照片</value>
   </data>
@@ -178,9 +181,6 @@
   </data>
   <data name="btnAddPhoto.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft JhengHei, 11.25pt, style=Bold</value>
-  </data>
-  <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 3</value>
   </data>
   <data name="btnAddPhoto.Text" xml:space="preserve">
     <value>新增照片</value>

@@ -51,20 +51,20 @@
             // 
             // cutToolStripMenuItem
             // 
-            resources.ApplyResources(this.cutToolStripMenuItem, "cutToolStripMenuItem");
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            resources.ApplyResources(this.cutToolStripMenuItem, "cutToolStripMenuItem");
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
-            resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
-            resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // textBoxComment
@@ -88,7 +88,6 @@
             this.buttonAddComment.ImageHover = global::Waveface.Properties.Resources.FB_creat_btn_hl;
             this.buttonAddComment.Name = "buttonAddComment";
             this.buttonAddComment.TextShadow = true;
-            this.buttonAddComment.UseVisualStyleBackColor = true;
             this.buttonAddComment.Click += new System.EventHandler(this.buttonAddComment_Click);
             // 
             // CommentForm

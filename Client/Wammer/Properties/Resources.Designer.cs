@@ -179,9 +179,23 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_blue_btn_2 {
+            get {
+                object obj = ResourceManager.GetObject("FB_blue_btn_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_blue_btn_hl {
             get {
                 object obj = ResourceManager.GetObject("FB_blue_btn_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_blue_btn_hl_2 {
+            get {
+                object obj = ResourceManager.GetObject("FB_blue_btn_hl_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -214,7 +214,6 @@ namespace Waveface.DetailUI
             resources.ApplyResources(this.btnSave, "btnSave");
             this.btnSave.Name = "btnSave";
             this.toolTip.SetToolTip(this.btnSave, resources.GetString("btnSave.ToolTip"));
-            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCoverImage
@@ -228,7 +227,6 @@ namespace Waveface.DetailUI
             this.btnCoverImage.ImageHover = global::Waveface.Properties.Resources.FB_cover_hl;
             this.btnCoverImage.Name = "btnCoverImage";
             this.toolTip.SetToolTip(this.btnCoverImage, resources.GetString("btnCoverImage.ToolTip"));
-            this.btnCoverImage.UseVisualStyleBackColor = false;
             this.btnCoverImage.Click += new System.EventHandler(this.btnCoverImage_Click);
             // 
             // btnSlideShow
@@ -242,7 +240,6 @@ namespace Waveface.DetailUI
             this.btnSlideShow.ImageHover = global::Waveface.Properties.Resources.FB_slide1_hl;
             this.btnSlideShow.Name = "btnSlideShow";
             this.toolTip.SetToolTip(this.btnSlideShow, resources.GetString("btnSlideShow.ToolTip"));
-            this.btnSlideShow.UseVisualStyleBackColor = false;
             this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
             // 
             // PhotoView

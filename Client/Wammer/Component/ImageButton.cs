@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -7,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Waveface.Component
 {
-    public class ImageButton : Button
+    public class ImageButton : Control
     {
         private Image m_image;
         private Image m_imageFront;
@@ -25,6 +26,7 @@ namespace Waveface.Component
         public bool CenterAlignImage { get; set; }
         public bool TextShadow { get; set; }
 
+        [Localizable(true)]
         public Image Image
         {
             get { return m_image; }
@@ -47,6 +49,7 @@ namespace Waveface.Component
             }
         }
 
+        [Localizable(true)]
         public Image ImageDisable
         {
             get { return m_imageDisable; }
@@ -58,6 +61,7 @@ namespace Waveface.Component
             }
         }
 
+        [Localizable(true)]
         public Image ImageHover
         {
             get { return m_imageHover; }
@@ -217,6 +221,13 @@ namespace Waveface.Component
             m_down = false;
 
             base.OnMouseUp(e);
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.ResumeLayout(false);
+
         }
     }
 }

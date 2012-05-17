@@ -145,7 +145,6 @@ namespace Waveface
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.TextShadow = true;
             this.toolTip.SetToolTip(this.btnRefresh, resources.GetString("btnRefresh.ToolTip"));
-            this.btnRefresh.UseVisualStyleBackColor = false;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnAccount
@@ -161,7 +160,6 @@ namespace Waveface
             this.btnAccount.Name = "btnAccount";
             this.btnAccount.TextShadow = true;
             this.toolTip.SetToolTip(this.btnAccount, resources.GetString("btnAccount.ToolTip"));
-            this.btnAccount.UseVisualStyleBackColor = false;
             this.btnAccount.Click += new System.EventHandler(this.btnAccount_Click);
             // 
             // btnSetting
@@ -177,7 +175,6 @@ namespace Waveface
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.TextShadow = true;
             this.toolTip.SetToolTip(this.btnSetting, resources.GetString("btnSetting.ToolTip"));
-            this.btnSetting.UseVisualStyleBackColor = false;
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
             // 
             // btnRemovePost
@@ -193,7 +190,6 @@ namespace Waveface
             this.btnRemovePost.Name = "btnRemovePost";
             this.btnRemovePost.TextShadow = true;
             this.toolTip.SetToolTip(this.btnRemovePost, resources.GetString("btnRemovePost.ToolTip"));
-            this.btnRemovePost.UseVisualStyleBackColor = false;
             this.btnRemovePost.Click += new System.EventHandler(this.btnRemovePost_Click);
             // 
             // TitlePanel

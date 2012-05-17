@@ -224,10 +224,10 @@
     <value>NoControl</value>
   </data>
   <data name="labelSummary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>220, 8</value>
+    <value>250, 8</value>
   </data>
   <data name="labelSummary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>379, 16</value>
+    <value>349, 16</value>
   </data>
   <data name="labelSummary.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -251,16 +251,16 @@
     <value>NoControl</value>
   </data>
   <data name="btnDeletePhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>112, 3</value>
   </data>
   <data name="btnDeletePhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 25</value>
+    <value>132, 25</value>
   </data>
   <data name="btnDeletePhoto.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
   <data name="btnDeletePhoto.Text" xml:space="preserve">
-    <value>Remove</value>
+    <value>Remove Photo</value>
   </data>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>567, 17</value>
@@ -287,7 +287,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnAddPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>112, 3</value>
+    <value>3, 3</value>
   </data>
   <data name="btnAddPhoto.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 25</value>
@@ -636,7 +636,7 @@
     <value>6</value>
   </data>
   <data name="btnSend.Text" xml:space="preserve">
-    <value>Create Post</value>
+    <value>Stream!</value>
   </data>
   <data name="&gt;&gt;btnSend.Name" xml:space="preserve">
     <value>btnSend</value>

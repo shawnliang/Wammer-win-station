@@ -160,7 +160,6 @@ namespace Waveface
             this.btnAddFootNote.Name = "btnAddFootNote";
             this.btnAddFootNote.TextShadow = true;
             this.toolTip.SetToolTip(this.btnAddFootNote, resources.GetString("btnAddFootNote.ToolTip"));
-            this.btnAddFootNote.UseVisualStyleBackColor = false;
             this.btnAddFootNote.Click += new System.EventHandler(this.btnAddFootNote_Click);
             // 
             // panelTop
@@ -186,7 +185,6 @@ namespace Waveface
             this.btnFunction1.Name = "btnFunction1";
             this.btnFunction1.TextShadow = true;
             this.toolTip.SetToolTip(this.btnFunction1, resources.GetString("btnFunction1.ToolTip"));
-            this.btnFunction1.UseVisualStyleBackColor = false;
             this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
             this.btnFunction1.Click += new System.EventHandler(this.btnMoreOption1_Click);
             // 
@@ -203,7 +201,6 @@ namespace Waveface
             this.btnFavorite.Name = "btnFavorite";
             this.btnFavorite.TextShadow = true;
             this.toolTip.SetToolTip(this.btnFavorite, resources.GetString("btnFavorite.ToolTip"));
-            this.btnFavorite.UseVisualStyleBackColor = false;
             this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
             // 
             // btnEdit
@@ -218,7 +215,6 @@ namespace Waveface
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.TextShadow = true;
             this.toolTip.SetToolTip(this.btnEdit, resources.GetString("btnEdit.ToolTip"));
-            this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // labelTitle
@@ -327,12 +323,16 @@ namespace Waveface
                 btnFavorite.Image = Resources.FB_unfav;
                 btnFavorite.ImageDisable = Resources.FB_unfav_hl;
                 btnFavorite.ImageHover = Resources.FB_unfav_hl;
+
+                toolTip.SetToolTip(btnFavorite, I18n.L.T("Favorite"));
             }
             else
             {
                 btnFavorite.Image = Resources.FB_fav;
                 btnFavorite.ImageDisable = Resources.FB_fav_hl;
                 btnFavorite.ImageHover = Resources.FB_fav_hl;
+
+                toolTip.SetToolTip(btnFavorite, I18n.L.T("Unfavorite"));
             }
         }
 

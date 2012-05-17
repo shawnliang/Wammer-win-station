@@ -34,6 +34,20 @@ namespace Waveface.PostUI
             m_editModeOriginPhotoFiles = new List<string>();
 
             InitImageListView();
+
+            UIHack();
+        }
+
+        private void UIHack()
+        {
+            // Orz
+
+            if (btnDeletePhoto.Width > Properties.Resources.FB_blue_btn.Width)
+            {
+                btnDeletePhoto.Image = Properties.Resources.FB_blue_btn_2;
+                btnDeletePhoto.ImageDisable = Properties.Resources.FB_blue_btn_hl_2;
+                btnDeletePhoto.ImageHover = Properties.Resources.FB_blue_btn_hl_2;
+            }
         }
 
         public void ChangeToEditModeUI(Post post)

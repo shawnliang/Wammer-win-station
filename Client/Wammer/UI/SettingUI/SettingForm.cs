@@ -85,7 +85,7 @@ namespace Waveface.SettingUI
             }
             else
             {
-                MessageBox.Show(I18n.L.T("AlreadyUpdated"));
+                MessageBox.Show(I18n.L.T("AlreadyUpdated"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             btnUpdate.Enabled = true;

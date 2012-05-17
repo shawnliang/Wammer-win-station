@@ -528,7 +528,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label.Text" xml:space="preserve">
-    <value>Drag and Drop all your photos into this area and see Waveface beam them up to all your devices with lightning speed.</value>
+    <value>Drag and drop your photos into this area to upload them to all your devices with lightning speed.</value>
   </data>
   <data name="btnSend.Text" xml:space="preserve">
     <value>OK</value>
@@ -589,7 +589,7 @@
     <value>13</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Information</value>
+    <value>Getting Started</value>
   </data>
   <data name="btnSend.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>

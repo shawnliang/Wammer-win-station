@@ -179,7 +179,7 @@
     <value>408, 76</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Stream Desktop 版本</value>
+    <value>Stream Windows 版本</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft JhengHei, 9pt</value>
@@ -563,6 +563,6 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>設定</value>
+    <value>關於本系統</value>
   </data>
 </root>
