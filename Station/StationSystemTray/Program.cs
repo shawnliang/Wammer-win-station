@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using log4net.Config;
 using Wammer.Station;
 using log4net;
+using System.IO;
 
 namespace StationSystemTray
 {
@@ -26,6 +27,9 @@ namespace StationSystemTray
 		[STAThread]
 		private static void Main(string[] args)
 		{
+			Environment.CurrentDirectory = Path.GetDirectoryName(
+			Assembly.GetExecutingAssembly().Location);
+
 			XmlConfigurator.Configure();
 
 			bool isFirstCreated;

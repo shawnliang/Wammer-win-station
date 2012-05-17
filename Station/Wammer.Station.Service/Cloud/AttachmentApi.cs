@@ -116,11 +116,14 @@ namespace Wammer.Cloud
 				var metadata =
 					CloudServer.requestPath<AttachmentView>(agent, "attachments/view", parameters);
 
-				using (var to = new MemoryStream())
-				using (Stream from = agent.OpenRead(metadata.redirect_to))
+				using (var redirectableAgent = new WebClient())
 				{
-					from.WriteTo(to, 1024, progressChangedCallBack);
-					return new DownloadResult(to.ToArray(), metadata, agent.ResponseHeaders["Content-type"]);
+					using (var to = new MemoryStream())
+					using (var from = redirectableAgent.OpenRead(metadata.redirect_to))
+					{
+						from.WriteTo(to, 1024, progressChangedCallBack);
+						return new DownloadResult(to.ToArray(), metadata, redirectableAgent.ResponseHeaders["Content-type"]);
+					}
 				}
 			}
 		}

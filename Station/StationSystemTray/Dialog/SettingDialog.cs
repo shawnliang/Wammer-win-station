@@ -123,11 +123,11 @@ namespace StationSystemTray
 				dialog.BackColor = this.BackColor;
 				dialog.ShowInTaskbar = false;
 				if (dialog.ShowDialog() == DialogResult.Yes)
-					RemoveCurrentAccount();
+					RemoveCurrentAccount(dialog.RemoveAllDatas);
 			}
 		}
 
-		private void RemoveCurrentAccount()
+		private void RemoveCurrentAccount(Boolean removeAllDatas)
 		{
 			var user = cmbStations.SelectedValue as UserInfo;
 
@@ -138,7 +138,7 @@ namespace StationSystemTray
 
 			try
 			{
-				StationController.RemoveOwner(user.user_id, false);
+				StationController.RemoveOwner(user.user_id, removeAllDatas);
 				OnAccountRemoved(new AccountEventArgs(user.email));
 			}
 			catch (AuthenticationException)
@@ -147,7 +147,7 @@ namespace StationSystemTray
 			}
 			catch (StationServiceDownException)
 			{
-				MessageBox.Show(Resources.StationDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{

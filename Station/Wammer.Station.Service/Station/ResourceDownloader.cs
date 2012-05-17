@@ -235,8 +235,9 @@ namespace Wammer.Station
 				}
 				else
 				{
-					logger.DebugFormat("Enqueue download task again: attachment object_id={0}, image_meta={1}",
+					logger.DebugFormat("Unable to download attachment. Enqueue download task again: attachment object_id={0}, image_meta={1}",
 					                   evtargs.attachment.object_id, meta);
+					logger.Debug("Detail exception:", ex);
 					evtargs.filepath = FileStorage.GetTempFile(evtargs.driver);
 					EnqueueDownstreamTask(evtargs.imagemeta, evtargs);
 				}

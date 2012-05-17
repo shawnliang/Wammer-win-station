@@ -7,6 +7,11 @@ namespace StationSystemTray
 {
 	public partial class CleanResourceForm : Form
 	{
+		public Boolean RemoveAllDatas
+		{
+			get { return checkBox1.Checked; }
+		}
+
 		public CleanResourceForm(string email)
 		{
 			Font = SystemFonts.MessageBoxFont;
