@@ -141,7 +141,7 @@ namespace Wammer.Station
 
 				var downloadResult = AttachmentApi.DownloadImageWithMetadata(
 					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id,
-					(sender, e) => { OnFileDownloadInProgress(e); });
+					(sender, e) => OnFileDownloadInProgress(e));
 
 				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", downloadResult.Metadata.creator_id));
 

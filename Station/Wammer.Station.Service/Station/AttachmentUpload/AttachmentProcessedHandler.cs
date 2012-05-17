@@ -1,5 +1,4 @@
-﻿using Wammer.Cloud;
-using Wammer.Model;
+﻿using Wammer.Model;
 
 namespace Wammer.Station.AttachmentUpload
 {

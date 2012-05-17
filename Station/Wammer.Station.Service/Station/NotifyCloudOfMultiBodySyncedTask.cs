@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Utility;
-using Wammer.Model;
 using MongoDB.Driver.Builders;
+using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
 	[Serializable]
 	class NotifyCloudOfMultiBodySyncedTask : Retry.DelayedRetryTask
 	{
-		private List<String> object_ids;
-		private string user_id;
+		private readonly List<String> object_ids;
+		private readonly string user_id;
 		private int retry_count;
 
 		public NotifyCloudOfMultiBodySyncedTask(List<string> object_ids, string user_id)

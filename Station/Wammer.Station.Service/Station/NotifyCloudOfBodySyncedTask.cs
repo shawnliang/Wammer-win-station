@@ -38,7 +38,7 @@ namespace Wammer.Station
 
 		public override void ScheduleToRun()
 		{
-			TaskQueue.Enqueue(this, this.priority, true);
+			TaskQueue.Enqueue(this, priority, true);
 		}
 		#endregion
 

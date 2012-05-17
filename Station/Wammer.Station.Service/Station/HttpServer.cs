@@ -159,7 +159,6 @@ namespace Wammer.Station
 		#endregion
 
 		#region Protected Method
-
 		/// <summary>
 		/// Raises the <see cref="E:TaskQueue"/> event.
 		/// </summary>

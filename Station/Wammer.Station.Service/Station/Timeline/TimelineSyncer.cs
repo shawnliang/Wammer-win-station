@@ -54,13 +54,11 @@ namespace Wammer.Station.Timeline
 
 			using (WebClient agent = new DefaultWebClient())
 			{
-				PostResponse res;
+				var res = user.sync_range == null
+				                   	? postProvider.GetLastestPosts(agent, user, 200)
+				                   	: postProvider.GetPostsBefore(agent, user, user.sync_range.start_time, 200);
 
-				res = user.sync_range == null
-				      	? postProvider.GetLastestPosts(agent, user, 200)
-				      	: postProvider.GetPostsBefore(agent, user, user.sync_range.start_time, 200);
-
-				foreach (PostInfo post in res.posts)
+				foreach (var post in res.posts)
 					db.SavePost(post);
 
 				OnPostsRetrieved(user, res.posts);

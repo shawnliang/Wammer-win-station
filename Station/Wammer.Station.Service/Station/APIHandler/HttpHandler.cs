@@ -63,41 +63,47 @@ namespace Wammer.Station
 			if (arguementNames == null)
 				throw new ArgumentNullException("arguementNames");
 
-			IEnumerable<string> nullArgumentNames = from arguementName in arguementNames
+			var nullArgumentNames = from arguementName in arguementNames
 			                                        where Parameters[arguementName] == null
 			                                        select arguementName;
 
-			bool IsAllParameterReady = !nullArgumentNames.Any();
-			if (!IsAllParameterReady)
-			{
-				throw new FormatException(string.Format("Parameter {0} is null.", string.Join("¡B", nullArgumentNames.ToArray())));
-			}
+			if (!nullArgumentNames.Any())
+				return;
+
+			throw new FormatException(string.Format("Parameter {0} is null.", string.Join("¡B", nullArgumentNames.ToArray())));
 		}
 
 		protected void TunnelToCloud()
 		{
 			Debug.Assert(Request != null);
 
-			string apiPath =
+			var apiPath =
 				Regex.Match(Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].
 					Value;
-			Dictionary<object, object> forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key,
-			                                                                                                   key =>
-			                                                                                                   Parameters[key]);
-			RespondSuccess(CloudServer.requestPath(new WebClient(), apiPath, forwardParams, false));
+			var forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key,
+			                                                                            key =>
+			                                                                            Parameters[key]);
+			using (var agent = new WebClient())
+			{
+				RespondSuccess(CloudServer.requestPath(agent, apiPath, forwardParams, false));
+			}
 		}
 
 		protected void TunnelToCloud<T>()
 		{
 			Debug.Assert(Request != null);
 
-			string apiPath =
+			var apiPath =
 				Regex.Match(Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].
 					Value;
-			Dictionary<object, object> forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key,
-			                                                                                                   key =>
-			                                                                                                   Parameters[key]);
-			RespondSuccess(CloudServer.requestPath<T>(new WebClient(), apiPath, forwardParams, false));
+			var forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key,
+			                                                                            key =>
+			                                                                            Parameters[key]);
+
+			using (var agent = new WebClient())
+			{
+				RespondSuccess(CloudServer.requestPath<T>(agent, apiPath, forwardParams, false));
+			}
 		}
 
 		#endregion
@@ -295,7 +301,8 @@ namespace Wammer.Station
 
 		private NameValueCollection InitParameters(HttpListenerRequest req)
 		{
-			if (RawPostData != null &&
+			if (RawPostData != null && 
+				req.ContentType != null &&
 			    req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
 			{
 				var postData = Encoding.UTF8.GetString(RawPostData);
