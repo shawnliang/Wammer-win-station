@@ -281,13 +281,13 @@ namespace Waveface
 
             if (isImage)
             {
-                if (m_rt.StationMode) //如果有Station則上傳原圖, 否則就上512中圖
+                if (m_rt.StationMode) //如果有Station則上傳原圖, 否則就上1024中圖 (512 - > 1024)
                 {
                     _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, filePath, text, "", "image", "origin", object_id);
                 }
                 else
                 {
-                    _resizedImageFilePath = ImageUtility.ResizeImage(filePath, text, "512", 100);
+                    _resizedImageFilePath = ImageUtility.ResizeImage(filePath, text, "1024", 100); //512 -> 1024
 
                     _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, _resizedImageFilePath, text, "", "image", "medium", object_id);
                 }

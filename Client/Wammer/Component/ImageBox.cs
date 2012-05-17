@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Windows.Forms;
 
 #endregion
@@ -419,6 +420,11 @@ namespace Waveface.Component
         protected override void OnPaint(PaintEventArgs e)
         {
             Rectangle innerRectangle;
+
+            e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
             // draw the borders
             switch (BorderStyle)
