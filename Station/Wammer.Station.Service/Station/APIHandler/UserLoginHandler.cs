@@ -9,46 +9,117 @@ namespace Wammer.Station
 {
 	public class UserLoginHandler : HttpHandler
 	{
-		public event EventHandler<UserLoginEventArgs> UserLogined;
+		#region Var
+		private DriverController _driverAgent;
+		#endregion
 
+		#region Property
+		/// <summary>
+		/// Gets or sets the m_ resource base path.
+		/// </summary>
+		/// <value>The m_ resource base path.</value>
+		private String m_ResourceBasePath { get; set; }
+
+		/// <summary>
+		/// Gets or sets the m_ station ID.
+		/// </summary>
+		/// <value>The m_ station ID.</value>
+		private String m_StationID { get; set; }
+
+		/// <summary>
+		/// Gets the m_ driver agent.
+		/// </summary>
+		/// <value>The m_ driver agent.</value>
+		private DriverController m_DriverAgent
+		{
+			get
+			{
+				if (_driverAgent == null)
+				{
+					_driverAgent = new DriverController();
+				}
+				return _driverAgent;
+			}
+		}
+		#endregion
+
+		#region Constructor
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UserLoginHandler"/> class.
+		/// </summary>
+		/// <param name="stationId">The station id.</param>
+		/// <param name="resourceBasePath">The resource base path.</param>
+		public UserLoginHandler(string stationId, string resourceBasePath)
+		{
+			m_StationID = stationId;
+			m_ResourceBasePath = resourceBasePath;
+		} 
+		#endregion
+
+		public event EventHandler<UserLoginEventArgs> UserLogined;
 
 		private void CheckAndUpdateDriver(LoginedSession loginInfo)
 		{
 			if (loginInfo == null)
 				return;
 
-			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", loginInfo.user.user_id));
+			var user = loginInfo.user;
+
+			Debug.Assert(user != null, "user != null");
+
+			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", user.user_id));
 			
 			if (driver != null)
 				return;
 
-			driver = DriverCollection.Instance.FindOne(Query.EQ("email", loginInfo.user.email));
+			driver = DriverCollection.Instance.FindOne(Query.EQ("email", user.email));
 
 			if(driver == null)
 				throw new WammerStationException("Driver not existed", (int)StationLocalApiError.NotFound);
 
-			throw new WammerStationException("Existed driver has been expired", (int)StationLocalApiError.InvalidDriver);
+			m_DriverAgent.RemoveDriver(m_StationID, user.user_id, false);
+
+			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
+			{
+				var sessionToken = Parameters[CloudServer.SessionToken];
+				var userID = Parameters[CloudServer.PARAM_USER_ID];
+
+				m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, userID, sessionToken);
+			}
+			else
+			{
+				CheckParameter(CloudServer.PARAM_EMAIL,
+							   CloudServer.PARAM_PASSWORD,
+							   CloudServer.PARAM_DEVICE_ID,
+							   CloudServer.PARAM_DEVICE_NAME);
+
+				var email = Parameters[CloudServer.PARAM_EMAIL];
+				var password = Parameters[CloudServer.PARAM_PASSWORD];
+				var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+				var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
+
+				m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, email, password, deviceId, deviceName);
+			}
 		}
 
 		#region Protected Method
-
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
 		public override void HandleRequest()
 		{
 			CheckParameter(CloudServer.PARAM_API_KEY);
-			string apikey = Parameters[CloudServer.PARAM_API_KEY];
+			var apikey = Parameters[CloudServer.PARAM_API_KEY];
 
 			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{
-				string sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
+				var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
 
 				try
 				{
-					string userId = Parameters[CloudServer.PARAM_USER_ID];
+					var userId = Parameters[CloudServer.PARAM_USER_ID];
 
-					LoginedSession loginInfo = User.GetLoginInfo(userId, apikey, sessionToken);
+					var loginInfo = User.GetLoginInfo(userId, apikey, sessionToken);
 					CheckAndUpdateDriver(loginInfo);
 
 					LoginedSessionCollection.Instance.Save(loginInfo);
@@ -61,7 +132,7 @@ namespace Wammer.Station
 				{
 					if (CloudServer.IsNetworkError(e))
 					{
-						LoginedSession sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+						var sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 						if (sessionData != null)
 							RespondSuccess(sessionData);
 						else
@@ -76,13 +147,13 @@ namespace Wammer.Station
 				CheckParameter(CloudServer.PARAM_EMAIL, CloudServer.PARAM_PASSWORD, CloudServer.PARAM_DEVICE_ID,
 				               CloudServer.PARAM_DEVICE_NAME);
 
-				string email = Parameters[CloudServer.PARAM_EMAIL];
+				var email = Parameters[CloudServer.PARAM_EMAIL];
 
 				try
 				{
-					string password = Parameters[CloudServer.PARAM_PASSWORD];
-					string deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
-					string deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
+					var password = Parameters[CloudServer.PARAM_PASSWORD];
+					var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+					var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
 					User user = null;
 					using (var client = new DefaultWebClient())
 					{
@@ -92,7 +163,7 @@ namespace Wammer.Station
 					}
 
 					Debug.Assert(user != null, "user != null");
-					LoginedSession loginInfo = user.LoginedInfo;
+					var loginInfo = user.LoginedInfo;
 
 					CheckAndUpdateDriver(loginInfo);
 
@@ -108,7 +179,7 @@ namespace Wammer.Station
 					if (CloudServer.IsNetworkError(e))
 					{
 						// network error, use existing session
-						LoginedSession sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
+						var sessionData = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", email));
 						if (sessionData != null)
 							RespondSuccess(sessionData);
 						else

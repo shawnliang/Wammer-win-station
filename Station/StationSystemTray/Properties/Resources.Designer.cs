@@ -169,15 +169,6 @@ namespace StationSystemTray.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Existed account info maybe expire, may be remove account and readd, or try again latter!.
-        /// </summary>
-        public static string EXISTED_DRIVER_MAYBE_EXPIRE {
-            get {
-                return ResourceManager.GetString("EXISTED_DRIVER_MAYBE_EXPIRE", resourceCulture);
-            }
-        }
-        
         public static System.Drawing.Bitmap fb_btn {
             get {
                 object obj = ResourceManager.GetObject("fb_btn", resourceCulture);

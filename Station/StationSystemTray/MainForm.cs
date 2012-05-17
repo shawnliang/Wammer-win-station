@@ -817,11 +817,6 @@ namespace StationSystemTray
 
 				return true;
 			}
-			catch (InvalidDriverException)
-			{
-				MessageBox.Show(Resources.EXISTED_DRIVER_MAYBE_EXPIRE, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				GotoTabPage(tabSignIn, userlogin);
-			}
 			catch (AuthenticationException)
 			{
 				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
