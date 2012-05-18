@@ -4,7 +4,7 @@
   <String Id="LANGUAGE">1033</String>
   <String Id="CULTURE">en-US</String>
   <String Id="APPNAME">Waveface Stream</String>
-  <String Id="SHORTCUT.UNINSTALLER.NAME">Uninstaller</String>
+  <String Id="SHORTCUT.UNINSTALLER.NAME">Uninstall Waveface Stream</String>
   <String Id="MONGO_SVC_DESC">MongoDB for Waveface Station </String>
   <String Id="STATION_SVC_DESC">Waveface Station service</String>
   <String Id="DOWNGRADE.ERROR">A later version of [ProductName] is already installed. Setup will now exit.</String>

@@ -47,23 +47,29 @@ namespace Wammer.Station
 
 			try
 			{
-				StationInfo station = StationCollection.Instance.FindOne();
-				if (station == null || station.Id == null || station.SessionToken == null)
+				foreach (var user in DriverCollection.Instance.FindAll())
 				{
-					Logger.Info("No station Id or token exist. Skip sign off station.");
-					return ActionResult.Success;
-				}
+					if (string.IsNullOrEmpty(user.session_token))
+						continue;
 
-				//TODO: no user id can get
-				Wammer.Cloud.StationApi.SignOff(new WebClient(), station.Id, station.SessionToken);
-				Logger.Info("Sign off station success");
-				return ActionResult.Success;
+					try
+					{
+						Wammer.Cloud.StationApi.SignOff(new WebClient(), StationRegistry.StationId, user.session_token);
+						Logger.Info("Signoff station is successful");
+						break; // use anyone's token to signoff this station once is enough
+					}
+					catch (Exception e)
+					{
+						Logger.WarnFormat("Signoff station with user {0}'s token not success: {1}", user.email, e.Message);
+					}
+				}
 			}
 			catch (Exception e)
 			{
 				Logger.Warn("Sign off station not success. Continue as if without error.", e);
-				return ActionResult.Success;
 			}
+
+			return ActionResult.Success;
 		}
 
 		[CustomAction]

@@ -28,9 +28,9 @@ namespace Wammer.PostUpload
 
 							foreach (String id in attachmentIDs)
 							{
-								if (!IsAttachmentExist(id))
+								if (!IsAttachmentUploaded(id))
 								{
-									throw new WammerStationException("Attachment " + id + " does not exist", (int) StationLocalApiError.NotReady);
+									throw new WammerStationException("Attachment " + id + " is not uploaded to cloud yet", (int) StationLocalApiError.NotReady);
 								}
 							}
 						}

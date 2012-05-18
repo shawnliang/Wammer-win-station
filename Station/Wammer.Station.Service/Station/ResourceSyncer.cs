@@ -16,7 +16,7 @@ namespace Wammer.Station
 		private readonly TimelineSyncer syncer;
 		private bool isFirstRun = true;
 
-		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue, string stationId)
+		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue, string stationId)
 			: base(timerPeriod)
 		{
 			downloader = new ResourceDownloader(bodySyncQueue, stationId);

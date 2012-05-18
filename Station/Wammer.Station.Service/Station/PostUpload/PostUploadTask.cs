@@ -51,7 +51,7 @@ namespace Wammer.PostUpload
 			}
 		}
 
-		protected bool IsAttachmentExist(string objectId)
+		protected bool IsAttachmentUploaded(string objectId)
 		{
 			Attachment att = AttachmentCollection.Instance.FindOne(Query.EQ("_id", objectId));
 			return att != null && att.IsThumbnailOrBodyUpstreamed();
