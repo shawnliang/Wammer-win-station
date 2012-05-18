@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -15,9 +16,11 @@ namespace Waveface
     {
         public static string RichTextBox_ReplaceNewline(string text)
         {
-            return text.Replace("\r", Environment.NewLine);
-        }
+            // return text.Replace("\r", Environment.NewLine);
 
+            Regex.Replace(text, "\r\n|\n\r|\n|\r", "\r\n");
+            return text;
+        }
 
         public static string ExtractDomainNameFromURL(string Url)
         {
