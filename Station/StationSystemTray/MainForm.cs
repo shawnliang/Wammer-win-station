@@ -150,11 +150,22 @@ namespace StationSystemTray
 			InitializeComponent();
 			this.initMinimized = initMinimized;
 
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
 
 			tbxEMail.DataBindings.Add("Text", cmbEmail, "Text");
+		}
+
+		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			if (clientProcess != null)
+			{
+				clientProcess.Exited -= clientProcess_Exited;
+				clientProcess.CloseMainWindow();
+			}
 		}
 
 		public StationState CurrentState { get; private set; }
