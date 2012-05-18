@@ -405,10 +405,7 @@ namespace Wammer.Station.Service
 			}
 
 			byte[] md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
-			StringBuilder hex = new StringBuilder(md5.Length * 2);
-			foreach (byte b in md5)
-				hex.AppendFormat("{0:x2}", b);
-			return hex.ToString();
+			return new Guid(md5).ToString();
 		}
 
 		private void ConfigThreadPool()
