@@ -27,7 +27,7 @@ namespace Wammer.Station.Service
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
 		private readonly BodySyncQueue bodySyncTaskQueue = new BodySyncQueue();
 		private readonly PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
-		private TaskRunner<ResourceDownloadTask>[] bodySyncRunners;
+		private TaskRunner<IResourceDownloadTask>[] bodySyncRunners;
 		private HttpServer functionServer;
 		private HttpServer managementServer;
 		private string resourceBasePath;
@@ -114,10 +114,10 @@ namespace Wammer.Station.Service
 				stationTimer.Start();
 
 				const int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner<ResourceDownloadTask>[bodySyncThreadNum];
+				bodySyncRunners = new TaskRunner<IResourceDownloadTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
-					var bodySyncRunner = new TaskRunner<ResourceDownloadTask>(bodySyncTaskQueue);
+					var bodySyncRunner = new TaskRunner<IResourceDownloadTask>(bodySyncTaskQueue);
 					bodySyncRunners[i] = bodySyncRunner;
 
 					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;

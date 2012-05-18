@@ -16,7 +16,14 @@ using System.Drawing;
 
 namespace Wammer.Station.Timeline
 {
-	public class ResourceDownloadTask : INamedTask
+	public interface IResourceDownloadTask : ITask
+	{
+		string Name { get; }
+		string UserId { get; }
+	}
+
+
+	public class ResourceDownloadTask : IResourceDownloadTask
 	{
 		private static ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
 

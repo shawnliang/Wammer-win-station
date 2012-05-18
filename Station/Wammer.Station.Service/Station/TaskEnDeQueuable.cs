@@ -4,32 +4,6 @@ using System.Threading;
 
 namespace Wammer.Station
 {
-	public interface INamedTask : ITask
-	{
-		string Name { get; }
-	}
-
-	internal class NamedTask : SimpleTask, INamedTask
-	{
-		public NamedTask(WaitCallback cb, object state, string name)
-			: base(cb, state)
-		{
-			if (cb == null)
-				throw new ArgumentNullException("cb");
-
-			if (name == null)
-				throw new ArgumentNullException("name");
-
-			Name = name;
-		}
-
-		#region INamedTask Members
-
-		public string Name { get; set; }
-
-		#endregion
-	}
-
 	public class DequeuedTask<T> where T : ITask
 	{
 		public DequeuedTask(T t, object key)
