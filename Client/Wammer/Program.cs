@@ -81,12 +81,12 @@ namespace Waveface
                 }
                 else if (args.Length == 1)
                 {
-                    Main mainUI = new Main(args[0]);
-                    Application.Run(mainUI);
+                    Main _mainUI = new Main(args[0]);
+                    Application.Run(_mainUI);
 
-                    if (mainUI.QuitOption == QuitOption.Unlink)
+                    if (_mainUI.QuitOption == QuitOption.Unlink)
                         Environment.Exit(-3);
-                    else if (mainUI.QuitOption == QuitOption.Logout)
+                    else if (_mainUI.QuitOption == QuitOption.Logout)
                         Environment.Exit(-2);
 
                     return;
@@ -159,10 +159,10 @@ namespace Waveface
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            //CrashReporter _errorDlg = new CrashReporter(e.Exception);
-            //_errorDlg.ShowDialog();
+            // CrashReporter _errorDlg = new CrashReporter(e.Exception);
+            // _errorDlg.ShowDialog();
 
-            //NLogUtility.Exception(s_logger, e.Exception, "Application_ThreadException");
+            // NLogUtility.Exception(s_logger, e.Exception, "Application_ThreadException");
         }
     }
 }

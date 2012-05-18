@@ -25,8 +25,6 @@ namespace Waveface.PostUI
         {
             btnSend.Text = I18n.L.T("Update");
 
-            // buttonRemovePreview.Visible = false;
-
             buttonPrev.Visible = false;
             buttonNext.Visible = false;
             labelPictureIndex.Visible = false;

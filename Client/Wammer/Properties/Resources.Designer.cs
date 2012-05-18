@@ -284,6 +284,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FB_info {
+            get {
+                object obj = ResourceManager.GetObject("FB_info", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap FB_info_hl {
+            get {
+                object obj = ResourceManager.GetObject("FB_info_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_moreoption {
             get {
                 object obj = ResourceManager.GetObject("FB_moreoption", resourceCulture);

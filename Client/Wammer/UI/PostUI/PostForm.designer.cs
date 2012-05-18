@@ -51,6 +51,7 @@ namespace Waveface
             this.panelRichText_Top = new System.Windows.Forms.Panel();
             this.btnPureText = new Waveface.Component.ImageButton();
             this.Page_P_D_W = new Waveface.Component.MultiPage.MultiPanelPage();
+            this.panelSubArea = new System.Windows.Forms.Panel();
             this.panelPWD_Main = new System.Windows.Forms.Panel();
             this.multiPanel_P_D_W = new Waveface.Component.MultiPage.MultiPanel();
             this.Page__Link = new Waveface.Component.MultiPage.MultiPanelPage();
@@ -59,15 +60,17 @@ namespace Waveface
             this.photo_UI = new Waveface.PostUI.Photo();
             this.Page__DOC = new Waveface.Component.MultiPage.MultiPanelPage();
             this.document_UI = new Waveface.PostUI.Document();
+            this.splitter = new System.Windows.Forms.Splitter();
+            this.panelPureTextArea = new System.Windows.Forms.Panel();
+            this.panelText = new System.Windows.Forms.Panel();
+            this.buttonRichText = new Waveface.Component.ImageButton();
+            this.pureTextBox = new Waveface.Component.RichEdit.RichTextEditor();
             this.panelMiddleBar = new System.Windows.Forms.Panel();
             this.pictureBoxWaiting = new System.Windows.Forms.PictureBox();
             this.panelToolbar = new System.Windows.Forms.Panel();
             this.btnAddDoc = new Waveface.Component.ImageButton();
             this.btnSend = new Waveface.Component.ImageButton();
             this.labelPreviewMsg = new System.Windows.Forms.Label();
-            this.panelText = new System.Windows.Forms.Panel();
-            this.buttonRichText = new Waveface.Component.ImageButton();
-            this.pureTextBox = new Waveface.Component.RichEdit.RichTextEditor();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.backgroundWorker_GetPreview = new System.ComponentModel.BackgroundWorker();
             this.timerNoPreviewMsg = new System.Windows.Forms.Timer(this.components);
@@ -78,15 +81,17 @@ namespace Waveface
             this.panelRichText_Main.SuspendLayout();
             this.panelRichText_Top.SuspendLayout();
             this.Page_P_D_W.SuspendLayout();
+            this.panelSubArea.SuspendLayout();
             this.panelPWD_Main.SuspendLayout();
             this.multiPanel_P_D_W.SuspendLayout();
             this.Page__Link.SuspendLayout();
             this.Page__Photo.SuspendLayout();
             this.Page__DOC.SuspendLayout();
+            this.panelPureTextArea.SuspendLayout();
+            this.panelText.SuspendLayout();
             this.panelMiddleBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWaiting)).BeginInit();
             this.panelToolbar.SuspendLayout();
-            this.panelText.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripEdit
@@ -180,9 +185,7 @@ namespace Waveface
             resources.ApplyResources(this.btnPureText, "btnPureText");
             this.btnPureText.CenterAlignImage = false;
             this.btnPureText.Image = global::Waveface.Properties.Resources.white_edit;
-            this.btnPureText.ImageDisable = null;
             this.btnPureText.ImageFront = null;
-            this.btnPureText.ImageHover = null;
             this.btnPureText.Name = "btnPureText";
             this.btnPureText.TabStop = false;
             this.btnPureText.TextShadow = true;
@@ -190,11 +193,18 @@ namespace Waveface
             // 
             // Page_P_D_W
             // 
-            this.Page_P_D_W.Controls.Add(this.panelPWD_Main);
-            this.Page_P_D_W.Controls.Add(this.panelMiddleBar);
-            this.Page_P_D_W.Controls.Add(this.panelText);
+            this.Page_P_D_W.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.Page_P_D_W.Controls.Add(this.panelSubArea);
+            this.Page_P_D_W.Controls.Add(this.splitter);
+            this.Page_P_D_W.Controls.Add(this.panelPureTextArea);
             resources.ApplyResources(this.Page_P_D_W, "Page_P_D_W");
             this.Page_P_D_W.Name = "Page_P_D_W";
+            // 
+            // panelSubArea
+            // 
+            this.panelSubArea.Controls.Add(this.panelPWD_Main);
+            resources.ApplyResources(this.panelSubArea, "panelSubArea");
+            this.panelSubArea.Name = "panelSubArea";
             // 
             // panelPWD_Main
             // 
@@ -235,7 +245,7 @@ namespace Waveface
             // photo_UI
             // 
             resources.ApplyResources(this.photo_UI, "photo_UI");
-            this.photo_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.photo_UI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.photo_UI.FileNameMapping = ((System.Collections.Generic.Dictionary<string, string>)(resources.GetObject("photo_UI.FileNameMapping")));
             this.photo_UI.MinimumSize = new System.Drawing.Size(500, 78);
             this.photo_UI.MyParent = null;
@@ -253,6 +263,54 @@ namespace Waveface
             this.document_UI.MinimumSize = new System.Drawing.Size(500, 130);
             this.document_UI.MyParent = null;
             this.document_UI.Name = "document_UI";
+            // 
+            // splitter
+            // 
+            this.splitter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            resources.ApplyResources(this.splitter, "splitter");
+            this.splitter.Name = "splitter";
+            this.splitter.TabStop = false;
+            // 
+            // panelPureTextArea
+            // 
+            this.panelPureTextArea.Controls.Add(this.panelText);
+            this.panelPureTextArea.Controls.Add(this.panelMiddleBar);
+            resources.ApplyResources(this.panelPureTextArea, "panelPureTextArea");
+            this.panelPureTextArea.Name = "panelPureTextArea";
+            // 
+            // panelText
+            // 
+            this.panelText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.panelText.Controls.Add(this.buttonRichText);
+            this.panelText.Controls.Add(this.pureTextBox);
+            resources.ApplyResources(this.panelText, "panelText");
+            this.panelText.Name = "panelText";
+            // 
+            // buttonRichText
+            // 
+            resources.ApplyResources(this.buttonRichText, "buttonRichText");
+            this.buttonRichText.CenterAlignImage = false;
+            this.buttonRichText.Image = global::Waveface.Properties.Resources.content;
+            this.buttonRichText.ImageFront = null;
+            this.buttonRichText.Name = "buttonRichText";
+            this.buttonRichText.TabStop = false;
+            this.buttonRichText.TextShadow = true;
+            this.buttonRichText.Click += new System.EventHandler(this.buttonRichText_Click);
+            // 
+            // pureTextBox
+            // 
+            this.pureTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.pureTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pureTextBox.ContextMenuStrip = this.contextMenuStripEdit;
+            this.pureTextBox.DetectUrls = false;
+            resources.ApplyResources(this.pureTextBox, "pureTextBox");
+            this.pureTextBox.Name = "pureTextBox";
+            this.pureTextBox.UndoLength = 100;
+            this.pureTextBox.WaterMarkColor = System.Drawing.Color.Silver;
+            this.pureTextBox.WaterMarkText = "";
+            this.pureTextBox.TextChanged2 += new Waveface.Component.RichEdit.TextChanged2EventHandler(this.pureTextBox_TextChanged2);
+            this.pureTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
+            this.pureTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pureTextBox_KeyDown);
             // 
             // panelMiddleBar
             // 
@@ -283,10 +341,8 @@ namespace Waveface
             // 
             this.btnAddDoc.CenterAlignImage = false;
             this.btnAddDoc.Image = global::Waveface.Properties.Resources.page;
-            this.btnAddDoc.ImageDisable = null;
-            this.btnAddDoc.ImageFront = null;
-            this.btnAddDoc.ImageHover = null;
             resources.ApplyResources(this.btnAddDoc, "btnAddDoc");
+            this.btnAddDoc.ImageFront = null;
             this.btnAddDoc.Name = "btnAddDoc";
             this.btnAddDoc.TabStop = false;
             this.btnAddDoc.TextShadow = true;
@@ -313,42 +369,6 @@ namespace Waveface
             this.labelPreviewMsg.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(97)))), ((int)(((byte)(101)))));
             this.labelPreviewMsg.Name = "labelPreviewMsg";
             // 
-            // panelText
-            // 
-            this.panelText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.panelText.Controls.Add(this.buttonRichText);
-            this.panelText.Controls.Add(this.pureTextBox);
-            resources.ApplyResources(this.panelText, "panelText");
-            this.panelText.Name = "panelText";
-            // 
-            // buttonRichText
-            // 
-            resources.ApplyResources(this.buttonRichText, "buttonRichText");
-            this.buttonRichText.CenterAlignImage = false;
-            this.buttonRichText.Image = global::Waveface.Properties.Resources.content;
-            this.buttonRichText.ImageDisable = null;
-            this.buttonRichText.ImageFront = null;
-            this.buttonRichText.ImageHover = null;
-            this.buttonRichText.Name = "buttonRichText";
-            this.buttonRichText.TabStop = false;
-            this.buttonRichText.TextShadow = true;
-            this.buttonRichText.Click += new System.EventHandler(this.buttonRichText_Click);
-            // 
-            // pureTextBox
-            // 
-            resources.ApplyResources(this.pureTextBox, "pureTextBox");
-            this.pureTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.pureTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pureTextBox.ContextMenuStrip = this.contextMenuStripEdit;
-            this.pureTextBox.DetectUrls = false;
-            this.pureTextBox.Name = "pureTextBox";
-            this.pureTextBox.UndoLength = 100;
-            this.pureTextBox.WaterMarkColor = System.Drawing.Color.Silver;
-            this.pureTextBox.WaterMarkText = "";
-            this.pureTextBox.TextChanged2 += new Waveface.Component.RichEdit.TextChanged2EventHandler(this.pureTextBox_TextChanged2);
-            this.pureTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox_LinkClicked);
-            this.pureTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pureTextBox_KeyDown);
-            // 
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
@@ -364,7 +384,6 @@ namespace Waveface
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.multiPanel);
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PostForm";
             this.ShowInTaskbar = false;
@@ -380,15 +399,17 @@ namespace Waveface
             this.panelRichText_Main.ResumeLayout(false);
             this.panelRichText_Top.ResumeLayout(false);
             this.Page_P_D_W.ResumeLayout(false);
+            this.panelSubArea.ResumeLayout(false);
             this.panelPWD_Main.ResumeLayout(false);
             this.multiPanel_P_D_W.ResumeLayout(false);
             this.Page__Link.ResumeLayout(false);
             this.Page__Photo.ResumeLayout(false);
             this.Page__DOC.ResumeLayout(false);
+            this.panelPureTextArea.ResumeLayout(false);
+            this.panelText.ResumeLayout(false);
             this.panelMiddleBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWaiting)).EndInit();
             this.panelToolbar.ResumeLayout(false);
-            this.panelText.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -429,6 +450,9 @@ namespace Waveface
         private Label labelPreviewMsg;
         private Timer timerNoPreviewMsg;
         private PictureBox pictureBoxWaiting;
+        private Splitter splitter;
+        private Panel panelPureTextArea;
+        private Panel panelSubArea;
     }
 }
 

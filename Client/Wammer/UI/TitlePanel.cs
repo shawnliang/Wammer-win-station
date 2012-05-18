@@ -130,14 +130,13 @@ namespace Waveface
             // 
             resources.ApplyResources(this.labelStatus, "labelStatus");
             this.labelStatus.Name = "labelStatus";
-            this.toolTip.SetToolTip(this.labelStatus, resources.GetString("labelStatus.ToolTip"));
             // 
             // btnRefresh
             // 
-            resources.ApplyResources(this.btnRefresh, "btnRefresh");
             this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
             this.btnRefresh.CenterAlignImage = false;
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.btnRefresh, "btnRefresh");
             this.btnRefresh.Image = global::Waveface.Properties.Resources.FBT_refresh;
             this.btnRefresh.ImageDisable = global::Waveface.Properties.Resources.FBT_refresh;
             this.btnRefresh.ImageFront = null;
@@ -149,10 +148,10 @@ namespace Waveface
             // 
             // btnAccount
             // 
-            resources.ApplyResources(this.btnAccount, "btnAccount");
             this.btnAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
             this.btnAccount.CenterAlignImage = false;
             this.btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.btnAccount, "btnAccount");
             this.btnAccount.Image = global::Waveface.Properties.Resources.FBT_account;
             this.btnAccount.ImageDisable = global::Waveface.Properties.Resources.FBT_account;
             this.btnAccount.ImageFront = null;
@@ -164,14 +163,14 @@ namespace Waveface
             // 
             // btnSetting
             // 
-            resources.ApplyResources(this.btnSetting, "btnSetting");
             this.btnSetting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
             this.btnSetting.CenterAlignImage = false;
             this.btnSetting.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSetting.Image = global::Waveface.Properties.Resources.FBT_setting;
-            this.btnSetting.ImageDisable = global::Waveface.Properties.Resources.FBT_setting;
+            resources.ApplyResources(this.btnSetting, "btnSetting");
+            this.btnSetting.Image = global::Waveface.Properties.Resources.FB_info;
+            this.btnSetting.ImageDisable = global::Waveface.Properties.Resources.FB_info;
             this.btnSetting.ImageFront = null;
-            this.btnSetting.ImageHover = global::Waveface.Properties.Resources.FBT_setting_hl;
+            this.btnSetting.ImageHover = global::Waveface.Properties.Resources.FB_info_hl;
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.TextShadow = true;
             this.toolTip.SetToolTip(this.btnSetting, resources.GetString("btnSetting.ToolTip"));
@@ -179,10 +178,10 @@ namespace Waveface
             // 
             // btnRemovePost
             // 
-            resources.ApplyResources(this.btnRemovePost, "btnRemovePost");
             this.btnRemovePost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
             this.btnRemovePost.CenterAlignImage = false;
             this.btnRemovePost.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.btnRemovePost, "btnRemovePost");
             this.btnRemovePost.Image = global::Waveface.Properties.Resources.FB_remove_post;
             this.btnRemovePost.ImageDisable = global::Waveface.Properties.Resources.FB_remove_post;
             this.btnRemovePost.ImageFront = null;
@@ -194,7 +193,6 @@ namespace Waveface
             // 
             // TitlePanel
             // 
-            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.btnRemovePost);
             this.Controls.Add(this.btnSetting);
@@ -202,7 +200,7 @@ namespace Waveface
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.btnRefresh);
             this.Name = "TitlePanel";
-            this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
+            resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.TitlePanel_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

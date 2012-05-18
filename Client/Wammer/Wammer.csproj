@@ -983,6 +983,8 @@
     <None Include="Resources\FlatButton\FB_refresh_hl.png" />
     <None Include="Resources\FlatButton\FB_newpost_btn.png" />
     <None Include="Resources\FlatButton\FB_newpost_btn_hl.png" />
+    <None Include="Resources\FlatButton\FB_info.png" />
+    <None Include="Resources\FlatButton\FB_info_hl.png" />
     <Content Include="Resources\FlatButton\FB_remove.png" />
     <Content Include="Resources\FlatButton\FB_remove_hl.png" />
     <None Include="Resources\FlatButton\FB_slide.png" />
