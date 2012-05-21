@@ -514,7 +514,7 @@ namespace Waveface
 
         private void Form_DragEnter(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Enter(e);
+            m_dragDropClipboardHelper.Drag_Enter(e, false);
         }
 
         private void Form_DragDrop(object sender, DragEventArgs e)
@@ -529,7 +529,7 @@ namespace Waveface
 
         private void Form_DragOver(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Over(e);
+            m_dragDropClipboardHelper.Drag_Over(e, false);
         }
 
         /*
@@ -915,11 +915,11 @@ namespace Waveface
             DoRealPostForm(new List<string>(), PostType.All);
         }
 
-        public void EditPost(Post post)
+        public void EditPost(Post post, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
             try
             {
-                m_postForm = new PostForm(new List<string>(), PostType.All, post, true);
+                m_postForm = new PostForm(new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
                 DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)
@@ -956,7 +956,7 @@ namespace Waveface
         {
             try
             {
-                m_postForm = new PostForm(pics, postType, null, false);
+                m_postForm = new PostForm(pics, postType, null, false, null, -1);
                 DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)

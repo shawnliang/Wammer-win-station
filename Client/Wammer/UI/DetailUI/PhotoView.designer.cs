@@ -40,6 +40,9 @@ namespace Waveface.DetailUI
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSave = new Waveface.Component.ImageButton();
+            this.btnCoverImage = new Waveface.Component.ImageButton();
+            this.btnSlideShow = new Waveface.Component.ImageButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.StatusLabelFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
@@ -48,12 +51,9 @@ namespace Waveface.DetailUI
             this.zoomToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.imageBox = new Waveface.Component.ImageBox();
             this.panelTop = new System.Windows.Forms.Panel();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.imageBox = new Waveface.Component.ImageBox();
-            this.btnSave = new Waveface.Component.ImageButton();
-            this.btnCoverImage = new Waveface.Component.ImageButton();
-            this.btnSlideShow = new Waveface.Component.ImageButton();
             this.contextMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
@@ -65,9 +65,11 @@ namespace Waveface.DetailUI
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BackColor = System.Drawing.Color.White;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.imageListView.Colors = new Manina.Windows.Forms.ImageListViewColor(resources.GetString("imageListView.Colors"));
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStrip;
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.imageListView.IsWaveface = true;
             resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.Name = "imageListView";
             this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
@@ -97,6 +99,48 @@ namespace Waveface.DetailUI
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
+            // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.White;
+            this.btnSave.CenterAlignImage = false;
+            this.btnSave.Image = global::Waveface.Properties.Resources.FB_save;
+            this.btnSave.ImageDisable = global::Waveface.Properties.Resources.FB_save_hl;
+            this.btnSave.ImageFront = null;
+            this.btnSave.ImageHover = global::Waveface.Properties.Resources.FB_save_hl;
+            resources.ApplyResources(this.btnSave, "btnSave");
+            this.btnSave.Name = "btnSave";
+            this.btnSave.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnSave, resources.GetString("btnSave.ToolTip"));
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnCoverImage
+            // 
+            resources.ApplyResources(this.btnCoverImage, "btnCoverImage");
+            this.btnCoverImage.BackColor = System.Drawing.Color.White;
+            this.btnCoverImage.CenterAlignImage = false;
+            this.btnCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
+            this.btnCoverImage.ImageDisable = global::Waveface.Properties.Resources.FB_cover_hl;
+            this.btnCoverImage.ImageFront = null;
+            this.btnCoverImage.ImageHover = global::Waveface.Properties.Resources.FB_cover_hl;
+            this.btnCoverImage.Name = "btnCoverImage";
+            this.btnCoverImage.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnCoverImage, resources.GetString("btnCoverImage.ToolTip"));
+            this.btnCoverImage.Click += new System.EventHandler(this.btnCoverImage_Click);
+            // 
+            // btnSlideShow
+            // 
+            resources.ApplyResources(this.btnSlideShow, "btnSlideShow");
+            this.btnSlideShow.BackColor = System.Drawing.Color.White;
+            this.btnSlideShow.CenterAlignImage = false;
+            this.btnSlideShow.Image = global::Waveface.Properties.Resources.FB_slide1;
+            this.btnSlideShow.ImageDisable = global::Waveface.Properties.Resources.FB_slide1_hl;
+            this.btnSlideShow.ImageFront = null;
+            this.btnSlideShow.ImageHover = global::Waveface.Properties.Resources.FB_slide1_hl;
+            this.btnSlideShow.Name = "btnSlideShow";
+            this.btnSlideShow.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnSlideShow, resources.GetString("btnSlideShow.ToolTip"));
+            this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
             // 
             // statusStrip
             // 
@@ -173,20 +217,6 @@ namespace Waveface.DetailUI
             this.panelMain.Controls.Add(this.imageListView);
             this.panelMain.Name = "panelMain";
             // 
-            // panelTop
-            // 
-            this.panelTop.BackColor = System.Drawing.Color.White;
-            this.panelTop.Controls.Add(this.btnSave);
-            this.panelTop.Controls.Add(this.btnCoverImage);
-            this.panelTop.Controls.Add(this.btnSlideShow);
-            resources.ApplyResources(this.panelTop, "panelTop");
-            this.panelTop.Name = "panelTop";
-            // 
-            // timer
-            // 
-            this.timer.Interval = 3000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
             // imageBox
             // 
             this.imageBox.AutoPan = false;
@@ -203,44 +233,19 @@ namespace Waveface.DetailUI
             this.imageBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageBox_KeyDown);
             this.imageBox.Resize += new System.EventHandler(this.imageBox_Resize);
             // 
-            // btnSave
+            // panelTop
             // 
-            this.btnSave.BackColor = System.Drawing.Color.White;
-            this.btnSave.CenterAlignImage = false;
-            this.btnSave.Image = global::Waveface.Properties.Resources.FB_save;
-            this.btnSave.ImageDisable = global::Waveface.Properties.Resources.FB_save_hl;
-            this.btnSave.ImageFront = null;
-            this.btnSave.ImageHover = global::Waveface.Properties.Resources.FB_save_hl;
-            resources.ApplyResources(this.btnSave, "btnSave");
-            this.btnSave.Name = "btnSave";
-            this.toolTip.SetToolTip(this.btnSave, resources.GetString("btnSave.ToolTip"));
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.panelTop.BackColor = System.Drawing.Color.White;
+            this.panelTop.Controls.Add(this.btnSave);
+            this.panelTop.Controls.Add(this.btnCoverImage);
+            this.panelTop.Controls.Add(this.btnSlideShow);
+            resources.ApplyResources(this.panelTop, "panelTop");
+            this.panelTop.Name = "panelTop";
             // 
-            // btnCoverImage
+            // timer
             // 
-            resources.ApplyResources(this.btnCoverImage, "btnCoverImage");
-            this.btnCoverImage.BackColor = System.Drawing.Color.White;
-            this.btnCoverImage.CenterAlignImage = false;
-            this.btnCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
-            this.btnCoverImage.ImageDisable = global::Waveface.Properties.Resources.FB_cover_hl;
-            this.btnCoverImage.ImageFront = null;
-            this.btnCoverImage.ImageHover = global::Waveface.Properties.Resources.FB_cover_hl;
-            this.btnCoverImage.Name = "btnCoverImage";
-            this.toolTip.SetToolTip(this.btnCoverImage, resources.GetString("btnCoverImage.ToolTip"));
-            this.btnCoverImage.Click += new System.EventHandler(this.btnCoverImage_Click);
-            // 
-            // btnSlideShow
-            // 
-            resources.ApplyResources(this.btnSlideShow, "btnSlideShow");
-            this.btnSlideShow.BackColor = System.Drawing.Color.White;
-            this.btnSlideShow.CenterAlignImage = false;
-            this.btnSlideShow.Image = global::Waveface.Properties.Resources.FB_slide1;
-            this.btnSlideShow.ImageDisable = global::Waveface.Properties.Resources.FB_slide1_hl;
-            this.btnSlideShow.ImageFront = null;
-            this.btnSlideShow.ImageHover = global::Waveface.Properties.Resources.FB_slide1_hl;
-            this.btnSlideShow.Name = "btnSlideShow";
-            this.toolTip.SetToolTip(this.btnSlideShow, resources.GetString("btnSlideShow.ToolTip"));
-            this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
+            this.timer.Interval = 3000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // PhotoView
             // 

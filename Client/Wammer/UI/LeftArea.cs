@@ -433,7 +433,7 @@ namespace Waveface
                 }
 
                 Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), ((bmp.Width - _size.Width) / 2) + _off, bmp.Height - _size.Height - 8);
+                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), ((bmp.Width - _size.Width) / 2) + _off - 1, bmp.Height - _size.Height - 6);
             }
 
             pbDropArea.Image = m_dropAreaImage;
@@ -450,7 +450,7 @@ namespace Waveface
 
         private void DropArea_DragEnter(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Enter(e);
+            m_dragDropClipboardHelper.Drag_Enter(e, false);
         }
 
         private void DropArea_DragLeave(object sender, EventArgs e)
@@ -460,7 +460,7 @@ namespace Waveface
 
         private void DropArea_DragOver(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Over(e);
+            m_dragDropClipboardHelper.Drag_Over(e, false);
         }
 
         private void pbDropArea_Click(object sender, EventArgs e)

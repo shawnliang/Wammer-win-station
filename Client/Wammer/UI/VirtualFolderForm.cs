@@ -404,7 +404,7 @@ namespace Waveface
 
         private void VirtualFolderForm_DragEnter(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Enter(e);
+            m_dragDropClipboardHelper.Drag_Enter(e, false);
         }
 
         private void VirtualFolderForm_DragDrop(object sender, DragEventArgs e)
@@ -414,7 +414,7 @@ namespace Waveface
 
         private void VirtualFolderForm_DragOver(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Over(e);
+            m_dragDropClipboardHelper.Drag_Over(e, false);
         }
 
         private void VirtualFolderForm_DragLeave(object sender, EventArgs e)

@@ -12,8 +12,25 @@ namespace Waveface
 {
     class DragDrop_Clipboard_Helper
     {
-        public void Drag_Enter(DragEventArgs e)
+        private bool m_createNewPost = true;
+
+        public DragDrop_Clipboard_Helper()
         {
+        }
+
+        public DragDrop_Clipboard_Helper(bool createNewPost)
+        {
+            m_createNewPost = createNewPost;
+        }
+        
+        public void Drag_Enter(DragEventArgs e, bool forceDisable)
+        {
+            if(forceDisable)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop) ||
                 e.Data.GetDataPresent("HTML Format") ||
                 e.Data.GetDataPresent(DataFormats.Text) ||
@@ -43,8 +60,14 @@ namespace Waveface
             FlashWindow.Start(Main.Current);
         }
 
-        public void Drag_Over(DragEventArgs e)
+        public void Drag_Over(DragEventArgs e, bool forceDisable)
         {
+            if (forceDisable)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+
             if (e.Data.GetDataPresent(DataFormats.FileDrop) ||
                 e.Data.GetDataPresent("HTML Format") ||
                 e.Data.GetDataPresent(DataFormats.Text) ||
@@ -72,7 +95,7 @@ namespace Waveface
             }
         }
 
-        public void Drag_Drop(DragEventArgs e)
+        public List<string> Drag_Drop(DragEventArgs e)
         {
             FlashWindow.Stop(Main.Current);
 
@@ -89,7 +112,7 @@ namespace Waveface
             {
             }
 
-            DoDataPaste(e.Data);
+            return DoDataPaste(e.Data);
         }
 
         public void Drag_Leave()
@@ -100,19 +123,21 @@ namespace Waveface
             _dropHelper.DragLeave();
         }
 
+        /*
         public void Clipboard_Paste()
         {
             DoDataPaste(Clipboard.GetDataObject());
         }
+        */
 
-        private void DoDataPaste(IDataObject data)
+        private List<string> DoDataPaste(IDataObject data)
         {
+            List<string> _pics = new List<string>();
+
             if (data.GetDataPresent(DataFormats.FileDrop))
             {
                 try
                 {
-                    List<string> _pics = new List<string>();
-
                     string[] _dropFiles = (string[])data.GetData(DataFormats.FileDrop, false);
 
 
@@ -149,14 +174,15 @@ namespace Waveface
 
                     if (_pics.Count > 0)
                     {
-                        Main.Current.Post(_pics, PostType.Photo);
+                        if (m_createNewPost)
+                            Main.Current.Post(_pics, PostType.Photo);
                     }
                 }
                 catch
                 {
                 }
 
-                return;
+                return _pics;
             }
 
             // Drag Image
@@ -181,12 +207,15 @@ namespace Waveface
 
                     _image.Save(_imgLocalPath);
 
-                    Main.Current.Post(new List<string>
-                                        {
-                                            _imgLocalPath
-                                        }, PostType.Photo);
+                    if (m_createNewPost)
+                    {
+                        Main.Current.Post(new List<string>
+                                              {
+                                                  _imgLocalPath
+                                              }, PostType.Photo);
+                    }
 
-                    return;
+                    return null;
                 }
                 catch
                 {
@@ -250,7 +279,7 @@ namespace Waveface
                         }
                     }
 
-                    return;
+                    return null;
                 }
                 catch
                 {
@@ -261,10 +290,12 @@ namespace Waveface
             {
                 string _text = data.GetData(DataFormats.StringFormat).ToString();
 
-                MessageBox.Show(_text);
+                // MessageBox.Show(_text);
 
-                return;
+                return null;
             }
+
+            return null;
         }
 
         private string GetTrimmedLine(string str)

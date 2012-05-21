@@ -487,6 +487,7 @@ namespace Waveface.PostUI
         public void AddPhoto()
         {
             openFileDialog.RestoreDirectory = true;
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 AddPhotos(openFileDialog.FileNames, -1);
@@ -503,9 +504,9 @@ namespace Waveface.PostUI
             }
         }
 
-        private void AddPhotos(string[] files, int index)
+        public void AddPhotos(string[] files, int index)
         {
-            if (index > 0)
+            if (index >= 0)
                 Array.Reverse(files);
 
             foreach (string _pic in files)

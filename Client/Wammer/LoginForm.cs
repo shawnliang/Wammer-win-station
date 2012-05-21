@@ -248,22 +248,25 @@ namespace Waveface
 
             try
             {
-                QuitOption quit = _doLogin(email, password);
-                if (quit == QuitOption.QuitProgram)
+                QuitOption _quit = _doLogin(email, password);
+
+                switch (_quit)
                 {
-                    Close();
-                }
-                else if (quit == QuitOption.Logout)
-                {
-                    Environment.Exit(-2);
-                }
-                else if (quit == QuitOption.Unlink)
-                {
-                    Environment.Exit(-3);
-                }
-                else
-                {
-                    Environment.Exit(-1);
+                    case QuitOption.QuitProgram:
+                        Close();
+                        break;
+
+                    case QuitOption.Logout:
+                        Environment.Exit(-2);
+                        break;
+
+                    case QuitOption.Unlink:
+                        Environment.Exit(-3);
+                        break;
+
+                    default:
+                        Environment.Exit(-1);
+                        break;
                 }
             }
             catch (StationServiceDownException _e)
