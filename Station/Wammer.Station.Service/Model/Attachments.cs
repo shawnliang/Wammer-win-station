@@ -32,17 +32,17 @@ namespace Wammer.Model
 		/// <summary>
 		/// 120 pixels
 		/// </summary>
-		[Description("small")] Small = 120,
+		[Description("small")] Small = 256,
 
 		/// <summary>
 		/// 720 pixels
 		/// </summary>
-		[Description("medium")] Medium = 512,
+		[Description("medium")] Medium = 1024,
 
 		/// <summary>
 		/// 1024 pixels
 		/// </summary>
-		[Description("large")] Large = 1024,
+		[Description("large")] Large = 2048,
 
 		/// <summary>
 		/// Original image size
