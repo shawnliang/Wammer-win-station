@@ -83,6 +83,7 @@ namespace Wammer.Station
 			if (wavefaceDir == null)
 				return ActionResult.Failure;
 
+			CloseStream();
 			KillProcess("WavefaceWindowsClient");
 			KillProcess("StationUI");
 			KillProcess("StationSystemTray");
@@ -101,16 +102,48 @@ namespace Wammer.Station
 
 				foreach (Process p in procs)
 				{
+					Logger.Debug("Kill process " + name);
 					p.Kill();
-					if (name == "StationSystemTray")
-					{
-						ClearGhostTrayIcons();
-					}
 				}
 			}
 			catch (Exception e)
 			{
 				Logger.Warn("Cannot kill process " + name, e);
+			}
+		}
+
+		[DllImport("user32.dll")]
+		public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+		[DllImport("user32.dll")]
+		public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+
+		private static void CloseStream()
+		{
+			Logger.Debug("Close Stream gracefully");
+			try
+			{
+				string mainformTitle = "Login - Stream";
+
+				var culture = (string)StationRegistry.GetValue("Culture", null);
+				if (culture != null)
+				{
+					if (culture == "zh-TW")
+						mainformTitle = "登入 - Stream";
+					else
+						mainformTitle = "Login - Stream";
+				}
+
+				var handle = FindWindow(null, mainformTitle);
+
+				if (handle == IntPtr.Zero)
+					return;
+
+				SendMessage(handle, 0x402, IntPtr.Zero, IntPtr.Zero);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Cannot close Stream", e);
 			}
 		}
 
