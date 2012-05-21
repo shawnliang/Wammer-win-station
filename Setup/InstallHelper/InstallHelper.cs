@@ -47,20 +47,24 @@ namespace Wammer.Station
 
 			try
 			{
-				foreach (var user in DriverCollection.Instance.FindAll())
+				StationInfo station = StationCollection.Instance.FindOne();
+				if (station != null)
 				{
-					if (string.IsNullOrEmpty(user.session_token))
-						continue;
+					foreach (var user in DriverCollection.Instance.FindAll())
+					{
+						if (string.IsNullOrEmpty(user.session_token))
+							continue;
 
-					try
-					{
-						Wammer.Cloud.StationApi.SignOff(new WebClient(), StationRegistry.StationId, user.session_token);
-						Logger.Info("Signoff station is successful");
-						break; // use anyone's token to signoff this station once is enough
-					}
-					catch (Exception e)
-					{
-						Logger.WarnFormat("Signoff station with user {0}'s token not success: {1}", user.email, e.Message);
+						try
+						{
+							Wammer.Cloud.StationApi.SignOff(new WebClient(), station.Id, user.session_token);
+							Logger.Info("Signoff station is successful");
+							break; // use anyone's token to signoff this station once is enough
+						}
+						catch (Exception e)
+						{
+							Logger.WarnFormat("Signoff station with user {0}'s token not success: {1}", user.email, e.Message);
+						}
 					}
 				}
 			}
@@ -565,14 +569,15 @@ namespace Wammer.Station
 
 			while (0 < retry--)
 			{
+				ServiceController svc = new ServiceController(svcName);
 				try
 				{
-					ServiceController mongoSvc = new ServiceController(svcName);
-					if (mongoSvc.Status != ServiceControllerStatus.Running &&
-						mongoSvc.Status != ServiceControllerStatus.StartPending)
+					
+					if (svc.Status != ServiceControllerStatus.Running &&
+						svc.Status != ServiceControllerStatus.StartPending)
 					{
-						mongoSvc.Start();
-						mongoSvc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(60));
+						svc.Start();
+						svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(60));
 					}
 
 					return;
@@ -580,7 +585,10 @@ namespace Wammer.Station
 				catch (Exception e)
 				{
 					if (retry > 0)
+					{
 						System.Threading.Thread.Sleep(3000);
+						svc.Refresh();
+					}
 					else
 						throw new InstallerException("Unable to start " + svcName, e);
 				}
@@ -589,7 +597,7 @@ namespace Wammer.Station
 
 		private static void StopService(string svcName)
 		{
-			ServiceController mongoSvc = new ServiceController(svcName);
+			ServiceController svc = new ServiceController(svcName);
 
 			int retry = 3;
 
@@ -597,11 +605,11 @@ namespace Wammer.Station
 			{
 				try
 				{
-					if (mongoSvc.Status != ServiceControllerStatus.Stopped &&
-						mongoSvc.Status != ServiceControllerStatus.StopPending)
+					if (svc.Status != ServiceControllerStatus.Stopped &&
+						svc.Status != ServiceControllerStatus.StopPending)
 					{
-						mongoSvc.Stop();
-						mongoSvc.WaitForStatus(ServiceControllerStatus.Stopped);
+						svc.Stop();
+						svc.WaitForStatus(ServiceControllerStatus.Stopped);
 					}
 
 					return;
@@ -609,7 +617,10 @@ namespace Wammer.Station
 				catch (Exception e)
 				{
 					if (retry > 0)
+					{
 						System.Threading.Thread.Sleep(3000);
+						svc.Refresh();
+					}
 					else
 						throw new InstallerException("Unable to stop " + svcName, e);
 				}

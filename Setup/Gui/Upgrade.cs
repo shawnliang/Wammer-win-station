@@ -19,20 +19,11 @@ namespace Gui
 			{
 				if (HasFeaure("MainFeature"))
 				{
-					// make sure MongoDB is started
-					ServiceController svc = new ServiceController("MongoDBForWaveface");
-					if (svc.Status != ServiceControllerStatus.Running &&
-						svc.Status != ServiceControllerStatus.StartPending)
-						svc.Start();
-
-					svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(2));
-
-					MongoDump();
-					BackupRegistry();
-
 					// stop WF service to prevent WinXP pops up "Waveface Installer
 					// need to be stopped first".
 					StopService("WavefaceStation");
+					MongoDump();
+					BackupRegistry();
 				}
 
 				BackupClientAppData();
@@ -62,6 +53,7 @@ namespace Gui
 				catch(Exception e)
 				{
 					System.Threading.Thread.Sleep(500);
+					svc.Refresh();
 					if (svc.Status == ServiceControllerStatus.Stopped)
 						return;
 
@@ -94,6 +86,11 @@ namespace Gui
 				string appRoot = MsiConnection.Instance.GetPath("INSTALLLOCATION");
 				string dumpFolder = Path.Combine(appRoot, @"MongoDB\Backup");
 
+				if (Directory.Exists(dumpFolder))
+				{
+					Directory.Delete(dumpFolder, true);
+				}
+
 				Process p = new Process();
 				ProcessStartInfo info = new ProcessStartInfo(
 					"mongodump.exe",
@@ -119,9 +116,10 @@ namespace Gui
 
 		private static void StartMongoDB()
 		{
+			ServiceController svc = new ServiceController("MongoDBForWaveface");
+
 			try
 			{
-				ServiceController svc = new ServiceController("MongoDBForWaveface");
 				if (svc.Status != ServiceControllerStatus.Running &&
 					svc.Status != ServiceControllerStatus.StartPending)
 					svc.Start();
@@ -130,7 +128,9 @@ namespace Gui
 			}
 			catch (Exception e)
 			{
-				throw new DataBackupException("Unable to start MongoDB", e);
+				svc.Refresh();
+				if (svc.Status != ServiceControllerStatus.Running)
+					throw new DataBackupException("Unable to start MongoDB", e);
 			}
 
 
