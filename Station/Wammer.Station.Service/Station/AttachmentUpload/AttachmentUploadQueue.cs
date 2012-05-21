@@ -23,6 +23,11 @@ namespace Wammer.Station.AttachmentUpload
 		private readonly AttachmentUploadQueuePersistentStorage storage;
 
 
+		public bool IsPersistenceQueue
+		{
+			get { return true; }
+		}
+
 		private AttachmentUploadQueue()
 		{
 			storage = new AttachmentUploadQueuePersistentStorage();
