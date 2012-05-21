@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Text;
@@ -41,13 +42,15 @@ namespace Waveface
         private ImageButton btnFavorite;
         private DateTimePopupPanel m_dateTimePopupPanel;
         private ImageButton btnFunction1;
-
         private Post m_post;
         private ToolTip toolTip;
         private ImageButton btnAddFootNote;
         private bool m_clockTest;
-
         private ImageButton m_childBtnFunction1;
+
+        private bool m_existPostAddPhotos;
+        private List<string> m_existPostPhotos;
+        private int m_existPostAddPhotosIndex;
 
         #endregion
 
@@ -59,6 +62,9 @@ namespace Waveface
             set
             {
                 m_post = value;
+
+                m_existPostAddPhotos = false;
+                m_existPostPhotos = null;
 
                 ShowContent();
             }
@@ -128,10 +134,9 @@ namespace Waveface
             // 
             // panelMain
             // 
-            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            this.toolTip.SetToolTip(this.panelMain, resources.GetString("panelMain.ToolTip"));
             // 
             // timerGC
             // 
@@ -164,14 +169,13 @@ namespace Waveface
             // 
             // panelTop
             // 
-            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.BackColor = System.Drawing.Color.White;
             this.panelTop.Controls.Add(this.btnFunction1);
             this.panelTop.Controls.Add(this.btnFavorite);
             this.panelTop.Controls.Add(this.btnEdit);
             this.panelTop.Controls.Add(this.labelTitle);
+            resources.ApplyResources(this.panelTop, "panelTop");
             this.panelTop.Name = "panelTop";
-            this.toolTip.SetToolTip(this.panelTop, resources.GetString("panelTop.ToolTip"));
             // 
             // btnFunction1
             // 
@@ -184,9 +188,8 @@ namespace Waveface
             this.btnFunction1.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
             this.btnFunction1.Name = "btnFunction1";
             this.btnFunction1.TextShadow = true;
-            this.toolTip.SetToolTip(this.btnFunction1, resources.GetString("btnFunction1.ToolTip"));
-            this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
             this.btnFunction1.Click += new System.EventHandler(this.btnMoreOption1_Click);
+            this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
             // 
             // btnFavorite
             // 
@@ -209,9 +212,7 @@ namespace Waveface
             this.btnEdit.BackColor = System.Drawing.Color.White;
             this.btnEdit.CenterAlignImage = false;
             this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEdit.ImageDisable = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageDisable")));
             this.btnEdit.ImageFront = null;
-            this.btnEdit.ImageHover = ((System.Drawing.Image)(resources.GetObject("btnEdit.ImageHover")));
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.TextShadow = true;
             this.toolTip.SetToolTip(this.btnEdit, resources.GetString("btnEdit.ToolTip"));
@@ -222,16 +223,14 @@ namespace Waveface
             resources.ApplyResources(this.labelTitle, "labelTitle");
             this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
             this.labelTitle.Name = "labelTitle";
-            this.toolTip.SetToolTip(this.labelTitle, resources.GetString("labelTitle.ToolTip"));
             // 
             // DetailView
             // 
-            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.btnAddFootNote);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
+            resources.ApplyResources(this, "$this");
             this.Name = "DetailView";
-            this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.ResumeLayout(false);
@@ -576,7 +575,7 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            Main.Current.EditPost(Post);
+            Main.Current.EditPost(Post, null, -1);
         }
 
         private void timerCanEdit_Tick(object sender, EventArgs e)
@@ -585,7 +584,27 @@ namespace Waveface
             {
                 btnEdit.Enabled = m_currentView.CanEdit();
                 btnFunction1.Enabled = m_currentView.CanEdit();
+
+                if(btnEdit.Enabled)
+                {
+                    if(m_existPostAddPhotos)
+                    {
+                        m_existPostAddPhotos = false;
+
+                        if(m_existPostPhotos != null)
+                        {
+                            Main.Current.EditPost(Post, m_existPostPhotos, m_existPostAddPhotosIndex);
+                        }
+                    }
+                }
             }
+        }
+
+        public void ExistPostAddPhotos(List<string> pics, int index)
+        {
+            m_existPostAddPhotos = true;
+            m_existPostPhotos = pics;
+            m_existPostAddPhotosIndex = index;
         }
 
         private void btnFavorite_Click(object sender, EventArgs e)

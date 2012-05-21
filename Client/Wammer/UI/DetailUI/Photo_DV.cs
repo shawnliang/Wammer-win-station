@@ -123,32 +123,76 @@ namespace Waveface.DetailUI
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo_DV));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.panelRight = new Waveface.Component.AutoScrollPanel();
-            this.btnSaveAllPhotos = new Waveface.Component.ImageButton();
-            this.imageListView = new Manina.Windows.Forms.ImageListView();
             this.contextMenuStripImageList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miSetCoverImage = new System.Windows.Forms.ToolStripMenuItem();
             this.miOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelPictureInfo = new System.Windows.Forms.Panel();
-            this.labelPictureInfo = new System.Windows.Forms.Label();
-            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelRight = new Waveface.Component.AutoScrollPanel();
+            this.btnSaveAllPhotos = new Waveface.Component.ImageButton();
+            this.imageListView = new Manina.Windows.Forms.ImageListView();
+            this.panelPictureInfo = new System.Windows.Forms.Panel();
+            this.labelPictureInfo = new System.Windows.Forms.Label();
+            this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.panelMain.SuspendLayout();
-            this.panelRight.SuspendLayout();
             this.contextMenuStripImageList.SuspendLayout();
-            this.panelPictureInfo.SuspendLayout();
             this.contextMenuStripTop.SuspendLayout();
+            this.panelRight.SuspendLayout();
+            this.panelPictureInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
             // 
-            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.White;
             this.panelMain.Controls.Add(this.panelRight);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
+            // 
+            // contextMenuStripImageList
+            // 
+            this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miSetCoverImage,
+            this.miOpen});
+            this.contextMenuStripImageList.Name = "contextMenuStripImageList";
+            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
+            this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
+            // 
+            // miSetCoverImage
+            // 
+            this.miSetCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
+            this.miSetCoverImage.Name = "miSetCoverImage";
+            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
+            this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
+            // 
+            // miOpen
+            // 
+            this.miOpen.Image = global::Waveface.Properties.Resources.FB_openin;
+            this.miOpen.Name = "miOpen";
+            resources.ApplyResources(this.miOpen, "miOpen");
+            this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
+            // 
+            // timer
+            // 
+            this.timer.Interval = 3000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // contextMenuStripTop
+            // 
+            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopyTop});
+            this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
+            // 
+            // miCopyTop
+            // 
+            this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             // 
             // panelRight
             // 
@@ -162,61 +206,40 @@ namespace Waveface.DetailUI
             // 
             // btnSaveAllPhotos
             // 
-            resources.ApplyResources(this.btnSaveAllPhotos, "btnSaveAllPhotos");
             this.btnSaveAllPhotos.CenterAlignImage = false;
             this.btnSaveAllPhotos.Image = global::Waveface.Properties.Resources.FB_saveall;
             this.btnSaveAllPhotos.ImageDisable = global::Waveface.Properties.Resources.FB_saveall_hl;
             this.btnSaveAllPhotos.ImageFront = null;
             this.btnSaveAllPhotos.ImageHover = global::Waveface.Properties.Resources.FB_saveall_hl;
+            resources.ApplyResources(this.btnSaveAllPhotos, "btnSaveAllPhotos");
             this.btnSaveAllPhotos.Name = "btnSaveAllPhotos";
             this.btnSaveAllPhotos.TextShadow = true;
             // 
             // imageListView
             // 
-            resources.ApplyResources(this.imageListView, "imageListView");
+            this.imageListView.AllowDrop = true;
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListView.CacheLimit = "0";
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStripImageList;
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
             this.imageListView.ThumbnailSize = new System.Drawing.Size(128, 128);
+            this.imageListView.DropFiles += new Manina.Windows.Forms.DropFilesEventHandler(this.imageListView_DropFiles);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
             this.imageListView.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView_ItemDoubleClick);
             this.imageListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageListView_MouseMove);
             this.imageListView.Resize += new System.EventHandler(this.imageListView_Resize);
             // 
-            // contextMenuStripImageList
-            // 
-            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
-            this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miSetCoverImage,
-            this.miOpen});
-            this.contextMenuStripImageList.Name = "contextMenuStripImageList";
-            this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
-            // 
-            // miSetCoverImage
-            // 
-            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
-            this.miSetCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
-            this.miSetCoverImage.Name = "miSetCoverImage";
-            this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
-            // 
-            // miOpen
-            // 
-            resources.ApplyResources(this.miOpen, "miOpen");
-            this.miOpen.Image = global::Waveface.Properties.Resources.FB_openin;
-            this.miOpen.Name = "miOpen";
-            this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
-            // 
             // panelPictureInfo
             // 
-            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.BackColor = System.Drawing.Color.White;
             this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
+            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.Name = "panelPictureInfo";
             // 
             // labelPictureInfo
@@ -227,45 +250,24 @@ namespace Waveface.DetailUI
             // 
             // webBrowserTop
             // 
-            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
             // 
-            // timer
-            // 
-            this.timer.Interval = 3000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // contextMenuStripTop
-            // 
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
-            this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopyTop});
-            this.contextMenuStripTop.Name = "contextMenuStripTop";
-            // 
-            // miCopyTop
-            // 
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
-            this.miCopyTop.Name = "miCopyTop";
-            // 
             // Photo_DV
             // 
-            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.panelMain);
+            resources.ApplyResources(this, "$this");
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
-            this.panelRight.ResumeLayout(false);
             this.contextMenuStripImageList.ResumeLayout(false);
-            this.panelPictureInfo.ResumeLayout(false);
             this.contextMenuStripTop.ResumeLayout(false);
+            this.panelRight.ResumeLayout(false);
+            this.panelPictureInfo.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -561,7 +563,7 @@ namespace Waveface.DetailUI
 
             if (Main.Current.Width > 1280)
             {
-                int _w = (int)(imageListView.Width / 7.55);
+                int _w = (int)(imageListView.Width / 6.5); //7.55
 
                 if (_w < W)
                     _w = W;
@@ -722,6 +724,57 @@ namespace Waveface.DetailUI
                 MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
             }
+        }
+
+        private void imageListView_DropFiles(object sender, DropFileEventArgs e)
+        {
+            try
+            {
+                List<string> _pics = new List<string>();
+
+                string[] _dropFils = e.FileNames;
+
+                foreach (string _file in _dropFils)
+                {
+                    if (Directory.Exists(_file))
+                    {
+                        DirectoryInfo _d = new DirectoryInfo(_file);
+
+                        FileInfo[] _fileInfos = _d.GetFiles();
+
+                        foreach (FileInfo _f in _fileInfos)
+                        {
+                            FileAttributes _attributes = File.GetAttributes(_f.FullName);
+
+                            // ¹LÂoÁôÂÃÀÉ
+                            if ((_attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+                                continue;
+
+                            string _mime = FileUtility.GetMimeType(_f).ToLower();
+
+                            if (_mime.IndexOf("image") >= 0)
+                                _pics.Add(_f.FullName);
+                        }
+                    }
+                    else
+                    {
+                        string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
+
+                        if (_mime.IndexOf("image") >= 0)
+                            _pics.Add(_file);
+                    }
+                }
+
+                if (_pics.Count > 0)
+                {
+                    MyParent.ExistPostAddPhotos(_pics, e.Index);
+                }
+            }
+            catch
+            {
+            }
+
+            e.Cancel = true;
         }
     }
 }

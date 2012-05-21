@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -44,6 +43,8 @@ namespace Waveface
 
         private string m_defaultFont;
 
+        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
+
         #region Properties
 
         public int SelectedRow
@@ -73,6 +74,8 @@ namespace Waveface
             SetStyle(ControlStyles.UserPaint, true);
 
             InitializeComponent();
+
+            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
 
             DoubleBufferedX(dataGridView, true);
         }
@@ -618,6 +621,7 @@ namespace Waveface
                 setCalendarDay();
             }
 
+
             if (m_clickedIndex == (m_postBS.Count - 1))
             {
                 // Main.Current.FilterReadMorePost(); 
@@ -723,12 +727,9 @@ namespace Waveface
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources =
-                new System.ComponentModel.ComponentResourceManager(typeof(PostsList));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 =
-                new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 =
-                new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostsList));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
             this.timer = new System.Windows.Forms.Timer(this.components);
@@ -743,10 +744,8 @@ namespace Waveface
             // 
             // contextMenuStrip
             // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-                                                     {
-                                                         this.miRemovePost
-                                                     });
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miRemovePost});
             this.contextMenuStrip.Name = "contextMenuStripImageList";
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
@@ -769,22 +768,18 @@ namespace Waveface
             // 
             // dataGridView
             // 
+            this.dataGridView.AllowDrop = true;
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.AllowUserToResizeRows = false;
             this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))),
-                                                                              ((int)(((byte)(234)))),
-                                                                              ((int)(((byte)(234)))));
+            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
             this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dataGridView.ColumnHeadersHeightSizeMode =
-                System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView.ColumnHeadersVisible = false;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-                                                   {
-                                                       this.creatoridDataGridViewTextBoxColumn
-                                                   });
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.creatoridDataGridViewTextBoxColumn});
             this.dataGridView.ContextMenuStrip = this.contextMenuStrip;
             this.dataGridView.DataSource = this.m_postBS;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -803,31 +798,25 @@ namespace Waveface
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionBackColor =
-                System.Drawing.SystemColors.InactiveCaption;
-            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor =
-                System.Drawing.SystemColors.InactiveCaptionText;
+            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.dataGridView.RowTemplate.Height = 64;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.VirtualMode = true;
-            this.dataGridView.ContextMenuStripNeeded +=
-                new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(
-                    this.dataGridView_ContextMenuStripNeeded);
-            this.dataGridView.CellContextMenuStripNeeded +=
-                new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(
-                    this.dataGridView_CellContextMenuStripNeeded);
-            this.dataGridView.CellPainting +=
-                new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
-            this.dataGridView.DataError +=
-                new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
-            this.dataGridView.RowPostPaint +=
-                new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
+            this.dataGridView.ContextMenuStripNeeded += new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(this.dataGridView_ContextMenuStripNeeded);
+            this.dataGridView.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.dataGridView_CellContextMenuStripNeeded);
+            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
+            this.dataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView_DataError);
+            this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
             this.dataGridView.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dataGridView_Scroll);
+            this.dataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragDrop);
+            this.dataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragEnter);
+            this.dataGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragOver);
+            this.dataGridView.DragLeave += new System.EventHandler(this.dataGridView_DragLeave);
             // 
             // creatoridDataGridViewTextBoxColumn
             // 
-            this.creatoridDataGridViewTextBoxColumn.AutoSizeMode =
-                System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.creatoridDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.creatoridDataGridViewTextBoxColumn.DataPropertyName = "creator_id";
             dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 0);
             this.creatoridDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
@@ -852,6 +841,7 @@ namespace Waveface
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -906,5 +896,66 @@ namespace Waveface
             if (_dateTime != null)
                 Main.Current.SetClock(true, _dateTime);
         }
+
+        #region Drag & Drop
+
+        private Post GetCurrentPost()
+        {
+            Point _cursorPosition = dataGridView.PointToClient(Cursor.Position);
+            DataGridView.HitTestInfo _info = dataGridView.HitTest(_cursorPosition.X, _cursorPosition.Y);
+
+            if (_info.RowIndex >= 0)
+            {
+                dataGridView[_info.ColumnIndex, _info.RowIndex].Selected = true;
+                dataGridView.CurrentCell = dataGridView[_info.ColumnIndex, _info.RowIndex];
+                return m_postBS[_info.RowIndex] as Post;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private void dataGridView_DragDrop(object sender, DragEventArgs e)
+        {
+            Post _p = GetCurrentPost();
+
+            if (_p != null)
+            {
+                List<string> _pics = m_dragDropClipboardHelper.Drag_Drop(e);
+
+                if (_pics != null)
+                {
+                    m_detailView.ExistPostAddPhotos(_pics, 0);
+                }
+            }
+        }
+
+        private void dataGridView_DragEnter(object sender, DragEventArgs e)
+        {
+            Post _p = GetCurrentPost();
+
+            if (_p != null)
+            {
+                m_dragDropClipboardHelper.Drag_Enter(e, (_p.type == "link"));
+            }
+        }
+
+        private void dataGridView_DragOver(object sender, DragEventArgs e)
+        {
+            Post _p = GetCurrentPost();
+
+            if (_p != null)
+            {
+                m_dragDropClipboardHelper.Drag_Over(e, (_p.type == "link"));
+            }
+        }
+
+        private void dataGridView_DragLeave(object sender, EventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Leave();
+        }
+
+        #endregion
     }
 }

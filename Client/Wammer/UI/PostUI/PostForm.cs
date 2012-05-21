@@ -20,6 +20,7 @@ namespace Waveface
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
+        private int WEB_LINK_HEIGHT = 275;
         private PostType m_postType;
         private bool m_generateWebPreview = true;
         private List<string> m_parsedErrorURLs = new List<string>();
@@ -32,7 +33,9 @@ namespace Waveface
         private Dictionary<string, string> m_oldImageFiles;
         private Dictionary<string, string> m_fileNameMapping;
         private bool m_closeOK;
-        private int WEB_LINK_HEIGHT = 275;
+
+        private List<string> m_existPostAddPhotos;
+        private int m_existPostAddPhotosIndex;
 
         public Post Post { get; set; }
         public BatchPostItem BatchPostItem { get; set; }
@@ -40,14 +43,21 @@ namespace Waveface
         public string OldText { get; set; }
         public bool IsBackFromEditMode { get; set; }
 
-        public PostForm(List<string> files, PostType postType, Post post, bool editMode)
+        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
+
+        public PostForm(List<string> files, PostType postType, Post post, bool editMode, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
             InitializeComponent();
 
+            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
+
             EditMode = editMode;
             Post = post;
+
             m_oldImageFiles = new Dictionary<string, string>();
             m_fileNameMapping = new Dictionary<string, string>();
+            m_existPostAddPhotos = existPostAddPhotos;
+            m_existPostAddPhotosIndex = existPostAddPhotosIndex;
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseLocation = true;
@@ -128,6 +138,32 @@ namespace Waveface
             }
 
             ToSubControl(_pics, getPostType(Post.type));
+
+            if (m_existPostAddPhotos != null)
+                AddTimelinePhotos();
+        }
+
+        private void AddTimelinePhotos()
+        {
+            switch (Post.type)
+            {
+                case "link":
+                    break;
+                case "text":
+                    {
+                        uiToPhotoMode();
+
+                        photo_UI.AddPhotos(m_existPostAddPhotos.ToArray(), m_existPostAddPhotosIndex);
+                    }
+
+                    break;
+                case "image":
+                    {
+                        photo_UI.AddPhotos(m_existPostAddPhotos.ToArray(), m_existPostAddPhotosIndex);
+                    }
+
+                    break;
+            }
         }
 
         private void InitNewMode(List<string> files, PostType postType)
@@ -309,12 +345,7 @@ namespace Waveface
 
         private void toPhoto_Mode(List<string> files)
         {
-            m_postType = PostType.Photo;
-
-            multiPanel.SelectedPage = Page_P_D_W;
-            multiPanel_P_D_W.SelectedPage = Page__Photo;
-
-            RelayoutUI(false);
+            uiToPhotoMode();
 
             if (EditMode && !IsBackFromEditMode)
             {
@@ -338,6 +369,16 @@ namespace Waveface
                     photo_UI.AddNewPostPhotoFiles(files);
                 }
             }
+        }
+
+        private void uiToPhotoMode()
+        {
+            m_postType = PostType.Photo;
+
+            multiPanel.SelectedPage = Page_P_D_W;
+            multiPanel_P_D_W.SelectedPage = Page__Photo;
+
+            RelayoutUI(false);
         }
 
         private void toDoc_Mode()
@@ -765,6 +806,37 @@ namespace Waveface
             }
 
             return "";
+        }
+
+        #endregion
+
+        #region panelMiddleBar DragDrop
+
+        private void panelMiddleBar_DragDrop(object sender, DragEventArgs e)
+        {
+            List<string> _pics = m_dragDropClipboardHelper.Drag_Drop(e);
+
+            if (_pics != null)
+            {
+                uiToPhotoMode();
+
+                photo_UI.AddPhotos(_pics.ToArray(), 0);
+            }
+        }
+
+        private void panelMiddleBar_DragEnter(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Enter(e, false);
+        }
+
+        private void panelMiddleBar_DragLeave(object sender, EventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Leave();
+        }
+
+        private void panelMiddleBar_DragOver(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Over(e, false);
         }
 
         #endregion

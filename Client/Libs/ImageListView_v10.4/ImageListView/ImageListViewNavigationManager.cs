@@ -854,7 +854,7 @@ namespace Manina.Windows.Forms
             /// </summary>
             public void DragOver(DragEventArgs e)
             {
-                if (e.Data.GetDataPresent(DataFormats.FileDrop) && 
+                if (e.Data.GetDataPresent(DataFormats.FileDrop) &&
                     (mImageListView.AllowDrop || (mImageListView.AllowDrag && selfDragging)))
                 {
                     if (mImageListView.Items.Count == 0)
@@ -1035,17 +1035,46 @@ namespace Manina.Windows.Forms
                 else
                 {
                     if (key == Keys.Left && index > 0)
+                    {
                         index--;
+                    }
+                    else if (key == Keys.Left && index == 0) //@
+                    {
+                        if (mImageListView.IsWaveface)
+                        {
+                            if (mImageListView.Items.Count > 0)
+                            {
+                                index = mImageListView.Items.Count - 1;
+                            }
+                        }
+                    }
                     else if (key == Keys.Right && index < mImageListView.Items.Count - 1)
+                    {
                         index++;
+                    }
+                    else if (key == Keys.Right && index == mImageListView.Items.Count - 1) //@
+                    {
+                        if (mImageListView.IsWaveface)
+                        {
+                            index = 0;
+                        }
+                    }
                     else if (key == Keys.PageUp && index >= mImageListView.layoutManager.Cols)
+                    {
                         index -= mImageListView.layoutManager.Cols;
+                    }
                     else if (key == Keys.PageDown && index < mImageListView.Items.Count - mImageListView.layoutManager.Cols)
+                    {
                         index += mImageListView.layoutManager.Cols;
+                    }
                     else if (key == Keys.Home)
+                    {
                         index = 0;
+                    }
                     else if (key == Keys.End)
+                    {
                         index = mImageListView.Items.Count - 1;
+                    }
                 }
 
                 if (index < 0)
