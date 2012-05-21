@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Wammer.PerfMonitor
 {
@@ -6,8 +7,27 @@ namespace Wammer.PerfMonitor
 	{
 		public static void Install()
 		{
-			if (PerformanceCounterCategory.Exists(PerfCounter.CATEGORY_NAME))
-				PerformanceCounterCategory.Delete(PerfCounter.CATEGORY_NAME);
+			try
+			{
+				if (PerformanceCounterCategory.Exists(PerfCounter.CATEGORY_NAME))
+					PerformanceCounterCategory.Delete(PerfCounter.CATEGORY_NAME);
+			}
+			catch (Win32Exception)
+			{
+				// fix corrupted performance counter
+				using (Process p = new Process())
+				{
+					p.StartInfo = new ProcessStartInfo("lodctr.exe", "/R");
+					p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+					p.StartInfo.CreateNoWindow = true;
+					p.Start();
+					p.WaitForExit();
+				}
+
+				// try delete performance counter again
+				if (PerformanceCounterCategory.Exists(PerfCounter.CATEGORY_NAME))
+					PerformanceCounterCategory.Delete(PerfCounter.CATEGORY_NAME);
+			}
 
 			var counters = new CounterCreationDataCollection
 			               	{
