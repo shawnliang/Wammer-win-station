@@ -107,6 +107,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="TCMPortMapper, Version=1.0.4.1, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\3rd_party\DotNetPortMapper\TCMPortMapper.dll</HintPath>

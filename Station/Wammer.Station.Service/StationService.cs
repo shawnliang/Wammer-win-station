@@ -13,20 +13,44 @@ using Wammer.PostUpload;
 using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
+using Wammer.Utility;
 using fastJSON;
 using log4net;
 using log4net.Config;
+using Wammer.Model;
 
 namespace Wammer.Station.Service
 {
 	public partial class StationService : ServiceBase
 	{
+		#region Const
 		public const string SERVICE_NAME = "WavefaceStation";
-		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
+		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface"; 
+		#endregion
+
+		#region Var
+		private PostUploadTaskRunner _postUploadRunner;
+		private BackOff _backoff;
+		#endregion
+
+
+		#region Private Property
+
+		private PostUploadTaskRunner m_PostUploadRunner
+		{
+			get { return _postUploadRunner ?? (_postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance)); }
+		}
+
+
+		private BackOff m_BackOff
+		{
+			get { return _backoff ?? (_backoff = new BackOff(500, 1000, 2000, 3000, 5000)); }
+		}
+
+		#endregion
 
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
 		private readonly BodySyncQueue bodySyncTaskQueue = new BodySyncQueue();
-		private readonly PostUploadTaskRunner postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance);
 		private TaskRunner<IResourceDownloadTask>[] bodySyncRunners;
 		private HttpServer functionServer;
 		private HttpServer managementServer;
@@ -67,6 +91,16 @@ namespace Wammer.Station.Service
 			try
 			{
 				logger.Info("============== Starting Stream Station =================");
+
+				while (!Database.TestConnection(1))
+				{
+					System.Threading.Thread.Sleep(m_BackOff.NextValue());
+					System.Windows.Forms.Application.DoEvents();
+					m_BackOff.IncreaseLevel();
+				}
+
+				TaskQueue.Init();
+
 				ConfigThreadPool();
 
 				ResetPerformanceCounter();
@@ -77,6 +111,7 @@ namespace Wammer.Station.Service
 				Environment.CurrentDirectory = Path.GetDirectoryName(
 					Assembly.GetExecutingAssembly().Location);
 
+				
 				logger.Debug("Initialize Stream Service");
 				InitStationId();
 				InitResourceBasePath();
@@ -125,7 +160,7 @@ namespace Wammer.Station.Service
 				}
 				bodySyncTaskQueue.TaskDropped += downstreamMonitor.OnDownstreamTaskDone;
 
-				postUploadRunner.Start();
+				m_PostUploadRunner.Start();
 
 				const int upstreamThreads = 1;
 				upstreamTaskRunner = new TaskRunner<ITask>[upstreamThreads];
@@ -168,11 +203,11 @@ namespace Wammer.Station.Service
 
 		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
 		{
-			var resumeHandler = new ResumeSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner);
+			var resumeHandler = new ResumeSyncHandler(m_PostUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner);
 			resumeHandler.SyncResumed += viewHandler.OnSyncResumed;
 			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), resumeHandler);
 
-			var suspendHandler = new SuspendSyncHandler(postUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner);
+			var suspendHandler = new SuspendSyncHandler(m_PostUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner);
 			suspendHandler.SyncSuspended += viewHandler.OnSyncSuspended;
 			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), suspendHandler);
 
@@ -331,7 +366,7 @@ namespace Wammer.Station.Service
 		{
 			Array.ForEach(bodySyncRunners, runner => runner.Stop());
 			Array.ForEach(upstreamTaskRunner, runner => runner.Stop());
-			postUploadRunner.Stop();
+			m_PostUploadRunner.Stop();
 
 			functionServer.Stop();
 			functionServer.Close();

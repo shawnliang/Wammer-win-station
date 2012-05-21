@@ -8,40 +8,87 @@ namespace Wammer.Model
 {
 	public class Database
 	{
-		public static MongoServer mongodb;
-		public static MongoDatabase wammer;
+		#region Const
+		private const string MONGODB_URL = "mongodb://127.0.0.1:{0}/?safe=true;connectTimeoutMS=10000";
+		private const int DEFAULT_MONGODB_PORT = 10319;
+		#endregion
+
+		#region Static Var
 		private static readonly ILog logger = LogManager.GetLogger(typeof(Database));
+		private static MongoServer _mongoDB;
+		private static MongoDatabase _wammer;
+		#endregion
 
-		static Database()
+
+		#region Private Static Property
+		/// <summary>
+		/// Gets the m_ mongo DB.
+		/// </summary>
+		/// <value>The m_ mongo DB.</value>
+		private static MongoServer m_MongoDB
 		{
-			mongodb = MongoServer.Create(
-				string.Format("mongodb://127.0.0.1:{0}/?safe=true;connectTimeoutMS=10000",
-							  StationRegistry.GetValue("dbPort", 10319))); // TODO: Remove Hard code
-			wammer = mongodb.GetDatabase("wammer");
+			get
+			{
+				if (_mongoDB == null)
+					_mongoDB = MongoServer.Create(
+						string.Format(MONGODB_URL,
+									  StationRegistry.GetValue("dbPort", DEFAULT_MONGODB_PORT)));
+				return _mongoDB;
+			}
+		}
+		#endregion
 
-			int retry = 5;
-			while (retry > 0)
+
+		#region Public Static Property
+		/// <summary>
+		/// Gets the m_ wammer.
+		/// </summary>
+		/// <value>The m_ wammer.</value>
+		public static MongoDatabase Wammer
+		{
+			get
+			{
+				if (_wammer == null)
+				{
+					_wammer = m_MongoDB.GetDatabase("wammer");
+				}
+				return _wammer;
+			}
+		}
+		#endregion
+
+
+		#region Public Static Method
+		public static Boolean TestConnection(int retryTimes)
+		{
+			while (retryTimes > 0)
 			{
 				try
 				{
-					mongodb.Connect(TimeSpan.FromSeconds(1));
-					break;
+					m_MongoDB.Connect(TimeSpan.FromSeconds(1));
+					return true;
 				}
-				catch (MongoConnectionException e)
+				catch (Exception e)
 				{
-					logger.WarnFormat("Unable to connect to mongodb server, retry={0}, exception={1}", retry, e.Message);
-					retry--;
+					logger.WarnFormat("Unable to connect to mongodb server, retry={0}, exception={1}", retryTimes--, e.Message);
 				}
 			}
-			if (retry == 0)
-				throw new InvalidOperationException("Unable to connect to mongodb server");
+			return false;
+		}
+		#endregion
+
+
+		static Database()
+		{
+			if (!TestConnection(5))
+				logger.WarnFormat("Unable to connect to mongodb server");
 		}
 
 
 		public static void RestoreCollection(string collectionName, string backupCollectionName)
 		{
-			MongoCollection<BsonDocument> collection = wammer.GetCollection(collectionName);
-			MongoCollection<BsonDocument> backup = wammer.GetCollection(backupCollectionName);
+			MongoCollection<BsonDocument> collection = Wammer.GetCollection(collectionName);
+			MongoCollection<BsonDocument> backup = Wammer.GetCollection(backupCollectionName);
 
 			foreach (BsonDocument doc in backup.FindAll())
 				collection.Save(doc);
@@ -57,7 +104,7 @@ namespace Wammer.Model
 
 		protected Collection(string collectionName)
 		{
-			collection = Database.wammer.GetCollection<T>(collectionName);
+			collection = Database.Wammer.GetCollection<T>(collectionName);
 		}
 
 		public T FindOne(IMongoQuery query)

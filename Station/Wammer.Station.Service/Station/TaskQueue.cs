@@ -18,17 +18,79 @@ namespace Wammer.Station
 
 	internal static class TaskQueue
 	{
+		#region Var
+		private static WMSBroker _mqBroker;
+		private static WMSSession _mqSession;
+		private static WMSQueue _mqHighPriority;
+		private static WMSQueue _mqMediumPriority;
+		private static WMSQueue _mqLowPriority;
+		private static WMSQueue _mqVeryLowPriority;
+		#endregion
+
 		private static readonly ILog Logger = LogManager.GetLogger("TaskQueue");
 
 		private static readonly IPerfCounter itemsInQueue = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE);
 		private static readonly IPerfCounter itemsInProgress = PerfCounter.GetCounter(PerfCounter.ITEMS_IN_PROGRESS);
 
-		private static readonly WMSBroker mqBroker;
-		private static readonly WMSSession mqSession;
-		private static readonly WMSQueue mqHighPriority;
-		private static readonly WMSQueue mqMediumPriority;
-		private static readonly WMSQueue mqLowPriority;
-		private static readonly WMSQueue mqVeryLowPriority;
+		private static WMSBroker mqBroker
+		{
+			get
+			{
+				if(_mqBroker == null)
+					_mqBroker = new WMSBroker(new MongoPersistentStorage());
+				return _mqBroker;
+			}
+		}
+
+		private static WMSSession mqSession
+		{
+			get
+			{
+				if(_mqSession == null)
+					_mqSession = mqBroker.CreateSession();
+				return _mqSession;
+			}
+		}
+
+		private static WMSQueue mqHighPriority
+		{
+			get
+			{
+				if(_mqHighPriority == null)
+					_mqHighPriority = mqBroker.GetQueue("high");
+				return _mqHighPriority;
+			}
+		}
+
+		private static WMSQueue mqMediumPriority
+		{
+			get
+			{
+				if (_mqMediumPriority == null)
+					_mqMediumPriority = mqBroker.GetQueue("medium");
+				return _mqMediumPriority;
+			}
+		}
+
+		private static WMSQueue mqLowPriority
+		{
+			get
+			{
+				if(_mqLowPriority == null)
+					_mqLowPriority = mqBroker.GetQueue("low");
+				return _mqLowPriority;
+			}
+		}
+
+		private static WMSQueue mqVeryLowPriority
+		{
+			get
+			{
+				if (_mqVeryLowPriority == null)
+					_mqVeryLowPriority = mqBroker.GetQueue("verylow");
+				return _mqVeryLowPriority;
+			}
+		}
 
 
 		private static int maxConcurrentTaskCount;
@@ -42,16 +104,15 @@ namespace Wammer.Station
 
 		static TaskQueue()
 		{
-			mqBroker = new WMSBroker(new MongoPersistentStorage());
-			mqSession = mqBroker.CreateSession();
-			mqHighPriority = mqBroker.GetQueue("high");
-			mqMediumPriority = mqBroker.GetQueue("medium");
-			mqLowPriority = mqBroker.GetQueue("low");
-			mqVeryLowPriority = mqBroker.GetQueue("verylow");
+			//Init();
+		}
 
+		public static void Init()
+		{
 			MaxConcurrentTaskCount = 6;
 
-			PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE).IncrementBy(mqHighPriority.Count + mqMediumPriority.Count + mqLowPriority.Count + mqVeryLowPriority.Count);
+			PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE).IncrementBy(mqHighPriority.Count + mqMediumPriority.Count +
+			                                                               mqLowPriority.Count + mqVeryLowPriority.Count);
 
 			totalTaskCount = mqHighPriority.Count + mqMediumPriority.Count + mqLowPriority.Count + mqVeryLowPriority.Count;
 
