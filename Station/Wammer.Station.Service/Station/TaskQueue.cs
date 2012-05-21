@@ -93,7 +93,7 @@ namespace Wammer.Station
 		}
 
 
-		private static int maxConcurrentTaskCount;
+		private static int maxConcurrentTaskCount = 6;
 		private static int runningTaskCount;
 		private static int totalTaskCount;
 		private static int waitingHighTaskCount;
@@ -109,8 +109,6 @@ namespace Wammer.Station
 
 		public static void Init()
 		{
-			MaxConcurrentTaskCount = 6;
-
 			PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE).IncrementBy(mqHighPriority.Count + mqMediumPriority.Count +
 			                                                               mqLowPriority.Count + mqVeryLowPriority.Count);
 
