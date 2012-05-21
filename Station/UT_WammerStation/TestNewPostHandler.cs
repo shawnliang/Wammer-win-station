@@ -71,7 +71,7 @@ namespace UT_WammerStation
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost/v2/";			
+			CloudServer.BaseUrl = "http://localhost:8080/v2/";			
 
 			mongodb.GetDatabase("wammer").GetCollection("drivers").Insert(
 				new Driver
