@@ -109,7 +109,7 @@ namespace Wammer.Station
 		{
 			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{
-				var sessionToken = Parameters[CloudServer.SessionToken];
+				var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
 				var userID = Parameters[CloudServer.PARAM_USER_ID];
 
 				RespondSuccess(m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, userID, sessionToken));

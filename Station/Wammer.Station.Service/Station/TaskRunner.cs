@@ -4,6 +4,10 @@ namespace Wammer.Station
 {
 	public class TaskRunner<T> : AbstrackTaskRunner where T : ITask
 	{
+#if DEBUG
+		private static int TotalExecutedTaskCount { get; set; }
+#endif
+
 		private readonly ITaskDequeuable<T> queue;
 
 		public TaskRunner(ITaskDequeuable<T> queue)
@@ -19,14 +23,19 @@ namespace Wammer.Station
 			{
 				try
 				{
-					DequeuedTask<T> item = queue.Dequeue();
+					var item = queue.Dequeue();
 					item.Task.Execute();
-					queue.AckDequeue(item);
+
+					if (queue.IsPersistenceQueue)
+						queue.AckDequeue(item);
+
 					OnTaskExecuted(EventArgs.Empty);
 				}
 				catch (Exception e)
 				{
 					this.LogWarnMsg("Error while executing task.", e);
+					if (!queue.IsPersistenceQueue)
+						OnTaskExecuted(EventArgs.Empty);
 				}
 			}
 		}
@@ -41,6 +50,10 @@ namespace Wammer.Station
 
 		private void OnTaskExecuted(EventArgs arg)
 		{
+#if DEBUG
+			++TotalExecutedTaskCount;
+#endif
+
 			EventHandler handler = TaskExecuted;
 			if (handler != null)
 				handler(this, arg);

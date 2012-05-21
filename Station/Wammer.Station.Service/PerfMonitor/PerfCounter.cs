@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using log4net;
+using System.Collections.Generic;
 
 namespace Wammer.PerfMonitor
 {
@@ -37,6 +38,7 @@ namespace Wammer.PerfMonitor
 		#region Static Var		
 
 		private static ILog _logger;
+		private static Dictionary<string, IPerfCounter> _counterPool;
 
 		#endregion
 
@@ -54,7 +56,13 @@ namespace Wammer.PerfMonitor
 			get { return _logger ?? (_logger = LogManager.GetLogger("PerfCounter")); }
 		}
 
+		private static Dictionary<string, IPerfCounter> m_CounterPool
+		{
+			get { return _counterPool ?? (_counterPool = new Dictionary<string, IPerfCounter>()); }
+		}
+
 		#endregion
+
 
 		#region Private Property
 
@@ -129,12 +137,17 @@ namespace Wammer.PerfMonitor
 		{
 			try
 			{
+				if(m_CounterPool.ContainsKey(counterName))
+					return m_CounterPool[counterName];
+
 				var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
 
 				if (needInitValue)
 					counter.RawValue = 0;
 
-				return new PerfCounter(counter);
+				m_CounterPool[counterName] = new PerfCounter(counter);
+
+				return m_CounterPool[counterName];
 			}
 			catch (Exception e)
 			{

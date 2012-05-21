@@ -24,6 +24,8 @@ namespace Wammer.Station
 
 	public interface ITaskDequeuable<T> where T : ITask
 	{
+		Boolean IsPersistenceQueue { get; }
+
 		DequeuedTask<T> Dequeue();
 		void AckDequeue(DequeuedTask<T> task);
 		void EnqueueDummyTask();

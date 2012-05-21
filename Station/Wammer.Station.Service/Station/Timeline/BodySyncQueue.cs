@@ -8,6 +8,12 @@ namespace Wammer.Station.Timeline
 {
 	public class BodySyncQueue : ITaskEnqueuable<IResourceDownloadTask>, ITaskDequeuable<IResourceDownloadTask>
 	{
+#if DEBUG
+		private int TotalTaskCount { get; set; }
+		private int TotalDroppedTaskCount { get; set; }
+#endif
+		
+
 		private readonly Semaphore hasItem = new Semaphore(0, int.MaxValue);
 		
 		private readonly HashSet<string> keys = new HashSet<string>();
@@ -18,6 +24,11 @@ namespace Wammer.Station.Timeline
 		public event EventHandler TaskDropped;
 
 		#region ITaskDequeuable<IResourceDownloadTask> Members
+
+		public bool IsPersistenceQueue
+		{
+			get { return false; }
+		}
 
 		public DequeuedTask<IResourceDownloadTask> Dequeue()
 		{
@@ -95,6 +106,10 @@ namespace Wammer.Station.Timeline
 
 		private void OnEnqueued(EventArgs arg)
 		{
+#if DEBUG
+			++TotalTaskCount;
+#endif
+
 			EventHandler handler = Enqueued;
 			if (handler != null)
 			{
@@ -145,6 +160,10 @@ namespace Wammer.Station.Timeline
 
 		private void OnTaskDropped()
 		{
+#if DEBUG
+			++TotalDroppedTaskCount;
+#endif
+
 			EventHandler handler = TaskDropped;
 			if (handler != null)
 				handler(this, EventArgs.Empty);
