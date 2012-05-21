@@ -46,13 +46,13 @@ namespace Gui
 				{
 					if (svc.Status != ServiceControllerStatus.Stopped &&
 						svc.Status != ServiceControllerStatus.StopPending)
+					{
 						svc.Stop();
-
-					svc.WaitForStatus(ServiceControllerStatus.Stopped);
+						svc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(10.0));
+					}
 				}
 				catch(Exception e)
 				{
-					System.Threading.Thread.Sleep(500);
 					svc.Refresh();
 					if (svc.Status == ServiceControllerStatus.Stopped)
 						return;
@@ -61,7 +61,6 @@ namespace Gui
 					{
 						System.Windows.Forms.MessageBox.Show(e.ToString());
 						throw;
-
 					}
 				}
 			}
@@ -122,9 +121,10 @@ namespace Gui
 			{
 				if (svc.Status != ServiceControllerStatus.Running &&
 					svc.Status != ServiceControllerStatus.StartPending)
+				{
 					svc.Start();
-
-				svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1.0));
+					svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1.0));
+				}
 			}
 			catch (Exception e)
 			{
