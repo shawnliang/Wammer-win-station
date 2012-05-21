@@ -507,13 +507,16 @@
     <value>開始</value>
   </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 20</value>
+    <value>87, 21</value>
   </data>
   <data name="chkRememberPassword.Text" xml:space="preserve">
     <value>記住密碼</value>
   </data>
   <data name="fbLoginButton1.DisplayText" xml:space="preserve">
     <value>由 Facebook 登入</value>
+  </data>
+  <data name="fbLoginButton1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 14.25pt, style=Bold</value>
   </data>
   <data name="lblMainStationSetup.Text" xml:space="preserve">
     <value>您好！這是您第一次使用 Waveface Stream Windows 版。
@@ -542,28 +545,25 @@
     <value>還沒有帳號？馬上註冊！</value>
   </data>
   <data name="lblWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 30</value>
+    <value>322, 30</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
     <value>歡迎使用 Waveface Stream</value>
   </data>
+  <data name="loginButton1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12.75pt, style=Bold</value>
+  </data>
+  <data name="loginButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="loginButton1.Text" xml:space="preserve">
     <value>登入</value>
-  </data>
-  <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
   </data>
   <data name="menuQuit.Text" xml:space="preserve">
     <value>離開</value>
   </data>
-  <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
-  </data>
   <data name="menuServiceAction.Text" xml:space="preserve">
     <value>暫停服務</value>
-  </data>
-  <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
   </data>
   <data name="menuSignIn.Text" xml:space="preserve">
     <value>登入...</value>
@@ -701,34 +701,22 @@
         +GLhyDk9ZjtP+lr5D4fyOXHzbo1YAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="settingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
-  </data>
   <data name="settingToolStripMenuItem.Text" xml:space="preserve">
     <value>設定...</value>
   </data>
   <data name="tbxEMail.CueText" xml:space="preserve">
     <value>電子郵件</value>
   </data>
-  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 6</value>
-  </data>
-  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 6</value>
-  </data>
-  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 6</value>
-  </data>
-  <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 132</value>
-  </data>
-  <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 22</value>
+  <data name="tbxEMail.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 15pt</value>
   </data>
   <data name="tsmiOpenStream.Text" xml:space="preserve">
     <value>開啟 Stream...</value>
   </data>
   <data name="txtPassword.CueText" xml:space="preserve">
     <value>密碼</value>
+  </data>
+  <data name="txtPassword.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 15pt</value>
   </data>
 </root>
