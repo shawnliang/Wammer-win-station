@@ -55,6 +55,9 @@ namespace Wammer.Utility
 
 		private static Bitmap Scale(Bitmap original, float ratio)
 		{
+			if (ratio >= 1)
+				return original;
+
 			var scaledWidth = (int) (original.Width*ratio);
 			var scaledHeight = (int) (original.Height*ratio);
 			var scaledImage = new Bitmap(scaledWidth, scaledHeight);

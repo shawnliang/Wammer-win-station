@@ -66,7 +66,10 @@ namespace Wammer.Station.AttachmentUpload
 				}
 
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Small, TaskPriority.Medium);
-				util.GenerateThumbnailAsyncAndUpstream(attachment.object_id, ImageMeta.Large, TaskPriority.Low);
+				
+				// currently large thumbnail is not supported
+				//util.GenerateThumbnailAsyncAndUpstream(attachment.object_id, ImageMeta.Large, TaskPriority.Low);
+				
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Square, TaskPriority.Low);
 
 				if (!user.isPrimaryStation)
