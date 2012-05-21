@@ -153,8 +153,6 @@ namespace Wammer.Station
 									   where station.station_id == StationRegistry.StationId
 									   select station).FirstOrDefault();
 
-					Debug.Assert(currStation != null);
-
 					if (currStation == null)
 						return;
 
