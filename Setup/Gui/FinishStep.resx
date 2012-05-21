@@ -117,53 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lblFinished.Text" xml:space="preserve">
-    <value>Configuration Completed</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lblDetails.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="lblFinished.Text" xml:space="preserve">
+    <value>Configuration Completed</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
-  <data name="&gt;&gt;label_Hint.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="label_Hint.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="&gt;&gt;pbLeft.Name" xml:space="preserve">
+    <value>pbLeft</value>
   </data>
   <data name="&gt;&gt;lblDetails.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lblDetails.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
-  </data>
-  <data name="&gt;&gt;label_Hint.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDetails.Name" xml:space="preserve">
-    <value>lblDetails</value>
-  </data>
-  <data name="label_Hint.Text" xml:space="preserve">
-    <value>Please click on the Waveface Stream shortcut icon on your desktop to get started.</value>
-  </data>
-  <data name="&gt;&gt;lblFinished.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lblDetails.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
   </data>
   <data name="&gt;&gt;pbLeft.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="&gt;&gt;lblDetails.Name" xml:space="preserve">
+    <value>lblDetails</value>
+  </data>
+  <data name="&gt;&gt;lblFinished.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="lblInstruction.Text" xml:space="preserve">
     <value>Press Finish to exit.</value>
-  </data>
-  <data name="label_Hint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>298, 90</value>
   </data>
   <data name="lblInstruction.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 10, 10, 10</value>
@@ -171,8 +156,8 @@
   <data name="&gt;&gt;lblDetails.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="lblDetails.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 10, 10, 10</value>
+  <data name="$this.Subtitle" xml:space="preserve">
+    <value>Installation has finished</value>
   </data>
   <data name="lblFinished.Size" type="System.Drawing.Size, System.Drawing">
     <value>309, 52</value>
@@ -180,11 +165,11 @@
   <data name="lblDetails.Text" xml:space="preserve">
     <value>The installer has completed the configuration process on this computer. </value>
   </data>
+  <data name="lblFinished.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
   <data name="lblFinished.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;pbLeft.Name" xml:space="preserve">
-    <value>pbLeft</value>
   </data>
   <data name="lblFinished.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -195,17 +180,17 @@
   <data name="&gt;&gt;lblInstruction.Name" xml:space="preserve">
     <value>lblInstruction</value>
   </data>
-  <data name="$this.Subtitle" xml:space="preserve">
-    <value>Installation has finished</value>
+  <data name="lblDetails.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="lblFinished.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10pt, style=Bold</value>
   </data>
-  <data name="lblFinished.Location" type="System.Drawing.Point, System.Drawing">
-    <value>177, 20</value>
+  <data name="lblDetails.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
   </data>
-  <data name="&gt;&gt;label_Hint.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>SharpSetup.UI.Forms.Modern.ModernInfoStep, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="lblInstruction.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -225,9 +210,6 @@
   <data name="&gt;&gt;pbLeft.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="lblInstruction.Location" type="System.Drawing.Point, System.Drawing">
-    <value>177, 291</value>
-  </data>
   <data name="&gt;&gt;lblInstruction.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -243,23 +225,17 @@
   <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
     <value>309, 13</value>
   </data>
-  <data name="lblFinished.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;label_Hint.Name" xml:space="preserve">
-    <value>label_Hint</value>
-  </data>
-  <data name="label_Hint.Location" type="System.Drawing.Point, System.Drawing">
-    <value>176, 144</value>
-  </data>
   <data name="lblInstruction.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
+  </data>
+  <data name="lblInstruction.Location" type="System.Drawing.Point, System.Drawing">
+    <value>177, 291</value>
   </data>
   <data name="$this.Title" xml:space="preserve">
     <value>Installation finished</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SharpSetup.UI.Forms.Modern.ModernInfoStep, SharpSetup, Version=1.4.1.158, Culture=neutral, PublicKeyToken=null</value>
+  <data name="lblFinished.Location" type="System.Drawing.Point, System.Drawing">
+    <value>177, 20</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FinishStep</value>
@@ -275,5 +251,8 @@
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-TW</value>
   </metadata>
 </root>

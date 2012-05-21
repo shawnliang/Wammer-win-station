@@ -35,10 +35,10 @@ namespace Wammer.Station
 	internal class ResourceDownloader
 	{
 		private static readonly ILog logger = LogManager.GetLogger(typeof (ResourceDownloader));
-		private readonly ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue;
+		private readonly ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue;
 		private readonly string stationId;
 
-		public ResourceDownloader(ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue, string stationId)
+		public ResourceDownloader(ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue, string stationId)
 		{
 			this.bodySyncQueue = bodySyncQueue;
 			this.stationId = stationId;

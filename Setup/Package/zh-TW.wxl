@@ -4,7 +4,7 @@
   <String Id="LANGUAGE">1028</String>
   <String Id="CULTURE">zh-TW</String>
   <String Id="APPNAME">Waveface Stream</String>
-  <String Id="SHORTCUT.UNINSTALLER.NAME">解除安裝程式</String>
+  <String Id="SHORTCUT.UNINSTALLER.NAME">解除安裝</String>
   <String Id="MONGO_SVC_DESC">Waveface Stream 的 MongoDB</String>
   <String Id="STATION_SVC_DESC">Waveface Stream Station服務</String>
   <String Id="SHORTCUT.AddUser.NAME">增加一個使用者</String>

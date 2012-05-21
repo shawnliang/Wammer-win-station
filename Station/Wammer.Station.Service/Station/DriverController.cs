@@ -255,6 +255,21 @@ namespace Wammer.Station
 				}
 			}
 
+			try
+			{
+				//Remove all user data
+				if (removeAllData)
+				{
+					if (Directory.Exists(existingDriver.folder))
+					{
+						Directory.Delete(existingDriver.folder, true);
+					}
+				}
+			}
+			catch 
+			{
+			}
+
 			//Remove the user from db, and stop service this user
 			DriverCollection.Instance.Remove(Query.EQ("_id", userID));
 
@@ -269,15 +284,6 @@ namespace Wammer.Station
 				}
 			}
 			PostCollection.Instance.Remove(Query.EQ("creator_id", userID));
-
-			//Remove all user data
-			if (removeAllData)
-			{
-				if (Directory.Exists(existingDriver.folder))
-				{
-					Directory.Delete(existingDriver.folder, true);
-				}
-			}
 
 			//All driver removed => Remove station from db
 			Driver driver = DriverCollection.Instance.FindOne();

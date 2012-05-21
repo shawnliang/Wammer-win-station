@@ -6,26 +6,26 @@ using System.Threading;
 
 namespace Wammer.Station.Timeline
 {
-	public class BodySyncQueue : ITaskEnqueuable<ResourceDownloadTask>, ITaskDequeuable<ResourceDownloadTask>
+	public class BodySyncQueue : ITaskEnqueuable<IResourceDownloadTask>, ITaskDequeuable<IResourceDownloadTask>
 	{
 		private readonly Semaphore hasItem = new Semaphore(0, int.MaxValue);
 		
 		private readonly HashSet<string> keys = new HashSet<string>();
-		private readonly Queue<ResourceDownloadTask> lowPriorityQueue = new Queue<ResourceDownloadTask>();
-		private readonly Queue<ResourceDownloadTask> mediumPriorityQueue = new Queue<ResourceDownloadTask>();
-		private readonly Queue<ResourceDownloadTask> highPriorityQueue = new Queue<ResourceDownloadTask>();
+		private readonly Queue<IResourceDownloadTask> lowPriorityQueue = new Queue<IResourceDownloadTask>();
+		private readonly Queue<IResourceDownloadTask> mediumPriorityQueue = new Queue<IResourceDownloadTask>();
+		private readonly Queue<IResourceDownloadTask> highPriorityQueue = new Queue<IResourceDownloadTask>();
 
 		public event EventHandler TaskDropped;
 
-		#region ITaskDequeuable<INamedTask> Members
+		#region ITaskDequeuable<IResourceDownloadTask> Members
 
-		public DequeuedTask<ResourceDownloadTask> Dequeue()
+		public DequeuedTask<IResourceDownloadTask> Dequeue()
 		{
 			hasItem.WaitOne();
 
 			lock (keys)
 			{
-				ResourceDownloadTask dequeued = null;
+				IResourceDownloadTask dequeued = null;
 
 				if (highPriorityQueue.Count > 0)
 				{
@@ -41,11 +41,11 @@ namespace Wammer.Station.Timeline
 				if (dequeued == null)
 					return null;
 				keys.Remove(dequeued.Name);
-				return new DequeuedTask<ResourceDownloadTask>(dequeued, dequeued.Name);
+				return new DequeuedTask<IResourceDownloadTask>(dequeued, dequeued.Name);
 			}
 		}
 
-		public void AckDequeue(DequeuedTask<ResourceDownloadTask> task)
+		public void AckDequeue(DequeuedTask<IResourceDownloadTask> task)
 		{
 			// This is not a persistent queue so that 
 			// we don't need to implement a this method
@@ -53,21 +53,21 @@ namespace Wammer.Station.Timeline
 
 		public void EnqueueDummyTask()
 		{
-			Enqueue(new ResourceDownloadTask(null, null, TaskPriority.High), TaskPriority.High);
+			Enqueue(new DummyResourceDownloadTask(), TaskPriority.High);
 		}
 
 		#endregion
 
-		#region ITaskEnqueuable<INamedTask> Members
+		#region ITaskEnqueuable<IResourceDownloadTask> Members
 
-		public void Enqueue(ResourceDownloadTask task, TaskPriority priority)
+		public void Enqueue(IResourceDownloadTask task, TaskPriority priority)
 		{
 			string taskName = task.Name;
 			lock (keys)
 			{
 				if (keys.Add(taskName))
 				{
-					Queue<ResourceDownloadTask> queue = null;
+					Queue<IResourceDownloadTask> queue = null;
 
 					switch (priority)
 					{
@@ -120,9 +120,9 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		private void RemoveUserTasksFromQueue(string user_id, Queue<ResourceDownloadTask> oldQueue)
+		private void RemoveUserTasksFromQueue(string user_id, Queue<IResourceDownloadTask> oldQueue)
 		{
-			Queue<ResourceDownloadTask> newQueue = new Queue<ResourceDownloadTask>();
+			Queue<IResourceDownloadTask> newQueue = new Queue<IResourceDownloadTask>();
 			foreach (var task in oldQueue)
 			{
 				if (!task.UserId.Equals(user_id))
@@ -148,6 +148,25 @@ namespace Wammer.Station.Timeline
 			EventHandler handler = TaskDropped;
 			if (handler != null)
 				handler(this, EventArgs.Empty);
+		}
+	}
+
+
+	internal class DummyResourceDownloadTask: IResourceDownloadTask
+	{
+
+		public string Name
+		{
+			get { return string.Empty; }
+		}
+
+		public string UserId
+		{
+			get { return string.Empty; }
+		}
+
+		public void Execute()
+		{
 		}
 	}
 }

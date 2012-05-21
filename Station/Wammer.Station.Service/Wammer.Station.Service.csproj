@@ -107,6 +107,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="TCMPortMapper, Version=1.0.4.1, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\3rd_party\DotNetPortMapper\TCMPortMapper.dll</HintPath>
@@ -124,7 +125,6 @@
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
-    <Compile Include="Station\NullNamedTask.cs" />
     <Compile Include="Station\SessionNotExistException.cs" />
     <Compile Include="Station\TaskRunner.cs" />
     <Compile Include="Cloud\AttachmentApi.cs" />
@@ -249,7 +249,7 @@
     <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
-    <Compile Include="Station\DedupTaskQueue.cs" />
+    <Compile Include="Station\TaskEnDeQueuable.cs" />
     <Compile Include="Utility\NoRedirectWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
