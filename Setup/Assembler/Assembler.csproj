@@ -113,6 +113,9 @@
     <IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll">
       <Link>MongoDB.Driver.dll</Link>
     </IncludeInCab>
+	<IncludeInCab Include="..\..\Station\3rd_party\log4net-1.2.11\log4net.dll">
+      <Link>log4net.dll</Link>
+    </IncludeInCab>
   </ItemGroup>
   <Import Project="$(SharpSetupTargetsPath)\SharpSetup.Assembler.targets" />
   <PropertyGroup>

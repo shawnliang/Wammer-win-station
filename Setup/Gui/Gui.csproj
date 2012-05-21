@@ -39,6 +39,9 @@
     <ApplicationIcon>Resources\configure512.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\Station\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
     </Reference>

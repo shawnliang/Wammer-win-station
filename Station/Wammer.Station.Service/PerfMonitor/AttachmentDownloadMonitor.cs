@@ -5,6 +5,15 @@ namespace Wammer.PerfMonitor
 {
 	internal class AttachmentDownloadMonitor
 	{
+		#region Property
+
+#if DEBUG
+		private int TotalNeedToDownload { get; set; }
+		private int TotalDownloadCount { get; set; }
+#endif
+
+		#endregion
+
 		private readonly IPerfCounter DownstreamNumCounter;
 		private readonly IPerfCounter DownstreamRateCounter;
 
@@ -16,11 +25,19 @@ namespace Wammer.PerfMonitor
 
 		public void OnDownstreamTaskEnqueued(object sender, EventArgs arg)
 		{
+#if DEBUG
+			TotalNeedToDownload++;
+#endif
+			
 			DownstreamNumCounter.Increment();
 		}
 
 		public void OnDownstreamTaskDone(object sender, EventArgs arg)
 		{
+#if DEBUG
+			TotalDownloadCount++;
+#endif
+			
 			DownstreamNumCounter.Decrement();
 		}
 

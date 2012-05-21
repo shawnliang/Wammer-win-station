@@ -1079,7 +1079,7 @@
     <value>True</value>
   </data>
   <data name="chkRememberPassword.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9.75pt</value>
+    <value>Segoe UI, 9.75pt</value>
   </data>
   <data name="chkRememberPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1088,7 +1088,7 @@
     <value>46, 226</value>
   </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 20</value>
+    <value>152, 21</value>
   </data>
   <data name="chkRememberPassword.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1198,7 +1198,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
     <value>Top, Left, Right</value>
   </data>
   <data name="lblSignUp.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9.75pt</value>
+    <value>Segoe UI, 9.75pt</value>
   </data>
   <data name="lblSignUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1271,9 +1271,6 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
   </data>
   <data name="loginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
-  </data>
-  <data name="loginButton1.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>110, 40</value>
   </data>
   <data name="loginButton1.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 40</value>

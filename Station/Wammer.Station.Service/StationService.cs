@@ -92,6 +92,7 @@ namespace Wammer.Station.Service
 			{
 				logger.Info("============== Starting Stream Station =================");
 
+				m_BackOff.ResetLevel();
 				while (!Database.TestConnection(1))
 				{
 					System.Threading.Thread.Sleep(m_BackOff.NextValue());
