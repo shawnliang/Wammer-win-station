@@ -150,6 +150,7 @@ namespace Waveface
         public Main(string initSessionToken)
         {
             Init();
+
             m_initSessionToken = initSessionToken;
         }
 
@@ -177,7 +178,7 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            m_autoUpdator = new AppLimit.NetSparkle.Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+            m_autoUpdator = new Sparkle(WService.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
             m_autoUpdator.ApplicationIcon = Resources.software_update_available;
             m_autoUpdator.ApplicationWindowIcon = Resources.UpdateAvailable;
             m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
@@ -1086,9 +1087,6 @@ namespace Waveface
                 detailView.ResetUI();
 
                 RemovePostLocalAndRefresh(postId);
-
-                MessageBox.Show(I18n.L.T("PostRemoved"), "Stream", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
 
                 Cursor = Cursors.Default;
                 return true;

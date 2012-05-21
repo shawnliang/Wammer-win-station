@@ -238,6 +238,8 @@ namespace Waveface.DetailUI
 
         private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            Visible = true;
+
             if (!m_addedLinkClickEventHandler)
             {
                 m_addedLinkClickEventHandler = true;

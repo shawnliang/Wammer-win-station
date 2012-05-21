@@ -127,7 +127,7 @@ namespace Waveface
 
             dataGridView.SuspendLayout();
 
-            ResetDetailViewUI();
+            m_detailView.ResetUI();
 
             try
             {
@@ -251,8 +251,8 @@ namespace Waveface
                 bool _isDrawThumbnail;
 
                 Graphics _g = e.Graphics;
-                _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                _g.SmoothingMode = SmoothingMode.HighQuality;
+                //_g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                //_g.SmoothingMode = SmoothingMode.HighQuality;
 
                 Post _post = m_postBS[e.RowIndex] as Post;
 
@@ -644,11 +644,6 @@ namespace Waveface
             }
 
             m_detailView.Post = _post;
-        }
-
-        private void ResetDetailViewUI()
-        {
-            m_detailView.ResetUI();
         }
 
         #endregion

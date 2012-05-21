@@ -22,8 +22,6 @@ namespace Waveface
 
         private PostType m_postType;
         private bool m_generateWebPreview = true;
-        private bool m_isFixHeight;
-        private int m_fixHeight;
         private List<string> m_parsedErrorURLs = new List<string>();
         private List<string> m_parsedURLs = new List<string>();
         private WorkItem m_workItem;
@@ -34,6 +32,7 @@ namespace Waveface
         private Dictionary<string, string> m_oldImageFiles;
         private Dictionary<string, string> m_fileNameMapping;
         private bool m_closeOK;
+        private int WEB_LINK_HEIGHT = 275;
 
         public Post Post { get; set; }
         public BatchPostItem BatchPostItem { get; set; }
@@ -52,7 +51,7 @@ namespace Waveface
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseLocation = true;
-            m_formSettings.UseSize = false;
+            m_formSettings.UseSize = true;
             m_formSettings.UseWindowState = true;
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
@@ -78,8 +77,8 @@ namespace Waveface
             }
         }
 
-        [DllImport("User32.dll")]  
-        private static extern bool SetForegroundWindow(IntPtr hWnd); 
+        [DllImport("User32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         private void PostForm_Load(object sender, EventArgs e)
         {
@@ -90,7 +89,9 @@ namespace Waveface
         {
             List<string> _pics = new List<string>();
 
-            ChangeToEditModeUI();
+            Text = I18n.L.T("EditPost");
+
+            btnSend.Text = I18n.L.T("Update");
 
             if (Post.type == "link")
                 weblink_UI.ChangeToEditModeUI(Post);
@@ -109,7 +110,6 @@ namespace Waveface
             switch (Post.type)
             {
                 case "link":
-                    //CheckWebPreview();
                     break;
 
                 case "image":
@@ -128,15 +128,6 @@ namespace Waveface
             }
 
             ToSubControl(_pics, getPostType(Post.type));
-        }
-
-        private void ChangeToEditModeUI()
-        {
-            Text = I18n.L.T("EditPost");
-
-            btnSend.Text = I18n.L.T("Update");
-
-            //btnAddPhoto.Visible = false;
         }
 
         private void InitNewMode(List<string> files, PostType postType)
@@ -238,9 +229,16 @@ namespace Waveface
 
         private void PostForm_SizeChanged(object sender, EventArgs e)
         {
-            if (m_isFixHeight)
+            if (panelSubArea.Visible)
             {
-                Height = m_fixHeight;
+                if (m_postType == PostType.Link)
+                {
+                    panelPureTextArea.Height = ClientSize.Height - WEB_LINK_HEIGHT;
+                }
+            }
+            else
+            {
+                panelPureTextArea.Height = ClientSize.Height;
             }
         }
 
@@ -285,62 +283,38 @@ namespace Waveface
 
         private void toRichText_Mode()
         {
-            m_isFixHeight = false;
-
             m_postType = PostType.RichText;
 
             multiPanel.SelectedPage = Page_RichText;
-
-            MaximizeBox = true;
         }
 
         public void toPureText_Mode()
         {
-            m_isFixHeight = true;
-
             m_postType = PostType.Text;
 
             multiPanel.SelectedPage = Page_P_D_W;
 
-            panelMiddleBar.Visible = true;
-
-            MaximizeBox = false;
-
-            m_fixHeight = 272;
-            Size = new Size(760, 272);
+            RelayoutUI(true);
         }
 
         private void toWebLink_Mode()
         {
-            m_isFixHeight = true;
-
             m_postType = PostType.Link;
 
             multiPanel.SelectedPage = Page_P_D_W;
             multiPanel_P_D_W.SelectedPage = Page__Link;
 
-            panelMiddleBar.Visible = false;
-
-            MaximizeBox = false;
-
-            m_fixHeight = 466;
-            Size = new Size(760, 466);
+            RelayoutUI(false);
         }
 
         private void toPhoto_Mode(List<string> files)
         {
-            m_isFixHeight = false;
-
             m_postType = PostType.Photo;
 
             multiPanel.SelectedPage = Page_P_D_W;
             multiPanel_P_D_W.SelectedPage = Page__Photo;
 
-            panelMiddleBar.Visible = false;
-
-            Size = new Size(760, 530);
-
-            MaximizeBox = true;
+            RelayoutUI(false);
 
             if (EditMode && !IsBackFromEditMode)
             {
@@ -368,18 +342,54 @@ namespace Waveface
 
         private void toDoc_Mode()
         {
-            m_isFixHeight = false;
-
             m_postType = PostType.Photo;
 
             multiPanel.SelectedPage = Page_P_D_W;
             multiPanel_P_D_W.SelectedPage = Page__DOC;
 
-            panelMiddleBar.Visible = false;
+            RelayoutUI(false);
+        }
 
-            MaximizeBox = true;
+        private void RelayoutUI(bool toTextType)
+        {
+            int _d = 22;
 
-            Size = new Size(760, 530);
+            panelMiddleBar.Visible = toTextType;
+            panelSubArea.Visible = !toTextType;
+
+            splitter.Visible = !toTextType;
+
+            if (m_postType == PostType.Link)
+                splitter.Visible = false;
+
+            if (toTextType)
+            {
+                panelPureTextArea.Height = ClientSize.Height;
+            }
+            else
+            {
+                if (m_postType == PostType.Link)
+                {
+                    panelPureTextArea.Height = ClientSize.Height - WEB_LINK_HEIGHT;
+                }
+                else
+                {
+                    panelPureTextArea.Height = ClientSize.Height / 2;
+                }
+            }
+
+            pureTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+
+            if (toTextType)
+            {
+                pureTextBox.Height = panelPureTextArea.Height - panelMiddleBar.Height - _d;
+            }
+            else
+            {
+                pureTextBox.Height = panelPureTextArea.Height - _d;
+            }
+
+            pureTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
         }
 
         #endregion
