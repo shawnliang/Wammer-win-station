@@ -1013,7 +1013,7 @@ namespace StationSystemTray
 				var dialog = new Form
 				             	{
 				             		Width = 750,
-				             		Height = 700,
+				             		Height = 600,
 				             		Text = Text,
 				             		StartPosition = FormStartPosition.CenterParent,
 				             		Icon = Icon
@@ -1316,7 +1316,7 @@ namespace StationSystemTray
 				var dialog = new Form
 				             	{
 				             		Width = 750,
-				             		Height = 700,
+				             		Height = 600,
 				             		Text = Text,
 				             		StartPosition = FormStartPosition.CenterParent,
 				             		Icon = Icon
