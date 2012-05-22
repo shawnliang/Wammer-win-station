@@ -83,6 +83,7 @@ namespace Wammer.Station
 			if (wavefaceDir == null)
 				return ActionResult.Failure;
 
+			CloseStream();
 			KillProcess("WavefaceWindowsClient");
 			KillProcess("StationUI");
 			KillProcess("StationSystemTray");
@@ -101,11 +102,8 @@ namespace Wammer.Station
 
 				foreach (Process p in procs)
 				{
+					Logger.Debug("Kill process " + name);
 					p.Kill();
-					if (name == "StationSystemTray")
-					{
-						ClearGhostTrayIcons();
-					}
 				}
 			}
 			catch (Exception e)
@@ -115,35 +113,47 @@ namespace Wammer.Station
 		}
 
 		[DllImport("user32.dll")]
-		private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string className, IntPtr title);
-
-		private struct RECT
-		{
-			public int left;
-			public int top;
-			public int right;
-			public int bottom;
-		}
+		public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
 		[DllImport("user32.dll")]
-		private static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
+		public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
 
-		[DllImport("user32.dll")]
-		private static extern IntPtr SendMessage(IntPtr hWnd, UInt32 msg, Int32 wparam, Int32 lparam);
-		private static readonly UInt32 WM_MOUSEMOVE = 0x0200;
-
-		private static void ClearGhostTrayIcons()
+		private static void CloseStream()
 		{
-			IntPtr hwndTray = FindWindowEx(IntPtr.Zero, IntPtr.Zero, "Shell_TrayWnd", IntPtr.Zero);
-			IntPtr hwndNotify = FindWindowEx(hwndTray, IntPtr.Zero, "TrayNotifyWnd", IntPtr.Zero);
-			IntPtr hwndPager = FindWindowEx(hwndNotify, IntPtr.Zero, "SysPager", IntPtr.Zero);
-			IntPtr hwndToolbar = FindWindowEx(hwndPager, IntPtr.Zero, "ToolbarWindow32", IntPtr.Zero);
-
-			RECT toolbarRect;
-			GetClientRect(hwndToolbar, out toolbarRect);
-			for (int x = 0; x <= toolbarRect.right; x += 5)
+			Logger.Debug("Close Stream gracefully");
+			try
 			{
-				SendMessage(hwndToolbar, WM_MOUSEMOVE, 0, toolbarRect.bottom / 2 << 16 + x);
+				string mainformTitle = "Login - Stream";
+
+				var culture = (string)StationRegistry.GetValue("Culture", null);
+				if (culture != null)
+				{
+					if (culture == "zh-TW")
+						mainformTitle = "登入 - Stream";
+					else
+						mainformTitle = "Login - Stream";
+				}
+
+				var handle = FindWindow(null, mainformTitle);
+
+				if (handle == IntPtr.Zero)
+					return;
+
+				SendMessage(handle, 0x402, IntPtr.Zero, IntPtr.Zero);
+
+				for (int retry = 0; retry < 10; retry++)
+				{
+					System.Threading.Thread.Sleep(500);
+					if (FindWindow(null, mainformTitle) == IntPtr.Zero)
+					{
+						Logger.Debug("Successfully close Stream");
+						break;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Cannot close Stream", e);
 			}
 		}
 

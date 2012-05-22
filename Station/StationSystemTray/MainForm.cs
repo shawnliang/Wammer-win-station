@@ -117,7 +117,6 @@ namespace StationSystemTray
 		private readonly IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
 
 		public Process clientProcess;
-		private bool formCloseEnabled;
 		public Icon iconErrorStopped;
 
 		public Icon iconInit;
@@ -161,10 +160,21 @@ namespace StationSystemTray
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
+			CloseTimelineProgram();
+		}
+
+		private void CloseTimelineProgram()
+		{
 			if (clientProcess != null)
 			{
 				clientProcess.Exited -= clientProcess_Exited;
 				clientProcess.CloseMainWindow();
+
+				if (!clientProcess.WaitForExit(300))
+				{
+					clientProcess.Kill();
+					clientProcess.WaitForExit(300);
+				}
 			}
 		}
 
@@ -205,6 +215,12 @@ namespace StationSystemTray
 			{
 				logger.Debug("Timeline trigger by new stream");
 				GotoTimeline(userloginContainer.GetLastUserLogin());
+				return;
+			}
+			else if (m.Msg == 0x402)
+			{
+				logger.Debug("Closed by another application");
+				QuitStream();
 				return;
 			}
 			base.WndProc(ref m);
@@ -312,7 +328,7 @@ namespace StationSystemTray
 				LaunchClient(lastLogin);
 				WindowState = FormWindowState.Minimized;
 				ShowInTaskbar = false;
-				Close();
+				Hide();
 				return;
 			}
 
@@ -333,12 +349,12 @@ namespace StationSystemTray
 
 				if (LaunchWavefaceClient(userlogin))
 				{
-					// if the function is called by OnLoad, Close() won't hide the mainform
+					// if the function is called by OnLoad, Hide() won't hide the mainform
 					// so we have to play some tricks here
 					WindowState = FormWindowState.Minimized;
 					ShowInTaskbar = false;
 
-					Close();
+					Hide();
 				}
 			}
 			else
@@ -401,14 +417,14 @@ namespace StationSystemTray
 
 		private void menuQuit_Click(object sender, EventArgs e)
 		{
+			QuitStream();
+		}
+
+		private void QuitStream()
+		{
 			try
 			{
-				//uictrlWavefaceClient.Terminate();
-				if (clientProcess != null)
-				{
-					clientProcess.Exited -= clientProcess_Exited;
-					clientProcess.CloseMainWindow();
-				}
+				CloseTimelineProgram();
 
 				StationController.SuspendSync(1000);
 			}
@@ -418,7 +434,7 @@ namespace StationSystemTray
 			}
 			finally
 			{
-				ExitProgram();
+				Application.Exit();
 			}
 		}
 
@@ -704,14 +720,14 @@ namespace StationSystemTray
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (e.CloseReason == CloseReason.WindowsShutDown)
-				return;
-
-			if (!formCloseEnabled)
+			if (e.CloseReason == CloseReason.UserClosing)
 			{
+				logger.Debug("application is closed by user");
 				Hide();
 				e.Cancel = true;
+				return;
 			}
+			logger.Debug("application is closed by code");
 		}
 
 		private void btnSignIn_Click(object sender, EventArgs e)
@@ -957,12 +973,6 @@ namespace StationSystemTray
 			m_LoginAction();
 		}
 
-		private void ExitProgram()
-		{
-			formCloseEnabled = true;
-			Close();
-		}
-
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			try
@@ -1143,10 +1153,7 @@ namespace StationSystemTray
 
 				if (lastLogin != null)
 				{
-					if (clientProcess != null)
-					{
-						clientProcess.CloseMainWindow();
-					}
+					CloseTimelineProgram();
 
 					var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
@@ -1396,7 +1403,7 @@ namespace StationSystemTray
 		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
 		{
 			if (LaunchWavefaceClient(loginSetting))
-				Close();
+				Hide();
 		}
 
 		private void LoginAndLaunchClient(string sessionToken, string userID)
@@ -1407,7 +1414,7 @@ namespace StationSystemTray
 			userloginContainer.SaveCurLoginedSession(sessionToken);
 
 			LaunchClient(sessionToken);
-			Close();
+			Hide();
 		}
 
 		private void btnOK2_Click(object sender, EventArgs e)

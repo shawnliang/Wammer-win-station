@@ -112,9 +112,13 @@
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
             <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
             <Shortcut Id="ProgMenu.Shortcut.Waveface" Name="!(loc.APPNAME)"
-                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe"/>
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe">
+              <ShortcutProperty Key="System.AppUserModel.ID" Value="WavefaceStreamApp"></ShortcutProperty>
+            </Shortcut>
             <Shortcut Id="Desktop.Shortcut.Waveface" Name="!(loc.APPNAME)"
-                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe" Directory="DesktopFolder"/>
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]StationSystemTray.exe" Directory="DesktopFolder">
+              <ShortcutProperty Key="System.AppUserModel.ID" Value="WavefaceStreamApp"></ShortcutProperty>
+            </Shortcut>
             <Shortcut Id="UninstallerExeShortcut" Name="!(loc.SHORTCUT.UNINSTALLER.NAME)"
                       WorkingDirectory="INSTALLDIR" Target="[UninstallDir]Uninstaller.exe" Arguments="!(loc.CULTURE)" />
           </Component>

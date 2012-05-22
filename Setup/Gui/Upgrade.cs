@@ -13,6 +13,43 @@ namespace Gui
 {
 	class Migration
 	{
+		static log4net.ILog logger;
+
+		static Migration()
+		{
+			InitLogger();
+		}
+
+		private static void InitLogger()
+		{
+			MemoryStream m = new MemoryStream();
+			StreamWriter w = new StreamWriter(m, Encoding.UTF8);
+			w.WriteLine(
+			@"
+<log4net>
+  <appender name='RollingFile' type='log4net.Appender.RollingFileAppender'>
+	<file value='${APPDATA}\WavefaceUpgrade.log' />
+	<appendToFile value='true' />
+	<maximumFileSize value='100KB' />
+	<maxSizeRollBackups value='2' />
+	<layout type='log4net.Layout.PatternLayout'>
+	  <conversionPattern value='%level %thread %logger - %message%newline' />
+	</layout>
+  </appender>
+  <root>
+	<level value='DEBUG' />
+	<appender-ref ref='RollingFile' />
+  </root>
+</log4net>");
+
+			w.Flush();
+			m.Position = 0;
+
+
+			log4net.Config.XmlConfigurator.Configure(m);
+			logger = log4net.LogManager.GetLogger("Upgrade");
+		}
+
 		public static void DoBackup()
 		{
 			try
@@ -37,6 +74,8 @@ namespace Gui
 
 		private static void StopService(string svcName)
 		{
+			logger.Debug("Stop service: " + svcName);
+
 			ServiceController svc = new ServiceController(svcName);
 			int retry = 10;
 
@@ -46,22 +85,27 @@ namespace Gui
 				{
 					if (svc.Status != ServiceControllerStatus.Stopped &&
 						svc.Status != ServiceControllerStatus.StopPending)
+					{
+						logger.Debug("stop " + svcName);
 						svc.Stop();
-
-					svc.WaitForStatus(ServiceControllerStatus.Stopped);
+						svc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(10.0));
+					}
 				}
 				catch(Exception e)
 				{
-					System.Threading.Thread.Sleep(500);
 					svc.Refresh();
 					if (svc.Status == ServiceControllerStatus.Stopped)
 						return;
 
 					if (retry == 0)
 					{
+						logger.Error("stop service failed", e);
 						System.Windows.Forms.MessageBox.Show(e.ToString());
 						throw;
-
+					}
+					else
+					{
+						logger.Warn("stop service failed. Retry it. " + e.Message);
 					}
 				}
 			}
@@ -88,9 +132,11 @@ namespace Gui
 
 				if (Directory.Exists(dumpFolder))
 				{
+					logger.Debug("deleting old backup folder: " + dumpFolder);
 					Directory.Delete(dumpFolder, true);
 				}
 
+				logger.Debug("dumping mongo db....");
 				Process p = new Process();
 				ProcessStartInfo info = new ProcessStartInfo(
 					"mongodump.exe",
@@ -105,11 +151,13 @@ namespace Gui
 				if (p.ExitCode != 0)
 					throw new DataBackupException("mongodump.exe returns failure: " + p.ExitCode);
 
+				logger.Debug("dump completed");
 				// delete station collection to prevent previous version's uninstaller unregistering station. 
 				MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
 			}
 			catch (Exception e)
 			{
+				logger.Error("Dump mongo db error", e);
 				throw new DataBackupException("Error using mongodump.exe to backup MongoDB", e);
 			}
 		}
@@ -120,19 +168,26 @@ namespace Gui
 
 			try
 			{
+				
 				if (svc.Status != ServiceControllerStatus.Running &&
 					svc.Status != ServiceControllerStatus.StartPending)
+				{
+					logger.Debug("Starting Mongo db...");
 					svc.Start();
-
-				svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1.0));
+					svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1.0));
+				}
 			}
 			catch (Exception e)
 			{
 				svc.Refresh();
 				if (svc.Status != ServiceControllerStatus.Running)
+				{
+					logger.Error("Start mongo db failed", e);
 					throw new DataBackupException("Unable to start MongoDB", e);
+				}
 			}
 
+			logger.Debug("Mongo db is running");
 
 			DateTime start = DateTime.Now;
 			bool mongoDBOK = false;
@@ -140,8 +195,11 @@ namespace Gui
 			{
 				try
 				{
+					logger.Debug("checking if mongo db is accepting connection?");
 					MongoServer sv = MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true");
 					mongoDBOK = true;
+
+					logger.Debug("mongo db is ready to accept connection");
 				}
 				catch
 				{
@@ -151,7 +209,10 @@ namespace Gui
 			while (!mongoDBOK && DateTime.Now - start < TimeSpan.FromMinutes(5.0));
 
 			if (!mongoDBOK)
+			{
+				logger.Error("mongo db is still not ready to accept connections for 5 minutes");
 				throw new DataBackupException("MongoDB is not accessible");
+			}
 		}
 
 		private static void BackupClientAppData()
@@ -168,9 +229,9 @@ namespace Gui
 				MoveDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "waveface", "oldWaveface");
 				MoveDir(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "waveface", "oldWaveface");
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				//System.Windows.Forms.MessageBox.Show("Unable to backup client AppData: " + e.ToString());
+				logger.Warn("Backup client app data unsuccessfully", ex);
 			}
 		}
 
@@ -194,11 +255,20 @@ namespace Gui
 
 				foreach (Process p in procs)
 				{
-					p.Kill();
+					if (p.CloseMainWindow())
+					{
+						if (!p.WaitForExit(500))
+							p.Kill();
+					}
+					else
+						p.Kill();
+
+					p.WaitForExit(200);
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				logger.Warn("kill process failed: " + name, ex);
 			}
 		}
 
@@ -226,6 +296,7 @@ namespace Gui
 			}
 			catch (Exception e)
 			{
+				logger.Error("Unable to backup registry", e);
 				throw new Exception("Unable to backup registry: " + e.Message);
 			}
 		}

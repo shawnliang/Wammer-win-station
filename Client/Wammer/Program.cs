@@ -54,6 +54,8 @@ namespace Waveface
                 return;
             }
 
+            Waveface.Common.TaskbarHelper.SetAppId("WavefaceStreamApp");
+
             string _culture = (string)StationRegHelper.GetValue("Culture", null);
 
             if (_culture == null)
