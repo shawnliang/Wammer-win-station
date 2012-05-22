@@ -30,14 +30,12 @@ namespace Wammer.Station.Timeline
 
 		private ResourceDownloadEventArgs evtargs;
 		private readonly ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue;
-		private TaskPriority priority;
 
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue, TaskPriority pri)
 			: base(RetryQueue.Instance, pri)
 		{
 			this.evtargs = arg;
 			this.bodySyncQueue = bodySyncQueue;
-			this.priority = pri;
 		}
 
 		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)

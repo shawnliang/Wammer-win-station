@@ -14,8 +14,6 @@ namespace Wammer.Cloud
 {
 	public class AttachmentApi
 	{
-		private static log4net.ILog logger = log4net.LogManager.GetLogger("CloudAttachmentApi");
-
 		#region Location enum
 
 		public enum Location

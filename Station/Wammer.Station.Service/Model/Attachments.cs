@@ -32,7 +32,7 @@ namespace Wammer.Model
 		/// <summary>
 		/// 120 pixels
 		/// </summary>
-		[Description("small")] Small = 256,
+		[Description("small")] Small = 512,
 
 		/// <summary>
 		/// 720 pixels
