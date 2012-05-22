@@ -264,6 +264,8 @@ namespace Waveface.PostUI
 
         private void buttonRemovePreview_Click(object sender, EventArgs e)
         {
+            MyParent.IsDirty = true;
+
             m_mrPreviewsGetAdv = null;
 
             if (MyParent.EditMode)

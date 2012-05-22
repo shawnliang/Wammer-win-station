@@ -232,7 +232,6 @@ namespace Waveface.DetailUI
             this.imageListView.DropFiles += new Manina.Windows.Forms.DropFilesEventHandler(this.imageListView_DropFiles);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
             this.imageListView.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView_ItemDoubleClick);
-            this.imageListView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageListView_MouseMove);
             this.imageListView.Resize += new System.EventHandler(this.imageListView_Resize);
             // 
             // panelPictureInfo
@@ -561,7 +560,7 @@ namespace Waveface.DetailUI
 
             int W = 144;
 
-            if (Main.Current.Width > 1280)
+            if (Main.Current.Width > 1280) //
             {
                 int _w = (int)(imageListView.Width / 6.5); //7.55
 
@@ -574,20 +573,6 @@ namespace Waveface.DetailUI
             {
                 imageListView.ThumbnailSize = new Size(W, W);
             }
-        }
-
-        private void imageListView_MouseMove(object sender, MouseEventArgs e)
-        {
-            /*
-            ImageListView.HitInfo _hitInfo;
-
-            imageListView.HitTest(e.Location, out _hitInfo);
-
-            if (_hitInfo.ItemIndex != -1)
-            {
-                //MessageBox.Show(_hitInfo.ItemIndex.ToString());
-            }
-            */
         }
 
         private void imageListView_ItemDoubleClick(object sender, ItemClickEventArgs e)

@@ -72,8 +72,6 @@ namespace Waveface.PostUI
 
         private void Application_Idle(object sender, EventArgs e)
         {
-            removeToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
-
             rotateCCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
             rotateCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
 
@@ -118,22 +116,6 @@ namespace Waveface.PostUI
 
                 i++;
             }
-        }
-
-        private void addToolStripButton_Click(object sender, EventArgs e)
-        {
-            AddPhoto();
-        }
-
-        private void removeToolStripButton_Click(object sender, EventArgs e)
-        {
-            RemoveSelectedPhoto();
-        }
-
-        private void removeAllToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (!MyParent.EditMode)
-                RemoveAllAndReturnToParent();
         }
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
@@ -506,6 +488,8 @@ namespace Waveface.PostUI
 
         public void AddPhotos(string[] files, int index)
         {
+            MyParent.IsDirty = true;
+
             if (index >= 0)
                 Array.Reverse(files);
 
@@ -533,7 +517,10 @@ namespace Waveface.PostUI
         {
             if (imageListView.Items.Count == 0)
             {
+                MyParent.IsDirty = true;
+             
                 MyParent.toPureText_Mode();
+
                 return;
             }
 
@@ -541,6 +528,8 @@ namespace Waveface.PostUI
 
             if (_dr == DialogResult.Yes)
             {
+                MyParent.IsDirty = true;
+
                 imageListView.Items.Clear();
 
                 MyParent.toPureText_Mode();
@@ -553,6 +542,8 @@ namespace Waveface.PostUI
 
             if (_dr == DialogResult.Yes)
             {
+                MyParent.IsDirty = true;
+
                 imageListView.SuspendLayout();
 
                 foreach (var _item in imageListView.SelectedItems)
@@ -728,6 +719,11 @@ namespace Waveface.PostUI
             }
 
             e.Cancel = true;
+        }
+
+        private void imageListView_DragDrop(object sender, DragEventArgs e)
+        {
+            MyParent.IsDirty = true;
         }
     }
 }

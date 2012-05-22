@@ -1674,8 +1674,10 @@ namespace Waveface
                             {
                                 string _url = post.preview.thumbnail_url;
 
+                                int _hashCode = Math.Abs(post.preview.thumbnail_url.GetHashCode());
+
                                 string _localPic = Path.Combine(GCONST.RunTimeDataPath,
-                                                                post.post_id + "_previewthumbnail_" + ".jpg");
+                                                                post.post_id + "_previewthumbnail_" + _hashCode + ".jpg");
 
                                 PreloadThumbnail(_url, _localPic);
                             }
