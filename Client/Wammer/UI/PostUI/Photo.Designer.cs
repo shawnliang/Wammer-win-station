@@ -42,9 +42,6 @@
             this.btnDeletePhoto = new Waveface.Component.ImageButton();
             this.btnAddPhoto = new Waveface.Component.ImageButton();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.removeAllToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.addToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.removeToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.rotateCWToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -86,6 +83,7 @@
             this.imageListView.DropFiles += new Manina.Windows.Forms.DropFilesEventHandler(this.imageListView_DropFiles);
             this.imageListView.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView_ItemHover);
             this.imageListView.ItemCollectionChanged += new Manina.Windows.Forms.ItemCollectionChangedEventHandler(this.imageListView_ItemCollectionChanged);
+            this.imageListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.imageListView_DragDrop);
             // 
             // columnContextMenu
             // 
@@ -170,9 +168,6 @@
             // 
             resources.ApplyResources(this.toolStrip, "toolStrip");
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeAllToolStripButton,
-            this.addToolStripButton,
-            this.removeToolStripButton,
             this.toolStripSeparator1,
             this.rotateCCWToolStripButton,
             this.rotateCWToolStripButton,
@@ -182,27 +177,6 @@
             this.toolStripLabel1,
             this.toolStripComboBoxResize});
             this.toolStrip.Name = "toolStrip";
-            // 
-            // removeAllToolStripButton
-            // 
-            this.removeAllToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(this.removeAllToolStripButton, "removeAllToolStripButton");
-            this.removeAllToolStripButton.Name = "removeAllToolStripButton";
-            this.removeAllToolStripButton.Click += new System.EventHandler(this.removeAllToolStripButton_Click);
-            // 
-            // addToolStripButton
-            // 
-            this.addToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(this.addToolStripButton, "addToolStripButton");
-            this.addToolStripButton.Name = "addToolStripButton";
-            this.addToolStripButton.Click += new System.EventHandler(this.addToolStripButton_Click);
-            // 
-            // removeToolStripButton
-            // 
-            this.removeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(this.removeToolStripButton, "removeToolStripButton");
-            this.removeToolStripButton.Name = "removeToolStripButton";
-            this.removeToolStripButton.Click += new System.EventHandler(this.removeToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -324,9 +298,6 @@
         private System.Windows.Forms.Panel panel;
         private Manina.Windows.Forms.ImageListView imageListView;
         private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripButton addToolStripButton;
-        private System.Windows.Forms.ToolStripButton removeToolStripButton;
-        private System.Windows.Forms.ToolStripButton removeAllToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton rotateCCWToolStripButton;
         private System.Windows.Forms.ToolStripButton rotateCWToolStripButton;

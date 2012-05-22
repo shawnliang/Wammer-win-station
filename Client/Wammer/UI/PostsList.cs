@@ -130,8 +130,6 @@ namespace Waveface
 
             dataGridView.SuspendLayout();
 
-            m_detailView.ResetUI();
-
             try
             {
                 GetFirstDisplayed(posts);
@@ -148,7 +146,11 @@ namespace Waveface
                 {
                 }
 
-                if (m_posts.Count != 0)
+                if (m_posts.Count == 0)
+                {
+                    m_detailView.ResetUI();
+                }
+                else
                 {
                     SetFirstDisplayed(posts);
 

@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using NLog;
 using Waveface.API.V2;
 using Waveface.Component.RichEdit;
 using Waveface.Configuration;
@@ -18,7 +17,7 @@ namespace Waveface
 {
     public partial class PostForm : Form
     {
-        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+        // private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         private int WEB_LINK_HEIGHT = 275;
         private PostType m_postType;
@@ -32,7 +31,6 @@ namespace Waveface
         private string m_lastPreviewURL = string.Empty;
         private Dictionary<string, string> m_oldImageFiles;
         private Dictionary<string, string> m_fileNameMapping;
-        private bool m_closeOK;
 
         private List<string> m_existPostAddPhotos;
         private int m_existPostAddPhotosIndex;
@@ -42,6 +40,7 @@ namespace Waveface
         public bool EditMode { get; set; }
         public string OldText { get; set; }
         public bool IsBackFromEditMode { get; set; }
+        public bool IsDirty{ get; set; }
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
@@ -85,6 +84,8 @@ namespace Waveface
             {
                 InitNewMode(files, postType);
             }
+
+            IsDirty = false;
         }
 
         [DllImport("User32.dll")]
@@ -235,7 +236,7 @@ namespace Waveface
 
         public void SetDialogResult_Yes_AndClose()
         {
-            m_closeOK = true;
+            IsDirty = false;
 
             DialogResult = DialogResult.Yes;
             Close();
@@ -243,7 +244,7 @@ namespace Waveface
 
         public void SetDialogResult_OK_AndClose()
         {
-            m_closeOK = true;
+            IsDirty = false;
 
             DialogResult = DialogResult.OK;
             Close();
@@ -253,7 +254,7 @@ namespace Waveface
         {
             //document_UI.UnloadPreviewHandler();
 
-            if (!m_closeOK)
+            if (IsDirty)
             {
                 DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), EditMode ? I18n.L.T("TitleCancelEdit") : I18n.L.T("TitleCancelPost"), MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Warning);
@@ -489,6 +490,8 @@ namespace Waveface
         private void pureTextBox_TextChanged2(object sender, TextChanged2EventArgs args)
         {
             CreateLink();
+
+            IsDirty = true;
         }
 
         private void CreateLink()
