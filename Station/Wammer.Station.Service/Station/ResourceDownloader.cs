@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
-using MongoDB.Bson;
+using log4net;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
 using Wammer.Utility;
-using log4net;
 
 namespace Wammer.Station
 {
+	[Serializable]
 	public class ResourceDownloadEventArgs
 	{
 		public ResourceDownloadEventArgs()
@@ -148,7 +144,14 @@ namespace Wammer.Station
 					    (savedDoc == null || savedDoc.saved_file_name == null))
 					{
 						if (CloudHasOriginAttachment(attachment.object_id, driver))
+						{
+							this.LogDebugMsg(string.Format("Attachement {0} found in cloud...", attachment.object_id));
 							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
+						}
+						else
+						{
+							this.LogDebugMsg(string.Format("Attachement {0} not found in cloud...", attachment.object_id));
+						}
 					}
 
 					if (attachment.image_meta == null)

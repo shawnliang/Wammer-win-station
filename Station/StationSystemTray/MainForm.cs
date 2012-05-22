@@ -160,7 +160,8 @@ namespace StationSystemTray
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			CloseTimelineProgram();
+			this.LogDebugMsg("Unhandle exception: " + e.ExceptionObject.ToString());
+			QuitStream();
 		}
 
 		private void CloseTimelineProgram()
@@ -175,6 +176,8 @@ namespace StationSystemTray
 					clientProcess.Kill();
 					clientProcess.WaitForExit(300);
 				}
+				clientProcess.Dispose();
+				clientProcess = null;
 			}
 		}
 
@@ -424,6 +427,13 @@ namespace StationSystemTray
 		{
 			try
 			{
+				if (TrayIcon != null)
+				{
+					TrayIcon.Visible = false;
+					TrayIcon.Dispose();
+					TrayIcon = null;
+				}
+
 				CloseTimelineProgram();
 
 				StationController.SuspendSync(1000);
@@ -1003,7 +1013,7 @@ namespace StationSystemTray
 				var dialog = new Form
 				             	{
 				             		Width = 750,
-				             		Height = 700,
+				             		Height = 600,
 				             		Text = Text,
 				             		StartPosition = FormStartPosition.CenterParent,
 				             		Icon = Icon
@@ -1306,7 +1316,7 @@ namespace StationSystemTray
 				var dialog = new Form
 				             	{
 				             		Width = 750,
-				             		Height = 700,
+				             		Height = 600,
 				             		Text = Text,
 				             		StartPosition = FormStartPosition.CenterParent,
 				             		Icon = Icon
