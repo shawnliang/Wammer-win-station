@@ -160,10 +160,21 @@ namespace StationSystemTray
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
+			CloseTimelineProgram();
+		}
+
+		private void CloseTimelineProgram()
+		{
 			if (clientProcess != null)
 			{
 				clientProcess.Exited -= clientProcess_Exited;
 				clientProcess.CloseMainWindow();
+
+				if (!clientProcess.WaitForExit(300))
+				{
+					clientProcess.Kill();
+					clientProcess.WaitForExit(300);
+				}
 			}
 		}
 
@@ -413,12 +424,7 @@ namespace StationSystemTray
 		{
 			try
 			{
-				//uictrlWavefaceClient.Terminate();
-				if (clientProcess != null)
-				{
-					clientProcess.Exited -= clientProcess_Exited;
-					clientProcess.CloseMainWindow();
-				}
+				CloseTimelineProgram();
 
 				StationController.SuspendSync(1000);
 			}
@@ -1147,10 +1153,7 @@ namespace StationSystemTray
 
 				if (lastLogin != null)
 				{
-					if (clientProcess != null)
-					{
-						clientProcess.CloseMainWindow();
-					}
+					CloseTimelineProgram();
 
 					var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
