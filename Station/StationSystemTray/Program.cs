@@ -9,6 +9,7 @@ using log4net.Config;
 using Wammer.Station;
 using log4net;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace StationSystemTray
 {
@@ -20,13 +21,15 @@ namespace StationSystemTray
 		private static Mutex m_Mutex { get; set; }
 
 		#endregion Private Static Property
-
+		
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		private static void Main(string[] args)
 		{
+			Waveface.Common.TaskbarHelper.SetAppId("WavefaceStreamApp");
+
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 			Assembly.GetExecutingAssembly().Location);
 
