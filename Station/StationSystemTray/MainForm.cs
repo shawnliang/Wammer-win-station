@@ -160,7 +160,8 @@ namespace StationSystemTray
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			CloseTimelineProgram();
+			this.LogDebugMsg("Unhandle exception: " + e.ExceptionObject.ToString());
+			QuitStream();
 		}
 
 		private void CloseTimelineProgram()
@@ -426,6 +427,13 @@ namespace StationSystemTray
 		{
 			try
 			{
+				if (TrayIcon != null)
+				{
+					TrayIcon.Visible = false;
+					TrayIcon.Dispose();
+					TrayIcon = null;
+				}
+
 				CloseTimelineProgram();
 
 				StationController.SuspendSync(1000);
