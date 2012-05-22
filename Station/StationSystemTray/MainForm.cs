@@ -175,6 +175,8 @@ namespace StationSystemTray
 					clientProcess.Kill();
 					clientProcess.WaitForExit(300);
 				}
+				clientProcess.Dispose();
+				clientProcess = null;
 			}
 		}
 
