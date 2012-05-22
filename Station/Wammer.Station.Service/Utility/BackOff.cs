@@ -33,7 +33,7 @@ namespace Wammer.Utility
 			get { return _level; }
 			set
 			{
-				if (value != _level)
+				if (value == _level)
 					return;
 
 				if (value <= 0)
