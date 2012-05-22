@@ -1183,6 +1183,7 @@ namespace Waveface
             return _time;
         }
 
+        /*
         public bool checkNewPosts()
         {
             if (RT.CurrentGroupPosts.Count == 0)
@@ -1208,6 +1209,7 @@ namespace Waveface
 
             return false;
         }
+        */
 
         #endregion
 
@@ -1374,12 +1376,14 @@ namespace Waveface
 
             try
             {
+                /*
                 if (checkNewPosts())
                 {
                     ReloadAllData();
 
                     return;
                 }
+                */
 
                 string _newestUpdateTime;
 
@@ -1413,16 +1417,19 @@ namespace Waveface
                     {
                         foreach (UT_Action _action in _usertrack.actions)
                         {
-                            if (_action.action == "unhide")
+                            if (_action.target_type == "post")
                             {
-                                ReloadAllData();
+                                switch (_action.action)
+                                {
+                                    case "unhide":
+                                    case "create":
+                                        ReloadAllData(); //ToDo
+                                        return;
 
-                                return;
-                            }
-
-                            if ((_action.action == "hide") && (_usertrack.target_type == "post"))
-                            {
-                                RemovePostLocalAndRefresh(_usertrack.target_id);
+                                    case "hide":
+                                        RemovePostLocalAndRefresh(_usertrack.target_id);
+                                        break;
+                                }
                             }
                         }
                     }
