@@ -26,20 +26,20 @@ namespace Gui
 			StreamWriter w = new StreamWriter(m, Encoding.UTF8);
 			w.WriteLine(
 			@"
-<log4net>\
-  <appender name='RollingFile' type='log4net.Appender.RollingFileAppender'>\
-	<file value='${APPDATA}\WavefaceUpgrade.log' />\
-	<appendToFile value='true' />\
-	<maximumFileSize value='100KB' />\
-	<maxSizeRollBackups value='2' />\
-	<layout type='log4net.Layout.PatternLayout'>\
-	  <conversionPattern value='%level %thread %logger - %message%newline' />\
-	</layout>\
-  </appender>\
-  <root>\
-	<level value='DEBUG' />\
-	<appender-ref ref='RollingFile' />\
-  </root>\
+<log4net>
+  <appender name='RollingFile' type='log4net.Appender.RollingFileAppender'>
+	<file value='${APPDATA}\WavefaceUpgrade.log' />
+	<appendToFile value='true' />
+	<maximumFileSize value='100KB' />
+	<maxSizeRollBackups value='2' />
+	<layout type='log4net.Layout.PatternLayout'>
+	  <conversionPattern value='%level %thread %logger - %message%newline' />
+	</layout>
+  </appender>
+  <root>
+	<level value='DEBUG' />
+	<appender-ref ref='RollingFile' />
+  </root>
 </log4net>");
 
 			w.Flush();
@@ -132,9 +132,11 @@ namespace Gui
 
 				if (Directory.Exists(dumpFolder))
 				{
+					logger.Debug("deleting old backup folder: " + dumpFolder);
 					Directory.Delete(dumpFolder, true);
 				}
 
+				logger.Debug("dumping mongo db....");
 				Process p = new Process();
 				ProcessStartInfo info = new ProcessStartInfo(
 					"mongodump.exe",
@@ -149,11 +151,13 @@ namespace Gui
 				if (p.ExitCode != 0)
 					throw new DataBackupException("mongodump.exe returns failure: " + p.ExitCode);
 
+				logger.Debug("dump completed");
 				// delete station collection to prevent previous version's uninstaller unregistering station. 
 				MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
 			}
 			catch (Exception e)
 			{
+				logger.Error("Dump mongo db error", e);
 				throw new DataBackupException("Error using mongodump.exe to backup MongoDB", e);
 			}
 		}
@@ -251,11 +255,20 @@ namespace Gui
 
 				foreach (Process p in procs)
 				{
-					p.Kill();
+					if (p.CloseMainWindow())
+					{
+						if (!p.WaitForExit(500))
+							p.Kill();
+					}
+					else
+						p.Kill();
+
+					p.WaitForExit(200);
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				logger.Warn("kill process failed: " + name, ex);
 			}
 		}
 
