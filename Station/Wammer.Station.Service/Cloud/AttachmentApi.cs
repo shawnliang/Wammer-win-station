@@ -8,6 +8,7 @@ using Wammer.Station;
 using Wammer.Station.JSONClass;
 using Wammer.Utility;
 using System.Text;
+using log4net;
 
 namespace Wammer.Cloud
 {
@@ -23,6 +24,8 @@ namespace Wammer.Cloud
 		}
 
 		#endregion
+
+		private static readonly ILog logger = LogManager.GetLogger("AttachmentApi");
 
 		public AttachmentApi(Driver driver)
 		{
@@ -99,6 +102,7 @@ namespace Wammer.Cloud
 		                                                       Action<object, ProgressChangedEventArgs>
 		                                                       	progressChangedCallBack)
 		{
+			AttachmentView metadata = null;
 			using (WebClient agent = new NoRedirectWebClient())
 			{
 				var parameters = new Dictionary<object, object>
@@ -113,17 +117,17 @@ namespace Wammer.Cloud
 				if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 					parameters.Add("image_meta", meta.ToString().ToLower());
 
-				var metadata =
-					CloudServer.requestPath<AttachmentView>(agent, "attachments/view", parameters);
+				metadata = CloudServer.requestPath<AttachmentView>(agent, "attachments/view", parameters);
+			}
 
-				using (var redirectableAgent = new WebClient())
+			using (var redirectableAgent = new WebClient())
+			{
+				logger.Debug("Attachement redirect to: " + metadata.redirect_to);
+				using (var to = new MemoryStream())
+				using (var from = redirectableAgent.OpenRead(metadata.redirect_to))
 				{
-					using (var to = new MemoryStream())
-					using (var from = redirectableAgent.OpenRead(metadata.redirect_to))
-					{
-						from.WriteTo(to, 1024, progressChangedCallBack);
-						return new DownloadResult(to.ToArray(), metadata, redirectableAgent.ResponseHeaders["Content-type"]);
-					}
+					from.WriteTo(to, 1024, progressChangedCallBack);
+					return new DownloadResult(to.ToArray(), metadata, redirectableAgent.ResponseHeaders["Content-type"]);
 				}
 			}
 		}
@@ -141,6 +145,7 @@ namespace Wammer.Cloud
 			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
+			logger.Debug("attachments/set_sync: " + object_id);
 		}
 
 		public static void SetSync(WebClient agent, ICollection<string> object_ids, string session_token)
@@ -165,6 +170,7 @@ namespace Wammer.Cloud
 			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
+			logger.Debug("attachments/set_sync: " + objIdArray);
 		}
 
 		public static AttachmentInfo GetInfo(WebClient agent, string object_id, string session_token)

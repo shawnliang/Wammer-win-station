@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.Drawing;
+using System.IO;
+using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using log4net;
-using Wammer.Cloud;
-using System.Net;
-using Wammer.Utility;
-using Wammer.Model;
-using System.IO;
-using System.Security.Cryptography;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver;
 using MongoDB.Bson;
-using System.Drawing;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Station.Retry;
+using Wammer.Utility;
 
 namespace Wammer.Station.Timeline
 {
@@ -24,19 +22,20 @@ namespace Wammer.Station.Timeline
 	}
 
 
-	public class ResourceDownloadTask : IResourceDownloadTask
+
+	[Serializable]
+	public class ResourceDownloadTask : DelayedRetryTask, IResourceDownloadTask
 	{
 		private static ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
 
 		private ResourceDownloadEventArgs evtargs;
 		private readonly ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue;
-		private TaskPriority priority;
 
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue, TaskPriority pri)
+			: base(RetryQueue.Instance, pri)
 		{
 			this.evtargs = arg;
 			this.bodySyncQueue = bodySyncQueue;
-			this.priority = pri;
 		}
 
 		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)
@@ -255,7 +254,7 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		public void Execute()
+		protected override void Run()
 		{
 			if (evtargs == null || bodySyncQueue == null)
 				return; // evtargs and bodySyncQueue can be null for stopping TaskRunner.
@@ -281,24 +280,6 @@ namespace Wammer.Station.Timeline
 				}
 				DownloadComplete(evtargs);
 			}
-			catch (WammerCloudException ex)
-			{
-				++evtargs.failureCount;
-
-				if (evtargs.failureCount >= 3)
-				{
-					logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
-					logger.Warn("Detail exception:", ex);
-				}
-				else
-				{
-					logger.WarnFormat("Unable to download attachment. Enqueue download task again: attachment object_id={0}, image_meta={1}",
-									   evtargs.attachment.object_id, meta);
-					logger.Warn("Detail exception:", ex);
-					evtargs.filepath = FileStorage.GetTempFile(evtargs.driver);
-					bodySyncQueue.Enqueue(this, this.priority);
-				}
-			}
 			finally
 			{
 				File.Delete(oldFile);
@@ -319,6 +300,20 @@ namespace Wammer.Station.Timeline
 			{
 				return evtargs.driver.user_id;
 			}
+		}
+
+		public override void ScheduleToRun()
+		{
+			var meta = evtargs.imagemeta.ToString();
+			if (++evtargs.failureCount >= 10)
+			{
+				logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
+				return;
+			}
+
+			logger.WarnFormat("Unable to download attachment. Enqueue download task again: attachment object_id={0}, image_meta={1}",
+									   evtargs.attachment.object_id, meta);
+			bodySyncQueue.Enqueue(this, priority);
 		}
 	}
 }

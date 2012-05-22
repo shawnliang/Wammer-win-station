@@ -83,6 +83,7 @@ namespace Wammer.Station
 
 				if (doc == null)
 				{
+					this.LogDebugMsg("Not found the db record that want to view");
 					TunnelToCloud(station_id, imageMeta);
 					return;
 				}
@@ -111,6 +112,7 @@ namespace Wammer.Station
 			}
 			catch (FileNotFoundException)
 			{
+				this.LogDebugMsg("Not found the local file that want to view");
 				TunnelToCloud(station_id, imageMeta);
 			}
 		}
@@ -157,6 +159,8 @@ namespace Wammer.Station
 				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
 				storage.SaveFile(fileName, new ArraySegment<byte>(downloadResult.Image));
 
+				this.LogDebugMsg("Save attachement file to " + fileName);
+
 				SetAttachementToDB(meta, downloadResult, fileName);
 
 				if (meta == ImageMeta.Origin || meta == ImageMeta.None)
@@ -187,6 +191,7 @@ namespace Wammer.Station
 
 		private void SetAttachementToDB(ImageMeta meta, DownloadResult downloadResult, string fileName)
 		{
+			this.LogDebugMsg("Save attachement data to db");
 			if (meta == ImageMeta.Origin)
 			{
 				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update

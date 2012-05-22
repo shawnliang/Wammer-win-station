@@ -8,22 +8,19 @@ namespace Wammer.Utility
 	public class BackOff
 	{
 		#region Var
-
 		private int _level;
 		private Random _random;
-
 		#endregion
 
 		#region Private Property
-
 		private ReadOnlyCollection<int> m_BackOffWindows { get; set; }
 
 		private Random m_Random
 		{
 			get { return _random ?? (_random = new Random(Guid.NewGuid().GetHashCode())); }
 		}
-
 		#endregion
+
 
 		#region Public Property
 
@@ -36,17 +33,28 @@ namespace Wammer.Utility
 			get { return _level; }
 			set
 			{
+				if (value == _level)
+					return;
+
 				if (value <= 0)
 					throw new Exception("Level value must be bigger than zero!");
 
 				if (value > m_BackOffWindows.Count)
 					throw new Exception("Level value incorrect!");
 
+				OnLevelIncreasing(EventArgs.Empty);
 				_level = value;
+				OnLevelIncreased(EventArgs.Empty);
 			}
 		}
-
 		#endregion
+
+
+		#region Event 
+		public event EventHandler LevelIncreasing;
+		public event EventHandler LevelIncreased;
+		#endregion
+
 
 		#region Constructor
 
@@ -63,6 +71,7 @@ namespace Wammer.Utility
 		}
 
 		#endregion
+
 
 		#region Private Method
 
@@ -81,7 +90,7 @@ namespace Wammer.Utility
 			if (backOffWindows.First() <= 0)
 				throw new ArgumentOutOfRangeException("backOffWindows", "First backOffWindow must bigger than zero!");
 
-			int minValue = -1;
+			var minValue = -1;
 			foreach (int backOffWindow in backOffWindows)
 			{
 				if (backOffWindow < 0)
@@ -98,6 +107,30 @@ namespace Wammer.Utility
 		}
 
 		#endregion
+
+
+		#region Protected Method
+		protected void OnLevelIncreasing(EventArgs e)
+		{
+			var handler = LevelIncreasing;
+
+			if (handler == null)
+				return;
+
+			handler(this, e);
+		}
+
+		protected void OnLevelIncreased(EventArgs e)
+		{
+			var handler = LevelIncreased;
+
+			if (handler == null)
+				return;
+
+			handler(this, e);
+		}
+		#endregion
+
 
 		#region Public Method
 
@@ -139,8 +172,8 @@ namespace Wammer.Utility
 		/// <returns></returns>
 		public int NextValue()
 		{
-			int minValue = (Level == 1) ? 0 : m_BackOffWindows[Level - 2];
-			int maxValue = m_BackOffWindows[Level - 1];
+			var minValue = (Level == 1) ? 0 : m_BackOffWindows[Level - 2];
+			var maxValue = m_BackOffWindows[Level - 1];
 
 			return m_Random.Next(minValue, maxValue);
 		}

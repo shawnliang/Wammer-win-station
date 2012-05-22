@@ -120,21 +120,6 @@
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>53</value>
-  </metadata>
-  <metadata name="checkStationTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>236, 17</value>
-  </metadata>
-  <metadata name="TrayIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="TrayMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>130, 17</value>
-  </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>474, 451</value>
   </data>
@@ -679,11 +664,17 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </value>
   </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Login</value>
+    <value>Login - Stream</value>
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
+    <value>53</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>
@@ -1074,6 +1065,9 @@
   </data>
   <data name="button1.Text" xml:space="preserve">
     <value>▼</value>
+  </data>
+  <data name="checkStationTimer.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>236, 17</value>
   </data>
   <data name="chkRememberPassword.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1546,11 +1540,17 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
   <data name="TrayIcon.Text" xml:space="preserve">
     <value>Waveface Stream</value>
   </data>
+  <data name="TrayIcon.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 17</value>
+  </data>
   <data name="TrayIcon.Visible" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 132</value>
+  </data>
+  <data name="TrayMenu.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>130, 17</value>
   </data>
   <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
