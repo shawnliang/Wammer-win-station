@@ -12,16 +12,31 @@ namespace Wammer.Station.Timeline
 		private int TotalTaskCount { get; set; }
 		private int TotalDroppedTaskCount { get; set; }
 #endif
-		
-
 		private readonly Semaphore hasItem = new Semaphore(0, int.MaxValue);
-		
 		private readonly HashSet<string> keys = new HashSet<string>();
 		private readonly Queue<IResourceDownloadTask> lowPriorityQueue = new Queue<IResourceDownloadTask>();
 		private readonly Queue<IResourceDownloadTask> mediumPriorityQueue = new Queue<IResourceDownloadTask>();
 		private readonly Queue<IResourceDownloadTask> highPriorityQueue = new Queue<IResourceDownloadTask>();
 
+		private static BodySyncQueue instance;
+
 		public event EventHandler TaskDropped;
+
+		#region Singleton
+		static BodySyncQueue()
+		{
+			instance = new BodySyncQueue();
+		}
+
+		public static BodySyncQueue Instance
+		{
+			get { return instance; }
+		}
+
+		private BodySyncQueue()
+		{
+		}
+		#endregion
 
 		#region ITaskDequeuable<IResourceDownloadTask> Members
 

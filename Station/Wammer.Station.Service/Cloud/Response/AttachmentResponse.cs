@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Model;
+using System;
 
 namespace Wammer.Cloud
 {
@@ -23,6 +24,7 @@ namespace Wammer.Cloud
 	{
 	}
 
+	[Serializable]
 	public class AttachmentInfo
 	{
 		public AttachmentInfo()
@@ -102,7 +104,7 @@ namespace Wammer.Cloud
 		public string device_id { get; set; }
 
 		#region Nested type: ImageMeta
-
+		[Serializable]
 		public class ImageMeta
 		{
 			[BsonIgnoreIfNull] public ImageMetaDetail large;
@@ -114,7 +116,7 @@ namespace Wammer.Cloud
 		#endregion
 
 		#region Nested type: ImageMetaDetail
-
+		[Serializable]
 		public class ImageMetaDetail
 		{
 			public ImageMetaDetail()

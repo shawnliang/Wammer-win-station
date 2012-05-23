@@ -29,13 +29,11 @@ namespace Wammer.Station.Timeline
 		private static ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
 
 		private ResourceDownloadEventArgs evtargs;
-		private readonly ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue;
 
-		public ResourceDownloadTask(ResourceDownloadEventArgs arg, ITaskEnqueuable<ResourceDownloadTask> bodySyncQueue, TaskPriority pri)
+		public ResourceDownloadTask(ResourceDownloadEventArgs arg, TaskPriority pri)
 			: base(RetryQueue.Instance, pri)
 		{
 			this.evtargs = arg;
-			this.bodySyncQueue = bodySyncQueue;
 		}
 
 		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)
@@ -58,11 +56,10 @@ namespace Wammer.Station.Timeline
 			return alreadyExist;
 		}
 
-		private static void DownloadComplete(ResourceDownloadEventArgs args)
+		private static void DownloadComplete(ResourceDownloadEventArgs args, Driver driver)
 		{
 			try
 			{
-				Driver driver = args.driver;
 				AttachmentInfo attachment = args.attachment;
 				ImageMeta imagemeta = args.imagemeta;
 				string filepath = args.filepath;
@@ -256,9 +253,6 @@ namespace Wammer.Station.Timeline
 
 		protected override void Run()
 		{
-			if (evtargs == null || bodySyncQueue == null)
-				return; // evtargs and bodySyncQueue can be null for stopping TaskRunner.
-
 			string meta = evtargs.imagemeta.ToString();
 			string oldFile = evtargs.filepath;
 
@@ -273,12 +267,19 @@ namespace Wammer.Station.Timeline
 					return;
 				}
 
-				var api = new AttachmentApi(evtargs.driver);
+				Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", evtargs.user_id));
+				if (user == null)
+				{
+					logger.Debug("drop download task because user does not exist anymore: " + evtargs.user_id);
+					return;
+				}
+
+				var api = new AttachmentApi(user);
 				using (WebClient client = new DefaultWebClient())
 				{
 					api.AttachmentView(client, evtargs, StationRegistry.StationId);
 				}
-				DownloadComplete(evtargs);
+				DownloadComplete(evtargs, user);
 			}
 			finally
 			{
@@ -298,7 +299,7 @@ namespace Wammer.Station.Timeline
 		{
 			get
 			{
-				return evtargs.driver.user_id;
+				return evtargs.user_id;
 			}
 		}
 
@@ -313,7 +314,7 @@ namespace Wammer.Station.Timeline
 
 			logger.WarnFormat("Unable to download attachment. Enqueue download task again: attachment object_id={0}, image_meta={1}",
 									   evtargs.attachment.object_id, meta);
-			bodySyncQueue.Enqueue(this, priority);
+			BodySyncQueue.Instance.Enqueue(this, priority);
 		}
 	}
 }
