@@ -315,10 +315,6 @@ namespace Wammer.Station.Service
 			viewHandler = new AttachmentViewHandler(stationId);
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),
 			                          viewHandler);
-
-			viewHandler.FileDownloadStarted += downstreamMonitor.OnDownstreamTaskEnqueued;
-			viewHandler.FileDownloadInProgress += downstreamMonitor.OnDownstreamTaskInProgress;
-			viewHandler.FileDownloadFinished += downstreamMonitor.OnDownstreamTaskDone;
 		}
 
 		private void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
