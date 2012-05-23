@@ -241,7 +241,7 @@ namespace Waveface
 
                     Image _img = Image.FromStream(_wRep.GetResponseStream());
 
-                    if (Environment.GetCommandLineArgs().Length == 1)
+                    if ((Environment.GetCommandLineArgs().Length == 1) || (_item.PostItemType == PostItemType.Thumbnail))
                     {
                         if (!File.Exists(_localPath))
                         {
@@ -417,7 +417,7 @@ namespace Waveface
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM,
                                                                       false);
 
-                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath , _fileNameM);
+                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath, _fileNameM);
 
                 _filePathMediums.Add(_localFileM);
                 _urlMediums.Add(_urlM);

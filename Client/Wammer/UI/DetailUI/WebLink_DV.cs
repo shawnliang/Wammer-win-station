@@ -183,11 +183,11 @@ namespace Waveface.DetailUI
 
             _htmlMainAndComment = _htmlMainAndComment.Replace("[Text]", _content);
 
-            _htmlMainAndComment += MyParent.GenCommentHTML(Post, (Post.preview.url != null));
+            _htmlMainAndComment += MyParent.GenCommentHTML(Post, (Post.type == "link"));
 
             _htmlMainAndComment = HtmlUtility.MakeLink(_htmlMainAndComment, m_clickableURL);
 
-            if (Post.preview.url != null)
+            if (Post.type == "link")
             {
                 Preview_OpenGraph _p = Post.preview;
                 StringBuilder _s = new StringBuilder();
@@ -227,7 +227,7 @@ namespace Waveface.DetailUI
             webBrowser.DocumentText = "<html>" + _minimaxJS +
                                           "<style type=\"text/css\">img {height: auto; max-width: 95%;}</style>" +
                                           "<body link='rgb(89, 154, 174)' bgcolor='rgb(255, 255, 255)'><font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'>" +
-                                          HtmlUtility.TrimScript(_htmlMainAndComment + m_post.soul) +
+                                          HtmlUtility.TrimScript(_htmlMainAndComment + ((Post.type == "link") ? m_post.soul : "")) +
                                           "</font></body></html>";
         }
 
