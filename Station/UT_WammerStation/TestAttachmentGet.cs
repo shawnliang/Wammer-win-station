@@ -132,30 +132,13 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
+		[ExpectedException(typeof(WebException))]
 		public void TestGetAttachmentInfo_NoObjectId()
 		{
-
-			WebClient agent = new WebClient();
-			try
+			using (var agent = new WebClient())
 			{
-				string output = agent.DownloadString("http://localhost:8080/api/get");
+				agent.DownloadString("http://localhost:8080/api/get");
 			}
-			catch (WebException e)
-			{
-				HttpWebResponse res = (HttpWebResponse)e.Response;
-				Assert.AreEqual(HttpStatusCode.BadRequest, res.StatusCode);
-
-				using (StreamReader r = new StreamReader(res.GetResponseStream()))
-				{
-					CloudResponse json = fastJSON.JSON.Instance.ToObject<CloudResponse>(
-						r.ReadToEnd());
-					Assert.AreEqual(-1, json.api_ret_code);
-					Assert.AreEqual((int)HttpStatusCode.BadRequest, json.status);
-					Assert.AreEqual("missing parameter: object_id" , json.api_ret_message);
-				}
-				return;
-			}
-			Assert.Fail("expected error is not thrown");
 		}
 
 		[TestMethod]
