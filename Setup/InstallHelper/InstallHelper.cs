@@ -418,6 +418,51 @@ namespace Wammer.Station
 				Logger.Warn("Unable to delete service collection from MongoDB", e);
 			}
 
+			try
+			{
+				LoginedSessionCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete LoginedSession collection from mongoDB", e);
+			}
+
+			try
+			{
+				QueuedTaskCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete QueuedTaskCollection from mongoDB", e);
+			}
+
+			try
+			{
+				PostUploadTasksCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete PostUploadTasksCollection from mongoDB", e);
+			}
+
+			try
+			{
+				PostCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete PostCollection from mongoDB", e);
+			}
+
+			try
+			{
+				UserTrackCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete UserTrackCollection from mongoDB", e);
+			}
+
 			RemoveDirectory(Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"waveface"));
