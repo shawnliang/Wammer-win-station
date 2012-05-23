@@ -41,10 +41,10 @@ namespace Wammer.Station
 
 		private void UpdateType(PostInfo post)
 		{
-			string type = Parameters[CloudServer.PARAM_TYPE];
+			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type != null)
 			{
-				string postID = Parameters[CloudServer.PARAM_POST_ID];
+				var postID = Parameters[CloudServer.PARAM_POST_ID];
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("type", type));
 
 				post.type = type;
@@ -154,6 +154,18 @@ namespace Wammer.Station
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("favorite", favorite));
 
 				post.favorite = int.Parse(favorite);
+			}
+		}
+
+		private void UpdateSoul(PostInfo post)
+		{
+			string postID = Parameters[CloudServer.PARAM_POST_ID];
+			string type = Parameters[CloudServer.PARAM_TYPE];
+			if (type != null && type != "link")
+			{
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("soul", null));
+				post.soul = string.Empty;
+				return;
 			}
 		}
 
@@ -320,6 +332,7 @@ namespace Wammer.Station
 			UpdateAttachementIDArray(post);
 			UpdateCoverAttach(post);
 			UpdateFavorite(post);
+			UpdateSoul(post);
 
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.UpdatePost, Parameters);

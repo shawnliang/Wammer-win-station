@@ -9,14 +9,12 @@ namespace Wammer.Station
 	{
 		public override void HandleRequest()
 		{
-			string object_id = Parameters["object_id"];
-			//string session_token = Parameters["session_token"];
-			//string apikey = Parameters["apikey"];
+			CheckParameter(CloudServer.PARAM_OBJECT_ID);
 
-			if (object_id == null)
-				throw new FormatException("missing parameter: object_id");
+			var object_id = Parameters[CloudServer.PARAM_OBJECT_ID];
 
-			Attachment doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
+			var doc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
+
 			if (doc == null)
 				throw new WammerStationException("Resource not found: " + object_id, (int) StationLocalApiError.NotFound);
 

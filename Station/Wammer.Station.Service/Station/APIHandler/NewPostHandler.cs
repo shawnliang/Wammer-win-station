@@ -100,7 +100,7 @@ namespace Wammer.Station
 			           		comment_count = 0,
 			           		comments = new List<Comment>(),
 			           		preview = new Preview(),
-			           		event_time = timeStamp.ToString("u"),
+			           		event_time = TimeHelper.ToCloudTimeString(timeStamp),
 			           		type = type
 			           	};
 

@@ -255,19 +255,25 @@ namespace Wammer.Station
 				}
 			}
 
-			try
+			
+			//Remove all user data
+			if (removeAllData)
 			{
-				//Remove all user data
-				if (removeAllData)
+				var retryTimes = 0;
+				while (retryTimes++ < 3)
 				{
 					if (Directory.Exists(existingDriver.folder))
 					{
-						Directory.Delete(existingDriver.folder, true);
+						try
+						{
+							Directory.Delete(existingDriver.folder, true);
+							break;
+						}
+						catch
+						{
+						}
 					}
 				}
-			}
-			catch 
-			{
 			}
 
 			//Remove the user from db, and stop service this user

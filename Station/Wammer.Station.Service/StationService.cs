@@ -94,7 +94,7 @@ namespace Wammer.Station.Service
 				m_BackOff.ResetLevel();
 				while (!Database.TestConnection(1))
 				{
-					System.Threading.Thread.Sleep(m_BackOff.NextValue());
+					Thread.Sleep(m_BackOff.NextValue());
 					System.Windows.Forms.Application.DoEvents();
 					m_BackOff.IncreaseLevel();
 				}

@@ -288,7 +288,8 @@ namespace Wammer.Station.Timeline
 			}
 			finally
 			{
-				File.Delete(oldFile);
+				if (File.Exists(oldFile))
+					File.Delete(oldFile);
 			}
 		}
 

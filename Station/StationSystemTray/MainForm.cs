@@ -1014,7 +1014,7 @@ namespace StationSystemTray
 				             	{
 				             		Width = 750,
 				             		Height = 600,
-				             		Text = Text,
+				             		Text = Resources.SIGNUP_PAGE_TITLE,
 				             		StartPosition = FormStartPosition.CenterParent,
 				             		Icon = Icon
 				             	};
@@ -1022,7 +1022,7 @@ namespace StationSystemTray
 
 				browser.Navigated += (s, ex) =>
 				                     	{
-				                     		Uri url = browser.Url;
+				                     		var url = browser.Url;
 				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
 				                     		                  RegexOptions.IgnoreCase))
 				                     		{
@@ -1037,9 +1037,9 @@ namespace StationSystemTray
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					Uri url = browser.Url;
-					NameValueCollection parameters = HttpUtility.ParseQueryString(url.Query);
-					string apiRetCode = parameters["api_ret_code"];
+					var url = browser.Url;
+					var parameters = HttpUtility.ParseQueryString(url.Query);
+					var apiRetCode = parameters["api_ret_code"];
 
 					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
 					{
@@ -1048,11 +1048,11 @@ namespace StationSystemTray
 						return;
 					}
 
-					string sessionToken = parameters["session_token"];
-					string userID = parameters["user_id"];
-					string email = parameters["email"];
-					string password = parameters["password"];
-					string accountType = parameters["account_type"];
+					var sessionToken = parameters["session_token"];
+					var userID = parameters["user_id"];
+					var email = parameters["email"];
+					var password = parameters["password"];
+					var accountType = parameters["account_type"];
 
 					if (accountType.Equals("native", StringComparison.CurrentCultureIgnoreCase))
 					{
@@ -1066,7 +1066,7 @@ namespace StationSystemTray
 
 					m_LoginAction = () => LoginAndLaunchClient(sessionToken, userID);
 
-					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 					if (driver == null)
 					{
 						AddUserResponse res = StationController.AddUser(userID, sessionToken);
