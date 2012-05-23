@@ -144,7 +144,7 @@ namespace Wammer.Cloud
 			{
 				foreach (var pair in parameters)
 				{
-					if (pair.Key == PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+					if (PARAM_SESSION_TOKEN.Equals(pair.Key) && string.Empty.Equals(pair.Value))
 						throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
 					buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -180,7 +180,7 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in parameters)
 			{
-				if (pair.Key == PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+				if (PARAM_SESSION_TOKEN.Equals(pair.Key)  && string.Empty.Equals(pair.Value))
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -291,7 +291,7 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in param)
 			{
-				if (pair.Key == PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+				if (PARAM_SESSION_TOKEN.Equals(pair.Key) && string.Empty.Equals(pair.Value))
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
@@ -369,7 +369,7 @@ namespace Wammer.Cloud
 			var buf = new StringBuilder();
 			foreach (var pair in param)
 			{
-				if (pair.Key == PARAM_SESSION_TOKEN && pair.Value == string.Empty)
+				if (PARAM_SESSION_TOKEN.Equals(pair.Key) && string.Empty.Equals(pair.Value))
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
 				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));

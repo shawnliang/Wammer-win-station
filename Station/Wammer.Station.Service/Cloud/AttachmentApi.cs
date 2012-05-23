@@ -145,6 +145,7 @@ namespace Wammer.Cloud
 			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
+			logger.Debug("attachments/set_sync: " + object_id);
 		}
 
 		public static void SetSync(WebClient agent, ICollection<string> object_ids, string session_token)
@@ -169,6 +170,7 @@ namespace Wammer.Cloud
 			};
 
 			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
+			logger.Debug("attachments/set_sync: " + objIdArray);
 		}
 
 		public static AttachmentInfo GetInfo(WebClient agent, string object_id, string session_token)

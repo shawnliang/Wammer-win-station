@@ -43,7 +43,7 @@ namespace Wammer.Station
 			             	{
 			             		location = baseurl,
 			             		diskusage = new List<DiskUsage>(),
-			             		upnp = PublicPortMapping.Instance.GetUPnPInfo(),
+			             		upnp = new UPnPInfo { status = false },
 			             		computer_name = Environment.MachineName,
 			             		version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
 			             	};

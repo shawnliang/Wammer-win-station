@@ -50,7 +50,6 @@ namespace Wammer.Station.Service
 		#endregion
 
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
-		private readonly BodySyncQueue bodySyncTaskQueue = new BodySyncQueue();
 		private TaskRunner<IResourceDownloadTask>[] bodySyncRunners;
 		private HttpServer functionServer;
 		private HttpServer managementServer;
@@ -122,7 +121,7 @@ namespace Wammer.Station.Service
 				functionServer = new HttpServer(9981); // TODO: remove hard code
 
 
-				stationTimer = new StationTimer(bodySyncTaskQueue, stationId);
+				stationTimer = new StationTimer(BodySyncQueue.Instance, stationId);
 
 				functionServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
@@ -140,7 +139,7 @@ namespace Wammer.Station.Service
 				InitCloudForwarder(cloudForwarder);
 
 				var downstreamMonitor = new AttachmentDownloadMonitor();
-				bodySyncTaskQueue.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
+				BodySyncQueue.Instance.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
 
 				InitFunctionServerHandlers(attachmentHandler, cloudForwarder, downstreamMonitor);
 
@@ -153,13 +152,13 @@ namespace Wammer.Station.Service
 				bodySyncRunners = new TaskRunner<IResourceDownloadTask>[bodySyncThreadNum];
 				for (int i = 0; i < bodySyncThreadNum; i++)
 				{
-					var bodySyncRunner = new TaskRunner<IResourceDownloadTask>(bodySyncTaskQueue);
+					var bodySyncRunner = new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance);
 					bodySyncRunners[i] = bodySyncRunner;
 
 					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
 					bodySyncRunner.Start();
 				}
-				bodySyncTaskQueue.TaskDropped += downstreamMonitor.OnDownstreamTaskDone;
+				BodySyncQueue.Instance.TaskDropped += downstreamMonitor.OnDownstreamTaskDone;
 
 				m_PostUploadRunner.Start();
 
@@ -232,7 +231,7 @@ namespace Wammer.Station.Service
 		{
 			try
 			{
-				bodySyncTaskQueue.RemoveAllByUserId(e.UserId);
+				BodySyncQueue.Instance.RemoveAllByUserId(e.UserId);
 			}
 			catch (Exception ex)
 			{
@@ -334,7 +333,6 @@ namespace Wammer.Station.Service
 
 		private void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
-			PublicPortMapping.Instance.DriverAdded(sender, e);
 		}
 
 		private void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
@@ -345,7 +343,7 @@ namespace Wammer.Station.Service
 				new UserTracksApi()
 				);
 
-			var downloader = new ResourceDownloader(bodySyncTaskQueue, stationId);
+			var downloader = new ResourceDownloader(BodySyncQueue.Instance, stationId);
 			syncer.PostsRetrieved += downloader.PostRetrieved;
 			syncer.PullTimeline(e.Driver);
 		}
@@ -377,8 +375,6 @@ namespace Wammer.Station.Service
 
 			managementServer.Stop();
 			managementServer.Close();
-
-			PublicPortMapping.Instance.Close();
 		}
 
 		private void InitResourceBasePath()
