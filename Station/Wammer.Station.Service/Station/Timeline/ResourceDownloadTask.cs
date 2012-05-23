@@ -281,6 +281,11 @@ namespace Wammer.Station.Timeline
 				}
 				DownloadComplete(evtargs, user);
 			}
+			catch (Exception e)
+			{
+				string msg = string.Format("Unabel to download attachment {0}", evtargs.attachment.object_id);
+				throw new Exception(msg , e);
+			}
 			finally
 			{
 				File.Delete(oldFile);

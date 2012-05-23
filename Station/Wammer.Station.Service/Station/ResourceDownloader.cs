@@ -144,12 +144,12 @@ namespace Wammer.Station
 					{
 						if (CloudHasOriginAttachment(attachment.object_id, driver))
 						{
-							this.LogDebugMsg(string.Format("Attachement {0} found in cloud...", attachment.object_id));
+							//logger.DebugFormat("Attachement {0} found in cloud... Go download it", attachment.object_id);
 							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 						}
 						else
 						{
-							this.LogDebugMsg(string.Format("Attachement {0} not found in cloud...", attachment.object_id));
+							//logger.DebugFormat("Attachement {0} NOT found in cloud...", attachment.object_id);
 						}
 					}
 
