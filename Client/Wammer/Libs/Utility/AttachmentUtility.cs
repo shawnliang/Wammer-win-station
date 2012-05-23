@@ -26,7 +26,7 @@ namespace Waveface
                 string _fileNameM = string.Empty;
                 Main.Current.RT.REST.attachments_getRedirectURL_Image(_a, "medium", out _urlM, out _fileNameM, false);
 
-                string _localFileM = Path.Combine( Main.GCONST.ImageCachePath , _fileNameM);
+                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath, _fileNameM);
 
                 files.Add(_a.object_id, _localFileM);
 
@@ -78,7 +78,7 @@ namespace Waveface
 
             string object_id = a.object_id;
             string _imageType = imageType;
-		
+
 
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
@@ -105,23 +105,23 @@ namespace Waveface
 
             if (imageType == ORIGIN)
             {
-                if (a.url != "")
-                {
-                    _imageType = ORIGIN;
+                // if (a.url != "")
+                //{
+                _imageType = ORIGIN;
 
-                    url = _url;
-					fileName = a.object_id + Path.GetExtension(a.file_name);
+                url = _url;
+                fileName = a.object_id + Path.GetExtension(a.file_name);
 
-                    return _imageType;
-                }
+                return _imageType;
+                //}
             }
 
             if ((imageType == SMALL) || (imageType == MEDIUM))
                 url = "[IP]" + _urlX + "&" + "image_meta=" + _imageType;
             else
-                url = _url; //@  +"&" + "image_meta=" + _imageType;			
+                url = _url; // + "&" + "image_meta=" + _imageType;			
 
-			fileName = a.object_id + "_" + _imageType + ".dat";
+            fileName = a.object_id + "_" + _imageType + ".dat";
             return _imageType;
         }
 

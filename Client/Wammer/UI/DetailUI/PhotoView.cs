@@ -372,7 +372,7 @@ namespace Waveface.DetailUI
                 Dictionary<string, string> _params = new Dictionary<string, string>();
                 _params.Add("cover_attach", _cover_attach);
 
-                Post _retPost = Main.Current.PostUpdate(m_post, _params, true);
+                Post _retPost = Main.Current.PostUpdate(m_post, _params);
 
                 if (_retPost == null)
                 {

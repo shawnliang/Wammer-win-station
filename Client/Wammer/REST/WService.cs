@@ -22,6 +22,16 @@ namespace Waveface.API.V2
 
         #region Properties
 
+#if DEBUG
+        public static string StationIP
+        {
+            get { return "http://127.0.0.1:9981"; }
+            set { }
+        }
+#else
+        public static string StationIP { get; set; }
+#endif
+
         public static string CloudIP
         {
             get
@@ -49,8 +59,6 @@ namespace Waveface.API.V2
         {
             get { return CloudIP + "/v2"; }
         }
-
-        public static string StationIP { get; set; }
 
         public static string CloudBaseURL
         {

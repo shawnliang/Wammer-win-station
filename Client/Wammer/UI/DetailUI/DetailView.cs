@@ -611,7 +611,7 @@ namespace Waveface
         {
             Cursor = Cursors.WaitCursor;
 
-            Main.Current.ChangePostFavorite(m_post, true);
+            Main.Current.ChangePostFavorite(m_post);
 
             Cursor = Cursors.Default;
         }
