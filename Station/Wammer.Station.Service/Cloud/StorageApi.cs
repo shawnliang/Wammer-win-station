@@ -70,5 +70,5 @@ namespace Wammer.Cloud
 	public class CloudStorageType
 	{
 		public const string DROPBOX = "dropbox";
-	};
+	}
 }

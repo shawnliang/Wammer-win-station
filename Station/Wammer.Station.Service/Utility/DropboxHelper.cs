@@ -52,9 +52,9 @@ namespace Wammer.Utility
 
 		public static string GetAccount()
 		{
-			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			string configDbPath = Path.Combine(appData, configDb);
-			string email = "";
+			var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			var configDbPath = Path.Combine(appData, configDb);
+			var email = string.Empty;
 			SQLiteConnection conn = null;
 
 			try

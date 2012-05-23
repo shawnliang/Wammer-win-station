@@ -102,11 +102,7 @@ namespace Wammer.Station
 
 		private static readonly object lockObj = new object();
 
-		static TaskQueue()
-		{
-			//Init();
-		}
-
+	
 		public static void Init()
 		{
 			PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE).IncrementBy(mqHighPriority.Count + mqMediumPriority.Count +

@@ -141,7 +141,7 @@ namespace Wammer.Station.Service
 				var downstreamMonitor = new AttachmentDownloadMonitor();
 				BodySyncQueue.Instance.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
 
-				InitFunctionServerHandlers(attachmentHandler, cloudForwarder, downstreamMonitor);
+				InitFunctionServerHandlers(attachmentHandler, cloudForwarder);
 
 
 				logger.Debug("Start function server");
@@ -239,8 +239,7 @@ namespace Wammer.Station.Service
 			}
 		}
 
-		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder,
-		                                        AttachmentDownloadMonitor downstreamMonitor)
+		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder)
 		{
 			logger.Debug("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);
@@ -339,7 +338,7 @@ namespace Wammer.Station.Service
 				new UserTracksApi()
 				);
 
-			var downloader = new ResourceDownloader(BodySyncQueue.Instance, stationId);
+			var downloader = new ResourceDownloader(BodySyncQueue.Instance);
 			syncer.PostsRetrieved += downloader.PostRetrieved;
 			syncer.PullTimeline(e.Driver);
 		}

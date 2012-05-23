@@ -72,7 +72,7 @@ namespace Wammer.Station
 
 		public DriverRemovedEventArgs(string user_id)
 		{
-			this.UserId = user_id;
+			UserId = user_id;
 		}
 	}
 }

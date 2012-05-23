@@ -39,19 +39,11 @@ namespace StationSystemTray
 			InitializeComponent();
 
 			m_CurrentUserSession = currentUserSession;
-
-			lblUserEmail.Text = string.Empty;
-			AdjustUserEMail();
 		}
 
 		private void AdjustRemoveButton()
 		{
 			btnUnlink.Enabled = !string.IsNullOrEmpty(cmbStations.Text);
-		}
-
-		private void AdjustUserEMail()
-		{
-			lblUserEmail.Visible = !string.IsNullOrEmpty(cmbStations.Text);
 		}
 
 		private void SetStorageUsage()
@@ -94,19 +86,18 @@ namespace StationSystemTray
 			                    		NickName = item.user.nickname,
 			                    		DisplayName =
 			             	(loginedUser != null && item.user.email == loginedUser.user.email)
-			             		? item.user.nickname + " " + Properties.Resources.CURRENT_ACCOUT
-			             		: item.user.nickname
+								? item.user.email + " " + Resources.CURRENT_ACCOUT
+								: item.user.email
 			                    	}).ToList();
 
 			lblStorageUsageValue.Text = "0 MB";
-			lblUserEmail.Text = string.Empty;
 
 			cmbStations.DisplayMember = "DisplayName";
 			cmbStations.ValueMember = "User";
 			cmbStations.DataSource = users;
 
 			if (loginedUser != null)
-				cmbStations.Text = loginedUser.user.nickname + " " + Properties.Resources.CURRENT_ACCOUT;
+				cmbStations.Text = loginedUser.user.nickname + " " + Resources.CURRENT_ACCOUT;
 			AdjustRemoveButton();
 		}
 
@@ -160,20 +151,7 @@ namespace StationSystemTray
 
 			RefreshAccountList();
 		}
-
-		private void cmbStations_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			var user = cmbStations.SelectedValue as UserInfo;
-
-			if (user == null)
-			{
-				lblUserEmail.Text = string.Empty;
-				return;
-			}
-
-			lblUserEmail.Text = user.email;
-		}
-
+		
 		private void button1_Click(object sender, EventArgs e)
 		{
 			this.Close();
@@ -182,7 +160,6 @@ namespace StationSystemTray
 		private void cmbStations_TextChanged(object sender, EventArgs e)
 		{
 			AdjustRemoveButton();
-			AdjustUserEMail();
 			SetStorageUsage();
 		}
 	}

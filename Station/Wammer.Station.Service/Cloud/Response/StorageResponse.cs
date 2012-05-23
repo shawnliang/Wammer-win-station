@@ -40,7 +40,7 @@ namespace Wammer.Cloud
 
 	public class StorageLinkResponse : StorageResponse
 	{
-		public StorageInfo storages;
+		public StorageInfo storages { get; set; }
 
 		public StorageLinkResponse()
 		{
@@ -64,7 +64,7 @@ namespace Wammer.Cloud
 
 	public class StorageCheckResponse : StorageResponse
 	{
-		public StorageStatus storages;
+		public StorageStatus storages { get; set; }
 
 		public StorageCheckResponse()
 		{
@@ -90,7 +90,7 @@ namespace Wammer.Cloud
 
 	public class StorageUsageResponse : CloudResponse
 	{
-		public Storages storages;
+		public Storages storages { get; set; }
 
 		public StorageUsageResponse()
 		{

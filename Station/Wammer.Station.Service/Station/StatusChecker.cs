@@ -13,7 +13,7 @@ namespace Wammer.Station
 {
 	public class IsPrimaryChangedEvtArgs : EventArgs
 	{
-		public Driver driver;
+		public Driver driver { get; set; }
 
 		public IsPrimaryChangedEvtArgs(Driver driver)
 		{

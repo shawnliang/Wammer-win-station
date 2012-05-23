@@ -165,7 +165,6 @@ namespace Wammer.Station
 			{
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("soul", null));
 				post.soul = string.Empty;
-				return;
 			}
 		}
 

@@ -31,7 +31,6 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingDialog));
 			this.btnUnlink = new System.Windows.Forms.Button();
 			this.cmbStations = new System.Windows.Forms.ComboBox();
-			this.lblUserEmail = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.lblStorageUsageValue = new System.Windows.Forms.Label();
@@ -53,13 +52,7 @@
 			this.cmbStations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbStations.FormattingEnabled = true;
 			this.cmbStations.Name = "cmbStations";
-			this.cmbStations.SelectedIndexChanged += new System.EventHandler(this.cmbStations_SelectedIndexChanged);
 			this.cmbStations.TextChanged += new System.EventHandler(this.cmbStations_TextChanged);
-			// 
-			// lblUserEmail
-			// 
-			resources.ApplyResources(this.lblUserEmail, "lblUserEmail");
-			this.lblUserEmail.Name = "lblUserEmail";
 			// 
 			// button1
 			// 
@@ -76,7 +69,6 @@
 			this.groupBox1.Controls.Add(this.lblStorageUsage);
 			this.groupBox1.Controls.Add(this.cmbStations);
 			this.groupBox1.Controls.Add(this.btnUnlink);
-			this.groupBox1.Controls.Add(this.lblUserEmail);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.TabStop = false;
 			// 
@@ -112,7 +104,6 @@
 
 		private System.Windows.Forms.Button btnUnlink;
 		private System.Windows.Forms.ComboBox cmbStations;
-		private System.Windows.Forms.Label lblUserEmail;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label lblStorageUsageValue;

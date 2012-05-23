@@ -1208,9 +1208,9 @@ namespace StationSystemTray
 		{
 			m_Timer.Stop();
 
-			string iconText = TrayIcon.BalloonTipText;
-			float upRemainedCount = m_UpRemainedCountCounter.NextValue();
-			float downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
+			var iconText = TrayIcon.BalloonTipText;
+			var upRemainedCount = m_UpRemainedCountCounter.NextValue();
+			var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
 
 			if (upRemainedCount > 0 || downloadRemainedCount > 0)
 			{
@@ -1221,11 +1221,11 @@ namespace StationSystemTray
 
 				if (CurrentState.Value == StationStateEnum.Syncing)
 				{
-					float upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
-					float downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
+					var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
+					var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
 
-					string upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
-					string downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
+					var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
+					var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
 
 					upSpeed = upRemainedCount == 0 ? 0 : ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
 					downloadSpeed = downloadSpeed == 0 ? 0 : ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
