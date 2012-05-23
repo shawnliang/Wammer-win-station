@@ -67,7 +67,7 @@ namespace Waveface.PostUI
                         Dictionary<string, string> _params = new Dictionary<string, string>();
                         _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)));
 
-                        Main.Current.PostUpdate(MyParent.Post, _params, true);
+                        Main.Current.PostUpdate(MyParent.Post, _params);
                     }
                 }
                 else
@@ -84,7 +84,7 @@ namespace Waveface.PostUI
                     if (previews != null)
                         _params.Add("preview", previews);
 
-                    Main.Current.PostUpdate(MyParent.Post, _params, true);
+                    Main.Current.PostUpdate(MyParent.Post, _params);
                 }
 
                 MyParent.SetDialogResult_Yes_AndClose();

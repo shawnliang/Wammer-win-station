@@ -455,7 +455,7 @@ namespace Waveface
                     _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(pureTextBox.Text, 80000)));
                     _params.Add("type", "text");
 
-                    Main.Current.PostUpdate(Post, _params, true);
+                    Main.Current.PostUpdate(Post, _params);
                 }
 
                 SetDialogResult_Yes_AndClose();

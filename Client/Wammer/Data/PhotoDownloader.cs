@@ -241,13 +241,13 @@ namespace Waveface
 
                     Image _img = Image.FromStream(_wRep.GetResponseStream());
 
-                    //if (Environment.GetCommandLineArgs().Length == 1)
-                    //{
+                    if (Environment.GetCommandLineArgs().Length == 1)
+                    {
                         if (!File.Exists(_localPath))
                         {
                             _img.Save(_localPath);
                         }
-                    //}
+                    }
 
                     _img = null;
 

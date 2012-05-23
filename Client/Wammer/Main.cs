@@ -1006,7 +1006,7 @@ namespace Waveface
             return _time;
         }
 
-        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams, bool refreshUI)
+        public Post PostUpdate(Post post, Dictionary<string, string> optionalParams)
         {
             MR_posts_update _update = null;
 
@@ -1021,7 +1021,7 @@ namespace Waveface
                     return null;
                 }
 
-                RefreshSinglePost(_update.post, refreshUI);
+                RefreshSinglePost(_update.post);
             }
             catch (Exception _e)
             {
@@ -1037,7 +1037,7 @@ namespace Waveface
             return _update.post;
         }
 
-        public bool ChangePostFavorite(Post post, bool refreshUI)
+        public bool ChangePostFavorite(Post post)
         {
             try
             {
@@ -1060,7 +1060,7 @@ namespace Waveface
                     return false;
                 }
 
-                RefreshSinglePost(_update.post, refreshUI);
+                RefreshSinglePost(_update.post);
             }
             catch (Exception _e)
             {
@@ -1124,12 +1124,11 @@ namespace Waveface
             }
         }
 
-        public void RefreshSinglePost(Post post, bool refreshUI)
+        public void RefreshSinglePost(Post post)
         {
             ReplacePostInList(post, RT.CurrentGroupPosts);
 
-            if (refreshUI)
-                ShowPostInTimeline();
+            ShowPostInTimeline();
         }
 
         private bool ReplacePostInList(Post post, List<Post> posts)
