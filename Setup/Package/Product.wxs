@@ -193,9 +193,6 @@
       <ComponentRef Id="StationSystemTray.resources.dll"/>
       <ComponentRef Id="SystemTrayML.xml"/>
       <ComponentRef Id="System.Data.SQLite.dll"/>
-      <ComponentRef Id="TCMPortMapper.dll"/>
-      <ComponentRef Id="miniupnp.dll"/>
-      <ComponentRef Id="natpmp.dll"/>
       <ComponentRef Id="CommonLibs.dll"/>
     </ComponentGroup>
 
@@ -265,16 +262,7 @@
       <Component Guid="*">
         <File Id="SystemTrayML.xml" Source="$(var.StationSystemTray.ProjectDir)\SystemTrayML.xml" KeyPath="yes"/>
       </Component>
-      <Component Guid="*">
-        <File Id="TCMPortMapper.dll" Source="$(var.Wammer.Station.Service.TargetDir)\TCMPortMapper.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Guid="*">
-        <File Id="miniupnp.dll" Source="$(var.Wammer.Station.Service.TargetDir)\miniupnp.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Guid="*">
-        <File Id="natpmp.dll" Source="$(var.Wammer.Station.Service.TargetDir)\natpmp.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      
+     
       <!-- client files -->
       <Component Guid="*">
         <File Id="AppLimit.NetSparkle.dll" Source="$(var.Wammer.TargetDir)\AppLimit.NetSparkle.dll" KeyPath="yes" Checksum="yes"/>

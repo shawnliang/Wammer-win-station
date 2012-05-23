@@ -333,7 +333,6 @@ namespace Wammer.Station.Service
 
 		private void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
-			PublicPortMapping.Instance.DriverAdded(sender, e);
 		}
 
 		private void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
@@ -376,8 +375,6 @@ namespace Wammer.Station.Service
 
 			managementServer.Stop();
 			managementServer.Close();
-
-			PublicPortMapping.Instance.Close();
 		}
 
 		private void InitResourceBasePath()
