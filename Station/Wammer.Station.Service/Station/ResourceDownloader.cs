@@ -19,7 +19,7 @@ namespace Wammer.Station
 			failureCount = 0;
 		}
 
-		public Driver driver { get; set; }
+		public string user_id { get; set; }
 		public AttachmentInfo attachment { get; set; }
 		public ImageMeta imagemeta { get; set; }
 		public string filepath { get; set; }
@@ -49,7 +49,7 @@ namespace Wammer.Station
 		{
 			var evtargs = new ResourceDownloadEventArgs
 			              	{
-			              		driver = driver,
+			              		user_id = driver.user_id,
 			              		attachment = attachment,
 			              		imagemeta = meta,
 			              		filepath = FileStorage.GetTempFile(driver)
@@ -68,8 +68,7 @@ namespace Wammer.Station
 			else
 				pri = TaskPriority.Low;
 
-			//bodySyncQueue.Enqueue(new NamedTask(DownstreamResource, evtargs, evtargs.attachment.object_id + evtargs.imagemeta), pri);
-			bodySyncQueue.Enqueue(new ResourceDownloadTask(evtargs, bodySyncQueue, pri), pri);
+			bodySyncQueue.Enqueue(new ResourceDownloadTask(evtargs, pri), pri);
 		}
 
 		private void DownloadMissedResource(Driver driver, IEnumerable<PostInfo> posts)
@@ -145,12 +144,12 @@ namespace Wammer.Station
 					{
 						if (CloudHasOriginAttachment(attachment.object_id, driver))
 						{
-							this.LogDebugMsg(string.Format("Attachement {0} found in cloud...", attachment.object_id));
+							//logger.DebugFormat("Attachement {0} found in cloud... Go download it", attachment.object_id);
 							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 						}
 						else
 						{
-							this.LogDebugMsg(string.Format("Attachement {0} not found in cloud...", attachment.object_id));
+							//logger.DebugFormat("Attachement {0} NOT found in cloud...", attachment.object_id);
 						}
 					}
 

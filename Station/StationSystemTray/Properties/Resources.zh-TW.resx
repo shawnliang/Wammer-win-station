@@ -205,6 +205,9 @@
   <data name="ResumingWFService" xml:space="preserve">
     <value>正在重啟同步...</value>
   </data>
+  <data name="SIGNUP_PAGE_TITLE" xml:space="preserve">
+    <value>註冊 - Stream</value>
+  </data>
   <data name="StartingWFService" xml:space="preserve">
     <value>正在啟動 Stream...</value>
   </data>

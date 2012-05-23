@@ -5,6 +5,7 @@ using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -75,7 +76,7 @@ namespace Wammer.Station
 			var newPostComment = new Comment
 			                     	{
 			                     		content = newPostContent,
-			                     		timestamp = currentTimeStamp.ToString("u"),
+			                     		timestamp = TimeHelper.ToCloudTimeString(currentTimeStamp),
 			                     		code_name = codeName,
 			                     		creator_id = creatorID
 			                     	};

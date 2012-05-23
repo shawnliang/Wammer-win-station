@@ -234,6 +234,9 @@
   <data name="ResumingWFService" xml:space="preserve">
     <value>Resuming sync...</value>
   </data>
+  <data name="SIGNUP_PAGE_TITLE" xml:space="preserve">
+    <value>Signup - Stream</value>
+  </data>
   <data name="StartingWFService" xml:space="preserve">
     <value>Starting Stream...</value>
   </data>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -44,7 +43,7 @@ namespace Wammer.Station
 			             	{
 			             		location = baseurl,
 			             		diskusage = new List<DiskUsage>(),
-			             		upnp = PublicPortMapping.Instance.GetUPnPInfo(),
+			             		upnp = new UPnPInfo { status = false },
 			             		computer_name = Environment.MachineName,
 			             		version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
 			             	};
