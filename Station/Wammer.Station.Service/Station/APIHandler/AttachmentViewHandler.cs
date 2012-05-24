@@ -224,8 +224,7 @@ namespace Wammer.Station
 				                                                                               	.Set("group_id",
 				                                                                               	     downloadResult.Metadata.
 				                                                                               	     	group_id)
-				                                                                               	.Set("saved_file_name", fileName)
-				                                                                               	.Set("is_body_upstreamed", true),
+				                                                                               	.Set("saved_file_name", fileName),
 				                                     UpdateFlags.Upsert);
 			}
 			else
@@ -238,7 +237,6 @@ namespace Wammer.Station
 				                                                                               	.Set("file_name",
 				                                                                               	     downloadResult.Metadata.
 				                                                                               	     	file_name)
-				                                                                               	.Set("is_thumb_upstreamed", true)
 				                                                                               	.Set("type",
 				                                                                               	     (int)
 				                                                                               	     (AttachmentType)

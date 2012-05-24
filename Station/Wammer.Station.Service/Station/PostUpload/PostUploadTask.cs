@@ -6,6 +6,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station;
+using Wammer.Utility;
 
 namespace Wammer.PostUpload
 {
@@ -51,10 +52,17 @@ namespace Wammer.PostUpload
 			}
 		}
 
-		protected bool IsAttachmentUploaded(string objectId)
+		protected bool IsAttachmentUploaded(string objectId, string session_token)
 		{
-			Attachment att = AttachmentCollection.Instance.FindOne(Query.EQ("_id", objectId));
-			return att != null && att.IsThumbnailOrBodyUpstreamed();
+			try
+			{
+				AttachmentApi.GetInfo(objectId, session_token);
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 		}
 	}
 

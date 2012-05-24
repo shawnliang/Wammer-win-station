@@ -75,12 +75,6 @@ namespace Wammer.Station.AttachmentUpload
 				                  user.session_token, 65535, UpstreamProgressChanged);
 			}
 
-			AttachmentCollection.Instance.Update(
-				Query.EQ("_id", object_id),
-				(meta == ImageMeta.Origin || meta == ImageMeta.Origin)
-					? Update.Set("is_body_upstreamed", true)
-					: Update.Set("is_thumb_upstreamed", true));
-
 			upstreamCount.Decrement();
 		}
 
