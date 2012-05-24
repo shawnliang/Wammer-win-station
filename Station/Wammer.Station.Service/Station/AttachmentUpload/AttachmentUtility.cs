@@ -95,7 +95,6 @@ namespace Wammer.Station.AttachmentUpload
 				}
 			}
 		}
-
 		#endregion
 
 		private void UpstreamProgressChanged(object sender, ProgressChangedEventArgs evt)

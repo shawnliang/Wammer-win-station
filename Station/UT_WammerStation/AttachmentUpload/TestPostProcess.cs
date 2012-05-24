@@ -209,7 +209,6 @@ namespace UT_WammerStation.AttachmentUpload
 			mock.Setup(x => x.FindAttachmentInDB("object1")).Returns(oldAtt).Verifiable();
 			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
 			mock.Setup(x => x.UpstreamAttachmentNow(oldAtt.image_meta.medium.saved_file_name, user, oldAtt.object_id, oldAtt.file_name, oldAtt.image_meta.medium.mime_type, ImageMeta.Medium, AttachmentType.image, "user_session", "apikey")).Verifiable();
-
 			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);
 
 			procHandler.OnProcessed(this,
@@ -255,7 +254,6 @@ namespace UT_WammerStation.AttachmentUpload
 			mock.Setup(x => x.FindAttachmentInDB("object1")).Returns(oldAtt).Verifiable();
 			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
 			mock.Setup(x => x.UpstreamAttachmentNow(oldAtt.saved_file_name, user, oldAtt.object_id, oldAtt.file_name, oldAtt.mime_type, ImageMeta.None, AttachmentType.doc, "user_session", "apikey")).Verifiable();
-
 			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);
 
 			procHandler.OnProcessed(this,

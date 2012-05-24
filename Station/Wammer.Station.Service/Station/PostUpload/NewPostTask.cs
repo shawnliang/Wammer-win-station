@@ -28,7 +28,7 @@ namespace Wammer.PostUpload
 
 							foreach (String id in attachmentIDs)
 							{
-								if (!IsAttachmentUploaded(id))
+								if (!IsAttachmentUploaded(id, driver.session_token))
 								{
 									throw new WammerStationException("Attachment " + id + " is not uploaded to cloud yet", (int) StationLocalApiError.NotReady);
 								}
