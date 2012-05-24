@@ -183,9 +183,9 @@ namespace StationSystemTray.Properties {
             }
         }
         
-        public static System.Drawing.Bitmap FB_Logo {
+        public static System.Drawing.Bitmap fb_logo {
             get {
-                object obj = ResourceManager.GetObject("FB_Logo", resourceCulture);
+                object obj = ResourceManager.GetObject("fb_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

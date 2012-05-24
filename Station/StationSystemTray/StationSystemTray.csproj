@@ -49,6 +49,9 @@
     <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="StationSystemTray, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
@@ -170,7 +173,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FB_Logo.png" />
     <Content Include="Icon.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
@@ -178,8 +180,9 @@
     <None Include="Resources\stream_tray_syncing1.png" />
     <None Include="Resources\stream_tray_syncing2.png" />
     <None Include="Resources\stream_tray_init.png" />
-    <Content Include="Resources\fb_btn.png" />
-    <Content Include="Resources\fb_btn_press.png" />
+    <None Include="Resources\fb_btn_press.png" />
+    <None Include="Resources\fb_logo.png" />
+    <None Include="Resources\fb_btn.png" />
     <Content Include="Resources\input_box.png" />
     <Content Include="Resources\login_btn.png" />
     <Content Include="Resources\login_btn_press.png" />
