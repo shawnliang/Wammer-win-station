@@ -98,28 +98,27 @@ namespace Wammer.Cloud
 		}
 
 		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey,
-		                                                       ImageMeta meta, string station_id,
-		                                                       Action<object, ProgressChangedEventArgs>
-		                                                       	progressChangedCallBack)
+															   ImageMeta meta, string station_id,
+															   Action<object, ProgressChangedEventArgs>
+																progressChangedCallBack)
 		{
-			using (var agent = new NoRedirectWebClient())
+			var parameters = new Dictionary<object, object>
+			                 	{
+			                 		{"object_id", objectId},
+			                 		{"session_token", session_token},
+			                 		{"station_id", station_id},
+			                 		{"apikey", apikey},
+			                 		{"return_meta", "true"}
+			                 	};
+
+			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
+				parameters.Add("image_meta", meta.ToString().ToLower());
+
+			var metadata = CloudServer.requestPath<AttachmentView>("attachments/view", parameters,true , false);
+
+			logger.Debug("Attachement redirect to: " + metadata.redirect_to);
+			using (var agent = new DefaultWebClient())
 			{
-				var parameters = new Dictionary<object, object>
-				                 	{
-				                 		{"object_id", objectId},
-				                 		{"session_token", session_token},
-				                 		{"station_id", station_id},
-				                 		{"apikey", apikey},
-				                 		{"return_meta", "true"}
-				                 	};
-
-				if (meta != ImageMeta.Origin && meta != ImageMeta.None)
-					parameters.Add("image_meta", meta.ToString().ToLower());
-
-				var metadata = CloudServer.requestPath<AttachmentView>("attachments/view", parameters);
-
-				logger.Debug("Attachement redirect to: " + metadata.redirect_to);
-				agent.AllowAutoRedirect = true;
 				using (var to = new MemoryStream())
 				using (var from = agent.OpenRead(metadata.redirect_to))
 				{

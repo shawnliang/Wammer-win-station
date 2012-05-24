@@ -5,6 +5,10 @@ namespace Wammer.Utility
 {
 	public class WebClientEx : WebClient
 	{
+		#region Var
+		private Boolean _allowAutoRedirect = true;
+		#endregion
+
 		#region Public Property
 		/// <summary>
 		/// Gets or sets the request.
@@ -23,12 +27,13 @@ namespace Wammer.Utility
 				var webRequest = (Request as HttpWebRequest);
 
 				if (webRequest == null)
-					return true;
+					return _allowAutoRedirect;
 
 				return webRequest.AllowAutoRedirect;
 			}
 			set
 			{
+				_allowAutoRedirect = value;
 				var webRequest = (Request as HttpWebRequest);
 
 				if (webRequest == null)
@@ -50,6 +55,13 @@ namespace Wammer.Utility
 		protected override WebRequest GetWebRequest(Uri address)
 		{
 			Request = base.GetWebRequest(address);
+
+			var webRequest = (Request as HttpWebRequest);
+
+			if (webRequest != null)
+			{
+				AllowAutoRedirect = _allowAutoRedirect;
+			}
 			return Request;
 		} 
 		#endregion
