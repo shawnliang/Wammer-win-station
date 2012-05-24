@@ -114,7 +114,7 @@ namespace Waveface
                 ShowMessage(I18n.L.T("BatchPostManager.DragDropHere"));
             }
 
-            Thread.Sleep(10000);
+            Thread.Sleep(5000);
 
             StartUpload = true;
 

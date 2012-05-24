@@ -183,6 +183,7 @@ namespace Manina.Windows.Forms
                         BitmapFrame frameWpf = BitmapFrame.Create(stream,
                             BitmapCreateOptions.IgnoreColorProfile,
                             BitmapCacheOption.None);
+
                         return GetThumbnail(frameWpf, size, useEmbeddedThumbnails,
                             useExifOrientation ? GetRotation(frameWpf) : 0);
                     }
