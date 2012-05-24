@@ -75,7 +75,7 @@ namespace Wammer.Station
 
 		protected void TunnelToCloud()
 		{
-			Debug.Assert(Request != null);
+			Debug.Assert(Request != null, "Request is null");
 
 			var apiPath =
 				Regex.Match(Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].
@@ -91,7 +91,7 @@ namespace Wammer.Station
 
 		protected void TunnelToCloud<T>()
 		{
-			Debug.Assert(Request != null);
+			Debug.Assert(Request != null, "Request is null");
 
 			var apiPath =
 				Regex.Match(Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].

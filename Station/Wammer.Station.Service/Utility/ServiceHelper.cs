@@ -143,5 +143,5 @@ namespace Wammer.Utility
 		[MarshalAs(UnmanagedType.LPWStr)] public String lpDependencies;
 		[MarshalAs(UnmanagedType.LPWStr)] public String lpServiceStartName;
 		[MarshalAs(UnmanagedType.LPWStr)] public String lpDisplayName;
-	};
+	}
 }

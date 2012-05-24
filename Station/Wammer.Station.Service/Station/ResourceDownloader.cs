@@ -30,14 +30,11 @@ namespace Wammer.Station
 
 	internal class ResourceDownloader
 	{
-		private static readonly ILog logger = LogManager.GetLogger(typeof (ResourceDownloader));
 		private readonly ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue;
-		private readonly string stationId;
 
-		public ResourceDownloader(ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue, string stationId)
+		public ResourceDownloader(ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue)
 		{
 			this.bodySyncQueue = bodySyncQueue;
-			this.stationId = stationId;
 		}
 
 		public void PostRetrieved(object sender, TimelineSyncEventArgs e)
@@ -143,14 +140,7 @@ namespace Wammer.Station
 					    (savedDoc == null || savedDoc.saved_file_name == null))
 					{
 						if (CloudHasOriginAttachment(attachment.object_id, driver))
-						{
-							//logger.DebugFormat("Attachement {0} found in cloud... Go download it", attachment.object_id);
 							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
-						}
-						else
-						{
-							//logger.DebugFormat("Attachement {0} NOT found in cloud...", attachment.object_id);
-						}
 					}
 
 					if (attachment.image_meta == null)

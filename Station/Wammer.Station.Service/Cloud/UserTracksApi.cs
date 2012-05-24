@@ -36,7 +36,7 @@ namespace Wammer.Cloud
 			                 		{"session_token", session_token},
 			                 		{"group_id", group_id},
 			                 		{"include_entities", "true"},
-			                 		{"since", since ?? ""}
+			                 		{"since", since ?? string.Empty}
 			                 	};
 
 			return CloudServer.request<UserTrackResponse>(agent, CloudServer.BaseUrl + "usertracks/get", parameters, false);

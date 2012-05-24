@@ -33,7 +33,7 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_TIMESTAMP, timestamp.ToCloudTimeString()}
 			                 	};
 
-			foreach (String key in param.Keys)
+			foreach (var key in param.Keys)
 			{
 				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{
@@ -57,7 +57,7 @@ namespace Wammer.Cloud
 				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
 			}
 
-			foreach (String key in param.Keys)
+			foreach (var key in param.Keys)
 			{
 				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{
@@ -81,7 +81,7 @@ namespace Wammer.Cloud
 				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
 			}
 
-			foreach (String key in param.Keys)
+			foreach (var key in param.Keys)
 			{
 				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{
@@ -105,7 +105,7 @@ namespace Wammer.Cloud
 				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
 			}
 
-			foreach (String key in param.Keys)
+			foreach (var key in param.Keys)
 			{
 				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{

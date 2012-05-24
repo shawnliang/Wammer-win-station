@@ -62,7 +62,7 @@ namespace Wammer.PostUpload
 	{
 		public NullPostUploadTask()
 		{
-			CodeName = PostId = UserId = "";
+			CodeName = PostId = UserId = string.Empty;
 			Timestamp = DateTime.UtcNow;
 			Status = PostUploadTaskStatus.Wait;
 			Parameters = new Dictionary<string, string>();

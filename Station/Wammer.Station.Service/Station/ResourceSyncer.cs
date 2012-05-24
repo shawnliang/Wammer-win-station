@@ -19,7 +19,7 @@ namespace Wammer.Station
 		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue, string stationId)
 			: base(timerPeriod)
 		{
-			downloader = new ResourceDownloader(bodySyncQueue, stationId);
+			downloader = new ResourceDownloader(bodySyncQueue);
 			syncer = new TimelineSyncer(new PostProvider(), new TimelineSyncerDB(), new UserTracksApi());
 			syncer.PostsRetrieved += downloader.PostRetrieved;
 			syncer.BodyAvailable += syncer_BodyAvailable;

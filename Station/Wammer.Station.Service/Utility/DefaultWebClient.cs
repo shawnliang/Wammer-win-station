@@ -3,7 +3,29 @@ using System.Net;
 
 namespace Wammer.Utility
 {
-	public class DefaultWebClient : WebClient
+	public class WebClientEx : WebClient
+	{
+		#region Public Property
+		public WebRequest Request { get; private set; }
+		#endregion
+
+		#region Protected Method
+		/// <summary>
+		/// Returns a <see cref="T:System.Net.WebRequest"/> object for the specified resource.
+		/// </summary>
+		/// <param name="address">A <see cref="T:System.Uri"/> that identifies the resource to request.</param>
+		/// <returns>
+		/// A new <see cref="T:System.Net.WebRequest"/> object for the specified resource.
+		/// </returns>
+		protected override WebRequest GetWebRequest(Uri address)
+		{
+			Request = base.GetWebRequest(address);
+			return Request;
+		} 
+		#endregion
+	}
+
+	public class DefaultWebClient : WebClientEx
 	{
 		private int readWriteTimeout;
 		private int timeout;
@@ -31,18 +53,14 @@ namespace Wammer.Utility
 		public static int DefaultTimeout { get; set; }
 		public static int DefaultReadWriteTimeout { get; set; }
 
-		protected override WebRequest GetWebRequest(Uri address)
+		public DefaultWebClient()
 		{
-			WebRequest req = base.GetWebRequest(address);
-
-			var httpReq = req as HttpWebRequest;
+			var httpReq = this.Request as HttpWebRequest;
 			if (httpReq != null)
 			{
 				httpReq.Timeout = Timeout;
 				httpReq.ReadWriteTimeout = ReadWriteTimeout;
 			}
-
-			return req;
 		}
 	}
 }

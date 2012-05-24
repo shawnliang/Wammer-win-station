@@ -33,7 +33,7 @@ namespace Wammer.Station.Timeline
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, TaskPriority pri)
 			: base(RetryQueue.Instance, pri)
 		{
-			this.evtargs = arg;
+			evtargs = arg;
 		}
 
 		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)

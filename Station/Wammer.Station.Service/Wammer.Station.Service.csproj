@@ -198,7 +198,6 @@
     <Compile Include="Station\AttachmentUpload\UpstreamTask.cs" />
     <Compile Include="Station\HybridCloudHttpRouter.cs" />
     <Compile Include="Station\APIHandler\CloudStorageHandler.cs" />
-    <Compile Include="Station\CloudStorageSync.cs" />
     <Compile Include="Station\DropboxFileStorage.cs" />
     <Compile Include="Station\APIHandler\PostGetLatestHandler.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
