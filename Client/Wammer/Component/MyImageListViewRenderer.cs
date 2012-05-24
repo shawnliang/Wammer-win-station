@@ -75,7 +75,7 @@ namespace Waveface.Component
                     }
                     else
                     {
-                        return;
+                        //return;
                     }
 
                     // Calculate image bounds
@@ -288,6 +288,7 @@ namespace Waveface.Component
             }
         }
 
+        /*
         public override void DrawCheckBox(Graphics g, ImageListViewItem item, Rectangle bounds)
         {
             if (ImageListView.View == View.Details)
@@ -299,6 +300,7 @@ namespace Waveface.Component
             if (ImageListView.View == View.Details)
                 base.DrawFileIcon(g, item, bounds);
         }
+        */
 
         public override void DrawBackground(Graphics g, Rectangle bounds)
         {

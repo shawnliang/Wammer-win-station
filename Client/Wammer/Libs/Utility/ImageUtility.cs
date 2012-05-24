@@ -88,14 +88,14 @@ namespace Waveface
                 if (string.IsNullOrEmpty(avatarUrl))
                 {
                     return null;
-				}
-				else
-				{
-					WebRequest _wReq = WebRequest.Create(avatarUrl);
-					WebResponse _wRep = _wReq.GetResponse();
-					_img = Image.FromStream(_wRep.GetResponseStream());
-					_img.Save(_localAvatarPath);
-				}
+                }
+                else
+                {
+                    WebRequest _wReq = WebRequest.Create(avatarUrl);
+                    WebResponse _wRep = _wReq.GetResponse();
+                    _img = Image.FromStream(_wRep.GetResponseStream());
+                    _img.Save(_localAvatarPath);
+                }
             }
 
             return _img;
@@ -295,7 +295,7 @@ namespace Waveface
 
                     //create the grayscale version of the pixel
                     int _grayScale = (int)((_originalColor.R * .3) + (_originalColor.G * .59)
-                        + (_originalColor.B * .11));
+                                            + (_originalColor.B * .11));
 
                     //create the color object
                     Color _newColor = Color.FromArgb(_grayScale, _grayScale, _grayScale);
@@ -310,7 +310,8 @@ namespace Waveface
 
         #region Resize Image
 
-        public static string ResizeImage(string orgImageFilePath, string fileName, string longSideResizeOrRatio, int zoomRatio)
+        public static string ResizeImage(string orgImageFilePath, string fileName, string longSideResizeOrRatio,
+                                         int zoomRatio)
         {
             string _changedImagePath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + fileName;
 
@@ -338,42 +339,43 @@ namespace Waveface
 
             try
             {
-                Bitmap _bmp = ResizeImage_Impl(_changedImagePath, _longestSide);
-
-                if (_bmp == null)
-                    return _changedImagePath;
-
-                if ((_bmp.Height < _longestSide) && (_bmp.Width < _longestSide))
-                    return _changedImagePath;
-
-                string _newPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" +
-                                  fileName;
-
-                // Create parameters
-                EncoderParameters _params = new EncoderParameters(1);
-
-                // Set quality (100)
-                _params.Param[0] = new EncoderParameter(Encoder.Quality, zoomRatio);
-
-                // Create encoder info
-                ImageCodecInfo _codec = null;
-
-                foreach (ImageCodecInfo _codectemp in ImageCodecInfo.GetImageDecoders())
+                using (Bitmap _bmp = ResizeImage_Impl(_changedImagePath, _longestSide))
                 {
-                    if (_codectemp.MimeType == FileUtility.GetMimeType(new FileInfo(fileName)))
+                    if (_bmp == null)
+                        return _changedImagePath;
+
+                    if ((_bmp.Height < _longestSide) && (_bmp.Width < _longestSide))
+                        return _changedImagePath;
+
+                    string _newPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" +
+                                      fileName;
+
+                    // Create parameters
+                    EncoderParameters _params = new EncoderParameters(1);
+
+                    // Set quality (100)
+                    _params.Param[0] = new EncoderParameter(Encoder.Quality, zoomRatio);
+
+                    // Create encoder info
+                    ImageCodecInfo _codec = null;
+
+                    foreach (ImageCodecInfo _codectemp in ImageCodecInfo.GetImageDecoders())
                     {
-                        _codec = _codectemp;
-                        break;
+                        if (_codectemp.MimeType == FileUtility.GetMimeType(new FileInfo(fileName)))
+                        {
+                            _codec = _codectemp;
+                            break;
+                        }
                     }
+
+                    // Check
+                    if (_codec == null)
+                        throw new Exception("Codec not found!");
+
+                    _bmp.Save(_newPath, _codec, _params);
+
+                    return _newPath;
                 }
-
-                // Check
-                if (_codec == null)
-                    throw new Exception("Codec not found!");
-
-                _bmp.Save(_newPath, _codec, _params);
-
-                return _newPath;
             }
             catch (Exception _e)
             {
@@ -385,7 +387,7 @@ namespace Waveface
 
         public static Bitmap ResizeImage(Bitmap image, int longestSide)
         {
-            Bitmap _newImage = null;
+            Bitmap _newImage;
 
             try
             {
@@ -399,7 +401,8 @@ namespace Waveface
 
                 Graphics _g = Graphics.FromImage(_newImage);
                 _g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                _g.DrawImage(image, new Rectangle(0, 0, _width, _height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel);
+                _g.DrawImage(image, new Rectangle(0, 0, _width, _height), 0, 0, image.Width, image.Height,
+                             GraphicsUnit.Pixel);
                 _g.Dispose();
             }
             catch

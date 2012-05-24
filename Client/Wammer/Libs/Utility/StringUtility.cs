@@ -16,9 +16,7 @@ namespace Waveface
     {
         public static string RichTextBox_ReplaceNewline(string text)
         {
-            // return text.Replace("\r", Environment.NewLine);
-
-            Regex.Replace(text, "\r\n|\n\r|\n|\r", "\r\n");
+            text = text.Replace("\r\n", "\n").Replace("\r", "\n");
             return text;
         }
 
