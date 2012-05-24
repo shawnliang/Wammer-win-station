@@ -140,6 +140,8 @@ namespace Wammer.Cloud
 		                                   string filepath)
 		{
 			var buf = new StringBuilder();
+
+			long beginTime = Environment.TickCount;
 			try
 			{
 				foreach (var pair in parameters)
@@ -166,11 +168,13 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", e);
+				long elapsed_ms = Environment.TickCount - beginTime;
+				throw new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
 			}
 			catch (Exception e)
 			{
-				throw new WammerCloudException("Wammer cloud error", e);
+				long elapsed_ms = Environment.TickCount - beginTime;
+				throw new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
 			}
 		}
 
@@ -321,6 +325,8 @@ namespace Wammer.Cloud
 			string response = "";
 			T resObj;
 
+			long beginTime = Environment.TickCount;
+
 			try
 			{
 				agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -342,11 +348,13 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", e);
+				long elapsed_ms = Environment.TickCount - beginTime;
+				throw new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
 			}
 			catch (Exception e)
 			{
-				throw new WammerCloudException("Wammer cloud error", response, e);
+				long elapsed_ms = Environment.TickCount - beginTime;
+				throw new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
 			}
 
 			var cres = resObj as CloudResponse;
@@ -410,6 +418,8 @@ namespace Wammer.Cloud
 
 		private static string request(WebClient agent, string url, string postData = "")
 		{
+			long beginTime = Environment.TickCount;
+
 			try
 			{
 				agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -418,7 +428,8 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				throw new WammerCloudException("Wammer cloud error", e);
+				long elapsed_ms = Environment.TickCount - beginTime;
+				throw new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
 			}
 		}
 
