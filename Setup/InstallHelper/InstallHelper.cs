@@ -57,7 +57,7 @@ namespace Wammer.Station
 
 						try
 						{
-							Wammer.Cloud.StationApi.SignOff(new WebClient(), station.Id, user.session_token);
+							StationApi.SignOff(station.Id, user.session_token);
 							Logger.Info("Signoff station is successful");
 							break; // use anyone's token to signoff this station once is enough
 						}
@@ -416,6 +416,51 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				Logger.Warn("Unable to delete service collection from MongoDB", e);
+			}
+
+			try
+			{
+				LoginedSessionCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete LoginedSession collection from mongoDB", e);
+			}
+
+			try
+			{
+				QueuedTaskCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete QueuedTaskCollection from mongoDB", e);
+			}
+
+			try
+			{
+				PostUploadTasksCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete PostUploadTasksCollection from mongoDB", e);
+			}
+
+			try
+			{
+				PostCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete PostCollection from mongoDB", e);
+			}
+
+			try
+			{
+				UserTrackCollection.Instance.RemoveAll();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to delete UserTrackCollection from mongoDB", e);
 			}
 
 			RemoveDirectory(Path.Combine(

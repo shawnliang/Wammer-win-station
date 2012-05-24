@@ -342,10 +342,11 @@ namespace Waveface
 		{
 			try
 			{
-				var _webClient = new WebClient();
-
-				// Downloads the resource with the specified URI to a local file.
-				_webClient.DownloadFile(url, saveAs);
+				using (var wc = new WebClient())
+				{
+					// Downloads the resource with the specified URI to a local file.
+					wc.DownloadFile(url, saveAs);
+				}
 			}
 			catch (Exception _e)
 			{

@@ -38,7 +38,7 @@ namespace TestUploadImage
 				if (station == null)
 					station = "127.0.0.1";
 
-				User user = User.LogIn(new WebClient(), email, password, "deviceId", "deviceName");
+				User user = User.LogIn(email, password, "deviceId", "deviceName");
 
 				byte[] image_data = LoadImage(image_file);
 

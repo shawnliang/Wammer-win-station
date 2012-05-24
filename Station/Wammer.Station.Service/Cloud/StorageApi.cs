@@ -15,7 +15,7 @@ namespace Wammer.Cloud
 
 		private string userToken { get; set; }
 
-		public StorageAuthResponse StorageAuthorize(WebClient agent, string type)
+		public StorageAuthResponse StorageAuthorize(string type)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -24,11 +24,11 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			var res = CloudServer.requestPath<StorageAuthResponse>(agent, "storages/authorize", parameters);
+			var res = CloudServer.requestPath<StorageAuthResponse>("storages/authorize", parameters);
 			return res;
 		}
 
-		public StorageLinkResponse StorageLink(WebClient agent, string type)
+		public StorageLinkResponse StorageLink(string type)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -37,11 +37,11 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			var res = CloudServer.requestPath<StorageLinkResponse>(agent, "storages/link", parameters);
+			var res = CloudServer.requestPath<StorageLinkResponse>("storages/link", parameters);
 			return res;
 		}
 
-		public StorageCheckResponse StorageCheck(WebClient agent, string type)
+		public StorageCheckResponse StorageCheck(string type)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -50,11 +50,11 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			var res = CloudServer.requestPath<StorageCheckResponse>(agent, "storages/check", parameters);
+			var res = CloudServer.requestPath<StorageCheckResponse>("storages/check", parameters);
 			return res;
 		}
 
-		public void StorageUnlink(WebClient agent, string type)
+		public void StorageUnlink(string type)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -63,12 +63,12 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			CloudServer.requestPath<StorageResponse>(agent, "storages/unlink", parameters);
+			CloudServer.requestPath<StorageResponse>("storages/unlink", parameters);
 		}
 	}
 
 	public class CloudStorageType
 	{
 		public const string DROPBOX = "dropbox";
-	};
+	}
 }

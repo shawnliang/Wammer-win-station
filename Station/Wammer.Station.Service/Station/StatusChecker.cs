@@ -13,7 +13,7 @@ namespace Wammer.Station
 {
 	public class IsPrimaryChangedEvtArgs : EventArgs
 	{
-		public Driver driver;
+		public Driver driver { get; set; }
 
 		public IsPrimaryChangedEvtArgs(Driver driver)
 		{
@@ -93,11 +93,8 @@ namespace Wammer.Station
 						StationCollection.Instance.Save(sinfo);
 					}
 
-					using (var client = new DefaultWebClient())
-					{
-						LogonAndHeartbeat(client, sinfo, detail);
-						UpdatePrimaryStationSetting(client);
-					}
+					LogonAndHeartbeat(sinfo, detail);
+					UpdatePrimaryStationSetting();
 				}
 				catch (Exception ex)
 				{
@@ -106,7 +103,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private void LogonAndHeartbeat(WebClient client, StationInfo sinfo, StationDetail detail)
+		private void LogonAndHeartbeat(StationInfo sinfo, StationDetail detail)
 		{
 			try
 			{
@@ -119,7 +116,7 @@ namespace Wammer.Station
 					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
 					{
 						logger.Debug("cloud logon start");
-						api.LogOn(client, detail);
+						api.LogOn(detail);
 						logon = true;
 
 						// update station info in database
@@ -128,7 +125,7 @@ namespace Wammer.Station
 						StationCollection.Instance.Save(sinfo);
 					}
 
-					api.Heartbeat(client, detail);
+					api.Heartbeat(detail);
 				}
 				else
 				{
@@ -141,13 +138,13 @@ namespace Wammer.Station
 			}
 		}
 
-		private void UpdatePrimaryStationSetting(WebClient client)
+		private void UpdatePrimaryStationSetting()
 		{
 			foreach (var user in DriverCollection.Instance.FindAll())
 			{
 				try
 				{
-					var res = User.FindMyStation(client, user.session_token);
+					var res = User.FindMyStation(user.session_token);
 					var currStation = (from station in res.stations
 									   where station.station_id == StationRegistry.StationId
 									   select station).FirstOrDefault();
@@ -194,20 +191,17 @@ namespace Wammer.Station
 		public override void Stop()
 		{
 			base.Stop();
-			using (var client = new DefaultWebClient())
+			var sinfo = StationCollection.Instance.FindOne();
+			if (sinfo != null)
 			{
-				var sinfo = StationCollection.Instance.FindOne();
-				if (sinfo != null)
+				try
 				{
-					try
-					{
-						var api = new StationApi(sinfo.Id, sinfo.SessionToken);
-						api.Offline(client);
-					}
-					catch (Exception ex)
-					{
-						logger.Warn("cloud offline error", ex);
-					}
+					var api = new StationApi(sinfo.Id, sinfo.SessionToken);
+					api.Offline();
+				}
+				catch (Exception ex)
+				{
+					logger.Warn("cloud offline error", ex);
 				}
 			}
 		}

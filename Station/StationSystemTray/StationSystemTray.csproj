@@ -170,7 +170,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FB_Logo.png" />
     <Content Include="Icon.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
@@ -178,8 +177,9 @@
     <None Include="Resources\stream_tray_syncing1.png" />
     <None Include="Resources\stream_tray_syncing2.png" />
     <None Include="Resources\stream_tray_init.png" />
-    <Content Include="Resources\fb_btn.png" />
-    <Content Include="Resources\fb_btn_press.png" />
+    <None Include="Resources\fb_btn_press.png" />
+    <None Include="Resources\fb_logo.png" />
+    <None Include="Resources\fb_btn.png" />
     <Content Include="Resources\input_box.png" />
     <Content Include="Resources\login_btn.png" />
     <Content Include="Resources\login_btn_press.png" />

@@ -122,7 +122,7 @@ namespace UT_WammerStation
 					url = "http://unittest.com"
 				});
 
-			var response = CloudServer.request<HidePostResponse>(new WebClient(), API_URL,
+			var response = CloudServer.request<HidePostResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -145,7 +145,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void HidePost_WithoutAPIKey_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
                 {CloudServer.PARAM_GROUP_ID, "!@##%$&"},
                 {CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -156,7 +156,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void HidePost_WithoutSessionToken_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
                 {CloudServer.PARAM_API_KEY, "!@##%$&"},
                 {CloudServer.PARAM_GROUP_ID, "!@##%$&"},
@@ -167,7 +167,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void HidePost_WithoutGroupID_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
                 {CloudServer.PARAM_API_KEY, "!@##%$&"},
                 {CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -178,7 +178,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void HidePost_WithoutPostID_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
                 {CloudServer.PARAM_API_KEY, "!@##%$&"},
                 {CloudServer.PARAM_GROUP_ID, "!@##%$&"},

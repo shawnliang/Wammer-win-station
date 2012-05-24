@@ -36,15 +36,11 @@ namespace Wammer.Station
 			this.LogDebugMsg("call setloc for file " + Path.GetFileName(SavedFilePath));
 			var api = new AttachmentApi(driver);
 
-			using (WebClient client = new DefaultWebClient())
-			{
-				api.AttachmentSetLoc(
-					client,
-					(int) AttachmentApi.Location.Dropbox,
-					attachment.object_id,
-					Path.Combine(driver.folder, Path.GetFileName(SavedFilePath))
-					);
-			}
+			api.AttachmentSetLoc(
+				(int) AttachmentApi.Location.Dropbox,
+				attachment.object_id,
+				Path.Combine(driver.folder, Path.GetFileName(SavedFilePath))
+				);
 		}
 
 		public long GetAvailSize()

@@ -89,7 +89,7 @@ namespace Wammer.Station
 						};
 			}
 
-			var res = StationApi.SignUpBySession(new WebClient(), sessionToken, stationId, StatusChecker.GetDetail());
+			var res = StationApi.SignUpBySession(sessionToken, stationId, StatusChecker.GetDetail());
 			StationCollection.Instance.Update(
 				Query.EQ("_id", stationId),
 				Update.Set("SessionToken", res.session_token)
@@ -140,81 +140,79 @@ namespace Wammer.Station
 		/// <returns></returns>
 		public AddUserResponse AddDriver(string resourceBasePath, string stationId, string email, string password, string deviceID, string deviceName)
 		{
-			using (var agent = new DefaultWebClient())
+			var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
+
+			if (existingDriver != null)
 			{
-				var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
+				// check if this email is re-registered, if yes, delete old driver's data
+				var user = User.LogIn(email, password, deviceID, deviceName);
 
-				if (existingDriver != null)
+				if (user == null)
+					throw new WammerStationException("Logined user not found", (int) StationLocalApiError.AuthFailed);
+
+				if (user.Id == existingDriver.user_id)
 				{
-					// check if this email is re-registered, if yes, delete old driver's data
-					var user = User.LogIn(agent, email, password, deviceID, deviceName);
+					existingDriver.ref_count += 1;
+					DriverCollection.Instance.Save(existingDriver);
 
-					if (user == null)
-						throw new WammerStationException("Logined user not found", (int) StationLocalApiError.AuthFailed);
-
-					if (user.Id == existingDriver.user_id)
-					{
-						existingDriver.ref_count += 1;
-						DriverCollection.Instance.Save(existingDriver);
-
-						return new AddUserResponse
-						       	{
-						       		UserId = existingDriver.user_id,
-						       		IsPrimaryStation = existingDriver.isPrimaryStation,
-						       		Stations = existingDriver.stations
-						       	};
-					}
-
-					//Remove the user from db, and stop service this user
-					DriverCollection.Instance.Remove(Query.EQ("_id", existingDriver.user_id));
-
-					if (Directory.Exists(existingDriver.folder))
-						Directory.Delete(existingDriver.folder, true);
-
-					//All driver removed => Remove station from db
-					if (DriverCollection.Instance.FindOne() == null)
-						StationCollection.Instance.RemoveAll();
+					return new AddUserResponse
+					       	{
+					       		UserId = existingDriver.user_id,
+					       		IsPrimaryStation = existingDriver.isPrimaryStation,
+					       		Stations = existingDriver.stations
+					       	};
 				}
 
-				var res = StationApi.SignUpByEmailPassword(agent, stationId, email, password, deviceID,
-				                                           deviceName, StatusChecker.GetDetail());
-				StationCollection.Instance.Update(
-					Query.EQ("_id", stationId),
-					Update.Set("SessionToken", res.session_token)
-						.Set("Location", NetworkHelper.GetBaseURL())
-						.Set("LastLogOn", DateTime.Now),
-					UpdateFlags.Upsert
-					);
+				//Remove the user from db, and stop service this user
+				DriverCollection.Instance.Remove(Query.EQ("_id", existingDriver.user_id));
 
-				var driver = new Driver
-				             	{
-				             		user_id = res.user.user_id,
-				             		email = email,
-				             		folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
-				             		groups = res.groups,
-				             		session_token = res.session_token,
-									isPrimaryStation = IsThisPrimaryStation(stationId,res.stations),
-				             		ref_count = 1,
-				             		user = res.user,
-				             		stations = res.stations
-				             	};
+				if (Directory.Exists(existingDriver.folder))
+					Directory.Delete(existingDriver.folder, true);
 
-				Directory.CreateDirectory(driver.folder);
-
-				OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
-
-				DriverCollection.Instance.Save(driver);
-
-
-				OnDriverAdded(new DriverAddedEvtArgs(driver));
-
-				return new AddUserResponse
-				       	{
-				       		UserId = driver.user_id,
-				       		IsPrimaryStation = driver.isPrimaryStation,
-				       		Stations = driver.stations
-				       	};
+				//All driver removed => Remove station from db
+				if (DriverCollection.Instance.FindOne() == null)
+					StationCollection.Instance.RemoveAll();
 			}
+
+			var res = StationApi.SignUpByEmailPassword(stationId, email, password, deviceID,
+			                                           deviceName, StatusChecker.GetDetail());
+			StationCollection.Instance.Update(
+				Query.EQ("_id", stationId),
+				Update.Set("SessionToken", res.session_token)
+					.Set("Location", NetworkHelper.GetBaseURL())
+					.Set("LastLogOn", DateTime.Now),
+				UpdateFlags.Upsert
+				);
+
+			var driver = new Driver
+			             	{
+			             		user_id = res.user.user_id,
+			             		email = email,
+			             		folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
+			             		groups = res.groups,
+			             		session_token = res.session_token,
+			             		isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
+			             		ref_count = 1,
+			             		user = res.user,
+			             		stations = res.stations
+			             	};
+
+			Directory.CreateDirectory(driver.folder);
+
+			OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
+
+			DriverCollection.Instance.Save(driver);
+
+
+			OnDriverAdded(new DriverAddedEvtArgs(driver));
+
+			return new AddUserResponse
+			       	{
+			       		UserId = driver.user_id,
+			       		IsPrimaryStation = driver.isPrimaryStation,
+			       		Stations = driver.stations
+			       	};
+
 		}
 
 		public void RemoveDriver(string stationID, string userID, Boolean removeAllData = false)
@@ -239,23 +237,20 @@ namespace Wammer.Station
 			}
 
 			//Notify cloud server that the user signoff
-			using (var client = new DefaultWebClient())
+			try
 			{
-				try
-				{
-					StationApi.SignOff(client, stationID, existingDriver.session_token, userID);
-				}
-				catch (WammerCloudException e)
-				{
-					this.LogWarnMsg(string.Format("Unable to notify cloud to unlink user {0} from this computer", userID), e);
+				StationApi.SignOff(stationID, existingDriver.session_token, userID);
+			}
+			catch (WammerCloudException e)
+			{
+				this.LogWarnMsg(string.Format("Unable to notify cloud to unlink user {0} from this computer", userID), e);
 
-					// continue removing user even if session expired
-					if (e.WammerError != (int)GeneralApiError.SessionNotExist)
-						throw;
-				}
+				// continue removing user even if session expired
+				if (e.WammerError != (int)GeneralApiError.SessionNotExist)
+					throw;
 			}
 
-			
+
 			//Remove all user data
 			if (removeAllData)
 			{

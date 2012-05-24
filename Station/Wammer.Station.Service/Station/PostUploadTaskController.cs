@@ -44,7 +44,7 @@ namespace Wammer
 					                                     		CodeName =
 					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
 					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: ""
+					                                     				: string.Empty
 					                                     	});
 					break;
 				case PostUploadActionType.UpdatePost:
@@ -57,7 +57,7 @@ namespace Wammer
 					                                     		CodeName =
 					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
 					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: ""
+					                                     				: string.Empty
 					                                     	});
 					break;
 				case PostUploadActionType.Comment:
@@ -70,7 +70,7 @@ namespace Wammer
 					                                     		CodeName =
 					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
 					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: ""
+					                                     				: string.Empty
 					                                     	});
 					break;
 				case PostUploadActionType.Hide:
@@ -83,7 +83,7 @@ namespace Wammer
 					                                     		CodeName =
 					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
 					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: ""
+					                                     				: string.Empty
 					                                     	});
 					break;
 				case PostUploadActionType.UnHide:
@@ -96,7 +96,7 @@ namespace Wammer
 					                                     		CodeName =
 					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
 					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: ""
+					                                     				: string.Empty
 					                                     	});
 					break;
 				default:

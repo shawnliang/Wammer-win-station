@@ -33,7 +33,7 @@ namespace Wammer.Station.Timeline
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, TaskPriority pri)
 			: base(RetryQueue.Instance, pri)
 		{
-			this.evtargs = arg;
+			evtargs = arg;
 		}
 
 		private static bool AttachmentExists(ResourceDownloadEventArgs evtargs)
@@ -104,9 +104,7 @@ namespace Wammer.Station.Timeline
 								).Set("image_meta.width", width
 								).Set("image_meta.height", height
 								).Set("file_size", rawdata.Count
-								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)
-								).Set("is_body_upstreamed", true
-								).Set("is_thumb_upstreamed", true),
+								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
 							UpdateFlags.Upsert
 							);
 
@@ -140,8 +138,7 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
-																	.Set("image_meta.small", thumbnail.ToBsonDocument())
-																	.Set("is_thumb_upstreamed", true),
+																	.Set("image_meta.small", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 							);
 						break;
@@ -171,8 +168,7 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
-																	.Set("image_meta.medium", thumbnail.ToBsonDocument())
-																	.Set("is_thumb_upstreamed", true),
+																	.Set("image_meta.medium", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 							);
 						break;
@@ -202,8 +198,7 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
-																	.Set("image_meta.large", thumbnail.ToBsonDocument())
-																	.Set("is_thumb_upstreamed", true),
+																	.Set("image_meta.large", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 							);
 						break;
@@ -233,8 +228,7 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
-																	.Set("image_meta.square", thumbnail.ToBsonDocument())
-																	.Set("is_thumb_upstreamed", true),
+																	.Set("image_meta.square", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 							);
 						break;
@@ -275,10 +269,7 @@ namespace Wammer.Station.Timeline
 				}
 
 				var api = new AttachmentApi(user);
-				using (WebClient client = new DefaultWebClient())
-				{
-					api.AttachmentView(client, evtargs, StationRegistry.StationId);
-				}
+				api.AttachmentView(evtargs, StationRegistry.StationId);
 				DownloadComplete(evtargs, user);
 			}
 			catch (Exception e)

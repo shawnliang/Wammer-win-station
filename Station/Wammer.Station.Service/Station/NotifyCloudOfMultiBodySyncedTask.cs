@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MongoDB.Driver.Builders;
+using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
 
@@ -41,10 +42,7 @@ namespace Wammer.Station
 			if (string.IsNullOrEmpty(user.session_token))
 				throw new Exception("User session is not valid. Try it latter.");
 
-			using (System.Net.WebClient agent = new DefaultWebClient())
-			{
-				Cloud.AttachmentApi.SetSync(agent, object_ids, user.session_token);
-			}
+			AttachmentApi.SetSync(object_ids, user.session_token);
 		}
 
 		public override void ScheduleToRun()

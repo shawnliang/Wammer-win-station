@@ -48,24 +48,22 @@ namespace Wammer.Station
 		public override void HandleRequest()
 		{
 			// currently only support one driver
-			Driver driver = DriverCollection.Instance.FindOne();
+			var driver = DriverCollection.Instance.FindOne();
 			var api = new StorageApi(driver.user_id);
-			using (WebClient client = new DefaultWebClient())
-			{
-				StorageAuthResponse res = api.StorageAuthorize(client, CloudStorageType.DROPBOX);
 
-				logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
+			var res = api.StorageAuthorize(CloudStorageType.DROPBOX);
 
-				RespondSuccess(
-					new GetDropboxOAuthResponse
-						{
-							api_ret_code = 0,
-							api_ret_message = "success",
-							status = 200,
-							timestamp = DateTime.UtcNow,
-							oauth_url = res.storages.authorization_url
-						});
-			}
+			logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
+
+			RespondSuccess(
+				new GetDropboxOAuthResponse
+					{
+						api_ret_code = 0,
+						api_ret_message = "success",
+						status = 200,
+						timestamp = DateTime.UtcNow,
+						oauth_url = res.storages.authorization_url
+					});
 		}
 
 		public override object Clone()
@@ -91,36 +89,33 @@ namespace Wammer.Station
 
 			try
 			{
-				CloudStorage storageDoc = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
+				var storageDoc = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 
 				// try connecting Dropbox if cloudstorage has no Dropbox info
 				if (storageDoc == null)
 				{
-					using (WebClient client = new DefaultWebClient())
+					var linkRes = api.StorageLink(CloudStorageType.DROPBOX);
+					linked = true;
+
+					VerifyAccountLink(folder, linkRes.storages.token);
+
+					var res = api.StorageCheck(CloudStorageType.DROPBOX);
+					if (res.storages.status != 0)
 					{
-						StorageLinkResponse linkRes = api.StorageLink(client, CloudStorageType.DROPBOX);
-						linked = true;
-
-						VerifyAccountLink(folder, linkRes.storages.token);
-
-						StorageCheckResponse res = api.StorageCheck(client, CloudStorageType.DROPBOX);
-						if (res.storages.status != 0)
-						{
-							logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", res.ToFastJSON());
-							throw new WammerStationException("Dropbox has not linked yet", (int) DropboxApiError.ConnectDropboxFailed);
-						}
-
-
-						CloudStorageCollection.Instance.Save(new CloudStorage
-						                                     	{
-						                                     		Id = Guid.NewGuid().ToString(),
-						                                     		Type = "dropbox",
-						                                     		Folder = folder,
-						                                     		Quota = quota,
-						                                     		UserAccount = res.storages.account
-						                                     	}
-							);
+						logger.ErrorFormat("Waveface Cloud report Dropbox connection failure, response = {0}", res.ToFastJSON());
+						throw new WammerStationException("Dropbox has not linked yet", (int) DropboxApiError.ConnectDropboxFailed);
 					}
+
+
+					CloudStorageCollection.Instance.Save(new CloudStorage
+					                                     	{
+					                                     		Id = Guid.NewGuid().ToString(),
+					                                     		Type = "dropbox",
+					                                     		Folder = folder,
+					                                     		Quota = quota,
+					                                     		UserAccount = res.storages.account
+					                                     	}
+						);
 				}
 
 				RespondSuccess();
@@ -128,10 +123,7 @@ namespace Wammer.Station
 			catch (Exception)
 			{
 				if (linked)
-					using (WebClient client = new DefaultWebClient())
-					{
-						api.StorageUnlink(client, CloudStorageType.DROPBOX);
-					}
+					api.StorageUnlink(CloudStorageType.DROPBOX);
 
 				throw;
 			}
@@ -202,10 +194,7 @@ namespace Wammer.Station
 			{
 				logger.Debug("Unlink Dropbox account");
 
-				using (WebClient client = new DefaultWebClient())
-				{
-					api.StorageUnlink(client, CloudStorageType.DROPBOX);
-				}
+				api.StorageUnlink(CloudStorageType.DROPBOX);
 				CloudStorageCollection.Instance.Remove(Query.EQ("Type", "dropbox"));
 			}
 

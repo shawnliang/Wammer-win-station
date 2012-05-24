@@ -14,7 +14,7 @@ namespace Wammer.Station.AttachmentUpload
 			var update = new UpdateBuilder();
 			BsonDocument bsonDoc = doc.ToBsonDocument();
 
-			update = AppendUpdateStatement(update, "", bsonDoc);
+			update = AppendUpdateStatement(update, string.Empty, bsonDoc);
 
 			SafeModeResult result = AttachmentCollection.Instance.Update(
 				Query.EQ("_id", doc.object_id),

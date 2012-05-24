@@ -53,14 +53,23 @@ namespace Wammer.Station.Timeline
 
 				if (highPriorityQueue.Count > 0)
 				{
-					dequeued = highPriorityQueue.Dequeue();
+					lock (highPriorityQueue)
+					{
+						dequeued = highPriorityQueue.Dequeue();	
+					}
 				}
 				else if (mediumPriorityQueue.Count > 0)
 				{
-					dequeued = mediumPriorityQueue.Dequeue();
+					lock (mediumPriorityQueue)
+					{
+						dequeued = mediumPriorityQueue.Dequeue();
+					}
 				}
 				else
-					dequeued = lowPriorityQueue.Dequeue();
+					lock (lowPriorityQueue)
+					{
+						dequeued = lowPriorityQueue.Dequeue();
+					}
 
 				if (dequeued == null)
 					return null;
@@ -106,7 +115,10 @@ namespace Wammer.Station.Timeline
 							break;
 					}
 
-					queue.Enqueue(task);
+					lock (queue)
+					{
+						queue.Enqueue(task);
+					}
 					OnEnqueued(EventArgs.Empty);
 					hasItem.Release();
 				}

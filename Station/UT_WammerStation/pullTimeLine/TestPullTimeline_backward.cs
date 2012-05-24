@@ -29,17 +29,17 @@ namespace UT_WammerStation.pullTimeLine
 		public Driver RetrievePosts_user { get; private set; }
 		public List<string> RetrievePosts_posts { get; private set; }
 		public List<PostInfo> RetrievePosts_return { get; set; }
-		public PostResponse GetLastestPosts(System.Net.WebClient agent, Driver user, int limit)
+		public PostResponse GetLastestPosts(Driver user, int limit)
 		{
 			GetLastestPosts_user = user;
-			GetLastestPosts_agent = agent;
+			GetLastestPosts_agent = new DefaultWebClient();
 			GetLastestPosts_limit = limit;
 			return GetLastestPosts_return;
 		}
 
-		public PostResponse GetPostsBefore(System.Net.WebClient agent, Driver user, DateTime before, int limit)
+		public PostResponse GetPostsBefore(Driver user, DateTime before, int limit)
 		{
-			this.GetPostsBefore_agent = agent;
+			this.GetPostsBefore_agent = new DefaultWebClient();
 			this.GetPostsBefore_user = user;
 			this.GetPostsBefore_limit = limit;
 			this.GetPostsBefore_before = before;
@@ -47,7 +47,7 @@ namespace UT_WammerStation.pullTimeLine
 			return this.GetPostsBefore_return;
 		}
 
-		public List<PostInfo> RetrievePosts(System.Net.WebClient agent, Driver user, List<string> posts)
+		public List<PostInfo> RetrievePosts(Driver user, List<string> posts)
 		{
 			this.RetrievePosts_user = user;
 			this.RetrievePosts_posts = posts;

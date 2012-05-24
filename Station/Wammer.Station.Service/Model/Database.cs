@@ -100,7 +100,7 @@ namespace Wammer.Model
 
 	public class Collection<T>
 	{
-		protected MongoCollection<T> collection;
+		protected MongoCollection<T> collection { get; set; }
 
 		protected Collection(string collectionName)
 		{

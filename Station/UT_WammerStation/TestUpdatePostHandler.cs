@@ -118,7 +118,7 @@ namespace UT_WammerStation
 					url = "http://unittest.com"
 				});
 
-			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
+			var response = CloudServer.request<UpdatePostResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -165,7 +165,7 @@ namespace UT_WammerStation
 						 title = "unit test updated preview"
 					});
 
-			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
+			var response = CloudServer.request<UpdatePostResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_TYPE, "link"},
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
@@ -208,7 +208,7 @@ namespace UT_WammerStation
 					url = "http://unittest.com"
 				});
 
-			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
+			var response = CloudServer.request<UpdatePostResponse>(API_URL,
 				new Dictionary<object, object>{
 				{CloudServer.PARAM_TYPE, "image"},
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
@@ -253,7 +253,7 @@ namespace UT_WammerStation
 					url = "http://unittest.com"
 				});
 
-			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
+			var response = CloudServer.request<UpdatePostResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -296,7 +296,7 @@ namespace UT_WammerStation
 					url = "http://unittest.com"
 				});
 
-			var response = CloudServer.request<UpdatePostResponse>(new WebClient(), API_URL,
+			var response = CloudServer.request<UpdatePostResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -317,7 +317,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void UpdatePost_WhenNoGroupID_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -329,7 +329,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void UpdatePost_WhenNoSessionToken_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},
@@ -342,7 +342,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void UpdatePost_WhenNoPostID_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},
@@ -354,7 +354,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void UpdatePost_WhenNoLastUpdateTime_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},

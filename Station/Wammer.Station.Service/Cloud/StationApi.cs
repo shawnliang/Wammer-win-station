@@ -15,21 +15,24 @@ namespace Wammer.Cloud
 		public string Id { get; private set; }
 		public string Token { get; private set; }
 
-		public static StationSignUpResponse SignUpBySession(WebClient agent, string sessionToken, string stationId, StationDetail detail)
+		public static StationSignUpResponse SignUpBySession(string sessionToken, string stationId, StationDetail detail)
 		{
-			var param = new Dictionary<object, object>
-			            	{
-			            		{CloudServer.PARAM_STATION_ID, stationId},
-			            		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-			            		{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
-								{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
-			            	};
+			using (var agent = new DefaultWebClient())
+			{
+				var param = new Dictionary<object, object>
+				            	{
+				            		{CloudServer.PARAM_STATION_ID, stationId},
+				            		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				            		{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
+				            		{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
+				            	};
 
-			var res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
-			return res;
+				var res = CloudServer.requestPath<StationSignUpResponse>("stations/signup", param, false);
+				return res;
+			}
 		}
 
-		public static StationSignUpResponse SignUpByEmailPassword(WebClient agent, string stationId, string email,
+		public static StationSignUpResponse SignUpByEmailPassword(string stationId, string email,
 		                                                          string passwd, string deviceId, string deviceName, StationDetail detail)
 		{
 			var param = new Dictionary<object, object>
@@ -43,21 +46,20 @@ namespace Wammer.Cloud
 								{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
 			            	};
 
-			var res = CloudServer.requestPath<StationSignUpResponse>(agent, "stations/signup", param, false);
-			return res;
+			return CloudServer.requestPath<StationSignUpResponse>("stations/signup", param, false);
 		}
 
-		public void LogOn(WebClient agent)
+		public void LogOn()
 		{
-			LogOn(agent, new Dictionary<object, object>());
+			LogOn(new Dictionary<object, object>());
 		}
 
-		public StationLogOnResponse LogOn(WebClient agent, StationDetail detail)
+		public StationLogOnResponse LogOn(StationDetail detail)
 		{
-			return LogOn(agent, detail, CloudServer.APIKey);
+			return LogOn(detail, CloudServer.APIKey);
 		}
 
-		public StationLogOnResponse LogOn(WebClient agent, StationDetail detail, string apiKey)
+		public StationLogOnResponse LogOn(StationDetail detail, string apiKey)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -68,12 +70,12 @@ namespace Wammer.Cloud
 			                 	};
 
 			var res =
-				CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", parameters, false);
+				CloudServer.requestPath<StationLogOnResponse>("stations/logOn", parameters, false);
 			Token = res.session_token;
 			return res;
 		}
 
-		public StationLogOnResponse LogOn(WebClient agent, Dictionary<object, object> param)
+		public StationLogOnResponse LogOn(Dictionary<object, object> param)
 		{
 			var parameters = new Dictionary<object, object>(param)
 			                 	{
@@ -83,13 +85,13 @@ namespace Wammer.Cloud
 			                 	};
 
 			var res =
-				CloudServer.requestPath<StationLogOnResponse>(agent, "stations/logOn", parameters, false);
+				CloudServer.requestPath<StationLogOnResponse>("stations/logOn", parameters, false);
 			Token = res.session_token;
 
 			return res;
 		}
 
-		public StationHeartbeatResponse Heartbeat(WebClient agent, StationDetail detail)
+		public StationHeartbeatResponse Heartbeat(StationDetail detail)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -99,11 +101,11 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
 			                 	};
 
-			var res = CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/heartbeat", parameters);
+			var res = CloudServer.requestPath<StationHeartbeatResponse>("stations/heartbeat", parameters);
 			return res;
 		}
 
-		public static void SignOff(WebClient agent, string stationId, string sessionToken, string userID)
+		public static void SignOff(string stationId, string sessionToken, string userID)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -113,10 +115,10 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_USER_ID, userID}
 			                 	};
 
-			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters, false);
+			CloudServer.requestPath<CloudResponse>("stations/signoff", parameters, false);
 		}
 
-		public static void SignOff(WebClient agent, string stationId, string sessionToken)
+		public static void SignOff(string stationId, string sessionToken)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -125,10 +127,10 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			CloudServer.requestPath<CloudResponse>(agent, "stations/signoff", parameters, false);
+			CloudServer.requestPath<CloudResponse>("stations/signoff", parameters, false);
 		}
 
-		public void Offline(WebClient agent)
+		public void Offline()
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -137,7 +139,7 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			CloudServer.requestPath<StationHeartbeatResponse>(agent, "stations/offline", parameters);
+			CloudServer.requestPath<StationHeartbeatResponse>("stations/offline", parameters);
 		}
 	}
 

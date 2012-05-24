@@ -11,28 +11,28 @@ namespace Wammer.Station.Timeline
 	{
 		#region IPostProvider Members
 
-		public PostResponse GetLastestPosts(WebClient agent, Driver user, int limit)
+		public PostResponse GetLastestPosts(Driver user, int limit)
 		{
 			var api = new PostApi(user);
-			return api.PostGetLatest(agent, limit);
+			return api.PostGetLatest(limit);
 		}
 
-		public PostResponse GetPostsBefore(WebClient agent, Driver user, DateTime before, int limit)
+		public PostResponse GetPostsBefore(Driver user, DateTime before, int limit)
 		{
 			if (limit > 0)
 				limit = -limit;
 
 			var api = new PostApi(user);
-			return api.PostFetchByFilter(agent, new FilterEntity {limit = limit, timestamp = before.ToCloudTimeString()});
+			return api.PostFetchByFilter(new FilterEntity {limit = limit, timestamp = before.ToCloudTimeString()});
 		}
 
-		public List<PostInfo> RetrievePosts(WebClient agent, Driver user, List<string> posts)
+		public List<PostInfo> RetrievePosts(Driver user, List<string> posts)
 		{
 			if (posts == null || posts.Count == 0)
 				return new List<PostInfo>();
 
 			var api = new PostApi(user);
-			return api.PostFetchByPostId(agent, posts).posts;
+			return api.PostFetchByPostId(posts).posts;
 		}
 
 		#endregion

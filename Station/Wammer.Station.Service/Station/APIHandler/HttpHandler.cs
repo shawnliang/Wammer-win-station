@@ -75,7 +75,7 @@ namespace Wammer.Station
 
 		protected void TunnelToCloud()
 		{
-			Debug.Assert(Request != null);
+			Debug.Assert(Request != null, "Request is null");
 
 			var apiPath =
 				Regex.Match(Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].
@@ -83,15 +83,13 @@ namespace Wammer.Station
 			var forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key,
 			                                                                            key =>
 			                                                                            Parameters[key]);
-			using (var agent = new WebClient())
-			{
-				RespondSuccess(CloudServer.requestPath(agent, apiPath, forwardParams, false));
-			}
+
+			RespondSuccess(CloudServer.requestPath(apiPath, forwardParams, false));
 		}
 
 		protected void TunnelToCloud<T>()
 		{
-			Debug.Assert(Request != null);
+			Debug.Assert(Request != null, "Request is null");
 
 			var apiPath =
 				Regex.Match(Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].
@@ -100,10 +98,7 @@ namespace Wammer.Station
 			                                                                            key =>
 			                                                                            Parameters[key]);
 
-			using (var agent = new WebClient())
-			{
-				RespondSuccess(CloudServer.requestPath<T>(agent, apiPath, forwardParams, false));
-			}
+			RespondSuccess(CloudServer.requestPath<T>(apiPath, forwardParams, false));
 		}
 
 		#endregion

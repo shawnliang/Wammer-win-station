@@ -47,7 +47,7 @@ namespace Wammer.Cloud
 					image_meta.medium = new ImageMetaDetail(attachment.image_meta.medium);
 				if (attachment.image_meta.small != null)
 					image_meta.small = new ImageMetaDetail(attachment.image_meta.small);
-				if (attachment.image_meta.square !=null)
+				if (attachment.image_meta.square != null)
 					image_meta.square = new ImageMetaDetail(attachment.image_meta.square);
 			}
 		}
@@ -107,10 +107,17 @@ namespace Wammer.Cloud
 		[Serializable]
 		public class ImageMeta
 		{
-			[BsonIgnoreIfNull] public ImageMetaDetail large;
-			[BsonIgnoreIfNull] public ImageMetaDetail medium;
-			[BsonIgnoreIfNull] public ImageMetaDetail small;
-			[BsonIgnoreIfNull] public ImageMetaDetail square;
+			[BsonIgnoreIfNull]
+			public ImageMetaDetail large { get; set; }
+
+			[BsonIgnoreIfNull]
+			public ImageMetaDetail medium { get; set; }
+
+			[BsonIgnoreIfNull]
+			public ImageMetaDetail small { get; set; }
+
+			[BsonIgnoreIfNull]
+			public ImageMetaDetail square { get; set; }
 		}
 
 		#endregion
@@ -151,9 +158,15 @@ namespace Wammer.Cloud
 			[BsonIgnoreIfNull]
 			public long file_size { get; set; }
 
+   /// <summary>
+   /// Gets or sets mime_type
+   /// </summary>   
 			[BsonIgnoreIfNull]
 			public string mime_type { get; set; }
 
+   /// <summary>
+   /// Gets or sets md5
+   /// </summary>   
 			[BsonIgnoreIfNull]
 			public string md5 { get; set; }
 		}

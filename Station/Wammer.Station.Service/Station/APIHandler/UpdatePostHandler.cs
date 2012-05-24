@@ -165,7 +165,6 @@ namespace Wammer.Station
 			{
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("soul", null));
 				post.soul = string.Empty;
-				return;
 			}
 		}
 
@@ -208,7 +207,7 @@ namespace Wammer.Station
 					"Driver not found!", (int) StationLocalApiError.InvalidDriver);
 
 			var api = new PostApi(driver);
-			PostGetSingleResponse singlePostResponse = api.PostGetSingle(new DefaultWebClient(), groupID, postID);
+			PostGetSingleResponse singlePostResponse = api.PostGetSingle(groupID, postID);
 
 			PostInfo responsePost = singlePostResponse.post;
 			if (responsePost == null)

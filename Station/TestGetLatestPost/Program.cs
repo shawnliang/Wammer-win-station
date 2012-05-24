@@ -35,7 +35,7 @@ namespace TestGetLatestPost
 				if (station == null)
 					station = "develop.waveface.com";
 
-				User user = User.LogIn(new WebClient(), email, password, "deviceId", "deviceName");
+				User user = User.LogIn(email, password, "deviceId", "deviceName");
 
 				ManualResetEvent start_event = new ManualResetEvent(false);
 

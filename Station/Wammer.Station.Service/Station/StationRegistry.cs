@@ -8,7 +8,7 @@ namespace Wammer.Station
 
 		public static string StationId
 		{
-			get { return (string) GetValue("stationId", ""); }
+			get { return (string) GetValue("stationId", string.Empty); }
 		}
 
 		public static object GetValue(string valueName, object defaultValue)
