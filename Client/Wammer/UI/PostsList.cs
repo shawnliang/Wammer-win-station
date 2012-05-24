@@ -815,6 +815,8 @@ namespace Waveface
             this.dataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragEnter);
             this.dataGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragOver);
             this.dataGridView.DragLeave += new System.EventHandler(this.dataGridView_DragLeave);
+            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
+            this.dataGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyUp);
             // 
             // creatoridDataGridViewTextBoxColumn
             // 
@@ -956,6 +958,24 @@ namespace Waveface
         private void dataGridView_DragLeave(object sender, EventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Leave();
+        }
+
+        #endregion
+
+        #region Key
+
+        private bool m_isKeyPressed;
+
+        private void dataGridView_KeyUp(object sender, KeyEventArgs e)
+        {
+            m_isKeyPressed = false;
+        }
+
+        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.SuppressKeyPress = m_isKeyPressed;
+
+            m_isKeyPressed = true;
         }
 
         #endregion

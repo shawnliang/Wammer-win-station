@@ -93,7 +93,6 @@ namespace Waveface.DetailUI
 
             MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer
                                                                  {
-                                                                     Clip = false,
                                                                      ItemBorderless = true,
                                                                      ShowHovered = false
                                                                  };
