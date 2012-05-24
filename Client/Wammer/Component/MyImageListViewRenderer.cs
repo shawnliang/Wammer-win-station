@@ -47,7 +47,7 @@ namespace Waveface.Component
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
             g.SmoothingMode = SmoothingMode.HighQuality;
 
-            Clip = (ImageListView.View == View.Details);
+            // Clip = (ImageListView.View == View.Details);
 
             if (ImageListView.View == View.Details)
             {
@@ -72,10 +72,6 @@ namespace Waveface.Component
                         (_img.Height >= ImageListView.ThumbnailSize.Height))
                     {
                         _img = ImageUtility.GenerateSquareImage(_img, ImageListView.ThumbnailSize.Width);
-                    }
-                    else
-                    {
-                        //return;
                     }
 
                     // Calculate image bounds
@@ -120,7 +116,9 @@ namespace Waveface.Component
                                                                        ImageListView.Colors.SelectedColor2,
                                                                        LinearGradientMode.Vertical))
                         {
-                            Utility.FillRoundedRectangle(g, _bSelected, bounds, 5);
+                            //Utility.FillRoundedRectangle(g, _bSelected, bounds, 5);
+
+                            g.FillRectangle(_bSelected, bounds);
                         }
                     }
                     else if (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
@@ -130,7 +128,8 @@ namespace Waveface.Component
                                                                      ImageListView.Colors.UnFocusedColor2,
                                                                      LinearGradientMode.Vertical))
                         {
-                            Utility.FillRoundedRectangle(g, _bGray64, bounds, 5);
+                            //Utility.FillRoundedRectangle(g, _bGray64, bounds, 5);
+                            g.FillRectangle(_bGray64, bounds);
                         }
                     }
 
@@ -143,7 +142,8 @@ namespace Waveface.Component
                                                                           ImageListView.Colors.HoverColor2,
                                                                           LinearGradientMode.Vertical))
                             {
-                                Utility.FillRoundedRectangle(g, _bHovered, bounds, 5);
+                                // Utility.FillRoundedRectangle(g, _bHovered, bounds, 5);
+                                g.FillRectangle(_bHovered, bounds);
                             }
                         }
                     }
