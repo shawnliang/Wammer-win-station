@@ -212,9 +212,9 @@ namespace Wammer.Cloud
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns>Response value</returns>
 		public static string requestPath(string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true)
+		                                 bool checkOffline = true,Boolean autoRedirectRequest = true)
 		{
-			return requestPath(BaseUrl, path, parms, checkOffline);
+			return requestPath(BaseUrl, path, parms, checkOffline, autoRedirectRequest);
 		}
 
 		/// <summary>
@@ -226,7 +226,7 @@ namespace Wammer.Cloud
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns></returns>
 		public static string requestPath(string baseUrl, string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true, int timeout = -1)
+		                                 bool checkOffline = true, Boolean autoRedirectRequest = true, int timeout = -1)
 		{
 			if (checkOffline)
 			{
@@ -241,7 +241,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				string res = request(url, parms);
+				string res = request(url, parms, autoRedirectRequest);
 				isOffline = false;
 				return res;
 			}
@@ -262,7 +262,7 @@ namespace Wammer.Cloud
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(string path, Dictionary<object, object> parms,
-		                               bool checkOffline = true)
+		                               bool checkOffline = true, Boolean autoRedirectRequest = true)
 		{
 			if (checkOffline)
 			{
@@ -275,7 +275,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				var res = ConvertFromJson<T>(requestPath(path, parms, false));
+				var res = ConvertFromJson<T>(requestPath(path, parms, false, autoRedirectRequest));
 				isOffline = false;
 				return res;
 			}
@@ -387,7 +387,7 @@ namespace Wammer.Cloud
 			return resObj;
 		}
 
-		public static string request(string url, Dictionary<object, object> param, int timeout = -1)
+		public static string request(string url, Dictionary<object, object> param, Boolean autoRedirectRequest = true, int timeout = -1)
 		{
 			if (param.Count == 0)
 				return request(url);
@@ -407,7 +407,7 @@ namespace Wammer.Cloud
 			// remove last &
 			buf.Remove(buf.Length - 1, 1);
 
-			return request(url, buf.ToString());
+			return request(url, buf.ToString(), autoRedirectRequest);
 		}
 
 		public static T request<T>(string url, Dictionary<object, object> param, bool checkOffline = true)
@@ -434,7 +434,7 @@ namespace Wammer.Cloud
 			}
 		}
 
-		private static string request(string url, string postData = "", int timeout = -1)
+		private static string request(string url, string postData = "", Boolean autoRedirectRequest = true, int timeout = -1)
 		{
 			long beginTime = Environment.TickCount;
 
@@ -443,6 +443,7 @@ namespace Wammer.Cloud
 				byte[] rawResponse;
 				using (var agent = new DefaultWebClient())
 				{
+					agent.AllowAutoRedirect = autoRedirectRequest;
 					if (timeout > 0)
 					{
 						agent.Timeout = timeout;
