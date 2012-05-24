@@ -275,10 +275,7 @@ namespace Wammer.Station.Timeline
 				}
 
 				var api = new AttachmentApi(user);
-				using (WebClient client = new DefaultWebClient())
-				{
-					api.AttachmentView(client, evtargs, StationRegistry.StationId);
-				}
+				api.AttachmentView(evtargs, StationRegistry.StationId);
 				DownloadComplete(evtargs, user);
 			}
 			catch (Exception e)

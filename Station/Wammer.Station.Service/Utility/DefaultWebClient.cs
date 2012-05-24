@@ -6,7 +6,37 @@ namespace Wammer.Utility
 	public class WebClientEx : WebClient
 	{
 		#region Public Property
+		/// <summary>
+		/// Gets or sets the request.
+		/// </summary>
+		/// <value>The request.</value>
 		public WebRequest Request { get; private set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether [allow auto redirect].
+		/// </summary>
+		/// <value><c>true</c> if [allow auto redirect]; otherwise, <c>false</c>.</value>
+		public Boolean AllowAutoRedirect
+		{
+			get
+			{
+				var webRequest = (Request as HttpWebRequest);
+
+				if (webRequest == null)
+					return true;
+
+				return webRequest.AllowAutoRedirect;
+			}
+			set
+			{
+				var webRequest = (Request as HttpWebRequest);
+
+				if (webRequest == null)
+					return;
+
+				webRequest.AllowAutoRedirect = value;
+			}
+		}
 		#endregion
 
 		#region Protected Method

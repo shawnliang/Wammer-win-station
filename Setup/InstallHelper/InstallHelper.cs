@@ -57,7 +57,7 @@ namespace Wammer.Station
 
 						try
 						{
-							Wammer.Cloud.StationApi.SignOff(new WebClient(), station.Id, user.session_token);
+							StationApi.SignOff(station.Id, user.session_token);
 							Logger.Info("Signoff station is successful");
 							break; // use anyone's token to signoff this station once is enough
 						}

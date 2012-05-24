@@ -145,7 +145,7 @@ namespace UT_WammerStation.pullTimeLine
 			DummyPostInfoProvider postInfo = new DummyPostInfoProvider();
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
 			Mock<IUserTrackApi> api = new Mock<IUserTrackApi>();
-			api.Setup(x => x.GetChangeHistory(It.IsAny<WebClient>(), It.IsAny<Driver>(), since.AddSeconds(1.0))).Throws(new WammerCloudException("123", new ArgumentOutOfRangeException()));
+			api.Setup(x => x.GetChangeHistory(It.IsAny<Driver>(), since.AddSeconds(1.0))).Throws(new WammerCloudException("123", new ArgumentOutOfRangeException()));
 
 			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, api.Object);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
@@ -175,7 +175,7 @@ namespace UT_WammerStation.pullTimeLine
 			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
 			Mock<IUserTrackApi> utApi = new Mock<IUserTrackApi>(MockBehavior.Strict);
 
-			utApi.Setup(x => x.GetChangeHistory(It.IsAny<WebClient>(), It.IsAny<Driver>(), since.AddSeconds(1.0))).
+			utApi.Setup(x => x.GetChangeHistory(It.IsAny<Driver>(), since.AddSeconds(1.0))).
 				Returns(new UserTrackResponse
 				{
 					usertrack_list = new List<UserTrackDetail> {
@@ -234,10 +234,9 @@ namespace UT_WammerStation.pullTimeLine
 
 	class FakeUserTracksApi: IUserTrackApi
 	{
-		public UserTrackResponse GetChangeHistory(WebClient agent, Wammer.Model.Driver user, DateTime since)
+		public UserTrackResponse GetChangeHistory(Wammer.Model.Driver user, DateTime since)
 		{
 			Assert.AreEqual("token", user.session_token);
-			Assert.IsNotNull(agent);
 
 			return new UserTrackResponse()
 			{

@@ -117,7 +117,7 @@ namespace UT_WammerStation
 				};
 
 			PostCollection.Instance.Save(existedPost);	
-			var response = CloudServer.request<NewPostCommentResponse>(new WebClient(), API_URL,
+			var response = CloudServer.request<NewPostCommentResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "123"},
@@ -144,7 +144,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void NewPostComment_WithoutAPIKey_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -156,7 +156,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void NewPostComment_WithoutGroupID_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_SESSION_TOKEN, "!@##%$&"},
@@ -168,7 +168,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void NewPostComment_WithoutSessionToken_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},
@@ -180,7 +180,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void NewPostComment_WithoutPostID_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},
@@ -192,7 +192,7 @@ namespace UT_WammerStation
 		[ExpectedException(typeof(WammerCloudException))]
 		public void NewPostComment_WithoutComment_ThrowWammerCloudException()
 		{
-			CloudServer.request<CloudResponse>(new WebClient(), API_URL,
+			CloudServer.request<CloudResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
 				{CloudServer.PARAM_GROUP_ID, "!@##%$&"},

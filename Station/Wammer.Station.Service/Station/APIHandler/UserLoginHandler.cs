@@ -147,13 +147,8 @@ namespace Wammer.Station
 					var password = Parameters[CloudServer.PARAM_PASSWORD];
 					var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
 					var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
-					User user = null;
-					using (var client = new DefaultWebClient())
-					{
-						client.Timeout = 2500;
-						client.ReadWriteTimeout = 2000;
-						user = User.LogIn(client, email, password, apikey, deviceId, deviceName);
-					}
+					var user = User.LogIn(email, password, apikey, deviceId, deviceName, 2500);
+					
 
 					Debug.Assert(user != null, "user != null");
 					var loginInfo = user.LoginedInfo;

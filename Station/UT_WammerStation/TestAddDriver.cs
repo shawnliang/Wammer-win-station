@@ -86,7 +86,7 @@ namespace UT_WammerStation
 
 			using (FakeCloud cloud = new FakeCloud(res1))
 			{
-				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
+				CloudServer.request<CloudResponse>("http://localhost:8080/v2/station/drivers/add",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"},
@@ -234,7 +234,7 @@ namespace UT_WammerStation
 			};
 			using (FakeCloud cloud = new FakeCloud(res1))
 			{
-				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/station/drivers/add",
+				CloudServer.request<CloudResponse>("http://localhost:8080/v2/station/drivers/add",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"},
@@ -283,7 +283,6 @@ namespace UT_WammerStation
 				try
 				{
 					CloudServer.request<CloudResponse>(
-						new WebClient(),
 						"http://localhost:8080/v2/station/drivers/add",
 						new Dictionary<object, object>{ 
 							{ "email", "user1@gmail.com"}, 

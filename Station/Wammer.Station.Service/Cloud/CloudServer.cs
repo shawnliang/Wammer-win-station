@@ -8,6 +8,7 @@ using System.Text;
 using System.Web;
 using Wammer.PerfMonitor;
 using Wammer.Station;
+using Wammer.Utility;
 using fastJSON;
 
 namespace Wammer.Cloud
@@ -136,7 +137,7 @@ namespace Wammer.Cloud
 
 
 
-		public static void requestDownload(WebClient agent, string path, Dictionary<object, object> parameters,
+		public static void requestDownload(string path, Dictionary<object, object> parameters,
 		                                   string filepath)
 		{
 			var buf = new StringBuilder();
@@ -157,14 +158,16 @@ namespace Wammer.Cloud
 
 				// remove last &
 				buf.Remove(buf.Length - 1, 1);
+				using (var agent = new DefaultWebClient())
+				{
+					Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf));
 
-				Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf));
-
-				Debug.Assert(stream != null, "stream != null");
-				stream.WriteTo(filepath, 1024,
-				               (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(
-				               	long.Parse(e.UserState.ToString())));
-				stream.Close();
+					Debug.Assert(stream != null, "stream != null");
+					stream.WriteTo(filepath, 1024,
+					               (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(
+					               	long.Parse(e.UserState.ToString())));
+					stream.Close();
+				}
 			}
 			catch (WebException e)
 			{
@@ -203,20 +206,27 @@ namespace Wammer.Cloud
 		/// <summary>
 		/// Requests Wammer cloud via http post
 		/// </summary>
-		/// <param name="agent">web client agent</param>
 		/// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
 		/// <param name="parms">request parameter names and values.
 		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns>Response value</returns>
-		public static string requestPath(WebClient agent, string path, Dictionary<object, object> parms,
+		public static string requestPath(string path, Dictionary<object, object> parms,
 		                                 bool checkOffline = true)
 		{
-			return requestPath(agent, BaseUrl, path, parms, checkOffline);
+			return requestPath(BaseUrl, path, parms, checkOffline);
 		}
 
-		public static string requestPath(WebClient agent, string baseUrl, string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true)
+		/// <summary>
+		/// Requests the path.
+		/// </summary>
+		/// <param name="baseUrl">The base URL.</param>
+		/// <param name="path">The path.</param>
+		/// <param name="parms">The parms.</param>
+		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
+		/// <returns></returns>
+		public static string requestPath(string baseUrl, string path, Dictionary<object, object> parms,
+		                                 bool checkOffline = true, int timeout = -1)
 		{
 			if (checkOffline)
 			{
@@ -231,7 +241,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				string res = request(agent, url, parms);
+				string res = request(url, parms);
 				isOffline = false;
 				return res;
 			}
@@ -246,13 +256,12 @@ namespace Wammer.Cloud
 		/// Requests Wammer cloud via http post
 		/// </summary>
 		/// <typeparam name="T">response type</typeparam>
-		/// <param name="agent">web client agent</param>
 		/// <param name="path">partial path of cloud url, http://host:port/base/partial_path</param>
 		/// <param name="parms">request parameter names and values.
 		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
 		/// <returns>Response value</returns>
-		public static T requestPath<T>(WebClient agent, string path, Dictionary<object, object> parms,
+		public static T requestPath<T>(string path, Dictionary<object, object> parms,
 		                               bool checkOffline = true)
 		{
 			if (checkOffline)
@@ -266,7 +275,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				var res = ConvertFromJson<T>(requestPath(agent, path, parms, false));
+				var res = ConvertFromJson<T>(requestPath(path, parms, false));
 				isOffline = false;
 				return res;
 			}
@@ -276,9 +285,8 @@ namespace Wammer.Cloud
 				throw;
 			}
 		}
-
-		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param, bool isGet,
-		                           bool checkOffline = true)
+		
+		public static T request<T>(string url, Dictionary<object, object> param, bool isGet,bool checkOffline = true,int timeout = -1)
 		{
 			if (checkOffline)
 			{
@@ -290,7 +298,7 @@ namespace Wammer.Cloud
 			}
 
 			if (param.Count == 0)
-				return request<T>(agent, url, "", isGet);
+				return request<T>(url, "", isGet, timeout);
 
 			var buf = new StringBuilder();
 			foreach (var pair in param)
@@ -309,7 +317,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				var res = request<T>(agent, url, buf.ToString(), isGet);
+				var res = request<T>(url, buf.ToString(), isGet, timeout);
 				isOffline = false;
 				return res;
 			}
@@ -320,7 +328,7 @@ namespace Wammer.Cloud
 			}
 		}
 
-		private static T request<T>(WebClient agent, string url, string parameters, bool isGet)
+		private static T request<T>(string url, string parameters, bool isGet, int timeout = -1)
 		{
 			string response = "";
 			T resObj;
@@ -329,17 +337,27 @@ namespace Wammer.Cloud
 
 			try
 			{
-				agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 				byte[] rawResponse;
-				if (isGet)
+				using (var agent = new DefaultWebClient())
 				{
-					rawResponse = string.IsNullOrEmpty(parameters)
-					              	? agent.DownloadData(url)
-					              	: agent.DownloadData(url + "?" + parameters);
-				}
-				else
-				{
-					rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(parameters));
+					agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+					
+					if (timeout > 0)
+					{
+						agent.Timeout = timeout;
+						agent.ReadWriteTimeout = timeout;
+					}
+
+					if (isGet)
+					{
+						rawResponse = string.IsNullOrEmpty(parameters)
+						              	? agent.DownloadData(url)
+						              	: agent.DownloadData(url + "?" + parameters);
+					}
+					else
+					{
+						rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(parameters));
+					}
 				}
 
 				Debug.Assert(rawResponse != null, "rawResponse != null");
@@ -369,10 +387,10 @@ namespace Wammer.Cloud
 			return resObj;
 		}
 
-		public static string request(WebClient agent, string url, Dictionary<object, object> param)
+		public static string request(string url, Dictionary<object, object> param, int timeout = -1)
 		{
 			if (param.Count == 0)
-				return request(agent, url);
+				return request(url);
 
 			var buf = new StringBuilder();
 			foreach (var pair in param)
@@ -389,10 +407,10 @@ namespace Wammer.Cloud
 			// remove last &
 			buf.Remove(buf.Length - 1, 1);
 
-			return request(agent, url, buf.ToString());
+			return request(url, buf.ToString());
 		}
 
-		public static T request<T>(WebClient agent, string url, Dictionary<object, object> param, bool checkOffline = true)
+		public static T request<T>(string url, Dictionary<object, object> param, bool checkOffline = true)
 		{
 			if (checkOffline)
 			{
@@ -405,7 +423,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				var res = ConvertFromJson<T>(request(agent, url, param));
+				var res = ConvertFromJson<T>(request(url, param));
 				isOffline = false;
 				return res;
 			}
@@ -416,14 +434,24 @@ namespace Wammer.Cloud
 			}
 		}
 
-		private static string request(WebClient agent, string url, string postData = "")
+		private static string request(string url, string postData = "", int timeout = -1)
 		{
 			long beginTime = Environment.TickCount;
 
 			try
 			{
-				agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-				byte[] rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(postData));
+				byte[] rawResponse;
+				using (var agent = new DefaultWebClient())
+				{
+					if (timeout > 0)
+					{
+						agent.Timeout = timeout;
+						agent.ReadWriteTimeout = timeout;
+					}
+
+					agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+					rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(postData));
+				}
 				return Encoding.UTF8.GetString(rawResponse);
 			}
 			catch (WebException e)

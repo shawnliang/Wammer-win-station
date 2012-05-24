@@ -154,7 +154,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				AddUserResponse res = CloudServer.request<AddUserResponse>(
-					new WebClient(),
 					StationMgmtURL + "station/drivers/add",
 					new Dictionary<object, object>{
 						{ "email", email},
@@ -195,7 +194,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				AddUserResponse res = CloudServer.request<AddUserResponse>(
-					new WebClient(),
 					StationMgmtURL + "station/drivers/add",
 					new Dictionary<object, object>{
 						{ "user_id", userId},
@@ -242,7 +240,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				return CloudServer.request<UserLogInResponse>(
-					new WebClient(),
 					StationFuncURL + "auth/login",
 					new Dictionary<object, object> { 
 						{CloudServer.PARAM_API_KEY, apikey},
@@ -271,7 +268,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				return CloudServer.request<UserLogInResponse>(
-					new WebClient(),
 					StationFuncURL + "auth/login",
 					new Dictionary<object, object> { 
 						{CloudServer.PARAM_API_KEY, apikey},
@@ -296,7 +292,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				CloudServer.request<CloudResponse>(
-					new WebClient(),
 					StationFuncURL + "auth/logout",
 					new Dictionary<object, object> { 
 						{CloudServer.PARAM_API_KEY, apikey},
@@ -320,11 +315,8 @@ namespace Wammer.Station.Management
 		/// <param name="password"></param>
 		public static void SignoffStation(string stationId, string driverEmail, string password)
 		{
-			using (WebClient agent = new WebClient())
-			{
-				User user = User.LogIn(agent, driverEmail, password, stationId, Environment.MachineName);
-				Cloud.StationApi.SignOff(agent, stationId, user.Token, user.Id);
-			}
+			var user = User.LogIn(driverEmail, password, stationId, Environment.MachineName);
+			StationApi.SignOff(stationId, user.Token, user.Id);
 		}
 
 		/// <summary>
@@ -375,7 +367,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				GetDropboxOAuthResponse res = CloudServer.request<GetDropboxOAuthResponse>(
-					new WebClient(),
 					StationMgmtURL + "cloudstorage/dropbox/oauth",
 					new Dictionary<object, object>(),
 					true,
@@ -411,7 +402,6 @@ namespace Wammer.Station.Management
 
 				string folder = DropboxHelper.GetSyncFolder();
 				CloudResponse res = CloudServer.request<CloudResponse>(
-					new WebClient(),
 					StationMgmtURL + "cloudstorage/dropbox/connect",
 					new Dictionary<object, object> { { "quota", quota }, { "folder", folder } },
 					true,
@@ -442,7 +432,6 @@ namespace Wammer.Station.Management
 					throw new DropboxNotInstalledException("Dropbox is not installed");
 					
 				CloudResponse res = CloudServer.request<CloudResponse>(
-					new WebClient(),
 					StationMgmtURL + "cloudstorage/dropbox/update",
 					new Dictionary<object, object> { { "quota", quota } },
 					true,
@@ -463,7 +452,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				CloudResponse res = CloudServer.request<CloudResponse>(
-					new WebClient(),
 					StationMgmtURL + "cloudstorage/dropbox/disconnect",
 					new Dictionary<object, object>(),
 					true,
@@ -484,7 +472,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				CloudServer.request<CloudResponse>(
-					new WebClient(),
 					StationMgmtURL + "station/resumeSync",
 					new Dictionary<object, object>
 					{
@@ -505,20 +492,13 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				using (DefaultWebClient agent = new DefaultWebClient())
-				{
-					agent.Timeout = timeout;
-					agent.ReadWriteTimeout = timeout;
-
-					CloudServer.request<CloudResponse>(
-					   agent,
-					   StationMgmtURL + "station/suspendSync",
-					   new Dictionary<object, object>
+				CloudServer.request<CloudResponse>(
+					StationMgmtURL + "station/suspendSync",
+					new Dictionary<object, object>
 						{
 							{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 						},
-					   false);
-				}
+					false, true, timeout);
 			}
 			catch (WammerCloudException e)
 			{
@@ -531,7 +511,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				CloudServer.request<CloudResponse>(
-					new WebClient(),
 					StationMgmtURL + "station/drivers/remove",
 					new Dictionary<object, object>
 					{
@@ -558,7 +537,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				CloudServer.requestPath<CloudResponse>(
-					new WebClient(),
 					"users/pingMyStation",
 					new Dictionary<object, object> { 
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
@@ -585,7 +563,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true, false);
+				Wammer.Cloud.CloudServer.request<CloudResponse>(StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true, false);
 			}
 			catch (WammerCloudException e)
 			{
@@ -597,7 +575,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(new WebClient(), StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true, false);
+				Wammer.Cloud.CloudServer.request<CloudResponse>(StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true, false);
 			}
 			catch (WammerCloudException e)
 			{
@@ -610,7 +588,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				GetUserResponse res = CloudServer.requestPath<GetUserResponse>(
-					new WebClient(),
 					"users/get",
 					new Dictionary<object, object> { 
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
@@ -634,7 +611,6 @@ namespace Wammer.Station.Management
 			{
 				// TODO: call the api via station
 				StorageUsageResponse res = CloudServer.requestPath<StorageUsageResponse>(
-					new WebClient(),
 					"storages/usage",
 					new Dictionary<object, object> { 
 						{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
@@ -656,7 +632,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				ListCloudStorageResponse res = CloudServer.request<ListCloudStorageResponse>(
-					new WebClient(),
 					StationMgmtURL + "cloudstorage/list",
 					new Dictionary<object, object>
 					{
@@ -678,7 +653,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				GetStatusResponse res = CloudServer.request<GetStatusResponse>(
-					new WebClient(),
 					StationMgmtURL + "station/status/get",
 					new Dictionary<object, object>
 					{
@@ -700,7 +674,6 @@ namespace Wammer.Station.Management
 			try
 			{
 				ListDriverResponse res = CloudServer.request<ListDriverResponse>(
-					new WebClient(),
 					StationMgmtURL + "station/drivers/list",
 					new Dictionary<object, object>
 					{

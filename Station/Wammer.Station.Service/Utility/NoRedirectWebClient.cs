@@ -3,18 +3,11 @@ using System.Net;
 
 namespace Wammer.Utility
 {
-	internal class NoRedirectWebClient : WebClient
+	internal class NoRedirectWebClient : WebClientEx
 	{
-		protected override WebRequest GetWebRequest(Uri address)
+		public NoRedirectWebClient()
 		{
-			WebRequest request = base.GetWebRequest(address);
-
-			var httpWebRequest = request as HttpWebRequest;
-
-			if (httpWebRequest != null)
-				httpWebRequest.AllowAutoRedirect = false;
-
-			return request;
+			AllowAutoRedirect = false;
 		}
 	}
 }

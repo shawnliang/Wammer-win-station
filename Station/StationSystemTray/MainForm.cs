@@ -899,22 +899,18 @@ namespace StationSystemTray
 		{
 			try
 			{
-				using (var agent = new DefaultWebClient())
-				{
-					LoginedSession ret = User.LogIn(
-						agent,
-						"http://localhost:9981/v2/",
-						userlogin.Email,
-						SecurityHelper.DecryptPassword(userlogin.Password),
-						CLIENT_API_KEY,
-						(string)StationRegistry.GetValue("stationId", string.Empty),
-						Environment.MachineName).LoginedInfo;
+				LoginedSession ret = User.LogIn(
+					"http://localhost:9981/v2/",
+					userlogin.Email,
+					SecurityHelper.DecryptPassword(userlogin.Password),
+					CLIENT_API_KEY,
+					(string) StationRegistry.GetValue("stationId", string.Empty),
+					Environment.MachineName).LoginedInfo;
 
-					userloginContainer.SaveCurLoginedUser(userlogin);
-					userloginContainer.SaveCurLoginedSession(ret.session_token);
+				userloginContainer.SaveCurLoginedUser(userlogin);
+				userloginContainer.SaveCurLoginedSession(ret.session_token);
 
-					return ret;
-				}
+				return ret;
 			}
 			catch (WammerCloudException e)
 			{
@@ -1127,7 +1123,7 @@ namespace StationSystemTray
 			InternetSetOption(IntPtr.Zero, 42, IntPtr.Zero, 0);
 		}
 
-		public void LogOut(WebClient agent, string sessionToken, string apiKey)
+		public void LogOut(string sessionToken, string apiKey)
 		{
 			try
 			{
@@ -1170,7 +1166,7 @@ namespace StationSystemTray
 					Debug.Assert(loginedSession != null);
 
 					if (loginedSession != null)
-						LogOut(new WebClient(), loginedSession.session_token, loginedSession.apikey.apikey);
+						LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
 			GotoTabPage(tabSignIn, lastLoginUser);

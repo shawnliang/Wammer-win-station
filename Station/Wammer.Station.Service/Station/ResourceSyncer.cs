@@ -32,11 +32,8 @@ namespace Wammer.Station
 				Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", e.user_id));
 				if (user != null && user.isPrimaryStation)
 				{
-					using (WebClient agent = new DefaultWebClient())
-					{
-						AttachmentInfo info = AttachmentApi.GetInfo(agent, e.object_id, user.session_token);
-						downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
-					}
+					var info = AttachmentApi.GetInfo(e.object_id, user.session_token);
+					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
 				}
 			}
 			catch (Exception ex)

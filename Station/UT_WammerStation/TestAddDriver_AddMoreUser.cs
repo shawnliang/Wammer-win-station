@@ -104,27 +104,29 @@ namespace UT_WammerStation
 				user = new UserInfo { user_id = "uid1" }
 			};
 
-            Driver driver = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", "exist@gmail.com"));
-            var referenceCount = driver.ref_count;
-            var expectedValue =  referenceCount + 1;
+			var driver = DriverCollection.Instance.FindOne(Query.EQ("email", "exist@gmail.com"));
+
+			Assert.IsNotNull(driver);
+			var referenceCount = driver.ref_count;
+			var expectedValue = referenceCount + 1;
 
 			using (FakeCloud cloud = new FakeCloud(res))
 			{
-				CloudServer.request<CloudResponse>(new WebClient(), REST_COMMAND_ADD,
-					new Dictionary<object, object>{ 
-					{ "email", "exist@gmail.com"}, 
-					{ "password", "12345"},
-					{ "device_id", "deviceId"},
-					{ "device_name", "deviceName"}
-					});
+				CloudServer.request<CloudResponse>(REST_COMMAND_ADD,
+												   new Dictionary<object, object>{ 
+					                                                                 	{ "email", "exist@gmail.com"}, 
+					                                                                 	{ "password", "12345"},
+					                                                                 	{ "device_id", "deviceId"},
+					                                                                 	{ "device_name", "deviceName"}
+					                                                                 });
 			}
 
-			driver = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", "exist@gmail.com"));           
+			driver = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", "exist@gmail.com"));
 
 			Assert.IsNotNull(driver);
 
-            var actualValue = driver.ref_count;
-            Assert.AreEqual(expectedValue, actualValue);
+			var actualValue = driver.ref_count;
+			Assert.AreEqual(expectedValue, actualValue);
 		}
 
 		[TestMethod]
@@ -154,7 +156,7 @@ namespace UT_WammerStation
 
 			using (FakeCloud cloud = new FakeCloud(res1))
 			{
-				CloudServer.request<CloudResponse>(new WebClient(), REST_COMMAND_ADD,
+				CloudServer.request<CloudResponse>(REST_COMMAND_ADD,
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"},

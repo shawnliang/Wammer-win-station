@@ -83,10 +83,8 @@ namespace Wammer.Station
 			var forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key,
 			                                                                            key =>
 			                                                                            Parameters[key]);
-			using (var agent = new WebClient())
-			{
-				RespondSuccess(CloudServer.requestPath(agent, apiPath, forwardParams, false));
-			}
+
+			RespondSuccess(CloudServer.requestPath(apiPath, forwardParams, false));
 		}
 
 		protected void TunnelToCloud<T>()
@@ -100,10 +98,7 @@ namespace Wammer.Station
 			                                                                            key =>
 			                                                                            Parameters[key]);
 
-			using (var agent = new WebClient())
-			{
-				RespondSuccess(CloudServer.requestPath<T>(agent, apiPath, forwardParams, false));
-			}
+			RespondSuccess(CloudServer.requestPath<T>(apiPath, forwardParams, false));
 		}
 
 		#endregion

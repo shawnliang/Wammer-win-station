@@ -30,10 +30,7 @@ namespace Wammer.Station
 				return;
 			}
 
-			using (var agent = new DefaultWebClient())
-			{
-				AttachmentApi.SetSync(agent, object_id, session_token);
-			}
+			AttachmentApi.SetSync(object_id, session_token);
 		}
 
 		public override void ScheduleToRun()

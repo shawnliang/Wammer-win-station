@@ -64,6 +64,8 @@ namespace Wammer.Station.Service
 			XmlConfigurator.Configure();
 			InitializeComponent();
 			ServiceName = SERVICE_NAME;
+
+			ServicePointManager.DefaultConnectionLimit = 200;
 		}
 
 		~StationService()

@@ -12,21 +12,18 @@ namespace Wammer.PostUpload
 			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
 			if (driver != null)
 			{
-				using (var agent = new WebClient())
+				try
 				{
-					try
-					{
-						var postApi = new PostApi(driver);
-						postApi.HidePost(agent, Timestamp, Parameters);
-					}
-					catch (WammerCloudException e)
-					{
-						this.LogDebugMsg("Error while executing hide post task.", e);
+					var postApi = new PostApi(driver);
+					postApi.HidePost(Timestamp, Parameters);
+				}
+				catch (WammerCloudException e)
+				{
+					this.LogDebugMsg("Error while executing hide post task.", e);
 
-						if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
-						{
-							throw;
-						}
+					if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
+					{
+						throw;
 					}
 				}
 			}

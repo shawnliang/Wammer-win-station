@@ -181,11 +181,8 @@ namespace Wammer.Station
 		{
 			try
 			{
-				using (WebClient agent = new DefaultWebClient())
-				{
-					AttachmentInfo info = AttachmentApi.GetInfo(agent, object_id, user.session_token);
-					return !string.IsNullOrEmpty(info.url);
-				}
+				var info = AttachmentApi.GetInfo(object_id, user.session_token);
+				return !string.IsNullOrEmpty(info.url);
 			}
 			catch
 			{

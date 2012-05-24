@@ -207,7 +207,7 @@ namespace Wammer.Station
 					"Driver not found!", (int) StationLocalApiError.InvalidDriver);
 
 			var api = new PostApi(driver);
-			PostGetSingleResponse singlePostResponse = api.PostGetSingle(new DefaultWebClient(), groupID, postID);
+			PostGetSingleResponse singlePostResponse = api.PostGetSingle(groupID, postID);
 
 			PostInfo responsePost = singlePostResponse.post;
 			if (responsePost == null)

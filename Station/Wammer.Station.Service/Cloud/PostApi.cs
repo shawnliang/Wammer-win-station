@@ -23,7 +23,7 @@ namespace Wammer.Cloud
 			this.driver = driver;
 		}
 
-		public NewPostResponse NewPost(WebClient agent, string postId, DateTime timestamp, Dictionary<string, string> param)
+		public NewPostResponse NewPost(string postId, DateTime timestamp, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -41,10 +41,10 @@ namespace Wammer.Cloud
 				}
 			}
 
-			return CloudServer.requestPath<NewPostResponse>(agent, "posts/new", parameters);
+			return CloudServer.requestPath<NewPostResponse>("posts/new", parameters);
 		}
 
-		public UpdatePostResponse UpdatePost(WebClient agent, DateTime updateTime, Dictionary<string, string> param)
+		public UpdatePostResponse UpdatePost(DateTime updateTime, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -65,10 +65,10 @@ namespace Wammer.Cloud
 				}
 			}
 
-			return CloudServer.requestPath<UpdatePostResponse>(agent, "posts/update", parameters);
+			return CloudServer.requestPath<UpdatePostResponse>("posts/update", parameters);
 		}
 
-		public NewPostCommentResponse NewComment(WebClient agent, DateTime updateTime, Dictionary<string, string> param)
+		public NewPostCommentResponse NewComment(DateTime updateTime, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -89,10 +89,10 @@ namespace Wammer.Cloud
 				}
 			}
 
-			return CloudServer.requestPath<NewPostCommentResponse>(agent, "posts/newComment", parameters);
+			return CloudServer.requestPath<NewPostCommentResponse>("posts/newComment", parameters);
 		}
 
-		public HidePostResponse HidePost(WebClient agent, DateTime updateTime, Dictionary<string, string> param)
+		public HidePostResponse HidePost(DateTime updateTime, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -113,10 +113,10 @@ namespace Wammer.Cloud
 				}
 			}
 
-			return CloudServer.requestPath<HidePostResponse>(agent, "posts/hide", parameters);
+			return CloudServer.requestPath<HidePostResponse>("posts/hide", parameters);
 		}
 
-		public PostFetchByFilterResponse PostFetchByFilter(WebClient agent, FilterEntity filter)
+		public PostFetchByFilterResponse PostFetchByFilter(FilterEntity filter)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -126,12 +126,11 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			var res =
-				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters, false);
-			return res;
+
+			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
 		}
 
-		public PostFetchByFilterResponse PostFetchByPostId(WebClient agent, List<string> postIds)
+		public PostFetchByFilterResponse PostFetchByPostId(List<string> postIds)
 		{
 			if (postIds == null || postIds.Count == 0)
 				throw new ArgumentException("postIds is null or empty");
@@ -144,12 +143,10 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			var res =
-				CloudServer.requestPath<PostFetchByFilterResponse>(agent, "posts/fetchByFilter", parameters, false);
-			return res;
+			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
 		}
 
-		public PostGetLatestResponse PostGetLatest(WebClient agent, int limit)
+		public PostGetLatestResponse PostGetLatest(int limit)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -159,12 +156,11 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			var res =
-				CloudServer.requestPath<PostGetLatestResponse>(agent, "posts/getLatest", parameters, false);
-			return res;
+			
+			return CloudServer.requestPath<PostGetLatestResponse>("posts/getLatest", parameters, false);
 		}
 
-		public PostGetSingleResponse PostGetSingle(WebClient agent, string groupId, string postId)
+		public PostGetSingleResponse PostGetSingle(string groupId, string postId)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -175,7 +171,7 @@ namespace Wammer.Cloud
 			                 	};
 
 			var res =
-				CloudServer.requestPath<PostGetSingleResponse>(agent, "posts/getSingle", parameters);
+				CloudServer.requestPath<PostGetSingleResponse>("posts/getSingle", parameters);
 			return res;
 		}
 

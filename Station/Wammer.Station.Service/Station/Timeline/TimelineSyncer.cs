@@ -10,9 +10,9 @@ namespace Wammer.Station.Timeline
 {
 	public interface IPostProvider
 	{
-		PostResponse GetLastestPosts(WebClient agent, Driver user, int limit);
-		PostResponse GetPostsBefore(WebClient agent, Driver user, DateTime before, int limit);
-		List<PostInfo> RetrievePosts(WebClient agent, Driver user, List<string> posts);
+		PostResponse GetLastestPosts(Driver user, int limit);
+		PostResponse GetPostsBefore(Driver user, DateTime before, int limit);
+		List<PostInfo> RetrievePosts(Driver user, List<string> posts);
 	}
 
 	public interface ITimelineSyncerDB
@@ -52,31 +52,29 @@ namespace Wammer.Station.Timeline
 			if (user.sync_range != null && user.sync_range.first_post_time.HasValue)
 				throw new InvalidOperationException("Has already pulled the oldest post");
 
-			using (WebClient agent = new DefaultWebClient())
+			var res = user.sync_range == null
+			          	? postProvider.GetLastestPosts(user, 200)
+			          	: postProvider.GetPostsBefore(user, user.sync_range.start_time, 200);
+
+			foreach (var post in res.posts)
+				db.SavePost(post);
+
+			OnPostsRetrieved(user, res.posts);
+
+			if (res.posts.Count > 0)
 			{
-				var res = user.sync_range == null
-				                   	? postProvider.GetLastestPosts(agent, user, 200)
-				                   	: postProvider.GetPostsBefore(agent, user, user.sync_range.start_time, 200);
-
-				foreach (var post in res.posts)
-					db.SavePost(post);
-
-				OnPostsRetrieved(user, res.posts);
-
-				if (res.posts.Count > 0)
-				{
-					db.UpdateDriverSyncRange(user.user_id, new SyncRange
-					                                       	{
-					                                       		start_time = res.posts.Last().timestamp,
-					                                       		end_time =
-					                                       			(user.sync_range == null)
-					                                       				? res.posts.First().timestamp
-					                                       				: user.sync_range.end_time,
-					                                       		first_post_time =
-					                                       			(res.HasMoreData) ? null as DateTime? : res.posts.Last().timestamp
-					                                       	});
-				}
+				db.UpdateDriverSyncRange(user.user_id, new SyncRange
+				                                       	{
+				                                       		start_time = res.posts.Last().timestamp,
+				                                       		end_time =
+				                                       			(user.sync_range == null)
+				                                       				? res.posts.First().timestamp
+				                                       				: user.sync_range.end_time,
+				                                       		first_post_time =
+				                                       			(res.HasMoreData) ? null as DateTime? : res.posts.Last().timestamp
+				                                       	});
 			}
+
 		}
 
 		/// <summary>
@@ -92,40 +90,37 @@ namespace Wammer.Station.Timeline
 			if (user.sync_range == null || user.sync_range.end_time == DateTime.MinValue)
 				throw new InvalidOperationException("Should call PullBackward() first");
 
-			using (WebClient agent = new DefaultWebClient())
+			DateTime since = user.sync_range.end_time.AddSeconds(1.0);
+
+			UserTrackResponse res;
+
+			try
 			{
-				DateTime since = user.sync_range.end_time.AddSeconds(1.0);
-
-				UserTrackResponse res;
-
-				try
-				{
-					res = userTrack.GetChangeHistory(agent, user, since);
-				}
-				catch (WammerCloudException e)
-				{
-					// when no more data, cloud returns a empty last_timestamp which makes
-					// deserializing to json object parses error and a ArgumentOutOfRangeException
-					// is thrown.
-					//
-					// Use this exception as the exit criteria
-					if (e.InnerException is ArgumentOutOfRangeException)
-						return;
-					throw;
-				}
-
-				db.SaveUserTracks(new UserTracks(res));
-
-				ProcChangedPosts(user, agent, res);
-				ProcNewAttachments(res);
+				res = userTrack.GetChangeHistory(user, since);
 			}
+			catch (WammerCloudException e)
+			{
+				// when no more data, cloud returns a empty last_timestamp which makes
+				// deserializing to json object parses error and a ArgumentOutOfRangeException
+				// is thrown.
+				//
+				// Use this exception as the exit criteria
+				if (e.InnerException is ArgumentOutOfRangeException)
+					return;
+				throw;
+			}
+
+			db.SaveUserTracks(new UserTracks(res));
+
+			ProcChangedPosts(user, res);
+			ProcNewAttachments(res);
 		}
 
-		private void ProcChangedPosts(Driver user, WebClient agent, UserTrackResponse res)
+		private void ProcChangedPosts(Driver user, UserTrackResponse res)
 		{
 			if (res.post_id_list != null)
 			{
-				List<PostInfo> changedPost = postProvider.RetrievePosts(agent, user, res.post_id_list);
+				List<PostInfo> changedPost = postProvider.RetrievePosts(user, res.post_id_list);
 				foreach (PostInfo post in changedPost)
 					db.SavePost(post);
 
@@ -183,33 +178,30 @@ namespace Wammer.Station.Timeline
 
 		private void PullOldChangeLog(Driver user)
 		{
-			using (WebClient agent = new DefaultWebClient())
+			var api = new UserTracksApi();
+			DateTime since = DateTime.MinValue;
+
+			UserTrackResponse res;
+
+			do
 			{
-				var api = new UserTracksApi();
-				DateTime since = DateTime.MinValue;
+				res = api.GetChangeHistory(user, since);
 
-				UserTrackResponse res;
+				db.SaveUserTracks(new UserTracks(res));
+				since = res.latest_timestamp.AddSeconds(1.0);
+			} while (since <= user.sync_range.end_time);
 
-				do
-				{
-					res = api.GetChangeHistory(agent, user, since);
+			// Last user track response could contain unsynced posts.
+			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_id_list);
+			foreach (PostInfo post in newPosts)
+				db.SavePost(post);
 
-					db.SaveUserTracks(new UserTracks(res));
-					since = res.latest_timestamp.AddSeconds(1.0);
-				} while (since <= user.sync_range.end_time);
+			OnPostsRetrieved(user, newPosts);
 
-				// Last user track response could contain unsynced posts.
-				List<PostInfo> newPosts = postProvider.RetrievePosts(agent, user, res.post_id_list);
-				foreach (PostInfo post in newPosts)
-					db.SavePost(post);
-
-				OnPostsRetrieved(user, newPosts);
-
-				SyncRange newSyncRange = user.sync_range.Clone();
-				newSyncRange.end_time = since;
-				db.UpdateDriverSyncRange(user.user_id, newSyncRange);
-				db.UpdateDriverChangeHistorySynced(user.user_id, true);
-			}
+			SyncRange newSyncRange = user.sync_range.Clone();
+			newSyncRange.end_time = since;
+			db.UpdateDriverSyncRange(user.user_id, newSyncRange);
+			db.UpdateDriverChangeHistorySynced(user.user_id, true);
 		}
 
 		private static bool HasUnsyncedOldPosts(Driver user)

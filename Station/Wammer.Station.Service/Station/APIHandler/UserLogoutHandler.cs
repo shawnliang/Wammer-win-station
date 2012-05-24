@@ -18,23 +18,20 @@ namespace Wammer.Station
 		{
 			CheckParameter("session_token", "apikey");
 
-			string sessionToken = Parameters["session_token"];
+			var sessionToken = Parameters["session_token"];
 
 
 			try
 			{
-				string apiKey = Parameters["apikey"];
-				using (WebClient client = new DefaultWebClient())
-				{
-					User.LogOut(client, sessionToken, apiKey);
-				}
+				var apiKey = Parameters["apikey"];
+				User.LogOut(sessionToken, apiKey);
 			}
 			catch (Exception e)
 			{
 				this.LogDebugMsg("Unable to logout from Stream cloud", e);
 			}
 
-			LoginedSession loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession != null)
 				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", loginedSession.user.email));

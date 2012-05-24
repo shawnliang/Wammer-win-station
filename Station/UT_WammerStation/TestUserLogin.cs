@@ -93,7 +93,7 @@ namespace UT_WammerStation
 		{
 			using (FakeCloud cloud = new FakeCloud(string.Empty))
 			{
-				CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/auth/login",
+				CloudServer.request<CloudResponse>("http://localhost:8080/v2/auth/login",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"} ,
@@ -165,7 +165,7 @@ namespace UT_WammerStation
 
 			using (FakeCloud cloud = new FakeCloud(loginedJson))
 			{
-				var response = CloudServer.request<CloudResponse>(new WebClient(), "http://localhost:8080/v2/auth/login",
+				var response = CloudServer.request<CloudResponse>("http://localhost:8080/v2/auth/login",
 					new Dictionary<object, object>{ 
 					{ "email", "exist@gmail.com"}, 
 					{ "password", "12345"} ,

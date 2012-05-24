@@ -16,36 +16,33 @@ namespace Wammer.PostUpload
 			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
 			if (driver != null)
 			{
-				using (var agent = new WebClient())
+				try
 				{
-					try
+					if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
 					{
-						if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
-						{
-							IEnumerable<string> attachmentIDs =
-								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList()
-								select attachmentString.Trim('"', '"');
+						IEnumerable<string> attachmentIDs =
+							from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList()
+							select attachmentString.Trim('"', '"');
 
-							foreach (String id in attachmentIDs)
+						foreach (String id in attachmentIDs)
+						{
+							if (!IsAttachmentUploaded(id))
 							{
-								if (!IsAttachmentUploaded(id))
-								{
-									throw new WammerStationException("Attachment " + id + " does not exist", (int) StationLocalApiError.NotReady);
-								}
+								throw new WammerStationException("Attachment " + id + " does not exist", (int) StationLocalApiError.NotReady);
 							}
 						}
-
-						var postApi = new PostApi(driver);
-						postApi.UpdatePost(agent, Timestamp, Parameters);
 					}
-					catch (WammerCloudException e)
-					{
-						this.LogDebugMsg("Error while executing update post task.", e);
 
-						if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
-						{
-							throw;
-						}
+					var postApi = new PostApi(driver);
+					postApi.UpdatePost(Timestamp, Parameters);
+				}
+				catch (WammerCloudException e)
+				{
+					this.LogDebugMsg("Error while executing update post task.", e);
+
+					if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
+					{
+						throw;
 					}
 				}
 			}

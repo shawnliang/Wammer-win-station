@@ -28,9 +28,8 @@ namespace UT_WammerStation
 			res.user = new Wammer.Cloud.UserInfo { user_id = "uid" };
 
 			using (FakeCloud fakeCloud = new FakeCloud(res))
-			using (WebClient agent = new WebClient())
 			{
-				Wammer.Cloud.User user = Wammer.Cloud.User.LogIn(agent, "user1", "passwd1", "deviceId", "deviceName");
+				Wammer.Cloud.User user = Wammer.Cloud.User.LogIn("user1", "passwd1", "deviceId", "deviceName");
 				Assert.AreEqual("user1", user.Name);
 				Assert.AreEqual("passwd1", user.Password);
 				Assert.AreEqual("uid", user.Id);
@@ -54,11 +53,10 @@ namespace UT_WammerStation
 			res.api_ret_code = 9999;
 
 			using (FakeCloud fakeCloud = new FakeCloud(res))
-			using (WebClient agent = new WebClient())
 			{
 				try
 				{
-					Wammer.Cloud.User.LogIn(agent, "user1", "passwd1", "deviceId", "deviceName");
+					Wammer.Cloud.User.LogIn("user1", "passwd1", "deviceId", "deviceName");
 				}
 				catch (Wammer.Cloud.WammerCloudException e)
 				{
@@ -74,11 +72,10 @@ namespace UT_WammerStation
 		{
 
 			using (FakeErrorCloud fakeCloud = new FakeErrorCloud(403))
-			using (WebClient agent = new WebClient())
 			{
 				try
 				{
-					Wammer.Cloud.User.LogIn(agent, "user1", "passwd1", "deviceId", "deviceName");
+					Wammer.Cloud.User.LogIn("user1", "passwd1", "deviceId", "deviceName");
 				}
 				catch (Wammer.Cloud.WammerCloudException e)
 				{
@@ -113,20 +110,17 @@ namespace UT_WammerStation
 					new UserStation() { station_id = "aabbcc" },
 				}
 			}))
-
-			using (WebClient agent = new WebClient())
 			{
 				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
-				api.LogOn(agent);
+				api.LogOn();
 				Assert.AreEqual("/v9999/stations/logOn",
-					fakeCloud.RequestedPath);
+				                fakeCloud.RequestedPath);
 				Assert.AreEqual("session_token=token1&station_id=sid1&apikey=apiKey1",
-					fakeCloud.PostData);
+				                fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
-					fakeCloud.RequestedContentType);
+				                fakeCloud.RequestedContentType);
 				Assert.AreEqual("newToken1", api.Token);
 			}
-
 		}
 
 		[TestMethod]
@@ -153,8 +147,6 @@ namespace UT_WammerStation
 					new UserStation() { station_id = "aabbcc" },
 				}
 			}))
-
-			using (WebClient agent = new WebClient())
 			{
 				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
 
@@ -162,16 +154,16 @@ namespace UT_WammerStation
 				param.Add("host_name", "hostname1");
 				param.Add("ip_address", "ip1");
 				param.Add("port", "9999");
-				api.LogOn(agent, param);
+				api.LogOn(param);
 
 				Assert.AreEqual("/v9999/stations/logOn",
-					fakeCloud.RequestedPath);
+				                fakeCloud.RequestedPath);
 				Assert.AreEqual(
 					"host_name=hostname1&ip_address=ip1&port=9999&" +
 					"session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
-					fakeCloud.RequestedContentType);
+				                fakeCloud.RequestedContentType);
 				Assert.AreEqual("newToken1", api.Token);
 
 				Assert.AreEqual("newToken1", api.Token);
@@ -202,22 +194,21 @@ namespace UT_WammerStation
 					new UserStation() { station_id = "aabbcc" },
 				}
 			}))
-			using (WebClient agent = new WebClient())
 			{
 				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
 
 				Dictionary<object, object> param = new Dictionary<object, object>();
 				param.Add("key", @"<>+@/\|");
-				api.LogOn(agent, param);
+				api.LogOn(param);
 
 				Assert.AreEqual("/v9999/stations/logOn",
-					fakeCloud.RequestedPath);
+				                fakeCloud.RequestedPath);
 				Assert.AreEqual(
-					"key=" + HttpUtility.UrlEncode(@"<>+@/\|") + 
+					"key=" + HttpUtility.UrlEncode(@"<>+@/\|") +
 					"&session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
-					fakeCloud.RequestedContentType);
+				                fakeCloud.RequestedContentType);
 				Assert.AreEqual("newToken1", api.Token);
 
 				Assert.AreEqual("newToken1", api.Token);

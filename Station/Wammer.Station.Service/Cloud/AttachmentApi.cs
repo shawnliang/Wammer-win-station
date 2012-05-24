@@ -34,7 +34,7 @@ namespace Wammer.Cloud
 
 		private string userToken { get; set; }
 
-		public void AttachmentSetLoc(WebClient agent, int loc, string object_id, string file_path)
+		public void AttachmentSetLoc(int loc, string object_id, string file_path)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -45,10 +45,10 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			CloudServer.requestPath<CloudResponse>(agent, "attachments/setloc", parameters);
+			CloudServer.requestPath<CloudResponse>("attachments/setloc", parameters);
 		}
 
-		public void AttachmentUnsetLoc(WebClient agent, int loc, string object_id)
+		public void AttachmentUnsetLoc(int loc, string object_id)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -58,10 +58,10 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.PARAM_API_KEY}
 			                 	};
 
-			CloudServer.requestPath<CloudResponse>(agent, "attachments/unsetloc", parameters);
+			CloudServer.requestPath<CloudResponse>("attachments/unsetloc", parameters);
 		}
 
-		public AttachmentGetResponse AttachmentGet(WebClient agent, string object_id)
+		public AttachmentGetResponse AttachmentGet(string object_id)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -70,10 +70,10 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			return CloudServer.requestPath<AttachmentGetResponse>(agent, "attachments/get", parameters);
+			return CloudServer.requestPath<AttachmentGetResponse>("attachments/get", parameters);
 		}
 
-		public void AttachmentView(WebClient agent, ResourceDownloadEventArgs evtargs, string stationId)
+		public void AttachmentView(ResourceDownloadEventArgs evtargs, string stationId)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -88,7 +88,7 @@ namespace Wammer.Cloud
 				parameters.Add(CloudServer.PARAM_IMAGE_META, evtargs.imagemeta.ToString().ToLower());
 			}
 
-			CloudServer.requestDownload(agent, "attachments/view", parameters, evtargs.filepath);
+			CloudServer.requestDownload("attachments/view", parameters, evtargs.filepath);
 		}
 
 		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey,
@@ -102,8 +102,7 @@ namespace Wammer.Cloud
 		                                                       Action<object, ProgressChangedEventArgs>
 		                                                       	progressChangedCallBack)
 		{
-			AttachmentView metadata = null;
-			using (WebClient agent = new NoRedirectWebClient())
+			using (var agent = new NoRedirectWebClient())
 			{
 				var parameters = new Dictionary<object, object>
 				                 	{
@@ -117,24 +116,22 @@ namespace Wammer.Cloud
 				if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 					parameters.Add("image_meta", meta.ToString().ToLower());
 
-				metadata = CloudServer.requestPath<AttachmentView>(agent, "attachments/view", parameters);
-			}
+				var metadata = CloudServer.requestPath<AttachmentView>("attachments/view", parameters);
 
-			using (var redirectableAgent = new WebClient())
-			{
 				logger.Debug("Attachement redirect to: " + metadata.redirect_to);
+				agent.AllowAutoRedirect = true;
 				using (var to = new MemoryStream())
-				using (var from = redirectableAgent.OpenRead(metadata.redirect_to))
+				using (var from = agent.OpenRead(metadata.redirect_to))
 				{
 					from.WriteTo(to, 1024, progressChangedCallBack);
-					return new DownloadResult(to.ToArray(), metadata, redirectableAgent.ResponseHeaders["Content-type"]);
+					return new DownloadResult(to.ToArray(), metadata, agent.ResponseHeaders["Content-type"]);
 				}
 			}
 		}
 
-		public static void SetSync(WebClient agent, string object_id, string session_token)
+		public static void SetSync(string object_id, string session_token)
 		{
-			if (agent == null || object_id == null || session_token == null)
+			if (object_id == null || session_token == null)
 				throw new ArgumentNullException();
 
 			var parameters = new Dictionary<object, object>
@@ -144,13 +141,13 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
-			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
+			CloudServer.requestPath<CloudResponse>("attachments/set_sync", parameters);
 			logger.Debug("attachments/set_sync: " + object_id);
 		}
 
-		public static void SetSync(WebClient agent, ICollection<string> object_ids, string session_token)
+		public static void SetSync(ICollection<string> object_ids, string session_token)
 		{
-			if (agent == null || session_token == null || object_ids == null || object_ids.Count == 0)
+			if (session_token == null || object_ids == null || object_ids.Count == 0)
 				throw new ArgumentNullException();
 
 			var buffer = new StringBuilder();
@@ -169,13 +166,13 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			};
 
-			CloudServer.requestPath<CloudResponse>(agent, "attachments/set_sync", parameters);
+			CloudServer.requestPath<CloudResponse>("attachments/set_sync", parameters);
 			logger.Debug("attachments/set_sync: " + objIdArray);
 		}
 
-		public static AttachmentInfo GetInfo(WebClient agent, string object_id, string session_token)
+		public static AttachmentInfo GetInfo(string object_id, string session_token)
 		{
-			if (agent == null || object_id == null || session_token == null)
+			if (object_id == null || session_token == null)
 				throw new ArgumentNullException();
 
 			var parameters = new Dictionary<object, object>
@@ -185,7 +182,7 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			return CloudServer.requestPath<AttachmentInfo>(agent, "attachments/get", parameters, false);
+			return CloudServer.requestPath<AttachmentInfo>("attachments/get", parameters, false);
 		}
 	}
 

@@ -31,11 +31,11 @@ namespace Wammer.PostUpload
 
 		#endregion
 
-		protected bool IsPostExist(PostApi api, WebClient agent)
+		protected bool IsPostExist(PostApi api)
 		{
 			try
 			{
-				api.PostGetSingle(agent, Parameters["group_id"], PostId);
+				api.PostGetSingle(Parameters["group_id"], PostId);
 				return true;
 			}
 			catch (WammerCloudException e)
