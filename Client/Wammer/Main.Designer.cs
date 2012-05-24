@@ -33,13 +33,9 @@ namespace Waveface
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.panelPost = new System.Windows.Forms.Panel();
-            this.postsArea = new Waveface.PostArea();
             this.splitterLeft = new System.Windows.Forms.Splitter();
             this.panelLeftInfo = new System.Windows.Forms.Panel();
-            this.leftArea = new Waveface.LeftArea();
-            this.panelTitle = new Waveface.TitlePanel();
             this.panelMain = new System.Windows.Forms.Panel();
-            this.detailView = new Waveface.DetailView();
             this.mnuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.screenShotMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.regionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +54,10 @@ namespace Waveface
             this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorkerPreloadAllImages = new System.ComponentModel.BackgroundWorker();
             this.timerPolling = new System.Windows.Forms.Timer(this.components);
+            this.detailView = new Waveface.DetailView();
+            this.postsArea = new Waveface.PostArea();
+            this.leftArea = new Waveface.LeftArea();
+            this.panelTitle = new Waveface.TitlePanel();
             this.panelLeft.SuspendLayout();
             this.panelPost.SuspendLayout();
             this.panelLeftInfo.SuspendLayout();
@@ -85,13 +85,6 @@ namespace Waveface
             resources.ApplyResources(this.panelPost, "panelPost");
             this.panelPost.Name = "panelPost";
             // 
-            // postsArea
-            // 
-            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
-            resources.ApplyResources(this.postsArea, "postsArea");
-            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
-            this.postsArea.Name = "postsArea";
-            // 
             // splitterLeft
             // 
             this.splitterLeft.BackColor = System.Drawing.Color.LightGray;
@@ -106,32 +99,11 @@ namespace Waveface
             resources.ApplyResources(this.panelLeftInfo, "panelLeftInfo");
             this.panelLeftInfo.Name = "panelLeftInfo";
             // 
-            // leftArea
-            // 
-            this.leftArea.AllowDrop = true;
-            this.leftArea.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.leftArea, "leftArea");
-            this.leftArea.Name = "leftArea";
-            this.leftArea.TabStop = false;
-            // 
-            // panelTitle
-            // 
-            this.panelTitle.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.panelTitle, "panelTitle");
-            this.panelTitle.Name = "panelTitle";
-            // 
             // panelMain
             // 
             this.panelMain.Controls.Add(this.detailView);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            // 
-            // detailView
-            // 
-            resources.ApplyResources(this.detailView, "detailView");
-            this.detailView.Name = "detailView";
-            this.detailView.Post = null;
-            this.detailView.User = null;
             // 
             // mnuTray
             // 
@@ -256,6 +228,34 @@ namespace Waveface
             // 
             this.timerPolling.Interval = 10000;
             this.timerPolling.Tick += new System.EventHandler(this.timerPolling_Tick);
+            // 
+            // detailView
+            // 
+            resources.ApplyResources(this.detailView, "detailView");
+            this.detailView.Name = "detailView";
+            this.detailView.Post = null;
+            this.detailView.User = null;
+            // 
+            // postsArea
+            // 
+            this.postsArea.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.postsArea, "postsArea");
+            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
+            this.postsArea.Name = "postsArea";
+            // 
+            // leftArea
+            // 
+            this.leftArea.AllowDrop = true;
+            this.leftArea.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.leftArea, "leftArea");
+            this.leftArea.Name = "leftArea";
+            this.leftArea.TabStop = false;
+            // 
+            // panelTitle
+            // 
+            this.panelTitle.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.panelTitle, "panelTitle");
+            this.panelTitle.Name = "panelTitle";
             // 
             // Main
             // 
