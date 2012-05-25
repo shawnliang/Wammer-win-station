@@ -21,7 +21,7 @@ def find_and_replace(target, buildNum):
     remove(target)
     move(abs_path, target)
 
-
-print "[Waveface] Replace build number in {0} to {1}".format(sys.argv[1], sys.argv[2])
-find_and_replace(sys.argv[1], sys.argv[2])
-print "[Waveface] Package build number replacement done."
+if __name__ == "__main__":
+    print "[Waveface] Replace build number in {0} to {1}".format(sys.argv[1], sys.argv[2])
+    find_and_replace(sys.argv[1], sys.argv[2])
+    print "[Waveface] Package build number replacement done."

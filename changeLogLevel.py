@@ -5,7 +5,7 @@ from tempfile import mkstemp
 from shutil import move
 from os import remove, close
 
-LOGLEVEL_PATTERN = re.compile('<level value="DEBUG"/>')
+LOGLEVEL_PATTERN = re.compile('<level\s+value="DEBUG"\s+/>')
 
 
 def find_and_replace(target, loglevel, pattern):
