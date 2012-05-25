@@ -125,8 +125,8 @@ namespace UT_WammerStation
 			groups.Add(new UserGroup { name = "big group", creator_id = USER_ID1, group_id = GROUP_ID1, description = "none" });
 			DriverCollection.Instance.Save(new Driver { user_id = USER_ID1, groups = groups });
 
-			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.NewPost, NPARAM);
-			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.UpdatePost, NPARAM);
+			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.NewPost, NPARAM, DateTime.Now, DateTime.Now);
+			PostUploadTaskController.Instance.AddPostUploadAction(POST_ID1, PostUploadActionType.UpdatePost, NPARAM, DateTime.Now, DateTime.Now);
 
 			PostUploadTask task = PostUploadTaskQueue.Instance.Dequeue();
 			Assert.IsTrue(task is NewPostTask);

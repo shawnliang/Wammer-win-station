@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
+using System;
 
 namespace Wammer.Station
 {
@@ -37,12 +38,17 @@ namespace Wammer.Station
 			string postID = Parameters[CloudServer.PARAM_POST_ID];
 			PostInfo post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
 
-			post.hidden = "true";
+			var lastUpdateTime = post.update_time;
 
-			PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("hidden", "true"));
+			post.hidden = "true";
+			post.update_time = DateTime.Now;
+
+			PostCollection.Instance.Update(Query.EQ("_id", postID), Update
+				.Set("hidden", "true")
+				.Set("update_time", post.update_time));
 
 			if (m_PostUploader != null)
-				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Hide, Parameters);
+				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Hide, Parameters, post.update_time, lastUpdateTime);
 
 			RespondSuccess(new HidePostResponse
 			               	{
