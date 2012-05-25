@@ -679,9 +679,6 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
@@ -1173,7 +1170,7 @@
 
 This computer will be setup as your Station. All the photos you uploaded from Stream apps will be send to this computer: {0} automatically through the Waveface Cloud.
 
-Now please click on "OK" to enter your Stream. You can enter "Account Info" in the main program for further options.</value>
+Now please click on "Start" to enter your Stream. You can enter "Account Info" in the main program for further options.</value>
   </data>
   <data name="lblSecondStationSetup.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt</value>
@@ -1195,7 +1192,7 @@ Now please click on "OK" to enter your Stream. You can enter "Account Info" in t
 
 This computer will be setup as a part of your Waveface personal cloud, and enhance the performance of this computer and nearby devices. All the photos you uploaded from Stream apps will still be sent to your Station: {0} through the Waveface Cloud.
 
-Now please click on "OK" to enter your Stream. You can enter "Account Info" in the main program for further options.</value>
+Now please click on "Start" to enter your Stream. You can enter "Account Info" in the main program for further options.</value>
   </data>
   <data name="lblSignUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>

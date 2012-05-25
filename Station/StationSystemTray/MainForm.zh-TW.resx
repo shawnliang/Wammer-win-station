@@ -523,14 +523,14 @@
 
 這台電腦將被設置為您的 Station，您在 Stream 中上傳的所有圖片均會透過 Waveface 雲端回流至這台電腦: {0}
 
-現在請按下「確定」進入您的 Stream，稍後您可以隨時在主視窗的帳戶設定中調整相關的項目。</value>
+現在請按下「開始」進入您的 Stream，稍後您可以隨時在主視窗的帳戶設定中調整相關的項目。</value>
   </data>
   <data name="lblSecondStationSetup.Text" xml:space="preserve">
     <value>您好！感謝您使用 Waveface Stream Windows 版。
 
 這台電腦將會被設置為您 Waveface 個人雲端服務的一部份，為此電腦及附近的裝置帶來更好的效能。您在 Stream 中上傳的所有圖片會透過 Waveface 雲端技術回流至您的 Station: {0}
 
-現在請按下「確定」進入您的 Stream，稍後您可以隨時在主視窗的帳戶設定中調整相關的項目。</value>
+現在請按下「開始」進入您的 Stream，稍後您可以隨時在主視窗的帳戶設定中調整相關的項目。</value>
   </data>
   <data name="lblSignUp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>6, 5</value>
@@ -545,7 +545,7 @@
     <value>還沒有帳號？馬上註冊！</value>
   </data>
   <data name="lblWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>322, 30</value>
+    <value>265, 30</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
     <value>歡迎使用 Waveface Stream</value>
@@ -553,17 +553,23 @@
   <data name="loginButton1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 12.75pt, style=Bold</value>
   </data>
-  <data name="loginButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="loginButton1.Text" xml:space="preserve">
     <value>登入</value>
+  </data>
+  <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
   </data>
   <data name="menuQuit.Text" xml:space="preserve">
     <value>離開</value>
   </data>
+  <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
+  </data>
   <data name="menuServiceAction.Text" xml:space="preserve">
     <value>暫停服務</value>
+  </data>
+  <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
   </data>
   <data name="menuSignIn.Text" xml:space="preserve">
     <value>登入...</value>
@@ -701,22 +707,34 @@
         +GLhyDk9ZjtP+lr5D4fyOXHzbo1YAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="settingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
+  </data>
   <data name="settingToolStripMenuItem.Text" xml:space="preserve">
     <value>設定...</value>
   </data>
   <data name="tbxEMail.CueText" xml:space="preserve">
     <value>電子郵件</value>
   </data>
-  <data name="tbxEMail.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 15pt</value>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 6</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 6</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 6</value>
+  </data>
+  <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 132</value>
+  </data>
+  <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 22</value>
   </data>
   <data name="tsmiOpenStream.Text" xml:space="preserve">
     <value>開啟 Stream...</value>
   </data>
   <data name="txtPassword.CueText" xml:space="preserve">
     <value>密碼</value>
-  </data>
-  <data name="txtPassword.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 15pt</value>
   </data>
 </root>
