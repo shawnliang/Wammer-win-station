@@ -108,7 +108,7 @@ namespace Wammer.Station
 			PostCollection.Instance.Save(post);
 
 			if (m_PostUploader != null)
-				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters);
+				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters, timeStamp, timeStamp);
 
 			var response = new NewPostResponse();
 			response.posts.Add(post);

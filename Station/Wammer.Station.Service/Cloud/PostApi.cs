@@ -65,7 +65,14 @@ namespace Wammer.Cloud
 				}
 			}
 
-			return CloudServer.requestPath<UpdatePostResponse>("posts/update", parameters);
+			object lastUpdateTime = parameters[CloudServer.PARAM_LAST_UPDATE_TIME];
+			if (lastUpdateTime != null)
+				this.LogInfoMsg("[UpdatePost] last update time = " + lastUpdateTime);
+			this.LogInfoMsg("[UpdatePost] updatetime = " + parameters[CloudServer.PARAM_UPDATE_TIME].ToString());
+
+			string response = CloudServer.requestPath("posts/update", parameters);
+			this.LogInfoMsg("[UpdatePost] cloudResponse = " + response);
+			return fastJSON.JSON.Instance.ToObject<UpdatePostResponse>(response);
 		}
 
 		public NewPostCommentResponse NewComment(DateTime updateTime, Dictionary<string, string> param)

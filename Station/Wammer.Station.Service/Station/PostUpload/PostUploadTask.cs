@@ -25,6 +25,7 @@ namespace Wammer.PostUpload
 		public Dictionary<string, string> Parameters { get; set; }
 		public PostUploadTaskStatus Status { get; set; }
 		public string CodeName { get; set; }
+		public DateTime LastUpdateTime { get; set; }
 
 		#region ITask Members
 

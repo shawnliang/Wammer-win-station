@@ -123,6 +123,14 @@ public static class ObjectExtension
 		obj.GetLogger().Error(msg);
 	}
 
+	public static void LogInfoMsg(this object obj, string msg)
+	{
+		if (string.IsNullOrEmpty(msg))
+			return;
+
+		obj.GetLogger().Info(msg);
+	}
+
 	public static void LogFatalMsg(this object obj, string msg)
 	{
 		if (string.IsNullOrEmpty(msg))
