@@ -130,8 +130,10 @@ namespace Wammer.Station.Management
 		/// <summary>
 		/// Add a user to a station
 		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="password"></param>
+		/// <param name="email">The email.</param>
+		/// <param name="password">The password.</param>
+		/// <param name="deviceId">The device id.</param>
+		/// <param name="deviceName">Name of the device.</param>
 		/// <returns>station's session token</returns>
 		/// <exception cref="Wammer.Station.Management.AuthenticationException">
 		/// Invalid user name or password
@@ -140,7 +142,7 @@ namespace Wammer.Station.Management
 		/// The station already has an driver
 		/// </exception>
 		/// <exception cref="Wammer.Station.Management.UserAlreadyHasStationException">
-		/// The user already has a station. The station's info, such as id/location/sync time, can 
+		/// The user already has a station. The station's info, such as id/location/sync time, can
 		/// be retrieved from the exception
 		/// </exception>
 		/// <exception cref="Wammer.Station.Management.StationServiceDownException">

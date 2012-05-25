@@ -16,7 +16,7 @@ namespace Wammer.Station.Timeline
 		private readonly Queue<IResourceDownloadTask> mediumPriorityQueue = new Queue<IResourceDownloadTask>();
 		private readonly Queue<IResourceDownloadTask> highPriorityQueue = new Queue<IResourceDownloadTask>();
 
-		private static BodySyncQueue instance;
+		private static readonly BodySyncQueue instance;
 
 		public event EventHandler TaskDropped;
 
@@ -135,7 +135,7 @@ namespace Wammer.Station.Timeline
 			++TotalTaskCount;
 #endif
 
-			EventHandler handler = Enqueued;
+			var handler = Enqueued;
 			if (handler != null)
 			{
 				handler(this, arg);
@@ -144,42 +144,34 @@ namespace Wammer.Station.Timeline
 
 		public void RemoveAllByUserId(string user_id)
 		{
-			lock (highPriorityQueue)
-			{
-				RemoveUserTasksFromQueue(user_id, highPriorityQueue);
-			}
-
-			lock (mediumPriorityQueue)
-			{
-				RemoveUserTasksFromQueue(user_id, mediumPriorityQueue);
-			}
-
-			lock (lowPriorityQueue)
-			{
-				RemoveUserTasksFromQueue(user_id, lowPriorityQueue);
-			}
+			RemoveUserTasksFromQueue(user_id, highPriorityQueue);
+			RemoveUserTasksFromQueue(user_id, mediumPriorityQueue);
+			RemoveUserTasksFromQueue(user_id, lowPriorityQueue);
 		}
 
 		private void RemoveUserTasksFromQueue(string user_id, Queue<IResourceDownloadTask> oldQueue)
 		{
-			Queue<IResourceDownloadTask> newQueue = new Queue<IResourceDownloadTask>();
-			foreach (var task in oldQueue)
+			lock (oldQueue)
 			{
-				if (!task.UserId.Equals(user_id))
-					newQueue.Enqueue(task);
-				else
+				var newQueue = new Queue<IResourceDownloadTask>();
+				foreach (var task in oldQueue)
 				{
-					keys.Remove(task.Name);
-					hasItem.WaitOne();
-					OnTaskDropped();
+					if (!task.UserId.Equals(user_id))
+						newQueue.Enqueue(task);
+					else
+					{
+						keys.Remove(task.Name);
+						hasItem.WaitOne();
+						OnTaskDropped();
+					}
 				}
-			}
 
-			if (oldQueue.Count != newQueue.Count)
-			{
-				oldQueue.Clear();
-				foreach (var task in newQueue)
-					oldQueue.Enqueue(task);
+				if (oldQueue.Count != newQueue.Count)
+				{
+					oldQueue.Clear();
+					foreach (var task in newQueue)
+						oldQueue.Enqueue(task);
+				}
 			}
 		}
 
@@ -189,7 +181,7 @@ namespace Wammer.Station.Timeline
 			++TotalDroppedTaskCount;
 #endif
 
-			EventHandler handler = TaskDropped;
+			var handler = TaskDropped;
 			if (handler != null)
 				handler(this, EventArgs.Empty);
 		}

@@ -185,10 +185,6 @@
     <Content Include="Resources\login_btn_press.png" />
     <Content Include="Resources\or.png" />
     <Content Include="Resources\stream_logo.png" />
-    <Content Include="SystemTrayML.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
