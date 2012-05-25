@@ -161,7 +161,7 @@ namespace StationSystemTray
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			this.LogDebugMsg("Unhandle exception: " + e.ExceptionObject.ToString());
-			QuitStream();
+			CloseTimelineProgram();
 		}
 
 		private void CloseTimelineProgram()
