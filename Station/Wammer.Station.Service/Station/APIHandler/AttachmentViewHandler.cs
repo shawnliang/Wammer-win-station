@@ -101,7 +101,7 @@ namespace Wammer.Station
 
 				if (doc.type == AttachmentType.image && imageMeta != ImageMeta.Origin)
 					Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
-
+				
 				StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
 				                       new CopyState(fs, Response, objectId));
 			}
