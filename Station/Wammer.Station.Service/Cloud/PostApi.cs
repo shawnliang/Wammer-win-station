@@ -44,7 +44,7 @@ namespace Wammer.Cloud
 			return CloudServer.requestPath<NewPostResponse>("posts/new", parameters);
 		}
 
-		public UpdatePostResponse UpdatePost(DateTime updateTime, Dictionary<string, string> param)
+		public UpdatePostResponse UpdatePost(DateTime updateTime, DateTime lastUpdateTime, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -59,13 +59,16 @@ namespace Wammer.Cloud
 
 			foreach (var key in param.Keys)
 			{
-				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
+				if (key == CloudServer.PARAM_LAST_UPDATE_TIME)
+				{
+					parameters.Add(key, lastUpdateTime.ToCloudTimeString());
+				}
+				else if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{
 					parameters.Add(key, param[key]);
 				}
 			}
 
-			object lastUpdateTime = parameters[CloudServer.PARAM_LAST_UPDATE_TIME];
 			if (lastUpdateTime != null)
 				this.LogInfoMsg("[UpdatePost] last update time = " + lastUpdateTime);
 			this.LogInfoMsg("[UpdatePost] updatetime = " + parameters[CloudServer.PARAM_UPDATE_TIME].ToString());

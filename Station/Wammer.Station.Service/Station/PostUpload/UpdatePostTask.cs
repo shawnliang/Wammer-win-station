@@ -34,7 +34,7 @@ namespace Wammer.PostUpload
 						}
 
 						var postApi = new PostApi(driver);
-					postApi.UpdatePost(Timestamp, Parameters);
+					postApi.UpdatePost(Timestamp, LastUpdateTime, Parameters);
 					}
 					catch (WammerCloudException e)
 					{
