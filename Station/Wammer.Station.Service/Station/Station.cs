@@ -268,7 +268,7 @@ namespace Wammer.Station
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Stop());
 			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Stop());
 
-			this.LogDebugMsg("Stop function server successfully");
+			this.LogDebugMsg("Stop synchronization successfully");
 		}
 
 		public void ResumeSync()
@@ -283,7 +283,7 @@ namespace Wammer.Station
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Start());
 			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Start());
 
-			this.LogDebugMsg("Start function server successfully");
+			this.LogDebugMsg("Start synchronization successfully");
 		}
 		#endregion
 
@@ -301,11 +301,8 @@ namespace Wammer.Station
 			if (e.Mode == PowerModes.Suspend)
 			{
 				SuspendSync();
-				m_OriginalSynchronizationStatus = IsSynchronizationStatus;
-				return;
 			}
-
-			if (m_OriginalSynchronizationStatus == (e.Mode == PowerModes.Resume))
+			else if (m_OriginalSynchronizationStatus == (e.Mode == PowerModes.Resume))
 			{
 				ResumeSync();
 			}
