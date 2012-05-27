@@ -25,23 +25,15 @@ namespace Wammer.Station.Service
 	{
 		#region Const
 		public const string SERVICE_NAME = "WavefaceStation";
-		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface"; 
+		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 		#endregion
 
 		#region Var
-		private PostUploadTaskRunner _postUploadRunner;
 		private BackOff _backoff;
 		#endregion
 
 
 		#region Private Property
-
-		private PostUploadTaskRunner m_PostUploadRunner
-		{
-			get { return _postUploadRunner ?? (_postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance)); }
-		}
-
-
 		private BackOff m_BackOff
 		{
 			get { return _backoff ?? (_backoff = new BackOff(500, 1000, 2000, 3000, 5000)); }
@@ -50,13 +42,9 @@ namespace Wammer.Station.Service
 		#endregion
 
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
-		private TaskRunner<IResourceDownloadTask>[] bodySyncRunners;
 		private HttpServer functionServer;
 		private HttpServer managementServer;
 		private string resourceBasePath;
-		private string stationId;
-		private StationTimer stationTimer;
-		private TaskRunner<ITask>[] upstreamTaskRunner;
 		private AttachmentViewHandler viewHandler;
 
 		public StationService()
@@ -115,15 +103,14 @@ namespace Wammer.Station.Service
 
 				
 				logger.Debug("Initialize Stream Service");
-				InitStationId();
+
+				Station.Instance.Start();
+
 				InitResourceBasePath();
 
 				JSON.Instance.UseUTCDateTime = true;
 
 				functionServer = new HttpServer(9981); // TODO: remove hard code
-
-
-				stationTimer = new StationTimer(BodySyncQueue.Instance, stationId);
 
 				functionServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
@@ -148,36 +135,13 @@ namespace Wammer.Station.Service
 
 				logger.Debug("Start function server");
 				functionServer.Start();
-				stationTimer.Start();
-
-				const int bodySyncThreadNum = 1;
-				bodySyncRunners = new TaskRunner<IResourceDownloadTask>[bodySyncThreadNum];
-				for (int i = 0; i < bodySyncThreadNum; i++)
-				{
-					var bodySyncRunner = new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance);
-					bodySyncRunners[i] = bodySyncRunner;
-
-					bodySyncRunner.TaskExecuted += downstreamMonitor.OnDownstreamTaskDone;
-					bodySyncRunner.Start();
-				}
 				BodySyncQueue.Instance.TaskDropped += downstreamMonitor.OnDownstreamTaskDone;
-
-				m_PostUploadRunner.Start();
-
-				const int upstreamThreads = 1;
-				upstreamTaskRunner = new TaskRunner<ITask>[upstreamThreads];
-				for (int i = 0; i < upstreamThreads; i++)
-				{
-					upstreamTaskRunner[i] = new TaskRunner<ITask>(AttachmentUploadQueue.Instance);
-					upstreamTaskRunner[i].Start();
-				}
-
 
 				logger.Debug("Add handlers to management server");
 				managementServer = new HttpServer(9989);
 				managementServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
-				var addDriverHandler = new AddDriverHandler(stationId, resourceBasePath);
+				var addDriverHandler = new AddDriverHandler(Station.Instance.StationID, resourceBasePath);
 				InitManagementServerHandler(addDriverHandler);
 
 				addDriverHandler.DriverAdded += addDriverHandler_DriverAdded;
@@ -205,18 +169,18 @@ namespace Wammer.Station.Service
 
 		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
 		{
-			var resumeHandler = new ResumeSyncHandler(m_PostUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner);
+			var resumeHandler = new ResumeSyncHandler();
 			resumeHandler.SyncResumed += viewHandler.OnSyncResumed;
 			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), resumeHandler);
 
-			var suspendHandler = new SuspendSyncHandler(m_PostUploadRunner, stationTimer, bodySyncRunners, upstreamTaskRunner);
+			var suspendHandler = new SuspendSyncHandler();
 			suspendHandler.SyncSuspended += viewHandler.OnSyncSuspended;
 			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), suspendHandler);
 
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
 
-			var removeOwnerHandler = new RemoveOwnerHandler(stationId);
+			var removeOwnerHandler = new RemoveOwnerHandler(Station.Instance.StationID);
 			removeOwnerHandler.DriverRemoved += new EventHandler<DriverRemovedEventArgs>(removeOwnerHandler_DriverRemoved);
 
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), removeOwnerHandler);
@@ -282,10 +246,7 @@ namespace Wammer.Station.Service
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
 			                          new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance)));
-
-			//functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
-			//new NewPostHandler(PostUploadTaskController.Instance));
-
+			
 			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),
 			                          new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance))));
 
@@ -304,7 +265,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 			                          new HybridCloudHttpRouter(new UserTrackHandler()));
 
-			var loginHandler = new UserLoginHandler(stationId, resourceBasePath);
+			var loginHandler = new UserLoginHandler(Station.Instance.StationID, resourceBasePath);
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 			                          loginHandler);
 
@@ -313,14 +274,14 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
 									  new UserLogoutHandler());
 
-			viewHandler = new AttachmentViewHandler(stationId);
+			viewHandler = new AttachmentViewHandler(Station.Instance.StationID);
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),
 			                          viewHandler);
 		}
 
 		private void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
 		{
-			TaskQueue.Enqueue(new UpdateDriverDBTask(e, stationId), TaskPriority.High);
+			TaskQueue.Enqueue(new UpdateDriverDBTask(e, Station.Instance.StationID), TaskPriority.High);
 		}
 
 		private static string GetDefaultBathPath(string relativedPath)
@@ -360,15 +321,10 @@ namespace Wammer.Station.Service
 
 		protected override void OnStop()
 		{
-			Array.ForEach(bodySyncRunners, runner => runner.Stop());
-			Array.ForEach(upstreamTaskRunner, runner => runner.Stop());
-			m_PostUploadRunner.Stop();
+			Station.Instance.Stop();
 
 			functionServer.Stop();
 			functionServer.Close();
-
-			stationTimer.Stop();
-			stationTimer.Close();
 
 			managementServer.Stop();
 			managementServer.Close();
@@ -383,58 +339,6 @@ namespace Wammer.Station.Service
 				if (!Directory.Exists(resourceBasePath))
 					Directory.CreateDirectory(resourceBasePath);
 			}
-		}
-
-		private void InitStationId()
-		{
-			stationId = (string) StationRegistry.GetValue("stationId", null);
-
-			if (stationId == null)
-			{
-				stationId = GenerateUniqueDeviceId();
-
-				StationRegistry.SetValue("stationId", stationId);
-			}
-		}
-
-		private string GenerateUniqueDeviceId()
-		{
-			// uniqueness is at least guaranteed by volume serial number
-			string volumeSN = string.Empty;
-			try
-			{
-				string drive = Path.GetPathRoot(Environment.CurrentDirectory).TrimEnd('\\');
-				ManagementObject disk = new ManagementObject(string.Format("win32_logicaldisk.deviceid=\"{0}\"", drive));
-				disk.Get();
-				volumeSN = disk["VolumeSerialNumber"].ToString();
-				logger.DebugFormat("volume serial number = {0}", volumeSN);
-			}
-			catch (Exception e)
-			{
-				logger.Debug("Unable to retrieve volume serial number", e);
-				return Guid.NewGuid().ToString();
-			}
-
-			string cpuID = "DEFAULT";
-			try
-			{
-				ManagementClass mc = new ManagementClass("win32_processor");
-				ManagementObjectCollection moc = mc.GetInstances();
-				foreach (var mo in moc)
-				{
-					// use first CPU's ID
-					cpuID = mo.Properties["processorID"].Value.ToString();
-					break;
-				}
-				logger.DebugFormat("processor ID = {0}", cpuID);
-			}
-			catch (Exception e)
-			{
-				logger.Debug("Unable to retrieve processor ID", e);
-			}
-
-			byte[] md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
-			return new Guid(md5).ToString();
 		}
 
 		private void ConfigThreadPool()

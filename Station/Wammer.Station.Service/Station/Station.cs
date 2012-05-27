@@ -1,0 +1,316 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Management;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.Win32;
+using Wammer.PerfMonitor;
+using Wammer.PostUpload;
+using Wammer.Station.AttachmentUpload;
+using Wammer.Station.Timeline;
+
+namespace Wammer.Station
+{
+	public class Station
+	{
+		#region Const
+		private const string STATION_ID_REGISTORY_KEY = "stationId";
+		private const int BODY_SYNC_THREAD_COUNT = 1;
+		private const int UPSTREAM_THREAD_COUNT = 1;
+		#endregion
+
+
+		#region Static Var
+		private static Station _instance;
+		#endregion
+
+
+		#region Var
+		private PostUploadTaskRunner _postUploadRunner;
+		private StationTimer _stationTimer;
+		private string _stationID;
+		private TaskRunner<IResourceDownloadTask>[] _bodySyncRunners;
+		private TaskRunner<ITask>[] _upstreamTaskRunner;
+		private AttachmentDownloadMonitor _downstreamMonitor;
+		#endregion
+
+
+		#region Public Static Property
+		/// <summary>
+		/// Gets the instance.
+		/// </summary>
+		/// <value>The instance.</value>
+		public static Station Instance 
+		{
+			get { return _instance ?? (_instance = new Station()); }
+		}
+		#endregion
+
+
+		#region Private Property
+		/// <summary>
+		/// Gets the m_ post upload runner.
+		/// </summary>
+		/// <value>The m_ post upload runner.</value>
+		private PostUploadTaskRunner m_PostUploadRunner
+		{
+			get { return _postUploadRunner ?? (_postUploadRunner = new PostUploadTaskRunner(PostUploadTaskQueue.Instance)); }
+		}
+
+		/// <summary>
+		/// Gets the m_ station timer.
+		/// </summary>
+		/// <value>The m_ station timer.</value>
+		private StationTimer m_StationTimer
+		{
+			get
+			{
+				return _stationTimer ?? (_stationTimer = new StationTimer(BodySyncQueue.Instance, StationID));
+			}
+		}
+
+		/// <summary>
+		/// Gets the m_ body sync runners.
+		/// </summary>
+		/// <value>The m_ body sync runners.</value>
+		private TaskRunner<IResourceDownloadTask>[] m_BodySyncRunners
+		{
+			get
+			{
+				if(_bodySyncRunners == null)
+				{
+					_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
+						item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance)).ToArray();
+				}
+				return _bodySyncRunners;
+			}
+		}
+
+		/// <summary>
+		/// Gets the m_ upstream task runner.
+		/// </summary>
+		/// <value>The m_ upstream task runner.</value>
+		private TaskRunner<ITask>[] m_UpstreamTaskRunner
+		{
+			get
+			{
+				if (_upstreamTaskRunner == null)
+				{
+					_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
+						item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance)).ToArray();
+				}
+				return _upstreamTaskRunner;
+			}
+		}
+
+		/// <summary>
+		/// Gets the m_ downstream monitor.
+		/// </summary>
+		/// <value>The m_ downstream monitor.</value>
+		private AttachmentDownloadMonitor m_DownstreamMonitor
+		{
+			get { return _downstreamMonitor ?? (_downstreamMonitor = new AttachmentDownloadMonitor()); }
+		}
+
+
+		private Boolean m_OriginalSynchronizationStatus { get; set; }
+
+		#endregion
+
+
+		#region Public Property
+		/// <summary>
+		/// Gets the station ID.
+		/// </summary>
+		/// <value>The station ID.</value>
+		public string StationID
+		{
+			get
+			{
+				if(_stationID == null)
+				{
+					InitStationId();
+					_stationID = (string)StationRegistry.GetValue(STATION_ID_REGISTORY_KEY, null);
+				}
+				return _stationID;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is synchronization status.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this instance is synchronization status; otherwise, <c>false</c>.
+		/// </value>
+		public Boolean IsSynchronizationStatus { get; private set; }
+
+		#endregion
+
+
+		#region Constructor
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Station"/> class.
+		/// </summary>
+		private Station()
+		{
+			SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
+		}
+		#endregion
+
+
+		#region Private Method
+		/// <summary>
+		/// Starts the body sync runner.
+		/// </summary>
+		private void StartBodySyncRunner()
+		{
+			foreach(var item in m_BodySyncRunners)
+			{
+				item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
+				item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
+				item.Start();
+			}
+		}
+		
+		/// <summary>
+		/// Starts the upstream task runner.
+		/// </summary>
+		private void StartUpstreamTaskRunner()
+		{
+			foreach (var item in m_UpstreamTaskRunner)
+			{
+				item.Start();
+			}
+		}
+
+		/// <summary>
+		/// Inits the station id.
+		/// </summary>
+		private void InitStationId()
+		{
+			var stationId = (string)StationRegistry.GetValue(STATION_ID_REGISTORY_KEY, null);
+
+			if (stationId == null)
+			{
+				stationId = GenerateUniqueDeviceId();
+
+				StationRegistry.SetValue("stationId", stationId);
+			}
+		}
+
+		/// <summary>
+		/// Generates the unique device id.
+		/// </summary>
+		/// <returns></returns>
+		private string GenerateUniqueDeviceId()
+		{
+			// uniqueness is at least guaranteed by volume serial number
+			var volumeSN = string.Empty;
+			try
+			{
+				var drive = Path.GetPathRoot(Environment.CurrentDirectory).TrimEnd('\\');
+				var disk = new ManagementObject(string.Format("win32_logicaldisk.deviceid=\"{0}\"", drive));
+				disk.Get();
+				volumeSN = disk["VolumeSerialNumber"].ToString();
+				this.LogDebugMsg(String.Format("volume serial number = {0}", volumeSN));
+			}
+			catch (Exception e)
+			{
+				this.LogDebugMsg("Unable to retrieve volume serial number", e);
+				return Guid.NewGuid().ToString();
+			}
+
+			var cpuID = "DEFAULT";
+			try
+			{
+				var mc = new ManagementClass("win32_processor");
+				var moc = mc.GetInstances();
+				foreach (var mo in moc)
+				{
+					// use first CPU's ID
+					cpuID = mo.Properties["processorID"].Value.ToString();
+					break;
+				}
+				this.LogDebugMsg(string.Format("processor ID = {0}", cpuID));
+			}
+			catch (Exception e)
+			{
+				this.LogDebugMsg("Unable to retrieve processor ID", e);
+			}
+
+			var md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
+			return new Guid(md5).ToString();
+		}
+		#endregion
+
+
+		#region Public Method
+		public void Start()
+		{
+			ResumeSync();
+		}
+
+		public void Stop()
+		{
+			SuspendSync();
+		}
+
+		public void SuspendSync()
+		{
+			if (!IsSynchronizationStatus)
+				return;
+
+			IsSynchronizationStatus = false;
+
+			m_PostUploadRunner.Stop();
+			m_StationTimer.Stop();
+			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Stop());
+			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Stop());
+
+			this.LogDebugMsg("Stop function server successfully");
+		}
+
+		public void ResumeSync()
+		{
+			if (IsSynchronizationStatus)
+				return;
+
+			IsSynchronizationStatus = true;
+
+			m_PostUploadRunner.Start();
+			m_StationTimer.Start();
+			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Start());
+			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Start());
+
+			this.LogDebugMsg("Start function server successfully");
+		}
+		#endregion
+
+
+		#region Event Process
+		/// <summary>
+		/// Handles the PowerModeChanged event of the SystemEvents control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="Microsoft.Win32.PowerModeChangedEventArgs"/> instance containing the event data.</param>
+		void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
+		{
+			this.LogDebugMsg("Power mode => " + e.Mode.ToString());
+
+			if (e.Mode == PowerModes.Suspend)
+			{
+				SuspendSync();
+				m_OriginalSynchronizationStatus = IsSynchronizationStatus;
+				return;
+			}
+
+			if (m_OriginalSynchronizationStatus == (e.Mode == PowerModes.Resume))
+			{
+				ResumeSync();
+			}
+			m_OriginalSynchronizationStatus = IsSynchronizationStatus;
+		}
+		#endregion
+	}
+}
