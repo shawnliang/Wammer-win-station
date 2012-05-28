@@ -967,6 +967,7 @@
     <None Include="Resources\FlatButton\FB_cover_hl.png" />
     <None Include="Resources\FlatButton\FB_blue_btn_2.png" />
     <None Include="Resources\FlatButton\FB_blue_btn_hl_2.png" />
+    <None Include="Resources\ArrowCircleDouble.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />
@@ -1034,6 +1035,7 @@
     <None Include="Resources\Magnifier.png" />
     <None Include="Resources\ObjectPosition.png" />
     <None Include="Resources\ObjectSize.png" />
+    <None Include="Resources\TickCircle.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
