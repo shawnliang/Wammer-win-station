@@ -37,15 +37,15 @@ namespace Wammer.Station
 				CloudServer.PARAM_SESSION_TOKEN,
 				CloudServer.PARAM_GROUP_ID);
 
-			string type = Parameters[CloudServer.PARAM_TYPE];
+			var type = Parameters[CloudServer.PARAM_TYPE];
 			if (type == "link")
 			{
 				TunnelToCloud();
 				return;
 			}
 
-			string groupID = Parameters[CloudServer.PARAM_GROUP_ID];
-			Driver driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
+			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
+			var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
 				throw new WammerStationException(
 					"Driver not found!", (int) StationLocalApiError.InvalidDriver);
@@ -56,24 +56,24 @@ namespace Wammer.Station
 				throw new WammerStationException(
 					"Group not found!", (int) StationLocalApiError.NotFound);
 
-			string sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
-			LoginedSession loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+			var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession == null)
 				throw new WammerStationException(
 					"Logined session not found!", (int) StationLocalApiError.NotFound);
 
-			List<string> attachmentIDs = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY] == null
+			var attachmentIDs = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY] == null
 			                             	? new List<string>()
 			                             	: Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList();
-			string content = Parameters[CloudServer.PARAM_CONTENT];
-			string postID = Guid.NewGuid().ToString();
-			DateTime timeStamp = DateTime.Now;
-			int attachmentCount = attachmentIDs.Count;
-			string creatorID = userGroup.creator_id;
-			string codeName = loginedSession.apikey.name;
+			var content = Parameters[CloudServer.PARAM_CONTENT];
+			var postID = Guid.NewGuid().ToString();
+			var timeStamp = DateTime.Now;
+			var attachmentCount = attachmentIDs.Count;
+			var creatorID = userGroup.creator_id;
+			var codeName = loginedSession.apikey.name;
 
-			List<AttachmentInfo> attachmentInfos = (from attachmentID in attachmentIDs
+			var attachmentInfos = (from attachmentID in attachmentIDs
 			                                        let attachment =
 			                                        	AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID.Trim('"')))
 			                                        where attachment != null

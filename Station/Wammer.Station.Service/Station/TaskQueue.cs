@@ -105,9 +105,6 @@ namespace Wammer.Station
 	
 		public static void Init()
 		{
-			PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE).IncrementBy(mqHighPriority.Count + mqMediumPriority.Count +
-			                                                               mqLowPriority.Count + mqVeryLowPriority.Count);
-
 			totalTaskCount = mqHighPriority.Count + mqMediumPriority.Count + mqLowPriority.Count + mqVeryLowPriority.Count;
 
 			PerfCounter.GetCounter(PerfCounter.ITEMS_IN_QUEUE).IncrementBy(totalTaskCount);
