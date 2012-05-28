@@ -59,9 +59,6 @@
   <ItemGroup>
     <Compile Include="AccountEventArgs.cs" />
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="Control\CueComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Control\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
