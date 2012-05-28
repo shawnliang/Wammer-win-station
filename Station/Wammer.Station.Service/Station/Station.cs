@@ -83,6 +83,12 @@ namespace Wammer.Station
 				{
 					_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
 						item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance)).ToArray();
+
+					foreach (var item in _bodySyncRunners)
+					{
+						item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
+						item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
+					}
 				}
 				return _bodySyncRunners;
 			}
@@ -181,30 +187,6 @@ namespace Wammer.Station
 
 
 		#region Private Method
-		/// <summary>
-		/// Starts the body sync runner.
-		/// </summary>
-		private void StartBodySyncRunner()
-		{
-			foreach(var item in m_BodySyncRunners)
-			{
-				item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
-				item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
-				item.Start();
-			}
-		}
-		
-		/// <summary>
-		/// Starts the upstream task runner.
-		/// </summary>
-		private void StartUpstreamTaskRunner()
-		{
-			foreach (var item in m_UpstreamTaskRunner)
-			{
-				item.Start();
-			}
-		}
-
 		/// <summary>
 		/// Inits the station id.
 		/// </summary>
