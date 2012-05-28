@@ -184,6 +184,7 @@ namespace Wammer.Cloud
 		}
 	}
 
+	[BsonIgnoreExtraElements]
 	public class Preview
 	{
 		[BsonIgnoreIfNull]
@@ -206,8 +207,24 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public string type { get; set; }
+
+		[BsonIgnoreIfNull]
+		public List<Image> images { get; set; }
+
+		#region inner classes
+		[BsonIgnoreExtraElements]
+		public class Image
+		{
+			[BsonIgnoreIfNull]
+			public string url;
+			[BsonIgnoreIfNull]
+			public string type;
+		}
+		#endregion
+		
 	}
 
+	[BsonIgnoreExtraElements]
 	public class Comment
 	{
 		[BsonIgnoreIfNull]
@@ -226,6 +243,7 @@ namespace Wammer.Cloud
 		public string device_id { get; set; }
 	}
 
+	[BsonIgnoreExtraElements]
 	public class PostInfo
 	{
 		[BsonIgnoreIfNull]
