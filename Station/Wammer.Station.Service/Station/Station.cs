@@ -42,7 +42,7 @@ namespace Wammer.Station
 		/// Gets the instance.
 		/// </summary>
 		/// <value>The instance.</value>
-		public static Station Instance 
+		public static Station Instance
 		{
 			get { return _instance ?? (_instance = new Station()); }
 		}
@@ -79,7 +79,7 @@ namespace Wammer.Station
 		{
 			get
 			{
-				if(_bodySyncRunners == null)
+				if (_bodySyncRunners == null)
 				{
 					_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
 						item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance)).ToArray();
@@ -135,7 +135,7 @@ namespace Wammer.Station
 		{
 			get
 			{
-				if(_stationID == null)
+				if (_stationID == null)
 				{
 					InitStationId();
 					_stationID = (string)StationRegistry.GetValue(STATION_ID_REGISTORY_KEY, null);
@@ -245,6 +245,20 @@ namespace Wammer.Station
 			var md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
 			return new Guid(md5).ToString();
 		}
+
+		/// <summary>
+		/// Suspends the event process and do.
+		/// </summary>
+		/// <param name="eventHandler">The event handler.</param>
+		/// <param name="processHandler">The process handler.</param>
+		/// <param name="action">The action.</param>
+		private void SuspendEventProcessAndDo(EventHandler eventHandler, EventHandler processHandler, Action action)
+		{
+			eventHandler -= processHandler;
+			action();
+			eventHandler += processHandler;
+		}
+
 		#endregion
 
 
@@ -295,7 +309,14 @@ namespace Wammer.Station
 			if (!IsSynchronizationStatus)
 				return;
 
-			IsSynchronizationStatus = false;
+			SuspendEventProcessAndDo(
+				IsSynchronizationStatusChanged,
+				this_IsSynchronizationStatusChanged,
+				() =>
+				{
+					IsSynchronizationStatus = false;
+					IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
+				});
 
 			m_PostUploadRunner.Stop();
 			m_StationTimer.Stop();
@@ -310,7 +331,14 @@ namespace Wammer.Station
 			if (IsSynchronizationStatus)
 				return;
 
-			IsSynchronizationStatus = true;
+			SuspendEventProcessAndDo(
+				IsSynchronizationStatusChanged,
+				this_IsSynchronizationStatusChanged,
+				() =>
+				{
+					IsSynchronizationStatus = true;
+					IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
+				});
 
 			m_PostUploadRunner.Start();
 			m_StationTimer.Start();
@@ -347,7 +375,7 @@ namespace Wammer.Station
 
 		void this_IsSynchronizationStatusChanged(object sender, EventArgs e)
 		{
-			if(IsSynchronizationStatus)
+			if (IsSynchronizationStatus)
 				ResumeSync();
 			else
 				SuspendSync();
