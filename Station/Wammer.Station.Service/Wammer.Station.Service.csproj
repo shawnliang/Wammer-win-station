@@ -123,6 +123,7 @@
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
     <Compile Include="Station\SessionNotExistException.cs" />
+    <Compile Include="Station\Station.cs" />
     <Compile Include="Station\TaskRunner.cs" />
     <Compile Include="Cloud\AttachmentApi.cs" />
     <Compile Include="Cloud\Response\AttachmentResponse.cs" />

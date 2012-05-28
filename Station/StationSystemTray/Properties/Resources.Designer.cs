@@ -70,7 +70,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid user name or password. Please try again..
+        ///   Looks up a localized string similar to Invalid email or password. Please try again..
         /// </summary>
         public static string AuthError {
             get {
@@ -207,7 +207,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The user name is different to the driver account of this Stream Station. Please try again..
+        ///   Looks up a localized string similar to The email is different to the driver account of this Stream Station. Please try again..
         /// </summary>
         public static string InvalidDriverError {
             get {

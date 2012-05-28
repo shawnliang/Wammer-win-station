@@ -16,7 +16,7 @@ namespace Wammer.PostUpload
 		InProgress
 	}
 
-	[BsonKnownTypes(typeof (NewPostTask), typeof (UpdatePostTask), typeof (NullPostUploadTask))]
+	[BsonKnownTypes(typeof (NewPostTask), typeof (UpdatePostTask), typeof (NullPostUploadTask), typeof(CommentTask), typeof(HidePostTask), typeof(UnhidePostTask))]
 	public abstract class PostUploadTask : ITask
 	{
 		public string PostId { get; set; }
@@ -25,6 +25,7 @@ namespace Wammer.PostUpload
 		public Dictionary<string, string> Parameters { get; set; }
 		public PostUploadTaskStatus Status { get; set; }
 		public string CodeName { get; set; }
+		public DateTime LastUpdateTime { get; set; }
 
 		#region ITask Members
 

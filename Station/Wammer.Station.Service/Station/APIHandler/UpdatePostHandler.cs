@@ -7,6 +7,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
 using fastJSON;
+using System;
 
 namespace Wammer.Station
 {
@@ -325,6 +326,8 @@ namespace Wammer.Station
 				throw new WammerStationException(
 					"Post not found!", (int) StationLocalApiError.NotFound);
 
+			var lastUpdateTime = post.update_time;
+
 			UpdateType(post);
 			UpdateContent(post);
 			UpdatePreview(post);
@@ -333,8 +336,11 @@ namespace Wammer.Station
 			UpdateFavorite(post);
 			UpdateSoul(post);
 
+			post.update_time = DateTime.Now;
+			PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("update_time", post.update_time));
+
 			if (m_PostUploader != null)
-				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.UpdatePost, Parameters);
+				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.UpdatePost, Parameters, post.update_time, lastUpdateTime);
 
 			var response = new UpdatePostResponse {post = post};
 			RespondSuccess(response);

@@ -1549,7 +1549,7 @@
     <value>True</value>
   </data>
   <data name="checkBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 57</value>
+    <value>62, 68</value>
   </data>
   <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>115, 19</value>
@@ -1560,14 +1560,11 @@
   <data name="checkBox1.Text" xml:space="preserve">
     <value>Remove all datas</value>
   </data>
-  <data name="lblConfirm.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="lblConfirm.Location" type="System.Drawing.Point, System.Drawing">
     <value>59, 24</value>
   </data>
   <data name="lblConfirm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>423, 15</value>
+    <value>423, 41</value>
   </data>
   <data name="lblConfirm.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
