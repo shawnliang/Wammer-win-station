@@ -48,7 +48,7 @@ namespace StationSystemTray
 			this.button1 = new System.Windows.Forms.Button();
 			this.txtPassword = new StationSystemTray.CueTextBox();
 			this.tbxEMail = new StationSystemTray.CueTextBox();
-			this.cmbEmail = new StationSystemTray.CueComboBox();
+			this.cmbEmail = new System.Windows.Forms.ComboBox();
 			this.fbLoginButton1 = new StationSystemTray.FBLoginButton();
 			this.loginButton1 = new StationSystemTray.LoginButton();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -359,7 +359,7 @@ namespace StationSystemTray
 		private System.Windows.Forms.Label lblWelcome;
         private System.Windows.Forms.Button btnOK;
         internal CueTextBox txtPassword;
-        internal CueComboBox cmbEmail;
+        internal System.Windows.Forms.ComboBox cmbEmail;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem menuSignIn;
 		private System.Windows.Forms.ToolStripMenuItem tsmiOpenStream;
