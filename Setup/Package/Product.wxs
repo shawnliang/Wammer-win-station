@@ -191,7 +191,6 @@
       <ComponentRef Id="StationSystemTray.exe"/>
       <ComponentRef Id="StationSystemTray.exe.config"/>
       <ComponentRef Id="StationSystemTray.resources.dll"/>
-      <ComponentRef Id="SystemTrayML.xml"/>
       <ComponentRef Id="System.Data.SQLite.dll"/>
       <ComponentRef Id="CommonLibs.dll"/>
     </ComponentGroup>
@@ -258,9 +257,6 @@
       </Component>
       <Component Guid="*">
         <File Id="StationSystemTray.exe.config" Source="$(var.StationSystemTray.TargetPath).config" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Guid="*">
-        <File Id="SystemTrayML.xml" Source="$(var.StationSystemTray.ProjectDir)\SystemTrayML.xml" KeyPath="yes"/>
       </Component>
      
       <!-- client files -->

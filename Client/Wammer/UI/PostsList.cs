@@ -371,6 +371,17 @@ namespace Waveface
 
             TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor);
 
+            /*
+            if(CheckAllPhotosOrigin(post))
+            {
+                g.DrawImage(Properties.Resources.TickCircle, rect.X + rect.Width - thumbnailRectWidth - 6, _rect.Y - 2);
+            }
+            else
+            {
+                g.DrawImage(Properties.Resources.ArrowCircleDouble, rect.X + rect.Width - thumbnailRectWidth - 6, _rect.Y - 2);
+            }
+            */
+
             Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8,
                                                rect.Height - underThumbnailHeight - 18);
 
@@ -623,7 +634,6 @@ namespace Waveface
                 setCalendarDay();
             }
 
-
             if (m_clickedIndex == (m_postBS.Count - 1))
             {
                 // Main.Current.FilterReadMorePost(); 
@@ -815,6 +825,8 @@ namespace Waveface
             this.dataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragEnter);
             this.dataGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragOver);
             this.dataGridView.DragLeave += new System.EventHandler(this.dataGridView_DragLeave);
+            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
+            this.dataGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyUp);
             // 
             // creatoridDataGridViewTextBoxColumn
             // 
@@ -959,5 +971,40 @@ namespace Waveface
         }
 
         #endregion
+
+        #region Key
+
+        private bool m_isKeyPressed;
+
+        private void dataGridView_KeyUp(object sender, KeyEventArgs e)
+        {
+            m_isKeyPressed = false;
+        }
+
+        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.SuppressKeyPress = m_isKeyPressed;
+
+            m_isKeyPressed = true;
+        }
+
+        #endregion
+
+        private bool CheckAllPhotosOrigin(Post post)
+        {
+            foreach (Attachment _attachment in post.attachments)
+            {
+                string _urlO = string.Empty;
+                string _fileNameO = string.Empty;
+                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
+
+                string _localFileO = Path.Combine(Main.GCONST.ImageCachePath, _fileNameO);
+
+                if (!File.Exists(_localFileO))
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

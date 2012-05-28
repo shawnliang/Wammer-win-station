@@ -379,19 +379,19 @@
     <value>468, 17</value>
   </metadata>
   <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="regionMenuItem.Text" xml:space="preserve">
     <value>Region</value>
   </data>
   <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="windowsMenuItem.Text" xml:space="preserve">
     <value>Windows</value>
   </data>
   <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="screenMenuItem.Text" xml:space="preserve">
     <value>Desktop</value>
@@ -466,7 +466,7 @@
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>44</value>
+    <value>52</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 15</value>

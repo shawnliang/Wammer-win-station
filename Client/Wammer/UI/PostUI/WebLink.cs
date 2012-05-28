@@ -141,8 +141,13 @@ namespace Waveface.PostUI
                 }
             }
 
-            if (!string.IsNullOrEmpty(_aog.favicon_url))
+            if (string.IsNullOrEmpty(_aog.favicon_url))
+                _og.favicon_url = "";
+            else
                 _og.favicon_url = _aog.favicon_url;
+
+            if (_aog.images != null)
+                _og.images = _aog.images;
 
             return _og;
         }

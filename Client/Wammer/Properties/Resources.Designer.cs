@@ -81,6 +81,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ArrowCircleDouble {
+            get {
+                object obj = ResourceManager.GetObject("ArrowCircleDouble", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap close {
             get {
                 object obj = ResourceManager.GetObject("close", resourceCulture);
@@ -817,6 +824,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap Station {
             get {
                 object obj = ResourceManager.GetObject("Station", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap TickCircle {
+            get {
+                object obj = ResourceManager.GetObject("TickCircle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

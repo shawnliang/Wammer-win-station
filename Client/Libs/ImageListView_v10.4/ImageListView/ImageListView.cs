@@ -163,6 +163,7 @@ namespace Manina.Windows.Forms
 		/// </summary>
 		[Category("Behavior"), DefaultValue(false)]
         public bool IsWaveface { get; set; }
+
 		/// <summary>
 		/// Gets or sets whether thumbnail images are automatically rotated.
 		/// </summary>
