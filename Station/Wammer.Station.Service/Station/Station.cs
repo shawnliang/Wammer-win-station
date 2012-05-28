@@ -33,6 +33,7 @@ namespace Wammer.Station
 		private TaskRunner<IResourceDownloadTask>[] _bodySyncRunners;
 		private TaskRunner<ITask>[] _upstreamTaskRunner;
 		private AttachmentDownloadMonitor _downstreamMonitor;
+		private Boolean _isSynchronizationStatus;
 		#endregion
 
 
@@ -143,8 +144,26 @@ namespace Wammer.Station
 		/// <value>
 		/// 	<c>true</c> if this instance is synchronization status; otherwise, <c>false</c>.
 		/// </value>
-		public Boolean IsSynchronizationStatus { get; private set; }
+		public Boolean IsSynchronizationStatus
+		{
+			get { return _isSynchronizationStatus; }
+			set
+			{
+				if (_isSynchronizationStatus == value)
+					return;
 
+				OnIsSynchronizationStatusChanging(EventArgs.Empty);
+				_isSynchronizationStatus = value;
+				OnIsSynchronizationStatusChanged(EventArgs.Empty);
+			}
+		}
+
+		#endregion
+
+
+		#region Event
+		public EventHandler IsSynchronizationStatusChanging;
+		public EventHandler IsSynchronizationStatusChanged;
 		#endregion
 
 
@@ -155,6 +174,8 @@ namespace Wammer.Station
 		private Station()
 		{
 			SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
+
+			IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 		}
 		#endregion
 
@@ -245,6 +266,37 @@ namespace Wammer.Station
 		#endregion
 
 
+		#region Protected Method
+		/// <summary>
+		/// Raises the <see cref="E:IsSynchronizationStatusChanging"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		protected void OnIsSynchronizationStatusChanging(EventArgs e)
+		{
+			var handler = IsSynchronizationStatusChanging;
+
+			if (handler == null)
+				return;
+
+			handler(this, e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:IsSynchronizationStatusChanged"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		protected void OnIsSynchronizationStatusChanged(EventArgs e)
+		{
+			var handler = IsSynchronizationStatusChanged;
+
+			if (handler == null)
+				return;
+
+			handler(this, e);
+		}
+		#endregion
+
+
 		#region Public Method
 		public void Start()
 		{
@@ -300,13 +352,23 @@ namespace Wammer.Station
 
 			if (e.Mode == PowerModes.Suspend)
 			{
+				m_OriginalSynchronizationStatus = IsSynchronizationStatus;
 				SuspendSync();
+				return;
 			}
 			else if (m_OriginalSynchronizationStatus == (e.Mode == PowerModes.Resume))
 			{
 				ResumeSync();
 			}
 			m_OriginalSynchronizationStatus = IsSynchronizationStatus;
+		}
+
+		void this_IsSynchronizationStatusChanged(object sender, EventArgs e)
+		{
+			if(IsSynchronizationStatus)
+				ResumeSync();
+			else
+				SuspendSync();
 		}
 		#endregion
 	}
