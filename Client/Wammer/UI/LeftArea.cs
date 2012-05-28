@@ -433,7 +433,11 @@ namespace Waveface
                 }
 
                 Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), ((bmp.Width - _size.Width) / 2) + _off - 1, bmp.Height - _size.Height - 6);
+
+                using (Brush _brush = new SolidBrush(Color.FromArgb(33, 69, 99)))
+                {
+                    _g.DrawString(m_dropAreaMessage, m_font, _brush, ((bmp.Width - _size.Width) / 2) + _off - 1, bmp.Height - _size.Height - 6);
+                }
             }
 
             pbDropArea.Image = m_dropAreaImage;

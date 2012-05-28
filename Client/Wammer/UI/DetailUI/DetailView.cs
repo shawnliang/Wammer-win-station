@@ -9,7 +9,6 @@ using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
-using Waveface.Component.PopupControl;
 using Waveface.DetailUI;
 using Waveface.Localization;
 using Waveface.Properties;
@@ -36,11 +35,11 @@ namespace Waveface
         private Label labelTitle;
         private Timer timerGC;
         private Panel panelMain;
-        private Popup m_dateTimePopup;
+        //private Popup m_dateTimePopup;
         private ImageButton btnEdit;
         private Timer timerCanEdit;
         private ImageButton btnFavorite;
-        private DateTimePopupPanel m_dateTimePopupPanel;
+        //private DateTimePopupPanel m_dateTimePopupPanel;
         private ImageButton btnFunction1;
         private Post m_post;
         private ToolTip toolTip;
@@ -89,8 +88,8 @@ namespace Waveface
 
             MouseWheelRedirector.Attach(this);
 
-            m_dateTimePopup = new Popup(m_dateTimePopupPanel = new DateTimePopupPanel());
-            m_dateTimePopupPanel.MyParent = m_dateTimePopup;
+            //m_dateTimePopup = new Popup(m_dateTimePopupPanel = new DateTimePopupPanel());
+            //m_dateTimePopupPanel.MyParent = m_dateTimePopup;
         }
 
         protected override void Dispose(bool disposing)
@@ -408,7 +407,7 @@ namespace Waveface
 
             if (m_photoDv != null)
             {
-                m_photoDv.ImageListView.ClearThumbnailCache();
+                // m_photoDv.ImageListView.ClearThumbnailCache();
                 m_photoDv.Dispose();
             }
 
@@ -585,13 +584,13 @@ namespace Waveface
                 btnEdit.Enabled = m_currentView.CanEdit();
                 btnFunction1.Enabled = m_currentView.CanEdit();
 
-                if(btnEdit.Enabled)
+                if (btnEdit.Enabled)
                 {
-                    if(m_existPostAddPhotos)
+                    if (m_existPostAddPhotos)
                     {
                         m_existPostAddPhotos = false;
 
-                        if(m_existPostPhotos != null)
+                        if (m_existPostPhotos != null)
                         {
                             Main.Current.EditPost(Post, m_existPostPhotos, m_existPostAddPhotosIndex);
                         }
@@ -628,9 +627,9 @@ namespace Waveface
         {
             if (m_clockTest)
             {
-                m_dateTimePopupPanel.DateTime = dateTime;
-
-                m_dateTimePopup.Show(this, 4, 44);
+                //m_dateTimePopupPanel.DateTime = dateTime;
+                //
+                //m_dateTimePopup.Show(this, 4, 44);
             }
         }
 
