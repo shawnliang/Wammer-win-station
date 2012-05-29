@@ -555,7 +555,7 @@ namespace Wammer.Station.Management
 
 		public static void ConnectToInternet()
 		{
-			using (DefaultWebClient agent = new DefaultWebClient())
+			using (var agent = new DefaultWebClient())
 			{
 				agent.DownloadData("http://www.google.com");
 			}
@@ -565,7 +565,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true, false);
+				CloudServer.request<CloudResponse>(StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true, false);
 			}
 			catch (WammerCloudException e)
 			{
@@ -577,7 +577,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true, false);
+				CloudServer.request<CloudResponse>(StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true, false);
 			}
 			catch (WammerCloudException e)
 			{

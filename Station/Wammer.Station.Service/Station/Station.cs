@@ -9,6 +9,7 @@ using Wammer.PerfMonitor;
 using Wammer.PostUpload;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
+using System.Net.NetworkInformation;
 
 namespace Wammer.Station
 {
@@ -180,6 +181,7 @@ namespace Wammer.Station
 		private Station()
 		{
 			SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
+			NetworkChange.NetworkAvailabilityChanged += new NetworkAvailabilityChangedEventHandler(NetworkChange_NetworkAvailabilityChanged);
 
 			IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 		}
@@ -294,20 +296,32 @@ namespace Wammer.Station
 
 
 		#region Public Method
+		/// <summary>
+		/// Starts this instance.
+		/// </summary>
 		public void Start()
 		{
 			ResumeSync();
 		}
 
+		/// <summary>
+		/// Stops this instance.
+		/// </summary>
 		public void Stop()
 		{
 			SuspendSync();
 		}
 
+		/// <summary>
+		/// Suspends the sync.
+		/// </summary>
 		public void SuspendSync()
 		{
 			if (!IsSynchronizationStatus)
+			{
+				m_OriginalSynchronizationStatus = false;
 				return;
+			}
 
 			SuspendEventProcessAndDo(
 				IsSynchronizationStatusChanged,
@@ -315,7 +329,6 @@ namespace Wammer.Station
 				() =>
 				{
 					IsSynchronizationStatus = false;
-					IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 				});
 
 			m_PostUploadRunner.Stop();
@@ -326,10 +339,16 @@ namespace Wammer.Station
 			this.LogDebugMsg("Stop synchronization successfully");
 		}
 
+		/// <summary>
+		/// Resumes the sync.
+		/// </summary>
 		public void ResumeSync()
 		{
 			if (IsSynchronizationStatus)
+			{
+				m_OriginalSynchronizationStatus = true;
 				return;
+			}
 
 			SuspendEventProcessAndDo(
 				IsSynchronizationStatusChanged,
@@ -337,7 +356,6 @@ namespace Wammer.Station
 				() =>
 				{
 					IsSynchronizationStatus = true;
-					IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 				});
 
 			m_PostUploadRunner.Start();
@@ -359,20 +377,34 @@ namespace Wammer.Station
 		void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
 		{
 			this.LogDebugMsg("Power mode => " + e.Mode.ToString());
+		}
 
-			if (e.Mode == PowerModes.Suspend)
+		/// <summary>
+		/// Handles the NetworkAvailabilityChanged event of the NetworkChange control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.Net.NetworkInformation.NetworkAvailabilityEventArgs"/> instance containing the event data.</param>
+		void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
+		{
+			this.LogDebugMsg("Network available => " + e.IsAvailable.ToString());
+			if (!e.IsAvailable)
 			{
 				m_OriginalSynchronizationStatus = IsSynchronizationStatus;
 				SuspendSync();
 				return;
 			}
-			else if (m_OriginalSynchronizationStatus == (e.Mode == PowerModes.Resume))
-			{
+
+			if (m_OriginalSynchronizationStatus)
 				ResumeSync();
-			}
+
 			m_OriginalSynchronizationStatus = IsSynchronizationStatus;
 		}
 
+		/// <summary>
+		/// Handles the IsSynchronizationStatusChanged event of the this control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void this_IsSynchronizationStatusChanged(object sender, EventArgs e)
 		{
 			if (IsSynchronizationStatus)
