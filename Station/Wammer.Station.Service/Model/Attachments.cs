@@ -419,7 +419,7 @@ namespace Wammer.Model
 				{
 					if (rawData.Array == null && saved_file_name != null)
 					{
-						Driver driver = DriverCollection.Instance.FindOne();
+						var driver = DriverCollection.Instance.FindOne();
 						var storage = new FileStorage(driver);
 						var buffer = new byte[file_size];
 						storage.Load(saved_file_name).Read(buffer, 0, buffer.Length);

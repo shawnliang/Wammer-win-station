@@ -129,7 +129,6 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-
 			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
 		}
 
@@ -159,7 +158,6 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			
 			return CloudServer.requestPath<PostGetLatestResponse>("posts/getLatest", parameters, false);
 		}
 
