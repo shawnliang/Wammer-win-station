@@ -42,7 +42,7 @@ if __name__ == "__main__":
 	# get version string : major.minor.patch
 	version = wfVersion.get_product_version_from_wix_config_file(solution_dir)
 	version_full = version + "." + build_num
-	print " ==== Building Waveface Stream " + version_full + " ==="
+	print "==== Building Waveface Stream " + version_full + " ===="
 
 	# change version strings in all AssemblyInfo.cs
 	buildVersion.dir_traverse(solution_dir, version_full)
@@ -53,6 +53,6 @@ if __name__ == "__main__":
 	# change log level to "INFO"
 	changeLogLevel.dir_traverse(solution_dir, version_full)
 
-	build_target(solution_dir, "development", version_full, build_num)
-	build_target(solution_dir, "staging", version_full, build_num)
-	build_target(solution_dir, "production", version_full, build_num)
+	build_target(solution_dir, "development", version, build_num)
+	build_target(solution_dir, "staging", version, build_num)
+	build_target(solution_dir, "production", version, build_num)
