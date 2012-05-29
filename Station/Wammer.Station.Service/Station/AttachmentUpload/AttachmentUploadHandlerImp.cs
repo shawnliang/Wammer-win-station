@@ -172,10 +172,11 @@ namespace Wammer.Station.AttachmentUpload
 			buf.Append("/v2/attachments/view/?object_id=").
 				Append(data.object_id);
 
-			if (ImageMeta.Square <= data.imageMeta && data.imageMeta <= ImageMeta.Large)
+			var imageMeta = data.imageMeta;
+			if (ImageMeta.Square <= imageMeta && imageMeta <= ImageMeta.Large)
 			{
 				buf.Append("&image_meta=").
-					Append(data.imageMeta.GetCustomAttribute<DescriptionAttribute>().Description);
+					Append(imageMeta.GetCustomAttribute<DescriptionAttribute>().Description);
 			}
 
 			return buf.ToString();
@@ -186,10 +187,11 @@ namespace Wammer.Station.AttachmentUpload
 			var buf = new StringBuilder();
 			buf.Append(data.object_id);
 
-			if (ImageMeta.Square <= data.imageMeta && data.imageMeta <= ImageMeta.Large)
+			var imageMeta = data.imageMeta;
+			if (ImageMeta.Square <= imageMeta && imageMeta <= ImageMeta.Large)
 			{
 				buf.Append("_").
-					Append(data.imageMeta.GetCustomAttribute<DescriptionAttribute>().Description).
+					Append(imageMeta.GetCustomAttribute<DescriptionAttribute>().Description).
 					Append(".dat");
 			}
 			else

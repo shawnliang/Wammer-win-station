@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Net;
+using System.Text;
+using log4net;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.JSONClass;
 using Wammer.Utility;
-using System.Text;
-using log4net;
 
 namespace Wammer.Cloud
 {

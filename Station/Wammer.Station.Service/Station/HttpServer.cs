@@ -289,15 +289,15 @@ namespace Wammer.Station
 
 				var handler = FindBestMatch(context.Request.Url.AbsolutePath);
 
-				if (handler != null)
+				if (handler == null)
 				{
-					var task = new HttpHandlingTask(handler, context, beginTime);
-					OnTaskQueue(new TaskQueueEventArgs(task, handler));
-					TaskQueue.Enqueue(task, TaskPriority.High);
-				}
-				else
 					respond404NotFound(context);
+					return;
+				}
 
+				var task = new HttpHandlingTask(handler, context, beginTime);
+				OnTaskQueue(new TaskQueueEventArgs(task, handler));
+				TaskQueue.Enqueue(task, TaskPriority.High);
 			}
 			catch (ObjectDisposedException)
 			{

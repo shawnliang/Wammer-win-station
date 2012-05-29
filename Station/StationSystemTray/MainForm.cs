@@ -151,7 +151,7 @@ namespace StationSystemTray
 			InitializeComponent();
 			this.initMinimized = initMinimized;
 
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
@@ -162,7 +162,7 @@ namespace StationSystemTray
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			this.LogDebugMsg("Unhandle exception: " + e.ExceptionObject.ToString());
+			this.LogDebugMsg("Unhandle exception: " + e.ExceptionObject);
 			CloseTimelineProgram();
 		}
 
@@ -717,7 +717,7 @@ namespace StationSystemTray
 					txtPassword.Select();
 				}
 
-				this.AcceptButton = loginButton1;
+				AcceptButton = loginButton1;
 			}
 			else if (tabpage == tabMainStationSetup)
 			{

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -67,7 +68,7 @@ namespace Wammer.Station
 		{
 			get
 			{
-				return _stationTimer ?? (_stationTimer = new StationTimer(BodySyncQueue.Instance, StationID));
+				return _stationTimer ?? (_stationTimer = new StationTimer(BodySyncQueue.Instance));
 			}
 		}
 
@@ -102,12 +103,8 @@ namespace Wammer.Station
 		{
 			get
 			{
-				if (_upstreamTaskRunner == null)
-				{
-					_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
-						item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance)).ToArray();
-				}
-				return _upstreamTaskRunner;
+				return _upstreamTaskRunner ?? (_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
+					item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance)).ToArray());
 			}
 		}
 
@@ -179,7 +176,7 @@ namespace Wammer.Station
 		/// </summary>
 		private Station()
 		{
-			SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
+			SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
 			IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 		}
@@ -212,7 +209,10 @@ namespace Wammer.Station
 			var volumeSN = string.Empty;
 			try
 			{
-				var drive = Path.GetPathRoot(Environment.CurrentDirectory).TrimEnd('\\');
+				var pathRoot = Path.GetPathRoot(Environment.CurrentDirectory);
+
+				Debug.Assert(pathRoot != null);
+				var drive = pathRoot.TrimEnd('\\');
 				var disk = new ManagementObject(string.Format("win32_logicaldisk.deviceid=\"{0}\"", drive));
 				disk.Get();
 				volumeSN = disk["VolumeSerialNumber"].ToString();
@@ -366,7 +366,8 @@ namespace Wammer.Station
 				SuspendSync();
 				return;
 			}
-			else if (m_OriginalSynchronizationStatus == (e.Mode == PowerModes.Resume))
+
+			if (m_OriginalSynchronizationStatus == (e.Mode == PowerModes.Resume))
 			{
 				ResumeSync();
 			}

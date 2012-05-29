@@ -34,62 +34,32 @@ namespace Wammer.Station
 
 		private static WMSBroker mqBroker
 		{
-			get
-			{
-				if(_mqBroker == null)
-					_mqBroker = new WMSBroker(new MongoPersistentStorage());
-				return _mqBroker;
-			}
+			get { return _mqBroker ?? (_mqBroker = new WMSBroker(new MongoPersistentStorage())); }
 		}
 
 		private static WMSSession mqSession
 		{
-			get
-			{
-				if(_mqSession == null)
-					_mqSession = mqBroker.CreateSession();
-				return _mqSession;
-			}
+			get { return _mqSession ?? (_mqSession = mqBroker.CreateSession()); }
 		}
 
 		private static WMSQueue mqHighPriority
 		{
-			get
-			{
-				if(_mqHighPriority == null)
-					_mqHighPriority = mqBroker.GetQueue("high");
-				return _mqHighPriority;
-			}
+			get { return _mqHighPriority ?? (_mqHighPriority = mqBroker.GetQueue("high")); }
 		}
 
 		private static WMSQueue mqMediumPriority
 		{
-			get
-			{
-				if (_mqMediumPriority == null)
-					_mqMediumPriority = mqBroker.GetQueue("medium");
-				return _mqMediumPriority;
-			}
+			get { return _mqMediumPriority ?? (_mqMediumPriority = mqBroker.GetQueue("medium")); }
 		}
 
 		private static WMSQueue mqLowPriority
 		{
-			get
-			{
-				if(_mqLowPriority == null)
-					_mqLowPriority = mqBroker.GetQueue("low");
-				return _mqLowPriority;
-			}
+			get { return _mqLowPriority ?? (_mqLowPriority = mqBroker.GetQueue("low")); }
 		}
 
 		private static WMSQueue mqVeryLowPriority
 		{
-			get
-			{
-				if (_mqVeryLowPriority == null)
-					_mqVeryLowPriority = mqBroker.GetQueue("verylow");
-				return _mqVeryLowPriority;
-			}
+			get { return _mqVeryLowPriority ?? (_mqVeryLowPriority = mqBroker.GetQueue("verylow")); }
 		}
 
 

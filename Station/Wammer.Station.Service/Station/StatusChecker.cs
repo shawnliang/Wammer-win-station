@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using log4net;
 using MongoDB.Driver.Builders;
@@ -55,11 +54,12 @@ namespace Wammer.Station
 				var storage = new FileStorage(driver);
 				foreach (var group in driver.groups)
 				{
+					//TODO: storage.GetAvailSize() 這段有誤...
 					status.diskusage.Add(new DiskUsage
 					                     	{
 					                     		group_id = group.group_id,
 					                     		used = storage.GetUsedSize(),
-					                     		avail = storage.GetAvailSize()
+					                     		avail = storage.GetAvailSize() 
 					                     	});
 				}
 			}

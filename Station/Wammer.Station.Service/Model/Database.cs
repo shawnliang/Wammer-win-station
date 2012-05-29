@@ -29,11 +29,9 @@ namespace Wammer.Model
 		{
 			get
 			{
-				if (_mongoDB == null)
-					_mongoDB = MongoServer.Create(
-						string.Format(MONGODB_URL,
-									  StationRegistry.GetValue("dbPort", DEFAULT_MONGODB_PORT)));
-				return _mongoDB;
+				return _mongoDB ?? (_mongoDB = MongoServer.Create(
+					string.Format(MONGODB_URL,
+					StationRegistry.GetValue("dbPort", DEFAULT_MONGODB_PORT))));
 			}
 		}
 		#endregion
@@ -46,14 +44,7 @@ namespace Wammer.Model
 		/// <value>The m_ wammer.</value>
 		public static MongoDatabase Wammer
 		{
-			get
-			{
-				if (_wammer == null)
-				{
-					_wammer = m_MongoDB.GetDatabase("wammer");
-				}
-				return _wammer;
-			}
+			get { return _wammer ?? (_wammer = m_MongoDB.GetDatabase("wammer")); }
 		}
 		#endregion
 

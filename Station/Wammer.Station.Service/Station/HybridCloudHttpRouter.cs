@@ -118,7 +118,7 @@ namespace Wammer.Station
 
 				logger.Debug("====== Request " + Request.Url.AbsolutePath +
 				             " from " + Request.RemoteEndPoint.Address + " ======");
-				foreach (string key in Parameters.AllKeys)
+				foreach (var key in Parameters.AllKeys)
 				{
 					if (key == "password")
 					{
@@ -126,14 +126,15 @@ namespace Wammer.Station
 					}
 					else
 					{
-						logger.DebugFormat("{0} : {1}", key, Parameters[key]);
-						if (key == "apikey" && CloudServer.CodeName.ContainsKey(Parameters[key]))
+						var value = Parameters[key];
+						logger.DebugFormat("{0} : {1}", key, value);
+						if (key == "apikey" && CloudServer.CodeName.ContainsKey(value))
 						{
-							logger.DebugFormat("(code name : {0})", CloudServer.CodeName[Parameters[key]]);
+							logger.DebugFormat("(code name : {0})", CloudServer.CodeName[value]);
 						}
 					}
 				}
-				foreach (UploadedFile file in Files)
+				foreach (var file in Files)
 					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
 			}
 		}
@@ -276,7 +277,7 @@ namespace Wammer.Station
 				string postData = Encoding.UTF8.GetString(RawPostData);
 				return HttpUtility.ParseQueryString(postData);
 			}
-			else if (req.HttpMethod.ToUpper().Equals("GET"))
+			else if (req.HttpMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase))
 			{
 				return HttpUtility.ParseQueryString(Request.Url.Query);
 			}
