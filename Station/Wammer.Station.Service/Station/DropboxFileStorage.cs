@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Net;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;

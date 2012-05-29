@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
-using log4net;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -119,17 +116,17 @@ namespace Wammer.Station
 
 		public void ResumeUnfinishedDownstreamTasks()
 		{
-			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
+			var posts = PostCollection.Instance.Find(
 				Query.And(
 					Query.Exists("attachments", true),
 					Query.EQ("hidden", "false")));
 
-			foreach (PostInfo post in posts)
+			foreach (var post in posts)
 			{
-				foreach (AttachmentInfo attachment in post.attachments)
+				foreach (var attachment in post.attachments)
 				{
-					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
-					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
+					var savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
 
 					// driver might be removed before download tasks completed
 					if (driver == null)
@@ -143,33 +140,36 @@ namespace Wammer.Station
 							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 					}
 
-					if (attachment.image_meta == null)
+					var imageMeta = attachment.image_meta;
+					if (imageMeta == null)
 						break;
 
+					var savedImageMeta = (savedDoc == null) ? null : savedDoc.image_meta;
+
 					// small
-					if (attachment.image_meta.small != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
+					if (imageMeta.small != null &&
+						(savedImageMeta == null || savedImageMeta.small == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
 					}
 
 					// medium
-					if (attachment.image_meta.medium != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
+					if (imageMeta.medium != null &&
+						(savedImageMeta == null || savedImageMeta.medium == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 					}
 
 					// large
-					if (attachment.image_meta.large != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
+					if (imageMeta.large != null &&
+						(savedImageMeta == null || savedImageMeta.large == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
 					}
 
 					// square
-					if (attachment.image_meta.square != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
+					if (imageMeta.square != null &&
+					    (savedImageMeta == null || savedImageMeta.square == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
 					}

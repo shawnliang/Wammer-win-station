@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.Station;
-using Wammer.Utility;
 
 namespace Wammer.PostUpload
 {

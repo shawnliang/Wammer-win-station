@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Net;
-using Wammer.Model;
-using Wammer.Utility;
 using fastJSON;
+using Wammer.Model;
 
 namespace Wammer.Cloud
 {
@@ -94,7 +92,7 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_DEVICE_NAME, deviceName}
 			                 	};
 
-			return CloudServer.requestPath(serverBase, "auth/login", parameters, false);
+			return CloudServer.requestPath(serverBase, "auth/login", parameters, false, true, timeout);
 		}
 
 		public static void LogOut(string sessionToken, string apiKey)

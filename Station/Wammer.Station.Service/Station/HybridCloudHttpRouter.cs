@@ -276,7 +276,7 @@ namespace Wammer.Station
 				string postData = Encoding.UTF8.GetString(RawPostData);
 				return HttpUtility.ParseQueryString(postData);
 			}
-			else if (req.HttpMethod.ToUpper().Equals("GET"))
+			else if (req.HttpMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase))
 			{
 				return HttpUtility.ParseQueryString(Request.Url.Query);
 			}

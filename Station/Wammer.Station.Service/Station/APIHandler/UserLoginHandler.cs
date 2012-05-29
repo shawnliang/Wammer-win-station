@@ -3,7 +3,6 @@ using System.Diagnostics;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {

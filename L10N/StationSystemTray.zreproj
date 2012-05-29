@@ -20,32 +20,62 @@
     <globalSetting name="autoTranslateForm.referenceLanguageComboBoxEdit.SelectedIndex">-1</globalSetting>
     <globalSetting name="autoTranslateForm.languagesToTranslateCheckListBox">
     </globalSetting>
-    <globalSetting name="projectMruItems">&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;items&gt;&lt;item type="2" checksum="2673176850" /&gt;&lt;item type="2" checksum="2515742505" /&gt;&lt;item type="2" checksum="1487149468" /&gt;&lt;item type="2" checksum="249349745" /&gt;&lt;/items&gt;</globalSetting>
+    <globalSetting name="projectMruItems">&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;items&gt;&lt;item type="2" checksum="2515742505" /&gt;&lt;item type="2" checksum="1487149468" /&gt;&lt;/items&gt;</globalSetting>
+    <globalSetting name="sendFileToTranslator.destinationFilePathTextEdit.Text">
+    </globalSetting>
+    <globalSetting name="sendFileToTranslator.fileGroupsListBox">..\Station\StationSystemTray\CleanResourceForm###{{{}}}###..\Station\StationSystemTray\MainForm###{{{}}}###..\Station\StationSystemTray\Properties\Resources</globalSetting>
+    <globalSetting name="sendFileToTranslator.languagesToExportCheckListBox">Chinese (Taiwan) (zh-tw)</globalSetting>
+    <globalSetting name="sendFileToTranslator.referenceLanguageComboBoxEdit.SelectedIndex">0</globalSetting>
+    <globalSetting name="sendFileToTranslator.openFileAfterGeneratingCheckEdit.Checked">True</globalSetting>
+    <globalSetting name="sendFileToTranslator.openAfterGeneratingCheckEdit.Checked">False</globalSetting>
+    <globalSetting name="sendFileToTranslator.eliminateDuplicateRowsCheckEdit.Checked">True</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportWithoutDestinationTranslationOnlyCheckEdit.Checked">True</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportCompletelyEmptyRowsCheckEdit.Checked">True</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportGroupsAsOneWorkSheetCheckEdit.Checked">True</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportNameColumnCheckEdit.Checked">True</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportCommentColumnCheckEdit.Checked">False</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportReferenceLanguageColumnCheckEdit.Checked">False</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportFileGroupColumnCheckEdit.Checked">True</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportGroupsAsWorkSheetsCheckEdit.Checked">False</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportGroupsAsExcelFilesCheckEdit.Checked">False</globalSetting>
+    <globalSetting name="sendFileToTranslator.exportEachLanguageIntoSeparateExcelFileCheckEdit.Checked">False</globalSetting>
+    <globalSetting name="sendFileToTranslator.useCrypticExcelExportSheetNamesCheckEdit.Checked">False</globalSetting>
+    <globalSetting name="sendFileToTranslator.sendFilesToEMailReceivers2CheckEdit.Checked">False</globalSetting>
+    <globalSetting name="sendFileToTranslator.zulReceiversTextEdit.Text">someone@example.org, someone-other@example.org</globalSetting>
+    <globalSetting name="sendFileToTranslator.zulSubjectTextEdit.Text">[ZRE] Excel files for translating project "{ProjectName}"</globalSetting>
+    <globalSetting name="sendFileToTranslator.zulBodyTextEdit.Text">Please download the Excel documents in the link to translate the project "{ProjectName}".
+
+To send me the translated files back, simply use https://www.zeta-uploader.com
+
+Kind regards</globalSetting>
     <userSetting name="kchiu@kchiu-PC.filesInitialDir">C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray</userSetting>
     <userSetting name="kchiu@kchiu-PC.FindText">
     </userSetting>
     <userSetting name="kchiu@kchiu-PC.RecentFiles">C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx;C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-CHT.resx###***###C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx;C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx###***###C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx;C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx###***###C:\Users\kchiu\Waveface\Wammer-win-station\Station\StationSystemTray\SignUpDialog.resx</userSetting>
     <userSetting name="Waveface@Zenbook.FindText">
     </userSetting>
+    <userSetting name="larry@larry-PC.FindText">
+    </userSetting>
+    <userSetting name="larry@larry-PC.RecentFiles">C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx###***###C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx</userSetting>
     <description>
     </description>
   </configuration>
   <fileGroups>
     <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="72e3b23a-5156-4381-a2fc-0cc5b07a1a80">
-      <file filePath="..\Station\StationSystemTray\CleanResourceForm.resx" absoluteFilePath="C:\Users\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx" uniqueID="828457d4-9873-4755-b319-303a99b4b67e" />
-      <file filePath="..\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" absoluteFilePath="C:\Users\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" uniqueID="3c0b143e-85af-4659-9a0d-0ce783e6c45f" />
+      <file filePath="..\Station\StationSystemTray\CleanResourceForm.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx" uniqueID="828457d4-9873-4755-b319-303a99b4b67e" />
+      <file filePath="..\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" uniqueID="3c0b143e-85af-4659-9a0d-0ce783e6c45f" />
       <remarks>
       </remarks>
     </fileGroup>
     <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="c0687fec-8307-424f-8909-8a16fc8608a5">
-      <file filePath="..\Station\StationSystemTray\MainForm.resx" absoluteFilePath="C:\Users\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx" uniqueID="f4789894-444c-445e-9715-7f0de739192c" />
-      <file filePath="..\Station\StationSystemTray\MainForm.zh-TW.resx" absoluteFilePath="C:\Users\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx" uniqueID="74611a41-dc40-4fe9-a19b-330629f0ef56" />
+      <file filePath="..\Station\StationSystemTray\MainForm.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx" uniqueID="f4789894-444c-445e-9715-7f0de739192c" />
+      <file filePath="..\Station\StationSystemTray\MainForm.zh-TW.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx" uniqueID="74611a41-dc40-4fe9-a19b-330629f0ef56" />
       <remarks>
       </remarks>
     </fileGroup>
     <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="0f456aff-a6ca-43ab-9036-b5899aa02470">
-      <file filePath="..\Station\StationSystemTray\Properties\Resources.resx" absoluteFilePath="C:\Users\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx" uniqueID="c2fb512a-b726-4331-be38-ce79d08963ce" />
-      <file filePath="..\Station\StationSystemTray\Properties\Resources.zh-TW.resx" absoluteFilePath="C:\Users\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-TW.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <file filePath="..\Station\StationSystemTray\Properties\Resources.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx" uniqueID="c2fb512a-b726-4331-be38-ce79d08963ce" />
+      <file filePath="..\Station\StationSystemTray\Properties\Resources.zh-TW.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-TW.resx" uniqueID="6ef4fae2-8835-41e6-bd4d-de5d73c33fa3" />
       <remarks>
       </remarks>
     </fileGroup>

@@ -46,21 +46,24 @@ namespace Wammer.Model
 
 	public class QueuedTaskCollection : Collection<QueuedTask>
 	{
-		private static readonly QueuedTaskCollection instance;
+		#region Var
+		private static QueuedTaskCollection _instance; 
+		#endregion
 
-		static QueuedTaskCollection()
+		#region Property
+		/// <summary>
+		/// Gets the instance.
+		/// </summary>
+		/// <value>The instance.</value>
+		public static QueuedTaskCollection Instance
 		{
-			instance = new QueuedTaskCollection();
+			get { return _instance ?? (_instance = new QueuedTaskCollection()); }
 		}
+		#endregion
 
 		private QueuedTaskCollection()
 			: base("queued_tasks")
 		{
-		}
-
-		public static QueuedTaskCollection Instance
-		{
-			get { return instance; }
 		}
 	}
 }

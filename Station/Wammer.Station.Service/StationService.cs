@@ -4,20 +4,16 @@ using System.Net;
 using System.Reflection;
 using System.ServiceProcess;
 using System.Threading;
-using System.Management;
-using System.Security.Cryptography;
-using System.Text;
+using fastJSON;
+using log4net;
+using log4net.Config;
 using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.PerfMonitor;
-using Wammer.PostUpload;
 using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
 using Wammer.Utility;
-using fastJSON;
-using log4net;
-using log4net.Config;
-using Wammer.Model;
 
 namespace Wammer.Station.Service
 {
@@ -181,7 +177,7 @@ namespace Wammer.Station.Service
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
 
 			var removeOwnerHandler = new RemoveOwnerHandler(Station.Instance.StationID);
-			removeOwnerHandler.DriverRemoved += new EventHandler<DriverRemovedEventArgs>(removeOwnerHandler_DriverRemoved);
+			removeOwnerHandler.DriverRemoved += removeOwnerHandler_DriverRemoved;
 
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), removeOwnerHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/status/get/"), new StatusGetHandler());
