@@ -246,6 +246,8 @@ namespace Waveface.API.V2
         public string type { get; set; }
         public string favicon_url { get; set; }
 
+        public List<OGS_Image> images { get; set; }
+
         /*
         public string provider_url { get; set; }
         public string provider_name { get; set; }
@@ -293,8 +295,8 @@ namespace Waveface.API.V2
     public class OGS_Image
     {
         public string url { get; set; }
-        public string width { get; set; }
-        public string height { get; set; }
+        // public string width { get; set; }
+        // public string height { get; set; }
     }
 
     public class Object_File

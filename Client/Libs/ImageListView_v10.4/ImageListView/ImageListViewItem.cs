@@ -809,6 +809,8 @@ namespace Manina.Windows.Forms
             if (mImageListView == null)
                 throw new InvalidOperationException("Owner control is null.");
 
+            //@
+            /*
             if (imageType == CachedImageType.SmallIcon || imageType == CachedImageType.LargeIcon)
             {
                 if (string.IsNullOrEmpty(extension))
@@ -837,7 +839,7 @@ namespace Manina.Windows.Forms
                     return mImageListView.DefaultImage;
                 }
             }
-            else
+            else */
             {
                 Image img = null;
                 CacheState state = ThumbnailCacheState;
@@ -866,6 +868,8 @@ namespace Manina.Windows.Forms
                     mImageListView.UseEmbeddedThumbnails, mImageListView.AutoRotateThumbnails,
                     (mImageListView.UseWIC == UseWIC.Auto || mImageListView.UseWIC == UseWIC.ThumbnailsOnly));
 
+                //@
+                /*
                 if (img == null && string.IsNullOrEmpty(extension))
                     return mImageListView.DefaultImage;
 
@@ -875,6 +879,7 @@ namespace Manina.Windows.Forms
                     img = mImageListView.shellInfoCache.GetSmallIcon(extension);
                 if (img == null)
                     img = mImageListView.DefaultImage;
+                */
 
                 return img;
             }

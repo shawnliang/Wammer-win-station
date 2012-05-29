@@ -45,6 +45,7 @@ namespace StationSystemTray
 		private const int STATION_TIMER_SHORT_INTERVAL = 3000;
 
 		private const string WEB_BASE_URL = @"https://waveface.com";
+		private const string STAGING_BASE_URL = @"http://staging.waveface.com";
 		private const string DEV_WEB_BASE_PAGE_URL = @"http://develop.waveface.com:4343";
 
 		private const string SIGNUP_URL_PATH = @"/signup";
@@ -78,7 +79,8 @@ namespace StationSystemTray
 		{
 			get {
 				return _baseUrl ??
-				       (_baseUrl = CloudServer.BaseUrl.Contains("develop.waveface.com") ? DEV_WEB_BASE_PAGE_URL : WEB_BASE_URL);
+				       (_baseUrl = CloudServer.BaseUrl.Contains("develop.waveface.com") ? DEV_WEB_BASE_PAGE_URL : 
+					   (CloudServer.BaseUrl.Contains("staging.waveface.com") ? STAGING_BASE_URL : WEB_BASE_URL));
 			}
 		}
 
@@ -427,6 +429,8 @@ namespace StationSystemTray
 		{
 			try
 			{
+				m_Timer.Stop();
+
 				if (TrayIcon != null)
 				{
 					TrayIcon.Visible = false;

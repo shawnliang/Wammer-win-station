@@ -43,7 +43,7 @@ namespace Wammer.Station
 		/// Gets the instance.
 		/// </summary>
 		/// <value>The instance.</value>
-		public static Station Instance 
+		public static Station Instance
 		{
 			get { return _instance ?? (_instance = new Station()); }
 		}
@@ -80,10 +80,16 @@ namespace Wammer.Station
 		{
 			get
 			{
-				if(_bodySyncRunners == null)
+				if (_bodySyncRunners == null)
 				{
 					_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
 						item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance)).ToArray();
+
+					foreach (var item in _bodySyncRunners)
+					{
+						item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
+						item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
+					}
 				}
 				return _bodySyncRunners;
 			}
@@ -130,7 +136,7 @@ namespace Wammer.Station
 		{
 			get
 			{
-				if(_stationID == null)
+				if (_stationID == null)
 				{
 					InitStationId();
 					_stationID = (string)StationRegistry.GetValue(STATION_ID_REGISTORY_KEY, null);
@@ -183,30 +189,6 @@ namespace Wammer.Station
 
 
 		#region Private Method
-		/// <summary>
-		/// Starts the body sync runner.
-		/// </summary>
-		private void StartBodySyncRunner()
-		{
-			foreach(var item in m_BodySyncRunners)
-			{
-				item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
-				item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
-				item.Start();
-			}
-		}
-		
-		/// <summary>
-		/// Starts the upstream task runner.
-		/// </summary>
-		private void StartUpstreamTaskRunner()
-		{
-			foreach (var item in m_UpstreamTaskRunner)
-			{
-				item.Start();
-			}
-		}
-
 		/// <summary>
 		/// Inits the station id.
 		/// </summary>
@@ -265,6 +247,20 @@ namespace Wammer.Station
 			var md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
 			return new Guid(md5).ToString();
 		}
+
+		/// <summary>
+		/// Suspends the event process and do.
+		/// </summary>
+		/// <param name="eventHandler">The event handler.</param>
+		/// <param name="processHandler">The process handler.</param>
+		/// <param name="action">The action.</param>
+		private void SuspendEventProcessAndDo(EventHandler eventHandler, EventHandler processHandler, Action action)
+		{
+			eventHandler -= processHandler;
+			action();
+			eventHandler += processHandler;
+		}
+
 		#endregion
 
 
@@ -327,9 +323,13 @@ namespace Wammer.Station
 				return;
 			}
 
-			IsSynchronizationStatusChanged -= this_IsSynchronizationStatusChanged;
-			IsSynchronizationStatus = false;
-			IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
+			SuspendEventProcessAndDo(
+				IsSynchronizationStatusChanged,
+				this_IsSynchronizationStatusChanged,
+				() =>
+				{
+					IsSynchronizationStatus = false;
+				});
 
 			m_PostUploadRunner.Stop();
 			m_StationTimer.Stop();
@@ -350,9 +350,13 @@ namespace Wammer.Station
 				return;
 			}
 
-			IsSynchronizationStatusChanged -= this_IsSynchronizationStatusChanged;
-			IsSynchronizationStatus = true;
-			IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
+			SuspendEventProcessAndDo(
+				IsSynchronizationStatusChanged,
+				this_IsSynchronizationStatusChanged,
+				() =>
+				{
+					IsSynchronizationStatus = true;
+				});
 
 			m_PostUploadRunner.Start();
 			m_StationTimer.Start();
@@ -383,7 +387,7 @@ namespace Wammer.Station
 		void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
 		{
 			this.LogDebugMsg("Network available => " + e.IsAvailable.ToString());
-			if(!e.IsAvailable)
+			if (!e.IsAvailable)
 			{
 				m_OriginalSynchronizationStatus = IsSynchronizationStatus;
 				SuspendSync();
@@ -403,7 +407,7 @@ namespace Wammer.Station
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void this_IsSynchronizationStatusChanged(object sender, EventArgs e)
 		{
-			if(IsSynchronizationStatus)
+			if (IsSynchronizationStatus)
 				ResumeSync();
 			else
 				SuspendSync();
