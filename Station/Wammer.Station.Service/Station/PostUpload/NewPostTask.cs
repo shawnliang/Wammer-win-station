@@ -20,7 +20,7 @@ namespace Wammer.PostUpload
 						if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
 						{
 							IEnumerable<string> attachmentIDs =
-								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList()
+								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',')
 								select attachmentString.Trim('"', '"');
 
 							foreach (String id in attachmentIDs)
