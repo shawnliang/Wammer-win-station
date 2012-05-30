@@ -66,6 +66,7 @@ namespace Waveface
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
         private bool m_isPrimaryStation;
         private string m_displayType;
+        private string m_delayPostText;
 
         #endregion
 
@@ -929,23 +930,24 @@ namespace Waveface
 
             timerDelayPost.Enabled = false;
 
-            DoRealPostForm(m_delayPostPicList, m_delayPostType);
+            DoRealPostForm(m_delayPostPicList, m_delayPostType, m_delayPostText);
 
             m_delayPostPicList.Clear();
+            m_delayPostText = "";
 
             timerDelayPost.Enabled = true;
         }
 
         public void Post()
         {
-            DoRealPostForm(new List<string>(), PostType.All);
+            DoRealPostForm(new List<string>(), PostType.All, "");
         }
 
         public void EditPost(Post post, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
             try
             {
-                m_postForm = new PostForm(new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
+                m_postForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
                 DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)
@@ -972,17 +974,18 @@ namespace Waveface
             m_postForm = null;
         }
 
-        public void Post(List<string> pics, PostType postType)
+        public void Post(List<string> pics, PostType postType, string postText)
         {
             m_delayPostType = postType;
             m_delayPostPicList = pics;
+            m_delayPostText = postText;
         }
 
-        private void DoRealPostForm(List<string> pics, PostType postType)
+        private void DoRealPostForm(List<string> pics, PostType postType, string delayPostText)
         {
             try
             {
-                m_postForm = new PostForm(pics, postType, null, false, null, -1);
+                m_postForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
                 DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)
@@ -1315,6 +1318,7 @@ namespace Waveface
                         }
 
                         m_delayPostType = PostType.Photo;
+                        m_delayPostText = "";
                         m_delayPostPicList = new List<string>
                                                  {
                                                      _fileContents
@@ -1353,7 +1357,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> {_pathToSave}, PostType.Photo);
+                Post(new List<string> {_pathToSave}, PostType.Photo, "");
             }
             catch (Exception _e)
             {
