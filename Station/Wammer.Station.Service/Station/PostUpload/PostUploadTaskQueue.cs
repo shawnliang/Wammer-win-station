@@ -19,6 +19,8 @@ namespace Wammer.PostUpload
 		private List<string> postIDList = new List<string>();
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
 
+		//TODO: 沒Session或已沒Driver的Task不該立即載入
+
 		public static PostUploadTaskQueue Instance
 		{
 			get
@@ -34,14 +36,28 @@ namespace Wammer.PostUpload
 
 		public void InitFromDB()
 		{
+			var lowPriorityTasks = new List<PostUploadTask>();
 			postQueue = new Dictionary<string, LinkedList<PostUploadTask>>();
 			foreach (PostUploadTasks ptasks in PostUploadTasksCollection.Instance.FindAll())
 			{
 				foreach (PostUploadTask task in ptasks.tasks)
 				{
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
+					if(driver == null || string.IsNullOrEmpty(driver.session_token))
+					{
+						lowPriorityTasks.Add(task);
+						continue;
+					}
+
 					task.Status = PostUploadTaskStatus.Wait;
 					Enqueue(task);
 				}
+			}
+
+			foreach (var task in lowPriorityTasks)
+			{
+				task.Status = PostUploadTaskStatus.Wait;
+				Enqueue(task);
 			}
 		}
 
@@ -76,9 +92,27 @@ namespace Wammer.PostUpload
 			IsAvailableHeadTaskExist();
 			lock (cs)
 			{
+				var lowPriorityTasks = new List<PostUploadTask>();
 				foreach (var postID in postIDList)
 				{
-					PostUploadTask task = postQueue[postID].First();
+					var task = postQueue[postID].First();
+
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
+					if (driver == null || string.IsNullOrEmpty(driver.session_token))
+					{
+						lowPriorityTasks.Add(task);
+						continue;
+					}
+
+					if (task.Status == PostUploadTaskStatus.Wait)
+					{
+						task.Status = PostUploadTaskStatus.InProgress;
+						return task;
+					}
+				}
+
+				foreach (var task in lowPriorityTasks)
+				{
 					if (task.Status == PostUploadTaskStatus.Wait)
 					{
 						task.Status = PostUploadTaskStatus.InProgress;
