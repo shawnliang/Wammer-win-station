@@ -128,7 +128,7 @@ namespace Wammer.Station
 					}
 				}
 			}
-			
+
 			var posts = PostCollection.Instance.Find(
 				Query.And(
 					Query.Exists("attachments", true),
