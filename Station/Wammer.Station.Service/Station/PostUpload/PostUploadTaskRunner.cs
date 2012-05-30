@@ -2,6 +2,8 @@
 using System.Threading;
 using Wammer.Station;
 using Wammer.Utility;
+using Wammer.Cloud;
+using System.Net;
 
 namespace Wammer.PostUpload
 {
@@ -35,10 +37,16 @@ namespace Wammer.PostUpload
 					{
 						queue.Undo(task);
 					}
-					backoff.IncreaseLevel();
 
-					if (quitEvent.WaitOne(backoff.NextValue()*1000))
-						return;
+					if (e is WammerCloudException && 
+						e.InnerException is WebException &&
+						(e.InnerException as WebException).Status != WebExceptionStatus.ProtocolError)
+					{
+						backoff.IncreaseLevel();
+
+						if (quitEvent.WaitOne(backoff.NextValue() * 1000))
+							return;
+					}
 				}
 			}
 		}

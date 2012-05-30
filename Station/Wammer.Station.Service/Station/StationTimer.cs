@@ -25,9 +25,9 @@ namespace Wammer.Station
 
 		private readonly List<IStationTimer> timers;
 
-		public StationTimer(ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue, string stationId)
+		public StationTimer(ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue)
 		{
-			var resourceSyncer = new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue, stationId);
+			var resourceSyncer = new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue);
 			var statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
 			statusChecker.IsPrimaryChanged += resourceSyncer.OnIsPrimaryChanged;
 			var taskRetryTimer = new TaskRetryTimer();

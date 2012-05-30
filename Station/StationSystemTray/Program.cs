@@ -1,15 +1,14 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using log4net;
 using log4net.Config;
 using Wammer.Station;
-using log4net;
-using System.IO;
-using System.Runtime.InteropServices;
 
 namespace StationSystemTray
 {
@@ -17,7 +16,7 @@ namespace StationSystemTray
 	{
 		#region Private Static Property
 
-		private static ILog m_Logger = LogManager.GetLogger("Program");
+		private static readonly ILog m_Logger = LogManager.GetLogger("Program");
 		private static Mutex m_Mutex { get; set; }
 
 		#endregion Private Static Property
