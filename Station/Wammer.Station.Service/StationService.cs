@@ -40,7 +40,6 @@ namespace Wammer.Station.Service
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
 		private HttpServer functionServer;
 		private HttpServer managementServer;
-		private string resourceBasePath;
 		private AttachmentViewHandler viewHandler;
 
 		public StationService()
@@ -102,8 +101,6 @@ namespace Wammer.Station.Service
 
 				Station.Instance.Start();
 
-				InitResourceBasePath();
-
 				JSON.Instance.UseUTCDateTime = true;
 
 				functionServer = new HttpServer(9981); // TODO: remove hard code
@@ -137,11 +134,8 @@ namespace Wammer.Station.Service
 				managementServer = new HttpServer(9989);
 				managementServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
-				var addDriverHandler = new AddDriverHandler(Station.Instance.StationID, resourceBasePath);
-				InitManagementServerHandler(addDriverHandler);
-
-				addDriverHandler.DriverAdded += addDriverHandler_DriverAdded;
-				addDriverHandler.BeforeDriverSaved += addDriverHandler_BeforeDriverSaved;
+				InitManagementServerHandler();
+				
 				logger.Debug("Start management server");
 				managementServer.Start();
 
@@ -163,30 +157,35 @@ namespace Wammer.Station.Service
 			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/stations/"));
 		}
 
-		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
+		private void InitManagementServerHandler()
 		{
-			var resumeHandler = new ResumeSyncHandler();
-			resumeHandler.SyncResumed += viewHandler.OnSyncResumed;
-			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), resumeHandler);
+			var assembly = Assembly.GetExecutingAssembly();
+			foreach (var type in assembly.GetTypes())
+			{
+				if(!type.IsAbstract && type.IsSubclassOf(typeof(HttpHandler)))
+				{
+					var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
 
-			var suspendHandler = new SuspendSyncHandler();
-			suspendHandler.SyncSuspended += viewHandler.OnSyncSuspended;
-			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), suspendHandler);
+					if (defaultConstructor == null)
+						continue;
 
-			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
-			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
+					var handler = Activator.CreateInstance(type) as IHttpHandler;
+					var info = handler.GetCustomAttribute<APIHandlerInfoAttribute>();
 
-			var removeOwnerHandler = new RemoveOwnerHandler(Station.Instance.StationID);
-			removeOwnerHandler.DriverRemoved += removeOwnerHandler_DriverRemoved;
+					if (info == null || info.Type != APIHandlerType.ManagementAPI)
+						continue;
+					
+					managementServer.AddHandler(GetDefaultBathPath(info.Path), handler);
+				}
+			}
 
-			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), removeOwnerHandler);
-			managementServer.AddHandler(GetDefaultBathPath("/station/status/get/"), new StatusGetHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/list"), new ListCloudStorageHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/oauth/"), new DropBoxOAuthHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/connect/"), new DropBoxConnectHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/update/"), new DropBoxUpdateHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/disconnect/"), new DropboxDisconnectHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/availability/ping/"), new PingHandler());
+			var addDriverHandler = managementServer.m_Handlers[GetDefaultBathPath("/station/drivers/add/")] as AddDriverHandler;
+			addDriverHandler.DriverAdded += addDriverHandler_DriverAdded;
+			addDriverHandler.BeforeDriverSaved += addDriverHandler_BeforeDriverSaved;
+
+			(managementServer.m_Handlers[GetDefaultBathPath("/station/drivers/remove/")] as RemoveOwnerHandler).DriverRemoved += removeOwnerHandler_DriverRemoved;
+			(managementServer.m_Handlers[GetDefaultBathPath("/station/suspendSync/")] as SuspendSyncHandler).SyncSuspended += viewHandler.OnSyncSuspended;
+			(managementServer.m_Handlers[GetDefaultBathPath("/station/resumeSync/")] as ResumeSyncHandler).SyncResumed += viewHandler.OnSyncResumed;
 		}
 
 		void removeOwnerHandler_DriverRemoved(object sender, DriverRemovedEventArgs e)
@@ -214,7 +213,7 @@ namespace Wammer.Station.Service
 			                          attachmentHandler);
 
 			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/get/"),
-			                          new ResouceDirGetHandler(resourceBasePath));
+			                          new ResouceDirGetHandler(Station.Instance.ResourceBasePath));
 
 			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/set/"),
 			                          new ResouceDirSetHandler());
@@ -261,7 +260,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 			                          new HybridCloudHttpRouter(new UserTrackHandler()));
 
-			var loginHandler = new UserLoginHandler(Station.Instance.StationID, resourceBasePath);
+			var loginHandler = new UserLoginHandler(Station.Instance.StationID, Station.Instance.ResourceBasePath);
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 			                          loginHandler);
 
@@ -326,16 +325,6 @@ namespace Wammer.Station.Service
 			managementServer.Close();
 		}
 
-		private void InitResourceBasePath()
-		{
-			resourceBasePath = (string) StationRegistry.GetValue("resourceBasePath", null);
-			if (resourceBasePath == null)
-			{
-				resourceBasePath = "resource";
-				if (!Directory.Exists(resourceBasePath))
-					Directory.CreateDirectory(resourceBasePath);
-			}
-		}
 
 		private void ConfigThreadPool()
 		{

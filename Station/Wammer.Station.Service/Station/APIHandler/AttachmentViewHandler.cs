@@ -11,6 +11,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/attachments/view/")]
 	public class AttachmentViewHandler : HttpHandler
 	{
 		private readonly string station_id;

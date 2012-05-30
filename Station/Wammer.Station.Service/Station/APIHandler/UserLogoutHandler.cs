@@ -5,6 +5,7 @@ using Wammer.Model;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/auth/logout/")]
 	public class UserLogoutHandler : HttpHandler
 	{
 		#region Protected Method

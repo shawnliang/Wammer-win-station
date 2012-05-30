@@ -54,7 +54,7 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void setUp()
 		{
-			handler = new AddDriverHandler("stationId", "resource");
+			handler = new AddDriverHandler();
 			Server.AddHandler("/v2/station/drivers/add/", handler);
 			Server.Start();
 			Server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);

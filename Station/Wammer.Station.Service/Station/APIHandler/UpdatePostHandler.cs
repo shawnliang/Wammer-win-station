@@ -11,6 +11,7 @@ using System;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/posts/update/")]
 	public class UpdatePostHandler : HttpHandler
 	{
 		#region Const

@@ -36,6 +36,7 @@ namespace Wammer.Station
 		private TaskRunner<ITask>[] _upstreamTaskRunner;
 		private AttachmentDownloadMonitor _downstreamMonitor;
 		private Boolean _isSynchronizationStatus;
+		private string _resourceBasePath;
 		#endregion
 
 
@@ -162,6 +163,25 @@ namespace Wammer.Station
 			}
 		}
 
+		/// <summary>
+		/// Gets the resource base path.
+		/// </summary>
+		/// <value>The resource base path.</value>
+		public string ResourceBasePath
+		{
+			get
+			{
+				if (_resourceBasePath == null)
+				{
+					_resourceBasePath = StationRegistry.GetValue("resourceBasePath", "resource").ToString();
+				}
+
+				if (!Directory.Exists(_resourceBasePath))
+					Directory.CreateDirectory(_resourceBasePath);
+
+				return _resourceBasePath;
+			}
+		}
 		#endregion
 
 

@@ -10,6 +10,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/cloudstorage/list/")]
 	public class ListCloudStorageHandler : HttpHandler
 	{
 		public override void HandleRequest()

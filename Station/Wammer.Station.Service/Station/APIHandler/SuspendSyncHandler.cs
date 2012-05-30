@@ -2,6 +2,7 @@
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/suspendSync/")]
 	internal class SuspendSyncHandler : HttpHandler
 	{
 		#region Event

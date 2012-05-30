@@ -2,6 +2,7 @@ using System;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/resumeSync/")]
 	internal class ResumeSyncHandler : HttpHandler
 	{
 		public event EventHandler SyncResumed;

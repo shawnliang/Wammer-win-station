@@ -111,6 +111,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\APIHandlerInfoAttribute.cs" />
+    <Compile Include="Enum\APIHandlerType.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\GenericData.cs" />
     <Compile Include="Model\QueuedTasks.cs" />

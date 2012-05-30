@@ -6,6 +6,7 @@ using Wammer.Model;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/auth/login/")]
 	public class UserLoginHandler : HttpHandler
 	{
 		#region Var

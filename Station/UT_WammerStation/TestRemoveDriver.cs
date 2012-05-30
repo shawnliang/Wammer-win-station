@@ -35,7 +35,7 @@ namespace UT_WammerStation
 		public void setUp()
 		{
 			server = new HttpServer(8080);
-			handler = new RemoveOwnerHandler("stationId");
+			handler = new RemoveOwnerHandler();
 			server.AddHandler("/v2/station/drivers/remove/", handler);
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);

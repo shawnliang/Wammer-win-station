@@ -3,6 +3,7 @@ using Wammer.Cloud;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/drivers/remove/")]
 	public class RemoveOwnerHandler : HttpHandler
 	{
 		#region Var
@@ -10,12 +11,6 @@ namespace Wammer.Station
 		#endregion
 
 		#region Property
-		/// <summary>
-		/// Gets or sets the m_ station ID.
-		/// </summary>
-		/// <value>The m_ station ID.</value>
-		private String m_StationID { get; set; }
-
 		/// <summary>
 		/// Gets the m_ driver agent.
 		/// </summary>
@@ -29,19 +24,9 @@ namespace Wammer.Station
 		}
 		#endregion
 
+
 		#region Events
 		public event EventHandler<DriverRemovedEventArgs> DriverRemoved;
-		#endregion
-
-		#region Constructor
-		/// <summary>
-		/// Initializes a new instance of the <see cref="RemoveOwnerHandler"/> class.
-		/// </summary>
-		/// <param name="stationId">The station id.</param>
-		public RemoveOwnerHandler(string stationId)
-		{
-			m_StationID = stationId;
-		} 
 		#endregion
 
 
@@ -52,7 +37,7 @@ namespace Wammer.Station
 			var userID = Parameters[CloudServer.PARAM_USER_ID];
 			var removeAllData = bool.Parse(Parameters[CloudServer.PARAM_REMOVE_ALL_DATA]);
 
-			m_DriverAgent.RemoveDriver(m_StationID, userID, removeAllData);
+			m_DriverAgent.RemoveDriver(Station.Instance.StationID, userID, removeAllData);
 
 			OnDriverRemoved(userID);
 			RespondSuccess();

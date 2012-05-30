@@ -9,6 +9,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/posts/newComment/")]
 	public class NewPostCommentHandler : HttpHandler
 	{
 		#region Private Property

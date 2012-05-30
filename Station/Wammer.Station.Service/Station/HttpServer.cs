@@ -214,6 +214,9 @@ namespace Wammer.Station
 				absPath += "/";
 			}
 
+			if (m_Handlers.ContainsKey(absPath))
+				return;
+
 			m_Handlers.Add(absPath, handler);
 			m_Listener.Prefixes.Add(urlPrefix);
 		}

@@ -5,6 +5,7 @@ using System;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/posts/hide/")]
 	public class HidePostHandler : HttpHandler
 	{
 		#region Private Property
