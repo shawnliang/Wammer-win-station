@@ -65,6 +65,7 @@ namespace Waveface
         private string m_initSessionToken;
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
         private bool m_isPrimaryStation;
+        private string m_displayType;
 
         #endregion
 
@@ -662,9 +663,9 @@ namespace Waveface
             }
             catch (Exception e)
             {
-                s_logger.Error("Cannot login: " + e.ToString());
+                s_logger.Error("Cannot login: " + e);
                 MessageBox.Show(I18n.L.T("ForceLogout"), I18n.L.T("SystemErrorCaption"));
-                QuitOption = Waveface.QuitOption.Logout;
+                QuitOption = QuitOption.Logout;
                 Close();
             }
         }
@@ -875,6 +876,8 @@ namespace Waveface
             {
                 List<Post> _posts = RT.CurrentGroupPosts;
 
+                _posts = filterPost(_posts);
+
                 setCalendarBoldedDates(_posts);
 
                 postsArea.ShowPostInforPanel(false);
@@ -885,6 +888,29 @@ namespace Waveface
                     postsArea.PostsList.SetPosts(_posts);
                 }
             }
+        }
+
+        private List<Post> filterPost(List<Post> posts)
+        {
+            if (string.IsNullOrEmpty(m_displayType))
+                return posts;
+
+            List<Post> _posts = new List<Post>();
+
+            foreach (Post _p in posts)
+            {
+                if(_p.type == m_displayType)
+                    _posts.Add(_p);
+            }
+
+            return _posts;
+        }
+
+        public void DisplayFilter(string displayType)
+        {
+            m_displayType = displayType;
+
+            ShowPostInTimeline();
         }
 
         public void PrefetchImages()
