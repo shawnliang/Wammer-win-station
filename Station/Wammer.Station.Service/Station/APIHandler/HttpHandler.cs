@@ -195,11 +195,11 @@ namespace Wammer.Station
 		{
 			try
 			{
-				string boundary = GetMultipartBoundary(request.ContentType);
+				var boundary = GetMultipartBoundary(request.ContentType);
 				var parser = new Parser(boundary);
 
-				Part[] parts = parser.Parse(RawPostData);
-				foreach (Part part in parts)
+				var parts = parser.Parse(RawPostData);
+				foreach (var part in parts)
 				{
 					if (part.ContentDisposition == null)
 						continue;
@@ -303,7 +303,7 @@ namespace Wammer.Station
 				var postData = Encoding.UTF8.GetString(RawPostData);
 				return HttpUtility.ParseQueryString(postData);
 			}
-			else if (req.HttpMethod.ToUpper().Equals("GET"))
+			else if (req.HttpMethod.Equals("GET",StringComparison.CurrentCultureIgnoreCase))
 			{
 				return HttpUtility.ParseQueryString(Request.Url.Query); //req.QueryString;
 			}

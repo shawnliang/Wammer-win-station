@@ -211,6 +211,7 @@ namespace Wammer.Cloud
 		/// <param name="parms">request parameter names and values.
 		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
+		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
 		/// <returns>Response value</returns>
 		public static string requestPath(string path, Dictionary<object, object> parms,
 		                                 bool checkOffline = true,Boolean autoRedirectRequest = true)
@@ -225,6 +226,8 @@ namespace Wammer.Cloud
 		/// <param name="path">The path.</param>
 		/// <param name="parms">The parms.</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
+		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
+		/// <param name="timeout">The timeout.</param>
 		/// <returns></returns>
 		public static string requestPath(string baseUrl, string path, Dictionary<object, object> parms,
 		                                 bool checkOffline = true, Boolean autoRedirectRequest = true, int timeout = -1)
@@ -242,7 +245,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				string res = request(url, parms, autoRedirectRequest);
+				string res = request(url, parms, autoRedirectRequest, timeout);
 				isOffline = false;
 				return res;
 			}
@@ -261,6 +264,7 @@ namespace Wammer.Cloud
 		/// <param name="parms">request parameter names and values.
 		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
+		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(string path, Dictionary<object, object> parms,
 		                               bool checkOffline = true, Boolean autoRedirectRequest = true)
@@ -408,7 +412,7 @@ namespace Wammer.Cloud
 			// remove last &
 			buf.Remove(buf.Length - 1, 1);
 
-			return request(url, buf.ToString(), autoRedirectRequest);
+			return request(url, buf.ToString(), autoRedirectRequest, timeout);
 		}
 
 		public static T request<T>(string url, Dictionary<object, object> param, bool checkOffline = true)

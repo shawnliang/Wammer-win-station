@@ -419,7 +419,7 @@ namespace Wammer.Model
 				{
 					if (rawData.Array == null && saved_file_name != null)
 					{
-						Driver driver = DriverCollection.Instance.FindOne();
+						var driver = DriverCollection.Instance.FindOne();
 						var storage = new FileStorage(driver);
 						var buffer = new byte[file_size];
 						storage.Load(saved_file_name).Read(buffer, 0, buffer.Length);
@@ -494,21 +494,21 @@ namespace Wammer.Model
 
 	public class AttachmentCollection : Collection<Attachment>
 	{
-		private static readonly AttachmentCollection instance;
+		#region Var
+		private static AttachmentCollection _instance;
+		#endregion
 
-		static AttachmentCollection()
+		#region Property
+		public static AttachmentCollection Instance
 		{
-			instance = new AttachmentCollection();
+			get { return _instance ?? (_instance = new AttachmentCollection()); }
 		}
+		#endregion
+
 
 		private AttachmentCollection()
 			: base("attachments")
 		{
-		}
-
-		public static AttachmentCollection Instance
-		{
-			get { return instance; }
 		}
 	}
 }

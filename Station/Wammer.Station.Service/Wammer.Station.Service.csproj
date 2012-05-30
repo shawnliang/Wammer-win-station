@@ -246,9 +246,6 @@
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
     <Compile Include="Station\TaskEnDeQueuable.cs" />
-    <Compile Include="Utility\NoRedirectWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Utility\PermissionHelper.cs" />
     <Compile Include="Utility\ServiceHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />

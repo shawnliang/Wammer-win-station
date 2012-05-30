@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Text;
 using Wammer.Model;
 using Wammer.Utility;
@@ -130,7 +129,6 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-
 			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
 		}
 
@@ -160,7 +158,6 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			
 			return CloudServer.requestPath<PostGetLatestResponse>("posts/getLatest", parameters, false);
 		}
 

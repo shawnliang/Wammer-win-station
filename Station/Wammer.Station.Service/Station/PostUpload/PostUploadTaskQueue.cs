@@ -15,6 +15,8 @@ namespace Wammer.PostUpload
 		private readonly object cs = new object();
 		private readonly Semaphore headTasks = new Semaphore(0, int.MaxValue);
 		private readonly PostUploadMonitor monitor = new PostUploadMonitor();
+
+		private List<string> postIDList = new List<string>();
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
 
 		public static PostUploadTaskQueue Instance
@@ -54,6 +56,8 @@ namespace Wammer.PostUpload
 				}
 				else
 				{
+					postIDList.Add(task.PostId);
+
 					queue = new LinkedList<PostUploadTask>();
 					queue.AddLast(task);
 					postQueue.Add(task.PostId, queue);
@@ -72,9 +76,9 @@ namespace Wammer.PostUpload
 			IsAvailableHeadTaskExist();
 			lock (cs)
 			{
-				foreach (var pair in postQueue)
+				foreach (var postID in postIDList)
 				{
-					PostUploadTask task = pair.Value.First();
+					PostUploadTask task = postQueue[postID].First();
 					if (task.Status == PostUploadTaskStatus.Wait)
 					{
 						task.Status = PostUploadTaskStatus.InProgress;
@@ -105,6 +109,7 @@ namespace Wammer.PostUpload
 				}
 				else
 				{
+					postIDList.Remove(task.PostId);
 					postQueue.Remove(task.PostId);
 					PostUploadTasksCollection.Instance.Remove(
 						Query.EQ("_id", task.PostId));
@@ -118,6 +123,9 @@ namespace Wammer.PostUpload
 		{
 			lock (cs)
 			{
+				postIDList.Remove(task.PostId);
+				postIDList.Add(task.PostId);
+
 				PostUploadTask headTask = postQueue[task.PostId].First();
 				Debug.Assert(task.Timestamp == headTask.Timestamp);
 				headTask.Status = PostUploadTaskStatus.Wait;

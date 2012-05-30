@@ -78,7 +78,7 @@ namespace Wammer.Station
 			var newPostComment = new Comment
 			                     	{
 			                     		content = newPostContent,
-			                     		timestamp = TimeHelper.ToCloudTimeString(currentTimeStamp),
+			                     		timestamp = currentTimeStamp.ToCloudTimeString(),
 			                     		code_name = codeName,
 			                     		creator_id = creatorID
 			                     	};

@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using MongoDB.Driver.Builders;
+using StationSystemTray.Properties;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.Management;
-using StationSystemTray.Properties;
 
 namespace StationSystemTray
 {

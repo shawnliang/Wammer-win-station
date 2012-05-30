@@ -14,21 +14,20 @@ namespace Wammer.Model
 
 	public class PostUploadTasksCollection : Collection<PostUploadTasks>
 	{
-		private static readonly PostUploadTasksCollection instance;
+		#region Var
+		private static PostUploadTasksCollection _instance; 
+		#endregion
 
-		static PostUploadTasksCollection()
+		#region Property
+		public static PostUploadTasksCollection Instance
 		{
-			instance = new PostUploadTasksCollection();
+			get { return _instance ?? (_instance = new PostUploadTasksCollection()); }
 		}
+		#endregion
 
 		private PostUploadTasksCollection()
 			: base("PostUploadTasks")
 		{
-		}
-
-		public static PostUploadTasksCollection Instance
-		{
-			get { return instance; }
 		}
 	}
 }

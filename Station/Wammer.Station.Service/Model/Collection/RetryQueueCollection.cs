@@ -2,21 +2,20 @@
 {
 	public class RetryQueueCollection : Collection<GenericData>
 	{
-		private static readonly RetryQueueCollection instance;
+		#region Var
+		private static RetryQueueCollection _instance;
+		#endregion
 
-		static RetryQueueCollection()
+		#region Property
+		public static RetryQueueCollection Instance
 		{
-			instance = new RetryQueueCollection();
+			get { return _instance ?? (_instance = new RetryQueueCollection()); }
 		}
+		#endregion
 
 		private RetryQueueCollection()
 			: base("retry_queue")
 		{
-		}
-
-		public static RetryQueueCollection Instance
-		{
-			get { return instance; }
 		}
 	}
 }
