@@ -102,6 +102,10 @@ namespace Wammer.Station.Service
 
 				JSON.Instance.UseUTCDateTime = true;
 
+
+				Station.Instance.UserLogined += loginHandler_UserLogined;
+
+
 				functionServer = new HttpServer(9981); // TODO: remove hard code
 
 				functionServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
@@ -259,12 +263,10 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 			                          new HybridCloudHttpRouter(new UserTrackHandler()));
 
-			var loginHandler = new UserLoginHandler(Station.Instance.StationID, Station.Instance.ResourceBasePath);
+			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 			                          loginHandler);
-
-			loginHandler.UserLogined += loginHandler_UserLogined;
-
+			
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
 									  new UserLogoutHandler());
 

@@ -6,6 +6,9 @@ using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Win32;
+using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.PostUpload;
 using Wammer.Station.AttachmentUpload;
@@ -37,6 +40,7 @@ namespace Wammer.Station
 		private AttachmentDownloadMonitor _downstreamMonitor;
 		private Boolean _isSynchronizationStatus;
 		private string _resourceBasePath;
+		private DriverController _driverAgent;
 		#endregion
 
 
@@ -122,6 +126,15 @@ namespace Wammer.Station
 
 		private Boolean m_OriginalSynchronizationStatus { get; set; }
 
+
+		/// <summary>
+		/// Gets the m_ driver agent.
+		/// </summary>
+		/// <value>The m_ driver agent.</value>
+		private DriverController m_DriverAgent
+		{
+			get { return _driverAgent ?? (_driverAgent = new DriverController()); }
+		}
 		#endregion
 
 
@@ -188,6 +201,7 @@ namespace Wammer.Station
 		#region Event
 		public EventHandler IsSynchronizationStatusChanging;
 		public EventHandler IsSynchronizationStatusChanged;
+		public EventHandler<UserLoginEventArgs> UserLogined;
 		#endregion
 
 
@@ -281,6 +295,54 @@ namespace Wammer.Station
 			eventHandler += processHandler;
 		}
 
+		private void CheckAndUpdateDriver(LoginedSession loginInfo, string sessionToken, string userID)
+		{
+			if (loginInfo == null)
+				return;
+
+			var user = loginInfo.user;
+
+			Debug.Assert(user != null, "user != null");
+
+			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", user.user_id));
+
+			if (driver != null)
+				return;
+
+			driver = DriverCollection.Instance.FindOne(Query.EQ("email", user.email));
+
+			if (driver == null)
+				throw new WammerStationException("Driver not existed", (int) StationLocalApiError.NotFound);
+
+			m_DriverAgent.RemoveDriver(StationID, user.user_id);
+
+			m_DriverAgent.AddDriver(ResourceBasePath, StationID, userID, sessionToken);
+		}
+
+		private void CheckAndUpdateDriver(LoginedSession loginInfo, string email, string password, string deviceID, string deviceName)
+		{
+			if (loginInfo == null)
+				return;
+
+			var user = loginInfo.user;
+
+			Debug.Assert(user != null, "user != null");
+
+			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", user.user_id));
+
+			if (driver != null)
+				return;
+
+			driver = DriverCollection.Instance.FindOne(Query.EQ("email", user.email));
+
+			if (driver == null)
+				throw new WammerStationException("Driver not existed", (int) StationLocalApiError.NotFound);
+
+			m_DriverAgent.RemoveDriver(StationID, user.user_id);
+
+			m_DriverAgent.AddDriver(ResourceBasePath, StationID, email, password, deviceID, deviceName);
+		}
+
 		#endregion
 
 
@@ -311,6 +373,19 @@ namespace Wammer.Station
 				return;
 
 			handler(this, e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:UserLogined"/> event.
+		/// </summary>
+		/// <param name="arg">The <see cref="Wammer.Station.UserLoginEventArgs"/> instance containing the event data.</param>
+		protected void OnUserLogined(UserLoginEventArgs arg)
+		{
+			var handler = UserLogined;
+			if (handler != null)
+			{
+				handler(this, arg);
+			}
 		}
 		#endregion
 
@@ -384,6 +459,61 @@ namespace Wammer.Station
 			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Start());
 
 			this.LogDebugMsg("Start synchronization successfully");
+		}
+
+		public LoginedSession Login(string apikey, string sessionToken, string userID)
+		{
+			if (apikey == null) throw new ArgumentNullException("apikey");
+			if (sessionToken == null) throw new ArgumentNullException("sessionToken");
+			if (userID == null) throw new ArgumentNullException("userID");
+
+			var loginInfo = User.GetLoginInfo(userID, apikey, sessionToken);
+			CheckAndUpdateDriver(loginInfo, sessionToken, userID);
+
+			LoginedSessionCollection.Instance.Save(loginInfo);
+
+			OnUserLogined(new UserLoginEventArgs(loginInfo.user.email, loginInfo.session_token, apikey, userID));
+			return loginInfo;
+		}
+
+		public LoginedSession Login(string apikey, string email, string password, string deviceID, string deviceName)
+		{
+			if (apikey == null) throw new ArgumentNullException("apikey");
+			if (email == null) throw new ArgumentNullException("email");
+			if (password == null) throw new ArgumentNullException("password");
+			if (deviceID == null) throw new ArgumentNullException("deviceID");
+			if (deviceName == null) throw new ArgumentNullException("deviceName");
+
+			var user = User.LogIn(email, password, apikey, deviceID, deviceName, 2500);
+			
+			Debug.Assert(user != null, "user != null");
+			var loginInfo = user.LoginedInfo;
+
+			CheckAndUpdateDriver(loginInfo, email, password, deviceID, deviceName);
+
+			LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", email));
+			LoginedSessionCollection.Instance.Save(loginInfo);
+
+			OnUserLogined(new UserLoginEventArgs(email, loginInfo.session_token, apikey, user.Id));
+			return loginInfo;
+		}
+
+
+		public void Logout(string apiKey, string sessionToken)
+		{
+			try
+			{
+				User.LogOut(sessionToken, apiKey);
+			}
+			catch (Exception e)
+			{
+				this.LogDebugMsg("Unable to logout from Stream cloud", e);
+			}
+
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+
+			if (loginedSession != null)
+				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", loginedSession.user.email));
 		}
 		#endregion
 
