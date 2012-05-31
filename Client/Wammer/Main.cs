@@ -357,7 +357,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("Station401Exception"), I18n.L.T("TitleAuthExpired"), MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("Station401Exception"), "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 QuitOption = QuitOption.Logout;
