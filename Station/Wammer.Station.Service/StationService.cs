@@ -88,7 +88,6 @@ namespace Wammer.Station.Service
 
 				ConfigThreadPool();
 
-				ResetPerformanceCounter();
 
 				AppDomain.CurrentDomain.UnhandledException +=
 					CurrentDomain_UnhandledException;
@@ -346,18 +345,6 @@ namespace Wammer.Station.Service
 			if (maxConcurrentTaskCount > 0)
 				TaskQueue.MaxConcurrentTaskCount = maxConcurrentTaskCount;
 		}
-
-		#region Private Method
-
-		private void ResetPerformanceCounter()
-		{
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
-			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
-			PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
-			PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
-		}
-
-		#endregion
 	}
 
 

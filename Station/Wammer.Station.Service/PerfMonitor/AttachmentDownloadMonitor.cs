@@ -19,8 +19,8 @@ namespace Wammer.PerfMonitor
 
 		public AttachmentDownloadMonitor()
 		{
-			DownstreamNumCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
-			DownstreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false);
+			DownstreamNumCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
+			DownstreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
 		}
 
 		public void OnDownstreamTaskEnqueued(object sender, EventArgs arg)

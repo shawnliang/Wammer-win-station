@@ -205,9 +205,9 @@
     <Compile Include="Station\APIHandler\PostGetLatestHandler.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\APIHandler\ListDriverHandler.cs" />
-    <Compile Include="Station\PingHandler.cs" />
+    <Compile Include="Station\APIHandler\PingHandler.cs" />
     <Compile Include="Station\APIHandler\RemoveOwnerHandler.cs" />
-    <Compile Include="Station\ResouceDirHandler.cs" />
+    <Compile Include="Station\APIHandler\ResouceDirHandler.cs" />
     <Compile Include="Station\ResourceSyncer.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\Retry\AbstrackRetryTask.cs" />

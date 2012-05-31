@@ -165,7 +165,7 @@ namespace Wammer.Cloud
 
 					Debug.Assert(stream != null, "stream != null");
 					stream.WriteTo(filepath, 1024,
-					               (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(
+					               (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
 					               	long.Parse(e.UserState.ToString())));
 					stream.Close();
 				}

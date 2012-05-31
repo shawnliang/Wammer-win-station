@@ -13,8 +13,8 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	internal class AttachmentUtility : IAttachmentUtil
 	{
-		private static readonly IPerfCounter uploadTaskCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
-		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private static readonly IPerfCounter uploadTaskCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
+		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
 
 		#region IAttachmentUtil Members
 
