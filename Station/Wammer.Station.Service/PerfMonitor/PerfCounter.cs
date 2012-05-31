@@ -10,7 +10,6 @@ namespace Wammer.PerfMonitor
 		void Increment();
 		void IncrementBy(long value);
 		void Decrement();
-		CounterSample NextSample();
 		float NextValue();
 	}
 
@@ -42,7 +41,7 @@ namespace Wammer.PerfMonitor
 
 		#endregion
 
-		#region Var		
+		#region Var
 
 		private readonly PerformanceCounter Counter;
 		private float _value;
@@ -121,10 +120,6 @@ namespace Wammer.PerfMonitor
 			}
 		}
 
-		public CounterSample NextSample()
-		{
-			return Counter.NextSample();
-		}
 
 		public float NextValue()
 		{
@@ -171,11 +166,6 @@ namespace Wammer.PerfMonitor
 
 		public void Decrement()
 		{
-		}
-
-		public CounterSample NextSample()
-		{
-			return new CounterSample();
 		}
 
 		public float NextValue()

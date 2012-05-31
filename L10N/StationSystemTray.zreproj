@@ -20,7 +20,7 @@
     <globalSetting name="autoTranslateForm.referenceLanguageComboBoxEdit.SelectedIndex">-1</globalSetting>
     <globalSetting name="autoTranslateForm.languagesToTranslateCheckListBox">
     </globalSetting>
-    <globalSetting name="projectMruItems">&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;items&gt;&lt;item type="2" checksum="2515742505" /&gt;&lt;item type="2" checksum="1487149468" /&gt;&lt;/items&gt;</globalSetting>
+    <globalSetting name="projectMruItems">&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;items&gt;&lt;item type="2" checksum="2515742505" /&gt;&lt;item type="2" checksum="1487149468" /&gt;&lt;item type="2" checksum="1720265562" /&gt;&lt;/items&gt;</globalSetting>
     <globalSetting name="sendFileToTranslator.destinationFilePathTextEdit.Text">
     </globalSetting>
     <globalSetting name="sendFileToTranslator.fileGroupsListBox">..\Station\StationSystemTray\CleanResourceForm###{{{}}}###..\Station\StationSystemTray\MainForm###{{{}}}###..\Station\StationSystemTray\Properties\Resources</globalSetting>
@@ -56,7 +56,7 @@ Kind regards</globalSetting>
     </userSetting>
     <userSetting name="larry@larry-PC.FindText">
     </userSetting>
-    <userSetting name="larry@larry-PC.RecentFiles">C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx###***###C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx</userSetting>
+    <userSetting name="larry@larry-PC.RecentFiles">C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx###***###C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx###***###C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-TW.resx</userSetting>
     <description>
     </description>
   </configuration>

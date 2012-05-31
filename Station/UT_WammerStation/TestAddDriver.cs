@@ -78,7 +78,7 @@ namespace UT_WammerStation
 				stations = new List<UserStation>()
 				{
 					new UserStation { 
-						station_id = "stationId",
+						station_id = Wammer.Station.Station.Instance.StationID,
 						type = "primary"
 					},
 				}
@@ -138,7 +138,7 @@ namespace UT_WammerStation
 				stations = new List<UserStation>()
 				{
 					new UserStation { 
-						station_id = "stationId",
+						station_id = Wammer.Station.Station.Instance.StationID,
 						type = "primary"
 					},
 				}
