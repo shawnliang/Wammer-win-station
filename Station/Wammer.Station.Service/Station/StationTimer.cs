@@ -18,7 +18,7 @@ namespace Wammer.Station
 #if DEBUG
 		private const long STATUS_CHECK_PERIOD = 30*1000; // run heartbeat frequently in debug mode
 #else
-		private const long STATUS_CHECK_PERIOD = 10 * 60 * 1000; // TODO: remove hardcode
+		private const long STATUS_CHECK_PERIOD = 60 * 1000; // TODO: remove hardcode
 #endif
 
 		private const long RESOURCE_SYNC_PEROID = 10*1000;
