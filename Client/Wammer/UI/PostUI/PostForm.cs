@@ -34,17 +34,18 @@ namespace Waveface
 
         private List<string> m_existPostAddPhotos;
         private int m_existPostAddPhotosIndex;
+        private string m_autoText;
 
         public Post Post { get; set; }
         public BatchPostItem BatchPostItem { get; set; }
         public bool EditMode { get; set; }
         public string OldText { get; set; }
         public bool IsBackFromEditMode { get; set; }
-        public bool IsDirty{ get; set; }
+        public bool IsDirty { get; set; }
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
-        public PostForm(List<string> files, PostType postType, Post post, bool editMode, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
+        public PostForm(string autoText, List<string> files, PostType postType, Post post, bool editMode, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
             InitializeComponent();
 
@@ -52,6 +53,7 @@ namespace Waveface
 
             EditMode = editMode;
             Post = post;
+            m_autoText = autoText;
 
             m_oldImageFiles = new Dictionary<string, string>();
             m_fileNameMapping = new Dictionary<string, string>();
@@ -224,6 +226,17 @@ namespace Waveface
 
                 case PostType.Photo:
                     toPhoto_Mode(files);
+
+                    if(!EditMode)
+                    {
+                        if(!string.IsNullOrEmpty(m_autoText))
+                        {
+                            pureTextBox.Text = m_autoText;
+                            pureTextBox.SelectionStart = m_autoText.Length;
+                            pureTextBox.SelectionFont = new Font("Tahoma", 11, FontStyle.Regular);
+                        }
+                    }
+
                     break;
 
                 case PostType.RichText:

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -116,6 +116,20 @@ namespace Wammer.Station
 
 		public void ResumeUnfinishedDownstreamTasks()
 		{
+			foreach (var user in DriverCollection.Instance.FindAll())
+			{
+				if (user.isPrimaryStation)
+				{
+					var queued_items = AttachmentApi.GetQueue(user.session_token, int.MaxValue);
+					foreach (var object_id in queued_items.objects)
+					{
+						var attachmentInfo = AttachmentApi.GetInfo(object_id, user.session_token);
+						EnqueueDownstreamTask(attachmentInfo, user, ImageMeta.Origin);
+					}
+				}
+			}
+
+
 			var posts = PostCollection.Instance.Find(
 				Query.And(
 					Query.Exists("attachments", true),
@@ -131,14 +145,6 @@ namespace Wammer.Station
 					// driver might be removed before download tasks completed
 					if (driver == null)
 						break;
-
-					// origin
-					if (driver.isPrimaryStation &&
-					    (savedDoc == null || savedDoc.saved_file_name == null))
-					{
-						if (CloudHasOriginAttachment(attachment.object_id, driver))
-							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
-					}
 
 					var imageMeta = attachment.image_meta;
 					if (imageMeta == null)

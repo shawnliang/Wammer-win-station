@@ -13,6 +13,7 @@ namespace Wammer.Cloud
 {
 	public class AttachmentApi
 	{
+		public const string TMPQUEUE = "tmpqueue";
 		#region Location enum
 
 		public enum Location
@@ -168,6 +169,22 @@ namespace Wammer.Cloud
 			logger.Debug("attachments/set_sync: " + objIdArray);
 		}
 
+		public static AttachmentQueueResponse GetQueue(string session, int count)
+		{
+			using (DefaultWebClient agent = new DefaultWebClient())
+			{
+				Dictionary<object, object> parameters = new Dictionary<object, object>
+				{
+					{ CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+					{ CloudServer.PARAM_SESSION_TOKEN, session},
+					{ CloudServer.PARAM_TARGET, TMPQUEUE},
+					{ CloudServer.PARAM_COUNT, count}
+				};
+				
+				return CloudServer.requestPath<AttachmentQueueResponse>("attachments/get_queue", parameters, false);
+			}
+		}
+
 		public static AttachmentInfo GetInfo(string object_id, string session_token)
 		{
 			if (object_id == null || session_token == null)
@@ -196,5 +213,11 @@ namespace Wammer.Cloud
 		public byte[] Image { get; private set; }
 		public AttachmentView Metadata { get; private set; }
 		public string ContentType { get; private set; }
+	}
+	public class AttachmentQueueResponse
+	{
+		public int total_results { get; set; }
+		public int counts { get; set; }
+		public List<string> objects { get; set; }
 	}
 }
