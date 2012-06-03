@@ -44,7 +44,9 @@ namespace Wammer.Station
 		{
 			if (isFirstRun)
 			{
-				downloader.ResumeUnfinishedDownstreamTasks();
+				System.Threading.ThreadPool.QueueUserWorkItem(
+					(s) => downloader.ResumeUnfinishedDownstreamTasks());
+
 				isFirstRun = false;
 			}
 
