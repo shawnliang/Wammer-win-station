@@ -36,6 +36,8 @@ namespace Waveface.PostUI
             InitImageListView();
 
             UIHack();
+
+            HackDPI();
         }
 
         private void UIHack()
@@ -48,6 +50,31 @@ namespace Waveface.PostUI
                 btnDeletePhoto.ImageDisable = Properties.Resources.FB_blue_btn_hl_2;
                 btnDeletePhoto.ImageHover = Properties.Resources.FB_blue_btn_hl_2;
             }
+        }
+
+        private void HackDPI()
+        {
+            float _r = getDPIRatio();
+
+            if (_r != 0)
+            {
+                Font _old = btnAddPhoto.Font;
+                Font _new = new Font(_old.Name, _old.Size * _r, _old.Style);
+
+                btnAddPhoto.Font = _new;
+                btnDeletePhoto.Font = _new;
+            }
+        }
+
+        private float getDPIRatio()
+        {
+            using (Graphics _g = CreateGraphics())
+            {
+                if (_g.DpiX == 120)
+                    return 0.85f;
+            }
+
+            return 1;
         }
 
         public void ChangeToEditModeUI(Post post)
@@ -518,7 +545,7 @@ namespace Waveface.PostUI
             if (imageListView.Items.Count == 0)
             {
                 MyParent.IsDirty = true;
-             
+
                 MyParent.toPureText_Mode();
 
                 return;

@@ -372,6 +372,9 @@
   <data name="panelTop.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="panelTop.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
   <data name="panelTop.Size" type="System.Drawing.Size, System.Drawing">
     <value>531, 65</value>
   </data>
