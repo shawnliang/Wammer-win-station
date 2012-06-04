@@ -403,7 +403,7 @@ namespace Waveface.DetailUI
                 }
             }
 
-            timer.Interval = ((m_imageAttachments.Count / 100) + 3) * 1000;
+            timer.Interval = ((m_imageAttachments.Count / 100) + 4) * 1000;
 
             if (!FillImageListView(true))
                 timer.Enabled = true;

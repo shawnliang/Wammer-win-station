@@ -42,6 +42,11 @@ namespace Waveface
         private string m_oldFirstDisplayedPostID;
 
         private string m_defaultFont;
+        private ToolStripMenuItem displayToolStripMenuItem;
+        private ToolStripMenuItem miDisplayAll;
+        private ToolStripMenuItem miDisplayText;
+        private ToolStripMenuItem miDisplayPhoto;
+        private ToolStripMenuItem miDisplayWebLink;
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
@@ -157,7 +162,7 @@ namespace Waveface
                     NotifyDetailView();
                 }
             }
-            catch
+            catch (Exception _e)
             {
             }
 
@@ -224,13 +229,12 @@ namespace Waveface
         {
             m_oldFirstDisplayedIndex = dataGridView.FirstDisplayedScrollingRowIndex;
 
-            if (m_oldFirstDisplayedIndex < 0)
+            m_oldFirstDisplayedPostID = "";
+
+            if (m_oldFirstDisplayedIndex >= 0)
             {
-                m_oldFirstDisplayedPostID = "";
-            }
-            else
-            {
-                m_oldFirstDisplayedPostID = posts[m_oldFirstDisplayedIndex].post_id;
+                if (m_oldFirstDisplayedIndex < posts.Count)
+                    m_oldFirstDisplayedPostID = posts[m_oldFirstDisplayedIndex].post_id;
             }
         }
 
@@ -744,6 +748,11 @@ namespace Waveface
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDisplayAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDisplayText = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDisplayPhoto = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDisplayWebLink = new System.Windows.Forms.ToolStripMenuItem();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.dataGridView = new Waveface.Component.CustomDataGridView();
@@ -757,7 +766,8 @@ namespace Waveface
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miRemovePost});
+            this.miRemovePost,
+            this.displayToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStripImageList";
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
@@ -767,6 +777,42 @@ namespace Waveface
             this.miRemovePost.Name = "miRemovePost";
             resources.ApplyResources(this.miRemovePost, "miRemovePost");
             this.miRemovePost.Click += new System.EventHandler(this.miRemovePost_Click);
+            // 
+            // displayToolStripMenuItem
+            // 
+            this.displayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miDisplayAll,
+            this.miDisplayText,
+            this.miDisplayPhoto,
+            this.miDisplayWebLink});
+            this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
+            resources.ApplyResources(this.displayToolStripMenuItem, "displayToolStripMenuItem");
+            // 
+            // miDisplayAll
+            // 
+            this.miDisplayAll.Checked = true;
+            this.miDisplayAll.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.miDisplayAll.Name = "miDisplayAll";
+            resources.ApplyResources(this.miDisplayAll, "miDisplayAll");
+            this.miDisplayAll.Click += new System.EventHandler(this.miDisplayAll_Click);
+            // 
+            // miDisplayText
+            // 
+            this.miDisplayText.Name = "miDisplayText";
+            resources.ApplyResources(this.miDisplayText, "miDisplayText");
+            this.miDisplayText.Click += new System.EventHandler(this.miDisplayText_Click);
+            // 
+            // miDisplayPhoto
+            // 
+            this.miDisplayPhoto.Name = "miDisplayPhoto";
+            resources.ApplyResources(this.miDisplayPhoto, "miDisplayPhoto");
+            this.miDisplayPhoto.Click += new System.EventHandler(this.miDisplayPhoto_Click);
+            // 
+            // miDisplayWebLink
+            // 
+            this.miDisplayWebLink.Name = "miDisplayWebLink";
+            resources.ApplyResources(this.miDisplayWebLink, "miDisplayWebLink");
+            this.miDisplayWebLink.Click += new System.EventHandler(this.miDisplayWebLink_Click);
             // 
             // timer
             // 
@@ -1006,5 +1052,47 @@ namespace Waveface
 
             return true;
         }
+
+        #region Display
+
+        private void miDisplayAll_Click(object sender, EventArgs e)
+        {
+            doDisplay("");
+
+            miDisplayAll.Checked = true;
+        }
+
+        private void miDisplayText_Click(object sender, EventArgs e)
+        {
+            doDisplay("text");
+
+            miDisplayText.Checked = true;
+        }
+
+        private void miDisplayPhoto_Click(object sender, EventArgs e)
+        {
+            doDisplay("image");
+
+            miDisplayPhoto.Checked = true;
+        }
+
+        private void miDisplayWebLink_Click(object sender, EventArgs e)
+        {
+            doDisplay("link");
+
+            miDisplayWebLink.Checked = true;
+        }
+
+        private void doDisplay(string type)
+        {
+            miDisplayAll.Checked = false;
+            miDisplayText.Checked = false;
+            miDisplayPhoto.Checked = false;
+            miDisplayWebLink.Checked = false;
+
+            Main.Current.DisplayFilter(type);
+        }
+
+        #endregion
     }
 }

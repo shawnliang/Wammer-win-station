@@ -3,7 +3,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
 using Waveface.Properties;
 
@@ -16,55 +15,36 @@ namespace Waveface
         private TextureBrush m_brush4;
         private TextureBrush m_brushMD;
 
-        private Bitmap m_bmpOffscreen;
-
         public DVTopPanel()
         {
             InitializeComponent();
 
+            m_brush4 = new TextureBrush(Resources.titlebar_4, WrapMode.Tile);
+            m_brushMD = new TextureBrush(Resources.MD, WrapMode.Tile);
+
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
             SetStyle(ControlStyles.UserPaint, true);
-
-            m_brush4 = new TextureBrush(Resources.titlebar_4, WrapMode.Tile);
-            m_brushMD = new TextureBrush(Resources.MD, WrapMode.Tile);
         }
 
         protected override void OnResize(EventArgs eventargs)
         {
             base.OnResize(eventargs);
 
-            if ((Width != 0) && (Height != 0))
-            {
-                m_bmpOffscreen = null;
-                m_bmpOffscreen = new Bitmap(Width, Height);
-            }
-
             Refresh();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (m_bmpOffscreen == null)
-                m_bmpOffscreen = new Bitmap(Width, Height);
+            Graphics _g = e.Graphics;
 
-            using (Graphics _g = Graphics.FromImage(m_bmpOffscreen))
-            {
-                _g.TextRenderingHint = TextRenderingHint.AntiAlias;
-                _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                _g.SmoothingMode = SmoothingMode.HighQuality;
+            _g.DrawImage(Resources.titlebar_3, -1, 0, Resources.titlebar_3.Width, Height);
 
-                _g.DrawImage(Resources.titlebar_3, -1, 0, Resources.titlebar_3.Width, Height);
+            _g.FillRectangle(m_brush4, Resources.titlebar_3.Width - 2, 0, Width, Resources.titlebar_4.Height);
 
-                _g.FillRectangle(m_brush4, Resources.titlebar_3.Width - 2, 0, Width, Resources.titlebar_4.Height);
-
-                _g.DrawImage(Resources.LD, 2, Height - 3, Resources.LD.Width, 1);
-                _g.DrawImage(Resources.RD, Width - Resources.RD.Width - 128, Height - 3, Resources.RD.Width, 1);
-                _g.FillRectangle(m_brushMD, Resources.LD.Width, Height - 3, Width - Resources.LD.Width - Resources.RD.Width - 128, 1);
-
-                e.Graphics.DrawImage(m_bmpOffscreen, 0, 0);
-            }
+            _g.DrawImage(Resources.LD, 2, Height - 3, Resources.LD.Width, 1);
+            _g.DrawImage(Resources.RD, Width - Resources.RD.Width - 128, Height - 3, Resources.RD.Width, 1);
+            _g.FillRectangle(m_brushMD, Resources.LD.Width, Height - 3, Width - Resources.LD.Width - Resources.RD.Width - 128, 1);
 
             base.OnPaint(e);
         }

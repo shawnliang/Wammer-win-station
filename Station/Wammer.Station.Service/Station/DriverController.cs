@@ -80,7 +80,7 @@ namespace Wammer.Station
 			if (existingDriver != null)
 			{
 				existingDriver.ref_count += 1;
-				DriverCollection.Instance.Save(existingDriver);
+				DriverCollection.Instance.Update(Query.EQ("_id", userID), Update.Set("ref_count", existingDriver.ref_count));
 				return new AddUserResponse
 						{
 							UserId = existingDriver.user_id,
@@ -98,6 +98,10 @@ namespace Wammer.Station
 				);
 
 			var user = res.user;
+
+			//Remove residual driver
+			DriverCollection.Instance.Remove(Query.EQ("email", user.email));
+			
 			var driver = new Driver
 							{
 								user_id = user.user_id,

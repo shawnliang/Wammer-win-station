@@ -116,18 +116,11 @@ namespace Wammer.Station
 
 		public void ResumeUnfinishedDownstreamTasks()
 		{
-			foreach (var user in DriverCollection.Instance.FindAll())
+			DateTime beginTime = DateTime.Now;
+
+			try
 			{
-				if (user.isPrimaryStation)
-				{
-					var queued_items = AttachmentApi.GetQueue(user.session_token, int.MaxValue);
-					foreach (var object_id in queued_items.objects)
-					{
-						var attachmentInfo = AttachmentApi.GetInfo(object_id, user.session_token);
-						EnqueueDownstreamTask(attachmentInfo, user, ImageMeta.Origin);
-					}
-				}
-			}
+				DownloadOriginalAttachmentsFromCloud();
 
 			var posts = PostCollection.Instance.Find(
 				Query.And(
@@ -165,18 +158,51 @@ namespace Wammer.Station
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 					}
 
-					// large
-					if (imageMeta.large != null &&
-						(savedImageMeta == null || savedImageMeta.large == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
-					}
+						// temp skil large thumbnails because no client uses this at this moment.
+						//if (imageMeta.large != null &&
+						//    (savedImageMeta == null || savedImageMeta.large == null))
+						//{
+						//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
+						//}
 
 					// square
 					if (imageMeta.square != null &&
 					    (savedImageMeta == null || savedImageMeta.square == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+					}
+				}
+			}
+		}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Resume unfinished downstream tasks not success: " + e.ToString());
+			}
+			finally
+			{
+				TimeSpan duration = DateTime.Now - beginTime;
+				this.LogDebugMsg("Resume unfinished downstream tasks done. Totoal seconds spent: " + duration.TotalSeconds.ToString());
+			}
+		}
+
+		private void DownloadOriginalAttachmentsFromCloud()
+		{
+			foreach (var user in DriverCollection.Instance.FindAll())
+			{
+				if (user.isPrimaryStation)
+				{
+					var queued_items = AttachmentApi.GetQueue(user.session_token, int.MaxValue);
+					foreach (var object_id in queued_items.objects)
+					{
+						try
+						{
+							var attachmentInfo = AttachmentApi.GetInfo(object_id, user.session_token);
+							EnqueueDownstreamTask(attachmentInfo, user, ImageMeta.Origin);
+						}
+						catch (Exception e)
+						{
+							this.LogDebugMsg("Unable to download origin attachment: " + e.ToString());
+						}
 					}
 				}
 			}
