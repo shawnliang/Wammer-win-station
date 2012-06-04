@@ -162,5 +162,20 @@ namespace StationSystemTray
 			AdjustRemoveButton();
 			SetStorageUsage();
 		}
+
+		private void btnMove_Click(object sender, EventArgs e)
+		{
+			using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+			{
+				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+					return;
+
+				txtLocation.Text = dialog.SelectedPath;
+
+				Cursor.Current = Cursors.WaitCursor;
+				StationController.MoveResourceFolder(txtLocation.Text);
+				Cursor.Current = Cursors.Default;
+			}
+		}
 	}
 }

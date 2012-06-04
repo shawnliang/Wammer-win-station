@@ -35,7 +35,12 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.lblStorageUsageValue = new System.Windows.Forms.Label();
 			this.lblStorageUsage = new System.Windows.Forms.Label();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.txtLocation = new System.Windows.Forms.TextBox();
+			this.btnMove = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnUnlink
@@ -82,11 +87,38 @@
 			resources.ApplyResources(this.lblStorageUsage, "lblStorageUsage");
 			this.lblStorageUsage.Name = "lblStorageUsage";
 			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.btnMove);
+			this.groupBox2.Controls.Add(this.txtLocation);
+			this.groupBox2.Controls.Add(this.label1);
+			resources.ApplyResources(this.groupBox2, "groupBox2");
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.TabStop = false;
+			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.Name = "label1";
+			// 
+			// txtLocation
+			// 
+			resources.ApplyResources(this.txtLocation, "txtLocation");
+			this.txtLocation.Name = "txtLocation";
+			// 
+			// btnMove
+			// 
+			resources.ApplyResources(this.btnMove, "btnMove");
+			this.btnMove.Name = "btnMove";
+			this.btnMove.UseVisualStyleBackColor = true;
+			this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
+			// 
 			// SettingDialog
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.button1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -96,6 +128,8 @@
 			this.Load += new System.EventHandler(this.LocalSettingDialog_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -108,5 +142,9 @@
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label lblStorageUsageValue;
 		private System.Windows.Forms.Label lblStorageUsage;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Button btnMove;
+		private System.Windows.Forms.TextBox txtLocation;
+		private System.Windows.Forms.Label label1;
 	}
 }

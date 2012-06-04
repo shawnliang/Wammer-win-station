@@ -671,6 +671,17 @@ namespace Wammer.Station.Management
 			}
 		}
 
+		public static void MoveResourceFolder(string newLocation)
+		{
+			CloudServer.request<CloudResponse>(
+				StationMgmtURL + "station/resource_folder/move",
+				new Dictionary<object, object>
+				{
+					{ "folder", newLocation}
+				},
+				false);
+		}
+
 		public static ListDriverResponse ListUser()
 		{
 			try

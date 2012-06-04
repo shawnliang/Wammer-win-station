@@ -44,7 +44,6 @@ namespace Wammer.Station.Service
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
 		private HttpServer functionServer;
 		private HttpServer managementServer;
-		private string resourceBasePath;
 		private AttachmentViewHandler viewHandler;
 
 		public StationService()
@@ -88,9 +87,8 @@ namespace Wammer.Station.Service
 					System.Windows.Forms.Application.DoEvents();
 					m_BackOff.IncreaseLevel();
 				}
-
+				InitResourceFolder();
 				TaskQueue.Init();
-
 				ConfigThreadPool();
 
 				ResetPerformanceCounter();
@@ -105,8 +103,6 @@ namespace Wammer.Station.Service
 				logger.Debug("Initialize Stream Service");
 
 				Station.Instance.Start();
-
-				InitResourceBasePath();
 
 				JSON.Instance.UseUTCDateTime = true;
 
@@ -141,7 +137,7 @@ namespace Wammer.Station.Service
 				managementServer = new HttpServer(9989);
 				managementServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
-				var addDriverHandler = new AddDriverHandler(Station.Instance.StationID, resourceBasePath);
+				var addDriverHandler = new AddDriverHandler(Station.Instance.StationID);
 				InitManagementServerHandler(addDriverHandler);
 
 				addDriverHandler.DriverAdded += addDriverHandler_DriverAdded;
@@ -185,6 +181,7 @@ namespace Wammer.Station.Service
 
 			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), removeOwnerHandler);
 			managementServer.AddHandler(GetDefaultBathPath("/station/status/get/"), new StatusGetHandler());
+			managementServer.AddHandler(GetDefaultBathPath("/station/resource_folder/move/"), new MoveResourceFolderHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/list"), new ListCloudStorageHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/oauth/"), new DropBoxOAuthHandler());
 			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/connect/"), new DropBoxConnectHandler());
@@ -217,8 +214,9 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/upload/"),
 			                          attachmentHandler);
 
+			// TO BE REMOVED
 			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/get/"),
-			                          new ResouceDirGetHandler(resourceBasePath));
+			                          new ResouceDirGetHandler(""));
 
 			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/set/"),
 			                          new ResouceDirSetHandler());
@@ -265,7 +263,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 			                          new HybridCloudHttpRouter(new UserTrackHandler()));
 
-			var loginHandler = new UserLoginHandler(Station.Instance.StationID, resourceBasePath);
+			var loginHandler = new UserLoginHandler(Station.Instance.StationID);
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 			                          loginHandler);
 
@@ -330,15 +328,10 @@ namespace Wammer.Station.Service
 			managementServer.Close();
 		}
 
-		private void InitResourceBasePath()
+		private void InitResourceFolder()
 		{
-			resourceBasePath = (string) StationRegistry.GetValue("resourceBasePath", null);
-			if (resourceBasePath == null)
-			{
-				resourceBasePath = "resource";
-				if (!Directory.Exists(resourceBasePath))
-					Directory.CreateDirectory(resourceBasePath);
-			}
+			if (!Directory.Exists(FileStorage.ResourceFolder))
+				Directory.CreateDirectory(FileStorage.ResourceFolder);
 		}
 
 		private void ConfigThreadPool()

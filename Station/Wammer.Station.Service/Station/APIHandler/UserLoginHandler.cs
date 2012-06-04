@@ -15,12 +15,6 @@ namespace Wammer.Station
 
 		#region Property
 		/// <summary>
-		/// Gets or sets the m_ resource base path.
-		/// </summary>
-		/// <value>The m_ resource base path.</value>
-		private String m_ResourceBasePath { get; set; }
-
-		/// <summary>
 		/// Gets or sets the m_ station ID.
 		/// </summary>
 		/// <value>The m_ station ID.</value>
@@ -41,11 +35,9 @@ namespace Wammer.Station
 		/// Initializes a new instance of the <see cref="UserLoginHandler"/> class.
 		/// </summary>
 		/// <param name="stationId">The station id.</param>
-		/// <param name="resourceBasePath">The resource base path.</param>
-		public UserLoginHandler(string stationId, string resourceBasePath)
+		public UserLoginHandler(string stationId)
 		{
 			m_StationID = stationId;
-			m_ResourceBasePath = resourceBasePath;
 		} 
 		#endregion
 
@@ -77,7 +69,7 @@ namespace Wammer.Station
 				var sessionToken = Parameters[CloudServer.SessionToken];
 				var userID = Parameters[CloudServer.PARAM_USER_ID];
 
-				m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, userID, sessionToken);
+				m_DriverAgent.AddDriver("", m_StationID, userID, sessionToken);
 			}
 			else
 			{
@@ -91,7 +83,7 @@ namespace Wammer.Station
 				var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
 				var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
 
-				m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, email, password, deviceId, deviceName);
+				m_DriverAgent.AddDriver("", m_StationID, email, password, deviceId, deviceName);
 			}
 		}
 
