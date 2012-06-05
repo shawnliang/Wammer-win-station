@@ -201,7 +201,7 @@ namespace Wammer.Station
 						}
 						catch (Exception e)
 						{
-							this.LogDebugMsg("Unable to download origin attachment: " + e.ToString());
+							this.LogWarnMsg(string.Format("Unable to download origin attachment {0} : {1}", object_id, e.ToString()));
 						}
 					}
 				}

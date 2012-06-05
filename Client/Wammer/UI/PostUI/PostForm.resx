@@ -125,25 +125,25 @@
     <value>Tahoma, 9pt</value>
   </data>
   <data name="cutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 22</value>
+    <value>112, 22</value>
   </data>
   <data name="cutToolStripMenuItem.Text" xml:space="preserve">
     <value>Cut</value>
   </data>
   <data name="copyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 22</value>
+    <value>112, 22</value>
   </data>
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="pasteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 22</value>
+    <value>112, 22</value>
   </data>
   <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
   <data name="contextMenuStripEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 70</value>
+    <value>113, 70</value>
   </data>
   <data name="&gt;&gt;contextMenuStripEdit.Name" xml:space="preserve">
     <value>contextMenuStripEdit</value>
@@ -984,9 +984,6 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>50</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>790, 508</value>
   </data>
@@ -1370,6 +1367,9 @@
         AAAAAAAf8AAAAAAAAB/wAAAAAAAAH/AAAAAAAAAf8AAAAAAAAB/4AAAAAAAAP///////////////////
         //8=
 </value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>480, 400</value>

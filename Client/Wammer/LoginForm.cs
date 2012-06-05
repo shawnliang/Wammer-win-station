@@ -162,12 +162,12 @@ namespace Waveface
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.txtUserName);
             this.groupBox1.Controls.Add(this.txtPassword);
             this.groupBox1.Controls.Add(this.lblUserName);
             this.groupBox1.Controls.Add(this.lblPassword);
             this.groupBox1.Controls.Add(this.cbRemember);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -178,27 +178,28 @@ namespace Waveface
             // 
             // btnCancel
             // 
-            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnCancel.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnCancel.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
-            resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.AdjustImageLocation = new System.Drawing.Point(0, 0);
             this.btnOK.BtnShape = Waveface.Component.emunType.BtnShape.Rectangle;
             this.btnOK.BtnStyle = Waveface.Component.emunType.XPStyle.Silver;
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.Name = "btnOK";
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // LoginForm
             // 
             resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.btnCancel);

@@ -46,7 +46,7 @@ namespace StationSystemTray
 
 		private const string WEB_BASE_URL = @"https://waveface.com";
 		private const string STAGING_BASE_URL = @"http://staging.waveface.com";
-		private const string DEV_WEB_BASE_PAGE_URL = @"http://develop.waveface.com:4343";
+		private const string DEV_WEB_BASE_PAGE_URL = @"https://devweb.waveface.com";
 
 		private const string SIGNUP_URL_PATH = @"/signup";
 		private const string LOGIN_URL_PATH = @"/sns/facebook/signin";
@@ -1204,10 +1204,8 @@ namespace StationSystemTray
 			}
 		}
 
-		List<float> _upSpeeds = new List<float>();
-		List<float> _downSpeeds = new List<float>();
-		private float _lastUpSpeed;
-		private float _lastDownSpeed;
+		Queue<float> _upSpeeds = new Queue<float>();
+		Queue<float> _downSpeeds = new Queue<float>();
 		private void RefreshSyncingStatus()
 		{
 			m_Timer.Stop();
@@ -1228,34 +1226,19 @@ namespace StationSystemTray
 					var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
 					var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
 
-					if (_lastUpSpeed != upSpeed)
-						_upSpeeds.Add(upSpeed);
-
-					if (_lastDownSpeed != downloadSpeed)
-						_downSpeeds.Add(downloadSpeed);
-					
-					if(_upSpeeds.Count >= 5)
-					{
-						upSpeed = _upSpeeds.Average();
-						_upSpeeds.Clear();
-					}
-					else
-					{
-						upSpeed = _lastUpSpeed;
-					}
+					if (_upSpeeds.Count >= 5)
+						_upSpeeds.Dequeue();
+					_upSpeeds.Enqueue(upSpeed);
 
 					if (_downSpeeds.Count >= 5)
-					{
-						downloadSpeed = _downSpeeds.Average();
-						_downSpeeds.Clear();
-					}
-					else
-					{
-						downloadSpeed = _lastDownSpeed;
-					}
+						_downSpeeds.Dequeue();
+					_downSpeeds.Enqueue(downloadSpeed);
 
-					_lastUpSpeed = upSpeed;
-					_lastDownSpeed = downloadSpeed;
+					if(_upSpeeds.Count >= 0)
+					  upSpeed = _upSpeeds.Average();
+
+					if (_downSpeeds.Count >= 0)
+						downloadSpeed = _downSpeeds.Average();
 
 					var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
 					var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";

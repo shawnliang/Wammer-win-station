@@ -89,7 +89,7 @@ namespace Waveface
             // 
             this.postsArea.BackColor = System.Drawing.SystemColors.Window;
             resources.ApplyResources(this.postsArea, "postsArea");
-            this.postsArea.MinimumSize = new System.Drawing.Size(337, 2);
+            this.postsArea.MinimumSize = new System.Drawing.Size(308, 2);
             this.postsArea.Name = "postsArea";
             // 
             // splitterLeft
@@ -260,7 +260,7 @@ namespace Waveface
             // Main
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.splitterRight);
             this.Controls.Add(this.panelLeft);

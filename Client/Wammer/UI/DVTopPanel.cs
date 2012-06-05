@@ -57,8 +57,10 @@ namespace Waveface
             // 
             // DVTopPanel
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "DVTopPanel";
-            this.Size = new System.Drawing.Size(407, 85);
+            this.Size = new System.Drawing.Size(326, 68);
             this.ResumeLayout(false);
 
         }
