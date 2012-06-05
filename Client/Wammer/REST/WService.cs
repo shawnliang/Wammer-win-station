@@ -72,7 +72,7 @@ namespace Waveface.API.V2
                 if (CloudBaseURL.Contains("api.waveface.com"))
                     return "https://waveface.com";
                 else if (CloudBaseURL.Contains("develop.waveface.com"))
-                    return "http://develop.waveface.com:4343";
+                    return "https://devweb.waveface.com/"; //http://develop.waveface.com:4343
                 else if (CloudBaseURL.Contains("staging.waveface.com"))
                     return "http://staging.waveface.com";
                 else

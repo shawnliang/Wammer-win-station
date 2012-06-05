@@ -20,6 +20,7 @@ namespace Waveface.PostUI
         private long m_month_total_objects;
         private MyImageListViewRenderer m_imageListViewRenderer;
         private List<string> m_editModeOriginPhotoFiles;
+        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         public PostForm MyParent { get; set; }
 
@@ -28,6 +29,8 @@ namespace Waveface.PostUI
         public Photo()
         {
             InitializeComponent();
+
+            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
 
             FileNameMapping = new Dictionary<string, string>();
 
@@ -748,9 +751,57 @@ namespace Waveface.PostUI
             e.Cancel = true;
         }
 
+        #region Drag&Drop
+
         private void imageListView_DragDrop(object sender, DragEventArgs e)
         {
             MyParent.IsDirty = true;
+
+            ImageListView.HitInfo _hitInfo;
+            imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
+
+            List<string> _pics = m_dragDropClipboardHelper.Drag_Drop_HtmlImage(e);
+
+            if (_pics != null)
+            {
+                if ((_hitInfo.ItemIndex < 0) || (_hitInfo.ItemIndex >= imageListView.Items.Count))
+                    AddPhotos(_pics.ToArray(), 0);
+                else
+                    AddPhotos(_pics.ToArray(), _hitInfo.ItemIndex);
+            }
         }
+
+        private void imageListView_DragEnter(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
+
+            DragHitTest(e);
+        }
+
+        private void imageListView_DragLeave(object sender, EventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
+        }
+
+        private void imageListView_DragOver(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Over_HtmlImage(e, false);
+
+            DragHitTest(e);
+        }
+
+        private void DragHitTest(DragEventArgs e)
+        {
+            ImageListView.HitInfo _hitInfo;
+            imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
+
+            if (_hitInfo.InItemArea)
+                e.Effect = DragDropEffects.Move;
+
+            if (_hitInfo.ItemHit)
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        #endregion
     }
 }
