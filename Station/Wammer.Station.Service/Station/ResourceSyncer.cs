@@ -91,6 +91,8 @@ namespace Wammer.Station
 
 			foreach (Driver user in users)
 			{
+				if (string.IsNullOrEmpty(user.session_token))
+					continue;
 				try
 				{
 					syncer.PullTimeline(user);
