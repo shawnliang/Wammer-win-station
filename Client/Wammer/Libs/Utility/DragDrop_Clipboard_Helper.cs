@@ -22,10 +22,12 @@ namespace Waveface
         {
             m_createNewPost = createNewPost;
         }
-        
+
+        #region All
+
         public void Drag_Enter(DragEventArgs e, bool forceDisable)
         {
-            if(forceDisable)
+            if (forceDisable)
             {
                 e.Effect = DragDropEffects.None;
                 return;
@@ -123,13 +125,6 @@ namespace Waveface
             _dropHelper.DragLeave();
         }
 
-        /*
-        public void Clipboard_Paste()
-        {
-            DoDataPaste(Clipboard.GetDataObject());
-        }
-        */
-
         private List<string> DoDataPaste(IDataObject data)
         {
             string _dirText = string.Empty;
@@ -200,10 +195,12 @@ namespace Waveface
                     string _baseUrl = parseBaseURL(_clipboardHtml);
                     string _imgURL;
 
-                    if (_imageSrc.ToLower().IndexOf("http://") == 0)
+                    if ((_imageSrc.ToLower().IndexOf("http://") == 0) || (_imageSrc.ToLower().IndexOf("https://") == 0))
                         _imgURL = _imageSrc;
                     else
                         _imgURL = _baseUrl + _imageSrc.Substring(1);
+
+                    Main.Current.Cursor = Cursors.WaitCursor;
 
                     Image _image = HttpHelp.DownloadImage(_imgURL);
 
@@ -211,18 +208,27 @@ namespace Waveface
 
                     _image.Save(_imgLocalPath);
 
+                    Main.Current.Cursor = Cursors.Default;
+
+                    List<string> _hPics = new List<string>
+                                             {
+                                                 _imgLocalPath
+                                             };
+
                     if (m_createNewPost)
                     {
-                        Main.Current.Post(new List<string>
-                                              {
-                                                  _imgLocalPath
-                                              }, PostType.Photo, "");
+                        Main.Current.Post(_hPics, PostType.Photo, "");
+                    }
+                    else
+                    {
+                        return _hPics;
                     }
 
                     return null;
                 }
-                catch
+                catch (Exception _e)
                 {
+                    Main.Current.Cursor = Cursors.Default;
                 }
             }
 
@@ -302,6 +308,164 @@ namespace Waveface
             return null;
         }
 
+        #endregion
+
+        #region HTML Image
+
+        public void Drag_Enter_HtmlImage(DragEventArgs e, bool forceDisable)
+        {
+            if (forceDisable)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) || e.Data.GetDataPresent("HTML Format"))
+            {
+                e.Effect = DragDropEffects.Copy;
+
+                try
+                {
+                    Point _p = Cursor.Position;
+                    Win32Point _wp;
+                    _wp.x = _p.X;
+                    _wp.y = _p.Y;
+                    IDropTargetHelper _dropHelper = (IDropTargetHelper)new DragDropHelper();
+                    _dropHelper.DragEnter(IntPtr.Zero, (System.Runtime.InteropServices.ComTypes.IDataObject)e.Data, ref _wp, (int)e.Effect);
+                }
+                catch
+                {
+                }
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+
+            FlashWindow.Start(Main.Current);
+        }
+
+        public void Drag_Over_HtmlImage(DragEventArgs e, bool forceDisable)
+        {
+            if (forceDisable)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) || e.Data.GetDataPresent("HTML Format"))
+            {
+                e.Effect = DragDropEffects.Copy;
+
+                try
+                {
+                    Point _p = Cursor.Position;
+                    Win32Point _wp;
+                    _wp.x = _p.X;
+                    _wp.y = _p.Y;
+                    IDropTargetHelper _dropHelper = (IDropTargetHelper)new DragDropHelper();
+                    _dropHelper.DragOver(ref _wp, (int)e.Effect);
+                }
+                catch
+                {
+                }
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        public List<string> Drag_Drop_HtmlImage(DragEventArgs e)
+        {
+            FlashWindow.Stop(Main.Current);
+
+            try
+            {
+                Point _p = Cursor.Position;
+                Win32Point _wp;
+                _wp.x = _p.X;
+                _wp.y = _p.Y;
+                IDropTargetHelper _dropHelper = (IDropTargetHelper)new DragDropHelper();
+                _dropHelper.Drop((System.Runtime.InteropServices.ComTypes.IDataObject)e.Data, ref _wp, (int)e.Effect);
+            }
+            catch
+            {
+            }
+
+            return DoDataPaste_HtmlImage(e.Data);
+        }
+
+        public void Drag_Leave_HtmlImage()
+        {
+            FlashWindow.Stop(Main.Current);
+
+            IDropTargetHelper _dropHelper = (IDropTargetHelper)new DragDropHelper();
+            _dropHelper.DragLeave();
+        }
+
+        private List<string> DoDataPaste_HtmlImage(IDataObject data)
+        {
+            // Drag Image
+            if (data.GetDataPresent("HTML Format"))
+            {
+                try
+                {
+                    string _clipboardHtml = (string)data.GetData("HTML Format");
+                    string _htmlFragment = getHtmlFragment(_clipboardHtml);
+                    string _imageSrc = parseImageSrc(_htmlFragment);
+                    string _baseUrl = parseBaseURL(_clipboardHtml);
+                    string _imgURL;
+
+                    if ((_imageSrc.ToLower().IndexOf("http://") == 0) || (_imageSrc.ToLower().IndexOf("https://") == 0))
+                        _imgURL = _imageSrc;
+                    else
+                        _imgURL = _baseUrl + _imageSrc.Substring(1);
+
+                    Main.Current.Cursor = Cursors.WaitCursor;
+
+                    Image _image = HttpHelp.DownloadImage(_imgURL);
+
+                    string _imgLocalPath = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
+
+                    _image.Save(_imgLocalPath);
+
+                    Main.Current.Cursor = Cursors.Default;
+
+                    List<string> _hPics = new List<string>
+                                             {
+                                                 _imgLocalPath
+                                             };
+
+                    if (m_createNewPost)
+                    {
+                        Main.Current.Post(_hPics, PostType.Photo, "");
+                    }
+                    else
+                    {
+                        return _hPics;
+                    }
+                }
+                catch (Exception _e)
+                {
+                    Main.Current.Cursor = Cursors.Default;
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region Misc
+
+        /*
+        public void Clipboard_Paste()
+        {
+            DoDataPaste(Clipboard.GetDataObject());
+        }
+        */
+
         private string GetTrimmedLine(string str)
         {
             if (str == null)
@@ -330,6 +494,8 @@ namespace Waveface
 
             return _retStr;
         }
+
+        #endregion
 
         #region HTML Format
 

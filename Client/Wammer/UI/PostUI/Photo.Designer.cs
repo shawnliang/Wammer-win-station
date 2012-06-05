@@ -83,6 +83,9 @@
             this.imageListView.ItemHover += new Manina.Windows.Forms.ItemHoverEventHandler(this.imageListView_ItemHover);
             this.imageListView.ItemCollectionChanged += new Manina.Windows.Forms.ItemCollectionChangedEventHandler(this.imageListView_ItemCollectionChanged);
             this.imageListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.imageListView_DragDrop);
+            this.imageListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.imageListView_DragEnter);
+            this.imageListView.DragOver += new System.Windows.Forms.DragEventHandler(this.imageListView_DragOver);
+            this.imageListView.DragLeave += new System.EventHandler(this.imageListView_DragLeave);
             // 
             // panelToolbar
             // 
