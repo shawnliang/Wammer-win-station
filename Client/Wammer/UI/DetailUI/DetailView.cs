@@ -225,6 +225,7 @@ namespace Waveface
             // 
             // DetailView
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.btnAddFootNote);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelTop);
@@ -262,6 +263,9 @@ namespace Waveface
             btnEdit.Visible = true;
             btnFavorite.Visible = true;
             btnAddFootNote.Visible = true;
+
+            //Hack
+            btnAddFootNote.Left = Width - 50;
 
             setTitle();
             setFavoriteButton();
