@@ -96,6 +96,32 @@ namespace Waveface
         private void PostForm_Load(object sender, EventArgs e)
         {
             SetForegroundWindow(Handle);
+
+            HackDPI();
+        }
+
+        private void HackDPI()
+        {
+            float _r = getDPIRatio();
+
+            if (_r != 0)
+            {
+                Font _old = btnAddPhoto.Font;
+                Font _new = new Font(_old.Name, _old.Size * _r, _old.Style);
+
+                btnAddPhoto.Font = _new;
+            }
+        }
+
+        private float getDPIRatio()
+        {
+            using (Graphics _g = CreateGraphics())
+            {
+                if (_g.DpiX == 120)
+                    return 0.85f;
+            }
+
+            return 1;
         }
 
         private void InitEditMode()
@@ -227,9 +253,9 @@ namespace Waveface
                 case PostType.Photo:
                     toPhoto_Mode(files);
 
-                    if(!EditMode)
+                    if (!EditMode)
                     {
-                        if(!string.IsNullOrEmpty(m_autoText))
+                        if (!string.IsNullOrEmpty(m_autoText))
                         {
                             pureTextBox.Text = m_autoText;
                             pureTextBox.SelectionStart = m_autoText.Length;

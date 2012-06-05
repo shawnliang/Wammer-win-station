@@ -386,8 +386,8 @@ namespace Waveface
             // PostForm
             // 
             this.AllowDrop = true;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.multiPanel);
             this.MinimizeBox = false;
             this.Name = "PostForm";

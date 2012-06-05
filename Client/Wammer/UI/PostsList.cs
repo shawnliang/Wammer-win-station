@@ -125,7 +125,23 @@ namespace Waveface
 
             PicHeight = (int)(m_fontText.Height * 4.8);
             PicWidth = (int)(m_fontText.Height * 4.8);
+
+            float _dpi;
+
+            using (Graphics _g = CreateGraphics())
+            {
+                _dpi = _g.DpiX;
+            }
+
             dataGridView.RowTemplate.Height = (m_fontText.Height * 7) + 6;
+
+            if (_dpi == 120)
+            {
+                dataGridView.RowTemplate.Height = (int)(m_fontText.Height * 6.9);
+
+                if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+                    dataGridView.RowTemplate.Height = (int)(m_fontText.Height * 7.28);
+            }
         }
 
         public void SetPosts(List<Post> posts)
@@ -310,11 +326,11 @@ namespace Waveface
 
                     case "image":
                     case "doc":
-                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected);
+                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected, _thumbnailRect.Height);
                         break;
 
                     case "link":
-                        Draw_Link(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected);
+                        Draw_Link(_g, _post, _cellRect, _thumbnailRect.Width, _thumbnailRect.Width, _selected);
                         break;
                 }
             }
@@ -363,14 +379,17 @@ namespace Waveface
             }
         }
 
-        private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight,
-                                         int thumbnailRectWidth, bool selected)
+        private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth, bool selected, int thumbnailRectHeight)
         {
             string _info = post.attachment_count + " " +
                            ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
+
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
+
+            int _d = (rect.Height - thumbnailRectHeight + 10) / 2;
+
             Rectangle _rect = new Rectangle(rect.X + rect.Width - _sizeInfo.Width - 2,
-                                            rect.Y + rect.Height - underThumbnailHeight - (_sizeInfo.Height / 2), _sizeInfo.Width,
+                                            rect.Y + rect.Height - _d, _sizeInfo.Width,
                                             _sizeInfo.Height);
 
             TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor);
