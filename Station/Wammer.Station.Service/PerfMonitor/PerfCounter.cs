@@ -111,14 +111,22 @@ namespace Wammer.PerfMonitor
 		/// <returns></returns>
 		public static IPerfCounter GetCounter(string counterName)
 		{
-			if (m_CounterPool.ContainsKey(counterName))
+			try
+			{
+				if (m_CounterPool.ContainsKey(counterName))
+					return m_CounterPool[counterName];
+
+				var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
+				counter.RawValue = 0;
+				m_CounterPool[counterName] = new PerfCounter(counter);
+
 				return m_CounterPool[counterName];
-
-			var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
-			counter.RawValue = 0;
-			m_CounterPool[counterName] = new PerfCounter(counter);
-
-			return m_CounterPool[counterName];
+			}
+			catch (Exception e)
+			{
+				log4net.LogManager.GetLogger("PerfCounter").Error("Unable to create perf counter: " + counterName, e);
+				return new NullPerfCounter();
+			}
 		}
 		#endregion
 
