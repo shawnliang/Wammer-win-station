@@ -112,7 +112,7 @@ namespace Wammer.Station
 								stations = res.stations
 							};
 
-			Directory.CreateDirectory(driver.folder);
+			CreateUserFolder(driver);
 
 			OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
 
@@ -126,6 +126,12 @@ namespace Wammer.Station
 						IsPrimaryStation = driver.isPrimaryStation,
 						Stations = driver.stations
 					};
+		}
+
+		private static void CreateUserFolder(Driver driver)
+		{
+			// FileStorage constructor creates user's folder.
+			new FileStorage(driver);
 		}
 
 		/// <summary>
@@ -197,7 +203,7 @@ namespace Wammer.Station
 			             		stations = res.stations
 			             	};
 
-			Directory.CreateDirectory(driver.folder);
+			CreateUserFolder(driver);
 
 			OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
 

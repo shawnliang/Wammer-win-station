@@ -72,7 +72,7 @@ namespace Wammer.Station
 			if (user == null || user.folder == null)
 				throw new ArgumentNullException("user", "user or user.folder is null");
 
-			return Path.Combine(user.folder, "temp_" + Guid.NewGuid().ToString());
+			return Path.Combine(ResourceFolder, Path.Combine(user.folder, "temp_" + Guid.NewGuid().ToString()));
 		}
 
 		public FileStream Load(string filename)
