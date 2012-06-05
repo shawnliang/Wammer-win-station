@@ -115,7 +115,8 @@ namespace Waveface
 
             var user = _runTime.Login.user;
 
-            ImageCachePath = ((string)Microsoft.Win32.Registry.GetValue(WammerKeyPath, "ResourceFolder", null)) ?? AssemblyPath;
+            ImageCachePath = ((string)Microsoft.Win32.Registry.GetValue(WammerKeyPath, "ResourceFolder", null)) ??
+                            Path.Combine(AssemblyPath, "resource");
             ImageCachePath = Path.Combine(ImageCachePath, "user_" + user.user_id);
 
             Directory.CreateDirectory(ImageCachePath);
