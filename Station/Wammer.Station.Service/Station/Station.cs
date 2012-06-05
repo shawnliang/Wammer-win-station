@@ -21,7 +21,7 @@ namespace Wammer.Station
 	{
 		#region Const
 		private const string STATION_ID_REGISTORY_KEY = "stationId";
-		private const int BODY_SYNC_THREAD_COUNT = 1;
+		private const int BODY_SYNC_THREAD_COUNT = 10;
 		private const int UPSTREAM_THREAD_COUNT = 1;
 		#endregion
 
