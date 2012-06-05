@@ -60,6 +60,7 @@ namespace StationSystemTray
 				return;
 			}
 
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 

@@ -1241,7 +1241,7 @@ namespace StationSystemTray
 					}
 					else
 					{
-						upSpeed = _lastUpSpeed;
+						upSpeed = _upSpeeds.Average();
 					}
 
 					if (_downSpeeds.Count >= 5)
@@ -1251,7 +1251,7 @@ namespace StationSystemTray
 					}
 					else
 					{
-						downloadSpeed = _lastDownSpeed;
+						downloadSpeed = _downSpeeds.Average();
 					}
 
 					_lastUpSpeed = upSpeed;
