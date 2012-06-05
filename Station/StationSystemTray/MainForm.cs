@@ -46,7 +46,7 @@ namespace StationSystemTray
 
 		private const string WEB_BASE_URL = @"https://waveface.com";
 		private const string STAGING_BASE_URL = @"http://staging.waveface.com";
-		private const string DEV_WEB_BASE_PAGE_URL = @"http://develop.waveface.com:4343";
+		private const string DEV_WEB_BASE_PAGE_URL = @"https://devweb.waveface.com";
 
 		private const string SIGNUP_URL_PATH = @"/signup";
 		private const string LOGIN_URL_PATH = @"/sns/facebook/signin";

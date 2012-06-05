@@ -55,6 +55,8 @@ namespace Waveface.DetailUI
         private ImageButton btnSaveAllPhotos;
         private ImageListViewItem m_selectedItem;
 
+        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
+
         #endregion
 
         #region Properties
@@ -107,6 +109,8 @@ namespace Waveface.DetailUI
 
             m_filesMapping = new Dictionary<string, string>();
             m_clickableURL = new List<string>();
+
+            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
 
             Visible = false;
         }
@@ -231,6 +235,10 @@ namespace Waveface.DetailUI
             this.imageListView.DropFiles += new Manina.Windows.Forms.DropFilesEventHandler(this.imageListView_DropFiles);
             this.imageListView.ItemClick += new Manina.Windows.Forms.ItemClickEventHandler(this.imageListView_ItemClick);
             this.imageListView.ItemDoubleClick += new Manina.Windows.Forms.ItemDoubleClickEventHandler(this.imageListView_ItemDoubleClick);
+            this.imageListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.imageListView_DragDrop);
+            this.imageListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.imageListView_DragEnter);
+            this.imageListView.DragOver += new System.Windows.Forms.DragEventHandler(this.imageListView_DragOver);
+            this.imageListView.DragLeave += new System.EventHandler(this.imageListView_DragLeave);
             this.imageListView.Resize += new System.EventHandler(this.imageListView_Resize);
             // 
             // panelPictureInfo
@@ -760,5 +768,56 @@ namespace Waveface.DetailUI
 
             e.Cancel = true;
         }
+
+        #region Drag&Drop
+
+        private void imageListView_DragDrop(object sender, DragEventArgs e)
+        {
+            ImageListView.HitInfo _hitInfo;
+            imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
+
+            List<string> _pics = m_dragDropClipboardHelper.Drag_Drop_HtmlImage(e);
+
+            if (_pics != null)
+            {
+                if ((_hitInfo.ItemIndex < 0) || (_hitInfo.ItemIndex >= imageListView.Items.Count))
+                    MyParent.ExistPostAddPhotos(_pics, 0);
+                else
+                    MyParent.ExistPostAddPhotos(_pics, _hitInfo.ItemIndex);
+            }
+        }
+
+        private void imageListView_DragEnter(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
+
+            DragHitTest(e);
+        }
+
+        private void imageListView_DragLeave(object sender, EventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
+        }
+
+        private void imageListView_DragOver(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Over_HtmlImage(e, false);
+
+            DragHitTest(e);
+        }
+
+        private void DragHitTest(DragEventArgs e)
+        {
+            ImageListView.HitInfo _hitInfo;
+            imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
+
+            if (_hitInfo.InItemArea)
+                e.Effect = DragDropEffects.Move;
+
+            if(_hitInfo.ItemHit)
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        #endregion
     }
 }
