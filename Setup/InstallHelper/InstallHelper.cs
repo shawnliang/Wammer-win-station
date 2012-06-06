@@ -313,6 +313,10 @@ namespace Wammer.Station
 				Configuration config = ConfigurationManager.OpenExeConfiguration(myPath);
 
 				StationRegistry.SetValue("cloudBaseURL", config.AppSettings.Settings["cloudBaseURL"].Value);
+
+
+				if (StationRegistry.GetValue("ResourceFolder", null) == null)
+					StationRegistry.SetValue("ResourceFolder", Path.Combine(session["INSTALLLOCATION"], "resource"));
 			}
 			catch (Exception e)
 			{

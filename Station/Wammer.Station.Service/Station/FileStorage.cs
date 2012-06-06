@@ -17,12 +17,11 @@ namespace Wammer.Station
 	public class FileStorage
 	{
 		private readonly string basePath;
-		private static string s_resourceFolder;
+		private static string defaultResFolder;
 
 		static FileStorage()
 		{
-			string defaultResFolder = Path.Combine(Environment.CurrentDirectory, "resource");
-			s_resourceFolder = StationRegistry.GetValue("ResourceFolder", defaultResFolder) as string;
+			defaultResFolder = Path.Combine(Environment.CurrentDirectory, "resource");
 		}
 
 		public FileStorage(Driver driver)
@@ -139,13 +138,12 @@ namespace Wammer.Station
 		{
 			get
 			{
-				return s_resourceFolder;
+				return StationRegistry.GetValue("ResourceFolder", defaultResFolder) as string;
 			}
 
 			set
 			{
-				s_resourceFolder = value;
-				StationRegistry.SetValue("ResourceFolder", s_resourceFolder);
+				StationRegistry.SetValue("ResourceFolder", value);
 			}
 		}
 	}

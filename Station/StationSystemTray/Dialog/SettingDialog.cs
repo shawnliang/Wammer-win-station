@@ -9,6 +9,9 @@ using Wammer.Station;
 using Wammer.Station.Management;
 using StationSystemTray.Properties;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Reflection;
+using System.IO;
 
 namespace StationSystemTray
 {
@@ -177,14 +180,16 @@ namespace StationSystemTray
 		{
 			using (FolderBrowserDialog dialog = new FolderBrowserDialog())
 			{
-				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) // cancelled
 					return;
 
+				if (dialog.SelectedPath.Equals(txtLocation.Text)) // not changed
+					return;
 
 				DialogResult confirm = MessageBox.Show("Stream is going to move the resource folder to " + dialog.SelectedPath + ". Are you sure?",
 					"Are you sure?", MessageBoxButtons.OKCancel);
 
-				if (confirm != System.Windows.Forms.DialogResult.OK)
+				if (confirm != System.Windows.Forms.DialogResult.OK)	// cancelled
 					return;
 
 				closeClientProgram();
@@ -205,7 +210,35 @@ namespace StationSystemTray
 
 		private void MoveResourceFolder_DoWork(object sender, DoWorkEventArgs args)
 		{
-			StationController.MoveResourceFolder(txtLocation.Text);
+			string outputFilename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "move_folder.out");
+
+			Process p = new Process();
+			p.StartInfo = new ProcessStartInfo
+			{
+				FileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Station.Management.exe"),
+				Arguments = string.Format("--moveFolder \"{0}\" --output \"{1}\"", txtLocation.Text, outputFilename),
+				Verb = "runas",
+				CreateNoWindow = true,
+				WindowStyle = ProcessWindowStyle.Hidden,
+			};
+
+			p.Start();
+			p.WaitForExit();
+
+			if (p.ExitCode != 0)
+			{
+				if (File.Exists(outputFilename))
+				{
+					using (StreamReader reader = File.OpenText(outputFilename))
+					{
+						throw new Exception(reader.ReadToEnd());
+					}
+				}
+				else
+				{
+					throw new Exception("Unknown error");
+				}
+			}
 		}
 
 		private void MoveResourceFolder_WorkCompleted(object sender, RunWorkerCompletedEventArgs args)
@@ -217,7 +250,7 @@ namespace StationSystemTray
 
 				if (args.Error != null)
 				{
-					MessageBox.Show(args.Error.ToString());
+					MessageBox.Show(args.Error.Message);
 					return;
 				}
 			}
