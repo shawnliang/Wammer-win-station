@@ -16,6 +16,7 @@ namespace StationSystemTray
 	{
 		private string m_CurrentUserSession { get; set; }
 		private bool isMovingFolder = false;
+		private MethodInvoker closeClientProgram;
 
 		public event EventHandler<AccountEventArgs> AccountRemoving;
 		public event EventHandler<AccountEventArgs> AccountRemoved;
@@ -36,11 +37,12 @@ namespace StationSystemTray
 			AccountRemoved(this, e);
 		}
 
-		public SettingDialog(string currentUserSession)
+		public SettingDialog(string currentUserSession, MethodInvoker closeClientProgram)
 		{
 			InitializeComponent();
 
 			m_CurrentUserSession = currentUserSession;
+			this.closeClientProgram = closeClientProgram;
 		}
 
 		private void AdjustRemoveButton()
@@ -184,6 +186,8 @@ namespace StationSystemTray
 
 				if (confirm != System.Windows.Forms.DialogResult.OK)
 					return;
+
+				closeClientProgram();
 
 				txtLocation.Text = dialog.SelectedPath;
 

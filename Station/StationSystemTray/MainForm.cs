@@ -1485,7 +1485,7 @@ namespace StationSystemTray
 				if (m_SettingDialog != null)
 					return;
 
-				using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession()))
+				using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession(), this.CloseTimelineProgram))
 				{
 					EventHandler<AccountEventArgs> removeAccountAction = (senderEx, ex) =>
 																			{
