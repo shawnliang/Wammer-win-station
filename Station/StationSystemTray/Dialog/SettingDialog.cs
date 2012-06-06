@@ -178,6 +178,13 @@ namespace StationSystemTray
 				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
 					return;
 
+
+				DialogResult confirm = MessageBox.Show("Stream is going to move the resource folder to " + dialog.SelectedPath + ". Are you sure?",
+					"Are you sure?", MessageBoxButtons.OKCancel);
+
+				if (confirm != System.Windows.Forms.DialogResult.OK)
+					return;
+
 				txtLocation.Text = dialog.SelectedPath;
 
 				BackgroundWorker bgWorker = new BackgroundWorker();
@@ -209,8 +216,6 @@ namespace StationSystemTray
 					MessageBox.Show(args.Error.ToString());
 					return;
 				}
-
-				MessageBox.Show("Resources are moved to " + txtLocation.Text + " successfully");
 			}
 			catch (Exception e)
 			{
