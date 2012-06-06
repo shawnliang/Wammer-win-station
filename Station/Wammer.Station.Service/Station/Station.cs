@@ -1,14 +1,19 @@
-﻿using System;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Win32;
+using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.PostUpload;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
+using System.Net.NetworkInformation;
 
 namespace Wammer.Station
 {
@@ -16,7 +21,7 @@ namespace Wammer.Station
 	{
 		#region Const
 		private const string STATION_ID_REGISTORY_KEY = "stationId";
-		private const int BODY_SYNC_THREAD_COUNT = 1;
+		private const int BODY_SYNC_THREAD_COUNT = 10;
 		private const int UPSTREAM_THREAD_COUNT = 1;
 		#endregion
 
@@ -34,6 +39,7 @@ namespace Wammer.Station
 		private TaskRunner<ITask>[] _upstreamTaskRunner;
 		private AttachmentDownloadMonitor _downstreamMonitor;
 		private Boolean _isSynchronizationStatus;
+		private DriverController _driverAgent;
 		#endregion
 
 
@@ -67,7 +73,7 @@ namespace Wammer.Station
 		{
 			get
 			{
-				return _stationTimer ?? (_stationTimer = new StationTimer(BodySyncQueue.Instance, StationID));
+				return _stationTimer ?? (_stationTimer = new StationTimer(BodySyncQueue.Instance));
 			}
 		}
 
@@ -102,12 +108,8 @@ namespace Wammer.Station
 		{
 			get
 			{
-				if (_upstreamTaskRunner == null)
-				{
-					_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
-						item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance)).ToArray();
-				}
-				return _upstreamTaskRunner;
+				return _upstreamTaskRunner ?? (_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
+					item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance)).ToArray());
 			}
 		}
 
@@ -123,6 +125,15 @@ namespace Wammer.Station
 
 		private Boolean m_OriginalSynchronizationStatus { get; set; }
 
+
+		/// <summary>
+		/// Gets the m_ driver agent.
+		/// </summary>
+		/// <value>The m_ driver agent.</value>
+		private DriverController m_DriverAgent
+		{
+			get { return _driverAgent ?? (_driverAgent = new DriverController()); }
+		}
 		#endregion
 
 
@@ -163,13 +174,13 @@ namespace Wammer.Station
 				OnIsSynchronizationStatusChanged(EventArgs.Empty);
 			}
 		}
-
 		#endregion
 
 
 		#region Event
 		public EventHandler IsSynchronizationStatusChanging;
 		public EventHandler IsSynchronizationStatusChanged;
+		public EventHandler<UserLoginEventArgs> UserLogined;
 		#endregion
 
 
@@ -179,7 +190,8 @@ namespace Wammer.Station
 		/// </summary>
 		private Station()
 		{
-			SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(SystemEvents_PowerModeChanged);
+			NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+			SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
 			IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 		}
@@ -212,7 +224,10 @@ namespace Wammer.Station
 			var volumeSN = string.Empty;
 			try
 			{
-				var drive = Path.GetPathRoot(Environment.CurrentDirectory).TrimEnd('\\');
+				var pathRoot = Path.GetPathRoot(Environment.CurrentDirectory);
+
+				Debug.Assert(pathRoot != null);
+				var drive = pathRoot.TrimEnd('\\');
 				var disk = new ManagementObject(string.Format("win32_logicaldisk.deviceid=\"{0}\"", drive));
 				disk.Get();
 				volumeSN = disk["VolumeSerialNumber"].ToString();
@@ -259,6 +274,54 @@ namespace Wammer.Station
 			eventHandler += processHandler;
 		}
 
+		private void CheckAndUpdateDriver(LoginedSession loginInfo, string sessionToken, string userID)
+		{
+			if (loginInfo == null)
+				return;
+
+			var user = loginInfo.user;
+
+			Debug.Assert(user != null, "user != null");
+
+			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", user.user_id));
+
+			if (driver != null)
+				return;
+
+			driver = DriverCollection.Instance.FindOne(Query.EQ("email", user.email));
+
+			if (driver == null)
+				throw new WammerStationException("Driver not existed", (int) StationLocalApiError.NotFound);
+
+			m_DriverAgent.RemoveDriver(StationID, user.user_id);
+
+			m_DriverAgent.AddDriver("", StationID, userID, sessionToken);
+		}
+
+		private void CheckAndUpdateDriver(LoginedSession loginInfo, string email, string password, string deviceID, string deviceName)
+		{
+			if (loginInfo == null)
+				return;
+
+			var user = loginInfo.user;
+
+			Debug.Assert(user != null, "user != null");
+
+			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", user.user_id));
+
+			if (driver != null)
+				return;
+
+			driver = DriverCollection.Instance.FindOne(Query.EQ("email", user.email));
+
+			if (driver == null)
+				throw new WammerStationException("Driver not existed", (int) StationLocalApiError.NotFound);
+
+			m_DriverAgent.RemoveDriver(StationID, user.user_id);
+
+			m_DriverAgent.AddDriver("", StationID, email, password, deviceID, deviceName);
+		}
+
 		#endregion
 
 
@@ -290,24 +353,49 @@ namespace Wammer.Station
 
 			handler(this, e);
 		}
+
+		/// <summary>
+		/// Raises the <see cref="E:UserLogined"/> event.
+		/// </summary>
+		/// <param name="arg">The <see cref="Wammer.Station.UserLoginEventArgs"/> instance containing the event data.</param>
+		protected void OnUserLogined(UserLoginEventArgs arg)
+		{
+			var handler = UserLogined;
+			if (handler != null)
+			{
+				handler(this, arg);
+			}
+		}
 		#endregion
 
 
 		#region Public Method
+		/// <summary>
+		/// Starts this instance.
+		/// </summary>
 		public void Start()
 		{
 			ResumeSync();
 		}
 
+		/// <summary>
+		/// Stops this instance.
+		/// </summary>
 		public void Stop()
 		{
 			SuspendSync();
 		}
 
+		/// <summary>
+		/// Suspends the sync.
+		/// </summary>
 		public void SuspendSync()
 		{
 			if (!IsSynchronizationStatus)
+			{
+				m_OriginalSynchronizationStatus = false;
 				return;
+			}
 
 			SuspendEventProcessAndDo(
 				IsSynchronizationStatusChanged,
@@ -315,7 +403,6 @@ namespace Wammer.Station
 				() =>
 				{
 					IsSynchronizationStatus = false;
-					IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 				});
 
 			m_PostUploadRunner.Stop();
@@ -326,10 +413,16 @@ namespace Wammer.Station
 			this.LogDebugMsg("Stop synchronization successfully");
 		}
 
+		/// <summary>
+		/// Resumes the sync.
+		/// </summary>
 		public void ResumeSync()
 		{
 			if (IsSynchronizationStatus)
+			{
+				m_OriginalSynchronizationStatus = true;
 				return;
+			}
 
 			SuspendEventProcessAndDo(
 				IsSynchronizationStatusChanged,
@@ -337,7 +430,6 @@ namespace Wammer.Station
 				() =>
 				{
 					IsSynchronizationStatus = true;
-					IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 				});
 
 			m_PostUploadRunner.Start();
@@ -346,6 +438,61 @@ namespace Wammer.Station
 			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Start());
 
 			this.LogDebugMsg("Start synchronization successfully");
+		}
+
+		public LoginedSession Login(string apikey, string sessionToken, string userID)
+		{
+			if (apikey == null) throw new ArgumentNullException("apikey");
+			if (sessionToken == null) throw new ArgumentNullException("sessionToken");
+			if (userID == null) throw new ArgumentNullException("userID");
+
+			var loginInfo = User.GetLoginInfo(userID, apikey, sessionToken);
+			CheckAndUpdateDriver(loginInfo, sessionToken, userID);
+
+			LoginedSessionCollection.Instance.Save(loginInfo);
+
+			OnUserLogined(new UserLoginEventArgs(loginInfo.user.email, loginInfo.session_token, apikey, userID));
+			return loginInfo;
+		}
+
+		public LoginedSession Login(string apikey, string email, string password, string deviceID, string deviceName)
+		{
+			if (apikey == null) throw new ArgumentNullException("apikey");
+			if (email == null) throw new ArgumentNullException("email");
+			if (password == null) throw new ArgumentNullException("password");
+			if (deviceID == null) throw new ArgumentNullException("deviceID");
+			if (deviceName == null) throw new ArgumentNullException("deviceName");
+
+			var user = User.LogIn(email, password, apikey, deviceID, deviceName, 2500);
+			
+			Debug.Assert(user != null, "user != null");
+			var loginInfo = user.LoginedInfo;
+
+			CheckAndUpdateDriver(loginInfo, email, password, deviceID, deviceName);
+
+			LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", email));
+			LoginedSessionCollection.Instance.Save(loginInfo);
+
+			OnUserLogined(new UserLoginEventArgs(email, loginInfo.session_token, apikey, user.Id));
+			return loginInfo;
+		}
+
+
+		public void Logout(string apiKey, string sessionToken)
+		{
+			try
+			{
+				User.LogOut(sessionToken, apiKey);
+			}
+			catch (Exception e)
+			{
+				this.LogDebugMsg("Unable to logout from Stream cloud", e);
+			}
+
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+
+			if (loginedSession != null)
+				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", loginedSession.user.email));
 		}
 		#endregion
 
@@ -359,20 +506,34 @@ namespace Wammer.Station
 		void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
 		{
 			this.LogDebugMsg("Power mode => " + e.Mode.ToString());
+		}
 
-			if (e.Mode == PowerModes.Suspend)
+		/// <summary>
+		/// Handles the NetworkAvailabilityChanged event of the NetworkChange control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.Net.NetworkInformation.NetworkAvailabilityEventArgs"/> instance containing the event data.</param>
+		void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
+		{
+			this.LogDebugMsg("Network available => " + e.IsAvailable.ToString());
+			if (!e.IsAvailable)
 			{
 				m_OriginalSynchronizationStatus = IsSynchronizationStatus;
 				SuspendSync();
 				return;
 			}
-			else if (m_OriginalSynchronizationStatus == (e.Mode == PowerModes.Resume))
-			{
+
+			if (m_OriginalSynchronizationStatus)
 				ResumeSync();
-			}
+
 			m_OriginalSynchronizationStatus = IsSynchronizationStatus;
 		}
 
+		/// <summary>
+		/// Handles the IsSynchronizationStatusChanged event of the this control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void this_IsSynchronizationStatusChanged(object sender, EventArgs e)
 		{
 			if (IsSynchronizationStatus)

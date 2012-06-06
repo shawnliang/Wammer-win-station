@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Linq;
-using Wammer.Model;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver;
-using System.Net;
-using Wammer.Utility;
-using Wammer.Cloud;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -81,7 +80,7 @@ namespace Wammer.Station
 			if (existingDriver != null)
 			{
 				existingDriver.ref_count += 1;
-				DriverCollection.Instance.Save(existingDriver);
+				DriverCollection.Instance.Update(Query.EQ("_id", userID), Update.Set("ref_count", existingDriver.ref_count));
 				return new AddUserResponse
 						{
 							UserId = existingDriver.user_id,
@@ -99,6 +98,10 @@ namespace Wammer.Station
 				);
 
 			var user = res.user;
+
+			//Remove residual driver
+			DriverCollection.Instance.Remove(Query.EQ("email", user.email));
+			
 			var driver = new Driver
 							{
 								user_id = user.user_id,

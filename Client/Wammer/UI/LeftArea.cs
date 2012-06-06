@@ -60,7 +60,7 @@ namespace Waveface
         {
             InitializeComponent();
 
-            m_font = new Font(I18n.L.T("DefaultFont"), 9, FontStyle.Bold);
+            m_font = new Font(I18n.L.T("DefaultFont"), 9 * getDPIRatio(), FontStyle.Bold);
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
             pbDropArea.AllowDrop = true;
@@ -70,6 +70,17 @@ namespace Waveface
             InitDefaultFilters();
 
             InitAddNewButton();
+        }
+
+        private float getDPIRatio()
+        {
+            using (Graphics _g = CreateGraphics())
+            {
+                if (_g.DpiX == 120)
+                    return 0.85f;
+            }
+
+            return 1;
         }
 
         public void SetNewPostManager()
@@ -418,7 +429,7 @@ namespace Waveface
                 int _off = -3;
 
                 _g.Clear(Color.Transparent);
-                _g.DrawImage(bmp, _off, 0);
+                _g.DrawImage(bmp, _off, 0, bmp.Width, bmp.Height);
 
                 if ((percent > 0) && (percent < 100))
                 {
@@ -433,7 +444,11 @@ namespace Waveface
                 }
 
                 Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                _g.DrawString(m_dropAreaMessage, m_font, new SolidBrush(Color.FromArgb(33, 69, 99)), ((bmp.Width - _size.Width) / 2) + _off - 1, bmp.Height - _size.Height - 6);
+
+                using (Brush _brush = new SolidBrush(Color.FromArgb(33, 69, 99)))
+                {
+                    _g.DrawString(m_dropAreaMessage, m_font, _brush, ((bmp.Width - _size.Width) / 2) + _off - 1, bmp.Height - _size.Height - 6);
+                }
             }
 
             pbDropArea.Image = m_dropAreaImage;
@@ -480,6 +495,7 @@ namespace Waveface
                 m_buttonAddNewFilter.Width = Width - 8;
 
             btnNewPost.Left = (Width - btnNewPost.Width) / 2;
+            btnToday.Left = (Width - btnToday.Width) / 2;
         }
 
         private void tvTimeline_AfterSelect(object sender, TreeViewEventArgs e)

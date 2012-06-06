@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
@@ -21,7 +20,7 @@ namespace Wammer.PostUpload
 						if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
 						{
 							IEnumerable<string> attachmentIDs =
-								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList()
+								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',')
 								select attachmentString.Trim('"', '"');
 
 							foreach (String id in attachmentIDs)

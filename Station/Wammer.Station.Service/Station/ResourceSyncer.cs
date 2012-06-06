@@ -1,12 +1,10 @@
 using System;
-using System.Net;
+using System.Collections.Generic;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
-using Wammer.Utility;
-using System.Collections.Generic;
 
 namespace Wammer.Station
 {
@@ -16,7 +14,7 @@ namespace Wammer.Station
 		private readonly TimelineSyncer syncer;
 		private bool isFirstRun = true;
 
-		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue, string stationId)
+		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue)
 			: base(timerPeriod)
 		{
 			downloader = new ResourceDownloader(bodySyncQueue);
@@ -46,7 +44,9 @@ namespace Wammer.Station
 		{
 			if (isFirstRun)
 			{
-				downloader.ResumeUnfinishedDownstreamTasks();
+				System.Threading.ThreadPool.QueueUserWorkItem(
+					(s) => downloader.ResumeUnfinishedDownstreamTasks());
+
 				isFirstRun = false;
 			}
 
@@ -91,6 +91,8 @@ namespace Wammer.Station
 
 			foreach (Driver user in users)
 			{
+				if (string.IsNullOrEmpty(user.session_token))
+					continue;
 				try
 				{
 					syncer.PullTimeline(user);

@@ -139,5 +139,30 @@ public static class ObjectExtension
 		obj.GetLogger().Fatal(msg);
 	}
 
+	public static IEnumerable<T> GetCustomAttributes<T>(this object obj)
+	{
+		return obj.GetType().GetCustomAttributes(typeof(T), false).Cast<T>();
+	}
+
+	public static T GetCustomAttribute<T>(this object obj)
+	{
+		return GetCustomAttributes<T>(obj).FirstOrDefault();
+	}
+
+	public static IEnumerable<T> GetCustomAttributes<T>(this object obj, string memberName)
+	{
+		var m = obj.GetType().GetMember(memberName).FirstOrDefault();
+		if (m == null)
+		{
+			return new T[0];
+		}
+		return m.GetCustomAttributes(typeof(T), false).OfType<T>();
+	}
+
+	public static T GetCustomAttribute<T>(this object obj, string memberName)
+	{
+		return GetCustomAttributes<T>(obj, memberName).FirstOrDefault();
+	}
+
 	#endregion
 }

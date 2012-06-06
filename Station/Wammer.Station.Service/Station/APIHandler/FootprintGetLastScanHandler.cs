@@ -7,6 +7,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/footprints/getLastScan/")]
 	public class FootprintGetLastScanHandler : HttpHandler
 	{
 		#region Protected Method

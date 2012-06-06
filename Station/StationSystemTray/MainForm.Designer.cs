@@ -234,6 +234,7 @@ namespace StationSystemTray
 			// pictureBox1
 			// 
 			resources.ApplyResources(this.pictureBox1, "pictureBox1");
+			this.pictureBox1.BackgroundImage = global::StationSystemTray.Properties.Resources.stream_logo;
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.TabStop = false;
 			// 

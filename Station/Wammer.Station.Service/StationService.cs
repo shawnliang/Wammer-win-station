@@ -4,20 +4,16 @@ using System.Net;
 using System.Reflection;
 using System.ServiceProcess;
 using System.Threading;
-using System.Management;
-using System.Security.Cryptography;
-using System.Text;
+using fastJSON;
+using log4net;
+using log4net.Config;
 using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.PerfMonitor;
-using Wammer.PostUpload;
 using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
 using Wammer.Utility;
-using fastJSON;
-using log4net;
-using log4net.Config;
-using Wammer.Model;
 
 namespace Wammer.Station.Service
 {
@@ -91,7 +87,6 @@ namespace Wammer.Station.Service
 				TaskQueue.Init();
 				ConfigThreadPool();
 
-				ResetPerformanceCounter();
 
 				AppDomain.CurrentDomain.UnhandledException +=
 					CurrentDomain_UnhandledException;
@@ -105,6 +100,9 @@ namespace Wammer.Station.Service
 				Station.Instance.Start();
 
 				JSON.Instance.UseUTCDateTime = true;
+
+
+				Station.Instance.UserLogined += loginHandler_UserLogined;
 
 				functionServer = new HttpServer(9981); // TODO: remove hard code
 
@@ -137,11 +135,8 @@ namespace Wammer.Station.Service
 				managementServer = new HttpServer(9989);
 				managementServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
-				var addDriverHandler = new AddDriverHandler(Station.Instance.StationID);
-				InitManagementServerHandler(addDriverHandler);
+				InitManagementServerHandler();
 
-				addDriverHandler.DriverAdded += addDriverHandler_DriverAdded;
-				addDriverHandler.BeforeDriverSaved += addDriverHandler_BeforeDriverSaved;
 				logger.Debug("Start management server");
 				managementServer.Start();
 
@@ -163,31 +158,35 @@ namespace Wammer.Station.Service
 			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/stations/"));
 		}
 
-		private void InitManagementServerHandler(AddDriverHandler addDriverHandler)
+		private void InitManagementServerHandler()
 		{
-			var resumeHandler = new ResumeSyncHandler();
-			resumeHandler.SyncResumed += viewHandler.OnSyncResumed;
-			managementServer.AddHandler(GetDefaultBathPath("/station/resumeSync/"), resumeHandler);
+			var assembly = Assembly.GetExecutingAssembly();
+			foreach (var type in assembly.GetTypes())
+			{
+				if(!type.IsAbstract && type.IsSubclassOf(typeof(HttpHandler)))
+		{
+					var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
 
-			var suspendHandler = new SuspendSyncHandler();
-			suspendHandler.SyncSuspended += viewHandler.OnSyncSuspended;
-			managementServer.AddHandler(GetDefaultBathPath("/station/suspendSync/"), suspendHandler);
+					if (defaultConstructor == null)
+						continue;
 
-			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/add/"), addDriverHandler);
-			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/list/"), new ListDriverHandler());
+					var handler = Activator.CreateInstance(type) as IHttpHandler;
+					var info = handler.GetCustomAttribute<APIHandlerInfoAttribute>();
 
-			var removeOwnerHandler = new RemoveOwnerHandler(Station.Instance.StationID);
-			removeOwnerHandler.DriverRemoved += new EventHandler<DriverRemovedEventArgs>(removeOwnerHandler_DriverRemoved);
+					if (info == null || info.Type != APIHandlerType.ManagementAPI)
+						continue;
 
-			managementServer.AddHandler(GetDefaultBathPath("/station/drivers/remove/"), removeOwnerHandler);
-			managementServer.AddHandler(GetDefaultBathPath("/station/status/get/"), new StatusGetHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/station/resource_folder/move/"), new MoveResourceFolderHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/list"), new ListCloudStorageHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/oauth/"), new DropBoxOAuthHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/connect/"), new DropBoxConnectHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/update/"), new DropBoxUpdateHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/cloudstorage/dropbox/disconnect/"), new DropboxDisconnectHandler());
-			managementServer.AddHandler(GetDefaultBathPath("/availability/ping/"), new PingHandler());
+					managementServer.AddHandler(GetDefaultBathPath(info.Path), handler);
+				}
+			}
+
+			var addDriverHandler = managementServer.m_Handlers[GetDefaultBathPath("/station/drivers/add/")] as AddDriverHandler;
+			addDriverHandler.DriverAdded += addDriverHandler_DriverAdded;
+			addDriverHandler.BeforeDriverSaved += addDriverHandler_BeforeDriverSaved;
+
+			(managementServer.m_Handlers[GetDefaultBathPath("/station/drivers/remove/")] as RemoveOwnerHandler).DriverRemoved += removeOwnerHandler_DriverRemoved;
+			(managementServer.m_Handlers[GetDefaultBathPath("/station/suspendSync/")] as SuspendSyncHandler).SyncSuspended += viewHandler.OnSyncSuspended;
+			(managementServer.m_Handlers[GetDefaultBathPath("/station/resumeSync/")] as ResumeSyncHandler).SyncResumed += viewHandler.OnSyncResumed;
 		}
 
 		void removeOwnerHandler_DriverRemoved(object sender, DriverRemovedEventArgs e)
@@ -263,11 +262,9 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
 			                          new HybridCloudHttpRouter(new UserTrackHandler()));
 
-			var loginHandler = new UserLoginHandler(Station.Instance.StationID);
+			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
 			                          loginHandler);
-
-			loginHandler.UserLogined += loginHandler_UserLogined;
 
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
 									  new UserLogoutHandler());
@@ -354,18 +351,6 @@ namespace Wammer.Station.Service
 			if (maxConcurrentTaskCount > 0)
 				TaskQueue.MaxConcurrentTaskCount = maxConcurrentTaskCount;
 		}
-
-		#region Private Method
-
-		private void ResetPerformanceCounter()
-		{
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
-			PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
-			PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
-			PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
-		}
-
-		#endregion
 	}
 
 

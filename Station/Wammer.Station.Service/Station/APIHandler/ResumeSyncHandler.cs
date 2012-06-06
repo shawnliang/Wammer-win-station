@@ -1,9 +1,8 @@
 using System;
-using Wammer.Cloud;
-using Wammer.PostUpload;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/resumeSync/")]
 	internal class ResumeSyncHandler : HttpHandler
 	{
 		public event EventHandler SyncResumed;

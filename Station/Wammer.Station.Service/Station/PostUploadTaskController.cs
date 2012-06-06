@@ -31,7 +31,9 @@ namespace Wammer
 
 		public void AddPostUploadAction(string postId, PostUploadActionType actionType, NameValueCollection parameters, DateTime timestamp, DateTime lastUpdateTime)
 		{
-			string userId = FindUserId(parameters[CloudServer.PARAM_GROUP_ID]);
+			var userId = FindUserId(parameters[CloudServer.PARAM_GROUP_ID]);
+			var apiKey = parameters[CloudServer.PARAM_API_KEY];
+
 			switch (actionType)
 			{
 				case PostUploadActionType.NewPost:
@@ -42,8 +44,8 @@ namespace Wammer
 					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
 					                                     				: string.Empty,
 																LastUpdateTime = lastUpdateTime
 					                                     	});
@@ -56,8 +58,8 @@ namespace Wammer
 					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
 					                                     				: string.Empty,
 																LastUpdateTime = lastUpdateTime
 					                                     	});
@@ -70,8 +72,8 @@ namespace Wammer
 					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
 					                                     				: string.Empty,
 																LastUpdateTime = lastUpdateTime
 					                                     	});
@@ -84,8 +86,8 @@ namespace Wammer
 					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
 					                                     				: string.Empty,
 																LastUpdateTime = lastUpdateTime
 					                                     	});
@@ -98,8 +100,8 @@ namespace Wammer
 					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
 					                                     				: string.Empty,
 																LastUpdateTime = lastUpdateTime
 					                                     	});

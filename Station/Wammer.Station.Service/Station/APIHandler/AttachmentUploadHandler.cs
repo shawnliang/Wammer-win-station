@@ -4,6 +4,7 @@ using Wammer.Station.AttachmentUpload;
 
 namespace Wammer.Station.APIHandler
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/attachments/upload/")]
 	public class AttachmentUploadHandler : HttpHandler
 	{
 		private readonly AttachmentUploadHandlerImp imp;

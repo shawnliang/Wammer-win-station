@@ -214,6 +214,9 @@ namespace Wammer.Station
 				absPath += "/";
 			}
 
+			if (m_Handlers.ContainsKey(absPath))
+				return;
+
 			m_Handlers.Add(absPath, handler);
 			m_Listener.Prefixes.Add(urlPrefix);
 		}
@@ -289,15 +292,15 @@ namespace Wammer.Station
 
 				var handler = FindBestMatch(context.Request.Url.AbsolutePath);
 
-				if (handler != null)
+				if (handler == null)
 				{
-					var task = new HttpHandlingTask(handler, context, beginTime);
-					OnTaskQueue(new TaskQueueEventArgs(task, handler));
-					TaskQueue.Enqueue(task, TaskPriority.High);
-				}
-				else
 					respond404NotFound(context);
+					return;
+				}
 
+				var task = new HttpHandlingTask(handler, context, beginTime);
+				OnTaskQueue(new TaskQueueEventArgs(task, handler));
+				TaskQueue.Enqueue(task, TaskPriority.High);
 			}
 			catch (ObjectDisposedException)
 			{

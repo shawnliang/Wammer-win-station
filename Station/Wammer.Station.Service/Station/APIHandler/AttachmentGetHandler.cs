@@ -4,6 +4,7 @@ using Wammer.Model;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/attachments/get/")]
 	public class AttachmentGetHandler : HttpHandler
 	{
 		public override void HandleRequest()

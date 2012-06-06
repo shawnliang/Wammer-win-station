@@ -4,6 +4,7 @@ using log4net;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/status/get/")]
 	public class StatusGetHandler : HttpHandler
 	{
 		private static readonly ILog logger = LogManager.GetLogger("StationManagement");

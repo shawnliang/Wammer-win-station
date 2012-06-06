@@ -1,8 +1,8 @@
 ﻿using System;
-using Wammer.PostUpload;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/suspendSync/")]
 	internal class SuspendSyncHandler : HttpHandler
 	{
 		#region Event

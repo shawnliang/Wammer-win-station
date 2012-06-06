@@ -15,11 +15,13 @@ namespace Wammer.PerfMonitor
 			catch (Win32Exception)
 			{
 				// fix corrupted performance counter
-				using (Process p = new Process())
+				using (var p = new Process())
 				{
-					p.StartInfo = new ProcessStartInfo("lodctr.exe", "/R");
-					p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-					p.StartInfo.CreateNoWindow = true;
+					p.StartInfo = new ProcessStartInfo("lodctr.exe", "/R")
+					{
+						WindowStyle = ProcessWindowStyle.Hidden, 
+						CreateNoWindow = true
+					};
 					p.Start();
 					p.WaitForExit();
 				}

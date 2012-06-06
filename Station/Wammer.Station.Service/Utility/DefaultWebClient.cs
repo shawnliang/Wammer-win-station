@@ -97,7 +97,7 @@ namespace Wammer.Utility
 
 		public DefaultWebClient()
 		{
-			var httpReq = this.Request as HttpWebRequest;
+			var httpReq = Request as HttpWebRequest;
 			if (httpReq != null)
 			{
 				httpReq.Timeout = Timeout;

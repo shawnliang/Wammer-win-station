@@ -122,13 +122,47 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="miRemovePost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="miRemovePost.Text" xml:space="preserve">
     <value>Remove Post</value>
   </data>
+  <data name="miDisplayAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="miDisplayAll.Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="miDisplayText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="miDisplayText.Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="miDisplayPhoto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="miDisplayPhoto.Text" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="miDisplayWebLink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="miDisplayWebLink.Text" xml:space="preserve">
+    <value>Web Link</value>
+  </data>
+  <data name="displayToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="displayToolStripMenuItem.Text" xml:space="preserve">
+    <value>Display Type</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="displayToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 26</value>
+    <value>153, 70</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
     <value>contextMenuStrip</value>
@@ -167,7 +201,6 @@
   <data name="dataGridView.Size" type="System.Drawing.Size, System.Drawing">
     <value>385, 274</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="dataGridView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -196,6 +229,36 @@
     <value>miRemovePost</value>
   </data>
   <data name="&gt;&gt;miRemovePost.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;displayToolStripMenuItem.Name" xml:space="preserve">
+    <value>displayToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;displayToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;miDisplayAll.Name" xml:space="preserve">
+    <value>miDisplayAll</value>
+  </data>
+  <data name="&gt;&gt;miDisplayAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;miDisplayText.Name" xml:space="preserve">
+    <value>miDisplayText</value>
+  </data>
+  <data name="&gt;&gt;miDisplayText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;miDisplayPhoto.Name" xml:space="preserve">
+    <value>miDisplayPhoto</value>
+  </data>
+  <data name="&gt;&gt;miDisplayPhoto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;miDisplayWebLink.Name" xml:space="preserve">
+    <value>miDisplayWebLink</value>
+  </data>
+  <data name="&gt;&gt;miDisplayWebLink.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;timer.Name" xml:space="preserve">

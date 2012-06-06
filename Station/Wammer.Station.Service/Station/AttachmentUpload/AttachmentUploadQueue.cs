@@ -36,7 +36,7 @@ namespace Wammer.Station.AttachmentUpload
 			lowQueue = storage.Load(QNAME_LOW);
 
 			int initialTaskCount = highQueue.Count + mediumQueue.Count + lowQueue.Count;
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).IncrementBy(initialTaskCount);
+			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT).IncrementBy(initialTaskCount);
 			hasItem = new Semaphore(initialTaskCount, int.MaxValue);
 		}
 
@@ -75,7 +75,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void EnqueueDummyTask()
 		{
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Increment();
+			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT).Increment();
 			Enqueue(new NullTask(), TaskPriority.High);
 		}
 

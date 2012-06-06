@@ -6,7 +6,7 @@ using StationSystemTray.Properties;
 
 namespace StationSystemTray
 {
-	public class LoginInputPanel : System.Windows.Forms.Panel
+	public class LoginInputPanel : Panel
 	{
 		private readonly Bitmap m_Image = Resources.input_box;
 

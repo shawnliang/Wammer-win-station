@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Net;
-using log4net;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -119,6 +116,77 @@ namespace Wammer.Station
 
 		public void ResumeUnfinishedDownstreamTasks()
 		{
+			DateTime beginTime = DateTime.Now;
+
+			try
+			{
+				DownloadOriginalAttachmentsFromCloud();
+
+			var posts = PostCollection.Instance.Find(
+				Query.And(
+					Query.Exists("attachments", true),
+					Query.EQ("hidden", "false")));
+
+			foreach (var post in posts)
+			{
+				foreach (var attachment in post.attachments)
+				{
+					var savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
+
+					// driver might be removed before download tasks completed
+					if (driver == null)
+						break;
+
+					var imageMeta = attachment.image_meta;
+					if (imageMeta == null)
+						break;
+
+					var savedImageMeta = (savedDoc == null) ? null : savedDoc.image_meta;
+
+					// small
+					if (imageMeta.small != null &&
+						(savedImageMeta == null || savedImageMeta.small == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
+					}
+
+					// medium
+					if (imageMeta.medium != null &&
+						(savedImageMeta == null || savedImageMeta.medium == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
+					}
+
+						// temp skil large thumbnails because no client uses this at this moment.
+						//if (imageMeta.large != null &&
+						//    (savedImageMeta == null || savedImageMeta.large == null))
+						//{
+						//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
+						//}
+
+					// square
+					if (imageMeta.square != null &&
+					    (savedImageMeta == null || savedImageMeta.square == null))
+					{
+						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+					}
+				}
+			}
+		}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Resume unfinished downstream tasks not success: " + e.ToString());
+			}
+			finally
+			{
+				TimeSpan duration = DateTime.Now - beginTime;
+				this.LogDebugMsg("Resume unfinished downstream tasks done. Totoal seconds spent: " + duration.TotalSeconds.ToString());
+			}
+		}
+
+		private void DownloadOriginalAttachmentsFromCloud()
+		{
 			foreach (var user in DriverCollection.Instance.FindAll())
 			{
 				if (user.isPrimaryStation)
@@ -126,58 +194,15 @@ namespace Wammer.Station
 					var queued_items = AttachmentApi.GetQueue(user.session_token, int.MaxValue);
 					foreach (var object_id in queued_items.objects)
 					{
-						var attachmentInfo = AttachmentApi.GetInfo(object_id, user.session_token);
-						EnqueueDownstreamTask(attachmentInfo, user, ImageMeta.Origin);
-					}
-				}
-			}
-
-
-			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
-				Query.And(
-					Query.Exists("attachments", true),
-					Query.EQ("hidden", "false")));
-
-			foreach (PostInfo post in posts)
-			{
-				foreach (AttachmentInfo attachment in post.attachments)
-				{
-					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
-					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
-
-					// driver might be removed before download tasks completed
-					if (driver == null)
-						break;
-
-					if (attachment.image_meta == null)
-						break;
-
-					// small
-					if (attachment.image_meta.small != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
-					}
-
-					// medium
-					if (attachment.image_meta.medium != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
-					}
-
-					// large
-					if (attachment.image_meta.large != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
-					}
-
-					// square
-					if (attachment.image_meta.square != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+						try
+						{
+							var attachmentInfo = AttachmentApi.GetInfo(object_id, user.session_token);
+							EnqueueDownstreamTask(attachmentInfo, user, ImageMeta.Origin);
+						}
+						catch (Exception e)
+						{
+							this.LogWarnMsg(string.Format("Unable to download origin attachment {0} : {1}", object_id, e.ToString()));
+						}
 					}
 				}
 			}

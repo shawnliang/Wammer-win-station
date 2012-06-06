@@ -203,8 +203,14 @@
   <data name="imageSizeToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 23</value>
   </data>
+  <data name="imageSizeToolStripStatusLabel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="positionToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 23</value>
+  </data>
+  <data name="positionToolStripStatusLabel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="zoomToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 23</value>

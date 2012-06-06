@@ -5,11 +5,11 @@ from tempfile import mkstemp
 from shutil import move
 from os import remove, close
 
-LOGLEVEL_PATTERN = re.compile('<level value="DEBUG"/>')
+LOGLEVEL_PATTERN = re.compile('<level value="DEBUG" />')
 
 
 def find_and_replace(target, loglevel, pattern):
-    newstring = '<level value="{0}"/>'.format(loglevel)
+    newstring = '<level value="{0}" />'.format(loglevel)
 
     fh, abs_path = mkstemp()
     new_file = open(abs_path, 'w')

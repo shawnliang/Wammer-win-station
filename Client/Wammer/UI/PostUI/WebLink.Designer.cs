@@ -198,12 +198,12 @@
             // 
             // WebLink
             // 
-            resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.Controls.Add(this.panelToolbar);
             this.Controls.Add(this.panel);
             this.Controls.Add(this.btnSend);
+            resources.ApplyResources(this, "$this");
             this.MinimumSize = new System.Drawing.Size(500, 130);
             this.Name = "WebLink";
             this.Resize += new System.EventHandler(this.General_WebLink_Resize);

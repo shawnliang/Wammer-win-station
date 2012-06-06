@@ -10,7 +10,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void Execute()
 		{
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).Decrement();
+			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT).Decrement();
 		}
 
 		#endregion

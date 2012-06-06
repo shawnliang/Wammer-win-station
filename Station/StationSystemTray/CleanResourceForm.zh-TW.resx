@@ -1442,7 +1442,7 @@
     <value>是</value>
   </data>
   <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 19</value>
+    <value>121, 24</value>
   </data>
   <data name="checkBox1.Text" xml:space="preserve">
     <value>刪除所有資料</value>

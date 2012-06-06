@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using log4net;
@@ -26,7 +25,7 @@ namespace Wammer.Station.Timeline
 	[Serializable]
 	public class ResourceDownloadTask : DelayedRetryTask, IResourceDownloadTask
 	{
-		private static ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
+		private static readonly ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
 
 		private ResourceDownloadEventArgs evtargs;
 

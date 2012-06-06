@@ -13,8 +13,8 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	internal class AttachmentUtility : IAttachmentUtil
 	{
-		private static readonly IPerfCounter uploadTaskCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
-		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private static readonly IPerfCounter uploadTaskCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
+		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
 
 		#region IAttachmentUtil Members
 
@@ -45,8 +45,8 @@ namespace Wammer.Station.AttachmentUpload
 		                             ImageMeta meta, string apikey, string session_token)
 		{
 			Attachment.UploadImage(new ArraySegment<byte>(imageRaw), group_id, object_id, file_name, mime_type, meta, apikey,
-			                       session_token,
-			                       1024, UpstreamProgressChanged);
+								   session_token,
+								   1024, UpstreamProgressChanged);
 		}
 
 		public void UpdateThumbnailInfoToDB(string object_id, ImageMeta thumbnailType, ThumbnailInfo Info)
@@ -83,16 +83,16 @@ namespace Wammer.Station.AttachmentUpload
 
 			using (FileStream f = fileStorage.Load(filename))
 			{
-				try
-				{
-					uploadTaskCounter.Increment();
-					Attachment.Upload(f, user.groups[0].group_id, object_id, origFileName, mime_type, meta, type, apikey,
-					                  session, 1024, UpstreamProgressChanged);
-				}
-				finally
-				{
-					uploadTaskCounter.Decrement();
-				}
+				//try
+				//{
+				//    uploadTaskCounter.Increment();
+				Attachment.Upload(f, user.groups[0].group_id, object_id, origFileName, mime_type, meta, type, apikey,
+								  session, 1024, UpstreamProgressChanged);
+				//}
+				//finally
+				//{
+				//    uploadTaskCounter.Decrement();
+				//}
 			}
 		}
 		#endregion

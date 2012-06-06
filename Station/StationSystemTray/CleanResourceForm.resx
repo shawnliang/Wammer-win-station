@@ -1522,7 +1522,7 @@
     <value>419, 85</value>
   </data>
   <data name="btnNo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 28</value>
   </data>
   <data name="btnNo.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1537,7 +1537,7 @@
     <value>338, 85</value>
   </data>
   <data name="btnYes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 28</value>
   </data>
   <data name="btnYes.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1552,7 +1552,7 @@
     <value>62, 68</value>
   </data>
   <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 19</value>
+    <value>145, 24</value>
   </data>
   <data name="checkBox1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1561,7 +1561,7 @@
     <value>Remove all datas</value>
   </data>
   <data name="lblConfirm.Location" type="System.Drawing.Point, System.Drawing">
-    <value>59, 24</value>
+    <value>59, 12</value>
   </data>
   <data name="lblConfirm.Size" type="System.Drawing.Size, System.Drawing">
     <value>423, 41</value>

@@ -111,9 +111,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\APIHandlerInfoAttribute.cs" />
+    <Compile Include="Enum\APIHandlerType.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\GenericData.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
+    <Compile Include="PerfMonitor\NullPerfCounter.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
     <Compile Include="Station\APIHandler\MoveResourceFolderHandler.cs" />
     <Compile Include="Station\APIHandler\PostFetchByFilterHandler.cs" />
@@ -204,9 +207,9 @@
     <Compile Include="Station\APIHandler\PostGetLatestHandler.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\APIHandler\ListDriverHandler.cs" />
-    <Compile Include="Station\PingHandler.cs" />
+    <Compile Include="Station\APIHandler\PingHandler.cs" />
     <Compile Include="Station\APIHandler\RemoveOwnerHandler.cs" />
-    <Compile Include="Station\ResouceDirHandler.cs" />
+    <Compile Include="Station\APIHandler\ResouceDirHandler.cs" />
     <Compile Include="Station\ResourceSyncer.cs" />
     <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\Retry\AbstrackRetryTask.cs" />
@@ -247,9 +250,6 @@
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
     <Compile Include="Station\TaskEnDeQueuable.cs" />
-    <Compile Include="Utility\NoRedirectWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Utility\PermissionHelper.cs" />
     <Compile Include="Utility\ServiceHelper.cs" />
     <Compile Include="Utility\StreamHelper.cs" />

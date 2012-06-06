@@ -10,6 +10,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/posts/get/")]
 	public class PostGetHandler : HttpHandler
 	{
 		private const int MAX_LIMIT = 200;

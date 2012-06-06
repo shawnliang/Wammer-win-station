@@ -6,6 +6,17 @@ namespace Wammer.Station.Timeline
 {
 	public class BodySyncQueue : ITaskEnqueuable<IResourceDownloadTask>, ITaskDequeuable<IResourceDownloadTask>
 	{
+		#region Var
+		private static BodySyncQueue _instance;
+		#endregion
+
+		#region Property
+		public static BodySyncQueue Instance
+		{
+			get { return _instance ?? (_instance = new BodySyncQueue()); }
+		}
+		#endregion
+
 #if DEBUG
 		private int TotalTaskCount { get; set; }
 		private int TotalDroppedTaskCount { get; set; }
@@ -16,21 +27,10 @@ namespace Wammer.Station.Timeline
 		private readonly Queue<IResourceDownloadTask> mediumPriorityQueue = new Queue<IResourceDownloadTask>();
 		private readonly Queue<IResourceDownloadTask> highPriorityQueue = new Queue<IResourceDownloadTask>();
 
-		private static readonly BodySyncQueue instance;
-
+		
 		public event EventHandler TaskDropped;
 
-		#region Singleton
-		static BodySyncQueue()
-		{
-			instance = new BodySyncQueue();
-		}
-
-		public static BodySyncQueue Instance
-		{
-			get { return instance; }
-		}
-
+		#region Constructor
 		private BodySyncQueue()
 		{
 		}

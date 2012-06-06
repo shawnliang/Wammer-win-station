@@ -6,6 +6,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/posts/getSingle/")]
 	public class PostGetSingleHandler : HttpHandler
 	{
 		#region Protected Method

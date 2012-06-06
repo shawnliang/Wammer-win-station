@@ -46,7 +46,7 @@ namespace StationSystemTray
 
 		private const string WEB_BASE_URL = @"https://waveface.com";
 		private const string STAGING_BASE_URL = @"http://staging.waveface.com";
-		private const string DEV_WEB_BASE_PAGE_URL = @"http://develop.waveface.com:4343";
+		private const string DEV_WEB_BASE_PAGE_URL = @"https://devweb.waveface.com";
 
 		private const string SIGNUP_URL_PATH = @"/signup";
 		private const string LOGIN_URL_PATH = @"/sns/facebook/signin";
@@ -113,10 +113,10 @@ namespace StationSystemTray
 
 		public static ILog logger = LogManager.GetLogger("MainForm");
 		private readonly object cs = new object();
-		private readonly IPerfCounter m_DownRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
-		private readonly IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false);
-		private readonly IPerfCounter m_UpRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
-		private readonly IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
+		private readonly IPerfCounter m_DownRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
+		private readonly IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
+		private readonly IPerfCounter m_UpRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
+		private readonly IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
 
 		public Process clientProcess;
 		public Icon iconErrorStopped;
@@ -151,7 +151,7 @@ namespace StationSystemTray
 			InitializeComponent();
 			this.initMinimized = initMinimized;
 
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
@@ -162,7 +162,7 @@ namespace StationSystemTray
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			this.LogDebugMsg("Unhandle exception: " + e.ExceptionObject.ToString());
+			this.LogDebugMsg("Unhandle exception: " + e.ExceptionObject);
 			CloseTimelineProgram();
 		}
 
@@ -717,7 +717,7 @@ namespace StationSystemTray
 					txtPassword.Select();
 				}
 
-				this.AcceptButton = loginButton1;
+				AcceptButton = loginButton1;
 			}
 			else if (tabpage == tabMainStationSetup)
 			{
@@ -1204,57 +1204,96 @@ namespace StationSystemTray
 			}
 		}
 
+		Queue<float> _upRemainedCount = new Queue<float>();
+		Queue<float> _downRemainedCount = new Queue<float>();
+		Queue<float> _upSpeeds = new Queue<float>();
+		Queue<float> _downSpeeds = new Queue<float>();
 		private void RefreshSyncingStatus()
 		{
-			m_Timer.Stop();
-
-			var iconText = TrayIcon.BalloonTipText;
-			var upRemainedCount = m_UpRemainedCountCounter.NextValue();
-			var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
-
-			if (upRemainedCount > 0 || downloadRemainedCount > 0)
+			try
 			{
-				if (CurrentState.Value == StationStateEnum.Running)
+				m_Timer.Stop();
+
+				var iconText = TrayIcon.BalloonTipText;
+				var upRemainedCount = m_UpRemainedCountCounter.NextValue();
+				var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
+
+				if (_upRemainedCount.Count >= 10)
+					_upRemainedCount.Dequeue();
+
+				if (_downRemainedCount.Count >= 10)
+					_downRemainedCount.Dequeue();
+
+				_upRemainedCount.Enqueue(upRemainedCount);
+				_downRemainedCount.Enqueue(downloadRemainedCount);
+
+				if (upRemainedCount > 0 || downloadRemainedCount > 0)
 				{
-					CurrentState.StartSyncing();
+					if (CurrentState.Value == StationStateEnum.Running)
+					{
+						CurrentState.StartSyncing();
+					}
+
+					if (CurrentState.Value == StationStateEnum.Syncing)
+					{
+						var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
+						var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
+
+						if (_upSpeeds.Count >= 5)
+							_upSpeeds.Dequeue();
+						_upSpeeds.Enqueue(upSpeed);
+
+						if (_downSpeeds.Count >= 5)
+							_downSpeeds.Dequeue();
+						_downSpeeds.Enqueue(downloadSpeed);
+
+						if (_upSpeeds.Count >= 0)
+							upSpeed = _upSpeeds.Average();
+
+						if (_downSpeeds.Count >= 0)
+							downloadSpeed = _downSpeeds.Average();
+
+						var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
+						var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
+
+						upSpeed = upRemainedCount == 0 ? 0 : ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
+						downloadSpeed = downloadSpeed == 0 ? 0 : ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
+
+						iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
+												 iconText,
+												 Environment.NewLine,
+												 upRemainedCount,
+												 upSpeed,
+												 upSpeedUnit,
+												 Environment.NewLine,
+												 downloadRemainedCount,
+												 downloadSpeed,
+												 downloadSpeedUnit);
+
+						TrayIcon.Icon = (TrayIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
+					}
+				}
+				else
+				{
+					if (CurrentState.Value == StationStateEnum.Syncing)
+					{
+						if (_upRemainedCount.Count > 0 && _upRemainedCount.Average() > 0)
+							return;
+
+						if (_downRemainedCount.Count > 0 && _downRemainedCount.Average() > 0)
+							return;
+
+						CurrentState.StopSyncing();
+						TrayIcon.ShowBalloonTip(1000, Resources.APP_NAME, Resources.WFServiceRunning, ToolTipIcon.None);
+					}
 				}
 
-				if (CurrentState.Value == StationStateEnum.Syncing)
-				{
-					var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
-					var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
-
-					var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
-					var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
-
-					upSpeed = upRemainedCount == 0 ? 0 : ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
-					downloadSpeed = downloadSpeed == 0 ? 0 : ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
-
-					iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
-											 iconText,
-											 Environment.NewLine,
-											 upRemainedCount,
-											 upSpeed,
-											 upSpeedUnit,
-											 Environment.NewLine,
-											 downloadRemainedCount,
-											 downloadSpeed,
-											 downloadSpeedUnit);
-
-					TrayIcon.Icon = (TrayIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
-				}
+				SetNotifyIconText(TrayIcon, iconText);
 			}
-			else
+			finally
 			{
-				if (CurrentState.Value == StationStateEnum.Syncing)
-				{
-					CurrentState.StopSyncing();
-					TrayIcon.ShowBalloonTip(1000, Resources.APP_NAME, Resources.WFServiceRunning, ToolTipIcon.None);
-				}
+				m_Timer.Start();
 			}
-
-			SetNotifyIconText(TrayIcon, iconText);
-			m_Timer.Start();
 		}
 
 		public static void SetNotifyIconText(NotifyIcon ni, string text)

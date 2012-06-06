@@ -42,6 +42,11 @@ namespace Waveface
         private string m_oldFirstDisplayedPostID;
 
         private string m_defaultFont;
+        private ToolStripMenuItem displayToolStripMenuItem;
+        private ToolStripMenuItem miDisplayAll;
+        private ToolStripMenuItem miDisplayText;
+        private ToolStripMenuItem miDisplayPhoto;
+        private ToolStripMenuItem miDisplayWebLink;
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
@@ -120,7 +125,23 @@ namespace Waveface
 
             PicHeight = (int)(m_fontText.Height * 4.8);
             PicWidth = (int)(m_fontText.Height * 4.8);
+
+            float _dpi;
+
+            using (Graphics _g = CreateGraphics())
+            {
+                _dpi = _g.DpiX;
+            }
+
             dataGridView.RowTemplate.Height = (m_fontText.Height * 7) + 6;
+
+            if (_dpi == 120)
+            {
+                dataGridView.RowTemplate.Height = (int)(m_fontText.Height * 6.9);
+
+                if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+                    dataGridView.RowTemplate.Height = (int)(m_fontText.Height * 7.28);
+            }
         }
 
         public void SetPosts(List<Post> posts)
@@ -157,7 +178,7 @@ namespace Waveface
                     NotifyDetailView();
                 }
             }
-            catch
+            catch (Exception _e)
             {
             }
 
@@ -224,13 +245,12 @@ namespace Waveface
         {
             m_oldFirstDisplayedIndex = dataGridView.FirstDisplayedScrollingRowIndex;
 
-            if (m_oldFirstDisplayedIndex < 0)
+            m_oldFirstDisplayedPostID = "";
+
+            if (m_oldFirstDisplayedIndex >= 0)
             {
-                m_oldFirstDisplayedPostID = "";
-            }
-            else
-            {
-                m_oldFirstDisplayedPostID = posts[m_oldFirstDisplayedIndex].post_id;
+                if (m_oldFirstDisplayedIndex < posts.Count)
+                    m_oldFirstDisplayedPostID = posts[m_oldFirstDisplayedIndex].post_id;
             }
         }
 
@@ -306,11 +326,11 @@ namespace Waveface
 
                     case "image":
                     case "doc":
-                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected);
+                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected, _thumbnailRect.Height);
                         break;
 
                     case "link":
-                        Draw_Link(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected);
+                        Draw_Link(_g, _post, _cellRect, _thumbnailRect.Width, _thumbnailRect.Width, _selected);
                         break;
                 }
             }
@@ -359,14 +379,17 @@ namespace Waveface
             }
         }
 
-        private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight,
-                                         int thumbnailRectWidth, bool selected)
+        private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth, bool selected, int thumbnailRectHeight)
         {
             string _info = post.attachment_count + " " +
                            ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
+
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
+
+            int _d = (rect.Height - thumbnailRectHeight + 10) / 2;
+
             Rectangle _rect = new Rectangle(rect.X + rect.Width - _sizeInfo.Width - 2,
-                                            rect.Y + rect.Height - underThumbnailHeight - (_sizeInfo.Height / 2), _sizeInfo.Width,
+                                            rect.Y + rect.Height - _d, _sizeInfo.Width,
                                             _sizeInfo.Height);
 
             TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor);
@@ -744,6 +767,11 @@ namespace Waveface
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDisplayAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDisplayText = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDisplayPhoto = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDisplayWebLink = new System.Windows.Forms.ToolStripMenuItem();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.dataGridView = new Waveface.Component.CustomDataGridView();
@@ -757,7 +785,8 @@ namespace Waveface
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miRemovePost});
+            this.miRemovePost,
+            this.displayToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStripImageList";
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             // 
@@ -767,6 +796,42 @@ namespace Waveface
             this.miRemovePost.Name = "miRemovePost";
             resources.ApplyResources(this.miRemovePost, "miRemovePost");
             this.miRemovePost.Click += new System.EventHandler(this.miRemovePost_Click);
+            // 
+            // displayToolStripMenuItem
+            // 
+            this.displayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miDisplayAll,
+            this.miDisplayText,
+            this.miDisplayPhoto,
+            this.miDisplayWebLink});
+            this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
+            resources.ApplyResources(this.displayToolStripMenuItem, "displayToolStripMenuItem");
+            // 
+            // miDisplayAll
+            // 
+            this.miDisplayAll.Checked = true;
+            this.miDisplayAll.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.miDisplayAll.Name = "miDisplayAll";
+            resources.ApplyResources(this.miDisplayAll, "miDisplayAll");
+            this.miDisplayAll.Click += new System.EventHandler(this.miDisplayAll_Click);
+            // 
+            // miDisplayText
+            // 
+            this.miDisplayText.Name = "miDisplayText";
+            resources.ApplyResources(this.miDisplayText, "miDisplayText");
+            this.miDisplayText.Click += new System.EventHandler(this.miDisplayText_Click);
+            // 
+            // miDisplayPhoto
+            // 
+            this.miDisplayPhoto.Name = "miDisplayPhoto";
+            resources.ApplyResources(this.miDisplayPhoto, "miDisplayPhoto");
+            this.miDisplayPhoto.Click += new System.EventHandler(this.miDisplayPhoto_Click);
+            // 
+            // miDisplayWebLink
+            // 
+            this.miDisplayWebLink.Name = "miDisplayWebLink";
+            resources.ApplyResources(this.miDisplayWebLink, "miDisplayWebLink");
+            this.miDisplayWebLink.Click += new System.EventHandler(this.miDisplayWebLink_Click);
             // 
             // timer
             // 
@@ -1006,5 +1071,47 @@ namespace Waveface
 
             return true;
         }
+
+        #region Display
+
+        private void miDisplayAll_Click(object sender, EventArgs e)
+        {
+            doDisplay("");
+
+            miDisplayAll.Checked = true;
+        }
+
+        private void miDisplayText_Click(object sender, EventArgs e)
+        {
+            doDisplay("text");
+
+            miDisplayText.Checked = true;
+        }
+
+        private void miDisplayPhoto_Click(object sender, EventArgs e)
+        {
+            doDisplay("image");
+
+            miDisplayPhoto.Checked = true;
+        }
+
+        private void miDisplayWebLink_Click(object sender, EventArgs e)
+        {
+            doDisplay("link");
+
+            miDisplayWebLink.Checked = true;
+        }
+
+        private void doDisplay(string type)
+        {
+            miDisplayAll.Checked = false;
+            miDisplayText.Checked = false;
+            miDisplayPhoto.Checked = false;
+            miDisplayWebLink.Checked = false;
+
+            Main.Current.DisplayFilter(type);
+        }
+
+        #endregion
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Net;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/auth/logout/")]
 	public class UserLogoutHandler : HttpHandler
 	{
 		#region Protected Method
@@ -17,24 +16,11 @@ namespace Wammer.Station
 		public override void HandleRequest()
 		{
 			CheckParameter("session_token", "apikey");
-
+			
+			var apiKey = Parameters["apikey"];
 			var sessionToken = Parameters["session_token"];
 
-
-			try
-			{
-				var apiKey = Parameters["apikey"];
-				User.LogOut(sessionToken, apiKey);
-			}
-			catch (Exception e)
-			{
-				this.LogDebugMsg("Unable to logout from Stream cloud", e);
-			}
-
-			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
-
-			if (loginedSession != null)
-				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", loginedSession.user.email));
+			Station.Instance.Logout(apiKey, sessionToken);
 
 			RespondSuccess();
 		}

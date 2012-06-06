@@ -25,21 +25,20 @@ namespace Wammer.Model
 
 	public class ProductInfoCollection : Collection<ProductInfo>
 	{
-		private static readonly ProductInfoCollection instance;
+		#region Var
+		private static ProductInfoCollection _instance; 
+		#endregion
 
-		static ProductInfoCollection()
+		#region Property
+		public static ProductInfoCollection Instance
 		{
-			instance = new ProductInfoCollection();
+			get { return _instance ?? (_instance = new ProductInfoCollection()); }
 		}
+		#endregion
 
 		private ProductInfoCollection()
 			: base("products")
 		{
-		}
-
-		public static ProductInfoCollection Instance
-		{
-			get { return instance; }
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net;
 using Wammer.Utility;
 
 namespace Wammer.Cloud
@@ -17,19 +16,16 @@ namespace Wammer.Cloud
 
 		public static StationSignUpResponse SignUpBySession(string sessionToken, string stationId, StationDetail detail)
 		{
-			using (var agent = new DefaultWebClient())
-			{
-				var param = new Dictionary<object, object>
-				            	{
-				            		{CloudServer.PARAM_STATION_ID, stationId},
-				            		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				            		{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
-				            		{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
-				            	};
+			var param = new Dictionary<object, object>
+			            	{
+			            		{CloudServer.PARAM_STATION_ID, stationId},
+			            		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+			            		{CloudServer.PARAM_SESSION_TOKEN, sessionToken},
+			            		{CloudServer.PARAM_DETAIL, detail.ToFastJSON()}
+			            	};
 
-				var res = CloudServer.requestPath<StationSignUpResponse>("stations/signup", param, false);
-				return res;
-			}
+			var res = CloudServer.requestPath<StationSignUpResponse>("stations/signup", param, false);
+			return res;
 		}
 
 		public static StationSignUpResponse SignUpByEmailPassword(string stationId, string email,
