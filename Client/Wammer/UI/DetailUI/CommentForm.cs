@@ -21,7 +21,7 @@ namespace Waveface
         {
             InitializeComponent();
 
-            textBoxComment.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
+            textBoxComment.WaterMarkText = I18n.L.T("AddCommentPuretextWaterMark");
         }
 
         #region richTextBox

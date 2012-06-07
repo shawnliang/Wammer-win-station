@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -21,6 +22,9 @@ namespace Waveface.PostUI
         private MyImageListViewRenderer m_imageListViewRenderer;
         private List<string> m_editModeOriginPhotoFiles;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
+        private string m_coverAttachGUID;
+        private string m_oldCoverAttachGUID;
+        private ImageListViewItem m_selectedItem;
 
         public PostForm MyParent { get; set; }
 
@@ -31,9 +35,7 @@ namespace Waveface.PostUI
             InitializeComponent();
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
-
             FileNameMapping = new Dictionary<string, string>();
-
             m_editModeOriginPhotoFiles = new List<string>();
 
             InitImageListView();
@@ -43,10 +45,15 @@ namespace Waveface.PostUI
             HackDPI();
         }
 
+        public void ChangeToEditModeUI(Post post)
+        {
+            btnSend.Text = I18n.L.T("Update");
+        }
+
+        #region Hack
+
         private void UIHack()
         {
-            // Orz
-
             if (btnDeletePhoto.Width > Properties.Resources.FB_blue_btn.Width)
             {
                 btnDeletePhoto.Image = Properties.Resources.FB_blue_btn_2;
@@ -80,10 +87,12 @@ namespace Waveface.PostUI
             return 1;
         }
 
-        public void ChangeToEditModeUI(Post post)
+        private void Photo_Resize(object sender, EventArgs e)
         {
-            btnSend.Text = I18n.L.T("Update");
+            BackColor = Color.FromArgb(226, 226, 226); //Hack
         }
+
+        #endregion
 
         #region ImageListView
 
@@ -100,15 +109,6 @@ namespace Waveface.PostUI
             imageListView.Colors.PaneBackColor = Color.FromArgb(226, 226, 226);
         }
 
-        private void Application_Idle(object sender, EventArgs e)
-        {
-            rotateCCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
-            rotateCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
-
-            sortAscendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Ascending;
-            sortDescendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Descending;
-        }
-
         public void AddNewPostPhotoFiles(List<string> files)
         {
             foreach (string _pic in files)
@@ -116,7 +116,7 @@ namespace Waveface.PostUI
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-
+                _tag.GUID = Guid.NewGuid().ToString();
                 _tag.AddPhotoType = EditModePhotoType.NewPostOrigin;
 
                 _item.Tag = _tag;
@@ -125,7 +125,7 @@ namespace Waveface.PostUI
             }
         }
 
-        public void AddEditModePhotoFiles(List<string> files, List<Attachment> attachments)
+        public void AddEditModePhotoFiles(List<string> files, List<Attachment> attachments, string coverAttach)
         {
             m_editModeOriginPhotoFiles = files;
 
@@ -136,9 +136,18 @@ namespace Waveface.PostUI
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-
+                _tag.GUID = Guid.NewGuid().ToString();
                 _tag.AddPhotoType = EditModePhotoType.EditModeOrigin;
                 _tag.ObjectID = attachments[i].object_id;
+
+                if (attachments[i].object_id == coverAttach)
+                {
+                    _tag.IsCoverImage_UI = true;
+
+                    m_coverAttachGUID = _tag.GUID;
+
+                    m_oldCoverAttachGUID = _tag.GUID;
+                }
 
                 _item.Tag = _tag;
 
@@ -148,65 +157,167 @@ namespace Waveface.PostUI
             }
         }
 
+        private void imageListView_ItemHover(object sender, ItemHoverEventArgs e)
+        {
+            if (e.Item == null)
+            {
+                Cursor = Cursors.Default;
+
+                labelSummary.Text = string.Format(I18n.L.T("Photo.Summary"), imageListView.Items.Count);
+            }
+            else
+            {
+                Cursor = Cursors.SizeAll;
+
+                string _filePath = e.Item.FileName;
+                string _fileName = new FileInfo(e.Item.FileName).Name;
+
+                if (FileNameMapping.ContainsKey(_fileName))
+                    _filePath = FileNameMapping[_fileName];
+
+                labelSummary.Text = _filePath;
+            }
+        }
+
+        private void imageListView_DropFiles(object sender, DropFileEventArgs e)
+        {
+            try
+            {
+                List<string> _pics = new List<string>();
+
+                string[] _dropFils = e.FileNames;
+
+                foreach (string _file in _dropFils)
+                {
+                    if (Directory.Exists(_file))
+                    {
+                        DirectoryInfo _d = new DirectoryInfo(_file);
+
+                        FileInfo[] _fileInfos = _d.GetFiles();
+
+                        foreach (FileInfo _f in _fileInfos)
+                        {
+                            FileAttributes _attributes = File.GetAttributes(_f.FullName);
+
+                            // 過濾隱藏檔
+                            if ((_attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+                                continue;
+
+                            string _mime = FileUtility.GetMimeType(_f).ToLower();
+
+                            if (_mime.IndexOf("image") >= 0)
+                                _pics.Add(_f.FullName);
+                        }
+                    }
+                    else
+                    {
+                        string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
+
+                        if (_mime.IndexOf("image") >= 0)
+                            _pics.Add(_file);
+                    }
+                }
+
+                if (_pics.Count > 0)
+                {
+                    AddPhotos(_pics.ToArray(), e.Index);
+                }
+            }
+            catch
+            {
+            }
+
+            e.Cancel = true;
+        }
+
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
         {
             labelSummary.Text = string.Format(I18n.L.T("Photo.Summary"), imageListView.Items.Count);
+
+            if (e.Action != CollectionChangeAction.Refresh)
+                SetCoverImageUI();
         }
 
-        private void toolStripButtonCamera_Click(object sender, EventArgs e)
+        private void SetCoverImageUI()
         {
-            WebCamForm _camera = new WebCamForm();
+            bool _setCoverImage_UI = false;
 
-            DialogResult _dialogResult = _camera.ShowDialog();
-
-            if (_dialogResult == DialogResult.Yes)
+            foreach (ImageListViewItem _item in imageListView.Items)
             {
-                imageListView.Items.Add(_camera.CapturedImagePath);
-            }
-        }
+                EditModeImageListViewItemTag _tag = _item.Tag as EditModeImageListViewItemTag;
+                _tag.IsCoverImage_UI = false;
 
-        #region Image Rotate
-
-        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                                "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-            {
-                foreach (ImageListViewItem _item in imageListView.SelectedItems)
+                if (_tag.GUID == m_coverAttachGUID)
                 {
-                    _item.BeginEdit();
+                    _tag.IsCoverImage_UI = true;
 
-                    using (Image _img = Image.FromFile(_item.FileName))
-                    {
-                        _img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                        _img.Save(_item.FileName);
-                    }
+                    _setCoverImage_UI = true;
+                }
+            }
 
-                    _item.Update();
-                    _item.EndEdit();
+            if (!_setCoverImage_UI)
+            {
+                if (imageListView.Items.Count > 0)
+                {
+                    (imageListView.Items[0].Tag as EditModeImageListViewItemTag).IsCoverImage_UI = true;
                 }
             }
         }
 
-        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
+        private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                                "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            m_selectedItem = e.Item;
+        }
+
+        #region Drag&Drop
+
+        private void imageListView_DragDrop(object sender, DragEventArgs e)
+        {
+            MyParent.IsDirty = true;
+
+            ImageListView.HitInfo _hitInfo;
+            imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
+
+            List<string> _pics = m_dragDropClipboardHelper.Drag_Drop_HtmlImage(e);
+
+            if (_pics != null)
             {
-                foreach (ImageListViewItem _item in imageListView.SelectedItems)
-                {
-                    _item.BeginEdit();
-
-                    using (Image _img = Image.FromFile(_item.FileName))
-                    {
-                        _img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        _img.Save(_item.FileName);
-                    }
-
-                    _item.Update();
-                    _item.EndEdit();
-                }
+                if ((_hitInfo.ItemIndex < 0) || (_hitInfo.ItemIndex >= imageListView.Items.Count))
+                    AddPhotos(_pics.ToArray(), 0);
+                else
+                    AddPhotos(_pics.ToArray(), _hitInfo.ItemIndex);
             }
+        }
+
+        private void imageListView_DragEnter(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
+
+            DragHitTest(e);
+        }
+
+        private void imageListView_DragLeave(object sender, EventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
+        }
+
+        private void imageListView_DragOver(object sender, DragEventArgs e)
+        {
+            m_dragDropClipboardHelper.Drag_Over_HtmlImage(e, false);
+
+            DragHitTest(e);
+        }
+
+        private void DragHitTest(DragEventArgs e)
+        {
+            ImageListView.HitInfo _hitInfo;
+            imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
+
+            if (_hitInfo.InItemArea)
+                e.Effect = DragDropEffects.Move;
+
+            if (_hitInfo.ItemHit)
+                e.Effect = DragDropEffects.Copy;
         }
 
         #endregion
@@ -269,6 +380,14 @@ namespace Waveface.PostUI
                     _params.Add("type", "image");
                 }
 
+                int _coverAttachIndex = GetCoverAttachIndex();
+
+                if (_coverAttachIndex != -1)
+                {
+                    EditModeImageListViewItemTag _tag = imageListView.Items[_coverAttachIndex].Tag as EditModeImageListViewItemTag;
+                    _params.Add("cover_attach", _tag.ObjectID);
+                }
+
                 if (_params.Count != 0)
                 {
                     Main.Current.PostUpdate(MyParent.Post, _params);
@@ -307,18 +426,20 @@ namespace Waveface.PostUI
                     _text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
                 }
 
-                BatchPostItem _batchPostItem = new BatchPostItem();
-                _batchPostItem.PostType = PostType.Photo;
-                _batchPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(_text);
-                _batchPostItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
-                _batchPostItem.OrgPostTime = DateTime.Now;
-                _batchPostItem.Files = _files;
+                BatchPostItem _bpItem = new BatchPostItem();
+                _bpItem.PostType = PostType.Photo;
+                _bpItem.Text = StringUtility.RichTextBox_ReplaceNewline(_text);
+                _bpItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
+                _bpItem.OrgPostTime = DateTime.Now;
+                _bpItem.Files = _files;
 
-                _batchPostItem.EditMode = true;
-                _batchPostItem.ObjectIDs = _objectsID;
-                _batchPostItem.Post = MyParent.Post;
+                _bpItem.EditMode = true;
+                _bpItem.ObjectIDs = _objectsID;
+                _bpItem.Post = MyParent.Post;
 
-                MyParent.BatchPostItem = _batchPostItem;
+                _bpItem.CoverAttachIndex = GetCoverAttachIndex();
+
+                MyParent.BatchPostItem = _bpItem;
                 MyParent.SetDialogResult_OK_AndClose();
             }
         }
@@ -379,7 +500,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)), files, "", _type);
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)), files, "", _type, "");
 
                 if (_np == null)
                 {
@@ -426,19 +547,49 @@ namespace Waveface.PostUI
                 }
             }
 
-            BatchPostItem _batchPostItem = new BatchPostItem();
-            _batchPostItem.PostType = PostType.Photo;
-            _batchPostItem.Text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
-            _batchPostItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
-            _batchPostItem.OrgPostTime = DateTime.Now;
+            BatchPostItem _bpItem = new BatchPostItem();
+            _bpItem.PostType = PostType.Photo;
+            _bpItem.Text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
+            _bpItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
+            _bpItem.OrgPostTime = DateTime.Now;
 
             foreach (ImageListViewItem _vi in imageListView.Items)
             {
-                _batchPostItem.Files.Add(_vi.FileName);
+                _bpItem.Files.Add(_vi.FileName);
             }
 
-            MyParent.BatchPostItem = _batchPostItem;
+            _bpItem.CoverAttachIndex = GetCoverAttachIndex();
+
+            MyParent.BatchPostItem = _bpItem;
             MyParent.SetDialogResult_OK_AndClose();
+        }
+
+        private int GetCoverAttachIndex()
+        {
+            if (string.IsNullOrEmpty(m_coverAttachGUID)) // 沒有設定過, 一定不用修改
+            {
+                return -1;
+            }
+
+            if (!string.IsNullOrEmpty(m_oldCoverAttachGUID))
+            {
+                if (m_coverAttachGUID == m_oldCoverAttachGUID) // 如果舊的跟新設過的一樣, 就不需要改
+                {
+                    return -1;
+                }
+            }
+
+            for (int i = 0; i < imageListView.Items.Count; i++)
+            {
+                EditModeImageListViewItemTag _tag = imageListView.Items[i].Tag as EditModeImageListViewItemTag;
+
+                if (_tag.GUID == m_coverAttachGUID)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         private long CheckStoragesUsage(int went)
@@ -496,6 +647,29 @@ namespace Waveface.PostUI
 
         #endregion
 
+        #region Misc
+
+        private void toolStripButtonCamera_Click(object sender, EventArgs e)
+        {
+            WebCamForm _camera = new WebCamForm();
+
+            DialogResult _dialogResult = _camera.ShowDialog();
+
+            if (_dialogResult == DialogResult.Yes)
+            {
+                imageListView.Items.Add(_camera.CapturedImagePath);
+            }
+        }
+
+        private void Application_Idle(object sender, EventArgs e)
+        {
+            rotateCCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
+            rotateCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
+
+            sortAscendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Ascending;
+            sortDescendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Descending;
+        }
+
         public void AddPhoto()
         {
             openFileDialog.RestoreDirectory = true;
@@ -528,6 +702,7 @@ namespace Waveface.PostUI
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
+                _tag.GUID = Guid.NewGuid().ToString();
 
                 if (MyParent.EditMode)
                     _tag.AddPhotoType = EditModePhotoType.EditModeNewAdd;
@@ -613,15 +788,28 @@ namespace Waveface.PostUI
             }
         }
 
-        #region Sort
+        #endregion
 
-        private void columnContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        #region ContextMenu
+
+        private void columnContextMenu_Opening(object sender, CancelEventArgs e)
         {
-            CreateSortMenuItems();
-
-            imageListView.SetRenderer(new ImageListViewRenderers.TilesRenderer());
+            // CreateSortMenuItems();
+            // imageListView.SetRenderer(new ImageListViewRenderers.TilesRenderer());
         }
 
+        private void miSetCoverImage_Click(object sender, EventArgs e)
+        {
+            if (m_selectedItem != null)
+            {
+                EditModeImageListViewItemTag _tag = m_selectedItem.Tag as EditModeImageListViewItemTag;
+                m_coverAttachGUID = _tag.GUID;
+
+                SetCoverImageUI();
+            }
+        }
+
+        /*
         private void CreateSortMenuItems()
         {
             for (int j = sortByToolStripMenuItem.DropDownItems.Count - 1; j >= 0; j--)
@@ -655,6 +843,8 @@ namespace Waveface.PostUI
             int i = (int)((ToolStripMenuItem)sender).Tag;
             imageListView.SortColumn = i;
         }
+         
+        */
 
         private void sortAscendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -668,138 +858,53 @@ namespace Waveface.PostUI
 
         private void columnContextMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
-            imageListView.SetRenderer(new MyImageListViewRenderer());
+            // imageListView.SetRenderer(new MyImageListViewRenderer());
         }
 
         #endregion
 
-        private void Photo_Resize(object sender, EventArgs e)
+        #region Image Rotate
+
+        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
         {
-            BackColor = Color.FromArgb(226, 226, 226); //Hack
-        }
-
-        private void imageListView_ItemHover(object sender, ItemHoverEventArgs e)
-        {
-            if (e.Item == null)
+            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
+                                "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
-                Cursor = Cursors.Default;
-
-                labelSummary.Text = string.Format(I18n.L.T("Photo.Summary"), imageListView.Items.Count);
-            }
-            else
-            {
-                Cursor = Cursors.SizeAll;
-
-                string _filePath = e.Item.FileName;
-                string _fileName = new FileInfo(e.Item.FileName).Name;
-
-                if (FileNameMapping.ContainsKey(_fileName))
-                    _filePath = FileNameMapping[_fileName];
-
-                labelSummary.Text = _filePath;
-            }
-        }
-
-        private void imageListView_DropFiles(object sender, DropFileEventArgs e)
-        {
-            try
-            {
-                List<string> _pics = new List<string>();
-
-                string[] _dropFils = e.FileNames;
-
-                foreach (string _file in _dropFils)
+                foreach (ImageListViewItem _item in imageListView.SelectedItems)
                 {
-                    if (Directory.Exists(_file))
+                    _item.BeginEdit();
+
+                    using (Image _img = Image.FromFile(_item.FileName))
                     {
-                        DirectoryInfo _d = new DirectoryInfo(_file);
-
-                        FileInfo[] _fileInfos = _d.GetFiles();
-
-                        foreach (FileInfo _f in _fileInfos)
-                        {
-                            FileAttributes _attributes = File.GetAttributes(_f.FullName);
-
-                            // 過濾隱藏檔
-                            if ((_attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
-                                continue;
-
-                            string _mime = FileUtility.GetMimeType(_f).ToLower();
-
-                            if (_mime.IndexOf("image") >= 0)
-                                _pics.Add(_f.FullName);
-                        }
+                        _img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                        _img.Save(_item.FileName);
                     }
-                    else
-                    {
-                        string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
 
-                        if (_mime.IndexOf("image") >= 0)
-                            _pics.Add(_file);
-                    }
-                }
-
-                if (_pics.Count > 0)
-                {
-                    AddPhotos(_pics.ToArray(), e.Index);
+                    _item.Update();
+                    _item.EndEdit();
                 }
             }
-            catch
+        }
+
+        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
+                                "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
             {
+                foreach (ImageListViewItem _item in imageListView.SelectedItems)
+                {
+                    _item.BeginEdit();
+
+                    using (Image _img = Image.FromFile(_item.FileName))
+                    {
+                        _img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                        _img.Save(_item.FileName);
+                    }
+
+                    _item.Update();
+                    _item.EndEdit();
+                }
             }
-
-            e.Cancel = true;
-        }
-
-        #region Drag&Drop
-
-        private void imageListView_DragDrop(object sender, DragEventArgs e)
-        {
-            MyParent.IsDirty = true;
-
-            ImageListView.HitInfo _hitInfo;
-            imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
-
-            List<string> _pics = m_dragDropClipboardHelper.Drag_Drop_HtmlImage(e);
-
-            if (_pics != null)
-            {
-                if ((_hitInfo.ItemIndex < 0) || (_hitInfo.ItemIndex >= imageListView.Items.Count))
-                    AddPhotos(_pics.ToArray(), 0);
-                else
-                    AddPhotos(_pics.ToArray(), _hitInfo.ItemIndex);
-            }
-        }
-
-        private void imageListView_DragEnter(object sender, DragEventArgs e)
-        {
-            m_dragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
-
-            DragHitTest(e);
-        }
-
-        private void imageListView_DragLeave(object sender, EventArgs e)
-        {
-            m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
-        }
-
-        private void imageListView_DragOver(object sender, DragEventArgs e)
-        {
-            m_dragDropClipboardHelper.Drag_Over_HtmlImage(e, false);
-
-            DragHitTest(e);
-        }
-
-        private void DragHitTest(DragEventArgs e)
-        {
-            ImageListView.HitInfo _hitInfo;
-            imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
-
-            if (_hitInfo.InItemArea)
-                e.Effect = DragDropEffects.Move;
-
-            if (_hitInfo.ItemHit)
-                e.Effect = DragDropEffects.Copy;
         }
 
         #endregion
