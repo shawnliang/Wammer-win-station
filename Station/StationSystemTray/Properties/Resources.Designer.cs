@@ -107,7 +107,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to remove {0}  account from this computer?.
+        ///   Looks up a localized string similar to Are you sure you want to remove {0}  account from this computer?.
         /// </summary>
         public static string CleanResourceMsg {
             get {
