@@ -66,12 +66,14 @@ namespace Wammer.Station
 			List<string> attachmentIDs = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY] == null
 			                             	? new List<string>()
 			                             	: Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList();
-			string content = Parameters[CloudServer.PARAM_CONTENT];
-			string postID = Guid.NewGuid().ToString();
-			DateTime timeStamp = DateTime.Now;
-			int attachmentCount = attachmentIDs.Count;
-			string creatorID = userGroup.creator_id;
-			string codeName = loginedSession.apikey.name;
+			var content = Parameters[CloudServer.PARAM_CONTENT];
+			var postID = Guid.NewGuid().ToString();
+			var timeStamp = DateTime.Now;
+			var attachmentCount = attachmentIDs.Count;
+			var creatorID = userGroup.creator_id;
+			var codeName = loginedSession.apikey.name;
+			var cover_attach = Parameters[CloudServer.PARAM_COVER_ATTACH];
+			var favorite = Parameters[CloudServer.PARAM_FAVORITE];
 
 			List<AttachmentInfo> attachmentInfos = (from attachmentID in attachmentIDs
 			                                        let attachment =
@@ -85,25 +87,26 @@ namespace Wammer.Station
 					"Attachement not found!", (int) StationLocalApiError.NotFound);
 
 			var post = new PostInfo
-			           	{
-			           		attachments = attachmentInfos,
-			           		post_id = postID,
-			           		timestamp = timeStamp,
-			           		update_time = timeStamp,
-			           		attachment_id_array = attachmentIDs,
-			           		attachment_count = attachmentCount,
-			           		group_id = groupID,
-			           		creator_id = creatorID,
-			           		code_name = codeName,
-			           		content = content,
-			           		hidden = "false",
-			           		comment_count = 0,
-			           		comments = new List<Comment>(),
-			           		preview = new Preview(),
-			           		event_time = timeStamp.ToCloudTimeString(),
-			           		type = type
-			           	};
-
+						{
+							attachments = attachmentInfos,
+							post_id = postID,
+							timestamp = timeStamp,
+							update_time = timeStamp,
+							attachment_id_array = attachmentIDs,
+							attachment_count = attachmentCount,
+							group_id = groupID,
+							creator_id = creatorID,
+							code_name = codeName,
+							content = content,
+							hidden = "false",
+							comment_count = 0,
+							comments = new List<Comment>(),
+							preview = new Preview(),
+							event_time = timeStamp.ToCloudTimeString(),
+							type = type,
+							cover_attach = cover_attach,
+							favorite = "1".Equals(favorite) ? 1 : 0
+						};
 
 			PostCollection.Instance.Save(post);
 
