@@ -20,12 +20,14 @@ namespace Wammer.Utility
 		#endregion
 
 		#region Private Static Var
-
+		
 		private static IEnumerable<String> _localIPAddresses;
 
 		#endregion
 
 		#region Private Static Property
+
+		private static DateTime m_LastDateTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the m_localIP addresses.
@@ -97,6 +99,14 @@ namespace Wammer.Utility
 		/// <returns></returns>
 		public static string GetBaseURL()
 		{
+			var currentTime = DateTime.Now;
+
+			if (currentTime.Subtract(m_LastDateTime).TotalMinutes > 1)
+			{
+				Reset();
+				m_LastDateTime = currentTime;
+			}
+
 			if (m_BaseURL != null)
 				return m_BaseURL;
 

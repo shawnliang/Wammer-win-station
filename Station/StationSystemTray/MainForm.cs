@@ -1218,10 +1218,10 @@ namespace StationSystemTray
 				var upRemainedCount = m_UpRemainedCountCounter.NextValue();
 				var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
 
-				if (_upRemainedCount.Count >= 5)
+				if (_upRemainedCount.Count >= 10)
 					_upRemainedCount.Dequeue();
 
-				if (_downRemainedCount.Count >= 5)
+				if (_downRemainedCount.Count >= 10)
 					_downRemainedCount.Dequeue();
 
 				_upRemainedCount.Enqueue(upRemainedCount);
@@ -1279,6 +1279,10 @@ namespace StationSystemTray
 					{
 						if (_upRemainedCount.Count > 0 && _upRemainedCount.Average() > 0)
 							return;
+
+						if (_downRemainedCount.Count > 0 && _downRemainedCount.Average() > 0)
+							return;
+
 						CurrentState.StopSyncing();
 						TrayIcon.ShowBalloonTip(1000, Resources.APP_NAME, Resources.WFServiceRunning, ToolTipIcon.None);
 					}
