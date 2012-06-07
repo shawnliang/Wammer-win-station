@@ -723,12 +723,25 @@ namespace Wammer.Station.Management
 		/// <exception cref="System.TimeoutException"></exception>
 		private static void StartServices(TimeSpan timeout)
 		{
-			scvCtrl.Refresh();
-			if (scvCtrl.Status != ServiceControllerStatus.Running &&
-				scvCtrl.Status != ServiceControllerStatus.StartPending)
-				scvCtrl.Start();
+			for (int i = 0; i < 3; i++)
+			{
+				scvCtrl.Refresh();
 
-			scvCtrl.WaitForStatus(ServiceControllerStatus.Running, timeout);
+				if (scvCtrl.Status != ServiceControllerStatus.Running &&
+					scvCtrl.Status != ServiceControllerStatus.StartPending)
+				{
+					scvCtrl.Start();
+
+					try
+					{
+						scvCtrl.WaitForStatus(ServiceControllerStatus.Running, timeout);
+						return;
+					}
+					catch (System.ServiceProcess.TimeoutException)
+					{
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -736,12 +749,24 @@ namespace Wammer.Station.Management
 		/// </summary>
 		private static void StopServices(TimeSpan timeout)
 		{
-			scvCtrl.Refresh();
-			if (scvCtrl.Status != ServiceControllerStatus.Stopped &&
-				scvCtrl.Status != ServiceControllerStatus.StopPending)
-				scvCtrl.Stop();
+			for (int i = 0; i < 3; i++)
+			{
+				scvCtrl.Refresh();
 
-			scvCtrl.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+				if (scvCtrl.Status != ServiceControllerStatus.Stopped &&
+					scvCtrl.Status != ServiceControllerStatus.StopPending)
+				{
+					scvCtrl.Stop();
+					try
+					{
+						scvCtrl.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+						return;
+					}
+					catch (System.ServiceProcess.TimeoutException)
+					{
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -760,7 +785,7 @@ namespace Wammer.Station.Management
 			if (!Path.IsPathRooted(newFolder))
 				throw new ArgumentException("Not an absolute path");
 
-			StopServices(TimeSpan.FromSeconds(30.0));
+			StopServices(TimeSpan.FromSeconds(20.0));
 			string oldFolder = FileStorage.ResourceFolder;
 
 			foreach (var user in Model.DriverCollection.Instance.FindAll())
@@ -781,7 +806,7 @@ namespace Wammer.Station.Management
 
 			FileStorage.ResourceFolder = newFolder;
 
-			StartServices(TimeSpan.FromSeconds(30.0));
+			StartServices(TimeSpan.FromSeconds(20.0));
 		}
 
 		private static void SetDefaultFolder(string absPath)

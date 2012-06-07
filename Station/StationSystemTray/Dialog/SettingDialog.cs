@@ -201,8 +201,7 @@ namespace StationSystemTray
 				bgWorker.RunWorkerAsync(bgWorker);
 
 				Cursor.Current = Cursors.WaitCursor;
-				btnMove.Enabled = false;
-				button1.Enabled = false;
+				this.Enabled = false;
 				isMovingFolder = true;
 			}
 		}
@@ -263,8 +262,7 @@ namespace StationSystemTray
 
 				Cursor.Current = Cursors.Default;
 
-				btnMove.Enabled = true;
-				button1.Enabled = true;
+				this.Enabled = true;
 				isMovingFolder = false;
 			}
 		}

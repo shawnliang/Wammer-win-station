@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.IO;
 using System.Net;
@@ -175,6 +176,7 @@ namespace Wammer.Station
 					RestoreClientAppData();
 				}
 
+				MigrateUserFolder(session);
 				return ActionResult.Success;
 			}
 			catch (Exception e)
@@ -185,6 +187,24 @@ namespace Wammer.Station
 			finally
 			{
 				RemoveBackupData(dumpFolder);
+			}
+		}
+
+		private static void MigrateUserFolder(Session session)
+		{
+			if (StationRegistry.GetValue("ResourceFolder", null) == null)
+			{
+				StationRegistry.SetValue("ResourceFolder", Path.Combine(session["INSTALLLOCATION"], "resource"));
+
+				var allIds = DriverCollection.Instance.FindAll().Select(x => new { id = x.user_id, email = x.email });
+
+				foreach (var id in allIds)
+				{
+					DriverCollection.Instance.Update(Query.EQ("_id", id.id),
+						Update.Set("folder", "user_" + id.id));
+
+					Logger.DebugFormat("Update {0} : {1}", id.email, "user_" + id.id);
+				}
 			}
 		}
 
@@ -313,10 +333,6 @@ namespace Wammer.Station
 				Configuration config = ConfigurationManager.OpenExeConfiguration(myPath);
 
 				StationRegistry.SetValue("cloudBaseURL", config.AppSettings.Settings["cloudBaseURL"].Value);
-
-
-				if (StationRegistry.GetValue("ResourceFolder", null) == null)
-					StationRegistry.SetValue("ResourceFolder", Path.Combine(session["INSTALLLOCATION"], "resource"));
 			}
 			catch (Exception e)
 			{
