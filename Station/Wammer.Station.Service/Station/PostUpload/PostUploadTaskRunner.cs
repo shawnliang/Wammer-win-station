@@ -51,18 +51,17 @@ namespace Wammer.PostUpload
 			}
 		}
 
-		public override void Start()
-		{
-			quitEvent.Reset();
-			base.Start();
-		}
-
-		public override void Stop()
+		public override void StopAsync()
 		{
 			exit = true;
 			quitEvent.Set();
 			queue.Enqueue(new NullPostUploadTask());
-			base.Stop();
+		}
+
+		public override void Start()
+		{
+			quitEvent.Reset();
+			base.Start();
 		}
 	}
 }

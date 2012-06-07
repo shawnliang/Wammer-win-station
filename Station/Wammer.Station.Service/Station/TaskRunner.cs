@@ -40,11 +40,10 @@ namespace Wammer.Station
 			}
 		}
 
-		public override void Stop()
+		public override void StopAsync()
 		{
 			exit = true;
 			queue.EnqueueDummyTask(); // enqueue something to force task runner leave the blocking call of queue.Dequeue();
-			base.Stop();
 		}
 
 

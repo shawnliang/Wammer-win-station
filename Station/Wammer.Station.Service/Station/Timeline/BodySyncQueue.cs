@@ -190,10 +190,11 @@ namespace Wammer.Station.Timeline
 
 	internal class DummyResourceDownloadTask: IResourceDownloadTask
 	{
+		private readonly string name = Guid.NewGuid().ToString();
 
 		public string Name
 		{
-			get { return string.Empty; }
+			get { return name; }
 		}
 
 		public string UserId
