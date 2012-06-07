@@ -405,10 +405,17 @@ namespace Wammer.Station
 					IsSynchronizationStatus = false;
 				});
 
-			m_PostUploadRunner.Stop();
 			m_StationTimer.Stop();
-			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Stop());
-			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Stop());
+
+			// Signal to stop runners
+			m_PostUploadRunner.StopAsync();
+			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.StopAsync());
+			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.StopAsync());
+
+			// Wait runners to stop
+			m_PostUploadRunner.JoinOrKill();
+			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.JoinOrKill());
+			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.JoinOrKill());
 
 			this.LogDebugMsg("Stop synchronization successfully");
 		}
