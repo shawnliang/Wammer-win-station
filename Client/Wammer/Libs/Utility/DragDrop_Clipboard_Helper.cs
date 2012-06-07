@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Waveface.Component;
@@ -199,6 +200,9 @@ namespace Waveface
                         _imgURL = _imageSrc;
                     else
                         _imgURL = _baseUrl + _imageSrc.Substring(1);
+
+                    if (!NetworkInterface.GetIsNetworkAvailable())
+                        return null;
 
                     Main.Current.Cursor = Cursors.WaitCursor;
 
@@ -421,6 +425,9 @@ namespace Waveface
                         _imgURL = _imageSrc;
                     else
                         _imgURL = _baseUrl + _imageSrc.Substring(1);
+
+                    if (!NetworkInterface.GetIsNetworkAvailable())
+                        return null;
 
                     Main.Current.Cursor = Cursors.WaitCursor;
 

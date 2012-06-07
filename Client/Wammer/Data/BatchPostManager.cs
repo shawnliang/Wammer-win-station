@@ -401,6 +401,8 @@ namespace Waveface
 
             if (_editMode)
             {
+                string _coverAttach = string.Empty;
+
                 string _ids = "[";
 
                 for (int i = 0; i < postItem.ObjectIDs.Count; i++)
@@ -411,6 +413,11 @@ namespace Waveface
                         _id = postItem.UploadedFiles[_id];
 
                     _ids += "\"" + _id + "\"" + ",";
+
+                    if(postItem.CoverAttachIndex == i)
+                    {
+                        _coverAttach = _id;
+                    }
                 }
 
                 _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
@@ -427,6 +434,11 @@ namespace Waveface
 
                     _params.Add("attachment_id_array", _ids);
                     _params.Add("type", "image");
+
+                    if((postItem.CoverAttachIndex != -1) && (_coverAttach != string.Empty))
+                    {
+                        _params.Add("cover_attach", _coverAttach);
+                    }
 
                     string _time = Main.Current.GetPostUpdateTime(postItem.Post);
 
@@ -460,7 +472,12 @@ namespace Waveface
 
                 try
                 {
-                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(postItem.Text, _ids, "", "image");
+                    string _coverAttach = string.Empty;
+
+                    if (postItem.CoverAttachIndex != -1)
+                        _coverAttach = postItem.UploadedFiles[postItem.Files[postItem.CoverAttachIndex]];
+
+                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(postItem.Text, _ids, "", "image", _coverAttach);
 
                     if (_np == null)
                     {

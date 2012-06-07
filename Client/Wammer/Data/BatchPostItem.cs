@@ -19,9 +19,12 @@ namespace Waveface
         public DateTime OrgPostTime { get; set; }
         public bool PostOK { get; set; }
         public bool ErrorAndDeletePost { get; set; }
+        public int CoverAttachIndex { get; set; }
 
         public BatchPostItem()
         {
+            CoverAttachIndex = -1;
+
             Files = new List<string>();
             UploadedFiles = new Dictionary<string, string>();
 
