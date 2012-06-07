@@ -10,6 +10,7 @@ using Wammer.PerfMonitor;
 using Wammer.Station;
 using Wammer.Utility;
 using fastJSON;
+using log4net;
 
 namespace Wammer.Cloud
 {
@@ -66,6 +67,8 @@ namespace Wammer.Cloud
 		private static bool isOffline;
 		public static string SessionToken { get; set; }
 
+
+		private static readonly ILog logger = LogManager.GetLogger("CloudServer");
 
 		/// <summary>
 		/// Gets or sets wammer cloud base url
@@ -161,13 +164,28 @@ namespace Wammer.Cloud
 				buf.Remove(buf.Length - 1, 1);
 				using (var agent = new DefaultWebClient())
 				{
-					Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf));
+					using (var fileStream = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write))
+					{
+						var offset = fileStream.Length;
 
-					Debug.Assert(stream != null, "stream != null");
-					stream.WriteTo(filepath, 1024,
-					               (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
-					               	long.Parse(e.UserState.ToString())));
-					stream.Close();
+						if (offset > 0)
+							logger.Debug("Detect existed file, resume download \"" + filepath +"\"");
+
+						if (offset > 5)
+							offset -= 5;
+
+						agent.AddRange((int)offset);
+						fileStream.Seek(offset, SeekOrigin.Begin);
+
+						using (Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf)))
+						{
+							Debug.Assert(stream != null, "stream != null");
+
+							stream.WriteTo(fileStream, 1024,
+										   (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
+											long.Parse(e.UserState.ToString())));
+						}
+					}
 				}
 			}
 			catch (WebException e)

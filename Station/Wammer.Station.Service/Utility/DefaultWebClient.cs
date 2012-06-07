@@ -9,12 +9,24 @@ namespace Wammer.Utility
 		private Boolean _allowAutoRedirect = true;
 		#endregion
 
+
+		#region Private Property
+		/// <summary>
+		/// Gets or sets the m_ web request init action.
+		/// </summary>
+		/// <value>The m_ web request init action.</value>
+		private Action<WebRequest> m_WebRequestInitAction { get; set; }
+		#endregion
+
+
 		#region Public Property
 		/// <summary>
 		/// Gets or sets the request.
 		/// </summary>
 		/// <value>The request.</value>
 		public WebRequest Request { get; private set; }
+
+		public WebResponse Response { get; private set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether [allow auto redirect].
@@ -61,9 +73,140 @@ namespace Wammer.Utility
 			if (webRequest != null)
 			{
 				AllowAutoRedirect = _allowAutoRedirect;
+
+				if (m_WebRequestInitAction != null)
+					m_WebRequestInitAction(Request);
 			}
 			return Request;
-		} 
+		}
+
+		/// <summary>
+		/// Returns the <see cref="T:System.Net.WebResponse"/> for the specified <see cref="T:System.Net.WebRequest"/>.
+		/// </summary>
+		/// <param name="request">A <see cref="T:System.Net.WebRequest"/> that is used to obtain the response.</param>
+		/// <returns>
+		/// A <see cref="T:System.Net.WebResponse"/> containing the response for the specified <see cref="T:System.Net.WebRequest"/>.
+		/// </returns>
+		protected override WebResponse GetWebResponse(WebRequest request)
+		{
+			Response = base.GetWebResponse(request);
+			return Response;
+		}
+
+		/// <summary>
+		/// Returns the <see cref="T:System.Net.WebResponse"/> for the specified <see cref="T:System.Net.WebRequest"/> using the specified <see cref="T:System.IAsyncResult"/>.
+		/// </summary>
+		/// <param name="request">A <see cref="T:System.Net.WebRequest"/> that is used to obtain the response.</param>
+		/// <param name="result">An <see cref="T:System.IAsyncResult"/> object obtained from a previous call to <see cref="M:System.Net.WebRequest.BeginGetResponse(System.AsyncCallback,System.Object)"/> .</param>
+		/// <returns>
+		/// A <see cref="T:System.Net.WebResponse"/> containing the response for the specified <see cref="T:System.Net.WebRequest"/>.
+		/// </returns>
+		protected override WebResponse GetWebResponse(WebRequest request, IAsyncResult result)
+		{
+			Response = base.GetWebResponse(request, result);
+			return Response;
+		}
+		#endregion
+
+
+		#region Public Method
+		/// <summary>
+		/// Adds the range.
+		/// </summary>
+		/// <param name="range">The range.</param>
+		public void AddRange(int range)
+		{
+			if (Request == null)
+			{
+				m_WebRequestInitAction = (request) =>
+				{
+					var webRequest = (request as HttpWebRequest);
+
+					if (webRequest != null)
+					{
+						webRequest.AddRange(range);
+					}
+				};
+				return;
+			}
+
+			(Request as HttpWebRequest).AddRange(range);
+		}
+
+		/// <summary>
+		/// Adds the range.
+		/// </summary>
+		/// <param name="from">From.</param>
+		/// <param name="to">To.</param>
+		public void AddRange(int from, int to)
+		{
+			if (Request == null)
+			{
+				m_WebRequestInitAction = (request) =>
+				{
+					var webRequest = (request as HttpWebRequest);
+
+					if (webRequest != null)
+					{
+						webRequest.AddRange(from, to);
+					}
+				};
+				return;
+			}
+
+			(Request as HttpWebRequest).AddRange(from, to);
+		}
+
+
+		/// <summary>
+		/// Adds the range.
+		/// </summary>
+		/// <param name="rangeSpecifier">The range specifier.</param>
+		/// <param name="range">The range.</param>
+		public void AddRange(string rangeSpecifier, int range)
+		{
+			if (Request == null)
+			{
+				m_WebRequestInitAction = (request) =>
+				{
+					var webRequest = (request as HttpWebRequest);
+
+					if (webRequest != null)
+					{
+						webRequest.AddRange(rangeSpecifier, range);
+					}
+				};
+				return;
+			}
+
+			(Request as HttpWebRequest).AddRange(rangeSpecifier, range);
+		}
+
+
+		/// <summary>
+		/// Adds the range.
+		/// </summary>
+		/// <param name="rangeSpecifier">The range specifier.</param>
+		/// <param name="from">From.</param>
+		/// <param name="to">To.</param>
+		public void AddRange(string rangeSpecifier, int from, int to)
+		{
+			if (Request == null)
+			{
+				m_WebRequestInitAction = (request) =>
+				{
+					var webRequest = (request as HttpWebRequest);
+
+					if (webRequest != null)
+					{
+						webRequest.AddRange(rangeSpecifier, from, to);
+					}
+				};
+				return;
+			}
+
+			(Request as HttpWebRequest).AddRange(rangeSpecifier, from, to);
+		}
 		#endregion
 	}
 
