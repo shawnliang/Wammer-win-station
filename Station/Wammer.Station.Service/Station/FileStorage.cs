@@ -16,17 +16,17 @@ namespace Wammer.Station
 
 	public class FileStorage
 	{
-		private readonly string basePath;
+		public string BasePath { get; private set; }
 
 		public FileStorage(Driver driver)
 		{
 			if (driver == null)
 				throw new ArgumentNullException("driver");
 
-			basePath = driver.folder;
+			BasePath = driver.folder;
 
-			if (!Directory.Exists(basePath))
-				CreateFolder(basePath);
+			if (!Directory.Exists(BasePath))
+				CreateFolder(BasePath);
 		}
 
 		private static void CreateFolder(string basePath)
@@ -42,7 +42,7 @@ namespace Wammer.Station
 
 		public void SaveFile(string filename, ArraySegment<byte> data)
 		{
-			string filePath = Path.Combine(basePath, filename);
+			string filePath = Path.Combine(BasePath, filename);
 			string tempFile = filePath + @".tmp";
 
 			using (FileStream stream = File.Open(tempFile, FileMode.Create))
@@ -66,14 +66,14 @@ namespace Wammer.Station
 
 		public FileStream Load(string filename)
 		{
-			string filePath = Path.Combine(basePath, filename);
+			string filePath = Path.Combine(BasePath, filename);
 			return File.OpenRead(filePath);
 		}
 
 		public IAsyncResult BeginSave(string filename, byte[] data, AsyncCallback callback,
 		                              object userObject)
 		{
-			string filePath = Path.Combine(basePath, filename);
+			string filePath = Path.Combine(BasePath, filename);
 			string tempFile = filePath + @".tmp";
 
 			var fs = new FileStream(tempFile, FileMode.Create,
@@ -107,7 +107,7 @@ namespace Wammer.Station
 
 		public FileStream LoadByNameWithNoSuffix(string objectId)
 		{
-			string[] files = Directory.GetFiles(basePath, objectId + ".*");
+			string[] files = Directory.GetFiles(BasePath, objectId + ".*");
 			if (files == null || files.Length == 0)
 				throw new FileNotFoundException("attachment " + objectId + " is not found");
 
@@ -121,7 +121,7 @@ namespace Wammer.Station
 
 		public long GetUsedSize()
 		{
-			return FileStorageHelper.GetUsedSize(basePath);
+			return FileStorageHelper.GetUsedSize(BasePath);
 		}
 	}
 
