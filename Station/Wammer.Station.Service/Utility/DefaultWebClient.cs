@@ -26,8 +26,6 @@ namespace Wammer.Utility
 		/// <value>The request.</value>
 		public WebRequest Request { get; private set; }
 
-		public WebResponse Response { get; private set; }
-
 		/// <summary>
 		/// Gets or sets a value indicating whether [allow auto redirect].
 		/// </summary>
@@ -78,33 +76,6 @@ namespace Wammer.Utility
 					m_WebRequestInitAction(Request);
 			}
 			return Request;
-		}
-
-		/// <summary>
-		/// Returns the <see cref="T:System.Net.WebResponse"/> for the specified <see cref="T:System.Net.WebRequest"/>.
-		/// </summary>
-		/// <param name="request">A <see cref="T:System.Net.WebRequest"/> that is used to obtain the response.</param>
-		/// <returns>
-		/// A <see cref="T:System.Net.WebResponse"/> containing the response for the specified <see cref="T:System.Net.WebRequest"/>.
-		/// </returns>
-		protected override WebResponse GetWebResponse(WebRequest request)
-		{
-			Response = base.GetWebResponse(request);
-			return Response;
-		}
-
-		/// <summary>
-		/// Returns the <see cref="T:System.Net.WebResponse"/> for the specified <see cref="T:System.Net.WebRequest"/> using the specified <see cref="T:System.IAsyncResult"/>.
-		/// </summary>
-		/// <param name="request">A <see cref="T:System.Net.WebRequest"/> that is used to obtain the response.</param>
-		/// <param name="result">An <see cref="T:System.IAsyncResult"/> object obtained from a previous call to <see cref="M:System.Net.WebRequest.BeginGetResponse(System.AsyncCallback,System.Object)"/> .</param>
-		/// <returns>
-		/// A <see cref="T:System.Net.WebResponse"/> containing the response for the specified <see cref="T:System.Net.WebRequest"/>.
-		/// </returns>
-		protected override WebResponse GetWebResponse(WebRequest request, IAsyncResult result)
-		{
-			Response = base.GetWebResponse(request, result);
-			return Response;
 		}
 		#endregion
 

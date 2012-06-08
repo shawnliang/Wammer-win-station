@@ -43,12 +43,13 @@ namespace Wammer.Station
 
 		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
+			var fs = new FileStorage(driver);
 			var evtargs = new ResourceDownloadEventArgs
 							{
 								user_id = driver.user_id,
 								attachment = attachment,
 								imagemeta = meta,
-								filepath = Path.Combine(driver.folder, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
+								filepath = Path.Combine(fs.basePath, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
 							};
 
 			EnqueueDownstreamTask(meta, evtargs);
