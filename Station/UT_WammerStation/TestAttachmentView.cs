@@ -143,7 +143,7 @@ namespace UT_WammerStation
 				{
 					email = "driver1@waveface.com",
 					user_id = "driver1_id",
-					folder = "resource",
+					folder = "",
 					groups = new List<UserGroup>
 					{
 						new UserGroup {

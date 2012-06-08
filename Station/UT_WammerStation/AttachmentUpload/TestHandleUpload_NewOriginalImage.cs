@@ -91,7 +91,8 @@ namespace UT_WammerStation.AttachmentUpload
 
 			// verify saved data
 			Assert.AreEqual(savedAttachment.object_id + ".jpg", savedAttachment.saved_file_name);
-			byte[] savedFile = File.ReadAllBytes(savedAttachment.saved_file_name);
+			Wammer.Station.FileStorage storage = new Wammer.Station.FileStorage(new Driver { folder = "" });
+			byte[] savedFile = File.ReadAllBytes(Path.Combine(storage.basePath, savedAttachment.saved_file_name));
 			Assert.AreEqual(uploadData.raw_data.Count, savedFile.Length);
 			for (int i=0;i<savedFile.Length; i++)
 				Assert.AreEqual(uploadData.raw_data.Array[i], savedFile[i]);
