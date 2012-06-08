@@ -963,6 +963,8 @@ namespace Waveface
                             ShowPostInTimeline();
                         }
 
+                        //ReloadAllData();
+
                         break;
                 }
             }

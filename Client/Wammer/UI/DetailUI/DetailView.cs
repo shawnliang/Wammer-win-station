@@ -30,6 +30,7 @@ namespace Waveface
         private Photo_DV m_photoDv;
         private Document_DV m_documentDv;
         private RichText_DV m_richTextDv;
+        private NewBatchPostItem_DV m_newBatchPostItemDv;
 
         private DVTopPanel panelTop;
         private Label labelTitle;
@@ -256,6 +257,16 @@ namespace Waveface
             if (m_post == null)
                 return;
 
+            //Todo
+            if (m_post.IsNewPhotoItem)
+            {
+                ResetUI();
+
+                ShowNewBatchPostItem();
+
+                return;
+            }
+
             panelTop.Refresh();
 
             btnFunction1.Visible = false;
@@ -383,6 +394,25 @@ namespace Waveface
             }
 
             return PostType.Text;
+        }
+
+        private void ShowNewBatchPostItem()
+        {
+            panelMain.Controls.Clear();
+
+            if (m_newBatchPostItemDv != null)
+                m_newBatchPostItemDv.Dispose();
+
+            m_newBatchPostItemDv = null;
+
+            m_newBatchPostItemDv = new NewBatchPostItem_DV();
+            m_newBatchPostItemDv.MyParent = this;
+            m_newBatchPostItemDv.Dock = DockStyle.Fill;
+            m_newBatchPostItemDv.Post = m_post;
+
+            m_currentView = m_newBatchPostItemDv;
+
+            panelMain.Controls.Add(m_newBatchPostItemDv);
         }
 
         private void ShowText_LinkView()

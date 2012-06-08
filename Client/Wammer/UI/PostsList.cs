@@ -151,6 +151,20 @@ namespace Waveface
 
             dataGridView.SuspendLayout();
 
+            //Todo
+            /*
+            for (int i = 0; i < Main.Current.BatchPostManager.PhotoItems.Count; i++)
+            {
+                if (!Main.Current.BatchPostManager.PhotoItems[i].EditMode)
+                {
+                    Post _p = new Post();
+                    _p.IsNewPhotoItem = true;
+                    _p.BatchPostItemIndex = i;
+                    posts.Insert(0, _p);
+                }
+            }
+            */
+
             try
             {
                 GetFirstDisplayed(posts);
@@ -273,13 +287,34 @@ namespace Waveface
         {
             try
             {
+                Post _post = m_postBS[e.RowIndex] as Post;
+
+                if (_post.IsNewPhotoItem)
+                {
+                    return;
+                }
+                else
+                {
+                    if (DrawItem(e, _post))
+                        return;
+                }
+
+                e.Handled = true;
+            }
+            catch
+            {
+            }
+        }
+
+        private bool DrawItem(DataGridViewCellPaintingEventArgs e, Post post)
+        {
+            try
+            {
                 bool _isDrawThumbnail;
 
                 Graphics _g = e.Graphics;
                 //_g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                 //_g.SmoothingMode = SmoothingMode.HighQuality;
-
-                Post _post = m_postBS[e.RowIndex] as Post;
 
                 bool _selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
 
@@ -308,29 +343,30 @@ namespace Waveface
 
                 Rectangle _thumbnailRect = new Rectangle(e.CellBounds.Width - PicWidth - 10, _Y + 8, PicWidth, PicHeight);
 
-                _isDrawThumbnail = DrawThumbnail(_g, _thumbnailRect, _post);
+                _isDrawThumbnail = DrawThumbnail(_g, _thumbnailRect, post);
 
                 int _offsetThumbnail_W = (_isDrawThumbnail ? _thumbnailRect.Width : 0);
 
                 int _underThumbnailHeight = 17;
 
-                switch (_post.type)
+                switch (post.type)
                 {
                     case "text":
-                        Draw_Text_Post(_g, _post, _cellRect, _underThumbnailHeight, m_fontText, _selected);
+                        Draw_Text_Post(_g, post, _cellRect, _underThumbnailHeight, m_fontText, _selected);
                         break;
 
                     case "rtf":
-                        Draw_RichText_Post(_g, _post, _cellRect, _underThumbnailHeight, m_fontText, _thumbnailRect.Width);
+                        Draw_RichText_Post(_g, post, _cellRect, _underThumbnailHeight, m_fontText, _thumbnailRect.Width);
                         break;
 
                     case "image":
                     case "doc":
-                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected, _thumbnailRect.Height);
+                        Draw_Photo_Doc_Post(_g, post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected,
+                                            _thumbnailRect.Height);
                         break;
 
                     case "link":
-                        Draw_Link(_g, _post, _cellRect, _thumbnailRect.Width, _thumbnailRect.Width, _selected);
+                        Draw_Link(_g, post, _cellRect, _thumbnailRect.Width, _thumbnailRect.Width, _selected);
                         break;
                 }
             }
@@ -340,10 +376,10 @@ namespace Waveface
 
                 e.Handled = false;
 
-                return;
+                return true;
             }
 
-            e.Handled = true;
+            return false;
         }
 
         private void Draw_Link(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth,

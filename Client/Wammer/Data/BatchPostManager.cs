@@ -17,6 +17,7 @@ namespace Waveface
     public class BatchPostManager
     {
         public event ProgressUpdateUI_Delegate UpdateUI;
+        public event ProgressCountUpdateUI_Delegate UpdateCountUI;
         public event ShowMessage_Delegate ShowMessage;
         public event ShowMessage_Delegate UploadDone;
         public event ShowMessage_Delegate EditUpdateDone;
@@ -32,7 +33,7 @@ namespace Waveface
 
         #region Properties
 
-        private List<BatchPostItem> PhotoItems { get; set; }
+        public List<BatchPostItem> PhotoItems { get; set; }
 
         public bool StartUpload
         {
@@ -386,6 +387,11 @@ namespace Waveface
                         }
 
                         UpdateUI(_count * 100 / _counts, _msg);
+                    }
+
+                    if (UpdateCountUI != null)
+                    {
+                        UpdateCountUI(_count);
                     }
 
                     if (_count == _counts)
