@@ -169,7 +169,7 @@ namespace Wammer.Cloud
 						var offset = fileStream.Length;
 
 						if (offset > 0)
-							logger.Debug("Detect existed file, resume download \"" + filepath +"\"");
+							logger.Info("Detect existed file, resume download \"" + filepath + "\"");
 
 						if (offset > 5)
 							offset -= 5;

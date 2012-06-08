@@ -218,13 +218,13 @@ namespace StationSystemTray
 		{
 			if (m.Msg == 0x401)
 			{
-				logger.Debug("Timeline trigger by new stream");
+				logger.Info("Timeline trigger by new stream");
 				GotoTimeline(userloginContainer.GetLastUserLogin());
 				return;
 			}
 			else if (m.Msg == 0x402)
 			{
-				logger.Debug("Closed by another application");
+				logger.Info("Closed by another application");
 				QuitStream();
 				return;
 			}
@@ -405,12 +405,12 @@ namespace StationSystemTray
 
 			if (ex is ConnectToCloudException)
 			{
-				logger.Debug("Unable to connect to Waveface cloud", ex);
+				logger.Info("Unable to connect to Waveface cloud", ex);
 				CurrentState.Error();
 			}
 			else if (ex is WebException)
 			{
-				logger.Debug("Unable to connect to internet", ex);
+				logger.Info("Unable to connect to internet", ex);
 				CurrentState.Error();
 			}
 			else
@@ -736,12 +736,12 @@ namespace StationSystemTray
 		{
 			if (e.CloseReason == CloseReason.UserClosing)
 			{
-				logger.Debug("application is closed by user");
+				logger.Info("application is closed by user");
 				Hide();
 				e.Cancel = true;
 				return;
 			}
-			logger.Debug("application is closed by code");
+			logger.Info("application is closed by code");
 		}
 
 		private void btnSignIn_Click(object sender, EventArgs e)

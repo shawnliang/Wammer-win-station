@@ -1649,7 +1649,7 @@ namespace Waveface
 
             RT.CurrentGroupPosts = _tmpPosts;
 
-            s_logger.Info("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
+			s_logger.Warn("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
         }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

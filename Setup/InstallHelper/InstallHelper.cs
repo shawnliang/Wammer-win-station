@@ -59,7 +59,7 @@ namespace Wammer.Station
 						try
 						{
 							StationApi.SignOff(station.Id, user.session_token);
-							Logger.Info("Signoff station is successful");
+							Logger.Warn("Signoff station is successful");
 							break; // use anyone's token to signoff this station once is enough
 						}
 						catch (Exception e)
@@ -103,7 +103,7 @@ namespace Wammer.Station
 
 				foreach (Process p in procs)
 				{
-					Logger.Debug("Kill process " + name);
+					Logger.Info("Kill process " + name);
 					p.Kill();
 				}
 			}
@@ -121,7 +121,7 @@ namespace Wammer.Station
 
 		private static void CloseStream()
 		{
-			Logger.Debug("Close Stream gracefully");
+			Logger.Info("Close Stream gracefully");
 			try
 			{
 				string mainformTitle = "Login - Stream";
@@ -147,7 +147,7 @@ namespace Wammer.Station
 					System.Threading.Thread.Sleep(500);
 					if (FindWindow(null, mainformTitle) == IntPtr.Zero)
 					{
-						Logger.Debug("Successfully close Stream");
+						Logger.Info("Successfully close Stream");
 						break;
 					}
 				}
@@ -203,7 +203,7 @@ namespace Wammer.Station
 					DriverCollection.Instance.Update(Query.EQ("_id", id.id),
 						Update.Set("folder", "user_" + id.id));
 
-					Logger.DebugFormat("Update {0} : {1}", id.email, "user_" + id.id);
+					Logger.InfoFormat("Update {0} : {1}", id.email, "user_" + id.id);
 				}
 			}
 		}
@@ -229,7 +229,7 @@ namespace Wammer.Station
 		{
 			if (Directory.Exists(dumpFolder))
 			{
-				Logger.Info(dumpFolder + " exists. Restoring DB....");
+				Logger.Warn(dumpFolder + " exists. Restoring DB....");
 				RunProgram(Path.Combine(session["INSTALLLOCATION"], @"MongoDB\mongorestore.exe"),
 					"--port 10319 \"" + dumpFolder + "\"");
 
@@ -240,7 +240,7 @@ namespace Wammer.Station
 				Directory.Move(dumpFolder, dumpBackup);
 			}
 			else
-				Logger.Info(dumpFolder + " does not exist. Skip restoring");
+				Logger.Warn(dumpFolder + " does not exist. Skip restoring");
 		}
 
 		private static void RestoreStationId()
@@ -274,11 +274,11 @@ namespace Wammer.Station
 		{
 			try
 			{
-				Logger.Debug("Restoring Client AppData");
+				Logger.Info("Restoring Client AppData");
 				RestoreWavefaceFolder(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 				RestoreWavefaceFolder(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
-				Logger.Debug("Restore Client AppData complete");
+				Logger.Info("Restore Client AppData complete");
 			}
 			catch (Exception e)
 			{
@@ -520,22 +520,22 @@ namespace Wammer.Station
 
 				PreallocDBFiles(installDir);
 
-				Logger.Debug("Starting DB...");
+				Logger.Info("Starting DB...");
 				StartService(svcName);
-				Logger.Debug("DB is started");
+				Logger.Info("DB is started");
 
 				int retry = 180;
 				while (!IsMongoDBReady() && 0 < retry--)
 				{
 					System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2.0));
-					Logger.Debug("Testing MongoDB again...");
+					Logger.Info("Testing MongoDB again...");
 					StartService(svcName);
 				}
 
 				if (!IsMongoDBReady())
 					throw new System.TimeoutException("MongoDB is not ready in 360 seconds");
 
-				Logger.Debug("MongoDB is ready");
+				Logger.Info("MongoDB is ready");
 				return ActionResult.Success;
 
 			}
@@ -550,9 +550,9 @@ namespace Wammer.Station
 		{
 			try
 			{
-				Logger.Debug("Stopping DB...");
+				Logger.Info("Stopping DB...");
 				StopService(StationService.MONGO_SERVICE_NAME);
-				Logger.Debug("DB is stopped");
+				Logger.Info("DB is stopped");
 
 				string journalDir = Path.Combine(installDir, @"MongoDB\Data\DB\journal");
 				if (Directory.Exists(journalDir))
@@ -563,7 +563,7 @@ namespace Wammer.Station
 						return;
 				}
 
-				Logger.Debug("Extracting prealloc DB files...");
+				Logger.Info("Extracting prealloc DB files...");
 				string preallocZip = Path.Combine(installDir, @"MongoDB\Data\DB\mongoPrealloc.tar.gz");
 				GZipInputStream gzipIn = new GZipInputStream(File.OpenRead(preallocZip));
 				using (TarArchive tar = TarArchive.CreateInputTarArchive(gzipIn))
@@ -571,7 +571,7 @@ namespace Wammer.Station
 					tar.ExtractContents(Path.Combine(installDir, @"MongoDB\Data\DB"));
 				}
 
-				Logger.Info("Extract prealloc DB files successfully");
+				Logger.Warn("Extract prealloc DB files successfully");
 			}
 			catch (Exception e)
 			{

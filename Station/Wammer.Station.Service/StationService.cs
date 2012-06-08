@@ -74,7 +74,7 @@ namespace Wammer.Station.Service
 		{
 			try
 			{
-				logger.Info("============== Starting Stream Station =================");
+				logger.Warn("============== Starting Stream Station =================");
 
 				m_BackOff.ResetLevel();
 				while (!Database.TestConnection(1))
@@ -94,8 +94,8 @@ namespace Wammer.Station.Service
 				Environment.CurrentDirectory = Path.GetDirectoryName(
 					Assembly.GetExecutingAssembly().Location);
 
-				
-				logger.Debug("Initialize Stream Service");
+
+				logger.Info("Initialize Stream Service");
 
 				Station.Instance.Start();
 
@@ -127,21 +127,21 @@ namespace Wammer.Station.Service
 				InitFunctionServerHandlers(attachmentHandler, cloudForwarder);
 
 
-				logger.Debug("Start function server");
+				logger.Info("Start function server");
 				functionServer.Start();
 				BodySyncQueue.Instance.TaskDropped += downstreamMonitor.OnDownstreamTaskDone;
 
-				logger.Debug("Add handlers to management server");
+				logger.Info("Add handlers to management server");
 				managementServer = new HttpServer(9989);
 				managementServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
 
 				InitManagementServerHandler();
 
-				logger.Debug("Start management server");
+				logger.Info("Start management server");
 				managementServer.Start();
 
 
-				logger.Info("Stream station is started");
+				logger.Warn("Stream station is started");
 			}
 			catch (Exception ex)
 			{
@@ -203,10 +203,10 @@ namespace Wammer.Station.Service
 
 		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder)
 		{
-			logger.Debug("Add cloud forwarders to function server");
+			logger.Info("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);
 
-			logger.Debug("Add handlers to function server");
+			logger.Info("Add handlers to function server");
 
 			functionServer.AddHandler("/", new DummyHandler());
 
@@ -343,7 +343,7 @@ namespace Wammer.Station.Service
 			if (minWorker > 0 && minIO > 0)
 			{
 				ThreadPool.SetMinThreads(minWorker, minIO);
-				logger.InfoFormat("Min worker threads {0}, min IO completion threads {1}",
+				logger.WarnFormat("Min worker threads {0}, min IO completion threads {1}",
 				                  minWorker.ToString(), minIO.ToString());
 			}
 

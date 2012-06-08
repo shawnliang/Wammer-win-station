@@ -85,11 +85,11 @@ namespace Wammer.Station
 					if (baseurl != sinfo.Location)
 					{
 						// update location if baseurl changed
-						logger.DebugFormat("station location changed: {0}", baseurl);
+						logger.InfoFormat("station location changed: {0}", baseurl);
 						sinfo.Location = baseurl;
 
 						// update station info in database
-						logger.Debug("update station information");
+						logger.Info("update station information");
 						StationCollection.Instance.Save(sinfo);
 					}
 
@@ -98,7 +98,7 @@ namespace Wammer.Station
 				}
 				catch (Exception ex)
 				{
-					logger.Debug("cloud send heartbeat error", ex);
+					logger.Info("cloud send heartbeat error", ex);
 				}
 			}
 		}
@@ -115,12 +115,12 @@ namespace Wammer.Station
 
 					if (logon == false || DateTime.Now - sinfo.LastLogOn > TimeSpan.FromDays(1))
 					{
-						logger.Debug("cloud logon start");
+						logger.Info("cloud logon start");
 						api.LogOn(detail);
 						logon = true;
 
 						// update station info in database
-						logger.Debug("update station information");
+						logger.Info("update station information");
 						sinfo.LastLogOn = DateTime.Now;
 						StationCollection.Instance.Save(sinfo);
 					}

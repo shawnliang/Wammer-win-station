@@ -122,7 +122,7 @@ namespace Wammer.Cloud
 					var offset = fileStream.Length;
 
 					if (offset > 0)
-						logger.Debug("Detect existed file, resume download \"" + tempFile + "\"");
+						logger.Info("Detect existed file, resume download \"" + tempFile + "\"");
 
 					if (offset > 5)
 						offset -= 5;
@@ -159,7 +159,7 @@ namespace Wammer.Cloud
 		{
 			var metadata = GetImageMetadata(objectId, session_token, apikey, meta, station_id);
 
-			logger.Debug("Attachement redirect to: " + metadata.redirect_to);
+			logger.Info("Attachement redirect to: " + metadata.redirect_to);
 			using (var agent = new DefaultWebClient())
 			{
 				using (var to = new MemoryStream())
@@ -184,7 +184,7 @@ namespace Wammer.Cloud
 			};
 
 			CloudServer.requestPath<CloudResponse>("attachments/set_sync", parameters);
-			logger.Debug("attachments/set_sync: " + object_id);
+			logger.Info("attachments/set_sync: " + object_id);
 		}
 
 		public static void SetSync(ICollection<string> object_ids, string session_token)
@@ -209,7 +209,7 @@ namespace Wammer.Cloud
 			};
 
 			CloudServer.requestPath<CloudResponse>("attachments/set_sync", parameters);
-			logger.Debug("attachments/set_sync: " + objIdArray);
+			logger.Info("attachments/set_sync: " + objIdArray);
 		}
 
 		public static AttachmentQueueResponse GetQueue(string session, int count)

@@ -11,7 +11,7 @@ namespace Wammer.Station
 
 		public override void HandleRequest()
 		{
-			logger.Debug("GetStatus is called");
+			logger.Info("GetStatus is called");
 			StationDetail res = StatusChecker.GetDetail();
 
 			RespondSuccess(

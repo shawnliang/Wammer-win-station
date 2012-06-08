@@ -116,26 +116,26 @@ namespace Wammer.Station
 				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
 				Debug.Assert(Request.Url != null, "Request.Url != null");
 
-				logger.Debug("====== Request " + Request.Url.AbsolutePath +
+				logger.Info("====== Request " + Request.Url.AbsolutePath +
 				             " from " + Request.RemoteEndPoint.Address + " ======");
 				foreach (var key in Parameters.AllKeys)
 				{
 					if (key == "password")
 					{
-						logger.DebugFormat("{0} : *", key);
+						logger.InfoFormat("{0} : *", key);
 					}
 					else
 					{
 						var value = Parameters[key];
-						logger.DebugFormat("{0} : {1}", key, value);
+						logger.InfoFormat("{0} : {1}", key, value);
 						if (key == "apikey" && CloudServer.CodeName.ContainsKey(value))
 						{
-							logger.DebugFormat("(code name : {0})", CloudServer.CodeName[value]);
+							logger.InfoFormat("(code name : {0})", CloudServer.CodeName[value]);
 						}
 					}
 				}
 				foreach (var file in Files)
-					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
+					logger.InfoFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
 			}
 		}
 

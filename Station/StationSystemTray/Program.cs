@@ -53,7 +53,7 @@ namespace StationSystemTray
 					if (handle == IntPtr.Zero)
 						return;
 
-					m_Logger.Debug("Call old stream to open");
+					m_Logger.Info("Call old stream to open");
 					Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
 					return;
 				}

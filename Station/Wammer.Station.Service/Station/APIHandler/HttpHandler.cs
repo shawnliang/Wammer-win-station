@@ -159,25 +159,25 @@ namespace Wammer.Station
 			if (logger.IsDebugEnabled)
 			{
 				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
-				logger.Debug("====== Request " + Request.Url.AbsolutePath +
+				logger.Info("====== Request " + Request.Url.AbsolutePath +
 				             " from " + Request.RemoteEndPoint.Address + " ======");
 				foreach (string key in Parameters.AllKeys)
 				{
 					if (key == "password")
 					{
-						logger.DebugFormat("{0} : *", key);
+						logger.InfoFormat("{0} : *", key);
 					}
 					else
 					{
-						logger.DebugFormat("{0} : {1}", key, Parameters[key]);
+						logger.InfoFormat("{0} : {1}", key, Parameters[key]);
 						if (key == "apikey" && CloudServer.CodeName.ContainsKey(Parameters[key]))
 						{
-							logger.DebugFormat("(code name : {0})", CloudServer.CodeName[Parameters[key]]);
+							logger.InfoFormat("(code name : {0})", CloudServer.CodeName[Parameters[key]]);
 						}
 					}
 				}
 				foreach (UploadedFile file in Files)
-					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
+					logger.InfoFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
 			}
 		}
 
