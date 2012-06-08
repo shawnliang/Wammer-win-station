@@ -264,13 +264,14 @@ namespace Wammer.Station
 			if (removeAllData)
 			{
 				var retryTimes = 0;
+				var basePath = (new FileStorage(existingDriver)).basePath;
 				while (retryTimes++ < 3)
 				{
-					if (Directory.Exists(existingDriver.folder))
+					if (Directory.Exists(basePath))
 					{
 						try
 						{
-							Directory.Delete(existingDriver.folder, true);
+							Directory.Delete(basePath, true);
 							break;
 						}
 						catch
