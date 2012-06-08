@@ -166,7 +166,7 @@ namespace Waveface
 
             InitializeComponent();
 
-            Text = "Stream";
+            Text = "Stream "; // this has to be sync with SystemStry.Main.CLIENT_TITLE for finding client form
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
