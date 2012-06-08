@@ -5,6 +5,8 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
+using System.IO;
+using System.ComponentModel;
 
 namespace Wammer.Station
 {
@@ -42,14 +44,37 @@ namespace Wammer.Station
 		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
 			var evtargs = new ResourceDownloadEventArgs
-			              	{
-			              		user_id = driver.user_id,
-			              		attachment = attachment,
-			              		imagemeta = meta,
-			              		filepath = FileStorage.GetTempFile(driver)
-			              	};
+							{
+								user_id = driver.user_id,
+								attachment = attachment,
+								imagemeta = meta,
+								filepath = Path.Combine(driver.folder, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
+							};
 
 			EnqueueDownstreamTask(meta, evtargs);
+		}
+
+		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
+		{
+			var fileName = objectID;
+
+			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
+			{
+				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+				fileName += "_" + metaStr;
+			}
+
+			if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
+				uri = new Uri(uri).AbsolutePath;
+
+			var extension = Path.GetExtension(uri);
+
+			if (meta == ImageMeta.Small || meta == ImageMeta.Medium || meta == ImageMeta.Large || meta == ImageMeta.Square)
+				fileName += ".dat";
+			else if (!string.IsNullOrEmpty(extension))
+				fileName += extension;
+
+			return fileName;
 		}
 
 		private void EnqueueDownstreamTask(ImageMeta meta, ResourceDownloadEventArgs evtargs)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 using Wammer.Model;
@@ -16,7 +16,7 @@ namespace Wammer.Station
 
 	public class FileStorage
 	{
-		private readonly string basePath;
+		public  string basePath;
 		private static string defaultResFolder;
 
 		static FileStorage()
