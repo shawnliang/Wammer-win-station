@@ -100,7 +100,7 @@ namespace UT_WammerStation
 					Query.EQ("email", "user1@gmail.com"));
 
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(@"user_uid1", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.IsTrue(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);
@@ -158,7 +158,7 @@ namespace UT_WammerStation
 					Query.EQ("email", "user1@gmail.com"));
 
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(@"user_uid1", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.IsTrue(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);
@@ -248,7 +248,7 @@ namespace UT_WammerStation
 					Query.EQ("email", "user1@gmail.com"));
 
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(@"user_uid1", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.IsFalse(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);

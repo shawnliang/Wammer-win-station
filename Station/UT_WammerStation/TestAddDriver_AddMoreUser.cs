@@ -171,7 +171,7 @@ namespace UT_WammerStation
 				
 				Assert.IsNotNull(driver);
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(@"user_uid1", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.AreEqual(1, driver.groups.Count);
 				Assert.AreEqual(res1.session_token, driver.session_token);
