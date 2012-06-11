@@ -65,7 +65,12 @@ namespace Waveface
                 m_detailView = value;
 
                 if (value != null)
+                {
                     Main.Current.PhotoDownloader.ThumbnailEvent += Thumbnail_EventHandler;
+
+                    Main.Current.BatchPostManager.UpdateUI += BatchPostManager_UpdateUI;
+                    Main.Current.BatchPostManager.UploadDone += BatchPostManager_UploadDone;
+                }
             }
         }
 
@@ -268,6 +273,36 @@ namespace Waveface
             }
         }
 
+        void BatchPostManager_UploadDone(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { BatchPostManager_UploadDone(text); }
+                           ));
+            }
+            else
+            {
+                m_uploadPercent = 0;
+            }
+        }
+
+        void BatchPostManager_UpdateUI(int percent, string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { BatchPostManager_UpdateUI(percent, text); }
+                           ));
+            }
+            else
+            {
+                m_uploadPercent = percent;
+
+                RefreshUI();
+            }
+        }
+
         #region DataGridView
 
         private Brush m_bgSelectedBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
@@ -291,7 +326,7 @@ namespace Waveface
 
                 if (_post.IsNewPhotoItem)
                 {
-                    return;
+                    DrawCacheItem(e, _post);
                 }
                 else
                 {
@@ -300,6 +335,53 @@ namespace Waveface
                 }
 
                 e.Handled = true;
+            }
+            catch
+            {
+            }
+        }
+
+        private void DrawCacheItem(DataGridViewCellPaintingEventArgs e, Post post)
+        {
+            Graphics _g = e.Graphics;
+
+            bool _selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
+
+            int _X = e.CellBounds.Left + e.CellStyle.Padding.Left;
+            int _Y = e.CellBounds.Top + e.CellStyle.Padding.Top;
+            int _W = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
+            int _H = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
+
+            Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
+
+            try
+            {
+                if (_selected)
+                {
+                    _g.FillRectangle(m_bgSelectedBrush, e.CellBounds);
+                }
+                else
+                {
+                    _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
+                }
+
+                string _text = string.Empty;
+
+                if (post.BatchPostItemIndex == 0)
+                {
+                    _text = "[照片上傳中: " + m_uploadPercent + "%]";
+                }
+                else
+                {
+                    _text = "[等待上傳]";
+                }
+
+                Size _ts = TextRenderer.MeasureText(_text, m_fontLinkTitle);
+
+                using (Brush _brush = new SolidBrush(m_selectedTextColor))
+                {
+                    _g.DrawString(_text, m_fontLinkTitle, _brush, _cellRect.Left + ((_cellRect.Width - _ts.Width) / 2), _cellRect.Top + ((_cellRect.Height - _ts.Height) / 2));
+                }
             }
             catch
             {
@@ -1076,6 +1158,7 @@ namespace Waveface
         #region Key
 
         private bool m_isKeyPressed;
+        private int m_uploadPercent;
 
         private void dataGridView_KeyUp(object sender, KeyEventArgs e)
         {

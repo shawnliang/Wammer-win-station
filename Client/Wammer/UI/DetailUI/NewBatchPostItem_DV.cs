@@ -36,7 +36,7 @@ namespace Waveface.DetailUI
 
                 Relayout();
 
-                m_batchPostItem = Main.Current.BatchPostManager.PhotoItems[0];
+                m_batchPostItem = Main.Current.BatchPostManager.PhotoItems[m_post.BatchPostItemIndex];
 
                 LoatPictureToImageListViewFrom();
 
@@ -245,6 +245,9 @@ namespace Waveface.DetailUI
             }
             else
             {
+                if (m_post.BatchPostItemIndex != 0)
+                    return;
+
                 while (imageListViewFrom.Items.Count > (m_itemCounts - count))
                 {
                     imageListViewFrom.Items.RemoveAt(0);
