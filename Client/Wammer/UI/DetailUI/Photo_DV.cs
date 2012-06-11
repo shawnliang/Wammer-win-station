@@ -624,7 +624,7 @@ namespace Waveface.DetailUI
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
-            else if (imageListView.Items.Count < 51)
+            else if (imageListView.Items.Count < 101)
             {
                 W = (imageListView.Width - (16 * 4)) / 4;
 
@@ -633,7 +633,7 @@ namespace Waveface.DetailUI
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
-            else if ((imageListView.Items.Count >= 51) && (imageListView.Items.Count <= 100))
+            else if ((imageListView.Items.Count >= 101) && (imageListView.Items.Count <= 200))
             {
                 W = (imageListView.Width - (16 * 5)) / 5;
 
@@ -642,11 +642,7 @@ namespace Waveface.DetailUI
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
-            else if ((imageListView.Items.Count > 100) && (imageListView.Items.Count <= 200))
-            {
-                imageListView.ThumbnailSize = new Size(136, 136);
-            }
-            else if ((imageListView.Items.Count > 200) && (imageListView.Items.Count < 500))
+            else if ((imageListView.Items.Count > 200) && (imageListView.Items.Count <= 500))
             {
                 imageListView.ThumbnailSize = new Size(128, 128);
             }
