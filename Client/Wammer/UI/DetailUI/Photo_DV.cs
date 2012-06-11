@@ -624,7 +624,7 @@ namespace Waveface.DetailUI
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
-            else if (imageListView.Items.Count < 21)
+            else if (imageListView.Items.Count < 51)
             {
                 W = (imageListView.Width - (16 * 4)) / 4;
 
@@ -633,7 +633,7 @@ namespace Waveface.DetailUI
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
-            else if ((imageListView.Items.Count >= 21) && (imageListView.Items.Count <= 100))
+            else if ((imageListView.Items.Count >= 51) && (imageListView.Items.Count <= 100))
             {
                 W = (imageListView.Width - (16 * 5)) / 5;
 
