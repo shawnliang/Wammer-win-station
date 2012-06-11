@@ -43,7 +43,11 @@ namespace Wammer.PostUpload
 				foreach (PostUploadTask task in ptasks.tasks)
 				{
 					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
-					if(driver == null || string.IsNullOrEmpty(driver.session_token))
+
+					if (driver == null)
+						continue;
+
+					if(string.IsNullOrEmpty(driver.session_token))
 					{
 						lowPriorityTasks.Add(task);
 						continue;
@@ -98,7 +102,11 @@ namespace Wammer.PostUpload
 					var task = postQueue[postID].First();
 
 					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
-					if (driver == null || string.IsNullOrEmpty(driver.session_token))
+
+					if (driver == null)
+						continue;
+
+					if (string.IsNullOrEmpty(driver.session_token))
 					{
 						lowPriorityTasks.Add(task);
 						continue;

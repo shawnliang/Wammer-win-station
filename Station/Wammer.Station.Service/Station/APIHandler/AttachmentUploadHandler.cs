@@ -1,6 +1,7 @@
 ﻿using System;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
+using System.IO;
 
 namespace Wammer.Station.APIHandler
 {
@@ -36,6 +37,9 @@ namespace Wammer.Station.APIHandler
 		public override void HandleRequest()
 		{
 			CheckParameter("session_token", "apikey", "group_id", "type");
+
+			if(Files.Count > 0 && !string.IsNullOrEmpty(Files[0].Name) && string.IsNullOrEmpty(Path.GetExtension(Files[0].Name)))
+			    throw new WammerStationException("Invalid image", (int)StationLocalApiError.InvalidImage);
 
 			UploadData data = GetUploadData();
 

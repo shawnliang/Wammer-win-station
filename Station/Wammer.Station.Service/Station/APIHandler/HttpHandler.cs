@@ -256,7 +256,7 @@ namespace Wammer.Station
 				}
 				else
 				{
-					string name = part.ContentDisposition.Parameters["name"];
+					string name = disp.Parameters["name"];
 					Parameters.Add(name, part.Text);
 				}
 			}

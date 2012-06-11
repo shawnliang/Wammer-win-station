@@ -55,6 +55,7 @@ namespace Wammer.PostUpload
 		{
 			exit = true;
 			quitEvent.Set();
+
 			queue.Enqueue(new NullPostUploadTask());
 		}
 
