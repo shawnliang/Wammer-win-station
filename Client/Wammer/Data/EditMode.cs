@@ -13,7 +13,8 @@ namespace Waveface
     {
         public EditModePhotoType AddPhotoType { get; set; }
         public string ObjectID { get; set; }
-        public bool IsCoverImage { get; set; }
+        public string GUID { get; set; }
+        public bool IsCoverImage_UI { get; set; }
     }
 
     public class DetailViewImageListViewItemTag

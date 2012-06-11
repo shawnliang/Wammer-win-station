@@ -105,7 +105,7 @@ namespace Wammer.Station
 							event_time = timeStamp.ToCloudTimeString(),
 							type = type,
 							cover_attach = cover_attach,
-							favorite = favorite.Equals("1") ? 1 : 0
+							favorite = "1".Equals(favorite) ? 1 : 0
 						};
 
 			PostCollection.Instance.Save(post);
