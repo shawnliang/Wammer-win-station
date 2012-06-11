@@ -89,10 +89,10 @@
 			// 
 			// groupBox2
 			// 
+			resources.ApplyResources(this.groupBox2, "groupBox2");
 			this.groupBox2.Controls.Add(this.btnMove);
 			this.groupBox2.Controls.Add(this.txtLocation);
 			this.groupBox2.Controls.Add(this.label1);
-			resources.ApplyResources(this.groupBox2, "groupBox2");
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
 			// 
