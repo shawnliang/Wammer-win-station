@@ -130,7 +130,7 @@
     <value>474, 451</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Setting</value>
+    <value>Settings</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SettingDialog</value>

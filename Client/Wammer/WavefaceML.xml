@@ -271,12 +271,19 @@
     <en-US>Text cannot be empty!</en-US>
     <zh-TW>內容不能為空白!</zh-TW>
   </WItem>
+  
   <WItem>
     <ID>PostForm.PuretextWaterMark</ID>
-    <en-US>Write down the description here...</en-US>
+    <en-US>Write down your description here...</en-US>
     <zh-TW>在此寫下您的隻字片語...</zh-TW>
   </WItem>
 
+  <WItem>
+    <ID>AddCommentPuretextWaterMark</ID>
+    <en-US>What do you want to add?</en-US>
+    <zh-TW>在此寫下您的隻字片語...</zh-TW>
+  </WItem>  
+  
   <WItem>
     <ID>PostForm.PostSuccess</ID>
     <en-US>Post success!</en-US>
@@ -346,7 +353,7 @@
   </WItem>
   <WItem>
     <ID>Station401Exception</ID>
-    <en-US>Your authentication is expired. Re-enter your password to log in again.</en-US>
+    <en-US>Your authentication has expired. Re-enter your password to login again.</en-US>
     <zh-TW>您的認證資訊已經過期, 請重新輸入密碼以便登入.</zh-TW>
   </WItem>  
   <WItem>
@@ -418,7 +425,7 @@
 
   <WItem>
     <ID>AlreadyUpdated</ID>
-    <en-US>Your Stream has been updated to the latest version.</en-US>
+    <en-US>You currently have the latest version of Stream installed.</en-US>
     <zh-TW>您的Stream已經更新到最新版了</zh-TW>
   </WItem>
 
