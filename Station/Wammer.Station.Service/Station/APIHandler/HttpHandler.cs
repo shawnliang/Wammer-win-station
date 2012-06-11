@@ -159,25 +159,25 @@ namespace Wammer.Station
 			if (logger.IsDebugEnabled)
 			{
 				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
-				logger.Debug("====== Request " + Request.Url.AbsolutePath +
+				logger.Info("====== Request " + Request.Url.AbsolutePath +
 				             " from " + Request.RemoteEndPoint.Address + " ======");
 				foreach (string key in Parameters.AllKeys)
 				{
 					if (key == "password")
 					{
-						logger.DebugFormat("{0} : *", key);
+						logger.InfoFormat("{0} : *", key);
 					}
 					else
 					{
-						logger.DebugFormat("{0} : {1}", key, Parameters[key]);
+						logger.InfoFormat("{0} : {1}", key, Parameters[key]);
 						if (key == "apikey" && CloudServer.CodeName.ContainsKey(Parameters[key]))
 						{
-							logger.DebugFormat("(code name : {0})", CloudServer.CodeName[Parameters[key]]);
+							logger.InfoFormat("(code name : {0})", CloudServer.CodeName[Parameters[key]]);
 						}
 					}
 				}
 				foreach (UploadedFile file in Files)
-					logger.DebugFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
+					logger.InfoFormat("file: {0}, mime: {1}, size: {2}", file.Name, file.ContentType, file.Data.Count.ToString());
 			}
 		}
 
@@ -195,11 +195,11 @@ namespace Wammer.Station
 		{
 			try
 			{
-				string boundary = GetMultipartBoundary(request.ContentType);
+				var boundary = GetMultipartBoundary(request.ContentType);
 				var parser = new Parser(boundary);
 
-				Part[] parts = parser.Parse(RawPostData);
-				foreach (Part part in parts)
+				var parts = parser.Parse(RawPostData);
+				foreach (var part in parts)
 				{
 					if (part.ContentDisposition == null)
 						continue;
@@ -303,7 +303,7 @@ namespace Wammer.Station
 				var postData = Encoding.UTF8.GetString(RawPostData);
 				return HttpUtility.ParseQueryString(postData);
 			}
-			else if (req.HttpMethod.ToUpper().Equals("GET"))
+			else if (req.HttpMethod.Equals("GET",StringComparison.CurrentCultureIgnoreCase))
 			{
 				return HttpUtility.ParseQueryString(Request.Url.Query); //req.QueryString;
 			}

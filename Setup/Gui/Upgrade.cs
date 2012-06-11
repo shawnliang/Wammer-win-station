@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.ServiceProcess;
 using System.Diagnostics;
@@ -74,7 +75,7 @@ namespace Gui
 
 		private static void StopService(string svcName)
 		{
-			logger.Debug("Stop service: " + svcName);
+			logger.Info("Stop service: " + svcName);
 
 			ServiceController svc = new ServiceController(svcName);
 			int retry = 10;
@@ -86,7 +87,7 @@ namespace Gui
 					if (svc.Status != ServiceControllerStatus.Stopped &&
 						svc.Status != ServiceControllerStatus.StopPending)
 					{
-						logger.Debug("stop " + svcName);
+						logger.Info("stop " + svcName);
 						svc.Stop();
 						svc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(10.0));
 					}
@@ -132,11 +133,11 @@ namespace Gui
 
 				if (Directory.Exists(dumpFolder))
 				{
-					logger.Debug("deleting old backup folder: " + dumpFolder);
+					logger.Info("deleting old backup folder: " + dumpFolder);
 					Directory.Delete(dumpFolder, true);
 				}
 
-				logger.Debug("dumping mongo db....");
+				logger.Info("dumping mongo db....");
 				Process p = new Process();
 				ProcessStartInfo info = new ProcessStartInfo(
 					"mongodump.exe",
@@ -151,7 +152,7 @@ namespace Gui
 				if (p.ExitCode != 0)
 					throw new DataBackupException("mongodump.exe returns failure: " + p.ExitCode);
 
-				logger.Debug("dump completed");
+				logger.Info("dump completed");
 				// delete station collection to prevent previous version's uninstaller unregistering station. 
 				MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
 			}
@@ -172,7 +173,7 @@ namespace Gui
 				if (svc.Status != ServiceControllerStatus.Running &&
 					svc.Status != ServiceControllerStatus.StartPending)
 				{
-					logger.Debug("Starting Mongo db...");
+					logger.Info("Starting Mongo db...");
 					svc.Start();
 					svc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1.0));
 				}
@@ -187,7 +188,7 @@ namespace Gui
 				}
 			}
 
-			logger.Debug("Mongo db is running");
+			logger.Info("Mongo db is running");
 
 			DateTime start = DateTime.Now;
 			bool mongoDBOK = false;
@@ -195,11 +196,11 @@ namespace Gui
 			{
 				try
 				{
-					logger.Debug("checking if mongo db is accepting connection?");
+					logger.Info("checking if mongo db is accepting connection?");
 					MongoServer sv = MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true");
 					mongoDBOK = true;
 
-					logger.Debug("mongo db is ready to accept connection");
+					logger.Info("mongo db is ready to accept connection");
 				}
 				catch
 				{
@@ -214,6 +215,7 @@ namespace Gui
 				throw new DataBackupException("MongoDB is not accessible");
 			}
 		}
+
 
 		private static void BackupClientAppData()
 		{

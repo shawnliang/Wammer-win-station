@@ -18,16 +18,16 @@ namespace Wammer.Station
 #if DEBUG
 		private const long STATUS_CHECK_PERIOD = 30*1000; // run heartbeat frequently in debug mode
 #else
-		private const long STATUS_CHECK_PERIOD = 10 * 60 * 1000; // TODO: remove hardcode
+		private const long STATUS_CHECK_PERIOD = 60 * 1000; // TODO: remove hardcode
 #endif
 
 		private const long RESOURCE_SYNC_PEROID = 10*1000;
 
 		private readonly List<IStationTimer> timers;
 
-		public StationTimer(ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue, string stationId)
+		public StationTimer(ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue)
 		{
-			var resourceSyncer = new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue, stationId);
+			var resourceSyncer = new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue);
 			var statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
 			statusChecker.IsPrimaryChanged += resourceSyncer.OnIsPrimaryChanged;
 			var taskRetryTimer = new TaskRetryTimer();

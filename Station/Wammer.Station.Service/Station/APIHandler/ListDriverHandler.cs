@@ -4,6 +4,7 @@ using Wammer.Model;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/drivers/list/")]
 	public class ListDriverHandler : HttpHandler
 	{
 		public override void HandleRequest()

@@ -22,9 +22,8 @@ namespace Wammer.Station
 				m_Thread.Start();
 		}
 
-		public virtual void Stop()
+		public virtual void JoinOrKill()
 		{
-			exit = true;
 			if (m_Thread.ThreadState != ThreadState.Unstarted)
 			{
 				if (!m_Thread.Join(5000))
@@ -39,9 +38,9 @@ namespace Wammer.Station
 				}
 			}
 			m_Thread = null;
-			exit = false;
 		}
 
 		protected abstract void Do();
+		public abstract void StopAsync();
 	}
 }

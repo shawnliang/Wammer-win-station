@@ -1,5 +1,4 @@
-﻿using System.Net;
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 

@@ -65,6 +65,8 @@ namespace Waveface
         private string m_initSessionToken;
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
         private bool m_isPrimaryStation;
+        private string m_displayType;
+        private string m_delayPostText;
 
         #endregion
 
@@ -355,7 +357,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("Station401Exception"), I18n.L.T("TitleAuthExpired"), MessageBoxButtons.OK,
+                MessageBox.Show(I18n.L.T("Station401Exception"), "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 QuitOption = QuitOption.Logout;
@@ -662,9 +664,9 @@ namespace Waveface
             }
             catch (Exception e)
             {
-                s_logger.Error("Cannot login: " + e.ToString());
+                s_logger.Error("Cannot login: " + e);
                 MessageBox.Show(I18n.L.T("ForceLogout"), I18n.L.T("SystemErrorCaption"));
-                QuitOption = Waveface.QuitOption.Logout;
+                QuitOption = QuitOption.Logout;
                 Close();
             }
         }
@@ -875,6 +877,8 @@ namespace Waveface
             {
                 List<Post> _posts = RT.CurrentGroupPosts;
 
+                _posts = filterPost(_posts);
+
                 setCalendarBoldedDates(_posts);
 
                 postsArea.ShowPostInforPanel(false);
@@ -885,6 +889,29 @@ namespace Waveface
                     postsArea.PostsList.SetPosts(_posts);
                 }
             }
+        }
+
+        private List<Post> filterPost(List<Post> posts)
+        {
+            if (string.IsNullOrEmpty(m_displayType))
+                return posts;
+
+            List<Post> _posts = new List<Post>();
+
+            foreach (Post _p in posts)
+            {
+                if(_p.type == m_displayType)
+                    _posts.Add(_p);
+            }
+
+            return _posts;
+        }
+
+        public void DisplayFilter(string displayType)
+        {
+            m_displayType = displayType;
+
+            ShowPostInTimeline();
         }
 
         public void PrefetchImages()
@@ -903,23 +930,24 @@ namespace Waveface
 
             timerDelayPost.Enabled = false;
 
-            DoRealPostForm(m_delayPostPicList, m_delayPostType);
+            DoRealPostForm(m_delayPostPicList, m_delayPostType, m_delayPostText);
 
             m_delayPostPicList.Clear();
+            m_delayPostText = "";
 
             timerDelayPost.Enabled = true;
         }
 
         public void Post()
         {
-            DoRealPostForm(new List<string>(), PostType.All);
+            DoRealPostForm(new List<string>(), PostType.All, "");
         }
 
         public void EditPost(Post post, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
             try
             {
-                m_postForm = new PostForm(new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
+                m_postForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
                 DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)
@@ -946,17 +974,18 @@ namespace Waveface
             m_postForm = null;
         }
 
-        public void Post(List<string> pics, PostType postType)
+        public void Post(List<string> pics, PostType postType, string postText)
         {
             m_delayPostType = postType;
             m_delayPostPicList = pics;
+            m_delayPostText = postText;
         }
 
-        private void DoRealPostForm(List<string> pics, PostType postType)
+        private void DoRealPostForm(List<string> pics, PostType postType, string delayPostText)
         {
             try
             {
-                m_postForm = new PostForm(pics, postType, null, false, null, -1);
+                m_postForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
                 DialogResult _dr = m_postForm.ShowDialog();
 
                 switch (_dr)
@@ -1289,6 +1318,7 @@ namespace Waveface
                         }
 
                         m_delayPostType = PostType.Photo;
+                        m_delayPostText = "";
                         m_delayPostPicList = new List<string>
                                                  {
                                                      _fileContents
@@ -1327,7 +1357,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> {_pathToSave}, PostType.Photo);
+                Post(new List<string> {_pathToSave}, PostType.Photo, "");
             }
             catch (Exception _e)
             {
@@ -1619,7 +1649,7 @@ namespace Waveface
 
             RT.CurrentGroupPosts = _tmpPosts;
 
-            s_logger.Info("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
+			s_logger.Warn("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
         }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

@@ -12,8 +12,8 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	public class UpstreamTask : DelayedRetryTask
 	{
-		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
-		private static readonly IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
+		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
+		private static readonly IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
 
 		public UpstreamTask(string object_id, ImageMeta meta, TaskPriority pri)
 			: base(RetryQueue.Instance, pri)

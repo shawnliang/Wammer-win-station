@@ -58,10 +58,13 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Waveface.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AppLimit.NetSparkle">
@@ -634,6 +637,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main.zh-TW.resx">
       <DependentUpon>Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Libs\Diagnostics\CrashReporter.resx">
       <DependentUpon>CrashReporter.cs</DependentUpon>
@@ -812,6 +816,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\VirtualFolderForm.resx">
       <DependentUpon>VirtualFolderForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -962,6 +967,7 @@
     <None Include="Resources\FlatButton\FB_cover_hl.png" />
     <None Include="Resources\FlatButton\FB_blue_btn_2.png" />
     <None Include="Resources\FlatButton\FB_blue_btn_hl_2.png" />
+    <None Include="Resources\ArrowCircleDouble.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />
@@ -1029,6 +1035,7 @@
     <None Include="Resources\Magnifier.png" />
     <None Include="Resources\ObjectPosition.png" />
     <None Include="Resources\ObjectSize.png" />
+    <None Include="Resources\TickCircle.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

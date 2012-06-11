@@ -75,63 +75,12 @@ namespace Wammer.Station.Management
 		}
 
 		/// <summary>
-		/// Move default folder to another location
-		/// </summary>
-		/// <remarks>
-		/// Moving the default folder does these internally :
-		/// - stop station service
-		/// - write new folder location to database
-		/// - move folder to the destination
-		/// - start station service again
-		/// 
-		/// This method must be called after station owner is set. Otherwise, InvalidOperation is 
-		/// thrown.
-		/// </remarks>
-		/// <param name="absPath">absolute path to user's folder. The folder must be empty</param>
-		/// <exception cref="System.ArgumentException">
-		/// absPath is not an absolute path</exception>
-		/// <exception cref="System.IOException">
-		/// absPath is not empty, readonly or used by other process</exception>
-		/// <exception cref="System.InvalidOperationException">
-		/// The station's owner is not set yet.</exception>
-		public static void MoveDefaultFolder(string absPath)
-		{
-			if (!Path.IsPathRooted(absPath))
-				throw new ArgumentException("Not an absolute path");
-
-			string srcDir = GetDefaultFolder();
-			if (srcDir == null)
-				throw new InvalidOperationException("Station owner is not set yet.");
-
-			ProcessStartInfo info = new ProcessStartInfo(
-				Assembly.GetExecutingAssembly().Location,
-				"--moveFolder " + absPath);
-
-			info.Verb = "runas"; // to elevate privileges
-			info.WindowStyle = ProcessWindowStyle.Hidden;
-			info.CreateNoWindow = true;
-
-			Process proc = new Process
-			{
-				EnableRaisingEvents = true,
-				StartInfo = info,
-			};
-
-			proc.Start();
-			proc.WaitForExit();
-
-			if (proc.ExitCode != 0)
-			{
-				throw new ExternalException(proc.StandardOutput.ReadToEnd(), proc.ExitCode);
-			}
-		}
-
-
-		/// <summary>
 		/// Add a user to a station
 		/// </summary>
-		/// <param name="email"></param>
-		/// <param name="password"></param>
+		/// <param name="email">The email.</param>
+		/// <param name="password">The password.</param>
+		/// <param name="deviceId">The device id.</param>
+		/// <param name="deviceName">Name of the device.</param>
 		/// <returns>station's session token</returns>
 		/// <exception cref="Wammer.Station.Management.AuthenticationException">
 		/// Invalid user name or password
@@ -140,7 +89,7 @@ namespace Wammer.Station.Management
 		/// The station already has an driver
 		/// </exception>
 		/// <exception cref="Wammer.Station.Management.UserAlreadyHasStationException">
-		/// The user already has a station. The station's info, such as id/location/sync time, can 
+		/// The user already has a station. The station's info, such as id/location/sync time, can
 		/// be retrieved from the exception
 		/// </exception>
 		/// <exception cref="Wammer.Station.Management.StationServiceDownException">
@@ -553,7 +502,7 @@ namespace Wammer.Station.Management
 
 		public static void ConnectToInternet()
 		{
-			using (DefaultWebClient agent = new DefaultWebClient())
+			using (var agent = new DefaultWebClient())
 			{
 				agent.DownloadData("http://www.google.com");
 			}
@@ -563,7 +512,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true, false);
+				CloudServer.request<CloudResponse>(StationFuncURL + "availability/ping/", new Dictionary<object, object>(), true, false);
 			}
 			catch (WammerCloudException e)
 			{
@@ -575,7 +524,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				Wammer.Cloud.CloudServer.request<CloudResponse>(StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true, false);
+				CloudServer.request<CloudResponse>(StationMgmtURL + "availability/ping/", new Dictionary<object, object>(), true, false);
 			}
 			catch (WammerCloudException e)
 			{
@@ -667,6 +616,17 @@ namespace Wammer.Station.Management
 			{
 				throw ExtractApiRetMsg(e);
 			}
+		}
+
+		public static void MoveResourceFolder(string newLocation)
+		{
+			CloudServer.request<CloudResponse>(
+				StationMgmtURL + "station/resource_folder/move",
+				new Dictionary<object, object>
+				{
+					{ "folder", newLocation}
+				},
+				false);
 		}
 
 		public static ListDriverResponse ListUser()
@@ -763,11 +723,25 @@ namespace Wammer.Station.Management
 		/// <exception cref="System.TimeoutException"></exception>
 		private static void StartServices(TimeSpan timeout)
 		{
-			if (scvCtrl.Status != ServiceControllerStatus.Running &&
-				scvCtrl.Status != ServiceControllerStatus.StartPending)
-				scvCtrl.Start();
+			for (int i = 0; i < 3; i++)
+			{
+				scvCtrl.Refresh();
 
-			scvCtrl.WaitForStatus(ServiceControllerStatus.Running, timeout);
+				if (scvCtrl.Status != ServiceControllerStatus.Running &&
+					scvCtrl.Status != ServiceControllerStatus.StartPending)
+				{
+					scvCtrl.Start();
+
+					try
+					{
+						scvCtrl.WaitForStatus(ServiceControllerStatus.Running, timeout);
+						return;
+					}
+					catch (System.ServiceProcess.TimeoutException)
+					{
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -775,11 +749,24 @@ namespace Wammer.Station.Management
 		/// </summary>
 		private static void StopServices(TimeSpan timeout)
 		{
-			if (scvCtrl.Status != ServiceControllerStatus.Stopped &&
-				scvCtrl.Status != ServiceControllerStatus.StopPending)
-				scvCtrl.Stop();
+			for (int i = 0; i < 3; i++)
+			{
+				scvCtrl.Refresh();
 
-			scvCtrl.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+				if (scvCtrl.Status != ServiceControllerStatus.Stopped &&
+					scvCtrl.Status != ServiceControllerStatus.StopPending)
+				{
+					scvCtrl.Stop();
+					try
+					{
+						scvCtrl.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+						return;
+					}
+					catch (System.ServiceProcess.TimeoutException)
+					{
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -793,19 +780,33 @@ namespace Wammer.Station.Management
 
 		
 
-		private static void _MoveDefaultFolder(string absPath)
+		private static void _MoveDefaultFolder(string newFolder)
 		{
-			if (!Path.IsPathRooted(absPath))
+			if (!Path.IsPathRooted(newFolder))
 				throw new ArgumentException("Not an absolute path");
 
-			if (Directory.Exists(absPath))
-				Directory.Delete(absPath);
+			StopServices(TimeSpan.FromSeconds(20.0));
+			string oldFolder = FileStorage.ResourceFolder;
 
-			string srcDir = GetDefaultFolder();
-			StopServices(TimeSpan.FromSeconds(10.0));
-			Directory.Move(srcDir, absPath);
-			SetDefaultFolder(absPath);
-			StartServices(TimeSpan.FromSeconds(10.0));
+			foreach (var user in Model.DriverCollection.Instance.FindAll())
+			{
+				var userFolder = Path.Combine(newFolder, user.folder);
+				if (File.Exists(userFolder) ||
+					Directory.Exists(userFolder))
+					throw new Exception("Folder already exists: " + userFolder);
+			}
+
+
+			foreach (var user in Model.DriverCollection.Instance.FindAll())
+			{
+				Directory.Move(
+					Path.Combine(oldFolder, user.folder),
+					Path.Combine(newFolder, user.folder));
+			}
+
+			FileStorage.ResourceFolder = newFolder;
+
+			StartServices(TimeSpan.FromSeconds(20.0));
 		}
 
 		private static void SetDefaultFolder(string absPath)
@@ -822,28 +823,47 @@ namespace Wammer.Station.Management
 
 		public static int Main(string[] args)
 		{
+			string output = "";
+
 			try
 			{
+				
+				string moveDestination = "";
+
 				for (int i = 0; i < args.Length; i++)
 				{
 					switch (args[i])
 					{
 						case "--moveFolder":
-							string destFolder = args[++i];
-							_MoveDefaultFolder(destFolder);
-							return 0;
+							moveDestination = args[++i];
+							break;
+						case "--output":
+							output = args[++i];
+							break;
 						default:
 							Console.WriteLine("Unknown parameter: " + args[i]);
 							break;
 					}
 				}
 
-				Console.WriteLine("no parameter...");
-				return 1;
+				if (string.IsNullOrEmpty(moveDestination))
+					throw new ArgumentException("usage: --moveFolder path --output file");
+
+				_MoveDefaultFolder(moveDestination);
+				return 0;
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.Message);
+				if (string.IsNullOrEmpty(output))
+					Console.WriteLine(e.Message);
+				else
+				{
+					using (StreamWriter w = new StreamWriter(File.OpenWrite(output)))
+					{
+						w.WriteLine(e.Message);
+					}
+				}
+
 				return 1;
 			}
 		}

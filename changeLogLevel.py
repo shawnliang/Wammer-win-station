@@ -9,7 +9,7 @@ LOGLEVEL_PATTERN = re.compile('<level\s+value="DEBUG"\s+/>')
 
 
 def find_and_replace(target, loglevel, pattern):
-    newstring = '<level value="{0}"/>'.format(loglevel)
+    newstring = '<level value="{0}" />'.format(loglevel)
 
     fh, abs_path = mkstemp()
     new_file = open(abs_path, 'w')

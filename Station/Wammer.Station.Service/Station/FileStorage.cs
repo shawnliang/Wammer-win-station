@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 using Wammer.Model;
@@ -16,14 +16,24 @@ namespace Wammer.Station
 
 	public class FileStorage
 	{
-		private readonly string basePath;
+		public  string basePath;
+		private static string defaultResFolder;
+
+		static FileStorage()
+		{
+			defaultResFolder = Path.Combine(Environment.CurrentDirectory, "resource");
+		}
 
 		public FileStorage(Driver driver)
 		{
 			if (driver == null)
 				throw new ArgumentNullException("driver");
 
-			basePath = driver.folder;
+			if (driver.folder == null)
+				throw new ArgumentNullException("driver.folder");
+
+
+			basePath = Path.Combine(ResourceFolder, driver.folder);
 
 			if (!Directory.Exists(basePath))
 				CreateFolder(basePath);
@@ -61,7 +71,7 @@ namespace Wammer.Station
 			if (user == null || user.folder == null)
 				throw new ArgumentNullException("user", "user or user.folder is null");
 
-			return Path.Combine(user.folder, "temp_" + Guid.NewGuid().ToString());
+			return Path.Combine(ResourceFolder, Path.Combine(user.folder, "temp_" + Guid.NewGuid().ToString()));
 		}
 
 		public FileStream Load(string filename)
@@ -122,6 +132,19 @@ namespace Wammer.Station
 		public long GetUsedSize()
 		{
 			return FileStorageHelper.GetUsedSize(basePath);
+		}
+
+		public static string ResourceFolder
+		{
+			get
+			{
+				return StationRegistry.GetValue("ResourceFolder", defaultResFolder) as string;
+			}
+
+			set
+			{
+				StationRegistry.SetValue("ResourceFolder", value);
+			}
 		}
 	}
 

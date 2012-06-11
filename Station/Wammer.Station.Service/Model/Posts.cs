@@ -4,21 +4,20 @@ namespace Wammer.Model
 {
 	public class PostCollection : Collection<PostInfo>
 	{
-		private static readonly PostCollection instance;
+		#region Var
+		private static PostCollection _instance; 
+		#endregion
 
-		static PostCollection()
+		#region Property
+		public static PostCollection Instance
 		{
-			instance = new PostCollection();
+			get { return _instance ?? (_instance = new PostCollection()); }
 		}
-
+		#endregion
+		
 		private PostCollection()
 			: base("posts")
 		{
-		}
-
-		public static PostCollection Instance
-		{
-			get { return instance; }
 		}
 	}
 }

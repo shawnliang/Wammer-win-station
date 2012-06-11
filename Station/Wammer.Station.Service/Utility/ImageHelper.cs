@@ -16,8 +16,8 @@ namespace Wammer.Utility
 
 		static ImageHelper()
 		{
-			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
-			foreach (ImageCodecInfo codec in codecs)
+			var codecs = ImageCodecInfo.GetImageEncoders();
+			foreach (var codec in codecs)
 			{
 				switch (codec.MimeType.ToLower())
 				{

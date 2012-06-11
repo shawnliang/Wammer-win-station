@@ -224,7 +224,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA0
-        CAAAAk1TRnQBSQFMAgEBAgEAARwBBwEcAQcBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAVwBBwFcAQcBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -286,17 +286,17 @@
   <data name="&gt;&gt;tvCustomFilter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="panelCustomFilter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
   <data name="panelCustomFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 145</value>
+    <value>10, 173</value>
   </data>
   <data name="panelCustomFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 91</value>
+    <value>90, 57</value>
   </data>
   <data name="panelCustomFilter.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
+  </data>
+  <data name="panelCustomFilter.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;panelCustomFilter.Name" xml:space="preserve">
     <value>panelCustomFilter</value>
@@ -337,17 +337,17 @@
   <data name="&gt;&gt;tvTimeline.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="panelTimeline.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
   <data name="panelTimeline.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>10, 98</value>
   </data>
   <data name="panelTimeline.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 145</value>
+    <value>90, 69</value>
   </data>
   <data name="panelTimeline.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
+  </data>
+  <data name="panelTimeline.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;panelTimeline.Name" xml:space="preserve">
     <value>panelTimeline</value>
@@ -365,16 +365,13 @@
     <value>Fill</value>
   </data>
   <data name="panelFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 380</value>
+    <value>0, 390</value>
   </data>
   <data name="panelFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 236</value>
+    <value>176, 226</value>
   </data>
   <data name="panelFilter.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
-  </data>
-  <data name="panelFilter.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;panelFilter.Name" xml:space="preserve">
     <value>panelFilter</value>
@@ -431,7 +428,7 @@
     <value>monthCalendar</value>
   </data>
   <data name="&gt;&gt;monthCalendar.Type" xml:space="preserve">
-    <value>CustomControls.MonthCalendar, MonthCalendarControl, Version=1.0.4510.17720, Culture=neutral, PublicKeyToken=null</value>
+    <value>CustomControls.MonthCalendar, MonthCalendarControl, Version=1.0.4533.21145, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;monthCalendar.Parent" xml:space="preserve">
     <value>panelCalendar</value>
@@ -446,7 +443,7 @@
     <value>0, 181</value>
   </data>
   <data name="panelCalendar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 199</value>
+    <value>176, 209</value>
   </data>
   <data name="panelCalendar.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -525,7 +522,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADo
-        CAAAAk1TRnQBSQFMAgEBAgEAATwBBwE8AQcBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CAAAAk1TRnQBSQFMAgEBAgEAAXwBBwF8AQcBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA

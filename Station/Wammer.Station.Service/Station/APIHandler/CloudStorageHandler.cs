@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading;
+using log4net;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using log4net;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/cloudstorage/list/")]
 	public class ListCloudStorageHandler : HttpHandler
 	{
 		public override void HandleRequest()
@@ -53,7 +53,7 @@ namespace Wammer.Station
 
 			var res = api.StorageAuthorize(CloudStorageType.DROPBOX);
 
-			logger.DebugFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
+			logger.InfoFormat("Dropbox OAuth URL = {0}", res.storages.authorization_url);
 
 			RespondSuccess(
 				new GetDropboxOAuthResponse
@@ -134,7 +134,7 @@ namespace Wammer.Station
 			// cloud will put a token file on Waveface folder for account verification, verify it in at most 60 secs
 			string tokenFilePath = Path.Combine(folder, "waveface_" + token);
 			int retry = 120;
-			logger.DebugFormat("Check token file existence, path = {0}", tokenFilePath);
+			logger.InfoFormat("Check token file existence, path = {0}", tokenFilePath);
 			while (!File.Exists(tokenFilePath))
 			{
 				Thread.Sleep(500);
@@ -192,7 +192,7 @@ namespace Wammer.Station
 			CloudStorage storageDoc = CloudStorageCollection.Instance.FindOne(Query.EQ("Type", "dropbox"));
 			if (storageDoc != null)
 			{
-				logger.Debug("Unlink Dropbox account");
+				logger.Info("Unlink Dropbox account");
 
 				api.StorageUnlink(CloudStorageType.DROPBOX);
 				CloudStorageCollection.Instance.Remove(Query.EQ("Type", "dropbox"));

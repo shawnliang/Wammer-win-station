@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Text;
 using Wammer.Model;
 using Wammer.Utility;
@@ -44,7 +43,7 @@ namespace Wammer.Cloud
 			return CloudServer.requestPath<NewPostResponse>("posts/new", parameters);
 		}
 
-		public UpdatePostResponse UpdatePost(DateTime updateTime, Dictionary<string, string> param)
+		public UpdatePostResponse UpdatePost(DateTime updateTime, DateTime lastUpdateTime, Dictionary<string, string> param)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -59,7 +58,11 @@ namespace Wammer.Cloud
 
 			foreach (var key in param.Keys)
 			{
-				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
+				if (key == CloudServer.PARAM_LAST_UPDATE_TIME)
+				{
+					parameters.Add(key, lastUpdateTime.ToCloudTimeString());
+				}
+				else if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{
 					parameters.Add(key, param[key]);
 				}
@@ -126,7 +129,6 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-
 			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
 		}
 
@@ -156,7 +158,6 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
 			                 	};
 
-			
 			return CloudServer.requestPath<PostGetLatestResponse>("posts/getLatest", parameters, false);
 		}
 

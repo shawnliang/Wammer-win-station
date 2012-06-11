@@ -235,7 +235,7 @@ namespace Waveface
                     m_currentURL = _url;
 
                     WebRequest _wReq = WebRequest.Create(_url);
-                    _wReq.Timeout = 10000;
+                    _wReq.Timeout = 15000;
 
                     WebResponse _wRep = _wReq.GetResponse();
 

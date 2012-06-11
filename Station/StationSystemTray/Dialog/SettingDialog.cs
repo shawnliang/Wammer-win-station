@@ -1,19 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using MongoDB.Driver.Builders;
+using StationSystemTray.Properties;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.Management;
-using StationSystemTray.Properties;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Reflection;
+using System.IO;
 
 namespace StationSystemTray
 {
 	public partial class SettingDialog : Form
 	{
 		private string m_CurrentUserSession { get; set; }
+		private bool isMovingFolder = false;
+		private MethodInvoker closeClientProgram;
 
 		public event EventHandler<AccountEventArgs> AccountRemoving;
 		public event EventHandler<AccountEventArgs> AccountRemoved;
@@ -34,11 +39,12 @@ namespace StationSystemTray
 			AccountRemoved(this, e);
 		}
 
-		public SettingDialog(string currentUserSession)
+		public SettingDialog(string currentUserSession, MethodInvoker closeClientProgram)
 		{
 			InitializeComponent();
 
 			m_CurrentUserSession = currentUserSession;
+			this.closeClientProgram = closeClientProgram;
 		}
 
 		private void AdjustRemoveButton()
@@ -72,6 +78,7 @@ namespace StationSystemTray
 		private void LocalSettingDialog_Load(object sender, EventArgs e)
 		{
 			RefreshAccountList();
+			RefreshCurrentResourceFolder();
 		}
 
 		private void RefreshAccountList()
@@ -99,6 +106,11 @@ namespace StationSystemTray
 			if (loginedUser != null)
 				cmbStations.Text = loginedUser.user.nickname + " " + Resources.CURRENT_ACCOUT;
 			AdjustRemoveButton();
+		}
+
+		private void RefreshCurrentResourceFolder()
+		{
+			txtLocation.Text = StationRegistry.GetValue("ResourceFolder", "") as string;
 		}
 
 		private void btnUnlink_Click(object sender, EventArgs e)
@@ -161,6 +173,104 @@ namespace StationSystemTray
 		{
 			AdjustRemoveButton();
 			SetStorageUsage();
+		}
+
+		private void btnMove_Click(object sender, EventArgs e)
+		{
+			using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+			{
+				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) // cancelled
+					return;
+
+				if (dialog.SelectedPath.Equals(txtLocation.Text)) // not changed
+					return;
+
+				DialogResult confirm = MessageBox.Show("Stream is going to move the resource folder to " + dialog.SelectedPath + ". Are you sure?",
+					"Are you sure?", MessageBoxButtons.OKCancel);
+
+				if (confirm != System.Windows.Forms.DialogResult.OK)	// cancelled
+					return;
+
+				closeClientProgram();
+
+				txtLocation.Text = dialog.SelectedPath;
+
+				BackgroundWorker bgWorker = new BackgroundWorker();
+				bgWorker.DoWork += MoveResourceFolder_DoWork;
+				bgWorker.RunWorkerCompleted += MoveResourceFolder_WorkCompleted;
+				bgWorker.RunWorkerAsync(bgWorker);
+
+				Cursor.Current = Cursors.WaitCursor;
+				this.Enabled = false;
+				isMovingFolder = true;
+			}
+		}
+
+		private void MoveResourceFolder_DoWork(object sender, DoWorkEventArgs args)
+		{
+			string outputFilename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "move_folder.out");
+
+			Process p = new Process();
+			p.StartInfo = new ProcessStartInfo
+			{
+				FileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Station.Management.exe"),
+				Arguments = string.Format("--moveFolder \"{0}\" --output \"{1}\"", txtLocation.Text, outputFilename),
+				Verb = "runas",
+				CreateNoWindow = true,
+				WindowStyle = ProcessWindowStyle.Hidden,
+			};
+
+			p.Start();
+			p.WaitForExit();
+
+			if (p.ExitCode != 0)
+			{
+				if (File.Exists(outputFilename))
+				{
+					using (StreamReader reader = File.OpenText(outputFilename))
+					{
+						throw new Exception(reader.ReadToEnd());
+					}
+				}
+				else
+				{
+					throw new Exception("Unknown error");
+				}
+			}
+		}
+
+		private void MoveResourceFolder_WorkCompleted(object sender, RunWorkerCompletedEventArgs args)
+		{
+			try
+			{
+				if (args.Cancelled)
+					return;
+
+				if (args.Error != null)
+				{
+					MessageBox.Show(args.Error.Message);
+					return;
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.ToString());
+			}
+			finally
+			{
+				RefreshCurrentResourceFolder();
+
+				Cursor.Current = Cursors.Default;
+
+				this.Enabled = true;
+				isMovingFolder = false;
+			}
+		}
+
+		private void SettingDialog_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (isMovingFolder)
+				e.Cancel = true;
 		}
 	}
 }

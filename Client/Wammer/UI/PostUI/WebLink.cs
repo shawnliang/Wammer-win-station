@@ -19,6 +19,32 @@ namespace Waveface.PostUI
         public WebLink()
         {
             InitializeComponent();
+
+            HackDPI();
+        }
+
+        private void HackDPI()
+        {
+            float _r = getDPIRatio();
+
+            if (_r != 0)
+            {
+                Font _old = buttonRemovePreview.Font;
+                Font _new = new Font(_old.Name, _old.Size * _r, _old.Style);
+
+                buttonRemovePreview.Font = _new;
+            }
+        }
+
+        private float getDPIRatio()
+        {
+            using (Graphics _g = CreateGraphics())
+            {
+                if (_g.DpiX == 120)
+                    return 0.85f;
+            }
+
+            return 1;
         }
 
         public void ChangeToEditModeUI(Post post)
@@ -141,8 +167,13 @@ namespace Waveface.PostUI
                 }
             }
 
-            if (!string.IsNullOrEmpty(_aog.favicon_url))
+            if (string.IsNullOrEmpty(_aog.favicon_url))
+                _og.favicon_url = "";
+            else
                 _og.favicon_url = _aog.favicon_url;
+
+            if (_aog.images != null)
+                _og.images = _aog.images;
 
             return _og;
         }

@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Net;
+using System.Text;
+using log4net;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.JSONClass;
 using Wammer.Utility;
-using System.Text;
-using log4net;
 
 namespace Wammer.Cloud
 {
 	public class AttachmentApi
 	{
+		public const string TMPQUEUE = "tmpqueue";
 		#region Location enum
 
 		public enum Location
@@ -91,35 +91,77 @@ namespace Wammer.Cloud
 			CloudServer.requestDownload("attachments/view", parameters, evtargs.filepath);
 		}
 
+		public static AttachmentView GetImageMetadata(string objectId, string session_token, string apikey,
+														   ImageMeta meta, string station_id)
+		{
+			var parameters = new Dictionary<object, object>
+			                 	{
+			                 		{"object_id", objectId},
+			                 		{"session_token", session_token},
+			                 		{"station_id", station_id},
+			                 		{"apikey", apikey},
+			                 		{"return_meta", "true"}
+			                 	};
+
+			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
+				parameters.Add("image_meta", meta.ToString().ToLower());
+
+			return CloudServer.requestPath<AttachmentView>("attachments/view", parameters, true, false);
+		}
+
+		public static void SaveImageFromMetaData(AttachmentView metadata,string file,ref string contentType,
+															   Action<object, ProgressChangedEventArgs>
+																progressChangedCallBack)
+		{
+			using (var agent = new DefaultWebClient())
+			{
+				string tempFile = file + @".tmp";
+				using (Stream fileStream = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write))
+				{
+
+					var offset = fileStream.Length;
+
+					if (offset > 0)
+						logger.Info("Detect existed file, resume download \"" + tempFile + "\"");
+
+					if (offset > 5)
+						offset -= 5;
+
+					agent.AddRange((int)offset);
+					fileStream.Seek(offset, SeekOrigin.Begin);
+
+					using (var from = agent.OpenRead(metadata.redirect_to))
+					{
+
+						from.WriteTo(fileStream, 1024, progressChangedCallBack);
+
+						if (fileStream != null) fileStream.Dispose();
+
+						contentType = agent.ResponseHeaders["Content-type"];
+					}
+
+					File.Move(tempFile, file);
+				}
+			}
+		}
+
 		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey,
 		                                                       ImageMeta meta, string station_id)
 		{
 			return DownloadImageWithMetadata(objectId, session_token, apikey, meta, station_id, null);
 		}
 
+
 		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey,
-		                                                       ImageMeta meta, string station_id,
-		                                                       Action<object, ProgressChangedEventArgs>
-		                                                       	progressChangedCallBack)
+															   ImageMeta meta, string station_id,
+															   Action<object, ProgressChangedEventArgs>
+																progressChangedCallBack)
 		{
-			using (var agent = new NoRedirectWebClient())
+			var metadata = GetImageMetadata(objectId, session_token, apikey, meta, station_id);
+
+			logger.Info("Attachement redirect to: " + metadata.redirect_to);
+			using (var agent = new DefaultWebClient())
 			{
-				var parameters = new Dictionary<object, object>
-				                 	{
-				                 		{"object_id", objectId},
-				                 		{"session_token", session_token},
-				                 		{"station_id", station_id},
-				                 		{"apikey", apikey},
-				                 		{"return_meta", "true"}
-				                 	};
-
-				if (meta != ImageMeta.Origin && meta != ImageMeta.None)
-					parameters.Add("image_meta", meta.ToString().ToLower());
-
-				var metadata = CloudServer.requestPath<AttachmentView>("attachments/view", parameters);
-
-				logger.Debug("Attachement redirect to: " + metadata.redirect_to);
-				agent.AllowAutoRedirect = true;
 				using (var to = new MemoryStream())
 				using (var from = agent.OpenRead(metadata.redirect_to))
 				{
@@ -142,7 +184,7 @@ namespace Wammer.Cloud
 			};
 
 			CloudServer.requestPath<CloudResponse>("attachments/set_sync", parameters);
-			logger.Debug("attachments/set_sync: " + object_id);
+			logger.Info("attachments/set_sync: " + object_id);
 		}
 
 		public static void SetSync(ICollection<string> object_ids, string session_token)
@@ -167,7 +209,23 @@ namespace Wammer.Cloud
 			};
 
 			CloudServer.requestPath<CloudResponse>("attachments/set_sync", parameters);
-			logger.Debug("attachments/set_sync: " + objIdArray);
+			logger.Info("attachments/set_sync: " + objIdArray);
+		}
+
+		public static AttachmentQueueResponse GetQueue(string session, int count)
+		{
+			using (DefaultWebClient agent = new DefaultWebClient())
+			{
+				Dictionary<object, object> parameters = new Dictionary<object, object>
+				{
+					{ CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+					{ CloudServer.PARAM_SESSION_TOKEN, session},
+					{ CloudServer.PARAM_TARGET, TMPQUEUE},
+					{ CloudServer.PARAM_COUNT, count}
+				};
+				
+				return CloudServer.requestPath<AttachmentQueueResponse>("attachments/get_queue", parameters, false);
+			}
 		}
 
 		public static AttachmentInfo GetInfo(string object_id, string session_token)
@@ -198,5 +256,11 @@ namespace Wammer.Cloud
 		public byte[] Image { get; private set; }
 		public AttachmentView Metadata { get; private set; }
 		public string ContentType { get; private set; }
+	}
+	public class AttachmentQueueResponse
+	{
+		public int total_results { get; set; }
+		public int counts { get; set; }
+		public List<string> objects { get; set; }
 	}
 }

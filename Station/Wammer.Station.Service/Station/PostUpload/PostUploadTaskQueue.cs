@@ -15,7 +15,11 @@ namespace Wammer.PostUpload
 		private readonly object cs = new object();
 		private readonly Semaphore headTasks = new Semaphore(0, int.MaxValue);
 		private readonly PostUploadMonitor monitor = new PostUploadMonitor();
+
+		private List<string> postIDList = new List<string>();
 		private Dictionary<string, LinkedList<PostUploadTask>> postQueue;
+
+		//TODO: 沒Session或已沒Driver的Task不該立即載入
 
 		public static PostUploadTaskQueue Instance
 		{
@@ -32,14 +36,28 @@ namespace Wammer.PostUpload
 
 		public void InitFromDB()
 		{
+			var lowPriorityTasks = new List<PostUploadTask>();
 			postQueue = new Dictionary<string, LinkedList<PostUploadTask>>();
 			foreach (PostUploadTasks ptasks in PostUploadTasksCollection.Instance.FindAll())
 			{
 				foreach (PostUploadTask task in ptasks.tasks)
 				{
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
+					if(driver == null || string.IsNullOrEmpty(driver.session_token))
+					{
+						lowPriorityTasks.Add(task);
+						continue;
+					}
+
 					task.Status = PostUploadTaskStatus.Wait;
 					Enqueue(task);
 				}
+			}
+
+			foreach (var task in lowPriorityTasks)
+			{
+				task.Status = PostUploadTaskStatus.Wait;
+				Enqueue(task);
 			}
 		}
 
@@ -54,6 +72,8 @@ namespace Wammer.PostUpload
 				}
 				else
 				{
+					postIDList.Add(task.PostId);
+
 					queue = new LinkedList<PostUploadTask>();
 					queue.AddLast(task);
 					postQueue.Add(task.PostId, queue);
@@ -72,9 +92,27 @@ namespace Wammer.PostUpload
 			IsAvailableHeadTaskExist();
 			lock (cs)
 			{
-				foreach (var pair in postQueue)
+				var lowPriorityTasks = new List<PostUploadTask>();
+				foreach (var postID in postIDList)
 				{
-					PostUploadTask task = pair.Value.First();
+					var task = postQueue[postID].First();
+
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
+					if (driver == null || string.IsNullOrEmpty(driver.session_token))
+					{
+						lowPriorityTasks.Add(task);
+						continue;
+					}
+
+					if (task.Status == PostUploadTaskStatus.Wait)
+					{
+						task.Status = PostUploadTaskStatus.InProgress;
+						return task;
+					}
+				}
+
+				foreach (var task in lowPriorityTasks)
+				{
 					if (task.Status == PostUploadTaskStatus.Wait)
 					{
 						task.Status = PostUploadTaskStatus.InProgress;
@@ -105,6 +143,7 @@ namespace Wammer.PostUpload
 				}
 				else
 				{
+					postIDList.Remove(task.PostId);
 					postQueue.Remove(task.PostId);
 					PostUploadTasksCollection.Instance.Remove(
 						Query.EQ("_id", task.PostId));
@@ -118,6 +157,9 @@ namespace Wammer.PostUpload
 		{
 			lock (cs)
 			{
+				postIDList.Remove(task.PostId);
+				postIDList.Add(task.PostId);
+
 				PostUploadTask headTask = postQueue[task.PostId].First();
 				Debug.Assert(task.Timestamp == headTask.Timestamp);
 				headTask.Status = PostUploadTaskStatus.Wait;

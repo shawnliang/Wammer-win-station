@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using log4net;
@@ -26,7 +25,7 @@ namespace Wammer.Station.Timeline
 	[Serializable]
 	public class ResourceDownloadTask : DelayedRetryTask, IResourceDownloadTask
 	{
-		private static ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
+		private static readonly ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
 
 		private ResourceDownloadEventArgs evtargs;
 
@@ -256,7 +255,7 @@ namespace Wammer.Station.Timeline
 
 				if (alreadyExist)
 				{
-					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id,
+					logger.InfoFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id,
 									   meta);
 					return;
 				}
@@ -264,7 +263,7 @@ namespace Wammer.Station.Timeline
 				Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", evtargs.user_id));
 				if (user == null)
 				{
-					logger.Debug("drop download task because user does not exist anymore: " + evtargs.user_id);
+					logger.Info("drop download task because user does not exist anymore: " + evtargs.user_id);
 					return;
 				}
 

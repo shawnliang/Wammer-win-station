@@ -39,21 +39,25 @@ namespace Wammer.Model
 
 	public class UserTrackCollection : Collection<UserTracks>
 	{
-		private static readonly UserTrackCollection instance;
+		#region Var
+		private static UserTrackCollection _instance; 
+		#endregion
 
-		static UserTrackCollection()
+		#region Property
+		/// <summary>
+		/// Gets the instance.
+		/// </summary>
+		/// <value>The instance.</value>
+		public static UserTrackCollection Instance
 		{
-			instance = new UserTrackCollection();
+			get { return _instance ?? (_instance = new UserTrackCollection()); }
 		}
+		#endregion
+
 
 		private UserTrackCollection()
 			: base("usertracks")
 		{
-		}
-
-		public static UserTrackCollection Instance
-		{
-			get { return instance; }
 		}
 	}
 }

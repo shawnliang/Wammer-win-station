@@ -10,6 +10,7 @@ using Wammer.PerfMonitor;
 using Wammer.Station;
 using Wammer.Utility;
 using fastJSON;
+using log4net;
 
 namespace Wammer.Cloud
 {
@@ -46,7 +47,8 @@ namespace Wammer.Cloud
 		public const string PARAM_FAVORITE = "favorite";
 		public const string PARAM_UPDATE_TIME = "update_time";
 		public const string PARAM_REMOVE_ALL_DATA = "remove_resource";
-
+		public const string PARAM_COUNT = "count";
+		public const string PARAM_TARGET = "target";
 		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
 		                                                    	{
 		                                                    		{"0ffd0a63-65ef-512b-94c7-ab3b33117363", "Station"},
@@ -65,6 +67,8 @@ namespace Wammer.Cloud
 		private static bool isOffline;
 		public static string SessionToken { get; set; }
 
+
+		private static readonly ILog logger = LogManager.GetLogger("CloudServer");
 
 		/// <summary>
 		/// Gets or sets wammer cloud base url
@@ -160,13 +164,28 @@ namespace Wammer.Cloud
 				buf.Remove(buf.Length - 1, 1);
 				using (var agent = new DefaultWebClient())
 				{
-					Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf));
+					using (var fileStream = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write))
+					{
+						var offset = fileStream.Length;
 
-					Debug.Assert(stream != null, "stream != null");
-					stream.WriteTo(filepath, 1024,
-					               (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false).IncrementBy(
-					               	long.Parse(e.UserState.ToString())));
-					stream.Close();
+						if (offset > 0)
+							logger.Info("Detect existed file, resume download \"" + filepath + "\"");
+
+						if (offset > 5)
+							offset -= 5;
+
+						agent.AddRange((int)offset);
+						fileStream.Seek(offset, SeekOrigin.Begin);
+
+						using (Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf)))
+						{
+							Debug.Assert(stream != null, "stream != null");
+
+							stream.WriteTo(fileStream, 1024,
+										   (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
+											long.Parse(e.UserState.ToString())));
+						}
+					}
 				}
 			}
 			catch (WebException e)
@@ -210,11 +229,12 @@ namespace Wammer.Cloud
 		/// <param name="parms">request parameter names and values.
 		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
+		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
 		/// <returns>Response value</returns>
 		public static string requestPath(string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true)
+		                                 bool checkOffline = true,Boolean autoRedirectRequest = true)
 		{
-			return requestPath(BaseUrl, path, parms, checkOffline);
+			return requestPath(BaseUrl, path, parms, checkOffline, autoRedirectRequest);
 		}
 
 		/// <summary>
@@ -224,9 +244,11 @@ namespace Wammer.Cloud
 		/// <param name="path">The path.</param>
 		/// <param name="parms">The parms.</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
+		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
+		/// <param name="timeout">The timeout.</param>
 		/// <returns></returns>
 		public static string requestPath(string baseUrl, string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true, int timeout = -1)
+		                                 bool checkOffline = true, Boolean autoRedirectRequest = true, int timeout = -1)
 		{
 			if (checkOffline)
 			{
@@ -241,7 +263,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				string res = request(url, parms);
+				string res = request(url, parms, autoRedirectRequest, timeout);
 				isOffline = false;
 				return res;
 			}
@@ -260,9 +282,10 @@ namespace Wammer.Cloud
 		/// <param name="parms">request parameter names and values.
 		/// They will be URLEncoded and transformed to name1=val1&amp;name2=val2...</param>
 		/// <param name="checkOffline">if set to <c>true</c> [check offline].</param>
+		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(string path, Dictionary<object, object> parms,
-		                               bool checkOffline = true)
+		                               bool checkOffline = true, Boolean autoRedirectRequest = true)
 		{
 			if (checkOffline)
 			{
@@ -275,7 +298,7 @@ namespace Wammer.Cloud
 
 			try
 			{
-				var res = ConvertFromJson<T>(requestPath(path, parms, false));
+				var res = ConvertFromJson<T>(requestPath(path, parms, false, autoRedirectRequest));
 				isOffline = false;
 				return res;
 			}
@@ -387,7 +410,7 @@ namespace Wammer.Cloud
 			return resObj;
 		}
 
-		public static string request(string url, Dictionary<object, object> param, int timeout = -1)
+		public static string request(string url, Dictionary<object, object> param, Boolean autoRedirectRequest = true, int timeout = -1)
 		{
 			if (param.Count == 0)
 				return request(url);
@@ -407,7 +430,7 @@ namespace Wammer.Cloud
 			// remove last &
 			buf.Remove(buf.Length - 1, 1);
 
-			return request(url, buf.ToString());
+			return request(url, buf.ToString(), autoRedirectRequest, timeout);
 		}
 
 		public static T request<T>(string url, Dictionary<object, object> param, bool checkOffline = true)
@@ -434,7 +457,7 @@ namespace Wammer.Cloud
 			}
 		}
 
-		private static string request(string url, string postData = "", int timeout = -1)
+		private static string request(string url, string postData = "", Boolean autoRedirectRequest = true, int timeout = -1)
 		{
 			long beginTime = Environment.TickCount;
 
@@ -443,6 +466,7 @@ namespace Wammer.Cloud
 				byte[] rawResponse;
 				using (var agent = new DefaultWebClient())
 				{
+					agent.AllowAutoRedirect = autoRedirectRequest;
 					if (timeout > 0)
 					{
 						agent.Timeout = timeout;

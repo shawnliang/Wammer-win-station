@@ -1,35 +1,16 @@
 using System;
-using Wammer.Cloud;
-using Wammer.PostUpload;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/resumeSync/")]
 	internal class ResumeSyncHandler : HttpHandler
 	{
-		private readonly AbstrackTaskRunner[] bodySyncRunners;
-		private readonly PostUploadTaskRunner postUploadRunner;
-		private readonly StationTimer stationTimer;
-		private readonly AbstrackTaskRunner[] upstreamRunners;
-
 		public event EventHandler SyncResumed;
 
-		public ResumeSyncHandler(PostUploadTaskRunner postUploadRunner, StationTimer stationTimer,
-		                         AbstrackTaskRunner[] bodySyncRunners, AbstrackTaskRunner[] upstreamRunners)
-		{
-			this.postUploadRunner = postUploadRunner;
-			this.stationTimer = stationTimer;
-			this.bodySyncRunners = bodySyncRunners;
-			this.upstreamRunners = upstreamRunners;
-		}
 
 		public override void HandleRequest()
 		{
-			postUploadRunner.Start();
-			stationTimer.Start();
-			Array.ForEach(bodySyncRunners, taskRunner => taskRunner.Start());
-			Array.ForEach(upstreamRunners, taskRunner => taskRunner.Start());
-
-			this.LogDebugMsg("Start function server successfully");
+			Station.Instance.ResumeSync();
 
 			RespondSuccess();
 
@@ -38,14 +19,9 @@ namespace Wammer.Station
 
 		private void OnSyncResumed()
 		{
-			EventHandler handler = SyncResumed;
+			var handler = SyncResumed;
 			if (handler != null)
 				handler(this, EventArgs.Empty);
 		}
-	}
-
-	public class StationOnlineResponse : CloudResponse
-	{
-		public string session_token { get; set; }
 	}
 }

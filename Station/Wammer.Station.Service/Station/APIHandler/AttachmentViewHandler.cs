@@ -11,6 +11,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/attachments/view/")]
 	public class AttachmentViewHandler : HttpHandler
 	{
 		private readonly string station_id;
@@ -43,11 +44,11 @@ namespace Wammer.Station
 
 		public override void HandleRequest()
 		{
-			ImageMeta imageMeta = ImageMeta.None;
+			var imageMeta = ImageMeta.None;
 
 			try
 			{
-				string objectId = Parameters["object_id"];
+				var objectId = Parameters["object_id"];
 				if (objectId == null)
 					throw new ArgumentException("missing required param: object_id");
 
@@ -67,15 +68,15 @@ namespace Wammer.Station
 					return;
 				}
 
-				string namePart = objectId;
-				string metaStr = imageMeta.GetCustomAttribute<DescriptionAttribute>().Description;
+				var namePart = objectId;
+				var metaStr = imageMeta.GetCustomAttribute<DescriptionAttribute>().Description;
 
 				if (imageMeta != ImageMeta.Origin)
 				{
 					namePart += "_" + metaStr;
 				}
 
-				Attachment doc =
+				var doc =
 					AttachmentCollection.Instance.FindOne(imageMeta == ImageMeta.Origin
 					                                      	? Query.And(Query.EQ("_id", objectId), Query.Exists("saved_file_name", true))
 					                                      	: Query.And(Query.EQ("_id", objectId),
@@ -88,20 +89,20 @@ namespace Wammer.Station
 					return;
 				}
 
-				Driver driver = DriverCollection.Instance.FindDriverByGroupId(doc.group_id);
+				var driver = DriverCollection.Instance.FindDriverByGroupId(doc.group_id);
 				if (driver == null)
 					throw new WammerStationException("Cannot find user with group_id: " + doc.group_id,
 					                                 (int) StationLocalApiError.InvalidDriver);
 
 				var storage = new FileStorage(driver);
-				FileStream fs = storage.LoadByNameWithNoSuffix(namePart);
+				var fs = storage.LoadByNameWithNoSuffix(namePart);
 				Response.StatusCode = 200;
 				Response.ContentLength64 = fs.Length;
 				Response.ContentType = doc.mime_type;
 
 				if (doc.type == AttachmentType.image && imageMeta != ImageMeta.Origin)
 					Response.ContentType = doc.image_meta.GetThumbnailInfo(imageMeta).mime_type;
-
+				
 				StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
 				                       new CopyState(fs, Response, objectId));
 			}
@@ -141,14 +142,13 @@ namespace Wammer.Station
 			{
 				OnFileDownloadStarted();
 
-				var downloadResult = AttachmentApi.DownloadImageWithMetadata(
-					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id,
-					(sender, e) => OnFileDownloadInProgress(e));
+				var metaData = AttachmentApi.GetImageMetadata(
+					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id);
 
-				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", downloadResult.Metadata.creator_id));
+				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", metaData.creator_id));
 
 				if (driver == null)
-					throw new WammerStationException("driver does not exist: " + downloadResult.Metadata.creator_id,
+					throw new WammerStationException("driver does not exist: " + metaData.creator_id,
 					                                 (int) StationLocalApiError.InvalidDriver);
 
 				if (meta == ImageMeta.Origin && !driver.isPrimaryStation)
@@ -156,11 +156,17 @@ namespace Wammer.Station
 					                                 (int) StationLocalApiError.AccessDenied);
 
 				var storage = new FileStorage(driver);
-				var fileName = GetSavedFile(Parameters["object_id"], downloadResult.Metadata.redirect_to, meta);
-				storage.SaveFile(fileName, new ArraySegment<byte>(downloadResult.Image));
+				var fileName = GetSavedFile(Parameters["object_id"], metaData.redirect_to, meta);
+
+				var contentType = string.Empty;
+				var file = Path.Combine(storage.basePath, fileName);
+				AttachmentApi.SaveImageFromMetaData(metaData, file,ref contentType,
+				                                    (sender, e) => OnFileDownloadInProgress(e));
 
 				this.LogDebugMsg("Save attachement file to " + fileName);
 
+				var imageData = File.ReadAllBytes(file);
+				var downloadResult = new DownloadResult(imageData, metaData, contentType);
 				SetAttachementToDB(meta, downloadResult, fileName);
 
 				if (meta == ImageMeta.Origin || meta == ImageMeta.None)
@@ -273,18 +279,18 @@ namespace Wammer.Station
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
 		{
-			string fileName = objectID;
+			var fileName = objectID;
 
 			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 			{
-				string metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
 				fileName += "_" + metaStr;
 			}
 
 			if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
 				uri = new Uri(uri).AbsolutePath;
 
-			string extension = Path.GetExtension(uri);
+			var extension = Path.GetExtension(uri);
 
 			if (meta == ImageMeta.Small || meta == ImageMeta.Medium || meta == ImageMeta.Large || meta == ImageMeta.Square)
 				fileName += ".dat";

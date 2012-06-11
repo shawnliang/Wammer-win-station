@@ -8,6 +8,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/posts/getLatest/")]
 	public class PostGetLatestHandler : HttpHandler
 	{
 		private const int DEFAULT_LIMIT = 50;

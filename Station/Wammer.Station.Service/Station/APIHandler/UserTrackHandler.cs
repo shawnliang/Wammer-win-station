@@ -9,6 +9,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station.APIHandler
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/usertracks/get/")]
 	public class UserTrackHandler : HttpHandler
 	{
 		private readonly UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());

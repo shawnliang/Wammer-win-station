@@ -29,9 +29,11 @@ namespace Wammer
 
 		#region Public Method
 
-		public void AddPostUploadAction(string postId, PostUploadActionType actionType, NameValueCollection parameters)
+		public void AddPostUploadAction(string postId, PostUploadActionType actionType, NameValueCollection parameters, DateTime timestamp, DateTime lastUpdateTime)
 		{
-			string userId = FindUserId(parameters[CloudServer.PARAM_GROUP_ID]);
+			var userId = FindUserId(parameters[CloudServer.PARAM_GROUP_ID]);
+			var apiKey = parameters[CloudServer.PARAM_API_KEY];
+
 			switch (actionType)
 			{
 				case PostUploadActionType.NewPost:
@@ -39,12 +41,13 @@ namespace Wammer
 					                                     	{
 					                                     		PostId = postId,
 					                                     		UserId = userId,
-					                                     		Timestamp = DateTime.Now,
+					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: string.Empty
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
+					                                     				: string.Empty,
+																LastUpdateTime = lastUpdateTime
 					                                     	});
 					break;
 				case PostUploadActionType.UpdatePost:
@@ -52,12 +55,13 @@ namespace Wammer
 					                                     	{
 					                                     		PostId = postId,
 					                                     		UserId = userId,
-					                                     		Timestamp = DateTime.Now,
+					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: string.Empty
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
+					                                     				: string.Empty,
+																LastUpdateTime = lastUpdateTime
 					                                     	});
 					break;
 				case PostUploadActionType.Comment:
@@ -65,12 +69,13 @@ namespace Wammer
 					                                     	{
 					                                     		PostId = postId,
 					                                     		UserId = userId,
-					                                     		Timestamp = DateTime.Now,
+					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: string.Empty
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
+					                                     				: string.Empty,
+																LastUpdateTime = lastUpdateTime
 					                                     	});
 					break;
 				case PostUploadActionType.Hide:
@@ -78,12 +83,13 @@ namespace Wammer
 					                                     	{
 					                                     		PostId = postId,
 					                                     		UserId = userId,
-					                                     		Timestamp = DateTime.Now,
+					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: string.Empty
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
+					                                     				: string.Empty,
+																LastUpdateTime = lastUpdateTime
 					                                     	});
 					break;
 				case PostUploadActionType.UnHide:
@@ -91,12 +97,13 @@ namespace Wammer
 					                                     	{
 					                                     		PostId = postId,
 					                                     		UserId = userId,
-					                                     		Timestamp = DateTime.Now,
+					                                     		Timestamp = timestamp,
 					                                     		Parameters = ConvertToDictionary(parameters),
 					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(parameters[CloudServer.PARAM_API_KEY])
-					                                     				? CloudServer.CodeName[parameters[CloudServer.PARAM_API_KEY]]
-					                                     				: string.Empty
+					                                     			CloudServer.CodeName.ContainsKey(apiKey)
+					                                     				? CloudServer.CodeName[apiKey]
+					                                     				: string.Empty,
+																LastUpdateTime = lastUpdateTime
 					                                     	});
 					break;
 				default:

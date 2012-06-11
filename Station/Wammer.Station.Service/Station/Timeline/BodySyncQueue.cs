@@ -6,6 +6,17 @@ namespace Wammer.Station.Timeline
 {
 	public class BodySyncQueue : ITaskEnqueuable<IResourceDownloadTask>, ITaskDequeuable<IResourceDownloadTask>
 	{
+		#region Var
+		private static BodySyncQueue _instance;
+		#endregion
+
+		#region Property
+		public static BodySyncQueue Instance
+		{
+			get { return _instance ?? (_instance = new BodySyncQueue()); }
+		}
+		#endregion
+
 #if DEBUG
 		private int TotalTaskCount { get; set; }
 		private int TotalDroppedTaskCount { get; set; }
@@ -16,21 +27,10 @@ namespace Wammer.Station.Timeline
 		private readonly Queue<IResourceDownloadTask> mediumPriorityQueue = new Queue<IResourceDownloadTask>();
 		private readonly Queue<IResourceDownloadTask> highPriorityQueue = new Queue<IResourceDownloadTask>();
 
-		private static BodySyncQueue instance;
-
+		
 		public event EventHandler TaskDropped;
 
-		#region Singleton
-		static BodySyncQueue()
-		{
-			instance = new BodySyncQueue();
-		}
-
-		public static BodySyncQueue Instance
-		{
-			get { return instance; }
-		}
-
+		#region Constructor
 		private BodySyncQueue()
 		{
 		}
@@ -135,7 +135,7 @@ namespace Wammer.Station.Timeline
 			++TotalTaskCount;
 #endif
 
-			EventHandler handler = Enqueued;
+			var handler = Enqueued;
 			if (handler != null)
 			{
 				handler(this, arg);
@@ -144,42 +144,34 @@ namespace Wammer.Station.Timeline
 
 		public void RemoveAllByUserId(string user_id)
 		{
-			lock (highPriorityQueue)
-			{
-				RemoveUserTasksFromQueue(user_id, highPriorityQueue);
-			}
-
-			lock (mediumPriorityQueue)
-			{
-				RemoveUserTasksFromQueue(user_id, mediumPriorityQueue);
-			}
-
-			lock (lowPriorityQueue)
-			{
-				RemoveUserTasksFromQueue(user_id, lowPriorityQueue);
-			}
+			RemoveUserTasksFromQueue(user_id, highPriorityQueue);
+			RemoveUserTasksFromQueue(user_id, mediumPriorityQueue);
+			RemoveUserTasksFromQueue(user_id, lowPriorityQueue);
 		}
 
 		private void RemoveUserTasksFromQueue(string user_id, Queue<IResourceDownloadTask> oldQueue)
 		{
-			Queue<IResourceDownloadTask> newQueue = new Queue<IResourceDownloadTask>();
-			foreach (var task in oldQueue)
+			lock (oldQueue)
 			{
-				if (!task.UserId.Equals(user_id))
-					newQueue.Enqueue(task);
-				else
+				var newQueue = new Queue<IResourceDownloadTask>();
+				foreach (var task in oldQueue)
 				{
-					keys.Remove(task.Name);
-					hasItem.WaitOne();
-					OnTaskDropped();
+					if (!task.UserId.Equals(user_id))
+						newQueue.Enqueue(task);
+					else
+					{
+						keys.Remove(task.Name);
+						hasItem.WaitOne();
+						OnTaskDropped();
+					}
 				}
-			}
 
-			if (oldQueue.Count != newQueue.Count)
-			{
-				oldQueue.Clear();
-				foreach (var task in newQueue)
-					oldQueue.Enqueue(task);
+				if (oldQueue.Count != newQueue.Count)
+				{
+					oldQueue.Clear();
+					foreach (var task in newQueue)
+						oldQueue.Enqueue(task);
+				}
 			}
 		}
 
@@ -189,7 +181,7 @@ namespace Wammer.Station.Timeline
 			++TotalDroppedTaskCount;
 #endif
 
-			EventHandler handler = TaskDropped;
+			var handler = TaskDropped;
 			if (handler != null)
 				handler(this, EventArgs.Empty);
 		}
@@ -198,10 +190,11 @@ namespace Wammer.Station.Timeline
 
 	internal class DummyResourceDownloadTask: IResourceDownloadTask
 	{
+		private readonly string name = Guid.NewGuid().ToString();
 
 		public string Name
 		{
-			get { return string.Empty; }
+			get { return name; }
 		}
 
 		public string UserId

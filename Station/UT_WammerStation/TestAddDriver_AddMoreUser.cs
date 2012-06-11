@@ -54,7 +54,7 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void setUp()
 		{
-			handler = new AddDriverHandler("stationId", "resource");
+			handler = new AddDriverHandler();
 			Server.AddHandler("/v2/station/drivers/add/", handler);
 			Server.Start();
 			Server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
@@ -171,7 +171,7 @@ namespace UT_WammerStation
 				
 				Assert.IsNotNull(driver);
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(@"user_uid1", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.AreEqual(1, driver.groups.Count);
 				Assert.AreEqual(res1.session_token, driver.session_token);

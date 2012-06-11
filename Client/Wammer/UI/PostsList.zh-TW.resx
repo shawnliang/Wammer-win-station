@@ -119,12 +119,42 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="miRemovePost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+    <value>122, 22</value>
   </data>
   <data name="miRemovePost.Text" xml:space="preserve">
     <value>移除貼文</value>
   </data>
+  <data name="miDisplayAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 22</value>
+  </data>
+  <data name="miDisplayAll.Text" xml:space="preserve">
+    <value>所有</value>
+  </data>
+  <data name="miDisplayText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 22</value>
+  </data>
+  <data name="miDisplayText.Text" xml:space="preserve">
+    <value>文字</value>
+  </data>
+  <data name="miDisplayPhoto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 22</value>
+  </data>
+  <data name="miDisplayPhoto.Text" xml:space="preserve">
+    <value>照片</value>
+  </data>
+  <data name="miDisplayWebLink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 22</value>
+  </data>
+  <data name="miDisplayWebLink.Text" xml:space="preserve">
+    <value>網頁</value>
+  </data>
+  <data name="displayToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 22</value>
+  </data>
+  <data name="displayToolStripMenuItem.Text" xml:space="preserve">
+    <value>顯示類型</value>
+  </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 26</value>
+    <value>123, 48</value>
   </data>
 </root>

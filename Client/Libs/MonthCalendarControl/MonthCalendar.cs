@@ -2012,7 +2012,8 @@
                     }
                 }
 
-
+                //@
+                /*
                 if (IsWaveface)
                 {
                     foreach (MonthCalendarDay day in month.Days)
@@ -2041,8 +2042,8 @@
                             }
                         }
                     }
-
                 }
+                */
 
                 // loop through all days in current month
                 foreach (MonthCalendarDay day in month.Days)

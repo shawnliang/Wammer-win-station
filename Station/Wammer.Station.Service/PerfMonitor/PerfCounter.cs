@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using log4net;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Wammer.PerfMonitor
 {
@@ -10,14 +9,12 @@ namespace Wammer.PerfMonitor
 		void Increment();
 		void IncrementBy(long value);
 		void Decrement();
-		CounterSample NextSample();
 		float NextValue();
 	}
 
 	public class PerfCounter : IPerfCounter
 	{
 		#region Const
-
 		public const string CATEGORY_NAME = "Waveface Station";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD = "Average time per attachment upload";
 		public const string AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE = "Average time per attachment upload base";
@@ -32,42 +29,50 @@ namespace Wammer.PerfMonitor
 		public const string HTTP_REQUEST_THROUGHPUT = "Http request throughput (reqs/sec)";
 		public const string HTTP_REQUESTS_IN_QUEUE = "Http requests in queue";
 		public const string POST_IN_QUEUE = "Post upload tasks in queue";
-
 		#endregion
 
-		#region Static Var		
 
-		private static ILog _logger;
+
+		#region Static Var
 		private static Dictionary<string, IPerfCounter> _counterPool;
-
 		#endregion
 
-		#region Var		
 
-		private readonly PerformanceCounter Counter;
+		#region Var
 		private float _value;
-
 		#endregion
+
 
 		#region Private Static Property
-
-		private static ILog m_Logger
-		{
-			get { return _logger ?? (_logger = LogManager.GetLogger("PerfCounter")); }
-		}
-
+		
+		/// <summary>
+		/// Gets the m_ counter pool.
+		/// </summary>
+		/// <value>The m_ counter pool.</value>
 		private static Dictionary<string, IPerfCounter> m_CounterPool
 		{
 			get { return _counterPool ?? (_counterPool = new Dictionary<string, IPerfCounter>()); }
 		}
-
 		#endregion
 
 
 		#region Private Property
+		/// <summary>
+		/// Gets or sets the m_ counter.
+		/// </summary>
+		/// <value>The m_ counter.</value>
+		private PerformanceCounter m_Counter { get; set; }
 
+		/// <summary>
+		/// Gets or sets the m_ value update time.
+		/// </summary>
+		/// <value>The m_ value update time.</value>
 		private DateTime m_ValueUpdateTime { get; set; }
 
+		/// <summary>
+		/// Gets the m_ value.
+		/// </summary>
+		/// <value>The m_ value.</value>
 		private float m_Value
 		{
 			get
@@ -75,114 +80,109 @@ namespace Wammer.PerfMonitor
 				DateTime now = DateTime.Now;
 				if ((now - m_ValueUpdateTime).TotalSeconds >= 1)
 				{
-					_value = Counter.NextValue();
+					_value = m_Counter.NextValue();
 					m_ValueUpdateTime = now;
 				}
 
 				return _value;
 			}
 		}
-
 		#endregion
 
+
+
+		#region Constructor
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PerfCounter"/> class.
+		/// </summary>
+		/// <param name="counter">The counter.</param>
 		private PerfCounter(PerformanceCounter counter)
 		{
-			Counter = counter;
-		}
-
-		#region IPerfCounter Members
-
-		public void Increment()
-		{
-			lock (Counter)
-			{
-				Counter.Increment();
-			}
-		}
-
-		public void IncrementBy(long value)
-		{
-			lock (Counter)
-			{
-				Counter.IncrementBy(value);
-			}
-		}
-
-		public void Decrement()
-		{
-			lock (Counter)
-			{
-				Debug.Assert(m_Value > 0);
-
-				if (m_Value <= 0)
-					return;
-
-				Counter.Decrement();
-			}
-		}
-
-		public CounterSample NextSample()
-		{
-			return Counter.NextSample();
-		}
-
-		public float NextValue()
-		{
-			return m_Value;
-		}
-
+			m_Counter = counter;
+		} 
 		#endregion
 
-		public static IPerfCounter GetCounter(string counterName, Boolean needInitValue = true)
+
+		#region Public Static Method
+		/// <summary>
+		/// Gets the counter.
+		/// </summary>
+		/// <param name="counterName">Name of the counter.</param>
+		/// <returns></returns>
+		public static IPerfCounter GetCounter(string counterName)
 		{
 			try
 			{
-				if(m_CounterPool.ContainsKey(counterName))
+				if (m_CounterPool.ContainsKey(counterName))
 					return m_CounterPool[counterName];
 
 				var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
-
-				if (needInitValue)
-					counter.RawValue = 0;
-
+				counter.RawValue = 0;
 				m_CounterPool[counterName] = new PerfCounter(counter);
 
 				return m_CounterPool[counterName];
 			}
 			catch (Exception e)
 			{
-				m_Logger.Warn("Unable to create counter: " + counterName, e);
+				log4net.LogManager.GetLogger("PerfCounter").Error("Unable to create perf counter: " + counterName, e);
 				return new NullPerfCounter();
 			}
 		}
-	}
+		#endregion
 
-	internal class NullPerfCounter : IPerfCounter
-	{
-		#region IPerfCounter Members
 
+
+		#region Public Method
+		/// <summary>
+		/// Increments this instance.
+		/// </summary>
 		public void Increment()
 		{
+			lock (m_Counter)
+			{
+				m_Counter.Increment();
+			}
 		}
 
+		/// <summary>
+		/// Increments the by.
+		/// </summary>
+		/// <param name="value">The value.</param>
 		public void IncrementBy(long value)
 		{
+			lock (m_Counter)
+			{
+				m_Counter.IncrementBy(value);
+			}
 		}
 
+		/// <summary>
+		/// Decrements this instance.
+		/// </summary>
 		public void Decrement()
 		{
+			lock (m_Counter)
+			{
+				Debug.Assert(m_Value > 0);
+
+				if (m_Value <= 0)
+					return;
+
+				m_Counter.Decrement();
+			}
 		}
 
-		public CounterSample NextSample()
-		{
-			return new CounterSample();
-		}
-
+		/// <summary>
+		/// Nexts the value.
+		/// </summary>
+		/// <returns></returns>
 		public float NextValue()
 		{
-			return 0;
-		}
-
+			lock (m_Counter)
+			{
+				return m_Value;
+			}
+		} 
 		#endregion
 	}
 }

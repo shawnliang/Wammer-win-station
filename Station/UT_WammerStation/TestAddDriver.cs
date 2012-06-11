@@ -36,7 +36,7 @@ namespace UT_WammerStation
 		public void setUp()
 		{
 			server = new HttpServer(8080);
-			handler = new AddDriverHandler("stationId", "resource");
+			handler = new AddDriverHandler();
 			server.AddHandler("/v2/station/drivers/add/", handler);
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
@@ -78,7 +78,7 @@ namespace UT_WammerStation
 				stations = new List<UserStation>()
 				{
 					new UserStation { 
-						station_id = "stationId",
+						station_id = Wammer.Station.Station.Instance.StationID,
 						type = "primary"
 					},
 				}
@@ -100,7 +100,7 @@ namespace UT_WammerStation
 					Query.EQ("email", "user1@gmail.com"));
 
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(@"user_uid1", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.IsTrue(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);
@@ -138,7 +138,7 @@ namespace UT_WammerStation
 				stations = new List<UserStation>()
 				{
 					new UserStation { 
-						station_id = "stationId",
+						station_id = Wammer.Station.Station.Instance.StationID,
 						type = "primary"
 					},
 				}
@@ -158,7 +158,7 @@ namespace UT_WammerStation
 					Query.EQ("email", "user1@gmail.com"));
 
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(@"user_uid1", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.IsTrue(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);
@@ -248,7 +248,7 @@ namespace UT_WammerStation
 					Query.EQ("email", "user1@gmail.com"));
 
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"resource\user_uid1", driver.folder);
+				Assert.AreEqual(@"user_uid1", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.IsFalse(driver.isPrimaryStation);
 				Assert.AreEqual(1, driver.groups.Count);

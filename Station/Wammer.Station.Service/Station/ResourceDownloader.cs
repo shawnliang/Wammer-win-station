@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Net;
-using log4net;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
-using Wammer.Utility;
+using System.IO;
+using System.ComponentModel;
 
 namespace Wammer.Station
 {
@@ -44,15 +43,39 @@ namespace Wammer.Station
 
 		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
+			var fs = new FileStorage(driver);
 			var evtargs = new ResourceDownloadEventArgs
-			              	{
-			              		user_id = driver.user_id,
-			              		attachment = attachment,
-			              		imagemeta = meta,
-			              		filepath = FileStorage.GetTempFile(driver)
-			              	};
+							{
+								user_id = driver.user_id,
+								attachment = attachment,
+								imagemeta = meta,
+								filepath = Path.Combine(fs.basePath, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
+							};
 
 			EnqueueDownstreamTask(meta, evtargs);
+		}
+
+		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
+		{
+			var fileName = objectID;
+
+			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
+			{
+				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+				fileName += "_" + metaStr;
+			}
+
+			if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
+				uri = new Uri(uri).AbsolutePath;
+
+			var extension = Path.GetExtension(uri);
+
+			if (meta == ImageMeta.Small || meta == ImageMeta.Medium || meta == ImageMeta.Large || meta == ImageMeta.Square)
+				fileName += ".dat";
+			else if (!string.IsNullOrEmpty(extension))
+				fileName += extension;
+
+			return fileName;
 		}
 
 		private void EnqueueDownstreamTask(ImageMeta meta, ResourceDownloadEventArgs evtargs)
@@ -119,59 +142,93 @@ namespace Wammer.Station
 
 		public void ResumeUnfinishedDownstreamTasks()
 		{
-			MongoCursor<PostInfo> posts = PostCollection.Instance.Find(
+			DateTime beginTime = DateTime.Now;
+
+			try
+			{
+				DownloadOriginalAttachmentsFromCloud();
+
+			var posts = PostCollection.Instance.Find(
 				Query.And(
 					Query.Exists("attachments", true),
 					Query.EQ("hidden", "false")));
 
-			foreach (PostInfo post in posts)
+			foreach (var post in posts)
 			{
-				foreach (AttachmentInfo attachment in post.attachments)
+				foreach (var attachment in post.attachments)
 				{
-					Attachment savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
-					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
+					var savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
 
 					// driver might be removed before download tasks completed
 					if (driver == null)
 						break;
 
-					// origin
-					if (driver.isPrimaryStation &&
-					    (savedDoc == null || savedDoc.saved_file_name == null))
-					{
-						if (CloudHasOriginAttachment(attachment.object_id, driver))
-							EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
-					}
-
-					if (attachment.image_meta == null)
+					var imageMeta = attachment.image_meta;
+					if (imageMeta == null)
 						break;
 
+					var savedImageMeta = (savedDoc == null) ? null : savedDoc.image_meta;
+
 					// small
-					if (attachment.image_meta.small != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.small == null))
+					if (imageMeta.small != null &&
+						(savedImageMeta == null || savedImageMeta.small == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
 					}
 
 					// medium
-					if (attachment.image_meta.medium != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.medium == null))
+					if (imageMeta.medium != null &&
+						(savedImageMeta == null || savedImageMeta.medium == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 					}
 
-					// large
-					if (attachment.image_meta.large != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.large == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
-					}
+						// temp skil large thumbnails because no client uses this at this moment.
+						//if (imageMeta.large != null &&
+						//    (savedImageMeta == null || savedImageMeta.large == null))
+						//{
+						//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
+						//}
 
 					// square
-					if (attachment.image_meta.square != null &&
-					    (savedDoc == null || savedDoc.image_meta == null || savedDoc.image_meta.square == null))
+					if (imageMeta.square != null &&
+					    (savedImageMeta == null || savedImageMeta.square == null))
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+					}
+				}
+			}
+		}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Resume unfinished downstream tasks not success: " + e.ToString());
+			}
+			finally
+			{
+				TimeSpan duration = DateTime.Now - beginTime;
+				this.LogDebugMsg("Resume unfinished downstream tasks done. Totoal seconds spent: " + duration.TotalSeconds.ToString());
+			}
+		}
+
+		private void DownloadOriginalAttachmentsFromCloud()
+		{
+			foreach (var user in DriverCollection.Instance.FindAll())
+			{
+				if (user.isPrimaryStation)
+				{
+					var queued_items = AttachmentApi.GetQueue(user.session_token, int.MaxValue);
+					foreach (var object_id in queued_items.objects)
+					{
+						try
+						{
+							var attachmentInfo = AttachmentApi.GetInfo(object_id, user.session_token);
+							EnqueueDownstreamTask(attachmentInfo, user, ImageMeta.Origin);
+						}
+						catch (Exception e)
+						{
+							this.LogWarnMsg(string.Format("Unable to download origin attachment {0} : {1}", object_id, e.ToString()));
+						}
 					}
 				}
 			}

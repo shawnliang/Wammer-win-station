@@ -1442,13 +1442,13 @@
     <value>是</value>
   </data>
   <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 19</value>
+    <value>121, 24</value>
   </data>
   <data name="checkBox1.Text" xml:space="preserve">
     <value>刪除所有資料</value>
   </data>
   <data name="lblConfirm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>343, 15</value>
+    <value>435, 41</value>
   </data>
   <data name="lblConfirm.Text" xml:space="preserve">
     <value>是否要刪除 xxx@waveface.com 在這台電腦上儲存的所有資料？</value>

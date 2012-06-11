@@ -6,6 +6,7 @@ using Wammer.Station.AttachmentUpload;
 using System.IO;
 using Wammer.Model;
 using Moq;
+using Wammer.Station;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -65,7 +66,9 @@ namespace UT_WammerStation.AttachmentUpload
 				"/v2/attachments/view/?object_id=" + savedAttachment.object_id + "&image_meta=" + uploadData.imageMeta.ToString().ToLower(),
 				savedAttachment.image_meta.medium.url);
 			Assert.AreEqual(savedAttachment.object_id + "_medium.dat", savedAttachment.image_meta.medium.saved_file_name);
-			Assert.IsTrue(File.Exists(savedAttachment.object_id + "_medium.dat"));
+
+			FileStorage storage = new FileStorage(new Driver { folder = "" });
+			Assert.IsTrue(File.Exists(Path.Combine(storage.basePath, savedAttachment.object_id + "_medium.dat")));
 		}
 	}
 }

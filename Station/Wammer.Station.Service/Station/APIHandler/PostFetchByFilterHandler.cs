@@ -7,6 +7,7 @@ using Wammer.Model;
 
 namespace Wammer.Station.APIHandler
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/posts/fetchByFilter/")]
 	public class PostFetchByFilterHandler : HttpHandler
 	{
 

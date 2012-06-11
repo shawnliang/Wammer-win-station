@@ -3,98 +3,12 @@ using System.Diagnostics;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/auth/login/")]
 	public class UserLoginHandler : HttpHandler
 	{
-		#region Var
-		private DriverController _driverAgent;
-		#endregion
-
-		#region Property
-		/// <summary>
-		/// Gets or sets the m_ resource base path.
-		/// </summary>
-		/// <value>The m_ resource base path.</value>
-		private String m_ResourceBasePath { get; set; }
-
-		/// <summary>
-		/// Gets or sets the m_ station ID.
-		/// </summary>
-		/// <value>The m_ station ID.</value>
-		private String m_StationID { get; set; }
-
-		/// <summary>
-		/// Gets the m_ driver agent.
-		/// </summary>
-		/// <value>The m_ driver agent.</value>
-		private DriverController m_DriverAgent
-		{
-			get { return _driverAgent ?? (_driverAgent = new DriverController()); }
-		}
-		#endregion
-
-		#region Constructor
-		/// <summary>
-		/// Initializes a new instance of the <see cref="UserLoginHandler"/> class.
-		/// </summary>
-		/// <param name="stationId">The station id.</param>
-		/// <param name="resourceBasePath">The resource base path.</param>
-		public UserLoginHandler(string stationId, string resourceBasePath)
-		{
-			m_StationID = stationId;
-			m_ResourceBasePath = resourceBasePath;
-		} 
-		#endregion
-
-		public event EventHandler<UserLoginEventArgs> UserLogined;
-
-		private void CheckAndUpdateDriver(LoginedSession loginInfo)
-		{
-			if (loginInfo == null)
-				return;
-
-			var user = loginInfo.user;
-
-			Debug.Assert(user != null, "user != null");
-
-			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", user.user_id));
-			
-			if (driver != null)
-				return;
-
-			driver = DriverCollection.Instance.FindOne(Query.EQ("email", user.email));
-
-			if(driver == null)
-				throw new WammerStationException("Driver not existed", (int)StationLocalApiError.NotFound);
-
-			m_DriverAgent.RemoveDriver(m_StationID, user.user_id);
-
-			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
-			{
-				var sessionToken = Parameters[CloudServer.SessionToken];
-				var userID = Parameters[CloudServer.PARAM_USER_ID];
-
-				m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, userID, sessionToken);
-			}
-			else
-			{
-				CheckParameter(CloudServer.PARAM_EMAIL,
-							   CloudServer.PARAM_PASSWORD,
-							   CloudServer.PARAM_DEVICE_ID,
-							   CloudServer.PARAM_DEVICE_NAME);
-
-				var email = Parameters[CloudServer.PARAM_EMAIL];
-				var password = Parameters[CloudServer.PARAM_PASSWORD];
-				var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
-				var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
-
-				m_DriverAgent.AddDriver(m_ResourceBasePath, m_StationID, email, password, deviceId, deviceName);
-			}
-		}
-
 		#region Protected Method
 		/// <summary>
 		/// Handles the request.
@@ -107,19 +21,12 @@ namespace Wammer.Station
 			if (Parameters[CloudServer.PARAM_SESSION_TOKEN] != null && Parameters[CloudServer.PARAM_USER_ID] != null)
 			{
 				var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
-
 				try
 				{
-					var userId = Parameters[CloudServer.PARAM_USER_ID];
+					var userID = Parameters[CloudServer.PARAM_USER_ID];
 
-					var loginInfo = User.GetLoginInfo(userId, apikey, sessionToken);
-					CheckAndUpdateDriver(loginInfo);
-
-					LoginedSessionCollection.Instance.Save(loginInfo);
-
+					var loginInfo = Station.Instance.Login(apikey, sessionToken, userID);
 					RespondSuccess(loginInfo);
-
-					OnUserLogined(new UserLoginEventArgs(loginInfo.user.email, loginInfo.session_token, apikey, userId));
 				}
 				catch (WammerCloudException e)
 				{
@@ -141,26 +48,15 @@ namespace Wammer.Station
 				               CloudServer.PARAM_DEVICE_NAME);
 
 				var email = Parameters[CloudServer.PARAM_EMAIL];
-
 				try
 				{
 					var password = Parameters[CloudServer.PARAM_PASSWORD];
-					var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
+					var deviceID = Parameters[CloudServer.PARAM_DEVICE_ID];
 					var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
-					var user = User.LogIn(email, password, apikey, deviceId, deviceName, 2500);
-					
 
-					Debug.Assert(user != null, "user != null");
-					var loginInfo = user.LoginedInfo;
-
-					CheckAndUpdateDriver(loginInfo);
-
-					LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", email));
-					LoginedSessionCollection.Instance.Save(loginInfo);
+					var loginInfo = Station.Instance.Login(apikey, email, password, deviceID, deviceName);
 
 					RespondSuccess(loginInfo);
-
-					OnUserLogined(new UserLoginEventArgs(email, loginInfo.session_token, apikey, user.Id));
 				}
 				catch (WammerCloudException e)
 				{
@@ -178,17 +74,8 @@ namespace Wammer.Station
 				}
 			}
 		}
-
-		protected void OnUserLogined(UserLoginEventArgs arg)
-		{
-			EventHandler<UserLoginEventArgs> handler = UserLogined;
-			if (handler != null)
-			{
-				handler(this, arg);
-			}
-		}
-
 		#endregion
+
 
 		#region Public Method
 

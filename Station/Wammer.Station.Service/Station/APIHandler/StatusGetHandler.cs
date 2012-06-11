@@ -4,13 +4,14 @@ using log4net;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/status/get/")]
 	public class StatusGetHandler : HttpHandler
 	{
 		private static readonly ILog logger = LogManager.GetLogger("StationManagement");
 
 		public override void HandleRequest()
 		{
-			logger.Debug("GetStatus is called");
+			logger.Info("GetStatus is called");
 			StationDetail res = StatusChecker.GetDetail();
 
 			RespondSuccess(

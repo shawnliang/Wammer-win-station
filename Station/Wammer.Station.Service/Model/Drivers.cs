@@ -114,29 +114,29 @@ namespace Wammer.Model
 
 	public class DriverCollection : Collection<Driver>
 	{
-		private static readonly DriverCollection instance;
+		#region Var
+		private static DriverCollection _instance;
+		#endregion
 
-		static DriverCollection()
+		#region Property
+		public static DriverCollection Instance
 		{
-			instance = new DriverCollection();
+			get { return _instance ?? (_instance = new DriverCollection()); }
 		}
+		#endregion
 
 		private DriverCollection()
 			: base("drivers")
 		{
 		}
 
-		public static DriverCollection Instance
-		{
-			get { return instance; }
-		}
 
 		public Driver FindDriverByGroupId(string group_id)
 		{
 			if (group_id == null)
 				throw new ArgumentNullException("group_id");
 
-			return instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", group_id)));
+			return Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", group_id)));
 		}
 	}
 

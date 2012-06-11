@@ -132,6 +132,8 @@ namespace Waveface
 
         private List<string> DoDataPaste(IDataObject data)
         {
+            string _dirText = string.Empty;
+
             List<string> _pics = new List<string>();
 
             if (data.GetDataPresent(DataFormats.FileDrop))
@@ -146,6 +148,8 @@ namespace Waveface
                         if (Directory.Exists(_file))
                         {
                             DirectoryInfo _d = new DirectoryInfo(_file);
+
+                            _dirText += _d.Name + Environment.NewLine;
 
                             FileInfo[] _fileInfos = _d.GetFiles();
 
@@ -175,7 +179,7 @@ namespace Waveface
                     if (_pics.Count > 0)
                     {
                         if (m_createNewPost)
-                            Main.Current.Post(_pics, PostType.Photo);
+                            Main.Current.Post(_pics, PostType.Photo, _dirText);
                     }
                 }
                 catch
@@ -212,7 +216,7 @@ namespace Waveface
                         Main.Current.Post(new List<string>
                                               {
                                                   _imgLocalPath
-                                              }, PostType.Photo);
+                                              }, PostType.Photo, "");
                     }
 
                     return null;

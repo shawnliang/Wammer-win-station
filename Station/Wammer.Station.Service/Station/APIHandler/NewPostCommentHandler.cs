@@ -9,6 +9,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station
 {
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/posts/newComment/")]
 	public class NewPostCommentHandler : HttpHandler
 	{
 		#region Private Property
@@ -54,6 +55,8 @@ namespace Wammer.Station
 				throw new WammerStationException(
 					"Post not found!", (int) StationLocalApiError.NotFound);
 
+			var lastUpdateTime = post.update_time;
+
 			string groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			Driver driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
@@ -76,7 +79,7 @@ namespace Wammer.Station
 			var newPostComment = new Comment
 			                     	{
 			                     		content = newPostContent,
-			                     		timestamp = TimeHelper.ToCloudTimeString(currentTimeStamp),
+			                     		timestamp = currentTimeStamp.ToCloudTimeString(),
 			                     		code_name = codeName,
 			                     		creator_id = creatorID
 			                     	};
@@ -92,10 +95,11 @@ namespace Wammer.Station
 			                                                        	.Set("comments",
 			                                                        	     new BsonArray(
 			                                                        	     	post.comments.ConvertAll(
-			                                                        	     		item => item.ToBsonDocument()))));
+			                                                        	     		item => item.ToBsonDocument())))
+																		.Set("update_time", currentTimeStamp));
 
 			if (m_PostUploader != null)
-				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Comment, Parameters);
+				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Comment, Parameters, currentTimeStamp, lastUpdateTime);
 
 			var response = new NewPostCommentResponse
 			               	{
