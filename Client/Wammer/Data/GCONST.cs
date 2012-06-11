@@ -1,4 +1,4 @@
-﻿
+
 using System.IO;
 using System;
 using System.Reflection;
@@ -7,24 +7,28 @@ namespace Waveface
 {
     public class GCONST
     {
-        private const string KEY_PATH = @"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation";
+		private const string KEY_PATH = @"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation";
         private const string KEY_PATH_W32OW64 = @"HKEY_LOCAL_MACHINE\Software\Wow6432Node\Wammer\WinStation";
 
-        #region Var
-        private string _assemblyPath;
-        private String _runTimeDataPath;
-        #endregion
+		#region Var
 
-        #region Private Property
-        private string AssemblyPath
-        {
-            get
-            {
-                if (_assemblyPath == null)
-                    _assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                return _assemblyPath;
-            }
-        }
+		private string m_assemblyPath;
+		private String m_runTimeDataPath;
+
+		#endregion
+
+		#region Private Property
+		
+		private string AssemblyPath
+		{
+			get
+			{
+				if (m_assemblyPath == null)
+					m_assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+				
+                return m_assemblyPath;
+			}
+		}
 
         public string WammerKeyPath
         {
@@ -38,27 +42,30 @@ namespace Waveface
                     return KEY_PATH_W32OW64;
             }
         }
-        #endregion
+		#endregion
 
-        #region Public Property
-        public String RunTimeDataPath
-        {
-            get
-            {
-                if (_runTimeDataPath == null)
-                    InitRunTimeDataPath();
-                return _runTimeDataPath;
-            }
-            private set
-            {
-                _runTimeDataPath = value;
-            }
-        }
-        #endregion
+		#region Public Property
 
-        public static int GetPostOffset = 10;
+		public String RunTimeDataPath
+		{
+			get
+			{
+				if (m_runTimeDataPath == null)
+					InitRunTimeDataPath();
+
+				return m_runTimeDataPath;
+			}
+			private set
+			{
+				m_runTimeDataPath = value;
+			}
+		}
+
+		#endregion
+
+		public static int GetPostOffset = 10;
         
-        public static int OriginFileReDownloadDelayTime = 3;
+        public static int OriginFileReDownloadDelayTime = 2;
 
         public static bool DEBUG = true;
 
@@ -66,26 +73,30 @@ namespace Waveface
         public string TempPath;
         public string ImageCachePath;
         public string ImageUploadCachePath;
-        private RunTime _runTime;
+		
+        private RunTime m_runTime;
 
         public GCONST(RunTime runTime)
         {
-            this._runTime = runTime;
+			m_runTime = runTime;
+            
             InitAppDataPath();
             InitTempDir();
             InitCacheDir();
             InitImageUploadCacheDir();
         }
 
-        #region Private Method
-        private void InitRunTimeDataPath()
-        {
-            RunTimeDataPath = AppDataPath + "Cache\\";
-            Directory.CreateDirectory(RunTimeDataPath);
-        }
-        #endregion
+		#region Private Method
 
-        private void InitAppDataPath()
+		private void InitRunTimeDataPath()
+		{
+			RunTimeDataPath = AppDataPath + "Cache\\";
+			Directory.CreateDirectory(RunTimeDataPath);
+		}
+
+		#endregion
+
+		private void InitAppDataPath()
         {
             AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Waveface\\";
 
@@ -103,21 +114,21 @@ namespace Waveface
             foreach (string _filePath in _filePaths)
                 File.Delete(_filePath);
         }
-        
+		
 
         private void InitCacheDir()
         {
-            if (Environment.GetCommandLineArgs().Length == 1)
-            {
-                ImageCachePath = RunTimeDataPath;
-                return;
-            }
+			if (Environment.GetCommandLineArgs().Length == 1)
+			{
+				ImageCachePath = RunTimeDataPath;
+				return;
+			}
 
-            var user = _runTime.Login.user;
+			var user = m_runTime.Login.user;
 
             ImageCachePath = ((string)Microsoft.Win32.Registry.GetValue(WammerKeyPath, "ResourceFolder", null)) ??
                             Path.Combine(AssemblyPath, "resource");
-            ImageCachePath = Path.Combine(ImageCachePath, "user_" + user.user_id);
+			ImageCachePath = Path.Combine(ImageCachePath, "user_" + user.user_id);
 
             Directory.CreateDirectory(ImageCachePath);
         }

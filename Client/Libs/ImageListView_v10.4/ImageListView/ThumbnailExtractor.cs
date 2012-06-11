@@ -128,7 +128,7 @@ namespace Manina.Windows.Forms
         //@
         private static Size Hack_ChangeLarge(Size size)
         {
-            double _r = 2; // 1.618;
+            double _r = 2; //1.618
 
             /*
             if (size.Width > size.Height)
