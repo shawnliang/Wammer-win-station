@@ -163,8 +163,8 @@ namespace Wammer.Station.Service
 			var assembly = Assembly.GetExecutingAssembly();
 			foreach (var type in assembly.GetTypes())
 			{
-				if(!type.IsAbstract && type.IsSubclassOf(typeof(HttpHandler)))
-		{
+				if (!type.IsAbstract && type.IsSubclassOf(typeof(HttpHandler)))
+				{
 					var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
 
 					if (defaultConstructor == null)
@@ -173,10 +173,11 @@ namespace Wammer.Station.Service
 					var handler = Activator.CreateInstance(type) as IHttpHandler;
 					var info = handler.GetCustomAttribute<APIHandlerInfoAttribute>();
 
-					if (info == null || info.Type != APIHandlerType.ManagementAPI)
+					if (info == null)
 						continue;
 
-					managementServer.AddHandler(GetDefaultBathPath(info.Path), handler);
+					if (info.Type == APIHandlerType.ManagementAPI || info.Type == APIHandlerType.Both)
+						managementServer.AddHandler(GetDefaultBathPath(info.Path), handler);
 				}
 			}
 
