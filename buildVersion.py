@@ -39,8 +39,8 @@ def dir_traverse(dest, version):
                 find_and_replace(target, CURRENT_COPYRIGHT, COPYRIGHT_PATTERN)
                 find_and_replace(target, PRODUCT_NAME, PRODUCT_PATTERN)
 
-
-print "[Waveface] Replace version in {0} to {1}".format(sys.argv[1], sys.argv[2])
-print "[Waveface] Replace copyright to {0}".format(CURRENT_COPYRIGHT)
-dir_traverse(sys.argv[1], sys.argv[2])
-print "[Waveface] Version replacement done."
+if __name__ == "__main__":
+    print "[Waveface] Replace version in {0} to {1}".format(sys.argv[1], sys.argv[2])
+    print "[Waveface] Replace copyright to {0}".format(CURRENT_COPYRIGHT)
+    dir_traverse(sys.argv[1], sys.argv[2])
+    print "[Waveface] Version replacement done."

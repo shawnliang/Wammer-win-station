@@ -835,7 +835,7 @@ namespace Waveface.API.V2
         }
 
         public MR_posts_new posts_new(string session_token, string group_id, string content, string attachment_id_array,
-                                      string preview, string type)
+                                      string preview, string type, string coverAttach)
         {
             session_token = HttpUtility.UrlEncode(session_token);
             group_id = HttpUtility.UrlEncode(group_id);
@@ -858,6 +858,14 @@ namespace Waveface.API.V2
 
                 if (preview != string.Empty)
                     _parms += "preview" + "=" + preview + "&";
+
+                if (type == "image")
+                {
+                    if(coverAttach != string.Empty)
+                    {
+                        _parms += "cover_attach" + "=" + coverAttach + "&";
+                    }
+                }
 
                 _parms += "group_id" + "=" + group_id;
 

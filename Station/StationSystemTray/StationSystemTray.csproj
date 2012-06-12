@@ -107,6 +107,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\SettingDialog.resx">
       <DependentUpon>SettingDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\SettingDialog.zh-TW.resx">
       <DependentUpon>SettingDialog.cs</DependentUpon>

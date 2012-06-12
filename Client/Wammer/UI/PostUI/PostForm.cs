@@ -40,7 +40,7 @@ namespace Waveface
         public BatchPostItem BatchPostItem { get; set; }
         public bool EditMode { get; set; }
         public string OldText { get; set; }
-        public bool IsBackFromEditMode { get; set; }
+        public bool IsBackFromEditMode_Weblink { get; set; }
         public bool IsDirty { get; set; }
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
@@ -387,7 +387,7 @@ namespace Waveface
         {
             uiToPhotoMode();
 
-            if (EditMode && !IsBackFromEditMode)
+            if (!EditMode || IsBackFromEditMode_Weblink)
             {
                 if (files == null)
                 {
@@ -395,7 +395,7 @@ namespace Waveface
                 }
                 else
                 {
-                    photo_UI.AddEditModePhotoFiles(files, Post.attachments);
+                    photo_UI.AddNewPostPhotoFiles(files);
                 }
             }
             else
@@ -406,7 +406,7 @@ namespace Waveface
                 }
                 else
                 {
-                    photo_UI.AddNewPostPhotoFiles(files);
+                    photo_UI.AddEditModePhotoFiles(files, Post.attachments, Post.cover_attach);
                 }
             }
         }
@@ -505,7 +505,7 @@ namespace Waveface
                 {
                     MR_posts_new _np =
                         Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(pureTextBox.Text, 80000)),
-                                                       "", "", "text");
+                                                       "", "", "text", "");
 
                     if (_np == null)
                     {
@@ -549,9 +549,9 @@ namespace Waveface
             pureTextBox.BatchFormat(_instructions);
         }
 
-        public void BackFromEditMode()
+        public void BackFromEditMode_Weblink()
         {
-            IsBackFromEditMode = true;
+            IsBackFromEditMode_Weblink = true;
 
             btnAddPhoto.Visible = true;
         }

@@ -244,21 +244,7 @@ namespace Waveface.Component
 
                         if (_isCoverImage)
                         {
-                            using (Brush _brush = new SolidBrush(Color.FromArgb(127, 0, 0, 0)))
-                            {
-                                Rectangle _r = new Rectangle(bounds.Location, bounds.Size);
-                                _r.Inflate(-4, -4);
-                                int _h1 = (int)(_r.Height * 0.8);
-                                int _h2 = _r.Height - _h1;
-
-                                Rectangle _rect = new Rectangle(_r.Left, _r.Top + _h1, _r.Width, _h2);
-
-                                g.FillRectangle(_brush, _rect);
-
-                                Font _font = new Font(I18n.L.T("DefaultFont"), _h2 * (1 - 0.6f), FontStyle.Bold);
-
-                                TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                            }
+                            DrawCoverImageLabel(g, bounds);
                         }
                     }
 
@@ -274,6 +260,14 @@ namespace Waveface.Component
 
                     if (item.Tag is EditModeImageListViewItemTag)
                     {
+                        bool _isCoverImage = (item.Tag as EditModeImageListViewItemTag).IsCoverImage_UI;
+
+                        if (_isCoverImage)
+                        {
+                            DrawCoverImageLabel(g, bounds);
+                        }
+
+
                         EditModePhotoType _type = ((EditModeImageListViewItemTag)item.Tag).AddPhotoType;
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
@@ -285,6 +279,26 @@ namespace Waveface.Component
                         }
                     }
                 }
+            }
+        }
+
+        private static void DrawCoverImageLabel(Graphics g, Rectangle bounds)
+        {
+            using (Brush _brush = new SolidBrush(Color.FromArgb(127, 0, 0, 0)))
+            {
+                Rectangle _r = new Rectangle(bounds.Location, bounds.Size);
+                _r.Inflate(-4, -4);
+                int _h1 = (int) (_r.Height*0.8);
+                int _h2 = _r.Height - _h1;
+
+                Rectangle _rect = new Rectangle(_r.Left, _r.Top + _h1, _r.Width, _h2);
+
+                g.FillRectangle(_brush, _rect);
+
+                Font _font = new Font(I18n.L.T("DefaultFont"), _h2*(1 - 0.6f), FontStyle.Bold);
+
+                TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White,
+                                      TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
             }
         }
 
