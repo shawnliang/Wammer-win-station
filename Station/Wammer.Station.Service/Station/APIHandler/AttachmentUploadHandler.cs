@@ -38,14 +38,6 @@ namespace Wammer.Station.APIHandler
 		{
 			CheckParameter("session_token", "apikey", "group_id", "type");
 
-			if (Files.Count > 0)
-			{
-				if (!string.IsNullOrEmpty(Files[0].Name) && string.IsNullOrEmpty(Path.GetExtension(Files[0].Name)))
-					throw new WammerStationException("Invalid image", (int)StationLocalApiError.InvalidImage);
-			}else{
-				if(Files[0].Data.Count > 20 * 1024 * 1024)
-					throw new WammerStationException("Image too big", (int)StationLocalApiError.ImageTooLarge);
-			}
 			UploadData data = GetUploadData();
 
 			RespondSuccess(imp.Process(data));
@@ -89,8 +81,14 @@ namespace Wammer.Station.APIHandler
 			if (data.raw_data.Array == null)
 				throw new FormatException("file is missing in file upload multipart data");
 
+			if (data.raw_data.Count > 20 * 1024 *1024)
+				throw new WammerStationException("file size is over 20MB", (int)StationLocalApiError.ImageTooLarge);
+
 			if (string.IsNullOrEmpty(data.file_name))
 				throw new FormatException("file_name is null or empty");
+
+			if (string.IsNullOrEmpty(Path.GetExtension(data.file_name)))
+				throw new WammerStationException("file_name must have an extension", (int)StationLocalApiError.InvalidImage);	
 
 			return data;
 		}
