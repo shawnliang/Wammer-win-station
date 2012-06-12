@@ -117,11 +117,12 @@ namespace Wammer.Station
 
 			CreateUserFolder(driver);
 
-			OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
+			var beforeAddArgs = new BeforeDriverSavedEvtArgs(driver);
+			OnBeforeDriverSaved(beforeAddArgs);
 
 			DriverCollection.Instance.Save(driver);
 
-			OnDriverAdded(new DriverAddedEvtArgs(driver));
+			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeAddArgs.UserData));
 
 			return new AddUserResponse
 					{
@@ -208,12 +209,13 @@ namespace Wammer.Station
 
 			CreateUserFolder(driver);
 
-			OnBeforeDriverSaved(new BeforeDriverSavedEvtArgs(driver));
+			var beforeSaveArgs = new BeforeDriverSavedEvtArgs(driver);
+			OnBeforeDriverSaved(beforeSaveArgs);
 
 			DriverCollection.Instance.Save(driver);
 
 
-			OnDriverAdded(new DriverAddedEvtArgs(driver));
+			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeSaveArgs.UserData));
 
 			return new AddUserResponse
 			       	{

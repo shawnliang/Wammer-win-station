@@ -147,16 +147,20 @@ namespace Wammer.Station
 
 	public class DriverAddedEvtArgs : EventArgs
 	{
-		public DriverAddedEvtArgs(Driver driver)
+		public DriverAddedEvtArgs(Driver driver, object userData)
 		{
 			Driver = driver;
+			UserData = userData;
 		}
 
 		public Driver Driver { get; private set; }
+		public object UserData { get; private set; }
 	}
 
 	public class BeforeDriverSavedEvtArgs : EventArgs
 	{
+		public object UserData { get; set; }
+
 		public BeforeDriverSavedEvtArgs(Driver driver)
 		{
 			Driver = driver;
