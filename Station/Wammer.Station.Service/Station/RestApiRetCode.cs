@@ -14,7 +14,8 @@
 		NotReady = -37,
 		InvalidGroup = -38,
 		AccessDenied = -39,
-		InvalidImage = -40
+		InvalidImage = -40,
+		ImageTooLarge = -41
 	}
 
 	public enum DropboxApiError
