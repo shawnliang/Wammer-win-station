@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Cloud;
 using Wammer.Station;
+using Wammer.Model;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.PostUpload
 {
@@ -25,7 +27,30 @@ namespace Wammer.PostUpload
 
 		#region ITask Members
 
-		public abstract void Execute();
+		public void Execute()
+		{
+			var user = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
+
+			if (user == null)
+				return;
+
+			if (string.IsNullOrEmpty(user.session_token))
+				throw new Exception("User session is expired. Postponed this task: " + user.email);
+
+			try
+			{
+				Do(user);
+			}
+			catch (WammerCloudException e)
+			{
+				this.LogDebugMsg("Post upload task failed: " + this.GetType().Name, e);
+
+				if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
+				{
+					throw;
+				}
+			}
+		}
 
 		#endregion
 
@@ -61,6 +86,8 @@ namespace Wammer.PostUpload
 				return false;
 			}
 		}
+
+		protected abstract void Do(Driver user);
 	}
 
 	public class NullPostUploadTask : PostUploadTask
@@ -73,7 +100,7 @@ namespace Wammer.PostUpload
 			Parameters = new Dictionary<string, string>();
 		}
 
-		public override void Execute()
+		protected override void Do(Driver user)
 		{
 		}
 	}
