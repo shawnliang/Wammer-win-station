@@ -331,6 +331,11 @@ namespace Wammer.Station
 				w.Write(data);
 			}
 		}
+
+		protected void RespondError(string description, int error_code)
+		{
+			HttpHelper.RespondFailure(Response, new CloudResponse(400, error_code, description));
+		}
 	}
 
 
