@@ -23,20 +23,20 @@ namespace Waveface
             {
                 if ((image.Width >= size) || (image.Height >= size))
                 {
-                    double _prop = image.Width / (double)image.Height;
+                    double _r = image.Width / (double)image.Height;
 
                     int _x;
                     int _y;
 
                     if (image.Width > image.Height)
                     {
-                        _x = (int)Math.Round(size * _prop, 0);
+                        _x = (int)Math.Round(size * _r, 0);
                         _y = size;
                     }
                     else
                     {
                         _x = size;
-                        _y = (int)Math.Round(size / _prop, 0);
+                        _y = (int)Math.Round(size / _r, 0);
                     }
 
                     using (Image _img = new Bitmap(image, new Size(_x, _y)))

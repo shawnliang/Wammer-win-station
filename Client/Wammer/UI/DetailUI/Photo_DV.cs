@@ -54,6 +54,7 @@ namespace Waveface.DetailUI
         private ImageButton btnSaveAllPhotos;
         private ImageListViewItem m_selectedItem;
 
+        private List<Attachment> m_imageAttachments;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         #endregion
@@ -367,9 +368,20 @@ namespace Waveface.DetailUI
             m_filePathOrigins = new List<string>();
             m_filePathMediums = new List<string>();
 
+            m_imageAttachments = new List<Attachment>();
+
+            foreach (Attachment _a in Post.attachments)
+            {
+                if (_a.type == "image")
+                    m_imageAttachments.Add(_a);
+            }
+
+            if (m_imageAttachments.Count == 0)
+                return;
+
             m_filesMapping.Clear();
 
-            foreach (Attachment _attachment in Post.attachments)
+            foreach (Attachment _attachment in m_imageAttachments)
             {
                 string _urlO = string.Empty;
                 string _fileNameO = string.Empty;
@@ -400,7 +412,7 @@ namespace Waveface.DetailUI
                 }
             }
 
-            timer.Interval = ((Post.attachments.Count / 100) + 4) * 1000;
+            timer.Interval = ((m_imageAttachments.Count / 100) + 4) * 1000;
 
             InitImageListViewLoadingImage();
 
@@ -412,21 +424,49 @@ namespace Waveface.DetailUI
         {
             imageListView.SuspendLayout();
 
+            string _cover_attach = m_post.cover_attach;
+
+            if (string.IsNullOrEmpty(m_post.cover_attach))
+                _cover_attach = m_imageAttachments[0].object_id;
+
+            bool _setCoverImage = false;
+
             try
             {
-                for (int i = 0; i < Post.attachments.Count; i++)
+                for (int i = 0; i < m_imageAttachments.Count; i++)
                 {
                     imageListView.Items.Add(Main.Current.LoadingImagePath);
 
                     DetailViewImageListViewItemTag _tag = new DetailViewImageListViewItemTag();
                     _tag.Index = i.ToString();
-                    _tag.IsCoverImage = false;
+
+                    if (_cover_attach == m_imageAttachments[i].object_id)
+                    {
+                        if (m_imageAttachments.Count > 1)
+                        {
+                            _tag.IsCoverImage = true;
+                        }
+
+                        _setCoverImage = true;
+                    }
+                    else
+                    {
+                        _tag.IsCoverImage = false;
+                    }
 
                     imageListView.Items[i].Tag = _tag;
                 }
             }
             catch
             {
+            }
+
+            if (!_setCoverImage)
+            {
+                if (m_imageAttachments.Count > 1)
+                {
+                    ((DetailViewImageListViewItemTag)imageListView.Items[0].Tag).IsCoverImage = true;
+                }
             }
 
             imageListView.ResumeLayout();
@@ -441,7 +481,7 @@ namespace Waveface.DetailUI
         {
             int _count = 0;
 
-            for (int i = 0; i < Post.attachments.Count; i++)
+            for (int i = 0; i < m_imageAttachments.Count; i++)
             {
                 if (File.Exists(m_filePathMediums[i]))
                 {
@@ -449,7 +489,7 @@ namespace Waveface.DetailUI
                 }
             }
 
-            bool _show = (m_loadingPhotosCount != Post.attachments.Count);
+            bool _show = (m_loadingPhotosCount != m_imageAttachments.Count);
 
             m_loadingPhotosCount = _count;
 
@@ -459,7 +499,7 @@ namespace Waveface.DetailUI
                 return false;
             }
 
-            if (_count == Post.attachments.Count)
+            if (_count == m_imageAttachments.Count)
             {
                 timer.Enabled = false;
 
@@ -474,21 +514,17 @@ namespace Waveface.DetailUI
         {
             int k = 0;
 
-            panelPictureInfo.Visible = true;
-
             imageListView.SuspendLayout();
-
-            string _cover_attach = m_post.cover_attach;
-
-            if (string.IsNullOrEmpty(m_post.cover_attach))
-                _cover_attach = Post.attachments[0].object_id;
-
-            bool _setCoverImage = false;
 
             try
             {
-                for (int i = 0; i < Post.attachments.Count; i++)
+                int _h = m_imageAttachments.Count / 2;
+
+                for (int i = 0; i < m_imageAttachments.Count; i++)
                 {
+                    if (i == _h)
+                        Application.DoEvents();
+
                     if (imageListView.Items[i].FileName == m_filePathMediums[i])
                     {
                         k++;
@@ -497,26 +533,7 @@ namespace Waveface.DetailUI
 
                     if (File.Exists(m_filePathMediums[i]))
                     {
-                        DetailViewImageListViewItemTag _tag = new DetailViewImageListViewItemTag();
-                        _tag.Index = i.ToString();
-
-                        if (_cover_attach == Post.attachments[i].object_id)
-                        {
-                            if (Post.attachments.Count > 1)
-                            {
-                                _tag.IsCoverImage = true;
-                            }
-
-                            _setCoverImage = true;
-                        }
-                        else
-                        {
-                            _tag.IsCoverImage = false;
-                        }
-
                         imageListView.Items[i].FileName = m_filePathMediums[i];
-
-                        imageListView.Items[i].Tag = _tag;
 
                         k++;
 
@@ -528,27 +545,18 @@ namespace Waveface.DetailUI
             {
             }
 
-            if (!_setCoverImage)
-            {
-                if (Post.attachments.Count > 1)
-                {
-                    ((DetailViewImageListViewItemTag)imageListView.Items[0].Tag).IsCoverImage = true;
-                }
-            }
-
             imageListView.ResumeLayout();
 
-            labelPictureInfo.Text = "[" + k + "/" + Post.attachments.Count + "]";
+            labelPictureInfo.Text = "[" + k + "/" + m_imageAttachments.Count + "]";
 
-            if (k == Post.attachments.Count)
-                panelPictureInfo.Visible = false;
+            bool _flag = (k == m_imageAttachments.Count);
 
-            ReLayout();
-
-            bool _flag = (k == Post.attachments.Count);
+            panelPictureInfo.Visible = !_flag;
 
             if (_flag)
                 m_canEdit = true;
+
+            ReLayout();
 
             return _flag;
         }
@@ -564,7 +572,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (PhotoView _photoView = new PhotoView(m_post, Post.attachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, index))
+            using (PhotoView _photoView = new PhotoView(m_post, m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, index))
             {
                 _photoView.ShowDialog();
             }
@@ -608,47 +616,51 @@ namespace Waveface.DetailUI
 
             if (imageListView.Items.Count < 3)
             {
-                W = (imageListView.Width - (16 * 2)) / 2;
-
-                if (W < 144)
-                    W = 144;
+                W = (imageListView.Width - (14 * 2)) / 2;
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
             else if (imageListView.Items.Count < 10)
             {
-                W = (imageListView.Width - (16 * 3)) / 3;
-
-                if (W < 144)
-                    W = 144;
+                W = (imageListView.Width - (14 * 3)) / 3;
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
             else if (imageListView.Items.Count < 101)
             {
-                W = (imageListView.Width - (16 * 4)) / 4;
+                W = (imageListView.Width - (14 * 4)) / 4;
 
-                if (W < 144)
-                    W = 144;
+                if (W < 104)
+                    W = 104;
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
             else if ((imageListView.Items.Count >= 101) && (imageListView.Items.Count <= 200))
             {
-                W = (imageListView.Width - (16 * 5)) / 5;
+                W = (imageListView.Width - (14 * 6)) / 6;
 
-                if (W < 144)
-                    W = 144;
+                if (W < 104)
+                    W = 104;
 
                 imageListView.ThumbnailSize = new Size(W, W);
             }
             else if ((imageListView.Items.Count > 200) && (imageListView.Items.Count <= 500))
             {
-                imageListView.ThumbnailSize = new Size(128, 128);
+                W = (imageListView.Width - (14 * 8)) / 8;
+
+                if (W < 104)
+                    W = 104;
+
+                imageListView.ThumbnailSize = new Size(W, W);
             }
             else
             {
-                imageListView.ThumbnailSize = new Size(112, 112);
+                W = (imageListView.Width - (14 * 10)) / 10;
+
+                if (W < 104)
+                    W = 104;
+
+                imageListView.ThumbnailSize = new Size(W, W);
             }
         }
 
@@ -665,7 +677,7 @@ namespace Waveface.DetailUI
 
                 try
                 {
-                    string _cover_attach = Post.attachments[int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index)].object_id;
+                    string _cover_attach = m_imageAttachments[int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index)].object_id;
 
                     if (_cover_attach != m_post.cover_attach)
                     {

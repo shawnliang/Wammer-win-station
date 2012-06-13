@@ -3,7 +3,6 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.API.V2;
@@ -20,10 +19,10 @@ namespace Waveface.DetailUI
 
         private IContainer components;
         private Post m_post;
-        private ImageListView imageListViewTo;
         private ImageListView imageListViewFrom;
         private CultureManager cultureManager;
         private int m_itemCounts;
+        private Label labelCaption;
 
         private BatchPostItem m_batchPostItem;
 
@@ -36,7 +35,13 @@ namespace Waveface.DetailUI
 
                 Relayout();
 
-                m_batchPostItem = Main.Current.BatchPostManager.PhotoItems[m_post.BatchPostItemIndex];
+                lock (Main.Current.BatchPostManager.PhotoItems)
+                {
+                    if (Main.Current.BatchPostManager.PhotoItems.Count == 0)
+                        return;
+
+                    m_batchPostItem = Main.Current.BatchPostManager.PhotoItems[m_post.BatchPostItemIndex];
+                }
 
                 LoatPictureToImageListViewFrom();
 
@@ -54,6 +59,15 @@ namespace Waveface.DetailUI
             InitImageListView();
         }
 
+        public void UnLink()
+        {
+            if (m_post != null)
+            {
+                Main.Current.BatchPostManager.UpdateCountUI -= UpdateCountUI;
+                Main.Current.BatchPostManager.UploadDone -= UploadDone;
+            }
+        }
+
         private void InitImageListView()
         {
             MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer
@@ -68,19 +82,6 @@ namespace Waveface.DetailUI
             imageListViewFrom.Colors.DisabledBackColor = BG_COLOR;
             imageListViewFrom.ThumbnailSize = new Size(96, 96);
             imageListViewFrom.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
-
-            MyImageListViewRenderer _imageListViewRenderer2 = new MyImageListViewRenderer
-                                                                 {
-                                                                     ItemBorderless = true,
-                                                                     ShowHovered = false
-                                                                 };
-
-            imageListViewTo.SetRenderer(_imageListViewRenderer2);
-            imageListViewTo.BackColor = BG_COLOR;
-            imageListViewTo.Colors.BackColor = BG_COLOR;
-            imageListViewTo.Colors.DisabledBackColor = BG_COLOR;
-            imageListViewTo.ThumbnailSize = new Size(96, 96);
-            imageListViewTo.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
         }
 
         protected override void Dispose(bool disposing)
@@ -110,7 +111,7 @@ namespace Waveface.DetailUI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewBatchPostItem_DV));
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.imageListViewFrom = new Manina.Windows.Forms.ImageListView();
-            this.imageListViewTo = new Manina.Windows.Forms.ImageListView();
+            this.labelCaption = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cultureManager
@@ -121,7 +122,7 @@ namespace Waveface.DetailUI
             // 
             this.imageListViewFrom.AllowDuplicateFileNames = true;
             resources.ApplyResources(this.imageListViewFrom, "imageListViewFrom");
-            this.imageListViewFrom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageListViewFrom.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageListViewFrom.CacheLimit = "0";
             this.imageListViewFrom.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListViewFrom.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListViewFrom.DefaultImage")));
@@ -130,28 +131,21 @@ namespace Waveface.DetailUI
             this.imageListViewFrom.Name = "imageListViewFrom";
             this.imageListViewFrom.UseEmbeddedThumbnails = Manina.Windows.Forms.UseEmbeddedThumbnails.Never;
             // 
-            // imageListViewTo
+            // labelCaption
             // 
-            this.imageListViewTo.AllowDuplicateFileNames = true;
-            resources.ApplyResources(this.imageListViewTo, "imageListViewTo");
-            this.imageListViewTo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageListViewTo.CacheLimit = "0";
-            this.imageListViewTo.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.imageListViewTo.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListViewTo.DefaultImage")));
-            this.imageListViewTo.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListViewTo.ErrorImage")));
-            this.imageListViewTo.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListViewTo.Name = "imageListViewTo";
-            this.imageListViewTo.UseEmbeddedThumbnails = Manina.Windows.Forms.UseEmbeddedThumbnails.Never;
+            resources.ApplyResources(this.labelCaption, "labelCaption");
+            this.labelCaption.Name = "labelCaption";
             // 
             // NewBatchPostItem_DV
             // 
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.imageListViewTo);
+            this.Controls.Add(this.labelCaption);
             this.Controls.Add(this.imageListViewFrom);
             resources.ApplyResources(this, "$this");
             this.Name = "NewBatchPostItem_DV";
             this.Resize += new System.EventHandler(this.NewBatchPostItem_DV_Resize);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -173,20 +167,17 @@ namespace Waveface.DetailUI
 
         public void Relayout()
         {
+            int _lH = 32;
+
             int _d = 12;
 
-            int _h = (Height - 3 * _d) / 2;
+            int _h = Height - 2 * _d - _lH;
             int _w = Width - 2 * _d;
 
-            imageListViewFrom.Top = _d;
+            imageListViewFrom.Top = _d + _lH;
             imageListViewFrom.Height = _h;
             imageListViewFrom.Left = _d;
             imageListViewFrom.Width = _w;
-
-            imageListViewTo.Top = _d + _h + _d;
-            imageListViewTo.Height = _h;
-            imageListViewTo.Left = _d;
-            imageListViewTo.Width = _w;
         }
 
         private void NewBatchPostItem_DV_Resize(object sender, EventArgs e)
@@ -198,66 +189,73 @@ namespace Waveface.DetailUI
         {
             m_itemCounts = m_batchPostItem.Files.Count;
 
+            int _from = m_batchPostItem.UploadedFiles.Count;
+
             if (m_batchPostItem == null)
                 return;
 
             imageListViewFrom.SuspendLayout();
-            imageListViewTo.SuspendLayout();
 
-            for (int i = 0; i < m_itemCounts; i++)
+            for (int i = 0; i < m_itemCounts - _from; i++)
             {
-                imageListViewFrom.Items.Add(m_batchPostItem.Files[i]);
-
-                imageListViewTo.Items.Add(Main.Current.LoadingImagePath);
+                imageListViewFrom.Items.Add(m_batchPostItem.Files[i + _from]);
 
                 DetailViewImageListViewItemTag _tag = new DetailViewImageListViewItemTag();
                 _tag.Index = i.ToString();
                 _tag.IsCoverImage = false;
 
                 imageListViewFrom.Items[i].Tag = _tag;
-                imageListViewTo.Items[i].Tag = _tag;
             }
 
             imageListViewFrom.ResumeLayout();
-            imageListViewTo.ResumeLayout();
         }
 
         void UploadDone(string text)
         {
             if (InvokeRequired)
             {
-                Invoke(new MethodInvoker(
-                           delegate { UploadDone(text); }
-                           ));
+                try
+                {
+                    Invoke(new MethodInvoker(
+                               delegate { UploadDone(text); }
+                               ));
+
+                }
+                catch
+                {
+                }
             }
             else
             {
             }
         }
 
-        void UpdateCountUI(int count)
+        void UpdateCountUI(int count, int all)
         {
             if (InvokeRequired)
             {
-                Invoke(new MethodInvoker(
-                           delegate { UpdateCountUI(count); }
-                           ));
+                try
+                {
+                    Invoke(new MethodInvoker(
+                               delegate { UpdateCountUI(count, all); }
+                               ));
+                }
+                catch
+                {}
             }
             else
             {
                 if (m_post.BatchPostItemIndex != 0)
                     return;
 
+                imageListViewFrom.SuspendLayout();
+
                 while (imageListViewFrom.Items.Count > (m_itemCounts - count))
                 {
                     imageListViewFrom.Items.RemoveAt(0);
                 }
 
-                for (int i = 0; i < count; i++)
-                {
-                    if (imageListViewTo.Items[i].FileName != m_batchPostItem.Files[i])
-                        imageListViewTo.Items[i].FileName = m_batchPostItem.Files[i];
-                }
+                imageListViewFrom.ResumeLayout();
             }
         }
     }

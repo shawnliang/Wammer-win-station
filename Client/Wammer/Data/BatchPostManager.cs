@@ -217,7 +217,7 @@ namespace Waveface
 
         private BatchPostItem UploadPhoto(BatchPostItem postItem)
         {
-            int _count = 0;
+            int _count = postItem.UploadedFiles.Count;
             string _tmpStamp = DateTime.Now.Ticks.ToString();
             bool _editMode = postItem.EditMode;
 
@@ -391,7 +391,7 @@ namespace Waveface
 
                     if (UpdateCountUI != null)
                     {
-                        UpdateCountUI(_count);
+                        UpdateCountUI(_count, _counts);
                     }
 
                     if (_count == _counts)

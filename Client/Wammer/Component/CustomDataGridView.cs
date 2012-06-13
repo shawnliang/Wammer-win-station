@@ -100,7 +100,7 @@ namespace Waveface.Component
             int _index = FirstDisplayedScrollingRowIndex;
             int _displayedCount = DisplayedRowCount(true);
 
-            for (int k = 1; k <= _displayedCount;)
+            for (int k = 1; k <= _displayedCount; )
             {
                 if (Rows[_index].Visible)
                 {

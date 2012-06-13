@@ -50,6 +50,8 @@ namespace Waveface
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
+        private string m_uploadText;
+
         #region Properties
 
         public int SelectedRow
@@ -68,7 +70,7 @@ namespace Waveface
                 {
                     Main.Current.PhotoDownloader.ThumbnailEvent += Thumbnail_EventHandler;
 
-                    Main.Current.BatchPostManager.UpdateUI += BatchPostManager_UpdateUI;
+                    Main.Current.BatchPostManager.UpdateCountUI += BatchPostManager_UpdateCountUI;
                     Main.Current.BatchPostManager.UploadDone += BatchPostManager_UploadDone;
                 }
             }
@@ -151,24 +153,22 @@ namespace Waveface
 
         public void SetPosts(List<Post> posts)
         {
-            // Test: 
-            // posts = posts.GetRange(0, DateTime.Now.Second % 5);
-
             dataGridView.SuspendLayout();
 
             //Todo
-            /*
-            for (int i = 0; i < Main.Current.BatchPostManager.PhotoItems.Count; i++)
+            lock (Main.Current.BatchPostManager.PhotoItems)
             {
-                if (!Main.Current.BatchPostManager.PhotoItems[i].EditMode)
+                for (int i = 0; i < Main.Current.BatchPostManager.PhotoItems.Count; i++)
                 {
-                    Post _p = new Post();
-                    _p.IsNewPhotoItem = true;
-                    _p.BatchPostItemIndex = i;
-                    posts.Insert(0, _p);
+                    if (!Main.Current.BatchPostManager.PhotoItems[i].EditMode)
+                    {
+                        Post _p = new Post();
+                        _p.IsNewPhotoItem = true;
+                        _p.BatchPostItemIndex = i;
+                        posts.Insert(0, _p);
+                    }
                 }
             }
-            */
 
             try
             {
@@ -283,21 +283,21 @@ namespace Waveface
             }
             else
             {
-                m_uploadPercent = 0;
+                m_uploadText = "";
             }
         }
 
-        void BatchPostManager_UpdateUI(int percent, string text)
+        void BatchPostManager_UpdateCountUI(int count, int all)
         {
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
-                           delegate { BatchPostManager_UpdateUI(percent, text); }
+                           delegate { BatchPostManager_UpdateCountUI(count, all); }
                            ));
             }
             else
             {
-                m_uploadPercent = percent;
+                m_uploadText = count + " / " + all;
 
                 RefreshUI();
             }
@@ -369,7 +369,10 @@ namespace Waveface
 
                 if (post.BatchPostItemIndex == 0)
                 {
-                    _text = "[照片上傳中: " + m_uploadPercent + "%]";
+                    if (string.IsNullOrEmpty(m_uploadText))
+                        _text = "[等待上傳]";
+                    else
+                        _text = "照片上傳中: " + m_uploadText;
                 }
                 else
                 {
@@ -1158,7 +1161,6 @@ namespace Waveface
         #region Key
 
         private bool m_isKeyPressed;
-        private int m_uploadPercent;
 
         private void dataGridView_KeyUp(object sender, KeyEventArgs e)
         {

@@ -401,7 +401,10 @@ namespace Waveface
             panelMain.Controls.Clear();
 
             if (m_newBatchPostItemDv != null)
+            {
+                m_newBatchPostItemDv.UnLink();
                 m_newBatchPostItemDv.Dispose();
+            }
 
             m_newBatchPostItemDv = null;
 
@@ -441,7 +444,7 @@ namespace Waveface
 
             if (m_photoDv != null)
             {
-                // m_photoDv.ImageListView.ClearThumbnailCache();
+                m_photoDv.ImageListView.ClearThumbnailCache();
                 m_photoDv.Dispose();
             }
 

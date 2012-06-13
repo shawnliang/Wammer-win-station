@@ -238,7 +238,7 @@ namespace Waveface
 
         private void CreateLoadingImage()
         {
-            int s = 256;
+            int s = 512;
             int k = 8;
 
             try
@@ -958,12 +958,7 @@ namespace Waveface
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
 
-                        if (m_postForm.BatchPostItem.Post != null)
-                        {
-                            ShowPostInTimeline();
-                        }
-
-                        // ReloadAllData();
+                        ReloadAllData();
 
                         break;
                 }
@@ -997,6 +992,9 @@ namespace Waveface
 
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
+
+                        ReloadAllData();
+
                         break;
                 }
             }
@@ -1651,7 +1649,7 @@ namespace Waveface
 
             RT.CurrentGroupPosts = _tmpPosts;
 
-			s_logger.Warn("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
+            s_logger.Warn("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
         }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

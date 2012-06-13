@@ -811,25 +811,32 @@ namespace Manina.Windows.Forms
             {
                 if (creatingGraphics) return false;
 
-                creatingGraphics = true;
+                try
+                {
+                    creatingGraphics = true;
 
-                BufferedGraphicsContext bufferContext = BufferedGraphicsManager.Current;
+                    BufferedGraphicsContext bufferContext = BufferedGraphicsManager.Current;
 
-                if (disposed)
-                    throw (new ObjectDisposedException("bufferContext"));
+                    if (disposed)
+                        throw (new ObjectDisposedException("bufferContext"));
 
-                int width = System.Math.Max(ImageListView.Width, 1);
-                int height = System.Math.Max(ImageListView.Height, 1);
+                    int width = System.Math.Max(ImageListView.Width, 1);
+                    int height = System.Math.Max(ImageListView.Height, 1);
 
-                bufferContext.MaximumBuffer = new Size(width, height);
+                    bufferContext.MaximumBuffer = new Size(width, height);
 
-                ClearBuffer();
+                    ClearBuffer();
 
-                bufferGraphics = bufferContext.Allocate(graphics, new Rectangle(0, 0, width, height));
+                    bufferGraphics = bufferContext.Allocate(graphics, new Rectangle(0, 0, width, height));
 
-                creatingGraphics = false;
+                    creatingGraphics = false;
 
-                InitializeGraphics(bufferGraphics.Graphics);
+                    InitializeGraphics(bufferGraphics.Graphics);
+                }
+                catch
+                {
+                    return false;
+                }
 
                 return true;
             }

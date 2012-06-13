@@ -235,10 +235,12 @@ namespace Waveface.Component
 
                 g.FillRectangle(_brush, _rect);
 
-                Font _font = new Font(I18n.L.T("DefaultFont"), 11, FontStyle.Bold); //_h2 * (1 - 0.6f) 
+                using (Font _font = new Font(I18n.L.T("DefaultFont"), 11, FontStyle.Bold))
+                {
 
-                TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White,
-                                      TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                    TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White,
+                                          TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                }
             }
         }
 
