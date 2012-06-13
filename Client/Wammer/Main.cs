@@ -166,7 +166,9 @@ namespace Waveface
 
             InitializeComponent();
 
-            Text = "Stream";
+            Text = "Stream "; // form's title has to be sync with StationSystemTray's definition
+                              // so that system tray iconcan bring client program to topmost when
+                              // user double clicks sys tray icon.
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 

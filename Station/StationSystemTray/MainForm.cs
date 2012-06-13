@@ -40,7 +40,7 @@ namespace StationSystemTray
 		#region Const
 
 		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
-		private const string CLIENT_TITLE = "Waveface ";
+		private const string CLIENT_TITLE = "Stream ";
 		private const int STATION_TIMER_LONG_INTERVAL = 60000;
 		private const int STATION_TIMER_SHORT_INTERVAL = 3000;
 
