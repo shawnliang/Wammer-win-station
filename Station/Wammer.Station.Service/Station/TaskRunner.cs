@@ -16,11 +16,17 @@ namespace Wammer.Station
 			this.queue = queue;
 		}
 
+		public TaskRunner(ITaskDequeuable<T> queue, Exit exit)
+		{
+			this.exit = exit;
+			this.queue = queue;
+		}
+
 		public event EventHandler TaskExecuted;
 
 		protected override void Do()
 		{
-			while (!exit)
+			while (!exit.GoExit)
 			{
 				DequeuedTask<T> item = null;
 				try
@@ -44,7 +50,7 @@ namespace Wammer.Station
 
 		public override void StopAsync()
 		{
-			exit = true;
+			exit.GoExit = true;
 			queue.EnqueueDummyTask(); // enqueue something to force task runner leave the blocking call of queue.Dequeue();
 		}
 

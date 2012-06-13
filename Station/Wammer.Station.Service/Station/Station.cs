@@ -41,6 +41,8 @@ namespace Wammer.Station
 		private Boolean _isSynchronizationStatus;
 		private DriverController _driverAgent;
 		private Object _bodySyncRunnersLockObj;
+		private bool _threadExit = false;
+		private Exit threadsExit = new Exit();
 		#endregion
 
 
@@ -103,7 +105,7 @@ namespace Wammer.Station
 					if (_bodySyncRunners == null)
 					{
 						_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
-							item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance)).ToArray();
+							item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance, threadsExit)).ToArray();
 
 						Array.ForEach(_bodySyncRunners, item =>
 							{
@@ -125,7 +127,7 @@ namespace Wammer.Station
 			get
 			{
 				return _upstreamTaskRunner ?? (_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
-					item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance)).ToArray());
+					item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance, threadsExit)).ToArray());
 			}
 		}
 
@@ -423,6 +425,8 @@ namespace Wammer.Station
 
 			m_StationTimer.Stop();
 
+			threadsExit.GoExit = true;
+
 			// Signal to stop runners
 			m_PostUploadRunner.StopAsync();
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.StopAsync());
@@ -441,6 +445,8 @@ namespace Wammer.Station
 		/// </summary>
 		public void ResumeSync()
 		{
+			threadsExit.GoExit = false;
+
 			if (IsSynchronizationStatus)
 			{
 				m_OriginalSynchronizationStatus = true;
