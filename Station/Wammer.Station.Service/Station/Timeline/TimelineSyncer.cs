@@ -42,7 +42,7 @@ namespace Wammer.Station.Timeline
 		/// Pull user's timeline base on his sync_range and save timeline posts to db
 		/// </summary>
 		/// <param name="user"></param>
-		public void PullBackward(Driver user)
+		public void PullBackward(Driver user, int limit = 200)
 		{
 			if (user == null)
 				throw new ArgumentNullException("user");
@@ -51,8 +51,8 @@ namespace Wammer.Station.Timeline
 				throw new InvalidOperationException("Has already pulled the oldest post");
 
 			var res = user.sync_range == null
-			          	? postProvider.GetLastestPosts(user, 200)
-			          	: postProvider.GetPostsBefore(user, user.sync_range.start_time, 200);
+						? postProvider.GetLastestPosts(user, limit)
+						: postProvider.GetPostsBefore(user, user.sync_range.start_time, limit);
 
 			foreach (var post in res.posts)
 				db.SavePost(post);

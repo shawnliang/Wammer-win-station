@@ -40,7 +40,7 @@ namespace StationSystemTray
 		#region Const
 
 		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
-		private const string CLIENT_TITLE = "Waveface ";
+		private const string CLIENT_TITLE = "Stream ";
 		private const int STATION_TIMER_LONG_INTERVAL = 60000;
 		private const int STATION_TIMER_SHORT_INTERVAL = 3000;
 
@@ -1204,6 +1204,27 @@ namespace StationSystemTray
 			}
 		}
 
+		private void GetSpeedAndUnit(float value,ref float speed,ref string unit)
+		{
+			var units = new string[] { "B/s", "KB/s", "MB/s" };
+			var index = Array.IndexOf(units, unit);
+
+			if (index == -1)
+				index = 0;
+
+			if (value > 1024)
+			{
+				value = value / 1024;
+				speed = value;
+				unit = units[index + 1];
+				GetSpeedAndUnit(value, ref speed, ref unit);
+				return;
+			}
+
+			speed = value;
+			unit = units[index];
+		}
+
 		Queue<float> _upRemainedCount = new Queue<float>();
 		Queue<float> _downRemainedCount = new Queue<float>();
 		Queue<float> _upSpeeds = new Queue<float>();
@@ -1236,8 +1257,8 @@ namespace StationSystemTray
 
 					if (CurrentState.Value == StationStateEnum.Syncing)
 					{
-						var upSpeed = m_UpStreamRateCounter.NextValue() / 1024;
-						var downloadSpeed = m_DownStreamRateCounter.NextValue() / 1024;
+						var upSpeed = m_UpStreamRateCounter.NextValue();
+						var downloadSpeed = m_DownStreamRateCounter.NextValue();
 
 						if (_upSpeeds.Count >= 5)
 							_upSpeeds.Dequeue();
@@ -1253,11 +1274,14 @@ namespace StationSystemTray
 						if (_downSpeeds.Count >= 0)
 							downloadSpeed = _downSpeeds.Average();
 
-						var upSpeedUnit = (upSpeed <= 1024) ? "KB/s" : "MB/s";
-						var downloadSpeedUnit = (downloadSpeed <= 1024) ? "KB/s" : "MB/s";
+						string upSpeedUnit = string.Empty;
+						GetSpeedAndUnit(upSpeed, ref upSpeed, ref upSpeedUnit);
 
-						upSpeed = upRemainedCount == 0 ? 0 : ((upSpeed >= 1024) ? upSpeed / 1024 : upSpeed);
-						downloadSpeed = downloadSpeed == 0 ? 0 : ((downloadSpeed >= 1024) ? downloadSpeed / 1024 : downloadSpeed);
+						string downloadSpeedUnit = string.Empty;
+						GetSpeedAndUnit(downloadSpeed, ref downloadSpeed, ref downloadSpeedUnit);
+
+						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
+						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
 						iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
 												 iconText,

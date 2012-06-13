@@ -4,7 +4,7 @@ namespace Wammer.PostUpload
 {
 	public class UnhidePostTask : PostUploadTask
 	{
-		public override void Execute()
+		protected override void Do(Model.Driver user)
 		{
 			throw new NotImplementedException();
 		}

@@ -14,6 +14,7 @@ using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
 using Wammer.Utility;
+using System.Collections.Generic;
 
 namespace Wammer.Station.Service
 {
@@ -173,11 +174,10 @@ namespace Wammer.Station.Service
 					var handler = Activator.CreateInstance(type) as IHttpHandler;
 					var info = handler.GetCustomAttribute<APIHandlerInfoAttribute>();
 
-					if (info == null)
+					if (info == null || (info.Type & APIHandlerType.ManagementAPI) != APIHandlerType.ManagementAPI)
 						continue;
 
-					if (info.Type == APIHandlerType.ManagementAPI || info.Type == APIHandlerType.Both)
-						managementServer.AddHandler(GetDefaultBathPath(info.Path), handler);
+					managementServer.AddHandler(GetDefaultBathPath(info.Path), handler);
 				}
 			}
 
@@ -287,6 +287,10 @@ namespace Wammer.Station.Service
 
 		private void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
+			var posts = e.UserData as List<PostInfo>;
+
+			var downloader = new ResourceDownloader(BodySyncQueue.Instance);
+			downloader.PostRetrieved(this, new TimelineSyncEventArgs(e.Driver, posts));
 		}
 
 		private void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
@@ -297,9 +301,11 @@ namespace Wammer.Station.Service
 				new UserTracksApi()
 				);
 
-			var downloader = new ResourceDownloader(BodySyncQueue.Instance);
-			syncer.PostsRetrieved += downloader.PostRetrieved;
-			syncer.PullTimeline(e.Driver);
+			List<PostInfo> posts = new List<PostInfo>();
+			syncer.PostsRetrieved += (evtSender, evtArg) => posts.AddRange(evtArg.Posts);
+			syncer.PullBackward(e.Driver, 20);
+
+			e.UserData = posts;
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

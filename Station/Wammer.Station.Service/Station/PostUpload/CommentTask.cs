@@ -6,26 +6,10 @@ namespace Wammer.PostUpload
 {
 	public class CommentTask : PostUploadTask
 	{
-		public override void Execute()
+		protected override void Do(Driver driver)
 		{
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
-			if (driver != null)
-			{
-				try
-				{
-					var postApi = new PostApi(driver);
-					postApi.NewComment(Timestamp, Parameters);
-				}
-				catch (WammerCloudException e)
-				{
-					this.LogDebugMsg("Error while executing new comment task.", e);
-
-					if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
-					{
-						throw;
-					}
-				}
-			}
+			var postApi = new PostApi(driver);
+			postApi.NewComment(Timestamp, Parameters);
 		}
 	}
 }

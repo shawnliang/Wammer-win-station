@@ -40,6 +40,9 @@ namespace Wammer.Station
 		private AttachmentDownloadMonitor _downstreamMonitor;
 		private Boolean _isSynchronizationStatus;
 		private DriverController _driverAgent;
+		private Object _bodySyncRunnersLockObj;
+		private bool _threadExit = false;
+		private Exit threadsExit = new Exit();
 		#endregion
 
 
@@ -78,6 +81,18 @@ namespace Wammer.Station
 		}
 
 		/// <summary>
+		/// Gets the m_ body sync runners lock obj.
+		/// </summary>
+		/// <value>The m_ body sync runners lock obj.</value>
+		private Object m_BodySyncRunnersLockObj
+		{
+			get
+			{ 
+				return _bodySyncRunnersLockObj ?? (_bodySyncRunnersLockObj = new Object());
+			}
+		}
+
+		/// <summary>
 		/// Gets the m_ body sync runners.
 		/// </summary>
 		/// <value>The m_ body sync runners.</value>
@@ -85,18 +100,21 @@ namespace Wammer.Station
 		{
 			get
 			{
-				if (_bodySyncRunners == null)
+				lock (m_BodySyncRunnersLockObj)
 				{
-					_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
-						item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance)).ToArray();
-
-					foreach (var item in _bodySyncRunners)
+					if (_bodySyncRunners == null)
 					{
-						item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
-						item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
+						_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
+							item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance, threadsExit)).ToArray();
+
+						Array.ForEach(_bodySyncRunners, item =>
+							{
+								item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
+								item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
+							});
 					}
+					return _bodySyncRunners;
 				}
-				return _bodySyncRunners;
 			}
 		}
 
@@ -109,7 +127,7 @@ namespace Wammer.Station
 			get
 			{
 				return _upstreamTaskRunner ?? (_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
-					item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance)).ToArray());
+					item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance, threadsExit)).ToArray());
 			}
 		}
 
@@ -407,6 +425,8 @@ namespace Wammer.Station
 
 			m_StationTimer.Stop();
 
+			threadsExit.GoExit = true;
+
 			// Signal to stop runners
 			m_PostUploadRunner.StopAsync();
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.StopAsync());
@@ -425,6 +445,8 @@ namespace Wammer.Station
 		/// </summary>
 		public void ResumeSync()
 		{
+			threadsExit.GoExit = false;
+
 			if (IsSynchronizationStatus)
 			{
 				m_OriginalSynchronizationStatus = true;

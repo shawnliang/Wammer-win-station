@@ -10,42 +10,26 @@ namespace Wammer.PostUpload
 {
 	public class NewPostTask : PostUploadTask
 	{
-		public override void Execute()
+		protected override void Do(Driver driver)
 		{
-			Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", UserId));
-			if (driver != null)
+			if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
 			{
-					try
+				IEnumerable<string> attachmentIDs =
+					from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',')
+					select attachmentString.Trim('"', '"');
+
+				foreach (String id in attachmentIDs)
+				{
+					if (!IsAttachmentUploaded(id, driver.session_token))
 					{
-						if (Parameters.ContainsKey(CloudServer.PARAM_ATTACHMENT_ID_ARRAY))
-						{
-							IEnumerable<string> attachmentIDs =
-								from attachmentString in Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',')
-								select attachmentString.Trim('"', '"');
-
-							foreach (String id in attachmentIDs)
-							{
-								if (!IsAttachmentUploaded(id, driver.session_token))
-								{
-								throw new WammerStationException("Attachment " + id + " is not uploaded to cloud yet",
-								                                 (int) StationLocalApiError.NotReady);
-								}
-							}
-						}
-
-						var postApi = new PostApi(driver);
-					postApi.NewPost(PostId, Timestamp, Parameters);
-					}
-					catch (WammerCloudException e)
-					{
-						this.LogDebugMsg("Error while executing new post task.", e);
-
-						if (CloudServer.IsNetworkError(e) || CloudServer.IsSessionError(e))
-						{
-							throw;
-						}
+						throw new WammerStationException("Attachment " + id + " is not uploaded to cloud yet",
+														 (int)StationLocalApiError.NotReady);
 					}
 				}
 			}
+
+			var postApi = new PostApi(driver);
+			postApi.NewPost(PostId, Timestamp, Parameters);
 		}
+	}
 }

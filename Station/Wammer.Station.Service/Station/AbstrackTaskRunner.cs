@@ -5,8 +5,7 @@ namespace Wammer.Station
 	public abstract class AbstrackTaskRunner
 	{
 		protected Thread _thread;
-
-		protected volatile bool exit;
+		protected Exit exit = new Exit();
 
 		protected Thread m_Thread
 		{
@@ -16,7 +15,7 @@ namespace Wammer.Station
 
 		public virtual void Start()
 		{
-			exit = false;
+			exit.GoExit = false;
 
 			if (m_Thread.ThreadState == ThreadState.Unstarted)
 				m_Thread.Start();
@@ -42,5 +41,15 @@ namespace Wammer.Station
 
 		protected abstract void Do();
 		public abstract void StopAsync();
+	}
+
+	public class Exit
+	{
+		public Exit()
+		{
+			GoExit = false;
+		}
+
+		public bool GoExit { get; set; }
 	}
 }
