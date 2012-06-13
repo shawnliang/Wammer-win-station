@@ -2,7 +2,7 @@
 using Wammer.Cloud;
 namespace Wammer.Station
 {
-	[APIHandlerInfo(APIHandlerType.Both, "/availability/ping/")]
+	[APIHandlerInfo(APIHandlerType.FunctionAPI | APIHandlerType.ManagementAPI, "/availability/ping/")]
 	internal class PingHandler : HttpHandler
 	{
 		public override void HandleRequest()
