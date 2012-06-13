@@ -174,11 +174,10 @@ namespace Wammer.Station.Service
 					var handler = Activator.CreateInstance(type) as IHttpHandler;
 					var info = handler.GetCustomAttribute<APIHandlerInfoAttribute>();
 
-					if (info == null)
+					if (info == null || (info.Type & APIHandlerType.ManagementAPI) != APIHandlerType.ManagementAPI)
 						continue;
 
-					if (info.Type == APIHandlerType.ManagementAPI || info.Type == APIHandlerType.Both)
-						managementServer.AddHandler(GetDefaultBathPath(info.Path), handler);
+					managementServer.AddHandler(GetDefaultBathPath(info.Path), handler);
 				}
 			}
 

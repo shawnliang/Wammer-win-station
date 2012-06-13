@@ -40,6 +40,7 @@ namespace Wammer.Station
 		private AttachmentDownloadMonitor _downstreamMonitor;
 		private Boolean _isSynchronizationStatus;
 		private DriverController _driverAgent;
+		private Object _bodySyncRunnersLockObj;
 		#endregion
 
 
@@ -78,6 +79,18 @@ namespace Wammer.Station
 		}
 
 		/// <summary>
+		/// Gets the m_ body sync runners lock obj.
+		/// </summary>
+		/// <value>The m_ body sync runners lock obj.</value>
+		private Object m_BodySyncRunnersLockObj
+		{
+			get
+			{ 
+				return _bodySyncRunnersLockObj ?? (_bodySyncRunnersLockObj = new Object());
+			}
+		}
+
+		/// <summary>
 		/// Gets the m_ body sync runners.
 		/// </summary>
 		/// <value>The m_ body sync runners.</value>
@@ -85,18 +98,21 @@ namespace Wammer.Station
 		{
 			get
 			{
-				if (_bodySyncRunners == null)
+				lock (m_BodySyncRunnersLockObj)
 				{
-					_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
-						item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance)).ToArray();
-
-					foreach (var item in _bodySyncRunners)
+					if (_bodySyncRunners == null)
 					{
-						item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
-						item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
+						_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
+							item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance)).ToArray();
+
+						Array.ForEach(_bodySyncRunners, item =>
+							{
+								item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
+								item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
+							});
 					}
+					return _bodySyncRunners;
 				}
-				return _bodySyncRunners;
 			}
 		}
 

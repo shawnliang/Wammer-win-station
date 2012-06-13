@@ -1,10 +1,11 @@
 ﻿
+using System;
 namespace Wammer
 {
+	[Flags]
 	public enum APIHandlerType
 	{
-		FunctionAPI,
-		ManagementAPI,
-		Both
+		FunctionAPI = 1,
+		ManagementAPI = 2,
 	}
 }
