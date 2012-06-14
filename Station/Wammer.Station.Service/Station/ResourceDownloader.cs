@@ -122,7 +122,7 @@ namespace Wammer.Station
 					}
 
 					if (attachment.image_meta == null)
-						break;
+						continue;
 
 					// small
 					if (attachment.image_meta.small != null)
