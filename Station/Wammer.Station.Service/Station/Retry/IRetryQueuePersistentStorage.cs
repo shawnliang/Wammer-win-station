@@ -22,8 +22,9 @@ namespace Wammer.Station.Retry
 		{
 		}
 
-		public void Remove(DateTime key)
+		public bool Remove(DateTime key)
 		{
+			return true;
 		}
 
 		#endregion
@@ -33,6 +34,6 @@ namespace Wammer.Station.Retry
 	{
 		ICollection<RetryQueueItem> LoadSavedTasks();
 		void Add(DateTime key, IRetryTask task);
-		void Remove(DateTime key);
+		bool Remove(DateTime key);
 	}
 }

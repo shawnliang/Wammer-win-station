@@ -14,8 +14,8 @@ namespace UT_WammerStation.FailureAndRetry
 		class AbstrackRetryTask1 : AbstrackRetryTask
 		{
 			public AbstrackRetryTask1(IRetryQueue q)
-				:base(q, Wammer.Station.TaskPriority.VeryLow)
-			{}
+				: base(q, Wammer.Station.TaskPriority.VeryLow)
+			{ }
 
 			protected override void Do()
 			{
@@ -25,6 +25,7 @@ namespace UT_WammerStation.FailureAndRetry
 			public override DateTime NextRetryTime
 			{
 				get { return DateTime.Now; }
+				set { }
 			}
 
 			public override void ScheduleToRun()
@@ -74,11 +75,34 @@ namespace UT_WammerStation.FailureAndRetry
 			Assert.AreEqual(0, tasks.Count);
 		}
 
+		[TestMethod]
+		public void TasksWithSameRetryTimeWillBeForcedSeperated()
+		{
+			RetryQueue queue = new RetryQueue(new NullRetryQueuePersistentStorage());
 
-		class DelayedRetryTask1 :DelayedRetryTask
+			Mock<IRetryTask> task1 = new Mock<IRetryTask>();
+			Mock<IRetryTask> task2 = new Mock<IRetryTask>();
+
+			task1.SetupProperty(x => x.NextRetryTime, new DateTime(2012, 1, 1));
+			task2.SetupProperty(x => x.NextRetryTime, new DateTime(2012, 1, 1));
+
+			queue.Enqueue(task1.Object);
+			queue.Enqueue(task2.Object);
+
+			ICollection<IRetryTask> tasks = queue.Dequeue(new DateTime(2012, 5, 1));
+			Assert.AreEqual(2, tasks.Count);
+			Assert.IsTrue(tasks.Contains(task1.Object));
+			Assert.IsTrue(tasks.Contains(task2.Object));
+
+			Assert.AreEqual(new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Local).ToUniversalTime(), task1.Object.NextRetryTime.ToUniversalTime());
+			Assert.AreEqual(new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Local).ToUniversalTime().AddMilliseconds(1.0).Ticks, task2.Object.NextRetryTime.ToUniversalTime().Ticks);
+		}
+
+		[Serializable]
+		class DelayedRetryTask1 : DelayedRetryTask
 		{
 			public DelayedRetryTask1(IRetryQueue q)
-				:base(q, Wammer.Station.TaskPriority.Low)
+				: base(q, Wammer.Station.TaskPriority.Low)
 			{
 			}
 
@@ -118,5 +142,84 @@ namespace UT_WammerStation.FailureAndRetry
 			Assert.IsTrue(retry3 < retry4);
 			Assert.IsTrue(retry4 < retry5);
 		}
+
+		[TestMethod]
+		public void TestPersistency()
+		{
+			Wammer.Model.RetryQueueCollection.Instance.RemoveAll();
+			RetryQueuePersistentStorage storage = new RetryQueuePersistentStorage();
+
+
+			DateTime key1 = DateTime.Now;
+
+			Moq.Mock<IRetryQueue> queue = new Mock<IRetryQueue>(MockBehavior.Strict);
+
+			storage.Add(key1, new DelayedRetryTask1(queue.Object));
+
+			var savedTasks = storage.LoadSavedTasks();
+			Assert.AreEqual(1, savedTasks.Count);
+			var savedItem = savedTasks.First();
+			Assert.AreEqual(key1.ToUniversalTime(), savedItem.NextRunTime.ToUniversalTime());
+		}
+
+		[Serializable]
+		class FakeTask : IRetryTask
+		{
+			DateTime key;
+
+			public FakeTask(DateTime key)
+			{
+				this.key = key;
+			}
+
+			public DateTime NextRetryTime
+			{
+				get { return key; }
+				set { key = value; }
+			}
+
+			public Wammer.Station.TaskPriority Priority
+			{
+				get { return Wammer.Station.TaskPriority.Medium; }
+			}
+
+			public void ScheduleToRun()
+			{
+				throw new NotImplementedException();
+			}
+
+			public void Execute()
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		[TestMethod]
+		public void TestPersistency2()
+		{
+			//// Init
+			Wammer.Model.RetryQueueCollection.Instance.RemoveAll();
+			RetryQueue.Instance.GetType();
+			//// Init
+
+
+			RetryQueuePersistentStorage storage = new RetryQueuePersistentStorage();
+			DateTime key1 = DateTime.Now;
+
+			storage.Add(key1, new FakeTask(key1));
+
+			RetryQueue queue = new RetryQueue(storage);
+			var popped_tasks = queue.Dequeue(DateTime.Now);
+			Assert.AreEqual(1, popped_tasks.Count);
+
+			foreach (var task in popped_tasks)
+			{
+				queue.AckDequeue(task.NextRetryTime);
+			}
+
+
+			Assert.AreEqual(0, storage.LoadSavedTasks().Count);
+		}
+
 	}
 }

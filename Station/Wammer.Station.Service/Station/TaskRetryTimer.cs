@@ -17,8 +17,16 @@ namespace Wammer.Station
 
 			foreach (IRetryTask task in tasks)
 			{
+				// In case NextRetryTime is changed during task.ScheduleToRun()
+				// save this value for later use.
+				var key = task.NextRetryTime;
+
 				task.ScheduleToRun();
-				RetryQueue.Instance.AckDequeue(task.NextRetryTime);
+
+				var removed = RetryQueue.Instance.AckDequeue(key);
+
+				if (!removed)
+					this.LogWarnMsg("Data is not removed from retry_queue collection: " + task.ToString());
 			}
 		}
 	}

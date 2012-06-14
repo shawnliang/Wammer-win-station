@@ -128,9 +128,9 @@ namespace Wammer.Model
 			collection.RemoveAll();
 		}
 
-		public void Remove(IMongoQuery query)
+		public SafeModeResult Remove(IMongoQuery query)
 		{
-			collection.Remove(query);
+			return collection.Remove(query);
 		}
 
 		public MongoCursor<T> FindAll()
