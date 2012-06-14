@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Net;
+using System.IO;
+using System.ComponentModel;
+using log4net;
 
 namespace Wammer.Utility
 {
 	public class WebClientEx : WebClient
 	{
+
+		private static readonly ILog logger = LogManager.GetLogger("WebClientEx");
+
 		#region Var
 		private Boolean _allowAutoRedirect = true;
 		#endregion
@@ -177,6 +183,63 @@ namespace Wammer.Utility
 			}
 
 			(Request as HttpWebRequest).AddRange(rangeSpecifier, from, to);
+		}
+
+		/// <summary>
+		/// Downloads the file.
+		/// </summary>
+		/// <param name="address">The address.</param>
+		/// <param name="fileName">Name of the file.</param>
+		/// <param name="acceptResumeDownload">if set to <c>true</c> [accept resume download].</param>
+		/// <param name="progressChangedCallBack">The progress changed call back.</param>
+		public void DownloadFile(string address, string fileName, Boolean acceptResumeDownload, Action<object, ProgressChangedEventArgs>
+																progressChangedCallBack)
+		{			
+			if(acceptResumeDownload == false)
+			{
+				DownloadFile(address, fileName);
+				return;
+			}
+
+			const int CHECK_BYTE_COUNT = 3;
+			const int BUFFER_SIZE = 1024;
+
+			using (Stream fileStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+			{
+				var offset = fileStream.Length;
+				
+				if (offset > 0)
+					logger.Info("Detect existed file, resume download \"" + fileName + "\"");
+
+				if (offset > CHECK_BYTE_COUNT)
+					offset -= CHECK_BYTE_COUNT;
+
+				AddRange((int)offset);				
+								
+				using (var from = OpenRead(address))
+				{
+					if (offset > 0)
+					{
+						fileStream.Seek(offset, SeekOrigin.Begin);
+
+						var remoteBuffer = new byte[CHECK_BYTE_COUNT];
+						var localBuffer = new byte[CHECK_BYTE_COUNT];
+
+						if (from.Read(remoteBuffer, 0, CHECK_BYTE_COUNT) != fileStream.Read(localBuffer, 0, CHECK_BYTE_COUNT))
+							throw new Exception("Can't resume download specified file.");
+
+						for (int idx = 0; idx < CHECK_BYTE_COUNT; ++idx)
+						{
+							if (localBuffer[idx] != remoteBuffer[idx])
+								throw new Exception("Can't resume download specified file.");
+						}
+					}
+
+					from.WriteTo(fileStream, 1024, progressChangedCallBack);
+
+					if (fileStream != null) fileStream.Dispose();
+				}
+			}
 		}
 		#endregion
 	}

@@ -8,6 +8,7 @@ using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.JSONClass;
 using Wammer.Utility;
+using System.Diagnostics;
 
 namespace Wammer.Cloud
 {
@@ -75,6 +76,7 @@ namespace Wammer.Cloud
 
 		public void AttachmentView(ResourceDownloadEventArgs evtargs, string stationId)
 		{
+			Debug.Assert(!String.IsNullOrEmpty(evtargs.attachment.object_id));
 			var parameters = new Dictionary<object, object>
 			                 	{
 			                 		{CloudServer.PARAM_OBJECT_ID, evtargs.attachment.object_id},
@@ -116,32 +118,33 @@ namespace Wammer.Cloud
 			using (var agent = new DefaultWebClient())
 			{
 				string tempFile = file + @".tmp";
-				using (Stream fileStream = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write))
-				{
+				agent.DownloadFile(metadata.redirect_to, tempFile, true, progressChangedCallBack);
+				//using (Stream fileStream = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write))
+				//{
 
-					var offset = fileStream.Length;
+				//    var offset = fileStream.Length;
 
-					if (offset > 0)
-						logger.Info("Detect existed file, resume download \"" + tempFile + "\"");
+				//    if (offset > 0)
+				//        logger.Info("Detect existed file, resume download \"" + tempFile + "\"");
 
-					if (offset > 5)
-						offset -= 5;
+				//    if (offset > 5)
+				//        offset -= 5;
 
-					agent.AddRange((int)offset);
-					fileStream.Seek(offset, SeekOrigin.Begin);
+				//    agent.AddRange((int)offset);
+				//    fileStream.Seek(offset, SeekOrigin.Begin);
 
-					using (var from = agent.OpenRead(metadata.redirect_to))
-					{
+				//    using (var from = agent.OpenRead(metadata.redirect_to))
+				//    {
 
-						from.WriteTo(fileStream, 1024, progressChangedCallBack);
+				//        from.WriteTo(fileStream, 1024, progressChangedCallBack);
 
-						if (fileStream != null) fileStream.Dispose();
+				//        if (fileStream != null) fileStream.Dispose();
 
-						contentType = agent.ResponseHeaders["Content-type"];
-					}
+				        contentType = agent.ResponseHeaders["Content-type"];
+				//    }
 
 					File.Move(tempFile, file);
-				}
+				//}
 			}
 		}
 

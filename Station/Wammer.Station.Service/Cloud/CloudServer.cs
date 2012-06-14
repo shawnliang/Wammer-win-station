@@ -164,28 +164,31 @@ namespace Wammer.Cloud
 				buf.Remove(buf.Length - 1, 1);
 				using (var agent = new DefaultWebClient())
 				{
-					using (var fileStream = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write))
-					{
-						var offset = fileStream.Length;
-
-						if (offset > 0)
-							logger.Info("Detect existed file, resume download \"" + filepath + "\"");
-
-						if (offset > 5)
-							offset -= 5;
-
-						agent.AddRange((int)offset);
-						fileStream.Seek(offset, SeekOrigin.Begin);
-
-						using (Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf)))
-						{
-							Debug.Assert(stream != null, "stream != null");
-
-							stream.WriteTo(fileStream, 1024,
-										   (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
+					logger.DebugFormat("DownloadFile({0}, {1}, true,...)", baseUrl + path + "?" + buf, filepath);
+					agent.DownloadFile(baseUrl + path + "?" + buf, filepath, true, (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
 											long.Parse(e.UserState.ToString())));
-						}
-					}
+					//using (var fileStream = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write))
+					//{
+					//    var offset = fileStream.Length;
+
+					//    if (offset > 0)
+					//        logger.Info("Detect existed file, resume download \"" + filepath + "\"");
+
+					//    if (offset > 5)
+					//        offset -= 5;
+
+					//    agent.AddRange((int)offset);
+					//    fileStream.Seek(offset, SeekOrigin.Begin);
+
+					//    using (Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf)))
+					//    {
+					//        Debug.Assert(stream != null, "stream != null");
+
+					//        stream.WriteTo(fileStream, 1024,
+					//                       (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
+					//                        long.Parse(e.UserState.ToString())));
+					//    }
+					//}
 				}
 			}
 			catch (WebException e)

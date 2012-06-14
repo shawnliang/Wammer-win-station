@@ -7,6 +7,7 @@ using Wammer.Model;
 using Wammer.Station.Timeline;
 using System.IO;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Wammer.Station
 {
@@ -43,6 +44,9 @@ namespace Wammer.Station
 
 		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
+			Debug.Assert(!string.IsNullOrEmpty(driver.user_id));
+			Debug.Assert(!string.IsNullOrEmpty(attachment.object_id));
+
 			var fs = new FileStorage(driver);
 			var evtargs = new ResourceDownloadEventArgs
 							{
@@ -93,16 +97,23 @@ namespace Wammer.Station
 
 		private void DownloadMissedResource(Driver driver, IEnumerable<PostInfo> posts)
 		{
+			Debug.Assert(driver != null);
+
+			// driver might be removed before running download tasks
+			if (driver == null)
+				return;
+
 			foreach (PostInfo post in posts)
 			{
 				if (string.Compare(post.hidden, "true", true) == 0)
-					return;
+					continue;
 
 				foreach (AttachmentInfo attachment in post.attachments)
 				{
-					// driver might be removed before running download tasks
-					if (driver == null)
-						break;
+					Debug.Assert(!string.IsNullOrEmpty(attachment.object_id));
+
+					if (string.IsNullOrEmpty(attachment.object_id))
+						continue;
 
 					// original
 					if (!string.IsNullOrEmpty(attachment.url) && driver.isPrimaryStation)
@@ -111,7 +122,7 @@ namespace Wammer.Station
 					}
 
 					if (attachment.image_meta == null)
-						break;
+						continue;
 
 					// small
 					if (attachment.image_meta.small != null)
@@ -148,41 +159,41 @@ namespace Wammer.Station
 			{
 				DownloadOriginalAttachmentsFromCloud();
 
-			var posts = PostCollection.Instance.Find(
-				Query.And(
-					Query.Exists("attachments", true),
-					Query.EQ("hidden", "false")));
+				var posts = PostCollection.Instance.Find(
+					Query.And(
+						Query.Exists("attachments", true),
+						Query.EQ("hidden", "false")));
 
-			foreach (var post in posts)
-			{
-				foreach (var attachment in post.attachments)
+				foreach (var post in posts)
 				{
-					var savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
-					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
-
-					// driver might be removed before download tasks completed
-					if (driver == null)
-						break;
-
-					var imageMeta = attachment.image_meta;
-					if (imageMeta == null)
-						break;
-
-					var savedImageMeta = (savedDoc == null) ? null : savedDoc.image_meta;
-
-					// small
-					if (imageMeta.small != null &&
-						(savedImageMeta == null || savedImageMeta.small == null))
+					foreach (var attachment in post.attachments)
 					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
-					}
+						var savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
+						var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
 
-					// medium
-					if (imageMeta.medium != null &&
-						(savedImageMeta == null || savedImageMeta.medium == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
-					}
+						// driver might be removed before download tasks completed
+						if (driver == null)
+							break;
+
+						var imageMeta = attachment.image_meta;
+						if (imageMeta == null)
+							continue;
+
+						var savedImageMeta = (savedDoc == null) ? null : savedDoc.image_meta;
+
+						// small
+						if (imageMeta.small != null &&
+							(savedImageMeta == null || savedImageMeta.small == null))
+						{
+							EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
+						}
+
+						// medium
+						if (imageMeta.medium != null &&
+							(savedImageMeta == null || savedImageMeta.medium == null))
+						{
+							EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
+						}
 
 						// temp skil large thumbnails because no client uses this at this moment.
 						//if (imageMeta.large != null &&
@@ -191,15 +202,15 @@ namespace Wammer.Station
 						//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
 						//}
 
-					// square
-					if (imageMeta.square != null &&
-					    (savedImageMeta == null || savedImageMeta.square == null))
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+						// square
+						if (imageMeta.square != null &&
+							(savedImageMeta == null || savedImageMeta.square == null))
+						{
+							EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+						}
 					}
 				}
 			}
-		}
 			catch (Exception e)
 			{
 				this.LogWarnMsg("Resume unfinished downstream tasks not success: " + e.ToString());

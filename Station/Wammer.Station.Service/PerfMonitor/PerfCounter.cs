@@ -179,7 +179,7 @@ namespace Wammer.PerfMonitor
 		{
 			lock (m_Counter)
 			{
-				Debug.Assert(m_Value > 0);
+				//Debug.Assert(m_Value > 0);
 
 				if (m_Value <= 0)
 					return;
