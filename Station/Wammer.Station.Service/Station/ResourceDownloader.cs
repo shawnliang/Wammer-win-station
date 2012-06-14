@@ -7,6 +7,7 @@ using Wammer.Model;
 using Wammer.Station.Timeline;
 using System.IO;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Wammer.Station
 {
@@ -43,6 +44,9 @@ namespace Wammer.Station
 
 		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
+			Debug.Assert(!string.IsNullOrEmpty(driver.user_id));
+			Debug.Assert(!string.IsNullOrEmpty(attachment.object_id));
+
 			var fs = new FileStorage(driver);
 			var evtargs = new ResourceDownloadEventArgs
 							{
@@ -93,16 +97,23 @@ namespace Wammer.Station
 
 		private void DownloadMissedResource(Driver driver, IEnumerable<PostInfo> posts)
 		{
+			Debug.Assert(driver != null);
+
+			// driver might be removed before running download tasks
+			if (driver == null)
+				return;
+
 			foreach (PostInfo post in posts)
 			{
 				if (string.Compare(post.hidden, "true", true) == 0)
-					return;
+					continue;
 
 				foreach (AttachmentInfo attachment in post.attachments)
 				{
-					// driver might be removed before running download tasks
-					if (driver == null)
-						break;
+					Debug.Assert(!string.IsNullOrEmpty(attachment.object_id));
+
+					if (string.IsNullOrEmpty(attachment.object_id))
+						continue;
 
 					// original
 					if (!string.IsNullOrEmpty(attachment.url) && driver.isPrimaryStation)
