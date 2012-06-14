@@ -10,16 +10,19 @@ namespace UT_WammerStation.FailureAndRetry
 	[Serializable]
 	class Task : IRetryTask
 	{
-		public Task(string tag)
+
+		public Task(string tag, DateTime key)
 		{
 			Tag = tag;
+			NextRetryTime = key;
 		}
 
 		public string Tag { get; set; }
 
 		public DateTime NextRetryTime
 		{
-			get { throw new NotImplementedException(); }
+			get;
+			set;
 		}
 
 		public Wammer.Station.TaskPriority Priority
@@ -45,6 +48,7 @@ namespace UT_WammerStation.FailureAndRetry
 		public DateTime NextRetryTime
 		{
 			get { throw new NotImplementedException(); }
+			set {}
 		}
 
 		public Wammer.Station.TaskPriority Priority
@@ -79,11 +83,11 @@ namespace UT_WammerStation.FailureAndRetry
 			RetryQueuePersistentStorage store = new RetryQueuePersistentStorage();
 
 			DateTime k1 = new DateTime(2011,1,1, 0,0,0, DateTimeKind.Local);
-			Task t1  = new Task("t1");
+			Task t1  = new Task("t1", k1);
 			DateTime k2 = new DateTime(2011,3,1, 0,0,0, DateTimeKind.Utc);
-			Task t2  = new Task("t2");
+			Task t2  = new Task("t2", k2);
 			DateTime k3 = new DateTime(2010,12,1, 0,0,0, DateTimeKind.Local);
-			Task t3  = new Task("t3");
+			Task t3  = new Task("t3", k3);
 
 			store.Add(k1, t1);
 			store.Add(k2, t2);
@@ -110,11 +114,11 @@ namespace UT_WammerStation.FailureAndRetry
 			RetryQueuePersistentStorage store = new RetryQueuePersistentStorage();
 
 			DateTime k1 = new DateTime(2011, 1, 1, 0, 0, 0, DateTimeKind.Local);
-			Task t1 = new Task("t1");
+			Task t1 = new Task("t1", k1);
 			DateTime k2 = new DateTime(2011, 3, 1, 0, 0, 0, DateTimeKind.Utc);
-			Task t2 = new Task("t2");
+			Task t2 = new Task("t2", k2);
 			DateTime k3 = new DateTime(2010, 12, 1, 0, 0, 0, DateTimeKind.Local);
-			Task t3 = new Task("t3");
+			Task t3 = new Task("t3", k3);
 
 			store.Add(k1, t1);
 			store.Add(k2, t2);

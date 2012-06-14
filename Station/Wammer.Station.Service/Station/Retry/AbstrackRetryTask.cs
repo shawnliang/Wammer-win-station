@@ -47,7 +47,7 @@ namespace Wammer.Station.Retry
 		public abstract void ScheduleToRun();
 
 
-		public abstract DateTime NextRetryTime { get; }
+		public abstract DateTime NextRetryTime { get; set; }
 
 		public TaskPriority Priority
 		{
@@ -73,6 +73,7 @@ namespace Wammer.Station.Retry
 		public override DateTime NextRetryTime
 		{
 			get { return nextRetryTime; }
+			set { nextRetryTime = value; }
 		}
 
 		protected override void Do()
@@ -110,7 +111,7 @@ namespace Wammer.Station.Retry
 		#region IRetryTask Members
 
 		public TaskPriority Priority { get; private set; }
-		public DateTime NextRetryTime { get; private set; }
+		public DateTime NextRetryTime { get; set; }
 
 		public void ScheduleToRun()
 		{

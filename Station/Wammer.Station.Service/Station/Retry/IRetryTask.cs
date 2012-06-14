@@ -4,7 +4,7 @@ namespace Wammer.Station.Retry
 {
 	public interface IRetryTask : ITask
 	{
-		DateTime NextRetryTime { get; }
+		DateTime NextRetryTime { get; set; }
 		TaskPriority Priority { get; }
 		void ScheduleToRun();
 	}
