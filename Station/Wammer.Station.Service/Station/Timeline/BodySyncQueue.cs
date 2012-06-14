@@ -53,24 +53,16 @@ namespace Wammer.Station.Timeline
 
 				if (highPriorityQueue.Count > 0)
 				{
-					lock (highPriorityQueue)
-					{
-						dequeued = highPriorityQueue.Dequeue();	
-					}
+					dequeued = highPriorityQueue.Dequeue();
 				}
 				else if (mediumPriorityQueue.Count > 0)
 				{
-					lock (mediumPriorityQueue)
-					{
-						dequeued = mediumPriorityQueue.Dequeue();
-					}
+					dequeued = mediumPriorityQueue.Dequeue();
 				}
 				else
-					lock (lowPriorityQueue)
-					{
-						dequeued = lowPriorityQueue.Dequeue();
-					}
+					dequeued = lowPriorityQueue.Dequeue();
 
+	
 				if (dequeued == null)
 					return null;
 				keys.Remove(dequeued.Name);
@@ -115,10 +107,8 @@ namespace Wammer.Station.Timeline
 							break;
 					}
 
-					lock (queue)
-					{
-						queue.Enqueue(task);
-					}
+					queue.Enqueue(task);
+
 					OnEnqueued(EventArgs.Empty);
 					hasItem.Release();
 				}
@@ -144,34 +134,34 @@ namespace Wammer.Station.Timeline
 
 		public void RemoveAllByUserId(string user_id)
 		{
-			RemoveUserTasksFromQueue(user_id, highPriorityQueue);
-			RemoveUserTasksFromQueue(user_id, mediumPriorityQueue);
-			RemoveUserTasksFromQueue(user_id, lowPriorityQueue);
+			lock (keys)
+			{
+				RemoveUserTasksFromQueue(user_id, highPriorityQueue);
+				RemoveUserTasksFromQueue(user_id, mediumPriorityQueue);
+				RemoveUserTasksFromQueue(user_id, lowPriorityQueue);
+			}
 		}
 
 		private void RemoveUserTasksFromQueue(string user_id, Queue<IResourceDownloadTask> oldQueue)
 		{
-			lock (oldQueue)
+			var newQueue = new Queue<IResourceDownloadTask>();
+			foreach (var task in oldQueue)
 			{
-				var newQueue = new Queue<IResourceDownloadTask>();
-				foreach (var task in oldQueue)
+				if (!task.UserId.Equals(user_id))
+					newQueue.Enqueue(task);
+				else
 				{
-					if (!task.UserId.Equals(user_id))
-						newQueue.Enqueue(task);
-					else
-					{
-						keys.Remove(task.Name);
-						hasItem.WaitOne();
-						OnTaskDropped();
-					}
+					keys.Remove(task.Name);
+					hasItem.WaitOne();
+					OnTaskDropped();
 				}
+			}
 
-				if (oldQueue.Count != newQueue.Count)
-				{
-					oldQueue.Clear();
-					foreach (var task in newQueue)
-						oldQueue.Enqueue(task);
-				}
+			if (oldQueue.Count != newQueue.Count)
+			{
+				oldQueue.Clear();
+				foreach (var task in newQueue)
+					oldQueue.Enqueue(task);
 			}
 		}
 
