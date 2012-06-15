@@ -121,29 +121,30 @@ namespace Wammer.Station
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
 					}
 
-					if (attachment.image_meta == null)
+					var imageMeta = attachment.image_meta;
+					if (imageMeta == null)
 						continue;
 
 					// small
-					if (attachment.image_meta.small != null)
+					if (imageMeta.small != null)
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
 					}
 
 					// medium
-					if (attachment.image_meta.medium != null)
+					if (imageMeta.medium != null)
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 					}
 
 					// large
-					if (attachment.image_meta.large != null)
+					if (imageMeta.large != null)
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
 					}
 
 					// square
-					if (attachment.image_meta.square != null)
+					if (imageMeta.square != null)
 					{
 						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
 					}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Wammer.Station
 {
@@ -32,6 +33,15 @@ namespace Wammer.Station
 				try
 				{
 					item = queue.Dequeue();
+
+					Debug.Assert(item != null);
+
+					if (item == null)
+					{
+						this.LogDebugMsg("Dequeue an empty item!");
+						continue;
+					}
+
 					item.Task.Execute();
 
 					if (queue.IsPersistenceQueue)

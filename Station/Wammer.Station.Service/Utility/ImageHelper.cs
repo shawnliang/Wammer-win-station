@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Diagnostics;
 
 namespace Wammer.Utility
 {
@@ -34,7 +35,7 @@ namespace Wammer.Utility
 			}
 		}
 
-		public static Bitmap ScaleBasedOnLongSide(Bitmap original, int sideLength)
+		public static Image ScaleBasedOnLongSide(Bitmap original, int sideLength)
 		{
 			float ratio1 = sideLength/(float) original.Width;
 			float ratio2 = sideLength/(float) original.Height;
@@ -44,7 +45,7 @@ namespace Wammer.Utility
 			return Scale(original, ratio);
 		}
 
-		public static Bitmap ScaleBasedOnShortSide(Bitmap original, int sideLength)
+		public static Image ScaleBasedOnShortSide(Bitmap original, int sideLength)
 		{
 			float ratio1 = sideLength/(float) original.Width;
 			float ratio2 = sideLength/(float) original.Height;
@@ -53,26 +54,28 @@ namespace Wammer.Utility
 			return Scale(original, ratio);
 		}
 
-		private static Bitmap Scale(Bitmap original, float ratio)
+		private static Image Scale(Bitmap original, float ratio)
 		{
 			if (ratio >= 1)
 				return original;
 
 			var scaledWidth = (int) (original.Width*ratio);
 			var scaledHeight = (int) (original.Height*ratio);
-			var scaledImage = new Bitmap(scaledWidth, scaledHeight);
+			//Image scaledImage = new Bitmap(scaledWidth, scaledHeight);
 
-			using (Graphics g = Graphics.FromImage(scaledImage))
-			{
-				g.InterpolationMode = InterpolationMode.High;
-				g.DrawImage(original, new Rectangle(0, 0, scaledWidth, scaledHeight),
-				            new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
-			}
+			//using (Graphics g = Graphics.FromImage(scaledImage))
+			//{
+			//    g.InterpolationMode = InterpolationMode.High;
+			//    g.DrawImage(original, new Rectangle(0, 0, scaledWidth, scaledHeight),
+			//                new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
+			//}
+
+			var scaledImage = original.GetThumbnailImage(scaledWidth, scaledHeight, null, IntPtr.Zero);
 
 			return scaledImage;
 		}
 
-		public static Bitmap Crop(Bitmap original, int width, int height)
+		public static Bitmap Crop(Image original, int width, int height)
 		{
 			var cropedImage = new Bitmap(width, height);
 
@@ -85,12 +88,12 @@ namespace Wammer.Utility
 			return cropedImage;
 		}
 
-		public static int LongSizeLength(Bitmap img)
+		public static int LongSizeLength(Image img)
 		{
 			return img.Width > img.Height ? img.Width : img.Height;
 		}
 
-		public static int ShortSizeLength(Bitmap img)
+		public static int ShortSizeLength(Image img)
 		{
 			return img.Width < img.Height ? img.Width : img.Height;
 		}
