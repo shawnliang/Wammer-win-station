@@ -61,16 +61,16 @@ namespace Wammer.Utility
 
 			var scaledWidth = (int) (original.Width*ratio);
 			var scaledHeight = (int) (original.Height*ratio);
-			//Image scaledImage = new Bitmap(scaledWidth, scaledHeight);
+			Image scaledImage = new Bitmap(scaledWidth, scaledHeight);
 
-			//using (Graphics g = Graphics.FromImage(scaledImage))
-			//{
-			//    g.InterpolationMode = InterpolationMode.High;
-			//    g.DrawImage(original, new Rectangle(0, 0, scaledWidth, scaledHeight),
-			//                new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
-			//}
+			using (Graphics g = Graphics.FromImage(scaledImage))
+			{
+				g.InterpolationMode = InterpolationMode.High;
+				g.DrawImage(original, new Rectangle(0, 0, scaledWidth, scaledHeight),
+							new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
+			}
 
-			var scaledImage = original.GetThumbnailImage(scaledWidth, scaledHeight, null, IntPtr.Zero);
+			//var scaledImage = original.GetThumbnailImage(scaledWidth, scaledHeight, null, IntPtr.Zero);
 
 			return scaledImage;
 		}
