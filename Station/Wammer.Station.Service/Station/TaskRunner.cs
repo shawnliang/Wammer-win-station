@@ -5,6 +5,7 @@ namespace Wammer.Station
 	public class TaskRunner<T> : AbstrackTaskRunner where T : ITask
 	{
 #if DEBUG
+		private static object lockObj = new Object();
 		private static int TotalExecutedTaskCount { get; set; }
 #endif
 
@@ -15,15 +16,22 @@ namespace Wammer.Station
 			this.queue = queue;
 		}
 
+		public TaskRunner(ITaskDequeuable<T> queue, Exit exit)
+		{
+			this.exit = exit;
+			this.queue = queue;
+		}
+
 		public event EventHandler TaskExecuted;
 
 		protected override void Do()
 		{
-			while (!exit)
+			while (!exit.GoExit)
 			{
+				DequeuedTask<T> item = null;
 				try
 				{
-					var item = queue.Dequeue();
+					item = queue.Dequeue();
 					item.Task.Execute();
 
 					if (queue.IsPersistenceQueue)
@@ -34,7 +42,7 @@ namespace Wammer.Station
 				catch (Exception e)
 				{
 					this.LogWarnMsg("Error while executing task.", e);
-					if (!queue.IsPersistenceQueue)
+					if (!queue.IsPersistenceQueue && item != null)
 						OnTaskExecuted(EventArgs.Empty);
 				}
 			}
@@ -42,7 +50,7 @@ namespace Wammer.Station
 
 		public override void StopAsync()
 		{
-			exit = true;
+			exit.GoExit = true;
 			queue.EnqueueDummyTask(); // enqueue something to force task runner leave the blocking call of queue.Dequeue();
 		}
 
@@ -50,7 +58,10 @@ namespace Wammer.Station
 		private void OnTaskExecuted(EventArgs arg)
 		{
 #if DEBUG
-			++TotalExecutedTaskCount;
+			lock (lockObj)
+			{
+				++TotalExecutedTaskCount;
+			}
 #endif
 
 			EventHandler handler = TaskExecuted;

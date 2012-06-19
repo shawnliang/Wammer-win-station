@@ -35,6 +35,7 @@ namespace Wammer.PerfMonitor
 
 		#region Static Var
 		private static Dictionary<string, IPerfCounter> _counterPool;
+		private static Object _counterPoolLockObj;
 		#endregion
 
 
@@ -52,6 +53,18 @@ namespace Wammer.PerfMonitor
 		private static Dictionary<string, IPerfCounter> m_CounterPool
 		{
 			get { return _counterPool ?? (_counterPool = new Dictionary<string, IPerfCounter>()); }
+		}
+
+		/// <summary>
+		/// Gets the m_ counter pool lock obj.
+		/// </summary>
+		/// <value>The m_ counter pool lock obj.</value>
+		private static Object m_CounterPoolLockObj
+		{
+			get 
+			{
+				return _counterPoolLockObj ?? (_counterPoolLockObj = new Object());
+			}
 		}
 		#endregion
 
@@ -113,14 +126,17 @@ namespace Wammer.PerfMonitor
 		{
 			try
 			{
-				if (m_CounterPool.ContainsKey(counterName))
+				lock (m_CounterPoolLockObj)
+				{
+					if (m_CounterPool.ContainsKey(counterName))
+						return m_CounterPool[counterName];
+
+					var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
+					counter.RawValue = 0;
+					m_CounterPool[counterName] = new PerfCounter(counter);
+
 					return m_CounterPool[counterName];
-
-				var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
-				counter.RawValue = 0;
-				m_CounterPool[counterName] = new PerfCounter(counter);
-
-				return m_CounterPool[counterName];
+				}
 			}
 			catch (Exception e)
 			{
@@ -163,7 +179,7 @@ namespace Wammer.PerfMonitor
 		{
 			lock (m_Counter)
 			{
-				Debug.Assert(m_Value > 0);
+				//Debug.Assert(m_Value > 0);
 
 				if (m_Value <= 0)
 					return;

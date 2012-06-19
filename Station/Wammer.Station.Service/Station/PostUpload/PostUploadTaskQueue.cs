@@ -36,29 +36,33 @@ namespace Wammer.PostUpload
 
 		public void InitFromDB()
 		{
-			var lowPriorityTasks = new List<PostUploadTask>();
+			//var lowPriorityTasks = new List<PostUploadTask>();
 			postQueue = new Dictionary<string, LinkedList<PostUploadTask>>();
 			foreach (PostUploadTasks ptasks in PostUploadTasksCollection.Instance.FindAll())
 			{
 				foreach (PostUploadTask task in ptasks.tasks)
 				{
-					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
-					if(driver == null || string.IsNullOrEmpty(driver.session_token))
-					{
-						lowPriorityTasks.Add(task);
-						continue;
-					}
+					//var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
+
+					//if (driver == null)
+					//    continue;
+
+					//if(string.IsNullOrEmpty(driver.session_token))
+					//{
+					//    lowPriorityTasks.Add(task);
+					//    continue;
+					//}
 
 					task.Status = PostUploadTaskStatus.Wait;
 					Enqueue(task);
 				}
 			}
 
-			foreach (var task in lowPriorityTasks)
-			{
-				task.Status = PostUploadTaskStatus.Wait;
-				Enqueue(task);
-			}
+			//foreach (var task in lowPriorityTasks)
+			//{
+			//    task.Status = PostUploadTaskStatus.Wait;
+			//    Enqueue(task);
+			//}
 		}
 
 		public void Enqueue(PostUploadTask task)
@@ -92,17 +96,21 @@ namespace Wammer.PostUpload
 			IsAvailableHeadTaskExist();
 			lock (cs)
 			{
-				var lowPriorityTasks = new List<PostUploadTask>();
+				//var lowPriorityTasks = new List<PostUploadTask>();
 				foreach (var postID in postIDList)
 				{
 					var task = postQueue[postID].First();
 
-					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
-					if (driver == null || string.IsNullOrEmpty(driver.session_token))
-					{
-						lowPriorityTasks.Add(task);
-						continue;
-					}
+					//var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", task.UserId));
+
+					//if (driver == null)
+					//    continue;
+
+					//if (string.IsNullOrEmpty(driver.session_token))
+					//{
+					//    lowPriorityTasks.Add(task);
+					//    continue;
+					//}
 
 					if (task.Status == PostUploadTaskStatus.Wait)
 					{
@@ -111,14 +119,14 @@ namespace Wammer.PostUpload
 					}
 				}
 
-				foreach (var task in lowPriorityTasks)
-				{
-					if (task.Status == PostUploadTaskStatus.Wait)
-					{
-						task.Status = PostUploadTaskStatus.InProgress;
-						return task;
-					}
-				}
+				//foreach (var task in lowPriorityTasks)
+				//{
+				//    if (task.Status == PostUploadTaskStatus.Wait)
+				//    {
+				//        task.Status = PostUploadTaskStatus.InProgress;
+				//        return task;
+				//    }
+				//}
 				throw new InvalidOperationException("No available head tasks in queue");
 			}
 		}

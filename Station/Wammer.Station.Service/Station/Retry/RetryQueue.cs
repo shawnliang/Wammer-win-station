@@ -34,9 +34,14 @@ namespace Wammer.Station.Retry
 			}
 		}
 
+		static RetryQueue()
+		{
+			instance = new RetryQueue();
+		}
+
 		public static RetryQueue Instance
 		{
-			get { return instance ?? (instance = new RetryQueue()); }
+			get { return instance; }
 		}
 
 		#region IRetryQueue Members
@@ -51,6 +56,10 @@ namespace Wammer.Station.Retry
 				{
 					retryTime = retryTime.AddMilliseconds(1.0);
 				}
+
+				// sync NextRetryTime (which is key) to make sure this task can be removed from DB
+				task.NextRetryTime = retryTime;
+
 				retryTasks.Add(retryTime, task);
 				storage.Add(retryTime, task);
 			}
@@ -74,9 +83,9 @@ namespace Wammer.Station.Retry
 			}
 		}
 
-		public void AckDequeue(DateTime key)
+		public bool AckDequeue(DateTime key)
 		{
-			storage.Remove(key);
+			return storage.Remove(key);
 		}
 	}
 }

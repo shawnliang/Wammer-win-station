@@ -516,7 +516,12 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
+				// service is still alive though it returns an error
+				if (e.HttpError == WebExceptionStatus.ProtocolError)
+					return;
+
 				throw ExtractApiRetMsg(e);
+
 			}
 		}
 
@@ -528,6 +533,10 @@ namespace Wammer.Station.Management
 			}
 			catch (WammerCloudException e)
 			{
+				// service is still alive though it returns an error
+				if (e.HttpError == WebExceptionStatus.ProtocolError)
+					return;
+
 				throw ExtractApiRetMsg(e);
 			}
 		}

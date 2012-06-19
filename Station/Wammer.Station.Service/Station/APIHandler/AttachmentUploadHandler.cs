@@ -1,6 +1,7 @@
 ﻿using System;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
+using System.IO;
 
 namespace Wammer.Station.APIHandler
 {
@@ -80,8 +81,14 @@ namespace Wammer.Station.APIHandler
 			if (data.raw_data.Array == null)
 				throw new FormatException("file is missing in file upload multipart data");
 
+			if (data.raw_data.Count > 20 * 1024 *1024)
+				throw new WammerStationException("file size is over 20MB", (int)StationLocalApiError.ImageTooLarge);
+
 			if (string.IsNullOrEmpty(data.file_name))
 				throw new FormatException("file_name is null or empty");
+
+			if (string.IsNullOrEmpty(Path.GetExtension(data.file_name)))
+				throw new WammerStationException("file_name must have an extension", (int)StationLocalApiError.InvalidImage);	
 
 			return data;
 		}

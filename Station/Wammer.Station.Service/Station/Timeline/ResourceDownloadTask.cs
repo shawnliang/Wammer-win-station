@@ -11,6 +11,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Retry;
 using Wammer.Utility;
+using System.Diagnostics;
 
 namespace Wammer.Station.Timeline
 {
@@ -32,6 +33,7 @@ namespace Wammer.Station.Timeline
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, TaskPriority pri)
 			: base(RetryQueue.Instance, pri)
 		{
+			Debug.Assert(!String.IsNullOrEmpty(arg.attachment.object_id));
 			evtargs = arg;
 		}
 

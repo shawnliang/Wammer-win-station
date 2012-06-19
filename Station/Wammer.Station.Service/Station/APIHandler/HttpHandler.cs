@@ -256,7 +256,7 @@ namespace Wammer.Station
 				}
 				else
 				{
-					string name = part.ContentDisposition.Parameters["name"];
+					string name = disp.Parameters["name"];
 					Parameters.Add(name, part.Text);
 				}
 			}
@@ -330,6 +330,11 @@ namespace Wammer.Station
 			{
 				w.Write(data);
 			}
+		}
+
+		protected void RespondError(string description, int error_code)
+		{
+			HttpHelper.RespondFailure(Response, new CloudResponse(400, error_code, description));
 		}
 	}
 

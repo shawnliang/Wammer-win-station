@@ -20,7 +20,7 @@ namespace Wammer.PostUpload
 
 		protected override void Do()
 		{
-			while (!exit)
+			while (!exit.GoExit)
 			{
 				PostUploadTask task = null;
 				try
@@ -53,8 +53,9 @@ namespace Wammer.PostUpload
 
 		public override void StopAsync()
 		{
-			exit = true;
+			exit.GoExit = true;
 			quitEvent.Set();
+
 			queue.Enqueue(new NullPostUploadTask());
 		}
 
