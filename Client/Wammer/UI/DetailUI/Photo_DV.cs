@@ -69,7 +69,7 @@ namespace Waveface.DetailUI
 		{
 			get
 			{
-				return _filePathOrigins ?? _filePathOrigins = new List<string>();
+				return _filePathOrigins ?? (_filePathOrigins = new List<string>());
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace Waveface.DetailUI
 		{
 			get
 			{
-				return _filePathMediums ?? _filePathMediums = new List<string>();
+				return _filePathMediums ?? (_filePathMediums = new List<string>());
 			}
 		}
 		#endregion
