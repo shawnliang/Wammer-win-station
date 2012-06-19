@@ -34,8 +34,8 @@ namespace Waveface.DetailUI
         private IContainer components;
         private Timer timer;
 
-        private List<string> m_filePathOrigins;
-        private List<string> m_filePathMediums;
+        private List<string> _filePathOrigins;
+        private List<string> _filePathMediums;
 
         private Localization.CultureManager cultureManager;
         private ContextMenuStrip contextMenuStripTop;
@@ -58,9 +58,39 @@ namespace Waveface.DetailUI
 
         #endregion
 
-        #region Properties
 
-        public Post Post
+
+		#region Private Property
+		/// <summary>
+		/// Gets the m_file path origins.
+		/// </summary>
+		/// <value>The m_file path origins.</value>
+		private List<string> m_filePathOrigins
+		{
+			get
+			{
+				return _filePathOrigins ?? _filePathOrigins = new List<string>();
+			}
+		}
+
+		/// <summary>
+		/// Gets the m_file path mediums.
+		/// </summary>
+		/// <value>The m_file path mediums.</value>
+		private List<string> m_filePathMediums
+		{
+			get
+			{
+				return _filePathMediums ?? _filePathMediums = new List<string>();
+			}
+		}
+		#endregion
+
+
+
+		#region Properties
+
+		public Post Post
         {
             get { return m_post; }
             set
@@ -97,7 +127,7 @@ namespace Waveface.DetailUI
                                                                      ItemBorderless = true,
                                                                      ShowHovered = false
                                                                  };
-
+			
             imageListView.SetRenderer(_imageListViewRenderer);
 
             imageListView.BackColor = BG_COLOR;
@@ -325,26 +355,26 @@ namespace Waveface.DetailUI
 
         private void Set_MainContent_Part()
         {
-            StringBuilder _sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder(256);
 
-            _sb.Append("<font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'><p>[Text]</p></font>");
+			sb.Append("<body bgcolor=\"rgb(255, 255, 255)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'><p>");
 
-            string _html = _sb.ToString();
+			string content = HttpUtility.HtmlEncode(Post.content);
+			content = content.Replace(Environment.NewLine, "<BR>");
+			content = content.Replace("\n", "<BR>");
+			content = content.Replace("\r", "<BR>");
 
-            string _content = HttpUtility.HtmlEncode(Post.content);
-            _content = _content.Replace(Environment.NewLine, "<BR>");
-            _content = _content.Replace("\n", "<BR>");
-            _content = _content.Replace("\r", "<BR>");
+			sb.Append(content);
 
-            _html = _html.Replace("[Text]", _content);
+			sb.Append("</p></font>");
 
-            _html += MyParent.GenCommentHTML(Post, false);
+			sb.Append(MyParent.GenCommentHTML(Post, false));
 
-            _html = HtmlUtility.MakeLink(_html, m_clickableURL);
+			sb.Append("</body>");
 
-            _html = "<body bgcolor=\"rgb(255, 255, 255)\">" + _html + "</body>";
+			var html = HtmlUtility.MakeLink(sb.ToString(), m_clickableURL);
 
-            webBrowserTop.DocumentText = HtmlUtility.TrimScript(_html);
+			webBrowserTop.DocumentText = HtmlUtility.TrimScript(html);
         }
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -364,40 +394,14 @@ namespace Waveface.DetailUI
         {
             imageListView.Items.Clear();
 
-            m_filePathOrigins = new List<string>();
-            m_filePathMediums = new List<string>();
-
+			m_filePathMediums.Clear();
+			m_filePathOrigins.Clear();
             m_filesMapping.Clear();
 
             foreach (Attachment _attachment in Post.attachments)
             {
-                string _urlO = string.Empty;
-                string _fileNameO = string.Empty;
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
-
-                string _localFileO = Path.Combine(Main.GCONST.ImageCachePath, _fileNameO);
-
-                m_filePathOrigins.Add(_localFileO);
-
-                if (!m_filesMapping.ContainsKey(_fileNameO))
-                {
-                    if ((!String.IsNullOrEmpty(_attachment.file_name)) && (!_attachment.file_name.Contains("?")))
-                        m_filesMapping.Add(_fileNameO, _attachment.file_name);
-                }
-
-                string _urlM = string.Empty;
-                string _fileNameM = string.Empty;
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM, false);
-
-                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath, _fileNameM);
-
-                m_filePathMediums.Add(_localFileM);
-
-                if (!m_filesMapping.ContainsKey(_fileNameM))
-                {
-                    if ((!string.IsNullOrEmpty(_attachment.file_name)) && (!_attachment.file_name.Contains("?")))
-                        m_filesMapping.Add(_fileNameM, _attachment.file_name);
-                }
+				SetPicture(_attachment, "origin", m_filePathOrigins);
+				SetPicture(_attachment, "medium", m_filePathMediums);
             }
 
             timer.Interval = ((Post.attachments.Count / 100) + 4) * 1000;
@@ -407,6 +411,23 @@ namespace Waveface.DetailUI
             if (!FillImageListView(true))
                 timer.Enabled = true;
         }
+
+		private void SetPicture(Attachment attachment, string imageMeta,List<string> filePaths)
+		{
+			string url = string.Empty;
+			string fileName = string.Empty;
+			Main.Current.RT.REST.attachments_getRedirectURL_Image(attachment, imageMeta, out url, out fileName, false);
+
+			string localFile = Path.Combine(Main.GCONST.ImageCachePath, fileName);
+
+			filePaths.Add(localFile);
+
+			if (m_filesMapping.ContainsKey(fileName))
+				return;
+
+			if ((!String.IsNullOrEmpty(attachment.file_name)) && (!attachment.file_name.Contains("?")))
+				m_filesMapping.Add(fileName, attachment.file_name);
+		}
 
         private void InitImageListViewLoadingImage()
         {
