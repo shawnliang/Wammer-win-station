@@ -292,8 +292,21 @@ namespace Waveface.DetailUI
 
         private void webBrowser_NewWindow(object sender, CancelEventArgs e)
         {
-            if (!m_canOpenNewWindow)
-                e.Cancel = true;
+			e.Cancel = true;
+
+			if (m_canOpenNewWindow)
+			{
+				string browser = WebBrowserUtility.GetSystemDefaultBrowser();
+
+				if (string.IsNullOrEmpty(browser))
+				{
+					e.Cancel = false;
+					return;
+				}
+
+				var newUrl = webBrowser.Document.ActiveElement.GetAttribute("href");
+				Process.Start(newUrl);
+			}
         }
 
         void contextMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -324,14 +337,10 @@ namespace Waveface.DetailUI
         {
             string _browser = WebBrowserUtility.GetSystemDefaultBrowser();
 
-            Process _p = new Process();
+			if (string.IsNullOrEmpty(_browser))
+				return;
 
-            if (!string.IsNullOrEmpty(_browser))
-                _p.StartInfo.FileName = _browser;
-
-            _p.StartInfo.Arguments = Post.preview.url;
-
-            _p.Start();
+			Process.Start(Post.preview.url);
         }
     }
 }
