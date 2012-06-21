@@ -24,26 +24,30 @@ namespace Waveface
 				if ((image.Width < size) && (image.Height < size)) //圖片比指定大小還小，不需切割
 					return image;
 
-				//照比例縮放圖片
-				double _prop = image.Width / (double)image.Height;
+				////照比例縮放圖片
+				//double _prop = image.Width / (double)image.Height;
 
-				int _x;
-				int _y;
+				//int _x;
+				//int _y;
 
 				var isHorizontalPhoto = image.Width > image.Height;
-				if (isHorizontalPhoto)
-				{
-					_x = (int)Math.Round(size * _prop, 0);
-					_y = size;
-				}
-				else
-				{
-					_x = size;
-					_y = (int)Math.Round(size / _prop, 0);
-				}
+				//if (isHorizontalPhoto)
+				//{
+				//    _x = (int)(size * _prop);
+				//    _y = size;
+				//}
+				//else
+				//{
+				//    _x = size;
+				//    _y = (int)(size / _prop);
+				//}
+
+				float ratio1 = size / (float)image.Width;
+				float ratio2 = size / (float)image.Height;
+				float ratio = (image.Width < image.Height) ? ratio1 : ratio2;
 
 				//切方圖
-				using (Image _img = new Bitmap(image, new Size(_x, _y)))
+				using (Image _img = new Bitmap(image, new Size((int)(image.Width * ratio), (int)(image.Height * ratio))))
 				{
 					Image _crapped = new Bitmap(size, size);
 					Graphics _g = Graphics.FromImage(_crapped);
@@ -52,7 +56,7 @@ namespace Waveface
 					{
 						_g.DrawImage(_img,
 									 new Rectangle(0, 0, size, size),
-									 new Rectangle((image.Width - image.Height) / 2, 0, size, size),
+									 new Rectangle((_img.Width - _img.Height) / 2, 0, size, size),
 									 GraphicsUnit.Pixel
 							);
 					}
@@ -60,7 +64,7 @@ namespace Waveface
 					{
 						_g.DrawImage(_img,
 									 new Rectangle(0, 0, size, size),
-									 new Rectangle(0, (int)(image.Height * 0.08), size, size),
+									 new Rectangle(0, (int)(_img.Height * 0.08), size, size),
 									 GraphicsUnit.Pixel
 							);
 					}

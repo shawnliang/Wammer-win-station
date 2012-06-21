@@ -70,9 +70,9 @@ namespace Wammer.Station
 		{
 			Bitmap tmpImage = ImageHelper.ScaleBasedOnShortSide(origin, 128);
 
-			tmpImage = ImageHelper.Crop(tmpImage,
-			                            ImageHelper.ShortSizeLength(tmpImage),
-			                            ImageHelper.ShortSizeLength(tmpImage));
+			int height = (tmpImage.Height <= tmpImage.Width)? 0 : (int)(tmpImage.Height * 0.08);
+			int shortSize =  ImageHelper.ShortSizeLength(tmpImage);
+			tmpImage = ImageHelper.Crop(tmpImage, 0, height, shortSize);
 			return tmpImage;
 		}
 	}
