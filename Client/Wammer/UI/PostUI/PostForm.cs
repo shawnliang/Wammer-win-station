@@ -88,6 +88,10 @@ namespace Waveface
             }
 
             IsDirty = false;
+
+			pureTextBox.AllowDrop = true;
+			pureTextBox.DragDrop += new System.Windows.Forms.DragEventHandler(this.panelMiddleBar_DragDrop);
+			//pureTextBox.DragEnter += new System.Windows.Forms.DragEventHandler(this.panelMiddleBar_DragEnter);
         }
 
         [DllImport("User32.dll")]
