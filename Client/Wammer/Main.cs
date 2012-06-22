@@ -238,8 +238,8 @@ namespace Waveface
 
         private void CreateLoadingImage()
         {
-            int s = 256;
-            int k = 8;
+            int s = 512;
+            int k = 16;
 
             try
             {

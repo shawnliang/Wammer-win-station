@@ -158,6 +158,10 @@ namespace Manina.Windows.Forms
                     {
                         return CompareByIndex(param1, param2);
                     }
+                    else if (mDrawOrder == ItemDrawOrder.ReverseItemIndex) //@
+                    {
+                        return CompareByReverseIndex(param1, param2);
+                    }
                     else if (mDrawOrder == ItemDrawOrder.ZOrder)
                     {
                         return CompareByZOrder(param1, param2);
@@ -262,6 +266,20 @@ namespace Manina.Windows.Forms
                     else
                         return 0;
                 }
+
+                /// <summary>
+                /// Compares items by their index property (Reverse).
+                /// </summary>
+                private int CompareByReverseIndex(DrawItemParams param1, DrawItemParams param2)
+                {
+                    if (param1.Item.Index < param2.Item.Index)
+                        return 1;
+                    else if (param1.Item.Index > param2.Item.Index)
+                        return -1;
+                    else
+                        return 0;
+                }
+
                 /// <summary>
                 /// Compares items by their selected state.
                 /// </summary>

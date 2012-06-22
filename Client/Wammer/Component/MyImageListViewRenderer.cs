@@ -1,9 +1,8 @@
-﻿#region
+﻿﻿#region
 
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.DetailUI;
@@ -29,25 +28,22 @@ namespace Waveface.Component
         {
             base.InitializeGraphics(g);
 
-            ItemDrawOrder = ItemDrawOrder.NormalSelectedHovered;
+            ItemDrawOrder = ItemDrawOrder.ReverseItemIndex;
         }
 
         public override Size MeasureItem(View view)
         {
             if (view == View.Thumbnails)
                 return ImageListView.ThumbnailSize + new Size(8, 8);
-            else
-                return base.MeasureItem(view);
+
+            return base.MeasureItem(view);
         }
 
         public override void DrawItem(Graphics g, ImageListViewItem item, ItemState state, Rectangle bounds)
         {
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
             g.InterpolationMode = InterpolationMode.HighQualityBilinear;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
             g.SmoothingMode = SmoothingMode.HighQuality;
-
-            // Clip = (ImageListView.View == View.Details);
 
             if (ImageListView.View == View.Details)
             {
@@ -58,20 +54,15 @@ namespace Waveface.Component
                 Rectangle _controlBounds = ClientBounds;
 
                 // Get item image
-                Image _img = null;
-
-                if ((state & ItemState.Hovered) != ItemState.None)
-                    _img = GetImageAsync(item, new Size(bounds.Width - 8, bounds.Height - 8));
-
-                if (_img == null)
-                    _img = item.GetCachedImage(CachedImageType.Thumbnail);
+                Image _img = item.GetCachedImage(CachedImageType.Thumbnail);
 
                 if (_img != null)
                 {
                     if ((_img.Width >= ImageListView.ThumbnailSize.Width) ||
                         (_img.Height >= ImageListView.ThumbnailSize.Height))
                     {
-                        _img = ImageUtility.GenerateSquareImage(_img, ImageListView.ThumbnailSize.Width);
+                        if (item.FileName != Main.Current.LoadingImagePath)
+                            _img = ImageUtility.GenerateSquareImage(_img, ImageListView.ThumbnailSize.Width);
                     }
 
                     // Calculate image bounds
@@ -116,8 +107,6 @@ namespace Waveface.Component
                                                                        ImageListView.Colors.SelectedColor2,
                                                                        LinearGradientMode.Vertical))
                         {
-                            //Utility.FillRoundedRectangle(g, _bSelected, bounds, 5);
-
                             g.FillRectangle(_bSelected, bounds);
                         }
                     }
@@ -128,7 +117,6 @@ namespace Waveface.Component
                                                                      ImageListView.Colors.UnFocusedColor2,
                                                                      LinearGradientMode.Vertical))
                         {
-                            //Utility.FillRoundedRectangle(g, _bGray64, bounds, 5);
                             g.FillRectangle(_bGray64, bounds);
                         }
                     }
@@ -142,7 +130,6 @@ namespace Waveface.Component
                                                                           ImageListView.Colors.HoverColor2,
                                                                           LinearGradientMode.Vertical))
                             {
-                                // Utility.FillRoundedRectangle(g, _bHovered, bounds, 5);
                                 g.FillRectangle(_bHovered, bounds);
                             }
                         }
@@ -159,17 +146,6 @@ namespace Waveface.Component
                             using (Pen _pOuterBorder = new Pen(ImageListView.Colors.ImageOuterBorderColor))
                             {
                                 g.DrawRectangle(_pOuterBorder, _imageX, _imageY, _imageWidth, _imageHeight);
-                            }
-
-                            if (Math.Min(_imageWidth, _imageHeight) > 32)
-                            {
-                                /*
-                                using (Pen _pInnerBorder = new Pen(ImageListView.Colors.ImageInnerBorderColor))
-                                {
-                                    g.DrawRectangle(_pInnerBorder, _imageX + 1, _imageY + 1, _imageWidth - 2,
-                                                    _imageHeight - 2);
-                                }
-                                */
                             }
                         }
                     }
@@ -192,40 +168,6 @@ namespace Waveface.Component
                         }
                     }
                 }
-
-                // Item border
-                /*
-                using (Pen _pWhite128 = new Pen(Color.FromArgb(128, ImageListView.Colors.ControlBackColor)))
-                {
-                    Utility.DrawRoundedRectangle(g, _pWhite128, bounds.Left + 1, bounds.Top + 1, bounds.Width - 3,
-                                                 bounds.Height - 3, 4);
-                }
-
-                if (ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
-                {
-                    using (Pen _pHighlight128 = new Pen(ImageListView.Colors.SelectedBorderColor))
-                    {
-                        Utility.DrawRoundedRectangle(g, _pHighlight128, bounds.Left, bounds.Top, bounds.Width - 1,
-                                                     bounds.Height - 1, 4);
-                    }
-                }
-                else if (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
-                {
-                    using (Pen _pGray128 = new Pen(ImageListView.Colors.UnFocusedBorderColor))
-                    {
-                        Utility.DrawRoundedRectangle(g, _pGray128, bounds.Left, bounds.Top, bounds.Width - 1,
-                                                     bounds.Height - 1, 4);
-                    }
-                }
-                else if ((state & ItemState.Selected) == ItemState.None)
-                {
-                    using (Pen _pGray64 = new Pen(ImageListView.Colors.BorderColor))
-                    {
-                        Utility.DrawRoundedRectangle(g, _pGray64, bounds.Left, bounds.Top, bounds.Width - 1,
-                                                     bounds.Height - 1, 4);
-                    }
-                }
-                */
 
                 if (ImageListView.Focused && ((state & ItemState.Hovered) != ItemState.None))
                 {
@@ -267,7 +209,6 @@ namespace Waveface.Component
                             DrawCoverImageLabel(g, bounds);
                         }
 
-
                         EditModePhotoType _type = ((EditModeImageListViewItemTag)item.Tag).AddPhotoType;
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
@@ -288,33 +229,21 @@ namespace Waveface.Component
             {
                 Rectangle _r = new Rectangle(bounds.Location, bounds.Size);
                 _r.Inflate(-4, -4);
-                int _h1 = (int) (_r.Height*0.8);
-                int _h2 = _r.Height - _h1;
+                int _h1 = _r.Height - 24; //(int)(_r.Height * 0.8)
+                int _h2 = 24; // _r.Height - _h1
 
                 Rectangle _rect = new Rectangle(_r.Left, _r.Top + _h1, _r.Width, _h2);
 
                 g.FillRectangle(_brush, _rect);
 
-                Font _font = new Font(I18n.L.T("DefaultFont"), _h2*(1 - 0.6f), FontStyle.Bold);
+                using (Font _font = new Font(I18n.L.T("DefaultFont"), 11, FontStyle.Bold))
+                {
 
-                TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White,
-                                      TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                    TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White,
+                                          TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                }
             }
         }
-
-        /*
-        public override void DrawCheckBox(Graphics g, ImageListViewItem item, Rectangle bounds)
-        {
-            if (ImageListView.View == View.Details)
-                base.DrawCheckBox(g, item, bounds);
-        }
-
-        public override void DrawFileIcon(Graphics g, ImageListViewItem item, Rectangle bounds)
-        {
-            if (ImageListView.View == View.Details)
-                base.DrawFileIcon(g, item, bounds);
-        }
-        */
 
         public override void DrawBackground(Graphics g, Rectangle bounds)
         {
