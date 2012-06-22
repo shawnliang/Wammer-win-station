@@ -92,6 +92,12 @@ namespace Wammer.Utility
 
 			using (Graphics g = Graphics.FromImage(cropedImage))
 			{
+				if (original.Width - x < squareSize)
+					x = original.Width - squareSize;
+
+				if (original.Height - y < squareSize)
+					y = original.Height - y;
+
 				g.DrawImage(original, new Rectangle(0, 0, squareSize, squareSize),
 							new Rectangle(x, y, squareSize, squareSize), GraphicsUnit.Pixel);
 			}
