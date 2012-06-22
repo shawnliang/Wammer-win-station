@@ -19,8 +19,8 @@ namespace Waveface
             if (image == null)
                 throw new ArgumentNullException("image");
 
-            try
-            {
+			try
+			{
 				if ((image.Width < size) && (image.Height < size)) //圖片比指定大小還小，不需切割
 					return image;
 
@@ -30,23 +30,25 @@ namespace Waveface
 				float ratio2 = size / (float)image.Height;
 				float ratio = (image.Width < image.Height) ? ratio1 : ratio2;
 
-				using (Image _img = new Bitmap(image, new Size((int)(image.Width * ratio), (int)(image.Height * ratio))))
-				{
-					if (_img.Width == _img.Height)
-						return _img;
+				Image thumbnail = new Bitmap(image, new Size((int)(image.Width * ratio), (int)(image.Height * ratio)));
 
+				if (thumbnail.Width == thumbnail.Height)
+					return thumbnail;
+
+				using (thumbnail)
+				{
 					//切方圖
 					Image _crapped = new Bitmap(size, size);
 					Graphics _g = Graphics.FromImage(_crapped);
 
 					if (isHorizontalPhoto)
 					{
-						var x = (_img.Width - _img.Height) / 2;
+						var x = (thumbnail.Width - thumbnail.Height) / 2;
 
-						if (_img.Width - x < size)
-							x = _img.Width - size;
+						if (thumbnail.Width - x < size)
+							x = thumbnail.Width - size;
 
-						_g.DrawImage(_img,
+						_g.DrawImage(thumbnail,
 									 new Rectangle(0, 0, size, size),
 									 new Rectangle(x, 0, size, size),
 									 GraphicsUnit.Pixel
@@ -54,12 +56,12 @@ namespace Waveface
 					}
 					else
 					{
-						var y = (int)(_img.Height * 0.08);
+						var y = (int)(thumbnail.Height * 0.08);
 
-						if (_img.Height - y < size)
-							y = _img.Height - size;
+						if (thumbnail.Height - y < size)
+							y = thumbnail.Height - size;
 
-						_g.DrawImage(_img,
+						_g.DrawImage(thumbnail,
 									 new Rectangle(0, 0, size, size),
 									 new Rectangle(0, y, size, size),
 									 GraphicsUnit.Pixel
@@ -69,10 +71,10 @@ namespace Waveface
 					return _crapped;
 				}
 			}
-            catch
-            {
-                return image;
-            }
+			catch
+			{
+				return image;
+			}
         }
 
         public static Image GetAvatarImage(string creatorId, string avatarUrl)

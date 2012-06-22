@@ -9,6 +9,8 @@ using System.Threading;
 using NLog;
 using Waveface.API.V2;
 using System.Linq;
+using System.Diagnostics;
+using System.Reflection;
 #endregion
 
 namespace Waveface
@@ -30,9 +32,41 @@ namespace Waveface
         private Dictionary<string, DateTime> m_downlaodErrorOriginFiles;
 
         private WorkItem m_workItem;
+		private WorkItem m_workItem2;
+
+		public static bool EnableUnsafeHeaderParsing()
+		{
+			//Get the assembly that contains the internal class
+			Assembly aNetAssembly = Assembly.GetAssembly(typeof(System.Net.Configuration.SettingsSection));
+			if (aNetAssembly != null)
+			{
+				//Use the assembly in order to get the internal type for the internal class
+				Type aSettingsType = aNetAssembly.GetType("System.Net.Configuration.SettingsSectionInternal");
+				if (aSettingsType != null)
+				{
+					//Use the internal static property to get an instance of the internal settings class.
+					//If the static instance isn't created allready the property will create it for us.
+					object anInstance = aSettingsType.InvokeMember("Section",
+					  BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.NonPublic, null, null, new object[] { });
+
+					if (anInstance != null)
+					{
+						//Locate the private bool field that tells the framework is unsafe header parsing should be allowed or not
+						FieldInfo aUseUnsafeHeaderParsing = aSettingsType.GetField("useUnsafeHeaderParsing", BindingFlags.NonPublic | BindingFlags.Instance);
+						if (aUseUnsafeHeaderParsing != null)
+						{
+							aUseUnsafeHeaderParsing.SetValue(anInstance, true);
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
 
         public PhotoDownloader()
         {
+			EnableUnsafeHeaderParsing();
             ThumbnailItems = new List<ImageItem>();
             PhotoItems = new List<ImageItem>();
 
@@ -47,11 +81,13 @@ namespace Waveface
         public void Start()
         {
             m_workItem = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 0);
+			m_workItem2 = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 1);
         }
 
         public WorkItemStatus AbortThread()
         {
-            return AbortableThreadPool.Cancel(m_workItem, true);
+			AbortableThreadPool.Cancel(m_workItem, true);
+            return AbortableThreadPool.Cancel(m_workItem2, true);
         }
 
         public void Add(ImageItem item, bool forceRetry)
@@ -141,17 +177,18 @@ namespace Waveface
 
             while (true)
             {
-                ImageItem _item = null;
-
-                Thread.Sleep(100);
-
-                if ((ThumbnailItems.Count == 0) && (PhotoItems.Count == 0))
+                if (((int)state == 0 && ThumbnailItems.Count == 0) || ((int)state == 1 && PhotoItems.Count == 0))
                 {
                     Thread.Sleep(1000);
                     continue;
                 }
 
-                if ((_count++ % 3) != 2)
+				ImageItem _item = null;
+
+				Thread.Sleep(100);
+
+
+				if ((int)state == 0)
                 {
                     if (ThumbnailItems.Count > 0)
                     {
@@ -245,6 +282,7 @@ namespace Waveface
                     {
                         if (!File.Exists(_localPath))
                         {
+							Trace.WriteLine("Thumbnail saved");
                             _img.Save(_localPath);
                         }
                     }
