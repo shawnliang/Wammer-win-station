@@ -633,55 +633,99 @@ namespace Waveface.DetailUI
             {
             }
 
-            int W = 144;
+            ChengeThumbnailSize(imageListView, 96, 14);
+        }
 
-            if (imageListView.Items.Count < 3)
+        public static void ChengeThumbnailSize(ImageListView imgListView, int smallest, int padding)
+        {
+            int W;
+
+            if (imgListView.Items.Count < 3)
             {
-                W = (imageListView.Width - (14 * 2)) / 2;
+                W = (imgListView.Width - (padding * 2)) / 2;
 
-                imageListView.ThumbnailSize = new Size(W, W);
+                imgListView.ThumbnailSize = new Size(W, W);
             }
-            else if (imageListView.Items.Count < 10)
+            else if (imgListView.Items.Count < 7)
             {
-                W = (imageListView.Width - (14 * 3)) / 3;
+                W = (imgListView.Width - (padding * 3)) / 3;
 
-                imageListView.ThumbnailSize = new Size(W, W);
+                imgListView.ThumbnailSize = new Size(W, W);
             }
-            else if (imageListView.Items.Count < 101)
+            else if (imgListView.Items.Count < 17)
             {
-                W = (imageListView.Width - (14 * 4)) / 4;
+                W = (imgListView.Width - (padding * 4)) / 4;
 
-                if (W < 104)
-                    W = 104;
-
-                imageListView.ThumbnailSize = new Size(W, W);
+                imgListView.ThumbnailSize = new Size(W, W);
             }
-            else if ((imageListView.Items.Count >= 101) && (imageListView.Items.Count <= 200))
+            else if (imgListView.Items.Count < 51)
             {
-                W = (imageListView.Width - (14 * 6)) / 6;
+                W = (imgListView.Width - (padding * 5)) / 5;
 
-                if (W < 104)
-                    W = 104;
-
-                imageListView.ThumbnailSize = new Size(W, W);
+                imgListView.ThumbnailSize = new Size(W, W);
             }
-            else if ((imageListView.Items.Count > 200) && (imageListView.Items.Count <= 500))
+            else if (imgListView.Items.Count < 101)
             {
-                W = (imageListView.Width - (14 * 8)) / 8;
+                W = (imgListView.Width - (padding * 6)) / 6;
 
-                if (W < 104)
-                    W = 104;
+                if (W < smallest)
+                    W = smallest;
 
-                imageListView.ThumbnailSize = new Size(W, W);
+                imgListView.ThumbnailSize = new Size(W, W);
+            }
+            else if ((imgListView.Items.Count >= 101) && (imgListView.Items.Count <= 150))
+            {
+                W = (imgListView.Width - (padding * 7)) / 7;
+
+                if (W < smallest)
+                    W = smallest;
+
+                imgListView.ThumbnailSize = new Size(W, W);
+            }
+            else if ((imgListView.Items.Count >= 151) && (imgListView.Items.Count <= 200))
+            {
+                W = (imgListView.Width - (padding * 8)) / 8;
+
+                if (W < smallest)
+                    W = smallest;
+
+                imgListView.ThumbnailSize = new Size(W, W);
+            }
+            else if ((imgListView.Items.Count > 200) && (imgListView.Items.Count <= 300))
+            {
+                W = (imgListView.Width - (padding * 9)) / 9;
+
+                if (W < smallest)
+                    W = smallest;
+
+                imgListView.ThumbnailSize = new Size(W, W);
+            }
+            else if ((imgListView.Items.Count > 300) && (imgListView.Items.Count <= 400))
+            {
+                W = (imgListView.Width - (padding * 10)) / 10;
+
+                if (W < smallest)
+                    W = smallest;
+
+                imgListView.ThumbnailSize = new Size(W, W);
+            }
+            else if ((imgListView.Items.Count > 400) && (imgListView.Items.Count <= 500))
+            {
+                W = (imgListView.Width - (padding * 11)) / 11;
+
+                if (W < smallest)
+                    W = smallest;
+
+                imgListView.ThumbnailSize = new Size(W, W);
             }
             else
             {
-                W = (imageListView.Width - (14 * 10)) / 10;
+                W = (imgListView.Width - (padding * 12)) / 12;
 
-                if (W < 104)
-                    W = 104;
+                if (W < smallest)
+                    W = smallest;
 
-                imageListView.ThumbnailSize = new Size(W, W);
+                imgListView.ThumbnailSize = new Size(W, W);
             }
         }
 
