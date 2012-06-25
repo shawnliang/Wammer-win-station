@@ -88,7 +88,19 @@ namespace Waveface
             }
 
             IsDirty = false;
+
+			EnablePhotoDragable(pureTextBox);
+			EnablePhotoDragable(this);
         }
+
+		private void EnablePhotoDragable(Control ctrl)
+		{
+			ctrl.AllowDrop = true;
+			ctrl.DragDrop += new System.Windows.Forms.DragEventHandler(this.panelMiddleBar_DragDrop);
+			ctrl.DragEnter += new System.Windows.Forms.DragEventHandler(this.panelMiddleBar_DragEnter);
+			ctrl.DragOver += new System.Windows.Forms.DragEventHandler(this.panelMiddleBar_DragOver);
+			ctrl.DragLeave += new System.EventHandler(this.panelMiddleBar_DragLeave);
+		}
 
         [DllImport("User32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);

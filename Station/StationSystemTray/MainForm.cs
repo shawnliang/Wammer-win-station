@@ -70,7 +70,7 @@ namespace StationSystemTray
 		private string _fbLoginUrl;
 		private string _signUpUrl;
 		private Timer _timer;
-
+		private CustomWindow _messageReceiver;
 		#endregion Var
 
 		#region Private Property
@@ -108,6 +108,14 @@ namespace StationSystemTray
 		}
 
 		private Action m_LoginAction { get; set; }
+
+		private CustomWindow m_MessageReceiver 
+		{
+			get
+			{
+				return _messageReceiver ?? (_messageReceiver = new CustomWindow("SystemTrayMessageReceiver", "SystemTrayMessageReceiver"));
+			}
+		}
 
 		#endregion Private Property
 
@@ -150,6 +158,8 @@ namespace StationSystemTray
 			Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 			this.initMinimized = initMinimized;
+
+			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -214,21 +224,23 @@ namespace StationSystemTray
 
 		#endregion StationStateContext Members
 
-		protected override void WndProc(ref Message m)
+		void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
 		{
-			if (m.Msg == 0x401)
+			switch (e.Message)
 			{
-				logger.Info("Timeline trigger by new stream");
-				GotoTimeline(userloginContainer.GetLastUserLogin());
-				return;
+				case 0x401:
+					logger.Debug("Timeline trigger by new stream");
+					GotoTimeline(userloginContainer.GetLastUserLogin());
+					break;
+				case 0x402:
+					logger.Debug("Closed by another application");
+					QuitStream();
+					break;
+				case 0x403:
+					logger.Debug("Setting trigger by windows client");
+					OpenSettingDialog();
+					break;
 			}
-			else if (m.Msg == 0x402)
-			{
-				logger.Info("Closed by another application");
-				QuitStream();
-				return;
-			}
-			base.WndProc(ref m);
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -1283,7 +1295,7 @@ namespace StationSystemTray
 						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
-						iconText = string.Format("{0}{1}↑({2}): {3:0.0} {4}{5}↓({6}): {7:0.0}{8}",
+						iconText = string.Format("{0}{1}{2}): {3:0.0} {4}{5}{6}): {7:0.0}{8}",
 												 iconText,
 												 Environment.NewLine,
 												 upRemainedCount,
@@ -1542,6 +1554,11 @@ namespace StationSystemTray
 		private SettingDialog m_SettingDialog;
 		private void settingToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			OpenSettingDialog();
+		}
+
+		private void OpenSettingDialog()
+		{
 			var isOpenInTimeline = clientProcess != null;
 			try
 			{
@@ -1551,19 +1568,19 @@ namespace StationSystemTray
 				using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession(), this.CloseTimelineProgram))
 				{
 					EventHandler<AccountEventArgs> removeAccountAction = (senderEx, ex) =>
-																			{
-																				userloginContainer.RemoveUserLogin(ex.EMail);
-																				RefreshUserList();
+					{
+						userloginContainer.RemoveUserLogin(ex.EMail);
+						RefreshUserList();
 
-																				var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", userloginContainer.GetCurLoginedSession()));
-																				if (loginedUser != null && loginedUser.user.email == ex.EMail)
-																				{
-																					m_SettingDialog.Close();
-																					Logout();
-																					return;
-																				}
-																			};
-					
+						var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", userloginContainer.GetCurLoginedSession()));
+						if (loginedUser != null && loginedUser.user.email == ex.EMail)
+						{
+							m_SettingDialog.Close();
+							Logout();
+							return;
+						}
+					};
+
 					m_SettingDialog.Location = this.Location;
 					m_SettingDialog.Icon = this.Icon;
 					//m_SettingDialog.TopMost = true;
@@ -1577,10 +1594,10 @@ namespace StationSystemTray
 					//}
 
 					m_SettingDialog.FormClosed += (senderEx, ex) =>
-					                              	{
-														m_SettingDialog.AccountRemoved -= removeAccountAction;
-					                              		m_SettingDialog = null;
-					                              	};
+					{
+						m_SettingDialog.AccountRemoved -= removeAccountAction;
+						m_SettingDialog = null;
+					};
 
 					m_SettingDialog.AccountRemoved += removeAccountAction;
 					this.Hide();

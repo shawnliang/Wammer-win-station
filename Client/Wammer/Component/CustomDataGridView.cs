@@ -17,7 +17,14 @@ namespace Waveface.Component
 
         protected override void WndProc(ref Message m)
         {
-            base.WndProc(ref m);
+            try
+            {
+                base.WndProc(ref m);
+            }
+            catch
+            {
+                return;
+            }
 
             // handle mouse right click message, compute row/col index, call event handler.
             switch (m.Msg)

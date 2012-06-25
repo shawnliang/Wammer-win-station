@@ -70,6 +70,7 @@ namespace Waveface.DetailUI
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_imageListViewRenderer = new MyImageListViewRenderer();
+            m_imageListViewRenderer.Clip = false;
 
             imageListView.SetRenderer(m_imageListViewRenderer);
 

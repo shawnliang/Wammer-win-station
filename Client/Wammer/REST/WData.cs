@@ -47,11 +47,6 @@ namespace Waveface.API.V2
         public string event_time { get; set; }
         public string cover_attach { get; set; }
         public string favorite { get; set; }
-
-        // RunTime
-        public bool IsEditPhotoItem { get; set; }
-        public bool IsNewPhotoItem { get; set; }
-        public int BatchPostItemIndex { get; set; }
     }
 
     public class Attachment

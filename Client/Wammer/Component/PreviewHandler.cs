@@ -70,6 +70,7 @@ namespace Waveface.Component
                 {
                     Marshal.FinalReleaseComObject(m_currentPreviewHandler);
                     m_currentPreviewHandler = null;
+                    GC.Collect();
                 }
             }
             catch

@@ -79,7 +79,27 @@ namespace Wammer.Utility
 			using (Graphics g = Graphics.FromImage(cropedImage))
 			{
 				g.DrawImage(original, new Rectangle(0, 0, width, height),
-				            new Rectangle(0, 0, width, height), GraphicsUnit.Pixel);
+							new Rectangle(0, 0, width, height), GraphicsUnit.Pixel);
+			}
+
+			return cropedImage;
+		}
+
+
+		public static Bitmap Crop(Bitmap original, int x, int y, int squareSize)
+		{
+			var cropedImage = new Bitmap(squareSize, squareSize);
+
+			using (Graphics g = Graphics.FromImage(cropedImage))
+			{
+				if (original.Width - x < squareSize)
+					x = original.Width - squareSize;
+
+				if (original.Height - y < squareSize)
+					y = original.Height - y;
+
+				g.DrawImage(original, new Rectangle(0, 0, squareSize, squareSize),
+							new Rectangle(x, y, squareSize, squareSize), GraphicsUnit.Pixel);
 			}
 
 			return cropedImage;

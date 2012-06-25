@@ -1,8 +1,13 @@
 ﻿
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.Globalization;
+using System.Web;
 using System.Windows.Forms;
+using Waveface.API.V2;
+using Waveface.Localization;
 
 namespace Waveface
 {

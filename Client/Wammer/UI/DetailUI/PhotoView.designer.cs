@@ -19,7 +19,6 @@ namespace Waveface.DetailUI
             if (disposing && (components != null))
             {
                 components.Dispose();
-				m_imageListViewRenderer.Dispose();
             }
             base.Dispose(disposing);
         }

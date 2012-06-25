@@ -235,8 +235,8 @@ namespace Manina.Windows.Forms
                         mImageListView.metadataCache.Remove(mGuid);
                         mImageListView.metadataCache.Add(mGuid, Adaptor, mFileName,
                             (mImageListView.UseWIC == UseWIC.Auto || mImageListView.UseWIC == UseWIC.DetailsOnly));
-                        if (mImageListView.IsItemVisible(mGuid))
-                            mImageListView.Refresh();
+                        //if (mImageListView.IsItemVisible(mGuid))
+                        //    mImageListView.Refresh();
                     }
                 }
             }

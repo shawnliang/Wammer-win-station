@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.VisualStyles;
+using System.Diagnostics;
 
 namespace Manina.Windows.Forms
 {
@@ -242,20 +243,6 @@ namespace Manina.Windows.Forms
                     else
                         return 0;
                 }
-
-                /// <summary>
-                /// Compares items by their index property (Reverse).
-                /// </summary>
-                private int CompareByReverseIndex(DrawItemParams param1, DrawItemParams param2)
-                {
-                    if (param1.Item.Index < param2.Item.Index)
-                        return 1;
-                    else if (param1.Item.Index > param2.Item.Index)
-                        return -1;
-                    else
-                        return 0;
-                }
-
                 /// <summary>
                 /// Compares items by their zorder property.
                 /// </summary>
@@ -280,6 +267,20 @@ namespace Manina.Windows.Forms
                     else
                         return 0;
                 }
+
+                /// <summary>
+                /// Compares items by their index property (Reverse).
+                /// </summary>
+                private int CompareByReverseIndex(DrawItemParams param1, DrawItemParams param2)
+                {
+                    if (param1.Item.Index < param2.Item.Index)
+                        return 1;
+                    else if (param1.Item.Index > param2.Item.Index)
+                        return -1;
+                    else
+                        return 0;
+                }
+
                 /// <summary>
                 /// Compares items by their selected state.
                 /// </summary>
@@ -524,7 +525,7 @@ namespace Manina.Windows.Forms
             /// Renders the items.
             /// </summary>
             /// <param name="g">The graphics to draw on.</param>
-            private void RenderItems(Graphics g)
+			private void RenderItems(Graphics g, Rectangle clipRectangle)
             {
                 // Is the control empty?
                 if (ImageListView.Items.Count == 0)
@@ -537,9 +538,19 @@ namespace Manina.Windows.Forms
                 if (ImageListView.View == View.Details && ImageListView.Columns.GetDisplayedColumns().Count == 0)
                     return;
 
+				
                 List<DrawItemParams> drawItemParams = new List<DrawItemParams>();
                 for (int i = ImageListView.layoutManager.FirstPartiallyVisible; i <= ImageListView.layoutManager.LastPartiallyVisible; i++)
                 {
+					// Get item bounds
+					Rectangle bounds = ImageListView.layoutManager.GetItemBounds(i);
+
+
+					if (Rectangle.Intersect(clipRectangle, bounds).IsEmpty)
+					{
+						continue;
+					}
+
                     ImageListViewItem item = ImageListView.Items[i];
 
                     // Determine item state
@@ -556,15 +567,13 @@ namespace Manina.Windows.Forms
                     if (item.Focused)
                         state |= ItemState.Focused;
 
-                    // Get item bounds
-                    Rectangle bounds = ImageListView.layoutManager.GetItemBounds(i);
-
+					Trace.WriteLine("bounds: " + bounds.ToString());
                     // Add to params to be sorted and drawn
                     drawItemParams.Add(new DrawItemParams(item, state, bounds));
                 }
 
-                // Sort items by draw order
-                drawItemParams.Sort(new ItemDrawOrderComparer(ItemDrawOrder));
+				// Sort items by draw order
+				drawItemParams.Sort(new ItemDrawOrderComparer(ItemDrawOrder));
 
                 // Draw items
                 foreach (DrawItemParams param in drawItemParams)
@@ -715,7 +724,7 @@ namespace Manina.Windows.Forms
             /// Renders the control.
             /// </summary>
             /// <param name="graphics">The graphics to draw on.</param>
-            internal void Render(Graphics graphics)
+            internal void Render(Graphics graphics, Rectangle clipRectangle)
             {
                 if (disposed) return;
 
@@ -744,7 +753,7 @@ namespace Manina.Windows.Forms
                 bool itemsDrawn = false;
                 if (ItemsDrawnFirst)
                 {
-                    RenderItems(g);
+					RenderItems(g, clipRectangle);
                     itemsDrawn = true;
                 }
 
@@ -759,7 +768,7 @@ namespace Manina.Windows.Forms
 
                 // Draw items if they should be drawn last.
                 if (!itemsDrawn)
-                    RenderItems(g);
+					RenderItems(g, clipRectangle);
 
                 // Draw the overlay image
                 RenderOverlay(g);
@@ -811,32 +820,32 @@ namespace Manina.Windows.Forms
             {
                 if (creatingGraphics) return false;
 
+                creatingGraphics = true;
+
+                BufferedGraphicsContext bufferContext = BufferedGraphicsManager.Current;
+
+                if (disposed)
+                    throw (new ObjectDisposedException("bufferContext"));
+
+                int width = System.Math.Max(ImageListView.Width, 1);
+                int height = System.Math.Max(ImageListView.Height, 1);
+
+                bufferContext.MaximumBuffer = new Size(width, height);
+
+                ClearBuffer();
+
                 try
                 {
-                    creatingGraphics = true;
-
-                    BufferedGraphicsContext bufferContext = BufferedGraphicsManager.Current;
-
-                    if (disposed)
-                        throw (new ObjectDisposedException("bufferContext"));
-
-                    int width = System.Math.Max(ImageListView.Width, 1);
-                    int height = System.Math.Max(ImageListView.Height, 1);
-
-                    bufferContext.MaximumBuffer = new Size(width, height);
-
-                    ClearBuffer();
-
                     bufferGraphics = bufferContext.Allocate(graphics, new Rectangle(0, 0, width, height));
-
-                    creatingGraphics = false;
-
-                    InitializeGraphics(bufferGraphics.Graphics);
                 }
                 catch
                 {
                     return false;
                 }
+
+                creatingGraphics = false;
+
+                InitializeGraphics(bufferGraphics.Graphics);
 
                 return true;
             }
