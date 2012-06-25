@@ -48,7 +48,7 @@ namespace StationSystemTray
 
 				if (processes.Any(process => process.Id != currentProcess.Id))
 				{
-					var handle = Win32Helper.FindWindow(null, (new MainForm(true)).WindowsTitle);
+					var handle = Win32Helper.FindWindow("SystemTrayMessageReceiver", null);
 
 					if (handle == IntPtr.Zero)
 						return;

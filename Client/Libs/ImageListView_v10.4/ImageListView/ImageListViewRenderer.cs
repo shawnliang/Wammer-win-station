@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms.VisualStyles;
+using System.Diagnostics;
 
 namespace Manina.Windows.Forms
 {
@@ -524,7 +525,7 @@ namespace Manina.Windows.Forms
             /// Renders the items.
             /// </summary>
             /// <param name="g">The graphics to draw on.</param>
-            private void RenderItems(Graphics g)
+			private void RenderItems(Graphics g, Rectangle clipRectangle)
             {
                 // Is the control empty?
                 if (ImageListView.Items.Count == 0)
@@ -537,9 +538,19 @@ namespace Manina.Windows.Forms
                 if (ImageListView.View == View.Details && ImageListView.Columns.GetDisplayedColumns().Count == 0)
                     return;
 
+				
                 List<DrawItemParams> drawItemParams = new List<DrawItemParams>();
                 for (int i = ImageListView.layoutManager.FirstPartiallyVisible; i <= ImageListView.layoutManager.LastPartiallyVisible; i++)
                 {
+					// Get item bounds
+					Rectangle bounds = ImageListView.layoutManager.GetItemBounds(i);
+
+
+					if (Rectangle.Intersect(clipRectangle, bounds).IsEmpty)
+					{
+						continue;
+					}
+
                     ImageListViewItem item = ImageListView.Items[i];
 
                     // Determine item state
@@ -556,15 +567,13 @@ namespace Manina.Windows.Forms
                     if (item.Focused)
                         state |= ItemState.Focused;
 
-                    // Get item bounds
-                    Rectangle bounds = ImageListView.layoutManager.GetItemBounds(i);
-
+					Trace.WriteLine("bounds: " + bounds.ToString());
                     // Add to params to be sorted and drawn
                     drawItemParams.Add(new DrawItemParams(item, state, bounds));
                 }
 
-                // Sort items by draw order
-                drawItemParams.Sort(new ItemDrawOrderComparer(ItemDrawOrder));
+				// Sort items by draw order
+				drawItemParams.Sort(new ItemDrawOrderComparer(ItemDrawOrder));
 
                 // Draw items
                 foreach (DrawItemParams param in drawItemParams)
@@ -715,7 +724,7 @@ namespace Manina.Windows.Forms
             /// Renders the control.
             /// </summary>
             /// <param name="graphics">The graphics to draw on.</param>
-            internal void Render(Graphics graphics)
+            internal void Render(Graphics graphics, Rectangle clipRectangle)
             {
                 if (disposed) return;
 
@@ -744,7 +753,7 @@ namespace Manina.Windows.Forms
                 bool itemsDrawn = false;
                 if (ItemsDrawnFirst)
                 {
-                    RenderItems(g);
+					RenderItems(g, clipRectangle);
                     itemsDrawn = true;
                 }
 
@@ -759,7 +768,7 @@ namespace Manina.Windows.Forms
 
                 // Draw items if they should be drawn last.
                 if (!itemsDrawn)
-                    RenderItems(g);
+					RenderItems(g, clipRectangle);
 
                 // Draw the overlay image
                 RenderOverlay(g);

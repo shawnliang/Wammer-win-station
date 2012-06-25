@@ -35,7 +35,14 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.lblStorageUsageValue = new System.Windows.Forms.Label();
 			this.lblStorageUsage = new System.Windows.Forms.Label();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.btnUpdate = new System.Windows.Forms.Button();
+			this.lblVersion = new System.Windows.Forms.Label();
+			this.lblVersionTitle = new System.Windows.Forms.Label();
+			this.lblCopyRight = new System.Windows.Forms.Label();
+			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
 			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnUnlink
@@ -82,11 +89,50 @@
 			resources.ApplyResources(this.lblStorageUsage, "lblStorageUsage");
 			this.lblStorageUsage.Name = "lblStorageUsage";
 			// 
+			// groupBox2
+			// 
+			resources.ApplyResources(this.groupBox2, "groupBox2");
+			this.groupBox2.Controls.Add(this.btnUpdate);
+			this.groupBox2.Controls.Add(this.lblVersion);
+			this.groupBox2.Controls.Add(this.lblVersionTitle);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.TabStop = false;
+			// 
+			// btnUpdate
+			// 
+			resources.ApplyResources(this.btnUpdate, "btnUpdate");
+			this.btnUpdate.Name = "btnUpdate";
+			this.btnUpdate.UseVisualStyleBackColor = true;
+			// 
+			// lblVersion
+			// 
+			resources.ApplyResources(this.lblVersion, "lblVersion");
+			this.lblVersion.Name = "lblVersion";
+			// 
+			// lblVersionTitle
+			// 
+			resources.ApplyResources(this.lblVersionTitle, "lblVersionTitle");
+			this.lblVersionTitle.Name = "lblVersionTitle";
+			// 
+			// lblCopyRight
+			// 
+			resources.ApplyResources(this.lblCopyRight, "lblCopyRight");
+			this.lblCopyRight.Name = "lblCopyRight";
+			// 
+			// linkLegalNotice
+			// 
+			resources.ApplyResources(this.linkLegalNotice, "linkLegalNotice");
+			this.linkLegalNotice.Name = "linkLegalNotice";
+			this.linkLegalNotice.TabStop = true;
+			// 
 			// SettingDialog
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.lblCopyRight);
+			this.Controls.Add(this.linkLegalNotice);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.button1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -96,7 +142,10 @@
 			this.Load += new System.EventHandler(this.LocalSettingDialog_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -108,5 +157,11 @@
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label lblStorageUsageValue;
 		private System.Windows.Forms.Label lblStorageUsage;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Button btnUpdate;
+		private System.Windows.Forms.Label lblVersion;
+		private System.Windows.Forms.Label lblVersionTitle;
+		private System.Windows.Forms.Label lblCopyRight;
+		private System.Windows.Forms.LinkLabel linkLegalNotice;
 	}
 }

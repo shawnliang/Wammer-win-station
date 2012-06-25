@@ -13,6 +13,7 @@ using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Localization;
+using System.Diagnostics;
 
 #endregion
 
@@ -73,16 +74,16 @@ namespace Waveface
 
         public PostsList()
         {
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            SetStyle(ControlStyles.DoubleBuffer, true);
-            SetStyle(ControlStyles.ResizeRedraw, true);
-            SetStyle(ControlStyles.UserPaint, true);
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			SetStyle(ControlStyles.DoubleBuffer, true);
+			SetStyle(ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.UserPaint, true);
 
             InitializeComponent();
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
 
-            DoubleBufferedX(dataGridView, true);
+			DoubleBufferedX(dataGridView, true);
         }
 
         public void DoubleBufferedX(DataGridView dgv, bool setting)
@@ -271,6 +272,7 @@ namespace Waveface
 
         private void dataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
+			//var sw = Stopwatch.StartNew();
             try
             {
                 bool _isDrawThumbnail;
@@ -279,6 +281,7 @@ namespace Waveface
                 //_g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                 //_g.SmoothingMode = SmoothingMode.HighQuality;
 
+				Trace.WriteLine("cell index: " + e.RowIndex.ToString());
                 Post _post = m_postBS[e.RowIndex] as Post;
 
                 bool _selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
@@ -344,6 +347,8 @@ namespace Waveface
             }
 
             e.Handled = true;
+			
+			//Trace.WriteLine(String.Format("dataGridView_CellPainting elapsed {0} ms", sw.ElapsedMilliseconds.ToString()));
         }
 
         private void Draw_Link(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth,
@@ -879,7 +884,7 @@ namespace Waveface
             this.dataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.dataGridView.RowTemplate.Height = 64;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.VirtualMode = true;
+			this.dataGridView.VirtualMode = true;
             this.dataGridView.ContextMenuStripNeeded += new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(this.dataGridView_ContextMenuStripNeeded);
             this.dataGridView.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.dataGridView_CellContextMenuStripNeeded);
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);

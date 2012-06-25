@@ -282,7 +282,6 @@ namespace Waveface
                     {
                         if (!File.Exists(_localPath))
                         {
-							Trace.WriteLine("Thumbnail saved");
                             _img.Save(_localPath);
                         }
                     }

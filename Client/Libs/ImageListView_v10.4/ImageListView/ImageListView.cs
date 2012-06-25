@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Resources;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Manina.Windows.Forms
 {
@@ -1599,7 +1600,7 @@ namespace Manina.Windows.Forms
 		protected override void OnPaint (PaintEventArgs e)
 		{
 			if (!disposed && mRenderer != null)
-				mRenderer.Render (e.Graphics);
+				mRenderer.Render(e.Graphics, e.ClipRectangle);
 			rendererNeedsPaint = false;
 		}
 		/// <summary>
