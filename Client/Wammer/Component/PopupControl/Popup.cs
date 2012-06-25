@@ -318,12 +318,12 @@ namespace Waveface.Component.PopupControl
                 return;
             }
 
-			var popupControl = control as Popup;
-			if (popupControl != null)
+            if (control is Popup)
             {
-                m_ownerPopup = popupControl;
+                Popup _popupControl = control as Popup;
+                m_ownerPopup = _popupControl;
                 m_ownerPopup.m_childPopup = this;
-				OwnerItem = popupControl.Items[0];
+                OwnerItem = _popupControl.Items[0];
                 return;
             }
             else if (m_opener == null)

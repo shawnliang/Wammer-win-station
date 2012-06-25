@@ -166,9 +166,7 @@ namespace Waveface
 
             InitializeComponent();
 
-            Text = "Stream "; // form's title has to be sync with StationSystemTray's definition
-                              // so that system tray iconcan bring client program to topmost when
-                              // user double clicks sys tray icon.
+            Text = "Stream "; // this has to be sync with SystemStry.Main.CLIENT_TITLE for finding client form
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
@@ -241,7 +239,7 @@ namespace Waveface
         private void CreateLoadingImage()
         {
             int s = 512;
-            int k = 8;
+            int k = 16;
 
             try
             {
@@ -445,11 +443,35 @@ namespace Waveface
             Close();
         }
 
+
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+		[DllImport("user32.dll")]
+		public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageTimeout(
+			IntPtr windowHandle,
+			uint Msg,
+			IntPtr wParam,
+			IntPtr lParam,
+			int flags,
+			uint timeout,
+			out int result);
+
         public void AccountInformation()
         {
-            m_setting = new SettingForm(m_autoUpdator);
-            m_setting.ShowDialog();
-            m_setting = null;
+			var receiver = FindWindow("SystemTrayMessageReceiver", null);
+			if(receiver != null)
+			{
+				int ret;
+				SendMessageTimeout(receiver, 0x403, IntPtr.Zero, IntPtr.Zero, 2, 500,out ret);
+			}
+			//m_setting = new SettingForm(m_autoUpdator);
+			//m_setting.ShowDialog();
+			//m_setting = null;
         }
 
         [DllImport("user32.dll")]
@@ -867,7 +889,7 @@ namespace Waveface
             }
         }
 
-        public void ShowPostInTimeline()
+        private void ShowPostInTimeline()
         {
             if (InvokeRequired)
             {
@@ -881,14 +903,14 @@ namespace Waveface
 
                 _posts = filterPost(_posts);
 
-                setCalendarBoldedDates(_posts);
+                Dictionary<DateTime, string> _firstPostInADay = setCalendarBoldedDates(_posts);
 
                 postsArea.ShowPostInforPanel(false);
                 leftArea.SetUI(true);
 
                 lock (postsArea.PostsList)
                 {
-                    postsArea.PostsList.SetPosts(_posts);
+                    postsArea.PostsList.SetPosts(_posts, _firstPostInADay);
                 }
             }
         }
@@ -960,7 +982,10 @@ namespace Waveface
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
 
-                        ReloadAllData();
+                        if (m_postForm.BatchPostItem.Post != null)
+                        {
+                            ShowPostInTimeline();
+                        }
 
                         break;
                 }
@@ -994,9 +1019,6 @@ namespace Waveface
 
                     case DialogResult.OK:
                         BatchPostManager.Add(m_postForm.BatchPostItem);
-
-                        ReloadAllData();
-
                         break;
                 }
             }
@@ -1245,8 +1267,10 @@ namespace Waveface
 
         #region Calendar
 
-        private void setCalendarBoldedDates(List<Post> posts)
+        private Dictionary<DateTime, string> setCalendarBoldedDates(List<Post> posts)
         {
+            Dictionary<DateTime, string> _firstPostInADay = new Dictionary<DateTime, string>();
+
             MonthCalendar _mc = leftArea.MonthCalendar;
 
             _mc.SuspendLayout();
@@ -1259,11 +1283,16 @@ namespace Waveface
 
                 if (!_mc.BoldedDates.Contains(_dt.Date))
                     _mc.BoldedDates.Add(_dt.Date);
+
+                if (!_firstPostInADay.ContainsKey(_dt.Date))
+                    _firstPostInADay.Add(_dt.Date, _p.post_id);
             }
 
             _mc.ResumeLayout();
 
             _mc.Invalidate();
+
+            return _firstPostInADay;
         }
 
         public void ClickCalendar(DateTime date)
@@ -1651,7 +1680,7 @@ namespace Waveface
 
             RT.CurrentGroupPosts = _tmpPosts;
 
-            s_logger.Warn("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
+            s_logger.Info("bgWorkerGetAllData_DoWork. Get Post Count:" + _tmpPosts.Count);
         }
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

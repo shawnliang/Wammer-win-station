@@ -261,8 +261,8 @@ namespace Waveface
                                 break;
 
                             default:
-								audioData = (byte[])_d;
-								rawByteBuffers[_index] = audioData;
+                                rawByteBuffers[_index] = (byte[])_d;
+                                audioData = (byte[])_d;
                                 break;
                         }
                     }

@@ -291,7 +291,6 @@ namespace Waveface.Component.ListBarControl
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-			popupCancel.Dispose();
             base.Dispose(disposing);
         }
 

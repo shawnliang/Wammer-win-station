@@ -288,7 +288,6 @@ namespace Waveface.Component
             {
                 fileIcon.Dispose();
             }
-			GC.SuppressFinalize(this);
         }
 
         /// <summary>

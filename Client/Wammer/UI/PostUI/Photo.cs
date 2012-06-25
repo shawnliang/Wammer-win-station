@@ -9,6 +9,7 @@ using Manina.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
+using Waveface.DetailUI;
 using Waveface.WebCam;
 
 namespace Waveface.PostUI
@@ -90,6 +91,8 @@ namespace Waveface.PostUI
         private void Photo_Resize(object sender, EventArgs e)
         {
             BackColor = Color.FromArgb(226, 226, 226); //Hack
+
+            ChengeThumbnailSize();
         }
 
         #endregion
@@ -236,6 +239,8 @@ namespace Waveface.PostUI
 
             if (e.Action != CollectionChangeAction.Refresh)
                 SetCoverImageUI();
+
+            ChengeThumbnailSize();
         }
 
         private void SetCoverImageUI()
@@ -648,6 +653,11 @@ namespace Waveface.PostUI
         #endregion
 
         #region Misc
+
+        private void ChengeThumbnailSize()
+        {
+            Photo_DV.ChengeThumbnailSize(imageListView, 112, 24);
+        }
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)
         {

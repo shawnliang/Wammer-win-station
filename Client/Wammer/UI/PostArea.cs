@@ -10,7 +10,17 @@ namespace Waveface
     {
         public PostsList PostsList
         {
-            get { return postList; }
+            get
+            {
+                postList.MyParent = this;
+                
+                return postList;
+            }
+        }
+
+        public string SetDateText
+        {
+            set { labelDate.Text = value; }
         }
 
         public PostArea()

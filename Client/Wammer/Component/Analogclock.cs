@@ -691,8 +691,6 @@ namespace Waveface.Component
             {
                 if (components != null)
                     components.Dispose();
-
-				m_gb.Dispose();
             }
 
             base.Dispose(disposing);

@@ -244,9 +244,6 @@
     <Compile Include="UI\DetailUI\CommentForm.Designer.cs">
       <DependentUpon>CommentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DetailUI\NewBatchPostItem_DV.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="UI\DVTopPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -660,10 +657,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DetailUI\CommentForm.zh-TW.resx">
       <DependentUpon>CommentForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\NewBatchPostItem_DV.resx">
-      <DependentUpon>NewBatchPostItem_DV.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DVTopPanel.resx">
       <DependentUpon>DVTopPanel.cs</DependentUpon>

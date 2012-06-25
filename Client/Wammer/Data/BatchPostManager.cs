@@ -17,7 +17,6 @@ namespace Waveface
     public class BatchPostManager
     {
         public event ProgressUpdateUI_Delegate UpdateUI;
-        public event ProgressCountUpdateUI_Delegate UpdateCountUI;
         public event ShowMessage_Delegate ShowMessage;
         public event ShowMessage_Delegate UploadDone;
         public event ShowMessage_Delegate EditUpdateDone;
@@ -33,7 +32,7 @@ namespace Waveface
 
         #region Properties
 
-        public List<BatchPostItem> PhotoItems { get; set; }
+        private List<BatchPostItem> PhotoItems { get; set; }
 
         public bool StartUpload
         {
@@ -217,7 +216,7 @@ namespace Waveface
 
         private BatchPostItem UploadPhoto(BatchPostItem postItem)
         {
-            int _count = postItem.UploadedFiles.Count;
+            int _count = 0;
             string _tmpStamp = DateTime.Now.Ticks.ToString();
             bool _editMode = postItem.EditMode;
 
@@ -387,11 +386,6 @@ namespace Waveface
                         }
 
                         UpdateUI(_count * 100 / _counts, _msg);
-                    }
-
-                    if (UpdateCountUI != null)
-                    {
-                        UpdateCountUI(_count, _counts);
                     }
 
                     if (_count == _counts)

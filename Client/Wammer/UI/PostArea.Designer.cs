@@ -39,14 +39,18 @@ namespace Waveface
             this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.panelTop = new System.Windows.Forms.Panel();
+            this.labelDate = new System.Windows.Forms.Label();
             this.postList = new Waveface.PostsList();
             this.panelList.SuspendLayout();
             this.panelButtom.SuspendLayout();
             this.panelMain.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelList
             // 
+            this.panelList.Controls.Add(this.panelTop);
             this.panelList.Controls.Add(this.postList);
             this.panelList.Controls.Add(this.panelR);
             resources.ApplyResources(this.panelList, "panelList");
@@ -91,6 +95,19 @@ namespace Waveface
             // 
             this.cultureManager.ManagedControl = this;
             // 
+            // panelTop
+            // 
+            this.panelTop.Controls.Add(this.labelDate);
+            resources.ApplyResources(this.panelTop, "panelTop");
+            this.panelTop.Name = "panelTop";
+            // 
+            // labelDate
+            // 
+            resources.ApplyResources(this.labelDate, "labelDate");
+            this.labelDate.BackColor = System.Drawing.Color.Gray;
+            this.labelDate.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.labelDate.Name = "labelDate";
+            // 
             // postList
             // 
             resources.ApplyResources(this.postList, "postList");
@@ -110,6 +127,7 @@ namespace Waveface
             this.panelButtom.ResumeLayout(false);
             this.panelButtom.PerformLayout();
             this.panelMain.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -124,5 +142,7 @@ namespace Waveface
         private System.Windows.Forms.LinkLabel linkLabelReadMore;
         private Localization.CultureManager cultureManager;
         private System.Windows.Forms.Panel panelR;
+        private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.Label labelDate;
     }
 }

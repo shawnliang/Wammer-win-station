@@ -1,4 +1,4 @@
-﻿#region
+﻿﻿#region
 
 using System;
 using System.Drawing;
@@ -61,7 +61,8 @@ namespace Waveface.Component
                     if ((_img.Width >= ImageListView.ThumbnailSize.Width) ||
                         (_img.Height >= ImageListView.ThumbnailSize.Height))
                     {
-                        _img = ImageUtility.GenerateSquareImage(_img, ImageListView.ThumbnailSize.Width);
+                        if (item.FileName != Main.Current.LoadingImagePath)
+                            _img = ImageUtility.GenerateSquareImage(_img, ImageListView.ThumbnailSize.Width);
                     }
 
                     // Calculate image bounds
