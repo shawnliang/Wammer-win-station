@@ -50,7 +50,14 @@ namespace Waveface
 
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
+        private int m_cellHeight;
+        private int m_dateAreaHeight = 20;
+
+        private Dictionary<DateTime, string> m_firstPostInADay;
+
         #region Properties
+
+        public PostArea MyParent { get; set; }
 
         public int SelectedRow
         {
@@ -133,18 +140,20 @@ namespace Waveface
                 _dpi = _g.DpiX;
             }
 
-            dataGridView.RowTemplate.Height = (m_fontText.Height * 7) + 6;
+            m_cellHeight = (m_fontText.Height * 7) + 6;
 
             if (_dpi == 120)
             {
-                dataGridView.RowTemplate.Height = (int)(m_fontText.Height * 6.9);
+                m_cellHeight = (int)(m_fontText.Height * 6.9);
 
                 if (CultureManager.ApplicationUICulture.Name == "zh-TW")
-                    dataGridView.RowTemplate.Height = (int)(m_fontText.Height * 7.28);
+                    m_cellHeight = (int)(m_fontText.Height * 7.28);
             }
+
+            dataGridView.RowTemplate.Height = m_cellHeight;
         }
 
-        public void SetPosts(List<Post> posts)
+        public void SetPosts(List<Post> posts, Dictionary<DateTime, string> firstPostInADay)
         {
             // Test: 
             // posts = posts.GetRange(0, DateTime.Now.Second % 5);
@@ -155,6 +164,7 @@ namespace Waveface
             {
                 GetFirstDisplayed(posts);
 
+                m_firstPostInADay = firstPostInADay;
                 m_posts = posts;
                 m_postBS.DataSource = posts;
 
@@ -166,6 +176,8 @@ namespace Waveface
                 catch
                 {
                 }
+
+                SetDateText();
 
                 if (m_posts.Count == 0)
                 {
@@ -183,6 +195,23 @@ namespace Waveface
             }
 
             dataGridView.ResumeLayout();
+        }
+
+        private void ResizeCell()
+        {
+            for (int i = 0; i < m_posts.Count; i++)
+            {
+                DateTime _dt = DateTimeHelp.ISO8601ToDateTime(m_posts[i].timestamp).Date;
+
+                if (m_firstPostInADay.ContainsValue(m_posts[i].post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
+                {
+                    dataGridView.Rows[i].Height = m_cellHeight + m_dateAreaHeight;
+                }
+                else
+                {
+                    dataGridView.Rows[i].Height = m_cellHeight;
+                }
+            }
         }
 
         private void SetFirstDisplayed(List<Post> posts)
@@ -274,12 +303,26 @@ namespace Waveface
             try
             {
                 bool _isDrawThumbnail;
+                bool _isFirstPostInADay = false;
+                bool _isFirstDisplayed = false;
 
                 Graphics _g = e.Graphics;
                 //_g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                 //_g.SmoothingMode = SmoothingMode.HighQuality;
 
                 Post _post = m_postBS[e.RowIndex] as Post;
+
+                DateTime _dt = DateTimeHelp.ISO8601ToDateTime(_post.timestamp).Date;
+
+                if (m_firstPostInADay.ContainsValue(_post.post_id))
+                {
+                    _isFirstPostInADay = true;
+
+                    if (dataGridView.FirstDisplayedScrollingRowIndex == e.RowIndex)
+                    {
+                        _isFirstDisplayed = true;
+                    }
+                }
 
                 bool _selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
 
@@ -291,17 +334,25 @@ namespace Waveface
                 int _W = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
                 int _H = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
 
+                if (_isFirstPostInADay && !_isFirstDisplayed)
+                {
+                    _Y += m_dateAreaHeight;
+                    _H -= m_dateAreaHeight;
+                }
+
                 Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
 
-                // Draw background
+                _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
 
+                // Draw background
                 if (_selected)
                 {
                     _g.FillRectangle(m_bgSelectedBrush, e.CellBounds);
                 }
-                else
+
+                if (_isFirstPostInADay && !_isFirstDisplayed)
                 {
-                    _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
+                    DrawDateArea(e, _dt);
                 }
 
                 _g.DrawRectangle(Pens.LightGray, e.CellBounds.X, e.CellBounds.Y, e.CellBounds.Width, e.CellBounds.Height);
@@ -333,6 +384,7 @@ namespace Waveface
                         Draw_Link(_g, _post, _cellRect, _thumbnailRect.Width, _thumbnailRect.Width, _selected);
                         break;
                 }
+
             }
             catch (Exception _e)
             {
@@ -344,6 +396,12 @@ namespace Waveface
             }
 
             e.Handled = true;
+        }
+
+        private void DrawDateArea(DataGridViewCellPaintingEventArgs e, DateTime dt)
+        {
+            e.Graphics.FillRectangle(Brushes.Gray, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, m_dateAreaHeight);
+            e.Graphics.DrawString(dt.Date.ToString("yyyy-MM-dd (ddd)"), m_fontText, Brushes.WhiteSmoke, e.CellBounds.Left + 4, e.CellBounds.Top + 2);
         }
 
         private void Draw_Link(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth,
@@ -878,6 +936,8 @@ namespace Waveface
             this.dataGridView.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.InactiveCaption;
             this.dataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.dataGridView.RowTemplate.Height = 64;
+            this.dataGridView.RowTemplate.ReadOnly = true;
+            this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.VirtualMode = true;
             this.dataGridView.ContextMenuStripNeeded += new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(this.dataGridView_ContextMenuStripNeeded);
@@ -968,12 +1028,16 @@ namespace Waveface
             if (m_postBS.Count <= 0)
                 return;
 
+            SetDateText();
+        }
+
+        private void SetDateText()
+        {
+            ResizeCell();
+
             Post _post = m_postBS[dataGridView.FirstDisplayedScrollingRowIndex] as Post;
-
-            DateTime _dateTime = DateTimeHelp.ISO8601ToDateTime(_post.timestamp);
-
-            if (_dateTime != null)
-                Main.Current.SetClock(true, _dateTime);
+            DateTime _dt = DateTimeHelp.ISO8601ToDateTime(_post.timestamp).Date;
+            MyParent.SetDateText = _dt.Date.ToString("yyyy-MM-dd (ddd)");
         }
 
         #region Drag & Drop

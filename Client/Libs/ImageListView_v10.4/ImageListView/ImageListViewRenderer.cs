@@ -825,7 +825,14 @@ namespace Manina.Windows.Forms
 
                 ClearBuffer();
 
-                bufferGraphics = bufferContext.Allocate(graphics, new Rectangle(0, 0, width, height));
+                try
+                {
+                    bufferGraphics = bufferContext.Allocate(graphics, new Rectangle(0, 0, width, height));
+                }
+                catch
+                {
+                    return false;
+                }
 
                 creatingGraphics = false;
 

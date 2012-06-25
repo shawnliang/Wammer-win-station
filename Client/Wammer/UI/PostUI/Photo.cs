@@ -656,7 +656,7 @@ namespace Waveface.PostUI
 
         private void ChengeThumbnailSize()
         {
-            Photo_DV.ChengeThumbnailSize(imageListView, 112, 20);
+            Photo_DV.ChengeThumbnailSize(imageListView, 112, 24);
         }
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)

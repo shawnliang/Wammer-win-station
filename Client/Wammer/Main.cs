@@ -252,7 +252,7 @@ namespace Waveface
                 {
                     _p.DashStyle = DashStyle.Dash;
 
-                    _g.DrawRectangle(_p, new Rectangle(k, k, s - (2*k), s - (2*k)));
+                    _g.DrawRectangle(_p, new Rectangle(k, k, s - (2 * k), s - (2 * k)));
                 }
 
                 _img.Save(LoadingImagePath);
@@ -879,14 +879,14 @@ namespace Waveface
 
                 _posts = filterPost(_posts);
 
-                setCalendarBoldedDates(_posts);
+                Dictionary<DateTime, string> _firstPostInADay = setCalendarBoldedDates(_posts);
 
                 postsArea.ShowPostInforPanel(false);
                 leftArea.SetUI(true);
 
                 lock (postsArea.PostsList)
                 {
-                    postsArea.PostsList.SetPosts(_posts);
+                    postsArea.PostsList.SetPosts(_posts, _firstPostInADay);
                 }
             }
         }
@@ -900,7 +900,7 @@ namespace Waveface
 
             foreach (Post _p in posts)
             {
-                if(_p.type == m_displayType)
+                if (_p.type == m_displayType)
                     _posts.Add(_p);
             }
 
@@ -1243,8 +1243,10 @@ namespace Waveface
 
         #region Calendar
 
-        private void setCalendarBoldedDates(List<Post> posts)
+        private Dictionary<DateTime, string> setCalendarBoldedDates(List<Post> posts)
         {
+            Dictionary<DateTime, string> _firstPostInADay = new Dictionary<DateTime, string>();
+
             MonthCalendar _mc = leftArea.MonthCalendar;
 
             _mc.SuspendLayout();
@@ -1257,11 +1259,16 @@ namespace Waveface
 
                 if (!_mc.BoldedDates.Contains(_dt.Date))
                     _mc.BoldedDates.Add(_dt.Date);
+
+                if (!_firstPostInADay.ContainsKey(_dt.Date))
+                    _firstPostInADay.Add(_dt.Date, _p.post_id);
             }
 
             _mc.ResumeLayout();
 
             _mc.Invalidate();
+
+            return _firstPostInADay;
         }
 
         public void ClickCalendar(DateTime date)
@@ -1357,7 +1364,7 @@ namespace Waveface
 
                 _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> {_pathToSave}, PostType.Photo, "");
+                Post(new List<string> { _pathToSave }, PostType.Photo, "");
             }
             catch (Exception _e)
             {
@@ -1549,8 +1556,8 @@ namespace Waveface
 
             MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Stream",
                                         MessageBoxIcon.Warning);
-            _msgBox.SetButtons(new[] {I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel")},
-                               new[] {DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel}, 3);
+            _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") },
+                               new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
             DialogResult _dr = _msgBox.ShowDialog();
 
             NewPostThreadErrorDialogResult = _dr;
@@ -1562,8 +1569,8 @@ namespace Waveface
 
             MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Stream",
                                         MessageBoxIcon.Warning);
-            _msgBox.SetButtons(new[] {I18n.L.T("Retry"), I18n.L.T("Cancel")},
-                               new[] {DialogResult.Retry, DialogResult.Cancel}, 2);
+            _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") },
+                               new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
             DialogResult _dr = _msgBox.ShowDialog();
 
             NewPostThreadErrorDialogResult = _dr;
