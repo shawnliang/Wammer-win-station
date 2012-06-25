@@ -443,11 +443,35 @@ namespace Waveface
             Close();
         }
 
+
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+		[DllImport("user32.dll")]
+		public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageTimeout(
+			IntPtr windowHandle,
+			uint Msg,
+			IntPtr wParam,
+			IntPtr lParam,
+			int flags,
+			uint timeout,
+			out int result);
+
         public void AccountInformation()
         {
-            m_setting = new SettingForm(m_autoUpdator);
-            m_setting.ShowDialog();
-            m_setting = null;
+			var receiver = FindWindow("SystemTrayMessageReceiver", null);
+			if(receiver != null)
+			{
+				int ret;
+				SendMessageTimeout(receiver, 0x403, IntPtr.Zero, IntPtr.Zero, 2, 500,out ret);
+			}
+			//m_setting = new SettingForm(m_autoUpdator);
+			//m_setting.ShowDialog();
+			//m_setting = null;
         }
 
         [DllImport("user32.dll")]
