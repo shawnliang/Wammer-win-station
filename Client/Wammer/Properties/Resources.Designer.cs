@@ -835,6 +835,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap timebar {
+            get {
+                object obj = ResourceManager.GetObject("timebar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap titlebar_1 {
             get {
                 object obj = ResourceManager.GetObject("titlebar_1", resourceCulture);

@@ -1036,6 +1036,9 @@
     <None Include="Resources\ObjectPosition.png" />
     <None Include="Resources\ObjectSize.png" />
     <None Include="Resources\TickCircle.png" />
+    <None Include="Resources\timebar_unit_bg.png" />
+    <None Include="Resources\timebar_unit_bg.jpg" />
+    <None Include="Resources\timebar.jpg" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

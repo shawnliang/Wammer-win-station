@@ -33,28 +33,40 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
             this.panelList = new System.Windows.Forms.Panel();
+            this.panelTimeBar = new System.Windows.Forms.Panel();
+            this.postList = new Waveface.PostsList();
             this.panelR = new System.Windows.Forms.Panel();
             this.panelButtom = new System.Windows.Forms.Panel();
             this.linkLabelReadMore = new System.Windows.Forms.LinkLabel();
             this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.panelTop = new System.Windows.Forms.Panel();
-            this.labelDate = new System.Windows.Forms.Label();
-            this.postList = new Waveface.PostsList();
             this.panelList.SuspendLayout();
             this.panelButtom.SuspendLayout();
             this.panelMain.SuspendLayout();
-            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelList
             // 
-            this.panelList.Controls.Add(this.panelTop);
+            this.panelList.Controls.Add(this.panelTimeBar);
             this.panelList.Controls.Add(this.postList);
             this.panelList.Controls.Add(this.panelR);
             resources.ApplyResources(this.panelList, "panelList");
             this.panelList.Name = "panelList";
+            // 
+            // panelTimeBar
+            // 
+            resources.ApplyResources(this.panelTimeBar, "panelTimeBar");
+            this.panelTimeBar.Name = "panelTimeBar";
+            this.panelTimeBar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTimeBar_Paint);
+            // 
+            // postList
+            // 
+            resources.ApplyResources(this.postList, "postList");
+            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.postList.DetailView = null;
+            this.postList.MyParent = null;
+            this.postList.Name = "postList";
             // 
             // panelR
             // 
@@ -95,26 +107,6 @@ namespace Waveface
             // 
             this.cultureManager.ManagedControl = this;
             // 
-            // panelTop
-            // 
-            this.panelTop.Controls.Add(this.labelDate);
-            resources.ApplyResources(this.panelTop, "panelTop");
-            this.panelTop.Name = "panelTop";
-            // 
-            // labelDate
-            // 
-            resources.ApplyResources(this.labelDate, "labelDate");
-            this.labelDate.BackColor = System.Drawing.Color.Gray;
-            this.labelDate.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.labelDate.Name = "labelDate";
-            // 
-            // postList
-            // 
-            resources.ApplyResources(this.postList, "postList");
-            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.postList.DetailView = null;
-            this.postList.Name = "postList";
-            // 
             // PostArea
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -127,7 +119,6 @@ namespace Waveface
             this.panelButtom.ResumeLayout(false);
             this.panelButtom.PerformLayout();
             this.panelMain.ResumeLayout(false);
-            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -142,7 +133,6 @@ namespace Waveface
         private System.Windows.Forms.LinkLabel linkLabelReadMore;
         private Localization.CultureManager cultureManager;
         private System.Windows.Forms.Panel panelR;
-        private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.Label labelDate;
+        private System.Windows.Forms.Panel panelTimeBar;
     }
 }
