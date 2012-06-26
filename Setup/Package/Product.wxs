@@ -336,7 +336,7 @@
     <DirectoryRef Id="MongoDB">
       <Component Id="mongod.exe" Guid="{1163C7C1-0494-4DFD-890D-2611FDCD3C19}">
         <File Id="mongod.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongod.exe" KeyPath="yes" Checksum="yes"/>
-        <ServiceInstall Arguments='--logpath "[INSTALLLOCATION]\log\MongoDB.log" --port 10319 --dbpath "[INSTALLLOCATION]\MongoDB\Data\DB" --journal --service --smallfiles --bind_ip 127.0.0.1'
+        <ServiceInstall Arguments='--logpath "[INSTALLLOCATION]\log\MongoDB.log" --port 10319 --dbpath "[INSTALLLOCATION]\MongoDB\Data\DB" --journal --service --smallfiles --bind_ip 127.0.0.1 --logappend'
                 Description='!(loc.MONGO_SVC_DESC)' DisplayName='MongoDB for Waveface' 
                 ErrorControl='ignore' Name='MongoDbForWaveface' Start='auto' Type='ownProcess'>
         </ServiceInstall>
