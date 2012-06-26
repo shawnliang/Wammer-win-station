@@ -120,6 +120,9 @@
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
     </Reference>
@@ -223,6 +226,7 @@
     <Compile Include="Data\PhotoDownloader.cs" />
     <Compile Include="Data\ImageItem.cs" />
     <Compile Include="Data\PostItemType.cs" />
+    <Compile Include="Extension\FormExtension.cs" />
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
     <Compile Include="Libs\Utility\ControlUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
@@ -230,6 +234,9 @@
     <Compile Include="Libs\Utility\AttachmentUtility.cs" />
     <Compile Include="Data\RT_REST.cs" />
     <Compile Include="Libs\Utility\NLogUtility.cs" />
+    <Compile Include="LogoutButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
     <Compile Include="UI\DateTimePopupPanel.cs">
@@ -663,6 +670,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\AccountInfoForm.resx">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\AccountInfoForm.zh-TW.resx">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
@@ -1036,6 +1044,11 @@
     <None Include="Resources\ObjectPosition.png" />
     <None Include="Resources\ObjectSize.png" />
     <None Include="Resources\TickCircle.png" />
+    <None Include="Resources\timebar_unit_bg.png" />
+    <None Include="Resources\timebar_unit_bg.jpg" />
+    <None Include="Resources\timebar.jpg" />
+    <Content Include="Resources\logout_btn.png" />
+    <Content Include="Resources\logout_btn_press.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

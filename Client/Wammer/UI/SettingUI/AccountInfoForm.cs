@@ -56,5 +56,10 @@ namespace Waveface
         {
             Cursor = Cursors.Default;
         }
+
+		private void logoutButton1_Click(object sender, EventArgs e)
+		{
+			Environment.Exit(-2);
+		}
     }
 }

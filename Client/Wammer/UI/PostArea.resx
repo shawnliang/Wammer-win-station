@@ -118,60 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="labelDate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="labelDate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="panelTimeBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="labelDate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 0</value>
+  <data name="panelTimeBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="labelDate.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="panelTimeBar.Size" type="System.Drawing.Size, System.Drawing">
     <value>377, 20</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="labelDate.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="labelDate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;labelDate.Name" xml:space="preserve">
-    <value>labelDate</value>
-  </data>
-  <data name="&gt;&gt;labelDate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelDate.Parent" xml:space="preserve">
-    <value>panelTop</value>
-  </data>
-  <data name="&gt;&gt;labelDate.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="panelTop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panelTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>377, 20</value>
-  </data>
-  <data name="panelTop.TabIndex" type="System.Int32, mscorlib">
+  <data name="panelTimeBar.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;panelTop.Name" xml:space="preserve">
-    <value>panelTop</value>
+  <data name="&gt;&gt;panelTimeBar.Name" xml:space="preserve">
+    <value>panelTimeBar</value>
   </data>
-  <data name="&gt;&gt;panelTop.Type" xml:space="preserve">
+  <data name="&gt;&gt;panelTimeBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panelTop.Parent" xml:space="preserve">
+  <data name="&gt;&gt;panelTimeBar.Parent" xml:space="preserve">
     <value>panelList</value>
   </data>
-  <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;panelTimeBar.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="postList.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">

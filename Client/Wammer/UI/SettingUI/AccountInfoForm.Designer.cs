@@ -28,33 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountInfoForm));
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
-            this.SuspendLayout();
-            // 
-            // webBrowser
-            // 
-            resources.ApplyResources(this.webBrowser, "webBrowser");
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
-            // 
-            // AccountInfoForm
-            // 
-            resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.webBrowser);
-            this.Name = "AccountInfoForm";
-            this.ShowInTaskbar = false;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AccountInfoForm_FormClosing);
-            this.Load += new System.EventHandler(this.UserAccount_Load);
-            this.ResumeLayout(false);
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountInfoForm));
+			this.webBrowser = new System.Windows.Forms.WebBrowser();
+			this.logoutButton1 = new StationSystemTray.LogoutButton();
+			this.SuspendLayout();
+			// 
+			// webBrowser
+			// 
+			resources.ApplyResources(this.webBrowser, "webBrowser");
+			this.webBrowser.Name = "webBrowser";
+			this.webBrowser.ScriptErrorsSuppressed = true;
+			this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
+			// 
+			// logoutButton1
+			// 
+			resources.ApplyResources(this.logoutButton1, "logoutButton1");
+			this.logoutButton1.Name = "logoutButton1";
+			this.logoutButton1.UseVisualStyleBackColor = true;
+			this.logoutButton1.Click += new System.EventHandler(this.logoutButton1_Click);
+			// 
+			// AccountInfoForm
+			// 
+			resources.ApplyResources(this, "$this");
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.logoutButton1);
+			this.Controls.Add(this.webBrowser);
+			this.Name = "AccountInfoForm";
+			this.ShowInTaskbar = false;
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AccountInfoForm_FormClosing);
+			this.Load += new System.EventHandler(this.UserAccount_Load);
+			this.ResumeLayout(false);
 
         }
 
         #endregion
 
         private System.Windows.Forms.WebBrowser webBrowser;
+		private StationSystemTray.LogoutButton logoutButton1;
     }
 }
