@@ -205,7 +205,7 @@
       <ComponentRef Id="ImageListView.dll"/>
       <ComponentRef Id="Interop.SHDocVw.dll"/>
       <ComponentRef Id="MonthCalendarControl.dll"/>
-      <ComponentRef Id="Newtonsoft.Json.Net20.dll"/>
+      <ComponentRef Id="Newtonsoft.Json.dll"/>
       <ComponentRef Id="WavefaceWindowsClientHelper.exe"/>
       <ComponentRef Id="WavefaceWindowsClient.exe"/>
       <ComponentRef Id="Waveface.Configuration.dll"/>
@@ -284,8 +284,8 @@
       <Component Id="MonthCalendarControl.dll" Guid="{811AB789-99DE-45DE-BCBB-D7FBAE8B4148}">
         <File Id="MonthCalendarControl.dll" Source="$(var.Wammer.TargetDir)\MonthCalendarControl.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="Newtonsoft.Json.Net20.dll" Guid="{F9C05527-45EB-42FD-800B-3A6602049BBC}">
-        <File Id="Newtonsoft.Json.Net20.dll" Source="$(var.Wammer.TargetDir)\Newtonsoft.Json.Net20.dll" KeyPath="yes" Checksum="yes"/>
+      <Component Id="Newtonsoft.Json.dll" Guid="{F9C05527-45EB-42FD-800B-3A6602049BBB}">
+        <File Id="Newtonsoft.Json.dll" Source="$(var.Wammer.TargetDir)\Newtonsoft.Json.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="WavefaceWindowsClientHelper.exe" Guid="{C33E6305-13B0-43EE-8000-BCE3B0507117}">
         <File Id="WavefaceWindowsClientHelper.exe" Source="$(var.Wammer Helper.TargetPath)" KeyPath="yes" Checksum="yes"/>
