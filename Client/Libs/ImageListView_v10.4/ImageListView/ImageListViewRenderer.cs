@@ -542,6 +542,7 @@ namespace Manina.Windows.Forms
 				displayRange.Width *= 2;
 				displayRange.Height *= 2;
                 List<DrawItemParams> drawItemParams = new List<DrawItemParams>();
+				List<DrawItemParams> prepareDrawItemParams = new List<DrawItemParams>();
                 for (int i = ImageListView.layoutManager.FirstPartiallyVisible; i <= ImageListView.layoutManager.LastPartiallyVisible; i++)
                 {
 					// Get item bounds
@@ -570,12 +571,21 @@ namespace Manina.Windows.Forms
                         state |= ItemState.Focused;
 
 					Trace.WriteLine("bounds: " + bounds.ToString());
+
                     // Add to params to be sorted and drawn
-                    drawItemParams.Add(new DrawItemParams(item, state, bounds));
+					var drawItem = new DrawItemParams(item, state, bounds);
+					if (!Rectangle.Intersect(displayRange, bounds).IsEmpty)
+					{
+						prepareDrawItemParams.Add(drawItem);
+						continue;
+					}
+					drawItemParams.Add(drawItem);
                 }
 
 				// Sort items by draw order
 				drawItemParams.Sort(new ItemDrawOrderComparer(ItemDrawOrder));
+
+				drawItemParams.AddRange(prepareDrawItemParams);
 
                 // Draw items
                 foreach (DrawItemParams param in drawItemParams)
