@@ -58,7 +58,7 @@ namespace Waveface
 
                             NotifyState(ConnectServiceStateType.Cloud);
 
-							s_logger.Warn("Station Disappear");
+                            s_logger.Info("Station Disappear");
                         }
                     }
                     else
@@ -87,7 +87,7 @@ namespace Waveface
 
                                         NotifyState(ConnectServiceStateType.Station_LocalIP);
 
-										s_logger.Warn("Station IP:" + _ip);
+                                        s_logger.Info("Station IP:" + _ip);
 
                                         Delay(5);
                                         continue;
@@ -108,7 +108,7 @@ namespace Waveface
 
                                         NotifyState(ConnectServiceStateType.Station_UPnP);
 
-										s_logger.Warn("Station IP(UPnP):" + _ip);
+                                        s_logger.Info("Station IP(UPnP):" + _ip);
 
                                         Delay(10);
                                         continue;

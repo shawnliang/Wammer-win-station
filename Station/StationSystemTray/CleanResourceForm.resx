@@ -1562,6 +1562,7 @@
   </data>
   <data name="lblConfirm.Location" type="System.Drawing.Point, System.Drawing">
     <value>59, 12</value>
+    <value>59, 24</value>
   </data>
   <data name="lblConfirm.Size" type="System.Drawing.Size, System.Drawing">
     <value>423, 41</value>

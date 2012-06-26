@@ -219,6 +219,12 @@ namespace Manina.Windows.Forms
         /// Draw order is determined by item insertion index.
         /// </summary>
         ItemIndex,
+
+        /// <summary>
+        /// Draw order is determined by Reverse item insertion index.
+        /// </summary>
+        ReverseItemIndex, //@
+
         /// <summary>
         /// Draw order is determined by the ZOrder properties of items.
         /// </summary>

@@ -67,9 +67,6 @@ namespace Waveface.DetailUI
             }
 
             imageListView.View = View.Gallery;
-            imageListView.CacheMode = CacheMode.Continuous;
-
-            //imageListView.AutoRotateThumbnails = false;
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_imageListViewRenderer = new MyImageListViewRenderer();

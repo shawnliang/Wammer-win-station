@@ -17,7 +17,14 @@ namespace Waveface.Component
 
         protected override void WndProc(ref Message m)
         {
-            base.WndProc(ref m);
+            try
+            {
+                base.WndProc(ref m);
+            }
+            catch
+            {
+                return;
+            }
 
             // handle mouse right click message, compute row/col index, call event handler.
             switch (m.Msg)
@@ -100,7 +107,7 @@ namespace Waveface.Component
             int _index = FirstDisplayedScrollingRowIndex;
             int _displayedCount = DisplayedRowCount(true);
 
-            for (int k = 1; k <= _displayedCount;)
+            for (int k = 1; k <= _displayedCount; )
             {
                 if (Rows[_index].Visible)
                 {

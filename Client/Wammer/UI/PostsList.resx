@@ -122,37 +122,37 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="miRemovePost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="miRemovePost.Text" xml:space="preserve">
     <value>Remove Post</value>
   </data>
   <data name="miDisplayAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="miDisplayAll.Text" xml:space="preserve">
     <value>All</value>
   </data>
   <data name="miDisplayText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="miDisplayText.Text" xml:space="preserve">
     <value>Text</value>
   </data>
   <data name="miDisplayPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="miDisplayPhoto.Text" xml:space="preserve">
     <value>Photo</value>
   </data>
   <data name="miDisplayWebLink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="miDisplayWebLink.Text" xml:space="preserve">
     <value>Web Link</value>
   </data>
   <data name="displayToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="displayToolStripMenuItem.Text" xml:space="preserve">
     <value>Display Type</value>
@@ -162,7 +162,7 @@
     <value>False</value>
   </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 70</value>
+    <value>144, 48</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
     <value>contextMenuStrip</value>

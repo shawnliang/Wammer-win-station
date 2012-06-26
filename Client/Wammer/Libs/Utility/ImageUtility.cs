@@ -19,58 +19,62 @@ namespace Waveface
             if (image == null)
                 throw new ArgumentNullException("image");
 
-            try
-            {
-                if ((image.Width >= size) || (image.Height >= size))
-                {
-                    double _prop = image.Width / (double)image.Height;
+			try
+			{
+				if ((image.Width < size) && (image.Height < size)) //圖片比指定大小還小，不需切割
+					return image;
 
-                    int _x;
-                    int _y;
+				var isHorizontalPhoto = image.Width > image.Height;
 
-                    if (image.Width > image.Height)
-                    {
-                        _x = (int)Math.Round(size * _prop, 0);
-                        _y = size;
-                    }
-                    else
-                    {
-                        _x = size;
-                        _y = (int)Math.Round(size / _prop, 0);
-                    }
+				float ratio1 = size / (float)image.Width;
+				float ratio2 = size / (float)image.Height;
+				float ratio = (image.Width < image.Height) ? ratio1 : ratio2;
 
-                    using (Image _img = new Bitmap(image, new Size(_x, _y)))
-                    {
-                        Image _crapped = new Bitmap(size, size);
-                        Graphics _g = Graphics.FromImage(_crapped);
+				Image thumbnail = new Bitmap(image, new Size((int)(image.Width * ratio), (int)(image.Height * ratio)));
 
-                        if (image.Width > image.Height)
-                        {
-                            _g.DrawImage(_img,
-                                         new Rectangle(0, 0, size, size),
-                                         new Rectangle((image.Width - image.Height) / 2, 0, size, size),
-                                         GraphicsUnit.Pixel
-                                );
-                        }
-                        else
-                        {
-                            _g.DrawImage(_img,
-                                         new Rectangle(0, 0, size, size),
-                                         new Rectangle(0, (image.Height - image.Width) / 2, size, size),
-                                         GraphicsUnit.Pixel
-                                );
-                        }
+				if (thumbnail.Width == thumbnail.Height)
+					return thumbnail;
 
-                        return _crapped;
-                    }
-                }
+				using (thumbnail)
+				{
+					//切方圖
+					Image _crapped = new Bitmap(size, size);
+					Graphics _g = Graphics.FromImage(_crapped);
 
-                return image;
-            }
-            catch
-            {
-                return image;
-            }
+					if (isHorizontalPhoto)
+					{
+						var x = (thumbnail.Width - thumbnail.Height) / 2;
+
+						if (thumbnail.Width - x < size)
+							x = thumbnail.Width - size;
+
+						_g.DrawImage(thumbnail,
+									 new Rectangle(0, 0, size, size),
+									 new Rectangle(x, 0, size, size),
+									 GraphicsUnit.Pixel
+							);
+					}
+					else
+					{
+						var y = (int)(thumbnail.Height * 0.08);
+
+						if (thumbnail.Height - y < size)
+							y = thumbnail.Height - size;
+
+						_g.DrawImage(thumbnail,
+									 new Rectangle(0, 0, size, size),
+									 new Rectangle(0, y, size, size),
+									 GraphicsUnit.Pixel
+							);
+					}
+
+					return _crapped;
+				}
+			}
+			catch
+			{
+				return image;
+			}
         }
 
         public static Image GetAvatarImage(string creatorId, string avatarUrl)
