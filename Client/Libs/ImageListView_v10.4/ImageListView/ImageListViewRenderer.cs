@@ -538,7 +538,9 @@ namespace Manina.Windows.Forms
                 if (ImageListView.View == View.Details && ImageListView.Columns.GetDisplayedColumns().Count == 0)
                     return;
 
-				
+				var displayRange = clipRectangle;
+				displayRange.Width *= 2;
+				displayRange.Height *= 2;
                 List<DrawItemParams> drawItemParams = new List<DrawItemParams>();
                 for (int i = ImageListView.layoutManager.FirstPartiallyVisible; i <= ImageListView.layoutManager.LastPartiallyVisible; i++)
                 {
@@ -546,7 +548,7 @@ namespace Manina.Windows.Forms
 					Rectangle bounds = ImageListView.layoutManager.GetItemBounds(i);
 
 
-					if (Rectangle.Intersect(clipRectangle, bounds).IsEmpty)
+					if (Rectangle.Intersect(displayRange, bounds).IsEmpty)
 					{
 						continue;
 					}
