@@ -599,6 +599,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap logout_btn {
+            get {
+                object obj = ResourceManager.GetObject("logout_btn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap logout_btn_press {
+            get {
+                object obj = ResourceManager.GetObject("logout_btn_press", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Magnifier {
             get {
                 object obj = ResourceManager.GetObject("Magnifier", resourceCulture);

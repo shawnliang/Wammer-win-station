@@ -254,6 +254,8 @@ namespace StationSystemTray
 
 			userloginContainer = new UserLoginSettingContainer(settings);
 
+			UpdateTrayMenu();
+
 			iconInit = Icon.FromHandle(Resources.stream_tray_init.GetHicon());
 			iconRunning = Icon.FromHandle(Resources.stream_tray_working.GetHicon());
 			iconPaused = Icon.FromHandle(Resources.stream_tray_pause.GetHicon());
@@ -952,8 +954,7 @@ namespace StationSystemTray
 
 			if (exitCode == -2) // client logout
 			{
-				userloginContainer.CleartCurLoginedSession();
-				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+				Logout();
 			}
 			else if (exitCode == -3) // client unlink
 			{
@@ -1189,6 +1190,11 @@ namespace StationSystemTray
 		}
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
+		{
+			UpdateTrayMenu();
+		}
+
+		private void UpdateTrayMenu()
 		{
 			var lastLogin = userloginContainer.GetCurLoginedSession();
 			LoginedSession loginedSession = null;
@@ -1583,7 +1589,7 @@ namespace StationSystemTray
 
 					m_SettingDialog.Location = this.Location;
 					m_SettingDialog.Icon = this.Icon;
-					//m_SettingDialog.TopMost = true;
+					m_SettingDialog.TopMost = true;
 					m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
 					m_SettingDialog.ShowInTaskbar = !isOpenInTimeline;
 
