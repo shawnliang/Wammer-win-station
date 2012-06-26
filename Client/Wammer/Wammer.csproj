@@ -226,6 +226,7 @@
     <Compile Include="Data\PhotoDownloader.cs" />
     <Compile Include="Data\ImageItem.cs" />
     <Compile Include="Data\PostItemType.cs" />
+    <Compile Include="Extension\FormExtension.cs" />
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
     <Compile Include="Libs\Utility\ControlUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />

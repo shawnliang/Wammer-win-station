@@ -1589,7 +1589,7 @@ namespace StationSystemTray
 
 					m_SettingDialog.Location = this.Location;
 					m_SettingDialog.Icon = this.Icon;
-					//m_SettingDialog.TopMost = true;
+					m_SettingDialog.TopMost = true;
 					m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
 					m_SettingDialog.ShowInTaskbar = !isOpenInTimeline;
 

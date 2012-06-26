@@ -39,6 +39,7 @@ namespace Waveface.DetailUI
         public PhotoView()
         {
             InitializeComponent();
+			//this.FullScreen();
         }
 
         public PhotoView(Post post, List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums, Dictionary<string, string> filesMapping, int selectedIndex)
