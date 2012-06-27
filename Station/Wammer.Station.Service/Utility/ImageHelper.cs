@@ -89,7 +89,7 @@ namespace Wammer.Utility
 		}
 
 
-		public static Bitmap Crop(Bitmap original, int x, int y, int squareSize)
+		public static Bitmap Crop(Image original, int x, int y, int squareSize)
 		{
 			var cropedImage = new Bitmap(squareSize, squareSize);
 
