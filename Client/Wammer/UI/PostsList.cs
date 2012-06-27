@@ -52,7 +52,9 @@ namespace Waveface
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         private int m_cellHeight;
+        private int m_cellLinkHeight;
         private int m_timeBarHeight = 20;
+        private int m_cellLinkHackValue1;
 
         private Dictionary<DateTime, string> m_firstPostInADay;
 
@@ -142,14 +144,22 @@ namespace Waveface
             }
 
             m_cellHeight = (m_fontText.Height * 7) + 6;
+            m_cellLinkHeight = (m_fontText.Height * 7) + 6;
+            m_cellLinkHackValue1 = 0;
+
             m_timeBarHeight = m_fontText.Height;
 
             if (_dpi == 120)
             {
+                m_cellLinkHackValue1 = 2;
                 m_cellHeight = (int)(m_fontText.Height * 6.9);
+                m_cellLinkHeight = (int)(m_fontText.Height * 7);
 
                 if (CultureManager.ApplicationUICulture.Name == "zh-TW")
-                    m_cellHeight = (int)(m_fontText.Height * 7.28);
+                {
+                    m_cellLinkHeight = (int)(m_fontText.Height * 6.7);
+                    m_cellHeight = (int)(m_fontText.Height * 7.3);
+                }
             }
 
             dataGridView.RowTemplate.Height = m_cellHeight;
@@ -208,19 +218,27 @@ namespace Waveface
             {
                 DateTime _dt = DateTimeHelp.ISO8601ToDateTime(m_posts[i].timestamp).Date;
 
+                bool _isLinkPost = m_posts[i].type == "link";
+
                 if (m_firstPostInADay.ContainsValue(m_posts[i].post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
                 {
-                    dataGridView.Rows[i].Height = m_cellHeight + m_timeBarHeight;
+                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
                 }
                 else
                 {
-                    dataGridView.Rows[i].Height = m_cellHeight;
+                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
                 }
 
-                if (m_posts[i].type == "link")
+                if (_isLinkPost)
                 {
-                    if (m_posts[i].content != null)
-                        dataGridView.Rows[i].Height += m_fontText.Height * 2;
+                    if (!string.IsNullOrEmpty(m_posts[i].content))
+                    {
+                        dataGridView.Rows[i].Height += m_fontText.Height;
+                    }
+                    else
+                    {
+                        dataGridView.Rows[i].Height -= m_fontText.Height;
+                    }
                 }
 
                 _k++;
@@ -374,16 +392,15 @@ namespace Waveface
 
                 if (_post.type == "link")
                 {
-                    if (_post.content != null)
+                    if (!string.IsNullOrEmpty(_post.content))
                     {
-                        Rectangle _rTContent = new Rectangle(_X + 4, _Y + 6, e.CellBounds.Width - 8, m_fontText.Height * 2);
+                        Rectangle _rTContent = new Rectangle(_X + 4, _Y + 6, e.CellBounds.Width - 8, m_fontText.Height * 2 - m_cellLinkHackValue1);
 
                         TextRenderer.DrawText(_g, _post.content.Trim(), m_fontText, _rTContent, m_textColor,
                                               TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
 
                         _Y += m_fontText.Height * 2;
                         _H -= m_fontText.Height * 2;
-
                     }
 
                     Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
@@ -392,7 +409,7 @@ namespace Waveface
 
                     _isDrawThumbnail = DrawLinkThumbnail(_g, _thumbnailRect, _post);
 
-                    _g.FillRectangle(Brushes.LightGray, 10, _Y + 10, 2, PicHeight + 16);
+                    _g.FillRectangle(Brushes.LightGray, 10, _Y + 10, 2, PicHeight);
 
                     int _offsetThumbnail_W = (_isDrawThumbnail ? _thumbnailRect.Width + 12 : 12);
 
@@ -444,7 +461,6 @@ namespace Waveface
 
         private void DrawTimeBar(DataGridViewCellPaintingEventArgs e, DateTime dt)
         {
-            //e.Graphics.FillRectangle(Brushes.LightGray, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, m_timeBarHeight);
             e.Graphics.DrawImage(Properties.Resources.timebar, e.CellBounds.Left, e.CellBounds.Top);
 
             using (Brush _brush = new SolidBrush(m_textColor))
@@ -462,7 +478,7 @@ namespace Waveface
 
             if (!string.IsNullOrEmpty(post.preview.title))
             {
-                TextRenderer.DrawText(g, post.preview.title.Trim(), m_fontLinkTitle, _rTitle, m_textColor,
+                TextRenderer.DrawText(g, post.preview.title.Trim(), m_fontLinkTitle, _rTitle, m_selectedTextColor,
                                       TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
             }
 
@@ -471,7 +487,7 @@ namespace Waveface
             Rectangle _rURL = new Rectangle(rect.X + offsetX + 4, _rTitle.Bottom + 2, rect.Width - offsetX - 8,
                                             _sizeURL.Height);
 
-            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_selectedTextColor, TextFormatFlags.EndEllipsis);
+            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_textColor, TextFormatFlags.EndEllipsis);
 
             Rectangle _rText = new Rectangle(rect.X + offsetX + 4, _rURL.Bottom + 2, rect.Width - offsetX - 8,
                                              rect.Height - _rTitle.Height - _rURL.Height - 20);
