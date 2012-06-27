@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -54,7 +55,7 @@ namespace Waveface
         private int m_cellHeight;
         private int m_cellLinkHeight;
         private int m_timeBarHeight = 20;
-        private int m_cellLinkHackValue1;
+        private int m_cellLinkHackValue;
 
         private Dictionary<DateTime, string> m_firstPostInADay;
 
@@ -145,13 +146,13 @@ namespace Waveface
 
             m_cellHeight = (m_fontText.Height * 7) + 6;
             m_cellLinkHeight = (m_fontText.Height * 7) + 6;
-            m_cellLinkHackValue1 = 0;
+            m_cellLinkHackValue = 0;
 
             m_timeBarHeight = m_fontText.Height;
 
             if (_dpi == 120)
             {
-                m_cellLinkHackValue1 = 2;
+                m_cellLinkHackValue = 2;
                 m_cellHeight = (int)(m_fontText.Height * 6.9);
                 m_cellLinkHeight = (int)(m_fontText.Height * 7);
 
@@ -321,7 +322,7 @@ namespace Waveface
 
         private Color m_inforColor = Color.FromArgb(95, 121, 143);
         private Color m_textColor = Color.FromArgb(57, 80, 85);
-        private Color m_selectedTextColor = Color.FromArgb(89, 154, 174);
+        private Color m_selectedTextColor = Color.FromArgb(57, 80, 85); //Color.FromArgb(89, 154, 174);
         private Color m_linkURLColor = Color.FromArgb(95, 121, 143);
 
         private Font m_fontInfo = new Font("Arial", 8, FontStyle.Bold);
@@ -388,32 +389,40 @@ namespace Waveface
                     DrawTimeBar(e, _dt);
                 }
 
+                if (_post.type == "image")
+                {
+                    Attachment _a = GetCoverImageAttachment(_post);
+                    Bitmap _bmp = LoadAttachmentThumbnail(_a);
+
+                    if (_bmp != null)
+                    {
+                        ColorMatrix _matrix = new ColorMatrix();
+                        _matrix.Matrix33 = 0.0618f;
+
+                        ImageAttributes _attributes = new ImageAttributes();
+                        _attributes.SetColorMatrix(_matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                        int _oX = 0;
+                        int _oY = 0;
+
+                        if (_bmp.Width > _bmp.Height)
+                        {
+                            _oX = (_bmp.Width - _bmp.Height) / 2;
+                        }
+                        else
+                        {
+                            _oY = (_bmp.Height - _bmp.Width) / 2;
+                        }
+
+                        _g.DrawImage(_bmp, new Rectangle(_X, _Y, _W, _H), _oX, _oY, _bmp.Width - (_oX * 2), _bmp.Height - (_oY * 2), GraphicsUnit.Pixel, _attributes);
+                    }
+                }
+
                 _g.DrawRectangle(Pens.LightGray, e.CellBounds.X, e.CellBounds.Y, e.CellBounds.Width, e.CellBounds.Height);
 
                 if (_post.type == "link")
                 {
-                    if (!string.IsNullOrEmpty(_post.content))
-                    {
-                        Rectangle _rTContent = new Rectangle(_X + 4, _Y + 6, e.CellBounds.Width - 8, m_fontText.Height * 2 - m_cellLinkHackValue1);
-
-                        TextRenderer.DrawText(_g, _post.content.Trim(), m_fontText, _rTContent, m_textColor,
-                                              TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
-
-                        _Y += m_fontText.Height * 2;
-                        _H -= m_fontText.Height * 2;
-                    }
-
-                    Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
-
-                    Rectangle _thumbnailRect = new Rectangle(18, _Y + 10, PicWidth - 12, PicHeight - 12);
-
-                    _isDrawThumbnail = DrawLinkThumbnail(_g, _thumbnailRect, _post);
-
-                    _g.FillRectangle(Brushes.LightGray, 10, _Y + 10, 2, PicHeight);
-
-                    int _offsetThumbnail_W = (_isDrawThumbnail ? _thumbnailRect.Width + 12 : 12);
-
-                    Draw_LinkContent(_g, _post, _cellRect, _offsetThumbnail_W, _selected);
+                    DrawLink(e, _post, _selected, _X, _Y, _W, _H);
                 }
                 else
                 {
@@ -459,6 +468,35 @@ namespace Waveface
             //Trace.WriteLine(String.Format("dataGridView_CellPainting elapsed {0} ms", sw.ElapsedMilliseconds.ToString()));
         }
 
+        private void DrawLink(DataGridViewCellPaintingEventArgs e, Post post, bool selected, int X, int Y, int W, int H)
+        {
+            Graphics _g = e.Graphics;
+
+            if (!string.IsNullOrEmpty(post.content))
+            {
+                Rectangle _rTContent = new Rectangle(X + 4, Y + 6, e.CellBounds.Width - 8,
+                                                     m_fontText.Height * 2 - m_cellLinkHackValue);
+
+                TextRenderer.DrawText(_g, post.content.Trim(), m_fontText, _rTContent, m_textColor,
+                                      TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+
+                Y += m_fontText.Height * 2;
+                H -= m_fontText.Height * 2;
+            }
+
+            Rectangle _cellRect = new Rectangle(X, Y, W, H);
+
+            Rectangle _thumbnailRect = new Rectangle(18, Y + 10, PicWidth - 12, PicHeight - 12);
+
+            bool _isDrawThumbnail = DrawLinkThumbnail(_g, _thumbnailRect, post);
+
+            _g.FillRectangle(Brushes.LightGray, 10, Y + 10, 2, PicHeight);
+
+            int _offsetThumbnail_W = (_isDrawThumbnail ? _thumbnailRect.Width + 12 : 12);
+
+            Draw_LinkContent(_g, post, _cellRect, _offsetThumbnail_W, selected);
+        }
+
         private void DrawTimeBar(DataGridViewCellPaintingEventArgs e, DateTime dt)
         {
             e.Graphics.DrawImage(Properties.Resources.timebar, e.CellBounds.Left, e.CellBounds.Top);
@@ -478,7 +516,7 @@ namespace Waveface
 
             if (!string.IsNullOrEmpty(post.preview.title))
             {
-                TextRenderer.DrawText(g, post.preview.title.Trim(), m_fontLinkTitle, _rTitle, m_selectedTextColor,
+                TextRenderer.DrawText(g, post.preview.title.Trim(), m_fontLinkTitle, _rTitle, Color.FromArgb(89, 154, 174),
                                       TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
             }
 
@@ -590,7 +628,7 @@ namespace Waveface
 
                     _url = Main.Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
 
-                    Bitmap _img = LoadThumbnail(_url, _localPic);
+                    Bitmap _img = LoadThumbnail(_url, _localPic, false);
 
                     DrawResizedThumbnail(thumbnailRect, g, _img);
                 }
@@ -645,7 +683,7 @@ namespace Waveface
                     string _localPic = Path.Combine(Main.GCONST.AppDataPath,
                                                     post.post_id + "_previewthumbnail_" + _hashCode + ".jpg");
 
-                    Bitmap _img = LoadThumbnail(_url, _localPic);
+                    Bitmap _img = LoadThumbnail(_url, _localPic, false);
 
                     DrawResizedThumbnail(thumbnailRect, g, _img);
                 }
@@ -662,21 +700,7 @@ namespace Waveface
         {
             try
             {
-                Attachment _attachment = post.attachments[0];
-
-                if (post.cover_attach != null)
-                {
-                    string _cover_attach = post.cover_attach;
-
-                    foreach (Attachment _a in post.attachments)
-                    {
-                        if (_cover_attach == _a.object_id)
-                        {
-                            _attachment = _a;
-                            break;
-                        }
-                    }
-                }
+                Attachment _attachment = GetCoverImageAttachment(post);
 
                 DrawResizedThumbnail_2(thumbnailRect, g, _attachment);
             }
@@ -688,7 +712,28 @@ namespace Waveface
             return true;
         }
 
-        private Bitmap LoadThumbnail(string url, string localPicPath)
+        private Attachment GetCoverImageAttachment(Post post)
+        {
+            Attachment _attachment = post.attachments[0];
+
+            if (post.cover_attach != null)
+            {
+                string _cover_attach = post.cover_attach;
+
+                foreach (Attachment _a in post.attachments)
+                {
+                    if (_cover_attach == _a.object_id)
+                    {
+                        _attachment = _a;
+                        break;
+                    }
+                }
+            }
+
+            return _attachment;
+        }
+
+        private Bitmap LoadThumbnail(string url, string localPicPath, bool forceNull)
         {
             Bitmap _img;
 
@@ -698,6 +743,9 @@ namespace Waveface
             }
             else
             {
+                if (forceNull)
+                    return null;
+
                 ImageItem _item = new ImageItem();
                 _item.PostItemType = PostItemType.Thumbnail;
                 _item.ThumbnailPath = url;
@@ -721,15 +769,22 @@ namespace Waveface
 
         private void DrawResizedThumbnail_2(Rectangle thumbnailRect, Graphics g, Attachment a)
         {
+            var _img = LoadAttachmentThumbnail(a);
+
+            DrawResizedThumbnail(thumbnailRect, g, _img);
+        }
+
+        private Bitmap LoadAttachmentThumbnail(Attachment a)
+        {
             string _url = string.Empty;
             string _fileName = string.Empty;
             Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName, false);
 
             string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _fileName);
 
-            Bitmap _img = LoadThumbnail(_url, _localPic);
+            Bitmap _img = LoadThumbnail(_url, _localPic, true);
 
-            DrawResizedThumbnail(thumbnailRect, g, _img);
+            return _img;
         }
 
         private static void DrawResizedThumbnail(Rectangle thumbnailRect, Graphics g, Image image)
