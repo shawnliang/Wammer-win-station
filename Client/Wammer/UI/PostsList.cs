@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -52,7 +53,9 @@ namespace Waveface
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         private int m_cellHeight;
-        private int m_dateAreaHeight = 20;
+        private int m_cellLinkHeight;
+        private int m_timeBarHeight = 20;
+        private int m_cellLinkHackValue;
 
         private Dictionary<DateTime, string> m_firstPostInADay;
 
@@ -81,16 +84,16 @@ namespace Waveface
 
         public PostsList()
         {
-			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			SetStyle(ControlStyles.DoubleBuffer, true);
-			SetStyle(ControlStyles.ResizeRedraw, true);
-			SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.DoubleBuffer, true);
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.UserPaint, true);
 
             InitializeComponent();
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
 
-			DoubleBufferedX(dataGridView, true);
+            DoubleBufferedX(dataGridView, true);
         }
 
         public void DoubleBufferedX(DataGridView dgv, bool setting)
@@ -142,13 +145,22 @@ namespace Waveface
             }
 
             m_cellHeight = (m_fontText.Height * 7) + 6;
+            m_cellLinkHeight = (m_fontText.Height * 7) + 6;
+            m_cellLinkHackValue = 0;
+
+            m_timeBarHeight = m_fontText.Height;
 
             if (_dpi == 120)
             {
+                m_cellLinkHackValue = 2;
                 m_cellHeight = (int)(m_fontText.Height * 6.9);
+                m_cellLinkHeight = (int)(m_fontText.Height * 7);
 
                 if (CultureManager.ApplicationUICulture.Name == "zh-TW")
-                    m_cellHeight = (int)(m_fontText.Height * 7.28);
+                {
+                    m_cellLinkHeight = (int)(m_fontText.Height * 6.7);
+                    m_cellHeight = (int)(m_fontText.Height * 7.3);
+                }
             }
 
             dataGridView.RowTemplate.Height = m_cellHeight;
@@ -200,18 +212,37 @@ namespace Waveface
 
         private void ResizeCell()
         {
-            for (int i = 0; i < m_posts.Count; i++)
+            int _s = dataGridView.FirstDisplayedScrollingRowIndex;
+            int _k = 0;
+
+            for (int i = _s; (i < m_posts.Count) && (_k < 16); i++)
             {
                 DateTime _dt = DateTimeHelp.ISO8601ToDateTime(m_posts[i].timestamp).Date;
 
+                bool _isLinkPost = m_posts[i].type == "link";
+
                 if (m_firstPostInADay.ContainsValue(m_posts[i].post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
                 {
-                    dataGridView.Rows[i].Height = m_cellHeight + m_dateAreaHeight;
+                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
                 }
                 else
                 {
-                    dataGridView.Rows[i].Height = m_cellHeight;
+                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
                 }
+
+                if (_isLinkPost)
+                {
+                    if (!string.IsNullOrEmpty(m_posts[i].content))
+                    {
+                        dataGridView.Rows[i].Height += m_fontText.Height;
+                    }
+                    else
+                    {
+                        dataGridView.Rows[i].Height -= m_fontText.Height;
+                    }
+                }
+
+                _k++;
             }
         }
 
@@ -291,7 +322,7 @@ namespace Waveface
 
         private Color m_inforColor = Color.FromArgb(95, 121, 143);
         private Color m_textColor = Color.FromArgb(57, 80, 85);
-        private Color m_selectedTextColor = Color.FromArgb(89, 154, 174);
+        private Color m_selectedTextColor = Color.FromArgb(57, 80, 85); //Color.FromArgb(89, 154, 174);
         private Color m_linkURLColor = Color.FromArgb(95, 121, 143);
 
         private Font m_fontInfo = new Font("Arial", 8, FontStyle.Bold);
@@ -301,7 +332,7 @@ namespace Waveface
 
         private void dataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-			//var sw = Stopwatch.StartNew();
+            //var sw = Stopwatch.StartNew();
             try
             {
                 bool _isDrawThumbnail;
@@ -312,7 +343,7 @@ namespace Waveface
                 //_g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                 //_g.SmoothingMode = SmoothingMode.HighQuality;
 
-				Trace.WriteLine("cell index: " + e.RowIndex.ToString());
+                Trace.WriteLine("cell index: " + e.RowIndex.ToString());
                 Post _post = m_postBS[e.RowIndex] as Post;
 
                 DateTime _dt = DateTimeHelp.ISO8601ToDateTime(_post.timestamp).Date;
@@ -339,55 +370,89 @@ namespace Waveface
 
                 if (_isFirstPostInADay && !_isFirstDisplayed)
                 {
-                    _Y += m_dateAreaHeight;
-                    _H -= m_dateAreaHeight;
+                    _Y += m_timeBarHeight;
+                    _H -= m_timeBarHeight;
                 }
-
-                Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
-
-                _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
 
                 // Draw background
                 if (_selected)
                 {
                     _g.FillRectangle(m_bgSelectedBrush, e.CellBounds);
                 }
+                else
+                {
+                    _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
+                }
 
                 if (_isFirstPostInADay && !_isFirstDisplayed)
                 {
-                    DrawDateArea(e, _dt);
+                    DrawTimeBar(e, _dt);
+                }
+
+                if (_post.type == "image")
+                {
+                    Attachment _a = GetCoverImageAttachment(_post);
+                    Bitmap _bmp = LoadAttachmentThumbnail(_a);
+
+                    if (_bmp != null)
+                    {
+                        ColorMatrix _matrix = new ColorMatrix();
+                        _matrix.Matrix33 = 0.0618f;
+
+                        ImageAttributes _attributes = new ImageAttributes();
+                        _attributes.SetColorMatrix(_matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                        int _oX = 0;
+                        int _oY = 0;
+
+                        if (_bmp.Width > _bmp.Height)
+                        {
+                            _oX = (_bmp.Width - _bmp.Height) / 2;
+                        }
+                        else
+                        {
+                            _oY = (_bmp.Height - _bmp.Width) / 2;
+                        }
+
+                        _g.DrawImage(_bmp, new Rectangle(_X, _Y, _W, _H), _oX, _oY, _bmp.Width - (_oX * 2), _bmp.Height - (_oY * 2), GraphicsUnit.Pixel, _attributes);
+                    }
                 }
 
                 _g.DrawRectangle(Pens.LightGray, e.CellBounds.X, e.CellBounds.Y, e.CellBounds.Width, e.CellBounds.Height);
 
-                Rectangle _thumbnailRect = new Rectangle(e.CellBounds.Width - PicWidth - 10, _Y + 8, PicWidth, PicHeight);
-
-                _isDrawThumbnail = DrawThumbnail(_g, _thumbnailRect, _post);
-
-                int _offsetThumbnail_W = (_isDrawThumbnail ? _thumbnailRect.Width : 0);
-
-                int _underThumbnailHeight = 17;
-
-                switch (_post.type)
+                if (_post.type == "link")
                 {
-                    case "text":
-                        Draw_Text_Post(_g, _post, _cellRect, _underThumbnailHeight, m_fontText, _selected);
-                        break;
-
-                    case "rtf":
-                        Draw_RichText_Post(_g, _post, _cellRect, _underThumbnailHeight, m_fontText, _thumbnailRect.Width);
-                        break;
-
-                    case "image":
-                    case "doc":
-                        Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width, _selected, _thumbnailRect.Height);
-                        break;
-
-                    case "link":
-                        Draw_Link(_g, _post, _cellRect, _thumbnailRect.Width, _thumbnailRect.Width, _selected);
-                        break;
+                    DrawLink(e, _post, _selected, _X, _Y, _W, _H);
                 }
+                else
+                {
+                    Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
 
+                    Rectangle _thumbnailRect = new Rectangle(e.CellBounds.Width - PicWidth - 10, _Y + 8, PicWidth,
+                                                             PicHeight);
+
+                    _isDrawThumbnail = DrawThumbnail(_g, _thumbnailRect, _post);
+
+                    int _underThumbnailHeight = 17;
+
+                    switch (_post.type)
+                    {
+                        case "text":
+                            Draw_Text_Post(_g, _post, _cellRect, _underThumbnailHeight, m_fontText, _selected);
+                            break;
+
+                        case "rtf":
+                            Draw_RichText_Post(_g, _post, _cellRect, _underThumbnailHeight, m_fontText,
+                                               _thumbnailRect.Width);
+                            break;
+
+                        case "image":
+                        case "doc":
+                            Draw_Photo_Doc_Post(_g, _post, _cellRect, _underThumbnailHeight, _thumbnailRect.Width,
+                                                _selected, _thumbnailRect.Height);
+                            break;
+                    }
+                }
             }
             catch (Exception _e)
             {
@@ -399,40 +464,70 @@ namespace Waveface
             }
 
             e.Handled = true;
-			
-			//Trace.WriteLine(String.Format("dataGridView_CellPainting elapsed {0} ms", sw.ElapsedMilliseconds.ToString()));
+
+            //Trace.WriteLine(String.Format("dataGridView_CellPainting elapsed {0} ms", sw.ElapsedMilliseconds.ToString()));
         }
 
-        private void DrawDateArea(DataGridViewCellPaintingEventArgs e, DateTime dt)
+        private void DrawLink(DataGridViewCellPaintingEventArgs e, Post post, bool selected, int X, int Y, int W, int H)
         {
-            e.Graphics.FillRectangle(Brushes.Gray, e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width, m_dateAreaHeight);
-            e.Graphics.DrawString(dt.Date.ToString("yyyy-MM-dd (ddd)"), m_fontText, Brushes.WhiteSmoke, e.CellBounds.Left + 4, e.CellBounds.Top + 2);
+            Graphics _g = e.Graphics;
+
+            if (!string.IsNullOrEmpty(post.content))
+            {
+                Rectangle _rTContent = new Rectangle(X + 4, Y + 6, e.CellBounds.Width - 8,
+                                                     m_fontText.Height * 2 - m_cellLinkHackValue);
+
+                TextRenderer.DrawText(_g, post.content.Trim(), m_fontText, _rTContent, m_textColor,
+                                      TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+
+                Y += m_fontText.Height * 2;
+                H -= m_fontText.Height * 2;
+            }
+
+            Rectangle _cellRect = new Rectangle(X, Y, W, H);
+
+            Rectangle _thumbnailRect = new Rectangle(18, Y + 10, PicWidth - 12, PicHeight - 12);
+
+            bool _isDrawThumbnail = DrawLinkThumbnail(_g, _thumbnailRect, post);
+
+            _g.FillRectangle(Brushes.LightGray, 10, Y + 10, 2, PicHeight);
+
+            int _offsetThumbnail_W = (_isDrawThumbnail ? _thumbnailRect.Width + 12 : 12);
+
+            Draw_LinkContent(_g, post, _cellRect, _offsetThumbnail_W, selected);
         }
 
-        private void Draw_Link(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth,
-                               bool selected)
+        private void DrawTimeBar(DataGridViewCellPaintingEventArgs e, DateTime dt)
         {
-            if (string.IsNullOrEmpty(post.preview.thumbnail_url))
-                thumbnailRectWidth = 0;
+            e.Graphics.DrawImage(Properties.Resources.timebar, e.CellBounds.Left, e.CellBounds.Top);
 
+            using (Brush _brush = new SolidBrush(m_textColor))
+            {
+                e.Graphics.DrawString(dt.Date.ToString("yyyy-MM-dd (ddd)"), m_fontText, _brush,
+                                      e.CellBounds.Left + 4, e.CellBounds.Top + 2);
+            }
+        }
+
+        private void Draw_LinkContent(Graphics g, Post post, Rectangle rect, int offsetX, bool selected)
+        {
             Size _sizeTitle = TextRenderer.MeasureText(g, "-- Tg --", m_fontLinkTitle);
-            Rectangle _rTitle = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8,
+            Rectangle _rTitle = new Rectangle(rect.X + offsetX + 4, rect.Y + 8, rect.Width - offsetX - 8,
                                               _sizeTitle.Height);
 
             if (!string.IsNullOrEmpty(post.preview.title))
             {
-                TextRenderer.DrawText(g, post.preview.title.Trim(), m_fontLinkTitle, _rTitle, m_textColor,
+                TextRenderer.DrawText(g, post.preview.title.Trim(), m_fontLinkTitle, _rTitle, Color.FromArgb(89, 154, 174),
                                       TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
             }
 
             string _url = StringUtility.ExtractDomainNameFromURL(post.preview.url);
             Size _sizeURL = TextRenderer.MeasureText(g, _url, m_fontLinkURL);
-            Rectangle _rURL = new Rectangle(rect.X + 4, _rTitle.Bottom + 2, rect.Width - thumbnailRectWidth - 8,
+            Rectangle _rURL = new Rectangle(rect.X + offsetX + 4, _rTitle.Bottom + 2, rect.Width - offsetX - 8,
                                             _sizeURL.Height);
 
-            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_selectedTextColor, TextFormatFlags.EndEllipsis);
+            TextRenderer.DrawText(g, _url, m_fontLinkURL, _rURL, m_textColor, TextFormatFlags.EndEllipsis);
 
-            Rectangle _rText = new Rectangle(rect.X + 4, _rURL.Bottom + 2, rect.Width - thumbnailRectWidth - 8,
+            Rectangle _rText = new Rectangle(rect.X + offsetX + 4, _rURL.Bottom + 2, rect.Width - offsetX - 8,
                                              rect.Height - _rTitle.Height - _rURL.Height - 20);
 
             if (!string.IsNullOrEmpty(post.preview.description))
@@ -504,9 +599,6 @@ namespace Waveface
                 case "image":
                     return DrawPhotoThumbnail(g, thumbnailRect, post);
 
-                case "link":
-                    return DrawLinkThumbnail(g, thumbnailRect, post);
-
                 case "rtf":
                     return DrawRtfThumbnail(thumbnailRect, g, post);
 
@@ -536,7 +628,7 @@ namespace Waveface
 
                     _url = Main.Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
 
-                    Bitmap _img = LoadThumbnail(_url, _localPic);
+                    Bitmap _img = LoadThumbnail(_url, _localPic, false);
 
                     DrawResizedThumbnail(thumbnailRect, g, _img);
                 }
@@ -591,7 +683,7 @@ namespace Waveface
                     string _localPic = Path.Combine(Main.GCONST.AppDataPath,
                                                     post.post_id + "_previewthumbnail_" + _hashCode + ".jpg");
 
-                    Bitmap _img = LoadThumbnail(_url, _localPic);
+                    Bitmap _img = LoadThumbnail(_url, _localPic, false);
 
                     DrawResizedThumbnail(thumbnailRect, g, _img);
                 }
@@ -608,21 +700,7 @@ namespace Waveface
         {
             try
             {
-                Attachment _attachment = post.attachments[0];
-
-                if (post.cover_attach != null)
-                {
-                    string _cover_attach = post.cover_attach;
-
-                    foreach (Attachment _a in post.attachments)
-                    {
-                        if (_cover_attach == _a.object_id)
-                        {
-                            _attachment = _a;
-                            break;
-                        }
-                    }
-                }
+                Attachment _attachment = GetCoverImageAttachment(post);
 
                 DrawResizedThumbnail_2(thumbnailRect, g, _attachment);
             }
@@ -634,7 +712,28 @@ namespace Waveface
             return true;
         }
 
-        private Bitmap LoadThumbnail(string url, string localPicPath)
+        private Attachment GetCoverImageAttachment(Post post)
+        {
+            Attachment _attachment = post.attachments[0];
+
+            if (post.cover_attach != null)
+            {
+                string _cover_attach = post.cover_attach;
+
+                foreach (Attachment _a in post.attachments)
+                {
+                    if (_cover_attach == _a.object_id)
+                    {
+                        _attachment = _a;
+                        break;
+                    }
+                }
+            }
+
+            return _attachment;
+        }
+
+        private Bitmap LoadThumbnail(string url, string localPicPath, bool forceNull)
         {
             Bitmap _img;
 
@@ -644,6 +743,9 @@ namespace Waveface
             }
             else
             {
+                if (forceNull)
+                    return null;
+
                 ImageItem _item = new ImageItem();
                 _item.PostItemType = PostItemType.Thumbnail;
                 _item.ThumbnailPath = url;
@@ -667,15 +769,22 @@ namespace Waveface
 
         private void DrawResizedThumbnail_2(Rectangle thumbnailRect, Graphics g, Attachment a)
         {
+            var _img = LoadAttachmentThumbnail(a);
+
+            DrawResizedThumbnail(thumbnailRect, g, _img);
+        }
+
+        private Bitmap LoadAttachmentThumbnail(Attachment a)
+        {
             string _url = string.Empty;
             string _fileName = string.Empty;
             Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName, false);
 
             string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _fileName);
 
-            Bitmap _img = LoadThumbnail(_url, _localPic);
+            Bitmap _img = LoadThumbnail(_url, _localPic, true);
 
-            DrawResizedThumbnail(thumbnailRect, g, _img);
+            return _img;
         }
 
         private static void DrawResizedThumbnail(Rectangle thumbnailRect, Graphics g, Image image)
@@ -944,7 +1053,7 @@ namespace Waveface
             this.dataGridView.RowTemplate.ReadOnly = true;
             this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView.VirtualMode = true;
+            this.dataGridView.VirtualMode = true;
             this.dataGridView.ContextMenuStripNeeded += new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(this.dataGridView_ContextMenuStripNeeded);
             this.dataGridView.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.dataGridView_CellContextMenuStripNeeded);
             this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
@@ -1040,9 +1149,19 @@ namespace Waveface
         {
             ResizeCell();
 
-            Post _post = m_postBS[dataGridView.FirstDisplayedScrollingRowIndex] as Post;
-            DateTime _dt = DateTimeHelp.ISO8601ToDateTime(_post.timestamp).Date;
-            MyParent.SetDateText = _dt.Date.ToString("yyyy-MM-dd (ddd)");
+            MyParent.SetDateTextFont(m_fontText);
+
+            if (m_posts.Count > 0)
+            {
+                Post _post = m_postBS[dataGridView.FirstDisplayedScrollingRowIndex] as Post;
+                DateTime _dt = DateTimeHelp.ISO8601ToDateTime(_post.timestamp).Date;
+
+                MyParent.SetDateText(_dt.Date.ToString("yyyy-MM-dd (ddd)"));
+            }
+            else
+            {
+                MyParent.SetDateText("");
+            }
         }
 
         #region Drag & Drop

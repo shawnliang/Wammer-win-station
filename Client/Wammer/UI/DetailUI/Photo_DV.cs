@@ -539,13 +539,8 @@ namespace Waveface.DetailUI
 
             try
             {
-                int _h = m_imageAttachments.Count / 2;
-
                 for (int i = 0; i < m_imageAttachments.Count; i++)
                 {
-                    if (i == _h)
-                        Application.DoEvents();
-
                     if (imageListView.Items[i].FileName == m_filePathMediums[i])
                     {
                         k++;
@@ -633,7 +628,7 @@ namespace Waveface.DetailUI
             {
             }
 
-            ChengeThumbnailSize(imageListView, 96, 14);
+            ChengeThumbnailSize(imageListView, 104, 14);
         }
 
         public static void ChengeThumbnailSize(ImageListView imgListView, int smallest, int padding)
