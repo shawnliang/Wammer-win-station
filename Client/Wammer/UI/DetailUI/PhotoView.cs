@@ -10,6 +10,7 @@ using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Configuration;
 using View = Manina.Windows.Forms.View;
+using System.Diagnostics;
 
 #endregion
 
@@ -22,16 +23,13 @@ namespace Waveface.DetailUI
         private const string LOADING = "Loading";
 
         private Dictionary<string, string> m_filesMapping;
-        private ImageListViewItem m_selectedImage;
         private bool m_onlyOnePhoto;
         private int m_loadingPhotosCount;
         private int m_loadingOriginPhotosCount;
         private List<Attachment> m_imageAttachments;
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
-        private int m_selectedImageIndex;
-        private int m_initSelectedImageIndex;
-        private MyImageListViewRenderer m_imageListViewRenderer;
+		//private int m_selectedImageIndex;
         private string m_selectedImageType;
         private Post m_post;
         private FormSettings m_formSettings;
@@ -39,7 +37,7 @@ namespace Waveface.DetailUI
         public PhotoView()
         {
             InitializeComponent();
-			//this.FullScreen();
+			this.FullScreen();
         }
 
         public PhotoView(Post post, List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums, Dictionary<string, string> filesMapping, int selectedIndex)
@@ -67,224 +65,19 @@ namespace Waveface.DetailUI
                 miSetAsCoverImage.Visible = false;
             }
 
-            imageListView.View = View.Gallery;
-            imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
-
-            m_imageListViewRenderer = new MyImageListViewRenderer();
-            m_imageListViewRenderer.Clip = false;
-
-            imageListView.SetRenderer(m_imageListViewRenderer);
-
-            m_initSelectedImageIndex = selectedIndex;
+			thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
+			thumbnailNavigator1.ThumbnailWidth = 64;
+			thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
+			thumbnailNavigator1.LoadThumbnails(filePathMediums, selectedIndex);
         }
 
-        private void PhotoView_Load(object sender, EventArgs e)
-        {
-            imageListView.Dock = DockStyle.Fill; //Hack
+		void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			imageBox.Image = new Bitmap(m_filePathMediums[thumbnailNavigator1.SelectedIndex]);
 
-            timer.Interval = ((m_imageAttachments.Count / 200) + 2) * 1000;
-
-            if (!FillImageListView(true))
-                timer.Enabled = true;
-
-            ReArrangeUI();
-
-            setSelectedItem(m_initSelectedImageIndex);
-
-            imageListView.Select();
-        }
-
-        private void setSelectedItem(int selectedIndex)
-        {
-            imageListView.ClearSelection();
-
-            imageListView.Items[selectedIndex].Focused = true;
-            imageListView.Items[selectedIndex].Selected = true;
-
-            imageListView.EnsureVisible(selectedIndex);
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            FillImageListView(false);
-        }
-
-        private bool FillImageListView(bool firstTime)
-        {
-            int _count = 0;
-            int _origin = 0;
-
-            for (int i = 0; i < m_imageAttachments.Count; i++)
-            {
-                if (File.Exists(m_filePathOrigins[i]))
-                {
-                    _count++;
-                    _origin++;
-
-                    continue;
-                }
-
-                if (File.Exists(m_filePathMediums[i]))
-                {
-                    _count++;
-
-                    continue;
-                }
-            }
-
-            bool _show1 = (m_loadingPhotosCount != m_imageAttachments.Count);
-            bool _show2 = (m_loadingOriginPhotosCount != _origin);
-
-            m_loadingPhotosCount = _count;
-            m_loadingOriginPhotosCount = _origin;
-
-            if (_origin == m_imageAttachments.Count)
-            {
-                ShowImageListView(firstTime);
-
-                timer.Enabled = false;
-                return true;
-            }
-
-            if (_show1 || _show2)
-            {
-                ShowImageListView(firstTime);
-                return false;
-            }
-
-            return false;
-        }
-
-        private void ShowImageListView(bool firstTime)
-        {
-            int k = 0;
-
-            bool _reload = firstTime || checkSelectedImageTypeChange();
-
-            if (_reload)
-                imageListView.Items.Clear();
-
-            imageListView.SuspendLayout();
-
-            for (int i = 0; i < m_imageAttachments.Count; i++)
-            {
-                if (File.Exists(m_filePathOrigins[i]))
-                {
-                    if (_reload)
-                        imageListView.Items.Add(m_filePathOrigins[i]);
-                    else
-                        imageListView.Items[i].FileName = m_filePathOrigins[i];
-
-                    imageListView.Items[i].Tag = new ImageViewItemTAG { Index = i, Type = ORIGIN };
-
-                    k++;
-
-                    continue;
-                }
-
-                if (File.Exists(m_filePathMediums[i]))
-                {
-                    if (_reload)
-                        imageListView.Items.Add(m_filePathMediums[i]);
-                    else
-                        imageListView.Items[i].FileName = m_filePathMediums[i];
-
-                    imageListView.Items[i].Tag = new ImageViewItemTAG { Index = i, Type = MEDIUM };
-
-                    k++;
-
-                    continue;
-                }
-
-                if (_reload)
-                    imageListView.Items.Add(Main.Current.LoadingImagePath);
-                else
-                    imageListView.Items[i].FileName = Main.Current.LoadingImagePath;
-
-                imageListView.Items[i].Tag = new ImageViewItemTAG { Index = i, Type = LOADING };
-            }
-
-            imageListView.ResumeLayout();
-
-            if (!firstTime)
-            {
-                if (m_selectedImage != null)
-                {
-                    setSelectedItem(m_selectedImageIndex);
-                }
-            }
-        }
-
-        private bool checkSelectedImageTypeChange()
-        {
-            if (m_selectedImage == null)
-                return true;
-
-            bool _originExist = File.Exists(m_filePathOrigins[m_selectedImageIndex]);
-            bool _mediumsExist = File.Exists(m_filePathMediums[m_selectedImageIndex]);
-
-            switch (m_selectedImageType)
-            {
-                case LOADING:
-
-                    if (_originExist || _mediumsExist)
-                        return true;
-
-                    break;
-                case MEDIUM:
-
-                    if (_originExist)
-                        return true;
-
-                    break;
-            }
-
-            return false;
-        }
-
-        private void imageListView_SelectionChanged(object sender, EventArgs e)
-        {
-            if (imageListView.SelectedItems.Count != 0)
-            {
-                m_selectedImage = imageListView.SelectedItems[0];
-                m_selectedImageIndex = ((ImageViewItemTAG)imageListView.SelectedItems[0].Tag).Index;
-                m_selectedImageType = ((ImageViewItemTAG)imageListView.SelectedItems[0].Tag).Type;
-
-                string _trueName = new FileInfo(m_selectedImage.FileName).Name;
-
-                if (m_filesMapping.ContainsKey(_trueName)) //取得原始檔名
-                    _trueName = m_filesMapping[_trueName];
-
-                if (_trueName == "LoadingImage.jpg")
-                {
-                    StatusLabelFileName.Text = "";
-
-                    StatusLabelCurrentSize.Text = "";
-
-                    btnSave.Visible = false;
-                    miSave.Visible = false;
-                }
-                else
-                {
-                    StatusLabelFileName.Text = _trueName;
-
-                    StatusLabelCurrentSize.Text = m_selectedImage.Dimensions.Width + " x " +
-                                                  m_selectedImage.Dimensions.Height;
-
-                    btnSave.Visible = true;
-                    miSave.Visible = true;
-                }
-
-                SetImageBox();
-            }
-        }
-
-        private void SetImageBox()
-        {
-            imageBox.Image = new Bitmap(m_selectedImage.FileName);
-
-            imageBox.ZoomToFit();
-        }
+			imageBox.ZoomToFit();
+		}
+	
 
         private void btnSlideShow_Click(object sender, EventArgs e)
         {
@@ -307,9 +100,10 @@ namespace Waveface.DetailUI
 
             if (_imageFilesPath.Count > 0)
             {
-                using (SlideShowForm _form = new SlideShowForm(_imageFilesPath, m_selectedImageIndex))
+                using (SlideShowForm _form = new SlideShowForm(_imageFilesPath, thumbnailNavigator1.SelectedIndex))
                 {
                     _form.ShowDialog();
+					thumbnailNavigator1.SelectedIndex = _form.m_index;
                 }
             }
         }
@@ -328,42 +122,13 @@ namespace Waveface.DetailUI
 
         private void SavePic()
         {
-            if (imageListView.SelectedItems.Count != 0)
-            {
-                m_selectedImage = imageListView.SelectedItems[0];
-            }
-
-            string _picFilePath = m_selectedImage.FileName;
-            string _trueName = new FileInfo(_picFilePath).Name;
-
-            if (m_filesMapping.ContainsKey(_trueName)) //取得原始檔名
-                _trueName = m_filesMapping[_trueName];
-
-            saveFileDialog.FileName = _trueName;
-            DialogResult _dr = saveFileDialog.ShowDialog();
-
-            if (_dr == DialogResult.OK)
-            {
-                try
-                {
-                    string _destFile = saveFileDialog.FileName;
-
-                    File.Copy(_picFilePath, _destFile, true);
-
-                    MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
-                }
-                catch
-                {
-                    MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
-                }
-            }
         }
 
         #endregion
 
         private void SetAsCoverImage()
         {
-            string _cover_attach = m_imageAttachments[m_selectedImageIndex].object_id;
+			string _cover_attach = m_imageAttachments[thumbnailNavigator1.SelectedIndex].object_id;
 
             if (_cover_attach != m_post.cover_attach)
             {
@@ -395,27 +160,9 @@ namespace Waveface.DetailUI
 
         private void PhotoView_Resize(object sender, EventArgs e)
         {
-            ReArrangeUI();
+			pnlPhotoViewToolBar.Left = (this.Width - pnlPhotoViewToolBar.Width) / 2;
         }
 
-        private void ReArrangeUI()
-        {
-            int _x = (Width - 240 - 20) / 2;
-
-            btnCoverImage.Left = _x;
-            btnSlideShow.Left = _x + 120;
-            btnSave.Left = _x + 240;
-
-            btnCoverImage.Visible = true;
-            btnSlideShow.Visible = true;
-            btnSave.Visible = true;
-
-            imageBox.Left = 0;
-            imageBox.Top = panelTop.Height;
-            imageBox.Width = imageListView.Width;
-            imageBox.Height = imageListView.Height - 164;
-            imageBox.Refresh();
-        }
 
         private void UpdateStatusBar()
         {
@@ -439,31 +186,36 @@ namespace Waveface.DetailUI
             UpdateStatusBar();
         }
 
-        private void imageBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            SendKeyToImageListView(e);
-        }
-
         private void SendKeyToImageListView(KeyEventArgs e)
         {
-            switch (e.KeyCode)
-            {
-                case Keys.Left:
-                    imageListView.Focus();
-                    SendKeys.Send("{LEFT}");
-
-                    break;
-                case Keys.Right:
-                    imageListView.Focus();
-                    SendKeys.Send("{RIGHT}");
-
-                    break;
-            }
+			switch (e.KeyCode)
+			{
+				case Keys.Left:
+					thumbnailNavigator1.PreviousThumbnail();
+					break;
+				case Keys.Right:
+					thumbnailNavigator1.NextThumbnail();
+					break;
+				case Keys.PageUp:
+					thumbnailNavigator1.PreviousPage();
+					break;
+				case Keys.PageDown:
+					thumbnailNavigator1.NextPage();
+					break;
+				case Keys.Home:
+					thumbnailNavigator1.FirstThumbnail();
+					break;
+				case Keys.End:
+					thumbnailNavigator1.LastThumbnail();
+					break;
+				case Keys.Escape:
+					this.Close();
+					break;
+			}
         }
-
         private void PhotoView_KeyDown(object sender, KeyEventArgs e)
         {
-            SendKeyToImageListView(e);
+			SendKeyToImageListView(e);
         }
 
         private void imageBox_Click(object sender, EventArgs e)
@@ -472,5 +224,18 @@ namespace Waveface.DetailUI
             imageBox.AutoPan = true;
             imageBox.AdjustLayout();
         }
+
+		private void imageButton1_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
+
+		private void imageBox_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == System.Windows.Forms.MouseButtons.Left)
+				thumbnailNavigator1.NextThumbnail();
+			else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+				thumbnailNavigator1.PreviousThumbnail();
+		}
     }
 }

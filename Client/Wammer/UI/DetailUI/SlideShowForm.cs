@@ -15,7 +15,7 @@ namespace Waveface.DetailUI
     {
         private FormSettings m_formSettings;
 
-        private int m_index;
+        public int m_index;
         private int m_displayCount; //Stores how many pictures are shown in SlideShow
         private int m_fileCount;
         private List<string> m_imageFilesPath = new List<string>();

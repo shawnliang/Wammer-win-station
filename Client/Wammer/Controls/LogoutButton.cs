@@ -23,25 +23,25 @@ namespace StationSystemTray
 
 		void LogoutButton_MouseLeave(object sender, System.EventArgs e)
 		{
-			m_Image = Resources.logout_btn;
+			m_Image = Resources.FB_creat_btn;
 			Invalidate();
 		}
 
 		void LogoutButton_MouseHover(object sender, System.EventArgs e)
 		{
-			m_Image = Resources.logout_btn_press;
+			m_Image = Resources.FB_creat_btn_hl;
 			Invalidate();
 		}
 
 		private void LogoutButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			m_Image = Resources.logout_btn_press;
+			m_Image = Resources.FB_creat_btn_hl;
 			Invalidate();
 		}
 
 		private void LogoutButton_MouseUp(object sender, MouseEventArgs e)
 		{
-			m_Image = Resources.logout_btn;
+			m_Image = Resources.FB_creat_btn;
 			Invalidate();
 		}
 
