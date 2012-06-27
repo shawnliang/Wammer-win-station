@@ -633,7 +633,7 @@ namespace Waveface.DetailUI
             {
             }
 
-            ChengeThumbnailSize(imageListView, 96, 14);
+            ChengeThumbnailSize(imageListView, 104, 14);
         }
 
         public static void ChengeThumbnailSize(ImageListView imgListView, int smallest, int padding)

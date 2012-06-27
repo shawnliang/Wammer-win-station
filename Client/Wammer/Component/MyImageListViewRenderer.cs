@@ -236,9 +236,13 @@ namespace Waveface.Component
 
                 g.FillRectangle(_brush, _rect);
 
-                using (Font _font = new Font(I18n.L.T("DefaultFont"), 11, FontStyle.Bold))
-                {
+                int _fontSize = 11;
 
+                if (g.DpiX == 120)
+                    _fontSize = 10;
+
+                using (Font _font = new Font(I18n.L.T("DefaultFont"), _fontSize, FontStyle.Bold))
+                {
                     TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White,
                                           TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                 }
