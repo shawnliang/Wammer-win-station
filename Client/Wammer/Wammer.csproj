@@ -226,6 +226,7 @@
     <Compile Include="Data\ImageItem.cs" />
     <Compile Include="Data\PostItemType.cs" />
     <Compile Include="Extension\FormExtension.cs" />
+    <Compile Include="Class\Lazy.cs" />
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
     <Compile Include="Libs\Utility\ControlUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
@@ -233,11 +234,14 @@
     <Compile Include="Libs\Utility\AttachmentUtility.cs" />
     <Compile Include="Data\RT_REST.cs" />
     <Compile Include="Libs\Utility\NLogUtility.cs" />
-    <Compile Include="LogoutButton.cs">
+    <Compile Include="Controls\LogoutButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
+    <Compile Include="Controls\ThumbnailNavigator.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\DateTimePopupPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -548,12 +552,6 @@
     <Compile Include="Libs\Utility\WebHelper.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\SettingUI\SettingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\SettingUI\SettingForm.Designer.cs">
-      <DependentUpon>SettingForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\SettingUI\UnlinkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -800,12 +798,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\SettingUI\SettingForm.resx">
-      <DependentUpon>SettingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SettingUI\SettingForm.zh-TW.resx">
-      <DependentUpon>SettingForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingUI\UnlinkForm.resx">
       <DependentUpon>UnlinkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -975,6 +967,8 @@
     <None Include="Resources\FlatButton\FB_blue_btn_2.png" />
     <None Include="Resources\FlatButton\FB_blue_btn_hl_2.png" />
     <None Include="Resources\ArrowCircleDouble.png" />
+    <Content Include="Resources\cover.png" />
+    <Content Include="Resources\cover_hl.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote.png" />
     <None Include="Resources\FlatButton\FB_edit_footnote_hl.png" />
@@ -1043,11 +1037,16 @@
     <None Include="Resources\ObjectPosition.png" />
     <None Include="Resources\ObjectSize.png" />
     <None Include="Resources\TickCircle.png" />
+    <Content Include="Resources\gridview.png" />
+    <Content Include="Resources\gridview_hl.png" />
     <None Include="Resources\timebar_unit_bg.png" />
     <None Include="Resources\timebar_unit_bg.jpg" />
     <None Include="Resources\timebar.jpg" />
     <Content Include="Resources\logout_btn.png" />
     <Content Include="Resources\logout_btn_press.png" />
+    <Content Include="Resources\save_hl.png" />
+    <Content Include="Resources\slide.png" />
+    <Content Include="Resources\slide_hl.png" />
     <Content Include="WavefaceML.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

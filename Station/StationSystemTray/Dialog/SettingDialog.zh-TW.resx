@@ -121,28 +121,43 @@
   <data name="$this.Text" xml:space="preserve">
     <value>設定</value>
   </data>
-  <data name="btnUnlink.Text" xml:space="preserve">
-    <value>移除帳號</value>
+  <data name="btnMove.Text" xml:space="preserve">
+    <value>更改...</value>
   </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>關閉</value>
+  <data name="btnUpdate.Text" xml:space="preserve">
+    <value>檢查更新</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>帳號管理</value>
+  <data name="colAccount.HeaderText" xml:space="preserve">
+    <value>帳號</value>
+  </data>
+  <data name="colAction.HeaderText" xml:space="preserve">
+    <value>動作</value>
+  </data>
+  <data name="colUsage.HeaderText" xml:space="preserve">
+    <value>使用量</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>軟體版本資訊</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>資料存放位置</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>帳戶列表</value>
   </data>
   <data name="lblCopyRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>290, 13</value>
+    <value>267, 13</value>
   </data>
   <data name="lblCopyRight.Text" xml:space="preserve">
-    <value>Copyright © 2011-2012 Waveface Inc. All Rights Reserved.</value>
+    <value>版權所有© 2011-2012 Waveface Inc. 保留所有權利</value>
   </data>
-  <data name="lblStorageUsage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 13</value>
+  <data name="linkLegalNotice.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 13</value>
   </data>
-  <data name="lblStorageUsage.Text" xml:space="preserve">
-    <value>已使用磁碟空間:</value>
-  </data>
-  <data name="lblStorageUsageValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>106, 58</value>
+  <data name="linkLegalNotice.Text" xml:space="preserve">
+    <value>隱私權政策</value>
   </data>
 </root>

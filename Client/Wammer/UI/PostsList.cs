@@ -384,38 +384,42 @@ namespace Waveface
                     _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
                 }
 
-                if (_isFirstPostInADay && !_isFirstDisplayed)
-                {
-                    DrawTimeBar(e, _dt);
-                }
-
                 if (_post.type == "image")
                 {
                     Attachment _a = GetCoverImageAttachment(_post);
-                    Bitmap _bmp = LoadAttachmentThumbnail(_a);
+                    Bitmap _bmp = LoadAttachmentThumbnail(_a, true);
 
                     if (_bmp != null)
                     {
                         ColorMatrix _matrix = new ColorMatrix();
-                        _matrix.Matrix33 = 0.0618f;
+
+                        if (_post.content == string.Empty)
+                        {
+                            _matrix.Matrix33 = 0.25f;
+                        }
+                        else
+                        {
+                            _matrix.Matrix33 = 0.1f;
+                        }
 
                         ImageAttributes _attributes = new ImageAttributes();
                         _attributes.SetColorMatrix(_matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-                        int _oX = 0;
-                        int _oY = 0;
+                        int _bW = _bmp.Width;
+                        int _bH = _bmp.Height;
+                        int _cW = e.CellBounds.Width;
+                        int _cH = _H + (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
 
-                        if (_bmp.Width > _bmp.Height)
-                        {
-                            _oX = (_bmp.Width - _bmp.Height) / 2;
-                        }
-                        else
-                        {
-                            _oY = (_bmp.Height - _bmp.Width) / 2;
-                        }
+                        int _h = (_bW * _cH) / _cW;
+                        int _offY = (_bH - _h) / 2;
 
-                        _g.DrawImage(_bmp, new Rectangle(_X, _Y, _W, _H), _oX, _oY, _bmp.Width - (_oX * 2), _bmp.Height - (_oY * 2), GraphicsUnit.Pixel, _attributes);
+                        _g.DrawImage(_bmp, new Rectangle(e.CellBounds.Left, _Y - e.CellStyle.Padding.Top, e.CellBounds.Width, _cH), 0, _offY, _bmp.Width, _h, GraphicsUnit.Pixel, _attributes);
                     }
+                }
+
+                if (_isFirstPostInADay && !_isFirstDisplayed)
+                {
+                    DrawTimeBar(e, _dt);
                 }
 
                 _g.DrawRectangle(Pens.LightGray, e.CellBounds.X, e.CellBounds.Y, e.CellBounds.Width, e.CellBounds.Height);
@@ -769,12 +773,12 @@ namespace Waveface
 
         private void DrawResizedThumbnail_2(Rectangle thumbnailRect, Graphics g, Attachment a)
         {
-            var _img = LoadAttachmentThumbnail(a);
+            var _img = LoadAttachmentThumbnail(a, false);
 
             DrawResizedThumbnail(thumbnailRect, g, _img);
         }
 
-        private Bitmap LoadAttachmentThumbnail(Attachment a)
+        private Bitmap LoadAttachmentThumbnail(Attachment a, bool forceNull)
         {
             string _url = string.Empty;
             string _fileName = string.Empty;
@@ -782,7 +786,7 @@ namespace Waveface
 
             string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _fileName);
 
-            Bitmap _img = LoadThumbnail(_url, _localPic, true);
+            Bitmap _img = LoadThumbnail(_url, _localPic, forceNull);
 
             return _img;
         }

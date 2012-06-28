@@ -213,9 +213,13 @@ namespace Waveface.Component
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
-                            using (Pen _pen = new Pen(Color.FromArgb(215, 131, 123), 3))
+                            int _pw = 4;
+
+                            using (Pen _pen = new Pen(Color.FromArgb(89, 154, 174), _pw))
                             {
                                 g.DrawRectangle(_pen, bounds.Left + 4, bounds.Top + 4, bounds.Width - 8, bounds.Height - 8);
+
+                                g.DrawRectangle(Pens.White, bounds.Left + 4 + (_pw - 1), bounds.Top + 4 + (_pw - 1), bounds.Width - 8 - (2 * (_pw - 1)), bounds.Height - 8 - (2 * (_pw - 1)));
                             }
                         }
                     }
