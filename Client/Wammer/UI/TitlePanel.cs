@@ -155,10 +155,10 @@ namespace Waveface
             this.btnSetting.CenterAlignImage = false;
             this.btnSetting.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.btnSetting, "btnSetting");
-            this.btnSetting.Image = global::Waveface.Properties.Resources.FB_info;
-            this.btnSetting.ImageDisable = global::Waveface.Properties.Resources.FB_info;
+            this.btnSetting.Image = global::Waveface.Properties.Resources.FBT_setting;
+            this.btnSetting.ImageDisable = global::Waveface.Properties.Resources.FBT_setting;
             this.btnSetting.ImageFront = null;
-            this.btnSetting.ImageHover = global::Waveface.Properties.Resources.FB_info_hl;
+            this.btnSetting.ImageHover = global::Waveface.Properties.Resources.FBT_setting_hl;
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.TextShadow = true;
             this.toolTip.SetToolTip(this.btnSetting, resources.GetString("btnSetting.ToolTip"));
