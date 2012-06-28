@@ -80,6 +80,8 @@ namespace Waveface
 
 
 		#region Public Property
+		public Image DefaultThumbnail { get; set; }
+
 		public Padding ThumbnailPadding { get; set; }
 
 		/// <summary>
@@ -140,7 +142,6 @@ namespace Waveface
 		/// </summary>
 		public ThumbnailNavigator()
 		{
-			this.Paint += new PaintEventHandler(ThumbnailNavigator_Paint);
 			this.Resize += new EventHandler(ThumbnailGallery_Resize);
 			this.Click += new EventHandler(ThumbnailNavigator_Click);
 		}
@@ -254,6 +255,12 @@ namespace Waveface
 			}
 			m_DisplayedThumbnailInfos = thumbnailInfos.ToArray();
 		}
+
+		[Conditional("DEBUG")]
+		private void ShowMessageBoxWhenDebug(string message)
+		{
+			MessageBox.Show(message);
+		}
 		#endregion
 
 
@@ -292,10 +299,15 @@ namespace Waveface
 			m_ThumbnailFiles.Clear();
 			m_ThumbnailFiles.AddRange(thumbnailFiles);
 			var linq = from item in thumbnailFiles
-					   select new Lazy<Image>(() => GenerateSquareImage(Image.FromFile(item), ThumbnailWidth));
+					   select new Lazy<Image>(() => GenerateSquareImage(Image.FromFile(item), ThumbnailWidth)) 
+					   {   
+						   InitialValue = DefaultThumbnail
+					   };
 
 			m_Thumbnails.Clear();
 			m_Thumbnails.AddRange(linq);
+
+			m_Thumbnails.ForEach((item) => item.ValueInited += new EventHandler(thumbnail_ValueInited));
 
 			if (m_Thumbnails.Count > selectedIndex)
 				this.SelectedIndex = selectedIndex;
@@ -369,29 +381,35 @@ namespace Waveface
 
 		#region Event Process
 		/// <summary>
-		/// Handles the Paint event of the ThumbnailNavigator control.
+		/// Raises the <see cref="E:System.Windows.Forms.Control.Paint"/> event.
 		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.Windows.Forms.PaintEventArgs"/> instance containing the event data.</param>
-		void ThumbnailNavigator_Paint(object sender, PaintEventArgs e)
+		/// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs"/> that contains the event data.</param>
+		protected override void OnPaint(PaintEventArgs e)
 		{
-			if (m_Thumbnails.Count == 0)
-				return;
-
-			if (SelectedIndex == DEFAULT_INDEX)
-				return;
-
-			var selectedRectangle = new Rectangle((this.Width - ThumbnailWidth) / 2, ThumbnailPadding.Top, ThumbnailWidth, ThumbnailWidth);
-			PrepareDisplayedThumbnailInfos(selectedRectangle);
-
-			var g = e.Graphics;
-			foreach (var info in m_DisplayedThumbnailInfos)
+			try
 			{
-				var bounds = info.Bounds;
-				g.DrawImage(m_Thumbnails[info.Index].Value, bounds);
-			}
+				if (m_Thumbnails.Count == 0)
+					return;
 
-			g.DrawRectangle(Pens.White, selectedRectangle);
+				if (SelectedIndex == DEFAULT_INDEX)
+					return;
+
+				var selectedRectangle = new Rectangle((this.Width - ThumbnailWidth) / 2, ThumbnailPadding.Top, ThumbnailWidth, ThumbnailWidth);
+				PrepareDisplayedThumbnailInfos(selectedRectangle);
+
+				var g = e.Graphics;
+				foreach (var info in m_DisplayedThumbnailInfos)
+				{
+					var bounds = info.Bounds;
+					g.DrawImage(m_Thumbnails[info.Index].Value, bounds);
+				}
+
+				g.DrawRectangle(Pens.White, selectedRectangle);
+			}
+			catch (Exception ex)
+			{
+				ShowMessageBoxWhenDebug(ex.ToString());
+			}
 		}
 
 
@@ -438,6 +456,16 @@ namespace Waveface
 					NextThumbnail();
 					break;
 			}
+		}
+
+		/// <summary>
+		/// Handles the ValueInited event of the thumbnail control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		void thumbnail_ValueInited(object sender, EventArgs e)
+		{
+			Invalidate();
 		}
 		#endregion
 	}

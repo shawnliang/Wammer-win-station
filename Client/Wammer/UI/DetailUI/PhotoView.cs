@@ -29,7 +29,6 @@ namespace Waveface.DetailUI
         private List<Attachment> m_imageAttachments;
         private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
-		//private int m_selectedImageIndex;
         private string m_selectedImageType;
         private Post m_post;
         private FormSettings m_formSettings;
@@ -65,6 +64,7 @@ namespace Waveface.DetailUI
                 miSetAsCoverImage.Visible = false;
             }
 
+			thumbnailNavigator1.DefaultThumbnail = Image.FromFile(Main.Current.LoadingImagePath);
 			thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
 			thumbnailNavigator1.ThumbnailWidth = 64;
 			thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
@@ -77,32 +77,40 @@ namespace Waveface.DetailUI
 
 			imageBox.ZoomToFit();
 		}
+
+		private string GetPhotoFilePath(int index)
+		{
+			var originPhotoFilePath = m_filePathOrigins[index];
+			if (File.Exists(originPhotoFilePath))
+				return originPhotoFilePath;
+
+			var mediumPhotoFilePath = m_filePathMediums[index];
+			if (File.Exists(mediumPhotoFilePath))
+				return mediumPhotoFilePath;
+
+			return null;
+		}
 	
 
         private void btnSlideShow_Click(object sender, EventArgs e)
         {
             List<string> _imageFilesPath = new List<string>();
 
-            for (int i = 0; i < m_imageAttachments.Count; i++)
-            {
-                if (File.Exists(m_filePathOrigins[i]))
-                {
-                    _imageFilesPath.Add(m_filePathOrigins[i]);
-                    continue;
-                }
+			for (int i = 0; i < m_imageAttachments.Count; i++)
+			{
+				var photoFilePath = GetPhotoFilePath(i);
+				if (string.IsNullOrEmpty(photoFilePath))
+					continue;
 
-                if (File.Exists(m_filePathMediums[i]))
-                {
-                    _imageFilesPath.Add(m_filePathMediums[i]);
-                    continue;
-                }
-            }
+				_imageFilesPath.Add(photoFilePath);
+			}
 
             if (_imageFilesPath.Count > 0)
             {
                 using (SlideShowForm _form = new SlideShowForm(_imageFilesPath, thumbnailNavigator1.SelectedIndex))
                 {
-                    _form.ShowDialog();
+					_form.StartPosition = FormStartPosition.CenterParent;
+                    _form.ShowDialog(this);
 					thumbnailNavigator1.SelectedIndex = _form.m_index;
                 }
             }
@@ -120,9 +128,33 @@ namespace Waveface.DetailUI
             SavePic();
         }
 
-        private void SavePic()
-        {
-        }
+		private void SavePic()
+		{
+			string _picFilePath = GetPhotoFilePath(thumbnailNavigator1.SelectedIndex);
+			string _trueName = new FileInfo(_picFilePath).Name;
+
+			if (m_filesMapping.ContainsKey(_trueName)) //取得原始檔名
+				_trueName = m_filesMapping[_trueName];
+
+			saveFileDialog.FileName = _trueName;
+			DialogResult _dr = saveFileDialog.ShowDialog(this);
+			
+			if (_dr == DialogResult.OK)
+			{
+				try
+				{
+					string _destFile = saveFileDialog.FileName;
+
+					File.Copy(_picFilePath, _destFile, true);
+
+					MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
+				}
+				catch
+				{
+					MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
+				}
+			}
+		}
 
         #endregion
 

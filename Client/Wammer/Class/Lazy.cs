@@ -235,7 +235,23 @@ public class Lazy<T> : ILazy
 			{
 				_initThread = new Thread(() =>
 				{
-					Init();
+					while (true)
+					{
+						try
+						{
+							Init();
+							break;
+						}
+						catch (Exception)
+						{
+							m_Result = default(T);
+							IsValueCreated = false;
+							IsIniting = false;
+						}
+
+						Thread.Sleep(100);
+						Application.DoEvents();
+					}
 				});
 			}
 			return _initThread;
@@ -256,10 +272,7 @@ public class Lazy<T> : ILazy
 				}
 				finally
 				{
-					m_Result = default(T);
-					IsValueCreated = false;
-					IsIniting = false;
-					_initThread = null;
+					ClearValue();
 				}
 			}
 
@@ -507,8 +520,8 @@ public class Lazy<T> : ILazy
 			if (IsIniting || IsValueCreated)
 				return;
 
-			//if (m_InitThread.IsAlive)
-			//    return;
+			if (m_InitThread.IsAlive)
+				return;
 
 			m_InitThread.Start();
 		}
