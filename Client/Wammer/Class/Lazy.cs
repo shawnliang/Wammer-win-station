@@ -342,6 +342,8 @@ public class Lazy<T> : ILazy
 	/// 	<c>true</c> if this instance is initing; otherwise, <c>false</c>.
 	/// </value>
 	public Boolean IsIniting { get; private set; }
+
+	public Object Tag { get; set; }
 	#endregion
 
 	#region Event

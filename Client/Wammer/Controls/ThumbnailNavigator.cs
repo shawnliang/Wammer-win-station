@@ -29,6 +29,7 @@ namespace Waveface
 		#region Var
 		private List<string> _thumbnailFiles;
 		private List<Lazy<Image>> _thumbnails;
+		private Image _defaultThumbnail;
 		private ThumbnailInfo[] _DisplayedThumbnailInfos;
 
 		private int _selectedIndex;
@@ -80,7 +81,26 @@ namespace Waveface
 
 
 		#region Public Property
-		public Image DefaultThumbnail { get; set; }
+		public Image DefaultThumbnail
+		{
+			get
+			{
+				if (_defaultThumbnail == null)
+				{
+					_defaultThumbnail = new Bitmap(ThumbnailWidth, ThumbnailWidth);
+					using (var g = Graphics.FromImage(_defaultThumbnail))
+					{
+						g.Clear(BackColor);
+					}
+				}
+
+				return _defaultThumbnail;
+			}
+			set
+			{
+				_defaultThumbnail = value;
+			}
+		}
 
 		public Padding ThumbnailPadding { get; set; }
 
@@ -142,7 +162,6 @@ namespace Waveface
 		/// </summary>
 		public ThumbnailNavigator()
 		{
-			this.Resize += new EventHandler(ThumbnailGallery_Resize);
 			this.Click += new EventHandler(ThumbnailNavigator_Click);
 		}
 		#endregion
@@ -158,6 +177,9 @@ namespace Waveface
 			{
 				if ((image.Width < size) && (image.Height < size)) //圖片比指定大小還小，不需切割
 					return image;
+
+				if (image.Width <= 300 && image.Height <= 300)
+					return image.GetThumbnailImage(size, size, null, IntPtr.Zero);
 
 				var isHorizontalPhoto = image.Width > image.Height;
 
@@ -301,6 +323,7 @@ namespace Waveface
 			var linq = from item in thumbnailFiles
 					   select new Lazy<Image>(() => GenerateSquareImage(Image.FromFile(item), ThumbnailWidth)) 
 					   {   
+						   Tag = item,
 						   InitialValue = DefaultThumbnail
 					   };
 
@@ -401,10 +424,15 @@ namespace Waveface
 				foreach (var info in m_DisplayedThumbnailInfos)
 				{
 					var bounds = info.Bounds;
+
+					if (Rectangle.Intersect(e.ClipRectangle, bounds).IsEmpty)
+						continue;
+
 					g.DrawImage(m_Thumbnails[info.Index].Value, bounds);
 				}
 
-				g.DrawRectangle(Pens.White, selectedRectangle);
+				if (!Rectangle.Intersect(e.ClipRectangle, selectedRectangle).IsEmpty)
+					g.DrawRectangle(Pens.White, selectedRectangle);
 			}
 			catch (Exception ex)
 			{
@@ -412,16 +440,6 @@ namespace Waveface
 			}
 		}
 
-
-		/// <summary>
-		/// Handles the Resize event of the ThumbnailGallery control.
-		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		void ThumbnailGallery_Resize(object sender, EventArgs e)
-		{
-			Invalidate();
-		}
 
 		/// <summary>
 		/// Handles the Click event of the ThumbnailNavigator control.
@@ -465,7 +483,15 @@ namespace Waveface
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void thumbnail_ValueInited(object sender, EventArgs e)
 		{
-			Invalidate();
+			var file = (sender as Lazy<Image>).Tag.ToString();
+			var linq = from item in m_DisplayedThumbnailInfos
+					   where m_ThumbnailFiles[item.Index] == file
+					   select item.Bounds;
+
+			if (!linq.Any())
+				return;
+
+			Invalidate(linq.Single());
 		}
 		#endregion
 	}
