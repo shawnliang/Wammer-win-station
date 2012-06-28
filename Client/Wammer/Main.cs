@@ -38,8 +38,8 @@ namespace Waveface
 
         #region Fields
 
-        // Main
-        public SettingForm m_setting;
+		//// Main
+		//public SettingForm m_setting;
 
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
@@ -489,12 +489,12 @@ namespace Waveface
                 m_postForm.Activate();
             }
 
-            if (m_setting != null)
-            {
-                BringWindowToTop(m_setting.Handle);
-                ShowWindow(m_setting.Handle, 5); //SW_SHOW
-                m_setting.Activate();
-            }
+			//if (m_setting != null)
+			//{
+			//    BringWindowToTop(m_setting.Handle);
+			//    ShowWindow(m_setting.Handle, 5); //SW_SHOW
+			//    m_setting.Activate();
+			//}
         }
 
         #endregion

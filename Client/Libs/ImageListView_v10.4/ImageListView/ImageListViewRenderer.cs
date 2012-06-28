@@ -570,8 +570,6 @@ namespace Manina.Windows.Forms
                     if (item.Focused)
                         state |= ItemState.Focused;
 
-					Trace.WriteLine("bounds: " + bounds.ToString());
-
                     // Add to params to be sorted and drawn
 					var drawItem = new DrawItemParams(item, state, bounds);
 					if (!Rectangle.Intersect(displayRange, bounds).IsEmpty)
@@ -778,9 +776,9 @@ namespace Manina.Windows.Forms
                 // Draw column headers
                 RenderColumnHeaders(g);
 
-                // Draw items if they should be drawn last.
-                if (!itemsDrawn)
-					RenderItems(g, clipRectangle);
+				//// Draw items if they should be drawn last.
+				//if (!itemsDrawn)
+				//    RenderItems(g, clipRectangle);
 
                 // Draw the overlay image
                 RenderOverlay(g);

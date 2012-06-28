@@ -15,7 +15,7 @@ namespace Waveface.DetailUI
     {
         private FormSettings m_formSettings;
 
-        private int m_index;
+        public int m_index;
         private int m_displayCount; //Stores how many pictures are shown in SlideShow
         private int m_fileCount;
         private List<string> m_imageFilesPath = new List<string>();
@@ -115,15 +115,16 @@ namespace Waveface.DetailUI
         private void FormSlideShow_Load(object sender, EventArgs e)
         {
             //Form enters fullscreen
-            FormBorderStyle = FormBorderStyle.None;
-            Bounds = Screen.PrimaryScreen.Bounds;
+			FormBorderStyle = FormBorderStyle.None;
+			Bounds = Screen.PrimaryScreen.Bounds;
+			//this.FullScreen();
             TopMost = true;
 
-            //Height of picturebox becomes equal to that of form
-            pictureBox.Height = Height;
-            pictureBox.Width = Width;
+			////Height of picturebox becomes equal to that of form
+			//pictureBox.Height = Height;
+			//pictureBox.Width = Width;
 
-            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+		
 
             //Context menu
             pictureBox.ContextMenuStrip = contextMenuStripSlideShow;

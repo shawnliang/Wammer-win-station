@@ -216,7 +216,8 @@ namespace Waveface
         private void btnAccount_Click(object sender, System.EventArgs e)
         {
             AccountInfoForm _form = new AccountInfoForm();
-            _form.ShowDialog();
+			_form.StartPosition = FormStartPosition.CenterParent;
+			_form.ShowDialog(this);
         }
 
         private void btnRemovePost_Click(object sender, System.EventArgs e)

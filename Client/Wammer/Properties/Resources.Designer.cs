@@ -116,6 +116,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap cover {
+            get {
+                object obj = ResourceManager.GetObject("cover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap cover_hl {
+            get {
+                object obj = ResourceManager.GetObject("cover_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap CoverImage {
             get {
                 object obj = ResourceManager.GetObject("CoverImage", resourceCulture);
@@ -557,6 +571,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap gridview {
+            get {
+                object obj = ResourceManager.GetObject("gridview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap gridview_hl {
+            get {
+                object obj = ResourceManager.GetObject("gridview_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Help {
             get {
                 object obj = ResourceManager.GetObject("Help", resourceCulture);
@@ -793,6 +821,20 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap save_hl {
+            get {
+                object obj = ResourceManager.GetObject("save_hl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Save1 {
+            get {
+                object obj = ResourceManager.GetObject("Save1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SaveAll {
             get {
                 object obj = ResourceManager.GetObject("SaveAll", resourceCulture);
@@ -817,6 +859,20 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap skin {
             get {
                 object obj = ResourceManager.GetObject("skin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap slide {
+            get {
+                object obj = ResourceManager.GetObject("slide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap slide_hl {
+            get {
+                object obj = ResourceManager.GetObject("slide_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
