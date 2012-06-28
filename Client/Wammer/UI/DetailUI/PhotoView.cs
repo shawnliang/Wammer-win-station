@@ -64,7 +64,6 @@ namespace Waveface.DetailUI
                 miSetAsCoverImage.Visible = false;
             }
 
-			thumbnailNavigator1.DefaultThumbnail = Image.FromFile(Main.Current.LoadingImagePath);
 			thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
 			thumbnailNavigator1.ThumbnailWidth = 64;
 			thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
