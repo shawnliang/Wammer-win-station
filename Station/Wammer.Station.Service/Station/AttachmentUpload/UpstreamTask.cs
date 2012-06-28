@@ -42,21 +42,6 @@ namespace Wammer.Station.AttachmentUpload
 				return;
 			}
 
-			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
-			{
-				GetUserResponse userInfo = User.GetInfo(user.user_id, CloudServer.APIKey, user.session_token);
-				if (userInfo.storages.waveface.over_quota)
-				{
-					failQueue.Enqueue(new PostponedTask(
-					                  	userInfo.storages.waveface.interval.GetIntervalEndTime(),
-					                  	priority, this));
-
-					this.LogWarnMsg("Postpone upstream attachment " + object_id + " to " +
-					                userInfo.storages.waveface.interval.GetIntervalEndTime() + "due to over quota");
-					return;
-				}
-			}
-
 			IAttachmentInfo info = attachment.GetInfoByMeta(meta);
 			if (info == null)
 			{
