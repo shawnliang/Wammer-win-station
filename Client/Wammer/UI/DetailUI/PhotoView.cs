@@ -36,6 +36,7 @@ namespace Waveface.DetailUI
         public PhotoView()
         {
             InitializeComponent();
+			Bounds = Screen.PrimaryScreen.Bounds;
 			this.FullScreen();
         }
 
