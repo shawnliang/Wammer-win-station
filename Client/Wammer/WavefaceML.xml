@@ -412,24 +412,6 @@
   </WItem>
 
   <WItem>
-    <ID>CheckForUpdates</ID>
-    <en-US>Check for Updates</en-US>
-    <zh-TW>檢查更新</zh-TW>
-  </WItem>
-
-  <WItem>
-    <ID>CheckingUpdates</ID>
-    <en-US>Checking</en-US>
-    <zh-TW>檢查中</zh-TW>
-  </WItem>
-
-  <WItem>
-    <ID>AlreadyUpdated</ID>
-    <en-US>You currently have the latest version of Stream installed.</en-US>
-    <zh-TW>您的Stream已經更新到最新版了</zh-TW>
-  </WItem>
-
-  <WItem>
     <ID>UnlinkButton</ID>
     <en-US>Unlink...</en-US>
     <zh-TW>移除連結...</zh-TW>

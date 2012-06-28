@@ -115,15 +115,16 @@ namespace Waveface.DetailUI
         private void FormSlideShow_Load(object sender, EventArgs e)
         {
             //Form enters fullscreen
-            FormBorderStyle = FormBorderStyle.None;
-            Bounds = Screen.PrimaryScreen.Bounds;
+			FormBorderStyle = FormBorderStyle.None;
+			Bounds = Screen.PrimaryScreen.Bounds;
+			//this.FullScreen();
             TopMost = true;
 
-            //Height of picturebox becomes equal to that of form
-            pictureBox.Height = Height;
-            pictureBox.Width = Width;
+			////Height of picturebox becomes equal to that of form
+			//pictureBox.Height = Height;
+			//pictureBox.Width = Width;
 
-            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+		
 
             //Context menu
             pictureBox.ContextMenuStrip = contextMenuStripSlideShow;

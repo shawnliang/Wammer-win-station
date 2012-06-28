@@ -40,6 +40,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AppLimit.NetSparkle">
+      <HintPath>..\3rd_party\NetSparkle-1.0.83\AppLimit.NetSparkle.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>
@@ -170,6 +173,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\UpdateAvailable.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
     <None Include="Resources\stream_tray_warn.png" />
@@ -184,6 +188,7 @@
     <Content Include="Resources\login_btn.png" />
     <Content Include="Resources\login_btn_press.png" />
     <Content Include="Resources\or.png" />
+    <None Include="Resources\software-update-available.png" />
     <Content Include="Resources\stream_logo.png" />
   </ItemGroup>
   <ItemGroup />

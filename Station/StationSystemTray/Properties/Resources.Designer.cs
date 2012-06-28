@@ -61,6 +61,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You currently have the latest version of Stream installed..
+        /// </summary>
+        public static string ALREAD_UPDATED {
+            get {
+                return ResourceManager.GetString("ALREAD_UPDATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stream.
         /// </summary>
         public static string APP_NAME {
@@ -103,6 +112,24 @@ namespace StationSystemTray.Properties {
         public static string ChangeOwnerWarning {
             get {
                 return ResourceManager.GetString("ChangeOwnerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for Updates.
+        /// </summary>
+        public static string CHECK_FOR_UPDATE {
+            get {
+                return ResourceManager.GetString("CHECK_FOR_UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking.
+        /// </summary>
+        public static string CHECKING_UPDATE {
+            get {
+                return ResourceManager.GetString("CHECKING_UPDATE", resourceCulture);
             }
         }
         
@@ -373,6 +400,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string REMOVE_ACCOUNT_BUTTON_TITLE {
+            get {
+                return ResourceManager.GetString("REMOVE_ACCOUNT_BUTTON_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resume sync.
         /// </summary>
         public static string ResumeWFService {
@@ -396,6 +432,13 @@ namespace StationSystemTray.Properties {
         public static string SIGNUP_PAGE_TITLE {
             get {
                 return ResourceManager.GetString("SIGNUP_PAGE_TITLE", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap software_update_available {
+            get {
+                object obj = ResourceManager.GetObject("software_update_available", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -535,6 +578,13 @@ namespace StationSystemTray.Properties {
         public static string UnlinkCloudStorageFail {
             get {
                 return ResourceManager.GetString("UnlinkCloudStorageFail", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Icon UpdateAvailable {
+            get {
+                object obj = ResourceManager.GetObject("UpdateAvailable", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

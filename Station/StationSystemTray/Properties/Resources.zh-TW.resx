@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ALREAD_UPDATED" xml:space="preserve">
+    <value>您的Stream已經更新到最新版了</value>
+  </data>
   <data name="AuthError" xml:space="preserve">
     <value>帳號或密碼錯誤，請再試一次。</value>
   </data>
@@ -128,6 +131,12 @@
   </data>
   <data name="ChangeOwnerWarning" xml:space="preserve">
     <value>切換使用者帳號後，您上一個帳號內所有的原始檔案將無法被遠端存取。並且，如您其它裝置上使用的是上一個帳號，則存放內容之原始檔案，將不會自動備份至此台電腦上。</value>
+  </data>
+  <data name="CHECK_FOR_UPDATE" xml:space="preserve">
+    <value>檢查更新</value>
+  </data>
+  <data name="CHECKING_UPDATE" xml:space="preserve">
+    <value>檢查中</value>
   </data>
   <data name="CleanResourceMsg" xml:space="preserve">
     <value>是否要將 {0} 帳號自本機移除？</value>
@@ -198,6 +207,9 @@
   <data name="RegisteredRequired" xml:space="preserve">
     <value>無法使用Stream Station, 因為{0}設定了另一個Stream Station或是該帳號不存在
 請重新啟動程式再次初始化Stream Station</value>
+  </data>
+  <data name="REMOVE_ACCOUNT_BUTTON_TITLE" xml:space="preserve">
+    <value>移除</value>
   </data>
   <data name="ResumeWFService" xml:space="preserve">
     <value>重啟同步</value>
