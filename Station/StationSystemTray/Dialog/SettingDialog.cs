@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 using AppLimit.NetSparkle;
+using System.Drawing;
 
 namespace StationSystemTray
 {
@@ -306,6 +307,11 @@ namespace StationSystemTray
 
 			btnUpdate.Enabled = true;
 			btnUpdate.Text = Properties.Resources.CHECK_FOR_UPDATE;
+		}
+
+		private void dgvAccountList_Paint(object sender, PaintEventArgs e)
+		{
+			ControlPaint.DrawBorder(e.Graphics, dgvAccountList.DisplayRectangle, ColorTranslator.FromHtml("#c6c6c6"), ButtonBorderStyle.Solid);
 		}
 	}
 }
