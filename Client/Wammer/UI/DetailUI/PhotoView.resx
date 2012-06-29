@@ -291,7 +291,7 @@
   <data name="thumbnailNavigator1.DefaultThumbnail" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
+        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
         +aX/g/Tw4Jf+fADyf0DdAgCIWxAAAPASKK8BBmAABmCAeAoAAIDsKswOXk79OzsA4vYDAAC8AsrrgAEY
         gAEYIJ4CAAAguwqzg5dT7zsA4/3BZ4A4DAAAgGdg+R5gAAZgAAaIpwAAAMiuwuzg5dT7EMR4PgQxwD3+
         rYD4fwAAALBAeR0wAAMwAAPEUwAAAGRXYXbwcup9CWQ8XwIZwJdA68+nYE9gKYjfAwAAAA2WD0IGYAAG
@@ -315,14 +315,11 @@
   <data name="thumbnailNavigator1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="thumbnailNavigator1.Text" xml:space="preserve">
-    <value>thumbnailNavigator1</value>
-  </data>
   <data name="&gt;&gt;thumbnailNavigator1.Name" xml:space="preserve">
     <value>thumbnailNavigator1</value>
   </data>
   <data name="&gt;&gt;thumbnailNavigator1.Type" xml:space="preserve">
-    <value>Waveface.ThumbnailNavigator, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.PhotoNavigator, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;thumbnailNavigator1.Parent" xml:space="preserve">
     <value>$this</value>

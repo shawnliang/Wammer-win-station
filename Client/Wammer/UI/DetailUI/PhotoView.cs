@@ -196,26 +196,26 @@ namespace Waveface.DetailUI
         }
 
 
-        private void UpdateStatusBar()
-        {
-            positionToolStripStatusLabel.Text = imageBox.AutoScrollPosition.ToString();
-            imageSizeToolStripStatusLabel.Text = imageBox.GetImageViewPort().ToString();
-            zoomToolStripStatusLabel.Text = string.Format("{0}%", imageBox.Zoom);
-        }
+		//private void UpdateStatusBar()
+		//{
+		//    positionToolStripStatusLabel.Text = imageBox.AutoScrollPosition.ToString();
+		//    imageSizeToolStripStatusLabel.Text = imageBox.GetImageViewPort().ToString();
+		//    zoomToolStripStatusLabel.Text = string.Format("{0}%", imageBox.Zoom);
+		//}
 
         private void imageBox_ZoomChanged(object sender, EventArgs e)
         {
-            UpdateStatusBar();
+			//UpdateStatusBar();
         }
 
         private void imageBox_Resize(object sender, EventArgs e)
         {
-            UpdateStatusBar();
+			//UpdateStatusBar();
         }
 
         private void imageBox_Scroll(object sender, ScrollEventArgs e)
         {
-            UpdateStatusBar();
+			//UpdateStatusBar();
         }
 
         private void SendKeyToImageListView(KeyEventArgs e)

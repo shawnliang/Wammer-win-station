@@ -43,7 +43,7 @@ namespace Waveface.DetailUI
 			this.btnCoverImage = new Waveface.Component.ImageButton();
 			this.btnSlideShow = new Waveface.Component.ImageButton();
 			this.imageBox = new Waveface.Component.ImageBox();
-			this.thumbnailNavigator1 = new Waveface.ThumbnailNavigator();
+			this.thumbnailNavigator1 = new Waveface.PhotoNavigator();
 			this.panelBottom = new System.Windows.Forms.Panel();
 			this.pnlPhotoViewToolBar = new System.Windows.Forms.Panel();
 			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
@@ -145,6 +145,7 @@ namespace Waveface.DetailUI
 			this.imageBox.Name = "imageBox";
 			this.imageBox.SizeToFit = true;
 			this.imageBox.ZoomIncrement = 10;
+			this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
 			this.imageBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imageBox_MouseDown);
 			// 
 			// thumbnailNavigator1
@@ -278,7 +279,7 @@ namespace Waveface.DetailUI
         private System.Windows.Forms.ToolStripMenuItem miSetAsCoverImage;
 		private System.Windows.Forms.Panel panelBottom;
 		private ImageBox imageBox;
-		private ThumbnailNavigator thumbnailNavigator1;
+		private PhotoNavigator thumbnailNavigator1;
 		private System.Windows.Forms.Panel pnlPhotoViewToolBar;
 		private ImageButton imageButton1;
 		private ImageButton btnSave;
