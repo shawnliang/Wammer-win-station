@@ -59,11 +59,11 @@ namespace Waveface.DetailUI
 
             m_onlyOnePhoto = (m_imageAttachments.Count == 1);
 
-            if (m_onlyOnePhoto)
-            {
-                btnCoverImage.Visible = false;
-                miSetAsCoverImage.Visible = false;
-            }
+			//if (m_onlyOnePhoto)
+			//{
+			//    btnCoverImage.Visible = false;
+			//    miSetAsCoverImage.Visible = false;
+			//}
 
 			thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
 			thumbnailNavigator1.ThumbnailWidth = 64;
