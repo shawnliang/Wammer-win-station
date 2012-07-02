@@ -6,7 +6,7 @@ namespace StationSystemTray
 {
 	public class LogoutButton : Button
 	{
-		private Bitmap m_Image = Resources.logout_btn;
+		private Bitmap m_Image = Resources.FB_creat_btn;
 		private Brush m_ShadowBrush = new SolidBrush(ColorTranslator.FromHtml("#5e332b"));
 
 		public LogoutButton()

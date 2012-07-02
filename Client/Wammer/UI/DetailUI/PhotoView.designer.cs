@@ -43,7 +43,7 @@ namespace Waveface.DetailUI
 			this.btnCoverImage = new Waveface.Component.ImageButton();
 			this.btnSlideShow = new Waveface.Component.ImageButton();
 			this.imageBox = new Waveface.Component.ImageBox();
-			this.thumbnailNavigator1 = new Waveface.ThumbnailNavigator();
+			this.thumbnailNavigator1 = new Waveface.PhotoNavigator();
 			this.panelBottom = new System.Windows.Forms.Panel();
 			this.pnlPhotoViewToolBar = new System.Windows.Forms.Panel();
 			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
@@ -55,7 +55,6 @@ namespace Waveface.DetailUI
 			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.contextMenuStrip.SuspendLayout();
-			this.imageBox.SuspendLayout();
 			this.panelBottom.SuspendLayout();
 			this.pnlPhotoViewToolBar.SuspendLayout();
 			this.statusStrip.SuspendLayout();
@@ -141,16 +140,18 @@ namespace Waveface.DetailUI
 			resources.ApplyResources(this.imageBox, "imageBox");
 			this.imageBox.BackColor = System.Drawing.Color.Black;
 			this.imageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.imageBox.Controls.Add(this.thumbnailNavigator1);
 			this.imageBox.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.imageBox.GridDisplayMode = Waveface.Component.ImageBoxGridDisplayMode.None;
 			this.imageBox.Name = "imageBox";
 			this.imageBox.SizeToFit = true;
 			this.imageBox.ZoomIncrement = 10;
+			this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
 			this.imageBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imageBox_MouseDown);
 			// 
 			// thumbnailNavigator1
 			// 
+			this.thumbnailNavigator1.BackColor = System.Drawing.Color.Black;
+			this.thumbnailNavigator1.DefaultThumbnail = ((System.Drawing.Image)(resources.GetObject("thumbnailNavigator1.DefaultThumbnail")));
 			resources.ApplyResources(this.thumbnailNavigator1, "thumbnailNavigator1");
 			this.thumbnailNavigator1.Name = "thumbnailNavigator1";
 			this.thumbnailNavigator1.SelectedIndex = -1;
@@ -250,6 +251,7 @@ namespace Waveface.DetailUI
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.panelBottom);
 			this.Controls.Add(this.imageBox);
+			this.Controls.Add(this.thumbnailNavigator1);
 			this.Controls.Add(this.statusStrip);
 			this.KeyPreview = true;
 			this.MinimizeBox = false;
@@ -258,7 +260,6 @@ namespace Waveface.DetailUI
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PhotoView_KeyDown);
 			this.Resize += new System.EventHandler(this.PhotoView_Resize);
 			this.contextMenuStrip.ResumeLayout(false);
-			this.imageBox.ResumeLayout(false);
 			this.panelBottom.ResumeLayout(false);
 			this.panelBottom.PerformLayout();
 			this.pnlPhotoViewToolBar.ResumeLayout(false);
@@ -278,7 +279,7 @@ namespace Waveface.DetailUI
         private System.Windows.Forms.ToolStripMenuItem miSetAsCoverImage;
 		private System.Windows.Forms.Panel panelBottom;
 		private ImageBox imageBox;
-		private ThumbnailNavigator thumbnailNavigator1;
+		private PhotoNavigator thumbnailNavigator1;
 		private System.Windows.Forms.Panel pnlPhotoViewToolBar;
 		private ImageButton imageButton1;
 		private ImageButton btnSave;

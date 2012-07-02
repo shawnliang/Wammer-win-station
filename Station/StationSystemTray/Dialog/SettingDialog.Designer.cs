@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingDialog));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.btnUpdate = new System.Windows.Forms.Button();
 			this.lblVersion = new System.Windows.Forms.Label();
@@ -40,10 +40,10 @@
 			this.lblResorcePath = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.dgvAccountList = new System.Windows.Forms.DataGridView();
-			this.bgworkerUpdate = new System.ComponentModel.BackgroundWorker();
 			this.colAccount = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colUsage = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.colAction = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.bgworkerUpdate = new System.ComponentModel.BackgroundWorker();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvAccountList)).BeginInit();
@@ -52,6 +52,7 @@
 			// groupBox2
 			// 
 			resources.ApplyResources(this.groupBox2, "groupBox2");
+			this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(226)))));
 			this.groupBox2.Controls.Add(this.btnUpdate);
 			this.groupBox2.Controls.Add(this.lblVersion);
 			this.groupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
@@ -96,6 +97,7 @@
 			// groupBox3
 			// 
 			resources.ApplyResources(this.groupBox3, "groupBox3");
+			this.groupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(226)))));
 			this.groupBox3.Controls.Add(this.lblResorcePath);
 			this.groupBox3.Controls.Add(this.btnMove);
 			this.groupBox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
@@ -104,8 +106,8 @@
 			// 
 			// lblResorcePath
 			// 
-			resources.ApplyResources(this.lblResorcePath, "lblResorcePath");
 			this.lblResorcePath.AutoEllipsis = true;
+			resources.ApplyResources(this.lblResorcePath, "lblResorcePath");
 			this.lblResorcePath.ForeColor = System.Drawing.Color.Black;
 			this.lblResorcePath.Name = "lblResorcePath";
 			// 
@@ -117,7 +119,6 @@
 			// 
 			// dgvAccountList
 			// 
-			resources.ApplyResources(this.dgvAccountList, "dgvAccountList");
 			this.dgvAccountList.AllowUserToAddRows = false;
 			this.dgvAccountList.AllowUserToDeleteRows = false;
 			this.dgvAccountList.AllowUserToResizeColumns = false;
@@ -126,14 +127,15 @@
 			this.dgvAccountList.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(226)))));
 			this.dgvAccountList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
 			this.dgvAccountList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dgvAccountList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+			dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(154)))), ((int)(((byte)(174)))));
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dgvAccountList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			resources.ApplyResources(this.dgvAccountList, "dgvAccountList");
 			this.dgvAccountList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dgvAccountList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colAccount,
@@ -144,14 +146,12 @@
 			this.dgvAccountList.Name = "dgvAccountList";
 			this.dgvAccountList.ReadOnly = true;
 			this.dgvAccountList.RowHeadersVisible = false;
+			this.dgvAccountList.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(226)))));
 			this.dgvAccountList.RowTemplate.DefaultCellStyle.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			this.dgvAccountList.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(232)))), ((int)(((byte)(226)))));
 			this.dgvAccountList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dgvAccountList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAccountList_CellContentClick);
-			// 
-			// bgworkerUpdate
-			// 
-			this.bgworkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerUpdate_DoWork);
-			this.bgworkerUpdate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerUpdate_RunWorkerCompleted);
+			this.dgvAccountList.Paint += new System.Windows.Forms.PaintEventHandler(this.dgvAccountList_Paint);
 			// 
 			// colAccount
 			// 
@@ -172,6 +172,11 @@
 			resources.ApplyResources(this.colAction, "colAction");
 			this.colAction.Name = "colAction";
 			this.colAction.ReadOnly = true;
+			// 
+			// bgworkerUpdate
+			// 
+			this.bgworkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerUpdate_DoWork);
+			this.bgworkerUpdate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerUpdate_RunWorkerCompleted);
 			// 
 			// SettingDialog
 			// 

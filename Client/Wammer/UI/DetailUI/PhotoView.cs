@@ -36,6 +36,7 @@ namespace Waveface.DetailUI
         public PhotoView()
         {
             InitializeComponent();
+			Bounds = Screen.PrimaryScreen.Bounds;
 			this.FullScreen();
         }
 
@@ -58,13 +59,12 @@ namespace Waveface.DetailUI
 
             m_onlyOnePhoto = (m_imageAttachments.Count == 1);
 
-            if (m_onlyOnePhoto)
-            {
-                btnCoverImage.Visible = false;
-                miSetAsCoverImage.Visible = false;
-            }
+			//if (m_onlyOnePhoto)
+			//{
+			//    btnCoverImage.Visible = false;
+			//    miSetAsCoverImage.Visible = false;
+			//}
 
-			thumbnailNavigator1.DefaultThumbnail = Image.FromFile(Main.Current.LoadingImagePath);
 			thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
 			thumbnailNavigator1.ThumbnailWidth = 64;
 			thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
@@ -196,26 +196,26 @@ namespace Waveface.DetailUI
         }
 
 
-        private void UpdateStatusBar()
-        {
-            positionToolStripStatusLabel.Text = imageBox.AutoScrollPosition.ToString();
-            imageSizeToolStripStatusLabel.Text = imageBox.GetImageViewPort().ToString();
-            zoomToolStripStatusLabel.Text = string.Format("{0}%", imageBox.Zoom);
-        }
+		//private void UpdateStatusBar()
+		//{
+		//    positionToolStripStatusLabel.Text = imageBox.AutoScrollPosition.ToString();
+		//    imageSizeToolStripStatusLabel.Text = imageBox.GetImageViewPort().ToString();
+		//    zoomToolStripStatusLabel.Text = string.Format("{0}%", imageBox.Zoom);
+		//}
 
         private void imageBox_ZoomChanged(object sender, EventArgs e)
         {
-            UpdateStatusBar();
+			//UpdateStatusBar();
         }
 
         private void imageBox_Resize(object sender, EventArgs e)
         {
-            UpdateStatusBar();
+			//UpdateStatusBar();
         }
 
         private void imageBox_Scroll(object sender, ScrollEventArgs e)
         {
-            UpdateStatusBar();
+			//UpdateStatusBar();
         }
 
         private void SendKeyToImageListView(KeyEventArgs e)
