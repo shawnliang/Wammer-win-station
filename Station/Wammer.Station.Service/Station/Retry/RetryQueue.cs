@@ -1,48 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Wammer.Station.AttachmentUpload;
 
 namespace Wammer.Station.Retry
 {
-	public class RetryQueue : IRetryQueue
+	public class RetryQueue : AbstractTaskEnDequeueNotifier, IRetryQueue
 	{
-		private static RetryQueue instance;
 		private readonly SortedList<DateTime, IRetryTask> retryTasks = new SortedList<DateTime, IRetryTask>();
 		private readonly IRetryQueuePersistentStorage storage;
 
-		private RetryQueue()
-		{
-			storage = new RetryQueuePersistentStorage();
-
-			foreach (RetryQueueItem item in storage.LoadSavedTasks())
-			{
-				retryTasks.Add(item.NextRunTime, item.Task);
-			}
-		}
-
-		/// <summary>
-		/// For unit test only.
-		/// </summary>
-		/// <param name="storage"></param>
 		public RetryQueue(IRetryQueuePersistentStorage storage)
 		{
 			this.storage = storage;
+		}
 
+		public void LoadSavedTasks(Action<RetryQueueItem> itemLoadedCallback)
+		{
 			foreach (RetryQueueItem item in storage.LoadSavedTasks())
 			{
 				retryTasks.Add(item.NextRunTime, item.Task);
+
+				if (itemLoadedCallback!=null)
+					itemLoadedCallback(item);
 			}
 		}
 
-		static RetryQueue()
-		{
-			instance = new RetryQueue();
-		}
-
-		public static RetryQueue Instance
-		{
-			get { return instance; }
-		}
 
 		#region IRetryQueue Members
 
@@ -62,6 +45,7 @@ namespace Wammer.Station.Retry
 
 				retryTasks.Add(retryTime, task);
 				storage.Add(retryTime, task);
+				OnTaskEnqueued(task);
 			}
 		}
 
@@ -79,13 +63,30 @@ namespace Wammer.Station.Retry
 					retryTasks.Remove(key);
 				}
 
+				foreach (var task in selected)
+				{
+					OnTaskDequeued(task);
+				}
+
 				return selected;
 			}
 		}
 
 		public bool AckDequeue(DateTime key)
 		{
-			return storage.Remove(key);
+			lock (retryTasks)
+			{
+				return storage.Remove(key);
+			}
+		}
+
+		public void Clear()
+		{
+			lock (retryTasks)
+			{
+				retryTasks.Clear();
+				storage.Clear();
+			}
 		}
 	}
 }

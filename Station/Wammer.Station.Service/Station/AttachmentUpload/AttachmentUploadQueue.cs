@@ -8,47 +8,66 @@ using Wammer.PerfMonitor;
 
 namespace Wammer.Station.AttachmentUpload
 {
-	internal class AttachmentUploadQueue : ITaskEnqueuable<ITask>, ITaskDequeuable<ITask>
+	internal class AttachmentUploadQueue : AbstractTaskEnDequeueNotifier, ITaskEnqueuable<ITask>, ITaskDequeuable<ITask>
 	{
 		public const string QNAME_HIGH = "attUpl_high";
 		public const string QNAME_MED = "attUpl_med";
 		public const string QNAME_LOW = "attUpl_low";
-		private static AttachmentUploadQueue instance;
 
 		private readonly object csLock = new object();
-		private readonly Semaphore hasItem;
-		private readonly Queue<DequeuedTask<ITask>> highQueue;
-		private readonly Queue<DequeuedTask<ITask>> lowQueue;
-		private readonly Queue<DequeuedTask<ITask>> mediumQueue;
+		bool isInited = false;
+		private Semaphore hasItem;
+		private Queue<DequeuedTask<ITask>> highQueue;
+		private Queue<DequeuedTask<ITask>> lowQueue;
+		private Queue<DequeuedTask<ITask>> mediumQueue;
 		private readonly AttachmentUploadQueuePersistentStorage storage;
-
 
 		public bool IsPersistenceQueue
 		{
 			get { return true; }
 		}
 
-		private AttachmentUploadQueue()
+		public AttachmentUploadQueue()
 		{
 			storage = new AttachmentUploadQueuePersistentStorage();
-			highQueue = storage.Load(QNAME_HIGH);
-			mediumQueue = storage.Load(QNAME_MED);
-			lowQueue = storage.Load(QNAME_LOW);
-
-			int initialTaskCount = highQueue.Count + mediumQueue.Count + lowQueue.Count;
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT).IncrementBy(initialTaskCount);
-			hasItem = new Semaphore(initialTaskCount, int.MaxValue);
 		}
 
-		public static AttachmentUploadQueue Instance
+
+		public void Init()
 		{
-			get { return instance ?? (instance = new AttachmentUploadQueue()); }
+			lock (csLock)
+			{
+				highQueue = storage.Load(QNAME_HIGH);
+				mediumQueue = storage.Load(QNAME_MED);
+				lowQueue = storage.Load(QNAME_LOW);
+
+				foreach (var t in highQueue)
+				{
+					OnTaskEnqueued(t.Task);	
+				}
+				foreach (var t in mediumQueue)
+				{
+					OnTaskEnqueued(t.Task);
+				}
+				foreach (var t in lowQueue)
+				{
+					OnTaskEnqueued(t.Task);
+				}
+
+				hasItem = new Semaphore(highQueue.Count + mediumQueue.Count + lowQueue.Count, int.MaxValue);
+				isInited = true;
+			}
 		}
+
 
 		#region ITaskDequeuable<ITask> Members
 
 		public DequeuedTask<ITask> Dequeue()
 		{
+			if (!isInited)
+				throw new InvalidOperationException("Not inited");
+
+
 			hasItem.WaitOne();
 
 			lock (csLock)
@@ -63,19 +82,25 @@ namespace Wammer.Station.AttachmentUpload
 					deqTask = lowQueue.Dequeue();
 
 				Trace.Assert(deqTask != null);
+				OnTaskDequeued(deqTask.Task);
 				return deqTask;
 			}
 		}
 
-		public void AckDequeue(DequeuedTask<ITask> task)
+		public void AckDequeue(DequeuedTask<ITask> item)
 		{
-			storage.Remove(task);
+			if (!isInited)
+				throw new InvalidOperationException("Not inited");
+
+			storage.Remove(item);
 		}
 
 
 		public void EnqueueDummyTask()
 		{
-			PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT).Increment();
+			if (!isInited)
+				throw new InvalidOperationException("Not inited");
+
 			Enqueue(new NullTask(), TaskPriority.High);
 		}
 
@@ -85,6 +110,9 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void Enqueue(ITask task, TaskPriority priority)
 		{
+			if (!isInited)
+				throw new InvalidOperationException("Not inited");
+
 			lock (csLock)
 			{
 				var item = new DequeuedTask<ITask>(task, Guid.NewGuid());
@@ -98,7 +126,7 @@ namespace Wammer.Station.AttachmentUpload
 
 				storage.Save(item, priority);
 			}
-
+			OnTaskEnqueued(task);
 			hasItem.Release();
 		}
 

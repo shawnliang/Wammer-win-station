@@ -37,7 +37,6 @@ namespace Wammer.Station
 		private string _stationID;
 		private TaskRunner<IResourceDownloadTask>[] _bodySyncRunners;
 		private TaskRunner<ITask>[] _upstreamTaskRunner;
-		private AttachmentDownloadMonitor _downstreamMonitor;
 		private Boolean _isSynchronizationStatus;
 		private DriverController _driverAgent;
 		private Object _bodySyncRunnersLockObj;
@@ -106,12 +105,6 @@ namespace Wammer.Station
 					{
 						_bodySyncRunners = Enumerable.Range(0, BODY_SYNC_THREAD_COUNT).Select(
 							item => new TaskRunner<IResourceDownloadTask>(BodySyncQueue.Instance, threadsExit)).ToArray();
-
-						Array.ForEach(_bodySyncRunners, item =>
-							{
-								item.TaskExecuted -= m_DownstreamMonitor.OnDownstreamTaskDone;
-								item.TaskExecuted += m_DownstreamMonitor.OnDownstreamTaskDone;
-							});
 					}
 					return _bodySyncRunners;
 				}
@@ -127,20 +120,11 @@ namespace Wammer.Station
 			get
 			{
 				return _upstreamTaskRunner ?? (_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
-					item => new TaskRunner<ITask>(AttachmentUploadQueue.Instance, threadsExit)).ToArray());
+					item => new TaskRunner<ITask>(AttachmentUploadQueueHelper.Instance, threadsExit)).ToArray());
 			}
 		}
 
-		/// <summary>
-		/// Gets the m_ downstream monitor.
-		/// </summary>
-		/// <value>The m_ downstream monitor.</value>
-		private AttachmentDownloadMonitor m_DownstreamMonitor
-		{
-			get { return _downstreamMonitor ?? (_downstreamMonitor = new AttachmentDownloadMonitor()); }
-		}
-
-
+		
 		private Boolean m_OriginalSynchronizationStatus { get; set; }
 
 
