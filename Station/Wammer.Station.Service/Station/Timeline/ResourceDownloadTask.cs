@@ -12,6 +12,7 @@ using Wammer.Model;
 using Wammer.Station.Retry;
 using Wammer.Utility;
 using System.Diagnostics;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station.Timeline
 {
@@ -26,12 +27,12 @@ namespace Wammer.Station.Timeline
 	[Serializable]
 	public class ResourceDownloadTask : DelayedRetryTask, IResourceDownloadTask
 	{
+		private static readonly IPerfCounter downloadCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
 		private static readonly ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
-
 		private ResourceDownloadEventArgs evtargs;
 
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, TaskPriority pri)
-			: base(RetryQueue.Instance, pri)
+			: base(pri)
 		{
 			Debug.Assert(!String.IsNullOrEmpty(arg.attachment.object_id));
 			evtargs = arg;
@@ -251,6 +252,8 @@ namespace Wammer.Station.Timeline
 			string meta = evtargs.imagemeta.ToString();
 			string oldFile = evtargs.filepath;
 
+			downloadCount.Increment();
+
 			try
 			{
 				bool alreadyExist = AttachmentExists(evtargs);
@@ -280,6 +283,8 @@ namespace Wammer.Station.Timeline
 			}
 			finally
 			{
+				downloadCount.Decrement();
+
 				if (File.Exists(oldFile))
 					File.Delete(oldFile);
 			}

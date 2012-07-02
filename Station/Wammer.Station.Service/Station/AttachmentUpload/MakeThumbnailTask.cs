@@ -13,7 +13,7 @@ namespace Wammer.Station.AttachmentUpload
 		private int retry_count;
 
 		public MakeThumbnailTask(string object_id, ImageMeta thumbnail_type, TaskPriority pri)
-			: base(RetryQueue.Instance, pri)
+			: base(pri)
 		{
 			if (thumbnail_type == ImageMeta.Origin || thumbnail_type == ImageMeta.None)
 				throw new ArgumentException("thumbnail_type");
