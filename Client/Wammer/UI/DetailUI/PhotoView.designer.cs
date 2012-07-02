@@ -47,17 +47,9 @@ namespace Waveface.DetailUI
 			this.panelBottom = new System.Windows.Forms.Panel();
 			this.pnlPhotoViewToolBar = new System.Windows.Forms.Panel();
 			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-			this.StatusLabelFileName = new System.Windows.Forms.ToolStripStatusLabel();
-			this.StatusLabelCurrentSize = new System.Windows.Forms.ToolStripStatusLabel();
-			this.imageSizeToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.positionToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.zoomToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.contextMenuStrip.SuspendLayout();
 			this.panelBottom.SuspendLayout();
 			this.pnlPhotoViewToolBar.SuspendLayout();
-			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// contextMenuStrip
@@ -146,7 +138,6 @@ namespace Waveface.DetailUI
 			this.imageBox.SizeToFit = true;
 			this.imageBox.ZoomIncrement = 10;
 			this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
-			this.imageBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.imageBox_MouseDown);
 			// 
 			// thumbnailNavigator1
 			// 
@@ -178,81 +169,13 @@ namespace Waveface.DetailUI
 			// 
 			this.cultureManager.ManagedControl = this;
 			// 
-			// StatusLabelFileName
-			// 
-			this.StatusLabelFileName.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-			this.StatusLabelFileName.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-			this.StatusLabelFileName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.StatusLabelFileName.Name = "StatusLabelFileName";
-			resources.ApplyResources(this.StatusLabelFileName, "StatusLabelFileName");
-			// 
-			// StatusLabelCurrentSize
-			// 
-			this.StatusLabelCurrentSize.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-			this.StatusLabelCurrentSize.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-			this.StatusLabelCurrentSize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.StatusLabelCurrentSize.Name = "StatusLabelCurrentSize";
-			resources.ApplyResources(this.StatusLabelCurrentSize, "StatusLabelCurrentSize");
-			// 
-			// imageSizeToolStripStatusLabel
-			// 
-			this.imageSizeToolStripStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-			this.imageSizeToolStripStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-			this.imageSizeToolStripStatusLabel.Image = global::Waveface.Properties.Resources.ObjectSize;
-			this.imageSizeToolStripStatusLabel.Name = "imageSizeToolStripStatusLabel";
-			resources.ApplyResources(this.imageSizeToolStripStatusLabel, "imageSizeToolStripStatusLabel");
-			// 
-			// positionToolStripStatusLabel
-			// 
-			this.positionToolStripStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-			this.positionToolStripStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-			this.positionToolStripStatusLabel.Image = global::Waveface.Properties.Resources.ObjectPosition;
-			this.positionToolStripStatusLabel.Name = "positionToolStripStatusLabel";
-			resources.ApplyResources(this.positionToolStripStatusLabel, "positionToolStripStatusLabel");
-			// 
-			// zoomToolStripStatusLabel
-			// 
-			this.zoomToolStripStatusLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-			this.zoomToolStripStatusLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-			this.zoomToolStripStatusLabel.Image = global::Waveface.Properties.Resources.Magnifier;
-			this.zoomToolStripStatusLabel.Name = "zoomToolStripStatusLabel";
-			resources.ApplyResources(this.zoomToolStripStatusLabel, "zoomToolStripStatusLabel");
-			// 
-			// StatusLabel
-			// 
-			this.StatusLabel.Name = "StatusLabel";
-			resources.ApplyResources(this.StatusLabel, "StatusLabel");
-			// 
-			// statusStrip
-			// 
-			resources.ApplyResources(this.statusStrip, "statusStrip");
-			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StatusLabelFileName,
-            this.StatusLabelCurrentSize,
-            this.imageSizeToolStripStatusLabel,
-            this.positionToolStripStatusLabel,
-            this.zoomToolStripStatusLabel,
-            this.StatusLabel});
-			this.statusStrip.Name = "statusStrip";
-			// 
 			// PhotoView
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.panelBottom);
 			this.Controls.Add(this.imageBox);
 			this.Controls.Add(this.thumbnailNavigator1);
-			this.Controls.Add(this.statusStrip);
+			this.Controls.Add(this.panelBottom);
 			this.KeyPreview = true;
 			this.MinimizeBox = false;
 			this.Name = "PhotoView";
@@ -263,8 +186,6 @@ namespace Waveface.DetailUI
 			this.panelBottom.ResumeLayout(false);
 			this.panelBottom.PerformLayout();
 			this.pnlPhotoViewToolBar.ResumeLayout(false);
-			this.statusStrip.ResumeLayout(false);
-			this.statusStrip.PerformLayout();
 			this.ResumeLayout(false);
 
         }
@@ -285,13 +206,6 @@ namespace Waveface.DetailUI
 		private ImageButton btnSave;
 		private ImageButton btnCoverImage;
 		private ImageButton btnSlideShow;
-		private System.Windows.Forms.StatusStrip statusStrip;
-		private System.Windows.Forms.ToolStripStatusLabel StatusLabelFileName;
-		private System.Windows.Forms.ToolStripStatusLabel StatusLabelCurrentSize;
-		private System.Windows.Forms.ToolStripStatusLabel imageSizeToolStripStatusLabel;
-		private System.Windows.Forms.ToolStripStatusLabel positionToolStripStatusLabel;
-		private System.Windows.Forms.ToolStripStatusLabel zoomToolStripStatusLabel;
-		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
     }
 }
 
