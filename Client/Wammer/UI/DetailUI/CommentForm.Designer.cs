@@ -93,6 +93,7 @@
             // CommentForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.textBoxComment);
             this.Controls.Add(this.buttonAddComment);

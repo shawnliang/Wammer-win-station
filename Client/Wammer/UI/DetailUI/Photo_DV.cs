@@ -616,8 +616,8 @@ namespace Waveface.DetailUI
 
         private void imageListView_Resize(object sender, EventArgs e)
         {
-            if (Post != null)
-                ReLayout();
+            //if (Post != null)
+            //    ReLayout();
 
             try
             {

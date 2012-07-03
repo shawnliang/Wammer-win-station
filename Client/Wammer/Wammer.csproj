@@ -239,8 +239,8 @@
     </Compile>
     <Compile Include="ProgramSetting.cs" />
     <Compile Include="Exception\Station401Exception.cs" />
-    <Compile Include="Controls\ThumbnailNavigator.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Controls\PhotoNavigator.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\DateTimePopupPanel.cs">
       <SubType>UserControl</SubType>
