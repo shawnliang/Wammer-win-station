@@ -22,7 +22,6 @@ using Waveface.Component.DropableNotifyIcon;
 using Waveface.Configuration;
 using Waveface.ImageCapture;
 using Waveface.Properties;
-using Waveface.SettingUI;
 using MonthCalendar = CustomControls.MonthCalendar;
 
 #endregion
@@ -165,8 +164,6 @@ namespace Waveface
             File.Delete(m_shellContentMenuFilePath);
 
             InitializeComponent();
-
-            Text = "Stream "; // this has to be sync with SystemStry.Main.CLIENT_TITLE for finding client form
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
@@ -628,6 +625,8 @@ namespace Waveface
             RT.Login = _login;
             GCONST = new GCONST(RT);
 
+            Text = "Stream - ["+ _login.user.email + "]" ; // this has to be sync with SystemStry.Main.CLIENT_TITLE for finding client form
+
             getGroupAndUser();
             fillUserInformation();
 
@@ -905,7 +904,6 @@ namespace Waveface
 
                 Dictionary<DateTime, string> _firstPostInADay = setCalendarBoldedDates(_posts);
 
-                postsArea.ShowPostInforPanel(false);
                 leftArea.SetUI(true);
 
                 lock (postsArea.PostsList)

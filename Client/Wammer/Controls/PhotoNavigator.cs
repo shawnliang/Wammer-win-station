@@ -6,10 +6,11 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Waveface
 {
-	public class ThumbnailNavigator : Control
+	public class PhotoNavigator : UserControl
 	{
 		#region Structure
 		struct ThumbnailInfo
@@ -27,17 +28,30 @@ namespace Waveface
 
 
 		#region Var
+		private Object _prepareThumbnailsIndexLocker;
 		private List<string> _thumbnailFiles;
 		private List<Lazy<Image>> _thumbnails;
+		private Queue<int> _prepareThumbnailsIndex;
 		private Image _defaultThumbnail;
 		private ThumbnailInfo[] _DisplayedThumbnailInfos;
+		private Rectangle _selectedRectangle;
 
 		private int _selectedIndex;
 		private int _thumbnailWidth = DEFAULT_THUMBNAIL_WIDTH;
+
+		private Thread _prepareThumbnailLoadingThread;
 		#endregion
 
 
 		#region Private Property
+		private Object m_PrepareThumbnailsIndexLocker
+		{
+			get
+			{
+				return _prepareThumbnailsIndexLocker ?? (_prepareThumbnailsIndexLocker = new Object());
+			}
+		}
+
 		/// <summary>
 		/// Gets the m_ thumbnail files.
 		/// </summary>
@@ -62,6 +76,17 @@ namespace Waveface
 			}
 		}
 
+		private Queue<int> m_PrepareThumbnailsIndex
+		{
+			get
+			{
+				lock (m_PrepareThumbnailsIndexLocker)
+				{
+					return _prepareThumbnailsIndex ?? (_prepareThumbnailsIndex = new Queue<int>());
+				}
+			}
+		}
+
 		/// <summary>
 		/// Gets or sets the m_ displayed thumbnail infos.
 		/// </summary>
@@ -75,6 +100,57 @@ namespace Waveface
 			set
 			{
 				_DisplayedThumbnailInfos = value;
+			}
+		}
+
+		private Rectangle m_SelectedRectangle
+		{
+			get
+			{
+				if(_selectedRectangle.IsEmpty)
+					_selectedRectangle = new Rectangle((this.Width - ThumbnailWidth) / 2, ThumbnailPadding.Top, ThumbnailWidth, ThumbnailWidth);
+				return _selectedRectangle;
+			}
+		}
+
+		private Thread m_PrepareThumbnailLoadingThread
+		{
+			get
+			{
+				return _prepareThumbnailLoadingThread ?? (_prepareThumbnailLoadingThread = new Thread(() => 
+				{
+					try
+					{
+						Array.ForEach(m_PrepareThumbnailsIndex.ToArray(), (index) => 
+							{
+								m_Thumbnails[index].BeginInit();
+							});
+					}
+					catch (Exception)
+					{
+					}
+					_prepareThumbnailLoadingThread = null;
+				}));
+			}
+			set
+			{
+				if (_prepareThumbnailLoadingThread != null)
+				{
+					try
+					{
+						_prepareThumbnailLoadingThread.Abort();
+					}
+					catch { }
+					
+					try
+					{
+						Array.ForEach(m_PrepareThumbnailsIndex.ToArray(), (index) => m_Thumbnails[index].CancelInit());
+					}
+					catch (Exception)
+					{
+					}
+				}
+				_prepareThumbnailLoadingThread = value;
 			}
 		}
 		#endregion
@@ -160,9 +236,10 @@ namespace Waveface
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ThumbnailGallery"/> class.
 		/// </summary>
-		public ThumbnailNavigator()
+		public PhotoNavigator()
 		{
 			this.Click += new EventHandler(ThumbnailNavigator_Click);
+			this.MouseWheel += new MouseEventHandler(PhotoNavigator_MouseWheel);
 		}
 		#endregion
 
@@ -178,8 +255,6 @@ namespace Waveface
 				if ((image.Width < size) && (image.Height < size)) //圖片比指定大小還小，不需切割
 					return image;
 
-				if (image.Width <= 300 && image.Height <= 300)
-					return image.GetThumbnailImage(size, size, null, IntPtr.Zero);
 
 				var isHorizontalPhoto = image.Width > image.Height;
 
@@ -187,7 +262,11 @@ namespace Waveface
 				float ratio2 = size / (float)image.Height;
 				float ratio = (image.Width < image.Height) ? ratio1 : ratio2;
 
-				Image thumbnail = new Bitmap(image, new Size((int)(image.Width * ratio), (int)(image.Height * ratio)));
+				var width = (int)(image.Width * ratio);
+				var height = (int)(image.Height * ratio);
+
+				Image thumbnail = (size <= 300) ? image.GetThumbnailImage(width, height, null, IntPtr.Zero) :
+					new Bitmap(image, new Size(width, height));
 
 				if (thumbnail.Width == thumbnail.Height)
 					return thumbnail;
@@ -234,7 +313,7 @@ namespace Waveface
 			}
 		}
 
-		private void PrepareDisplayedThumbnailInfos(Rectangle selectedRectangle)
+		private void PrepareDisplayedThumbnailInfos()
 		{
 			var itemWidth = ThumbnailWidth + ThumbnailPadding.Left + ThumbnailPadding.Right;
 			var displayCount = this.Width / itemWidth;
@@ -242,10 +321,12 @@ namespace Waveface
 
 			var leftThumbnailCount = (SelectedIndex > halfCount) ? halfCount : SelectedIndex;
 
+			var leftThumbnailIndex = SelectedIndex - leftThumbnailCount;
+
 			var thumbnailInfos = new List<ThumbnailInfo>();
 			for (int index = 1; index <= leftThumbnailCount; ++index)
 			{
-				var rectangle = new Rectangle(selectedRectangle.Left - index * itemWidth, ThumbnailPadding.Top, ThumbnailWidth, ThumbnailWidth);
+				var rectangle = new Rectangle(m_SelectedRectangle.Left - index * itemWidth, ThumbnailPadding.Top, ThumbnailWidth, ThumbnailWidth);
 
 				thumbnailInfos.Add(new ThumbnailInfo()
 				{
@@ -257,7 +338,7 @@ namespace Waveface
 			thumbnailInfos.Add(new ThumbnailInfo()
 			{
 				Index = SelectedIndex,
-				Bounds = selectedRectangle
+				Bounds = m_SelectedRectangle
 			});
 
 			var rightThumbnailCount = (m_Thumbnails.Count >= SelectedIndex) ? m_Thumbnails.Count - SelectedIndex - 1 : 0;
@@ -265,9 +346,11 @@ namespace Waveface
 			if (rightThumbnailCount > halfCount)
 				rightThumbnailCount = halfCount;
 
+			var rightThumbnailIndex = SelectedIndex + rightThumbnailCount;
+
 			for (int index = 1; index <= rightThumbnailCount; ++index)
 			{
-				var rectangle = new Rectangle(selectedRectangle.Left + index * itemWidth, ThumbnailPadding.Top, ThumbnailWidth, ThumbnailWidth);
+				var rectangle = new Rectangle(m_SelectedRectangle.Left + index * itemWidth, ThumbnailPadding.Top, ThumbnailWidth, ThumbnailWidth);
 
 				thumbnailInfos.Add(new ThumbnailInfo()
 				{
@@ -276,6 +359,40 @@ namespace Waveface
 				});
 			}
 			m_DisplayedThumbnailInfos = thumbnailInfos.ToArray();
+
+			m_PrepareThumbnailsIndex.Clear();
+			if (rightThumbnailIndex < m_Thumbnails.Count)
+			{
+				var prepareRightThumbnailIndex = rightThumbnailIndex + displayCount;
+
+				if (prepareRightThumbnailIndex >= m_Thumbnails.Count - 1)
+					prepareRightThumbnailIndex = m_Thumbnails.Count - 1;
+
+				var linq = from index in Enumerable.Range(rightThumbnailIndex, prepareRightThumbnailIndex - rightThumbnailIndex)
+						   where !m_Thumbnails[index].IsValueCreated
+						   select index;
+
+				Array.ForEach(linq.ToArray(),
+					(item) => m_PrepareThumbnailsIndex.Enqueue(item));
+			}
+
+			if (leftThumbnailIndex > 0)
+			{
+				var prepareLeftThumbnailIndex = leftThumbnailIndex - displayCount;
+
+				if (prepareLeftThumbnailIndex < 0)
+					prepareLeftThumbnailIndex = 0;
+
+				var linq = from index in Enumerable.Range(prepareLeftThumbnailIndex, leftThumbnailIndex - prepareLeftThumbnailIndex)
+						   where !m_Thumbnails[index].IsValueCreated
+						   select index;
+				
+				Array.ForEach(linq.ToArray(), 
+					(item) => m_PrepareThumbnailsIndex.Enqueue(item));
+			}
+
+			m_PrepareThumbnailLoadingThread = null;
+			m_PrepareThumbnailLoadingThread.Start();
 		}
 
 		[Conditional("DEBUG")]
@@ -417,8 +534,7 @@ namespace Waveface
 				if (SelectedIndex == DEFAULT_INDEX)
 					return;
 
-				var selectedRectangle = new Rectangle((this.Width - ThumbnailWidth) / 2, ThumbnailPadding.Top, ThumbnailWidth, ThumbnailWidth);
-				PrepareDisplayedThumbnailInfos(selectedRectangle);
+				PrepareDisplayedThumbnailInfos();
 
 				var g = e.Graphics;
 				foreach (var info in m_DisplayedThumbnailInfos)
@@ -431,8 +547,8 @@ namespace Waveface
 					g.DrawImage(m_Thumbnails[info.Index].Value, bounds);
 				}
 
-				if (!Rectangle.Intersect(e.ClipRectangle, selectedRectangle).IsEmpty)
-					g.DrawRectangle(Pens.White, selectedRectangle);
+				if (!Rectangle.Intersect(e.ClipRectangle, m_SelectedRectangle).IsEmpty)
+					g.DrawRectangle(Pens.White, m_SelectedRectangle);
 			}
 			catch (Exception ex)
 			{
@@ -473,6 +589,18 @@ namespace Waveface
 				case Keys.Right:
 					NextThumbnail();
 					break;
+				case Keys.PageUp:
+					PreviousPage();
+					break;
+				case Keys.PageDown:
+					NextPage();
+					break;
+				case Keys.Home:
+					FirstThumbnail();
+					break;
+				case Keys.End:
+					NextThumbnail();
+					break;
 			}
 		}
 
@@ -492,6 +620,19 @@ namespace Waveface
 				return;
 
 			Invalidate(linq.Single());
+		}
+
+		/// <summary>
+		/// Handles the MouseWheel event of the PhotoNavigator control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.Windows.Forms.MouseEventArgs"/> instance containing the event data.</param>
+		void PhotoNavigator_MouseWheel(object sender, MouseEventArgs e)
+		{
+			if (e.Delta >= 0)
+				PreviousThumbnail();
+			else
+				NextThumbnail();
 		}
 		#endregion
 	}

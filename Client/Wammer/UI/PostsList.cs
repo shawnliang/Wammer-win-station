@@ -9,8 +9,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Microsoft.Win32;
 using NLog;
+using Newtonsoft.Json;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Localization;
@@ -111,14 +111,12 @@ namespace Waveface
 
         private void PostsList_Load(object sender, EventArgs e)
         {
-            SetFont();
-
-            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            InitFont();
 
             MouseWheelRedirector.Attach(dataGridView);
         }
 
-        private void SetFont()
+        private void InitFont()
         {
             float _d = 0;
 
@@ -154,7 +152,7 @@ namespace Waveface
             {
                 m_cellLinkHackValue = 2;
                 m_cellHeight = (int)(m_fontText.Height * 6.9);
-                m_cellLinkHeight = (int)(m_fontText.Height * 7);
+                m_cellLinkHeight = m_fontText.Height * 7;
 
                 if (CultureManager.ApplicationUICulture.Name == "zh-TW")
                 {
@@ -208,6 +206,59 @@ namespace Waveface
             }
 
             dataGridView.ResumeLayout();
+        }
+
+        private bool IsSamePostContent(Post p1, Post p2)
+        {
+            if ((p1 == null) || (p2 == null))
+                return false;
+
+            if (p1.post_id != p2.post_id)
+                return false;
+
+            if (p1.content != p2.content)
+                return false;
+
+            if (p1.favorite != p2.favorite)
+                return false;
+
+            if (p1.comment_count != p2.comment_count)
+                return false;
+
+            if (p1.type != p2.type)
+                return false;
+
+            switch (p1.type)
+            {
+                case "text":
+                    break;
+
+                case "link":
+                    string _pv1 = JsonConvert.SerializeObject(p1.preview);
+                    string _pv2 = JsonConvert.SerializeObject(p2.preview);
+
+                    if (_pv1 != _pv2)
+                        return false;
+
+                    break;
+
+                case "image":
+                    if (p1.cover_attach != p2.cover_attach)
+                        return false;
+
+                    if (p1.attachment_count != p2.attachment_count)
+                        return false;
+
+                    for (int i = 0; i < p1.attachment_id_array.Count; i++)
+                    {
+                        if (p1.attachment_id_array[i] != p2.attachment_id_array[i])
+                            return false;
+                    }
+
+                    break;
+            }
+
+            return true;
         }
 
         private void ResizeCell()
@@ -311,7 +362,9 @@ namespace Waveface
             if (m_oldFirstDisplayedIndex >= 0)
             {
                 if (m_oldFirstDisplayedIndex < posts.Count)
+                {
                     m_oldFirstDisplayedPostID = posts[m_oldFirstDisplayedIndex].post_id;
+                }
             }
         }
 
@@ -340,8 +393,8 @@ namespace Waveface
                 bool _isFirstDisplayed = false;
 
                 Graphics _g = e.Graphics;
-                //_g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                //_g.SmoothingMode = SmoothingMode.HighQuality;
+                _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                _g.SmoothingMode = SmoothingMode.HighQuality;
 
                 Trace.WriteLine("cell index: " + e.RowIndex.ToString());
                 Post _post = m_postBS[e.RowIndex] as Post;
@@ -850,6 +903,9 @@ namespace Waveface
         {
             Post _post = m_postBS.Current as Post;
 
+            if(IsSamePostContent(_post, m_detailView.Post))
+                return;
+
             foreach (User _user in Main.Current.RT.AllUsers)
             {
                 if (_user.user_id == _post.creator_id)
@@ -868,11 +924,6 @@ namespace Waveface
         public void Thumbnail_EventHandler(ImageItem item)
         {
             RefreshUI();
-        }
-
-        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-        {
-            SetFont();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -1247,6 +1298,7 @@ namespace Waveface
 
         #endregion
 
+        /*
         private bool CheckAllPhotosOrigin(Post post)
         {
             foreach (Attachment _attachment in post.attachments)
@@ -1263,6 +1315,7 @@ namespace Waveface
 
             return true;
         }
+        */
 
         #region Display
 
