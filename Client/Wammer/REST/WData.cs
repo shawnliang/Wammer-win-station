@@ -655,6 +655,7 @@ namespace Waveface.API.V2
     {
         public string action { get; set; }
         public string target_type { get; set; }
+        public string post_id { get; set; }
     }
 
     public class UT_UsertrackList

@@ -50,7 +50,7 @@ namespace Wammer.Station.AttachmentUpload
 	public class AttachmentEventArgs : EventArgs
 	{
 		public AttachmentEventArgs(string attachmentId, bool isFromThisWindows, UpsertResult upsertResult, ImageMeta meta,
-			string userSession, string apikey)
+			string userSession, string apikey, string postId = null)
 		{
 			AttachmentId = attachmentId;
 			IsFromThisWindows = isFromThisWindows;
@@ -58,8 +58,10 @@ namespace Wammer.Station.AttachmentUpload
 			ImgMeta = meta;
 			UserSession = userSession;
 			APIKey = apikey;
+			PostId = postId;
 		}
 
+		public string PostId { get; private set; }
 		public string AttachmentId { get; private set; }
 		public bool IsFromThisWindows { get; private set; }
 		public UpsertResult UpsertResult { get; private set; }

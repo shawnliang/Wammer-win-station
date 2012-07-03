@@ -1491,6 +1491,13 @@ namespace Waveface
                                         break;
                                 }
                             }
+
+							if (_action.target_type == "image.medium" &&
+								_action.action == "add" &&
+								!string.IsNullOrEmpty(_action.post_id))
+							{
+								//???
+							}
                         }
                     }
 
