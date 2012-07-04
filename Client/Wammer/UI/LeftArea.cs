@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using CustomControls;
 using NLog;
 using Waveface.API.V2;
+using Waveface.Component;
 using Waveface.FilterUI;
 using Waveface.Properties;
 using MonthCalendar = CustomControls.MonthCalendar;
@@ -461,16 +462,22 @@ namespace Waveface
         private void DropArea_DragDrop(object sender, DragEventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Drop(e);
+
+            FlashWindow.Stop(Main.Current);
         }
 
         private void DropArea_DragEnter(object sender, DragEventArgs e)
         {
+            FlashWindow.Start(Main.Current);
+
             m_dragDropClipboardHelper.Drag_Enter(e, false);
         }
 
         private void DropArea_DragLeave(object sender, EventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Leave();
+
+            FlashWindow.Stop(Main.Current);
         }
 
         private void DropArea_DragOver(object sender, DragEventArgs e)

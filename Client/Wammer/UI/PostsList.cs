@@ -1251,10 +1251,14 @@ namespace Waveface
                     m_detailView.ExistPostAddPhotos(_pics, 0);
                 }
             }
+
+            FlashWindow.Stop(Main.Current);
         }
 
         private void dataGridView_DragEnter(object sender, DragEventArgs e)
         {
+            FlashWindow.Start(Main.Current);
+
             Post _p = GetCurrentPost();
 
             if (_p != null)
@@ -1276,6 +1280,8 @@ namespace Waveface
         private void dataGridView_DragLeave(object sender, EventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Leave();
+
+            FlashWindow.Stop(Main.Current);
         }
 
         #endregion
