@@ -60,7 +60,7 @@ namespace Waveface
                 e.Effect = DragDropEffects.None; // Unknown data, ignore it
             }
 
-            FlashWindow.Start(Main.Current);
+            //FlashWindow.Start(Main.Current);
         }
 
         public void Drag_Over(DragEventArgs e, bool forceDisable)
@@ -100,7 +100,7 @@ namespace Waveface
 
         public List<string> Drag_Drop(DragEventArgs e)
         {
-            FlashWindow.Stop(Main.Current);
+            //FlashWindow.Stop(Main.Current);
 
             try
             {
@@ -120,7 +120,7 @@ namespace Waveface
 
         public void Drag_Leave()
         {
-            FlashWindow.Stop(Main.Current);
+            //FlashWindow.Stop(Main.Current);
 
             IDropTargetHelper _dropHelper = (IDropTargetHelper)new DragDropHelper();
             _dropHelper.DragLeave();
@@ -346,7 +346,7 @@ namespace Waveface
                 e.Effect = DragDropEffects.None;
             }
 
-            FlashWindow.Start(Main.Current);
+            //FlashWindow.Start(Main.Current);
         }
 
         public void Drag_Over_HtmlImage(DragEventArgs e, bool forceDisable)
@@ -382,7 +382,7 @@ namespace Waveface
 
         public List<string> Drag_Drop_HtmlImage(DragEventArgs e)
         {
-            FlashWindow.Stop(Main.Current);
+            //FlashWindow.Stop(Main.Current);
 
             try
             {
@@ -402,7 +402,7 @@ namespace Waveface
 
         public void Drag_Leave_HtmlImage()
         {
-            FlashWindow.Stop(Main.Current);
+            //FlashWindow.Stop(Main.Current);
 
             IDropTargetHelper _dropHelper = (IDropTargetHelper)new DragDropHelper();
             _dropHelper.DragLeave();

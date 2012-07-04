@@ -266,16 +266,42 @@ namespace Waveface.DetailUI
 
             MatchCollection _ms = _r.Matches(_text);
 
+            string _url = string.Empty;
+
             if (_ms.Count > 0)
+            {
                 _text1 = _ms[0].Value;
+                _url = _text1;
+            }
 
             if (_ms.Count > 1)
+            {
                 _text2 = _ms[1].Value;
+                _url = _text2;
+            }
 
             if (m_clickableURL.Contains(_text1) || m_clickableURL.Contains(_text2))
+            {
                 m_canOpenNewWindow = true;
+            }
             else
+            {
+                string _browser = WebBrowserUtility.GetSystemDefaultBrowser();
+
+                if (string.IsNullOrEmpty(_browser))
+                {
+                    return;
+                }
+
+                var _newUrl = _url;
+
+                if (_newUrl == string.Empty)
+                    _newUrl = webBrowser.Document.ActiveElement.GetAttribute("href");
+
+                Process.Start(_browser, _newUrl);
+
                 m_canOpenNewWindow = false;
+            }
 
             m_showCancelledNavigationMessage = true;
         }
@@ -292,21 +318,21 @@ namespace Waveface.DetailUI
 
         private void webBrowser_NewWindow(object sender, CancelEventArgs e)
         {
-			e.Cancel = true;
+            e.Cancel = true;
 
-			if (m_canOpenNewWindow)
-			{
-				string browser = WebBrowserUtility.GetSystemDefaultBrowser();
+            if (m_canOpenNewWindow)
+            {
+                string _browser = WebBrowserUtility.GetSystemDefaultBrowser();
 
-				if (string.IsNullOrEmpty(browser))
-				{
-					e.Cancel = false;
-					return;
-				}
+                if (string.IsNullOrEmpty(_browser))
+                {
+                    e.Cancel = false;
+                    return;
+                }
 
-				var newUrl = webBrowser.Document.ActiveElement.GetAttribute("href");
-				Process.Start(newUrl);
-			}
+                var _newUrl = webBrowser.Document.ActiveElement.GetAttribute("href");
+                Process.Start(_browser, _newUrl);
+            }
         }
 
         void contextMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -337,10 +363,10 @@ namespace Waveface.DetailUI
         {
             string _browser = WebBrowserUtility.GetSystemDefaultBrowser();
 
-			if (string.IsNullOrEmpty(_browser))
-				return;
+            if (string.IsNullOrEmpty(_browser))
+                return;
 
-			Process.Start(Post.preview.url);
+            Process.Start(Post.preview.url);
         }
     }
 }
