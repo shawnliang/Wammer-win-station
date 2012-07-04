@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Waveface.API.V2;
+using Waveface.Component;
 using Waveface.Component.RichEdit;
 using Waveface.Configuration;
 
@@ -876,16 +877,22 @@ namespace Waveface
 
                 photo_UI.AddPhotos(_pics.ToArray(), 0);
             }
+
+            FlashWindow.Stop(this);
         }
 
         private void panelMiddleBar_DragEnter(object sender, DragEventArgs e)
         {
+            FlashWindow.Start(this);
+
             m_dragDropClipboardHelper.Drag_Enter(e, false);
         }
 
         private void panelMiddleBar_DragLeave(object sender, EventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Leave();
+
+            FlashWindow.Stop(this);
         }
 
         private void panelMiddleBar_DragOver(object sender, DragEventArgs e)
