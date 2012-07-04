@@ -45,6 +45,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public string api_key { get; set; }
 		public string session_token { get; set; }
+		public string post_id { get; set; }
 	}
 
 	public class AttachmentEventArgs : EventArgs
@@ -141,7 +142,8 @@ namespace Wammer.Station.AttachmentUpload
 					dbResult,
 					uploadData.imageMeta,
 					uploadData.session_token,
-					uploadData.api_key
+					uploadData.api_key,
+					uploadData.post_id
 				)
 			);
 
