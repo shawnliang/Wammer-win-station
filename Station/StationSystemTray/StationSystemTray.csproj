@@ -71,6 +71,9 @@
     <Compile Include="Control\FBLoginButton.Designer.cs">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="Control\GroupBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Control\LoginButton.cs">
       <SubType>Component</SubType>
     </Compile>

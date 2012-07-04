@@ -154,7 +154,7 @@ namespace Wammer.Station.Service
 		private static void InitCloudForwarder(BypassHttpHandler cloudForwarder)
 		{
 			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/auth/"));
-			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/users/"));
+			//cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/users/"));
 			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/groups/"));
 			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/stations/"));
 		}
