@@ -23,6 +23,7 @@ using Waveface.Configuration;
 using Waveface.ImageCapture;
 using Waveface.Properties;
 using MonthCalendar = CustomControls.MonthCalendar;
+using System.Diagnostics;
 
 #endregion
 
@@ -67,7 +68,18 @@ namespace Waveface
         private string m_displayType;
         private string m_delayPostText;
 
+		private CustomWindow _messageReceiver;
+
         #endregion
+
+		private CustomWindow m_MessageReceiver
+		{
+			get
+			{
+				return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
+			}
+		}
+
 
         #region Properties
 
@@ -186,8 +198,12 @@ namespace Waveface
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
+			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
+
             s_logger.Trace("Constructor: OK");
         }
+
+
 
         #region Init
 
@@ -1826,5 +1842,24 @@ namespace Waveface
         }
 
         #endregion
+
+
+		void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
+		{
+			switch (e.Message)
+			{
+				case 0x401:
+					if (this.WindowState == FormWindowState.Minimized)
+						WindowState = FormWindowState.Normal;
+
+					if (!this.Visible)
+						this.Show();
+
+					this.TopMost = true;
+					BringWindowToTop(this.Handle);
+					this.TopMost = false;
+					break;
+			}
+		}
     }
 }

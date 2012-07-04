@@ -40,7 +40,7 @@ namespace StationSystemTray
 		#region Const
 
 		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
-		private const string CLIENT_TITLE = "Stream ";
+		//private const string CLIENT_TITLE = "Stream ";
 		private const int STATION_TIMER_LONG_INTERVAL = 60000;
 		private const int STATION_TIMER_SHORT_INTERVAL = 3000;
 
@@ -335,9 +335,13 @@ namespace StationSystemTray
 		{
 			if (clientProcess != null && !clientProcess.HasExited)
 			{
-				IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
-				Win32Helper.SetForegroundWindow(handle);
-				Win32Helper.ShowWindow(handle, 5);
+				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+
+				if (handle == IntPtr.Zero)
+					return;
+
+				Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
+
 				return;
 			}
 
@@ -1301,7 +1305,7 @@ namespace StationSystemTray
 						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
-						iconText = string.Format("{0}{1}{2}): {3:0.0} {4}{5}{6}): {7:0.0}{8}",
+						iconText = string.Format("{0}{1}¡ô({2}): {3:0.0} {4}{5}¡õ({6}): {7:0.0}{8}",
 												 iconText,
 												 Environment.NewLine,
 												 upRemainedCount,
