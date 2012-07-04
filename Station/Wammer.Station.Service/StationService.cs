@@ -42,6 +42,7 @@ namespace Wammer.Station.Service
 		private HttpServer functionServer;
 		private HttpServer managementServer;
 		private AttachmentViewHandler viewHandler;
+		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
 
 		public StationService()
 		{
@@ -86,6 +87,24 @@ namespace Wammer.Station.Service
 				}
 				InitResourceFolder();
 				TaskQueue.Init();
+
+				// retry queue
+				Retry.RetryQueueHelper.Instance.LoadSavedTasks(item => {
+					uploadDownloadMonitor.OnTaskEnqueued(Retry.RetryQueueHelper.Instance, new TaskEventArgs(item.Task));
+				});
+				Retry.RetryQueueHelper.Instance.TaskEnqueued += uploadDownloadMonitor.OnTaskEnqueued;
+				Retry.RetryQueueHelper.Instance.TaskDequeued += uploadDownloadMonitor.OnTaskDequeued;
+
+				// upload queue
+				AttachmentUploadQueueHelper.Instance.TaskEnqueued += uploadDownloadMonitor.OnTaskEnqueued;
+				AttachmentUploadQueueHelper.Instance.TaskDequeued += uploadDownloadMonitor.OnTaskDequeued;
+				AttachmentUploadQueueHelper.Instance.Init(); // TaskEnqueued and TaskDequeued event handler should be set in prior to Init() is called
+															 // so that performance counter value will be correct.
+
+				// download queue
+				BodySyncQueue.Instance.TaskEnqueued += uploadDownloadMonitor.OnTaskEnqueued;
+				BodySyncQueue.Instance.TaskDequeued += uploadDownloadMonitor.OnTaskDequeued;
+
 				ConfigThreadPool();
 
 
@@ -111,26 +130,20 @@ namespace Wammer.Station.Service
 
 
 				var attachmentHandler = new AttachmentUploadHandler();
-				var attachmentMonitor = new AttachmentUploadMonitor();
 
 				attachmentHandler.AttachmentProcessed +=
 					new AttachmentProcessedHandler(
 						new AttachmentUtility()).OnProcessed;
-				attachmentHandler.ProcessSucceeded += attachmentMonitor.OnProcessSucceeded;
+				attachmentHandler.ProcessSucceeded += uploadDownloadMonitor.OnProcessSucceeded;
 
 
 				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				InitCloudForwarder(cloudForwarder);
-
-				var downstreamMonitor = new AttachmentDownloadMonitor();
-				BodySyncQueue.Instance.Enqueued += downstreamMonitor.OnDownstreamTaskEnqueued;
-
 				InitFunctionServerHandlers(attachmentHandler, cloudForwarder);
 
 
 				logger.Info("Start function server");
 				functionServer.Start();
-				BodySyncQueue.Instance.TaskDropped += downstreamMonitor.OnDownstreamTaskDone;
 
 				logger.Info("Add handlers to management server");
 				managementServer = new HttpServer(9989);

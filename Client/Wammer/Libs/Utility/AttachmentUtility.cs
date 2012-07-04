@@ -93,7 +93,7 @@ namespace Waveface
 
             if (imageType == SMALL)
             {
-                if (a.image_meta.small != null)
+                if ((a.image_meta != null) && (a.image_meta.small != null))
                 {
                     _imageType = SMALL;
                 }

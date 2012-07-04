@@ -13,7 +13,7 @@ namespace Wammer.Station.AttachmentUpload
 		private readonly IAttachmentUtil util;
 
 		public MakeThumbnailAndUpstreamTask(string object_id, ImageMeta meta, TaskPriority pri, IAttachmentUtil util)
-			: base(RetryQueue.Instance, pri)
+			: base(pri)
 		{
 			this.object_id = object_id;
 			this.meta = meta;

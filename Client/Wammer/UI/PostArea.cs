@@ -35,32 +35,6 @@ namespace Waveface
             postList.RemovePost();
         }
 
-        public void ShowPostInforPanel(bool flag)
-        {
-            panelButtom.Visible = flag;
-        }
-
-        public void ShowPostInfor(int all, int getPostCounts)
-        {
-            ShowPostInforPanel(true);
-
-            if (all == getPostCounts)
-            {
-                linkLabelReadMore.Visible = false;
-            }
-            else
-            {
-                linkLabelReadMore.Visible = true;
-            }
-
-            labelPostInfo.Text = "[" + (getPostCounts) + "/" + all + "]";
-        }
-
-        private void linkLabelReadMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            // Main.Current.FilterReadMorePost();
-        }
-
         public void SetDateText(string text)
         {
             m_dateText = text;

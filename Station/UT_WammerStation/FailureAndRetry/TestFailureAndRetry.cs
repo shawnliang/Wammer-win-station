@@ -11,10 +11,11 @@ namespace UT_WammerStation.FailureAndRetry
 	[TestClass]
 	public class TestFailureAndRetry
 	{
+		[Serializable]
 		class AbstrackRetryTask1 : AbstrackRetryTask
 		{
-			public AbstrackRetryTask1(IRetryQueue q)
-				: base(q, Wammer.Station.TaskPriority.VeryLow)
+			public AbstrackRetryTask1()
+				: base(Wammer.Station.TaskPriority.VeryLow)
 			{ }
 
 			protected override void Do()
@@ -34,15 +35,21 @@ namespace UT_WammerStation.FailureAndRetry
 			}
 		}
 
+		[TestInitialize]
+		public void SetUp()
+		{
+			RetryQueueHelper.Instance.Clear();
+		}
+
 		[TestMethod]
 		public void FailedTaskGoesToRetryQueue()
 		{
-			Mock<IRetryQueue> retryQueue = new Mock<IRetryQueue>();
-			AbstrackRetryTask1 task = new AbstrackRetryTask1(retryQueue.Object);
-
-			retryQueue.Setup(q => q.Enqueue(task)).Verifiable();
+			AbstrackRetryTask1 task = new AbstrackRetryTask1();
 			task.Execute();
-			retryQueue.VerifyAll();
+
+			var retrtTasks = RetryQueueHelper.Instance.Dequeue(DateTime.Now);
+			Assert.AreEqual(1, retrtTasks.Count);
+			Assert.AreEqual(task, retrtTasks.First());
 		}
 
 		[TestMethod]
@@ -102,7 +109,7 @@ namespace UT_WammerStation.FailureAndRetry
 		class DelayedRetryTask1 : DelayedRetryTask
 		{
 			public DelayedRetryTask1(IRetryQueue q)
-				: base(q, Wammer.Station.TaskPriority.Low)
+				: base(Wammer.Station.TaskPriority.Low)
 			{
 			}
 
@@ -144,7 +151,7 @@ namespace UT_WammerStation.FailureAndRetry
 		}
 
 		[TestMethod]
-		public void TestPersistency()
+		public void TestSavedRetryTaskNextRunTimeIsKey()
 		{
 			Wammer.Model.RetryQueueCollection.Instance.RemoveAll();
 			RetryQueuePersistentStorage storage = new RetryQueuePersistentStorage();
@@ -195,20 +202,15 @@ namespace UT_WammerStation.FailureAndRetry
 		}
 
 		[TestMethod]
-		public void TestPersistency2()
+		public void AfterAckingDequeue_retryTaskIsRemovedFromDB()
 		{
-			//// Init
-			Wammer.Model.RetryQueueCollection.Instance.RemoveAll();
-			RetryQueue.Instance.GetType();
-			//// Init
-
-
 			RetryQueuePersistentStorage storage = new RetryQueuePersistentStorage();
 			DateTime key1 = DateTime.Now;
 
 			storage.Add(key1, new FakeTask(key1));
 
 			RetryQueue queue = new RetryQueue(storage);
+			queue.LoadSavedTasks(null);
 			var popped_tasks = queue.Dequeue(DateTime.Now);
 			Assert.AreEqual(1, popped_tasks.Count);
 
@@ -217,9 +219,7 @@ namespace UT_WammerStation.FailureAndRetry
 				queue.AckDequeue(task.NextRetryTime);
 			}
 
-
 			Assert.AreEqual(0, storage.LoadSavedTasks().Count);
 		}
-
 	}
 }

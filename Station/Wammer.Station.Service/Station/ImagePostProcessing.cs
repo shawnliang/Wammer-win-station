@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using Wammer.Model;
 using Wammer.Utility;
 using log4net;
+using System.Diagnostics;
 
 namespace Wammer.Station
 {
@@ -16,37 +17,49 @@ namespace Wammer.Station
 		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, ExifOrientations orientation,
 		                                          string attachmentId, Driver driver, string origFileName)
 		{
-			Bitmap thumbnail = meta == ImageMeta.Square
-			                   	? MakeSquareThumbnail(origin)
-			                   	: ImageHelper.ScaleBasedOnLongSide(origin, (int) meta);
-
+#if DEBUG
+			var sw = Stopwatch.StartNew();
+#endif
 			try
 			{
-				ImageHelper.CorrectOrientation(
-					orientation != ExifOrientations.Unknown ? orientation : ImageHelper.ImageOrientation(origin), thumbnail);
+				Image thumbnail = meta == ImageMeta.Square
+						? MakeSquareThumbnail(origin)
+						: ImageHelper.ScaleBasedOnLongSide(origin, (int)meta);
+
+				try
+				{
+					ImageHelper.CorrectOrientation(
+						orientation != ExifOrientations.Unknown ? orientation : ImageHelper.ImageOrientation(origin), thumbnail);
+				}
+				catch (ExternalException ex)
+				{
+					logger.ErrorFormat("Unable to correct orientation of image {0}", origFileName);
+					logger.Error("External exception", ex);
+				}
+
+				ImageSaveStrategy imageStrategy = GetImageSaveStrategy(Path.GetExtension(origFileName));
+				SavedResult savedThumbnail = imageStrategy.Save(thumbnail, attachmentId, meta, driver);
+
+				return new ThumbnailInfo
+						{
+							saved_file_name = savedThumbnail.FileName,
+							file_name = origFileName,
+							width = thumbnail.Width,
+							height = thumbnail.Height,
+							file_size = savedThumbnail.SavedRawData.Length,
+							mime_type = savedThumbnail.MimeType,
+							modify_time = DateTime.UtcNow,
+							url = "/v2/attachments/view/?object_id=" + attachmentId +
+								  "&image_meta=" + meta.ToString().ToLower(),
+							RawData = savedThumbnail.SavedRawData
+						};
 			}
-			catch (ExternalException ex)
+			finally
 			{
-				logger.ErrorFormat("Unable to correct orientation of image {0}", origFileName);
-				logger.Error("External exception", ex);
+#if DEBUG
+				logger.DebugFormat("Make {0} {1} thumbnail take {2} ms", origFileName, meta.ToString(), sw.ElapsedMilliseconds.ToString());
+#endif
 			}
-
-			ImageSaveStrategy imageStrategy = GetImageSaveStrategy(Path.GetExtension(origFileName));
-			SavedResult savedThumbnail = imageStrategy.Save(thumbnail, attachmentId, meta, driver);
-
-			return new ThumbnailInfo
-			       	{
-			       		saved_file_name = savedThumbnail.FileName,
-			       		file_name = origFileName,
-			       		width = thumbnail.Width,
-			       		height = thumbnail.Height,
-			       		file_size = savedThumbnail.SavedRawData.Length,
-			       		mime_type = savedThumbnail.MimeType,
-			       		modify_time = DateTime.UtcNow,
-			       		url = "/v2/attachments/view/?object_id=" + attachmentId +
-			       		      "&image_meta=" + meta.ToString().ToLower(),
-			       		RawData = savedThumbnail.SavedRawData
-			       	};
 		}
 
 		private static ImageSaveStrategy GetImageSaveStrategy(string fileExtension)
@@ -66,9 +79,9 @@ namespace Wammer.Station
 			}
 		}
 
-		private static Bitmap MakeSquareThumbnail(Bitmap origin)
+		private static Image MakeSquareThumbnail(Bitmap origin)
 		{
-			Bitmap tmpImage = ImageHelper.ScaleBasedOnShortSide(origin, 128);
+			Image tmpImage = ImageHelper.ScaleBasedOnShortSide(origin, 128);
 
 			if (tmpImage.Width == tmpImage.Height)
 				return tmpImage;
@@ -89,14 +102,14 @@ namespace Wammer.Station
 
 	internal interface ImageSaveStrategy
 	{
-		SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver);
+		SavedResult Save(Image img, string attchId, ImageMeta meta, Driver driver);
 	}
 
 	internal class JpegImageSaveStrategy : ImageSaveStrategy
 	{
 		#region ImageSaveStrategy Members
 
-		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
+		public SavedResult Save(Image img, string attchId, ImageMeta meta, Driver driver)
 		{
 			using (var m = new MemoryStream())
 			{
@@ -135,7 +148,7 @@ namespace Wammer.Station
 
 		#region ImageSaveStrategy Members
 
-		public SavedResult Save(Bitmap img, string attchId, ImageMeta meta, Driver driver)
+		public SavedResult Save(Image img, string attchId, ImageMeta meta, Driver driver)
 		{
 			using (var m = new MemoryStream())
 			{

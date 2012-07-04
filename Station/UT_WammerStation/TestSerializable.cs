@@ -54,7 +54,7 @@ namespace UT_WammerStation
 		class FailedTask: DelayedRetryTask
 		{
 			public FailedTask()
-				:base(RetryQueue.Instance, Wammer.Station.TaskPriority.High)
+				:base(Wammer.Station.TaskPriority.High)
 			{
 
 			}
@@ -85,12 +85,12 @@ namespace UT_WammerStation
 
 
 			//clean up retry queue
-			RetryQueue.Instance.Dequeue(DateTime.MaxValue);
+			RetryQueueHelper.Instance.Dequeue(DateTime.MaxValue);
 			// run deserialized task => will fail internally
 			deserializedTask.Execute();
 
 			//verify the task is added to retryQueue
-			ICollection<IRetryTask> tasks = RetryQueue.Instance.Dequeue(DateTime.MaxValue);
+			ICollection<IRetryTask> tasks = RetryQueueHelper.Instance.Dequeue(DateTime.MaxValue);
 			Assert.AreEqual(1, tasks.Count);
 			Assert.AreEqual(deserializedTask, tasks.First());
 		}

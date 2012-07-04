@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace Wammer.Station.Timeline
 {
-	public class BodySyncQueue : ITaskEnqueuable<IResourceDownloadTask>, ITaskDequeuable<IResourceDownloadTask>
+	public class BodySyncQueue : AbstractTaskEnDequeueNotifier, ITaskEnqueuable<IResourceDownloadTask>, ITaskDequeuable<IResourceDownloadTask>
 	{
 		#region Var
 		private static BodySyncQueue _instance;
@@ -28,7 +28,7 @@ namespace Wammer.Station.Timeline
 		private readonly Queue<IResourceDownloadTask> highPriorityQueue = new Queue<IResourceDownloadTask>();
 
 		
-		public event EventHandler TaskDropped;
+		//public event EventHandler TaskDropped;
 
 		#region Constructor
 		private BodySyncQueue()
@@ -66,6 +66,7 @@ namespace Wammer.Station.Timeline
 				if (dequeued == null)
 					return null;
 				keys.Remove(dequeued.Name);
+				OnTaskDequeued(dequeued);
 				return new DequeuedTask<IResourceDownloadTask>(dequeued, dequeued.Name);
 			}
 		}
@@ -109,7 +110,7 @@ namespace Wammer.Station.Timeline
 
 					queue.Enqueue(task);
 
-					OnEnqueued(EventArgs.Empty);
+					OnTaskEnqueued(task);
 					hasItem.Release();
 				}
 			}
@@ -117,20 +118,20 @@ namespace Wammer.Station.Timeline
 
 		#endregion
 
-		public event EventHandler Enqueued;
+		//public event EventHandler Enqueued;
 
-		private void OnEnqueued(EventArgs arg)
-		{
-#if DEBUG
-			++TotalTaskCount;
-#endif
+//        private void OnEnqueued(EventArgs arg)
+//        {
+//#if DEBUG
+//            ++TotalTaskCount;
+//#endif
 
-			var handler = Enqueued;
-			if (handler != null)
-			{
-				handler(this, arg);
-			}
-		}
+//            var handler = Enqueued;
+//            if (handler != null)
+//            {
+//                handler(this, arg);
+//            }
+//        }
 
 		public void RemoveAllByUserId(string user_id)
 		{
@@ -153,7 +154,7 @@ namespace Wammer.Station.Timeline
 				{
 					keys.Remove(task.Name);
 					hasItem.WaitOne();
-					OnTaskDropped();
+					OnTaskDequeued(task);
 				}
 			}
 
@@ -165,16 +166,16 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		private void OnTaskDropped()
-		{
-#if DEBUG
-			++TotalDroppedTaskCount;
-#endif
+//        private void OnTaskDropped()
+//        {
+//#if DEBUG
+//            ++TotalDroppedTaskCount;
+//#endif
 
-			var handler = TaskDropped;
-			if (handler != null)
-				handler(this, EventArgs.Empty);
-		}
+//            var handler = TaskDropped;
+//            if (handler != null)
+//                handler(this, EventArgs.Empty);
+//        }
 	}
 
 

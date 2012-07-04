@@ -13,7 +13,7 @@ namespace Wammer.Station
 
 		protected override void ExecuteOnTimedUp(object state)
 		{
-			ICollection<IRetryTask> tasks = RetryQueue.Instance.Dequeue(DateTime.Now);
+			ICollection<IRetryTask> tasks = RetryQueueHelper.Instance.Dequeue(DateTime.Now);
 
 			foreach (IRetryTask task in tasks)
 			{
@@ -23,7 +23,7 @@ namespace Wammer.Station
 
 				task.ScheduleToRun();
 
-				var removed = RetryQueue.Instance.AckDequeue(key);
+				var removed = RetryQueueHelper.Instance.AckDequeue(key);
 
 				if (!removed)
 					this.LogWarnMsg("Data is not removed from retry_queue collection: " + task.ToString());
