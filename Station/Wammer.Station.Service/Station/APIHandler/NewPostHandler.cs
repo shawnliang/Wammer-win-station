@@ -109,7 +109,7 @@ namespace Wammer.Station
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters, timeStamp, timeStamp);
 
-			var response = new NewPostResponse { post = post };
+			var response = new NewPostResponse { post = post, post_id = postID, group_id = groupID };
 			RespondSuccess(response);
 		}
 

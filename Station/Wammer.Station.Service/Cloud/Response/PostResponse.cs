@@ -39,6 +39,8 @@ namespace Wammer.Cloud
 			set { _users = value; }
 		}
 
+		public string post_id { get; set; }
+		public string group_id { get; set; }
 		#endregion
 	}
 
