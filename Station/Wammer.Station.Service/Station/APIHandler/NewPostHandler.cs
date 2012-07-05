@@ -65,8 +65,9 @@ namespace Wammer.Station
 					"Logined session not found!", (int) StationLocalApiError.NotFound);
 
 			var attachmentIDs = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY] == null
-			                             	? new List<string>()
-			                             	: Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').ToList();
+											? new List<string>()
+											: Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').Select(x => x.Trim('"')).ToList();
+
 			var content = Parameters[CloudServer.PARAM_CONTENT];
 			var postID = Guid.NewGuid().ToString();
 			var timeStamp = DateTime.Now;
@@ -78,7 +79,7 @@ namespace Wammer.Station
 
 			var attachmentInfos = (from attachmentID in attachmentIDs
 			                                        let attachment =
-			                                        	AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID.Trim('"')))
+			                                        	AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
 			                                        where attachment != null
 			                                        select AttachmentHelper.GetAttachmentnfo(attachment, codeName)).ToList();
 
@@ -109,7 +110,7 @@ namespace Wammer.Station
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.NewPost, Parameters, timeStamp, timeStamp);
 
-			var response = new NewPostResponse { post = post };
+			var response = new NewPostResponse { post = post, post_id = postID, group_id = groupID };
 			RespondSuccess(response);
 		}
 
