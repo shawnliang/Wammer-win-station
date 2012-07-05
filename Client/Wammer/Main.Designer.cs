@@ -254,7 +254,7 @@ namespace Waveface
             // 
             // timerPolling
             // 
-            this.timerPolling.Interval = 10000;
+            this.timerPolling.Interval = 5000;
             this.timerPolling.Tick += new System.EventHandler(this.timerPolling_Tick);
             // 
             // Main

@@ -70,7 +70,7 @@ namespace Waveface
                         FileName _fileName = new FileName(_item.FilePath_REAL);
 
                         MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_fileName.Name, _item.FilePath_REAL,
-                                                                                         _item.ObjectID, true);
+                                                                                         _item.ObjectID, true, _item.PostID);
 
                         if (_uf == null)
                         {
@@ -99,12 +99,13 @@ namespace Waveface
             }
         }
 
-        public void Add(string filePath_OID, string filePath_REAL, string object_id)
+        public void Add(string filePath_OID, string filePath_REAL, string object_id, string post_id)
         {
             UploadOriginPhotosToStationItem _item = new UploadOriginPhotosToStationItem();
             _item.FilePath_OID = filePath_OID;
             _item.FilePath_REAL = filePath_REAL;
             _item.ObjectID = object_id;
+            _item.PostID = post_id;
 
             lock (this)
             {

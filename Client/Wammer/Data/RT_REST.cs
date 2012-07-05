@@ -271,7 +271,7 @@ namespace Waveface
             return null;
         }
 
-        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage)
+        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage, string post_id)
         {
             if (!IsNetworkAvailable)
                 return null;
@@ -283,18 +283,18 @@ namespace Waveface
             {
                 if (m_rt.StationMode) //如果有Station則上傳原圖, 否則就上1024中圖 (512 - > 1024)
                 {
-                    _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, filePath, text, "", "image", "origin", object_id);
+                    _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, filePath, text, "", "image", "origin", object_id, post_id);
                 }
                 else
                 {
                     _resizedImageFilePath = ImageUtility.ResizeImage(filePath, text, "1024", 100); //512 -> 1024
 
-                    _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, _resizedImageFilePath, text, "", "image", "medium", object_id);
+                    _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, _resizedImageFilePath, text, "", "image", "medium", object_id, post_id);
                 }
             }
             else
             {
-                _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, filePath, text, "", "doc", "", "");
+                _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, filePath, text, "", "doc", "", "", post_id);
             }
 
             if (_ret != null)
@@ -319,7 +319,7 @@ namespace Waveface
 
                         File.Copy(filePath, _originCacheFile_OID, true);
 
-                        Main.Current.UploadOriginPhotosToStationManager.Add(_originCacheFile_OID, _originCacheFile_REAL, _ret.object_id);
+                        Main.Current.UploadOriginPhotosToStationManager.Add(_originCacheFile_OID, _originCacheFile_REAL, _ret.object_id, post_id);
                     }
 
                     return _ret;
