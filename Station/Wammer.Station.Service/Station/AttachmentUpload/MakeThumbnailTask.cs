@@ -12,6 +12,8 @@ namespace Wammer.Station.AttachmentUpload
 		private readonly ImageMeta thumbnail_type;
 		private int retry_count;
 
+		public static event EventHandler<ThumbnailEventArgs> ThumbnailGenerated;
+
 		public MakeThumbnailTask(string object_id, ImageMeta thumbnail_type, TaskPriority pri)
 			: base(pri)
 		{
@@ -48,11 +50,20 @@ namespace Wammer.Station.AttachmentUpload
 			                                                    object_id, user, attachment.file_name);
 
 			imgProc.UpdateThumbnailInfoToDB(object_id, thumbnail_type, thumbnail);
+
+			OnThumbnailGenerated(this, new ThumbnailEventArgs(object_id, attachment.post_id, attachment.group_id, thumbnail_type));
 		}
 
 		public override void ScheduleToRun()
 		{
 			TaskQueue.Enqueue(this, priority);
+		}
+
+		protected static void OnThumbnailGenerated(object sender, ThumbnailEventArgs evt)
+		{
+			EventHandler<ThumbnailEventArgs> handler = ThumbnailGenerated;
+			if (handler != null)
+				handler(sender, evt);
 		}
 	}
 }

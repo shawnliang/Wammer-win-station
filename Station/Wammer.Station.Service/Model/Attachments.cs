@@ -349,23 +349,24 @@ namespace Wammer.Model
 			Orientation = ExifOrientations.Unknown;
 		}
 
-		public Attachment(Attachment lhs)
+		public Attachment(Attachment rhs)
 		{
-			object_id = lhs.object_id;
-			file_name = lhs.file_name;
-			mime_type = lhs.mime_type;
-			title = lhs.title;
-			description = lhs.description;
-			type = lhs.type;
-			url = lhs.url;
-			image = lhs.image;
-			file_size = lhs.file_size;
-			modify_time = lhs.modify_time;
-			image_meta = lhs.image_meta;
-			RawData = lhs.RawData;
-			group_id = lhs.group_id;
-			saved_file_name = lhs.saved_file_name;
-			Orientation = lhs.Orientation;
+			object_id = rhs.object_id;
+			file_name = rhs.file_name;
+			mime_type = rhs.mime_type;
+			title = rhs.title;
+			description = rhs.description;
+			type = rhs.type;
+			url = rhs.url;
+			image = rhs.image;
+			file_size = rhs.file_size;
+			modify_time = rhs.modify_time;
+			image_meta = rhs.image_meta;
+			RawData = rhs.RawData;
+			group_id = rhs.group_id;
+			saved_file_name = rhs.saved_file_name;
+			Orientation = rhs.Orientation;
+			post_id = rhs.post_id;
 		}
 
 		[BsonId]
@@ -408,6 +409,9 @@ namespace Wammer.Model
 
 		[BsonIgnore]
 		public string creator_id { get; set; }
+
+		[BsonIgnore]
+		public string post_id { get; set; }
 
 		[BsonIgnore]
 		[XmlIgnore]

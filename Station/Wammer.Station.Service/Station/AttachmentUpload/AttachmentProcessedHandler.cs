@@ -41,7 +41,7 @@ namespace Wammer.Station.AttachmentUpload
 			if (user == null)
 				return; // user has been unlinked from this station?
 
-			if (string.IsNullOrEmpty(args.PostId))
+			if (string.IsNullOrEmpty(args.PostId) && !args.IsFromThisWindows)
 				ProcessForOldClients(args, attachment, user);
 			else
 				ProcessForFastAndSmoothClients(args, attachment, user);
