@@ -82,11 +82,6 @@ namespace Wammer.Station
 			                                        where attachment != null
 			                                        select AttachmentHelper.GetAttachmentnfo(attachment, codeName)).ToList();
 
-
-			if (attachmentInfos.Count() != attachmentCount)
-				throw new WammerStationException(
-					"Attachement not found!", (int) StationLocalApiError.NotFound);
-
 			var post = new PostInfo
 						{
 							attachments = attachmentInfos,
