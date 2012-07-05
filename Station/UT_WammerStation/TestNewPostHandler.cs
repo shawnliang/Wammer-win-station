@@ -121,7 +121,7 @@ namespace UT_WammerStation
 
 			Assert.IsNotNull(response);
 
-			var post = response.posts.FirstOrDefault();
+			var post = response.post;
 
 			Assert.IsNotNull(post);
 			Assert.AreEqual("Unit Test's content", post.content);
