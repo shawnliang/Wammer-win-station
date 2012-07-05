@@ -15,6 +15,9 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public List<string> target_id_list { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string post_id { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]

@@ -130,12 +130,14 @@ namespace Wammer.Station.Service
 
 
 				var attachmentHandler = new AttachmentUploadHandler();
+				var localUserTrackMgr = new Wammer.Station.LocalUserTrack.LocalUserTrackManager();
 
-				attachmentHandler.AttachmentProcessed +=
-					new AttachmentProcessedHandler(
-						new AttachmentUtility()).OnProcessed;
+				attachmentHandler.AttachmentProcessed += new AttachmentProcessedHandler(new AttachmentUtility()).OnProcessed;
+				attachmentHandler.AttachmentProcessed += localUserTrackMgr.OnAttachmentReceived;
 				attachmentHandler.ProcessSucceeded += uploadDownloadMonitor.OnProcessSucceeded;
 
+				MakeThumbnailTask.ThumbnailGenerated += localUserTrackMgr.OnThumbnailGenerated;
+				UpstreamTask.AttachmentUpstreamed += localUserTrackMgr.OnAttachmentUpstreamed;
 
 				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				InitCloudForwarder(cloudForwarder);

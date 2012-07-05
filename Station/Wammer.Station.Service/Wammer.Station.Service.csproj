@@ -126,6 +126,8 @@
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
     <Compile Include="Station\DriverController.cs" />
+    <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
+    <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
     <Compile Include="Station\Retry\RetryQueueHelper.cs" />
@@ -229,6 +231,7 @@
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRetryTimer.cs" />
     <Compile Include="Station\AbstrackTaskRunner.cs" />
+    <Compile Include="Station\ThumbnailEventArgs.cs" />
     <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />

@@ -15,6 +15,8 @@ namespace Wammer.Station.AttachmentUpload
 		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
 		private static readonly IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
 
+		public static event EventHandler<ThumbnailEventArgs> AttachmentUpstreamed;
+
 		public UpstreamTask(string object_id, ImageMeta meta, TaskPriority pri)
 			: base(pri)
 		{
@@ -59,6 +61,8 @@ namespace Wammer.Station.AttachmentUpload
 					Attachment.Upload(f, attachment.group_id, object_id, attachment.file_name,
 									  info.mime_type, meta, attachment.type, CloudServer.APIKey,
 									  user.session_token, 65535, UpstreamProgressChanged);
+
+					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
 				}
 			}
 			finally
@@ -75,6 +79,13 @@ namespace Wammer.Station.AttachmentUpload
 		private void UpstreamProgressChanged(object sender, ProgressChangedEventArgs arg)
 		{
 			upstreamRateCounter.IncrementBy(Convert.ToInt64(arg.UserState));
+		}
+
+		private static void OnAttachmentUpstreamed(object sender, ThumbnailEventArgs evt)
+		{
+			EventHandler<ThumbnailEventArgs> handler = AttachmentUpstreamed;
+			if (handler != null)
+				handler(sender, evt);
 		}
 	}
 }
