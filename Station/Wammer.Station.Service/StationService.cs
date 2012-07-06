@@ -141,7 +141,7 @@ namespace Wammer.Station.Service
 
 				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				InitCloudForwarder(cloudForwarder);
-				InitFunctionServerHandlers(attachmentHandler, cloudForwarder);
+				InitFunctionServerHandlers(attachmentHandler, cloudForwarder, localUserTrackMgr);
 
 
 				logger.Info("Start function server");
@@ -217,7 +217,7 @@ namespace Wammer.Station.Service
 			}
 		}
 
-		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder)
+		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, LocalUserTrack.LocalUserTrackManager localUserTrackMgr)
 		{
 			logger.Info("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);
@@ -275,8 +275,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/getLastScan/"),
 			                          new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
 
-			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
-			                          new HybridCloudHttpRouter(new UserTrackHandler()));
+			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"), new UserTrackHandler(localUserTrackMgr));
 
 			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),

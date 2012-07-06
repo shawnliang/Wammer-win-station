@@ -7,9 +7,10 @@ using Wammer.Cloud;
 
 namespace Wammer.Station.LocalUserTrack
 {
-	class LocalUserTrackManager
+	public class LocalUserTrackManager
 	{
-		Dictionary<string, LocalUserTrackCollection> groupUserTracks = new Dictionary<string, LocalUserTrackCollection>();
+		private Dictionary<string, LocalUserTrackCollection> groupUserTracks = new Dictionary<string, LocalUserTrackCollection>();
+		private static DateTime VERY_OLD_TIMESTAMP = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		public void OnAttachmentReceived(object sender, Wammer.Station.AttachmentUpload.AttachmentEventArgs args)
 		{
@@ -18,7 +19,7 @@ namespace Wammer.Station.LocalUserTrack
 				if (args.ImgMeta != ImageMeta.Medium)
 					return;
 
-				AddMediumImageAddedUserTrack(args.GroupId, args.AttachmentId, args.PostId);
+				AddUserTrack(args.GroupId, args.AttachmentId, args.PostId);
 			}
 			catch (Exception e)
 			{
@@ -33,7 +34,7 @@ namespace Wammer.Station.LocalUserTrack
 				if (args.meta != ImageMeta.Medium)
 					return;
 
-				AddMediumImageAddedUserTrack(args.group_id, args.object_id, args.post_id);
+				AddUserTrack(args.group_id, args.object_id, args.post_id);
 			}
 			catch (Exception e)
 			{
@@ -56,28 +57,38 @@ namespace Wammer.Station.LocalUserTrack
 			}
 		}
 
-		private void RemoveUserTrack(string group_id, string object_id)
+		public void RemoveUserTrack(string group_id, string object_id)
 		{
 			var ut = new UserTrackDetail
 			{
 				target_id = object_id
 			};
 
+
+			LocalUserTrackCollection groupData;
+
 			lock (groupUserTracks)
 			{
 				if (groupUserTracks.ContainsKey(group_id))
-					groupUserTracks[group_id].Remove(ut);
+					groupData = groupUserTracks[group_id];
+				else
+					return;
+			}
+
+			lock (groupData)
+			{
+				groupData.Remove(ut);
 			}
 		}
 
-		private void AddMediumImageAddedUserTrack(string group_id, string object_id, string post_id)
+		public void AddUserTrack(string group_id, string object_id, string post_id)
 		{
 			var ut = new UserTrackDetail
 			{
 				group_id = group_id,
 				target_id = object_id,
 				target_type = "attachment",
-				timestamp = DateTime.UtcNow,
+				timestamp = VERY_OLD_TIMESTAMP,
 				actions = new List<UserTrackAction>{
 					new UserTrackAction {
 						action = "add",
@@ -87,13 +98,44 @@ namespace Wammer.Station.LocalUserTrack
 				}
 			};
 
+			LocalUserTrackCollection groupData;
+
 			lock (groupUserTracks)
 			{
 				if (!groupUserTracks.ContainsKey(group_id))
-					groupUserTracks.Add(group_id, new LocalUserTrackCollection());
+				{
+					groupData = new LocalUserTrackCollection();
+					groupUserTracks.Add(group_id, groupData);
+				}
+				else
+					groupData = groupUserTracks[group_id];
+			}
 
-				groupUserTracks[group_id].Add(ut);
+
+			lock (groupData)
+			{
+				groupData.Add(ut);
 			}
 		}
+
+		public IEnumerable<UserTrackDetail> getUserTracksBySession(string group_id, string session_token)
+		{
+			LocalUserTrackCollection groupData;
+
+			lock (groupUserTracks)
+			{
+				if (!groupUserTracks.ContainsKey(group_id))
+					return new List<UserTrackDetail>();
+				else
+					groupData = groupUserTracks[group_id];
+			}
+
+
+			lock (groupData)
+			{
+				return groupData.GetUserTracksBySession(group_id, session_token);
+			}
+		}
+
 	}
 }

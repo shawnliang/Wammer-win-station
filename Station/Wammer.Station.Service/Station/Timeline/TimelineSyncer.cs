@@ -90,24 +90,7 @@ namespace Wammer.Station.Timeline
 
 			DateTime since = user.sync_range.end_time;
 
-			UserTrackResponse res;
-
-			try
-			{
-				res = userTrack.GetChangeHistory(user, since);
-			}
-			catch (WammerCloudException e)
-			{
-				// when no more data, cloud returns a empty last_timestamp which makes
-				// deserializing to json object parses error and a ArgumentOutOfRangeException
-				// is thrown.
-				//
-				// Use this exception as the exit criteria
-				if (e.InnerException is ArgumentOutOfRangeException)
-					return;
-				throw;
-			}
-
+			var res = userTrack.GetChangeHistory(user, since);
 			db.SaveUserTracks(new UserTracks(res));
 
 			ProcChangedPosts(user, res);

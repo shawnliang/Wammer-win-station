@@ -10,9 +10,15 @@ using Wammer.Utility;
 namespace Wammer.Station.APIHandler
 {
 	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/usertracks/get/")]
-	public class UserTrackHandler : HttpHandler
+	class UserTrackHandler : HttpHandler
 	{
 		private readonly UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
+		private readonly LocalUserTrack.LocalUserTrackManager localUserTrackMgr;
+
+		public UserTrackHandler(LocalUserTrack.LocalUserTrackManager localUserTrackMgr)
+		{
+			this.localUserTrackMgr = localUserTrackMgr;
+		}
 
 		#region Protected Method
 
@@ -25,11 +31,63 @@ namespace Wammer.Station.APIHandler
 
 			bool include_entities = "true" == Parameters["include_entities"];
 
-			RespondSuccess(
-				impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities));
+			UserTrackResponse result;
+
+			if (Request.RemoteEndPoint.Address.ToString() == "127.0.0.1")
+			{
+				result = impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities);
+			}
+			else
+			{
+				result = UserTracksApi.GetChangeHistory(Parameters["session_token"], Parameters["apikey"],
+					Parameters["group_id"], Parameters["since"]);
+			}
+
+			var localUserTracks = localUserTrackMgr.getUserTracksBySession(Parameters["group_id"], Parameters["session_token"]);
+			
+			result.attachment_id_list = mergeAttachmentIdList(result.attachment_id_list, localUserTracks);
+
+			if (include_entities)
+			{
+				result.usertrack_list = mergeUserTrackList(result.usertrack_list, localUserTracks);
+			}
+			else
+			{
+				result.usertrack_list = null;
+			}
+
+			RespondSuccess(result);
 		}
 
 		#endregion
+
+
+		private static List<string> mergeAttachmentIdList(List<string> id_list, IEnumerable<UserTrackDetail> localUserTracks)
+		{
+			if (id_list == null || id_list.Count == 0)
+				return localUserTracks.Select(x => x.target_id).ToList();
+			else
+			{
+				HashSet<string> output = new HashSet<string>(id_list);
+				foreach (var id in localUserTracks.Select(x => x.target_id))
+					output.Add(id);
+
+				return output.ToList();
+			}
+		}
+
+		private static List<UserTrackDetail> mergeUserTrackList(List<UserTrackDetail> track1, IEnumerable<UserTrackDetail> track2)
+		{
+			if (track1 == null || track1.Count == 0)
+				return track2.ToList();
+			else
+			{
+				var output = track2.ToList();
+				output.AddRange(track1);
+
+				return output;
+			}
+		}
 
 		#region Public Method
 

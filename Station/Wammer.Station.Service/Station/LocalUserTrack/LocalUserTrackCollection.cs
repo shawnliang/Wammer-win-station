@@ -37,8 +37,33 @@ namespace Wammer.Station.LocalUserTrack
 			public UserTrackDetail Data { get; set; }
 		}
 
-		HashSet<Item> items = new HashSet<Item>();
+		private HashSet<Item> items = new HashSet<Item>();
 
+		// This dictionary records all used usertracks by sessions.
+		//
+		// key: session_token
+		// value: used user tracks of a session
+		private Dictionary<string, HashSet<Item>> usedUserTracks = new Dictionary<string, HashSet<Item>>(); 
+
+		public IEnumerable<UserTrackDetail> GetUserTracksBySession(string group_id, string session_token)
+		{
+			if (usedUserTracks.ContainsKey(session_token))
+			{
+				var used = usedUserTracks[session_token];
+				var unused = items.Where(x => !used.Contains(x)).Select(x => x.Data);
+
+				usedUserTracks[session_token] = new HashSet<Item>(items);
+				return unused;
+			}
+			else
+			{
+				usedUserTracks.Add(session_token, new HashSet<Item>(items));
+				return this.ToList();
+			}
+		}
+
+
+		#region Implements ICollection<UserTrackDetail> Interface
 		public void Add(UserTrackDetail data)
 		{
 			items.Add(new Item(data));
@@ -78,7 +103,14 @@ namespace Wammer.Station.LocalUserTrack
 
 		public bool Remove(UserTrackDetail data)
 		{
-			return items.Remove(new Item(data));
+			var removeItem = new Item(data);
+
+			foreach (var used in usedUserTracks)
+			{
+				used.Value.Remove(removeItem);
+			}
+
+			return items.Remove(removeItem);
 		}
 
 		public IEnumerator<UserTrackDetail> GetEnumerator()
@@ -90,6 +122,9 @@ namespace Wammer.Station.LocalUserTrack
 		{
 			return items.Select(x => x.Data).GetEnumerator();
 		}
+		#endregion
+
+		
 	}
 
 }
