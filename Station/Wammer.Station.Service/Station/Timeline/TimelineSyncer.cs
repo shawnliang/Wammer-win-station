@@ -116,9 +116,27 @@ namespace Wammer.Station.Timeline
 
 		private void ProcChangedPosts(Driver user, UserTrackResponse res)
 		{
+			var post_id_set = new HashSet<string>();
+
+			if (res.usertrack_list != null)
+			{
+				var postIds = res.usertrack_list.Where(x => x.target_type == "attachment" && x.actions[0].target_type == "image.medium").
+					Select(x => x.actions[0].post_id);
+
+				foreach (var postId in postIds)
+					post_id_set.Add(postId);
+			}
+
 			if (res.post_id_list != null)
 			{
-				List<PostInfo> changedPost = postProvider.RetrievePosts(user, res.post_id_list);
+				foreach (var postId in res.post_id_list)
+					post_id_set.Add(postId);
+			}
+
+
+			if (post_id_set.Count > 0)
+			{
+				List<PostInfo> changedPost = postProvider.RetrievePosts(user, post_id_set.ToList());
 				foreach (PostInfo post in changedPost)
 					db.SavePost(post);
 
