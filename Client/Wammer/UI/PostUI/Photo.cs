@@ -354,7 +354,7 @@ namespace Waveface.PostUI
 
         private void EditModePost()
         {
-            List<string> _objectsID = new List<string>();
+            List<string> _objectIDs = new List<string>();
             List<string> _files = new List<string>();
             int _newAdd = 0;
 
@@ -366,13 +366,13 @@ namespace Waveface.PostUI
                 {
                     _files.Add(_vi.FileName);
 
-                    _objectsID.Add(_vi.FileName);
+                    _objectIDs.Add(Guid.NewGuid().ToString()); //
 
                     _newAdd++;
                 }
                 else
                 {
-                    _objectsID.Add(_tag.ObjectID);
+                    _objectIDs.Add(_tag.ObjectID);
                 }
             }
 
@@ -445,8 +445,9 @@ namespace Waveface.PostUI
                 _bpItem.Files = _files;
 
                 _bpItem.EditMode = true;
-                _bpItem.ObjectIDs = _objectsID;
+                _bpItem.ObjectIDs = _objectIDs;
                 _bpItem.Post = MyParent.Post;
+                _bpItem.PostID = MyParent.Post.post_id;
 
                 _bpItem.CoverAttachIndex = GetCoverAttachIndex();
 
@@ -558,6 +559,8 @@ namespace Waveface.PostUI
                 }
             }
 
+            List<string> _objectIDs = new List<string>();
+
             BatchPostItem _bpItem = new BatchPostItem();
             _bpItem.PostType = PostType.Photo;
             _bpItem.Text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
@@ -567,7 +570,11 @@ namespace Waveface.PostUI
             foreach (ImageListViewItem _vi in imageListView.Items)
             {
                 _bpItem.Files.Add(_vi.FileName);
+
+                _objectIDs.Add(Guid.NewGuid().ToString());
             }
+
+            _bpItem.ObjectIDs = _objectIDs;
 
             _bpItem.CoverAttachIndex = GetCoverAttachIndex();
 

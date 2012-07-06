@@ -25,26 +25,13 @@ namespace Waveface
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        private bool m_startUpload;
-        private bool m_uploading;
-
         private WorkItem m_photoWorkItem;
 
         #region Properties
 
-        private List<BatchPostItem> PhotoItems { get; set; }
+        public List<BatchPostItem> PhotoItems { get; set; }
 
-        public bool StartUpload
-        {
-            get { return m_startUpload; }
-            set { m_startUpload = value; }
-        }
-
-        public bool Uploading
-        {
-            get { return m_uploading; }
-            set { m_uploading = value; }
-        }
+        public bool StartUpload { get; set; }
 
         #endregion
 
@@ -220,7 +207,88 @@ namespace Waveface
             string _tmpStamp = DateTime.Now.Ticks.ToString();
             bool _editMode = postItem.EditMode;
 
-            s_logger.Trace("[" + _tmpStamp + "]" + "UploadPhoto:" + postItem.Text + ", Files=" + postItem.Files.Count);
+            if (!postItem.PostSendMetaData)
+            {
+                string _ids = "[";
+
+                for (int i = 0; i < postItem.ObjectIDs.Count; i++)
+                {
+                    _ids += "\"" + postItem.ObjectIDs[i] + "\"" + ",";
+                }
+
+                _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+                _ids += "]";
+
+                try
+                {
+                    string _coverAttach = string.Empty;
+
+                    if (postItem.CoverAttachIndex == -1)
+                        _coverAttach = postItem.ObjectIDs[0];
+                    else
+                        _coverAttach = postItem.ObjectIDs[postItem.CoverAttachIndex];
+
+                    if (_editMode)
+                    {
+                        Dictionary<string, string> _params = new Dictionary<string, string>();
+
+                        if (postItem.Text != string.Empty)
+                        {
+                            _params.Add("content", postItem.Text);
+                        }
+
+                        _params.Add("attachment_id_array", _ids);
+                        _params.Add("type", "image");
+                        _params.Add("cover_attach", _coverAttach);
+
+                        string _time = Main.Current.GetPostUpdateTime(postItem.Post);
+
+                        MR_posts_update _update = Main.Current.RT.REST.Posts_update(postItem.PostID, _time, _params);
+
+                        if (_update == null)
+                        {
+                            postItem.PostOK = false;
+
+                            return postItem;
+                        }
+
+                        s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + postItem.Text + ", Files=" +
+                                       postItem.ObjectIDs.Count + ", Update Post");
+                    }
+                    else
+                    {
+                        MR_posts_new _np = Main.Current.RT.REST.Posts_New(postItem.Text, _ids, "", "image", _coverAttach);
+
+                        if (_np == null)
+                        {
+                            postItem.PostOK = false;
+                            return postItem;
+                        }
+
+                        postItem.PostID = _np.post.post_id;
+
+                        s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + postItem.Text + ", Files=" +
+                                       postItem.ObjectIDs.Count + ", Create New Post");
+                    }
+
+                    postItem.PostSendMetaData = true;
+
+                    Main.Current.ReloadAllData();
+
+                    lock (this)
+                    {
+                        Save();
+                    }
+                }
+                catch (Exception _e)
+                {
+                    NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile:PostSendMetaData");
+
+                    postItem.PostOK = false;
+                    return postItem;
+                }
+            }
+
 
             while (true)
             {
@@ -236,8 +304,6 @@ namespace Waveface
                     {
                         try
                         {
-                            Uploading = true;
-
                             if (!File.Exists(_file))
                             {
                                 // 原始檔案不存在. 作錯誤處裡
@@ -268,6 +334,7 @@ namespace Waveface
                                                 if (postItem.ObjectIDs[i] == _file)
                                                 {
                                                     postItem.ObjectIDs.RemoveAt(i);
+                                                    break;
                                                 }
                                             }
                                         }
@@ -289,7 +356,7 @@ namespace Waveface
 
                             if (Environment.GetCommandLineArgs().Length == 1)
                             {
-								// only check quota in cloud mode, because station will handle over quota
+                                // only check quota in cloud mode, because station will handle over quota
                                 if (CheckStoragesUsage() <= 0)
                                 {
                                     if (CheckStoragesUsage() <= 0) //Hack 
@@ -319,12 +386,12 @@ namespace Waveface
                                 }
                             }
 
-                            string _text = new FileName(_file).Name;
-                            string _resizedImage = ImageUtility.ResizeImage(_file, _text, postItem.LongSideResizeOrRatio,
-                                                                            100);
 
-                            MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, "",
-                                                                                             true);
+                            string _text = new FileName(_file).Name;
+                            string _resizedImage = ImageUtility.ResizeImage(_file, _text, postItem.LongSideResizeOrRatio, 100);
+
+                            MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, postItem.ObjectIDs[_count], true, postItem.PostID);
+
                             if (_uf == null)
                             {
                                 postItem.PostOK = false;
@@ -354,16 +421,17 @@ namespace Waveface
                                     File.Copy(_resizedSmallImageFilePath, _localFileSmall);
                                 }
                             }
-
-                            Uploading = false;
                         }
                         catch (Exception _e)
                         {
-                            Uploading = false;
-
                             NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
                             postItem.PostOK = false;
                             return postItem;
+                        }
+
+                        lock (this)
+                        {
+                            Save();
                         }
                     }
 
@@ -395,103 +463,6 @@ namespace Waveface
                 {
                     postItem.PostOK = false;
 
-                    return postItem;
-                }
-            }
-
-            if (_editMode)
-            {
-                string _coverAttach = string.Empty;
-
-                string _ids = "[";
-
-                for (int i = 0; i < postItem.ObjectIDs.Count; i++)
-                {
-                    string _id = postItem.ObjectIDs[i];
-
-                    if (postItem.UploadedFiles.Keys.Contains(_id))
-                        _id = postItem.UploadedFiles[_id];
-
-                    _ids += "\"" + _id + "\"" + ",";
-
-                    if(postItem.CoverAttachIndex == i)
-                    {
-                        _coverAttach = _id;
-                    }
-                }
-
-                _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
-                _ids += "]";
-
-                try
-                {
-                    Dictionary<string, string> _params = new Dictionary<string, string>();
-
-                    if (postItem.Text != string.Empty)
-                    {
-                        _params.Add("content", postItem.Text);
-                    }
-
-                    _params.Add("attachment_id_array", _ids);
-                    _params.Add("type", "image");
-
-                    if((postItem.CoverAttachIndex != -1) && (_coverAttach != string.Empty))
-                    {
-                        _params.Add("cover_attach", _coverAttach);
-                    }
-
-                    string _time = Main.Current.GetPostUpdateTime(postItem.Post);
-
-                    MR_posts_update _update = Main.Current.RT.REST.Posts_update(postItem.Post.post_id, _time, _params);
-
-                    if (_update == null)
-                    {
-                        postItem.PostOK = false;
-
-                        return postItem;
-                    }
-                }
-                catch
-                {
-                    postItem.PostOK = false;
-
-                    return postItem;
-                }
-            }
-            else
-            {
-                string _ids = "[";
-
-                for (int i = 0; i < postItem.UploadedFiles.Count; i++)
-                {
-                    _ids += "\"" + postItem.UploadedFiles[postItem.Files[i]] + "\"" + ",";
-                }
-
-                _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
-                _ids += "]";
-
-                try
-                {
-                    string _coverAttach = string.Empty;
-
-                    if (postItem.CoverAttachIndex != -1)
-                        _coverAttach = postItem.UploadedFiles[postItem.Files[postItem.CoverAttachIndex]];
-
-                    MR_posts_new _np = Main.Current.RT.REST.Posts_New(postItem.Text, _ids, "", "image", _coverAttach);
-
-                    if (_np == null)
-                    {
-                        postItem.PostOK = false;
-                        return postItem;
-                    }
-
-                    s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + postItem.Text + ", Files=" + postItem.Files.Count);
-                }
-                catch (Exception _e)
-                {
-                    NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
-
-                    postItem.PostOK = false;
                     return postItem;
                 }
             }
@@ -539,7 +510,7 @@ namespace Waveface
                 if (!GCONST.DEBUG)
                     _json = StringUtility.Compress(_json);
 
-                string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.dat");
+                string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.txt");
 
                 using (StreamWriter _outfile = new StreamWriter(_filePath))
                 {
@@ -563,7 +534,7 @@ namespace Waveface
             try
             {
                 string _json = string.Empty;
-                string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.dat");
+                string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Main.Current.RT.Login.user.user_id + "_NP.txt");
 
                 StreamReader _sr = File.OpenText(_filePath);
                 _json = _sr.ReadToEnd();

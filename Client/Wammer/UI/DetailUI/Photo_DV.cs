@@ -23,6 +23,9 @@ namespace Waveface.DetailUI
 
         #region Fields
 
+        public static string PostID;
+        public static int UnloadPhotosCount;
+
         private Panel panelMain;
         private AutoScrollPanel panelRight;
         private WebBrowser webBrowserTop;
@@ -98,6 +101,9 @@ namespace Waveface.DetailUI
                 if (m_post != null)
                 {
                     m_canEdit = false;
+
+                    PostID = m_post.post_id;
+                    UnloadPhotosCount = m_post.attachment_id_array.Count;
 
                     RefreshUI();
                 }
@@ -513,6 +519,8 @@ namespace Waveface.DetailUI
             bool _show = (m_loadingPhotosCount != m_imageAttachments.Count);
 
             m_loadingPhotosCount = _count;
+
+            UnloadPhotosCount = m_imageAttachments.Count - _count;
 
             if (firstTime || _show)
             {

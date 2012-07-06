@@ -9,6 +9,7 @@ namespace Waveface
         public bool EditMode { get; set; }
         public List<string> ObjectIDs { get; set; }
         public Post Post { get; set; }
+        public string PostID{ get; set; }
 
         public PostType PostType { get; set; }
         public string Text { get; set; }
@@ -21,6 +22,8 @@ namespace Waveface
         public bool ErrorAndDeletePost { get; set; }
         public int CoverAttachIndex { get; set; }
 
+        public bool PostSendMetaData{ get; set; }
+
         public BatchPostItem()
         {
             CoverAttachIndex = -1;
@@ -28,6 +31,7 @@ namespace Waveface
             Files = new List<string>();
             UploadedFiles = new Dictionary<string, string>();
 
+            PostID = string.Empty;
             Text = string.Empty;
             Previews = string.Empty;
             LongSideResizeOrRatio = string.Empty;

@@ -1288,7 +1288,7 @@ namespace Waveface.API.V2
 
         public MR_attachments_upload attachments_upload(string session_token, string group_id, string fileName,
                                                         string title, string description, string type, string image_meta,
-                                                        string object_id)
+                                                        string object_id, string post_id)
         {
             MR_attachments_upload _ret;
 
@@ -1317,6 +1317,9 @@ namespace Waveface.API.V2
 
                 if (object_id != string.Empty)
                     _dic.Add("object_id", object_id);
+
+                if (post_id != string.Empty)
+                    _dic.Add("post_id", post_id);
 
                 _dic.Add("file", _data);
 

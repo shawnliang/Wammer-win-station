@@ -1179,8 +1179,9 @@ namespace Waveface
 
             if ((_singlePost != null) && (_singlePost.post != null))
             {
-                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
-                // ReplacePostInList(_singlePost.post, RT.FilterPosts);
+                Post _p = PostUtility.GenPhotoAttachments(_singlePost.post);
+
+                ReplacePostInList(_p, RT.CurrentGroupPosts);
 
                 ShowPostInTimeline();
             }
@@ -1188,7 +1189,9 @@ namespace Waveface
 
         public void RefreshSinglePost(Post post)
         {
-            ReplacePostInList(post, RT.CurrentGroupPosts);
+            Post _p = PostUtility.GenPhotoAttachments(post);
+
+            ReplacePostInList(_p, RT.CurrentGroupPosts);
 
             ShowPostInTimeline();
         }
@@ -1501,12 +1504,12 @@ namespace Waveface
                                 }
                             }
 
-							if (_action.target_type == "image.medium" &&
-								_action.action == "add" &&
-								!string.IsNullOrEmpty(_action.post_id))
-							{
-								//???
-							}
+                            if (_action.target_type == "image.medium" &&
+                                _action.action == "add" &&
+                                !string.IsNullOrEmpty(_action.post_id))
+                            {
+                                //???
+                            }
                         }
                     }
 
@@ -1518,8 +1521,10 @@ namespace Waveface
                     {
                         bool _changed = false;
 
-                        foreach (Post _p in _postsGet.posts)
+                        foreach (Post _post in _postsGet.posts)
                         {
+                            Post _p = PostUtility.GenPhotoAttachments(_post);
+
                             _changed = ReplacePostInList(_p, RT.CurrentGroupPosts);
                         }
 
@@ -1622,7 +1627,16 @@ namespace Waveface
 
         public void ReloadAllData()
         {
-            GetAllDataAsync();
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(
+                           delegate { ReloadAllData(); }
+                           ));
+            }
+            else
+            {
+                GetAllDataAsync();
+            }
         }
 
         private void bgWorkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
@@ -1681,6 +1695,7 @@ namespace Waveface
                                     _datum = _p.timestamp;
                                 }
                             }
+
                             _remainingCount = _postsGet.remaining_count;
                         }
                     }
@@ -1689,8 +1704,10 @@ namespace Waveface
 
             List<Post> _tmpPosts = new List<Post>();
 
-            foreach (Post _p in _allPosts.Values)
+            foreach (Post _post in _allPosts.Values)
             {
+                Post _p = PostUtility.GenPhotoAttachments(_post);
+
                 _tmpPosts.Add(_p);
             }
 
