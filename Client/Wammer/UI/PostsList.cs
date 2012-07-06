@@ -246,7 +246,7 @@ namespace Waveface
                     if (p1.cover_attach != p2.cover_attach)
                         return false;
 
-                    if (p1.attachment_count != p2.attachment_count)
+                    if (p1.attachment_id_array.Count != p2.attachment_id_array.Count)
                         return false;
 
                     for (int i = 0; i < p1.attachment_id_array.Count; i++)
@@ -596,8 +596,8 @@ namespace Waveface
 
         private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth, bool selected, int thumbnailRectHeight)
         {
-            string _info = post.attachment_count + " " +
-                           ((post.attachment_count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
+            string _info = post.attachment_id_array.Count + " " +
+                           ((post.attachment_id_array.Count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
 
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
 

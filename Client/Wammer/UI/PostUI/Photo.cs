@@ -355,6 +355,7 @@ namespace Waveface.PostUI
         private void EditModePost()
         {
             List<string> _objectIDs = new List<string>();
+            List<string> _objectIDs_Edit = new List<string>();
             List<string> _files = new List<string>();
             int _newAdd = 0;
 
@@ -366,7 +367,10 @@ namespace Waveface.PostUI
                 {
                     _files.Add(_vi.FileName);
 
-                    _objectIDs.Add(Guid.NewGuid().ToString()); //
+                    string _guid = Guid.NewGuid().ToString();
+
+                    _objectIDs.Add(_guid);
+                    _objectIDs_Edit.Add(_guid);
 
                     _newAdd++;
                 }
@@ -446,6 +450,7 @@ namespace Waveface.PostUI
 
                 _bpItem.EditMode = true;
                 _bpItem.ObjectIDs = _objectIDs;
+                _bpItem.ObjectIDs_Edit = _objectIDs_Edit;
                 _bpItem.Post = MyParent.Post;
                 _bpItem.PostID = MyParent.Post.post_id;
 

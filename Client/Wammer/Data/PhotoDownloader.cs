@@ -153,7 +153,7 @@ namespace Waveface
 
                 ImageItem _item = null;
 
-                Thread.Sleep(100);
+                Thread.Sleep(50);
 
                 if ((int)state == 0)
                 {
@@ -255,8 +255,6 @@ namespace Waveface
 
                     _img = null;
 
-                    s_logger.Trace("GetFile:" + _localPath);
-
                     if (_item.PostItemType == PostItemType.Thumbnail)
                     {
                         lock (ThumbnailItems)
@@ -291,6 +289,8 @@ namespace Waveface
                         if (PhotoEvent != null)
                             PhotoEvent(_item);
                     }
+
+                    s_logger.Trace("GetFile:" + _localPath);
                 }
                 catch (Exception _e)
                 {
@@ -343,11 +343,11 @@ namespace Waveface
                                             {
                                                 if (PhotoItems.Count > Photo_DV.UnloadPhotosCount)
                                                 {
-                                                    PhotoItems.Insert(Photo_DV.UnloadPhotosCount, _item);
+                                                    PhotoItems.Insert(new Random().Next(Photo_DV.UnloadPhotosCount), _item);
                                                 }
                                                 else
                                                 {
-                                                    PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                                                    PhotoItems.Insert(0, _item);
                                                 }
                                             }
                                         }

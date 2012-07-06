@@ -7,22 +7,31 @@ namespace Waveface
     public class BatchPostItem
     {
         public bool EditMode { get; set; }
-        public List<string> ObjectIDs { get; set; }
-        public Post Post { get; set; }
-        public string PostID{ get; set; }
 
+        public List<string> ObjectIDs { get; set; }
+        public List<string> ObjectIDs_Edit { get; set; }
+
+        public Post Post { get; set; }
+        public string PostID { get; set; }
         public PostType PostType { get; set; }
+
         public string Text { get; set; }
         public string Previews { get; set; }
+
         public string LongSideResizeOrRatio { get; set; }
+
         public List<string> Files { get; set; }
         public Dictionary<string, string> UploadedFiles { get; set; }
         public DateTime OrgPostTime { get; set; }
-        public bool PostOK { get; set; }
-        public bool ErrorAndDeletePost { get; set; }
-        public int CoverAttachIndex { get; set; }
 
-        public bool PostSendMetaData{ get; set; }
+        public bool PostOK { get; set; }
+
+        public bool ErrorAndDeletePost { get; set; }
+
+        public bool PostSendMetaData { get; set; }
+
+        public int CoverAttachIndex { get; set; }
+        public bool CoverAttachUploaded { get; set; }
 
         public BatchPostItem()
         {
