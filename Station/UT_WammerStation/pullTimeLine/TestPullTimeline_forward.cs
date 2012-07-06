@@ -145,7 +145,7 @@ namespace UT_WammerStation.pullTimeLine
 			DummyPostInfoProvider postInfo = new DummyPostInfoProvider();
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
 			Mock<IUserTrackApi> api = new Mock<IUserTrackApi>();
-			api.Setup(x => x.GetChangeHistory(It.IsAny<Driver>(), since)).Throws(new WammerCloudException("123", new ArgumentOutOfRangeException()));
+			api.Setup(x => x.GetChangeHistory(It.IsAny<Driver>(), since)).Returns(new UserTrackResponse() { group_id = this.groups[0].group_id });
 
 			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, api.Object);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
