@@ -88,7 +88,7 @@ namespace Wammer.Station.Timeline
 			if (user.sync_range == null || user.sync_range.end_time == DateTime.MinValue)
 				throw new InvalidOperationException("Should call PullBackward() first");
 
-			DateTime since = user.sync_range.end_time.AddSeconds(1.0);
+			DateTime since = user.sync_range.end_time;
 
 			UserTrackResponse res;
 

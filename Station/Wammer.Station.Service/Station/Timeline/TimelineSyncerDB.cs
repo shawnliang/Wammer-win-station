@@ -36,7 +36,12 @@ namespace Wammer.Station.Timeline
 
 		public void SaveUserTracks(UserTracks userTracks)
 		{
-			UserTrackCollection.Instance.Save(userTracks);
+			var query = Query.And(
+						Query.EQ("group_id", userTracks.group_id),
+						Query.EQ("latest_timestamp", userTracks.latest_timestamp));
+
+			if (UserTrackCollection.Instance.FindOne(query) == null)
+				UserTrackCollection.Instance.Save(userTracks);
 		}
 
 		#endregion
