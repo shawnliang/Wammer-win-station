@@ -160,8 +160,22 @@ namespace Wammer.Station
 
 				var contentType = string.Empty;
 				var file = Path.Combine(storage.basePath, fileName);
-				AttachmentApi.SaveImageFromMetaData(metaData, file,ref contentType,
-				                                    (sender, e) => OnFileDownloadInProgress(e));
+
+				if (!File.Exists(file))
+				{
+					try
+					{
+						AttachmentApi.SaveImageFromMetaData(metaData, file, ref contentType,
+														(sender, e) => OnFileDownloadInProgress(e));
+					}
+					catch (IOException)
+					{
+						// As long as the result file is successfully downloaded (maybe by other thread),
+						// consider this task successful.
+						if (!File.Exists(file))
+							throw;
+					}
+				}
 
 				this.LogDebugMsg("Save attachement file to " + fileName);
 
