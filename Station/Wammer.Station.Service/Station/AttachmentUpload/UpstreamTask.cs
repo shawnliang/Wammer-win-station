@@ -67,10 +67,14 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.WammerError == 24590 || e.WammerError == 24591 || e.WammerError == 24592)
+				if (e.WammerError == (int)AttachmentApiError.FileExisted ||
+					e.WammerError == (int)AttachmentApiError.InvalidObjectId ||
+					e.WammerError == (int)AttachmentApiError.InvalidPostId)
 				{
 					this.LogWarnMsg("attachment is rejected by Cloud. Drop this task.", e);
 				}
+				else
+					throw;
 			}
 			finally
 			{

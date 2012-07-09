@@ -100,6 +100,9 @@
 		InvalidImage = Base + 10,
 		OverQuota = Base + 11,
 		PermissionDenied = Base + 12,
-		InvalidMetaType = Base + 13
+		InvalidMetaType = Base + 13,
+		FileExisted = Base + 14,
+		InvalidObjectId = Base + 15,
+		InvalidPostId = Base + 16
 	}
 }
