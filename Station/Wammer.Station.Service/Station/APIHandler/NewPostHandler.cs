@@ -77,11 +77,7 @@ namespace Wammer.Station
 			var cover_attach = Parameters[CloudServer.PARAM_COVER_ATTACH];
 			var favorite = Parameters[CloudServer.PARAM_FAVORITE];
 
-			var attachmentInfos = (from attachmentID in attachmentIDs
-			                                        let attachment =
-			                                        	AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
-			                                        where attachment != null
-			                                        select AttachmentHelper.GetAttachmentnfo(attachment, codeName)).ToList();
+			var attachmentInfos = AttachmentHelper.GetAttachmentInfoList(attachmentIDs, codeName);
 
 			var post = new PostInfo
 						{

@@ -1,5 +1,7 @@
 ﻿using Wammer.Cloud;
 using MongoDB.Driver.Builders;
+using MongoDB.Bson;
+using System.Linq;
 
 namespace Wammer.Model
 {
@@ -32,6 +34,14 @@ namespace Wammer.Model
 					Save(post);
 				}
 			}
+		}
+
+		public void UpdateAttachments(PostInfo post)
+		{
+			Update(
+				Query.EQ("_id", post.post_id),
+				MongoDB.Driver.Builders.Update.Set("attachments", new BsonArray(post.attachments.Select(x => x.ToBsonDocument())))
+			);
 		}
 	}
 }

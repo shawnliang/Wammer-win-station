@@ -272,11 +272,7 @@ namespace Wammer.Station
 
 				string codeName = loginedSession.apikey.name;
 
-				List<AttachmentInfo> attachmentInfos = (from attachmentID in attachmentIDs
-				                                        let attachment =
-				                                        	AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
-				                                        where attachment != null
-				                                        select AttachmentHelper.GetAttachmentnfo(attachment, codeName)).ToList();
+				List<AttachmentInfo> attachmentInfos = AttachmentHelper.GetAttachmentInfoList(attachmentIDs, codeName);
 
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update
 				                                                        	.Set("attachment_count", attachmentIDs.Count)

@@ -99,6 +99,7 @@
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
     <Compile Include="LocalUserTrack\TestLocalUTMgr.cs" />
     <Compile Include="TestHidePostHandler.cs" />
+    <Compile Include="TestMongoDB.cs" />
     <Compile Include="TestNewPostCommandHandler.cs" />
     <Compile Include="TestSerializable.cs" />
     <Compile Include="TestUpdatePostHandler.cs" />
