@@ -201,19 +201,18 @@ namespace Waveface
             }
         }
 
-        private BatchPostItem UploadPhoto(BatchPostItem postItem)
+        private BatchPostItem UploadPhoto(BatchPostItem pItem)
         {
             int _count = 0;
             string _tmpStamp = DateTime.Now.Ticks.ToString();
-            bool _editMode = postItem.EditMode;
 
-            if (!postItem.PostSendMetaData)
+            if (!pItem.PostSendMetaData)
             {
                 string _ids = "[";
 
-                for (int i = 0; i < postItem.ObjectIDs.Count; i++)
+                for (int i = 0; i < pItem.ObjectIDs.Count; i++)
                 {
-                    _ids += "\"" + postItem.ObjectIDs[i] + "\"" + ",";
+                    _ids += "\"" + pItem.ObjectIDs[i] + "\"" + ",";
                 }
 
                 _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
@@ -223,55 +222,59 @@ namespace Waveface
                 {
                     string _coverAttach = string.Empty;
 
-                    if (postItem.CoverAttachIndex == -1)
-                        _coverAttach = postItem.ObjectIDs[0];
+                    if (pItem.CoverAttachIndex == -1)
+                    {
+                        _coverAttach = pItem.ObjectIDs[0];
+                    }
                     else
-                        _coverAttach = postItem.ObjectIDs[postItem.CoverAttachIndex];
+                    {
+                        _coverAttach = pItem.ObjectIDs[pItem.CoverAttachIndex];
+                    }
 
-                    if (_editMode)
+                    if (pItem.EditMode)
                     {
                         Dictionary<string, string> _params = new Dictionary<string, string>();
 
-                        if (postItem.Text != string.Empty)
+                        if (pItem.Text != string.Empty)
                         {
-                            _params.Add("content", postItem.Text);
+                            _params.Add("content", pItem.Text);
                         }
 
                         _params.Add("attachment_id_array", _ids);
                         _params.Add("type", "image");
                         _params.Add("cover_attach", _coverAttach);
 
-                        string _time = Main.Current.GetPostUpdateTime(postItem.Post);
+                        string _time = Main.Current.GetPostUpdateTime(pItem.Post);
 
-                        MR_posts_update _update = Main.Current.RT.REST.Posts_update(postItem.PostID, _time, _params);
+                        MR_posts_update _update = Main.Current.RT.REST.Posts_update(pItem.PostID, _time, _params);
 
                         if (_update == null)
                         {
-                            postItem.PostOK = false;
+                            pItem.PostOK = false;
 
-                            return postItem;
+                            return pItem;
                         }
 
-                        s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + postItem.Text + ", Files=" +
-                                       postItem.ObjectIDs.Count + ", Update Post");
+                        s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + pItem.Text + ", Added File(s)=" +
+                                       pItem.ObjectIDs_Edit.Count + ", Update Post");
                     }
                     else
                     {
-                        MR_posts_new _np = Main.Current.RT.REST.Posts_New(postItem.Text, _ids, "", "image", _coverAttach);
+                        MR_posts_new _np = Main.Current.RT.REST.Posts_New(pItem.Text, _ids, "", "image", _coverAttach);
 
                         if (_np == null)
                         {
-                            postItem.PostOK = false;
-                            return postItem;
+                            pItem.PostOK = false;
+                            return pItem;
                         }
 
-                        postItem.PostID = _np.post.post_id;
+                        pItem.PostID = _np.post.post_id;
 
-                        s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + postItem.Text + ", Files=" +
-                                       postItem.ObjectIDs.Count + ", Create New Post");
+                        s_logger.Trace("[" + _tmpStamp + "]" + "Batch Post:" + pItem.Text + ", File(s)=" +
+                                       pItem.ObjectIDs.Count + ", Create New Post");
                     }
 
-                    postItem.PostSendMetaData = true;
+                    pItem.PostSendMetaData = true;
 
                     Main.Current.ReloadAllData();
 
@@ -284,160 +287,69 @@ namespace Waveface
                 {
                     NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile:PostSendMetaData");
 
-                    postItem.PostOK = false;
-                    return postItem;
+                    pItem.PostOK = false;
+                    return pItem;
                 }
             }
 
+            if (pItem.PostSendMetaData && !pItem.CoverAttachUploaded)
+            {
+                int _coverAttachIndex = (pItem.CoverAttachIndex == -1) ? 0 : pItem.CoverAttachIndex;
+
+                if (pItem.EditMode)
+                {
+                    string _coverAttach = pItem.ObjectIDs[_coverAttachIndex];
+
+                    for (int i = 0; i < pItem.ObjectIDs_Edit.Count; i++)
+                    {
+                        if (pItem.ObjectIDs_Edit[i] == _coverAttach)
+                        {
+                            BatchPostItem _pi = UploadOneFile(pItem, i, _tmpStamp, pItem.Files[i]);
+
+                            if (_pi != null)
+                                return _pi;
+
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    BatchPostItem _pi = UploadOneFile(pItem, _coverAttachIndex, _tmpStamp, pItem.Files[_coverAttachIndex]);
+
+                    if (_pi != null)
+                        return _pi;
+                }
+
+                pItem.CoverAttachUploaded = true;
+
+                lock (this)
+                {
+                    Save();
+                }
+            }
 
             while (true)
             {
                 if (StartUpload)
                 {
-                    string _file = postItem.Files[_count];
+                    string _file = pItem.Files[_count];
 
-                    if (postItem.UploadedFiles.Keys.Contains(_file))
+                    if (pItem.UploadedFiles.Keys.Contains(_file))
                     {
                         s_logger.Trace("[" + _tmpStamp + "]" + "Batch Sended Photo [" + _count + "]" + _file);
                     }
                     else
                     {
-                        try
-                        {
-                            if (!File.Exists(_file))
-                            {
-                                // 原始檔案不存在. 作錯誤處裡
-                                s_logger.Error("Image File does not exist: [" + _file + "]");
+                        BatchPostItem _pi = UploadOneFile(pItem, _count, _tmpStamp, _file);
 
-                                if (ShowFileMissDialog != null)
-                                    ShowFileMissDialog(_file);
-
-                                while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
-                                    Thread.Sleep(500);
-
-                                switch (Main.Current.NewPostThreadErrorDialogResult)
-                                {
-                                    case DialogResult.Cancel: // Delete Post
-                                        postItem.ErrorAndDeletePost = true;
-                                        postItem.PostOK = false;
-                                        return postItem;
-
-                                    case DialogResult.Yes: // Remove Picture
-                                        s_logger.Error("Remove: [" + _file + "]");
-
-                                        postItem.Files.Remove(_file);
-
-                                        if (_editMode)
-                                        {
-                                            for (int i = 0; i < postItem.ObjectIDs.Count; i++)
-                                            {
-                                                if (postItem.ObjectIDs[i] == _file)
-                                                {
-                                                    postItem.ObjectIDs.RemoveAt(i);
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        postItem.PostOK = false;
-
-                                        UpdateUI(int.MinValue, "");
-
-                                        return postItem;
-
-                                    case DialogResult.Retry: // DoNothing
-                                        s_logger.Error("Ignore & Retry Miss File: [" + _file + "]");
-
-                                        postItem.PostOK = false;
-                                        return postItem;
-                                }
-                            }
-
-
-                            if (Environment.GetCommandLineArgs().Length == 1)
-                            {
-                                // only check quota in cloud mode, because station will handle over quota
-                                if (CheckStoragesUsage() <= 0)
-                                {
-                                    if (CheckStoragesUsage() <= 0) //Hack 
-                                    {
-                                        // 雲端個人儲存空間不足. 作錯誤處裡 
-                                        s_logger.Error("(CheckStoragesUsage() <= 0)");
-
-                                        if (OverQuotaMissDialog != null)
-                                            OverQuotaMissDialog("");
-
-                                        while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
-                                            Thread.Sleep(500);
-
-                                        switch (Main.Current.NewPostThreadErrorDialogResult)
-                                        {
-                                            case DialogResult.Cancel: // Delete Post
-                                                postItem.ErrorAndDeletePost = true;
-                                                postItem.PostOK = false;
-                                                return postItem;
-
-                                            case DialogResult.Retry: // DoNothing
-
-                                                postItem.PostOK = false;
-                                                return postItem;
-                                        }
-                                    }
-                                }
-                            }
-
-
-                            string _text = new FileName(_file).Name;
-                            string _resizedImage = ImageUtility.ResizeImage(_file, _text, postItem.LongSideResizeOrRatio, 100);
-
-                            MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, postItem.ObjectIDs[_count], true, postItem.PostID);
-
-                            if (_uf == null)
-                            {
-                                postItem.PostOK = false;
-                                return postItem;
-                            }
-
-                            postItem.UploadedFiles.Add(_file, _uf.object_id);
-
-                            s_logger.Trace("[" + _tmpStamp + "]" + "Batch Upload Photo [" + _count + "]" + _file);
-
-                            if (Environment.GetCommandLineArgs().Length == 1)
-                            {
-                                // Cache Origin
-                                string _localFileOrigin = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_" + _text);
-                                File.Copy(_file, _localFileOrigin);
-
-                                // Cache Medium
-                                string _localFileMedium = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_medium_" + _text);
-                                string _resizedMediumImageFilePath = ImageUtility.ResizeImage(_file, _text, "1024", 100); //512 -> 1024
-                                File.Copy(_resizedMediumImageFilePath, _localFileMedium);
-
-                                // Small
-                                if (_count == 0)
-                                {
-                                    string _localFileSmall = Path.Combine(Main.GCONST.ImageCachePath, _uf.object_id + "_small_" + _text);
-                                    string _resizedSmallImageFilePath = ImageUtility.ResizeImage(_file, _text, "256", 100); //120 -> 256
-                                    File.Copy(_resizedSmallImageFilePath, _localFileSmall);
-                                }
-                            }
-                        }
-                        catch (Exception _e)
-                        {
-                            NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
-                            postItem.PostOK = false;
-                            return postItem;
-                        }
-
-                        lock (this)
-                        {
-                            Save();
-                        }
+                        if (_pi != null)
+                            return _pi;
                     }
 
                     _count++;
 
-                    int _counts = postItem.Files.Count;
+                    int _counts = pItem.Files.Count;
 
                     if (UpdateUI != null)
                     {
@@ -461,16 +373,104 @@ namespace Waveface
                 }
                 else
                 {
-                    postItem.PostOK = false;
+                    pItem.PostOK = false;
 
-                    return postItem;
+                    return pItem;
                 }
             }
 
-            postItem.PostOK = true;
-            return postItem;
+            pItem.PostOK = true;
+            return pItem;
         }
 
+        private BatchPostItem UploadOneFile(BatchPostItem pItem, int count, string tmpStamp, string file)
+        {
+            try
+            {
+                if (!File.Exists(file))
+                {
+                    // 原始檔案不存在. 作錯誤處裡
+                    s_logger.Error("Image File does not exist: [" + file + "]");
+
+                    if (ShowFileMissDialog != null)
+                        ShowFileMissDialog(file);
+
+                    while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
+                        Thread.Sleep(500);
+
+                    switch (Main.Current.NewPostThreadErrorDialogResult)
+                    {
+                        case DialogResult.Cancel: // Delete Post
+                            pItem.ErrorAndDeletePost = true;
+                            pItem.PostOK = false;
+                            return pItem;
+
+                        case DialogResult.Yes: // Remove Picture
+                            s_logger.Error("Remove: [" + file + "]");
+
+                            pItem.Files.Remove(file);
+
+                            if (pItem.EditMode) // Todo:
+                            {
+                                for (int i = 0; i < pItem.ObjectIDs.Count; i++)
+                                {
+                                    if (pItem.ObjectIDs[i] == file)
+                                    {
+                                        pItem.ObjectIDs.RemoveAt(i);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            pItem.PostOK = false;
+
+                            UpdateUI(int.MinValue, "");
+
+                            return pItem;
+
+                        case DialogResult.Retry: // DoNothing
+                            s_logger.Error("Ignore & Retry Miss File: [" + file + "]");
+
+                            pItem.PostOK = false;
+                            return pItem;
+                    }
+                }
+
+                string _text = new FileName(file).Name;
+                string _resizedImage = ImageUtility.ResizeImage(file, _text, pItem.LongSideResizeOrRatio, 100);
+
+                string _objID = pItem.EditMode ? pItem.ObjectIDs_Edit[count] : pItem.ObjectIDs[count];
+
+                MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, _objID, true,
+                                                                                 pItem.PostID);
+
+                if (_uf == null)
+                {
+                    pItem.PostOK = false;
+                    return pItem;
+                }
+
+                pItem.UploadedFiles.Add(file, _uf.object_id);
+
+                s_logger.Trace("[" + tmpStamp + "][" + _objID + "] Batch Upload Photo [" + count + "]" + file);
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
+
+                pItem.PostOK = false;
+                return pItem;
+            }
+
+            lock (this)
+            {
+                Save();
+            }
+
+            return null;
+        }
+
+        /*
         private long CheckStoragesUsage()
         {
             try
@@ -498,6 +498,7 @@ namespace Waveface
 
             return long.MinValue;
         }
+        */
 
         #region IO
 

@@ -347,7 +347,7 @@ namespace Waveface.DetailUI
 
         private void ReLayout()
         {
-            if (Post.attachment_count > 0)
+            if (Post.attachment_id_array.Count > 0)
             {
                 imageListView.Height = imageListView.VScrollBar.Maximum + 16;
             }
