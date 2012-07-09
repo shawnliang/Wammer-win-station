@@ -65,6 +65,13 @@ namespace Wammer.Station.AttachmentUpload
 					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
 				}
 			}
+			catch (WammerCloudException e)
+			{
+				if (e.WammerError == 24590 || e.WammerError == 24591 || e.WammerError == 24592)
+				{
+					this.LogWarnMsg("attachment is rejected by Cloud. Drop this task.", e);
+				}
+			}
 			finally
 			{
 				upstreamCount.Decrement();
