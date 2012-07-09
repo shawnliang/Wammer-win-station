@@ -206,6 +206,7 @@ namespace Waveface
             int _count = 0;
             string _tmpStamp = DateTime.Now.Ticks.ToString();
 
+            // 先Create New Post或Update MetaData
             if (!pItem.PostSendMetaData)
             {
                 string _ids = "[";
@@ -292,6 +293,7 @@ namespace Waveface
                 }
             }
 
+            // 再傳CoverAttach圖片
             if (pItem.PostSendMetaData && !pItem.CoverAttachUploaded)
             {
                 int _coverAttachIndex = (pItem.CoverAttachIndex == -1) ? 0 : pItem.CoverAttachIndex;
@@ -315,7 +317,8 @@ namespace Waveface
                 }
                 else
                 {
-                    BatchPostItem _pi = UploadOneFile(pItem, _coverAttachIndex, _tmpStamp, pItem.Files[_coverAttachIndex]);
+                    BatchPostItem _pi = UploadOneFile(pItem, _coverAttachIndex, _tmpStamp,
+                                                      pItem.Files[_coverAttachIndex]);
 
                     if (_pi != null)
                         return _pi;
@@ -408,19 +411,13 @@ namespace Waveface
                         case DialogResult.Yes: // Remove Picture
                             s_logger.Error("Remove: [" + file + "]");
 
-                            pItem.Files.Remove(file);
+                            if (pItem.CoverAttachIndex == count)
+                                pItem.CoverAttachIndex = 0;
 
-                            if (pItem.EditMode) // Todo:
-                            {
-                                for (int i = 0; i < pItem.ObjectIDs.Count; i++)
-                                {
-                                    if (pItem.ObjectIDs[i] == file)
-                                    {
-                                        pItem.ObjectIDs.RemoveAt(i);
-                                        break;
-                                    }
-                                }
-                            }
+                            pItem.Files.Remove(file);
+                            pItem.ObjectIDs.RemoveAt(count);
+
+                            UpdatePostWhenRemovePhoto(pItem);
 
                             pItem.PostOK = false;
 
@@ -470,35 +467,91 @@ namespace Waveface
             return null;
         }
 
-        /*
-        private long CheckStoragesUsage()
+        private bool UpdatePostWhenRemovePhoto(BatchPostItem pItem)
         {
+            string _ids = "[";
+
+            for (int i = 0; i < pItem.ObjectIDs.Count; i++)
+            {
+                _ids += "\"" + pItem.ObjectIDs[i] + "\"" + ",";
+            }
+
+            _ids = _ids.Substring(0, _ids.Length - 1); // 去掉最後一個","
+            _ids += "]";
+
             try
             {
-                MR_storages_usage _storagesUsage = Main.Current.RT.REST.Storages_Usage();
+                Dictionary<string, string> _params = new Dictionary<string, string>();
 
-                if (_storagesUsage != null)
+                _params.Add("attachment_id_array", _ids);
+                _params.Add("type", "image");
+                _params.Add("cover_attach", pItem.ObjectIDs[pItem.CoverAttachIndex]);
+
+                string _time = string.Empty;
+
+                MR_posts_getSingle _singlePost = Main.Current.RT.REST.Posts_GetSingle(pItem.PostID);
+
+                if ((_singlePost != null) && (_singlePost.post != null))
                 {
-                    long m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
-                    long m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
-
-                    //Hack
-                    if (m_month_total_objects == -1)
+                    if (_singlePost.post.update_time != null)
                     {
-                        return long.MaxValue;
+                        _time = _singlePost.post.update_time;
                     }
-
-                    return m_avail_month_total_objects;
                 }
+
+                MR_posts_update _update = Main.Current.RT.REST.Posts_update(pItem.PostID, _time, _params);
+
+                if (_update == null)
+                {
+                    pItem.PostOK = false;
+
+                    return false;
+                }
+
+                lock (this)
+                {
+                    Save();
+                }
+
+                Main.Current.ReloadAllData();
             }
             catch (Exception _e)
             {
-                NLogUtility.Exception(s_logger, _e, "CheckStoragesUsage");
+                return false;
             }
 
-            return long.MinValue;
+            return true;
         }
-        */
+
+        /*
+            private long CheckStoragesUsage()
+            {
+                try
+                {
+                    MR_storages_usage _storagesUsage = Main.Current.RT.REST.Storages_Usage();
+
+                    if (_storagesUsage != null)
+                    {
+                        long m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
+                        long m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
+
+                        //Hack
+                        if (m_month_total_objects == -1)
+                        {
+                            return long.MaxValue;
+                        }
+
+                        return m_avail_month_total_objects;
+                    }
+                }
+                catch (Exception _e)
+                {
+                    NLogUtility.Exception(s_logger, _e, "CheckStoragesUsage");
+                }
+
+                return long.MinValue;
+            }
+            */
 
         #region IO
 
