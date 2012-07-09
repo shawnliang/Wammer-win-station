@@ -11,13 +11,7 @@ namespace Wammer.Station.Timeline
 
 		public void SavePost(PostInfo post)
 		{
-			// TODO move to PostCollection
-			var localPost = PostCollection.Instance.FindOne(Query.EQ("_id", post.post_id));
-
-			if (localPost == null)
-				PostCollection.Instance.Save(post);
-			else if (localPost.update_time.ToUniversalTime() < post.update_time.ToUniversalTime())
-				PostCollection.Instance.Save(post);
+			PostCollection.Instance.Update(post);
 		}
 
 		public void UpdateDriverSyncRange(string userId, SyncRange syncRange)
