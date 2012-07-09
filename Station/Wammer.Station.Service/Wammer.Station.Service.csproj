@@ -130,6 +130,7 @@
     <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
+    <Compile Include="Station\PostUpload\MobileDevicePostActivity.cs" />
     <Compile Include="Station\Retry\RetryQueueHelper.cs" />
     <Compile Include="Station\SessionNotExistException.cs" />
     <Compile Include="Station\Station.cs" />

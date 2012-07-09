@@ -23,8 +23,21 @@ namespace Wammer.Station
 		private static readonly ILog logger = LogManager.GetLogger("HybridCloudHttpRouter");
 		private long beginTime;
 
-		private BypassHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl);
+		private BypassHttpHandler bypass = new BypassHttpHandler(CloudServer.BaseUrl, true);
 		private HttpHandler handler;
+
+		public event EventHandler<BypassedEventArgs> RequestBypassed
+		{
+			add
+			{
+				bypass.RequestBypassed += value;
+			}
+
+			remove
+			{
+				bypass.RequestBypassed -= value;
+			}
+		}
 
 		public HybridCloudHttpRouter(HttpHandler handler)
 		{

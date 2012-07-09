@@ -43,7 +43,7 @@ namespace Wammer.Station.Service
 		private HttpServer managementServer;
 		private AttachmentViewHandler viewHandler;
 		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
-
+		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
 		public StationService()
 		{
 			XmlConfigurator.Configure();
@@ -257,17 +257,24 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/posts/fetchByFilter/"),
 									  new HybridCloudHttpRouter(new PostFetchByFilterHandler()));
 
-			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
-			                          new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance)));
+			var newPostHandler = new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance));
+			newPostHandler.RequestBypassed += mobileDevicePostActivity.OnPostCreated;
+			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"), newPostHandler);
+
 			
-			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),
-			                          new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance))));
+			var updatePostHandler = new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance)));
+			updatePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostUpdated;
+			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),updatePostHandler);
 
-			functionServer.AddHandler(GetDefaultBathPath("/posts/hide/"),
-			                          new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance))));
+			var hidePostHandler = new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance)));
+			hidePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostHidden;
+			functionServer.AddHandler(GetDefaultBathPath("/posts/hide/"), hidePostHandler);
 
-			functionServer.AddHandler(GetDefaultBathPath("/posts/newComment/"),
-			                          new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance))));
+
+			var commentHandler = new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance)));
+			commentHandler.RequestBypassed += mobileDevicePostActivity.OnCommentCreated;
+			functionServer.AddHandler(GetDefaultBathPath("/posts/newComment/"), commentHandler);
+
 
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/setLastScan/"),
 			                          new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
