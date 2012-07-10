@@ -554,6 +554,17 @@ namespace Waveface.DetailUI
 
                         continue;
                     }
+
+                    if (Post.Sources.ContainsKey(m_imageAttachments[i].object_id))
+                    {
+                        var sourcePath = Post.Sources[m_imageAttachments[i].object_id];
+                        if (File.Exists(sourcePath))
+                        {
+                            imageListView.Items[i].FileName = sourcePath;
+                            k++;
+                            continue;
+                        }
+                    }
                 }
             }
             catch

@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 #endregion
 
@@ -47,6 +48,14 @@ namespace Waveface.API.V2
         public string event_time { get; set; }
         public string cover_attach { get; set; }
         public string favorite { get; set; }
+
+        [JsonIgnore]
+        public Dictionary<string, string> Sources { get; set; }
+
+        public Post()
+        {
+            Sources = new Dictionary<string, string>();
+        }
     }
 
     public class Attachment

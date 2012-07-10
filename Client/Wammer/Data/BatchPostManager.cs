@@ -277,7 +277,9 @@ namespace Waveface
 
                     pItem.PostSendMetaData = true;
 
-                    Main.Current.ReloadAllData();
+                    var photoPostInfo = createPhotoPostInfo(pItem);
+
+                    Main.Current.ReloadAllData(photoPostInfo);
 
                     lock (this)
                     {
@@ -384,6 +386,33 @@ namespace Waveface
 
             pItem.PostOK = true;
             return pItem;
+        }
+
+        private static PhotoPostInfo createPhotoPostInfo(BatchPostItem item)
+        {
+            var info = new PhotoPostInfo { post_id = item.PostID };
+
+            if (item.EditMode)
+            {
+                for (int i = 0; i < item.ObjectIDs_Edit.Count; i++)
+                {
+                    info.sources.Add(
+                        item.ObjectIDs_Edit[i],
+                        item.Files[i]
+                    );
+                }
+            }
+            else
+            {
+                for (int i = 0; i < item.ObjectIDs.Count; i++)
+                {
+                    info.sources.Add(
+                        item.ObjectIDs[i],
+                        item.Files[i]);
+                }
+            }
+
+            return info;
         }
 
         private BatchPostItem UploadOneFile(BatchPostItem pItem, int count, string tmpStamp, string file)
@@ -613,4 +642,17 @@ namespace Waveface
 
         #endregion
     }
+
+    class PhotoPostInfo
+    {
+        public string post_id { get; set; }
+        //key: object_id, value: source file path
+        public Dictionary<string, string> sources { get; set; }
+
+        public PhotoPostInfo()
+        {
+            sources = new Dictionary<string, string>();
+        }
+    }
+
 }

@@ -878,13 +878,11 @@ namespace Waveface
             }
         }
 
-        public void GetAllDataAsync()
+        public void GetAllDataAsync(object parameter = null)
         {
             if (InvokeRequired)
             {
-                Invoke(new MethodInvoker(
-                           delegate { GetAllDataAsync(); }
-                           ));
+                Invoke(new Action(() => { GetAllDataAsync(parameter); }));
             }
             else
             {
@@ -895,7 +893,7 @@ namespace Waveface
                 if (bgWorkerGetAllData.IsBusy)
                     Cursor = Cursors.Default;
                 else
-                    bgWorkerGetAllData.RunWorkerAsync();
+                    bgWorkerGetAllData.RunWorkerAsync(parameter);
             }
         }
 
@@ -1625,17 +1623,15 @@ namespace Waveface
 
         #region GetAllData
 
-        public void ReloadAllData()
+        public void ReloadAllData(object parameter = null)
         {
             if (InvokeRequired)
             {
-                Invoke(new MethodInvoker(
-                           delegate { ReloadAllData(); }
-                           ));
+                Invoke(new Action(() => { ReloadAllData(parameter); }));
             }
             else
             {
-                GetAllDataAsync();
+                GetAllDataAsync(parameter);
             }
         }
 
@@ -1704,9 +1700,18 @@ namespace Waveface
 
             List<Post> _tmpPosts = new List<Post>();
 
+
+            var dirtyPost = e.Argument as PhotoPostInfo;
+
             foreach (Post _post in _allPosts.Values)
             {
                 Post _p = PostUtility.GenPhotoAttachments(_post);
+
+                if (dirtyPost != null &&
+                    dirtyPost.post_id == _post.post_id)
+                {
+                    _p.Sources = dirtyPost.sources;
+                }
 
                 _tmpPosts.Add(_p);
             }
