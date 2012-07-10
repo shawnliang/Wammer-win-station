@@ -11,6 +11,7 @@ using Waveface.Component;
 using Waveface.Configuration;
 using View = Manina.Windows.Forms.View;
 using System.Diagnostics;
+using Waveface.Libs.StationDB;
 
 #endregion
 
@@ -22,7 +23,6 @@ namespace Waveface.DetailUI
         private const string ORIGIN = "Origin";
         private const string LOADING = "Loading";
 
-        private Dictionary<string, string> m_filesMapping;
         private bool m_onlyOnePhoto;
         private int m_loadingPhotosCount;
         private int m_loadingOriginPhotosCount;
@@ -40,7 +40,7 @@ namespace Waveface.DetailUI
 			this.FullScreen();
         }
 
-        public PhotoView(Post post, List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums, Dictionary<string, string> filesMapping, int selectedIndex)
+        public PhotoView(Post post, List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums, int selectedIndex)
             : this()
         {
             m_formSettings = new FormSettings(this);
@@ -53,7 +53,6 @@ namespace Waveface.DetailUI
             m_post = post;
 
             m_imageAttachments = imageAttachments;
-            m_filesMapping = filesMapping;
             m_filePathOrigins = filePathOrigins;
             m_filePathMediums = filePathMediums;
 
@@ -124,30 +123,31 @@ namespace Waveface.DetailUI
 
 		private void SavePic()
 		{
-			string _picFilePath = GetPhotoFilePath(thumbnailNavigator1.SelectedIndex);
-			string _trueName = new FileInfo(_picFilePath).Name;
+            var _picFilePath = GetPhotoFilePath(thumbnailNavigator1.SelectedIndex);
+            var object_id = m_imageAttachments[thumbnailNavigator1.SelectedIndex].object_id;
+            var trueFileName = AttachmentCollection.QueryFileName(object_id);
 
-			if (m_filesMapping.ContainsKey(_trueName)) //取得原始檔名
-				_trueName = m_filesMapping[_trueName];
+            if (string.IsNullOrEmpty(trueFileName))
+                trueFileName = Path.GetFileName(_picFilePath);
 
-			saveFileDialog.FileName = _trueName;
-			DialogResult _dr = saveFileDialog.ShowDialog(this);
-			
-			if (_dr == DialogResult.OK)
-			{
-				try
-				{
-					string _destFile = saveFileDialog.FileName;
+            saveFileDialog.FileName = trueFileName;
+            DialogResult _dr = saveFileDialog.ShowDialog(this);
 
-					File.Copy(_picFilePath, _destFile, true);
+            if (_dr == DialogResult.OK)
+            {
+                try
+                {
+                    string _destFile = saveFileDialog.FileName;
 
-					MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
-				}
-				catch
-				{
-					MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
-				}
-			}
+                    File.Copy(_picFilePath, _destFile, true);
+
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
+                }
+                catch
+                {
+                    MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
+                }
+            }
 		}
 
         #endregion
