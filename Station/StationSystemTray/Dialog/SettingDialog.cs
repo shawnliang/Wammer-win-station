@@ -311,7 +311,13 @@ namespace StationSystemTray
 
 		private void dgvAccountList_Paint(object sender, PaintEventArgs e)
 		{
-			ControlPaint.DrawBorder(e.Graphics, dgvAccountList.DisplayRectangle, ColorTranslator.FromHtml("#c6c6c6"), ButtonBorderStyle.Solid);
+			var columnOffset = 0;
+			foreach (DataGridViewColumn column in dgvAccountList.Columns)
+			{
+				columnOffset += column.Width;
+				e.Graphics.DrawLine(new Pen(ColorTranslator.FromHtml("#bcbcbc")), columnOffset + 1, 0, columnOffset + 1, dgvAccountList.Height);
+			}
+			ControlPaint.DrawBorder(e.Graphics, dgvAccountList.DisplayRectangle, ColorTranslator.FromHtml("#bcbcbc"), ButtonBorderStyle.Solid);
 		}
 	}
 }

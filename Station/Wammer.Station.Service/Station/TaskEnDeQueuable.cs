@@ -29,5 +29,13 @@ namespace Wammer.Station
 		void EnqueueDummyTask();
 	}
 
-	
+	public class TaskEventArgs : EventArgs
+	{
+		public ITask task { get; private set; }
+
+		public TaskEventArgs(ITask t)
+		{
+			task = t;
+		}
+	}
 }

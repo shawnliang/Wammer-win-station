@@ -32,27 +32,12 @@ namespace Waveface
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
-            this.panelList = new System.Windows.Forms.Panel();
             this.panelTimeBar = new System.Windows.Forms.Panel();
-            this.postList = new Waveface.PostsList();
-            this.panelR = new System.Windows.Forms.Panel();
-            this.panelButtom = new System.Windows.Forms.Panel();
-            this.linkLabelReadMore = new System.Windows.Forms.LinkLabel();
-            this.labelPostInfo = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.panelList.SuspendLayout();
-            this.panelButtom.SuspendLayout();
+            this.postList = new Waveface.PostsList();
             this.panelMain.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panelList
-            // 
-            this.panelList.Controls.Add(this.panelTimeBar);
-            this.panelList.Controls.Add(this.postList);
-            this.panelList.Controls.Add(this.panelR);
-            resources.ApplyResources(this.panelList, "panelList");
-            this.panelList.Name = "panelList";
             // 
             // panelTimeBar
             // 
@@ -60,52 +45,24 @@ namespace Waveface
             this.panelTimeBar.Name = "panelTimeBar";
             this.panelTimeBar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTimeBar_Paint);
             // 
-            // postList
-            // 
-            resources.ApplyResources(this.postList, "postList");
-            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.postList.DetailView = null;
-            this.postList.MyParent = null;
-            this.postList.Name = "postList";
-            // 
-            // panelR
-            // 
-            this.panelR.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            resources.ApplyResources(this.panelR, "panelR");
-            this.panelR.Name = "panelR";
-            // 
-            // panelButtom
-            // 
-            this.panelButtom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(96)))), ((int)(((byte)(0)))));
-            this.panelButtom.Controls.Add(this.linkLabelReadMore);
-            this.panelButtom.Controls.Add(this.labelPostInfo);
-            resources.ApplyResources(this.panelButtom, "panelButtom");
-            this.panelButtom.Name = "panelButtom";
-            // 
-            // linkLabelReadMore
-            // 
-            resources.ApplyResources(this.linkLabelReadMore, "linkLabelReadMore");
-            this.linkLabelReadMore.LinkColor = System.Drawing.Color.White;
-            this.linkLabelReadMore.Name = "linkLabelReadMore";
-            this.linkLabelReadMore.TabStop = true;
-            this.linkLabelReadMore.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelReadMore_LinkClicked);
-            // 
-            // labelPostInfo
-            // 
-            resources.ApplyResources(this.labelPostInfo, "labelPostInfo");
-            this.labelPostInfo.ForeColor = System.Drawing.Color.White;
-            this.labelPostInfo.Name = "labelPostInfo";
-            // 
             // panelMain
             // 
-            this.panelMain.Controls.Add(this.panelList);
-            this.panelMain.Controls.Add(this.panelButtom);
+            this.panelMain.Controls.Add(this.postList);
+            this.panelMain.Controls.Add(this.panelTimeBar);
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
+            // 
+            // postList
+            // 
+            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            this.postList.DetailView = null;
+            resources.ApplyResources(this.postList, "postList");
+            this.postList.MyParent = null;
+            this.postList.Name = "postList";
             // 
             // PostArea
             // 
@@ -115,9 +72,6 @@ namespace Waveface
             resources.ApplyResources(this, "$this");
             this.MinimumSize = new System.Drawing.Size(336, 2);
             this.Name = "PostArea";
-            this.panelList.ResumeLayout(false);
-            this.panelButtom.ResumeLayout(false);
-            this.panelButtom.PerformLayout();
             this.panelMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -126,13 +80,8 @@ namespace Waveface
         #endregion
 
         private PostsList postList;
-        private System.Windows.Forms.Panel panelList;
-        private System.Windows.Forms.Panel panelButtom;
         private System.Windows.Forms.Panel panelMain;
-        private System.Windows.Forms.Label labelPostInfo;
-        private System.Windows.Forms.LinkLabel linkLabelReadMore;
         private Localization.CultureManager cultureManager;
-        private System.Windows.Forms.Panel panelR;
         private System.Windows.Forms.Panel panelTimeBar;
     }
 }

@@ -118,14 +118,17 @@
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="PerfMonitor\NullPerfCounter.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
+    <Compile Include="Station\AbstractTaskEnDequeueNotifier.cs" />
     <Compile Include="Station\APIHandler\MoveResourceFolderHandler.cs" />
     <Compile Include="Station\APIHandler\PostFetchByFilterHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
+    <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
+    <Compile Include="Station\Retry\RetryQueueHelper.cs" />
     <Compile Include="Station\SessionNotExistException.cs" />
     <Compile Include="Station\Station.cs" />
     <Compile Include="Station\TaskRunner.cs" />
@@ -162,8 +165,7 @@
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
     <Compile Include="Model\UserTracks.cs" />
-    <Compile Include="PerfMonitor\AttachmentDownloadMonitor.cs" />
-    <Compile Include="PerfMonitor\AttachmentUploadMonitor.cs" />
+    <Compile Include="PerfMonitor\UploadDownloadMonitor.cs" />
     <Compile Include="PerfMonitor\HttpRequestMonitor.cs" />
     <Compile Include="PerfMonitor\PerfCounter.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />

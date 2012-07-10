@@ -102,19 +102,45 @@ namespace Waveface.API.V2
 
     public class Device
     {
-        public string device_name { get; set; }
-        public string device_id { get; set; }
+		public string device_id { get; set; }
+		public string last_visit { get; set; }
+		public string device_type { get; set; }
+		public string device_name { get; set; }
     }
 
-    public class User
-    {
-        public string user_id { get; set; }
-        public string email { get; set; }
-        public string nickname { get; set; }
-        public string avatar_url { get; set; }
-        public string state { get; set; }
-        public List<Device> devices { get; set; }
-    }
+	public class SNS1
+	{
+		public bool enabled { get; set; }
+		public string snsid { get; set; }
+		public string status { get; set; }
+		public string type { get; set; }
+		public string lastSync { get; set; }
+		public string toDate { get; set; }
+	}
+
+	public class SNS2
+	{
+		public bool enabled { get; set; }
+		public string snsid { get; set; }
+		public List<string> status { get; set; }
+		public string type { get; set; }
+		public string lastSync { get; set; }
+		public string toDate { get; set; }
+	}
+
+	public class User
+	{
+		public string user_id { get; set; }
+		public bool subscribed { get; set; }
+		public int since { get; set; }
+		public List<Device> devices { get; set; }
+		public string state { get; set; }
+		public string avatar_url { get; set; }
+		public List<SNS2> sns { get; set; }
+		public bool verified { get; set; }
+		public string nickname { get; set; }
+		public string email { get; set; }
+	}
 
     public class Group
     {
@@ -400,7 +426,16 @@ namespace Waveface.API.V2
         public User user { get; set; }
         public List<Group> groups { get; set; }
         public List<Station> stations { get; set; }
+		public List<SNS1> sns { get; set; }
+		public Device device { get; set; }
+		public Storages storages { get; set; }
     }
+
+
+	public class MR_FB_Disconnect : General_R
+	{
+		public User user { get; set; }
+	}
 
     public class MR_users_update : General_R
     {

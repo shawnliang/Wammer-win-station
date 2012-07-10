@@ -10,6 +10,7 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Linq;
 using AppLimit.NetSparkle;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -22,8 +23,8 @@ using Waveface.Component.DropableNotifyIcon;
 using Waveface.Configuration;
 using Waveface.ImageCapture;
 using Waveface.Properties;
-using Waveface.SettingUI;
 using MonthCalendar = CustomControls.MonthCalendar;
+using System.Diagnostics;
 
 #endregion
 
@@ -38,8 +39,8 @@ namespace Waveface
 
         #region Fields
 
-		//// Main
-		//public SettingForm m_setting;
+        //// Main
+        //public SettingForm m_setting;
 
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
@@ -68,7 +69,26 @@ namespace Waveface
         private string m_displayType;
         private string m_delayPostText;
 
+		private CustomWindow _messageReceiver;
+		private WService _service;
         #endregion
+
+		private WService m_Service
+		{
+			get
+			{
+				return _service ?? (_service = new WService());
+			}
+		}
+
+		private CustomWindow m_MessageReceiver
+		{
+			get
+			{
+				return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
+			}
+		}
+
 
         #region Properties
 
@@ -166,7 +186,7 @@ namespace Waveface
 
             InitializeComponent();
 
-            Text = "Stream "; // this has to be sync with SystemStry.Main.CLIENT_TITLE for finding client form
+            HttpHelp.EnableUnsafeHeaderParsing();
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
@@ -187,8 +207,12 @@ namespace Waveface
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
+			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
+
             s_logger.Trace("Constructor: OK");
         }
+
+
 
         #region Init
 
@@ -217,8 +241,40 @@ namespace Waveface
 
             CreateLoadingImage();
 
+			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+
+			AdjustAccountInfoButton();
+
             s_logger.Trace("Form_Load: OK");
         }
+
+		void panelTitle_AccountInfoClosed(object sender, EventArgs e)
+		{
+			AdjustAccountInfoButton();
+		}
+
+		private void AdjustAccountInfoButton()
+		{
+			var response = m_Service.users_get(RT.Login.session_token, RT.Login.user.user_id);
+			var user = response.user;
+
+			var facebook = (from item1 in response.sns
+							from item2 in user.sns
+							where item1.type == "facebook" && item2.type == "facebook"
+							select new
+							{
+								Enabled = item1.enabled,
+								SnsID = item2.snsid,
+								Status = item2.status
+							}).FirstOrDefault();
+
+			var accessTokenExpired = facebook == null? false: facebook.Status.Contains("disconnected");
+
+			panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge: Resources.FBT_account;
+			panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+			panelTitle.btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
+
+		}
 
         protected override bool ProcessCmdKey(ref Message message, Keys keys)
         {
@@ -444,34 +500,34 @@ namespace Waveface
         }
 
 
-		[DllImport("user32.dll", SetLastError = true)]
-		public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-		[DllImport("user32.dll")]
-		public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
 
 
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessageTimeout(
-			IntPtr windowHandle,
-			uint Msg,
-			IntPtr wParam,
-			IntPtr lParam,
-			int flags,
-			uint timeout,
-			out int result);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr SendMessageTimeout(
+            IntPtr windowHandle,
+            uint Msg,
+            IntPtr wParam,
+            IntPtr lParam,
+            int flags,
+            uint timeout,
+            out int result);
 
         public void AccountInformation()
         {
-			var receiver = FindWindow("SystemTrayMessageReceiver", null);
-			if(receiver != null)
-			{
-				int ret;
-				SendMessageTimeout(receiver, 0x403, IntPtr.Zero, IntPtr.Zero, 2, 500,out ret);
-			}
-			//m_setting = new SettingForm(m_autoUpdator);
-			//m_setting.ShowDialog();
-			//m_setting = null;
+            var receiver = FindWindow("SystemTrayMessageReceiver", null);
+            if (receiver != null)
+            {
+                int ret;
+                SendMessageTimeout(receiver, 0x403, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+            }
+            //m_setting = new SettingForm(m_autoUpdator);
+            //m_setting.ShowDialog();
+            //m_setting = null;
         }
 
         [DllImport("user32.dll")]
@@ -489,12 +545,12 @@ namespace Waveface
                 m_postForm.Activate();
             }
 
-			//if (m_setting != null)
-			//{
-			//    BringWindowToTop(m_setting.Handle);
-			//    ShowWindow(m_setting.Handle, 5); //SW_SHOW
-			//    m_setting.Activate();
-			//}
+            //if (m_setting != null)
+            //{
+            //    BringWindowToTop(m_setting.Handle);
+            //    ShowWindow(m_setting.Handle, 5); //SW_SHOW
+            //    m_setting.Activate();
+            //}
         }
 
         #endregion
@@ -540,17 +596,26 @@ namespace Waveface
 
         private void Form_DragEnter(object sender, DragEventArgs e)
         {
+            if (m_postForm != null)
+                return;
+
+            FlashWindow.Start(Current);
+
             m_dragDropClipboardHelper.Drag_Enter(e, false);
         }
 
         private void Form_DragDrop(object sender, DragEventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Drop(e);
+
+            FlashWindow.Stop(Current);
         }
 
         private void Form_DragLeave(object sender, EventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Leave();
+
+            FlashWindow.Stop(Current);
         }
 
         private void Form_DragOver(object sender, DragEventArgs e)
@@ -627,6 +692,8 @@ namespace Waveface
 
             RT.Login = _login;
             GCONST = new GCONST(RT);
+
+            Text = "Stream - [" + _login.user.email + "]"; // this has to be sync with SystemStry.Main.CLIENT_TITLE for finding client form
 
             getGroupAndUser();
             fillUserInformation();
@@ -905,7 +972,6 @@ namespace Waveface
 
                 Dictionary<DateTime, string> _firstPostInADay = setCalendarBoldedDates(_posts);
 
-                postsArea.ShowPostInforPanel(false);
                 leftArea.SetUI(true);
 
                 lock (postsArea.PostsList)
@@ -1817,5 +1883,24 @@ namespace Waveface
         }
 
         #endregion
+
+
+		void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
+		{
+			switch (e.Message)
+			{
+				case 0x401:
+					if (this.WindowState == FormWindowState.Minimized)
+						WindowState = FormWindowState.Normal;
+
+					if (!this.Visible)
+						this.Show();
+
+					this.TopMost = true;
+					BringWindowToTop(this.Handle);
+					this.TopMost = false;
+					break;
+			}
+		}
     }
 }

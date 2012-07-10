@@ -65,6 +65,11 @@ namespace Wammer.Station.Retry
 			return result.DocumentsAffected > 0;
 		}
 
+		public void Clear()
+		{
+			RetryQueueCollection.Instance.RemoveAll();
+		}
+
 		#endregion
 	}
 }

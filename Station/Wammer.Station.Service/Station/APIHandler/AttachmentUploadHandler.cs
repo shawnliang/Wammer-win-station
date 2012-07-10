@@ -50,10 +50,11 @@ namespace Wammer.Station.APIHandler
 			if (Files.Count == 0)
 				throw new FormatException("No file is uploaded");
 
+			var file = Files[0];
 			data.object_id = Parameters["object_id"];
-			data.raw_data = Files[0].Data;
-			data.file_name = Files[0].Name;
-			data.mime_type = Files[0].ContentType;
+			data.raw_data = file.Data;
+			data.file_name = file.Name;
+			data.mime_type = file.ContentType;
 			data.title = Parameters["title"];
 			data.description = Parameters["description"];
 			data.group_id = Parameters["group_id"];

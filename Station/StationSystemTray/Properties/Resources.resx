@@ -176,6 +176,9 @@
   <data name="FillAllFields" xml:space="preserve">
     <value>Please fill all the fields!</value>
   </data>
+  <data name="FORGOT_PASSWORD_PAGE_TITLE1" xml:space="preserve">
+    <value>Forgot password - Stream</value>
+  </data>
   <data name="input_box" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\input_box.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -265,6 +268,9 @@
     <value>Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service.</value>
   </data>
   <data name="stream_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_logo1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stream_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stream_tray_init" type="System.Resources.ResXFileRef, System.Windows.Forms">

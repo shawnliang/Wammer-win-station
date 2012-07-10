@@ -45,7 +45,7 @@ namespace Waveface.DetailUI
 
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
 
-        private List<string> m_clickableURL;
+        private List<string> m_clickableURLs;
         private ContextMenuStrip contextMenuStripImageList;
         private ToolStripMenuItem miSetCoverImage;
 
@@ -135,7 +135,7 @@ namespace Waveface.DetailUI
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
             m_filesMapping = new Dictionary<string, string>();
-            m_clickableURL = new List<string>();
+            m_clickableURLs = new List<string>();
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
 
@@ -370,7 +370,7 @@ namespace Waveface.DetailUI
 
             sb.Append("</body>");
 
-            var html = HtmlUtility.MakeLink(sb.ToString(), m_clickableURL);
+            var html = HtmlUtility.MakeLink(sb.ToString(), m_clickableURLs);
 
             webBrowserTop.DocumentText = HtmlUtility.TrimScript(html);
         }
@@ -616,8 +616,8 @@ namespace Waveface.DetailUI
 
         private void imageListView_Resize(object sender, EventArgs e)
         {
-            if (Post != null)
-                ReLayout();
+            //if (Post != null)
+            //    ReLayout();
 
             try
             {
@@ -927,10 +927,14 @@ namespace Waveface.DetailUI
                 else
                     MyParent.ExistPostAddPhotos(_pics, _hitInfo.ItemIndex);
             }
+
+            FlashWindow.Stop(Main.Current);
         }
 
         private void imageListView_DragEnter(object sender, DragEventArgs e)
         {
+            FlashWindow.Start(Main.Current);
+
             m_dragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
 
             DragHitTest(e);
@@ -939,6 +943,8 @@ namespace Waveface.DetailUI
         private void imageListView_DragLeave(object sender, EventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
+
+            FlashWindow.Stop(Main.Current);
         }
 
         private void imageListView_DragOver(object sender, DragEventArgs e)

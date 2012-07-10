@@ -14,7 +14,7 @@ namespace Wammer.Station
 		private int retry_count;
 
 		public NotifyCloudOfMultiBodySyncedTask(List<string> object_ids, string user_id)
-			:base(Retry.RetryQueue.Instance, TaskPriority.Low)
+			:base(TaskPriority.Low)
 		{
 			if (object_ids == null || object_ids.Count == 0 || string.IsNullOrEmpty(user_id))
 				throw new ArgumentNullException();

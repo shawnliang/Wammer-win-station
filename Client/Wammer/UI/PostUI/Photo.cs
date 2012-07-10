@@ -292,10 +292,14 @@ namespace Waveface.PostUI
                 else
                     AddPhotos(_pics.ToArray(), _hitInfo.ItemIndex);
             }
+
+            FlashWindow.Stop(MyParent);
         }
 
         private void imageListView_DragEnter(object sender, DragEventArgs e)
         {
+            FlashWindow.Start(MyParent);
+
             m_dragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
 
             DragHitTest(e);
@@ -304,6 +308,8 @@ namespace Waveface.PostUI
         private void imageListView_DragLeave(object sender, EventArgs e)
         {
             m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
+
+            FlashWindow.Stop(MyParent);
         }
 
         private void imageListView_DragOver(object sender, DragEventArgs e)

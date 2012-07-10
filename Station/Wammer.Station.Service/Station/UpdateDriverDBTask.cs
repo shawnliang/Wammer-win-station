@@ -14,7 +14,7 @@ namespace Wammer.Station
 		private int retry_count;
 
 		public UpdateDriverDBTask(UserLoginEventArgs args, string station_id)
-			: base(RetryQueue.Instance, TaskPriority.High)
+			: base(TaskPriority.High)
 		{
 			this.args = args;
 			this.station_id = station_id;

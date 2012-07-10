@@ -16,7 +16,7 @@ namespace Wammer.Station.AttachmentUpload
 		private static readonly IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
 
 		public UpstreamTask(string object_id, ImageMeta meta, TaskPriority pri)
-			: base(RetryQueue.Instance, pri)
+			: base(pri)
 		{
 			this.object_id = object_id;
 			this.meta = meta;
@@ -27,60 +27,49 @@ namespace Wammer.Station.AttachmentUpload
 
 		protected override void Run()
 		{
-			Attachment attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
-			if (attachment == null)
-			{
-				upstreamCount.Decrement();
-				return;
-			}
+			upstreamCount.Increment();
 
-			Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
-			if (user == null)
+			try
 			{
-				this.LogDebugMsg("User of group id " + attachment.group_id + " is removed? Abort upstream attachment " + object_id);
-				upstreamCount.Decrement();
-				return;
-			}
-
-			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
-			{
-				GetUserResponse userInfo = User.GetInfo(user.user_id, CloudServer.APIKey, user.session_token);
-				if (userInfo.storages.waveface.over_quota)
+				Attachment attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
+				if (attachment == null)
 				{
-					failQueue.Enqueue(new PostponedTask(
-					                  	userInfo.storages.waveface.interval.GetIntervalEndTime(),
-					                  	priority, this));
-
-					this.LogWarnMsg("Postpone upstream attachment " + object_id + " to " +
-					                userInfo.storages.waveface.interval.GetIntervalEndTime() + "due to over quota");
 					return;
 				}
-			}
 
-			IAttachmentInfo info = attachment.GetInfoByMeta(meta);
-			if (info == null)
+				Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
+				if (user == null)
+				{
+					this.LogDebugMsg("User of group id " + attachment.group_id + " is removed? Abort upstream attachment " + object_id);
+					return;
+				}
+
+				IAttachmentInfo info = attachment.GetInfoByMeta(meta);
+				if (info == null)
+				{
+					this.LogErrorMsg("Abort upstream attachment " + object_id + " due to attachment info of " + meta +
+									 " is empty. Logic Error?");
+					return;
+				}
+
+				var fileStorage = new FileStorage(user);
+
+				using (FileStream f = fileStorage.Load(info.saved_file_name))
+				{
+					Attachment.Upload(f, attachment.group_id, object_id, attachment.file_name,
+									  info.mime_type, meta, attachment.type, CloudServer.APIKey,
+									  user.session_token, 65535, UpstreamProgressChanged);
+				}
+			}
+			finally
 			{
-				this.LogErrorMsg("Abort upstream attachment " + object_id + " due to attachment info of " + meta +
-				                 " is empty. Logic Error?");
 				upstreamCount.Decrement();
-				return;
 			}
-
-			var fileStorage = new FileStorage(user);
-
-			using (FileStream f = fileStorage.Load(info.saved_file_name))
-			{
-				Attachment.Upload(f, attachment.group_id, object_id, attachment.file_name,
-				                  info.mime_type, meta, attachment.type, CloudServer.APIKey,
-				                  user.session_token, 65535, UpstreamProgressChanged);
-			}
-
-			upstreamCount.Decrement();
 		}
 
 		public override void ScheduleToRun()
 		{
-			AttachmentUploadQueue.Instance.Enqueue(this, Priority);
+			AttachmentUploadQueueHelper.Instance.Enqueue(this, Priority);
 		}
 
 		private void UpstreamProgressChanged(object sender, ProgressChangedEventArgs arg)

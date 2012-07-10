@@ -127,15 +127,6 @@
   <data name="btnUpdate.Text" xml:space="preserve">
     <value>檢查更新</value>
   </data>
-  <data name="colAccount.HeaderText" xml:space="preserve">
-    <value>帳號</value>
-  </data>
-  <data name="colAction.HeaderText" xml:space="preserve">
-    <value>動作</value>
-  </data>
-  <data name="colUsage.HeaderText" xml:space="preserve">
-    <value>使用量</value>
-  </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>軟體版本資訊</value>
   </data>

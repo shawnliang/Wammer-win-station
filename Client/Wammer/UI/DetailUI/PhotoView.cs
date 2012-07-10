@@ -59,12 +59,6 @@ namespace Waveface.DetailUI
 
             m_onlyOnePhoto = (m_imageAttachments.Count == 1);
 
-			//if (m_onlyOnePhoto)
-			//{
-			//    btnCoverImage.Visible = false;
-			//    miSetAsCoverImage.Visible = false;
-			//}
-
 			thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
 			thumbnailNavigator1.ThumbnailWidth = 64;
 			thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
@@ -74,7 +68,6 @@ namespace Waveface.DetailUI
 		void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			imageBox.Image = new Bitmap(m_filePathMediums[thumbnailNavigator1.SelectedIndex]);
-
 			imageBox.ZoomToFit();
 		}
 
@@ -147,11 +140,13 @@ namespace Waveface.DetailUI
 
 					File.Copy(_picFilePath, _destFile, true);
 
-					MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
+					//Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveOK"), Toast.LENGTH_SHORT).Show();
+					//MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
 				}
 				catch
 				{
-					MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
+					Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveError"), Toast.LENGTH_SHORT).Show();
+					//MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
 				}
 			}
 		}
@@ -177,7 +172,8 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-            MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			Toast.MakeText(imageBox, I18n.L.T("ChangedCoverImageOK"), Toast.LENGTH_SHORT).Show();
+			//MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)
@@ -193,29 +189,6 @@ namespace Waveface.DetailUI
         private void PhotoView_Resize(object sender, EventArgs e)
         {
 			pnlPhotoViewToolBar.Left = (this.Width - pnlPhotoViewToolBar.Width) / 2;
-        }
-
-
-        private void UpdateStatusBar()
-        {
-            positionToolStripStatusLabel.Text = imageBox.AutoScrollPosition.ToString();
-            imageSizeToolStripStatusLabel.Text = imageBox.GetImageViewPort().ToString();
-            zoomToolStripStatusLabel.Text = string.Format("{0}%", imageBox.Zoom);
-        }
-
-        private void imageBox_ZoomChanged(object sender, EventArgs e)
-        {
-            UpdateStatusBar();
-        }
-
-        private void imageBox_Resize(object sender, EventArgs e)
-        {
-            UpdateStatusBar();
-        }
-
-        private void imageBox_Scroll(object sender, ScrollEventArgs e)
-        {
-            UpdateStatusBar();
         }
 
         private void SendKeyToImageListView(KeyEventArgs e)
@@ -245,29 +218,21 @@ namespace Waveface.DetailUI
 					break;
 			}
         }
-        private void PhotoView_KeyDown(object sender, KeyEventArgs e)
-        {
+		private void PhotoView_KeyDown(object sender, KeyEventArgs e)
+		{
 			SendKeyToImageListView(e);
-        }
+		}
 
-        private void imageBox_Click(object sender, EventArgs e)
-        {
-            imageBox.SizeToFit = false;
-            imageBox.AutoPan = true;
-            imageBox.AdjustLayout();
-        }
+		private void imageBox_Click(object sender, EventArgs e)
+		{
+			imageBox.SizeToFit = false;
+			imageBox.AutoPan = true;
+			imageBox.AdjustLayout();
+		}
 
 		private void imageButton1_Click(object sender, EventArgs e)
 		{
 			this.Close();
-		}
-
-		private void imageBox_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == System.Windows.Forms.MouseButtons.Left)
-				thumbnailNavigator1.NextThumbnail();
-			else if (e.Button == System.Windows.Forms.MouseButtons.Right)
-				thumbnailNavigator1.PreviousThumbnail();
 		}
     }
 }

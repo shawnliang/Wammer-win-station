@@ -258,40 +258,10 @@
   <data name="&gt;&gt;btnSlideShow.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="imageBox.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="imageBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="imageBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="imageBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 80</value>
-  </data>
-  <data name="imageBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>858, 472</value>
-  </data>
-  <data name="imageBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Name" xml:space="preserve">
-    <value>imageBox</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;imageBox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="thumbnailNavigator1.DefaultThumbnail" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
         +aX/g/Tw4Jf+fADyf0DdAgCIWxAAAPASKK8BBmAABmCAeAoAAIDsKswOXk79OzsA4vYDAAC8AsrrgAEY
         gAEYIJ4CAAAguwqzg5dT7zsA4/3BZ4A4DAAAgGdg+R5gAAZgAAaIpwAAAMiuwuzg5dT7EMR4PgQxwD3+
         rYD4fwAAALBAeR0wAAMwAAPEUwAAAGRXYXbwcup9CWQ8XwIZwJdA68+nYE9gKYjfAwAAAA2WD0IGYAAG
@@ -315,20 +285,17 @@
   <data name="thumbnailNavigator1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="thumbnailNavigator1.Text" xml:space="preserve">
-    <value>thumbnailNavigator1</value>
-  </data>
   <data name="&gt;&gt;thumbnailNavigator1.Name" xml:space="preserve">
     <value>thumbnailNavigator1</value>
   </data>
   <data name="&gt;&gt;thumbnailNavigator1.Type" xml:space="preserve">
-    <value>Waveface.ThumbnailNavigator, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.PhotoNavigator, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;thumbnailNavigator1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;thumbnailNavigator1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="pnlPhotoViewToolBar.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -376,7 +343,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelBottom.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>308, 17</value>
@@ -393,68 +360,32 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>858, 552</value>
   </data>
-  <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>545, 17</value>
-  </metadata>
-  <data name="statusStrip.AutoSize" type="System.Boolean, mscorlib">
+  <data name="imageBox.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="statusStrip.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="imageBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="statusStrip.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
+  <data name="imageBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 80</value>
   </data>
-  <data name="StatusLabelFileName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>4, 23</value>
+  <data name="imageBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>858, 444</value>
   </data>
-  <data name="StatusLabelCurrentSize.Size" type="System.Drawing.Size, System.Drawing">
-    <value>4, 23</value>
-  </data>
-  <data name="imageSizeToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 23</value>
-  </data>
-  <data name="imageSizeToolStripStatusLabel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="positionToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 23</value>
-  </data>
-  <data name="positionToolStripStatusLabel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="zoomToolStripStatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 23</value>
-  </data>
-  <data name="StatusLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 23</value>
-  </data>
-  <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 524</value>
-  </data>
-  <data name="statusStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>858, 28</value>
-  </data>
-  <data name="statusStrip.TabIndex" type="System.Int32, mscorlib">
+  <data name="imageBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="statusStrip.Text" xml:space="preserve">
-    <value>statusStrip</value>
+  <data name="&gt;&gt;imageBox.Name" xml:space="preserve">
+    <value>imageBox</value>
   </data>
-  <data name="statusStrip.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;imageBox.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;statusStrip.Name" xml:space="preserve">
-    <value>statusStrip</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.Parent" xml:space="preserve">
+  <data name="&gt;&gt;imageBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;statusStrip.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;imageBox.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
@@ -521,42 +452,6 @@
   </data>
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
     <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelFileName.Name" xml:space="preserve">
-    <value>StatusLabelFileName</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelFileName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelCurrentSize.Name" xml:space="preserve">
-    <value>StatusLabelCurrentSize</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelCurrentSize.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;imageSizeToolStripStatusLabel.Name" xml:space="preserve">
-    <value>imageSizeToolStripStatusLabel</value>
-  </data>
-  <data name="&gt;&gt;imageSizeToolStripStatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;positionToolStripStatusLabel.Name" xml:space="preserve">
-    <value>positionToolStripStatusLabel</value>
-  </data>
-  <data name="&gt;&gt;positionToolStripStatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;zoomToolStripStatusLabel.Name" xml:space="preserve">
-    <value>zoomToolStripStatusLabel</value>
-  </data>
-  <data name="&gt;&gt;zoomToolStripStatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusLabel.Name" xml:space="preserve">
-    <value>StatusLabel</value>
-  </data>
-  <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PhotoView</value>
