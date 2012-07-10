@@ -102,8 +102,10 @@ namespace Waveface.API.V2
 
     public class Device
     {
-        public string device_name { get; set; }
-        public string device_id { get; set; }
+		public string device_id { get; set; }
+		public string last_visit { get; set; }
+		public string device_type { get; set; }
+		public string device_name { get; set; }
     }
 
 	public class SNS1

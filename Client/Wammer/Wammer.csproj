@@ -218,7 +218,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Component\WebBrowserContextMenuHandler.cs" />
-    <Compile Include="Controls\GroupBoxEx.cs">
+    <Compile Include="Controls\PhotoBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Toast.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Data\ConnectServiceStateType.cs" />
@@ -230,6 +233,12 @@
     <Compile Include="Data\PhotoDownloader.cs" />
     <Compile Include="Data\ImageItem.cs" />
     <Compile Include="Data\PostItemType.cs" />
+    <Compile Include="Dialog\NameSettingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\NameSettingDialog.Designer.cs">
+      <DependentUpon>NameSettingDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Extension\FormExtension.cs" />
     <Compile Include="Class\Lazy.cs" />
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
@@ -640,6 +649,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Component\XPButton.resx">
       <DependentUpon>XPButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\NameSettingDialog.resx">
+      <DependentUpon>NameSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.zh-TW.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

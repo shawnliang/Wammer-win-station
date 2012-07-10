@@ -290,56 +290,56 @@ namespace Waveface.Component
                 AutoSize = false;
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
+		//protected override void OnKeyDown(KeyEventArgs e)
+		//{
+		//    base.OnKeyDown(e);
 
-            switch (e.KeyCode)
-            {
-                case Keys.Left:
-                    AdjustScroll(
-                        -(e.Modifiers == Keys.None ? HorizontalScroll.SmallChange : HorizontalScroll.LargeChange), 0);
-                    break;
-                case Keys.Right:
-                    AdjustScroll(
-                        e.Modifiers == Keys.None ? HorizontalScroll.SmallChange : HorizontalScroll.LargeChange, 0);
-                    break;
-                case Keys.Up:
-                    AdjustScroll(0,
-                                 -(e.Modifiers == Keys.None ? VerticalScroll.SmallChange : VerticalScroll.LargeChange));
-                    break;
-                case Keys.Down:
-                    AdjustScroll(0, e.Modifiers == Keys.None ? VerticalScroll.SmallChange : VerticalScroll.LargeChange);
-                    break;
-            }
-        }
+		//    switch (e.KeyCode)
+		//    {
+		//        case Keys.Left:
+		//            AdjustScroll(
+		//                -(e.Modifiers == Keys.None ? HorizontalScroll.SmallChange : HorizontalScroll.LargeChange), 0);
+		//            break;
+		//        case Keys.Right:
+		//            AdjustScroll(
+		//                e.Modifiers == Keys.None ? HorizontalScroll.SmallChange : HorizontalScroll.LargeChange, 0);
+		//            break;
+		//        case Keys.Up:
+		//            AdjustScroll(0,
+		//                         -(e.Modifiers == Keys.None ? VerticalScroll.SmallChange : VerticalScroll.LargeChange));
+		//            break;
+		//        case Keys.Down:
+		//            AdjustScroll(0, e.Modifiers == Keys.None ? VerticalScroll.SmallChange : VerticalScroll.LargeChange);
+		//            break;
+		//    }
+		//}
 
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            if (!IsPanning && !SizeToFit)
-            {
-                if (e.Button == MouseButtons.Left && ModifierKeys == Keys.None)
-                {
-                    if (Zoom >= 100)
-                        Zoom = (int)Math.Round((double)(Zoom + 100) / 100) * 100;
-                    else if (Zoom >= 75)
-                        Zoom = 100;
-                    else
-                        Zoom = (int)(Zoom / 0.75F);
-                }
-                else if (e.Button == MouseButtons.Right || (e.Button == MouseButtons.Left && ModifierKeys != Keys.None))
-                {
-                    if (Zoom > 100 && Zoom <= 125)
-                        Zoom = 100;
-                    else if (Zoom > 100)
-                        Zoom = (int)Math.Round((double)(Zoom - 100) / 100) * 100;
-                    else
-                        Zoom = (int)(Zoom * 0.75F);
-                }
-            }
+		//protected override void OnMouseClick(MouseEventArgs e)
+		//{
+		//    if (!IsPanning && !SizeToFit)
+		//    {
+		//        if (e.Button == MouseButtons.Left && ModifierKeys == Keys.None)
+		//        {
+		//            if (Zoom >= 100)
+		//                Zoom = (int)Math.Round((double)(Zoom + 100) / 100) * 100;
+		//            else if (Zoom >= 75)
+		//                Zoom = 100;
+		//            else
+		//                Zoom = (int)(Zoom / 0.75F);
+		//        }
+		//        else if (e.Button == MouseButtons.Right || (e.Button == MouseButtons.Left && ModifierKeys != Keys.None))
+		//        {
+		//            if (Zoom > 100 && Zoom <= 125)
+		//                Zoom = 100;
+		//            else if (Zoom > 100)
+		//                Zoom = (int)Math.Round((double)(Zoom - 100) / 100) * 100;
+		//            else
+		//                Zoom = (int)(Zoom * 0.75F);
+		//        }
+		//    }
 
-            base.OnMouseClick(e);
-        }
+		//    base.OnMouseClick(e);
+		//}
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
