@@ -127,6 +127,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\AccountInfo.cs" />
+    <Compile Include="Class\CustomWindow.cs" />
     <Compile Include="Component\Analogclock.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -216,6 +218,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Component\WebBrowserContextMenuHandler.cs" />
+    <Compile Include="Controls\GroupBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Data\ConnectServiceStateType.cs" />
     <Compile Include="Data\EditMode.cs" />
     <Compile Include="Data\Delegates.cs" />
