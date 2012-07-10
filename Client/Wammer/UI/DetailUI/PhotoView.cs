@@ -67,7 +67,8 @@ namespace Waveface.DetailUI
 
 		void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			photoBox1.Image = new Bitmap(m_filePathMediums[thumbnailNavigator1.SelectedIndex]);
+			imageBox.Image = new Bitmap(m_filePathMediums[thumbnailNavigator1.SelectedIndex]);
+			imageBox.ZoomToFit();
 		}
 
 		private string GetPhotoFilePath(int index)
@@ -144,7 +145,7 @@ namespace Waveface.DetailUI
 				}
 				catch
 				{
-					Toast.MakeText(photoBox1, I18n.L.T("PhotoView.SaveError"), Toast.LENGTH_SHORT).Show();
+					Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveError"), Toast.LENGTH_SHORT).Show();
 					//MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
 				}
 			}
@@ -171,7 +172,7 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-			Toast.MakeText(photoBox1, I18n.L.T("ChangedCoverImageOK"), Toast.LENGTH_SHORT).Show();
+			Toast.MakeText(imageBox, I18n.L.T("ChangedCoverImageOK"), Toast.LENGTH_SHORT).Show();
 			//MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -222,12 +223,12 @@ namespace Waveface.DetailUI
 			SendKeyToImageListView(e);
 		}
 
-		//private void imageBox_Click(object sender, EventArgs e)
-		//{
-		//    imageBox.SizeToFit = false;
-		//    imageBox.AutoPan = true;
-		//    imageBox.AdjustLayout();
-		//}
+		private void imageBox_Click(object sender, EventArgs e)
+		{
+			imageBox.SizeToFit = false;
+			imageBox.AutoPan = true;
+			imageBox.AdjustLayout();
+		}
 
 		private void imageButton1_Click(object sender, EventArgs e)
 		{

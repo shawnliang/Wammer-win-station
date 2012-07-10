@@ -360,29 +360,32 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>858, 552</value>
   </data>
-  <data name="photoBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="imageBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="imageBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="photoBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="imageBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 80</value>
   </data>
-  <data name="photoBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="imageBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>858, 444</value>
   </data>
-  <data name="photoBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="imageBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="&gt;&gt;photoBox1.Name" xml:space="preserve">
-    <value>photoBox1</value>
+  <data name="&gt;&gt;imageBox.Name" xml:space="preserve">
+    <value>imageBox</value>
   </data>
-  <data name="&gt;&gt;photoBox1.Type" xml:space="preserve">
-    <value>Waveface.PhotoBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;imageBox.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;photoBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;imageBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;photoBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;imageBox.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>

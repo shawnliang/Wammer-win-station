@@ -987,6 +987,8 @@
     <None Include="Resources\ArrowCircleDouble.png" />
     <Content Include="Resources\account_badge.png" />
     <Content Include="Resources\account_badge_hl.png" />
+    <Content Include="Resources\back.png" />
+    <Content Include="Resources\back_hl.png" />
     <Content Include="Resources\cover.png" />
     <Content Include="Resources\cover_hl.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />
