@@ -663,6 +663,7 @@
     <EmbeddedResource Include="Libs\Diagnostics\CrashReporter.resx">
       <DependentUpon>CrashReporter.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-tw.resx" />
     <EmbeddedResource Include="Subs\ImageCapture\CaptureForm.resx">
       <DependentUpon>CaptureForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -984,6 +985,8 @@
     <None Include="Resources\FlatButton\FB_blue_btn_2.png" />
     <None Include="Resources\FlatButton\FB_blue_btn_hl_2.png" />
     <None Include="Resources\ArrowCircleDouble.png" />
+    <Content Include="Resources\account_badge.png" />
+    <Content Include="Resources\account_badge_hl.png" />
     <Content Include="Resources\cover.png" />
     <Content Include="Resources\cover_hl.png" />
     <Content Include="Resources\FlatButton\FB_edit.png" />

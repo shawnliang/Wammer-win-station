@@ -99,56 +99,165 @@ namespace Waveface
 			m_UserID = Main.Current.RT.Login.user.user_id;
 
 			HideCaret(tbxName.Handle);
-			Update();
+			Reset();
+		}
+		#endregion
+
+
+		#region Private Method
+		private void Reset()
+		{
+			lblEmail.Text = string.Empty;
+			lblIsFacebookImportEnabled.Text = string.Empty;
+			lblSince.Text = string.Empty;
+			lblUploadedPhotoCount.Text = string.Empty;
+			tbxName.Text = string.Empty;
+			dataGridView1.Rows.Clear();
+		}
+
+		private void ConnectWithFB()
+		{
+			Hide();
+			string fbLoginUrl = string.Format("{0}/{1}/FBConnect", m_CallbackUrl, FB_LOGIN_GUID);
+			var postData = new FBPostData
+			{
+				device_id = StationRegHelper.GetValue("stationId", string.Empty).ToString(),
+				device_name = Environment.MachineName,
+				device = "windows",
+				api_key = CLIENT_API_KEY,
+				xurl =
+					string.Format(
+						"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s",
+						fbLoginUrl),
+				locale = Thread.CurrentThread.CurrentCulture.ToString(),
+				session_token = m_SessionToken
+			};
+
+			var browser = new WebBrowser
+			{
+				WebBrowserShortcutsEnabled = false,
+				IsWebBrowserContextMenuEnabled = false,
+				Dock = DockStyle.Fill
+			};
+
+			var dialog = new Form
+			{
+				Width = 750,
+				Height = 600,
+				Text = Text,
+				StartPosition = FormStartPosition.CenterParent,
+				Icon = Icon
+			};
+			dialog.Controls.Add(browser);
+
+			browser.Navigated += (s, ex) =>
+			{
+				Uri url = browser.Url;
+				if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBConnect"),
+								  RegexOptions.IgnoreCase))
+				{
+					dialog.DialogResult = DialogResult.OK;
+				}
+			};
+
+			browser.Navigate(m_FBTurnOnUrl,
+							 string.Empty,
+							 Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(postData, Formatting.Indented)),
+							 "Content-Type: application/json");
+
+			if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				var url = browser.Url;
+				var parameters = HttpUtility.ParseQueryString(url.Query);
+				var apiRetCode = parameters["api_ret_code"];
+
+				if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+				{
+					if (apiRetCode == "4098")
+					{
+						MessageBox.Show(Properties.Resources.FB_CONNECT_FAILED);
+					}
+
+					if (!IsDisposed)
+						Show();
+					return;
+				}
+			}
+
+			if (!IsDisposed)
+				Show();
 		}
 		#endregion
 
 
 		#region Public Method
-		public void Update()
+		public void Update(Boolean checkAccessTokenExpired = false)
 		{
-			var response = m_Service.users_get(m_SessionToken, m_UserID);
-
-			var user = response.user;
-
-			lblEmail.Text = user.email;
-
-			lblSince.Text = DateTimeHelp.ConvertUnixTimestampToDateTime(user.since).ToString();
-
-			var facebook = (from item1 in response.sns
-							from item2 in user.sns
-							where item1.type == "facebook" && item2.type == "facebook"
-							select new
-							{
-								Enabled = item1.enabled,
-								SnsID = item2.snsid
-							}).FirstOrDefault();
-
-			if (facebook != null)
+			try
 			{
-				lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? "Turned on" : "Turned off", facebook.SnsID);
+				var response = m_Service.users_get(m_SessionToken, m_UserID);
 
-				btnFacebookImport.Text = (facebook.Enabled) ? "Turn off" : "Turn on";
+				var user = response.user;
+
+				lblEmail.Text = user.email;
+
+				lblSince.Text = DateTimeHelp.ConvertUnixTimestampToDateTime(user.since).ToString();
+
+				var facebook = (from item1 in response.sns
+								from item2 in user.sns
+								where item1.type == "facebook" && item2.type == "facebook"
+								select new
+								{
+									Enabled = item1.enabled,
+									SnsID = item2.snsid,
+									Status = item2.status
+								}).FirstOrDefault();
+
+				var accessTokenExpired = facebook == null ? false : facebook.Status.Contains("disconnected");
+
+				if (checkAccessTokenExpired && accessTokenExpired)
+				{
+					var result = MessageBox.Show("The permission of connecting to Facebook account has expired.Do you want to reconnect it?", "Facebook token expired", MessageBoxButtons.YesNo);
+					if (result == System.Windows.Forms.DialogResult.Yes)
+					{
+						ConnectWithFB();
+					}
+					else
+					{
+						m_Service.SNSDisconnect(m_SessionToken, "facebook");
+					}
+				}
+
+				if (facebook != null)
+				{
+					lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? "Turned on" : "Turned off", facebook.SnsID);
+
+					btnFacebookImport.Text = (facebook.Enabled) ? "Turn off" : "Turn on";
+				}
+				else
+				{
+					lblIsFacebookImportEnabled.Text = "Turned off";
+
+					btnFacebookImport.Text = "Turn on";
+				}
+
+				lblUploadedPhotoCount.Text = response.storages.waveface.usage.image_objects.ToString();
+				tbxName.Text = user.nickname;
+				//lblNewsletterStatus.Text = user.subscribed.ToString();
+
+				(user.subscribed ? rbtnSubscribed : rbtnUnSubscribed).Checked = true;
+				//btnNewsletter.Text = user.subscribed ? "UnSubscribed" : "Subscribed";
+
+				dataGridView1.Rows.Clear();
+
+				foreach (var device in user.devices)
+				{
+					dataGridView1.Rows.Add(new object[] { device.device_name, device.device_type, DateTimeHelp.ISO8601ToDateTime(device.last_visit).ToString() });
+				}
 			}
-			else
+			catch (Exception)
 			{
-				lblIsFacebookImportEnabled.Text = "Turned off";
-
-				btnFacebookImport.Text = "Turn on";
-			}
-
-			lblUploadedPhotoCount.Text = response.storages.waveface.usage.image_objects.ToString();
-			tbxName.Text = user.nickname;
-			//lblNewsletterStatus.Text = user.subscribed.ToString();
-
-			(user.subscribed ? rbtnSubscribed : rbtnUnSubscribed).Checked = true;
-			//btnNewsletter.Text = user.subscribed ? "UnSubscribed" : "Subscribed";
-
-			dataGridView1.Rows.Clear();
-
-			foreach (var device in user.devices)
-			{
- 				dataGridView1.Rows.Add(new object[]{device.device_name, device.device_type , DateTimeHelp.ISO8601ToDateTime(device.last_visit).ToString()});
+				MessageBox.Show(Properties.Resources.UNEXPECTED_EXCEPTION);
 			}
 		}
 		#endregion
@@ -171,6 +280,8 @@ namespace Waveface
 			public string xurl { get; set; }
 
 			public string locale { get; set; }
+
+			public string session_token { get; set; }
 		}
 
 		//private void btnNewsletter_Click(object sender, EventArgs e)
@@ -187,57 +298,7 @@ namespace Waveface
 			}
 			else
 			{
-				Hide();
-				string fbLoginUrl = string.Format("{0}/{1}/FBConnect", m_CallbackUrl, FB_LOGIN_GUID);
-				var postData = new FBPostData
-				{
-					device_id = StationRegHelper.GetValue("stationId", string.Empty).ToString(),
-					device_name = Environment.MachineName,
-					device = "windows",
-					api_key = CLIENT_API_KEY,
-					xurl =
-						string.Format(
-							"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s",
-							fbLoginUrl),
-					locale = Thread.CurrentThread.CurrentCulture.ToString()
-				};
-
-				var browser = new WebBrowser
-				{
-					WebBrowserShortcutsEnabled = false,
-					IsWebBrowserContextMenuEnabled = false,
-					Dock = DockStyle.Fill
-				};
-
-				var dialog = new Form
-				{
-					Width = 750,
-					Height = 600,
-					Text = Text,
-					StartPosition = FormStartPosition.CenterParent,
-					Icon = Icon
-				};
-				dialog.Controls.Add(browser);
-
-				browser.Navigated += (s, ex) =>
-				{
-					Uri url = browser.Url;
-					if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBConnect"),
-									  RegexOptions.IgnoreCase))
-					{
-						dialog.DialogResult = DialogResult.OK;
-					}
-				};
-
-				browser.Navigate(m_FBTurnOnUrl,
-								 string.Empty,
-								 Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(postData, Formatting.Indented)),
-								 "Content-Type: application/json");
-
-				dialog.ShowDialog();
-
-				if (!IsDisposed)
-					Show();
+				ConnectWithFB();
 			}
 
 			Update();
@@ -289,6 +350,18 @@ namespace Waveface
 
 			//    button2.PerformClick();
 			//}
+		}
+
+		private void AccountInfoForm_Load(object sender, EventArgs e)
+		{
+			Update(true);
+		}
+
+		private void AccountInfoForm_Shown(object sender, EventArgs e)
+		{
+			//Show();
+			//Application.DoEvents();
+			//Update(true);
 		}
     }
 }

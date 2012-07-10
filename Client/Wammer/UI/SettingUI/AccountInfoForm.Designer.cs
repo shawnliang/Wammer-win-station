@@ -29,6 +29,14 @@
         private void InitializeComponent()
         {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountInfoForm));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tbxName = new System.Windows.Forms.TextBox();
@@ -64,10 +72,10 @@
 			// 
 			// tabControl1
 			// 
+			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
 			this.tabControl1.Controls.Add(this.tabPage3);
-			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			// 
@@ -211,35 +219,85 @@
 			// 
 			// dataGridView1
 			// 
+			this.dataGridView1.AllowUserToAddRows = false;
+			this.dataGridView1.AllowUserToDeleteRows = false;
+			this.dataGridView1.AllowUserToResizeColumns = false;
+			this.dataGridView1.AllowUserToResizeRows = false;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+			this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+			this.dataGridView1.CausesValidation = false;
 			this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9F);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column3,
             this.Column2});
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Tahoma", 9F);
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle6;
 			resources.ApplyResources(this.dataGridView1, "dataGridView1");
+			this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.dataGridView1.MultiSelect = false;
 			this.dataGridView1.Name = "dataGridView1";
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 9F);
+			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
 			this.dataGridView1.RowHeadersVisible = false;
+			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
+			this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle8;
+			this.dataGridView1.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.White;
+			this.dataGridView1.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			// 
 			// Column1
 			// 
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+			this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
 			resources.ApplyResources(this.Column1, "Column1");
 			this.Column1.Name = "Column1";
+			this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
 			// 
 			// Column3
 			// 
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+			this.Column3.DefaultCellStyle = dataGridViewCellStyle4;
 			resources.ApplyResources(this.Column3, "Column3");
 			this.Column3.Name = "Column3";
+			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
 			// 
 			// Column2
 			// 
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+			this.Column2.DefaultCellStyle = dataGridViewCellStyle5;
 			resources.ApplyResources(this.Column2, "Column2");
 			this.Column2.Name = "Column2";
+			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
 			// 
 			// AccountInfoForm
 			// 
@@ -249,6 +307,8 @@
 			this.Controls.Add(this.tabControl1);
 			this.Name = "AccountInfoForm";
 			this.ShowInTaskbar = false;
+			this.Load += new System.EventHandler(this.AccountInfoForm_Load);
+			this.Shown += new System.EventHandler(this.AccountInfoForm_Shown);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
