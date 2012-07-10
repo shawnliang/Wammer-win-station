@@ -14,6 +14,7 @@ using System.IO;
 using System.Collections.Specialized;
 using System.Text;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 #endregion
 
 namespace Waveface
@@ -21,6 +22,12 @@ namespace Waveface
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     public partial class AccountInfoForm : Form
 	{
+		[DllImport("user32.dll")]
+		static extern bool ShowCaret(IntPtr hWnd);
+
+		[DllImport("user32.dll")]
+		static extern bool HideCaret(IntPtr hWnd);
+
 		#region Const
 		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 
@@ -90,6 +97,8 @@ namespace Waveface
 			InitializeComponent();
 			m_SessionToken = Main.Current.RT.Login.session_token;
 			m_UserID = Main.Current.RT.Login.user.user_id;
+
+			HideCaret(tbxName.Handle);
 			Update();
 		}
 		#endregion
@@ -98,15 +107,18 @@ namespace Waveface
 		#region Public Method
 		public void Update()
 		{
-			var response = m_Service.users_get(m_SessionToken , m_UserID);
+			var response = m_Service.users_get(m_SessionToken, m_UserID);
 
 			var user = response.user;
+
+			lblEmail.Text = user.email;
+
 			lblSince.Text = DateTimeHelp.ConvertUnixTimestampToDateTime(user.since).ToString();
 
 			var facebook = (from item1 in response.sns
 							from item2 in user.sns
 							where item1.type == "facebook" && item2.type == "facebook"
-							select new 
+							select new
 							{
 								Enabled = item1.enabled,
 								SnsID = item2.snsid
@@ -114,42 +126,66 @@ namespace Waveface
 
 			if (facebook != null)
 			{
-				lblIsFacebookImportEnabled.Text =string.Format("{0} ({1})", (facebook.Enabled) ? "Turned on" : "Turned off", facebook.SnsID);
+				lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? "Turned on" : "Turned off", facebook.SnsID);
 
-				label9.Text = (facebook.Enabled) ? "Turn off" : "Turn on";
+				btnFacebookImport.Text = (facebook.Enabled) ? "Turn off" : "Turn on";
 			}
 			else
 			{
 				lblIsFacebookImportEnabled.Text = "Turned off";
 
-				label9.Text = "Turn on";
+				btnFacebookImport.Text = "Turn on";
 			}
 
-			label2.Text = response.storages.waveface.usage.image_objects.ToString();
-			label5.Text = user.nickname;
-			label7.Text = user.subscribed.ToString();
+			lblUploadedPhotoCount.Text = response.storages.waveface.usage.image_objects.ToString();
+			tbxName.Text = user.nickname;
+			//lblNewsletterStatus.Text = user.subscribed.ToString();
 
-			label10.Text = user.subscribed ? "UnSubscribed" : "Subscribed";
+			(user.subscribed ? rbtnSubscribed : rbtnUnSubscribed).Checked = true;
+			//btnNewsletter.Text = user.subscribed ? "UnSubscribed" : "Subscribed";
+
+			dataGridView1.Rows.Clear();
+
+			foreach (var device in user.devices)
+			{
+ 				dataGridView1.Rows.Add(new object[]{device.device_name, device.device_type , DateTimeHelp.ISO8601ToDateTime(device.last_visit).ToString()});
+			}
 		}
 		#endregion
 
-		private void logoutButton1_Click(object sender, EventArgs e)
+		private void btnLogout_Click(object sender, EventArgs e)
 		{
 			Environment.Exit(-2);
 		}
 
-		private void AccountInfoForm_Load(object sender, EventArgs e)
+		public class FBPostData
 		{
+			public string device_id { get; set; }
 
+			public string device_name { get; set; }
+
+			public string device { get; set; }
+
+			public string api_key { get; set; }
+
+			public string xurl { get; set; }
+
+			public string locale { get; set; }
 		}
 
-		private void label9_Click(object sender, EventArgs e)
+		//private void btnNewsletter_Click(object sender, EventArgs e)
+		//{
+		//    m_Service.users_update(m_SessionToken, m_UserID, (btnNewsletter.Text == "Subscribed"));
+		//    Update();
+		//}
+
+		private void btnFacebookImport_Click(object sender, EventArgs e)
 		{
-			if (label9.Text == "Turn off")
+			if (btnFacebookImport.Text == "Turn off")
 			{
 				m_Service.SNSDisconnect(m_SessionToken, "facebook");
 			}
-			else 
+			else
 			{
 				Hide();
 				string fbLoginUrl = string.Format("{0}/{1}/FBConnect", m_CallbackUrl, FB_LOGIN_GUID);
@@ -199,17 +235,7 @@ namespace Waveface
 								 "Content-Type: application/json");
 
 				dialog.ShowDialog();
-				//if (dialog.ShowDialog() == DialogResult.OK)
-				//{
-				//    string url = browser.Url.Query;
-				//    NameValueCollection parameters = HttpUtility.ParseQueryString(url);
-				//    string apiRetCode = parameters["api_ret_code"];
 
-				//    if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
-				//    {
-
-				//    }
-				//}
 				if (!IsDisposed)
 					Show();
 			}
@@ -217,27 +243,52 @@ namespace Waveface
 			Update();
 		}
 
-
-
-		public class FBPostData
+		private void rbtnSubscribed_CheckedChanged(object sender, EventArgs e)
 		{
-			public string device_id { get; set; }
+			if (!(sender as RadioButton).Checked)
+				return;
 
-			public string device_name { get; set; }
-
-			public string device { get; set; }
-
-			public string api_key { get; set; }
-
-			public string xurl { get; set; }
-
-			public string locale { get; set; }
+			m_Service.users_update(m_SessionToken, m_UserID, (sender == rbtnSubscribed));
+			Update();
 		}
 
-		private void label10_Click(object sender, EventArgs e)
+		private void button2_Click(object sender, EventArgs e)
 		{
-			m_Service.users_update(m_SessionToken, m_UserID, (label10.Text == "Subscribed"));
-			Update();
+			using (var dialog = new NameSettingDialog())
+			{
+				dialog.StartPosition = FormStartPosition.CenterParent;
+				dialog.UserName = tbxName.Text;
+				if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+				{
+					tbxName.Text = dialog.UserName;
+					m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
+					Update();
+				}
+			}
+
+			//tbxName.ReadOnly = !tbxName.ReadOnly;
+			//if (tbxName.ReadOnly)
+			//{
+			//    HideCaret(tbxName.Handle);
+			//    button2.Focus();
+			//}
+			//else
+			//{
+			//    ShowCaret(tbxName.Handle);
+			//    tbxName.SelectionStart = tbxName.Text.Length;
+			//    tbxName.Focus();
+			//}
+		}
+
+		private void tbxName_KeyDown(object sender, KeyEventArgs e)
+		{
+			//if (e.KeyData == Keys.Enter)
+			//{
+			//    m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
+			//    Update();
+
+			//    button2.PerformClick();
+			//}
 		}
     }
 }

@@ -315,9 +315,9 @@ namespace StationSystemTray
 			foreach (DataGridViewColumn column in dgvAccountList.Columns)
 			{
 				columnOffset += column.Width;
-				e.Graphics.DrawLine(new Pen(ColorTranslator.FromHtml("#c6c6c6")), columnOffset + 1, 0, columnOffset + 1, dgvAccountList.Height);
+				e.Graphics.DrawLine(new Pen(ColorTranslator.FromHtml("#bcbcbc")), columnOffset + 1, 0, columnOffset + 1, dgvAccountList.Height);
 			}
-			ControlPaint.DrawBorder(e.Graphics, dgvAccountList.DisplayRectangle, ColorTranslator.FromHtml("#c6c6c6"), ButtonBorderStyle.Solid);
+			ControlPaint.DrawBorder(e.Graphics, dgvAccountList.DisplayRectangle, ColorTranslator.FromHtml("#bcbcbc"), ButtonBorderStyle.Solid);
 		}
 	}
 }

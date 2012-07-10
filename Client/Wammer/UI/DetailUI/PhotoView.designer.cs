@@ -42,11 +42,11 @@ namespace Waveface.DetailUI
 			this.btnSave = new Waveface.Component.ImageButton();
 			this.btnCoverImage = new Waveface.Component.ImageButton();
 			this.btnSlideShow = new Waveface.Component.ImageButton();
-			this.imageBox = new Waveface.Component.ImageBox();
 			this.thumbnailNavigator1 = new Waveface.PhotoNavigator();
 			this.panelBottom = new System.Windows.Forms.Panel();
 			this.pnlPhotoViewToolBar = new System.Windows.Forms.Panel();
 			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+			this.photoBox1 = new Waveface.PhotoBox();
 			this.contextMenuStrip.SuspendLayout();
 			this.panelBottom.SuspendLayout();
 			this.pnlPhotoViewToolBar.SuspendLayout();
@@ -126,19 +126,6 @@ namespace Waveface.DetailUI
 			this.toolTip.SetToolTip(this.btnSlideShow, resources.GetString("btnSlideShow.ToolTip"));
 			this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
 			// 
-			// imageBox
-			// 
-			this.imageBox.AutoPan = false;
-			resources.ApplyResources(this.imageBox, "imageBox");
-			this.imageBox.BackColor = System.Drawing.Color.Black;
-			this.imageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.imageBox.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.imageBox.GridDisplayMode = Waveface.Component.ImageBoxGridDisplayMode.None;
-			this.imageBox.Name = "imageBox";
-			this.imageBox.SizeToFit = true;
-			this.imageBox.ZoomIncrement = 10;
-			this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
-			// 
 			// thumbnailNavigator1
 			// 
 			this.thumbnailNavigator1.BackColor = System.Drawing.Color.Black;
@@ -169,11 +156,19 @@ namespace Waveface.DetailUI
 			// 
 			this.cultureManager.ManagedControl = this;
 			// 
+			// photoBox1
+			// 
+			this.photoBox1.BackColor = System.Drawing.Color.Black;
+			this.photoBox1.DisplayArea = new System.Drawing.Rectangle(0, 0, 0, 0);
+			resources.ApplyResources(this.photoBox1, "photoBox1");
+			this.photoBox1.Image = null;
+			this.photoBox1.Name = "photoBox1";
+			// 
 			// PhotoView
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.imageBox);
+			this.Controls.Add(this.photoBox1);
 			this.Controls.Add(this.thumbnailNavigator1);
 			this.Controls.Add(this.panelBottom);
 			this.KeyPreview = true;
@@ -199,13 +194,13 @@ namespace Waveface.DetailUI
 		private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripMenuItem miSetAsCoverImage;
 		private System.Windows.Forms.Panel panelBottom;
-		private ImageBox imageBox;
 		private PhotoNavigator thumbnailNavigator1;
 		private System.Windows.Forms.Panel pnlPhotoViewToolBar;
 		private ImageButton imageButton1;
 		private ImageButton btnSave;
 		private ImageButton btnCoverImage;
 		private ImageButton btnSlideShow;
+		private PhotoBox photoBox1;
     }
 }
 

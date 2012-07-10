@@ -26,17 +26,15 @@ namespace Waveface
 
 		void DrawGroupBox(Graphics g)
 		{
-			g.FillRectangle(new SolidBrush(this.Parent.BackColor), 0, 0, ClientRectangle.Width, ClientRectangle.Top + 5);
-			DrawRoundRect(g, BorderColor, ClientRectangle.Left, ClientRectangle.Top + 5, ClientRectangle.Right - 2, ClientRectangle.Bottom - 2, 2);
 			var messageSize = g.MeasureString(this.Text, this.Font);
+			var offset = (int)(messageSize.Height / 2);
 
-			var messageTop = ClientRectangle.Top + 5 - (messageSize.Height / 2);
-			if (messageTop < 0)
-				messageTop = 0;
+			g.FillRectangle(new SolidBrush(this.Parent.BackColor), 0, 0, ClientRectangle.Width, ClientRectangle.Top + offset);
+			DrawRoundRect(g, BorderColor, ClientRectangle.Left, ClientRectangle.Top + offset, ClientRectangle.Right - 2, ClientRectangle.Bottom - 2, 2);
 
-			g.DrawLine(new Pen(this.Parent.BackColor), 5, ClientRectangle.Top + 5, messageSize.Width + 5, ClientRectangle.Top + 5);
-			g.DrawString(this.Text, this.Font, new SolidBrush(Color.White), 5 + 1, messageTop + 1);
-			g.DrawString(this.Text, this.Font, new SolidBrush(this.ForeColor), 5, messageTop);
+			g.DrawLine(new Pen(this.Parent.BackColor), 5, ClientRectangle.Top + offset, messageSize.Width + 5, ClientRectangle.Top + offset);
+			g.DrawString(this.Text, this.Font, new SolidBrush(this.BackColor), 5 + 1, 1);
+			g.DrawString(this.Text, this.Font, new SolidBrush(this.ForeColor), 5, 0);
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
