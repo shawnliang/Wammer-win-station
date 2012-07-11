@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountInfoForm));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -47,7 +48,6 @@
 			this.label6 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.lblEmail = new System.Windows.Forms.Label();
-			this.btnLogout = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.btnFacebookImport = new System.Windows.Forms.Button();
@@ -62,12 +62,17 @@
 			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.btnLogout = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
+			this.button3 = new System.Windows.Forms.Button();
+			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.tabPage3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -87,7 +92,6 @@
 			this.tabPage1.Controls.Add(this.label6);
 			this.tabPage1.Controls.Add(this.label4);
 			this.tabPage1.Controls.Add(this.lblEmail);
-			this.tabPage1.Controls.Add(this.btnLogout);
 			this.tabPage1.Controls.Add(this.label1);
 			resources.ApplyResources(this.tabPage1, "tabPage1");
 			this.tabPage1.Name = "tabPage1";
@@ -97,11 +101,11 @@
 			// 
 			resources.ApplyResources(this.tbxName, "tbxName");
 			this.tbxName.BackColor = System.Drawing.SystemColors.Window;
-			this.tbxName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.tbxName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tbxName.Name = "tbxName";
-			this.tbxName.ReadOnly = true;
 			this.tbxName.TabStop = false;
 			this.tbxName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxName_KeyDown);
+			this.tbxName.Validated += new System.EventHandler(this.tbxName_Validated);
 			// 
 			// panel1
 			// 
@@ -147,13 +151,6 @@
 			// 
 			resources.ApplyResources(this.lblEmail, "lblEmail");
 			this.lblEmail.Name = "lblEmail";
-			// 
-			// btnLogout
-			// 
-			resources.ApplyResources(this.btnLogout, "btnLogout");
-			this.btnLogout.Name = "btnLogout";
-			this.btnLogout.UseVisualStyleBackColor = true;
-			this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
 			// 
 			// label1
 			// 
@@ -299,12 +296,40 @@
 			this.Column2.Name = "Column2";
 			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
 			// 
+			// btnLogout
+			// 
+			resources.ApplyResources(this.btnLogout, "btnLogout");
+			this.btnLogout.Name = "btnLogout";
+			this.btnLogout.UseVisualStyleBackColor = true;
+			this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+			// 
+			// button1
+			// 
+			resources.ApplyResources(this.button1, "button1");
+			this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.button1.Name = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			// 
+			// button3
+			// 
+			resources.ApplyResources(this.button3, "button3");
+			this.button3.Name = "button3";
+			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.button3_Click);
+			// 
+			// errorProvider1
+			// 
+			this.errorProvider1.ContainerControl = this;
+			// 
 			// AccountInfoForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
+			this.Controls.Add(this.button3);
+			this.Controls.Add(this.button1);
 			this.Controls.Add(this.tabControl1);
+			this.Controls.Add(this.btnLogout);
 			this.Name = "AccountInfoForm";
 			this.ShowInTaskbar = false;
 			this.Load += new System.EventHandler(this.AccountInfoForm_Load);
@@ -318,6 +343,7 @@
 			this.tabPage2.PerformLayout();
 			this.tabPage3.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
 			this.ResumeLayout(false);
 
         }
@@ -349,6 +375,9 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.ErrorProvider errorProvider1;
 
 	}
 }
