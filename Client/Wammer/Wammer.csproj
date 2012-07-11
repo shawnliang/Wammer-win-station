@@ -1066,6 +1066,8 @@
     <None Include="Resources\timebar.jpg" />
     <Content Include="Resources\logout_btn.png" />
     <Content Include="Resources\logout_btn_press.png" />
+    <None Include="Resources\photoadded_badge.png" />
+    <None Include="Resources\photo_spinner.png" />
     <Content Include="Resources\save_hl.png" />
     <Content Include="Resources\slide.png" />
     <Content Include="Resources\slide_hl.png" />
