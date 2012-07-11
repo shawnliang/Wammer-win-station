@@ -98,7 +98,7 @@ namespace Waveface
 			m_SessionToken = Main.Current.RT.Login.session_token;
 			m_UserID = Main.Current.RT.Login.user.user_id;
 
-			HideCaret(tbxName.Handle);
+			//HideCaret(tbxName.Handle);
 			Reset();
 		}
 		#endregion
@@ -306,11 +306,11 @@ namespace Waveface
 
 		private void rbtnSubscribed_CheckedChanged(object sender, EventArgs e)
 		{
-			if (!(sender as RadioButton).Checked)
-				return;
+			//if (!(sender as RadioButton).Checked)
+			//    return;
 
-			m_Service.users_update(m_SessionToken, m_UserID, (sender == rbtnSubscribed));
-			Update();
+			//m_Service.users_update(m_SessionToken, m_UserID, (sender == rbtnSubscribed));
+			//Update();
 		}
 
 		private void button2_Click(object sender, EventArgs e)
@@ -362,6 +362,41 @@ namespace Waveface
 			//Show();
 			//Application.DoEvents();
 			//Update(true);
+		}
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			if (errorProvider1.HasError())
+			{
+				var errorMessage = errorProvider1.GetErrorMsgs().FirstOrDefault();
+
+				if (!string.IsNullOrEmpty(errorMessage))
+					MessageBox.Show(errorMessage);
+
+				var errorControl = errorProvider1.GetErrorControls().FirstOrDefault();
+
+				if (errorControl != null)
+					errorControl.Focus();
+
+				return;
+			}
+
+			try
+			{
+				m_Service.users_update(m_SessionToken, m_UserID, rbtnSubscribed.Checked);
+				m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
+
+				this.DialogResult = System.Windows.Forms.DialogResult.OK;
+			}
+			catch (Exception)
+			{
+				MessageBox.Show(Properties.Resources.UNEXPECTED_EXCEPTION);
+			}
+		}
+
+		private void tbxName_Validated(object sender, EventArgs e)
+		{
+			errorProvider1.SetError(tbxName, (tbxName.Text.Length == 0) ? string.Format(Properties.Resources.FIELD_MUST_HAVE_DATA_PATTERN, Properties.Resources.NAME) : string.Empty);
 		}
     }
 }
