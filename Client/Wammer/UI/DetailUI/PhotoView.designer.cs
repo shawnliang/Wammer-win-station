@@ -42,11 +42,11 @@ namespace Waveface.DetailUI
 			this.btnSave = new Waveface.Component.ImageButton();
 			this.btnCoverImage = new Waveface.Component.ImageButton();
 			this.btnSlideShow = new Waveface.Component.ImageButton();
-			this.imageBox = new Waveface.Component.ImageBox();
 			this.thumbnailNavigator1 = new Waveface.PhotoNavigator();
 			this.panelBottom = new System.Windows.Forms.Panel();
 			this.pnlPhotoViewToolBar = new System.Windows.Forms.Panel();
 			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+			this.imageBox = new Waveface.Component.ImageBox();
 			this.contextMenuStrip.SuspendLayout();
 			this.panelBottom.SuspendLayout();
 			this.pnlPhotoViewToolBar.SuspendLayout();
@@ -77,10 +77,10 @@ namespace Waveface.DetailUI
 			// imageButton1
 			// 
 			this.imageButton1.CenterAlignImage = false;
-			this.imageButton1.Image = global::Waveface.Properties.Resources.gridview;
-			this.imageButton1.ImageDisable = global::Waveface.Properties.Resources.gridview;
+			this.imageButton1.Image = global::Waveface.Properties.Resources.back;
+			this.imageButton1.ImageDisable = global::Waveface.Properties.Resources.back;
 			this.imageButton1.ImageFront = null;
-			this.imageButton1.ImageHover = global::Waveface.Properties.Resources.gridview_hl;
+			this.imageButton1.ImageHover = global::Waveface.Properties.Resources.back_hl;
 			resources.ApplyResources(this.imageButton1, "imageButton1");
 			this.imageButton1.Name = "imageButton1";
 			this.imageButton1.TextShadow = true;
@@ -126,19 +126,6 @@ namespace Waveface.DetailUI
 			this.toolTip.SetToolTip(this.btnSlideShow, resources.GetString("btnSlideShow.ToolTip"));
 			this.btnSlideShow.Click += new System.EventHandler(this.btnSlideShow_Click);
 			// 
-			// imageBox
-			// 
-			this.imageBox.AutoPan = false;
-			resources.ApplyResources(this.imageBox, "imageBox");
-			this.imageBox.BackColor = System.Drawing.Color.Black;
-			this.imageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.imageBox.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.imageBox.GridDisplayMode = Waveface.Component.ImageBoxGridDisplayMode.None;
-			this.imageBox.Name = "imageBox";
-			this.imageBox.SizeToFit = true;
-			this.imageBox.ZoomIncrement = 10;
-			this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
-			// 
 			// thumbnailNavigator1
 			// 
 			this.thumbnailNavigator1.BackColor = System.Drawing.Color.Black;
@@ -168,6 +155,18 @@ namespace Waveface.DetailUI
 			// cultureManager
 			// 
 			this.cultureManager.ManagedControl = this;
+			// 
+			// imageBox
+			// 
+			this.imageBox.AutoPan = false;
+			resources.ApplyResources(this.imageBox, "imageBox");
+			this.imageBox.BackColor = System.Drawing.Color.Black;
+			this.imageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.imageBox.GridColor = System.Drawing.Color.Black;
+			this.imageBox.GridColorAlternate = System.Drawing.Color.Black;
+			this.imageBox.Name = "imageBox";
+			this.imageBox.ZoomIncrement = 10;
+			this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
 			// 
 			// PhotoView
 			// 
@@ -199,13 +198,13 @@ namespace Waveface.DetailUI
 		private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripMenuItem miSetAsCoverImage;
 		private System.Windows.Forms.Panel panelBottom;
-		private ImageBox imageBox;
 		private PhotoNavigator thumbnailNavigator1;
 		private System.Windows.Forms.Panel pnlPhotoViewToolBar;
 		private ImageButton imageButton1;
 		private ImageButton btnSave;
 		private ImageButton btnCoverImage;
 		private ImageButton btnSlideShow;
+		private ImageBox imageBox;
     }
 }
 

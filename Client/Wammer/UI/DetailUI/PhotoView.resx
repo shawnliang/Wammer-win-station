@@ -258,40 +258,10 @@
   <data name="&gt;&gt;btnSlideShow.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="imageBox.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="imageBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="imageBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="imageBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 80</value>
-  </data>
-  <data name="imageBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>858, 444</value>
-  </data>
-  <data name="imageBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Name" xml:space="preserve">
-    <value>imageBox</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;imageBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="thumbnailNavigator1.DefaultThumbnail" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADr0AAA69AUf7kK0AAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
         +aX/g/Tw4Jf+fADyf0DdAgCIWxAAAPASKK8BBmAABmCAeAoAAIDsKswOXk79OzsA4vYDAAC8AsrrgAEY
         gAEYIJ4CAAAguwqzg5dT7zsA4/3BZ4A4DAAAgGdg+R5gAAZgAAaIpwAAAMiuwuzg5dT7EMR4PgQxwD3+
         rYD4fwAAALBAeR0wAAMwAAPEUwAAAGRXYXbwcup9CWQ8XwIZwJdA68+nYE9gKYjfAwAAAA2WD0IGYAAG
@@ -389,6 +359,33 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>858, 552</value>
+  </data>
+  <data name="imageBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="imageBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="imageBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 80</value>
+  </data>
+  <data name="imageBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>858, 444</value>
+  </data>
+  <data name="imageBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;imageBox.Name" xml:space="preserve">
+    <value>imageBox</value>
+  </data>
+  <data name="&gt;&gt;imageBox.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;imageBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;imageBox.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
