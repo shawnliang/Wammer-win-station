@@ -40,7 +40,7 @@ namespace StationSystemTray
 		#region Const
 
 		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
-		private const string CLIENT_TITLE = "Stream ";
+		//private const string CLIENT_TITLE = "Stream ";
 		private const int STATION_TIMER_LONG_INTERVAL = 60000;
 		private const int STATION_TIMER_SHORT_INTERVAL = 3000;
 
@@ -335,9 +335,13 @@ namespace StationSystemTray
 		{
 			if (clientProcess != null && !clientProcess.HasExited)
 			{
-				IntPtr handle = Win32Helper.FindWindow(null, CLIENT_TITLE);
-				Win32Helper.SetForegroundWindow(handle);
-				Win32Helper.ShowWindow(handle, 5);
+				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+
+				if (handle == IntPtr.Zero)
+					return;
+
+				Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
+
 				return;
 			}
 
@@ -1301,7 +1305,7 @@ namespace StationSystemTray
 						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
-						iconText = string.Format("{0}{1}{2}): {3:0.0} {4}{5}{6}): {7:0.0}{8}",
+						iconText = string.Format("{0}{1}¡ô({2}): {3:0.0} {4}{5}¡õ({6}): {7:0.0}{8}",
 												 iconText,
 												 Environment.NewLine,
 												 upRemainedCount,
@@ -1614,6 +1618,68 @@ namespace StationSystemTray
 			{
 				if (!isOpenInTimeline)
 					GotoTimeline(userloginContainer.GetLastUserLogin());
+			}
+		}
+
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			try
+			{
+				Hide();
+
+				var browser = new WebBrowser
+				{
+					WebBrowserShortcutsEnabled = false,
+					IsWebBrowserContextMenuEnabled = false,
+					Dock = DockStyle.Fill
+				};
+
+				var dialog = new Form
+				{
+					Width = 750,
+					Height = 600,
+					Text = Resources.SIGNUP_PAGE_TITLE,
+					StartPosition = FormStartPosition.CenterParent,
+					Icon = Icon
+				};
+				dialog.Controls.Add(browser);
+
+				browser.Navigate(@"https://devweb.waveface.com/password/forgot");
+
+				if (dialog.ShowDialog() == DialogResult.OK)
+				{
+				}
+
+				if (!IsDisposed)
+					Show();
+			}
+			catch (AuthenticationException)
+			{
+				if (!IsDisposed)
+					Show();
+
+				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+				txtPassword.Text = string.Empty;
+				txtPassword.Focus();
+			}
+			catch (StationServiceDownException)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (ConnectToCloudException)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (Exception)
+			{
+				if (!IsDisposed)
+					Show();
+				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 	}

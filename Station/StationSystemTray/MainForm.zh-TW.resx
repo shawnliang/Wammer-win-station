@@ -9512,7 +9512,7 @@
     <value>開始</value>
   </data>
   <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 27</value>
+    <value>87, 21</value>
   </data>
   <data name="chkRememberPassword.Text" xml:space="preserve">
     <value>記住密碼</value>
@@ -9522,6 +9522,15 @@
   </data>
   <data name="fbLoginButton1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 14.25pt, style=Bold</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 139</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>382, 41</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>使用Facebook帳號登入，可以將您Facebook的貼文自動匯入到Stream</value>
   </data>
   <data name="lblMainStationSetup.Text" xml:space="preserve">
     <value>您好！這是您第一次使用 Waveface Stream Windows 版。
@@ -9550,10 +9559,16 @@
     <value>還沒有帳號？馬上註冊！</value>
   </data>
   <data name="lblWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>336, 37</value>
+    <value>265, 30</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
     <value>歡迎使用 Waveface Stream</value>
+  </data>
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 16</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>忘記密碼</value>
   </data>
   <data name="loginButton1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 12.75pt, style=Bold</value>
@@ -9562,22 +9577,125 @@
     <value>登入</value>
   </data>
   <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 24</value>
+    <value>147, 22</value>
   </data>
   <data name="menuQuit.Text" xml:space="preserve">
     <value>離開</value>
   </data>
   <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 24</value>
+    <value>147, 22</value>
   </data>
   <data name="menuServiceAction.Text" xml:space="preserve">
     <value>暫停服務</value>
   </data>
   <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 24</value>
+    <value>147, 22</value>
   </data>
   <data name="menuSignIn.Text" xml:space="preserve">
     <value>登入...</value>
+  </data>
+  <data name="pictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
   </data>
   <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -9617,7 +9735,7 @@
 </value>
   </data>
   <data name="settingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 24</value>
+    <value>147, 22</value>
   </data>
   <data name="settingToolStripMenuItem.Text" xml:space="preserve">
     <value>設定...</value>
@@ -9626,19 +9744,19 @@
     <value>電子郵件</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
+    <value>144, 6</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
+    <value>144, 6</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 6</value>
+    <value>144, 6</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 142</value>
+    <value>148, 132</value>
   </data>
   <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 24</value>
+    <value>147, 22</value>
   </data>
   <data name="tsmiOpenStream.Text" xml:space="preserve">
     <value>開啟 Stream...</value>

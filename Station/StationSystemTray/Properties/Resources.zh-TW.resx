@@ -162,6 +162,9 @@
   <data name="FillAllFields" xml:space="preserve">
     <value>請填寫所有欄位.</value>
   </data>
+  <data name="FORGOT_PASSWORD_PAGE_TITLE1" xml:space="preserve">
+    <value>忘記密碼 - Stream</value>
+  </data>
   <data name="InvalidDriverError" xml:space="preserve">
     <value>帳號與這台 Stream Station 的管理者帳號不符, 請再試一次.</value>
   </data>

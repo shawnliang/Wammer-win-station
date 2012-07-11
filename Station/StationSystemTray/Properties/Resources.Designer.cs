@@ -226,6 +226,15 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot password - Stream.
+        /// </summary>
+        public static string FORGOT_PASSWORD_PAGE_TITLE1 {
+            get {
+                return ResourceManager.GetString("FORGOT_PASSWORD_PAGE_TITLE1", resourceCulture);
+            }
+        }
+        
         public static System.Drawing.Bitmap input_box {
             get {
                 object obj = ResourceManager.GetObject("input_box", resourceCulture);
@@ -481,6 +490,13 @@ namespace StationSystemTray.Properties {
         public static System.Drawing.Bitmap stream_logo {
             get {
                 object obj = ResourceManager.GetObject("stream_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_logo1 {
+            get {
+                object obj = ResourceManager.GetObject("stream_logo1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

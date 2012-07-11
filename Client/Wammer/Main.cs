@@ -10,6 +10,7 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Linq;
 using AppLimit.NetSparkle;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -23,6 +24,7 @@ using Waveface.Configuration;
 using Waveface.ImageCapture;
 using Waveface.Properties;
 using MonthCalendar = CustomControls.MonthCalendar;
+using System.Diagnostics;
 
 #endregion
 
@@ -67,7 +69,26 @@ namespace Waveface
         private string m_displayType;
         private string m_delayPostText;
 
+		private CustomWindow _messageReceiver;
+		private WService _service;
         #endregion
+
+		private WService m_Service
+		{
+			get
+			{
+				return _service ?? (_service = new WService());
+			}
+		}
+
+		private CustomWindow m_MessageReceiver
+		{
+			get
+			{
+				return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
+			}
+		}
+
 
         #region Properties
 
@@ -186,8 +207,12 @@ namespace Waveface
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
+			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
+
             s_logger.Trace("Constructor: OK");
         }
+
+
 
         #region Init
 
@@ -216,8 +241,40 @@ namespace Waveface
 
             CreateLoadingImage();
 
+			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+
+			AdjustAccountInfoButton();
+
             s_logger.Trace("Form_Load: OK");
         }
+
+		void panelTitle_AccountInfoClosed(object sender, EventArgs e)
+		{
+			AdjustAccountInfoButton();
+		}
+
+		private void AdjustAccountInfoButton()
+		{
+			var response = m_Service.users_get(RT.Login.session_token, RT.Login.user.user_id);
+			var user = response.user;
+
+			var facebook = (from item1 in response.sns
+							from item2 in user.sns
+							where item1.type == "facebook" && item2.type == "facebook"
+							select new
+							{
+								Enabled = item1.enabled,
+								SnsID = item2.snsid,
+								Status = item2.status
+							}).FirstOrDefault();
+
+			var accessTokenExpired = facebook == null? false: facebook.Status.Contains("disconnected");
+
+			panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge: Resources.FBT_account;
+			panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+			panelTitle.btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
+
+		}
 
         protected override bool ProcessCmdKey(ref Message message, Keys keys)
         {
@@ -1850,5 +1907,24 @@ namespace Waveface
         }
 
         #endregion
+
+
+		void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
+		{
+			switch (e.Message)
+			{
+				case 0x401:
+					if (this.WindowState == FormWindowState.Minimized)
+						WindowState = FormWindowState.Normal;
+
+					if (!this.Visible)
+						this.Show();
+
+					this.TopMost = true;
+					BringWindowToTop(this.Handle);
+					this.TopMost = false;
+					break;
+			}
+		}
     }
 }
