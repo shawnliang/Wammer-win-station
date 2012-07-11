@@ -1623,64 +1623,65 @@ namespace StationSystemTray
 
 		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			try
-			{
-				Hide();
+			Process.Start(@"https://devweb.waveface.com/password/forgot");
+		//    try
+		//    {
+		//        Hide();
 
-				var browser = new WebBrowser
-				{
-					WebBrowserShortcutsEnabled = false,
-					IsWebBrowserContextMenuEnabled = false,
-					Dock = DockStyle.Fill
-				};
+		//        var browser = new WebBrowser
+		//        {
+		//            WebBrowserShortcutsEnabled = false,
+		//            IsWebBrowserContextMenuEnabled = false,
+		//            Dock = DockStyle.Fill
+		//        };
 
-				var dialog = new Form
-				{
-					Width = 750,
-					Height = 600,
-					Text = Resources.SIGNUP_PAGE_TITLE,
-					StartPosition = FormStartPosition.CenterParent,
-					Icon = Icon
-				};
-				dialog.Controls.Add(browser);
+		//        var dialog = new Form
+		//        {
+		//            Width = 750,
+		//            Height = 600,
+		//            Text = Resources.SIGNUP_PAGE_TITLE,
+		//            StartPosition = FormStartPosition.CenterParent,
+		//            Icon = Icon
+		//        };
+		//        dialog.Controls.Add(browser);
 
-				browser.Navigate(@"https://devweb.waveface.com/password/forgot");
+		//        browser.Navigate(@"https://devweb.waveface.com/password/forgot");
 
-				if (dialog.ShowDialog() == DialogResult.OK)
-				{
-				}
+		//        if (dialog.ShowDialog() == DialogResult.OK)
+		//        {
+		//        }
 
-				if (!IsDisposed)
-					Show();
-			}
-			catch (AuthenticationException)
-			{
-				if (!IsDisposed)
-					Show();
+		//        if (!IsDisposed)
+		//            Show();
+		//    }
+		//    catch (AuthenticationException)
+		//    {
+		//        if (!IsDisposed)
+		//            Show();
 
-				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		//        MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-				txtPassword.Text = string.Empty;
-				txtPassword.Focus();
-			}
-			catch (StationServiceDownException)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (ConnectToCloudException)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (Exception)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
+		//        txtPassword.Text = string.Empty;
+		//        txtPassword.Focus();
+		//    }
+		//    catch (StationServiceDownException)
+		//    {
+		//        if (!IsDisposed)
+		//            Show();
+		//        MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		//    }
+		//    catch (ConnectToCloudException)
+		//    {
+		//        if (!IsDisposed)
+		//            Show();
+		//        MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		//    }
+		//    catch (Exception)
+		//    {
+		//        if (!IsDisposed)
+		//            Show();
+		//        MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		//    }
 		}
 	}
 

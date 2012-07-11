@@ -11,7 +11,7 @@ namespace StationSystemTray
 	/// </summary>
 	public partial class FBLoginButton
 	{
-		private Bitmap img = Resources.fb_btn;
+		private Bitmap img = Resources.fb_btn_press;
 
 		#region Property
 
@@ -75,7 +75,7 @@ namespace StationSystemTray
 		/// <param name="e">The <see cref="System.Windows.Forms.MouseEventArgs"/> instance containing the event data.</param>
 		private void FBLoginButton_MouseDown(object sender, MouseEventArgs e)
 		{
-			img = Resources.fb_btn_press;
+			img = Resources.fb_btn;
 			Invalidate();
 		}
 
@@ -86,7 +86,7 @@ namespace StationSystemTray
 		/// <param name="e">The <see cref="System.Windows.Forms.MouseEventArgs"/> instance containing the event data.</param>
 		private void FBLoginButton_MouseUp(object sender, MouseEventArgs e)
 		{
-			img = Resources.fb_btn;
+			img = Resources.fb_btn_press;
 			Invalidate();
 		}
 
@@ -97,7 +97,7 @@ namespace StationSystemTray
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void FBLoginButton_MouseHover(object sender, System.EventArgs e)
 		{
-			img = Resources.fb_btn_press;
+			img = Resources.fb_btn;
 			Invalidate();
 		}
 
@@ -108,7 +108,7 @@ namespace StationSystemTray
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void FBLoginButton_MouseLeave(object sender, System.EventArgs e)
 		{
-			img = Resources.fb_btn;
+			img = Resources.fb_btn_press;
 			Invalidate();
 		}
 	}

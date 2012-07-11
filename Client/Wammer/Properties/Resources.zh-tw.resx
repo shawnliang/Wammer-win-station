@@ -120,11 +120,29 @@
   <data name="FB_CONNECT_FAILED" xml:space="preserve">
     <value>Facebook連接失敗</value>
   </data>
+  <data name="FB_TOKEN_EXPIRED" xml:space="preserve">
+    <value>Facebook token 過期</value>
+  </data>
   <data name="FIELD_MUST_HAVE_DATA_PATTERN" xml:space="preserve">
     <value>{0} 欄位必須要有資料</value>
   </data>
   <data name="NAME" xml:space="preserve">
     <value>名稱</value>
+  </data>
+  <data name="RECONNECT_MESSAGE" xml:space="preserve">
+    <value>The permission of connecting to Facebook account has expired.Do you want to reconnect it?</value>
+  </data>
+  <data name="TURNED_OFF" xml:space="preserve">
+    <value>已關閉</value>
+  </data>
+  <data name="TURNED_ON" xml:space="preserve">
+    <value>已啟用</value>
+  </data>
+  <data name="TURN_OFF" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="TURN_ON" xml:space="preserve">
+    <value>啟用</value>
   </data>
   <data name="UNEXPECTED_EXCEPTION" xml:space="preserve">
     <value>發生未如預期的錯誤</value>

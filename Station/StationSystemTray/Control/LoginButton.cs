@@ -54,7 +54,7 @@ namespace StationSystemTray
 			float x = (Width - msgSize.Width)/2;
 			float y = (Height - msgSize.Height)/2;
 
-			g.DrawString(Text, Font, Brushes.Black, x + 1, y + 1);
+			g.DrawString(Text, Font, new SolidBrush(ColorTranslator.FromHtml("#355e2b")), x + 1, y + 1);
 			g.DrawString(Text, Font, Brushes.White, x, y);
 		}
 	}

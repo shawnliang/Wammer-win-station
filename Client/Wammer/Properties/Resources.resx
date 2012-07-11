@@ -526,10 +526,35 @@
   <data name="back_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\back_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="photoadded_badge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\photoadded_badge.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="photo_spinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\photo_spinner.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="FIELD_MUST_HAVE_DATA_PATTERN" xml:space="preserve">
     <value>{0} field must have data</value>
   </data>
   <data name="NAME" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="FB_TOKEN_EXPIRED" xml:space="preserve">
+    <value>Facebook token expired</value>
+  </data>
+  <data name="RECONNECT_MESSAGE" xml:space="preserve">
+    <value>The permission of connecting to Facebook account has expired.Do you want to reconnect it?</value>
+  </data>
+  <data name="TURNED_OFF" xml:space="preserve">
+    <value>Turned off</value>
+  </data>
+  <data name="TURNED_ON" xml:space="preserve">
+    <value>Turned on</value>
+  </data>
+  <data name="TURN_OFF" xml:space="preserve">
+    <value>Turn off</value>
+  </data>
+  <data name="TURN_ON" xml:space="preserve">
+    <value>Turn on</value>
   </data>
 </root>

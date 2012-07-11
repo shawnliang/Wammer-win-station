@@ -190,11 +190,13 @@
     <None Include="Resources\fb_logo.png" />
     <None Include="Resources\fb_btn.png" />
     <Content Include="Icon.ico" />
+    <Content Include="Resources\input_box-2.png" />
     <Content Include="Resources\input_box.png" />
     <Content Include="Resources\login_btn.png" />
     <Content Include="Resources\login_btn_press.png" />
     <Content Include="Resources\or.png" />
     <None Include="Resources\software-update-available.png" />
+    <Content Include="Resources\stream_logo %282%29.png" />
     <Content Include="Resources\stream_logo.png" />
   </ItemGroup>
   <ItemGroup />

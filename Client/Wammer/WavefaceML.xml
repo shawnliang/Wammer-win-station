@@ -1,6 +1,12 @@
 <?xml version="1.0" standalone="yes"?>
 <WItems>
   <WItem>
+    <ID>PhotosLoading</ID>
+    <en-US>Photo loading {0} of {1} ...</en-US>
+    <zh-TW>圖片載入中... {1}之{0}</zh-TW>
+  </WItem>  
+  
+  <WItem>
     <ID>DefaultFont</ID>
     <en-US>Arial</en-US>
     <zh-TW>微軟正黑體</zh-TW>
