@@ -242,6 +242,13 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap input_box_2 {
+            get {
+                object obj = ResourceManager.GetObject("input_box_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to The email is different to the driver account of this Stream Station. Please try again..
         /// </summary>
@@ -490,6 +497,13 @@ namespace StationSystemTray.Properties {
         public static System.Drawing.Bitmap stream_logo {
             get {
                 object obj = ResourceManager.GetObject("stream_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_logo__2_ {
+            get {
+                object obj = ResourceManager.GetObject("stream_logo (2)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

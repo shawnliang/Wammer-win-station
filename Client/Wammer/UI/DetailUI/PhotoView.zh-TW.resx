@@ -119,34 +119,28 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="miSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 22</value>
+    <value>122, 22</value>
   </data>
   <data name="miSave.Text" xml:space="preserve">
     <value>儲存圖片</value>
   </data>
-  <data name="miSaveAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 22</value>
-  </data>
-  <data name="miSaveAll.Text" xml:space="preserve">
-    <value>儲存所有圖片</value>
-  </data>
   <data name="miSetAsCoverImage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 22</value>
+    <value>122, 22</value>
   </data>
   <data name="miSetAsCoverImage.Text" xml:space="preserve">
     <value>設為封面</value>
   </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 70</value>
+    <value>123, 48</value>
   </data>
   <data name="contextMenuStrip.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="imageListView.ToolTip" xml:space="preserve">
-    <value />
+  <data name="imageButton1.ToolTip" xml:space="preserve">
+    <value>返回</value>
   </data>
-  <data name="statusStrip.ToolTip" xml:space="preserve">
-    <value />
+  <data name="btnSave.ToolTip" xml:space="preserve">
+    <value>儲存圖片</value>
   </data>
   <data name="btnCoverImage.ToolTip" xml:space="preserve">
     <value>設為封面</value>
@@ -154,13 +148,31 @@
   <data name="btnSlideShow.ToolTip" xml:space="preserve">
     <value>播放投影片</value>
   </data>
-  <data name="btnSave.ToolTip" xml:space="preserve">
-    <value>儲存圖片</value>
+  <data name="thumbnailNavigator1.DefaultThumbnail" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
+        +aX/g/Tw4Jf+fADyf0DdAgCIWxAAAPASKK8BBmAABmCAeAoAAIDsKswOXk79OzsA4vYDAAC8AsrrgAEY
+        gAEYIJ4CAAAguwqzg5dT7zsA4/3BZ4A4DAAAgGdg+R5gAAZgAAaIpwAAAMiuwuzg5dT7EMR4PgQxwD3+
+        rYD4fwAAALBAeR0wAAMwAAPEUwAAAGRXYXbwcup9CWQ8XwIZwJdA68+nYE9gKYjfAwAAAA2WD0IGYAAG
+        YIB4CgAAgOwqzA5eTr0ugPF0AQygC7D+dAGewFIQvwcAAAAaLB+EDMAADMAA8RQAAADZVZgdvJx6XQDj
+        6QIYQBdg/ekCPIGlIH4PAAAANFg+CBmAARiAAeIpAAAAsqswO3g59boAxtMFMIAuwPrTBXgCS0H8HgAA
+        AGiwfBAyAAMwAAPEUwAAAGRXYXbwcup1AYynC2AAXYD1pwvwBJaC+D0AAADQYPkgZAAGYAAGiKcAAADI
+        rsLs4OXU6wIYTxfAALoA608X4AksBfF7AAAAoMHyQcgADMAADBBPAQAAkF2F2cHLqdcFMJ4ugAF0Adaf
+        LsATWAri9wAAAECD5YOQARiAARggngIAACC7CrODl1OvC2A8XQAD6AKsP12AJ7AUlO+BA4YQw7KiWn81
+        AAAAAElFTkSuQmCC
+</value>
   </data>
-  <data name="btnSaveAll.ToolTip" xml:space="preserve">
-    <value>儲存所有圖片</value>
+  <data name="thumbnailNavigator1.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="panelMain.ToolTip" xml:space="preserve">
+  <data name="pnlPhotoViewToolBar.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="panelBottom.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageBox.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

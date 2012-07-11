@@ -538,6 +538,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Facebook token expired.
+        /// </summary>
+        internal static string FB_TOKEN_EXPIRED {
+            get {
+                return ResourceManager.GetString("FB_TOKEN_EXPIRED", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_unfav {
             get {
                 object obj = ResourceManager.GetObject("FB_unfav", resourceCulture);
@@ -855,6 +864,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to The permission of connecting to Facebook account has expired.Do you want to reconnect it?.
+        /// </summary>
+        internal static string RECONNECT_MESSAGE {
+            get {
+                return ResourceManager.GetString("RECONNECT_MESSAGE", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap refresh {
             get {
                 object obj = ResourceManager.GetObject("refresh", resourceCulture);
@@ -1006,6 +1024,42 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("trash", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn off.
+        /// </summary>
+        internal static string TURN_OFF {
+            get {
+                return ResourceManager.GetString("TURN_OFF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn on.
+        /// </summary>
+        internal static string TURN_ON {
+            get {
+                return ResourceManager.GetString("TURN_ON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turned off.
+        /// </summary>
+        internal static string TURNED_OFF {
+            get {
+                return ResourceManager.GetString("TURNED_OFF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turned on.
+        /// </summary>
+        internal static string TURNED_ON {
+            get {
+                return ResourceManager.GetString("TURNED_ON", resourceCulture);
             }
         }
         

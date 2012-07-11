@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="logoutButton1.Text" xml:space="preserve">
+  <data name="button3.Text" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="btnLogout.Text" xml:space="preserve">
     <value>登出</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -501,5 +507,68 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>帳號資訊</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 14</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>產品消息:</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 14</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>姓名:</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 14</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>電子郵件:</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>使用者資訊</value>
+  </data>
+  <data name="lblUploadedPhotoCount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>129, 75</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 14</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>照片上傳數量:</value>
+  </data>
+  <data name="lblIsFacebookImportEnabled.Location" type="System.Drawing.Point, System.Drawing">
+    <value>129, 46</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 14</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Facebook 自動匯入:</value>
+  </data>
+  <data name="lblSince.Location" type="System.Drawing.Point, System.Drawing">
+    <value>129, 17</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 14</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>開始使用日期:</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>服務資訊</value>
+  </data>
+  <data name="Column1.HeaderText" xml:space="preserve">
+    <value>裝置名稱</value>
+  </data>
+  <data name="Column3.HeaderText" xml:space="preserve">
+    <value>裝置類型</value>
+  </data>
+  <data name="Column2.HeaderText" xml:space="preserve">
+    <value>上次同步時間</value>
+  </data>
+  <data name="tabPage3.Text" xml:space="preserve">
+    <value>裝置列表</value>
   </data>
 </root>

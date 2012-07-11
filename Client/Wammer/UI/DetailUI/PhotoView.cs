@@ -67,7 +67,7 @@ namespace Waveface.DetailUI
 
 		void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			imageBox.Image = new Bitmap(m_filePathMediums[thumbnailNavigator1.SelectedIndex]);
+			imageBox.Image = new Bitmap(GetPhotoFilePath(thumbnailNavigator1.SelectedIndex));
 			imageBox.ZoomToFit();
 		}
 

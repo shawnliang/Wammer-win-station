@@ -125,6 +125,7 @@ namespace StationSystemTray
 			// 
 			// dgvAccountList
 			// 
+			resources.ApplyResources(this.dgvAccountList, "dgvAccountList");
 			this.dgvAccountList.AllowUserToAddRows = false;
 			this.dgvAccountList.AllowUserToDeleteRows = false;
 			this.dgvAccountList.AllowUserToResizeColumns = false;
@@ -146,7 +147,6 @@ namespace StationSystemTray
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.dgvAccountList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-			resources.ApplyResources(this.dgvAccountList, "dgvAccountList");
 			this.dgvAccountList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dgvAccountList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,

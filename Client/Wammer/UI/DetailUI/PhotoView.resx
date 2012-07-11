@@ -117,278 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>640, 480</value>
+  </data>
   <data name="miSave.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
-  </data>
-  <data name="miSave.Text" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="miSetAsCoverImage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
-  </data>
-  <data name="miSetAsCoverImage.Text" xml:space="preserve">
-    <value>Set as Cover Image</value>
-  </data>
-  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 48</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
-    <value>contextMenuStrip</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <metadata name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>173, 17</value>
-  </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>452, 17</value>
-  </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="imageButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="imageButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 3</value>
-  </data>
-  <data name="imageButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="imageButton1.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="imageButton1.ToolTip" xml:space="preserve">
-    <value>Photo View</value>
-  </data>
-  <data name="&gt;&gt;imageButton1.Name" xml:space="preserve">
-    <value>imageButton1</value>
-  </data>
-  <data name="&gt;&gt;imageButton1.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;imageButton1.Parent" xml:space="preserve">
-    <value>pnlPhotoViewToolBar</value>
-  </data>
-  <data name="&gt;&gt;imageButton1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnSave.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnSave.Location" type="System.Drawing.Point, System.Drawing">
-    <value>250, 3</value>
-  </data>
-  <data name="btnSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="btnSave.ToolTip" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="&gt;&gt;btnSave.Name" xml:space="preserve">
-    <value>btnSave</value>
-  </data>
-  <data name="&gt;&gt;btnSave.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnSave.Parent" xml:space="preserve">
-    <value>pnlPhotoViewToolBar</value>
-  </data>
-  <data name="&gt;&gt;btnSave.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnCoverImage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnCoverImage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 3</value>
-  </data>
-  <data name="btnCoverImage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="btnCoverImage.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="btnCoverImage.ToolTip" xml:space="preserve">
-    <value>Set as Cover Image</value>
-  </data>
-  <data name="&gt;&gt;btnCoverImage.Name" xml:space="preserve">
-    <value>btnCoverImage</value>
-  </data>
-  <data name="&gt;&gt;btnCoverImage.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnCoverImage.Parent" xml:space="preserve">
-    <value>pnlPhotoViewToolBar</value>
-  </data>
-  <data name="&gt;&gt;btnCoverImage.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnSlideShow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnSlideShow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>174, 3</value>
-  </data>
-  <data name="btnSlideShow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="btnSlideShow.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="btnSlideShow.ToolTip" xml:space="preserve">
-    <value>Slide Show</value>
-  </data>
-  <data name="&gt;&gt;btnSlideShow.Name" xml:space="preserve">
-    <value>btnSlideShow</value>
-  </data>
-  <data name="&gt;&gt;btnSlideShow.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnSlideShow.Parent" xml:space="preserve">
-    <value>pnlPhotoViewToolBar</value>
-  </data>
-  <data name="&gt;&gt;btnSlideShow.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="thumbnailNavigator1.DefaultThumbnail" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
-        +aX/g/Tw4Jf+fADyf0DdAgCIWxAAAPASKK8BBmAABmCAeAoAAIDsKswOXk79OzsA4vYDAAC8AsrrgAEY
-        gAEYIJ4CAAAguwqzg5dT7zsA4/3BZ4A4DAAAgGdg+R5gAAZgAAaIpwAAAMiuwuzg5dT7EMR4PgQxwD3+
-        rYD4fwAAALBAeR0wAAMwAAPEUwAAAGRXYXbwcup9CWQ8XwIZwJdA68+nYE9gKYjfAwAAAA2WD0IGYAAG
-        YIB4CgAAgOwqzA5eTr0ugPF0AQygC7D+dAGewFIQvwcAAAAaLB+EDMAADMAA8RQAAADZVZgdvJx6XQDj
-        6QIYQBdg/ekCPIGlIH4PAAAANFg+CBmAARiAAeIpAAAAsqswO3g59boAxtMFMIAuwPrTBXgCS0H8HgAA
-        AGiwfBAyAAMwAAPEUwAAAGRXYXbwcup1AYynC2AAXYD1pwvwBJaC+D0AAADQYPkgZAAGYAAGiKcAAADI
-        rsLs4OXU6wIYTxfAALoA608X4AksBfF7AAAAoMHyQcgADMAADBBPAQAAkF2F2cHLqdcFMJ4ugAF0Adaf
-        LsATWAri9wAAAECD5YOQARiAARggngIAACC7CrODl1OvC2A8XQAD6AKsP12AJ7AUlO+BA4YQw7KiWn81
-        AAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="thumbnailNavigator1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="thumbnailNavigator1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="thumbnailNavigator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>858, 80</value>
-  </data>
-  <data name="thumbnailNavigator1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;thumbnailNavigator1.Name" xml:space="preserve">
-    <value>thumbnailNavigator1</value>
-  </data>
-  <data name="&gt;&gt;thumbnailNavigator1.Type" xml:space="preserve">
-    <value>Waveface.PhotoNavigator, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;thumbnailNavigator1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;thumbnailNavigator1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="pnlPhotoViewToolBar.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="pnlPhotoViewToolBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>283, 2</value>
-  </data>
-  <data name="pnlPhotoViewToolBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 26</value>
-  </data>
-  <data name="pnlPhotoViewToolBar.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;pnlPhotoViewToolBar.Name" xml:space="preserve">
-    <value>pnlPhotoViewToolBar</value>
-  </data>
-  <data name="&gt;&gt;pnlPhotoViewToolBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlPhotoViewToolBar.Parent" xml:space="preserve">
-    <value>panelBottom</value>
-  </data>
-  <data name="&gt;&gt;pnlPhotoViewToolBar.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="panelBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 524</value>
-  </data>
-  <data name="panelBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>858, 28</value>
-  </data>
-  <data name="panelBottom.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Name" xml:space="preserve">
-    <value>panelBottom</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panelBottom.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>308, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>55</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>858, 552</value>
-  </data>
-  <data name="imageBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="imageBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="imageBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 80</value>
-  </data>
-  <data name="imageBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>858, 444</value>
-  </data>
-  <data name="imageBox.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Name" xml:space="preserve">
-    <value>imageBox</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;imageBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;imageBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -414,49 +148,333 @@
         //8AAP//AAD//w==
 </value>
   </data>
-  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>640, 480</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Photo Viewer</value>
-  </data>
-  <data name="&gt;&gt;miSave.Name" xml:space="preserve">
-    <value>miSave</value>
-  </data>
-  <data name="&gt;&gt;miSave.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;miSetAsCoverImage.Name" xml:space="preserve">
-    <value>miSetAsCoverImage</value>
-  </data>
-  <data name="&gt;&gt;miSetAsCoverImage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;panelBottom.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;saveFileDialog.Name" xml:space="preserve">
     <value>saveFileDialog</value>
   </data>
-  <data name="&gt;&gt;saveFileDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
-    <value>toolTip</value>
+  <data name="pnlPhotoViewToolBar.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;imageBox.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageBox, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
-    <value>cultureManager</value>
+  <data name="&gt;&gt;imageButton1.Parent" xml:space="preserve">
+    <value>pnlPhotoViewToolBar</value>
   </data>
-  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
-    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="imageBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PhotoView</value>
   </data>
+  <data name="imageButton1.ToolTip" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="&gt;&gt;imageButton1.Name" xml:space="preserve">
+    <value>imageButton1</value>
+  </data>
+  <data name="&gt;&gt;miSave.Name" xml:space="preserve">
+    <value>miSave</value>
+  </data>
+  <data name="thumbnailNavigator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>858, 80</value>
+  </data>
+  <data name="btnSlideShow.ToolTip" xml:space="preserve">
+    <value>Slide Show</value>
+  </data>
+  <data name="btnSave.ToolTip" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="panelBottom.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnCoverImage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 3</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 15</value>
+  </data>
+  <data name="btnSlideShow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>174, 3</value>
+  </data>
+  <data name="&gt;&gt;btnSlideShow.Name" xml:space="preserve">
+    <value>btnSlideShow</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="thumbnailNavigator1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panelBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>858, 28</value>
+  </data>
+  <data name="miSetAsCoverImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 22</value>
+  </data>
+  <data name="&gt;&gt;btnSave.Parent" xml:space="preserve">
+    <value>pnlPhotoViewToolBar</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="&gt;&gt;saveFileDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;thumbnailNavigator1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="imageButton1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 3</value>
+  </data>
+  <data name="&gt;&gt;btnSlideShow.Parent" xml:space="preserve">
+    <value>pnlPhotoViewToolBar</value>
+  </data>
+  <data name="imageButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;btnCoverImage.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
+    <value>contextMenuStrip</value>
+  </data>
+  <data name="imageBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>858, 444</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="btnSlideShow.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="miSetAsCoverImage.Text" xml:space="preserve">
+    <value>Set as Cover Image</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;thumbnailNavigator1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="pnlPhotoViewToolBar.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="panelBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="thumbnailNavigator1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="imageButton1.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;imageBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlPhotoViewToolBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnSave.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;btnSlideShow.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btnSlideShow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="imageButton1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="&gt;&gt;pnlPhotoViewToolBar.Parent" xml:space="preserve">
+    <value>panelBottom</value>
+  </data>
+  <data name="thumbnailNavigator1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="imageBox.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnCoverImage.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;imageBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="btnSave.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="imageBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
+    <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>175, 48</value>
+  </data>
+  <data name="&gt;&gt;imageBox.Name" xml:space="preserve">
+    <value>imageBox</value>
+  </data>
+  <data name="pnlPhotoViewToolBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>283, 2</value>
+  </data>
+  <data name="&gt;&gt;imageButton1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelBottom.Name" xml:space="preserve">
+    <value>panelBottom</value>
+  </data>
+  <data name="panelBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 524</value>
+  </data>
+  <data name="btnCoverImage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="&gt;&gt;miSetAsCoverImage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSave.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="imageBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 80</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlPhotoViewToolBar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnSave.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btnCoverImage.Name" xml:space="preserve">
+    <value>btnCoverImage</value>
+  </data>
+  <data name="&gt;&gt;btnCoverImage.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="imageBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
+    <value>toolTip</value>
+  </data>
+  <data name="&gt;&gt;pnlPhotoViewToolBar.Name" xml:space="preserve">
+    <value>pnlPhotoViewToolBar</value>
+  </data>
+  <data name="btnSave.Location" type="System.Drawing.Point, System.Drawing">
+    <value>250, 3</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Photo Viewer</value>
+  </data>
+  <data name="&gt;&gt;miSetAsCoverImage.Name" xml:space="preserve">
+    <value>miSetAsCoverImage</value>
+  </data>
+  <data name="&gt;&gt;btnSlideShow.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="miSave.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="panelBottom.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;btnSave.Name" xml:space="preserve">
+    <value>btnSave</value>
+  </data>
+  <data name="btnCoverImage.ToolTip" xml:space="preserve">
+    <value>Set as Cover Image</value>
+  </data>
+  <data name="&gt;&gt;thumbnailNavigator1.Type" xml:space="preserve">
+    <value>Waveface.PhotoNavigator, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="btnCoverImage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSave.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="&gt;&gt;thumbnailNavigator1.Name" xml:space="preserve">
+    <value>thumbnailNavigator1</value>
+  </data>
+  <data name="contextMenuStrip.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;btnCoverImage.Parent" xml:space="preserve">
+    <value>pnlPhotoViewToolBar</value>
+  </data>
+  <data name="&gt;&gt;imageButton1.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="thumbnailNavigator1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>858, 552</value>
+  </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="btnSlideShow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;miSave.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cultureManager.Name" xml:space="preserve">
+    <value>cultureManager</value>
+  </data>
+  <data name="thumbnailNavigator1.DefaultThumbnail" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAH5SURBVHhe7dnBDcQwDANB9t90/DAQuIedxxWgw3Ilh9v2
+        +aX/g/Tw4Jf+fADyf0DdAgCIWxAAAPASKK8BBmAABmCAeAoAAIDsKswOXk79OzsA4vYDAAC8AsrrgAEY
+        gAEYIJ4CAAAguwqzg5dT7zsA4/3BZ4A4DAAAgGdg+R5gAAZgAAaIpwAAAMiuwuzg5dT7EMR4PgQxwD3+
+        rYD4fwAAALBAeR0wAAMwAAPEUwAAAGRXYXbwcup9CWQ8XwIZwJdA68+nYE9gKYjfAwAAAA2WD0IGYAAG
+        YIB4CgAAgOwqzA5eTr0ugPF0AQygC7D+dAGewFIQvwcAAAAaLB+EDMAADMAA8RQAAADZVZgdvJx6XQDj
+        6QIYQBdg/ekCPIGlIH4PAAAANFg+CBmAARiAAeIpAAAAsqswO3g59boAxtMFMIAuwPrTBXgCS0H8HgAA
+        AGiwfBAyAAMwAAPEUwAAAGRXYXbwcup1AYynC2AAXYD1pwvwBJaC+D0AAADQYPkgZAAGYAAGiKcAAADI
+        rsLs4OXU6wIYTxfAALoA608X4AksBfF7AAAAoMHyQcgADMAADBBPAQAAkF2F2cHLqdcFMJ4ugAF0Adaf
+        LsATWAri9wAAAECD5YOQARiAARggngIAACC7CrODl1OvC2A8XQAD6AKsP12AJ7AUlO+BA4YQw7KiWn81
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="pnlPhotoViewToolBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>293, 26</value>
+  </data>
+  <data name="pnlPhotoViewToolBar.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>308, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>55</value>
+  </metadata>
+  <metadata name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>173, 17</value>
+  </metadata>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>452, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>
