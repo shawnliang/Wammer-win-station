@@ -608,6 +608,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to {0} field must have data.
+        /// </summary>
+        internal static string FIELD_MUST_HAVE_DATA_PATTERN {
+            get {
+                return ResourceManager.GetString("FIELD_MUST_HAVE_DATA_PATTERN", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap gridview {
             get {
                 object obj = ResourceManager.GetObject("gridview", resourceCulture);
@@ -778,6 +787,15 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("Month", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string NAME {
+            get {
+                return ResourceManager.GetString("NAME", resourceCulture);
             }
         }
         

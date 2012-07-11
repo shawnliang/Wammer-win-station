@@ -239,6 +239,7 @@
     <Compile Include="Dialog\NameSettingDialog.Designer.cs">
       <DependentUpon>NameSettingDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extension\ErrorProviderExtension.cs" />
     <Compile Include="Extension\FormExtension.cs" />
     <Compile Include="Class\Lazy.cs" />
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
