@@ -1,8 +1,10 @@
-﻿﻿#region
+﻿#region
 
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.DetailUI;
@@ -41,10 +43,6 @@ namespace Waveface.Component
 
         public override void DrawItem(Graphics g, ImageListViewItem item, ItemState state, Rectangle bounds)
         {
-            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-
             if (ImageListView.View == View.Details)
             {
                 base.DrawItem(g, item, state, bounds);
@@ -102,22 +100,14 @@ namespace Waveface.Component
                         (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None) &&
                          ((state & ItemState.Hovered) != ItemState.None)))
                     {
-                        using (
-                            Brush _bSelected = new LinearGradientBrush(bounds, ImageListView.Colors.SelectedColor1,
-                                                                       ImageListView.Colors.SelectedColor2,
-                                                                       LinearGradientMode.Vertical))
+                        using (Pen _pen = new Pen(ImageListView.Colors.SelectedColor2, 4))
                         {
-                            g.FillRectangle(_bSelected, bounds);
+                            g.DrawRectangle(_pen, new Rectangle(bounds.Left + 2, bounds.Top + 2, bounds.Width - 4, bounds.Height - 4));
                         }
-                    }
-                    else if (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
-                    {
-                        using (
-                            Brush _bGray64 = new LinearGradientBrush(bounds, ImageListView.Colors.UnFocusedColor1,
-                                                                     ImageListView.Colors.UnFocusedColor2,
-                                                                     LinearGradientMode.Vertical))
+
+                        using (Pen _pen = new Pen(Color.White, 2))
                         {
-                            g.FillRectangle(_bGray64, bounds);
+                            g.DrawRectangle(_pen, new Rectangle(bounds.Left + 4, bounds.Top + 4, bounds.Width - 8, bounds.Height - 8));
                         }
                     }
 
@@ -125,10 +115,7 @@ namespace Waveface.Component
                     {
                         if (ShowHovered)
                         {
-                            using (
-                                Brush _bHovered = new LinearGradientBrush(bounds, ImageListView.Colors.HoverColor1,
-                                                                          ImageListView.Colors.HoverColor2,
-                                                                          LinearGradientMode.Vertical))
+                            using (Brush _bHovered = new SolidBrush(ImageListView.Colors.HoverColor1))
                             {
                                 g.FillRectangle(_bHovered, bounds);
                             }
@@ -136,7 +123,38 @@ namespace Waveface.Component
                     }
 
                     // Draw the image
-                    g.DrawImage(_img, _imageX, _imageY, _imageWidth, _imageHeight);
+                    if (new FileInfo(item.FileName).Name == "LoadingImage.jpg")
+                    {
+                        int _w = bounds.Width / 2;
+                        int _w2 = bounds.Width / 4;
+
+                        g.DrawImage(Properties.Resources.photo_spinner, bounds.Left + _w2, bounds.Top + _w2, _w, _w);
+
+                        using (Pen _pen = new Pen(Color.FromArgb(226, 226, 226), 3))
+                        {
+                            // _pen.DashStyle = DashStyle.Dot;
+
+                            g.DrawRectangle(_pen, new Rectangle(bounds.Left + 5, bounds.Top + 5, bounds.Width - 10, bounds.Height - 10));
+                        }
+
+                    }
+                    else
+                    {
+                        if ((state & ItemState.Selected) != ItemState.None)
+                        {
+                            ColorMatrix _matrix = new ColorMatrix();
+                            _matrix.Matrix33 = 0.618f;
+
+                            ImageAttributes _attributes = new ImageAttributes();
+                            _attributes.SetColorMatrix(_matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                            g.DrawImage(_img, _pos, 0, 0, _imageWidth, _imageHeight, GraphicsUnit.Pixel, _attributes);
+                        }
+                        else
+                        {
+                            g.DrawImage(_img, _imageX, _imageY, _imageWidth, _imageHeight);
+                        }
+                    }
 
                     // Draw image border
                     if (!ItemBorderless)
@@ -213,14 +231,9 @@ namespace Waveface.Component
 
                         if (_type == EditModePhotoType.EditModeNewAdd)
                         {
-                            int _pw = 4;
+                            Image _badge = Properties.Resources.photoadded_badge;
 
-                            using (Pen _pen = new Pen(Color.FromArgb(89, 154, 174), _pw))
-                            {
-                                g.DrawRectangle(_pen, bounds.Left + 4, bounds.Top + 4, bounds.Width - 8, bounds.Height - 8);
-
-                                g.DrawRectangle(Pens.White, bounds.Left + 4 + (_pw - 1), bounds.Top + 4 + (_pw - 1), bounds.Width - 8 - (2 * (_pw - 1)), bounds.Height - 8 - (2 * (_pw - 1)));
-                            }
+                            g.DrawImage(_badge, bounds.Left + bounds.Width - _badge.Width - 4, bounds.Top + bounds.Height - _badge.Height - 4);
                         }
                     }
                 }
@@ -233,8 +246,8 @@ namespace Waveface.Component
             {
                 Rectangle _r = new Rectangle(bounds.Location, bounds.Size);
                 _r.Inflate(-4, -4);
-                int _h1 = _r.Height - 24; //(int)(_r.Height * 0.8)
-                int _h2 = 24; // _r.Height - _h1
+                int _h1 = _r.Height - 24;
+                int _h2 = 24;
 
                 Rectangle _rect = new Rectangle(_r.Left, _r.Top + _h1, _r.Width, _h2);
 
@@ -261,7 +274,8 @@ namespace Waveface.Component
             {
                 using (Brush _brush = new SolidBrush(Color.FromArgb(211, 207, 207)))
                 {
-                    Rectangle _r = new Rectangle(bounds.Left, bounds.Height - (ImageListView.ThumbnailSize.Height + 32), bounds.Width, (ImageListView.ThumbnailSize.Height + 32));
+                    Rectangle _r = new Rectangle(bounds.Left, bounds.Height - (ImageListView.ThumbnailSize.Height + 32),
+                                                 bounds.Width, (ImageListView.ThumbnailSize.Height + 32));
 
                     g.FillRectangle(_brush, _r);
                 }

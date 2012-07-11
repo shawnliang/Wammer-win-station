@@ -170,8 +170,11 @@
   <data name="imageListView.Size" type="System.Drawing.Size, System.Drawing">
     <value>517, 153</value>
   </data>
-  <data name="labelPictureInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>390, 1</value>
+  <data name="labelPictureInfo.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft JhengHei, 9pt, style=Bold</value>
+  </data>
+  <data name="labelPictureInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>517, 24</value>
   </data>
   <data name="panelPictureInfo.Size" type="System.Drawing.Size, System.Drawing">
     <value>517, 24</value>
