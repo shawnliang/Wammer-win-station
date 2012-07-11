@@ -2,6 +2,7 @@
 using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.Station.Retry;
+using Wammer.PerfMonitor;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -11,6 +12,8 @@ namespace Wammer.Station.AttachmentUpload
 		private readonly string object_id;
 		private readonly ImageMeta thumbnail_type;
 		private int retry_count;
+		private static IPerfCounter smallThumbnailCounter = PerfCounter.GetCounter(PerfCounter.SMALL_THUMBNAIL_GENERATE_COUNT);
+		private static IPerfCounter mediumThumbnailCounter = PerfCounter.GetCounter(PerfCounter.MEDIUM_THUMBNAIL_GENERATE_COUNT);
 
 		public static event EventHandler<ThumbnailEventArgs> ThumbnailGenerated;
 
@@ -52,6 +55,11 @@ namespace Wammer.Station.AttachmentUpload
 			imgProc.UpdateThumbnailInfoToDB(object_id, thumbnail_type, thumbnail);
 
 			OnThumbnailGenerated(this, new ThumbnailEventArgs(object_id, attachment.post_id, attachment.group_id, thumbnail_type));
+
+			if (ImageMeta.Medium == thumbnail_type)
+				mediumThumbnailCounter.Increment();
+			else if (ImageMeta.Small == thumbnail_type)
+				smallThumbnailCounter.Increment();
 		}
 
 		public override void ScheduleToRun()
