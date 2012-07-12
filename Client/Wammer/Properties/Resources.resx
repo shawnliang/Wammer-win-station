@@ -556,4 +556,10 @@
   <data name="TURN_ON" xml:space="preserve">
     <value>Turn on</value>
   </data>
+  <data name="FB_IMPORT_CLAST_SYNC_PATTERN" xml:space="preserve">
+    <value>Last synced with Facebook: {0}</value>
+  </data>
+  <data name="FB_IMPRORT_PROGRESSING" xml:space="preserve">
+    <value>We’re currently importing your Facebook posts. You can chart the progress by refreshing your browser.</value>
+  </data>
 </root>

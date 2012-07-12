@@ -309,6 +309,7 @@ namespace Waveface.API.V2
                         "session_token" + "=" + session_token + "&" +
                         "user_id" + "=" + user_id;
 
+				Clipboard.SetText(_url);
                 return HttpGetObject<MR_users_get>(_url);
             }
             catch (WebException _e)

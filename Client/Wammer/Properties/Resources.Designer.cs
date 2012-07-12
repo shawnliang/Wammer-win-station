@@ -342,6 +342,24 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Last synced with Facebook: {0}.
+        /// </summary>
+        internal static string FB_IMPORT_CLAST_SYNC_PATTERN {
+            get {
+                return ResourceManager.GetString("FB_IMPORT_CLAST_SYNC_PATTERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We’re currently importing your Facebook posts. You can chart the progress by refreshing your browser..
+        /// </summary>
+        internal static string FB_IMPRORT_PROGRESSING {
+            get {
+                return ResourceManager.GetString("FB_IMPRORT_PROGRESSING", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_info {
             get {
                 object obj = ResourceManager.GetObject("FB_info", resourceCulture);

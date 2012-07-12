@@ -1,4 +1,4 @@
-#region
+﻿#region
 
 using System;
 using System.Security.Permissions;
@@ -115,6 +115,7 @@ namespace Waveface
 			lblSince.Text = string.Empty;
 			lblUploadedPhotoCount.Text = string.Empty;
 			tbxName.Text = string.Empty;
+			lblFBImportTip.Text = string.Empty;
 			dataGridView1.Rows.Clear();
 		}
 
@@ -213,7 +214,9 @@ namespace Waveface
 								{
 									Enabled = item1.enabled,
 									SnsID = item2.snsid,
-									Status = item2.status
+									Status = item2.status,
+									Status2 = item1.status,
+									LastSync = item1.lastSync
 								}).FirstOrDefault();
 
 				var accessTokenExpired = facebook == null ? false : facebook.Status.Contains("disconnected");
@@ -236,12 +239,18 @@ namespace Waveface
 					lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? Properties.Resources.TURNED_ON : Properties.Resources.TURNED_OFF, facebook.SnsID);
 
 					btnFacebookImport.Text = (facebook.Enabled) ? Properties.Resources.TURN_OFF : Properties.Resources.TURN_ON;
+
+					lblFBImportTip.Text = (facebook.Enabled)?
+						((string.Equals(facebook.Status2,"progress",StringComparison.CurrentCultureIgnoreCase)) ? Properties.Resources.FB_IMPRORT_PROGRESSING : string.Format(Properties.Resources.FB_IMPORT_CLAST_SYNC_PATTERN, DateTimeHelp.ISO8601ToDateTime(facebook.LastSync).ToString())) :
+						string.Empty;
 				}
 				else
 				{
 					lblIsFacebookImportEnabled.Text = Properties.Resources.TURNED_OFF;
 
 					btnFacebookImport.Text = Properties.Resources.TURN_ON;
+
+					lblFBImportTip.Text = string.Empty;
 				}
 
 				lblUploadedPhotoCount.Text = response.storages.waveface.usage.image_objects.ToString();
@@ -258,6 +267,8 @@ namespace Waveface
 				{
 					dataGridView1.Rows.Add(new object[] { device.device_name, device.device_type, DateTimeHelp.ISO8601ToDateTime(device.last_visit).ToString() });
 				}
+
+				//AdjustLayout();
 			}
 			catch (Exception ex)
 			{
@@ -437,5 +448,31 @@ namespace Waveface
 				MessageBox.Show(Properties.Resources.UNEXPECTED_EXCEPTION);
 			}
 		}
+
+		private void lblFBImportTip_TextChanged(object sender, EventArgs e)
+		{
+			if (lblFBImportTip.Text.Length == 0)
+			{
+				lblFBImportTip.Hide();
+			}
+			else
+			{
+				lblFBImportTip.Show();
+			}
+		}
+
+		private void lblFBImportTip_VisibleChanged(object sender, EventArgs e)
+		{
+			//AdjustLayout();
+		}
+
+		//private void AdjustLayout()
+		//{
+		//    var interval = label10.Top - label8.Top;
+		//    var baseTop = (lblFBImportTip.Visible) ? lblFBImportTip.Top : label10.Top;
+
+		//    label12.Top = baseTop + interval;
+		//    lblUploadedPhotoCount.Top = label12.Top;
+		//}
     }
 }
