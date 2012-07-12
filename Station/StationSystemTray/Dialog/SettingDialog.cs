@@ -319,5 +319,10 @@ namespace StationSystemTray
 			}
 			ControlPaint.DrawBorder(e.Graphics, dgvAccountList.DisplayRectangle, ColorTranslator.FromHtml("#bcbcbc"), ButtonBorderStyle.Solid);
 		}
+
+		private void groupBox2_Enter(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
