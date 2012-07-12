@@ -236,6 +236,7 @@
     <Compile Include="Dialog\NameSettingDialog.Designer.cs">
       <DependentUpon>NameSettingDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extension\ErrorProviderExtension.cs" />
     <Compile Include="Extension\FormExtension.cs" />
     <Compile Include="Class\Lazy.cs" />
     <Compile Include="Libs\StationDB\AttachmentCollection.cs" />
@@ -1066,6 +1067,8 @@
     <None Include="Resources\timebar.jpg" />
     <Content Include="Resources\logout_btn.png" />
     <Content Include="Resources\logout_btn_press.png" />
+    <None Include="Resources\photoadded_badge.png" />
+    <None Include="Resources\photo_spinner.png" />
     <Content Include="Resources\save_hl.png" />
     <Content Include="Resources\slide.png" />
     <Content Include="Resources\slide_hl.png" />

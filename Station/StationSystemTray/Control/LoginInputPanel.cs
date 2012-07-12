@@ -8,7 +8,7 @@ namespace StationSystemTray
 {
 	public class LoginInputPanel : Panel
 	{
-		private readonly Bitmap m_Image = Resources.input_box;
+		private readonly Bitmap m_Image = Resources.input_box_2;
 
 		public LoginInputPanel()
 		{

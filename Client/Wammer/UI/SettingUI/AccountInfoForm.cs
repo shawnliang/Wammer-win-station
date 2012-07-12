@@ -98,7 +98,7 @@ namespace Waveface
 			m_SessionToken = Main.Current.RT.Login.session_token;
 			m_UserID = Main.Current.RT.Login.user.user_id;
 
-			HideCaret(tbxName.Handle);
+			//HideCaret(tbxName.Handle);
 			Reset();
 		}
 		#endregion
@@ -217,7 +217,7 @@ namespace Waveface
 
 				if (checkAccessTokenExpired && accessTokenExpired)
 				{
-					var result = MessageBox.Show("The permission of connecting to Facebook account has expired.Do you want to reconnect it?", "Facebook token expired", MessageBoxButtons.YesNo);
+					var result = MessageBox.Show(Properties.Resources.RECONNECT_MESSAGE, Properties.Resources.FB_TOKEN_EXPIRED, MessageBoxButtons.YesNo);
 					if (result == System.Windows.Forms.DialogResult.Yes)
 					{
 						ConnectWithFB();
@@ -230,23 +230,24 @@ namespace Waveface
 
 				if (facebook != null)
 				{
-					lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? "Turned on" : "Turned off", facebook.SnsID);
+					lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? Properties.Resources.TURNED_ON : Properties.Resources.TURNED_OFF, facebook.SnsID);
 
-					btnFacebookImport.Text = (facebook.Enabled) ? "Turn off" : "Turn on";
+					btnFacebookImport.Text = (facebook.Enabled) ? Properties.Resources.TURN_OFF : Properties.Resources.TURN_ON;
 				}
 				else
 				{
-					lblIsFacebookImportEnabled.Text = "Turned off";
+					lblIsFacebookImportEnabled.Text = Properties.Resources.TURNED_OFF;
 
-					btnFacebookImport.Text = "Turn on";
+					btnFacebookImport.Text = Properties.Resources.TURN_ON;
 				}
 
 				lblUploadedPhotoCount.Text = response.storages.waveface.usage.image_objects.ToString();
 				tbxName.Text = user.nickname;
 				//lblNewsletterStatus.Text = user.subscribed.ToString();
 
-				(user.subscribed ? rbtnSubscribed : rbtnUnSubscribed).Checked = true;
 				//btnNewsletter.Text = user.subscribed ? "UnSubscribed" : "Subscribed";
+
+				checkBox1.Checked = user.subscribed;
 
 				dataGridView1.Rows.Clear();
 
@@ -258,6 +259,7 @@ namespace Waveface
 			catch (Exception)
 			{
 				MessageBox.Show(Properties.Resources.UNEXPECTED_EXCEPTION);
+				this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			}
 		}
 		#endregion
@@ -292,7 +294,7 @@ namespace Waveface
 
 		private void btnFacebookImport_Click(object sender, EventArgs e)
 		{
-			if (btnFacebookImport.Text == "Turn off")
+			if (btnFacebookImport.Text == Properties.Resources.TURN_OFF)
 			{
 				m_Service.SNSDisconnect(m_SessionToken, "facebook");
 			}
@@ -306,11 +308,11 @@ namespace Waveface
 
 		private void rbtnSubscribed_CheckedChanged(object sender, EventArgs e)
 		{
-			if (!(sender as RadioButton).Checked)
-				return;
+			//if (!(sender as RadioButton).Checked)
+			//    return;
 
-			m_Service.users_update(m_SessionToken, m_UserID, (sender == rbtnSubscribed));
-			Update();
+			//m_Service.users_update(m_SessionToken, m_UserID, (sender == rbtnSubscribed));
+			//Update();
 		}
 
 		private void button2_Click(object sender, EventArgs e)
@@ -362,6 +364,41 @@ namespace Waveface
 			//Show();
 			//Application.DoEvents();
 			//Update(true);
+		}
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			if (errorProvider1.HasError())
+			{
+				var errorMessage = errorProvider1.GetErrorMsgs().FirstOrDefault();
+
+				if (!string.IsNullOrEmpty(errorMessage))
+					MessageBox.Show(errorMessage);
+
+				var errorControl = errorProvider1.GetErrorControls().FirstOrDefault();
+
+				if (errorControl != null)
+					errorControl.Focus();
+
+				return;
+			}
+
+			try
+			{
+				m_Service.users_update(m_SessionToken, m_UserID, checkBox1.Checked);
+				m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
+
+				this.DialogResult = System.Windows.Forms.DialogResult.OK;
+			}
+			catch (Exception)
+			{
+				MessageBox.Show(Properties.Resources.UNEXPECTED_EXCEPTION);
+			}
+		}
+
+		private void tbxName_Validated(object sender, EventArgs e)
+		{
+			errorProvider1.SetError(tbxName, (tbxName.Text.Length == 0) ? string.Format(Properties.Resources.FIELD_MUST_HAVE_DATA_PATTERN, Properties.Resources.NAME) : string.Empty);
 		}
     }
 }

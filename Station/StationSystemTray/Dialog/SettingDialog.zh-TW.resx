@@ -127,6 +127,15 @@
   <data name="btnUpdate.Text" xml:space="preserve">
     <value>檢查更新</value>
   </data>
+  <data name="Column1.HeaderText" xml:space="preserve">
+    <value>帳號</value>
+  </data>
+  <data name="Column2.HeaderText" xml:space="preserve">
+    <value>使用量</value>
+  </data>
+  <data name="Column3.HeaderText" xml:space="preserve">
+    <value>動作</value>
+  </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>軟體版本資訊</value>
   </data>
@@ -134,7 +143,7 @@
     <value>資料存放位置</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>68, 16</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>帳戶列表</value>

@@ -393,8 +393,6 @@ namespace Waveface
                 bool _isFirstDisplayed = false;
 
                 Graphics _g = e.Graphics;
-                _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                _g.SmoothingMode = SmoothingMode.HighQuality;
 
                 Trace.WriteLine("cell index: " + e.RowIndex.ToString());
                 Post _post = m_postBS[e.RowIndex] as Post;
@@ -435,39 +433,6 @@ namespace Waveface
                 else
                 {
                     _g.FillRectangle(m_bgUnReadBrush, e.CellBounds);
-                }
-
-                if (_post.type == "image")
-                {
-                    Attachment _a = GetCoverImageAttachment(_post);
-                    Bitmap _bmp = LoadAttachmentThumbnail(_a, true);
-
-                    if (_bmp != null)
-                    {
-                        ColorMatrix _matrix = new ColorMatrix();
-
-                        if (_post.content == string.Empty)
-                        {
-                            _matrix.Matrix33 = 0.25f;
-                        }
-                        else
-                        {
-                            _matrix.Matrix33 = 0.1f;
-                        }
-
-                        ImageAttributes _attributes = new ImageAttributes();
-                        _attributes.SetColorMatrix(_matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-                        int _bW = _bmp.Width;
-                        int _bH = _bmp.Height;
-                        int _cW = e.CellBounds.Width;
-                        int _cH = _H + (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
-
-                        int _h = (_bW * _cH) / _cW;
-                        int _offY = (_bH - _h) / 2;
-
-                        _g.DrawImage(_bmp, new Rectangle(e.CellBounds.Left, _Y - e.CellStyle.Padding.Top, e.CellBounds.Width, _cH), 0, _offY, _bmp.Width, _h, GraphicsUnit.Pixel, _attributes);
-                    }
                 }
 
                 if (_isFirstPostInADay && !_isFirstDisplayed)
@@ -813,11 +778,17 @@ namespace Waveface
                 _img = new Bitmap(PicWidth, PicHeight);
                 Graphics _g = Graphics.FromImage(_img);
 
-                using (Pen _p = new Pen(m_selectedTextColor))
-                {
-                    _p.DashStyle = DashStyle.DashDot;
+                int _w = PicWidth / 2;
+                int _w2 = PicWidth / 4;
 
-                    _g.DrawRectangle(_p, new Rectangle(0 + 8, 0 + 8, PicWidth - 1 - 16, PicHeight - 1 - 16));
+                _g.FillRectangle(Brushes.White, 0, 0, PicWidth, PicHeight);
+                _g.DrawImage(Properties.Resources.photo_spinner, _w2, _w2, _w, _w);
+
+                using (Pen _pen = new Pen(Color.FromArgb(226, 226, 226), 2))
+                {
+                    // _pen.DashStyle = DashStyle.Dot;
+
+                    _g.DrawRectangle(_pen, new Rectangle(1, 1, PicWidth - 2, PicHeight - 2));
                 }
             }
 
@@ -903,7 +874,7 @@ namespace Waveface
         {
             Post _post = m_postBS.Current as Post;
 
-            if(IsSamePostContent(_post, m_detailView.Post))
+            if (IsSamePostContent(_post, m_detailView.Post))
                 return;
 
             foreach (User _user in Main.Current.RT.AllUsers)
