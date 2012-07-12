@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Security.Permissions;
@@ -50,6 +50,9 @@ namespace Waveface
 		#endregion
 
 		#region Private Property
+		public Action FBImportOK { get; set; }
+		public Action FBImportCancel { get; set; }
+
 		private string m_BaseUrl
 		{
 			get
@@ -256,7 +259,7 @@ namespace Waveface
 					dataGridView1.Rows.Add(new object[] { device.device_name, device.device_type, DateTimeHelp.ISO8601ToDateTime(device.last_visit).ToString() });
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
 				MessageBox.Show(Properties.Resources.UNEXPECTED_EXCEPTION);
 				this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -296,14 +299,30 @@ namespace Waveface
 		{
 			if (btnFacebookImport.Text == Properties.Resources.TURN_OFF)
 			{
+				FBImportOK = () => 
+				{
 				m_Service.SNSDisconnect(m_SessionToken, "facebook");
+				};
+
+				FBImportCancel = null;
+
+				lblIsFacebookImportEnabled.Text = Properties.Resources.TURNED_OFF;
+
+				btnFacebookImport.Text = Properties.Resources.TURN_ON;
 			}
 			else
 			{
 				ConnectWithFB();
-			}
+
+				FBImportOK = null;
+
+				FBImportCancel = () => 
+				{
+					m_Service.SNSDisconnect(m_SessionToken, "facebook");
+				};
 
 			Update();
+		}
 		}
 
 		private void rbtnSubscribed_CheckedChanged(object sender, EventArgs e)
@@ -368,14 +387,14 @@ namespace Waveface
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			if (errorProvider1.HasError())
+			if (ErrorProviderExtension.HasError(errorProvider1))
 			{
-				var errorMessage = errorProvider1.GetErrorMsgs().FirstOrDefault();
+				var errorMessage = ErrorProviderExtension.GetErrorMsgs(errorProvider1).FirstOrDefault();
 
 				if (!string.IsNullOrEmpty(errorMessage))
 					MessageBox.Show(errorMessage);
 
-				var errorControl = errorProvider1.GetErrorControls().FirstOrDefault();
+				var errorControl = ErrorProviderExtension.GetErrorControls(errorProvider1).FirstOrDefault();
 
 				if (errorControl != null)
 					errorControl.Focus();
@@ -388,6 +407,9 @@ namespace Waveface
 				m_Service.users_update(m_SessionToken, m_UserID, checkBox1.Checked);
 				m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
 
+				if (FBImportOK != null)
+					FBImportOK();
+
 				this.DialogResult = System.Windows.Forms.DialogResult.OK;
 			}
 			catch (Exception)
@@ -399,6 +421,21 @@ namespace Waveface
 		private void tbxName_Validated(object sender, EventArgs e)
 		{
 			errorProvider1.SetError(tbxName, (tbxName.Text.Length == 0) ? string.Format(Properties.Resources.FIELD_MUST_HAVE_DATA_PATTERN, Properties.Resources.NAME) : string.Empty);
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (FBImportCancel != null)
+					FBImportCancel();
+
+				this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			}
+			catch (Exception)
+			{
+				MessageBox.Show(Properties.Resources.UNEXPECTED_EXCEPTION);
+			}
 		}
     }
 }
