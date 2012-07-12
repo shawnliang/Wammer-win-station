@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Diagnostics;
+using System.Windows.Media.Imaging;
 
 namespace Wammer.Utility
 {
@@ -172,9 +173,11 @@ namespace Wammer.Utility
 		public static Size GetImageSize(ArraySegment<byte> imageRawData)
 		{
 			using (var m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
-			using (var image = new Bitmap(m))
 			{
-				return image.Size;
+				var decoder = BitmapDecoder.Create(m, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+				var frame = decoder.Frames[0];
+
+				return new Size(frame.PixelWidth, frame.PixelHeight);
 			}
 		}
 	}
