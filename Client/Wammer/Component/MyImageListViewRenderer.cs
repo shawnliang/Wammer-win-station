@@ -96,9 +96,7 @@ namespace Waveface.Component
                         }
                     }
 
-                    if ((ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None)) ||
-                        (!ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None) &&
-                         ((state & ItemState.Hovered) != ItemState.None)))
+                    if (ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
                     {
                         using (Pen _pen = new Pen(ImageListView.Colors.SelectedColor2, 4))
                         {
@@ -140,7 +138,7 @@ namespace Waveface.Component
                     }
                     else
                     {
-                        if ((state & ItemState.Selected) != ItemState.None)
+                        if (ImageListView.Focused && ((state & ItemState.Selected) != ItemState.None))
                         {
                             ColorMatrix _matrix = new ColorMatrix();
                             _matrix.Matrix33 = 0.618f;

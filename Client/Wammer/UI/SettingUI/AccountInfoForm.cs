@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Security.Permissions;
@@ -301,7 +301,7 @@ namespace Waveface
 			{
 				FBImportOK = () => 
 				{
-					m_Service.SNSDisconnect(m_SessionToken, "facebook");
+				m_Service.SNSDisconnect(m_SessionToken, "facebook");
 				};
 
 				FBImportCancel = null;
@@ -321,8 +321,8 @@ namespace Waveface
 					m_Service.SNSDisconnect(m_SessionToken, "facebook");
 				};
 
-				Update();
-			}
+			Update();
+		}
 		}
 
 		private void rbtnSubscribed_CheckedChanged(object sender, EventArgs e)

@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -261,42 +259,6 @@ namespace Waveface
             return true;
         }
 
-        private void ResizeCell()
-        {
-            int _s = dataGridView.FirstDisplayedScrollingRowIndex;
-            int _k = 0;
-
-            for (int i = _s; (i < m_posts.Count) && (_k < 16); i++)
-            {
-                DateTime _dt = DateTimeHelp.ISO8601ToDateTime(m_posts[i].timestamp).Date;
-
-                bool _isLinkPost = m_posts[i].type == "link";
-
-                if (m_firstPostInADay.ContainsValue(m_posts[i].post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
-                {
-                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
-                }
-                else
-                {
-                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
-                }
-
-                if (_isLinkPost)
-                {
-                    if (!string.IsNullOrEmpty(m_posts[i].content))
-                    {
-                        dataGridView.Rows[i].Height += m_fontText.Height;
-                    }
-                    else
-                    {
-                        dataGridView.Rows[i].Height -= m_fontText.Height;
-                    }
-                }
-
-                _k++;
-            }
-        }
-
         private void SetFirstDisplayed(List<Post> posts)
         {
             int _idxFirst = -1;
@@ -395,6 +357,7 @@ namespace Waveface
                 Graphics _g = e.Graphics;
 
                 Trace.WriteLine("cell index: " + e.RowIndex.ToString());
+
                 Post _post = m_postBS[e.RowIndex] as Post;
 
                 DateTime _dt = DateTimeHelp.ISO8601ToDateTime(_post.timestamp).Date;
@@ -450,12 +413,13 @@ namespace Waveface
                 {
                     Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
 
-                    Rectangle _thumbnailRect = new Rectangle(e.CellBounds.Width - PicWidth - 10, _Y + 8, PicWidth,
-                                                             PicHeight);
+                    int _underThumbnailHeight = 17;
+
+                    int _picWH = _H - _underThumbnailHeight;
+
+                    Rectangle _thumbnailRect = new Rectangle(e.CellBounds.Width - _picWH - 10, _Y + 8, _picWH, _picWH);
 
                     _isDrawThumbnail = DrawThumbnail(_g, _thumbnailRect, _post);
-
-                    int _underThumbnailHeight = 17;
 
                     switch (_post.type)
                     {
@@ -566,24 +530,17 @@ namespace Waveface
 
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
 
-            int _d = (rect.Height - thumbnailRectHeight + 10) / 2;
-
-            Rectangle _rect = new Rectangle(rect.X + rect.Width - _sizeInfo.Width - 2,
-                                            rect.Y + rect.Height - _d, _sizeInfo.Width,
+            Rectangle _rect = new Rectangle(rect.X + rect.Width - thumbnailRectWidth - 6,
+                                            rect.Y + rect.Height - underThumbnailHeight - 6,
+                                            thumbnailRectWidth,
                                             _sizeInfo.Height);
 
-            TextRenderer.DrawText(g, _info, m_fontInfo, _rect, m_inforColor);
+            using (Brush _brush = new SolidBrush(Color.FromArgb(127, 0, 0, 0)))
+            {
+                g.FillRectangle(_brush, _rect);
+            }
 
-            /*
-            if(CheckAllPhotosOrigin(post))
-            {
-                g.DrawImage(Properties.Resources.TickCircle, rect.X + rect.Width - thumbnailRectWidth - 6, _rect.Y - 2);
-            }
-            else
-            {
-                g.DrawImage(Properties.Resources.ArrowCircleDouble, rect.X + rect.Width - thumbnailRectWidth - 6, _rect.Y - 2);
-            }
-            */
+            TextRenderer.DrawText(g, _info, m_fontInfo, _rect, Color.WhiteSmoke);
 
             Rectangle _rectAll = new Rectangle(rect.X + 4, rect.Y + 8, rect.Width - thumbnailRectWidth - 8,
                                                rect.Height - underThumbnailHeight - 18);
@@ -1190,6 +1147,43 @@ namespace Waveface
             }
         }
 
+        private void ResizeCell()
+        {
+            int _s = dataGridView.FirstDisplayedScrollingRowIndex;
+            int _k = 0;
+            int _cn = (dataGridView.Height / m_cellHeight);
+
+            for (int i = _s; (i < m_posts.Count) && (_k < _cn); i++)
+            {
+                DateTime _dt = DateTimeHelp.ISO8601ToDateTime(m_posts[i].timestamp).Date;
+
+                bool _isLinkPost = m_posts[i].type == "link";
+
+                if (m_firstPostInADay.ContainsValue(m_posts[i].post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
+                {
+                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
+                }
+                else
+                {
+                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
+                }
+
+                if (_isLinkPost)
+                {
+                    if (!string.IsNullOrEmpty(m_posts[i].content))
+                    {
+                        dataGridView.Rows[i].Height += m_fontText.Height;
+                    }
+                    else
+                    {
+                        dataGridView.Rows[i].Height -= m_fontText.Height;
+                    }
+                }
+
+                _k++;
+            }
+        }
+
         #region Drag & Drop
 
         private Post GetCurrentPost()
@@ -1274,25 +1268,6 @@ namespace Waveface
         }
 
         #endregion
-
-        /*
-        private bool CheckAllPhotosOrigin(Post post)
-        {
-            foreach (Attachment _attachment in post.attachments)
-            {
-                string _urlO = string.Empty;
-                string _fileNameO = string.Empty;
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO, false);
-
-                string _localFileO = Path.Combine(Main.GCONST.ImageCachePath, _fileNameO);
-
-                if (!File.Exists(_localFileO))
-                    return false;
-            }
-
-            return true;
-        }
-        */
 
         #region Display
 
