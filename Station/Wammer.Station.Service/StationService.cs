@@ -44,6 +44,7 @@ namespace Wammer.Station.Service
 		private AttachmentViewHandler viewHandler;
 		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
 		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
+
 		public StationService()
 		{
 			XmlConfigurator.Configure();
