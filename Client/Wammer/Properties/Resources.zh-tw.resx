@@ -127,7 +127,7 @@
     <value>Facebook資料還在同步中，資料輸入需要一些時間，請您稍候再確認。</value>
   </data>
   <data name="FB_TOKEN_EXPIRED" xml:space="preserve">
-    <value>Facebook資料同步功能已經暫停。是否需要恢復自動同步功能？</value>
+    <value>Facebook 授權過期</value>
   </data>
   <data name="FIELD_MUST_HAVE_DATA_PATTERN" xml:space="preserve">
     <value>{0} 欄位必須要有資料</value>
@@ -136,7 +136,7 @@
     <value>名稱</value>
   </data>
   <data name="RECONNECT_MESSAGE" xml:space="preserve">
-    <value>The permission of connecting to Facebook account has expired.Do you want to reconnect it?</value>
+    <value>Facebook資料同步功能已經暫停。是否需要恢復自動同步功能？</value>
   </data>
   <data name="TURNED_OFF" xml:space="preserve">
     <value>已關閉</value>
