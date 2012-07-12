@@ -49,8 +49,24 @@ namespace Wammer.Station.AttachmentUpload
 				return;
 
 			var imgProc = new AttachmentUtility();
-			ThumbnailInfo thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
-			                                                    object_id, user, attachment.file_name);
+
+			ThumbnailInfo thumbnail;
+
+			if (!string.IsNullOrEmpty(attachment.saved_file_name))
+				thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
+																object_id, user, attachment.file_name);
+			else if (attachment.image_meta != null &&
+					attachment.image_meta.medium != null &&
+					!string.IsNullOrEmpty(attachment.image_meta.medium.saved_file_name) &&
+					(thumbnail_type == ImageMeta.Small || thumbnail_type == ImageMeta.Square))
+
+				thumbnail = imgProc.GenerateThumbnail(attachment.image_meta.medium.saved_file_name, thumbnail_type,
+														object_id, user, attachment.file_name);
+			else
+			{
+				this.LogWarnMsg("No file is available to make thumbnail: " + attachment.object_id);
+				return;
+			}
 
 			imgProc.UpdateThumbnailInfoToDB(object_id, thumbnail_type, thumbnail);
 
