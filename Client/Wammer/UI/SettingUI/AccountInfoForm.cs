@@ -368,14 +368,14 @@ namespace Waveface
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			if (errorProvider1.HasError())
+            if (ErrorProviderExtension.HasError(errorProvider1))
 			{
-				var errorMessage = errorProvider1.GetErrorMsgs().FirstOrDefault();
+                var errorMessage = ErrorProviderExtension.GetErrorMsgs(errorProvider1).FirstOrDefault();
 
 				if (!string.IsNullOrEmpty(errorMessage))
 					MessageBox.Show(errorMessage);
 
-				var errorControl = errorProvider1.GetErrorControls().FirstOrDefault();
+                var errorControl = ErrorProviderExtension.GetErrorControls(errorProvider1).FirstOrDefault();
 
 				if (errorControl != null)
 					errorControl.Focus();

@@ -51,7 +51,7 @@ namespace Waveface
 
 		public static bool HasError(this ErrorProvider ep)
 		{
-			return ep.GetErrorMsgs().Any();
+            return ErrorProviderExtension.GetErrorMsgs(ep).Any();
 		}
 
 	}
