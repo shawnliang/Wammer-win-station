@@ -225,6 +225,9 @@ namespace Waveface.DetailUI
 
 		private void imageBox_Click(object sender, EventArgs e)
 		{
+			//thumbnailNavigator1.Visible = !thumbnailNavigator1.Visible;
+			//panelBottom.Visible = thumbnailNavigator1.Visible;
+			//imageBox.ZoomToFit();
 			imageBox.SizeToFit = false;
 			imageBox.AutoPan = true;
 			imageBox.AdjustLayout();

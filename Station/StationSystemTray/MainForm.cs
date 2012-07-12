@@ -1037,9 +1037,13 @@ namespace StationSystemTray
 				             	};
 				dialog.Controls.Add(browser);
 
+				//MessageBox.Show("callBackPattern: " + string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"));
+
 				browser.Navigated += (s, ex) =>
 				                     	{
 				                     		var url = browser.Url;
+
+											//MessageBox.Show("url: " + url);
 				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
 				                     		                  RegexOptions.IgnoreCase))
 				                     		{
@@ -1058,6 +1062,7 @@ namespace StationSystemTray
 					var parameters = HttpUtility.ParseQueryString(url.Query);
 					var apiRetCode = parameters["api_ret_code"];
 
+					//MessageBox.Show("apiRetCode: " + apiRetCode.ToString());
 					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
 					{
 						if (!IsDisposed)

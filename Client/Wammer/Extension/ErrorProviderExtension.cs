@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +51,7 @@ namespace Waveface
 
 		public static bool HasError(this ErrorProvider ep)
 		{
-			return ep.GetErrorMsgs().Any();
+			return GetErrorMsgs(ep).Any();
 		}
 
 	}

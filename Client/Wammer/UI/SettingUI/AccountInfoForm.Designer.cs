@@ -47,6 +47,7 @@
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.lblFBImportTip = new System.Windows.Forms.Label();
 			this.btnFacebookImport = new System.Windows.Forms.Button();
 			this.lblUploadedPhotoCount = new System.Windows.Forms.Label();
 			this.label12 = new System.Windows.Forms.Label();
@@ -154,6 +155,7 @@
 			// tabPage2
 			// 
 			resources.ApplyResources(this.tabPage2, "tabPage2");
+			this.tabPage2.Controls.Add(this.lblFBImportTip);
 			this.tabPage2.Controls.Add(this.btnFacebookImport);
 			this.tabPage2.Controls.Add(this.lblUploadedPhotoCount);
 			this.tabPage2.Controls.Add(this.label12);
@@ -166,6 +168,17 @@
 			this.errorProvider1.SetIconPadding(this.tabPage2, ((int)(resources.GetObject("tabPage2.IconPadding"))));
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// lblFBImportTip
+			// 
+			resources.ApplyResources(this.lblFBImportTip, "lblFBImportTip");
+			this.errorProvider1.SetError(this.lblFBImportTip, resources.GetString("lblFBImportTip.Error"));
+			this.lblFBImportTip.ForeColor = System.Drawing.Color.Red;
+			this.errorProvider1.SetIconAlignment(this.lblFBImportTip, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblFBImportTip.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.lblFBImportTip, ((int)(resources.GetObject("lblFBImportTip.IconPadding"))));
+			this.lblFBImportTip.Name = "lblFBImportTip";
+			this.lblFBImportTip.TextChanged += new System.EventHandler(this.lblFBImportTip_TextChanged);
+			this.lblFBImportTip.VisibleChanged += new System.EventHandler(this.lblFBImportTip_VisibleChanged);
 			// 
 			// btnFacebookImport
 			// 
@@ -334,12 +347,12 @@
 			// button1
 			// 
 			resources.ApplyResources(this.button1, "button1");
-			this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.errorProvider1.SetError(this.button1, resources.GetString("button1.Error"));
 			this.errorProvider1.SetIconAlignment(this.button1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("button1.IconAlignment"))));
 			this.errorProvider1.SetIconPadding(this.button1, ((int)(resources.GetObject("button1.IconPadding"))));
 			this.button1.Name = "button1";
 			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// button3
 			// 
@@ -411,6 +424,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.Label lblFBImportTip;
 
 	}
 }

@@ -266,7 +266,7 @@
     <value>..\Resources\Title\LD.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FB_CONNECT_FAILED" xml:space="preserve">
-    <value>Facebook connect failed</value>
+    <value>The Facebook account does not match the one used to create your Stream account. Please try again with another account.</value>
   </data>
   <data name="FB_today_btn_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlatButton\FB_today_btn_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -526,7 +526,6 @@
   <data name="back_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\back_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="photoadded_badge" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\photoadded_badge.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -540,7 +539,7 @@
     <value>Name</value>
   </data>
   <data name="FB_TOKEN_EXPIRED" xml:space="preserve">
-    <value>Facebook token expired</value>
+    <value>Your Facebook connection has been disabled. Do you want to reconnect with Facebook.</value>
   </data>
   <data name="RECONNECT_MESSAGE" xml:space="preserve">
     <value>The permission of connecting to Facebook account has expired.Do you want to reconnect it?</value>
@@ -556,5 +555,11 @@
   </data>
   <data name="TURN_ON" xml:space="preserve">
     <value>Turn on</value>
+  </data>
+  <data name="FB_IMPORT_CLAST_SYNC_PATTERN" xml:space="preserve">
+    <value>Last synced with Facebook: {0}</value>
+  </data>
+  <data name="FB_IMPRORT_PROGRESSING" xml:space="preserve">
+    <value>We’re currently importing your Facebook posts. You can chart the progress by refreshing your browser.</value>
   </data>
 </root>
