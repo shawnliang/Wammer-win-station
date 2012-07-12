@@ -209,6 +209,14 @@ namespace Waveface
 
 			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
+			var timer = new Timer();
+			timer.Interval = 10 * 60 * 1000;
+			timer.Tick += (s,e) =>
+				{
+					AdjustAccountInfoButton();
+				};
+			timer.Enabled = true;
+
             s_logger.Trace("Constructor: OK");
         }
 

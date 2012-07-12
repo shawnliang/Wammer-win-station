@@ -557,7 +557,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Facebook connection has been disabled. Do you want to reconnect with Facebook..
+        ///   Looks up a localized string similar to Facebook token expired.
         /// </summary>
         internal static string FB_TOKEN_EXPIRED {
             get {
@@ -897,7 +897,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The permission of connecting to Facebook account has expired.Do you want to reconnect it?.
+        ///   Looks up a localized string similar to Your Facebook connection has been disabled. Do you want to reconnect with Facebook..
         /// </summary>
         internal static string RECONNECT_MESSAGE {
             get {

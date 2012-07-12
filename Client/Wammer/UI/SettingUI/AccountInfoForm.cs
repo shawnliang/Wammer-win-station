@@ -227,11 +227,14 @@ namespace Waveface
 					if (result == System.Windows.Forms.DialogResult.Yes)
 					{
 						ConnectWithFB();
+
 					}
 					else
 					{
 						m_Service.SNSDisconnect(m_SessionToken, "facebook");
 					}
+					Update();
+					return;
 				}
 
 				if (facebook != null)
@@ -320,6 +323,8 @@ namespace Waveface
 				lblIsFacebookImportEnabled.Text = Properties.Resources.TURNED_OFF;
 
 				btnFacebookImport.Text = Properties.Resources.TURN_ON;
+
+				lblFBImportTip.Text = string.Empty;
 			}
 			else
 			{
