@@ -51,19 +51,19 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			if (args.ImgMeta == ImageMeta.Medium)
 			{
-				util.UpstreamAttachmentAsync(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
 				util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.Medium);
+				util.UpstreamAttachmentAsync(args.AttachmentId, ImageMeta.Medium, TaskPriority.VeryLow);
 			}
 			else if (args.ImgMeta == ImageMeta.Origin)
 			{
 				if (args.UpsertResult == UpsertResult.Insert)
 				{
-					util.GenerateThumbnailAsyncAndUpstream(args.AttachmentId, ImageMeta.Medium, TaskPriority.Medium);
-					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.Low);
+					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.Medium);
+					util.GenerateThumbnailAsyncAndUpstream(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
 				}
 				else
 				{
-					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.Low);
+					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.VeryLow);
 				}
 			}
 		}

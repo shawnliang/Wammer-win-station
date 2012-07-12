@@ -26,7 +26,7 @@ namespace Wammer.Station.AttachmentUpload
 			var makeThumbnail = new MakeThumbnailTask(object_id, meta, pri);
 			makeThumbnail.MakeThumbnail();
 
-			util.UpstreamAttachmentAsync(object_id, meta, pri);
+			util.UpstreamAttachmentAsync(object_id, meta, TaskPriority.VeryLow);
 		}
 
 		public override void ScheduleToRun()
