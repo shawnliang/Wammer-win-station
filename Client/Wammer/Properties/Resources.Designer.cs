@@ -342,6 +342,24 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Last synced with Facebook: {0}.
+        /// </summary>
+        internal static string FB_IMPORT_CLAST_SYNC_PATTERN {
+            get {
+                return ResourceManager.GetString("FB_IMPORT_CLAST_SYNC_PATTERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We’re currently importing your Facebook posts. You can chart the progress by refreshing your browser..
+        /// </summary>
+        internal static string FB_IMPRORT_PROGRESSING {
+            get {
+                return ResourceManager.GetString("FB_IMPRORT_PROGRESSING", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap FB_info {
             get {
                 object obj = ResourceManager.GetObject("FB_info", resourceCulture);
@@ -539,7 +557,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Facebook connection has been disabled. Do you want to reconnect with Facebook..
+        ///   Looks up a localized string similar to Facebook token expired.
         /// </summary>
         internal static string FB_TOKEN_EXPIRED {
             get {
@@ -879,7 +897,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The permission of connecting to Facebook account has expired.Do you want to reconnect it?.
+        ///   Looks up a localized string similar to Your Facebook connection has been disabled. Do you want to reconnect with Facebook..
         /// </summary>
         internal static string RECONNECT_MESSAGE {
             get {

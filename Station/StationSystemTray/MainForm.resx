@@ -9933,10 +9933,10 @@
     <value>NoControl</value>
   </data>
   <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>338, 16</value>
+    <value>338, 6</value>
   </data>
   <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>21, 35</value>
+    <value>21, 42</value>
   </data>
   <data name="button1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -10226,6 +10226,109 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   <data name="pictureBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
+  <data name="pictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
   <data name="pictureBox1.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Center</value>
   </data>
@@ -10348,7 +10451,7 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>Arial, 15pt</value>
   </data>
   <data name="tbxEMail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 19</value>
+    <value>22, 16</value>
   </data>
   <data name="tbxEMail.Size" type="System.Drawing.Size, System.Drawing">
     <value>315, 23</value>
@@ -10390,7 +10493,7 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>Arial, 15pt</value>
   </data>
   <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 67</value>
+    <value>22, 65</value>
   </data>
   <data name="txtPassword.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
     <value>*</value>
