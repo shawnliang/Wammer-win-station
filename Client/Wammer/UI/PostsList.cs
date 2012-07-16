@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -743,7 +744,7 @@ namespace Waveface
 
                 using (Pen _pen = new Pen(Color.FromArgb(226, 226, 226), 2))
                 {
-                    // _pen.DashStyle = DashStyle.Dot;
+                    _pen.DashStyle = DashStyle.Dot;
 
                     _g.DrawRectangle(_pen, new Rectangle(1, 1, PicWidth - 2, PicHeight - 2));
                 }
