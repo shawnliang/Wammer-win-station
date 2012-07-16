@@ -209,13 +209,13 @@ namespace Waveface
 
 			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
-			var timer = new Timer();
-			timer.Interval = 10 * 60 * 1000;
-			timer.Tick += (s,e) =>
-				{
-					AdjustAccountInfoButton();
-				};
-			timer.Enabled = true;
+			//var timer = new Timer();
+			//timer.Interval = 10 * 60 * 1000;
+			//timer.Tick += (s,e) =>
+			//    {
+			//        AdjustAccountInfoButton();
+			//    };
+			//timer.Enabled = true;
 
             s_logger.Trace("Constructor: OK");
         }
@@ -268,17 +268,25 @@ namespace Waveface
 				var response = m_Service.users_get(RT.Login.session_token, RT.Login.user.user_id);
 				var user = response.user;
 
-				var facebook = (from item1 in response.sns
-								from item2 in user.sns
-								where item1.type == "facebook" && item2.type == "facebook"
-								select new
-								{
-									Enabled = item1.enabled,
-									SnsID = item2.snsid,
-									Status = item2.status
-								}).FirstOrDefault();
+				var accessTokenExpired = false;
 
-				var accessTokenExpired = facebook == null ? false : facebook.Status.Contains("disconnected");
+				if ((response.sns != null && user.sns != null))
+				{
+					var facebook = (from item1 in response.sns
+									where item1 != null && item1.type == "facebook"
+									from item2 in user.sns
+									where item2 != null && item2.type == "facebook"
+									select new
+									{
+										Enabled = item1.enabled,
+										SnsID = item2.snsid,
+										Status = item2.status,
+										Status2 = item1.status,
+										LastSync = item1.lastSync
+									}).FirstOrDefault();
+
+					accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
+				}
 
 				panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
 				panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;

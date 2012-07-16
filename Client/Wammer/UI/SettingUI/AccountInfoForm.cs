@@ -207,60 +207,8 @@ namespace Waveface
 
 				lblSince.Text = DateTimeHelp.ConvertUnixTimestampToDateTime(user.since).ToString();
 
-				var facebook = (from item1 in response.sns
-								from item2 in user.sns
-								where item1.type == "facebook" && item2.type == "facebook"
-								select new
-								{
-									Enabled = item1.enabled,
-									SnsID = item2.snsid,
-									Status = item2.status,
-									Status2 = item1.status,
-									LastSync = item1.lastSync
-								}).FirstOrDefault();
-
-				var accessTokenExpired = facebook == null ? false : facebook.Status.Contains("disconnected");
-
-				if (checkAccessTokenExpired && accessTokenExpired)
-				{
-					var result = MessageBox.Show(Properties.Resources.RECONNECT_MESSAGE, Properties.Resources.FB_TOKEN_EXPIRED, MessageBoxButtons.YesNo);
-					if (result == System.Windows.Forms.DialogResult.Yes)
-					{
-						ConnectWithFB();
-
-					}
-					else
-					{
-						m_Service.SNSDisconnect(m_SessionToken, "facebook");
-					}
-					Update();
-					return;
-				}
-
-				if (facebook != null)
-				{
-					lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? Properties.Resources.TURNED_ON : Properties.Resources.TURNED_OFF, facebook.SnsID);
-
-					btnFacebookImport.Text = (facebook.Enabled) ? Properties.Resources.TURN_OFF : Properties.Resources.TURN_ON;
-
-					lblFBImportTip.Text = (facebook.Enabled)?
-						((string.Equals(facebook.Status2,"progress",StringComparison.CurrentCultureIgnoreCase)) ? Properties.Resources.FB_IMPRORT_PROGRESSING : string.Format(Properties.Resources.FB_IMPORT_CLAST_SYNC_PATTERN, DateTimeHelp.ISO8601ToDateTime(facebook.LastSync).ToString())) :
-						string.Empty;
-				}
-				else
-				{
-					lblIsFacebookImportEnabled.Text = Properties.Resources.TURNED_OFF;
-
-					btnFacebookImport.Text = Properties.Resources.TURN_ON;
-
-					lblFBImportTip.Text = string.Empty;
-				}
-
 				lblUploadedPhotoCount.Text = response.storages.waveface.usage.image_objects.ToString();
 				tbxName.Text = user.nickname;
-				//lblNewsletterStatus.Text = user.subscribed.ToString();
-
-				//btnNewsletter.Text = user.subscribed ? "UnSubscribed" : "Subscribed";
 
 				checkBox1.Checked = user.subscribed;
 
@@ -271,7 +219,61 @@ namespace Waveface
 					dataGridView1.Rows.Add(new object[] { device.device_name, device.device_type, DateTimeHelp.ISO8601ToDateTime(device.last_visit).ToString() });
 				}
 
-				//AdjustLayout();
+				var accessTokenExpired = false;
+
+				if ((response.sns != null && user.sns != null))
+				{
+					var facebook = (from item1 in response.sns
+									where item1 != null && item1.type == "facebook"
+									from item2 in user.sns
+									where item2 != null && item2.type == "facebook"
+									select new
+									{
+										Enabled = item1.enabled,
+										SnsID = item2.snsid,
+										Status = item2.status,
+										Status2 = item1.status,
+										LastSync = item1.lastSync
+									}).FirstOrDefault();
+
+					accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
+
+					if (facebook != null)
+					{
+						lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? Properties.Resources.TURNED_ON : Properties.Resources.TURNED_OFF, facebook.SnsID);
+
+						btnFacebookImport.Text = (facebook.Enabled) ? Properties.Resources.TURN_OFF : Properties.Resources.TURN_ON;
+
+						lblFBImportTip.Text = (facebook.Enabled) ?
+							((string.Equals(facebook.Status2, "progress", StringComparison.CurrentCultureIgnoreCase)) ? Properties.Resources.FB_IMPRORT_PROGRESSING : string.Format(Properties.Resources.FB_IMPORT_CLAST_SYNC_PATTERN, DateTimeHelp.ISO8601ToDateTime(facebook.LastSync).ToString())) :
+							string.Empty;
+
+						if (checkAccessTokenExpired && accessTokenExpired)
+						{
+							var result = MessageBox.Show(Properties.Resources.RECONNECT_MESSAGE, Properties.Resources.FB_TOKEN_EXPIRED, MessageBoxButtons.YesNo);
+							if (result == System.Windows.Forms.DialogResult.Yes)
+							{
+								ConnectWithFB();
+
+							}
+							else
+							{
+								m_Service.SNSDisconnect(m_SessionToken, "facebook");
+							}
+							Update();
+							return;
+						}
+					}
+					return;
+				}
+
+
+				lblIsFacebookImportEnabled.Text = Properties.Resources.TURNED_OFF;
+
+				btnFacebookImport.Text = Properties.Resources.TURN_ON;
+
+				lblFBImportTip.Text = string.Empty;
+
 			}
 			catch (Exception ex)
 			{
