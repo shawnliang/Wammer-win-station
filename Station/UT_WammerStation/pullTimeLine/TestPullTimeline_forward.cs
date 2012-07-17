@@ -64,77 +64,103 @@ namespace UT_WammerStation.pullTimeLine
 		[TestMethod]
 		public void TestPullForward()
 		{
-			DummyPostInfoProvider postInfo = new DummyPostInfoProvider();
-			postInfo.RetrievePosts_return = new List<PostInfo> { 
-						 new PostInfo { post_id = "post1"},
-						 new PostInfo { post_id = "post1"},
-						 new PostInfo { post_id = "post1"}
-			};
-
-			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, new FakeUserTracksApi());
-			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
-
 			DateTime since = new DateTime(2012, 1, 2, 13, 23, 42, DateTimeKind.Utc);
-
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() { end_time = since },
+				sync_range = new SyncRange() { end_time = since, next_seq_num = 5 },
 				session_token = "token",
 				groups = this.groups
 			};
+
+			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
+			api.Setup(x=>x.GetChangeHistory(user, user.sync_range.next_seq_num))
+				.Returns( new ChangeLogResponse {
+							group_id = user.groups[0].group_id,
+							next_seq_num = 1000,
+							post_list = new List<PostListItem> {
+													 new PostListItem{ post_id = "post1" },
+													 new PostListItem{ post_id = "post2" },
+													 new PostListItem{ post_id = "post3" },
+							},
+							remaining_count = 0,
+							latest_timestamp = DateTime.UtcNow })
+				.Verifiable();
+
+
+			Mock<IPostProvider> postInfo = new Mock<IPostProvider>(MockBehavior.Strict);
+			postInfo.Setup(x => x.RetrievePosts(user, new List<string> { "post1", "post2", "post3" }))
+				.Returns(new List<PostInfo> { 
+							new PostInfo { post_id = "post1"},
+							new PostInfo { post_id = "post2"},
+							new PostInfo { post_id = "post3"}})
+				.Verifiable();
+
+			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
+			db.Setup(x => x.SaveUserTracks(It.Is<UserTracks>(
+				ut =>
+						ut.post_id_list.Count == 3 &&
+						ut.post_id_list.Contains("post1") &&
+						ut.post_id_list.Contains("post2") &&
+						ut.post_id_list.Contains("post3") &&
+						ut.group_id == groups[0].group_id
+				)))
+				.Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1"))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2"))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3"))).Verifiable();
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 1000))).Verifiable();
+
+			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);
+			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);	
 			syncer.PullForward(user);
-			
 
-			// verify get userTracks from prev time
-			// Done in FakeUserTracksApi.GetChangeHistory()
-
-			// verify retrieve post details by id
-			Assert.AreEqual(user, postInfo.RetrievePosts_user);
-			Assert.AreEqual(3, postInfo.RetrievePosts_posts.Count);
-			Assert.AreEqual("post1", postInfo.RetrievePosts_posts[0]);
-			Assert.AreEqual("post2", postInfo.RetrievePosts_posts[1]);
-			Assert.AreEqual("post3", postInfo.RetrievePosts_posts[2]);
-
-			// verify retrieved post are callbacked
-			Assert.AreEqual(postInfo.RetrievePosts_return, this.RetrievedPosts);
-
-			// verify driver's sync.end_time is updated.
-			// "2012-02-02T13:23:42Z" is from the return value of FakeUserTracksApi.GetChangeHistory
-			Assert.AreEqual(new DateTime(2012,2,2,13,23,42, DateTimeKind.Utc), db.UpdateSyncRange_syncRange.end_time); 
+			db.VerifyAll();
+			api.VerifyAll();
+			postInfo.VerifyAll();
 		}
 
-
 		[TestMethod]
-		public void TestRetrievedPostsAreSavedToDB()
+		public void TooManyRecoredsErrorWhilePullingForward()
 		{
-			DummyPostInfoProvider postInfo = new DummyPostInfoProvider();
-			postInfo.RetrievePosts_return = new List<PostInfo> { 
-						 new PostInfo { post_id = "post1"},
-						 new PostInfo { post_id = "post1"},
-						 new PostInfo { post_id = "post1"}
-			};
-
-			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, new FakeUserTracksApi());
-			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
-
-			DateTime since = new DateTime(2012, 1, 2, 13, 23, 42, DateTimeKind.Utc);
-
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() { end_time = since },
+				sync_range = new SyncRange() { end_time = DateTime.UtcNow, next_seq_num = 5 },
 				session_token = "token",
 				groups = this.groups
 			};
-			syncer.PullForward(user);
 
-			Assert.AreEqual(postInfo.RetrievePosts_return.Count, db.SavedPosts.Count);
-			Assert.AreEqual(postInfo.RetrievePosts_return[0], db.SavedPosts[0]);
-			Assert.AreEqual(postInfo.RetrievePosts_return[1], db.SavedPosts[1]);
-			Assert.AreEqual(postInfo.RetrievePosts_return[2], db.SavedPosts[2]);
+			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
+			api.Setup(x => x.GetChangeHistory(user, user.sync_range.next_seq_num))
+				.Throws(new WammerCloudException("", "", (int)Wammer.Station.UserTrackApiError.TooManyUserTracks))
+				.Verifiable();
+
+			Mock<IPostProvider> postInfo = new Mock<IPostProvider>(MockBehavior.Strict);
+			postInfo.Setup(x => x.GetPostsBySeq(user, user.sync_range.next_seq_num, It.Is<int>(limit => limit > 0)))
+				.Returns(new PostFetchByFilterResponse
+				{
+					remaining_count = 0,
+					group_id = user.groups[0].group_id,
+					posts = new List<PostInfo>
+					{
+						new PostInfo{ post_id = "post1", seq_num = 10},
+						new PostInfo{ post_id = "post2", seq_num = 20},
+						new PostInfo{ post_id = "post3", seq_num = 15},
+					},
+					get_count = 3
+				})
+				.Verifiable();
+
+			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 10))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 20))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3" && p.seq_num == 15))).Verifiable();
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21))).Verifiable();
+			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
+			
+			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);	
+			syncer.PullForward(user);
 		}
 
 		[TestMethod]
@@ -250,7 +276,8 @@ namespace UT_WammerStation.pullTimeLine
 								new PostListItem { post_id = "post1"},
 								new PostListItem { post_id = "post2"},
 								new PostListItem { post_id = "post3"}
-				}
+				},
+				next_seq_num = 1000                                                                                                                                              
 			};
 		}
 	}

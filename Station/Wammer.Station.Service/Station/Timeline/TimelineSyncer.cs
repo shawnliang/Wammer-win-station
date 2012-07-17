@@ -91,11 +91,25 @@ namespace Wammer.Station.Timeline
 			if (user.sync_range == null || user.sync_range.end_time == DateTime.MinValue)
 				throw new InvalidOperationException("Should call PullBackward() first");
 
-			var res = changelogs.GetChangeHistory(user, user.sync_range.next_seq_num);
-			db.SaveUserTracks(new UserTracks(res));
 
-			ProcChangedPosts(user, res);
-			ProcNewAttachments(res);
+			try
+			{
+				var res = changelogs.GetChangeHistory(user, user.sync_range.next_seq_num);
+				db.SaveUserTracks(new UserTracks(res));
+
+				ProcChangedPosts(user, res);
+				ProcNewAttachments(res);
+			}
+			catch(WammerCloudException e)
+			{
+				if (e.WammerError == (int)Wammer.Station.UserTrackApiError.TooManyUserTracks)
+				{
+					int next_seq = RetrieveAllPostsBySeq(user, user.sync_range.next_seq_num);
+					UpdateDBForUserTrackBackFilled(user, next_seq);
+				}
+				else
+					throw;
+			}
 		}
 
 		private void ProcChangedPosts(Driver user, ChangeLogResponse res)
@@ -195,37 +209,14 @@ namespace Wammer.Station.Timeline
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.WammerError != (int)UserTrackApiError.TooManyUserTracks)
-					throw;
-
-
-				PostResponse result = null;
-
-				do
+				if (e.WammerError == (int)UserTrackApiError.TooManyUserTracks)
 				{
-					result = postProvider.GetPostsBySeq(user, since_seq_num, 100);
-
-					if (result.posts != null)
-					{
-						foreach (var post in result.posts)
-						{
-							db.SavePost(post);
-							if (post.seq_num >= since_seq_num)
-								since_seq_num = post.seq_num + 1;
-						}
-
-						OnPostsRetrieved(user, result.posts);
-					}
-
-				} while (result.HasMoreData);
-
-
-				SyncRange range = user.sync_range.Clone();
-				range.next_seq_num = since_seq_num;
-				db.UpdateDriverSyncRange(user.user_id, range);
-				db.UpdateDriverChangeHistorySynced(user.user_id, true);
-
-				return;
+					int next_seq_num = RetrieveAllPostsBySeq(user, since_seq_num);
+					UpdateDBForUserTrackBackFilled(user, next_seq_num);
+					return;
+				}
+				else
+					throw;
 			}
 
 
@@ -236,10 +227,41 @@ namespace Wammer.Station.Timeline
 
 			OnPostsRetrieved(user, newPosts);
 
-			SyncRange newSyncRange = user.sync_range.Clone();
-			newSyncRange.next_seq_num = res.next_seq_num;
-			db.UpdateDriverSyncRange(user.user_id, newSyncRange);
+			UpdateDBForUserTrackBackFilled(user, res.next_seq_num);
+		}
+
+		private void UpdateDBForUserTrackBackFilled(Driver user, int next_seq_num)
+		{
+			SyncRange range = user.sync_range.Clone();
+			range.next_seq_num = next_seq_num;
+			db.UpdateDriverSyncRange(user.user_id, range);
 			db.UpdateDriverChangeHistorySynced(user.user_id, true);
+		}
+
+		private int RetrieveAllPostsBySeq(Driver user, int since_seq_num)
+		{
+			PostResponse result = null;
+			int since = since_seq_num;
+
+			do
+			{
+				result = postProvider.GetPostsBySeq(user, since, 100);
+
+				if (result.posts != null)
+				{
+					foreach (var post in result.posts)
+					{
+						db.SavePost(post);
+						if (post.seq_num >= since)
+							since = post.seq_num + 1;
+					}
+
+					OnPostsRetrieved(user, result.posts);
+				}
+
+			} while (result.HasMoreData);
+
+			return since;
 		}
 
 		private static bool HasUnsyncedOldPosts(Driver user)
