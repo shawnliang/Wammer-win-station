@@ -84,8 +84,7 @@ namespace UT_WammerStation.pullTimeLine
 													 new PostListItem{ post_id = "post2" },
 													 new PostListItem{ post_id = "post3" },
 							},
-							remaining_count = 0,
-							latest_timestamp = DateTime.UtcNow })
+							remaining_count = 0})
 				.Verifiable();
 
 
@@ -273,7 +272,6 @@ namespace UT_WammerStation.pullTimeLine
 			{
 				get_count = 3,
 				group_id = "group1",
-				latest_timestamp = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc),
 				post_list = new List<PostListItem> { 
 								new PostListItem { post_id = "post1"},
 								new PostListItem { post_id = "post2"},

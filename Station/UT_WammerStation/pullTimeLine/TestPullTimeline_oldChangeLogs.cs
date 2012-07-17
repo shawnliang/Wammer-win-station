@@ -48,7 +48,6 @@ namespace UT_WammerStation.pullTimeLine
 				post_list = new List<PostListItem>{ new PostListItem { post_id = "post1"}},
 				next_seq_num = 2,
 				remaining_count = 1,
-				latest_timestamp = DateTime.Now,
 			};
 			api.Setup(x => x.GetChangeHistory(user, 1)).Returns(res1).Verifiable();
 
@@ -64,7 +63,6 @@ namespace UT_WammerStation.pullTimeLine
 				post_list = new List<PostListItem> { new PostListItem { post_id = "post2" } },
 				next_seq_num = 3,
 				remaining_count = 0,
-				latest_timestamp = DateTime.Now,
 			};
 
 			api.Setup(x => x.GetChangeHistory(user, 2)).Returns(res2).Verifiable();
@@ -79,7 +77,6 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SaveUserTracks(
 				It.Is<UserTracks>(ut =>
 							ut.group_id == user.groups[0].group_id &&
-							ut.latest_timestamp == res1.latest_timestamp &&
 							ut.post_id_list.Count == res1.post_list.Count &&
 							ut.post_id_list.FindAll(id => res1.post_list.Any(p => p.post_id == id) != null).Count == ut.post_id_list.Count &&
 							ut.usertrack_list == res1.changelog_list
@@ -88,7 +85,6 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SaveUserTracks(
 				It.Is<UserTracks>(ut =>
 							ut.group_id == user.groups[0].group_id &&
-							ut.latest_timestamp == res2.latest_timestamp &&
 							ut.post_id_list.Count == res2.post_list.Count &&
 							ut.post_id_list.FindAll(id => res2.post_list.Any(p => p.post_id == id) != null).Count == ut.post_id_list.Count &&
 							ut.usertrack_list == res2.changelog_list
