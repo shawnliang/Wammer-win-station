@@ -25,7 +25,6 @@ namespace UT_WammerStation.pullTimeLine
 				sync_range = new SyncRange
 				{
 					start_time = DateTime.UtcNow.AddDays(-1.0),
-					end_time = DateTime.UtcNow,
 					first_post_time = DateTime.UtcNow.AddDays(-1.0),
 					next_seq_num = 0,
 				},

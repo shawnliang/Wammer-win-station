@@ -65,10 +65,6 @@ namespace Wammer.Station.Timeline
 				var range = new SyncRange
 					{
 						start_time = res.posts.Min(x => x.timestamp),
-						end_time =
-							(user.sync_range == null)
-								? res.posts.Max(x => x.timestamp)
-								: user.sync_range.end_time,
 						first_post_time =
 							(res.HasMoreData) ? null as DateTime? : res.posts.Min(x => x.timestamp)
 					};
@@ -88,9 +84,8 @@ namespace Wammer.Station.Timeline
 			if (user == null)
 				throw new ArgumentNullException("user");
 
-			if (user.sync_range == null || user.sync_range.end_time == DateTime.MinValue)
+			if (!user.is_change_history_synced)
 				throw new InvalidOperationException("Should call PullBackward() first");
-
 
 			try
 			{
@@ -144,7 +139,6 @@ namespace Wammer.Station.Timeline
 				                         new SyncRange
 				                         	{
 				                         		start_time = user.sync_range.start_time,
-				                         		end_time = res.latest_timestamp,
 												next_seq_num = res.next_seq_num,
 				                         		first_post_time = user.sync_range.first_post_time,
 				                         	});
@@ -271,7 +265,7 @@ namespace Wammer.Station.Timeline
 
 		private static bool HasNeverSynced(Driver user)
 		{
-			return user.sync_range == null || user.sync_range.end_time == DateTime.MinValue;
+			return user.sync_range == null || user.sync_range.start_time == DateTime.MinValue;
 		}
 
 		private void OnPostsRetrieved(Driver driver, List<PostInfo> posts)

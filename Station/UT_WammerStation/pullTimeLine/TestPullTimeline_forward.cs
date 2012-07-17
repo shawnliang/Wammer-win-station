@@ -68,9 +68,10 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() { end_time = since, next_seq_num = 5 },
+				sync_range = new SyncRange() { next_seq_num = 5 },
 				session_token = "token",
-				groups = this.groups
+				groups = this.groups,
+				is_change_history_synced = true
 			};
 
 			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
@@ -126,9 +127,10 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() { end_time = DateTime.UtcNow, next_seq_num = 5 },
+				sync_range = new SyncRange() { next_seq_num = 5 },
 				session_token = "token",
-				groups = this.groups
+				groups = this.groups,
+				is_change_history_synced = true
 			};
 
 			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
@@ -181,9 +183,10 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() { end_time = DateTime.UtcNow, next_seq_num = since },
+				sync_range = new SyncRange() { next_seq_num = since },
 				session_token = "token",
-				groups = this.groups
+				groups = this.groups,
+				is_change_history_synced = true
 			};
 			syncer.PullForward(user);
 
@@ -238,7 +241,6 @@ namespace UT_WammerStation.pullTimeLine
 				{
 					start_time = DateTime.UtcNow,
 					first_post_time = DateTime.UtcNow,
-					end_time = DateTime.UtcNow,
 					next_seq_num = since
 				},
 				is_change_history_synced = true,

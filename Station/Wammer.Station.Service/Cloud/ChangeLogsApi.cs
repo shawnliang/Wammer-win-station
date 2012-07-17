@@ -31,17 +31,7 @@ namespace Wammer.Cloud
 			                 		{"since_seq_num", since_seq_num}
 			                 	};
 
-			try
-			{
-				return CloudServer.request<ChangeLogResponse>(CloudServer.BaseUrl + "changelogs/get", parameters, false);
-			}
-			catch (WammerCloudException e)
-			{
-				if (e.WammerError == (int)UserTrackApiError.NoData)
-					return new ChangeLogResponse() { next_seq_num = since_seq_num, api_ret_code = 200 };
-				else
-					throw;
-			}
+			return CloudServer.request<ChangeLogResponse>(CloudServer.BaseUrl + "changelogs/get", parameters, false);
 		}
 	}
 }

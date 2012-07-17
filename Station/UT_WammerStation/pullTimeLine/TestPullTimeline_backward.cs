@@ -151,7 +151,6 @@ namespace UT_WammerStation.pullTimeLine
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First(), db.SavedPosts[0]);
 
 			// verify driver's sync range is updated
-			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.end_time);
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.start_time);
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.first_post_time);
 		}
@@ -185,7 +184,6 @@ namespace UT_WammerStation.pullTimeLine
 			timelineSyncer.PullBackward(user);
 
 			// verify driver's sync range is updated
-			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.end_time);
 			Assert.AreEqual(postInfoProvider.GetLastestPosts_return.posts.First().timestamp, db.UpdateSyncRange_syncRange.start_time);
 			Assert.IsFalse(db.UpdateSyncRange_syncRange.first_post_time.HasValue);
 		}
@@ -210,7 +208,6 @@ namespace UT_WammerStation.pullTimeLine
 				session_token = "session1",
 				sync_range = new SyncRange
 				{
-					end_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
 					start_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc),
 				},
 				groups = new List<UserGroup> {
@@ -236,7 +233,6 @@ namespace UT_WammerStation.pullTimeLine
 			// verify new start_timestamp is updated
 			Assert.AreEqual(user.user_id, db.UpdateSyncRange_userId);
 			Assert.AreEqual(oldestPost.timestamp, db.UpdateSyncRange_syncRange.start_time);
-			Assert.AreEqual(user.sync_range.end_time, db.UpdateSyncRange_syncRange.end_time);
 			Assert.IsFalse(db.UpdateSyncRange_syncRange.first_post_time.HasValue);
 		}
 
@@ -248,7 +244,6 @@ namespace UT_WammerStation.pullTimeLine
 				session_token = "session1",
 				sync_range = new SyncRange
 				{
-					end_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc),
 					start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
 				},
 				groups = new List<UserGroup> {
@@ -280,7 +275,6 @@ namespace UT_WammerStation.pullTimeLine
 				new SyncRange
 				{
 					start_time = oldestPost.timestamp,
-					end_time = user.sync_range.end_time,
 					first_post_time = oldestPost.timestamp
 				}))
 				.Verifiable();
@@ -313,7 +307,6 @@ namespace UT_WammerStation.pullTimeLine
 				session_token = "session1",
 				sync_range = new SyncRange
 				{
-					end_time = new DateTime(2012, 2, 1, 1, 1, 1, DateTimeKind.Utc),
 					start_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc)
 				},
 				groups = new List<UserGroup> {
@@ -348,7 +341,6 @@ namespace UT_WammerStation.pullTimeLine
 				sync_range = new SyncRange
 				{
 					start_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc),
-					end_time = new DateTime(2012, 2, 1, 1, 1, 1, DateTimeKind.Utc),
 					first_post_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc)
 				},
 				groups = new List<UserGroup> { new UserGroup { group_id = "group1" } },

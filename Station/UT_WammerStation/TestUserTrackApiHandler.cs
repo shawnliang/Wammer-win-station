@@ -51,7 +51,6 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					user_id = "user1",
 					sync_range = new SyncRange
 					{
-						end_time = new DateTime(2012, 4, 1, 0, 0, 0, DateTimeKind.Utc),
 						start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
 						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
 					},
@@ -98,7 +97,6 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					user_id = "user1",
 					sync_range = new SyncRange
 					{
-						end_time = new DateTime(2012, 4, 1, 0, 0, 0, DateTimeKind.Utc),
 						start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
 						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
 					},
