@@ -283,7 +283,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/getLastScan/"),
 			                          new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
 
-			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"), new UserTrackHandler(localUserTrackMgr));
+			functionServer.AddHandler(GetDefaultBathPath("/changelogs/get/"), new UserTrackHandler(localUserTrackMgr));
 
 			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),

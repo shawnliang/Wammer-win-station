@@ -14,20 +14,12 @@ namespace Wammer.Model
 		{
 		}
 
-		public UserTracks(UserTrackResponse res)
-		{
-			post_id_list = res.post_id_list;
-			group_id = res.group_id;
-			latest_timestamp = res.latest_timestamp;
-			usertrack_list = res.usertrack_list;
-		}
-
 		public UserTracks(ChangeLogResponse res)
 		{
 			post_id_list = res.post_list == null ? null : res.post_list.Select(x => x.post_id).ToList();
 			group_id = res.group_id;
-			latest_timestamp = res.latest_timestamp;
 			usertrack_list = res.changelog_list;
+			next_seq_num = res.next_seq_num;
 		}
 
 		[BsonId]
@@ -40,7 +32,7 @@ namespace Wammer.Model
 		public string group_id { get; set; }
 
 		[BsonIgnoreIfNull]
-		public DateTime latest_timestamp { get; set; }
+		public int next_seq_num { get; set; }
 
 		[BsonIgnoreIfNull]
 		public List<UserTrackDetail> usertrack_list { get; set; }

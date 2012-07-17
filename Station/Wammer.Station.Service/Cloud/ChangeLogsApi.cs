@@ -28,8 +28,10 @@ namespace Wammer.Cloud
 			                 		{"session_token", session_token},
 			                 		{"group_id", group_id},
 			                 		{"include_entities", "true"},
-			                 		{"since_seq_num", since_seq_num}
 			                 	};
+
+			if (since_seq_num >= 0)
+				parameters.Add("since_seq_num", since_seq_num);
 
 			return CloudServer.request<ChangeLogResponse>(CloudServer.BaseUrl + "changelogs/get", parameters, false);
 		}

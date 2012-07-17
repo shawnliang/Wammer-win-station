@@ -62,32 +62,32 @@ namespace Waveface
         private bool m_getAllDataError;
 
         private string m_stationIP;
-        private string m_newestUpdateTime;
+        private int m_next_seq_num;
         private string m_initSessionToken;
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
         private bool m_isPrimaryStation;
         private string m_displayType;
         private string m_delayPostText;
 
-		private CustomWindow _messageReceiver;
-		private WService _service;
+        private CustomWindow _messageReceiver;
+        private WService _service;
         #endregion
 
-		private WService m_Service
-		{
-			get
-			{
-				return _service ?? (_service = new WService());
-			}
-		}
+        private WService m_Service
+        {
+            get
+            {
+                return _service ?? (_service = new WService());
+            }
+        }
 
-		private CustomWindow m_MessageReceiver
-		{
-			get
-			{
-				return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
-			}
-		}
+        private CustomWindow m_MessageReceiver
+        {
+            get
+            {
+                return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
+            }
+        }
 
 
         #region Properties
@@ -207,15 +207,15 @@ namespace Waveface
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
-			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
+            m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
-			var timer = new Timer();
-			timer.Interval = 10 * 60 * 1000;
-			timer.Tick += (s,e) =>
-				{
-					AdjustAccountInfoButton();
-				};
-			timer.Enabled = true;
+            var timer = new Timer();
+            timer.Interval = 10 * 60 * 1000;
+            timer.Tick += (s,e) =>
+                {
+                    AdjustAccountInfoButton();
+                };
+            timer.Enabled = true;
 
             s_logger.Trace("Constructor: OK");
         }
@@ -249,45 +249,45 @@ namespace Waveface
 
             CreateLoadingImage();
 
-			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+            panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
 
-			AdjustAccountInfoButton();
+            AdjustAccountInfoButton();
 
             s_logger.Trace("Form_Load: OK");
         }
 
-		void panelTitle_AccountInfoClosed(object sender, EventArgs e)
-		{
-			AdjustAccountInfoButton();
-		}
+        void panelTitle_AccountInfoClosed(object sender, EventArgs e)
+        {
+            AdjustAccountInfoButton();
+        }
 
-		private void AdjustAccountInfoButton()
-		{
-			try
-			{
-				var response = m_Service.users_get(RT.Login.session_token, RT.Login.user.user_id);
-				var user = response.user;
+        private void AdjustAccountInfoButton()
+        {
+            try
+            {
+                var response = m_Service.users_get(RT.Login.session_token, RT.Login.user.user_id);
+                var user = response.user;
 
-				var facebook = (from item1 in response.sns
-								from item2 in user.sns
-								where item1.type == "facebook" && item2.type == "facebook"
-								select new
-								{
-									Enabled = item1.enabled,
-									SnsID = item2.snsid,
-									Status = item2.status
-								}).FirstOrDefault();
+                var facebook = (from item1 in response.sns
+                                from item2 in user.sns
+                                where item1.type == "facebook" && item2.type == "facebook"
+                                select new
+                                {
+                                    Enabled = item1.enabled,
+                                    SnsID = item2.snsid,
+                                    Status = item2.status
+                                }).FirstOrDefault();
 
-				var accessTokenExpired = facebook == null ? false : facebook.Status.Contains("disconnected");
+                var accessTokenExpired = facebook == null ? false : facebook.Status.Contains("disconnected");
 
-				panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-				panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-				panelTitle.btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
-			}
-			catch (Exception)
-			{
-			}
-		}
+                panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+                panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+                panelTitle.btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
+            }
+            catch (Exception)
+            {
+            }
+        }
 
         protected override bool ProcessCmdKey(ref Message message, Keys keys)
         {
@@ -1525,35 +1525,30 @@ namespace Waveface
                 }
                 */
 
-                string _newestUpdateTime;
+                int _next_seq_num;
 
-                if (string.IsNullOrEmpty(m_newestUpdateTime))
+                if (m_next_seq_num <= 0)
                 {
-                    _newestUpdateTime = GetNewestUpdateTimeInPosts(RT.CurrentGroupPosts);
+                    _next_seq_num = RT.CurrentGroupPosts.Max(x => x.seq_num) + 1;
                 }
                 else
                 {
-                    _newestUpdateTime = m_newestUpdateTime;
+                    _next_seq_num = m_next_seq_num;
                 }
 
-                _newestUpdateTime =
-                    DateTimeHelp.ToUniversalTime_ToISO8601(
-                        DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
-
-                MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+                MR_changelogs_get _usertracks = RT.REST.changelogs_get(_next_seq_num);
 
                 if (_usertracks != null)
                 {
-                    if (_usertracks.get_count == 0)
+                    if (_usertracks.changelog_list == null || _usertracks.post_list == null)
                     {
                         timerPolling.Enabled = true;
-
                         return;
                     }
 
-                    m_newestUpdateTime = _usertracks.latest_timestamp;
+                    m_next_seq_num = _usertracks.next_seq_num;
 
-                    foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+                    foreach (UT_UsertrackList _usertrack in _usertracks.changelog_list)
                     {
                         foreach (UT_Action _action in _usertrack.actions)
                         {
@@ -1581,7 +1576,7 @@ namespace Waveface
                         }
                     }
 
-                    string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
+                    string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
 
                     MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
@@ -1927,22 +1922,22 @@ namespace Waveface
         #endregion
 
 
-		void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
-		{
-			switch (e.Message)
-			{
-				case 0x401:
-					if (this.WindowState == FormWindowState.Minimized)
-						WindowState = FormWindowState.Normal;
+        void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
+        {
+            switch (e.Message)
+            {
+                case 0x401:
+                    if (this.WindowState == FormWindowState.Minimized)
+                        WindowState = FormWindowState.Normal;
 
-					if (!this.Visible)
-						this.Show();
+                    if (!this.Visible)
+                        this.Show();
 
-					this.TopMost = true;
-					BringWindowToTop(this.Handle);
-					this.TopMost = false;
-					break;
-			}
-		}
+                    this.TopMost = true;
+                    BringWindowToTop(this.Handle);
+                    this.TopMost = false;
+                    break;
+            }
+        }
     }
 }

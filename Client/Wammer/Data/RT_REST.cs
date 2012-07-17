@@ -80,8 +80,8 @@ namespace Waveface
 
         public MR_auth_login Auth_Login(string email, string password)
         {
-			//if (!IsNetworkAvailable)
-			//    return null;
+            //if (!IsNetworkAvailable)
+            //    return null;
 
             MR_auth_login _ret = null;
 
@@ -103,17 +103,17 @@ namespace Waveface
             return null;
         }
 
-		public void Auth_Logout(string session)
-		{
-			try
-			{
-				m_service.auth_logout(session);
-			}
-			catch (Station401Exception _e)
-			{
-				Main.Current.Station401ExceptionHandler(_e.Message);
-			}
-		}
+        public void Auth_Logout(string session)
+        {
+            try
+            {
+                m_service.auth_logout(session);
+            }
+            catch (Station401Exception _e)
+            {
+                Main.Current.Station401ExceptionHandler(_e.Message);
+            }
+        }
 
         public MR_groups_get Groups_Get(string group_id)
         {
@@ -336,14 +336,14 @@ namespace Waveface
 
             MR_fetchfilters_list _ret = null;
 
-			//try
-			//{
-			//    _ret = m_service.fetchfilters_list(SessionToken);
-			//}
-			//catch (Station401Exception _e)
-			//{
-			//    Main.Current.Station401ExceptionHandler(_e.Message);
-			//}
+            //try
+            //{
+            //    _ret = m_service.fetchfilters_list(SessionToken);
+            //}
+            //catch (Station401Exception _e)
+            //{
+            //    Main.Current.Station401ExceptionHandler(_e.Message);
+            //}
 
             if (_ret != null)
             {
@@ -664,6 +664,28 @@ namespace Waveface
             try
             {
                 _ret = m_service.usertracks_get(SessionToken, m_rt.CurrentGroupID, since);
+            }
+            catch (Station401Exception _e)
+            {
+                Main.Current.Station401ExceptionHandler(_e.Message);
+            }
+
+            if (_ret != null)
+            {
+                if (_ret.status == "200")
+                    return _ret;
+            }
+
+            return null;
+        }
+
+        public MR_changelogs_get changelogs_get(int since)
+        {
+            MR_changelogs_get _ret = null;
+
+            try
+            {
+                _ret = m_service.changelogs_get(SessionToken, m_rt.CurrentGroupID, since);
             }
             catch (Station401Exception _e)
             {

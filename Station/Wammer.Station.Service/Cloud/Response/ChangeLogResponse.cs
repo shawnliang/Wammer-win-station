@@ -8,7 +8,6 @@ namespace Wammer.Cloud
 	{
 		public string group_id { get; set; }
 		public int get_count { get; set; }
-		public DateTime latest_timestamp { get; set; }
 		public int remaining_count { get; set; }
 		public List<PostListItem> post_list { get; set; }
 		public List<AttachmentListItem> attachment_list { get; set; }
