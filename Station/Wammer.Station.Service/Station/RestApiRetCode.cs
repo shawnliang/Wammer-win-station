@@ -53,6 +53,17 @@
 		AlreadyConnectToOtherSNSAccount = Base + 4
 	}
 
+	public enum UserTrackApiError
+	{
+		Base = 0x0000B000,
+		PermissionDenied = Base + 1,
+		InvalidParamIncludeEntities = Base + 2,
+		InvalidParamSinceSeqNum = Base + 3,
+		TooManyUserTracks = Base + 4,
+		NoData = Base + 5,
+		InvalidParamSince = Base + 6
+	}
+
 	public enum PostApiError
 	{
 		Base = 0x3000,

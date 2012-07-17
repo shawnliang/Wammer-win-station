@@ -54,6 +54,12 @@ namespace UT_WammerStation.pullTimeLine
 
 			return this.RetrievePosts_return;
 		}
+
+
+		public PostResponse GetPostsBySeq(Driver user, int seq, int limit)
+		{
+			throw new NotImplementedException();
+		}
 	}
 
 	class DummyTimelineSyncerDB : ITimelineSyncerDB

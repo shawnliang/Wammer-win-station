@@ -98,6 +98,7 @@
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
     <Compile Include="LocalUserTrack\TestLocalUTMgr.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline_oldChangeLogs.cs" />
     <Compile Include="TestHidePostHandler.cs" />
     <Compile Include="TestMongoDB.cs" />
     <Compile Include="TestNewPostCommandHandler.cs" />

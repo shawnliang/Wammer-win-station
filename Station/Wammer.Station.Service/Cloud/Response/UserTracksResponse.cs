@@ -40,6 +40,9 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public List<UserTrackAction> actions { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int seq_num { get; set; }
 	}
 
 	public class UserTrackResponse : CloudResponse

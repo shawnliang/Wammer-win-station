@@ -10,6 +10,7 @@ namespace Wammer.Station.Timeline
 	{
 		PostResponse GetLastestPosts(Driver user, int limit);
 		PostResponse GetPostsBefore(Driver user, DateTime before, int limit);
+		PostResponse GetPostsBySeq(Driver user, int seq, int limit);
 		List<PostInfo> RetrievePosts(Driver user, List<string> posts);
 	}
 
@@ -178,18 +179,55 @@ namespace Wammer.Station.Timeline
 
 		private void PullOldChangeLog(Driver user)
 		{
-			var api = new ChangeLogsApi();
-			int since_seq_num = 0;
-			ChangeLogResponse res;
+			int since_seq_num = 1;
+			ChangeLogResponse res = new ChangeLogResponse { post_list = new List<PostListItem>() };
 
-			do
+			try
 			{
-				res = api.GetChangeHistory(user, since_seq_num);
+				do
+				{
+					res = changelogs.GetChangeHistory(user, since_seq_num);
 
-				db.SaveUserTracks(new UserTracks(res));
-				since_seq_num = res.next_seq_num;
+					db.SaveUserTracks(new UserTracks(res));
+					since_seq_num = res.next_seq_num;
 
-			} while (res.remaining_count > 0);
+				} while (res.remaining_count > 0);
+			}
+			catch (WammerCloudException e)
+			{
+				if (e.WammerError != (int)UserTrackApiError.TooManyUserTracks)
+					throw;
+
+
+				PostResponse result = null;
+
+				do
+				{
+					result = postProvider.GetPostsBySeq(user, since_seq_num, 100);
+
+					if (result.posts != null)
+					{
+						foreach (var post in result.posts)
+						{
+							db.SavePost(post);
+							if (post.seq_num >= since_seq_num)
+								since_seq_num = post.seq_num + 1;
+						}
+
+						OnPostsRetrieved(user, result.posts);
+					}
+
+				} while (result.HasMoreData);
+
+
+				SyncRange range = user.sync_range.Clone();
+				range.next_seq_num = since_seq_num;
+				db.UpdateDriverSyncRange(user.user_id, range);
+				db.UpdateDriverChangeHistorySynced(user.user_id, true);
+
+				return;
+			}
+
 
 			// Last user track response could contain unsynced posts.
 			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_list.Select(x=>x.post_id).ToList());

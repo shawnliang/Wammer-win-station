@@ -302,5 +302,8 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public string cover_attach { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int seq_num { get; set; }
 	}
 }

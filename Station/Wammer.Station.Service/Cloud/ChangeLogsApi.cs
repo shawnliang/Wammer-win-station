@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wammer.Model;
+using Wammer.Station;
 
 namespace Wammer.Cloud
 {
@@ -36,8 +37,8 @@ namespace Wammer.Cloud
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.InnerException is ArgumentOutOfRangeException)
-					return new ChangeLogResponse() { group_id = group_id };
+				if (e.WammerError == (int)UserTrackApiError.NoData)
+					return new ChangeLogResponse() { next_seq_num = since_seq_num, api_ret_code = 200 };
 				else
 					throw;
 			}
