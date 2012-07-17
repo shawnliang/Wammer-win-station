@@ -320,7 +320,7 @@ namespace Wammer.Station.Service
 			var syncer = new TimelineSyncer(
 				new PostProvider(),
 				new TimelineSyncerDBWithDriverCached(e.Driver),
-				new UserTracksApi()
+				new ChangeLogsApi()
 				);
 
 			List<PostInfo> posts = new List<PostInfo>();

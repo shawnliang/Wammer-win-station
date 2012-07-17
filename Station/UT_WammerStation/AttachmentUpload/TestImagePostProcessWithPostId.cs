@@ -64,7 +64,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Moq.Mock<IAttachmentUtil> mock = new Moq.Mock<IAttachmentUtil>(MockBehavior.Strict);
 			mock.Setup(x => x.FindAttachmentInDB(oldAtt.object_id)).Returns(oldAtt).Verifiable();
 			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
-			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Medium, Wammer.Station.TaskPriority.Low)).Verifiable();
+			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Medium, Wammer.Station.TaskPriority.VeryLow)).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, Wammer.Station.TaskPriority.Medium));
 			
 			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);

@@ -24,14 +24,14 @@ namespace Wammer.Station.Timeline
 	public class TimelineSyncer
 	{
 		private readonly ITimelineSyncerDB db;
+		private readonly IChangeLogsApi changelogs;
 		private readonly IPostProvider postProvider;
-		private readonly IUserTrackApi userTrack;
 
-		public TimelineSyncer(IPostProvider postProvider, ITimelineSyncerDB db, IUserTrackApi userTrack)
+		public TimelineSyncer(IPostProvider postProvider, ITimelineSyncerDB db, IChangeLogsApi changelogs)
 		{
 			this.postProvider = postProvider;
 			this.db = db;
-			this.userTrack = userTrack;
+			this.changelogs = changelogs;
 		}
 
 		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
@@ -61,16 +61,18 @@ namespace Wammer.Station.Timeline
 
 			if (res.posts.Count > 0)
 			{
-				db.UpdateDriverSyncRange(user.user_id, new SyncRange
-				                                       	{
-				                                       		start_time = res.posts.Last().timestamp,
-				                                       		end_time =
-				                                       			(user.sync_range == null)
-				                                       				? res.posts.First().timestamp
-				                                       				: user.sync_range.end_time,
-				                                       		first_post_time =
-				                                       			(res.HasMoreData) ? null as DateTime? : res.posts.Last().timestamp
-				                                       	});
+				var range = new SyncRange
+					{
+						start_time = res.posts.Min(x => x.timestamp),
+						end_time =
+							(user.sync_range == null)
+								? res.posts.Max(x => x.timestamp)
+								: user.sync_range.end_time,
+						first_post_time =
+							(res.HasMoreData) ? null as DateTime? : res.posts.Min(x => x.timestamp)
+					};
+
+				db.UpdateDriverSyncRange(user.user_id, range);
 			}
 
 		}
@@ -88,32 +90,30 @@ namespace Wammer.Station.Timeline
 			if (user.sync_range == null || user.sync_range.end_time == DateTime.MinValue)
 				throw new InvalidOperationException("Should call PullBackward() first");
 
-			DateTime since = user.sync_range.end_time;
-
-			var res = userTrack.GetChangeHistory(user, since);
+			var res = changelogs.GetChangeHistory(user, user.sync_range.next_seq_num);
 			db.SaveUserTracks(new UserTracks(res));
 
 			ProcChangedPosts(user, res);
 			ProcNewAttachments(res);
 		}
 
-		private void ProcChangedPosts(Driver user, UserTrackResponse res)
+		private void ProcChangedPosts(Driver user, ChangeLogResponse res)
 		{
 			var post_id_set = new HashSet<string>();
 
-			if (res.usertrack_list != null)
+			if (res.changelog_list != null)
 			{
-				var postIds = res.usertrack_list.Where(x => x.target_type == "attachment" && x.actions[0].target_type == "image.medium").
+				var postIds = res.changelog_list.Where(x => x.target_type == "attachment" && x.actions[0].target_type == "image.medium").
 					Select(x => x.actions[0].post_id);
 
 				foreach (var postId in postIds)
 					post_id_set.Add(postId);
 			}
 
-			if (res.post_id_list != null)
+			if (res.post_list != null)
 			{
-				foreach (var postId in res.post_id_list)
-					post_id_set.Add(postId);
+				foreach (var postItem in res.post_list)
+					post_id_set.Add(postItem.post_id);
 			}
 
 
@@ -130,17 +130,18 @@ namespace Wammer.Station.Timeline
 				                         	{
 				                         		start_time = user.sync_range.start_time,
 				                         		end_time = res.latest_timestamp,
+												next_seq_num = res.next_seq_num,
 				                         		first_post_time = user.sync_range.first_post_time,
 				                         	});
 			}
 		}
 
-		private void ProcNewAttachments(UserTrackResponse res)
+		private void ProcNewAttachments(ChangeLogResponse res)
 		{
-			if (res.usertrack_list == null)
+			if (res.changelog_list == null)
 				return;
 
-			foreach (UserTrackDetail track in res.usertrack_list)
+			foreach (UserTrackDetail track in res.changelog_list)
 			{
 				if (track.target_type == "attachment" &&
 				    track.actions != null)
@@ -177,28 +178,28 @@ namespace Wammer.Station.Timeline
 
 		private void PullOldChangeLog(Driver user)
 		{
-			var api = new UserTracksApi();
-			DateTime since = DateTime.MinValue;
-
-			UserTrackResponse res;
+			var api = new ChangeLogsApi();
+			int since_seq_num = 0;
+			ChangeLogResponse res;
 
 			do
 			{
-				res = api.GetChangeHistory(user, since);
+				res = api.GetChangeHistory(user, since_seq_num);
 
 				db.SaveUserTracks(new UserTracks(res));
-				since = res.latest_timestamp.AddSeconds(1.0);
-			} while (since <= user.sync_range.end_time);
+				since_seq_num = res.next_seq_num;
+
+			} while (res.remaining_count > 0);
 
 			// Last user track response could contain unsynced posts.
-			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_id_list);
+			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_list.Select(x=>x.post_id).ToList());
 			foreach (PostInfo post in newPosts)
 				db.SavePost(post);
 
 			OnPostsRetrieved(user, newPosts);
 
 			SyncRange newSyncRange = user.sync_range.Clone();
-			newSyncRange.end_time = since;
+			newSyncRange.next_seq_num = res.next_seq_num;
 			db.UpdateDriverSyncRange(user.user_id, newSyncRange);
 			db.UpdateDriverChangeHistorySynced(user.user_id, true);
 		}

@@ -114,6 +114,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute\APIHandlerInfoAttribute.cs" />
+    <Compile Include="Cloud\ChangeLogsApi.cs" />
+    <Compile Include="Cloud\Response\ChangeLogResponse.cs" />
     <Compile Include="Enum\APIHandlerType.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\GenericData.cs" />

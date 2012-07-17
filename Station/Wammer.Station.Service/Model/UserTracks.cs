@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -19,6 +20,14 @@ namespace Wammer.Model
 			group_id = res.group_id;
 			latest_timestamp = res.latest_timestamp;
 			usertrack_list = res.usertrack_list;
+		}
+
+		public UserTracks(ChangeLogResponse res)
+		{
+			post_id_list = res.post_list == null ? null : res.post_list.Select(x => x.post_id).ToList();
+			group_id = res.group_id;
+			latest_timestamp = res.latest_timestamp;
+			usertrack_list = res.changelog_list;
 		}
 
 		[BsonId]

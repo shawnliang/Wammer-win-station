@@ -132,7 +132,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new ChangeLogsApi());
 			timelineSyncer.PullBackward(user);
 			
 			// verify posts/getLatest cloud API is queried
@@ -175,7 +175,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new ChangeLogsApi());
 			timelineSyncer.PullBackward(user);
 
 			// verify driver's sync range is updated
@@ -214,7 +214,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new ChangeLogsApi());
 			timelineSyncer.PullBackward(user);
 
 			//verify call get posts from prev's timestamp
@@ -237,18 +237,6 @@ namespace UT_WammerStation.pullTimeLine
 		[TestMethod]
 		public void PullTimelineFromPrevTimestamp_NoMoreData()
 		{
-			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
-
-			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3, 3, 4, 5, DateTimeKind.Utc), post_id = "post1" };
-
-			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
-			{
-				get_count = 1,
-				remaining_count = 0,
-				group_id = "group1",
-				posts = new List<PostInfo> { oldestPost }
-			};
-
 			Driver user = new Driver
 			{
 				session_token = "session1",
@@ -256,7 +244,6 @@ namespace UT_WammerStation.pullTimeLine
 				{
 					end_time = new DateTime(2012, 2, 1, 0, 0, 0, DateTimeKind.Utc),
 					start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-
 				},
 				groups = new List<UserGroup> {
 						 					   new UserGroup { group_id = "group1" }
@@ -264,15 +251,40 @@ namespace UT_WammerStation.pullTimeLine
 				user_id = "user1"
 			};
 
-			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
-			timelineSyncer.PullBackward(user);
+			Moq.Mock<IPostProvider> postInfo = new Moq.Mock<IPostProvider>(Moq.MockBehavior.Strict);
 
-			// verify new start_timestamp is updated
-			Assert.AreEqual(user.user_id, db.UpdateSyncRange_userId);
-			Assert.AreEqual(oldestPost.timestamp, db.UpdateSyncRange_syncRange.start_time);
-			Assert.AreEqual(user.sync_range.end_time, db.UpdateSyncRange_syncRange.end_time);
-			Assert.AreEqual(oldestPost.timestamp, db.UpdateSyncRange_syncRange.first_post_time);
+			PostInfo oldestPost = new PostInfo
+			{
+				timestamp = new DateTime(2012,2,3, 3, 4, 5, DateTimeKind.Utc),
+				post_id = "post1"
+			};
+
+			postInfo.Setup(x => x.GetPostsBefore(user, user.sync_range.start_time, Moq.It.IsAny<int>()))
+				.Returns(new PostFetchByFilterResponse
+						{
+							get_count = 1,
+							remaining_count = 0,
+							group_id = "group1",
+							posts = new List<PostInfo> { oldestPost }
+						})
+				.Verifiable();
+
+			Moq.Mock<ITimelineSyncerDB> db = new Moq.Mock<ITimelineSyncerDB>(Moq.MockBehavior.Strict);
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id,
+				new SyncRange
+				{
+					start_time = oldestPost.timestamp,
+					end_time = user.sync_range.end_time,
+					first_post_time = oldestPost.timestamp
+				}))
+				.Verifiable();
+			db.Setup(x => x.SavePost(oldestPost)).Verifiable();
+
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfo.Object, db.Object, new ChangeLogsApi());
+			timelineSyncer.PullBackward(user);
+			
+			db.VerifyAll();
+			postInfo.VerifyAll();
 		}
 
 		[TestMethod]
@@ -305,7 +317,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new ChangeLogsApi());
 			timelineSyncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(timelineSyncer_PostsRetrieved);
 			timelineSyncer.PullBackward(user);
 
@@ -338,7 +350,7 @@ namespace UT_WammerStation.pullTimeLine
 			};
 
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new UserTracksApi());
+			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new ChangeLogsApi());
 			timelineSyncer.PullBackward(user);
 		}
 	}

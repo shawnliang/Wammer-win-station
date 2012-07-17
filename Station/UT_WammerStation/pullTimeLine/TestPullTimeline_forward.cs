@@ -34,7 +34,7 @@ namespace UT_WammerStation.pullTimeLine
 		public void CannotPullForwardIfPullBackwardIsEverCalled()
 		{
 			TimelineSyncer syncer = new TimelineSyncer(
-				new DummyPostInfoProvider(), new DummyTimelineSyncerDB(), new UserTracksApi());
+				new DummyPostInfoProvider(), new DummyTimelineSyncerDB(), new ChangeLogsApi());
 
 			syncer.PullForward(new Driver
 				{
@@ -50,7 +50,7 @@ namespace UT_WammerStation.pullTimeLine
 		public void CannotPullForwardIfPullBackwardIsEverCalled2()
 		{
 			TimelineSyncer syncer = new TimelineSyncer(
-				new DummyPostInfoProvider(), new DummyTimelineSyncerDB(), new UserTracksApi());
+				new DummyPostInfoProvider(), new DummyTimelineSyncerDB(), new ChangeLogsApi());
 
 			syncer.PullForward(new Driver
 			{
@@ -140,12 +140,12 @@ namespace UT_WammerStation.pullTimeLine
 		[TestMethod]
 		public void DoNothingIfNoUpdate()
 		{
-			DateTime since = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc);
+			int since = 1000;
 
 			DummyPostInfoProvider postInfo = new DummyPostInfoProvider();
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
-			Mock<IUserTrackApi> api = new Mock<IUserTrackApi>();
-			api.Setup(x => x.GetChangeHistory(It.IsAny<Driver>(), since)).Returns(new UserTrackResponse() { group_id = this.groups[0].group_id });
+			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>();
+			api.Setup(x => x.GetChangeHistory(It.IsAny<Driver>(), since)).Returns(new ChangeLogResponse { group_id = this.groups[0].group_id });
 
 			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, api.Object);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
@@ -155,7 +155,7 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() { end_time = since },
+				sync_range = new SyncRange() { end_time = DateTime.UtcNow, next_seq_num = since },
 				session_token = "token",
 				groups = this.groups
 			};
@@ -169,16 +169,17 @@ namespace UT_WammerStation.pullTimeLine
 		[TestMethod]
 		public void newBodyIsAvailable()
 		{
-			DateTime since = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc);
+			//DateTime since = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc);
+			int since = 1000;
 
 			Mock<IPostProvider> postProvider = new Mock<IPostProvider>(MockBehavior.Strict);
 			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
-			Mock<IUserTrackApi> utApi = new Mock<IUserTrackApi>(MockBehavior.Strict);
+			Mock<IChangeLogsApi> utApi = new Mock<IChangeLogsApi>(MockBehavior.Strict);
 
 			utApi.Setup(x => x.GetChangeHistory(It.IsAny<Driver>(), since)).
-				Returns(new UserTrackResponse
+				Returns(new ChangeLogResponse
 				{
-					usertrack_list = new List<UserTrackDetail> {
+					changelog_list = new List<UserTrackDetail> {
 						new UserTrackDetail 
 						{ 
 							target_type = "attachment",
@@ -207,10 +208,12 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() {
+				sync_range = new SyncRange()
+				{
 					start_time = DateTime.UtcNow,
 					first_post_time = DateTime.UtcNow,
-					end_time= since
+					end_time = DateTime.UtcNow,
+					next_seq_num = since
 				},
 				is_change_history_synced = true,
 				session_token = "token",
@@ -232,18 +235,22 @@ namespace UT_WammerStation.pullTimeLine
 		}
 	}
 
-	class FakeUserTracksApi: IUserTrackApi
+	class FakeUserTracksApi: IChangeLogsApi
 	{
-		public UserTrackResponse GetChangeHistory(Wammer.Model.Driver user, DateTime since)
+		public ChangeLogResponse GetChangeHistory(Wammer.Model.Driver user, int since)
 		{
 			Assert.AreEqual("token", user.session_token);
 
-			return new UserTrackResponse()
+			return new ChangeLogResponse()
 			{
 				get_count = 3,
 				group_id = "group1",
 				latest_timestamp = new DateTime(2012, 2, 2, 13, 23, 42, DateTimeKind.Utc),
-				post_id_list = new List<string> { "post1", "post2", "post3" }
+				post_list = new List<PostListItem> { 
+								new PostListItem { post_id = "post1"},
+								new PostListItem { post_id = "post2"},
+								new PostListItem { post_id = "post3"}
+				}
 			};
 		}
 	}
