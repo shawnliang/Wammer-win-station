@@ -119,7 +119,7 @@ namespace Wammer.Cloud
 			{
 				string tempFile = Guid.NewGuid().ToString();
 				agent.DownloadFile(metadata.redirect_to, tempFile, true, progressChangedCallBack);
-
+				contentType = agent.ResponseHeaders["Content-type"];
 				File.Move(tempFile, file);
 			}
 		}
