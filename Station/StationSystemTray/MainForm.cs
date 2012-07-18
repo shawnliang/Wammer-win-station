@@ -838,6 +838,10 @@ namespace StationSystemTray
 			{
 				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
+			catch (VersionNotSupportedException)
+			{
+				handleVersionNotSupported();
+			}
 			catch (Exception)
 			{
 				MessageBox.Show(Resources.UnknownSigninError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -886,6 +890,10 @@ namespace StationSystemTray
 				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
+			catch (VersionNotSupportedException)
+			{
+				handleVersionNotSupported();
+			}
 			catch (Exception e)
 			{
 				MessageBox.Show(Resources.LogInError + Environment.NewLine + e.Message, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -897,6 +905,23 @@ namespace StationSystemTray
 			}
 
 			return false;
+		}
+
+		private static void handleVersionNotSupported()
+		{
+			var result = MessageBox.Show(Resources.NeedToUpgrade, Resources.APP_NAME, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+			if (result == System.Windows.Forms.DialogResult.OK)
+			{
+				var updator = new AppLimit.NetSparkle.Sparkle(SettingDialog.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+				updator.ApplicationIcon = Resources.software_update_available;
+				updator.ApplicationWindowIcon = Resources.UpdateAvailable;
+
+				AppLimit.NetSparkle.NetSparkleAppCastItem _lastVersion;
+				if (updator.IsUpdateRequired(updator.GetApplicationConfig(), out _lastVersion))
+					updator.ShowUpdateNeededUI(_lastVersion);
+				else
+					MessageBox.Show(Resources.ALREAD_UPDATED, Resources.APP_NAME);
+			}
 		}
 
 		private void LaunchClient(string sessionToken)
@@ -1008,53 +1033,53 @@ namespace StationSystemTray
 
 				string signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
 				var postData = new FBPostData
-				               	{
-				               		device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
-				               		device_name = Environment.MachineName,
-				               		device = "windows",
-				               		api_key = CLIENT_API_KEY,
-				               		xurl =
-				               			string.Format(
-				               				"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s",
-				               				signUpUrl),
-				               		locale = Thread.CurrentThread.CurrentCulture.ToString()
-				               	};
+								{
+									device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+									device_name = Environment.MachineName,
+									device = "windows",
+									api_key = CLIENT_API_KEY,
+									xurl =
+										string.Format(
+											"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s",
+											signUpUrl),
+									locale = Thread.CurrentThread.CurrentCulture.ToString()
+								};
 
 				var browser = new WebBrowser
-				              	{
-				              		WebBrowserShortcutsEnabled = false,
-				              		IsWebBrowserContextMenuEnabled = false,
-				              		Dock = DockStyle.Fill
-				              	};
+								{
+									WebBrowserShortcutsEnabled = false,
+									IsWebBrowserContextMenuEnabled = false,
+									Dock = DockStyle.Fill
+								};
 
 				var dialog = new Form
-				             	{
-				             		Width = 750,
-				             		Height = 600,
-				             		Text = Resources.SIGNUP_PAGE_TITLE,
-				             		StartPosition = FormStartPosition.CenterParent,
-				             		Icon = Icon
-				             	};
+								{
+									Width = 750,
+									Height = 600,
+									Text = Resources.SIGNUP_PAGE_TITLE,
+									StartPosition = FormStartPosition.CenterParent,
+									Icon = Icon
+								};
 				dialog.Controls.Add(browser);
 
 				//MessageBox.Show("callBackPattern: " + string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"));
 
 				browser.Navigated += (s, ex) =>
-				                     	{
-				                     		var url = browser.Url;
+										{
+											var url = browser.Url;
 
 											//MessageBox.Show("url: " + url);
-				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
-				                     		                  RegexOptions.IgnoreCase))
-				                     		{
-				                     			dialog.DialogResult = DialogResult.OK;
-				                     		}
-				                     	};
+											if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
+															  RegexOptions.IgnoreCase))
+											{
+												dialog.DialogResult = DialogResult.OK;
+											}
+										};
 
 				browser.Navigate(m_SignUpUrl,
-				                 string.Empty,
-				                 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
-				                 "Content-Type: application/json");
+								 string.Empty,
+								 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
+								 "Content-Type: application/json");
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
@@ -1095,9 +1120,9 @@ namespace StationSystemTray
 
 						UserStation station = GetPrimaryStation(res.Stations);
 						lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-						                                         (station == null) ? "None" : station.computer_name);
+																 (station == null) ? "None" : station.computer_name);
 						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-						                                           (station == null) ? "None" : station.computer_name);
+																   (station == null) ? "None" : station.computer_name);
 
 						//Show welcome msg
 						GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
@@ -1135,6 +1160,10 @@ namespace StationSystemTray
 				if (!IsDisposed)
 					Show();
 				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (VersionNotSupportedException)
+			{
+				handleVersionNotSupported();
 			}
 			catch (Exception)
 			{
@@ -1384,49 +1413,49 @@ namespace StationSystemTray
 				Hide();
 				string fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
 				var postData = new FBPostData
-				               	{
-				               		device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
-				               		device_name = Environment.MachineName,
-				               		device = "windows",
-				               		api_key = CLIENT_API_KEY,
-				               		xurl =
-				               			string.Format(
-				               				"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s",
-				               				fbLoginUrl),
-				               		locale = Thread.CurrentThread.CurrentCulture.ToString()
-				               	};
+								{
+									device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+									device_name = Environment.MachineName,
+									device = "windows",
+									api_key = CLIENT_API_KEY,
+									xurl =
+										string.Format(
+											"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s",
+											fbLoginUrl),
+									locale = Thread.CurrentThread.CurrentCulture.ToString()
+								};
 
 				var browser = new WebBrowser
-				              	{
-				              		WebBrowserShortcutsEnabled = false,
-				              		IsWebBrowserContextMenuEnabled = false,
-				              		Dock = DockStyle.Fill
-				              	};
+								{
+									WebBrowserShortcutsEnabled = false,
+									IsWebBrowserContextMenuEnabled = false,
+									Dock = DockStyle.Fill
+								};
 
 				var dialog = new Form
-				             	{
-				             		Width = 750,
-				             		Height = 600,
-				             		Text = Text,
-				             		StartPosition = FormStartPosition.CenterParent,
-				             		Icon = Icon
-				             	};
+								{
+									Width = 750,
+									Height = 600,
+									Text = Text,
+									StartPosition = FormStartPosition.CenterParent,
+									Icon = Icon
+								};
 				dialog.Controls.Add(browser);
 
 				browser.Navigated += (s, ex) =>
-				                     	{
-				                     		Uri url = browser.Url;
-				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
-				                     		                  RegexOptions.IgnoreCase))
-				                     		{
-				                     			dialog.DialogResult = DialogResult.OK;
-				                     		}
-				                     	};
+										{
+											Uri url = browser.Url;
+											if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
+															  RegexOptions.IgnoreCase))
+											{
+												dialog.DialogResult = DialogResult.OK;
+											}
+										};
 
 				browser.Navigate(m_FBLoginUrl,
-				                 string.Empty,
-				                 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
-				                 "Content-Type: application/json");
+								 string.Empty,
+								 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
+								 "Content-Type: application/json");
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
@@ -1453,9 +1482,9 @@ namespace StationSystemTray
 
 						UserStation station = GetPrimaryStation(res.Stations);
 						lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-						                                         (station == null) ? "None" : station.computer_name);
+																 (station == null) ? "None" : station.computer_name);
 						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-						                                           (station == null) ? "None" : station.computer_name);
+																   (station == null) ? "None" : station.computer_name);
 
 						//Show welcome msg
 						GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
@@ -1470,7 +1499,7 @@ namespace StationSystemTray
 				}
 				if (!IsDisposed)
 					Show();
-			}			
+			}
 			catch (AuthenticationException)
 			{
 				if (!IsDisposed)
@@ -1491,6 +1520,10 @@ namespace StationSystemTray
 				if (!IsDisposed)
 					Show();
 				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (VersionNotSupportedException)
+			{
+				handleVersionNotSupported();
 			}
 			catch (Exception)
 			{

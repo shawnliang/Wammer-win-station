@@ -27,6 +27,9 @@ namespace Wammer.Station.APIHandler
 		/// </summary>
 		public override void HandleRequest()
 		{
+			if (CloudServer.VersionNotCompatible)
+				throw new WammerStationException("Version not supported", (int)GeneralApiError.NotSupportClient);
+
 			CheckParameter("group_id");
 
 			bool include_entities = "true" == Parameters["include_entities"];

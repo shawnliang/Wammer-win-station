@@ -186,6 +186,9 @@
   <data name="MonthlyUsage_Unlimited" xml:space="preserve">
     <value>無上限</value>
   </data>
+  <data name="NeedToUpgrade" xml:space="preserve">
+    <value>[TBD] 喔喔~ 您的Stream得先更新版本才能繼續使用。現在更新嗎？</value>
+  </data>
   <data name="NetworkConnected" xml:space="preserve">
     <value>網路連線</value>
   </data>

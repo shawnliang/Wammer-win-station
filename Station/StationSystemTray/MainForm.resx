@@ -10184,9 +10184,6 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   <data name="loginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="loginButton1.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>110, 40</value>
-  </data>
   <data name="loginButton1.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 40</value>
   </data>
@@ -10273,7 +10270,7 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
         RudN65tdA8sHzg46DF645Xrr8m2v29fvrLwzMBQydHc4cnjkLvvu5L2key/vZ9yff7DpIfph4SOpR+WP
         lR7X/aj3Y+uI5ciZUdfRvidBTx6Mscae/5T+04fx/Kfkp+UTqhONk2aTp6fcp24+W/1s/Hnq8/npgp+l
         f65+ofviu18cf+mbWTUz/pL/cuHX4lfyr468Xva6e9Z/9vGb5Dfzc4Vv5d8efcd41/s+7P3EfOYH7IeK
-        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAALEAAACxABrSO9dQAADGBJREFUeF7tnM+KZEkV
+        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAALDwAACw8BkvkDpQAADGBJREFUeF7tnM+KZEkV
         xusRsvciSQuCIpjYCDIgpjiu3OSmcZurWdeut7lsUEkZGbQdNB1w1f4pcUbGsYR8gYZ8gibfoPMR0vO7
         xHc9eTpO5K2pYrqavovDjRtxznf+fRFxsxr64ng8Xozy7tZgbP47vgFuTYCffvLfiyATe1+arE22Tnhn
         flqxiRjj++t1rdbktqf3XRKAxm9MjgMEPfTHRt+yBveFADNr5qHR+J2tIZ4c6GM3kuAWNbgPBGAnZ81n
