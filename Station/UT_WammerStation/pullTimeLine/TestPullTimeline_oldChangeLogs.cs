@@ -111,7 +111,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
 			api.Setup(x => x.GetChangeHistory(user, 1)).Throws(
-				new WammerCloudException("error", "error", (int)Wammer.Station.UserTrackApiError.TooManyUserTracks))
+				new WammerCloudException("error", "error", (int)Wammer.Station.UserTrackApiError.SeqNumPurged))
 				.Verifiable();
 
 			Mock<IPostProvider> postProvider = new Mock<IPostProvider>(MockBehavior.Strict);

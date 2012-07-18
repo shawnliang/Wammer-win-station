@@ -134,7 +134,7 @@ namespace UT_WammerStation.pullTimeLine
 
 			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
 			api.Setup(x => x.GetChangeHistory(user, user.sync_range.next_seq_num))
-				.Throws(new WammerCloudException("", "", (int)Wammer.Station.UserTrackApiError.TooManyUserTracks))
+				.Throws(new WammerCloudException("", "", (int)Wammer.Station.UserTrackApiError.SeqNumPurged))
 				.Verifiable();
 
 			Mock<IPostProvider> postInfo = new Mock<IPostProvider>(MockBehavior.Strict);

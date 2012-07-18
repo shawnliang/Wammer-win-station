@@ -97,7 +97,7 @@ namespace Wammer.Station.Timeline
 			}
 			catch(WammerCloudException e)
 			{
-				if (e.WammerError == (int)Wammer.Station.UserTrackApiError.TooManyUserTracks)
+				if (e.WammerError == (int)Wammer.Station.UserTrackApiError.SeqNumPurged)
 				{
 					int next_seq = RetrieveAllPostsBySeq(user, user.sync_range.next_seq_num);
 					UpdateDBForUserTrackBackFilled(user, next_seq);
@@ -203,7 +203,7 @@ namespace Wammer.Station.Timeline
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.WammerError == (int)UserTrackApiError.TooManyUserTracks)
+				if (e.WammerError == (int)UserTrackApiError.SeqNumPurged)
 				{
 					int next_seq_num = RetrieveAllPostsBySeq(user, since_seq_num);
 					UpdateDBForUserTrackBackFilled(user, next_seq_num);

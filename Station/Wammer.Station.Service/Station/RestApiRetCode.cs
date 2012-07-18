@@ -59,9 +59,10 @@
 		PermissionDenied = Base + 1,
 		InvalidParamIncludeEntities = Base + 2,
 		InvalidParamSinceSeqNum = Base + 3,
-		TooManyUserTracks = Base + 4,
+		SeqNumPurged = Base + 4,
 		NoData = Base + 5,
-		InvalidParamSince = Base + 6
+		InvalidParamSince = Base + 6,
+		TooManyRecord = Base + 7
 	}
 
 	public enum PostApiError
