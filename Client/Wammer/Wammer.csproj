@@ -127,8 +127,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\AccountInfo.cs" />
     <Compile Include="Class\CustomWindow.cs" />
+    <Compile Include="Class\UserInfo.cs" />
     <Compile Include="Component\Analogclock.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -117,7 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ALREAD_UPDATED" xml:space="preserve">
     <value>You currently have the latest version of Stream installed.</value>
@@ -147,6 +146,9 @@
   <data name="CleanResourceMsg" xml:space="preserve">
     <value>Are you sure you want to remove {0}  account from this computer?</value>
   </data>
+  <data name="CLOSE_BUTTON_TEXT" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="ConnectCloudError" xml:space="preserve">
     <value>Unable to connect to Stream server</value>
   </data>
@@ -170,6 +172,9 @@
   </data>
   <data name="fb_btn_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fb_btn_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_CONNECT_PAGE_TITLE" xml:space="preserve">
+    <value>Connect with Facebook - Stream</value>
   </data>
   <data name="fb_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fb_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -219,6 +224,9 @@
   <data name="NetworkDisconnected" xml:space="preserve">
     <value>Network disconnected</value>
   </data>
+  <data name="NEXT_BUTTON_TEXT" xml:space="preserve">
+    <value>Next</value>
+  </data>
   <data name="NoData" xml:space="preserve">
     <value>---</value>
   </data>
@@ -236,6 +244,9 @@
   </data>
   <data name="PausingWFService" xml:space="preserve">
     <value>Pausing sync...</value>
+  </data>
+  <data name="PREVIOUS_BUTTON_TEXT" xml:space="preserve">
+    <value>Previous</value>
   </data>
   <data name="QuitWFService" xml:space="preserve">
     <value>Quit</value>
@@ -339,5 +350,17 @@
   </data>
   <data name="WFServiceSyncing" xml:space="preserve">
     <value>Sync in progress</value>
+  </data>
+  <data name="windows_en_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\windows_en_1.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="windows_en_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\windows_en_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="windows_zh-tw_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\windows_zh-tw_1.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="windows_zh-tw_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\windows_zh-tw_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -209,14 +209,6 @@ namespace Waveface
 
 			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
-			//var timer = new Timer();
-			//timer.Interval = 10 * 60 * 1000;
-			//timer.Tick += (s,e) =>
-			//    {
-			//        AdjustAccountInfoButton();
-			//    };
-			//timer.Enabled = true;
-
             s_logger.Trace("Constructor: OK");
         }
 
@@ -265,16 +257,15 @@ namespace Waveface
 		{
 			try
 			{
-				var response = m_Service.users_get(RT.Login.session_token, RT.Login.user.user_id);
-				var user = response.user;
+				var userInfo = UserInfo.Instance;
 
 				var accessTokenExpired = false;
 
-				if ((response.sns != null && user.sns != null))
+				if ((userInfo.SNS1 != null && userInfo.SNS2 != null))
 				{
-					var facebook = (from item1 in response.sns
+					var facebook = (from item1 in userInfo.SNS1
 									where item1 != null && item1.type == "facebook"
-									from item2 in user.sns
+									from item2 in userInfo.SNS2
 									where item2 != null && item2.type == "facebook"
 									select new
 									{

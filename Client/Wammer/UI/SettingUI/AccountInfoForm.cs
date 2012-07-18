@@ -81,13 +81,17 @@ namespace Waveface
 		{
 			get
 			{
- 				return _service ?? (_service = new WService());
+				return _service ?? (_service = new WService());
 			}
 		}
 
 		private string m_SessionToken { get; set; }
 
 		private string m_UserID { get; set; }
+
+		private string m_OriginalName { get; set; }
+
+		private Boolean m_OriginalSubscribed { get; set; }
 		#endregion
 
 
@@ -195,37 +199,38 @@ namespace Waveface
 
 
 		#region Public Method
-		public void Update(Boolean checkAccessTokenExpired = false)
+		public void Update(Boolean isDialogInited = false)
 		{
 			try
 			{
-				var response = m_Service.users_get(m_SessionToken, m_UserID);
+				var userInfo = UserInfo.Instance;
 
-				var user = response.user;
+				if (!isDialogInited)
+					userInfo.Update();
 
-				lblEmail.Text = user.email;
+				lblEmail.Text = userInfo.Email;
 
-				lblSince.Text = DateTimeHelp.ConvertUnixTimestampToDateTime(user.since).ToString();
+				lblSince.Text = userInfo.Since.ToString();
 
-				lblUploadedPhotoCount.Text = response.storages.waveface.usage.image_objects.ToString();
-				tbxName.Text = user.nickname;
+				lblUploadedPhotoCount.Text = userInfo.UploadedPhotoCount.ToString();
+				tbxName.Text = userInfo.NickName;
 
-				checkBox1.Checked = user.subscribed;
+				checkBox1.Checked = userInfo.Subscribed;
 
 				dataGridView1.Rows.Clear();
 
-				foreach (var device in user.devices)
+				foreach (var device in userInfo.Devices)
 				{
 					dataGridView1.Rows.Add(new object[] { device.device_name, device.device_type, DateTimeHelp.ISO8601ToDateTime(device.last_visit).ToString() });
 				}
 
 				var accessTokenExpired = false;
 
-				if ((response.sns != null && user.sns != null))
+				if ((userInfo.SNS1 != null && userInfo.SNS2 != null))
 				{
-					var facebook = (from item1 in response.sns
+					var facebook = (from item1 in userInfo.SNS1
 									where item1 != null && item1.type == "facebook"
-									from item2 in user.sns
+									from item2 in userInfo.SNS2
 									where item2 != null && item2.type == "facebook"
 									select new
 									{
@@ -248,7 +253,7 @@ namespace Waveface
 							((string.Equals(facebook.Status2, "progress", StringComparison.CurrentCultureIgnoreCase)) ? Properties.Resources.FB_IMPRORT_PROGRESSING : string.Format(Properties.Resources.FB_IMPORT_CLAST_SYNC_PATTERN, DateTimeHelp.ISO8601ToDateTime(facebook.LastSync).ToString())) :
 							string.Empty;
 
-						if (checkAccessTokenExpired && accessTokenExpired)
+						if (isDialogInited && accessTokenExpired)
 						{
 							var result = MessageBox.Show(Properties.Resources.RECONNECT_MESSAGE, Properties.Resources.FB_TOKEN_EXPIRED, MessageBoxButtons.YesNo);
 							if (result == System.Windows.Forms.DialogResult.Yes)
@@ -305,19 +310,14 @@ namespace Waveface
 			public string session_token { get; set; }
 		}
 
-		//private void btnNewsletter_Click(object sender, EventArgs e)
-		//{
-		//    m_Service.users_update(m_SessionToken, m_UserID, (btnNewsletter.Text == "Subscribed"));
-		//    Update();
-		//}
-
 		private void btnFacebookImport_Click(object sender, EventArgs e)
 		{
 			if (btnFacebookImport.Text == Properties.Resources.TURN_OFF)
 			{
-				FBImportOK = () => 
+				FBImportOK = () =>
 				{
-				m_Service.SNSDisconnect(m_SessionToken, "facebook");
+					m_Service.SNSDisconnect(m_SessionToken, "facebook");
+					//Update();
 				};
 
 				FBImportCancel = null;
@@ -334,73 +334,22 @@ namespace Waveface
 
 				FBImportOK = null;
 
-				FBImportCancel = () => 
+				FBImportCancel = () =>
 				{
 					m_Service.SNSDisconnect(m_SessionToken, "facebook");
+					//Update();
 				};
 
-			Update();
-		}
-		}
-
-		private void rbtnSubscribed_CheckedChanged(object sender, EventArgs e)
-		{
-			//if (!(sender as RadioButton).Checked)
-			//    return;
-
-			//m_Service.users_update(m_SessionToken, m_UserID, (sender == rbtnSubscribed));
-			//Update();
-		}
-
-		private void button2_Click(object sender, EventArgs e)
-		{
-			using (var dialog = new NameSettingDialog())
-			{
-				dialog.StartPosition = FormStartPosition.CenterParent;
-				dialog.UserName = tbxName.Text;
-				if (dialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-				{
-					tbxName.Text = dialog.UserName;
-					m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
-					Update();
-				}
+				Update();
 			}
-
-			//tbxName.ReadOnly = !tbxName.ReadOnly;
-			//if (tbxName.ReadOnly)
-			//{
-			//    HideCaret(tbxName.Handle);
-			//    button2.Focus();
-			//}
-			//else
-			//{
-			//    ShowCaret(tbxName.Handle);
-			//    tbxName.SelectionStart = tbxName.Text.Length;
-			//    tbxName.Focus();
-			//}
-		}
-
-		private void tbxName_KeyDown(object sender, KeyEventArgs e)
-		{
-			//if (e.KeyData == Keys.Enter)
-			//{
-			//    m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
-			//    Update();
-
-			//    button2.PerformClick();
-			//}
 		}
 
 		private void AccountInfoForm_Load(object sender, EventArgs e)
 		{
 			Update(true);
-		}
 
-		private void AccountInfoForm_Shown(object sender, EventArgs e)
-		{
-			//Show();
-			//Application.DoEvents();
-			//Update(true);
+			m_OriginalName = tbxName.Text;
+			m_OriginalSubscribed = checkBox1.Checked;
 		}
 
 		private void button3_Click(object sender, EventArgs e)
@@ -422,11 +371,27 @@ namespace Waveface
 
 			try
 			{
-				m_Service.users_update(m_SessionToken, m_UserID, checkBox1.Checked);
-				m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
+				var needUpdate = false;
+				if (m_OriginalSubscribed != checkBox1.Checked)
+				{
+					needUpdate = true;
+					m_Service.users_update(m_SessionToken, m_UserID, checkBox1.Checked);
+				}
+
+				if (m_OriginalName != tbxName.Text)
+				{
+					needUpdate = true;
+					m_Service.users_update(m_SessionToken, m_UserID, tbxName.Text, null);
+				}
 
 				if (FBImportOK != null)
+				{
+					needUpdate = true;
 					FBImportOK();
+				}
+
+				if (needUpdate)
+					Update();
 
 				this.DialogResult = System.Windows.Forms.DialogResult.OK;
 			}
@@ -446,7 +411,10 @@ namespace Waveface
 			try
 			{
 				if (FBImportCancel != null)
+				{
 					FBImportCancel();
+					Update();
+				}
 
 				this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			}
@@ -467,19 +435,5 @@ namespace Waveface
 				lblFBImportTip.Show();
 			}
 		}
-
-		private void lblFBImportTip_VisibleChanged(object sender, EventArgs e)
-		{
-			//AdjustLayout();
-		}
-
-		//private void AdjustLayout()
-		//{
-		//    var interval = label10.Top - label8.Top;
-		//    var baseTop = (lblFBImportTip.Visible) ? lblFBImportTip.Top : label10.Top;
-
-		//    label12.Top = baseTop + interval;
-		//    lblUploadedPhotoCount.Top = label12.Top;
-		//}
     }
 }

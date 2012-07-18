@@ -117,7 +117,6 @@
 			this.errorProvider1.SetIconPadding(this.tbxName, ((int)(resources.GetObject("tbxName.IconPadding"))));
 			this.tbxName.Name = "tbxName";
 			this.tbxName.TabStop = false;
-			this.tbxName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxName_KeyDown);
 			this.tbxName.Validated += new System.EventHandler(this.tbxName_Validated);
 			// 
 			// label6
@@ -178,7 +177,6 @@
 			this.errorProvider1.SetIconPadding(this.lblFBImportTip, ((int)(resources.GetObject("lblFBImportTip.IconPadding"))));
 			this.lblFBImportTip.Name = "lblFBImportTip";
 			this.lblFBImportTip.TextChanged += new System.EventHandler(this.lblFBImportTip_TextChanged);
-			this.lblFBImportTip.VisibleChanged += new System.EventHandler(this.lblFBImportTip_VisibleChanged);
 			// 
 			// btnFacebookImport
 			// 
@@ -384,7 +382,6 @@
 			this.Name = "AccountInfoForm";
 			this.ShowInTaskbar = false;
 			this.Load += new System.EventHandler(this.AccountInfoForm_Load);
-			this.Shown += new System.EventHandler(this.AccountInfoForm_Shown);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
