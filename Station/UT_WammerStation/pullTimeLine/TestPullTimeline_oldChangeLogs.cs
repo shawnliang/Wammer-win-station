@@ -107,11 +107,58 @@ namespace UT_WammerStation.pullTimeLine
 		}
 
 		[TestMethod]
-		public void pullOldChangeLogsButTooMany()
+		public void pullOldChangeLogsButTheyArePurged()
 		{
 			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
 			api.Setup(x => x.GetChangeHistory(user, 1)).Throws(
 				new WammerCloudException("error", "error", (int)Wammer.Station.UserTrackApiError.SeqNumPurged))
+				.Verifiable();
+
+			Mock<IPostProvider> postProvider = new Mock<IPostProvider>(MockBehavior.Strict);
+			postProvider.Setup(x => x.GetPostsBySeq(user, 1, It.Is<int>(limit => limit > 0)))
+				.Returns(new PostFetchByFilterResponse()
+				{
+					posts = new List<PostInfo> { new PostInfo { post_id = "post1", seq_num = 100 } },
+					get_count = 1,
+					group_id = user.groups[0].group_id,
+					remaining_count = 1
+				}).Verifiable();
+
+			postProvider.Setup(x => x.GetPostsBySeq(user, 101, It.Is<int>(limit => limit > 0)))
+				.Returns(new PostFetchByFilterResponse()
+				{
+					posts = new List<PostInfo> { new PostInfo { post_id = "post2", seq_num = 101 } },
+					get_count = 1,
+					group_id = user.groups[0].group_id,
+					remaining_count = 0,
+				}).Verifiable();
+
+			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 100)))
+				.Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 101)))
+				.Verifiable();
+
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 102)))
+				.Verifiable();
+			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
+
+
+			TimelineSyncer syncer = new TimelineSyncer(postProvider.Object, db.Object, api.Object);
+			syncer.PullTimeline(user);
+
+
+			db.VerifyAll();
+			api.VerifyAll();
+			postProvider.VerifyAll();
+		}
+
+		[TestMethod]
+		public void pullOldChangeLogsButTooMany()
+		{
+			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
+			api.Setup(x => x.GetChangeHistory(user, 1)).Throws(
+				new WammerCloudException("error", "error", (int)Wammer.Station.UserTrackApiError.TooManyRecord))
 				.Verifiable();
 
 			Mock<IPostProvider> postProvider = new Mock<IPostProvider>(MockBehavior.Strict);

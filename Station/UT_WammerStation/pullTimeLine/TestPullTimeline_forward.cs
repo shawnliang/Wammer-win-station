@@ -134,7 +134,7 @@ namespace UT_WammerStation.pullTimeLine
 
 			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
 			api.Setup(x => x.GetChangeHistory(user, user.sync_range.next_seq_num))
-				.Throws(new WammerCloudException("", "", (int)Wammer.Station.UserTrackApiError.SeqNumPurged))
+				.Throws(new WammerCloudException("", "", (int)Wammer.Station.UserTrackApiError.TooManyRecord))
 				.Verifiable();
 
 			Mock<IPostProvider> postInfo = new Mock<IPostProvider>(MockBehavior.Strict);
@@ -161,6 +161,50 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
 			
 			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);	
+			syncer.PullForward(user);
+		}
+
+		[TestMethod]
+		public void SeqPurgedWhilePullingForward()
+		{
+			Driver user = new Driver
+			{
+				user_id = "user",
+				sync_range = new SyncRange() { next_seq_num = 5 },
+				session_token = "token",
+				groups = this.groups,
+				is_change_history_synced = true
+			};
+
+			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
+			api.Setup(x => x.GetChangeHistory(user, user.sync_range.next_seq_num))
+				.Throws(new WammerCloudException("", "", (int)Wammer.Station.UserTrackApiError.SeqNumPurged))
+				.Verifiable();
+
+			Mock<IPostProvider> postInfo = new Mock<IPostProvider>(MockBehavior.Strict);
+			postInfo.Setup(x => x.GetPostsBySeq(user, user.sync_range.next_seq_num, It.Is<int>(limit => limit > 0)))
+				.Returns(new PostFetchByFilterResponse
+				{
+					remaining_count = 0,
+					group_id = user.groups[0].group_id,
+					posts = new List<PostInfo>
+					{
+						new PostInfo{ post_id = "post1", seq_num = 10},
+						new PostInfo{ post_id = "post2", seq_num = 20},
+						new PostInfo{ post_id = "post3", seq_num = 15},
+					},
+					get_count = 3
+				})
+				.Verifiable();
+
+			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 10))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 20))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3" && p.seq_num == 15))).Verifiable();
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21))).Verifiable();
+			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
+
+			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);
 			syncer.PullForward(user);
 		}
 

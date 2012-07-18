@@ -97,7 +97,7 @@ namespace Wammer.Station.Timeline
 			}
 			catch(WammerCloudException e)
 			{
-				if (e.WammerError == (int)Wammer.Station.UserTrackApiError.SeqNumPurged)
+				if (changeLogsNotAvailable(e))
 				{
 					int next_seq = RetrieveAllPostsBySeq(user, user.sync_range.next_seq_num);
 					UpdateDBForUserTrackBackFilled(user, next_seq);
@@ -105,6 +105,12 @@ namespace Wammer.Station.Timeline
 				else
 					throw;
 			}
+		}
+
+		private static bool changeLogsNotAvailable(WammerCloudException e)
+		{
+			return e.WammerError == (int)UserTrackApiError.SeqNumPurged ||
+								e.WammerError == (int)UserTrackApiError.TooManyRecord;
 		}
 
 		private void ProcChangedPosts(Driver user, ChangeLogResponse res)
@@ -203,7 +209,7 @@ namespace Wammer.Station.Timeline
 			}
 			catch (WammerCloudException e)
 			{
-				if (e.WammerError == (int)UserTrackApiError.SeqNumPurged)
+				if (changeLogsNotAvailable(e))
 				{
 					int next_seq_num = RetrieveAllPostsBySeq(user, since_seq_num);
 					UpdateDBForUserTrackBackFilled(user, next_seq_num);
