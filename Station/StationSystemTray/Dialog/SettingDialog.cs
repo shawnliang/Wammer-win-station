@@ -20,33 +20,14 @@ namespace StationSystemTray
 	{
 		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; // https://api.waveface.com/v2/
 
-		private Sparkle m_autoUpdator;
+		private AutoUpdate autoUpdator = new AutoUpdate(false);
 		private string m_CurrentUserSession { get; set; }
 		private bool isMovingFolder = false;
 		private MethodInvoker closeClientProgram;
 
 		public event EventHandler<AccountEventArgs> AccountRemoving;
 		public event EventHandler<AccountEventArgs> AccountRemoved;
-
-		public static string CloudBaseURL
-		{
-			get { return (string)StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL); }
-		}
-
-		public static string WebURL
-		{
-			get
-			{
-				if (CloudBaseURL.Contains("api.waveface.com"))
-					return "https://waveface.com";
-				else if (CloudBaseURL.Contains("develop.waveface.com"))
-					return "https://devweb.waveface.com";
-				else if (CloudBaseURL.Contains("staging.waveface.com"))
-					return "http://staging.waveface.com";
-				else
-					return "https://waveface.com";
-			}
-		}
+	
 
 		protected void OnAccountRemoving(AccountEventArgs e)
 		{
@@ -72,10 +53,6 @@ namespace StationSystemTray
 			this.closeClientProgram = closeClientProgram;
 		}
 
-		//private void AdjustRemoveButton()
-		//{
-		//    btnUnlink.Enabled = !string.IsNullOrEmpty(cmbStations.Text);
-		//}
 
 		private long GetStorageUsage(string userID)
 		{
@@ -91,10 +68,6 @@ namespace StationSystemTray
 
 		private void LocalSettingDialog_Load(object sender, EventArgs e)
 		{
-			m_autoUpdator = new Sparkle(WebURL + "/extensions/windowsUpdate/versioninfo.xml");
-			m_autoUpdator.ApplicationIcon = Resources.software_update_available;
-			m_autoUpdator.ApplicationWindowIcon = Resources.UpdateAvailable;
-
 			btnUpdate.Text = Properties.Resources.CHECK_FOR_UPDATE;
 
 			dgvAccountList.DefaultCellStyle.SelectionBackColor = dgvAccountList.DefaultCellStyle.BackColor;
@@ -284,29 +257,35 @@ namespace StationSystemTray
 
 		private void bgworkerUpdate_DoWork(object sender, DoWorkEventArgs e)
 		{
-			NetSparkleAppCastItem _lastVersion;
-
-			if (m_autoUpdator.IsUpdateRequired(m_autoUpdator.GetApplicationConfig(), out _lastVersion))
-				e.Result = _lastVersion;
-			else
-				e.Result = null;
+			e.Result = autoUpdator.IsUpdateRequired();
 		}
 
 		private void bgworkerUpdate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			NetSparkleAppCastItem _lastVersion = e.Result as NetSparkleAppCastItem;
-
-			if (_lastVersion != null)
+			try
 			{
-				m_autoUpdator.ShowUpdateNeededUI(_lastVersion);
-			}
-			else
-			{
-				MessageBox.Show(Properties.Resources.ALREAD_UPDATED, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
+				if (e.Error != null)
+				{
+					MessageBox.Show(e.Error.Message, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
 
-			btnUpdate.Enabled = true;
-			btnUpdate.Text = Properties.Resources.CHECK_FOR_UPDATE;
+				bool isUpdateRequired = (bool)e.Result;
+
+				if (isUpdateRequired)
+				{
+					autoUpdator.ShowUpdateNeededUI();
+				}
+				else
+				{
+					MessageBox.Show(Properties.Resources.ALREAD_UPDATED, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			}
+			finally
+			{
+				btnUpdate.Enabled = true;
+				btnUpdate.Text = Properties.Resources.CHECK_FOR_UPDATE;
+			}
 		}
 
 		private void dgvAccountList_Paint(object sender, PaintEventArgs e)
