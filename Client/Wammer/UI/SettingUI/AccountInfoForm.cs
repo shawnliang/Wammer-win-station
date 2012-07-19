@@ -15,6 +15,7 @@ using System.Collections.Specialized;
 using System.Text;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
+using System.Net;
 #endregion
 
 namespace Waveface
@@ -312,6 +313,12 @@ namespace Waveface
 
 		private void btnFacebookImport_Click(object sender, EventArgs e)
 		{
+			if (!NetworkChecker.Instance.IsNetworkAvailable)
+			{
+				MessageBox.Show(Properties.Resources.NETWORK_UNAVAILABLE);
+				return;
+			}
+			
 			if (btnFacebookImport.Text == Properties.Resources.TURN_OFF)
 			{
 				FBImportOK = () =>
@@ -369,6 +376,12 @@ namespace Waveface
 				return;
 			}
 
+			if (!NetworkChecker.Instance.IsNetworkAvailable)
+			{
+				MessageBox.Show(Properties.Resources.NETWORK_UNAVAILABLE);
+				return;
+			}
+
 			try
 			{
 				var needUpdate = false;
@@ -395,6 +408,10 @@ namespace Waveface
 
 				this.DialogResult = System.Windows.Forms.DialogResult.OK;
 			}
+			catch (WebException ex)
+			{
+				MessageBox.Show(Properties.Resources.NETWORK_EXCEPTION);
+			}
 			catch (Exception)
 			{
 				MessageBox.Show(Properties.Resources.UNEXPECTED_EXCEPTION);
@@ -412,11 +429,22 @@ namespace Waveface
 			{
 				if (FBImportCancel != null)
 				{
+
+					if (!NetworkChecker.Instance.IsNetworkAvailable)
+					{
+						MessageBox.Show(Properties.Resources.NETWORK_UNAVAILABLE);
+						return;
+					}
+
 					FBImportCancel();
 					Update();
 				}
 
 				this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			}
+			catch (WebException ex)
+			{
+				MessageBox.Show(Properties.Resources.NETWORK_EXCEPTION);
 			}
 			catch (Exception)
 			{

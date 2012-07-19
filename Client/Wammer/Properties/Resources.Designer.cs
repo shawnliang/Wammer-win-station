@@ -833,10 +833,28 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Internet connection error.
+        /// </summary>
+        internal static string NETWORK_EXCEPTION {
+            get {
+                return ResourceManager.GetString("NETWORK_EXCEPTION", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap network_receive {
             get {
                 object obj = ResourceManager.GetObject("network_receive", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Internet connection.
+        /// </summary>
+        internal static string NETWORK_UNAVAILABLE {
+            get {
+                return ResourceManager.GetString("NETWORK_UNAVAILABLE", resourceCulture);
             }
         }
         
@@ -1096,7 +1114,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unexpected exception.
+        ///   Looks up a localized string similar to An unexpected error occurred with our server. Please try again later. If the problem still occurs, please contact our support team at support@waveface.com.
         /// </summary>
         internal static string UNEXPECTED_EXCEPTION {
             get {

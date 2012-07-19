@@ -135,6 +135,12 @@
   <data name="NAME" xml:space="preserve">
     <value>名稱</value>
   </data>
+  <data name="NETWORK_EXCEPTION" xml:space="preserve">
+    <value>網路連線發生錯誤</value>
+  </data>
+  <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
+    <value>沒有網路連線</value>
+  </data>
   <data name="RECONNECT_MESSAGE" xml:space="preserve">
     <value>Facebook資料同步功能已經暫停。是否需要恢復自動同步功能？</value>
   </data>
@@ -151,6 +157,6 @@
     <value>啟用</value>
   </data>
   <data name="UNEXPECTED_EXCEPTION" xml:space="preserve">
-    <value>發生未如預期的錯誤</value>
+    <value>伺服器出現不明錯誤，請稍後再試。如果此狀況持續出現，請直接聯繫服務人員排除狀況: support@waveface.com</value>
   </data>
 </root>
