@@ -155,24 +155,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				if (e.HttpError == WebExceptionStatus.ConnectFailure)
-					throw new StationServiceDownException("Station service down?");
-
-				switch (e.WammerError)
-				{
-					case (int)StationLocalApiError.ConnectToCloudError:
-						throw new ConnectToCloudException(e.Message);
-					case (int)StationLocalApiError.AuthFailed:
-						throw new AuthenticationException(e.Message);
-					case (int)StationLocalApiError.DriverExist:
-						throw new StationAlreadyHasDriverException(e.Message);
-					case (int)AuthApiError.InvalidEmailPassword:
-						throw new AuthenticationException(e.Message);
-					case (int)StationApiError.UserNotExist:
-						throw new AuthenticationException(e.Message);
-					default:
-						throw;
-				}
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -704,6 +687,10 @@ namespace Wammer.Station.Management
 								return new ConnectToCloudException(r.api_ret_message);
 							case (int)GeneralApiError.NotSupportClient:
 								return new VersionNotSupportedException(r.api_ret_message);
+							case (int)StationLocalApiError.AuthFailed:
+								throw new AuthenticationException(e.Message);
+							case (int)StationLocalApiError.DriverExist:
+								throw new StationAlreadyHasDriverException(e.Message);
 							default:
 								return new Exception(r.api_ret_message);
 						}

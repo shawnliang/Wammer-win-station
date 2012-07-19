@@ -81,6 +81,16 @@ namespace Waveface.API.V2
             }
         }
 
+        public static string UpdateURL
+        {
+            get
+            {
+                if (CloudBaseURL.Contains("develop.waveface.com"))
+                    return "https://develop.waveface.com";
+                else
+                    return WebURL;
+            }
+        }
         #endregion
 
         #region Misc
@@ -214,7 +224,7 @@ namespace Waveface.API.V2
                     _deviceInfo = "device_id=" + _device_id + "&device_name=" + _device_name + "&";
                 }
 
-				string _url = BaseURL + "/auth/login";
+                string _url = BaseURL + "/auth/login";
 
                 string _parms = "apikey" + "=" + APIKEY + "&" +
                                 "email" + "=" + email + "&" +
@@ -302,7 +312,7 @@ namespace Waveface.API.V2
 
             try
             {
-				string _url = BaseURL + "/users/get";
+                string _url = BaseURL + "/users/get";
 
                 _url += "?" +
                         "apikey" + "=" + APIKEY + "&" +
@@ -333,43 +343,43 @@ namespace Waveface.API.V2
             }
         }
 
-		public MR_FB_Disconnect SNSDisconnect(string session_token, string sns)
-		{
-			session_token = HttpUtility.UrlEncode(session_token);
+        public MR_FB_Disconnect SNSDisconnect(string session_token, string sns)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
 
-			try
-			{
-				string _url = BaseURL + "/users/SNSDisconnect";
+            try
+            {
+                string _url = BaseURL + "/users/SNSDisconnect";
 
-				_url += "?" +
-						"apikey=" + APIKEY + "&" +
-						"session_token=" + session_token + "&" +
-						"sns=" + sns + "&" +
-						"purge_all= no";
+                _url += "?" +
+                        "apikey=" + APIKEY + "&" +
+                        "session_token=" + session_token + "&" +
+                        "sns=" + sns + "&" +
+                        "purge_all= no";
 
-				return HttpGetObject<MR_FB_Disconnect>(_url);
-			}
-			catch (WebException _e)
-			{
-				NLogUtility.WebException(s_logger, _e, "SNSDisconnect", false);
+                return HttpGetObject<MR_FB_Disconnect>(_url);
+            }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "SNSDisconnect", false);
 
-				if (_e.Status == WebExceptionStatus.ProtocolError)
-				{
-					HttpWebResponse _res = (HttpWebResponse)_e.Response;
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
-					if (_res.StatusCode == HttpStatusCode.Unauthorized)
-						throw new Station401Exception();
-				}
+                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new Station401Exception();
+                }
 
-				throw;
-			}
-			catch (Exception _e)
-			{
-				NLogUtility.Exception(s_logger, _e, "SNSDisconnect");
+                throw;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "SNSDisconnect");
 
-				throw;
-			}
-		}
+                throw;
+            }
+        }
 
         public MR_users_update users_update(string session_token, string user_id, string nickname, string avatar_url)
         {
@@ -413,44 +423,44 @@ namespace Waveface.API.V2
             }
         }
 
-		public MR_users_update users_update(string session_token, string user_id, Boolean subscribed)
-		{
-			session_token = HttpUtility.UrlEncode(session_token);
-			user_id = HttpUtility.UrlEncode(user_id);
+        public MR_users_update users_update(string session_token, string user_id, Boolean subscribed)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            user_id = HttpUtility.UrlEncode(user_id);
 
-			try
-			{
-				string _url = BaseURLForGroupUserAuth + "/users/update";
+            try
+            {
+                string _url = BaseURLForGroupUserAuth + "/users/update";
 
-				_url += "?" +
-						"apikey" + "=" + APIKEY + "&" +
-						"session_token" + "=" + session_token + "&" +
-						"user_id" + "=" + user_id + "&" +
-						"subscribed" + "=" + (subscribed ? "yes" : "no");
+                _url += "?" +
+                        "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "user_id" + "=" + user_id + "&" +
+                        "subscribed" + "=" + (subscribed ? "yes" : "no");
 
-				return HttpGetObject<MR_users_update>(_url);
-			}
-			catch (WebException _e)
-			{
-				NLogUtility.WebException(s_logger, _e, "users_update", false);
+                return HttpGetObject<MR_users_update>(_url);
+            }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "users_update", false);
 
-				if (_e.Status == WebExceptionStatus.ProtocolError)
-				{
-					HttpWebResponse _res = (HttpWebResponse)_e.Response;
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
 
-					if (_res.StatusCode == HttpStatusCode.Unauthorized)
-						throw new Station401Exception();
-				}
+                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new Station401Exception();
+                }
 
-				throw;
-			}
-			catch (Exception _e)
-			{
-				NLogUtility.Exception(s_logger, _e, "users_update");
+                throw;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "users_update");
 
-				throw;
-			}
-		}
+                throw;
+            }
+        }
 
         public MR_users_passwd users_passwd(string session_token, string old_passwd, string new_passwd)
         {

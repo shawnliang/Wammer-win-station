@@ -913,13 +913,9 @@ namespace StationSystemTray
 			var result = MessageBox.Show(Resources.NeedToUpgrade, Resources.APP_NAME, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
-				var updator = new AppLimit.NetSparkle.Sparkle(SettingDialog.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
-				updator.ApplicationIcon = Resources.software_update_available;
-				updator.ApplicationWindowIcon = Resources.UpdateAvailable;
-
-				AppLimit.NetSparkle.NetSparkleAppCastItem _lastVersion;
-				if (updator.IsUpdateRequired(updator.GetApplicationConfig(), out _lastVersion))
-					updator.ShowUpdateNeededUI(_lastVersion);
+				AutoUpdate update = new AutoUpdate(true);
+				if (update.IsUpdateRequired())
+					update.ShowUpdateNeededUI();
 				else
 					MessageBox.Show(Resources.ALREAD_UPDATED, Resources.APP_NAME);
 			}
