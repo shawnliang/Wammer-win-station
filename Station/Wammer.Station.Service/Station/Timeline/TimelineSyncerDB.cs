@@ -11,7 +11,7 @@ namespace Wammer.Station.Timeline
 
 		public void SavePost(PostInfo post)
 		{
-			PostCollection.Instance.Save(post);
+			PostCollection.Instance.Update(post);
 		}
 
 		public void UpdateDriverSyncRange(string userId, SyncRange syncRange)
@@ -30,7 +30,8 @@ namespace Wammer.Station.Timeline
 
 		public void SaveUserTracks(UserTracks userTracks)
 		{
-			UserTrackCollection.Instance.Save(userTracks);
+			if (userTracks.usertrack_list!=null && userTracks.usertrack_list.Count > 0)
+				UserTrackCollection.Instance.Save(userTracks);
 		}
 
 		#endregion

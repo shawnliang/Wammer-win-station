@@ -117,34 +117,10 @@ namespace Wammer.Cloud
 		{
 			using (var agent = new DefaultWebClient())
 			{
-				string tempFile = file + @".tmp";
+				string tempFile = Guid.NewGuid().ToString();
 				agent.DownloadFile(metadata.redirect_to, tempFile, true, progressChangedCallBack);
-				//using (Stream fileStream = new FileStream(tempFile, FileMode.OpenOrCreate, FileAccess.Write))
-				//{
-
-				//    var offset = fileStream.Length;
-
-				//    if (offset > 0)
-				//        logger.Info("Detect existed file, resume download \"" + tempFile + "\"");
-
-				//    if (offset > 5)
-				//        offset -= 5;
-
-				//    agent.AddRange((int)offset);
-				//    fileStream.Seek(offset, SeekOrigin.Begin);
-
-				//    using (var from = agent.OpenRead(metadata.redirect_to))
-				//    {
-
-				//        from.WriteTo(fileStream, 1024, progressChangedCallBack);
-
-				//        if (fileStream != null) fileStream.Dispose();
-
-				        contentType = agent.ResponseHeaders["Content-type"];
-				//    }
-
-					File.Move(tempFile, file);
-				//}
+				contentType = agent.ResponseHeaders["Content-type"];
+				File.Move(tempFile, file);
 			}
 		}
 

@@ -122,14 +122,28 @@ namespace Wammer.Cloud
 		public PostFetchByFilterResponse PostFetchByFilter(FilterEntity filter)
 		{
 			var parameters = new Dictionary<object, object>
-			                 	{
-			                 		{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
-			                 		{CloudServer.PARAM_FILTER_ENTITY, filter.ToFastJSON()},
-			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			                 	};
+			{
+				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
+				{CloudServer.PARAM_FILTER_ENTITY, filter.ToFastJSON()},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			};
 
 			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
+		}
+
+		public PostFetchByFilterResponse PostFetchBySeq(int seq_num, int limit)
+		{
+			var parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
+				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_DATUM, seq_num},
+				{CloudServer.PARAM_LIMIT, limit}
+			};
+
+			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchBySeq", parameters, false);
 		}
 
 		public PostFetchByFilterResponse PostFetchByPostId(List<string> postIds)

@@ -19,14 +19,18 @@ namespace Wammer.Station
 		private readonly int port;
 		private readonly string scheme;
 		private long beginTime;
+		private bool notifyRequestBypassed;
 
-		public BypassHttpHandler(string baseUrl)
+		public event EventHandler<BypassedEventArgs> RequestBypassed;
+
+		public BypassHttpHandler(string baseUrl, bool notifyRequestBypassed = false)
 		{
 			var url = new Uri(baseUrl);
 			host = url.Host;
 			port = url.Port;
 			scheme = url.Scheme;
 			ProcessSucceeded += HttpRequestMonitor.Instance.OnProcessSucceeded;
+			this.notifyRequestBypassed = notifyRequestBypassed;
 		}
 
 		#region IHttpHandler Members
@@ -98,6 +102,13 @@ namespace Wammer.Station
 
 		#endregion
 
+		protected void OnRequestBypassed(byte[] response)
+		{
+			EventHandler<BypassedEventArgs> handler = RequestBypassed;
+			if (handler != null)
+				handler(this, new BypassedEventArgs(response));
+		}
+
 		protected void OnProcessSucceeded(HttpHandlerEventArgs evt)
 		{
 			EventHandler<HttpHandlerEventArgs> handler = ProcessSucceeded;
@@ -108,7 +119,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static void RequestStreamGotten(IAsyncResult ar)
+		private void RequestStreamGotten(IAsyncResult ar)
 		{
 			var ctx = (BypassContext) ar.AsyncState;
 
@@ -126,7 +137,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static void RequestDone(IAsyncResult ar)
+		private void RequestDone(IAsyncResult ar)
 		{
 			var ctx = (BypassContext) ar.AsyncState;
 			try
@@ -147,7 +158,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static void ResponseGotten(IAsyncResult ar)
+		private void ResponseGotten(IAsyncResult ar)
 		{
 			var ctx = (BypassContext) ar.AsyncState;
 
@@ -155,7 +166,10 @@ namespace Wammer.Station
 			{
 				ctx.cloudResponse = (HttpWebResponse) ctx.cloudRequest.EndGetResponse(ar);
 
-				CopyResponseData(ctx.cloudResponse, ctx.response);
+				if (notifyRequestBypassed)
+					DupResponseData(ctx.cloudResponse, ctx.response);
+				else
+					CopyResponseData(ctx.cloudResponse, ctx.response);
 			}
 			catch (WebException e)
 			{
@@ -176,6 +190,26 @@ namespace Wammer.Station
 			try
 			{
 				StreamHelper.EndCopy(ar);
+
+				ctx.bypassResponse.Close();
+				ctx.response.Close();
+			}
+			catch (Exception e)
+			{
+				ctx.response.Abort();
+				logger.Warn("Error responding cloud response", e);
+			}
+		}
+
+		private void ResponseDupCompleted(IAsyncResult ar)
+		{
+			var ctx = (BypassResponseContext)ar.AsyncState;
+
+			try
+			{
+				var dupStream = StreamHelper.EndDup(ar);
+
+				OnRequestBypassed(dupStream.ToArray());
 
 				ctx.bypassResponse.Close();
 				ctx.response.Close();
@@ -211,6 +245,21 @@ namespace Wammer.Station
 				throw new ArgumentException("prefix must start and end with slash");
 
 			exceptPrefixes.Add(prefix);
+		}
+
+		private void DupResponseData(HttpWebResponse from, HttpListenerResponse to)
+		{
+			to.StatusCode = (int)from.StatusCode;
+			to.StatusDescription = from.StatusDescription;
+			to.ContentType = from.ContentType;
+
+			if (from.Cookies.Count > 0)
+			{
+				to.Cookies.Add(from.Cookies);
+			}
+
+			StreamHelper.BeginDup(from.GetResponseStream(), to.OutputStream, ResponseDupCompleted,
+								   new BypassResponseContext(to, from));
 		}
 
 		private static void CopyResponseData(HttpWebResponse from, HttpListenerResponse to)
@@ -257,6 +306,17 @@ namespace Wammer.Station
 			var url = new UriBuilder(request.Url) {Host = host, Port = port, Scheme = scheme};
 			Uri targetUri = url.Uri;
 			return targetUri;
+		}
+	}
+
+
+	public class BypassedEventArgs : EventArgs
+	{
+		public byte[] BypassedResponse { get; private set; }
+
+		public BypassedEventArgs(byte[] response)
+		{
+			BypassedResponse = response;
 		}
 	}
 

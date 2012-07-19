@@ -269,7 +269,7 @@ namespace Waveface.PostUI
 
                          try
                          {
-                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_imageURL, _imageFile, "", true);
+                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_imageURL, _imageFile, "", true, "");
 
                              if (_uf == null)
                              {
@@ -290,7 +290,7 @@ namespace Waveface.PostUI
 
                          try
                          {
-                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile("_RichText_", MyParent.GetHtmlFile(), "", false);
+                             MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile("_RichText_", MyParent.GetHtmlFile(), "", false, "");
 
                              if (_uf == null)
                              {

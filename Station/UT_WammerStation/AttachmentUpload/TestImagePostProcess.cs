@@ -12,7 +12,7 @@ using Wammer.Station;
 namespace UT_WammerStation.AttachmentUpload
 {
 	[TestClass]
-	public class TestPostProcess
+	public class TestImagePostProcess
 	{
 		Attachment oldAtt;
 		Driver user;
@@ -55,7 +55,6 @@ namespace UT_WammerStation.AttachmentUpload
 				saved_file_name = "saved_thumb_name",
 			};
 		}
-
 
 		[TestMethod]
 		public void InlineGenerateAndUpstreamMediumThumbnailForNewOriginImageFromNonWindows()

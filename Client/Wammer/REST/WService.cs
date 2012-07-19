@@ -1366,7 +1366,7 @@ namespace Waveface.API.V2
 
         public MR_attachments_upload attachments_upload(string session_token, string group_id, string fileName,
                                                         string title, string description, string type, string image_meta,
-                                                        string object_id)
+                                                        string object_id, string post_id)
         {
             MR_attachments_upload _ret;
 
@@ -1395,6 +1395,9 @@ namespace Waveface.API.V2
 
                 if (object_id != string.Empty)
                     _dic.Add("object_id", object_id);
+
+                if (post_id != string.Empty)
+                    _dic.Add("post_id", post_id);
 
                 _dic.Add("file", _data);
 
@@ -2252,6 +2255,49 @@ namespace Waveface.API.V2
             }
         }
 
+        #endregion
+
+
+        #region changelogs
+        public MR_changelogs_get changelogs_get(string session_token, string group_id, int since)
+        {
+            session_token = HttpUtility.UrlEncode(session_token);
+            group_id = HttpUtility.UrlEncode(group_id);
+
+            try
+            {
+                string _url = BaseURL + "/changelogs/get";
+
+                _url += "?" +
+                       "apikey" + "=" + APIKEY + "&" +
+                       "session_token" + "=" + session_token + "&" +
+                       "group_id" + "=" + group_id + "&" +
+                       "since" + "=" + since + "&" +
+                       "include_entities=true";
+
+                return HttpGetObject<MR_changelogs_get>(_url);
+            }
+            catch (WebException _e)
+            {
+                NLogUtility.WebException(s_logger, _e, "changelogs_get", false);
+
+                if (_e.Status == WebExceptionStatus.ProtocolError)
+                {
+                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
+
+                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new Station401Exception();
+                }
+
+                throw;
+            }
+            catch (Exception _e)
+            {
+                NLogUtility.Exception(s_logger, _e, "changelogs_get");
+
+                throw;
+            }
+        }
         #endregion
     }
 

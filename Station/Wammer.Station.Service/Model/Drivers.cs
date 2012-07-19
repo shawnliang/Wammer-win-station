@@ -147,14 +147,35 @@ namespace Wammer.Model
 		public DateTime start_time { get; set; }
 
 		[BsonIgnoreIfNull]
-		public DateTime end_time { get; set; }
-
-		[BsonIgnoreIfNull]
 		public DateTime? first_post_time { get; set; }
+		
+		[BsonIgnoreIfNull]
+		public int next_seq_num { get; set; }
 
 		public SyncRange Clone()
 		{
 			return (SyncRange) MemberwiseClone();
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == this)
+				return true;
+
+			if (obj is SyncRange)
+			{
+				var rhs = obj as SyncRange;
+				return start_time == rhs.start_time &&
+						first_post_time.Value == rhs.first_post_time.Value &&
+						next_seq_num == rhs.next_seq_num;
+			}
+			else
+				return false;
+		}
+
+		public override int GetHashCode()
+		{
+			return start_time.GetHashCode() + first_post_time.GetHashCode() + next_seq_num;
 		}
 	}
 }

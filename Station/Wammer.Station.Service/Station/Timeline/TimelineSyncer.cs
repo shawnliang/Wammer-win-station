@@ -10,6 +10,7 @@ namespace Wammer.Station.Timeline
 	{
 		PostResponse GetLastestPosts(Driver user, int limit);
 		PostResponse GetPostsBefore(Driver user, DateTime before, int limit);
+		PostResponse GetPostsBySeq(Driver user, int seq, int limit);
 		List<PostInfo> RetrievePosts(Driver user, List<string> posts);
 	}
 
@@ -24,14 +25,14 @@ namespace Wammer.Station.Timeline
 	public class TimelineSyncer
 	{
 		private readonly ITimelineSyncerDB db;
+		private readonly IChangeLogsApi changelogs;
 		private readonly IPostProvider postProvider;
-		private readonly IUserTrackApi userTrack;
 
-		public TimelineSyncer(IPostProvider postProvider, ITimelineSyncerDB db, IUserTrackApi userTrack)
+		public TimelineSyncer(IPostProvider postProvider, ITimelineSyncerDB db, IChangeLogsApi changelogs)
 		{
 			this.postProvider = postProvider;
 			this.db = db;
-			this.userTrack = userTrack;
+			this.changelogs = changelogs;
 		}
 
 		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
@@ -61,16 +62,14 @@ namespace Wammer.Station.Timeline
 
 			if (res.posts.Count > 0)
 			{
-				db.UpdateDriverSyncRange(user.user_id, new SyncRange
-				                                       	{
-				                                       		start_time = res.posts.Last().timestamp,
-				                                       		end_time =
-				                                       			(user.sync_range == null)
-				                                       				? res.posts.First().timestamp
-				                                       				: user.sync_range.end_time,
-				                                       		first_post_time =
-				                                       			(res.HasMoreData) ? null as DateTime? : res.posts.Last().timestamp
-				                                       	});
+				var range = new SyncRange
+					{
+						start_time = res.posts.Min(x => x.timestamp),
+						first_post_time =
+							(res.HasMoreData) ? null as DateTime? : res.posts.Min(x => x.timestamp)
+					};
+
+				db.UpdateDriverSyncRange(user.user_id, range);
 			}
 
 		}
@@ -85,40 +84,58 @@ namespace Wammer.Station.Timeline
 			if (user == null)
 				throw new ArgumentNullException("user");
 
-			if (user.sync_range == null || user.sync_range.end_time == DateTime.MinValue)
+			if (!user.is_change_history_synced)
 				throw new InvalidOperationException("Should call PullBackward() first");
-
-			DateTime since = user.sync_range.end_time.AddSeconds(1.0);
-
-			UserTrackResponse res;
 
 			try
 			{
-				res = userTrack.GetChangeHistory(user, since);
+				var res = changelogs.GetChangeHistory(user, user.sync_range.next_seq_num);
+				db.SaveUserTracks(new UserTracks(res));
+
+				ProcChangedPosts(user, res);
+				ProcNewAttachments(res);
 			}
-			catch (WammerCloudException e)
+			catch(WammerCloudException e)
 			{
-				// when no more data, cloud returns a empty last_timestamp which makes
-				// deserializing to json object parses error and a ArgumentOutOfRangeException
-				// is thrown.
-				//
-				// Use this exception as the exit criteria
-				if (e.InnerException is ArgumentOutOfRangeException)
-					return;
-				throw;
+				if (changeLogsNotAvailable(e))
+				{
+					int next_seq = RetrieveAllPostsBySeq(user, user.sync_range.next_seq_num);
+					UpdateDBForUserTrackBackFilled(user, next_seq);
+				}
+				else
+					throw;
 			}
-
-			db.SaveUserTracks(new UserTracks(res));
-
-			ProcChangedPosts(user, res);
-			ProcNewAttachments(res);
 		}
 
-		private void ProcChangedPosts(Driver user, UserTrackResponse res)
+		private static bool changeLogsNotAvailable(WammerCloudException e)
 		{
-			if (res.post_id_list != null)
+			return e.WammerError == (int)UserTrackApiError.SeqNumPurged ||
+								e.WammerError == (int)UserTrackApiError.TooManyRecord;
+		}
+
+		private void ProcChangedPosts(Driver user, ChangeLogResponse res)
+		{
+			var post_id_set = new HashSet<string>();
+
+			if (res.changelog_list != null)
 			{
-				List<PostInfo> changedPost = postProvider.RetrievePosts(user, res.post_id_list);
+				var postIds = res.changelog_list.Where(x => x.target_type == "attachment" && x.actions[0].target_type == "image.medium").
+					Select(x => x.actions[0].post_id);
+
+				foreach (var postId in postIds)
+					post_id_set.Add(postId);
+			}
+
+			if (res.post_list != null)
+			{
+				foreach (var postItem in res.post_list)
+					post_id_set.Add(postItem.post_id);
+			}
+
+
+			if (post_id_set.Count > 0)
+			{
+				List<PostInfo> changedPost = postProvider.RetrievePosts(user, post_id_set.ToList());
 				foreach (PostInfo post in changedPost)
 					db.SavePost(post);
 
@@ -128,18 +145,18 @@ namespace Wammer.Station.Timeline
 				                         new SyncRange
 				                         	{
 				                         		start_time = user.sync_range.start_time,
-				                         		end_time = res.latest_timestamp,
+												next_seq_num = res.next_seq_num,
 				                         		first_post_time = user.sync_range.first_post_time,
 				                         	});
 			}
 		}
 
-		private void ProcNewAttachments(UserTrackResponse res)
+		private void ProcNewAttachments(ChangeLogResponse res)
 		{
-			if (res.usertrack_list == null)
+			if (res.changelog_list == null)
 				return;
 
-			foreach (UserTrackDetail track in res.usertrack_list)
+			foreach (UserTrackDetail track in res.changelog_list)
 			{
 				if (track.target_type == "attachment" &&
 				    track.actions != null)
@@ -176,30 +193,75 @@ namespace Wammer.Station.Timeline
 
 		private void PullOldChangeLog(Driver user)
 		{
-			var api = new UserTracksApi();
-			DateTime since = DateTime.MinValue;
+			int since_seq_num = 1;
+			ChangeLogResponse res = new ChangeLogResponse { post_list = new List<PostListItem>() };
 
-			UserTrackResponse res;
-
-			do
+			try
 			{
-				res = api.GetChangeHistory(user, since);
+				do
+				{
+					res = changelogs.GetChangeHistory(user, since_seq_num);
 
-				db.SaveUserTracks(new UserTracks(res));
-				since = res.latest_timestamp.AddSeconds(1.0);
-			} while (since <= user.sync_range.end_time);
+					db.SaveUserTracks(new UserTracks(res));
+					since_seq_num = res.next_seq_num;
+
+				} while (res.remaining_count > 0);
+			}
+			catch (WammerCloudException e)
+			{
+				if (changeLogsNotAvailable(e))
+				{
+					int next_seq_num = RetrieveAllPostsBySeq(user, since_seq_num);
+					UpdateDBForUserTrackBackFilled(user, next_seq_num);
+					return;
+				}
+				else
+					throw;
+			}
+
 
 			// Last user track response could contain unsynced posts.
-			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_id_list);
+			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_list.Select(x=>x.post_id).ToList());
 			foreach (PostInfo post in newPosts)
 				db.SavePost(post);
 
 			OnPostsRetrieved(user, newPosts);
 
-			SyncRange newSyncRange = user.sync_range.Clone();
-			newSyncRange.end_time = since;
-			db.UpdateDriverSyncRange(user.user_id, newSyncRange);
+			UpdateDBForUserTrackBackFilled(user, res.next_seq_num);
+		}
+
+		private void UpdateDBForUserTrackBackFilled(Driver user, int next_seq_num)
+		{
+			SyncRange range = user.sync_range.Clone();
+			range.next_seq_num = next_seq_num;
+			db.UpdateDriverSyncRange(user.user_id, range);
 			db.UpdateDriverChangeHistorySynced(user.user_id, true);
+		}
+
+		private int RetrieveAllPostsBySeq(Driver user, int since_seq_num)
+		{
+			PostResponse result = null;
+			int since = since_seq_num;
+
+			do
+			{
+				result = postProvider.GetPostsBySeq(user, since, 100);
+
+				if (result.posts != null)
+				{
+					foreach (var post in result.posts)
+					{
+						db.SavePost(post);
+						if (post.seq_num >= since)
+							since = post.seq_num + 1;
+					}
+
+					OnPostsRetrieved(user, result.posts);
+				}
+
+			} while (result.HasMoreData);
+
+			return since;
 		}
 
 		private static bool HasUnsyncedOldPosts(Driver user)
@@ -209,7 +271,7 @@ namespace Wammer.Station.Timeline
 
 		private static bool HasNeverSynced(Driver user)
 		{
-			return user.sync_range == null || user.sync_range.end_time == DateTime.MinValue;
+			return user.sync_range == null || user.sync_range.start_time == DateTime.MinValue;
 		}
 
 		private void OnPostsRetrieved(Driver driver, List<PostInfo> posts)

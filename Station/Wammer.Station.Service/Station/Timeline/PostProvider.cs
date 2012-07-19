@@ -34,6 +34,12 @@ namespace Wammer.Station.Timeline
 			return api.PostFetchByPostId(posts).posts;
 		}
 
+		public PostResponse GetPostsBySeq(Driver user, int seq, int limit)
+		{
+			throw new NotImplementedException();
+		}
+
 		#endregion
+	
 	}
 }

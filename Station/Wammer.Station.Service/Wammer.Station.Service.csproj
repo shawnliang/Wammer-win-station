@@ -97,6 +97,7 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
@@ -109,9 +110,12 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute\APIHandlerInfoAttribute.cs" />
+    <Compile Include="Cloud\ChangeLogsApi.cs" />
+    <Compile Include="Cloud\Response\ChangeLogResponse.cs" />
     <Compile Include="Enum\APIHandlerType.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\GenericData.cs" />
@@ -126,8 +130,11 @@
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
     <Compile Include="Station\DriverController.cs" />
+    <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
+    <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
+    <Compile Include="Station\PostUpload\MobileDevicePostActivity.cs" />
     <Compile Include="Station\Retry\RetryQueueHelper.cs" />
     <Compile Include="Station\SessionNotExistException.cs" />
     <Compile Include="Station\Station.cs" />
@@ -229,6 +236,7 @@
     <Compile Include="Station\TaskQueue.cs" />
     <Compile Include="Station\TaskRetryTimer.cs" />
     <Compile Include="Station\AbstrackTaskRunner.cs" />
+    <Compile Include="Station\ThumbnailEventArgs.cs" />
     <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />

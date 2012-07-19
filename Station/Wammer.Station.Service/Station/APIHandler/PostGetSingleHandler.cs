@@ -3,6 +3,8 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using System.Linq;
+using MongoDB.Bson;
 
 namespace Wammer.Station
 {
@@ -40,6 +42,15 @@ namespace Wammer.Station
 					);
 			}
 
+			bool needUpdate = false;
+			if (singlePost.attachment_id_array.Count != singlePost.attachments.Count)
+			{
+				singlePost.attachments = AttachmentHelper.GetAttachmentInfoList(singlePost.attachment_id_array, singlePost.code_name);
+				needUpdate = true;
+			}
+
+
+
 			var userList = new List<UserInfo>
 			               	{
 			               		new UserInfo
@@ -57,6 +68,11 @@ namespace Wammer.Station
 						users = userList
 					}
 				);
+
+
+
+			if (needUpdate)
+				PostCollection.Instance.UpdateAttachments(singlePost);
 		}
 
 		#endregion

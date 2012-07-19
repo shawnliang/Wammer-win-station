@@ -18,7 +18,7 @@ namespace Wammer.Station
 			: base(timerPeriod)
 		{
 			downloader = new ResourceDownloader(bodySyncQueue);
-			syncer = new TimelineSyncer(new PostProvider(), new TimelineSyncerDB(), new UserTracksApi());
+			syncer = new TimelineSyncer(new PostProvider(), new TimelineSyncerDB(), new ChangeLogsApi());
 			syncer.PostsRetrieved += downloader.PostRetrieved;
 			syncer.BodyAvailable += syncer_BodyAvailable;
 		}

@@ -276,10 +276,20 @@ namespace Wammer.Station.Timeline
 				api.AttachmentView(evtargs, StationRegistry.StationId);
 				DownloadComplete(evtargs, user);
 			}
+			catch (WammerCloudException e)
+			{
+				if (e.WammerError == (int)AttachmentApiError.AttachmentNotExist)
+				{
+					logger.InfoFormat("Abort downloading attachment {0} meta {1} because object does not exist", evtargs.attachment.object_id, meta);
+					return;
+				}
+
+				throw;
+			}
 			catch (Exception e)
 			{
-				string msg = string.Format("Unabel to download attachment {0}", evtargs.attachment.object_id);
-				throw new Exception(msg , e);
+				string msg = string.Format("Unabel to download attachment {0} meta {1}", evtargs.attachment.object_id, meta);
+				throw new Exception(msg, e);
 			}
 			finally
 			{

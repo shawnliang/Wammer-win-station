@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
+using Waveface.Libs.StationDB;
+using MongoDB.Driver.Builders;
 
 #endregion
 
@@ -23,6 +25,9 @@ namespace Waveface.DetailUI
 
         #region Fields
 
+        public static string PostID;
+        public static int UnloadPhotosCount;
+
         private Panel panelMain;
         private AutoScrollPanel panelRight;
         private WebBrowser webBrowserTop;
@@ -30,7 +35,6 @@ namespace Waveface.DetailUI
         private Post m_post;
         private Panel panelPictureInfo;
         private Label labelPictureInfo;
-        private Dictionary<string, string> m_filesMapping;
         private IContainer components;
         private Timer timer;
 
@@ -99,6 +103,9 @@ namespace Waveface.DetailUI
                 {
                     m_canEdit = false;
 
+                    PostID = m_post.post_id;
+                    UnloadPhotosCount = m_post.attachment_id_array.Count;
+
                     RefreshUI();
                 }
             }
@@ -134,7 +141,6 @@ namespace Waveface.DetailUI
             imageListView.ThumbnailSize = new Size(144, 144);
             imageListView.UseEmbeddedThumbnails = UseEmbeddedThumbnails.Never;
 
-            m_filesMapping = new Dictionary<string, string>();
             m_clickableURLs = new List<string>();
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
@@ -341,7 +347,7 @@ namespace Waveface.DetailUI
 
         private void ReLayout()
         {
-            if (Post.attachment_count > 0)
+            if (Post.attachment_id_array.Count > 0)
             {
                 imageListView.Height = imageListView.VScrollBar.Maximum + 16;
             }
@@ -407,9 +413,6 @@ namespace Waveface.DetailUI
             if (m_imageAttachments.Count == 0)
                 return;
 
-
-            m_filesMapping.Clear();
-
             foreach (Attachment _attachment in m_imageAttachments)
             {
                 SetPicture(_attachment, "origin", m_filePathOrigins);
@@ -433,12 +436,6 @@ namespace Waveface.DetailUI
             string localFile = Path.Combine(Main.GCONST.ImageCachePath, fileName);
 
             filePaths.Add(localFile);
-
-            if (m_filesMapping.ContainsKey(fileName))
-                return;
-
-            if ((!String.IsNullOrEmpty(attachment.file_name)) && (!attachment.file_name.Contains("?")))
-                m_filesMapping.Add(fileName, attachment.file_name);
         }
 
         private void InitImageListViewLoadingImage()
@@ -514,6 +511,8 @@ namespace Waveface.DetailUI
 
             m_loadingPhotosCount = _count;
 
+            UnloadPhotosCount = m_imageAttachments.Count - _count;
+
             if (firstTime || _show)
             {
                 ShowImageListView(firstTime);
@@ -555,6 +554,17 @@ namespace Waveface.DetailUI
 
                         continue;
                     }
+
+                    if (Post.Sources.ContainsKey(m_imageAttachments[i].object_id))
+                    {
+                        var sourcePath = Post.Sources[m_imageAttachments[i].object_id];
+                        if (File.Exists(sourcePath))
+                        {
+                            imageListView.Items[i].FileName = sourcePath;
+                            k++;
+                            continue;
+                        }
+                    }
                 }
             }
             catch
@@ -588,7 +598,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (PhotoView _photoView = new PhotoView(m_post, m_imageAttachments, m_filePathOrigins, m_filePathMediums, m_filesMapping, index))
+            using (PhotoView _photoView = new PhotoView(m_post, m_imageAttachments, m_filePathOrigins, m_filePathMediums, index))
             {
                 _photoView.ShowDialog();
             }
@@ -791,12 +801,7 @@ namespace Waveface.DetailUI
 
         private bool CheckIfLoadingImage(ImageListViewItem imageListViewItem)
         {
-            string _trueName = new FileInfo(imageListViewItem.FileName).Name;
-
-            if (m_filesMapping.ContainsKey(_trueName))
-                _trueName = m_filesMapping[_trueName];
-
-            return (_trueName == "LoadingImage.jpg");
+            return imageListViewItem.FileName.Contains("LoadingImage.jpg");
         }
 
         public void SaveAllPics()
@@ -820,24 +825,18 @@ namespace Waveface.DetailUI
                     if (CheckIfLoadingImage(imageListView.Items[i]))
                         continue;
 
-                    _fileName = new FileInfo(imageListView.Items[i].FileName).Name;
-
+                    var attachment = m_imageAttachments[i];
+                    _fileName = queryFileName(attachment.object_id, Path.GetExtension(imageListView.Items[i].FileName));
+                    _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
                     _OriginFileExist = false;
 
                     if (Main.Current.IsPrimaryStation)
                     {
                         if (File.Exists(m_filePathOrigins[i]))
                         {
-                            _fileName = new FileInfo(m_filePathOrigins[i]).Name;
-
                             _OriginFileExist = true;
                         }
                     }
-
-                    if (m_filesMapping.ContainsKey(_fileName))
-                        _fileName = m_filesMapping[_fileName]; // 取出真實名稱
-
-                    _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
 
                     try
                     {
@@ -858,6 +857,16 @@ namespace Waveface.DetailUI
                 MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
             }
+        }
+
+        private string queryFileName(string objectId, string extension)
+        {
+            var fileName = AttachmentCollection.QueryFileName(objectId);
+
+            if (string.IsNullOrEmpty(fileName))
+                return objectId + extension;
+            else
+                return fileName;
         }
 
         private void imageListView_DropFiles(object sender, DropFileEventArgs e)

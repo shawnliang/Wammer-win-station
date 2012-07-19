@@ -12,6 +12,7 @@ namespace Waveface
         public string LocalFilePath_Origin { get; set; }
         public string LocalFilePath_Medium { get; set; }
         public bool ForceDownloadOrigin { get; set; }
+        public string PostID { get; set; }
 
         public int ErrorTry { get; set; }
 
@@ -24,6 +25,7 @@ namespace Waveface
             MediumPath = string.Empty;
             LocalFilePath_Origin = string.Empty;
             LocalFilePath_Medium = string.Empty;
+            PostID = string.Empty;
         }
     }
 }

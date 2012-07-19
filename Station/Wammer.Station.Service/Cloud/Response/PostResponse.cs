@@ -25,18 +25,13 @@ namespace Wammer.Cloud
 	{
 		#region Var
 
-		private List<PostInfo> _posts;
 		private List<UserInfo> _users;
 
 		#endregion
 
 		#region Public Property
 
-		public List<PostInfo> posts
-		{
-			get { return _posts ?? (_posts = new List<PostInfo>()); }
-			set { _posts = value; }
-		}
+		public PostInfo post { get; set; }
 
 		public List<UserInfo> users
 		{
@@ -44,6 +39,8 @@ namespace Wammer.Cloud
 			set { _users = value; }
 		}
 
+		public string post_id { get; set; }
+		public string group_id { get; set; }
 		#endregion
 	}
 
@@ -305,5 +302,8 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public string cover_attach { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int seq_num { get; set; }
 	}
 }

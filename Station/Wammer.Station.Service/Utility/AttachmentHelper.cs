@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using Wammer.Cloud;
 using Wammer.Model;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Utility
 {
@@ -8,13 +11,21 @@ namespace Wammer.Utility
 	{
 		#region Public Static Method
 
-		public static AttachmentInfo GetAttachmentnfo(Attachment attachment, string codeName)
+		public static List<AttachmentInfo> GetAttachmentInfoList(IEnumerable<string> attachment_id_list, string code_name)
+		{
+			return (from attachmentID in attachment_id_list
+								  let attachment =
+									  AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
+								  where attachment != null
+								  select AttachmentHelper.GetAttachmentnfo(attachment, code_name)).ToList();
+		}
+
+		private static AttachmentInfo GetAttachmentnfo(Attachment attachment, string codeName)
 		{
 			var attachmentInfo = new AttachmentInfo
 			                     	{
 			                     		group_id = attachment.group_id,
 			                     		file_name = attachment.file_name,
-			                     		meta_status = "OK",
 			                     		object_id = attachment.object_id,
 			                     		creator_id = attachment.creator_id,
 			                     		modify_time = DateTime.Now.Ticks,
@@ -52,7 +63,7 @@ namespace Wammer.Utility
 			return attachmentInfo;
 		}
 
-		public static void SetAttachmentInfoImageMeta(ThumbnailInfo attachmentThumbnailInfo,
+		private static void SetAttachmentInfoImageMeta(ThumbnailInfo attachmentThumbnailInfo,
 		                                              AttachmentInfo.ImageMetaDetail attachmentInfoThumbnailInfo)
 		{
 			if (attachmentThumbnailInfo == null || attachmentInfoThumbnailInfo == null)

@@ -702,6 +702,8 @@ namespace Wammer.Station.Management
 								return new InvalidDriverException(r.api_ret_message);
 							case (int)StationLocalApiError.ConnectToCloudError:
 								return new ConnectToCloudException(r.api_ret_message);
+							case (int)GeneralApiError.NotSupportClient:
+								return new VersionNotSupportedException(r.api_ret_message);
 							default:
 								return new Exception(r.api_ret_message);
 						}
@@ -907,7 +909,15 @@ namespace Wammer.Station.Management
 		public ConnectToCloudException(string msg)
 			:base(msg)
 		{
-		} 
+		}
+	}
+
+	public class VersionNotSupportedException: Exception
+	{
+		public VersionNotSupportedException(string msg)
+			: base(msg)
+		{
+		}
 	}
 
 	public class UserAlreadyHasStationException: Exception

@@ -55,9 +55,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StationSystemTray", "Statio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{82E503A6-489F-479A-A1E6-F9F6B1467164}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D5B34CB2-2266-4A90-B5D7-1CA68E7C6C92}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		Wammer-windows1.vsmdi = Wammer-windows1.vsmdi
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Wammer-win-station.vsmdi
+		CategoryFile = Wammer-windows1.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -809,6 +815,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C7B8A613-B0D8-49B4-B232-54A222E0095C} = {B7B3F6C7-0019-4EAA-9A3A-00BC0997D6A6}
 		{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA} = {B7B3F6C7-0019-4EAA-9A3A-00BC0997D6A6}
 		{87C11605-FDC7-444E-9C9D-4E1743182B6F} = {B7B3F6C7-0019-4EAA-9A3A-00BC0997D6A6}
 		{16EBC016-5750-4D60-951C-FFB38E30C566} = {B7B3F6C7-0019-4EAA-9A3A-00BC0997D6A6}

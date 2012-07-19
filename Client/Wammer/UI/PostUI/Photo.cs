@@ -24,7 +24,6 @@ namespace Waveface.PostUI
         private List<string> m_editModeOriginPhotoFiles;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
         private string m_coverAttachGUID;
-        private string m_oldCoverAttachGUID;
         private ImageListViewItem m_selectedItem;
 
         public PostForm MyParent { get; set; }
@@ -119,7 +118,7 @@ namespace Waveface.PostUI
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-                _tag.GUID = Guid.NewGuid().ToString();
+                _tag.caGUID = Guid.NewGuid().ToString();
                 _tag.AddPhotoType = EditModePhotoType.NewPostOrigin;
 
                 _item.Tag = _tag;
@@ -139,7 +138,7 @@ namespace Waveface.PostUI
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-                _tag.GUID = Guid.NewGuid().ToString();
+                _tag.caGUID = Guid.NewGuid().ToString();
                 _tag.AddPhotoType = EditModePhotoType.EditModeOrigin;
                 _tag.ObjectID = attachments[i].object_id;
 
@@ -147,9 +146,7 @@ namespace Waveface.PostUI
                 {
                     _tag.IsCoverImage_UI = true;
 
-                    m_coverAttachGUID = _tag.GUID;
-
-                    m_oldCoverAttachGUID = _tag.GUID;
+                    m_coverAttachGUID = _tag.caGUID;
                 }
 
                 _item.Tag = _tag;
@@ -252,7 +249,7 @@ namespace Waveface.PostUI
                 EditModeImageListViewItemTag _tag = _item.Tag as EditModeImageListViewItemTag;
                 _tag.IsCoverImage_UI = false;
 
-                if (_tag.GUID == m_coverAttachGUID)
+                if (_tag.caGUID == m_coverAttachGUID)
                 {
                     _tag.IsCoverImage_UI = true;
 
@@ -260,6 +257,7 @@ namespace Waveface.PostUI
                 }
             }
 
+            // ToDo: Rule?
             if (!_setCoverImage_UI)
             {
                 if (imageListView.Items.Count > 0)
@@ -354,7 +352,8 @@ namespace Waveface.PostUI
 
         private void EditModePost()
         {
-            List<string> _objectsID = new List<string>();
+            List<string> _objectIDs = new List<string>();
+            List<string> _objectIDs_Edit = new List<string>();
             List<string> _files = new List<string>();
             int _newAdd = 0;
 
@@ -366,13 +365,16 @@ namespace Waveface.PostUI
                 {
                     _files.Add(_vi.FileName);
 
-                    _objectsID.Add(_vi.FileName);
+                    string _guid = Guid.NewGuid().ToString();
+
+                    _objectIDs.Add(_guid);
+                    _objectIDs_Edit.Add(_guid);
 
                     _newAdd++;
                 }
                 else
                 {
-                    _objectsID.Add(_tag.ObjectID);
+                    _objectIDs.Add(_tag.ObjectID);
                 }
             }
 
@@ -445,8 +447,10 @@ namespace Waveface.PostUI
                 _bpItem.Files = _files;
 
                 _bpItem.EditMode = true;
-                _bpItem.ObjectIDs = _objectsID;
+                _bpItem.ObjectIDs = _objectIDs;
+                _bpItem.ObjectIDs_Edit = _objectIDs_Edit;
                 _bpItem.Post = MyParent.Post;
+                _bpItem.PostID = MyParent.Post.post_id;
 
                 _bpItem.CoverAttachIndex = GetCoverAttachIndex();
 
@@ -558,6 +562,8 @@ namespace Waveface.PostUI
                 }
             }
 
+            List<string> _objectIDs = new List<string>();
+
             BatchPostItem _bpItem = new BatchPostItem();
             _bpItem.PostType = PostType.Photo;
             _bpItem.Text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
@@ -567,7 +573,11 @@ namespace Waveface.PostUI
             foreach (ImageListViewItem _vi in imageListView.Items)
             {
                 _bpItem.Files.Add(_vi.FileName);
+
+                _objectIDs.Add(Guid.NewGuid().ToString());
             }
+
+            _bpItem.ObjectIDs = _objectIDs;
 
             _bpItem.CoverAttachIndex = GetCoverAttachIndex();
 
@@ -577,30 +587,21 @@ namespace Waveface.PostUI
 
         private int GetCoverAttachIndex()
         {
-            if (string.IsNullOrEmpty(m_coverAttachGUID)) // 沒有設定過, 一定不用修改
-            {
-                return -1;
-            }
+            int k = 0;
 
-            if (!string.IsNullOrEmpty(m_oldCoverAttachGUID))
+            foreach (ImageListViewItem _item in imageListView.Items)
             {
-                if (m_coverAttachGUID == m_oldCoverAttachGUID) // 如果舊的跟新設過的一樣, 就不需要改
+                EditModeImageListViewItemTag _tag = _item.Tag as EditModeImageListViewItemTag;
+
+                if (_tag.IsCoverImage_UI)
                 {
-                    return -1;
+                    return k;
                 }
+
+                k++;
             }
 
-            for (int i = 0; i < imageListView.Items.Count; i++)
-            {
-                EditModeImageListViewItemTag _tag = imageListView.Items[i].Tag as EditModeImageListViewItemTag;
-
-                if (_tag.GUID == m_coverAttachGUID)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
+            return 0;
         }
 
         private long CheckStoragesUsage(int went)
@@ -718,7 +719,7 @@ namespace Waveface.PostUI
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-                _tag.GUID = Guid.NewGuid().ToString();
+                _tag.caGUID = Guid.NewGuid().ToString();
 
                 if (MyParent.EditMode)
                     _tag.AddPhotoType = EditModePhotoType.EditModeNewAdd;
@@ -819,7 +820,7 @@ namespace Waveface.PostUI
             if (m_selectedItem != null)
             {
                 EditModeImageListViewItemTag _tag = m_selectedItem.Tag as EditModeImageListViewItemTag;
-                m_coverAttachGUID = _tag.GUID;
+                m_coverAttachGUID = _tag.caGUID;
 
                 SetCoverImageUI();
             }

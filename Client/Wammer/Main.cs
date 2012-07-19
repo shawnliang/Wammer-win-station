@@ -62,7 +62,7 @@ namespace Waveface
         private bool m_getAllDataError;
 
         private string m_stationIP;
-        private string m_newestUpdateTime;
+        private int m_next_seq_num;
         private string m_initSessionToken;
         private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
         private bool m_isPrimaryStation;
@@ -267,14 +267,14 @@ namespace Waveface
 									where item1 != null && item1.type == "facebook"
 									from item2 in userInfo.SNS2
 									where item2 != null && item2.type == "facebook"
-									select new
-									{
-										Enabled = item1.enabled,
-										SnsID = item2.snsid,
+								select new
+								{
+									Enabled = item1.enabled,
+									SnsID = item2.snsid,
 										Status = item2.status,
 										Status2 = item1.status,
 										LastSync = item1.lastSync
-									}).FirstOrDefault();
+								}).FirstOrDefault();
 
 					accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
 				}
@@ -947,13 +947,11 @@ namespace Waveface
             }
         }
 
-        public void GetAllDataAsync()
+        public void GetAllDataAsync(object parameter = null)
         {
             if (InvokeRequired)
             {
-                Invoke(new MethodInvoker(
-                           delegate { GetAllDataAsync(); }
-                           ));
+                Invoke(new Action(() => { GetAllDataAsync(parameter); }));
             }
             else
             {
@@ -964,7 +962,7 @@ namespace Waveface
                 if (bgWorkerGetAllData.IsBusy)
                     Cursor = Cursors.Default;
                 else
-                    bgWorkerGetAllData.RunWorkerAsync();
+                    bgWorkerGetAllData.RunWorkerAsync(parameter);
             }
         }
 
@@ -1248,8 +1246,9 @@ namespace Waveface
 
             if ((_singlePost != null) && (_singlePost.post != null))
             {
-                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
-                // ReplacePostInList(_singlePost.post, RT.FilterPosts);
+                Post _p = PostUtility.GenPhotoAttachments(_singlePost.post);
+
+                ReplacePostInList(_p, RT.CurrentGroupPosts);
 
                 ShowPostInTimeline();
             }
@@ -1257,7 +1256,9 @@ namespace Waveface
 
         public void RefreshSinglePost(Post post)
         {
-            ReplacePostInList(post, RT.CurrentGroupPosts);
+            Post _p = PostUtility.GenPhotoAttachments(post);
+
+            ReplacePostInList(_p, RT.CurrentGroupPosts);
 
             ShowPostInTimeline();
         }
@@ -1523,35 +1524,30 @@ namespace Waveface
                 }
                 */
 
-                string _newestUpdateTime;
+                int _next_seq_num;
 
-                if (string.IsNullOrEmpty(m_newestUpdateTime))
+                if (m_next_seq_num <= 0)
                 {
-                    _newestUpdateTime = GetNewestUpdateTimeInPosts(RT.CurrentGroupPosts);
+                    _next_seq_num = RT.CurrentGroupPosts.Max(x => x.seq_num) + 1;
                 }
                 else
                 {
-                    _newestUpdateTime = m_newestUpdateTime;
+                    _next_seq_num = m_next_seq_num;
                 }
 
-                _newestUpdateTime =
-                    DateTimeHelp.ToUniversalTime_ToISO8601(
-                        DateTimeHelp.ISO8601ToDateTime(_newestUpdateTime).AddSeconds(1));
-
-                MR_usertracks_get _usertracks = RT.REST.usertracks_get(_newestUpdateTime);
+                MR_changelogs_get _usertracks = RT.REST.changelogs_get(_next_seq_num);
 
                 if (_usertracks != null)
                 {
-                    if (_usertracks.get_count == 0)
+                    if (_usertracks.changelog_list == null || _usertracks.post_list == null)
                     {
                         timerPolling.Enabled = true;
-
                         return;
                     }
 
-                    m_newestUpdateTime = _usertracks.latest_timestamp;
+                    m_next_seq_num = _usertracks.next_seq_num;
 
-                    foreach (UT_UsertrackList _usertrack in _usertracks.usertrack_list)
+                    foreach (UT_UsertrackList _usertrack in _usertracks.changelog_list)
                     {
                         foreach (UT_Action _action in _usertrack.actions)
                         {
@@ -1569,10 +1565,17 @@ namespace Waveface
                                         break;
                                 }
                             }
+
+                            if (_action.target_type == "image.medium" &&
+                                _action.action == "add" &&
+                                !string.IsNullOrEmpty(_action.post_id))
+                            {
+                                //???
                         }
                     }
+                    }
 
-                    string _json = JsonConvert.SerializeObject(_usertracks.post_id_list);
+                    string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
 
                     MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
@@ -1580,8 +1583,10 @@ namespace Waveface
                     {
                         bool _changed = false;
 
-                        foreach (Post _p in _postsGet.posts)
+                        foreach (Post _post in _postsGet.posts)
                         {
+                            Post _p = PostUtility.GenPhotoAttachments(_post);
+
                             _changed = ReplacePostInList(_p, RT.CurrentGroupPosts);
                         }
 
@@ -1682,9 +1687,16 @@ namespace Waveface
 
         #region GetAllData
 
-        public void ReloadAllData()
+        public void ReloadAllData(object parameter = null)
         {
-            GetAllDataAsync();
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => { ReloadAllData(parameter); }));
+            }
+            else
+        {
+                GetAllDataAsync(parameter);
+            }
         }
 
         private void bgWorkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
@@ -1743,6 +1755,7 @@ namespace Waveface
                                     _datum = _p.timestamp;
                                 }
                             }
+
                             _remainingCount = _postsGet.remaining_count;
                         }
                     }
@@ -1751,8 +1764,19 @@ namespace Waveface
 
             List<Post> _tmpPosts = new List<Post>();
 
-            foreach (Post _p in _allPosts.Values)
+
+            var dirtyPost = e.Argument as PhotoPostInfo;
+
+            foreach (Post _post in _allPosts.Values)
             {
+                Post _p = PostUtility.GenPhotoAttachments(_post);
+
+                if (dirtyPost != null &&
+                    dirtyPost.post_id == _post.post_id)
+            {
+                    _p.Sources = dirtyPost.sources;
+                }
+
                 _tmpPosts.Add(_p);
             }
 

@@ -10460,9 +10460,6 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   <data name="loginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="loginButton1.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>110, 40</value>
-  </data>
   <data name="loginButton1.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 40</value>
   </data>

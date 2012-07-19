@@ -9,10 +9,16 @@ using Wammer.Utility;
 
 namespace Wammer.Station.APIHandler
 {
-	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/usertracks/get/")]
-	public class UserTrackHandler : HttpHandler
+	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/changelogs/get/")]
+	class UserTrackHandler : HttpHandler
 	{
 		private readonly UserTrackHandlerImp impl = new UserTrackHandlerImp(new UserTrackHandlerDB());
+		private readonly LocalUserTrack.LocalUserTrackManager localUserTrackMgr;
+
+		public UserTrackHandler(LocalUserTrack.LocalUserTrackManager localUserTrackMgr)
+		{
+			this.localUserTrackMgr = localUserTrackMgr;
+		}
 
 		#region Protected Method
 
@@ -21,15 +27,81 @@ namespace Wammer.Station.APIHandler
 		/// </summary>
 		public override void HandleRequest()
 		{
-			CheckParameter("group_id", "since");
+			if (CloudServer.VersionNotCompatible)
+				throw new WammerStationException("Version not supported", (int)GeneralApiError.NotSupportClient);
+
+			CheckParameter("group_id");
 
 			bool include_entities = "true" == Parameters["include_entities"];
 
-			RespondSuccess(
-				impl.GetUserTrack(Parameters["group_id"], Parameters["since"], include_entities));
+			ChangeLogResponse result;
+
+			if (Request.RemoteEndPoint.Address.ToString() == "127.0.0.1")
+			{
+				result = impl.GetUserTrack(Parameters["group_id"], Convert.ToInt32(Parameters["since"]), include_entities);
+			}
+			else
+			{
+				var sinceParam = Parameters["since"];
+				result = ChangeLogsApi.GetChangeHistory(Parameters["session_token"], Parameters["apikey"],
+					Parameters["group_id"], sinceParam == null? -1 : Convert.ToInt32(sinceParam));
+			}
+
+			var localUserTracks = localUserTrackMgr.getUserTracksBySession(Parameters["group_id"], Parameters["session_token"]);
+			
+			result.attachment_list = mergeAttachmentIdList(result.attachment_list, localUserTracks);
+
+			if (include_entities)
+			{
+				result.changelog_list = mergeUserTrackList(result.changelog_list, localUserTracks);
+			}
+			else
+			{
+				result.changelog_list = null;
+			}
+
+			RespondSuccess(result);
 		}
 
 		#endregion
+
+
+		private static List<AttachmentListItem> mergeAttachmentIdList(List<AttachmentListItem> att_list, IEnumerable<UserTrackDetail> localUserTracks)
+		{
+			if (att_list == null || att_list.Count == 0)
+				return localUserTracks.Select(x =>
+					new AttachmentListItem
+					{
+						attachment_id = x.target_id,
+						seq_num = 0,
+						update_time = DateTime.UtcNow
+					}).ToList();
+			else
+			{
+				var result = localUserTracks.Select(x => new AttachmentListItem
+					{
+						attachment_id = x.target_id,
+						seq_num = 0,
+						update_time = DateTime.UtcNow
+					}).ToList();
+				result.AddRange(att_list);
+
+				return result;
+			}
+		}
+
+		private static List<UserTrackDetail> mergeUserTrackList(List<UserTrackDetail> track1, IEnumerable<UserTrackDetail> track2)
+		{
+			if (track1 == null || track1.Count == 0)
+				return track2.ToList();
+			else
+			{
+				var output = track2.ToList();
+				output.AddRange(track1);
+
+				return output;
+			}
+		}
 
 		#region Public Method
 
@@ -44,7 +116,7 @@ namespace Wammer.Station.APIHandler
 	public interface IUserTrackHandlerDB
 	{
 		Driver GetUserByGroupId(string group_id);
-		IEnumerable<UserTracks> GetUserTracksSince(string group_id, DateTime since);
+		IEnumerable<UserTracks> GetUserTracksSince(string group_id, int since_seq_num);
 	}
 
 	internal class UserTrackHandlerDB : IUserTrackHandlerDB
@@ -56,12 +128,12 @@ namespace Wammer.Station.APIHandler
 			return DriverCollection.Instance.FindDriverByGroupId(group_id);
 		}
 
-		public IEnumerable<UserTracks> GetUserTracksSince(string group_id, DateTime since)
+		public IEnumerable<UserTracks> GetUserTracksSince(string group_id, int since_seq_num)
 		{
 			return UserTrackCollection.Instance.Find(
 				Query.And(
 					Query.EQ("group_id", group_id),
-					Query.GTE("latest_timestamp", since))).SetSortOrder(SortBy.Ascending("latest_timestamp"));
+					Query.GT("next_seq_num", since_seq_num))).SetSortOrder(SortBy.Ascending("next_seq_num"));
 		}
 
 		#endregion
@@ -76,7 +148,7 @@ namespace Wammer.Station.APIHandler
 			this.db = db;
 		}
 
-		public UserTrackResponse GetUserTrack(string group_id, string since, bool include_entities)
+		public ChangeLogResponse GetUserTrack(string group_id, int since_seq_num, bool include_entities)
 		{
 			Driver user = db.GetUserByGroupId(group_id);
 
@@ -85,30 +157,31 @@ namespace Wammer.Station.APIHandler
 				                                 (int) StationLocalApiError.InvalidDriver);
 
 			if (!user.is_change_history_synced)
-				throw new WammerStationException("usertracks API is not ready. Syncing still in progress.",
-				                                 (int) StationLocalApiError.NotReady);
+			{
+				this.LogInfoMsg("changelogs API is not ready because syncing in progress.");
+				return new ChangeLogResponse() { next_seq_num = since_seq_num };
+			}
 
-			DateTime sinceDateTime = TimeHelper.ParseCloudTimeString(since);
-			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, sinceDateTime);
+			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, since_seq_num);
 
 			Debug.Assert(userTracks != null, "userTracks != null");
 
-			var response = new UserTrackResponse();
+			var response = new ChangeLogResponse();
 			if (include_entities)
 			{
-				response.post_id_list = mergePostIdLists(userTracks);
-				response.usertrack_list = mergeDetails(userTracks);
-				response.get_count = response.usertrack_list.Count;
+				response.post_list = mergePostIdLists(userTracks);
+				response.changelog_list = mergeDetails(userTracks);
+				response.get_count = response.changelog_list.Count;
 			}
 			else
 			{
-				response.post_id_list = mergePostIdLists(userTracks);
-				response.get_count = response.post_id_list.Count;
+				response.post_list = mergePostIdLists(userTracks);
+				response.get_count = response.post_list.Count;
 			}
 
 			response.group_id = group_id;
-			response.latest_timestamp = userTracks.Any() ? userTracks.Last().latest_timestamp : DateTime.UtcNow;
 			response.remaining_count = 0;
+			response.next_seq_num = userTracks.Count() > 0 ? userTracks.Last().next_seq_num : since_seq_num;
 
 			return response;
 		}
@@ -128,7 +201,7 @@ namespace Wammer.Station.APIHandler
 			return details;
 		}
 
-		private List<string> mergePostIdLists(IEnumerable<UserTracks> tracks)
+		private List<PostListItem> mergePostIdLists(IEnumerable<UserTracks> tracks)
 		{
 			var posts = new HashSet<string>();
 
@@ -140,7 +213,8 @@ namespace Wammer.Station.APIHandler
 				foreach (string post_id in ut.post_id_list)
 					posts.Add(post_id);
 			}
-			return posts.ToList();
+
+			return posts.Select(postId => new PostListItem { post_id = postId }).ToList();
 		}
 	}
 }

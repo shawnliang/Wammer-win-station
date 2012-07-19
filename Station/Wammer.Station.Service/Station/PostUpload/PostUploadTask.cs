@@ -54,39 +54,6 @@ namespace Wammer.PostUpload
 
 		#endregion
 
-		protected bool IsPostExist(PostApi api)
-		{
-			try
-			{
-				api.PostGetSingle(Parameters["group_id"], PostId);
-				return true;
-			}
-			catch (WammerCloudException e)
-			{
-				if (!CloudServer.IsNetworkError(e)
-				    && !CloudServer.IsSessionError(e)
-				    && Enum.IsDefined(typeof (PostApiError), e.WammerError)
-				    && e.WammerError == (int) PostApiError.PostNotExist)
-				{
-					return false;
-				}
-				throw;
-			}
-		}
-
-		protected bool IsAttachmentUploaded(string objectId, string session_token)
-		{
-			try
-			{
-				AttachmentApi.GetInfo(objectId, session_token);
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-		}
-
 		protected abstract void Do(Driver user);
 	}
 

@@ -2,8 +2,6 @@
 <TestSettings name="Local" id="b1f0df1b-30b5-414a-b5e6-f4e7e907d533" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
-    <DeploymentItem filename="Station\3rd_party\DotNetPortMapper\miniupnp.dll" />
-    <DeploymentItem filename="Station\3rd_party\DotNetPortMapper\natpmp.dll" />
     <DeploymentItem filename="Station\UT_WammerStation\TestData\" />
   </Deployment>
   <Execution>
