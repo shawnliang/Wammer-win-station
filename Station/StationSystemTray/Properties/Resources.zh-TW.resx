@@ -141,6 +141,9 @@
   <data name="CleanResourceMsg" xml:space="preserve">
     <value>是否要將 {0} 帳號自本機移除？</value>
   </data>
+  <data name="CLOSE_BUTTON_TEXT" xml:space="preserve">
+    <value>關閉</value>
+  </data>
   <data name="ConnectCloudError" xml:space="preserve">
     <value>無法連線至 Stream 伺服器</value>
   </data>
@@ -158,6 +161,9 @@
   </data>
   <data name="DropboxUI_Disconnect" xml:space="preserve">
     <value>解除連結</value>
+  </data>
+  <data name="FB_CONNECT_PAGE_TITLE" xml:space="preserve">
+    <value>連接 Facebook - Stream</value>
   </data>
   <data name="FillAllFields" xml:space="preserve">
     <value>請填寫所有欄位.</value>
@@ -192,6 +198,9 @@
   <data name="NetworkDisconnected" xml:space="preserve">
     <value>網路斷線</value>
   </data>
+  <data name="NEXT_BUTTON_TEXT" xml:space="preserve">
+    <value>下一步</value>
+  </data>
   <data name="NotConnected" xml:space="preserve">
     <value>無法從外部網路存取</value>
   </data>
@@ -203,6 +212,9 @@
   </data>
   <data name="PausingWFService" xml:space="preserve">
     <value>正在暫停同步...</value>
+  </data>
+  <data name="PREVIOUS_BUTTON_TEXT" xml:space="preserve">
+    <value>上一步</value>
   </data>
   <data name="QuitWFService" xml:space="preserve">
     <value>離開</value>

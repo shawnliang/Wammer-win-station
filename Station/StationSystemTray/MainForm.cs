@@ -25,6 +25,7 @@ using Wammer.Station;
 using Wammer.Station.Management;
 using Wammer.Utility;
 using Timer = System.Windows.Forms.Timer;
+using StationSystemTray.Dialog;
 
 namespace StationSystemTray
 {
@@ -1005,7 +1006,7 @@ namespace StationSystemTray
 			try
 			{
 				Hide();
-
+			
 				string signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
 				var postData = new FBPostData
 				               	{
@@ -1015,39 +1016,37 @@ namespace StationSystemTray
 				               		api_key = CLIENT_API_KEY,
 				               		xurl =
 				               			string.Format(
-				               				"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s",
+											"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s&is_new_user=%(is_new_user)s",
 				               				signUpUrl),
-				               		locale = Thread.CurrentThread.CurrentCulture.ToString()
+				               		locale = Thread.CurrentThread.CurrentCulture.ToString(),
+									show_tutorial = "false"
 				               	};
 
-				var browser = new WebBrowser
-				              	{
-				              		WebBrowserShortcutsEnabled = false,
-				              		IsWebBrowserContextMenuEnabled = false,
-				              		Dock = DockStyle.Fill
-				              	};
 
-				var dialog = new Form
-				             	{
-				             		Width = 750,
-				             		Height = 600,
-				             		Text = Resources.SIGNUP_PAGE_TITLE,
-				             		StartPosition = FormStartPosition.CenterParent,
-				             		Icon = Icon
-				             	};
-				dialog.Controls.Add(browser);
-
-				//MessageBox.Show("callBackPattern: " + string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"));
-
+				var dialog = new SignUpDialog()
+				{
+					Text = Resources.SIGNUP_PAGE_TITLE,
+					StartPosition = FormStartPosition.CenterParent
+				};
+				var browser = dialog.Browser;
+				var signupOK = false;
 				browser.Navigated += (s, ex) =>
 				                     	{
 				                     		var url = browser.Url;
 
-											//MessageBox.Show("url: " + url);
 				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
 				                     		                  RegexOptions.IgnoreCase))
 				                     		{
-				                     			dialog.DialogResult = DialogResult.OK;
+												var parameters = HttpUtility.ParseQueryString(url.Query);
+
+												var isNewUser = parameters["is_new_user"];
+
+												if (isNewUser.Equals("true",StringComparison.CurrentCultureIgnoreCase))
+													dialog.ShowTutorial();
+												else
+				                     				dialog.DialogResult = DialogResult.OK;
+
+												signupOK = true;
 				                     		}
 				                     	};
 
@@ -1056,13 +1055,13 @@ namespace StationSystemTray
 				                 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
 				                 "Content-Type: application/json");
 
-				if (dialog.ShowDialog() == DialogResult.OK)
+				dialog.ShowDialog(this);
+				if (signupOK)
 				{
 					var url = browser.Url;
 					var parameters = HttpUtility.ParseQueryString(url.Query);
 					var apiRetCode = parameters["api_ret_code"];
 
-					//MessageBox.Show("apiRetCode: " + apiRetCode.ToString());
 					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
 					{
 						if (!IsDisposed)
@@ -1391,35 +1390,36 @@ namespace StationSystemTray
 				               		api_key = CLIENT_API_KEY,
 				               		xurl =
 				               			string.Format(
-				               				"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s",
+											"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&is_new_user=%(is_new_user)s",
 				               				fbLoginUrl),
-				               		locale = Thread.CurrentThread.CurrentCulture.ToString()
+				               		locale = Thread.CurrentThread.CurrentCulture.ToString(),
+									show_tutorial = "false"
 				               	};
 
-				var browser = new WebBrowser
-				              	{
-				              		WebBrowserShortcutsEnabled = false,
-				              		IsWebBrowserContextMenuEnabled = false,
-				              		Dock = DockStyle.Fill
-				              	};
-
-				var dialog = new Form
-				             	{
-				             		Width = 750,
-				             		Height = 600,
-				             		Text = Text,
-				             		StartPosition = FormStartPosition.CenterParent,
-				             		Icon = Icon
-				             	};
-				dialog.Controls.Add(browser);
+				var dialog = new SignUpDialog() 
+				{
+					Text = Resources.FB_CONNECT_PAGE_TITLE,
+					StartPosition = FormStartPosition.CenterParent
+				};
+				var browser = dialog.Browser;
+				var signupOK = false;
 
 				browser.Navigated += (s, ex) =>
 				                     	{
 				                     		Uri url = browser.Url;
 				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
 				                     		                  RegexOptions.IgnoreCase))
-				                     		{
-				                     			dialog.DialogResult = DialogResult.OK;
+											{
+												var parameters = HttpUtility.ParseQueryString(url.Query);
+
+												var isNewUser = parameters["is_new_user"];
+
+												if (isNewUser.Equals("true", StringComparison.CurrentCultureIgnoreCase))
+													dialog.ShowTutorial();
+												else
+													dialog.DialogResult = DialogResult.OK;
+
+												signupOK = true;
 				                     		}
 				                     	};
 
@@ -1428,7 +1428,8 @@ namespace StationSystemTray
 				                 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
 				                 "Content-Type: application/json");
 
-				if (dialog.ShowDialog() == DialogResult.OK)
+				dialog.ShowDialog(this);
+				if (signupOK)
 				{
 					string url = browser.Url.Query;
 					NameValueCollection parameters = HttpUtility.ParseQueryString(url);
@@ -1737,6 +1738,8 @@ namespace StationSystemTray
 		public string xurl { get; set; }
 
 		public string locale { get; set; }
+
+		public string show_tutorial { get; set; }
 	}
 
 	#region PauseServiceUIController

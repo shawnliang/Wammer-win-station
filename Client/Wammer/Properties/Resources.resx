@@ -185,7 +185,7 @@
     <value>..\Resources\FlatButton\FB_creat_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UNEXPECTED_EXCEPTION" xml:space="preserve">
-    <value>Unexpected exception</value>
+    <value>An unexpected error occurred with our server. Please try again later. If the problem still occurs, please contact our support team at support@waveface.com</value>
   </data>
   <data name="titlebar_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Title\titlebar_1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -561,5 +561,11 @@
   </data>
   <data name="FB_IMPRORT_PROGRESSING" xml:space="preserve">
     <value>We’re currently importing your Facebook posts. You can chart the progress by refreshing your browser.</value>
+  </data>
+  <data name="NETWORK_EXCEPTION" xml:space="preserve">
+    <value>Internet connection error</value>
+  </data>
+  <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
+    <value>No Internet connection</value>
   </data>
 </root>

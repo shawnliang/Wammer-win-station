@@ -57,10 +57,12 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountEventArgs.cs" />
@@ -93,6 +95,12 @@
     <Compile Include="Dialog\SettingDialog.Designer.cs">
       <DependentUpon>SettingDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialog\SignUpDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\SignUpDialog.Designer.cs">
+      <DependentUpon>SignUpDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +129,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\SettingDialog.zh-TW.resx">
       <DependentUpon>SettingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\SignUpDialog.resx">
+      <DependentUpon>SignUpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\SignUpDialog.zh-TW.resx">
+      <DependentUpon>SignUpDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -179,6 +193,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\windows_en_1.jpg" />
+    <Content Include="Resources\windows_en_2.jpg" />
+    <Content Include="Resources\windows_zh-tw_1.jpg" />
+    <Content Include="Resources\windows_zh-tw_2.jpg" />
     <None Include="Resources\UpdateAvailable.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />

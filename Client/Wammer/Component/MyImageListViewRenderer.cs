@@ -123,14 +123,23 @@ namespace Waveface.Component
                     // Draw the image
                     if (new FileInfo(item.FileName).Name == "LoadingImage.jpg")
                     {
+                        int _maxW = 96;
                         int _w = bounds.Width / 2;
-                        int _w2 = bounds.Width / 4;
+                        int _w2;
+
+                        if (_w > _maxW)
+                        {
+                            _w = _maxW;
+                        }
+
+                        _w2 = (bounds.Width - _w) / 2;
 
                         g.DrawImage(Properties.Resources.photo_spinner, bounds.Left + _w2, bounds.Top + _w2, _w, _w);
 
+
                         using (Pen _pen = new Pen(Color.FromArgb(226, 226, 226), 3))
                         {
-                            // _pen.DashStyle = DashStyle.Dot;
+                            _pen.DashStyle = DashStyle.Dot;
 
                             g.DrawRectangle(_pen, new Rectangle(bounds.Left + 5, bounds.Top + 5, bounds.Width - 10, bounds.Height - 10));
                         }

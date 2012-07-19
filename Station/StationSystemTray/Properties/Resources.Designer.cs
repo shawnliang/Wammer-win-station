@@ -143,6 +143,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string CLOSE_BUTTON_TEXT {
+            get {
+                return ResourceManager.GetString("CLOSE_BUTTON_TEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to connect to Stream server.
         /// </summary>
         public static string ConnectCloudError {
@@ -207,6 +216,15 @@ namespace StationSystemTray.Properties {
             get {
                 object obj = ResourceManager.GetObject("fb_btn_press", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect with Facebook - Stream.
+        /// </summary>
+        public static string FB_CONNECT_PAGE_TITLE {
+            get {
+                return ResourceManager.GetString("FB_CONNECT_PAGE_TITLE", resourceCulture);
             }
         }
         
@@ -345,6 +363,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string NEXT_BUTTON_TEXT {
+            get {
+                return ResourceManager.GetString("NEXT_BUTTON_TEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ---.
         /// </summary>
         public static string NoData {
@@ -393,6 +420,15 @@ namespace StationSystemTray.Properties {
         public static string PausingWFService {
             get {
                 return ResourceManager.GetString("PausingWFService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous.
+        /// </summary>
+        public static string PREVIOUS_BUTTON_TEXT {
+            get {
+                return ResourceManager.GetString("PREVIOUS_BUTTON_TEXT", resourceCulture);
             }
         }
         
@@ -678,6 +714,34 @@ namespace StationSystemTray.Properties {
         public static string WFServiceSyncing {
             get {
                 return ResourceManager.GetString("WFServiceSyncing", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap windows_en_1 {
+            get {
+                object obj = ResourceManager.GetObject("windows_en_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap windows_en_2 {
+            get {
+                object obj = ResourceManager.GetObject("windows_en_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap windows_zh_tw_1 {
+            get {
+                object obj = ResourceManager.GetObject("windows_zh-tw_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap windows_zh_tw_2 {
+            get {
+                object obj = ResourceManager.GetObject("windows_zh-tw_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
