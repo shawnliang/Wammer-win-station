@@ -38,7 +38,17 @@ namespace Wammer.Cloud
 			                 		{"since", since ?? string.Empty}
 			                 	};
 
-			return CloudServer.request<UserTrackResponse>(CloudServer.BaseUrl + "usertracks/get", parameters, false);
+			try
+			{
+				return CloudServer.request<UserTrackResponse>(CloudServer.BaseUrl + "usertracks/get", parameters, false);
+			}
+			catch (WammerCloudException e)
+			{
+				if (e.InnerException is ArgumentOutOfRangeException)
+					return new UserTrackResponse() { group_id = group_id };
+				else
+					throw;
+			}
 		}
 	}
 }

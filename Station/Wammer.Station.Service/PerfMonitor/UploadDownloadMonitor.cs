@@ -21,7 +21,7 @@ namespace Wammer.PerfMonitor
 		private readonly IPerfCounter DownstreamRateCounter;
 		private readonly IPerfCounter UpstreamNumCounter;
 		private readonly IPerfCounter UpstreamRateCounter;
-
+		private readonly IPerfCounter attachmentUploadCounter;
 
 		public void OnProcessSucceeded(object sender, Wammer.Station.HttpHandlerEventArgs evt)
 		{
@@ -29,6 +29,7 @@ namespace Wammer.PerfMonitor
 			{
 				avgTime.IncrementBy(evt.DurationInTicks);
 				avgTimeBase.Increment();
+				attachmentUploadCounter.Increment();
 			}
 			catch (Exception e)
 			{
@@ -46,6 +47,8 @@ namespace Wammer.PerfMonitor
 
 			UpstreamNumCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
 			UpstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
+
+			attachmentUploadCounter = PerfCounter.GetCounter(PerfCounter.ATTACHMENT_UPLOAD_COUNT);
 		}
 
 

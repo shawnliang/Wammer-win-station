@@ -13,13 +13,17 @@ namespace Wammer.Model
 		[BsonDefaultValue(false)]
 		public bool ThumbnailExtensionIsDat { get; set; }
 
+		[BsonIgnoreIfNull]
+		[BsonDefaultValue(false)]
+		public bool UsingChangeLogsInsteadOfUserTracks { get; set; }
 
 		public static ProductInfo GetCurrentVersion()
 		{
 			return new ProductInfo
-			       	{
-			       		ThumbnailExtensionIsDat = true
-			       	};
+			{
+				ThumbnailExtensionIsDat = true,
+				UsingChangeLogsInsteadOfUserTracks = true
+			};
 		}
 	}
 

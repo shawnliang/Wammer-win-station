@@ -15,6 +15,9 @@ namespace Wammer.Station
 		/// </summary>
 		public override void HandleRequest()
 		{
+			if (CloudServer.VersionNotCompatible)
+				throw new WammerStationException("Version not supported", (int)GeneralApiError.NotSupportClient);
+
 			CheckParameter(CloudServer.PARAM_API_KEY);
 			var apikey = Parameters[CloudServer.PARAM_API_KEY];
 

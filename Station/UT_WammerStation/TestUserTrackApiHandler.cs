@@ -15,7 +15,6 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 	public class TestUserTrackApiHandler
 	{
 		[TestMethod]
-		[ExpectedException(typeof(Wammer.Station.WammerStationException))]
 		public void GetNothingIfUserTrackSyncingIsNotComplete()
 		{
 			var mockDB = new Mock<IUserTrackHandlerDB>();
@@ -27,7 +26,10 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 				});
 
 			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
-			handler.GetUserTrack("groupId", "2012-04-04T10:00:00Z", true);
+			var result = handler.GetUserTrack("groupId", 100, true);
+			Assert.AreEqual(100, result.next_seq_num);
+			Assert.IsNull(result.post_list);
+			Assert.IsNull(result.changelog_list);
 		}
 
 		[TestMethod]
@@ -38,7 +40,7 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 			mockDB.Setup(x => x.GetUserByGroupId("groupId")).Returns((Driver)null);
 
 			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
-			handler.GetUserTrack("groupId", "2012-04-04T10:00:00Z", true);
+			handler.GetUserTrack("groupId", 157, true);
 		}
 
 		[TestMethod]
@@ -51,7 +53,6 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					user_id = "user1",
 					sync_range = new SyncRange
 					{
-						end_time = new DateTime(2012, 4, 1, 0, 0, 0, DateTimeKind.Utc),
 						start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
 						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
 					},
@@ -60,32 +61,33 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 
 			UserTracks ut1 = new UserTracks
 			{
-				latest_timestamp = new DateTime(2012, 4, 10, 0, 0, 0, DateTimeKind.Utc),
+				//latest_timestamp = new DateTime(2012, 4, 10, 0, 0, 0, DateTimeKind.Utc),
+				next_seq_num = 103,
 				post_id_list = new List<string> { "post1", "post2" },
 				usertrack_list = new List<UserTrackDetail> { 
 							new UserTrackDetail { target_type = "target_type1"}}
 			};
 
-			mockDB.Setup(x => x.GetUserTracksSince("groupId", new DateTime(2012, 1, 1, 0,0,0, DateTimeKind.Utc))).Returns(
+			mockDB.Setup(x => x.GetUserTracksSince("groupId", 100)).Returns(
 				new List<UserTracks> { ut1 });
 
 
 			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
-			UserTrackResponse res = handler.GetUserTrack("groupId", "2012-01-01T00:00:00Z", true);
+			var res = handler.GetUserTrack("groupId", 100, true);
 
 			Assert.AreEqual(0, res.api_ret_code);
 			Assert.AreEqual("success", res.api_ret_message);
 			Assert.AreEqual(1, res.get_count);
 			Assert.AreEqual("groupId", res.group_id);
-			Assert.AreEqual(ut1.latest_timestamp, res.latest_timestamp);
-			Assert.AreEqual(2, res.post_id_list.Count);
-			Assert.AreEqual("post1", res.post_id_list[0]);
-			Assert.AreEqual("post2", res.post_id_list[1]);
+			Assert.AreEqual(ut1.next_seq_num, res.next_seq_num);
+			Assert.AreEqual(2, res.post_list.Count);
+			Assert.AreEqual("post1", res.post_list[0].post_id);
+			Assert.AreEqual("post2", res.post_list[1].post_id);
 			Assert.AreEqual(0, res.remaining_count);
 			Assert.AreEqual(200, res.status);
 			Assert.IsNotNull(res.timestamp);
-			Assert.AreEqual(1, res.usertrack_list.Count);
-			Assert.AreEqual(ut1.usertrack_list[0], res.usertrack_list[0]);
+			Assert.AreEqual(1, res.changelog_list.Count);
+			Assert.AreEqual(ut1.usertrack_list[0], res.changelog_list[0]);
 		}
 
 		[TestMethod]
@@ -98,7 +100,6 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					user_id = "user1",
 					sync_range = new SyncRange
 					{
-						end_time = new DateTime(2012, 4, 1, 0, 0, 0, DateTimeKind.Utc),
 						start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
 						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
 					},
@@ -107,7 +108,8 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 
 			UserTracks ut1 = new UserTracks
 			{
-				latest_timestamp = new DateTime(2012, 4, 10, 0,0,0, DateTimeKind.Utc),
+				//latest_timestamp = new DateTime(2012, 4, 10, 0,0,0, DateTimeKind.Utc),
+				next_seq_num = 100,
 				post_id_list = new List<string> { "post1", "post2" },
 				usertrack_list = new List<UserTrackDetail> { 
 							new UserTrackDetail { target_type = "target_type1"}}
@@ -115,33 +117,34 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 
 			UserTracks ut2 = new UserTracks
 			{
-				latest_timestamp = new DateTime(2012, 4, 11, 0, 0, 0, DateTimeKind.Utc),
+				//latest_timestamp = new DateTime(2012, 4, 11, 0, 0, 0, DateTimeKind.Utc),
+				next_seq_num = 102,
 				post_id_list = new List<string> { "post1", "post3" },
 				usertrack_list = new List<UserTrackDetail> { 
 							new UserTrackDetail { target_type = "target_type2"}}
 			};
-			mockDB.Setup(x => x.GetUserTracksSince("groupId", new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc))).Returns(
+			mockDB.Setup(x => x.GetUserTracksSince("groupId", 99)).Returns(
 				new List<UserTracks> { ut1, ut2 });
 
 
 			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
-			UserTrackResponse res = handler.GetUserTrack("groupId", "2012-01-01T00:00:00Z", true);
+			var res = handler.GetUserTrack("groupId", 99, true);
 
 			Assert.AreEqual(0, res.api_ret_code);
 			Assert.AreEqual("success", res.api_ret_message);
 			Assert.AreEqual(2, res.get_count);
 			Assert.AreEqual("groupId", res.group_id);
-			Assert.AreEqual(ut2.latest_timestamp, res.latest_timestamp);
-			Assert.AreEqual(3, res.post_id_list.Count);
-			Assert.AreEqual("post1", res.post_id_list[0]);
-			Assert.AreEqual("post2", res.post_id_list[1]);
-			Assert.AreEqual("post3", res.post_id_list[2]);
+			Assert.AreEqual(ut2.next_seq_num, res.next_seq_num);
+			Assert.AreEqual(3, res.post_list.Count);
+			Assert.AreEqual("post1", res.post_list[0].post_id);
+			Assert.AreEqual("post2", res.post_list[1].post_id);
+			Assert.AreEqual("post3", res.post_list[2].post_id);
 			Assert.AreEqual(0, res.remaining_count);
 			Assert.AreEqual(200, res.status);
 			Assert.IsNotNull(res.timestamp);
-			Assert.AreEqual(2, res.usertrack_list.Count);
-			Assert.AreEqual(ut1.usertrack_list[0], res.usertrack_list[0]);
-			Assert.AreEqual(ut2.usertrack_list[0], res.usertrack_list[1]);
+			Assert.AreEqual(2, res.changelog_list.Count);
+			Assert.AreEqual(ut1.usertrack_list[0], res.changelog_list[0]);
+			Assert.AreEqual(ut2.usertrack_list[0], res.changelog_list[1]);
 		}
 	}
 }

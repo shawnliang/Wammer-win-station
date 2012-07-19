@@ -45,12 +45,13 @@ namespace Wammer.Station.AttachmentUpload
 
 		public string api_key { get; set; }
 		public string session_token { get; set; }
+		public string post_id { get; set; }
 	}
 
 	public class AttachmentEventArgs : EventArgs
 	{
 		public AttachmentEventArgs(string attachmentId, bool isFromThisWindows, UpsertResult upsertResult, ImageMeta meta,
-			string userSession, string apikey)
+			string userSession, string apikey, string postId = null, string group_id = null)
 		{
 			AttachmentId = attachmentId;
 			IsFromThisWindows = isFromThisWindows;
@@ -58,14 +59,18 @@ namespace Wammer.Station.AttachmentUpload
 			ImgMeta = meta;
 			UserSession = userSession;
 			APIKey = apikey;
+			PostId = postId;
+			GroupId = group_id;
 		}
 
+		public string PostId { get; private set; }
 		public string AttachmentId { get; private set; }
 		public bool IsFromThisWindows { get; private set; }
 		public UpsertResult UpsertResult { get; private set; }
 		public ImageMeta ImgMeta { get; private set; }
 		public string UserSession { get; private set; }
 		public string APIKey { get; private set; }
+		public string GroupId { get; private set; }
 	}
 
 	public class AttachmentUploadHandlerImp
@@ -95,6 +100,7 @@ namespace Wammer.Station.AttachmentUpload
 			            		title = uploadData.title,
 			            		description = uploadData.description,
 			            		modify_time = DateTime.UtcNow,
+								post_id = uploadData.post_id,
 			            		image_meta = new ImageProperty()
 			            	};
 
@@ -139,7 +145,9 @@ namespace Wammer.Station.AttachmentUpload
 					dbResult,
 					uploadData.imageMeta,
 					uploadData.session_token,
-					uploadData.api_key
+					uploadData.api_key,
+					uploadData.post_id,
+					uploadData.group_id
 				)
 			);
 

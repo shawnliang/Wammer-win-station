@@ -49,6 +49,7 @@ namespace Wammer.Cloud
 		public const string PARAM_REMOVE_ALL_DATA = "remove_resource";
 		public const string PARAM_COUNT = "count";
 		public const string PARAM_TARGET = "target";
+		public const string PARAM_DATUM = "datum";
 		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
 		                                                    	{
 		                                                    		{"0ffd0a63-65ef-512b-94c7-ab3b33117363", "Station"},
@@ -139,7 +140,7 @@ namespace Wammer.Cloud
 			return Encoding.UTF8.GetString(buffer);
 		}
 
-
+		public static bool VersionNotCompatible { get; set; }
 
 		public static void requestDownload(string path, Dictionary<object, object> parameters,
 		                                   string filepath)
@@ -165,36 +166,20 @@ namespace Wammer.Cloud
 				using (var agent = new DefaultWebClient())
 				{
 					logger.DebugFormat("DownloadFile({0}, {1}, true,...)", baseUrl + path + "?" + buf, filepath);
+					addVersionToHttpHeader(agent);
 					agent.DownloadFile(baseUrl + path + "?" + buf, filepath, true, (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
 											long.Parse(e.UserState.ToString())));
-					//using (var fileStream = new FileStream(filepath, FileMode.OpenOrCreate, FileAccess.Write))
-					//{
-					//    var offset = fileStream.Length;
-
-					//    if (offset > 0)
-					//        logger.Info("Detect existed file, resume download \"" + filepath + "\"");
-
-					//    if (offset > 5)
-					//        offset -= 5;
-
-					//    agent.AddRange((int)offset);
-					//    fileStream.Seek(offset, SeekOrigin.Begin);
-
-					//    using (Stream stream = agent.OpenRead(new Uri(baseUrl + path + "?" + buf)))
-					//    {
-					//        Debug.Assert(stream != null, "stream != null");
-
-					//        stream.WriteTo(fileStream, 1024,
-					//                       (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
-					//                        long.Parse(e.UserState.ToString())));
-					//    }
-					//}
 				}
 			}
 			catch (WebException e)
 			{
 				long elapsed_ms = Environment.TickCount - beginTime;
-				throw new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
+				var ex = new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
+
+				if (ex.WammerError == (int)GeneralApiError.NotSupportClient)
+					CloudServer.VersionNotCompatible = true;
+
+				throw ex;
 			}
 			catch (Exception e)
 			{
@@ -203,26 +188,9 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public static void requestAsyncDownload(WebClient agent, string path, Dictionary<object, object> parameters,
-		                                        string filepath, AsyncCompletedEventHandler handler, object evtargs)
+		private static void addVersionToHttpHeader(WebClient agent)
 		{
-			var buf = new StringBuilder();
-			foreach (var pair in parameters)
-			{
-				if (PARAM_SESSION_TOKEN.Equals(pair.Key)  && string.Empty.Equals(pair.Value))
-					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
-
-				buf.Append(HttpUtility.UrlEncode(pair.Key.ToString()));
-				buf.Append("=");
-				buf.Append(HttpUtility.UrlEncode(pair.Value.ToString()));
-				buf.Append("&");
-			}
-
-			// remove last &
-			buf.Remove(buf.Length - 1, 1);
-
-			agent.DownloadFileCompleted += handler;
-			agent.DownloadFileAsync(new Uri(baseUrl + path + "?" + buf), filepath, evtargs);
+			agent.Headers.Add("Waveface-Stream", "WIN Station/" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
 		}
 
 		/// <summary>
@@ -367,7 +335,8 @@ namespace Wammer.Cloud
 				using (var agent = new DefaultWebClient())
 				{
 					agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-					
+					addVersionToHttpHeader(agent);
+
 					if (timeout > 0)
 					{
 						agent.Timeout = timeout;
@@ -393,7 +362,10 @@ namespace Wammer.Cloud
 			catch (WebException e)
 			{
 				long elapsed_ms = Environment.TickCount - beginTime;
-				throw new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
+				var ex = new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
+				if (ex.WammerError == (int)GeneralApiError.NotSupportClient)
+					CloudServer.VersionNotCompatible = true;
+				throw ex;
 			}
 			catch (Exception e)
 			{
@@ -477,6 +449,8 @@ namespace Wammer.Cloud
 					}
 
 					agent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+					addVersionToHttpHeader(agent);
+
 					rawResponse = agent.UploadData(url, "POST", Encoding.UTF8.GetBytes(postData));
 				}
 				return Encoding.UTF8.GetString(rawResponse);
@@ -484,14 +458,14 @@ namespace Wammer.Cloud
 			catch (WebException e)
 			{
 				long elapsed_ms = Environment.TickCount - beginTime;
-				throw new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
+				var ex = new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
+
+				if (ex.WammerError == (int)GeneralApiError.NotSupportClient)
+					CloudServer.VersionNotCompatible = true;
+
+				throw ex;
 			}
 		}
-
-		//private static T request<T>(WebClient agent, string url, string postData)
-		//{
-		//    return ConvertFromJson<T>(request(agent, url, postData));
-		//}
 
 		public static T ConvertFromJson<T>(string json)
 		{

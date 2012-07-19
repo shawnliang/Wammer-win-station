@@ -56,7 +56,10 @@ namespace Wammer.Model
 			{
 				try
 				{
-					m_MongoDB.Connect(TimeSpan.FromSeconds(1));
+					var mongourl = string.Format(MONGODB_URL, StationRegistry.GetValue("dbPort", DEFAULT_MONGODB_PORT));
+					var server = MongoServer.Create(mongourl);
+					server.Connect(TimeSpan.FromSeconds(2));
+					server.Disconnect();
 					return true;
 				}
 				catch (Exception e)
@@ -67,14 +70,6 @@ namespace Wammer.Model
 			return false;
 		}
 		#endregion
-
-
-		static Database()
-		{
-			if (!TestConnection(5))
-				logger.WarnFormat("Unable to connect to mongodb server");
-		}
-
 
 		public static void RestoreCollection(string collectionName, string backupCollectionName)
 		{

@@ -34,15 +34,37 @@ namespace Wammer.Utility
 			if (result.Error != null)
 				throw result.Error;
 		}
+
+
+		// same as BeginCopy. But the data copied will be returned in EndDup().
+		public static IAsyncResult BeginDup(Stream from, Stream to, AsyncCallback callback, object state)
+		{
+			var buffer = new byte[32768];
+
+			var asyncState = new StreamDupState(from, to, buffer, callback, state);
+			from.BeginRead(buffer, 0, buffer.Length, asyncState.DataRead, null);
+
+			return asyncState;
+		}
+
+		public static MemoryStream EndDup(IAsyncResult ar)
+		{
+			var result = (StreamDupState)ar;
+
+			if (result.Error != null)
+				throw result.Error;
+
+			return result.MirroredData;
+		}
 	}
 
 	internal class StreamCopyState : IAsyncResult
 	{
-		private readonly byte[] buffer;
-		private readonly AsyncCallback completeCallback;
-		private readonly AutoResetEvent doneEvent;
-		private readonly Stream from;
-		private readonly Stream to;
+		protected readonly byte[] buffer;
+		protected readonly AsyncCallback completeCallback;
+		protected readonly AutoResetEvent doneEvent;
+		protected readonly Stream from;
+		protected readonly Stream to;
 
 		public StreamCopyState(Stream from, Stream to, byte[] buffer, AsyncCallback completeCB, object state)
 		{
@@ -55,13 +77,13 @@ namespace Wammer.Utility
 			AsyncState = state;
 		}
 
-		public Exception Error { get; private set; }
+		public Exception Error { get; protected set; }
 
 		#region IAsyncResult Members
 
-		public object AsyncState { get; private set; }
-		public bool CompletedSynchronously { get; private set; }
-		public bool IsCompleted { get; private set; }
+		public object AsyncState { get; protected set; }
+		public bool CompletedSynchronously { get; protected set; }
+		public bool IsCompleted { get; protected set; }
 
 		public WaitHandle AsyncWaitHandle
 		{
@@ -70,7 +92,7 @@ namespace Wammer.Utility
 
 		#endregion
 
-		public void DataRead(IAsyncResult ar)
+		public virtual void DataRead(IAsyncResult ar)
 		{
 			try
 			{
@@ -107,6 +129,46 @@ namespace Wammer.Utility
 				completeCallback(this);
 				doneEvent.Set();
 			}
+		}
+	}
+
+	internal class StreamDupState: StreamCopyState
+	{
+		private MemoryStream mirroredData = new MemoryStream();
+
+		public StreamDupState(Stream from, Stream to, byte[] buffer, AsyncCallback completeCB, object state)
+			:base(from, to, buffer, completeCB, state)
+		{}
+
+		public override void DataRead(IAsyncResult ar)
+		{
+			try
+			{
+				int nRead = from.EndRead(ar);
+
+				if (nRead == 0)
+				{
+					mirroredData.Position = 0;
+					IsCompleted = true;
+					completeCallback(this);
+					doneEvent.Set();
+					return;
+				}
+
+				mirroredData.Write(buffer, 0, nRead);
+				to.BeginWrite(buffer, 0, nRead, DataWritten, null);
+			}
+			catch (Exception e)
+			{
+				Error = e;
+				completeCallback(this);
+				doneEvent.Set();
+			}
+		}
+
+		public MemoryStream MirroredData
+		{
+			get { return mirroredData; }
 		}
 	}
 }

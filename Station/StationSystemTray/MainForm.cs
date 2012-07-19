@@ -839,6 +839,10 @@ namespace StationSystemTray
 			{
 				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
+			catch (VersionNotSupportedException)
+			{
+				handleVersionNotSupported();
+			}
 			catch (Exception)
 			{
 				MessageBox.Show(Resources.UnknownSigninError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -887,6 +891,10 @@ namespace StationSystemTray
 				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				GotoTabPage(tabSignIn, userlogin);
 			}
+			catch (VersionNotSupportedException)
+			{
+				handleVersionNotSupported();
+			}
 			catch (Exception e)
 			{
 				MessageBox.Show(Resources.LogInError + Environment.NewLine + e.Message, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -898,6 +906,23 @@ namespace StationSystemTray
 			}
 
 			return false;
+		}
+
+		private static void handleVersionNotSupported()
+		{
+			var result = MessageBox.Show(Resources.NeedToUpgrade, Resources.APP_NAME, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+			if (result == System.Windows.Forms.DialogResult.OK)
+			{
+				var updator = new AppLimit.NetSparkle.Sparkle(SettingDialog.WebURL + "/extensions/windowsUpdate/versioninfo.xml");
+				updator.ApplicationIcon = Resources.software_update_available;
+				updator.ApplicationWindowIcon = Resources.UpdateAvailable;
+
+				AppLimit.NetSparkle.NetSparkleAppCastItem _lastVersion;
+				if (updator.IsUpdateRequired(updator.GetApplicationConfig(), out _lastVersion))
+					updator.ShowUpdateNeededUI(_lastVersion);
+				else
+					MessageBox.Show(Resources.ALREAD_UPDATED, Resources.APP_NAME);
+			}
 		}
 
 		private void LaunchClient(string sessionToken)
@@ -1006,7 +1031,7 @@ namespace StationSystemTray
 			try
 			{
 				Hide();
-			
+
 				string signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
 				var postData = new FBPostData
 				               	{
@@ -1024,10 +1049,10 @@ namespace StationSystemTray
 
 
 				var dialog = new SignUpDialog()
-				{
-					Text = Resources.SIGNUP_PAGE_TITLE,
+				             	{
+				             		Text = Resources.SIGNUP_PAGE_TITLE,
 					StartPosition = FormStartPosition.CenterParent
-				};
+				             	};
 				var browser = dialog.Browser;
 				var signupOK = false;
 				browser.Navigated += (s, ex) =>
@@ -1044,7 +1069,7 @@ namespace StationSystemTray
 												if (isNewUser.Equals("true",StringComparison.CurrentCultureIgnoreCase))
 													dialog.ShowTutorial();
 												else
-				                     				dialog.DialogResult = DialogResult.OK;
+				                     			dialog.DialogResult = DialogResult.OK;
 
 												signupOK = true;
 				                     		}
@@ -1134,6 +1159,10 @@ namespace StationSystemTray
 				if (!IsDisposed)
 					Show();
 				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (VersionNotSupportedException)
+			{
+				handleVersionNotSupported();
 			}
 			catch (Exception)
 			{
@@ -1309,7 +1338,7 @@ namespace StationSystemTray
 						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
-						iconText = string.Format("{0}{1}¡ô({2}): {3:0.0} {4}{5}¡õ({6}): {7:0.0}{8}",
+						iconText = string.Format("{0}{1}ï¿½ï¿½({2}): {3:0.0} {4}{5}ï¿½ï¿½({6}): {7:0.0}{8}",
 												 iconText,
 												 Environment.NewLine,
 												 upRemainedCount,
@@ -1397,10 +1426,10 @@ namespace StationSystemTray
 				               	};
 
 				var dialog = new SignUpDialog() 
-				{
+				              	{
 					Text = Resources.FB_CONNECT_PAGE_TITLE,
 					StartPosition = FormStartPosition.CenterParent
-				};
+				              	};
 				var browser = dialog.Browser;
 				var signupOK = false;
 
@@ -1409,7 +1438,7 @@ namespace StationSystemTray
 				                     		Uri url = browser.Url;
 				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
 				                     		                  RegexOptions.IgnoreCase))
-											{
+				                     		{
 												var parameters = HttpUtility.ParseQueryString(url.Query);
 
 												var isNewUser = parameters["is_new_user"];
@@ -1417,7 +1446,7 @@ namespace StationSystemTray
 												if (isNewUser.Equals("true", StringComparison.CurrentCultureIgnoreCase))
 													dialog.ShowTutorial();
 												else
-													dialog.DialogResult = DialogResult.OK;
+				                     			dialog.DialogResult = DialogResult.OK;
 
 												signupOK = true;
 				                     		}
@@ -1492,6 +1521,10 @@ namespace StationSystemTray
 				if (!IsDisposed)
 					Show();
 				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			catch (VersionNotSupportedException)
+			{
+				handleVersionNotSupported();
 			}
 			catch (Exception)
 			{

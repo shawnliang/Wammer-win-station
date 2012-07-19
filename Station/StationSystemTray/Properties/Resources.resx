@@ -218,6 +218,9 @@
   <data name="MonthlyUsage_Unlimited" xml:space="preserve">
     <value>Unlimited</value>
   </data>
+  <data name="NeedToUpgrade" xml:space="preserve">
+    <value>[TBD] Ooops... Your Stream need upgrading before continuing. Do you want to upgrade now?</value>
+  </data>
   <data name="NetworkConnected" xml:space="preserve">
     <value>Network connected</value>
   </data>

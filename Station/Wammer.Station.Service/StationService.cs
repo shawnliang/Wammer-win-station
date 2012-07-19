@@ -43,6 +43,7 @@ namespace Wammer.Station.Service
 		private HttpServer managementServer;
 		private AttachmentViewHandler viewHandler;
 		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
+		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
 
 		public StationService()
 		{
@@ -130,16 +131,18 @@ namespace Wammer.Station.Service
 
 
 				var attachmentHandler = new AttachmentUploadHandler();
+				var localUserTrackMgr = new Wammer.Station.LocalUserTrack.LocalUserTrackManager();
 
-				attachmentHandler.AttachmentProcessed +=
-					new AttachmentProcessedHandler(
-						new AttachmentUtility()).OnProcessed;
+				attachmentHandler.AttachmentProcessed += new AttachmentProcessedHandler(new AttachmentUtility()).OnProcessed;
+				attachmentHandler.AttachmentProcessed += localUserTrackMgr.OnAttachmentReceived;
 				attachmentHandler.ProcessSucceeded += uploadDownloadMonitor.OnProcessSucceeded;
 
+				MakeThumbnailTask.ThumbnailGenerated += localUserTrackMgr.OnThumbnailGenerated;
+				UpstreamTask.AttachmentUpstreamed += localUserTrackMgr.OnAttachmentUpstreamed;
 
 				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
 				InitCloudForwarder(cloudForwarder);
-				InitFunctionServerHandlers(attachmentHandler, cloudForwarder);
+				InitFunctionServerHandlers(attachmentHandler, cloudForwarder, localUserTrackMgr);
 
 
 				logger.Info("Start function server");
@@ -215,7 +218,7 @@ namespace Wammer.Station.Service
 			}
 		}
 
-		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder)
+		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, LocalUserTrack.LocalUserTrackManager localUserTrackMgr)
 		{
 			logger.Info("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);
@@ -255,17 +258,24 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/posts/fetchByFilter/"),
 									  new HybridCloudHttpRouter(new PostFetchByFilterHandler()));
 
-			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"),
-			                          new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance)));
+			var newPostHandler = new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance));
+			newPostHandler.RequestBypassed += mobileDevicePostActivity.OnPostCreated;
+			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"), newPostHandler);
+
 			
-			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),
-			                          new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance))));
+			var updatePostHandler = new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance)));
+			updatePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostUpdated;
+			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),updatePostHandler);
 
-			functionServer.AddHandler(GetDefaultBathPath("/posts/hide/"),
-			                          new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance))));
+			var hidePostHandler = new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance)));
+			hidePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostHidden;
+			functionServer.AddHandler(GetDefaultBathPath("/posts/hide/"), hidePostHandler);
 
-			functionServer.AddHandler(GetDefaultBathPath("/posts/newComment/"),
-			                          new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance))));
+
+			var commentHandler = new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance)));
+			commentHandler.RequestBypassed += mobileDevicePostActivity.OnCommentCreated;
+			functionServer.AddHandler(GetDefaultBathPath("/posts/newComment/"), commentHandler);
+
 
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/setLastScan/"),
 			                          new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
@@ -273,8 +283,7 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/getLastScan/"),
 			                          new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
 
-			functionServer.AddHandler(GetDefaultBathPath("/usertracks/get/"),
-			                          new HybridCloudHttpRouter(new UserTrackHandler()));
+			functionServer.AddHandler(GetDefaultBathPath("/changelogs/get/"), new UserTrackHandler(localUserTrackMgr));
 
 			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
@@ -311,7 +320,7 @@ namespace Wammer.Station.Service
 			var syncer = new TimelineSyncer(
 				new PostProvider(),
 				new TimelineSyncerDBWithDriverCached(e.Driver),
-				new UserTracksApi()
+				new ChangeLogsApi()
 				);
 
 			List<PostInfo> posts = new List<PostInfo>();

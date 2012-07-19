@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Diagnostics;
+using System.Windows.Media.Imaging;
 
 namespace Wammer.Utility
 {
@@ -61,18 +62,7 @@ namespace Wammer.Utility
 
 			var scaledWidth = (int) (original.Width*ratio);
 			var scaledHeight = (int) (original.Height*ratio);
-			Image scaledImage = new Bitmap(scaledWidth, scaledHeight);
-
-			using (Graphics g = Graphics.FromImage(scaledImage))
-			{
-				g.InterpolationMode = InterpolationMode.High;
-				g.DrawImage(original, new Rectangle(0, 0, scaledWidth, scaledHeight),
-							new Rectangle(0, 0, original.Width, original.Height), GraphicsUnit.Pixel);
-			}
-
-			//var scaledImage = original.GetThumbnailImage(scaledWidth, scaledHeight, null, IntPtr.Zero);
-
-			return scaledImage;
+			return new Bitmap(original, new Size(scaledWidth, scaledHeight));
 		}
 
 		public static Bitmap Crop(Image original, int width, int height)
@@ -172,9 +162,11 @@ namespace Wammer.Utility
 		public static Size GetImageSize(ArraySegment<byte> imageRawData)
 		{
 			using (var m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
-			using (var image = new Bitmap(m))
 			{
-				return image.Size;
+				var decoder = BitmapDecoder.Create(m, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+				var frame = decoder.Frames[0];
+
+				return new Size(frame.PixelWidth, frame.PixelHeight);
 			}
 		}
 	}

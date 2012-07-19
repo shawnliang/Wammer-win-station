@@ -119,9 +119,6 @@
     <Reference Include="Waveface.Configuration.WindowsForms">
       <HintPath>..\Libs\Waveface.Configuration.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <ExecutableExtension>.exe</ExecutableExtension>
-    </Reference>
     <Reference Include="WebCam_Capture">
       <HintPath>..\Libs\WebCam_Capture.dll</HintPath>
     </Reference>
@@ -243,8 +240,11 @@
     <Compile Include="Extension\ErrorProviderExtension.cs" />
     <Compile Include="Extension\FormExtension.cs" />
     <Compile Include="Class\Lazy.cs" />
+    <Compile Include="Libs\StationDB\AttachmentCollection.cs" />
+    <Compile Include="Libs\StationDB\StationDB.cs" />
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
     <Compile Include="Libs\Utility\ControlUtility.cs" />
+    <Compile Include="Libs\Utility\PostUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
     <Compile Include="Libs\Utility\WebBrowser.cs" />
     <Compile Include="Libs\Utility\AttachmentUtility.cs" />

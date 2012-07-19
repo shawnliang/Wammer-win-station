@@ -97,6 +97,24 @@ namespace Wammer.PerfMonitor
 			               		new CounterCreationData(
 			               			PerfCounter.POST_IN_QUEUE,
 			               			PerfCounter.POST_IN_QUEUE,
+			               			PerformanceCounterType.NumberOfItems32),
+
+								// 14. Attachment upload count
+			               		new CounterCreationData(
+			               			PerfCounter.ATTACHMENT_UPLOAD_COUNT,
+			               			PerfCounter.ATTACHMENT_UPLOAD_COUNT,
+			               			PerformanceCounterType.NumberOfItems32),
+
+								// 15. Small thumbnail generate count
+			               		new CounterCreationData(
+			               			PerfCounter.SMALL_THUMBNAIL_GENERATE_COUNT,
+			               			PerfCounter.SMALL_THUMBNAIL_GENERATE_COUNT,
+			               			PerformanceCounterType.NumberOfItems32),
+
+								// 16. Medium thumbnail generate count
+			               		new CounterCreationData(
+			               			PerfCounter.MEDIUM_THUMBNAIL_GENERATE_COUNT,
+									PerfCounter.MEDIUM_THUMBNAIL_GENERATE_COUNT,
 			               			PerformanceCounterType.NumberOfItems32)
 			               	};
 

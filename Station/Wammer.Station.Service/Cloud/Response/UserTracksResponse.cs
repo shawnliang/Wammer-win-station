@@ -15,6 +15,9 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public List<string> target_id_list { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string post_id { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]
@@ -37,12 +40,16 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public List<UserTrackAction> actions { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int seq_num { get; set; }
 	}
 
 	public class UserTrackResponse : CloudResponse
 	{
 		public int get_count { get; set; }
 		public List<string> post_id_list { get; set; }
+		public List<string> attachment_id_list { get; set; }
 		public string group_id { get; set; }
 		public DateTime latest_timestamp { get; set; }
 		public int remaining_count { get; set; }

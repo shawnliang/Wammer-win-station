@@ -40,7 +40,6 @@ namespace Wammer.Station
 		private Boolean _isSynchronizationStatus;
 		private DriverController _driverAgent;
 		private Object _bodySyncRunnersLockObj;
-		private bool _threadExit = false;
 		private Exit threadsExit = new Exit();
 		#endregion
 

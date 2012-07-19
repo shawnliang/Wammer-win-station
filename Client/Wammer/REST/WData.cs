@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 #endregion
 
@@ -47,6 +48,15 @@ namespace Waveface.API.V2
         public string event_time { get; set; }
         public string cover_attach { get; set; }
         public string favorite { get; set; }
+        public int seq_num { get; set; }
+
+        [JsonIgnore]
+        public Dictionary<string, string> Sources { get; set; }
+
+        public Post()
+        {
+            Sources = new Dictionary<string, string>();
+        }
     }
 
     public class Attachment
@@ -102,45 +112,45 @@ namespace Waveface.API.V2
 
     public class Device
     {
-		public string device_id { get; set; }
-		public string last_visit { get; set; }
-		public string device_type { get; set; }
-		public string device_name { get; set; }
+        public string device_id { get; set; }
+        public string last_visit { get; set; }
+        public string device_type { get; set; }
+        public string device_name { get; set; }
     }
 
-	public class SNS1
-	{
-		public bool enabled { get; set; }
-		public string snsid { get; set; }
-		public string status { get; set; }
-		public string type { get; set; }
-		public string lastSync { get; set; }
-		public string toDate { get; set; }
-	}
+    public class SNS1
+    {
+        public bool enabled { get; set; }
+        public string snsid { get; set; }
+        public string status { get; set; }
+        public string type { get; set; }
+        public string lastSync { get; set; }
+        public string toDate { get; set; }
+    }
 
-	public class SNS2
-	{
-		public bool enabled { get; set; }
-		public string snsid { get; set; }
-		public List<string> status { get; set; }
-		public string type { get; set; }
-		public string lastSync { get; set; }
-		public string toDate { get; set; }
-	}
+    public class SNS2
+    {
+        public bool enabled { get; set; }
+        public string snsid { get; set; }
+        public List<string> status { get; set; }
+        public string type { get; set; }
+        public string lastSync { get; set; }
+        public string toDate { get; set; }
+    }
 
-	public class User
-	{
-		public string user_id { get; set; }
-		public bool subscribed { get; set; }
-		public int since { get; set; }
-		public List<Device> devices { get; set; }
-		public string state { get; set; }
-		public string avatar_url { get; set; }
-		public List<SNS2> sns { get; set; }
-		public bool verified { get; set; }
-		public string nickname { get; set; }
-		public string email { get; set; }
-	}
+    public class User
+    {
+        public string user_id { get; set; }
+        public bool subscribed { get; set; }
+        public int since { get; set; }
+        public List<Device> devices { get; set; }
+        public string state { get; set; }
+        public string avatar_url { get; set; }
+        public List<SNS2> sns { get; set; }
+        public bool verified { get; set; }
+        public string nickname { get; set; }
+        public string email { get; set; }
+    }
 
     public class Group
     {
@@ -426,16 +436,16 @@ namespace Waveface.API.V2
         public User user { get; set; }
         public List<Group> groups { get; set; }
         public List<Station> stations { get; set; }
-		public List<SNS1> sns { get; set; }
-		public Device device { get; set; }
-		public Storages storages { get; set; }
+        public List<SNS1> sns { get; set; }
+        public Device device { get; set; }
+        public Storages storages { get; set; }
     }
 
 
-	public class MR_FB_Disconnect : General_R
-	{
-		public User user { get; set; }
-	}
+    public class MR_FB_Disconnect : General_R
+    {
+        public User user { get; set; }
+    }
 
     public class MR_users_update : General_R
     {
@@ -690,6 +700,7 @@ namespace Waveface.API.V2
     {
         public string action { get; set; }
         public string target_type { get; set; }
+        public string post_id { get; set; }
     }
 
     public class UT_UsertrackList
@@ -711,6 +722,26 @@ namespace Waveface.API.V2
         public int remaining_count { get; set; }
 
         public List<UT_UsertrackList> usertrack_list { get; set; }
+    }
+
+    #endregion
+
+    #region MR_changelogs
+
+    public class CL_PostItem
+    {
+        public string post_id { get; set; }
+        public int seq_num { get; set; }
+        public string update_time { get; set; }
+    }
+
+    public class MR_changelogs_get : General_R
+    {
+        public string group_id { get; set; }
+        public int next_seq_num { get; set; }
+        public int remaining_count { get; set; }
+        public List<CL_PostItem> post_list { get; set; }
+        public List<UT_UsertrackList> changelog_list { get; set; }
     }
 
     #endregion

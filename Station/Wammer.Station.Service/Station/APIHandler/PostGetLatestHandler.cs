@@ -21,6 +21,9 @@ namespace Wammer.Station
 		/// </summary>
 		public override void HandleRequest()
 		{
+			if (CloudServer.VersionNotCompatible)
+				throw new WammerStationException("Version not supported", (int)GeneralApiError.NotSupportClient);
+
 			CheckParameter("group_id");
 
 			string groupId = Parameters["group_id"];

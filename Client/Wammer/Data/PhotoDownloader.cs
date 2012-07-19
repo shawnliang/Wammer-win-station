@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading;
 using NLog;
 using Waveface.API.V2;
+using Waveface.DetailUI;
 
 #endregion
 
@@ -29,8 +30,8 @@ namespace Waveface
         private string m_currentURL;
         private Dictionary<string, DateTime> m_downlaodErrorOriginFiles;
 
-        private WorkItem m_workItem;
-        private WorkItem m_workItem2;
+        private WorkItem m_thumbnailWorkItem;
+        private WorkItem m_photoItemsWorkItem2;
 
         public PhotoDownloader()
         {
@@ -47,14 +48,14 @@ namespace Waveface
 
         public void Start()
         {
-            m_workItem = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 0);
-            m_workItem2 = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 1);
+            m_thumbnailWorkItem = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 0);
+            m_photoItemsWorkItem2 = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 1);
         }
 
         public WorkItemStatus AbortThread()
         {
-            AbortableThreadPool.Cancel(m_workItem, true);
-            return AbortableThreadPool.Cancel(m_workItem2, true);
+            AbortableThreadPool.Cancel(m_thumbnailWorkItem, true);
+            return AbortableThreadPool.Cancel(m_photoItemsWorkItem2, true);
         }
 
         public void Add(ImageItem item, bool forceRetry)
@@ -152,8 +153,7 @@ namespace Waveface
 
                 ImageItem _item = null;
 
-                Thread.Sleep(100);
-
+                Thread.Sleep(50);
 
                 if ((int)state == 0)
                 {
@@ -255,8 +255,6 @@ namespace Waveface
 
                     _img = null;
 
-                    s_logger.Trace("GetFile:" + _localPath);
-
                     if (_item.PostItemType == PostItemType.Thumbnail)
                     {
                         lock (ThumbnailItems)
@@ -291,6 +289,8 @@ namespace Waveface
                         if (PhotoEvent != null)
                             PhotoEvent(_item);
                     }
+
+                    s_logger.Trace("GetFile:" + _localPath);
                 }
                 catch (Exception _e)
                 {
@@ -331,12 +331,43 @@ namespace Waveface
                                 {
                                     PhotoItems.Remove(_item);
 
-                                    if (_item.ErrorTry != ERROR_TRY)
+                                    try
                                     {
-                                        if (PhotoItems.Count == 0)
-                                            PhotoItems.Insert(0, _item);
+                                        if (_item.PostID == Photo_DV.PostID)
+                                        {
+                                            if (PhotoItems.Count == 0)
+                                            {
+                                                PhotoItems.Insert(0, _item);
+                                            }
+                                            else
+                                            {
+                                                if (PhotoItems.Count > Photo_DV.UnloadPhotosCount)
+                                                {
+                                                    PhotoItems.Insert(new Random().Next(Photo_DV.UnloadPhotosCount), _item);
+                                                }
+                                                else
+                                                {
+                                                    PhotoItems.Insert(0, _item);
+                                                }
+                                            }
+                                        }
                                         else
-                                            PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                                        {
+                                            if (_item.ErrorTry != ERROR_TRY)
+                                            {
+                                                if (PhotoItems.Count == 0)
+                                                {
+                                                    PhotoItems.Insert(0, _item);
+                                                }
+                                                else
+                                                {
+                                                    PhotoItems.Insert(PhotoItems.Count - 1, _item);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    catch
+                                    {
                                     }
                                 }
                             }
@@ -444,6 +475,7 @@ namespace Waveface
                 _item.LocalFilePath_Origin = _filePathOrigins[i];
                 _item.LocalFilePath_Medium = _filePathMediums[i];
                 _item.CloudOriginPath = _urlCloudOrigins[i];
+                _item.PostID = post.post_id;
 
                 Main.Current.PhotoDownloader.Add(_item, false);
             }

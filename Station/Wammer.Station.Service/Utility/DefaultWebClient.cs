@@ -202,7 +202,6 @@ namespace Wammer.Utility
 			}
 
 			const int CHECK_BYTE_COUNT = 3;
-			const int BUFFER_SIZE = 1024;
 
 			using (Stream fileStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
 			{

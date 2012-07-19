@@ -717,6 +717,57 @@ namespace Wammer.Station
 		}
 
 		[CustomAction]
+		public static ActionResult MigrateUserTracks(Session session)
+		{
+			try
+			{
+				ProductInfo product = ProductInfoCollection.Instance.FindOne();
+				if (product != null && product.UsingChangeLogsInsteadOfUserTracks)
+					return ActionResult.Success;
+
+				foreach (var user in DriverCollection.Instance.FindAll())
+				{
+					if (user.sync_range == null || !user.is_change_history_synced)
+						continue;
+
+					backFillUserNextSeqNum(user);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("MigrateUserTracks failed", e);
+			}
+
+			return ActionResult.Success;
+		}
+
+		private static void backFillUserNextSeqNum(Driver user)
+		{
+			try
+			{
+				var group_id = user.groups[0].group_id;
+
+				var latestPost = PostCollection.Instance.Find(Query.EQ("group_id", group_id))
+					.SetSortOrder(SortBy.Descending("update_time")).SetLimit(1).First();
+
+				if (latestPost == null)
+					return;
+
+				var postApi = new PostApi(user);
+				var latestPostContent = postApi.PostGetSingle(group_id, latestPost.post_id);
+				var latestSeq = latestPostContent.post.seq_num;
+
+				user.sync_range.next_seq_num = latestSeq + 1;
+				DriverCollection.Instance.Save(user);
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("back filling user's next_seq_num failed", e);
+			}
+		}
+
+
+		[CustomAction]
 		// Since v1.0.3, thumbnail extension always uses ".dat" regardless its image format.
 		// This change is because windows client is using thumbnails saved in station resource folder
 		// and windows client is not able to know the exact extension of a thumbnail file based on

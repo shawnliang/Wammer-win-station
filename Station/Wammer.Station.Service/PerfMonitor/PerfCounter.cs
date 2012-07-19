@@ -29,6 +29,9 @@ namespace Wammer.PerfMonitor
 		public const string HTTP_REQUEST_THROUGHPUT = "Http request throughput (reqs/sec)";
 		public const string HTTP_REQUESTS_IN_QUEUE = "Http requests in queue";
 		public const string POST_IN_QUEUE = "Post upload tasks in queue";
+		public const string ATTACHMENT_UPLOAD_COUNT = "Attachment upload count";
+		public const string SMALL_THUMBNAIL_GENERATE_COUNT = "Small thumbnail generate count";
+		public const string MEDIUM_THUMBNAIL_GENERATE_COUNT = "Medium thumbnail generate count";
 		#endregion
 
 
@@ -154,7 +157,7 @@ namespace Wammer.PerfMonitor
 		/// </summary>
 		public void Increment()
 		{
-			lock (m_Counter)
+			//lock (m_Counter)
 			{
 				m_Counter.Increment();
 			}
@@ -166,7 +169,7 @@ namespace Wammer.PerfMonitor
 		/// <param name="value">The value.</param>
 		public void IncrementBy(long value)
 		{
-			lock (m_Counter)
+			//lock (m_Counter)
 			{
 				m_Counter.IncrementBy(value);
 			}
@@ -177,12 +180,12 @@ namespace Wammer.PerfMonitor
 		/// </summary>
 		public void Decrement()
 		{
-			lock (m_Counter)
+			//lock (m_Counter)
 			{
 				//Debug.Assert(m_Value > 0);
 
-				if (m_Value <= 0)
-					return;
+				//if (m_Value <= 0)
+				//    return;
 
 				m_Counter.Decrement();
 			}
@@ -194,7 +197,7 @@ namespace Wammer.PerfMonitor
 		/// <returns></returns>
 		public float NextValue()
 		{
-			lock (m_Counter)
+			//lock (m_Counter)
 			{
 				return m_Value;
 			}

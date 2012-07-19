@@ -41,12 +41,41 @@ namespace Wammer.Station.AttachmentUpload
 			if (user == null)
 				return; // user has been unlinked from this station?
 
+			if (string.IsNullOrEmpty(args.PostId))
+				ProcessForOldClients(args, attachment, user);
+			else
+				ProcessForFastAndSmoothClients(args, attachment, user);
+		}
+
+		private void ProcessForFastAndSmoothClients(AttachmentEventArgs args, Attachment attachment, Driver user)
+		{
+			if (args.ImgMeta == ImageMeta.Medium)
+			{
+				util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.Medium);
+				util.UpstreamAttachmentAsync(args.AttachmentId, ImageMeta.Medium, TaskPriority.VeryLow);
+			}
+			else if (args.ImgMeta == ImageMeta.Origin)
+			{
+				if (args.UpsertResult == UpsertResult.Insert)
+				{
+					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.Medium);
+					util.GenerateThumbnailAsyncAndUpstream(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
+				}
+				else
+				{
+					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.VeryLow);
+				}
+			}
+		}
+
+		private void ProcessForOldClients(AttachmentEventArgs args, Attachment attachment, Driver user)
+		{
 			if (args.ImgMeta == ImageMeta.Origin)
 			{
 				if (args.UpsertResult == UpsertResult.Insert)
 				{
 					ThumbnailInfo medium = util.GenerateThumbnail(attachment.saved_file_name,
-					                                              ImageMeta.Medium, attachment.object_id, user, attachment.file_name);
+																  ImageMeta.Medium, attachment.object_id, user, attachment.file_name);
 
 					util.UpdateThumbnailInfoToDB(attachment.object_id, ImageMeta.Medium, medium);
 
@@ -57,7 +86,7 @@ namespace Wammer.Station.AttachmentUpload
 					else
 					{
 						util.UpstreamImageNow(medium.RawData, attachment.group_id, attachment.object_id, attachment.file_name,
-						                      medium.mime_type, ImageMeta.Medium, args.APIKey, args.UserSession);
+											  medium.mime_type, ImageMeta.Medium, args.APIKey, args.UserSession);
 					}
 				}
 				else
@@ -66,10 +95,10 @@ namespace Wammer.Station.AttachmentUpload
 				}
 
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Small, TaskPriority.Medium);
-				
+
 				// currently large thumbnail is not supported
 				//util.GenerateThumbnailAsyncAndUpstream(attachment.object_id, ImageMeta.Large, TaskPriority.Low);
-				
+
 				util.GenerateThumbnailAsync(attachment.object_id, ImageMeta.Square, TaskPriority.Low);
 
 				if (!user.isPrimaryStation)
@@ -84,7 +113,7 @@ namespace Wammer.Station.AttachmentUpload
 				else
 				{
 					util.UpstreamAttachmentNow(attachment.saved_file_name, user, args.AttachmentId, attachment.file_name,
-					                           attachment.mime_type, ImageMeta.None, attachment.type, args.UserSession, args.APIKey);
+											   attachment.mime_type, ImageMeta.None, attachment.type, args.UserSession, args.APIKey);
 				}
 			}
 			else
@@ -97,7 +126,7 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					IAttachmentInfo info = attachment.GetInfoByMeta(args.ImgMeta);
 					util.UpstreamAttachmentNow(info.saved_file_name, user, args.AttachmentId, attachment.file_name, info.mime_type,
-					                           args.ImgMeta, AttachmentType.image, args.UserSession, args.APIKey);
+											   args.ImgMeta, AttachmentType.image, args.UserSession, args.APIKey);
 				}
 			}
 		}
