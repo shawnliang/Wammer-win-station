@@ -41,14 +41,10 @@ namespace Waveface
         #region Fields
 
         //// Main
-        //public SettingForm m_setting;
-
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
-        // private MyTaskbarNotifier m_taskbarNotifier;
-        //private Popup m_trayIconPopup;
-        //private TrayIconPanel m_trayIconPanel;
+
         private List<string> m_delayPostPicList = new List<string>();
         private RunTime m_runTime = new RunTime();
         private PostType m_delayPostType;
@@ -61,7 +57,7 @@ namespace Waveface
         private AutoUpdate m_autoUpdator;
 
         private bool m_getAllDataError;
-
+		private int m_InForceAutoUpdate;
         private string m_stationIP;
         private int m_next_seq_num;
         private string m_initSessionToken;
@@ -1570,8 +1566,8 @@ namespace Waveface
                                 !string.IsNullOrEmpty(_action.post_id))
                             {
                                 //???
+                            }
                         }
-                    }
                     }
 
                     string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
@@ -1593,6 +1589,10 @@ namespace Waveface
                             ShowPostInTimeline();
                     }
                 }
+            }
+            catch (VersionNotSupportedException)
+            {
+                handleVersionNotSupportedError();
             }
             catch (Exception ex)
             {
@@ -1713,11 +1713,8 @@ namespace Waveface
             }
             catch
             {
-                //Hack
-                ForceLogout();
                 m_getAllDataError = true;
-
-                return;
+                throw;
             }
 
             if (_getLatest != null)
@@ -1786,18 +1783,40 @@ namespace Waveface
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Cursor = Cursors.Default;
+
+            if (e.Error is VersionNotSupportedException)
+            {
+                handleVersionNotSupportedError();
+            }
+
             if (m_getAllDataError)
             {
                 m_getAllDataError = false;
+                ForceLogout();
             }
             else
             {
-                Cursor = Cursors.Default;
-
                 panelTitle.updateRefreshUI(true);
 
                 ShowTimelineUI();
             }
+        }
+
+        private void handleVersionNotSupportedError()
+        {
+			int original = System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 1);
+
+			if (original == 1)
+				return;
+
+            MessageBox.Show(I18n.L.T("NeedToUpgrade"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            AutoUpdate update = new AutoUpdate(true);
+            if (update.IsUpdateRequired())
+                update.ShowUpdateNeededUI();
+
+
+			System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 0);
         }
 
         #endregion
