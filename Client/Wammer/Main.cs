@@ -25,6 +25,7 @@ using Waveface.ImageCapture;
 using Waveface.Properties;
 using MonthCalendar = CustomControls.MonthCalendar;
 using System.Diagnostics;
+using Waveface.Common;
 
 #endregion
 
@@ -57,7 +58,7 @@ namespace Waveface
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
         private BatchPostManager m_batchPostManager;
         private StationState m_stationState;
-        private Sparkle m_autoUpdator;
+        private AutoUpdate m_autoUpdator;
 
         private bool m_getAllDataError;
 
@@ -200,10 +201,8 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            m_autoUpdator = new Sparkle(WService.UpdateURL + "/extensions/windowsUpdate/versioninfo.xml");
-            m_autoUpdator.ApplicationIcon = Resources.software_update_available;
-            m_autoUpdator.ApplicationWindowIcon = Resources.UpdateAvailable;
-            m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
+            m_autoUpdator = new AutoUpdate(false);
+            m_autoUpdator.StartLoop();
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 

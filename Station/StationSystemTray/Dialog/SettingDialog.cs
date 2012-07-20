@@ -13,6 +13,7 @@ using System.Reflection;
 using System.IO;
 using AppLimit.NetSparkle;
 using System.Drawing;
+using Waveface.Common;
 
 namespace StationSystemTray
 {

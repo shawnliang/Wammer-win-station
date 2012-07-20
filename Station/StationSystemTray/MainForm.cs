@@ -26,6 +26,7 @@ using Wammer.Station.Management;
 using Wammer.Utility;
 using Timer = System.Windows.Forms.Timer;
 using StationSystemTray.Dialog;
+using Waveface.Common;
 
 namespace StationSystemTray
 {

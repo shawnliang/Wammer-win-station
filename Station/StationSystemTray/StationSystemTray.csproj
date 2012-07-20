@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="AccountEventArgs.cs" />
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="AutoUpdate.cs" />
     <Compile Include="Control\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -195,7 +194,6 @@
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
     <Content Include="Resources\windows_zh-tw_2.jpg" />
-    <None Include="Resources\UpdateAvailable.ico" />
     <None Include="Resources\stream_tray_pause.png" />
     <None Include="Resources\stream_tray_working.png" />
     <None Include="Resources\stream_tray_warn.png" />
@@ -211,7 +209,6 @@
     <Content Include="Resources\login_btn.png" />
     <Content Include="Resources\login_btn_press.png" />
     <Content Include="Resources\or.png" />
-    <None Include="Resources\software-update-available.png" />
     <Content Include="Resources\stream_logo %282%29.png" />
     <Content Include="Resources\stream_logo.png" />
   </ItemGroup>

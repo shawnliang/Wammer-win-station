@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wammer.Station;
 using AppLimit.NetSparkle;
-using StationSystemTray.Properties;
+using Microsoft.Win32;
+using Waveface.Properties;
 
-namespace StationSystemTray
+namespace Waveface.Common
 {
-	class AutoUpdate
+	public class AutoUpdate
 	{
 		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/";
 
@@ -25,6 +25,10 @@ namespace StationSystemTray
 			this.forceUpgrade = forceUpgrade;
 		}
 
+		public void StartLoop()
+		{
+			m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
+		}
 		public bool IsUpdateRequired()
 		{
 			var honorSkippedVersion = !forceUpgrade;
@@ -44,7 +48,12 @@ namespace StationSystemTray
 
 		private static string CloudBaseURL
 		{
-			get { return (string)StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL); }
+			get
+			{
+				var url = Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "cloudBaseURL", DEF_BASE_URL) as string;
+
+				return url ?? DEF_BASE_URL;
+			}
 		}
 
 		private static string UpdateURL

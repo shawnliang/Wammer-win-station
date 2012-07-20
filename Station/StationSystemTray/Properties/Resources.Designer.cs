@@ -496,13 +496,6 @@ namespace StationSystemTray.Properties {
             }
         }
         
-        public static System.Drawing.Bitmap software_update_available {
-            get {
-                object obj = ResourceManager.GetObject("software_update_available", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to Starting Stream....
         /// </summary>
@@ -653,13 +646,6 @@ namespace StationSystemTray.Properties {
         public static string UnlinkCloudStorageFail {
             get {
                 return ResourceManager.GetString("UnlinkCloudStorageFail", resourceCulture);
-            }
-        }
-        
-        public static System.Drawing.Icon UpdateAvailable {
-            get {
-                object obj = ResourceManager.GetObject("UpdateAvailable", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         
