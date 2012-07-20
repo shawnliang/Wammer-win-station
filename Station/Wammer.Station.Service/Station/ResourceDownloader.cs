@@ -138,16 +138,16 @@ namespace Wammer.Station
 					}
 
 					// large
-					if (imageMeta.large != null)
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
-					}
+					//if (imageMeta.large != null)
+					//{
+					//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
+					//}
 
 					// square
-					if (imageMeta.square != null)
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
-					}
+					//if (imageMeta.square != null)
+					//{
+					//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+					//}
 				}
 			}
 		}
@@ -204,11 +204,11 @@ namespace Wammer.Station
 						//}
 
 						// square
-						if (imageMeta.square != null &&
-							(savedImageMeta == null || savedImageMeta.square == null))
-						{
-							EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
-						}
+						//if (imageMeta.square != null &&
+						//    (savedImageMeta == null || savedImageMeta.square == null))
+						//{
+						//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
+						//}
 					}
 				}
 			}
