@@ -36,7 +36,8 @@ namespace Wammer.Station.Timeline
 
 		public PostResponse GetPostsBySeq(Driver user, int seq, int limit)
 		{
-			throw new NotImplementedException();
+			var api = new PostApi(user);
+			return api.PostFetchBySeq(seq, limit);
 		}
 
 		#endregion
