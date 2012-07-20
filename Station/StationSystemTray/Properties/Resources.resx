@@ -219,7 +219,7 @@
     <value>Unlimited</value>
   </data>
   <data name="NeedToUpgrade" xml:space="preserve">
-    <value>[TBD] Ooops... Your Stream need upgrading before continuing. Do you want to upgrade now?</value>
+    <value>[TBD] Ooops... Your Stream need to upgrade to the latest version in order to proceed. Press OK to start upgrading.</value>
   </data>
   <data name="NetworkConnected" xml:space="preserve">
     <value>Network connected</value>

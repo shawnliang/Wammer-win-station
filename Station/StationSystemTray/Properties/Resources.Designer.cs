@@ -345,7 +345,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [TBD] Ooops... Your Stream need upgrading before continuing. Do you want to upgrade now?.
+        ///   Looks up a localized string similar to [TBD] Ooops... Your Stream need to upgrade to the latest version in order to proceed. Press OK to start upgrading..
         /// </summary>
         public static string NeedToUpgrade {
             get {

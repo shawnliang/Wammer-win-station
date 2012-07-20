@@ -911,7 +911,7 @@ namespace StationSystemTray
 
 		private static void handleVersionNotSupported()
 		{
-			var result = MessageBox.Show(Resources.NeedToUpgrade, Resources.APP_NAME, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+			var result = MessageBox.Show(Resources.NeedToUpgrade, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
 			if (result == System.Windows.Forms.DialogResult.OK)
 			{
 				AutoUpdate update = new AutoUpdate(true);
