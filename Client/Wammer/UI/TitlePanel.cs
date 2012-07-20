@@ -9,12 +9,45 @@ using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Localization;
 using System;
+using Waveface.Properties;
 
 namespace Waveface
 {
     public class TitlePanel : UserControl
-    {
-        private TextureBrush m_brush1;
+	{
+		#region Var
+		private Image _refresh90;
+		private Image _refresh180;
+		private Image _refresh270;
+		#endregion
+
+		#region Private Property
+		private Image m_Refresh90
+		{
+			get
+			{
+				return _refresh90 ?? (_refresh90 = RotateImage(Resources.FBT_refresh, 90));
+			}
+		}
+
+		private Image m_Refresh180
+		{
+			get
+			{
+				return _refresh180 ?? (_refresh180 = RotateImage(Resources.FBT_refresh, 180));
+			}
+		}
+
+		private Image m_Refresh270
+		{
+			get
+			{
+				return _refresh270 ?? (_refresh270 = RotateImage(Resources.FBT_refresh, 270));
+			}
+		}
+		#endregion
+
+		private TextureBrush m_brush1;
         private Component.ImageButton btnRefresh;
         private Label labelStatus;
         public Component.ImageButton btnAccount;
@@ -22,10 +55,12 @@ namespace Waveface
         private Component.ImageButton btnRemovePost;
         private ToolTip toolTip;
 		private System.ComponentModel.IContainer components;
+		private Timer timer1;
 
         private Bitmap m_bmpOffscreen;
 
-		public event EventHandler AccountInfoClosed; 
+		public event EventHandler AccountInfoClosed;
+
         public TitlePanel()
         {
             InitializeComponent();
@@ -38,7 +73,40 @@ namespace Waveface
             m_brush1 = new TextureBrush(Properties.Resources.titlebar_1, WrapMode.Tile);
         }
 
-        private void TitlePanel_Load(object sender, System.EventArgs e)
+
+		#region Private Method
+		private static Image RotateImage(Image img, float rotationAngle)
+		{
+			//create an empty Bitmap image
+			Bitmap bmp = new Bitmap(img.Width, img.Height);
+
+			//turn the Bitmap into a Graphics object
+			Graphics gfx = Graphics.FromImage(bmp);
+
+			//now we set the rotation point to the center of our image
+			gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
+
+			//now rotate the image
+			gfx.RotateTransform(rotationAngle);
+
+			gfx.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
+
+			//set the InterpolationMode to HighQualityBicubic so to ensure a high
+			//quality image once it is transformed to the specified size
+			gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+			//now draw our new image onto the graphics object
+			gfx.DrawImage(img, new Point(0, 0));
+
+			//dispose of our Graphics object
+			gfx.Dispose();
+
+			//return the image
+			return bmp;
+		}
+		#endregion
+
+		private void TitlePanel_Load(object sender, System.EventArgs e)
         {
             show_labelStatus(false);
         }
@@ -129,6 +197,7 @@ namespace Waveface
 			this.btnSetting = new Waveface.Component.ImageButton();
 			this.btnAccount = new Waveface.Component.ImageButton();
 			this.btnRefresh = new Waveface.Component.ImageButton();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// labelStatus
@@ -196,10 +265,15 @@ namespace Waveface
 			this.toolTip.SetToolTip(this.btnRefresh, resources.GetString("btnRefresh.ToolTip"));
 			this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
 			// 
+			// timer1
+			// 
+			this.timer1.Interval = 500;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
 			// TitlePanel
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this.Controls.Add(this.btnRemovePost);
 			this.Controls.Add(this.btnSetting);
 			this.Controls.Add(this.btnAccount);
@@ -241,6 +315,44 @@ namespace Waveface
         private void btnSetting_Click(object sender, System.EventArgs e)
         {
             Main.Current.AccountInformation();
-        }
-    }
+		}
+
+
+		#region Public Method
+		public void StartRefreshing()
+		{
+			timer1.Start();
+		}
+
+		public void StopRefreshing()
+		{
+			timer1.Stop();
+			btnRefresh.Image = Resources.FBT_refresh;
+		}
+		#endregion
+
+		int refreshImageIndex = 0;
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+
+			if (refreshImageIndex == 0)
+			{
+				btnRefresh.Image = m_Refresh90;
+			}
+			else if (refreshImageIndex == 1)
+			{
+				btnRefresh.Image = m_Refresh180;
+			}
+			else if (refreshImageIndex == 2)
+			{
+				btnRefresh.Image = m_Refresh270;
+			}
+			else if (refreshImageIndex == 3)
+			{
+				btnRefresh.Image = Resources.FBT_refresh;
+			}
+
+			refreshImageIndex = (refreshImageIndex + 1) % 4;
+		}
+	}
 }

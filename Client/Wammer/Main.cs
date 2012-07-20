@@ -66,25 +66,25 @@ namespace Waveface
         private string m_displayType;
         private string m_delayPostText;
 
-        private CustomWindow _messageReceiver;
-        private WService _service;
+		private CustomWindow _messageReceiver;
+		private WService _service;
         #endregion
 
-        private WService m_Service
-        {
-            get
-            {
-                return _service ?? (_service = new WService());
-            }
-        }
+		private WService m_Service
+		{
+			get
+			{
+				return _service ?? (_service = new WService());
+			}
+		}
 
-        private CustomWindow m_MessageReceiver
-        {
-            get
-            {
-                return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
-            }
-        }
+		private CustomWindow m_MessageReceiver
+		{
+			get
+			{
+				return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
+			}
+		}
 
 
         #region Properties
@@ -202,7 +202,7 @@ namespace Waveface
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
-            m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
+			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
             s_logger.Trace("Constructor: OK");
         }
@@ -236,52 +236,52 @@ namespace Waveface
 
             CreateLoadingImage();
 
-            panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
 
-            AdjustAccountInfoButton();
+			AdjustAccountInfoButton();
 
             s_logger.Trace("Form_Load: OK");
         }
 
-        void panelTitle_AccountInfoClosed(object sender, EventArgs e)
-        {
-            AdjustAccountInfoButton();
-        }
+		void panelTitle_AccountInfoClosed(object sender, EventArgs e)
+		{
+			AdjustAccountInfoButton();
+		}
 
-        private void AdjustAccountInfoButton()
-        {
-            try
-            {
-                var userInfo = UserInfo.Instance;
+		private void AdjustAccountInfoButton()
+		{
+			try
+			{
+				var userInfo = UserInfo.Instance;
 
-                var accessTokenExpired = false;
+				var accessTokenExpired = false;
 
-                if ((userInfo.SNS1 != null && userInfo.SNS2 != null))
-                {
-                    var facebook = (from item1 in userInfo.SNS1
-                                    where item1 != null && item1.type == "facebook"
-                                    from item2 in userInfo.SNS2
-                                    where item2 != null && item2.type == "facebook"
-                                select new
-                                {
-                                    Enabled = item1.enabled,
-                                    SnsID = item2.snsid,
-                                        Status = item2.status,
-                                        Status2 = item1.status,
-                                        LastSync = item1.lastSync
-                                }).FirstOrDefault();
+				if ((userInfo.SNS1 != null && userInfo.SNS2 != null))
+				{
+					var facebook = (from item1 in userInfo.SNS1
+									where item1 != null && item1.type == "facebook"
+									from item2 in userInfo.SNS2
+									where item2 != null && item2.type == "facebook"
+								select new
+								{
+									Enabled = item1.enabled,
+									SnsID = item2.snsid,
+										Status = item2.status,
+										Status2 = item1.status,
+										LastSync = item1.lastSync
+								}).FirstOrDefault();
 
-                    accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
-                }
+					accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
+				}
 
-                panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-                panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-                panelTitle.btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
-            }
-            catch (Exception)
-            {
-            }
-        }
+				panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+				panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+				panelTitle.btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
+			}
+			catch (Exception)
+			{
+			}
+		}
 
         protected override bool ProcessCmdKey(ref Message message, Keys keys)
         {
@@ -1566,8 +1566,8 @@ namespace Waveface
                                 !string.IsNullOrEmpty(_action.post_id))
                             {
                                 //???
-                            }
                         }
+                    }
                     }
 
                     string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
@@ -1939,22 +1939,30 @@ namespace Waveface
         #endregion
 
 
-        void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
-        {
-            switch (e.Message)
-            {
-                case 0x401:
-                    if (this.WindowState == FormWindowState.Minimized)
-                        WindowState = FormWindowState.Normal;
+		void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
+		{
+			switch (e.Message)
+			{
+				case 0x401:
+					if (this.WindowState == FormWindowState.Minimized)
+						WindowState = FormWindowState.Normal;
 
-                    if (!this.Visible)
-                        this.Show();
+					if (!this.Visible)
+						this.Show();
 
-                    this.TopMost = true;
-                    BringWindowToTop(this.Handle);
-                    this.TopMost = false;
-                    break;
-            }
-        }
+					this.TopMost = true;
+					BringWindowToTop(this.Handle);
+					this.TopMost = false;
+					break;
+
+				case 0x402:
+					panelTitle.StartRefreshing();
+					break;
+
+				case 0x403:
+					panelTitle.StopRefreshing();
+					break;
+			}
+		}
     }
 }
