@@ -125,7 +125,7 @@ namespace Wammer.PerfMonitor
 		/// </summary>
 		/// <param name="counterName">Name of the counter.</param>
 		/// <returns></returns>
-		public static IPerfCounter GetCounter(string counterName)
+		public static IPerfCounter GetCounter(string counterName, bool resetValueWhenCreate = true)
 		{
 			try
 			{
@@ -135,7 +135,8 @@ namespace Wammer.PerfMonitor
 						return m_CounterPool[counterName];
 
 					var counter = new PerformanceCounter(CATEGORY_NAME, counterName, false);
-					counter.RawValue = 0;
+					if (resetValueWhenCreate)
+						counter.RawValue = 0;
 					m_CounterPool[counterName] = new PerfCounter(counter);
 
 					return m_CounterPool[counterName];
