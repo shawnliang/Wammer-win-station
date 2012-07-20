@@ -345,7 +345,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [TBD] Ooops... Your Stream need upgrading before continuing. Do you want to upgrade now?.
+        ///   Looks up a localized string similar to [TBD] Ooops... Your Stream need to upgrade to the latest version in order to proceed. Press OK to start upgrading..
         /// </summary>
         public static string NeedToUpgrade {
             get {
@@ -493,13 +493,6 @@ namespace StationSystemTray.Properties {
         public static string SIGNUP_PAGE_TITLE {
             get {
                 return ResourceManager.GetString("SIGNUP_PAGE_TITLE", resourceCulture);
-            }
-        }
-        
-        public static System.Drawing.Bitmap software_update_available {
-            get {
-                object obj = ResourceManager.GetObject("software_update_available", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -653,13 +646,6 @@ namespace StationSystemTray.Properties {
         public static string UnlinkCloudStorageFail {
             get {
                 return ResourceManager.GetString("UnlinkCloudStorageFail", resourceCulture);
-            }
-        }
-        
-        public static System.Drawing.Icon UpdateAvailable {
-            get {
-                object obj = ResourceManager.GetObject("UpdateAvailable", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         
