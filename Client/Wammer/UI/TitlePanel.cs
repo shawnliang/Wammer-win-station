@@ -10,24 +10,70 @@ using Waveface.API.V2;
 using Waveface.Localization;
 using System;
 using Waveface.Properties;
+using Waveface.Component;
 
 namespace Waveface
 {
     public class TitlePanel : UserControl
 	{
 		#region Var
-		private TextureBrush _brush1;
-		private Component.ImageButton _btnRefresh;
+		private TextureBrush _backgroundBrush;
+		private ImageButton _btnRefresh;
 		private Label _labelStatus;
-		public Component.ImageButton _btnAccount;
-		private Component.ImageButton _btnSetting;
-		private Component.ImageButton _btnRemovePost;
+		public ImageButton _btnAccount;
+		private ImageButton _btnSetting;
+		private ImageButton _btnRemovePost;
 		private ToolTip _toolTip;
-		private System.ComponentModel.IContainer _components;
 		private Timer _timer1;
 		private System.ComponentModel.IContainer components;
 
 		private Bitmap _bmpOffscreen;
+		#endregion
+
+
+
+		#region Private Property
+		private Bitmap m_BmpOffscreen
+		{
+			get
+			{
+				if (_bmpOffscreen == null)
+				{
+					_bmpOffscreen = new Bitmap(ClientSize.Width, ClientSize.Height);
+					using (Graphics g = Graphics.FromImage(m_BmpOffscreen))
+					{
+						g.TextRenderingHint = TextRenderingHint.AntiAlias;
+						g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+						g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+						g.SmoothingMode = SmoothingMode.HighQuality;
+						g.FillRectangle(m_BackgroundBrush, 0, 0, Width, Height);
+						g.DrawImage(Properties.Resources.desktop_logo, 4, -2);
+					}
+				}
+				return _bmpOffscreen;
+			}
+			set
+			{
+				if (_bmpOffscreen == value)
+					return;
+
+				if (_bmpOffscreen != null)
+				{
+					_bmpOffscreen.Dispose();
+					_bmpOffscreen = null;
+				}
+
+				_bmpOffscreen = value;
+			}
+		}
+
+		private Brush m_BackgroundBrush
+		{
+			get
+			{
+				return _backgroundBrush ?? (_backgroundBrush = new TextureBrush(Properties.Resources.titlebar_1, WrapMode.Tile));
+			}
+		}
 		#endregion
 
 
@@ -42,89 +88,26 @@ namespace Waveface
 
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
-            // SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.UserPaint, true);
 
-            _brush1 = new TextureBrush(Properties.Resources.titlebar_1, WrapMode.Tile);
-
-			//_btnRefresh.Paint += new PaintEventHandler(_btnRefresh_Paint);
+			this.SizeChanged += new EventHandler(TitlePanel_SizeChanged);
         }
 
-		//void _btnRefresh_Paint(object sender, PaintEventArgs e)
-		//{
-		//    OnPaint(e);
-		//}
-
-
-		//#region Private Method
-		//private static Image RotateImage(Image img, float rotationAngle)
-		//{
-		//    //create an empty Bitmap image
-		//    Bitmap bmp = new Bitmap(img.Width, img.Height);
-
-		//    //turn the Bitmap into a Graphics object
-		//    Graphics gfx = Graphics.FromImage(bmp);
-
-		//    //now we set the rotation point to the center of our image
-		//    gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
-
-		//    //now rotate the image
-		//    gfx.RotateTransform(rotationAngle);
-
-		//    gfx.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
-
-		//    //set the InterpolationMode to HighQualityBicubic so to ensure a high
-		//    //quality image once it is transformed to the specified size
-		//    gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-		//    //now draw our new image onto the graphics object
-		//    gfx.DrawImage(img, new Point(0, 0));
-
-		//    //dispose of our Graphics object
-		//    gfx.Dispose();
-
-		//    //return the image
-		//    return bmp;
-		//}
-		//#endregion
+		void TitlePanel_SizeChanged(object sender, EventArgs e)
+		{
+			m_BmpOffscreen = null;
+		}
 
 		private void TitlePanel_Load(object sender, System.EventArgs e)
         {
             show_labelStatus(false);
         }
 
-        /*
-        protected override void OnResize(System.EventArgs eventargs)
-        {
-            ArrangeButtons();
-
-            Refresh();
-
-            base.OnResize(eventargs);
-        }
-        */
-
         protected override void OnPaint(PaintEventArgs e)
         {
             if (!DesignMode)
             {
-                if (_bmpOffscreen == null)
-                    _bmpOffscreen = new Bitmap(ClientSize.Width, ClientSize.Height);
-
-                using (Graphics _g = Graphics.FromImage(_bmpOffscreen))
-                {
-                    _g.TextRenderingHint = TextRenderingHint.AntiAlias;
-                    _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                    _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    _g.SmoothingMode = SmoothingMode.HighQuality;
-
-                    _g.FillRectangle(_brush1, 0, 0, Width, Height);
-                    //_g.DrawImage(Properties.Resources.titlebar_3, Width - 1, 0);
-
-                    _g.DrawImage(Properties.Resources.desktop_logo, 4, -2);
-
-                    e.Graphics.DrawImage(_bmpOffscreen, 0, 0);
-                }
+				e.Graphics.DrawImage(m_BmpOffscreen, 0, 0);
             }
 
             base.OnPaint(e);
@@ -277,15 +260,29 @@ namespace Waveface
 				return;
 			AccountInfoClosed(this, e);
 		}
+
+		protected override void Dispose(bool disposing)
+		{
+			m_BmpOffscreen = null;
+
+			if (_backgroundBrush != null)
+			{
+				_backgroundBrush.Dispose();
+				_backgroundBrush = null;
+			}
+			base.Dispose(disposing);
+		}
 		#endregion
 
 
 		private void btnAccount_Click(object sender, System.EventArgs e)
         {
-            AccountInfoForm _form = new AccountInfoForm();
-			_form.StartPosition = FormStartPosition.CenterParent;
-			_form.ShowDialog(this);
-			OnAccountInfoClosed(EventArgs.Empty);
+			using (var _form = new AccountInfoForm())
+			{
+				_form.StartPosition = FormStartPosition.CenterParent;
+				_form.ShowDialog(this);
+				OnAccountInfoClosed(EventArgs.Empty);
+			}
         }
 
         private void btnRemovePost_Click(object sender, System.EventArgs e)
