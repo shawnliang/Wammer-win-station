@@ -16,6 +16,11 @@ namespace Waveface.Component.PSTaskDialog
       if (disposing && (components != null))
       {
         components.Dispose();
+		if (m_mainInstructionFont != null)
+		{
+			m_mainInstructionFont.Dispose();
+			m_mainInstructionFont = null;
+		}
       }
       base.Dispose(disposing);
     }

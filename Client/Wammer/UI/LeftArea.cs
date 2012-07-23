@@ -86,9 +86,9 @@ namespace Waveface
 
         public void SetNewPostManager()
         {
-            Main.Current.BatchPostManager.ShowMessage += ShowDragDropMessage;
-            Main.Current.BatchPostManager.UpdateUI += UpdateDragAndDropUI;
-            Main.Current.BatchPostManager.UploadDone += UploadDone;
+			Main.Current.BatchPostManager.ShowMessage += ShowDragDropMessage;
+			//Main.Current.BatchPostManager.UpdateUI += UpdateDragAndDropUI;
+			//Main.Current.BatchPostManager.UploadDone += UploadDone;
             Main.Current.BatchPostManager.EditUpdateDone += EditUpdateDone;
 
             Main.Current.BatchPostManager.ShowFileMissDialog += ShowFileMissDialog;

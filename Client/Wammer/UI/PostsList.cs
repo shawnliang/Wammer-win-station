@@ -357,7 +357,7 @@ namespace Waveface
 
                 Graphics _g = e.Graphics;
 
-                Trace.WriteLine("cell index: " + e.RowIndex.ToString());
+				//Trace.WriteLine("cell index: " + e.RowIndex.ToString());
 
                 Post _post = m_postBS[e.RowIndex] as Post;
 

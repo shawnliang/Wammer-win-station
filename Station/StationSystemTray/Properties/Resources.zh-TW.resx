@@ -156,6 +156,9 @@
   <data name="CURRENT_ACCOUT" xml:space="preserve">
     <value>(當前帳號)</value>
   </data>
+  <data name="DOWNLOAD_INDICATOR" xml:space="preserve">
+    <value>下載</value>
+  </data>
   <data name="DropboxUI_ConnectNow" xml:space="preserve">
     <value>立刻進行連結</value>
   </data>
@@ -193,7 +196,10 @@
     <value>無上限</value>
   </data>
   <data name="NeedToUpgrade" xml:space="preserve">
-    <value>[TBD] 喔喔~ 您的Stream得先更新版本才能繼續使用。現在更新嗎？</value>
+    <value>[TBD] 喔喔~ 您的Stream得先更新版本才能繼續使用。按下OK後立即更新。</value>
+  </data>
+  <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
+    <value>沒有網路連線</value>
   </data>
   <data name="NetworkConnected" xml:space="preserve">
     <value>網路連線</value>
@@ -267,6 +273,9 @@
   </data>
   <data name="UnlinkCloudStorageFail" xml:space="preserve">
     <value>無法解除 Dropbox 的連結</value>
+  </data>
+  <data name="UPLOAD_INDICATOR" xml:space="preserve">
+    <value>上傳</value>
   </data>
   <data name="UserExisted" xml:space="preserve">
     <value>使用者已存在，請輸入不同的帳號。</value>

@@ -18,6 +18,12 @@ namespace Waveface
             if (disposing && (components != null))
             {
                 components.Dispose();
+
+				if (m_font != null)
+				{
+					m_font.Dispose();
+					m_font = null;
+				}
             }
             base.Dispose(disposing);
         }

@@ -69,6 +69,13 @@ namespace Waveface.Component.ListBarControl
         public void Dispose()
         {
             StopTracking();
+
+			if (mouseHook != null)
+			{
+				mouseHook.Dispose();
+				mouseHook = null;
+			}
+
             disposed = true;
             GC.SuppressFinalize(this);
         }

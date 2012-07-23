@@ -140,6 +140,9 @@
   <data name="postsArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
+  <data name="postsArea.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>308, 2</value>
+  </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>345, 457</value>
   </data>

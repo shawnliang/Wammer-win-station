@@ -41,14 +41,10 @@ namespace Waveface
         #region Fields
 
         //// Main
-        //public SettingForm m_setting;
-
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
         private VirtualFolderForm m_virtualFolderForm;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
-        // private MyTaskbarNotifier m_taskbarNotifier;
-        //private Popup m_trayIconPopup;
-        //private TrayIconPanel m_trayIconPanel;
+
         private List<string> m_delayPostPicList = new List<string>();
         private RunTime m_runTime = new RunTime();
         private PostType m_delayPostType;
@@ -61,7 +57,7 @@ namespace Waveface
         private AutoUpdate m_autoUpdator;
 
         private bool m_getAllDataError;
-
+		private int m_InForceAutoUpdate;
         private string m_stationIP;
         private int m_next_seq_num;
         private string m_initSessionToken;
@@ -70,25 +66,25 @@ namespace Waveface
         private string m_displayType;
         private string m_delayPostText;
 
-        private CustomWindow _messageReceiver;
-        private WService _service;
+		private CustomWindow _messageReceiver;
+		private WService _service;
         #endregion
 
-        private WService m_Service
-        {
-            get
-            {
-                return _service ?? (_service = new WService());
-            }
-        }
+		private WService m_Service
+		{
+			get
+			{
+				return _service ?? (_service = new WService());
+			}
+		}
 
-        private CustomWindow m_MessageReceiver
-        {
-            get
-            {
-                return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
-            }
-        }
+		private CustomWindow m_MessageReceiver
+		{
+			get
+			{
+				return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
+			}
+		}
 
 
         #region Properties
@@ -206,7 +202,7 @@ namespace Waveface
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
-            m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
+			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
             s_logger.Trace("Constructor: OK");
         }
@@ -240,52 +236,76 @@ namespace Waveface
 
             CreateLoadingImage();
 
-            panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
 
-            AdjustAccountInfoButton();
+			AdjustAccountInfoButton();
+
+			CheckRefreshStatus();
+
+			var timer = new Timer() 
+			{
+				Interval = 15000
+			};
+
+			timer.Tick += (s,ex)=>
+			{
+				CheckRefreshStatus();
+			};
+
+			timer.Start();
 
             s_logger.Trace("Form_Load: OK");
         }
 
-        void panelTitle_AccountInfoClosed(object sender, EventArgs e)
-        {
-            AdjustAccountInfoButton();
-        }
+		private static void CheckRefreshStatus()
+		{
+			var receiver = FindWindow("SystemTrayMessageReceiver", null);
+			if (receiver != null)
+			{
+				int ret;
+				SendMessageTimeout(receiver, 0x404, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+			}
+		}
 
-        private void AdjustAccountInfoButton()
-        {
-            try
-            {
-                var userInfo = UserInfo.Instance;
+		void panelTitle_AccountInfoClosed(object sender, EventArgs e)
+		{
+			AdjustAccountInfoButton();
+		}
 
-                var accessTokenExpired = false;
+		private void AdjustAccountInfoButton()
+		{
+			try
+			{
+				var userInfo = UserInfo.Instance;
 
-                if ((userInfo.SNS1 != null && userInfo.SNS2 != null))
-                {
-                    var facebook = (from item1 in userInfo.SNS1
-                                    where item1 != null && item1.type == "facebook"
-                                    from item2 in userInfo.SNS2
-                                    where item2 != null && item2.type == "facebook"
-                                select new
-                                {
-                                    Enabled = item1.enabled,
-                                    SnsID = item2.snsid,
-                                        Status = item2.status,
-                                        Status2 = item1.status,
-                                        LastSync = item1.lastSync
-                                }).FirstOrDefault();
+				var accessTokenExpired = false;
 
-                    accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
-                }
+				if ((userInfo.SNS1 != null && userInfo.SNS2 != null))
+				{
+					var facebook = (from item1 in userInfo.SNS1
+									where item1 != null && item1.type == "facebook"
+									from item2 in userInfo.SNS2
+									where item2 != null && item2.type == "facebook"
+								select new
+								{
+									Enabled = item1.enabled,
+									SnsID = item2.snsid,
+										Status = item2.status,
+										Status2 = item1.status,
+										LastSync = item1.lastSync
+								}).FirstOrDefault();
 
-                panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-                panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-                panelTitle.btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
-            }
-            catch (Exception)
-            {
-            }
-        }
+					accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
+				}
+
+				panelTitle._btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+				panelTitle._btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+				panelTitle._btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
+			}
+			catch (Exception)
+			{
+			}
+		}
 
         protected override bool ProcessCmdKey(ref Message message, Keys keys)
         {
@@ -1594,6 +1614,10 @@ namespace Waveface
                     }
                 }
             }
+            catch (VersionNotSupportedException)
+            {
+                handleVersionNotSupportedError();
+            }
             catch (Exception ex)
             {
                 s_logger.WarnException("user track failed", ex);
@@ -1713,11 +1737,8 @@ namespace Waveface
             }
             catch
             {
-                //Hack
-                ForceLogout();
                 m_getAllDataError = true;
-
-                return;
+                throw;
             }
 
             if (_getLatest != null)
@@ -1786,18 +1807,40 @@ namespace Waveface
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Cursor = Cursors.Default;
+
+            if (e.Error is VersionNotSupportedException)
+            {
+                handleVersionNotSupportedError();
+            }
+
             if (m_getAllDataError)
             {
                 m_getAllDataError = false;
+                ForceLogout();
             }
             else
             {
-                Cursor = Cursors.Default;
-
                 panelTitle.updateRefreshUI(true);
 
                 ShowTimelineUI();
             }
+        }
+
+        private void handleVersionNotSupportedError()
+        {
+			int original = System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 1);
+
+			if (original == 1)
+				return;
+
+            MessageBox.Show(I18n.L.T("NeedToUpgrade"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            AutoUpdate update = new AutoUpdate(true);
+            if (update.IsUpdateRequired())
+                update.ShowUpdateNeededUI();
+
+
+			System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 0);
         }
 
         #endregion
@@ -1920,22 +1963,30 @@ namespace Waveface
         #endregion
 
 
-        void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
-        {
-            switch (e.Message)
-            {
-                case 0x401:
-                    if (this.WindowState == FormWindowState.Minimized)
-                        WindowState = FormWindowState.Normal;
+		void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
+		{
+			switch (e.Message)
+			{
+				case 0x401:
+					if (this.WindowState == FormWindowState.Minimized)
+						WindowState = FormWindowState.Normal;
 
-                    if (!this.Visible)
-                        this.Show();
+					if (!this.Visible)
+						this.Show();
 
-                    this.TopMost = true;
-                    BringWindowToTop(this.Handle);
-                    this.TopMost = false;
-                    break;
-            }
-        }
+					this.TopMost = true;
+					BringWindowToTop(this.Handle);
+					this.TopMost = false;
+					break;
+
+				case 0x402:
+					panelTitle.StartRefreshing();
+					break;
+
+				case 0x403:
+					panelTitle.StopRefreshing();
+					break;
+			}
+		}
     }
 }

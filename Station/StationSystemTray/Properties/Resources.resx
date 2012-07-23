@@ -135,7 +135,7 @@
       Please restart Stream to continue assign a new Stream Station user</value>
   </data>
   <data name="ChangeOwnerWarning" xml:space="preserve">
-    <value>Once you switch accounts, all the original files saved by the prior account can’t be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</value>
+    <value>Once you switch accounts, all the original files saved by the prior account can be remotely accessed from this computer.  Also, devices using your prior account won't upload original files to your Stream Station.</value>
   </data>
   <data name="CHECK_FOR_UPDATE" xml:space="preserve">
     <value>Check for Updates</value>
@@ -160,6 +160,9 @@
   </data>
   <data name="CURRENT_ACCOUT" xml:space="preserve">
     <value>(Current account)</value>
+  </data>
+  <data name="DOWNLOAD_INDICATOR" xml:space="preserve">
+    <value>Download</value>
   </data>
   <data name="DropboxUI_ConnectNow" xml:space="preserve">
     <value>Connect Now</value>
@@ -220,6 +223,9 @@
   </data>
   <data name="NeedToUpgrade" xml:space="preserve">
     <value>[TBD] Ooops... Your Stream need to upgrade to the latest version in order to proceed. Press OK to start upgrading.</value>
+  </data>
+  <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
+    <value>No Internet connection</value>
   </data>
   <data name="NetworkConnected" xml:space="preserve">
     <value>Network connected</value>
@@ -326,6 +332,9 @@
   </data>
   <data name="UnlinkCloudStorageFail" xml:space="preserve">
     <value>Unable to disconnect from Dropbox</value>
+  </data>
+  <data name="UPLOAD_INDICATOR" xml:space="preserve">
+    <value>Upload</value>
   </data>
   <data name="UserExisted" xml:space="preserve">
     <value>There is already an account with that name. Please try a different name.</value>

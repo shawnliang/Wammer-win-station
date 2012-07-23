@@ -902,16 +902,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "posts_getLatest", false);
-
-                if (_e.Status == WebExceptionStatus.ProtocolError)
-                {
-                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
-
-                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
-                        throw new Station401Exception();
-                }
-
+                ThrowProperException(_e, System.Reflection.MethodBase.GetCurrentMethod().Name);
                 throw;
             }
             catch (Exception _e)
@@ -920,6 +911,32 @@ namespace Waveface.API.V2
 
                 throw;
             }
+        }
+
+        private static void ThrowProperException(WebException _e, string methodName)
+        {
+            NLogUtility.WebException(s_logger, _e, methodName, false);
+
+            if (_e.Status == WebExceptionStatus.ProtocolError)
+            {
+                HttpWebResponse _res = (HttpWebResponse)_e.Response;
+
+                if (_res.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new Station401Exception();
+                }
+                else
+                {
+                    using (var reader = new StreamReader(_res.GetResponseStream(), Encoding.UTF8))
+                    {
+                        var jsonObj = JsonConvert.DeserializeObject<General_R>(reader.ReadToEnd());
+                        if (jsonObj.api_ret_code == "999")
+                            throw new VersionNotSupportedException("Need to upgrade to latest version in order to proceed");
+                    }
+                }
+            }
+
+            throw _e;
         }
 
         public MR_posts_new posts_new(string session_token, string group_id, string content, string attachment_id_array,
@@ -2289,16 +2306,7 @@ namespace Waveface.API.V2
             }
             catch (WebException _e)
             {
-                NLogUtility.WebException(s_logger, _e, "changelogs_get", false);
-
-                if (_e.Status == WebExceptionStatus.ProtocolError)
-                {
-                    HttpWebResponse _res = (HttpWebResponse)_e.Response;
-
-                    if (_res.StatusCode == HttpStatusCode.Unauthorized)
-                        throw new Station401Exception();
-                }
-
+                ThrowProperException(_e, System.Reflection.MethodBase.GetCurrentMethod().Name);
                 throw;
             }
             catch (Exception _e)

@@ -112,8 +112,8 @@ namespace Waveface
 
                 if (!Main.Current.RT.REST.IsNetworkAvailable)
                 {
-                    if (ShowMessage != null)
-                        ShowMessage("");
+					//if (ShowMessage != null)
+					//    ShowMessage("");
 
                     UpdateUI(0, "");
 
@@ -138,8 +138,8 @@ namespace Waveface
 
                 if (_postItem != null)
                 {
-                    if (ShowMessage != null)
-                        ShowMessage("");
+					//if (ShowMessage != null)
+					//    ShowMessage("");
 
                     if (StartUpload)
                     {

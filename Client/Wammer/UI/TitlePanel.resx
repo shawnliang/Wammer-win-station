@@ -118,191 +118,194 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="labelStatus.AutoSize" type="System.Boolean, mscorlib">
+  <data name="_labelStatus.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="labelStatus.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="_labelStatus.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="labelStatus.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="_labelStatus.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 11</value>
   </data>
-  <data name="labelStatus.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="_labelStatus.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 0, 2, 0</value>
   </data>
-  <data name="labelStatus.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="_labelStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 13</value>
   </data>
-  <data name="labelStatus.TabIndex" type="System.Int32, mscorlib">
+  <data name="_labelStatus.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="labelStatus.Text" xml:space="preserve">
+  <data name="_labelStatus.Text" xml:space="preserve">
     <value>labelStatus</value>
   </data>
-  <data name="labelStatus.Visible" type="System.Boolean, mscorlib">
+  <data name="_labelStatus.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;labelStatus.Name" xml:space="preserve">
-    <value>labelStatus</value>
+  <data name="&gt;&gt;_labelStatus.Name" xml:space="preserve">
+    <value>_labelStatus</value>
   </data>
-  <data name="&gt;&gt;labelStatus.Type" xml:space="preserve">
+  <data name="&gt;&gt;_labelStatus.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;labelStatus.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_labelStatus.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;labelStatus.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;_labelStatus.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <metadata name="_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>109, 17</value>
   </metadata>
-  <data name="btnRemovePost.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="_btnRemovePost.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
   </data>
-  <data name="btnRemovePost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="_btnRemovePost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnRemovePost.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="_btnRemovePost.Location" type="System.Drawing.Point, System.Drawing">
     <value>290, 15</value>
   </data>
-  <data name="btnRemovePost.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="_btnRemovePost.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="btnRemovePost.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="_btnRemovePost.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 37</value>
   </data>
-  <data name="btnRemovePost.TabIndex" type="System.Int32, mscorlib">
+  <data name="_btnRemovePost.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
-  <data name="btnRemovePost.ToolTip" xml:space="preserve">
+  <data name="_btnRemovePost.ToolTip" xml:space="preserve">
     <value>Remove Post</value>
   </data>
-  <data name="btnRemovePost.Visible" type="System.Boolean, mscorlib">
+  <data name="_btnRemovePost.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;btnRemovePost.Name" xml:space="preserve">
-    <value>btnRemovePost</value>
+  <data name="&gt;&gt;_btnRemovePost.Name" xml:space="preserve">
+    <value>_btnRemovePost</value>
   </data>
-  <data name="&gt;&gt;btnRemovePost.Type" xml:space="preserve">
+  <data name="&gt;&gt;_btnRemovePost.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;btnRemovePost.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_btnRemovePost.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnRemovePost.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;_btnRemovePost.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="btnSetting.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="_btnSetting.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
   </data>
-  <data name="btnSetting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="_btnSetting.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnSetting.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="_btnSetting.Location" type="System.Drawing.Point, System.Drawing">
     <value>410, 15</value>
   </data>
-  <data name="btnSetting.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="_btnSetting.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="btnSetting.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="_btnSetting.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 37</value>
   </data>
-  <data name="btnSetting.TabIndex" type="System.Int32, mscorlib">
+  <data name="_btnSetting.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
-  <data name="btnSetting.ToolTip" xml:space="preserve">
+  <data name="_btnSetting.ToolTip" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="btnSetting.Visible" type="System.Boolean, mscorlib">
+  <data name="_btnSetting.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;btnSetting.Name" xml:space="preserve">
-    <value>btnSetting</value>
+  <data name="&gt;&gt;_btnSetting.Name" xml:space="preserve">
+    <value>_btnSetting</value>
   </data>
-  <data name="&gt;&gt;btnSetting.Type" xml:space="preserve">
+  <data name="&gt;&gt;_btnSetting.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;btnSetting.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_btnSetting.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnSetting.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;_btnSetting.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="btnAccount.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="_btnAccount.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
   </data>
-  <data name="btnAccount.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="_btnAccount.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnAccount.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="_btnAccount.Location" type="System.Drawing.Point, System.Drawing">
     <value>350, 15</value>
   </data>
-  <data name="btnAccount.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="_btnAccount.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="btnAccount.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="_btnAccount.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 37</value>
   </data>
-  <data name="btnAccount.TabIndex" type="System.Int32, mscorlib">
+  <data name="_btnAccount.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
-  <data name="btnAccount.ToolTip" xml:space="preserve">
+  <data name="_btnAccount.ToolTip" xml:space="preserve">
     <value>Account Info</value>
   </data>
-  <data name="btnAccount.Visible" type="System.Boolean, mscorlib">
+  <data name="_btnAccount.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;btnAccount.Name" xml:space="preserve">
-    <value>btnAccount</value>
+  <data name="&gt;&gt;_btnAccount.Name" xml:space="preserve">
+    <value>_btnAccount</value>
   </data>
-  <data name="&gt;&gt;btnAccount.Type" xml:space="preserve">
+  <data name="&gt;&gt;_btnAccount.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;btnAccount.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_btnAccount.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnAccount.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;_btnAccount.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="btnRefresh.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="_btnRefresh.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
   </data>
-  <data name="btnRefresh.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="_btnRefresh.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnRefresh.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="_btnRefresh.Location" type="System.Drawing.Point, System.Drawing">
     <value>230, 15</value>
   </data>
-  <data name="btnRefresh.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="_btnRefresh.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
-  <data name="btnRefresh.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="_btnRefresh.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 37</value>
   </data>
-  <data name="btnRefresh.TabIndex" type="System.Int32, mscorlib">
+  <data name="_btnRefresh.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="btnRefresh.ToolTip" xml:space="preserve">
+  <data name="_btnRefresh.ToolTip" xml:space="preserve">
     <value>Refresh</value>
   </data>
-  <data name="btnRefresh.Visible" type="System.Boolean, mscorlib">
+  <data name="_btnRefresh.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;btnRefresh.Name" xml:space="preserve">
-    <value>btnRefresh</value>
+  <data name="&gt;&gt;_btnRefresh.Name" xml:space="preserve">
+    <value>_btnRefresh</value>
   </data>
-  <data name="&gt;&gt;btnRefresh.Type" xml:space="preserve">
+  <data name="&gt;&gt;_btnRefresh.Type" xml:space="preserve">
     <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;btnRefresh.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_btnRefresh.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btnRefresh.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;_btnRefresh.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <metadata name="_timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -315,11 +318,17 @@
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>651, 64</value>
   </data>
-  <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
-    <value>toolTip</value>
+  <data name="&gt;&gt;_toolTip.Name" xml:space="preserve">
+    <value>_toolTip</value>
   </data>
-  <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
+  <data name="&gt;&gt;_toolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;_timer1.Name" xml:space="preserve">
+    <value>_timer1</value>
+  </data>
+  <data name="&gt;&gt;_timer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TitlePanel</value>

@@ -439,4 +439,10 @@
     <zh-TW>更改封面照片成功.</zh-TW>
   </WItem>
 
+  <WItem>
+    <ID>NeedToUpgrade</ID>
+    <en-US>[TBD] Ooops... Your Stream need to upgrade to the latest version in order to proceed. Press OK to start upgrading.</en-US>
+    <zh-TW>[TBD] 喔喔~ 您的Stream得先更新版本才能繼續使用。按下OK後立即更新。</zh-TW>
+  </WItem>
+  
 </WItems>

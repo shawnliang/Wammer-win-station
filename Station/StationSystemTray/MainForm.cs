@@ -37,6 +37,17 @@ namespace StationSystemTray
 		[DllImport("wininet.dll", SetLastError = true)]
 		private static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer, int lpdwBufferLength);
 
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageTimeout(
+			IntPtr windowHandle,
+			int Msg,
+			IntPtr wParam,
+			IntPtr lParam,
+			int flags,
+			uint timeout,
+			out int result);
+
 		#endregion DllImport
 
 		#region Const
@@ -123,10 +134,10 @@ namespace StationSystemTray
 
 		public static ILog logger = LogManager.GetLogger("MainForm");
 		private readonly object cs = new object();
-		private readonly IPerfCounter m_DownRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
-		private readonly IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
-		private readonly IPerfCounter m_UpRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
-		private readonly IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
+		private readonly IPerfCounter m_DownRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false);
+		private readonly IPerfCounter m_DownStreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE, false);
+		private readonly IPerfCounter m_UpRemainedCountCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false);
+		private readonly IPerfCounter m_UpStreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE, false);
 
 		public Process clientProcess;
 		public Icon iconErrorStopped;
@@ -242,6 +253,14 @@ namespace StationSystemTray
 					logger.Debug("Setting trigger by windows client");
 					OpenSettingDialog();
 					break;
+				case 0x404:
+					var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+					if (handle != IntPtr.Zero)
+					{
+						int ret;
+						SendMessageTimeout(handle, ((TrayIconText.StartsWith(Resources.WFServiceSyncing)) ? 0x402 : 0x403), IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+					}
+					break;
 			}
 		}
 
@@ -282,8 +301,8 @@ namespace StationSystemTray
 			uictrlResumeService.UICallback += ResumeServiceUICallback;
 			uictrlResumeService.UIError += ResumeServiceUIError;
 
-			NetworkChange.NetworkAvailabilityChanged += checkStationTimer_Tick;
-			NetworkChange.NetworkAddressChanged += checkStationTimer_Tick;
+			NetworkChange.NetworkAvailabilityChanged += NetworkChanged;
+			NetworkChange.NetworkAddressChanged += NetworkChanged;
 
 			CurrentState = CreateState(StationStateEnum.Initial);
 			menuServiceAction.Text = Resources.PauseWFService;
@@ -342,7 +361,8 @@ namespace StationSystemTray
 				if (handle == IntPtr.Zero)
 					return;
 
-				Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
+				int ret;
+				SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
 
 				return;
 			}
@@ -540,11 +560,27 @@ namespace StationSystemTray
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
+		private void NetworkChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				using (var agent = new DefaultWebClient())
+				{
+					agent.DownloadData("http://www.google.com");
+				}
+			}
+			catch
+			{
+				TrayIcon.ShowBalloonTip(1000, "Stream", Resources.NETWORK_UNAVAILABLE, ToolTipIcon.None);
+			}
+			checkStationTimer_Tick(sender, e);
+		}
+
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
-#if !DEBUG
-			uictrlStationStatus.PerformAction();
-#endif
+//#if !DEBUG
+            uictrlStationStatus.PerformAction();
+//#endif
 		}
 
 		private void BecomeInitialState(object sender, EventArgs evt)
@@ -576,6 +612,14 @@ namespace StationSystemTray
 			}
 			else
 			{
+				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+
+				if (handle != IntPtr.Zero)
+				{
+					int ret;
+					SendMessageTimeout(handle, 0x403, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+				}
+
 				TrayIcon.Icon = iconRunning;
 
 				string runningText = Resources.WFServiceRunning;
@@ -599,6 +643,15 @@ namespace StationSystemTray
 			}
 			else
 			{
+				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+
+				if (handle != IntPtr.Zero)
+				{
+					int ret;
+
+					SendMessageTimeout(handle, 0x402, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+				}
+
 				TrayIcon.Icon = iconSyncing1;
 				TrayIconText = Resources.WFServiceSyncing;
 				menuServiceAction.Text = Resources.PauseWFService;
@@ -618,6 +671,14 @@ namespace StationSystemTray
 			}
 			else
 			{
+				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+
+				if (handle != IntPtr.Zero)
+				{
+					int ret;
+					SendMessageTimeout(handle, 0x403, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+				}
+
 				TrayIcon.Icon = iconPaused;
 
 				string stoppedText = Resources.WFServiceStopped;
@@ -871,6 +932,7 @@ namespace StationSystemTray
 
 				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 											   "WavefaceWindowsClient.exe");
+
 				clientProcess = Process.Start(execPath, "\"" + sessionData.session_token + "\"");
 				if (clientProcess != null)
 				{
@@ -930,6 +992,7 @@ namespace StationSystemTray
 			Cursor.Current = Cursors.WaitCursor;
 			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 										   "WavefaceWindowsClient.exe");
+
 			clientProcess = Process.Start(execPath, "\"" + sessionToken + "\"");
 			if (clientProcess != null)
 			{
@@ -1335,13 +1398,15 @@ namespace StationSystemTray
 						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
-						iconText = string.Format("{0}{1}��({2}): {3:0.0} {4}{5}��({6}): {7:0.0}{8}",
+						iconText = string.Format("{0}{1}{2}({3}): {4:0.0} {5}{6}{7}({8}): {9:0.0}{10}",
 												 iconText,
 												 Environment.NewLine,
+												 Resources.UPLOAD_INDICATOR,
 												 upRemainedCount,
 												 upSpeed,
 												 upSpeedUnit,
 												 Environment.NewLine,
+												 Resources.DOWNLOAD_INDICATOR,
 												 downloadRemainedCount,
 												 downloadSpeed,
 												 downloadSpeedUnit);
@@ -1594,7 +1659,7 @@ namespace StationSystemTray
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-
+			
 		}
 
 		private SettingDialog m_SettingDialog;
@@ -1783,6 +1848,7 @@ namespace StationSystemTray
 
 		protected override object Action(object obj)
 		{
+			StationController.ConnectToInternet();
 			StationController.SuspendSync(60000);
 			return null;
 		}
