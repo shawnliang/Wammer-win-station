@@ -240,8 +240,32 @@ namespace Waveface
 
 			AdjustAccountInfoButton();
 
+			CheckRefreshStatus();
+
+			var timer = new Timer() 
+			{
+				Interval = 15000
+			};
+
+			timer.Tick += (s,ex)=>
+			{
+				CheckRefreshStatus();
+			};
+
+			timer.Start();
+
             s_logger.Trace("Form_Load: OK");
         }
+
+		private static void CheckRefreshStatus()
+		{
+			var receiver = FindWindow("SystemTrayMessageReceiver", null);
+			if (receiver != null)
+			{
+				int ret;
+				SendMessageTimeout(receiver, 0x404, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+			}
+		}
 
 		void panelTitle_AccountInfoClosed(object sender, EventArgs e)
 		{
@@ -274,9 +298,9 @@ namespace Waveface
 					accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
 				}
 
-				panelTitle.btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-				panelTitle.btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-				panelTitle.btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
+				panelTitle._btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+				panelTitle._btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+				panelTitle._btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
 			}
 			catch (Exception)
 			{

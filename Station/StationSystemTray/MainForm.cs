@@ -41,7 +41,7 @@ namespace StationSystemTray
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessageTimeout(
 			IntPtr windowHandle,
-			uint Msg,
+			int Msg,
 			IntPtr wParam,
 			IntPtr lParam,
 			int flags,
@@ -252,6 +252,14 @@ namespace StationSystemTray
 				case 0x403:
 					logger.Debug("Setting trigger by windows client");
 					OpenSettingDialog();
+					break;
+				case 0x404:
+					var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+					if (handle != IntPtr.Zero)
+					{
+						int ret;
+						SendMessageTimeout(handle, ((TrayIconText.StartsWith(Resources.WFServiceSyncing)) ? 0x402 : 0x403), IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+					}
 					break;
 			}
 		}
@@ -640,6 +648,7 @@ namespace StationSystemTray
 				if (handle != IntPtr.Zero)
 				{
 					int ret;
+
 					SendMessageTimeout(handle, 0x402, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
 				}
 
@@ -923,6 +932,7 @@ namespace StationSystemTray
 
 				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 											   "WavefaceWindowsClient.exe");
+
 				clientProcess = Process.Start(execPath, "\"" + sessionData.session_token + "\"");
 				if (clientProcess != null)
 				{
@@ -930,14 +940,6 @@ namespace StationSystemTray
 
 					clientProcess.Exited -= clientProcess_Exited;
 					clientProcess.Exited += clientProcess_Exited;
-
-					var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
-
-					if (handle != IntPtr.Zero && TrayIconText == Resources.WFServiceSyncing)
-					{
-						int ret;
-						SendMessageTimeout(handle, 0x402, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
-					}
 				}
 
 				return true;
@@ -990,6 +992,7 @@ namespace StationSystemTray
 			Cursor.Current = Cursors.WaitCursor;
 			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 										   "WavefaceWindowsClient.exe");
+
 			clientProcess = Process.Start(execPath, "\"" + sessionToken + "\"");
 			if (clientProcess != null)
 			{
@@ -1656,7 +1659,7 @@ namespace StationSystemTray
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-
+			
 		}
 
 		private SettingDialog m_SettingDialog;

@@ -587,6 +587,7 @@ namespace Waveface
             {
                 btnEdit.Enabled = m_currentView.CanEdit();
                 btnFunction1.Enabled = m_currentView.CanEdit();
+				btnAddFootNote.Enabled = m_currentView.CanEdit();
 
                 if (btnEdit.Enabled)
                 {

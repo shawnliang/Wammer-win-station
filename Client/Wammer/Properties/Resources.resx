@@ -562,4 +562,26 @@
   <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
     <value>No Internet connection</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="refresh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_hl2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh_hl2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_hl3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh_hl3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_hl4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh_hl4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

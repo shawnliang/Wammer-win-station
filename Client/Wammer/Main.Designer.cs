@@ -16,6 +16,12 @@ namespace Waveface
 			if (disposing && (components != null))
 			{
 				components.Dispose();
+
+				if (m_dropableNotifyIcon != null)
+				{
+					m_dropableNotifyIcon.Dispose();
+					m_dropableNotifyIcon = null;
+				}
 			}
 			base.Dispose(disposing);
 		}

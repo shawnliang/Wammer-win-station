@@ -99,7 +99,8 @@ namespace Waveface.Component
             _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
             _g.SmoothingMode = SmoothingMode.HighQuality;
 
-            _g.Clear(BackColor);
+			if (BackColor != null)
+				_g.Clear(BackColor);
 
             if (m_image != null)
             {

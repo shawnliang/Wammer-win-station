@@ -16,6 +16,12 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+
+				if (m_imageListViewRenderer != null)
+				{
+					m_imageListViewRenderer.Dispose();
+					m_imageListViewRenderer = null;
+				}
             }
             base.Dispose(disposing);
         }

@@ -71,6 +71,11 @@ namespace Waveface
 
 		public event EventHandler<MessageEventArgs> WndProc;
 
+		~CustomWindow()
+		{
+			
+		}
+
 		public void Dispose()
 		{
 			Dispose(true);

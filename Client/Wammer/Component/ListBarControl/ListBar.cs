@@ -292,6 +292,12 @@ namespace Waveface.Component.ListBarControl
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+
+			if (popupCancel != null)
+			{
+				popupCancel.Dispose();
+				popupCancel = null;
+			}
         }
 
         #endregion
