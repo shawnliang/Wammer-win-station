@@ -254,13 +254,18 @@ namespace StationSystemTray
 					OpenSettingDialog();
 					break;
 				case 0x404:
-					var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
-					if (handle != IntPtr.Zero)
-					{
-						int ret;
-						SendMessageTimeout(handle, ((TrayIconText.StartsWith(Resources.WFServiceSyncing)) ? 0x402 : 0x403), IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
-					}
+					SendSyncStatusToClient();
 					break;
+			}
+		}
+
+		private void SendSyncStatusToClient()
+		{
+			var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+			if (handle != IntPtr.Zero)
+			{
+				int ret;
+				SendMessageTimeout(handle, ((TrayIconText.StartsWith(Resources.WFServiceSyncing)) ? 0x402 : 0x403), IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
 			}
 		}
 
@@ -572,6 +577,7 @@ namespace StationSystemTray
 			catch
 			{
 				TrayIcon.ShowBalloonTip(1000, "Stream", Resources.NETWORK_UNAVAILABLE, ToolTipIcon.None);
+				SendSyncStatusToClient();
 			}
 			checkStationTimer_Tick(sender, e);
 		}
@@ -612,14 +618,6 @@ namespace StationSystemTray
 			}
 			else
 			{
-				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
-
-				if (handle != IntPtr.Zero)
-				{
-					int ret;
-					SendMessageTimeout(handle, 0x403, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
-				}
-
 				TrayIcon.Icon = iconRunning;
 
 				string runningText = Resources.WFServiceRunning;
@@ -628,6 +626,8 @@ namespace StationSystemTray
 				menuServiceAction.Enabled = true;
 
 				TrayIconText = runningText;
+
+				SendSyncStatusToClient();
 				//TrayIcon.ShowBalloonTip(1000, "Stream", runningText, ToolTipIcon.None);
 			}
 		}
@@ -643,20 +643,13 @@ namespace StationSystemTray
 			}
 			else
 			{
-				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
-
-				if (handle != IntPtr.Zero)
-				{
-					int ret;
-
-					SendMessageTimeout(handle, 0x402, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
-				}
-
 				TrayIcon.Icon = iconSyncing1;
 				TrayIconText = Resources.WFServiceSyncing;
 				menuServiceAction.Text = Resources.PauseWFService;
 
 				menuServiceAction.Enabled = true;
+
+				SendSyncStatusToClient();
 			}
 		}
 
@@ -1425,7 +1418,7 @@ namespace StationSystemTray
 							return;
 
 						CurrentState.StopSyncing();
-						TrayIcon.ShowBalloonTip(1000, Resources.APP_NAME, Resources.WFServiceRunning, ToolTipIcon.None);
+						//TrayIcon.ShowBalloonTip(1000, Resources.APP_NAME, Resources.WFServiceRunning, ToolTipIcon.None);
 					}
 				}
 

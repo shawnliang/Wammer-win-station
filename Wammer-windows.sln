@@ -58,7 +58,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D5B34CB2-2266-4A90-B5D7-1CA68E7C6C92}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
-		Wammer-windows1.vsmdi = Wammer-windows1.vsmdi
 	EndProjectSection
 EndProject
 Global
