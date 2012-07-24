@@ -460,16 +460,12 @@ namespace Waveface
 
             for (int i = _imageAttachments.Count - 1; i >= 0; i--)
             {
-                if (File.Exists(_filePathOrigins[i]) && File.Exists(_filePathMediums[i]))
+                if (File.Exists(_filePathMediums[i]))
                     continue;
 
                 ImageItem _item = new ImageItem();
 
-                if (allSize && Main.Current.IsPrimaryStation)
-                    _item.PostItemType = PostItemType.Origin;
-                else
-                    _item.PostItemType = PostItemType.Medium;
-
+                _item.PostItemType = PostItemType.Medium;
                 _item.OriginPath = _urlOrigins[i];
                 _item.MediumPath = _urlMediums[i];
                 _item.LocalFilePath_Origin = _filePathOrigins[i];
