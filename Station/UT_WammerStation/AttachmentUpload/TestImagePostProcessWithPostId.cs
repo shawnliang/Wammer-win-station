@@ -105,12 +105,34 @@ namespace UT_WammerStation.AttachmentUpload
 
 
 		[TestMethod]
-		public void RecvKnownOrigin_AsyncCreateThumbnails()
+		public void RecvKnownOrigin_DoNothing()
 		{
 			Moq.Mock<IAttachmentUtil> mock = new Moq.Mock<IAttachmentUtil>(MockBehavior.Strict);
 			mock.Setup(x => x.FindAttachmentInDB(oldAtt.object_id)).Returns(oldAtt).Verifiable();
 			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
-			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, It.IsAny<Wammer.Station.TaskPriority>())).Verifiable();
+
+			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);
+
+			procHandler.OnProcessed(this, new AttachmentEventArgs(
+				oldAtt.object_id,
+				false,
+				UpsertResult.Update,
+				Wammer.Model.ImageMeta.Origin,
+				"session", "apikey",
+				"post1"));
+
+			mock.VerifyAll();
+		}
+
+		[TestMethod]
+		public void SecondaryStationRecvKnownOrigin_upstreanOriginPhoto()
+		{
+			user.isPrimaryStation = false;
+
+			Moq.Mock<IAttachmentUtil> mock = new Moq.Mock<IAttachmentUtil>(MockBehavior.Strict);
+			mock.Setup(x => x.FindAttachmentInDB(oldAtt.object_id)).Returns(oldAtt).Verifiable();
+			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
+			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Origin, Wammer.Station.TaskPriority.VeryLow)).Verifiable();
 
 			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);
 
