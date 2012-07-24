@@ -53,7 +53,7 @@ namespace Wammer.Station
 		public void SaveFile(string filename, ArraySegment<byte> data)
 		{
 			string filePath = Path.Combine(basePath, filename);
-			string tempFile = filePath + @".tmp";
+			string tempFile = Path.Combine(basePath, Guid.NewGuid().ToString());
 
 			using (FileStream stream = File.Open(tempFile, FileMode.Create))
 			{
