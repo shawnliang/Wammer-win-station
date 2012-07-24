@@ -65,6 +65,9 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.VeryLow);
 				}
+
+				if (!user.isPrimaryStation)
+					util.UpstreamAttachmentAsync(args.AttachmentId, ImageMeta.Origin, TaskPriority.VeryLow);
 			}
 		}
 
