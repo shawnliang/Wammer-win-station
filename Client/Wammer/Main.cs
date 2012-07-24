@@ -49,7 +49,7 @@ namespace Waveface
         private RunTime m_runTime = new RunTime();
         private PostType m_delayPostType;
         private FormSettings m_formSettings;
-        private PostForm m_postForm;
+        private PostForm _postForm;
         private PhotoDownloader m_photoDownloader;
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
         private BatchPostManager m_batchPostManager;
@@ -70,6 +70,7 @@ namespace Waveface
 		private WService _service;
         #endregion
 
+		#region Private Property
 		private WService m_Service
 		{
 			get
@@ -86,9 +87,31 @@ namespace Waveface
 			}
 		}
 
+		private PostForm m_PostForm
+		{
+			get
+			{
+				return _postForm;
+			}
+			set
+			{
+				if (_postForm == value)
+					return;
 
-        #region Properties
+				if (_postForm != null)
+				{
+					if (!_postForm.IsDisposed)
+						_postForm.Dispose();
+					_postForm = null;
+				}
 
+				_postForm = value;
+			}
+		}
+		#endregion
+
+
+        #region Public Property
         public bool IsPrimaryStation
         {
             get { return m_isPrimaryStation; }
@@ -569,11 +592,11 @@ namespace Waveface
 
         private void Main_Activated(object sender, EventArgs e)
         {
-            if (m_postForm != null)
+            if (m_PostForm != null)
             {
-                BringWindowToTop(m_postForm.Handle);
-                ShowWindow(m_postForm.Handle, 5); //SW_SHOW
-                m_postForm.Activate();
+                BringWindowToTop(m_PostForm.Handle);
+                ShowWindow(m_PostForm.Handle, 5); //SW_SHOW
+                m_PostForm.Activate();
             }
 
             //if (m_setting != null)
@@ -627,7 +650,7 @@ namespace Waveface
 
         private void Form_DragEnter(object sender, DragEventArgs e)
         {
-            if (m_postForm != null)
+            if (m_PostForm != null)
                 return;
 
             FlashWindow.Start(Current);
@@ -1063,34 +1086,28 @@ namespace Waveface
         }
 
         public void EditPost(Post post, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
-        {
-            try
-            {
-                m_postForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
-                DialogResult _dr = m_postForm.ShowDialog();
+		{
+			try
+			{
+				m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
+				DialogResult _dr = m_PostForm.ShowDialog();
 
-                switch (_dr)
-                {
-                    case DialogResult.Yes:
-                        break;
+				if (_dr == DialogResult.OK)
+				{
+					BatchPostManager.Add(m_PostForm.BatchPostItem);
 
-                    case DialogResult.OK:
-                        BatchPostManager.Add(m_postForm.BatchPostItem);
-
-                        if (m_postForm.BatchPostItem.Post != null)
-                        {
-                            ShowPostInTimeline();
-                        }
-
-                        break;
-                }
-            }
-            catch (Exception _e)
+					if (m_PostForm.BatchPostItem.Post != null)
+					{
+						ShowPostInTimeline();
+					}
+				}
+			}
+			catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "Edit Post");
             }
 
-            m_postForm = null;
+            m_PostForm = null;
         }
 
         public void Post(List<string> pics, PostType postType, string postText)
@@ -1104,18 +1121,13 @@ namespace Waveface
         {
             try
             {
-                m_postForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
-                DialogResult _dr = m_postForm.ShowDialog();
+                m_PostForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
+                DialogResult _dr = m_PostForm.ShowDialog();
 
-                switch (_dr)
-                {
-                    case DialogResult.Yes:
-                        break;
-
-                    case DialogResult.OK:
-                        BatchPostManager.Add(m_postForm.BatchPostItem);
-                        break;
-                }
+				if (_dr == DialogResult.OK)
+				{
+					BatchPostManager.Add(m_PostForm.BatchPostItem);
+				}
             }
             catch (Exception _e)
             {
@@ -1124,7 +1136,7 @@ namespace Waveface
                 NLogUtility.Exception(s_logger, _e, "Post");
             }
 
-            m_postForm = null;
+            m_PostForm = null;
         }
 
         #endregion
@@ -1663,7 +1675,7 @@ namespace Waveface
                     timerShowStatuMessage.Enabled = true;
 
                     StatusLabelPost.Text = message;
-                    panelTitle.ShowStatusText(message);
+					//panelTitle.ShowStatusText(message);
                 }
                 else
                 {
@@ -1677,7 +1689,7 @@ namespace Waveface
             timerShowStatuMessage.Enabled = false;
 
             StatusLabelPost.Text = "";
-            panelTitle.ShowStatusText("");
+			//panelTitle.ShowStatusText("");
         }
 
         public void ShowFileMissDialog(string text)

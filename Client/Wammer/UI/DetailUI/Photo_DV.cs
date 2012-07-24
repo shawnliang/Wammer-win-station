@@ -14,6 +14,7 @@ using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Libs.StationDB;
 using MongoDB.Driver.Builders;
+using System.Diagnostics;
 
 #endregion
 
@@ -45,7 +46,7 @@ namespace Waveface.DetailUI
         private ContextMenuStrip contextMenuStripTop;
         private ToolStripMenuItem miCopyTop;
 
-        private int m_loadingPhotosCount;
+		//private int m_loadingPhotosCount;
 
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
 
@@ -341,8 +342,6 @@ namespace Waveface.DetailUI
             Set_MainContent_Part();
 
             Set_Pictures();
-
-            ReLayout();
         }
 
         private void ReLayout()
@@ -507,17 +506,9 @@ namespace Waveface.DetailUI
                 }
             }
 
-            bool _show = (m_loadingPhotosCount != m_imageAttachments.Count);
-
-            m_loadingPhotosCount = _count;
+			//m_loadingPhotosCount = _count;
 
             UnloadPhotosCount = m_imageAttachments.Count - _count;
-
-            if (firstTime || _show)
-            {
-                ShowImageListView(firstTime);
-                return false;
-            }
 
             if (_count == m_imageAttachments.Count)
             {
@@ -526,6 +517,12 @@ namespace Waveface.DetailUI
                 ShowImageListView(firstTime);
                 return true;
             }
+
+			if (firstTime)
+			{
+				ShowImageListView(firstTime);
+				return false;
+			}
 
             return false;
         }
@@ -582,7 +579,7 @@ namespace Waveface.DetailUI
             if (_flag)
                 m_canEdit = true;
 
-            ReLayout();
+			ReLayout();
 
             return _flag;
         }
@@ -606,6 +603,7 @@ namespace Waveface.DetailUI
 
         private void DetailView_Resize(object sender, EventArgs e)
         {
+			Trace.WriteLine("DetailView_Resize");
             ReLayout();
         }
 
@@ -626,9 +624,6 @@ namespace Waveface.DetailUI
 
         private void imageListView_Resize(object sender, EventArgs e)
         {
-            //if (Post != null)
-            //    ReLayout();
-
             try
             {
                 if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
@@ -648,90 +643,52 @@ namespace Waveface.DetailUI
             if (imgListView.Items.Count < 3)
             {
                 W = (imgListView.Width - (padding * 2)) / 2;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if (imgListView.Items.Count < 7)
             {
                 W = (imgListView.Width - (padding * 3)) / 3;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if (imgListView.Items.Count < 17)
             {
                 W = (imgListView.Width - (padding * 4)) / 4;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if (imgListView.Items.Count < 51)
             {
                 W = (imgListView.Width - (padding * 5)) / 5;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if (imgListView.Items.Count < 101)
             {
                 W = (imgListView.Width - (padding * 6)) / 6;
-
-                if (W < smallest)
-                    W = smallest;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if ((imgListView.Items.Count >= 101) && (imgListView.Items.Count <= 150))
             {
                 W = (imgListView.Width - (padding * 7)) / 7;
-
-                if (W < smallest)
-                    W = smallest;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if ((imgListView.Items.Count >= 151) && (imgListView.Items.Count <= 200))
             {
                 W = (imgListView.Width - (padding * 8)) / 8;
-
-                if (W < smallest)
-                    W = smallest;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if ((imgListView.Items.Count > 200) && (imgListView.Items.Count <= 300))
             {
                 W = (imgListView.Width - (padding * 9)) / 9;
-
-                if (W < smallest)
-                    W = smallest;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if ((imgListView.Items.Count > 300) && (imgListView.Items.Count <= 400))
             {
                 W = (imgListView.Width - (padding * 10)) / 10;
-
-                if (W < smallest)
-                    W = smallest;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else if ((imgListView.Items.Count > 400) && (imgListView.Items.Count <= 500))
             {
                 W = (imgListView.Width - (padding * 11)) / 11;
-
-                if (W < smallest)
-                    W = smallest;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
             else
             {
                 W = (imgListView.Width - (padding * 12)) / 12;
-
-                if (W < smallest)
-                    W = smallest;
-
-                imgListView.ThumbnailSize = new Size(W, W);
             }
+
+			if (W < smallest)
+				W = smallest;
+
+			imgListView.ThumbnailSize = new Size(W, W);
         }
 
         private void imageListView_ItemDoubleClick(object sender, ItemClickEventArgs e)
