@@ -307,7 +307,7 @@ namespace StationSystemTray
 			uictrlResumeService.UIError += ResumeServiceUIError;
 
 			NetworkChange.NetworkAvailabilityChanged += NetworkChanged;
-			NetworkChange.NetworkAddressChanged += NetworkChanged;
+			//NetworkChange.NetworkAddressChanged += NetworkChanged;
 
 			CurrentState = CreateState(StationStateEnum.Initial);
 			menuServiceAction.Text = Resources.PauseWFService;
@@ -564,21 +564,50 @@ namespace StationSystemTray
 		{
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
-
-		private void NetworkChanged(object sender, EventArgs e)
+		[DllImport("wininet")]
+		public static extern bool InternetGetConnectedState(
+			ref uint lpdwFlags,
+			uint dwReserved
+			);
+		private void NetworkChanged(object sender, NetworkAvailabilityEventArgs e)
 		{
-			try
-			{
-				using (var agent = new DefaultWebClient())
-				{
-					agent.DownloadData("http://www.google.com");
-				}
-			}
-			catch
+			//try
+			//{
+
+			if (!e.IsAvailable)
 			{
 				TrayIcon.ShowBalloonTip(1000, "Stream", Resources.NETWORK_UNAVAILABLE, ToolTipIcon.None);
 				SendSyncStatusToClient();
 			}
+
+				////連線的Flag
+				//uint flags = 0x0;
+
+				//bool rtvl;
+
+				////取得本機電腦目前的連線狀態
+				//rtvl = InternetGetConnectedState(ref flags, 0);
+
+				//if (!rtvl)
+				//{
+				//    TrayIcon.ShowBalloonTip(1000, "Stream", Resources.NETWORK_UNAVAILABLE, ToolTipIcon.None);
+				//    SendSyncStatusToClient();
+				//}
+
+				//var p = new Ping();
+				//if (p.Send("waveface.com", 500).Status != IPStatus.Success)
+				//    throw new WebException();
+
+				//using (var agent = new DefaultWebClient())
+				//{
+				//    agent.DownloadData("http://www.google.com");
+				//}
+			//}
+			//catch
+			//{
+			//    TrayIcon.ShowBalloonTip(1000, "Stream", Resources.NETWORK_UNAVAILABLE, ToolTipIcon.None);
+			//    SendSyncStatusToClient();
+			//}
 			checkStationTimer_Tick(sender, e);
 		}
 

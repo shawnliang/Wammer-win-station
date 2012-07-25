@@ -127,7 +127,7 @@ namespace Waveface.PostUI
             }
         }
 
-        public void AddEditModePhotoFiles(List<string> files, List<Attachment> attachments, string coverAttach)
+        public void AddEditModePhotoFiles(List<string> files, Post post)
         {
             m_editModeOriginPhotoFiles = files;
 
@@ -140,9 +140,9 @@ namespace Waveface.PostUI
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
                 _tag.caGUID = Guid.NewGuid().ToString();
                 _tag.AddPhotoType = EditModePhotoType.EditModeOrigin;
-                _tag.ObjectID = attachments[i].object_id;
+                _tag.ObjectID = post.attachment_id_array[i];
 
-                if (attachments[i].object_id == coverAttach)
+                if (_tag.ObjectID == post.cover_attach)
                 {
                     _tag.IsCoverImage_UI = true;
 

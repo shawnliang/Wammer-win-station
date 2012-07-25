@@ -19,28 +19,19 @@ namespace Waveface.DetailUI
 {
     public partial class PhotoView : Form
     {
-        private const string MEDIUM = "Medium";
-        private const string ORIGIN = "Origin";
-        private const string LOADING = "Loading";
-
         private bool m_onlyOnePhoto;
-        private int m_loadingPhotosCount;
-        private int m_loadingOriginPhotosCount;
-        private List<Attachment> m_imageAttachments;
-        private List<string> m_filePathOrigins;
         private List<string> m_filePathMediums;
-        private string m_selectedImageType;
         private Post m_post;
         private FormSettings m_formSettings;
 
         public PhotoView()
         {
             InitializeComponent();
-			Bounds = Screen.PrimaryScreen.Bounds;
-			this.FullScreen();
+            Bounds = Screen.PrimaryScreen.Bounds;
+            this.FullScreen();
         }
 
-        public PhotoView(Post post, List<Attachment> imageAttachments, List<string> filePathOrigins, List<string> filePathMediums, int selectedIndex)
+        public PhotoView(Post post, List<string> filePathMediums, int selectedIndex)
             : this()
         {
             m_formSettings = new FormSettings(this);
@@ -52,58 +43,58 @@ namespace Waveface.DetailUI
 
             m_post = post;
 
-            m_imageAttachments = imageAttachments;
-            m_filePathOrigins = filePathOrigins;
             m_filePathMediums = filePathMediums;
 
-            m_onlyOnePhoto = (m_imageAttachments.Count == 1);
+            m_onlyOnePhoto = (m_post.attachment_id_array.Count == 1);
 
-			thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
-			thumbnailNavigator1.ThumbnailWidth = 64;
-			thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
-			thumbnailNavigator1.LoadThumbnails(filePathMediums, selectedIndex);
+            thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
+            thumbnailNavigator1.ThumbnailWidth = 64;
+            thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
+            thumbnailNavigator1.LoadThumbnails(filePathMediums, selectedIndex);
         }
 
-		void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			imageBox.Image = new Bitmap(GetPhotoFilePath(thumbnailNavigator1.SelectedIndex));
-			imageBox.ZoomToFit();
-		}
+        void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            imageBox.Image = new Bitmap(GetPhotoFilePath(thumbnailNavigator1.SelectedIndex));
+            imageBox.ZoomToFit();
+        }
 
-		private string GetPhotoFilePath(int index)
-		{
-			var originPhotoFilePath = m_filePathOrigins[index];
-			if (File.Exists(originPhotoFilePath))
-				return originPhotoFilePath;
+        private string GetPhotoFilePath(int index)
+        {
+            var object_id = m_post.attachment_id_array[index];
 
-			var mediumPhotoFilePath = m_filePathMediums[index];
-			if (File.Exists(mediumPhotoFilePath))
-				return mediumPhotoFilePath;
+            var originPhotoFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(object_id);
+            if (File.Exists(originPhotoFilePath))
+                return originPhotoFilePath;
 
-			return null;
-		}
-	
+            var mediumPhotoFilePath = m_filePathMediums[index];
+            if (File.Exists(mediumPhotoFilePath))
+                return mediumPhotoFilePath;
+
+            return null;
+        }
+    
 
         private void btnSlideShow_Click(object sender, EventArgs e)
         {
             List<string> _imageFilesPath = new List<string>();
 
-			for (int i = 0; i < m_imageAttachments.Count; i++)
-			{
-				var photoFilePath = GetPhotoFilePath(i);
-				if (string.IsNullOrEmpty(photoFilePath))
-					continue;
+            for (int i = 0; i < m_post.attachment_id_array.Count; i++)
+            {
+                var photoFilePath = GetPhotoFilePath(i);
+                if (string.IsNullOrEmpty(photoFilePath))
+                    continue;
 
-				_imageFilesPath.Add(photoFilePath);
-			}
+                _imageFilesPath.Add(photoFilePath);
+            }
 
             if (_imageFilesPath.Count > 0)
             {
                 using (SlideShowForm _form = new SlideShowForm(_imageFilesPath, thumbnailNavigator1.SelectedIndex))
                 {
-					_form.StartPosition = FormStartPosition.CenterParent;
+                    _form.StartPosition = FormStartPosition.CenterParent;
                     _form.ShowDialog(this);
-					thumbnailNavigator1.SelectedIndex = _form.m_index;
+                    thumbnailNavigator1.SelectedIndex = _form.m_index;
                 }
             }
         }
@@ -120,10 +111,10 @@ namespace Waveface.DetailUI
             SavePic();
         }
 
-		private void SavePic()
-		{
+        private void SavePic()
+        {
             var _picFilePath = GetPhotoFilePath(thumbnailNavigator1.SelectedIndex);
-            var object_id = m_imageAttachments[thumbnailNavigator1.SelectedIndex].object_id;
+            var object_id = m_post.attachment_id_array[thumbnailNavigator1.SelectedIndex];
             var trueFileName = AttachmentCollection.QueryFileName(object_id);
 
             if (string.IsNullOrEmpty(trueFileName))
@@ -140,22 +131,22 @@ namespace Waveface.DetailUI
 
                     File.Copy(_picFilePath, _destFile, true);
 
-					//Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveOK"), Toast.LENGTH_SHORT).Show();
-					//MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
-				}
-				catch
-				{
-					Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveError"), Toast.LENGTH_SHORT).Show();
-					//MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
-				}
-			}
-		}
+                    //Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveOK"), Toast.LENGTH_SHORT).Show();
+                    //MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
+                }
+                catch
+                {
+                    Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveError"), Toast.LENGTH_SHORT).Show();
+                    //MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
+                }
+            }
+        }
 
         #endregion
 
         private void SetAsCoverImage()
         {
-			string _cover_attach = m_imageAttachments[thumbnailNavigator1.SelectedIndex].object_id;
+            string _cover_attach = m_post.attachment_id_array[thumbnailNavigator1.SelectedIndex];
 
             if (_cover_attach != m_post.cover_attach)
             {
@@ -172,8 +163,8 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-			Toast.MakeText(imageBox, I18n.L.T("ChangedCoverImageOK"), Toast.LENGTH_SHORT).Show();
-			//MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Toast.MakeText(imageBox, I18n.L.T("ChangedCoverImageOK"), Toast.LENGTH_SHORT).Show();
+            //MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)
@@ -188,54 +179,54 @@ namespace Waveface.DetailUI
 
         private void PhotoView_Resize(object sender, EventArgs e)
         {
-			pnlPhotoViewToolBar.Left = (this.Width - pnlPhotoViewToolBar.Width) / 2;
+            pnlPhotoViewToolBar.Left = (this.Width - pnlPhotoViewToolBar.Width) / 2;
         }
 
         private void SendKeyToImageListView(KeyEventArgs e)
         {
-			switch (e.KeyCode)
-			{
-				case Keys.Left:
-					thumbnailNavigator1.PreviousThumbnail();
-					break;
-				case Keys.Right:
-					thumbnailNavigator1.NextThumbnail();
-					break;
-				case Keys.PageUp:
-					thumbnailNavigator1.PreviousPage();
-					break;
-				case Keys.PageDown:
-					thumbnailNavigator1.NextPage();
-					break;
-				case Keys.Home:
-					thumbnailNavigator1.FirstThumbnail();
-					break;
-				case Keys.End:
-					thumbnailNavigator1.LastThumbnail();
-					break;
-				case Keys.Escape:
-					this.Close();
-					break;
-			}
+            switch (e.KeyCode)
+            {
+                case Keys.Left:
+                    thumbnailNavigator1.PreviousThumbnail();
+                    break;
+                case Keys.Right:
+                    thumbnailNavigator1.NextThumbnail();
+                    break;
+                case Keys.PageUp:
+                    thumbnailNavigator1.PreviousPage();
+                    break;
+                case Keys.PageDown:
+                    thumbnailNavigator1.NextPage();
+                    break;
+                case Keys.Home:
+                    thumbnailNavigator1.FirstThumbnail();
+                    break;
+                case Keys.End:
+                    thumbnailNavigator1.LastThumbnail();
+                    break;
+                case Keys.Escape:
+                    this.Close();
+                    break;
+            }
         }
-		private void PhotoView_KeyDown(object sender, KeyEventArgs e)
-		{
-			SendKeyToImageListView(e);
-		}
+        private void PhotoView_KeyDown(object sender, KeyEventArgs e)
+        {
+            SendKeyToImageListView(e);
+        }
 
-		private void imageBox_Click(object sender, EventArgs e)
-		{
-			//thumbnailNavigator1.Visible = !thumbnailNavigator1.Visible;
-			//panelBottom.Visible = thumbnailNavigator1.Visible;
-			//imageBox.ZoomToFit();
-			imageBox.SizeToFit = false;
-			imageBox.AutoPan = true;
-			imageBox.AdjustLayout();
-		}
+        private void imageBox_Click(object sender, EventArgs e)
+        {
+            //thumbnailNavigator1.Visible = !thumbnailNavigator1.Visible;
+            //panelBottom.Visible = thumbnailNavigator1.Visible;
+            //imageBox.ZoomToFit();
+            imageBox.SizeToFit = false;
+            imageBox.AutoPan = true;
+            imageBox.AdjustLayout();
+        }
 
-		private void imageButton1_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
+        private void imageButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

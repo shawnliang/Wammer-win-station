@@ -290,17 +290,21 @@ namespace Waveface.DetailUI
 
         private void Set_Document()
         {
-            foreach (Attachment _a in m_post.attachments)
-            {
-                ListViewItem _item = new ListViewItem(HttpUtility.UrlDecode(_a.file_name));
-                _item.Tag = _a;
-                listViewFiles.Items.Add(_item);
-            }
+			//
+			// TODO: revise this when supporting DOC
 
-            listViewFiles.Items[0].Selected = true;
-            listViewFiles.Items[0].Focused = true;
+			//
+			//foreach (Attachment _a in m_post.attachments)
+			//{
+			//    ListViewItem _item = new ListViewItem(HttpUtility.UrlDecode(_a.file_name));
+			//    _item.Tag = _a;
+			//    listViewFiles.Items.Add(_item);
+			//}
 
-            downloadFile(m_post.attachments[0]);
+			//listViewFiles.Items[0].Selected = true;
+			//listViewFiles.Items[0].Focused = true;
+
+			//downloadFile(m_post.attachments[0]);
         }
 
         private void downloadFile(Attachment attachment)
