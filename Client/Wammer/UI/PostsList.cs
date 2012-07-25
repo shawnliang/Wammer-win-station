@@ -357,7 +357,7 @@ namespace Waveface
 
                 Graphics _g = e.Graphics;
 
-				//Trace.WriteLine("cell index: " + e.RowIndex.ToString());
+                //Trace.WriteLine("cell index: " + e.RowIndex.ToString());
 
                 Post _post = m_postBS[e.RowIndex] as Post;
 
@@ -593,30 +593,30 @@ namespace Waveface
         {
             try
             {
-				// -------------------------------------------------------------------------
-				// Need to revise later:
-				// Temporary remove this because post.attachments is not garuanteed to exist
-				// -------------------------------------------------------------------------
+                // -------------------------------------------------------------------------
+                // Need to revise later:
+                // Temporary remove this because post.attachments is not garuanteed to exist
+                // -------------------------------------------------------------------------
 
-				//Attachment _a = post.attachments[0];
+                //Attachment _a = post.attachments[0];
 
-				//if (_a.image == string.Empty)
-				//{
-				//    g.FillRectangle(m_bgSelectedBrush, thumbnailRect);
-				//    g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
-				//}
-				//else
-				//{
-				//    string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _a.object_id + "_thumbnail" + ".jpg");
+                //if (_a.image == string.Empty)
+                //{
+                //    g.FillRectangle(m_bgSelectedBrush, thumbnailRect);
+                //    g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
+                //}
+                //else
+                //{
+                //    string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _a.object_id + "_thumbnail" + ".jpg");
 
-				//    string _url = _a.image;
+                //    string _url = _a.image;
 
-				//    _url = Main.Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
+                //    _url = Main.Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
 
-				//    Bitmap _img = LoadThumbnail(_url, _localPic, false);
+                //    Bitmap _img = LoadThumbnail(_url, _localPic, false);
 
-				//    DrawResizedThumbnail(thumbnailRect, g, _img);
-				//}
+                //    DrawResizedThumbnail(thumbnailRect, g, _img);
+                //}
             }
             catch
             {
@@ -630,24 +630,24 @@ namespace Waveface
         {
             try
             {
-				// -------------------------------------------------------------------------
-				// Need to revise later:
-				// Temporary remove this because post.attachments is not garuanteed to exist
-				// -------------------------------------------------------------------------
+                // -------------------------------------------------------------------------
+                // Need to revise later:
+                // Temporary remove this because post.attachments is not garuanteed to exist
+                // -------------------------------------------------------------------------
 
 
-				//Attachment _a = null;
+                //Attachment _a = null;
 
-				//foreach (Attachment _attachment in post.attachments)
-				//{
-				//    if (_attachment.type == "image")
-				//    {
-				//        _a = _attachment;
-				//        break;
-				//    }
-				//}
+                //foreach (Attachment _attachment in post.attachments)
+                //{
+                //    if (_attachment.type == "image")
+                //    {
+                //        _a = _attachment;
+                //        break;
+                //    }
+                //}
 
-				//DrawResizedThumbnail_2(thumbnailRect, g, _a);
+                //DrawResizedThumbnail_2(thumbnailRect, g, _a);
             }
             catch
             {
@@ -691,9 +691,9 @@ namespace Waveface
         {
             try
             {
-				var coverId = post.getCoverImageId();
+                var coverId = post.getCoverImageId();
 
-				DrawResizedThumbnail_2(thumbnailRect, g, coverId);
+                DrawResizedThumbnail_2(thumbnailRect, g, coverId);
             }
             catch
             {
@@ -752,7 +752,7 @@ namespace Waveface
 
         private Bitmap LoadAttachmentThumbnail(string object_id, bool forceNull)
         {
-			string _url = Main.Current.RT.REST.attachments_getImageURL(object_id, "small");
+            string _url = Main.Current.RT.REST.attachments_getImageURL(object_id, "small");
             string _localPic = Main.Current.RT.REST.attachments_getThumbnailFilePath(object_id, "small");
             Bitmap _img = LoadThumbnail(_url, _localPic, forceNull);
 

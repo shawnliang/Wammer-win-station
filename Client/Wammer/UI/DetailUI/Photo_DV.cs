@@ -515,9 +515,15 @@ namespace Waveface.DetailUI
                     if (File.Exists(m_filePathMediums[i]))
                     {
                         imageListView.Items[i].FileName = m_filePathMediums[i];
-
                         k++;
+                        continue;
+                    }
 
+                    var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(object_id);
+                    if (File.Exists(origFilePath))
+                    {
+                        imageListView.Items[i].FileName = origFilePath;
+                        k++;
                         continue;
                     }
 
