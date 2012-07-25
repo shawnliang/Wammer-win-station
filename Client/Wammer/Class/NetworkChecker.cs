@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 
 namespace Waveface
 {
@@ -33,14 +34,24 @@ namespace Waveface
 		private DateTime m_UpdateTime { get; set; }
 		#endregion
 
-
+		[DllImport("wininet")]
+		public static extern bool InternetGetConnectedState(
+			ref uint lpdwFlags,
+			uint dwReserved
+			);
 		#region Public Property
 		public Boolean IsNetworkAvailable
 		{
 			get
 			{
 				if ((DateTime.Now - m_UpdateTime).TotalMinutes > 1)
-					IsNetworkAvailable = Ping(@"www.google.com");
+				{
+
+					//連線的Flag
+					uint flags = 0x0;
+
+					IsNetworkAvailable = InternetGetConnectedState(ref flags, 0);
+				}
 				return _isNetworkAvailable;
 			}
 			private set
@@ -72,7 +83,7 @@ namespace Waveface
 			{
 				try
 				{
-					PingReply reply = p.Send(address, 300);
+					PingReply reply = p.Send(address, 500);
 					return reply.Status == IPStatus.Success;
 				}
 				catch (Exception)
