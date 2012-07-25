@@ -245,7 +245,6 @@
     <Compile Include="Libs\StationDB\StationDB.cs" />
     <Compile Include="Libs\Utility\ApplicationInformation.cs" />
     <Compile Include="Libs\Utility\ControlUtility.cs" />
-    <Compile Include="Libs\Utility\PostUtility.cs" />
     <Compile Include="Libs\Utility\StationRegHelper.cs" />
     <Compile Include="Libs\Utility\WebBrowser.cs" />
     <Compile Include="Libs\Utility\AttachmentUtility.cs" />

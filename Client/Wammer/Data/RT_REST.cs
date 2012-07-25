@@ -3,6 +3,8 @@
 using System.Collections.Generic;
 using System.IO;
 using Waveface.API.V2;
+using System;
+using Waveface.Libs.StationDB;
 
 #endregion
 
@@ -57,6 +59,39 @@ namespace Waveface
         public string attachments_getRedirectURL_PdfCoverPage(string orgURL)
         {
             return AttachmentUtility.GetRedirectURL_PdfCoverPage(orgURL, SessionToken);
+        }
+
+        public string attachments_getImageURL(string object_id, string type)
+        {
+            if (type == "origin")
+                return string.Format("{0}/v2/attachments/view?object_id={1}&apikey={2}&session_token={3}",
+                    WService.HostIP, object_id, WService.APIKEY, SessionToken);
+            else
+                return string.Format("{0}/v2/attachments/view?object_id={1}&apikey={2}&session_token={3}&image_meta={4}",
+                    WService.HostIP, object_id, WService.APIKEY, SessionToken, type);
+        }
+
+        private string attachments_getSavedFileName(string object_id, string type)
+        {
+            if (type == "origin")
+                throw new InvalidOperationException("origin is not supported");
+            else
+                return string.Format("{0}_{1}.dat", object_id, type);
+        }
+
+        public string attachments_getThumbnailFilePath(string object_id, string type)
+        {
+            return Path.Combine(Main.GCONST.ImageCachePath, attachments_getSavedFileName(object_id, type));
+        }
+
+        public string attachments_getOriginFilePath(string object_id)
+        {
+            var orig_file_name = AttachmentCollection.QueryFileName(object_id);
+            if (string.IsNullOrEmpty(orig_file_name))
+                return string.Empty;
+
+            var extension = Path.GetExtension(orig_file_name);
+            return Path.Combine(Main.GCONST.ImageCachePath, object_id + extension);
         }
 
         #endregion

@@ -593,25 +593,30 @@ namespace Waveface
         {
             try
             {
-                Attachment _a = post.attachments[0];
+				// -------------------------------------------------------------------------
+				// Need to revise later:
+				// Temporary remove this because post.attachments is not garuanteed to exist
+				// -------------------------------------------------------------------------
 
-                if (_a.image == string.Empty)
-                {
-                    g.FillRectangle(m_bgSelectedBrush, thumbnailRect);
-                    g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
-                }
-                else
-                {
-                    string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _a.object_id + "_thumbnail" + ".jpg");
+				//Attachment _a = post.attachments[0];
 
-                    string _url = _a.image;
+				//if (_a.image == string.Empty)
+				//{
+				//    g.FillRectangle(m_bgSelectedBrush, thumbnailRect);
+				//    g.DrawRectangle(new Pen(Color.Black), thumbnailRect);
+				//}
+				//else
+				//{
+				//    string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _a.object_id + "_thumbnail" + ".jpg");
 
-                    _url = Main.Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
+				//    string _url = _a.image;
 
-                    Bitmap _img = LoadThumbnail(_url, _localPic, false);
+				//    _url = Main.Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
 
-                    DrawResizedThumbnail(thumbnailRect, g, _img);
-                }
+				//    Bitmap _img = LoadThumbnail(_url, _localPic, false);
+
+				//    DrawResizedThumbnail(thumbnailRect, g, _img);
+				//}
             }
             catch
             {
@@ -625,18 +630,24 @@ namespace Waveface
         {
             try
             {
-                Attachment _a = null;
+				// -------------------------------------------------------------------------
+				// Need to revise later:
+				// Temporary remove this because post.attachments is not garuanteed to exist
+				// -------------------------------------------------------------------------
 
-                foreach (Attachment _attachment in post.attachments)
-                {
-                    if (_attachment.type == "image")
-                    {
-                        _a = _attachment;
-                        break;
-                    }
-                }
 
-                DrawResizedThumbnail_2(thumbnailRect, g, _a);
+				//Attachment _a = null;
+
+				//foreach (Attachment _attachment in post.attachments)
+				//{
+				//    if (_attachment.type == "image")
+				//    {
+				//        _a = _attachment;
+				//        break;
+				//    }
+				//}
+
+				//DrawResizedThumbnail_2(thumbnailRect, g, _a);
             }
             catch
             {
@@ -680,9 +691,9 @@ namespace Waveface
         {
             try
             {
-                Attachment _attachment = GetCoverImageAttachment(post);
+				var coverId = post.getCoverImageId();
 
-                DrawResizedThumbnail_2(thumbnailRect, g, _attachment);
+				DrawResizedThumbnail_2(thumbnailRect, g, coverId);
             }
             catch
             {
@@ -690,27 +701,6 @@ namespace Waveface
             }
 
             return true;
-        }
-
-        private Attachment GetCoverImageAttachment(Post post)
-        {
-            Attachment _attachment = post.attachments[0];
-
-            if (post.cover_attach != null)
-            {
-                string _cover_attach = post.cover_attach;
-
-                foreach (Attachment _a in post.attachments)
-                {
-                    if (_cover_attach == _a.object_id)
-                    {
-                        _attachment = _a;
-                        break;
-                    }
-                }
-            }
-
-            return _attachment;
         }
 
         private Bitmap LoadThumbnail(string url, string localPicPath, bool forceNull)
@@ -753,21 +743,17 @@ namespace Waveface
             return _img;
         }
 
-        private void DrawResizedThumbnail_2(Rectangle thumbnailRect, Graphics g, Attachment a)
+        private void DrawResizedThumbnail_2(Rectangle thumbnailRect, Graphics g, string object_id)
         {
-            var _img = LoadAttachmentThumbnail(a, false);
+            var _img = LoadAttachmentThumbnail(object_id, false);
 
             DrawResizedThumbnail(thumbnailRect, g, _img);
         }
 
-        private Bitmap LoadAttachmentThumbnail(Attachment a, bool forceNull)
+        private Bitmap LoadAttachmentThumbnail(string object_id, bool forceNull)
         {
-            string _url = string.Empty;
-            string _fileName = string.Empty;
-            Main.Current.RT.REST.attachments_getRedirectURL_Image(a, "small", out _url, out _fileName, false);
-
-            string _localPic = Path.Combine(Main.GCONST.ImageCachePath, _fileName);
-
+			string _url = Main.Current.RT.REST.attachments_getImageURL(object_id, "small");
+            string _localPic = Main.Current.RT.REST.attachments_getThumbnailFilePath(object_id, "small");
             Bitmap _img = LoadThumbnail(_url, _localPic, forceNull);
 
             return _img;

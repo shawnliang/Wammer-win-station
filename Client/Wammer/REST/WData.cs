@@ -57,6 +57,16 @@ namespace Waveface.API.V2
         {
             Sources = new Dictionary<string, string>();
         }
+
+        public string getCoverImageId()
+        {
+            if (!string.IsNullOrEmpty(cover_attach))
+                return cover_attach;
+            else if (attachment_id_array != null && attachment_id_array.Count > 0)
+                return attachment_id_array[0];
+            else
+                return null;
+        }
     }
 
     public class Attachment

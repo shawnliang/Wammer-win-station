@@ -5,6 +5,8 @@ using System.Net;
 using System.Web;
 using Waveface.API.V2;
 using System.IO;
+using System.Linq;
+using Waveface.Libs.StationDB;
 
 namespace Waveface
 {
@@ -12,30 +14,19 @@ namespace Waveface
     {
         public static void GetAllMediumsPhotoPathsByPost(Post post, Dictionary<string, string> files, Dictionary<string, string> mapping)
         {
-            List<Attachment> _imageAttachments = new List<Attachment>();
+			if (post.attachment_id_array == null || post.attachment_id_array.Count == 0)
+				return;
 
-            foreach (Attachment _a in post.attachments)
-            {
-                if (_a.type == "image")
-                    _imageAttachments.Add(_a);
-            }
+			foreach (var object_id in post.attachment_id_array)
+			{
+				var mediumThumbnailPath = Path.Combine(Main.GCONST.ImageCachePath, object_id + "_medium.dat");
+				
+				files.Add(object_id, mediumThumbnailPath);
 
-            foreach (Attachment _a in _imageAttachments)
-            {
-                string _urlM = string.Empty;
-                string _fileNameM = string.Empty;
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_a, "medium", out _urlM, out _fileNameM, false);
+				var orig_filename = AttachmentCollection.QueryFileName(object_id);
+				mapping.Add(mediumThumbnailPath, orig_filename);
+			}
 
-                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath, _fileNameM);
-
-                files.Add(_a.object_id, _localFileM);
-
-                if (!mapping.ContainsKey(_fileNameM))
-                {
-                    if ((_a.file_name != string.Empty) && (!_a.file_name.Contains("?")))
-                        mapping.Add(_fileNameM, _a.file_name);
-                }
-            }
         }
 
         public static string GetRedirectURL(string orgURL, string session_token, string object_id, bool isImage)
