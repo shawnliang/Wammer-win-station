@@ -14,12 +14,12 @@ using Waveface.Component;
 
 namespace Waveface
 {
-    public class TitlePanel : UserControl
+	public class TitlePanel : UserControl
 	{
 		#region Var
+		int _refreshImageIndex;
 		private TextureBrush _backgroundBrush;
 		private ImageButton _btnRefresh;
-		private Label _labelStatus;
 		public ImageButton _btnAccount;
 		private ImageButton _btnSetting;
 		private ImageButton _btnRemovePost;
@@ -79,84 +79,34 @@ namespace Waveface
 
 
 		#region Event Process
-		public event EventHandler AccountInfoClosed; 
+		public event EventHandler AccountInfoClosed;
 		#endregion
 
-        public TitlePanel()
-        {
-            InitializeComponent();
+		#region Constructor
+		public TitlePanel()
+		{
+			InitializeComponent();
 
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            SetStyle(ControlStyles.DoubleBuffer, true);
-            SetStyle(ControlStyles.UserPaint, true);
+			_toolTip.SetToolTip(this._btnRefresh, Resources.REFRESH_TOOL_TIP);
+			_toolTip.SetToolTip(this._btnRemovePost, Resources.REMOVE_TOOL_TIP);
+			_toolTip.SetToolTip(this._btnAccount, Resources.ACCOUNT_TOOL_TIP);
+			_toolTip.SetToolTip(this._btnSetting, Resources.SETTING_TOOL_TIP);
+
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			SetStyle(ControlStyles.DoubleBuffer, true);
+			SetStyle(ControlStyles.UserPaint, true);
 
 			this.SizeChanged += new EventHandler(TitlePanel_SizeChanged);
-        }
-
-		void TitlePanel_SizeChanged(object sender, EventArgs e)
-		{
-			m_BmpOffscreen = null;
 		}
+		#endregion
 
-		private void TitlePanel_Load(object sender, System.EventArgs e)
-        {
-            show_labelStatus(false);
-        }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            if (!DesignMode)
-            {
-				e.Graphics.DrawImage(m_BmpOffscreen, 0, 0);
-            }
+		#region Windows Form Designer generated code
 
-            base.OnPaint(e);
-        }
-
-        private void btnRefresh_Click(object sender, System.EventArgs e)
-        {
-            Main.Current.ReloadAllData();
-        }
-
-        public void updateRefreshUI(bool flag)
-        {
-            //DPI Hack
-            Height = Properties.Resources.titlebar_1.Height;
-
-            _btnRefresh.Enabled = flag;
-            _btnRemovePost.Enabled = flag;
-            _btnAccount.Enabled = flag;
-            _btnSetting.Enabled = flag;
-        }
-
-        public void ShowStatusText(string msg)
-        {
-            _labelStatus.Text = msg;
-
-            show_labelStatus(msg != "");
-        }
-
-        private void show_labelStatus(bool flag)
-        {
-            _btnRefresh.Enabled = !flag;
-        }
-
-        public void showRefreshUI(bool flag)
-        {
-            _btnRefresh.Visible = flag;
-
-            _btnRemovePost.Visible = true;
-            _btnAccount.Visible = true;
-            _btnSetting.Visible = true;
-        }
-
-        #region Windows Form Designer generated code
-
-        private void InitializeComponent()
-        {
+		private void InitializeComponent()
+		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TitlePanel));
-			this._labelStatus = new System.Windows.Forms.Label();
 			this._toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this._btnRemovePost = new Waveface.Component.ImageButton();
 			this._btnSetting = new Waveface.Component.ImageButton();
@@ -165,17 +115,12 @@ namespace Waveface
 			this._timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
-			// _labelStatus
-			// 
-			resources.ApplyResources(this._labelStatus, "_labelStatus");
-			this._labelStatus.Name = "_labelStatus";
-			// 
 			// _btnRemovePost
 			// 
+			resources.ApplyResources(this._btnRemovePost, "_btnRemovePost");
 			this._btnRemovePost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this._btnRemovePost.CenterAlignImage = true;
 			this._btnRemovePost.Cursor = System.Windows.Forms.Cursors.Hand;
-			resources.ApplyResources(this._btnRemovePost, "_btnRemovePost");
 			this._btnRemovePost.Image = global::Waveface.Properties.Resources.FB_remove_post;
 			this._btnRemovePost.ImageDisable = global::Waveface.Properties.Resources.FB_remove_post;
 			this._btnRemovePost.ImageFront = null;
@@ -187,10 +132,10 @@ namespace Waveface
 			// 
 			// _btnSetting
 			// 
+			resources.ApplyResources(this._btnSetting, "_btnSetting");
 			this._btnSetting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this._btnSetting.CenterAlignImage = true;
 			this._btnSetting.Cursor = System.Windows.Forms.Cursors.Hand;
-			resources.ApplyResources(this._btnSetting, "_btnSetting");
 			this._btnSetting.Image = global::Waveface.Properties.Resources.FBT_setting;
 			this._btnSetting.ImageDisable = global::Waveface.Properties.Resources.FBT_setting;
 			this._btnSetting.ImageFront = null;
@@ -202,10 +147,10 @@ namespace Waveface
 			// 
 			// _btnAccount
 			// 
+			resources.ApplyResources(this._btnAccount, "_btnAccount");
 			this._btnAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this._btnAccount.CenterAlignImage = true;
 			this._btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
-			resources.ApplyResources(this._btnAccount, "_btnAccount");
 			this._btnAccount.Image = global::Waveface.Properties.Resources.FBT_account;
 			this._btnAccount.ImageDisable = global::Waveface.Properties.Resources.FBT_account;
 			this._btnAccount.ImageFront = null;
@@ -217,9 +162,9 @@ namespace Waveface
 			// 
 			// _btnRefresh
 			// 
+			resources.ApplyResources(this._btnRefresh, "_btnRefresh");
 			this._btnRefresh.CenterAlignImage = true;
 			this._btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-			resources.ApplyResources(this._btnRefresh, "_btnRefresh");
 			this._btnRefresh.Image = global::Waveface.Properties.Resources.FBT_refresh;
 			this._btnRefresh.ImageDisable = global::Waveface.Properties.Resources.FBT_refresh;
 			this._btnRefresh.ImageFront = null;
@@ -236,24 +181,31 @@ namespace Waveface
 			// 
 			// TitlePanel
 			// 
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this.Controls.Add(this._btnRemovePost);
 			this.Controls.Add(this._btnSetting);
 			this.Controls.Add(this._btnAccount);
-			this.Controls.Add(this._labelStatus);
 			this.Controls.Add(this._btnRefresh);
-			resources.ApplyResources(this, "$this");
 			this.Name = "TitlePanel";
-			this.Load += new System.EventHandler(this.TitlePanel_Load);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
-        }
+		}
 
-        #endregion
+		#endregion
 
 		#region Protected Method
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			if (!DesignMode)
+			{
+				e.Graphics.DrawImage(m_BmpOffscreen, 0, 0);
+			}
+
+			base.OnPaint(e);
+		}
+
 		protected void OnAccountInfoClosed(EventArgs e)
 		{
 			if (AccountInfoClosed == null)
@@ -275,24 +227,47 @@ namespace Waveface
 		#endregion
 
 
+		#region Public Method
+		public void showRefreshUI(bool flag)
+		{
+			_btnRefresh.Visible = flag;
+
+			_btnRemovePost.Visible = true;
+			_btnAccount.Visible = true;
+			_btnSetting.Visible = true;
+		}
+
+		public void updateRefreshUI(bool flag)
+		{
+			//DPI Hack
+			Height = Properties.Resources.titlebar_1.Height;
+
+			_btnRefresh.Enabled = flag;
+			_btnRemovePost.Enabled = flag;
+			_btnAccount.Enabled = flag;
+			_btnSetting.Enabled = flag;
+		}
+		#endregion
+
+
 		private void btnAccount_Click(object sender, System.EventArgs e)
-        {
+		{
 			using (var _form = new AccountInfoForm())
 			{
 				_form.StartPosition = FormStartPosition.CenterParent;
 				_form.ShowDialog(this);
 				OnAccountInfoClosed(EventArgs.Empty);
 			}
-        }
+		}
 
-        private void btnRemovePost_Click(object sender, System.EventArgs e)
-        {
-            Main.Current.RemovePost();
-        }
+		private void btnRemovePost_Click(object sender, System.EventArgs e)
+		{
+			Main.Current.RemovePost();
+		}
 
-        private void btnSetting_Click(object sender, System.EventArgs e)
-        {
-            Main.Current.AccountInformation();
+		private void btnSetting_Click(object sender, System.EventArgs e)
+		{
+			Main.Current.AccountInformation();
 		}
 
 
@@ -306,35 +281,50 @@ namespace Waveface
 		{
 			_timer1.Stop();
 			_btnRefresh.Image = Resources.FBT_refresh;
+			_btnRefresh.ImageHover = Resources.refresh_hl;
 		}
 		#endregion
 
-		int refreshImageIndex = 0;
+
+		#region Event Process
+		void TitlePanel_SizeChanged(object sender, EventArgs e)
+		{
+			m_BmpOffscreen = null;
+		}
+
+
+		private void btnRefresh_Click(object sender, System.EventArgs e)
+		{
+			Main.Current.ReloadAllData();
+		}
+
+
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 
-			if (refreshImageIndex == 0)
+			if (_refreshImageIndex == 0)
 			{
 				_btnRefresh.Image = Resources.refresh2;
 				_btnRefresh.ImageHover = Resources.refresh_hl2;
 			}
-			else if (refreshImageIndex == 1)
+			else if (_refreshImageIndex == 1)
 			{
 				_btnRefresh.Image = Resources.refresh3;
 				_btnRefresh.ImageHover = Resources.refresh_hl3;
 			}
-			else if (refreshImageIndex == 2)
+			else if (_refreshImageIndex == 2)
 			{
 				_btnRefresh.Image = Resources.refresh4;
 				_btnRefresh.ImageHover = Resources.refresh_hl4;
 			}
-			else if (refreshImageIndex == 3)
+			else if (_refreshImageIndex == 3)
 			{
 				_btnRefresh.Image = Resources.FBT_refresh;
 				_btnRefresh.ImageHover = Resources.refresh_hl;
 			}
 
-			refreshImageIndex = (refreshImageIndex + 1) % 4;
+			_refreshImageIndex = (_refreshImageIndex + 1) % 4;
 		}
+		#endregion
 	}
 }

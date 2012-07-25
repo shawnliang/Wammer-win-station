@@ -21,18 +21,87 @@ namespace Waveface
 {
     public partial class LeftArea : UserControl
     {
-        private static Logger s_logger = LogManager.GetCurrentClassLogger();
+		#region Private Static Var
+		private static Logger s_logger = LogManager.GetCurrentClassLogger(); 
+		#endregion
 
-        private FilterManager m_filterManager;
-        private Button m_buttonAddNewFilter;
-        private string m_dropAreaMessage;
-        private Image m_dropAreaImage;
-        private Font m_font;
-        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
-        #region Properties
+		#region Var
+		private FilterManager _filterManager;
+		private Button m_buttonAddNewFilter;
+		private string m_dropAreaMessage;
+		private Image _dropAreaImage;
+		private Font _font;
+		private DragDrop_Clipboard_Helper _dragDropClipboardHelper; 
+		#endregion
 
-        public int MyWidth
+		#region Private Property
+		private Font m_Font
+		{
+			get
+			{
+				return _font ?? (_font = new Font(I18n.L.T("DefaultFont"), 9 * getDPIRatio(), FontStyle.Bold));
+			}
+		}
+
+		private DragDrop_Clipboard_Helper m_DragDropClipboardHelper
+		{
+			get
+			{
+				return _dragDropClipboardHelper ?? (_dragDropClipboardHelper = new DragDrop_Clipboard_Helper());
+			}
+		}
+
+		private Image m_DropAreaImage
+		{
+			get
+			{
+				return _dropAreaImage ?? (_dropAreaImage = new Bitmap(150, 138));
+			}
+			set
+			{
+				if (_dropAreaImage == value)
+					return;
+
+				if (_dropAreaImage != null)
+				{
+					_dropAreaImage.Dispose();
+					_dropAreaImage = null;
+				}
+
+				_dropAreaImage = value;
+			}
+		}
+
+		private FilterManager m_FilterManager
+		{
+			get
+			{
+				return _filterManager ?? (_filterManager = new FilterManager() 
+				{
+					MyParent = this
+				});
+			}
+			set
+			{
+				if (_filterManager == value)
+					return;
+
+				if (_filterManager != null)
+				{
+					if (!_filterManager.IsDisposed)
+						_filterManager.Dispose();
+					_filterManager = null;
+				}
+
+				_filterManager = value;
+			}
+		}
+		#endregion
+
+
+		#region Public Property
+		public int MyWidth
         {
             get
             {
@@ -57,32 +126,32 @@ namespace Waveface
 
         #endregion
 
-        public LeftArea()
-        {
-            InitializeComponent();
+		#region Constructor
+		public LeftArea()
+		{
+			InitializeComponent();
 
-            m_font = new Font(I18n.L.T("DefaultFont"), 9 * getDPIRatio(), FontStyle.Bold);
+			pbDropArea.AllowDrop = true;
 
-            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
-            pbDropArea.AllowDrop = true;
+			InitDefaultFilters();
 
-            m_dropAreaImage = new Bitmap(150, 138);
+			InitAddNewButton();
+		} 
+		#endregion
 
-            InitDefaultFilters();
 
-            InitAddNewButton();
-        }
+		#region Private Method
+		private float getDPIRatio()
+		{
+			using (Graphics _g = CreateGraphics())
+			{
+				if (_g.DpiX == 120)
+					return 0.85f;
+			}
 
-        private float getDPIRatio()
-        {
-            using (Graphics _g = CreateGraphics())
-            {
-                if (_g.DpiX == 120)
-                    return 0.85f;
-            }
-
-            return 1;
-        }
+			return 1;
+		} 
+		#endregion
 
         public void SetNewPostManager()
         {
@@ -99,9 +168,8 @@ namespace Waveface
 
         private void AddNewItem_Click(object sender, EventArgs e)
         {
-            m_filterManager = new FilterManager();
-            m_filterManager.MyParent = this;
-            m_filterManager.ShowDialog();
+			m_FilterManager = null;
+            m_FilterManager.ShowDialog();
 
             FillCustomizedFilters();
         }
@@ -420,7 +488,7 @@ namespace Waveface
 
         private void DrawDropArea(Image bmp, int percent)
         {
-            using (Graphics _g = Graphics.FromImage(m_dropAreaImage))
+            using (Graphics _g = Graphics.FromImage(m_DropAreaImage))
             {
                 _g.TextRenderingHint = TextRenderingHint.AntiAlias;
                 _g.InterpolationMode = InterpolationMode.HighQualityBilinear;
@@ -444,15 +512,15 @@ namespace Waveface
                     _g.FillRectangle(Brushes.PaleTurquoise, _sx, _y, _dx, _dy);
                 }
 
-                Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+				Size _size = TextRenderer.MeasureText(m_dropAreaMessage, m_Font, pbDropArea.Size, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 
                 using (Brush _brush = new SolidBrush(Color.FromArgb(33, 69, 99)))
                 {
-                    _g.DrawString(m_dropAreaMessage, m_font, _brush, ((bmp.Width - _size.Width) / 2) + _off - 1, bmp.Height - _size.Height - 6);
+					_g.DrawString(m_dropAreaMessage, m_Font, _brush, ((bmp.Width - _size.Width) / 2) + _off - 1, bmp.Height - _size.Height - 6);
                 }
             }
 
-            pbDropArea.Image = m_dropAreaImage;
+            pbDropArea.Image = m_DropAreaImage;
         }
 
         #endregion
@@ -461,7 +529,7 @@ namespace Waveface
 
         private void DropArea_DragDrop(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Drop(e);
+            m_DragDropClipboardHelper.Drag_Drop(e);
 
             FlashWindow.Stop(Main.Current);
         }
@@ -470,19 +538,19 @@ namespace Waveface
         {
             FlashWindow.Start(Main.Current);
 
-            m_dragDropClipboardHelper.Drag_Enter(e, false);
+            m_DragDropClipboardHelper.Drag_Enter(e, false);
         }
 
         private void DropArea_DragLeave(object sender, EventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Leave();
+            m_DragDropClipboardHelper.Drag_Leave();
 
             FlashWindow.Stop(Main.Current);
         }
 
         private void DropArea_DragOver(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Over(e, false);
+            m_DragDropClipboardHelper.Drag_Over(e, false);
         }
 
         private void pbDropArea_Click(object sender, EventArgs e)
@@ -490,8 +558,10 @@ namespace Waveface
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            DropAreaInforForm _inforForm = new DropAreaInforForm();
-            _inforForm.ShowDialog();
+			using (var dialog = new DropAreaInforForm())
+			{
+				dialog.ShowDialog();
+			}
         }
 
         #endregion

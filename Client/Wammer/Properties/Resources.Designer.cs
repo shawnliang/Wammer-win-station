@@ -74,6 +74,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Account Info.
+        /// </summary>
+        internal static string ACCOUNT_TOOL_TIP {
+            get {
+                return ResourceManager.GetString("ACCOUNT_TOOL_TIP", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap add_photo {
             get {
                 object obj = ResourceManager.GetObject("add_photo", resourceCulture);
@@ -958,6 +967,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string REFRESH_TOOL_TIP {
+            get {
+                return ResourceManager.GetString("REFRESH_TOOL_TIP", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap refresh2 {
             get {
                 object obj = ResourceManager.GetObject("refresh2", resourceCulture);
@@ -976,6 +994,15 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("refresh4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Post.
+        /// </summary>
+        internal static string REMOVE_TOOL_TIP {
+            get {
+                return ResourceManager.GetString("REMOVE_TOOL_TIP", resourceCulture);
             }
         }
         
@@ -1025,6 +1052,15 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("scriptedit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting.
+        /// </summary>
+        internal static string SETTING_TOOL_TIP {
+            get {
+                return ResourceManager.GetString("SETTING_TOOL_TIP", resourceCulture);
             }
         }
         
