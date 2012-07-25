@@ -93,6 +93,7 @@ namespace Waveface
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
 
             DoubleBufferedX(dataGridView, true);
+
         }
 
         public void DoubleBufferedX(DataGridView dgv, bool setting)
@@ -1107,12 +1108,20 @@ namespace Waveface
             //
         }
 
+		Boolean m_IsSettingDataText = false;
         private void dataGridView_Scroll(object sender, ScrollEventArgs e)
         {
             if (m_postBS.Count <= 0)
                 return;
 
-            SetDateText();
+			if (m_IsSettingDataText)
+			{
+				m_IsSettingDataText = false;
+				return;
+			}
+			m_IsSettingDataText = true;
+			SetDateText();
+			//m_IsSettingDataText = false;
         }
 
         private void SetDateText()

@@ -16,6 +16,7 @@ using Wammer.Cloud;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using System.Net.NetworkInformation;
 
 namespace Wammer.Station.Management
 {
@@ -483,12 +484,34 @@ namespace Wammer.Station.Management
 			}
 		}
 
+		[DllImport("wininet")]
+		public static extern bool InternetGetConnectedState(
+			ref uint lpdwFlags,
+			uint dwReserved
+			);
 		public static void ConnectToInternet()
 		{
-			using (var agent = new DefaultWebClient())
-			{
-				agent.DownloadData("http://www.google.com");
-			}
+
+
+			//連線的Flag
+			uint flags = 0x0;
+
+			bool rtvl;
+
+			//取得本機電腦目前的連線狀態
+			rtvl = InternetGetConnectedState(ref flags, 0);
+
+			if(!rtvl)
+				throw new WebException();
+
+			//var p = new Ping();
+			//if (p.Send("www.google.com", 500).Status != IPStatus.Success)
+			//    throw new WebException();
+
+			//using (var agent = new DefaultWebClient())
+			//{
+			//    agent.DownloadData("http://www.google.com");
+			//}
 		}
 
 		public static void PingForAvailability()
