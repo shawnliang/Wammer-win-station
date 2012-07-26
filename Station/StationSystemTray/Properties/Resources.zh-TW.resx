@@ -294,9 +294,9 @@
     <value>無法連線至 Stream 伺服器</value>
   </data>
   <data name="WFServiceStopped" xml:space="preserve">
-    <value>暫停同步</value>
+    <value>同步暫停</value>
   </data>
   <data name="WFServiceSyncing" xml:space="preserve">
-    <value>正在同步</value>
+    <value>同步中</value>
   </data>
 </root>
