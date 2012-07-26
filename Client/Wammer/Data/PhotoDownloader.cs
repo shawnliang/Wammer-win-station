@@ -416,43 +416,17 @@ namespace Waveface
         public static void PreloadPictures(Post post, bool allSize)
         {
             List<Attachment> _imageAttachments = new List<Attachment>();
-            List<string> _filePathOrigins = new List<string>();
             List<string> _filePathMediums = new List<string>();
-            List<string> _urlCloudOrigins = new List<string>();
-            List<string> _urlOrigins = new List<string>();
             List<string> _urlMediums = new List<string>();
 
-            foreach (Attachment _a in post.attachments)
-            {
-                if (_a.type == "image")
-                    _imageAttachments.Add(_a);
-            }
-
-            if (_imageAttachments.Count == 0)
+            if (post.type != "image" || post.attachment_id_array == null || post.attachment_id_array.Count == 0)
                 return;
 
-            foreach (Attachment _attachment in _imageAttachments)
+
+            foreach (var object_id in post.attachment_id_array)
             {
-                string _urlO = string.Empty;
-                string _fileNameO = string.Empty;
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO,
-                                                                      false);
-
-                string _localFileO = Path.Combine(Main.GCONST.ImageCachePath, _fileNameO);
-
-                _filePathOrigins.Add(_localFileO);
-                _urlOrigins.Add(_urlO);
-
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "origin", out _urlO, out _fileNameO,
-                                                                      true);
-                _urlCloudOrigins.Add(_urlO);
-
-                string _urlM = string.Empty;
-                string _fileNameM = string.Empty;
-                Main.Current.RT.REST.attachments_getRedirectURL_Image(_attachment, "medium", out _urlM, out _fileNameM,
-                                                                      false);
-
-                string _localFileM = Path.Combine(Main.GCONST.ImageCachePath, _fileNameM);
+                string _urlM = Main.Current.RT.REST.attachments_getImageURL(object_id, "medium");
+                string _localFileM = Main.Current.RT.REST.attachments_getThumbnailFilePath(object_id, "medium");
 
                 _filePathMediums.Add(_localFileM);
                 _urlMediums.Add(_urlM);
@@ -460,21 +434,14 @@ namespace Waveface
 
             for (int i = _imageAttachments.Count - 1; i >= 0; i--)
             {
-                if (File.Exists(_filePathOrigins[i]) && File.Exists(_filePathMediums[i]))
+                if (File.Exists(_filePathMediums[i]))
                     continue;
 
                 ImageItem _item = new ImageItem();
 
-                if (allSize && Main.Current.IsPrimaryStation)
-                    _item.PostItemType = PostItemType.Origin;
-                else
-                    _item.PostItemType = PostItemType.Medium;
-
-                _item.OriginPath = _urlOrigins[i];
+                _item.PostItemType = PostItemType.Medium;
                 _item.MediumPath = _urlMediums[i];
-                _item.LocalFilePath_Origin = _filePathOrigins[i];
                 _item.LocalFilePath_Medium = _filePathMediums[i];
-                _item.CloudOriginPath = _urlCloudOrigins[i];
                 _item.PostID = post.post_id;
 
                 Main.Current.PhotoDownloader.Add(_item, false);

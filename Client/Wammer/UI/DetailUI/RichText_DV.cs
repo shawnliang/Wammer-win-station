@@ -161,29 +161,33 @@ namespace Waveface.DetailUI
 
         private void Set_MainContent_Part()
         {
-            foreach (Attachment _a in m_post.attachments)
-            {
-                if (_a.mime_type == "text/html")
-                {
-                    m_htmlFile = Path.Combine(Main.GCONST.ImageCachePath, _a.object_id + ".html");
+			//
+			// TODO: revise this when supporting RTF
+			//
 
-                    if (File.Exists(m_htmlFile))
-                    {
-                        webBrowser.Navigate(m_htmlFile);
-                    }
-                    else
-                    {
-                        string _url = Main.Current.RT.REST.attachments_getRedirectURL(_a.url, _a.object_id, false);
+			//foreach (Attachment _a in m_post.attachments)
+			//{
+			//    if (_a.mime_type == "text/html")
+			//    {
+			//        m_htmlFile = Path.Combine(Main.GCONST.ImageCachePath, _a.object_id + ".html");
 
-                        WebClient _webClient = new WebClient();
-                        _webClient.DownloadFileCompleted += WebClientOnDownloadFileCompleted;
-                        _webClient.DownloadProgressChanged += ProgressChanged;
-                        _webClient.DownloadFileAsync(new Uri(_url), m_htmlFile);
-                    }
+			//        if (File.Exists(m_htmlFile))
+			//        {
+			//            webBrowser.Navigate(m_htmlFile);
+			//        }
+			//        else
+			//        {
+			//            string _url = Main.Current.RT.REST.attachments_getRedirectURL(_a.url, _a.object_id, false);
 
-                    return;
-                }
-            }
+			//            WebClient _webClient = new WebClient();
+			//            _webClient.DownloadFileCompleted += WebClientOnDownloadFileCompleted;
+			//            _webClient.DownloadProgressChanged += ProgressChanged;
+			//            _webClient.DownloadFileAsync(new Uri(_url), m_htmlFile);
+			//        }
+
+			//        return;
+			//    }
+			//}
         }
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)

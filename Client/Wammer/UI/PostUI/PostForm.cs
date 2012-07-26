@@ -419,7 +419,7 @@ namespace Waveface
                 }
                 else
                 {
-                    photo_UI.AddEditModePhotoFiles(files, Post.attachments, Post.cover_attach);
+                    photo_UI.AddEditModePhotoFiles(files, Post);
                 }
             }
         }

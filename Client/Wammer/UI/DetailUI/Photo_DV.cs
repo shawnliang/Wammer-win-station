@@ -1,4 +1,4 @@
-#region
+ï»¿#region
 
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,6 @@ namespace Waveface.DetailUI
         private IContainer components;
         private Timer timer;
 
-        private List<string> _filePathOrigins;
         private List<string> _filePathMediums;
 
         private Localization.CultureManager cultureManager;
@@ -59,24 +58,13 @@ namespace Waveface.DetailUI
         private ImageButton btnSaveAllPhotos;
         private ImageListViewItem m_selectedItem;
 
-        private List<Attachment> m_imageAttachments;
+        //private List<Attachment> m_imageAttachments;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         #endregion
 
 
         #region Private Property
-        /// <summary>
-        /// Gets the m_file path origins.
-        /// </summary>
-        /// <value>The m_file path origins.</value>
-        private List<string> m_filePathOrigins
-        {
-            get
-            {
-                return _filePathOrigins ?? (_filePathOrigins = new List<string>());
-            }
-        }
 
         /// <summary>
         /// Gets the m_file path mediums.
@@ -360,7 +348,7 @@ namespace Waveface.DetailUI
         {
             StringBuilder sb = new StringBuilder(256);
 
-            sb.Append("<body bgcolor=\"rgb(255, 255, 255)\"><font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif'><p>");
+            sb.Append("<body bgcolor=\"rgb(255, 255, 255)\"><font face='ï¿½Lï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, Helvetica, Arial, Verdana, sans-serif'><p>");
 
             string content = HttpUtility.HtmlEncode(Post.content);
             content = content.Replace(Environment.NewLine, "<BR>");
@@ -398,27 +386,17 @@ namespace Waveface.DetailUI
             imageListView.Items.Clear();
 
             m_filePathMediums.Clear();
-            m_filePathOrigins.Clear();
 
-            m_imageAttachments = new List<Attachment>();
-            m_imageAttachments = new List<Attachment>();
-
-            foreach (Attachment _a in Post.attachments)
-            {
-                if (_a.type == "image")
-                    m_imageAttachments.Add(_a);
-            }
-
-            if (m_imageAttachments.Count == 0)
+            if (Post.attachment_id_array == null || Post.attachment_id_array.Count == 0)
                 return;
 
-            foreach (Attachment _attachment in m_imageAttachments)
+            foreach (var object_id in Post.attachment_id_array)
             {
-                SetPicture(_attachment, "origin", m_filePathOrigins);
-                SetPicture(_attachment, "medium", m_filePathMediums);
+                var mediumPath = Main.Current.RT.REST.attachments_getThumbnailFilePath(object_id, "medium");
+                _filePathMediums.Add(mediumPath);
             }
 
-            timer.Interval = ((Post.attachments.Count / 100) + 4) * 1000;
+            timer.Interval = ((Post.attachment_id_array.Count / 100) + 4) * 1000;
 
             InitImageListViewLoadingImage();
 
@@ -426,40 +404,26 @@ namespace Waveface.DetailUI
                 timer.Enabled = true;
         }
 
-        private void SetPicture(Attachment attachment, string imageMeta, List<string> filePaths)
-        {
-            string url = string.Empty;
-            string fileName = string.Empty;
-            Main.Current.RT.REST.attachments_getRedirectURL_Image(attachment, imageMeta, out url, out fileName, false);
-
-            string localFile = Path.Combine(Main.GCONST.ImageCachePath, fileName);
-
-            filePaths.Add(localFile);
-        }
-
         private void InitImageListViewLoadingImage()
         {
             imageListView.SuspendLayout();
 
-            string _cover_attach = m_post.cover_attach;
-
-            if (string.IsNullOrEmpty(m_post.cover_attach))
-                _cover_attach = m_imageAttachments[0].object_id;
+            string _cover_attach = m_post.getCoverImageId();
 
             bool _setCoverImage = false;
 
             try
             {
-                for (int i = 0; i < m_imageAttachments.Count; i++)
+                for (int i = 0; i < Post.attachment_id_array.Count; i++)
                 {
                     imageListView.Items.Add(Main.Current.LoadingImagePath);
 
                     DetailViewImageListViewItemTag _tag = new DetailViewImageListViewItemTag();
                     _tag.Index = i.ToString();
 
-                    if (_cover_attach == m_imageAttachments[i].object_id)
+                    if (_cover_attach == Post.attachment_id_array[i])
                     {
-                        if (m_imageAttachments.Count > 1)
+                        if (Post.attachment_id_array.Count > 1)
                         {
                             _tag.IsCoverImage = true;
                         }
@@ -480,7 +444,7 @@ namespace Waveface.DetailUI
 
             if (!_setCoverImage)
             {
-                if (m_imageAttachments.Count > 1)
+                if (Post.attachment_id_array.Count > 1)
                 {
                     ((DetailViewImageListViewItemTag)imageListView.Items[0].Tag).IsCoverImage = true;
                 }
@@ -498,7 +462,7 @@ namespace Waveface.DetailUI
         {
             int _count = 0;
 
-            for (int i = 0; i < m_imageAttachments.Count; i++)
+            for (int i = 0; i < Post.attachment_id_array.Count; i++)
             {
                 if (File.Exists(m_filePathMediums[i]))
                 {
@@ -506,11 +470,10 @@ namespace Waveface.DetailUI
                 }
             }
 
-			//m_loadingPhotosCount = _count;
 
-            UnloadPhotosCount = m_imageAttachments.Count - _count;
+            UnloadPhotosCount = Post.attachment_id_array.Count - _count;
 
-            if (_count == m_imageAttachments.Count)
+            if (_count == Post.attachment_id_array.Count)
             {
                 timer.Enabled = false;
 
@@ -535,8 +498,10 @@ namespace Waveface.DetailUI
 
             try
             {
-                for (int i = 0; i < m_imageAttachments.Count; i++)
+                for (int i = 0; i < Post.attachment_id_array.Count; i++)
                 {
+                    var object_id = Post.attachment_id_array[i];
+
                     if (imageListView.Items[i].FileName == m_filePathMediums[i])
                     {
                         k++;
@@ -546,15 +511,21 @@ namespace Waveface.DetailUI
                     if (File.Exists(m_filePathMediums[i]))
                     {
                         imageListView.Items[i].FileName = m_filePathMediums[i];
-
                         k++;
-
                         continue;
                     }
 
-                    if (Post.Sources.ContainsKey(m_imageAttachments[i].object_id))
+                    var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(object_id);
+                    if (File.Exists(origFilePath))
                     {
-                        var sourcePath = Post.Sources[m_imageAttachments[i].object_id];
+                        imageListView.Items[i].FileName = origFilePath;
+                        k++;
+                        continue;
+                    }
+
+                    if (Post.Sources.ContainsKey(object_id))
+                    {
+                        var sourcePath = Post.Sources[object_id];
                         if (File.Exists(sourcePath))
                         {
                             imageListView.Items[i].FileName = sourcePath;
@@ -570,9 +541,9 @@ namespace Waveface.DetailUI
 
             imageListView.ResumeLayout();
 
-            labelPictureInfo.Text = string.Format(I18n.L.T("PhotosLoading"), k, m_imageAttachments.Count);
+            labelPictureInfo.Text = string.Format(I18n.L.T("PhotosLoading"), k, Post.attachment_id_array.Count);
 
-            bool _flag = (k == m_imageAttachments.Count);
+            bool _flag = (k == Post.attachment_id_array.Count);
 
             panelPictureInfo.Visible = !_flag;
 
@@ -595,7 +566,7 @@ namespace Waveface.DetailUI
                 _files.Add(_file.FileName);
             }
 
-            using (PhotoView _photoView = new PhotoView(m_post, m_imageAttachments, m_filePathOrigins, m_filePathMediums, index))
+            using (PhotoView _photoView = new PhotoView(m_post, m_filePathMediums, index))
             {
                 _photoView.ShowDialog();
             }
@@ -704,7 +675,7 @@ namespace Waveface.DetailUI
 
                 try
                 {
-                    string _cover_attach = m_imageAttachments[int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index)].object_id;
+                    string _cover_attach = Post.attachment_id_array[int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index)];
 
                     if (_cover_attach != m_post.cover_attach)
                     {
@@ -782,14 +753,16 @@ namespace Waveface.DetailUI
                     if (CheckIfLoadingImage(imageListView.Items[i]))
                         continue;
 
-                    var attachment = m_imageAttachments[i];
-                    _fileName = queryFileName(attachment.object_id, Path.GetExtension(imageListView.Items[i].FileName));
+                    var attachmentId = Post.attachment_id_array[i];
+                    _fileName = queryFileName(attachmentId, Path.GetExtension(imageListView.Items[i].FileName));
                     _fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
                     _OriginFileExist = false;
 
+                    var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(attachmentId);
+
                     if (Main.Current.IsPrimaryStation)
                     {
-                        if (File.Exists(m_filePathOrigins[i]))
+                        if (!string.IsNullOrEmpty(origFilePath) && File.Exists(origFilePath))
                         {
                             _OriginFileExist = true;
                         }
@@ -799,7 +772,7 @@ namespace Waveface.DetailUI
                     {
                         if (_OriginFileExist)
                         {
-                            File.Copy(m_filePathOrigins[i], _fileName);
+                            File.Copy(origFilePath, _fileName);
                         }
                         else
                         {
@@ -846,7 +819,7 @@ namespace Waveface.DetailUI
                         {
                             FileAttributes _attributes = File.GetAttributes(_f.FullName);
 
-                            // ¹LÂoÁôÂÃÀÉ
+                            // ï¿½Lï¿½oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                             if ((_attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
                                 continue;
 

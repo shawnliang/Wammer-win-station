@@ -32,7 +32,7 @@ namespace Wammer.Station.APIHandler
 
 			CheckParameter("group_id");
 
-			bool include_entities = "true" == Parameters["include_entities"];
+			bool include_entities = ("true" == Parameters["include_entities"]);
 
 			ChangeLogResponse result;
 
@@ -42,9 +42,9 @@ namespace Wammer.Station.APIHandler
 			}
 			else
 			{
-				var sinceParam = Parameters["since"];
+				var sinceParam = Parameters["since_seq_num"];
 				result = ChangeLogsApi.GetChangeHistory(Parameters["session_token"], Parameters["apikey"],
-					Parameters["group_id"], sinceParam == null? -1 : Convert.ToInt32(sinceParam));
+					Parameters["group_id"], sinceParam == null? -1 : Convert.ToInt32(sinceParam), include_entities);
 			}
 
 			var localUserTracks = localUserTrackMgr.getUserTracksBySession(Parameters["group_id"], Parameters["session_token"]);

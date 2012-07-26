@@ -1,4 +1,4 @@
-#region
+﻿#region
 
 using System;
 using System.Collections.Generic;
@@ -57,7 +57,7 @@ namespace Waveface
         private AutoUpdate m_autoUpdator;
 
         private bool m_getAllDataError;
-		private int m_InForceAutoUpdate;
+        private int m_InForceAutoUpdate;
         private string m_stationIP;
         private int m_next_seq_num;
         private string m_initSessionToken;
@@ -66,26 +66,26 @@ namespace Waveface
         private string m_displayType;
         private string m_delayPostText;
 
-		private CustomWindow _messageReceiver;
-		private WService _service;
+        private CustomWindow _messageReceiver;
+        private WService _service;
         #endregion
 
-		#region Private Property
-		private WService m_Service
-		{
-			get
-			{
-				return _service ?? (_service = new WService());
-			}
-		}
+        #region Private Property
+        private WService m_Service
+        {
+            get
+            {
+                return _service ?? (_service = new WService());
+            }
+        }
 
-		private CustomWindow m_MessageReceiver
-		{
-			get
-			{
-				return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
-			}
-		}
+        private CustomWindow m_MessageReceiver
+        {
+            get
+            {
+                return _messageReceiver ?? (_messageReceiver = new CustomWindow("WindowsClientMessageReceiver", "WindowsClientMessageReceiver"));
+            }
+        }
 
 		private PostForm m_PostForm
 		{
@@ -225,7 +225,7 @@ namespace Waveface
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
-			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
+            m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
             s_logger.Trace("Constructor: OK");
         }
@@ -259,76 +259,76 @@ namespace Waveface
 
             CreateLoadingImage();
 
-			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+            panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
 
-			AdjustAccountInfoButton();
+            AdjustAccountInfoButton();
 
-			CheckRefreshStatus();
+            CheckRefreshStatus();
 
-			var timer = new Timer() 
-			{
-				Interval = 15000
-			};
+            var timer = new Timer() 
+            {
+                Interval = 15000
+            };
 
-			timer.Tick += (s,ex)=>
-			{
-				CheckRefreshStatus();
-			};
+            timer.Tick += (s,ex)=>
+            {
+                CheckRefreshStatus();
+            };
 
-			timer.Start();
+            timer.Start();
 
             s_logger.Trace("Form_Load: OK");
         }
 
-		private static void CheckRefreshStatus()
-		{
-			var receiver = FindWindow("SystemTrayMessageReceiver", null);
-			if (receiver != null)
-			{
-				int ret;
-				SendMessageTimeout(receiver, 0x404, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
-			}
-		}
+        private static void CheckRefreshStatus()
+        {
+            var receiver = FindWindow("SystemTrayMessageReceiver", null);
+            if (receiver != null)
+            {
+                int ret;
+                SendMessageTimeout(receiver, 0x404, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+            }
+        }
 
-		void panelTitle_AccountInfoClosed(object sender, EventArgs e)
-		{
-			AdjustAccountInfoButton();
-		}
+        void panelTitle_AccountInfoClosed(object sender, EventArgs e)
+        {
+            AdjustAccountInfoButton();
+        }
 
-		private void AdjustAccountInfoButton()
-		{
-			try
-			{
-				var userInfo = UserInfo.Instance;
+        private void AdjustAccountInfoButton()
+        {
+            try
+            {
+                var userInfo = UserInfo.Instance;
 
-				var accessTokenExpired = false;
+                var accessTokenExpired = false;
 
-				if ((userInfo.SNS1 != null && userInfo.SNS2 != null))
-				{
-					var facebook = (from item1 in userInfo.SNS1
-									where item1 != null && item1.type == "facebook"
-									from item2 in userInfo.SNS2
-									where item2 != null && item2.type == "facebook"
-								select new
-								{
-									Enabled = item1.enabled,
-									SnsID = item2.snsid,
-										Status = item2.status,
-										Status2 = item1.status,
-										LastSync = item1.lastSync
-								}).FirstOrDefault();
+                if ((userInfo.SNS1 != null && userInfo.SNS2 != null))
+                {
+                    var facebook = (from item1 in userInfo.SNS1
+                                    where item1 != null && item1.type == "facebook"
+                                    from item2 in userInfo.SNS2
+                                    where item2 != null && item2.type == "facebook"
+                                select new
+                                {
+                                    Enabled = item1.enabled,
+                                    SnsID = item2.snsid,
+                                        Status = item2.status,
+                                        Status2 = item1.status,
+                                        LastSync = item1.lastSync
+                                }).FirstOrDefault();
 
-					accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
-				}
+                    accessTokenExpired = (facebook == null) ? false : facebook.Status.Contains("disconnected");
+                }
 
-				panelTitle._btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-				panelTitle._btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
-				panelTitle._btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
-			}
-			catch (Exception)
-			{
-			}
-		}
+                panelTitle._btnAccount.ImageDisable = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+                panelTitle._btnAccount.Image = accessTokenExpired ? Resources.account_badge : Resources.FBT_account;
+                panelTitle._btnAccount.ImageHover = accessTokenExpired ? Resources.account_badge_hl : Resources.FBT_account_hl;
+            }
+            catch (Exception)
+            {
+            }
+        }
 
         protected override bool ProcessCmdKey(ref Message message, Keys keys)
         {
@@ -1277,9 +1277,7 @@ namespace Waveface
 
             if ((_singlePost != null) && (_singlePost.post != null))
             {
-                Post _p = PostUtility.GenPhotoAttachments(_singlePost.post);
-
-                ReplacePostInList(_p, RT.CurrentGroupPosts);
+                ReplacePostInList(_singlePost.post, RT.CurrentGroupPosts);
 
                 ShowPostInTimeline();
             }
@@ -1287,9 +1285,7 @@ namespace Waveface
 
         public void RefreshSinglePost(Post post)
         {
-            Post _p = PostUtility.GenPhotoAttachments(post);
-
-            ReplacePostInList(_p, RT.CurrentGroupPosts);
+            ReplacePostInList(post, RT.CurrentGroupPosts);
 
             ShowPostInTimeline();
         }
@@ -1616,9 +1612,7 @@ namespace Waveface
 
                         foreach (Post _post in _postsGet.posts)
                         {
-                            Post _p = PostUtility.GenPhotoAttachments(_post);
-
-                            _changed = ReplacePostInList(_p, RT.CurrentGroupPosts);
+                            _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
                         }
 
                         if (_changed)
@@ -1801,15 +1795,14 @@ namespace Waveface
 
             foreach (Post _post in _allPosts.Values)
             {
-                Post _p = PostUtility.GenPhotoAttachments(_post);
 
                 if (dirtyPost != null &&
                     dirtyPost.post_id == _post.post_id)
-            {
-                    _p.Sources = dirtyPost.sources;
+                {
+                    _post.Sources = dirtyPost.sources;
                 }
 
-                _tmpPosts.Add(_p);
+                _tmpPosts.Add(_post);
             }
 
             RT.CurrentGroupPosts = _tmpPosts;
@@ -1841,10 +1834,10 @@ namespace Waveface
 
         private void handleVersionNotSupportedError()
         {
-			int original = System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 1);
+            int original = System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 1);
 
-			if (original == 1)
-				return;
+            if (original == 1)
+                return;
 
             MessageBox.Show(I18n.L.T("NeedToUpgrade"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
             AutoUpdate update = new AutoUpdate(true);
@@ -1852,7 +1845,7 @@ namespace Waveface
                 update.ShowUpdateNeededUI();
 
 
-			System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 0);
+            System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 0);
         }
 
         #endregion
@@ -1867,16 +1860,13 @@ namespace Waveface
                 {
                     case "image":
                         {
-                            if (post.attachments.Count == 0)
+                            if (post.attachment_id_array == null || post.attachment_id_array.Count == 0)
                                 break;
 
-                            Attachment _a = post.attachments[0];
+                            var coverId = post.getCoverImageId();
 
-                            string _url = string.Empty;
-                            string _fileName = string.Empty;
-                            Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url, out _fileName, false);
-
-                            string _localPic = Path.Combine(GCONST.ImageCachePath, _fileName);
+                            string _url = Current.RT.REST.attachments_getImageURL(coverId, "small");
+                            string _localPic = Current.RT.REST.attachments_getThumbnailFilePath(coverId, "small");
 
                             PreloadThumbnail(_url, _localPic);
 
@@ -1905,45 +1895,53 @@ namespace Waveface
                         {
                             Attachment _a = null;
 
-                            foreach (Attachment _attachment in post.attachments)
-                            {
-                                if (_attachment.type == "image")
-                                {
-                                    _a = _attachment;
-                                    break;
-                                }
-                            }
+                            //
+                            // TODO: revise this when implementing rtf
+                            //
 
-                            if (_a != null)
-                            {
-                                string _url = string.Empty;
-                                string _fileName = string.Empty;
-                                Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url,
-                                                                                 out _fileName, false);
+                            //foreach (Attachment _attachment in post.attachments)
+                            //{
+                            //    if (_attachment.type == "image")
+                            //    {
+                            //        _a = _attachment;
+                            //        break;
+                            //    }
+                            //}
 
-                                string _localPic = Path.Combine(GCONST.ImageCachePath, _fileName);
+                            //if (_a != null)
+                            //{
+                            //    string _url = string.Empty;
+                            //    string _fileName = string.Empty;
+                            //    Current.RT.REST.attachments_getRedirectURL_Image(_a, "small", out _url,
+                            //                                                     out _fileName, false);
 
-                                PreloadThumbnail(_url, _localPic);
-                            }
+                            //    string _localPic = Path.Combine(GCONST.ImageCachePath, _fileName);
+
+                            //    PreloadThumbnail(_url, _localPic);
+                            //}
 
                             break;
                         }
 
                     case "doc":
                         {
-                            Attachment _a = post.attachments[0];
+                            //
+                            // TODO: revise this when implementing rtf
+                            //
 
-                            if (_a.image != string.Empty)
-                            {
-                                string _localPic = Path.Combine(GCONST.ImageCachePath,
-                                                                _a.object_id + "_thumbnail" + ".jpg");
+                            //Attachment _a = post.attachments[0];
 
-                                string _url = _a.image;
+                            //if (_a.image != string.Empty)
+                            //{
+                            //    string _localPic = Path.Combine(GCONST.ImageCachePath,
+                            //                                    _a.object_id + "_thumbnail" + ".jpg");
 
-                                _url = Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
+                            //    string _url = _a.image;
 
-                                PreloadThumbnail(_url, _localPic);
-                            }
+                            //    _url = Current.RT.REST.attachments_getRedirectURL_PdfCoverPage(_url);
+
+                            //    PreloadThumbnail(_url, _localPic);
+                            //}
 
                             break;
                         }
@@ -1975,30 +1973,30 @@ namespace Waveface
         #endregion
 
 
-		void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
-		{
-			switch (e.Message)
-			{
-				case 0x401:
-					if (this.WindowState == FormWindowState.Minimized)
-						WindowState = FormWindowState.Normal;
+        void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
+        {
+            switch (e.Message)
+            {
+                case 0x401:
+                    if (this.WindowState == FormWindowState.Minimized)
+                        WindowState = FormWindowState.Normal;
 
-					if (!this.Visible)
-						this.Show();
+                    if (!this.Visible)
+                        this.Show();
 
-					this.TopMost = true;
-					BringWindowToTop(this.Handle);
-					this.TopMost = false;
-					break;
+                    this.TopMost = true;
+                    BringWindowToTop(this.Handle);
+                    this.TopMost = false;
+                    break;
 
-				case 0x402:
-					panelTitle.StartRefreshing();
-					break;
+                case 0x402:
+                    panelTitle.StartRefreshing();
+                    break;
 
-				case 0x403:
-					panelTitle.StopRefreshing();
-					break;
-			}
-		}
+                case 0x403:
+                    panelTitle.StopRefreshing();
+                    break;
+            }
+        }
     }
 }
