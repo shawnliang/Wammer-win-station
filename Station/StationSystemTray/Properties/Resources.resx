@@ -222,7 +222,7 @@
     <value>Unlimited</value>
   </data>
   <data name="NeedToUpgrade" xml:space="preserve">
-    <value>[TBD] Ooops... Your Stream need to upgrade to the latest version in order to proceed. Press OK to start upgrading.</value>
+    <value>This version is out of date. Click ‘OK’ to download and install the latest version.</value>
   </data>
   <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
     <value>No Internet connection</value>

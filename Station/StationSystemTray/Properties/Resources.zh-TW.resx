@@ -196,7 +196,8 @@
     <value>無上限</value>
   </data>
   <data name="NeedToUpgrade" xml:space="preserve">
-    <value>[TBD] 喔喔~ 您的Stream得先更新版本才能繼續使用。按下OK後立即更新。</value>
+    <value>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。
+在還未升級前將無法繼續使用Stream。</value>
   </data>
   <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
     <value>沒有網路連線</value>

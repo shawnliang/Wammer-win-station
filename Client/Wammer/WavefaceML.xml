@@ -441,8 +441,8 @@
 
   <WItem>
     <ID>NeedToUpgrade</ID>
-    <en-US>[TBD] Ooops... Your Stream need to upgrade to the latest version in order to proceed. Press OK to start upgrading.</en-US>
-    <zh-TW>[TBD] 喔喔~ 您的Stream得先更新版本才能繼續使用。按下OK後立即更新。</zh-TW>
+    <en-US>This version is out of date. Click ‘OK’ to download and install the latest version.</en-US>
+    <zh-TW>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。在還未升級前將無法繼續使用Stream。</zh-TW>
   </WItem>
   
 </WItems>
