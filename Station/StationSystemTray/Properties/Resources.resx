@@ -346,7 +346,7 @@
     <value>Preference...</value>
   </data>
   <data name="WFServiceRunning" xml:space="preserve">
-    <value>Sync is complete</value>
+    <value>Synced</value>
   </data>
   <data name="WFServiceStartFail" xml:space="preserve">
     <value>Unable to connect to Stream server</value>
@@ -355,7 +355,7 @@
     <value>Sync paused</value>
   </data>
   <data name="WFServiceSyncing" xml:space="preserve">
-    <value>Sync in progress</value>
+    <value>Syncing...</value>
   </data>
   <data name="windows_en_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\windows_en_1.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

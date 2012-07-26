@@ -249,7 +249,7 @@ namespace Waveface
 						lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? Properties.Resources.TURNED_ON : Properties.Resources.TURNED_OFF, facebook.SnsID);
 
 						btnFacebookImport.Text = (facebook.Enabled) ? Properties.Resources.TURN_OFF : Properties.Resources.TURN_ON;
-
+						
 						lblFBImportTip.Text = (facebook.Enabled) ?
 							((string.Equals(facebook.Status2, "progress", StringComparison.CurrentCultureIgnoreCase)) ? Properties.Resources.FB_IMPRORT_PROGRESSING : string.Format(Properties.Resources.FB_IMPORT_CLAST_SYNC_PATTERN, DateTimeHelp.ISO8601ToDateTime(facebook.LastSync).ToString())) :
 							string.Empty;
@@ -269,8 +269,8 @@ namespace Waveface
 							Update();
 							return;
 						}
+						return;
 					}
-					return;
 				}
 
 
@@ -457,11 +457,33 @@ namespace Waveface
 			if (lblFBImportTip.Text.Length == 0)
 			{
 				lblFBImportTip.Hide();
+				btnFacebookImport.Top = lblFBImportTip.Top;
 			}
 			else
 			{
 				lblFBImportTip.Show();
+				btnFacebookImport.Top = lblFBImportTip.Top + lblFBImportTip.Height + 5;
 			}
+		}
+
+		private void label1_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void tabPage2_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void label8_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+
 		}
     }
 }

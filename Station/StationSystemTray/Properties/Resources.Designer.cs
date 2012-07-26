@@ -704,7 +704,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sync is complete.
+        ///   Looks up a localized string similar to Synced.
         /// </summary>
         public static string WFServiceRunning {
             get {
@@ -731,7 +731,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sync in progress.
+        ///   Looks up a localized string similar to Syncing....
         /// </summary>
         public static string WFServiceSyncing {
             get {
