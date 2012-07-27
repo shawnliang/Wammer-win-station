@@ -217,7 +217,7 @@
     <value>MiddleRight</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 71</value>
+    <value>25, 71</value>
   </data>
   <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -310,7 +310,7 @@
     <value>[Facebook Import Tip]</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 14</value>
+    <value>85, 14</value>
   </data>
   <data name="label4.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
@@ -730,7 +730,7 @@
     <value>2</value>
   </data>
   <data name="lblFBImportTip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 94</value>
+    <value>148, 94</value>
   </data>
   <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
@@ -865,7 +865,7 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
-    <value>Photo Uploaded :</value>
+    <value>Photo Saved :</value>
   </data>
   <data name="checkBox1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -913,7 +913,7 @@
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btnFacebookImport.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 144</value>
+    <value>148, 144</value>
   </data>
   <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
     <value>422, 194</value>
@@ -922,7 +922,7 @@
     <value>System.Windows.Forms.ErrorProvider, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lblSince.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 17</value>
+    <value>148, 17</value>
   </data>
   <data name="btnFacebookImport.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1006,7 +1006,7 @@
     <value>Bottom, Left</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>Facebook automatic import :</value>
+    <value>Facebook Import :</value>
   </data>
   <data name="button3.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
@@ -1045,7 +1045,7 @@
     <value>0</value>
   </data>
   <data name="lblUploadedPhotoCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 44</value>
+    <value>148, 44</value>
   </data>
   <data name="&gt;&gt;Column1.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1183,10 +1183,10 @@
     <value>MiddleRight</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>67, 17</value>
+    <value>18, 17</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>79, 44</value>
+    <value>48, 44</value>
   </data>
   <data name="&gt;&gt;lblEmail.Name" xml:space="preserve">
     <value>lblEmail</value>
@@ -1327,7 +1327,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 14</value>
+    <value>108, 14</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>tabPage1</value>
@@ -1336,7 +1336,7 @@
     <value>1</value>
   </data>
   <data name="lblIsFacebookImportEnabled.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 71</value>
+    <value>148, 71</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>

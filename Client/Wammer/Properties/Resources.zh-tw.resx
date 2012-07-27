@@ -130,7 +130,7 @@
     <value>Facebook資料還在同步中，資料輸入需要一些時間，請您稍候再確認。</value>
   </data>
   <data name="FB_TOKEN_EXPIRED" xml:space="preserve">
-    <value>Facebook 授權過期</value>
+    <value>Facebook Token已過期</value>
   </data>
   <data name="FIELD_MUST_HAVE_DATA_PATTERN" xml:space="preserve">
     <value>{0} 欄位必須要有資料</value>
