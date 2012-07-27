@@ -773,9 +773,9 @@ namespace Waveface
 
             Cursor = Cursors.Default;
 
-			var rt = RT.LoadJSON();
+			//var rt = RT.LoadJSON();
 
-			RT.CurrentGroupPosts = rt.CurrentGroupPosts;
+			//RT.CurrentGroupPosts = rt.CurrentGroupPosts;
 
             GetAllDataAsync();
 
