@@ -437,6 +437,8 @@ namespace Waveface.PostUI
 
                         if (_uf != null)
                         {
+                            s_logger.Trace("PreUpload:" + _file);
+
                             m_uploadedPhotos.Add(_file, _id);
                         }
                     }
