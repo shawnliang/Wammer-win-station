@@ -595,4 +595,7 @@
   <data name="SETTING_TOOL_TIP" xml:space="preserve">
     <value>Setting</value>
   </data>
+  <data name="PHOTO_UPLOADING" xml:space="preserve">
+    <value>Sync in progress...</value>
+  </data>
 </root>

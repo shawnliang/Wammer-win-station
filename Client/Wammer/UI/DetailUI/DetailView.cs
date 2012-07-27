@@ -267,7 +267,6 @@ namespace Waveface
             //Hack
             btnAddFootNote.Left = Width - 50;
 
-            setTitle();
             setFavoriteButton();
 
             panelTop.Enabled = !Main.Current.BatchPostManager.CheckPostInQueue(m_post.post_id);
@@ -297,6 +296,7 @@ namespace Waveface
                     break;
             }
 
+			setTitle();
             getMoreFunction1();
         }
 
@@ -342,9 +342,10 @@ namespace Waveface
         {
             var _postTime = GetTime(Post.timestamp);
 
-            string _s = _postTime + " " + I18n.L.T("DetailView.Via") + " " + Post.code_name;
-
-            labelTitle.Text = _s;
+			if (m_currentView == null || m_currentView.CanEdit())
+				labelTitle.Text = _postTime + " " + I18n.L.T("DetailView.Via") + " " + Post.code_name;
+			else
+				labelTitle.Text = Resources.PHOTO_UPLOADING;
         }
 
         private string GetTime(string iso8601Time)
@@ -584,6 +585,7 @@ namespace Waveface
         {
             if (m_currentView != null)
             {
+				setTitle();
                 btnEdit.Enabled = m_currentView.CanEdit();
                 btnFunction1.Enabled = m_currentView.CanEdit();
 				btnAddFootNote.Enabled = m_currentView.CanEdit();
