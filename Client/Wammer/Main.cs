@@ -46,7 +46,7 @@ namespace Waveface
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         private List<string> m_delayPostPicList = new List<string>();
-        private RunTime m_runTime = new RunTime();
+        private RunTime m_runTime;
         private PostType m_delayPostType;
         private FormSettings m_formSettings;
         private PostForm _postForm;
@@ -174,8 +174,10 @@ namespace Waveface
 
         public RunTime RT
         {
-            get { return m_runTime; }
-            set { m_runTime = value; }
+			get 
+			{
+				return m_runTime ?? (m_runTime = new RunTime());
+			}
         }
 
         public DialogResult NewPostThreadErrorDialogResult { get; set; }
@@ -747,10 +749,9 @@ namespace Waveface
             RT.Login = _login;
             GCONST = new GCONST(RT);
 
-            Text = "Stream - [" + _login.user.email + "]"; // this has to be sync with SystemStry.Main.CLIENT_TITLE for finding client form
 
-            getGroupAndUser();
-            fillUserInformation();
+
+            Text = "Stream - [" + _login.user.email + "]"; // this has to be sync with SystemStry.Main.CLIENT_TITLE for finding client form
 
             RT.CurrentGroupID = RT.Login.groups[0].group_id;
             // RT.LoadGroupLocalRead();
@@ -770,6 +771,10 @@ namespace Waveface
             panelTitle.showRefreshUI(true);
 
             Cursor = Cursors.Default;
+
+			var rt = RT.LoadJSON();
+
+			RT.CurrentGroupPosts = rt.CurrentGroupPosts;
 
             GetAllDataAsync();
 
@@ -881,13 +886,7 @@ namespace Waveface
             }
         }
 
-        private void fillUserInformation()
-        {
-        }
-
-        private void getGroupAndUser()
-        {
-        }
+ 
 
         #endregion
 
@@ -1801,6 +1800,14 @@ namespace Waveface
                 {
                     _post.Sources = dirtyPost.sources;
                 }
+
+				foreach (var oldPost in RT.CurrentGroupPosts)
+				{
+					if (oldPost.post_id != _post.post_id)
+						continue;
+					_post.Sources = oldPost.Sources;
+					break;
+				}
 
                 _tmpPosts.Add(_post);
             }

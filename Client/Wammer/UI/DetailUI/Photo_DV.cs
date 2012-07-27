@@ -27,7 +27,7 @@ namespace Waveface.DetailUI
         #region Fields
 
         public static string PostID;
-        public static int UnloadPhotosCount;
+		public static int UnloadPhotosCount;
 
         private Panel panelMain;
         private AutoScrollPanel panelRight;
@@ -93,7 +93,7 @@ namespace Waveface.DetailUI
                     m_canEdit = false;
 
                     PostID = m_post.post_id;
-                    UnloadPhotosCount = m_post.attachment_id_array.Count;
+					UnloadPhotosCount = m_post.attachment_id_array.Count;
 
                     RefreshUI();
                 }
@@ -334,6 +334,8 @@ namespace Waveface.DetailUI
 
         private void ReLayout()
         {
+			DebugInfo.ShowMethod();
+
             if (Post.attachment_id_array.Count > 0)
             {
                 imageListView.Height = imageListView.VScrollBar.Maximum + 16;
@@ -383,6 +385,8 @@ namespace Waveface.DetailUI
 
         private void Set_Pictures()
         {
+			DebugInfo.ShowMethod();
+
             imageListView.Items.Clear();
 
             m_filePathMediums.Clear();
@@ -460,6 +464,8 @@ namespace Waveface.DetailUI
 
         private bool FillImageListView(bool firstTime)
         {
+			DebugInfo.ShowMethod();
+
             int _count = 0;
 
             for (int i = 0; i < Post.attachment_id_array.Count; i++)
@@ -471,7 +477,7 @@ namespace Waveface.DetailUI
             }
 
 
-            UnloadPhotosCount = Post.attachment_id_array.Count - _count;
+			UnloadPhotosCount = Post.attachment_id_array.Count - _count;
 
             if (_count == Post.attachment_id_array.Count)
             {
@@ -481,17 +487,19 @@ namespace Waveface.DetailUI
                 return true;
             }
 
-			if (firstTime)
-			{
+			//if (firstTime)
+			//{
 				ShowImageListView(firstTime);
-				return false;
-			}
+			//    return false;
+			//}
 
             return false;
         }
 
         private bool ShowImageListView(bool firstTime)
         {
+			DebugInfo.ShowMethod();
+
             int k = 0;
 
             imageListView.SuspendLayout();
@@ -516,12 +524,12 @@ namespace Waveface.DetailUI
                     }
 
                     var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(object_id);
-                    if (File.Exists(origFilePath))
-                    {
-                        imageListView.Items[i].FileName = origFilePath;
-                        k++;
-                        continue;
-                    }
+					if (File.Exists(origFilePath))
+					{
+						imageListView.Items[i].FileName = origFilePath;
+						//k++;
+						continue;
+					}
 
                     if (Post.Sources.ContainsKey(object_id))
                     {
@@ -529,7 +537,7 @@ namespace Waveface.DetailUI
                         if (File.Exists(sourcePath))
                         {
                             imageListView.Items[i].FileName = sourcePath;
-                            k++;
+							//k++;
                             continue;
                         }
                     }
@@ -541,14 +549,17 @@ namespace Waveface.DetailUI
 
             imageListView.ResumeLayout();
 
-            labelPictureInfo.Text = string.Format(I18n.L.T("PhotosLoading"), k, Post.attachment_id_array.Count);
+			//labelPictureInfo.Text = string.Format(I18n.L.T("PhotosLoading"), k, Post.attachment_id_array.Count);
 
             bool _flag = (k == Post.attachment_id_array.Count);
 
             panelPictureInfo.Visible = !_flag;
 
-            if (_flag)
-                m_canEdit = true;
+			if (_flag)
+			{
+				m_canEdit = true;
+				Post.Sources = new Dictionary<string, string>();
+			}
 
 			ReLayout();
 

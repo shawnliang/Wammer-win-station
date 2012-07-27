@@ -1420,18 +1420,28 @@ namespace StationSystemTray
 						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
-						iconText = string.Format("{0}{1}{2}({3}): {4:0.0} {5}{6}{7}({8}): {9:0.0}{10}",
-												 iconText,
-												 Environment.NewLine,
-												 Resources.UPLOAD_INDICATOR,
-												 upRemainedCount,
-												 upSpeed,
-												 upSpeedUnit,
-												 Environment.NewLine,
-												 Resources.DOWNLOAD_INDICATOR,
-												 downloadRemainedCount,
-												 downloadSpeed,
-												 downloadSpeedUnit);
+
+						if (upRemainedCount > 0)
+						{
+							iconText = string.Format("{0}{1}{2} {3} photos, {4:0.0} {5}",
+													 iconText,
+													 Environment.NewLine,
+													 Resources.UPLOAD_INDICATOR,
+													 (upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
+													 upSpeed.ToString(),
+													 upSpeedUnit);
+						}
+
+						if (downloadRemainedCount > 0)
+						{
+							iconText = string.Format("{0}{1}{2} {3} photos, {4:0.0} {5}",
+													 iconText,
+													 Environment.NewLine,
+													 Resources.DOWNLOAD_INDICATOR,
+													 (downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
+													 downloadSpeed.ToString(),
+													 downloadSpeedUnit);
+						}
 
 						TrayIcon.Icon = (TrayIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
 					}
