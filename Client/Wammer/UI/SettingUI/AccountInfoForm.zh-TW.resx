@@ -546,6 +546,15 @@
   <data name="checkBox1.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="checkBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 80</value>
+  </data>
+  <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 18</value>
+  </data>
+  <data name="checkBox1.Text" xml:space="preserve">
+    <value>訂閱產品消息</value>
+  </data>
   <data name="tbxName.Error" xml:space="preserve">
     <value />
   </data>
@@ -555,20 +564,8 @@
   <data name="tbxName.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label6.Error" xml:space="preserve">
-    <value />
-  </data>
-  <data name="label6.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
-    <value>MiddleRight</value>
-  </data>
-  <data name="label6.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 14</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>產品消息:</value>
+  <data name="tbxName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 42</value>
   </data>
   <data name="label4.Error" xml:space="preserve">
     <value />
@@ -578,6 +575,9 @@
   </data>
   <data name="label4.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 45</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 14</value>
@@ -593,6 +593,9 @@
   </data>
   <data name="lblEmail.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="lblEmail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 17</value>
   </data>
   <data name="label1.Error" xml:space="preserve">
     <value />
@@ -630,6 +633,9 @@
   <data name="lblFBImportTip.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="lblFBImportTip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 94</value>
+  </data>
   <data name="btnFacebookImport.Error" xml:space="preserve">
     <value />
   </data>
@@ -638,6 +644,9 @@
   </data>
   <data name="btnFacebookImport.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="btnFacebookImport.Location" type="System.Drawing.Point, System.Drawing">
+    <value>148, 144</value>
   </data>
   <data name="lblUploadedPhotoCount.Error" xml:space="preserve">
     <value />
@@ -649,7 +658,7 @@
     <value>0</value>
   </data>
   <data name="lblUploadedPhotoCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>129, 44</value>
+    <value>148, 44</value>
   </data>
   <data name="label12.Error" xml:space="preserve">
     <value />
@@ -659,6 +668,9 @@
   </data>
   <data name="label12.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 44</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 14</value>
@@ -676,7 +688,7 @@
     <value>0</value>
   </data>
   <data name="lblIsFacebookImportEnabled.Location" type="System.Drawing.Point, System.Drawing">
-    <value>129, 71</value>
+    <value>148, 71</value>
   </data>
   <data name="label10.Error" xml:space="preserve">
     <value />
@@ -703,7 +715,7 @@
     <value>0</value>
   </data>
   <data name="lblSince.Location" type="System.Drawing.Point, System.Drawing">
-    <value>129, 17</value>
+    <value>148, 17</value>
   </data>
   <data name="label8.Error" xml:space="preserve">
     <value />
@@ -713,6 +725,9 @@
   </data>
   <data name="label8.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 17</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 14</value>

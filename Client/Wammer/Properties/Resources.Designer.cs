@@ -1156,7 +1156,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turn off.
+        ///   Looks up a localized string similar to Turn Off.
         /// </summary>
         internal static string TURN_OFF {
             get {
@@ -1165,7 +1165,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turn on.
+        ///   Looks up a localized string similar to Turn On.
         /// </summary>
         internal static string TURN_ON {
             get {
@@ -1174,7 +1174,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turned off.
+        ///   Looks up a localized string similar to Turned Off.
         /// </summary>
         internal static string TURNED_OFF {
             get {
@@ -1183,7 +1183,7 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turned on.
+        ///   Looks up a localized string similar to Turned On.
         /// </summary>
         internal static string TURNED_ON {
             get {

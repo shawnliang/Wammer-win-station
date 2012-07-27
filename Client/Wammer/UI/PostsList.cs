@@ -1151,28 +1151,29 @@ namespace Waveface
 
             for (int i = _s; (i < m_posts.Count) && (_k < _cn); i++)
             {
-                DateTime _dt = DateTimeHelp.ISO8601ToDateTime(m_posts[i].timestamp).Date;
+				var post = m_posts[i];
 
-                bool _isLinkPost = m_posts[i].type == "link";
+				bool _isLinkPost = post.type == "link";
 
-                if (m_firstPostInADay.ContainsValue(m_posts[i].post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
+				var row = dataGridView.Rows[i];
+				if (m_firstPostInADay.ContainsValue(post.post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
                 {
-                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
+					row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
                 }
                 else
                 {
-                    dataGridView.Rows[i].Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
+					row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
                 }
 
                 if (_isLinkPost)
                 {
-                    if (!string.IsNullOrEmpty(m_posts[i].content))
+					if (!string.IsNullOrEmpty(post.content))
                     {
-                        dataGridView.Rows[i].Height += m_fontText.Height;
+						row.Height += m_fontText.Height;
                     }
                     else
                     {
-                        dataGridView.Rows[i].Height -= m_fontText.Height;
+						row.Height -= m_fontText.Height;
                     }
                 }
 

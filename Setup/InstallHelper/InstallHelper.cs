@@ -592,7 +592,7 @@ namespace Wammer.Station
 					startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
 					// tell Windows that the service should restart if it fails
-					startInfo.Arguments = string.Format("failure WavefaceStation reset= 0 actions= restart/10000");
+					startInfo.Arguments = string.Format("failure WavefaceStation reset= 86400 actions= restart/60000");
 
 					process.Start();
 					if (!process.WaitForExit(60 * 1000))

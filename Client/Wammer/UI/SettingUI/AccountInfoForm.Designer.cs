@@ -42,7 +42,6 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tbxName = new System.Windows.Forms.TextBox();
-			this.label6 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.lblEmail = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -89,7 +88,6 @@
 			resources.ApplyResources(this.tabPage1, "tabPage1");
 			this.tabPage1.Controls.Add(this.checkBox1);
 			this.tabPage1.Controls.Add(this.tbxName);
-			this.tabPage1.Controls.Add(this.label6);
 			this.tabPage1.Controls.Add(this.label4);
 			this.tabPage1.Controls.Add(this.lblEmail);
 			this.tabPage1.Controls.Add(this.label1);
@@ -107,6 +105,7 @@
 			this.errorProvider1.SetIconPadding(this.checkBox1, ((int)(resources.GetObject("checkBox1.IconPadding"))));
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.UseVisualStyleBackColor = true;
+			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
 			// tbxName
 			// 
@@ -118,14 +117,6 @@
 			this.tbxName.Name = "tbxName";
 			this.tbxName.TabStop = false;
 			this.tbxName.Validated += new System.EventHandler(this.tbxName_Validated);
-			// 
-			// label6
-			// 
-			resources.ApplyResources(this.label6, "label6");
-			this.errorProvider1.SetError(this.label6, resources.GetString("label6.Error"));
-			this.errorProvider1.SetIconAlignment(this.label6, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label6.IconAlignment"))));
-			this.errorProvider1.SetIconPadding(this.label6, ((int)(resources.GetObject("label6.IconPadding"))));
-			this.label6.Name = "label6";
 			// 
 			// label4
 			// 
@@ -150,6 +141,7 @@
 			this.errorProvider1.SetIconAlignment(this.label1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label1.IconAlignment"))));
 			this.errorProvider1.SetIconPadding(this.label1, ((int)(resources.GetObject("label1.IconPadding"))));
 			this.label1.Name = "label1";
+			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// tabPage2
 			// 
@@ -167,12 +159,13 @@
 			this.errorProvider1.SetIconPadding(this.tabPage2, ((int)(resources.GetObject("tabPage2.IconPadding"))));
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
+			this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
 			// 
 			// lblFBImportTip
 			// 
 			resources.ApplyResources(this.lblFBImportTip, "lblFBImportTip");
 			this.errorProvider1.SetError(this.lblFBImportTip, resources.GetString("lblFBImportTip.Error"));
-			this.lblFBImportTip.ForeColor = System.Drawing.Color.Red;
+			this.lblFBImportTip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(172)))), ((int)(((byte)(172)))));
 			this.errorProvider1.SetIconAlignment(this.lblFBImportTip, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblFBImportTip.IconAlignment"))));
 			this.errorProvider1.SetIconPadding(this.lblFBImportTip, ((int)(resources.GetObject("lblFBImportTip.IconPadding"))));
 			this.lblFBImportTip.Name = "lblFBImportTip";
@@ -235,6 +228,7 @@
 			this.errorProvider1.SetIconAlignment(this.label8, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label8.IconAlignment"))));
 			this.errorProvider1.SetIconPadding(this.label8, ((int)(resources.GetObject("label8.IconPadding"))));
 			this.label8.Name = "label8";
+			this.label8.Click += new System.EventHandler(this.label8_Click);
 			// 
 			// tabPage3
 			// 
@@ -251,7 +245,6 @@
 			resources.ApplyResources(this.dataGridView1, "dataGridView1");
 			this.dataGridView1.AllowUserToAddRows = false;
 			this.dataGridView1.AllowUserToDeleteRows = false;
-			this.dataGridView1.AllowUserToResizeColumns = false;
 			this.dataGridView1.AllowUserToResizeRows = false;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
@@ -310,6 +303,7 @@
 			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
 			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
 			this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
+			this.Column1.FillWeight = 66.951F;
 			resources.ApplyResources(this.Column1, "Column1");
 			this.Column1.Name = "Column1";
 			this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
@@ -319,6 +313,7 @@
 			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.White;
 			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
 			this.Column3.DefaultCellStyle = dataGridViewCellStyle4;
+			this.Column3.FillWeight = 61.1766F;
 			resources.ApplyResources(this.Column3, "Column3");
 			this.Column3.Name = "Column3";
 			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
@@ -328,6 +323,7 @@
 			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.White;
 			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
 			this.Column2.DefaultCellStyle = dataGridViewCellStyle5;
+			this.Column2.FillWeight = 72.73558F;
 			resources.ApplyResources(this.Column2, "Column2");
 			this.Column2.Name = "Column2";
 			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
@@ -398,7 +394,6 @@
 
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label lblEmail;
 		private System.Windows.Forms.Button btnLogout;
@@ -417,11 +412,11 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.ErrorProvider errorProvider1;
+		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.Label lblFBImportTip;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.Label lblFBImportTip;
 
 	}
 }

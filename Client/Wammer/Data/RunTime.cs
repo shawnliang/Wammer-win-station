@@ -7,6 +7,7 @@ using NLog;
 using Newtonsoft.Json;
 using Waveface.API.V2;
 using Waveface.FilterUI;
+using System.Windows.Forms;
 
 #endregion
 
@@ -141,6 +142,7 @@ namespace Waveface
                 string _filePath = Path.Combine(Main.GCONST.RunTimeDataPath, Login.user.user_id + "_RT.dat");
 
                 StreamReader _sr = File.OpenText(_filePath);
+
                 _json = _sr.ReadToEnd();
                 _sr.Close();
 

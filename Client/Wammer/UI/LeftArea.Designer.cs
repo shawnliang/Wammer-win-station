@@ -19,13 +19,13 @@ namespace Waveface
 			{
 				components.Dispose();
 
-				if (_font != null)
-				{
-					_font.Dispose();
-					_font = null;
-				}
+				//if (_font != null)
+				//{
+				//    _font.Dispose();
+				//    _font = null;
+				//}
 
-				m_DropAreaImage = null;
+				//m_DropAreaImage = null;
 			}
 			base.Dispose(disposing);
 		}

@@ -11,6 +11,7 @@ using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Component.RichEdit;
 using Waveface.Configuration;
+using System.IO;
 
 #endregion
 
@@ -172,7 +173,15 @@ namespace Waveface
 
                         foreach (KeyValuePair<string, string> _imgPair in m_oldImageFiles)
                         {
-                            _pics.Add(_imgPair.Value);
+							var file = _imgPair.Value;
+							if (!File.Exists(file))
+							{
+								var originalFile = m_fileNameMapping[file];
+								var extension = Path.GetExtension(originalFile);
+								var objectID = file.Substring(0, file.LastIndexOf("_"));
+								file = Path.Combine(Path.GetDirectoryName(file), objectID + extension);
+							}
+                            _pics.Add(file);
                         }
                     }
 

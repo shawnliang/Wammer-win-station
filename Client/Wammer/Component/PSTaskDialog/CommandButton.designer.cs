@@ -16,23 +16,23 @@ namespace Waveface.Component.PSTaskDialog
       if (disposing && (components != null))
       {
         components.Dispose();
-		if (imgArrow1 != null)
-		{
-			imgArrow1.Dispose();
-			imgArrow1 = null;
-		}
+		//if (imgArrow1 != null)
+		//{
+		//    imgArrow1.Dispose();
+		//    imgArrow1 = null;
+		//}
 
-		if (imgArrow2 != null)
-		{
-			imgArrow2.Dispose();
-			imgArrow2 = null;
-		}
+		//if (imgArrow2 != null)
+		//{
+		//    imgArrow2.Dispose();
+		//    imgArrow2 = null;
+		//}
 
-		if (m_smallFont != null)
-		{
-			m_smallFont.Dispose();
-			m_smallFont = null;
-		}
+		//if (m_smallFont != null)
+		//{
+		//    m_smallFont.Dispose();
+		//    m_smallFont = null;
+		//}
       }
       base.Dispose(disposing);
     }

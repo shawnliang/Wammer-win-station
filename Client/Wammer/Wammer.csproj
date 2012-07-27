@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\CustomWindow.cs" />
+    <Compile Include="Class\DebugInfo.cs" />
     <Compile Include="Class\NetworkChecker.cs" />
     <Compile Include="Class\UserInfo.cs" />
     <Compile Include="Component\Analogclock.cs">
