@@ -123,7 +123,7 @@ namespace Waveface.Component
                     // Draw the image
                     if (new FileInfo(item.FileName).Name == "LoadingImage.jpg")
                     {
-                        int _maxW = 96;
+                        int _maxW = 80;
                         int _w = bounds.Width / 2;
                         int _w2;
 

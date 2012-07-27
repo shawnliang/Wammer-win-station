@@ -68,6 +68,7 @@ namespace Waveface
 
         private CustomWindow _messageReceiver;
         private WService _service;
+
         #endregion
 
         #region Private Property
@@ -1520,6 +1521,11 @@ namespace Waveface
 
         #region Misc
 
+        public void RefreshTimelineUI()
+        {
+            postsArea.RefreshTimelineUI();
+        }
+
         public void RemovePost()
         {
             postsArea.RemovePost();
@@ -1597,8 +1603,8 @@ namespace Waveface
                                 !string.IsNullOrEmpty(_action.post_id))
                             {
                                 //???
+                            }
                         }
-                    }
                     }
 
                     string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());

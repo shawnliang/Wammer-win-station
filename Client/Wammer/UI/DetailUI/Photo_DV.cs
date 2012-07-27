@@ -481,18 +481,15 @@ namespace Waveface.DetailUI
 
             if (_count == Post.attachment_id_array.Count)
             {
+                Main.Current.RefreshTimelineUI();
+
                 timer.Enabled = false;
 
                 ShowImageListView(firstTime);
                 return true;
             }
 
-			//if (firstTime)
-			//{
-				ShowImageListView(firstTime);
-			//    return false;
-			//}
-
+			ShowImageListView(firstTime);
             return false;
         }
 
@@ -585,7 +582,6 @@ namespace Waveface.DetailUI
 
         private void DetailView_Resize(object sender, EventArgs e)
         {
-			Trace.WriteLine("DetailView_Resize");
             ReLayout();
         }
 

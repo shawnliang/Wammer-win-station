@@ -112,9 +112,6 @@ namespace Waveface
 
                 if (!Main.Current.RT.REST.IsNetworkAvailable)
                 {
-					//if (ShowMessage != null)
-					//    ShowMessage("");
-
                     UpdateUI(0, "");
 
                     continue;
@@ -138,9 +135,6 @@ namespace Waveface
 
                 if (_postItem != null)
                 {
-					//if (ShowMessage != null)
-					//    ShowMessage("");
-
                     if (StartUpload)
                     {
                         BatchPostItem _retItem = UploadPhoto(_postItem);
@@ -261,7 +255,7 @@ namespace Waveface
                     }
                     else
                     {
-                        MR_posts_new _np = Main.Current.RT.REST.Posts_New(pItem.Text, _ids, "", "image", _coverAttach);
+                        MR_posts_new _np = Main.Current.RT.REST.Posts_New(pItem.PostID, pItem.Text, _ids, "", "image", _coverAttach);
 
                         if (_np == null)
                         {
@@ -308,6 +302,9 @@ namespace Waveface
                     {
                         if (pItem.ObjectIDs_Edit[i] == _coverAttach)
                         {
+                            if (pItem.PreUploadedPhotos.Keys.Contains(pItem.Files[i]))
+                                break;
+
                             BatchPostItem _pi = UploadOneFile(pItem, i, _tmpStamp, pItem.Files[i]);
 
                             if (_pi != null)
@@ -319,11 +316,14 @@ namespace Waveface
                 }
                 else
                 {
-                    BatchPostItem _pi = UploadOneFile(pItem, _coverAttachIndex, _tmpStamp,
-                                                      pItem.Files[_coverAttachIndex]);
+                    if (!pItem.PreUploadedPhotos.Keys.Contains(pItem.Files[_coverAttachIndex]))
+                    {
+                        BatchPostItem _pi = UploadOneFile(pItem, _coverAttachIndex, _tmpStamp,
+                                                          pItem.Files[_coverAttachIndex]);
 
-                    if (_pi != null)
-                        return _pi;
+                        if (_pi != null)
+                            return _pi;
+                    }
                 }
 
                 pItem.CoverAttachUploaded = true;
@@ -346,10 +346,17 @@ namespace Waveface
                     }
                     else
                     {
-                        BatchPostItem _pi = UploadOneFile(pItem, _count, _tmpStamp, _file);
+                        if (pItem.PreUploadedPhotos.Keys.Contains(_file))
+                        {
+                            pItem.UploadedFiles.Add(_file, pItem.PreUploadedPhotos[_file]);
+                        }
+                        else
+                        {
+                            BatchPostItem _pi = UploadOneFile(pItem, _count, _tmpStamp, _file);
 
-                        if (_pi != null)
-                            return _pi;
+                            if (_pi != null)
+                                return _pi;
+                        }
                     }
 
                     _count++;

@@ -415,7 +415,6 @@ namespace Waveface
 
         public static void PreloadPictures(Post post, bool allSize)
         {
-            List<Attachment> _imageAttachments = new List<Attachment>();
             List<string> _filePathMediums = new List<string>();
             List<string> _urlMediums = new List<string>();
 
@@ -432,7 +431,7 @@ namespace Waveface
                 _urlMediums.Add(_urlM);
             }
 
-            for (int i = _imageAttachments.Count - 1; i >= 0; i--)
+            for (int i = _filePathMediums.Count - 1; i >= 0; i--)
             {
                 if (File.Exists(_filePathMediums[i]))
                     continue;

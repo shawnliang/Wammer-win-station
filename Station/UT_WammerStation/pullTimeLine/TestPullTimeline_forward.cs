@@ -272,9 +272,9 @@ namespace UT_WammerStation.pullTimeLine
 
 			db.Setup(x => x.SaveUserTracks(It.IsAny<UserTracks>())).Verifiable();
 
-			BodyAvailableEventArgs saved_args = null;
+			AttachmentAvailableEventArgs saved_args = null;
 			TimelineSyncer syncer = new TimelineSyncer(postProvider.Object, db.Object, utApi.Object);
-			syncer.BodyAvailable += new EventHandler<BodyAvailableEventArgs>(
+			syncer.AttachmentAvailable += new EventHandler<AttachmentAvailableEventArgs>(
 				(sender, args) => { saved_args = args; });
 
 			Driver user = new Driver

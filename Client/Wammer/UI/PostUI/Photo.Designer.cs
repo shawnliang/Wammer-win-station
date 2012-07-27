@@ -38,14 +38,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Photo));
             this.panel = new System.Windows.Forms.Panel();
             this.imageListView = new Manina.Windows.Forms.ImageListView();
-            this.panelToolbar = new System.Windows.Forms.Panel();
-            this.labelSummary = new System.Windows.Forms.Label();
             this.columnContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.sortByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.sortAscendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miSetCoverImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelToolbar = new System.Windows.Forms.Panel();
+            this.labelSummary = new System.Windows.Forms.Label();
+            this.btnDeletePhoto = new Waveface.Component.ImageButton();
+            this.btnAddPhoto = new Waveface.Component.ImageButton();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -58,12 +60,10 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnDeletePhoto = new Waveface.Component.ImageButton();
-            this.btnAddPhoto = new Waveface.Component.ImageButton();
             this.btnSend = new Waveface.Component.ImageButton();
             this.panel.SuspendLayout();
-            this.panelToolbar.SuspendLayout();
             this.columnContextMenu.SuspendLayout();
+            this.panelToolbar.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,22 +95,6 @@
             this.imageListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.imageListView_DragEnter);
             this.imageListView.DragOver += new System.Windows.Forms.DragEventHandler(this.imageListView_DragOver);
             this.imageListView.DragLeave += new System.EventHandler(this.imageListView_DragLeave);
-            // 
-            // panelToolbar
-            // 
-            resources.ApplyResources(this.panelToolbar, "panelToolbar");
-            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.panelToolbar.Controls.Add(this.labelSummary);
-            this.panelToolbar.Controls.Add(this.btnDeletePhoto);
-            this.panelToolbar.Controls.Add(this.btnAddPhoto);
-            this.panelToolbar.Name = "panelToolbar";
-            // 
-            // labelSummary
-            // 
-            resources.ApplyResources(this.labelSummary, "labelSummary");
-            this.labelSummary.AutoEllipsis = true;
-            this.labelSummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(97)))), ((int)(((byte)(101)))));
-            this.labelSummary.Name = "labelSummary";
             // 
             // columnContextMenu
             // 
@@ -153,6 +137,50 @@
             this.miSetCoverImage.Name = "miSetCoverImage";
             resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
             this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
+            // 
+            // panelToolbar
+            // 
+            resources.ApplyResources(this.panelToolbar, "panelToolbar");
+            this.panelToolbar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.panelToolbar.Controls.Add(this.labelSummary);
+            this.panelToolbar.Controls.Add(this.btnDeletePhoto);
+            this.panelToolbar.Controls.Add(this.btnAddPhoto);
+            this.panelToolbar.Name = "panelToolbar";
+            // 
+            // labelSummary
+            // 
+            resources.ApplyResources(this.labelSummary, "labelSummary");
+            this.labelSummary.AutoEllipsis = true;
+            this.labelSummary.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(97)))), ((int)(((byte)(101)))));
+            this.labelSummary.Name = "labelSummary";
+            // 
+            // btnDeletePhoto
+            // 
+            this.btnDeletePhoto.CenterAlignImage = false;
+            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
+            this.btnDeletePhoto.ForeColor = System.Drawing.Color.White;
+            this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.FB_blue_btn;
+            this.btnDeletePhoto.ImageDisable = global::Waveface.Properties.Resources.FB_blue_btn_hl;
+            this.btnDeletePhoto.ImageFront = global::Waveface.Properties.Resources.FB_edit_delete;
+            this.btnDeletePhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
+            this.btnDeletePhoto.Name = "btnDeletePhoto";
+            this.btnDeletePhoto.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnDeletePhoto, resources.GetString("btnDeletePhoto.ToolTip"));
+            this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
+            // 
+            // btnAddPhoto
+            // 
+            this.btnAddPhoto.CenterAlignImage = false;
+            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
+            this.btnAddPhoto.ForeColor = System.Drawing.Color.White;
+            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.FB_blue_btn;
+            this.btnAddPhoto.ImageDisable = global::Waveface.Properties.Resources.FB_blue_btn_hl;
+            this.btnAddPhoto.ImageFront = global::Waveface.Properties.Resources.FB_edit_add_photo;
+            this.btnAddPhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
+            this.btnAddPhoto.Name = "btnAddPhoto";
+            this.btnAddPhoto.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
+            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
             // 
             // toolStrip
             // 
@@ -249,34 +277,6 @@
             // 
             this.cultureManager.ManagedControl = this;
             // 
-            // btnDeletePhoto
-            // 
-            this.btnDeletePhoto.CenterAlignImage = false;
-            resources.ApplyResources(this.btnDeletePhoto, "btnDeletePhoto");
-            this.btnDeletePhoto.ForeColor = System.Drawing.Color.White;
-            this.btnDeletePhoto.Image = global::Waveface.Properties.Resources.FB_blue_btn;
-            this.btnDeletePhoto.ImageDisable = global::Waveface.Properties.Resources.FB_blue_btn_hl;
-            this.btnDeletePhoto.ImageFront = global::Waveface.Properties.Resources.FB_edit_delete;
-            this.btnDeletePhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
-            this.btnDeletePhoto.Name = "btnDeletePhoto";
-            this.btnDeletePhoto.TextShadow = true;
-            this.toolTip.SetToolTip(this.btnDeletePhoto, resources.GetString("btnDeletePhoto.ToolTip"));
-            this.btnDeletePhoto.Click += new System.EventHandler(this.btnDeletePhoto_Click);
-            // 
-            // btnAddPhoto
-            // 
-            this.btnAddPhoto.CenterAlignImage = false;
-            resources.ApplyResources(this.btnAddPhoto, "btnAddPhoto");
-            this.btnAddPhoto.ForeColor = System.Drawing.Color.White;
-            this.btnAddPhoto.Image = global::Waveface.Properties.Resources.FB_blue_btn;
-            this.btnAddPhoto.ImageDisable = global::Waveface.Properties.Resources.FB_blue_btn_hl;
-            this.btnAddPhoto.ImageFront = global::Waveface.Properties.Resources.FB_edit_add_photo;
-            this.btnAddPhoto.ImageHover = global::Waveface.Properties.Resources.FB_blue_btn_hl;
-            this.btnAddPhoto.Name = "btnAddPhoto";
-            this.btnAddPhoto.TextShadow = true;
-            this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
-            this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
-            // 
             // btnSend
             // 
             resources.ApplyResources(this.btnSend, "btnSend");
@@ -299,10 +299,11 @@
             this.Controls.Add(this.btnSend);
             resources.ApplyResources(this, "$this");
             this.Name = "Photo";
+            this.Load += new System.EventHandler(this.Photo_Load);
             this.Resize += new System.EventHandler(this.Photo_Resize);
             this.panel.ResumeLayout(false);
-            this.panelToolbar.ResumeLayout(false);
             this.columnContextMenu.ResumeLayout(false);
+            this.panelToolbar.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
