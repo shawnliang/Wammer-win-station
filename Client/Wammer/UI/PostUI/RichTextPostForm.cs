@@ -341,7 +341,7 @@ namespace Waveface.PostUI
         {
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(richTextBox.Text, files, "", "rtf", "");
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New("", richTextBox.Text, files, "", "rtf", "");
 
                 if (_np == null)
                 {

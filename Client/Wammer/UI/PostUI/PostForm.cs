@@ -48,13 +48,18 @@ namespace Waveface
 
         public PostForm(string autoText, List<string> files, PostType postType, Post post, bool editMode, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
-            InitializeComponent();
-
-            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
-
             EditMode = editMode;
             Post = post;
             m_autoText = autoText;
+
+            InitializeComponent();
+
+            weblink_UI.MyParent = this;
+            photo_UI.MyParent = this;
+            richText_UI.MyParent = this;
+            document_UI.MyParent = this;
+
+            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
 
             m_oldImageFiles = new Dictionary<string, string>();
             m_fileNameMapping = new Dictionary<string, string>();
@@ -69,11 +74,6 @@ namespace Waveface
             m_formSettings.SaveOnClose = true;
 
             CreateLinkFormattingRule();
-
-            weblink_UI.MyParent = this;
-            photo_UI.MyParent = this;
-            richText_UI.MyParent = this;
-            document_UI.MyParent = this;
 
             btnAddPhoto.Focus();
 
@@ -97,10 +97,11 @@ namespace Waveface
 		private void EnablePhotoDragable(Control ctrl)
 		{
 			ctrl.AllowDrop = true;
-			ctrl.DragDrop += new System.Windows.Forms.DragEventHandler(this.panelMiddleBar_DragDrop);
-			ctrl.DragEnter += new System.Windows.Forms.DragEventHandler(this.panelMiddleBar_DragEnter);
-			ctrl.DragOver += new System.Windows.Forms.DragEventHandler(this.panelMiddleBar_DragOver);
-			ctrl.DragLeave += new System.EventHandler(this.panelMiddleBar_DragLeave);
+
+			ctrl.DragDrop += panelMiddleBar_DragDrop;
+			ctrl.DragEnter += panelMiddleBar_DragEnter;
+			ctrl.DragOver += panelMiddleBar_DragOver;
+			ctrl.DragLeave += panelMiddleBar_DragLeave;
 		}
 
         [DllImport("User32.dll")]
@@ -517,7 +518,7 @@ namespace Waveface
                 try
                 {
                     MR_posts_new _np =
-                        Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(pureTextBox.Text, 80000)),
+                        Main.Current.RT.REST.Posts_New("", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(pureTextBox.Text, 80000)),
                                                        "", "", "text", "");
 
                     if (_np == null)

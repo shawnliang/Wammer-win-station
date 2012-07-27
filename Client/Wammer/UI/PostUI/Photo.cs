@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
+using System.Linq;
 using Manina.Windows.Forms;
 using NLog;
 using Waveface.API.V2;
@@ -25,6 +27,11 @@ namespace Waveface.PostUI
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
         private string m_coverAttachGUID;
         private ImageListViewItem m_selectedItem;
+        private Dictionary<string, string> m_preUploadPhotosQueue;
+        private Dictionary<string, string> m_uploadedPhotos;
+        private WorkItem m_photoWorkItem;
+        private bool m_exitUploadLoop;
+        private string m_postID;
 
         public PostForm MyParent { get; set; }
 
@@ -34,6 +41,9 @@ namespace Waveface.PostUI
         {
             InitializeComponent();
 
+            m_preUploadPhotosQueue = new Dictionary<string, string>();
+            m_uploadedPhotos = new Dictionary<string, string>();
+
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
             FileNameMapping = new Dictionary<string, string>();
             m_editModeOriginPhotoFiles = new List<string>();
@@ -41,8 +51,22 @@ namespace Waveface.PostUI
             InitImageListView();
 
             UIHack();
-
             HackDPI();
+        }
+
+        private void Photo_Load(object sender, EventArgs e)
+        {
+            StartThread();
+        }
+
+        public void StartThread()
+        {
+            m_photoWorkItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
+        }
+
+        public WorkItemStatus AbortThread()
+        {
+            return AbortableThreadPool.Cancel(m_photoWorkItem, true);
         }
 
         public void ChangeToEditModeUI(Post post)
@@ -118,12 +142,14 @@ namespace Waveface.PostUI
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-                _tag.caGUID = Guid.NewGuid().ToString();
                 _tag.AddPhotoType = EditModePhotoType.NewPostOrigin;
+                _tag.ObjectID = Guid.NewGuid().ToString();
 
                 _item.Tag = _tag;
 
                 imageListView.Items.Add(_item);
+
+                AddToPreUploadQueue(_pic, _tag.ObjectID);
             }
         }
 
@@ -138,7 +164,6 @@ namespace Waveface.PostUI
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-                _tag.caGUID = Guid.NewGuid().ToString();
                 _tag.AddPhotoType = EditModePhotoType.EditModeOrigin;
                 _tag.ObjectID = post.attachment_id_array[i];
 
@@ -146,7 +171,7 @@ namespace Waveface.PostUI
                 {
                     _tag.IsCoverImage_UI = true;
 
-                    m_coverAttachGUID = _tag.caGUID;
+                    m_coverAttachGUID = _tag.ObjectID;
                 }
 
                 _item.Tag = _tag;
@@ -249,7 +274,7 @@ namespace Waveface.PostUI
                 EditModeImageListViewItemTag _tag = _item.Tag as EditModeImageListViewItemTag;
                 _tag.IsCoverImage_UI = false;
 
-                if (_tag.caGUID == m_coverAttachGUID)
+                if (_tag.ObjectID == m_coverAttachGUID)
                 {
                     _tag.IsCoverImage_UI = true;
 
@@ -257,7 +282,6 @@ namespace Waveface.PostUI
                 }
             }
 
-            // ToDo: Rule?
             if (!_setCoverImage_UI)
             {
                 if (imageListView.Items.Count > 0)
@@ -340,6 +364,10 @@ namespace Waveface.PostUI
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
+            AbortThread();
+
+            Delay(2);
+
             if (MyParent.EditMode)
             {
                 EditModePost();
@@ -348,6 +376,141 @@ namespace Waveface.PostUI
             {
                 BatchPost();
             }
+        }
+
+        private static void Delay(int seconds)
+        {
+            DateTime _dt = DateTime.Now;
+
+            Main.Current.Cursor = Cursors.WaitCursor;
+
+            while (_dt.AddSeconds(seconds) >= DateTime.Now)
+                Application.DoEvents();
+
+            Main.Current.Cursor = Cursors.Default;
+        }
+
+        private void AddToPreUploadQueue(string file, string objectID)
+        {
+            lock (m_preUploadPhotosQueue)
+            {
+                m_preUploadPhotosQueue.Add(file, objectID);
+            }
+        }
+
+        private void ReturnToText_Mode()
+        {
+            lock (m_preUploadPhotosQueue)
+            {
+                m_preUploadPhotosQueue.Clear();
+            }
+
+            lock (m_uploadedPhotos)
+            {
+                m_uploadedPhotos.Clear();
+            }
+
+            MyParent.toPureText_Mode();
+        }
+
+        private void ThreadMethod(object state)
+        {
+            Thread.Sleep(1000);
+
+            if (MyParent.EditMode)
+                m_postID = MyParent.Post.post_id;
+            else
+                m_postID = Guid.NewGuid().ToString();
+
+            m_exitUploadLoop = true;
+
+            while (m_exitUploadLoop)
+            {
+                if (m_preUploadPhotosQueue.Count != 0)
+                {
+                    string _file = m_preUploadPhotosQueue.Keys.First();
+                    string _id = m_preUploadPhotosQueue[_file];
+
+                    try
+                    {
+                        MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(new FileName(_file).Name, _file, _id, true, m_postID);
+
+                        if (_uf != null)
+                        {
+                            m_uploadedPhotos.Add(_file, _id);
+                        }
+                    }
+                    catch(Exception _e)
+                    {
+                        Console.WriteLine(_e);
+                    }
+
+                    lock (m_preUploadPhotosQueue)
+                    {
+                        m_preUploadPhotosQueue.Remove(_file);
+                    }
+                }
+
+                Thread.Sleep(100);
+            }
+        }
+
+        private void BatchPost()
+        {
+            if (imageListView.Items.Count == 0)
+            {
+                SendPureText();
+                return;
+            }
+
+            /*
+            if (Environment.GetCommandLineArgs().Length == 1)
+            {
+                // check quota only in cloud mode because station will handle over quota
+                long _storagesUsage = CheckStoragesUsage(imageListView.Items.Count);
+
+                if (_storagesUsage == long.MinValue)
+                {
+                    MessageBox.Show(I18n.L.T("SystemError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                    return;
+                }
+
+                if (_storagesUsage < 0)
+                {
+                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    return;
+                }
+            }
+            */
+
+            List<string> _objectIDs = new List<string>();
+
+            BatchPostItem _bpItem = new BatchPostItem();
+            _bpItem.PostType = PostType.Photo;
+            _bpItem.Text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
+            _bpItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
+            _bpItem.OrgPostTime = DateTime.Now;
+            _bpItem.PostID = m_postID;
+
+            foreach (ImageListViewItem _vi in imageListView.Items)
+            {
+                _bpItem.Files.Add(_vi.FileName);
+
+                EditModeImageListViewItemTag _tag = (EditModeImageListViewItemTag)_vi.Tag;
+
+                _objectIDs.Add(_tag.ObjectID);
+            }
+
+            _bpItem.ObjectIDs = _objectIDs;
+
+            _bpItem.CoverAttachIndex = GetCoverAttachIndex();
+
+            _bpItem.PreUploadedPhotos = m_uploadedPhotos;
+
+            MyParent.BatchPostItem = _bpItem;
+            MyParent.SetDialogResult_OK_AndClose();
         }
 
         private void EditModePost()
@@ -365,10 +528,8 @@ namespace Waveface.PostUI
                 {
                     _files.Add(_vi.FileName);
 
-                    string _guid = Guid.NewGuid().ToString();
-
-                    _objectIDs.Add(_guid);
-                    _objectIDs_Edit.Add(_guid);
+                    _objectIDs.Add(_tag.ObjectID);
+                    _objectIDs_Edit.Add(_tag.ObjectID);
 
                     _newAdd++;
                 }
@@ -410,6 +571,7 @@ namespace Waveface.PostUI
             }
             else
             {
+                /*
                 if (Environment.GetCommandLineArgs().Length == 1)
                 {
                     // check quota only in cloud mode because station will handle over quota
@@ -431,6 +593,7 @@ namespace Waveface.PostUI
                         return;
                     }
                 }
+                */
 
                 string _text = string.Empty;
 
@@ -450,9 +613,11 @@ namespace Waveface.PostUI
                 _bpItem.ObjectIDs = _objectIDs;
                 _bpItem.ObjectIDs_Edit = _objectIDs_Edit;
                 _bpItem.Post = MyParent.Post;
-                _bpItem.PostID = MyParent.Post.post_id;
+                _bpItem.PostID = m_postID;
 
                 _bpItem.CoverAttachIndex = GetCoverAttachIndex();
+
+                _bpItem.PreUploadedPhotos = m_uploadedPhotos;
 
                 MyParent.BatchPostItem = _bpItem;
                 MyParent.SetDialogResult_OK_AndClose();
@@ -515,7 +680,7 @@ namespace Waveface.PostUI
 
             try
             {
-                MR_posts_new _np = Main.Current.RT.REST.Posts_New(StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)), files, "", _type, "");
+                MR_posts_new _np = Main.Current.RT.REST.Posts_New("", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)), files, "", _type, "");
 
                 if (_np == null)
                 {
@@ -532,57 +697,6 @@ namespace Waveface.PostUI
 
                 return false;
             }
-        }
-
-        private void BatchPost()
-        {
-            if (imageListView.Items.Count == 0)
-            {
-                SendPureText();
-                return;
-            }
-
-            if (Environment.GetCommandLineArgs().Length == 1)
-            {
-                // check quota only in cloud mode because station will handle over quota
-                long _storagesUsage = CheckStoragesUsage(imageListView.Items.Count);
-
-                if (_storagesUsage == long.MinValue)
-                {
-                    MessageBox.Show(I18n.L.T("SystemError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-                    return;
-                }
-
-                if (_storagesUsage < 0)
-                {
-                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                    return;
-                }
-            }
-
-            List<string> _objectIDs = new List<string>();
-
-            BatchPostItem _bpItem = new BatchPostItem();
-            _bpItem.PostType = PostType.Photo;
-            _bpItem.Text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
-            _bpItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
-            _bpItem.OrgPostTime = DateTime.Now;
-
-            foreach (ImageListViewItem _vi in imageListView.Items)
-            {
-                _bpItem.Files.Add(_vi.FileName);
-
-                _objectIDs.Add(Guid.NewGuid().ToString());
-            }
-
-            _bpItem.ObjectIDs = _objectIDs;
-
-            _bpItem.CoverAttachIndex = GetCoverAttachIndex();
-
-            MyParent.BatchPostItem = _bpItem;
-            MyParent.SetDialogResult_OK_AndClose();
         }
 
         private int GetCoverAttachIndex()
@@ -700,7 +814,7 @@ namespace Waveface.PostUI
                 if (imageListView.Items.Count == 0)
                 {
                     if (!MyParent.EditMode)
-                        MyParent.toPureText_Mode();
+                        ReturnToText_Mode();
 
                     return;
                 }
@@ -718,8 +832,8 @@ namespace Waveface.PostUI
             {
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
-                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-                _tag.caGUID = Guid.NewGuid().ToString();
+                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag(); 
+                _tag.ObjectID = Guid.NewGuid().ToString();
 
                 if (MyParent.EditMode)
                     _tag.AddPhotoType = EditModePhotoType.EditModeNewAdd;
@@ -732,6 +846,8 @@ namespace Waveface.PostUI
                     imageListView.Items.Add(_item);
                 else
                     imageListView.Items.Insert(index, _item);
+
+                AddToPreUploadQueue(_pic, _tag.ObjectID);
             }
         }
 
@@ -741,7 +857,7 @@ namespace Waveface.PostUI
             {
                 MyParent.IsDirty = true;
 
-                MyParent.toPureText_Mode();
+                ReturnToText_Mode();
 
                 return;
             }
@@ -754,7 +870,7 @@ namespace Waveface.PostUI
 
                 imageListView.Items.Clear();
 
-                MyParent.toPureText_Mode();
+                ReturnToText_Mode();
             }
         }
 
@@ -775,7 +891,7 @@ namespace Waveface.PostUI
 
                 if (imageListView.Items.Count == 0)
                 {
-                    MyParent.toPureText_Mode();
+                    ReturnToText_Mode();
                     return;
                 }
             }
@@ -820,7 +936,7 @@ namespace Waveface.PostUI
             if (m_selectedItem != null)
             {
                 EditModeImageListViewItemTag _tag = m_selectedItem.Tag as EditModeImageListViewItemTag;
-                m_coverAttachGUID = _tag.caGUID;
+                m_coverAttachGUID = _tag.ObjectID;
 
                 SetCoverImageUI();
             }

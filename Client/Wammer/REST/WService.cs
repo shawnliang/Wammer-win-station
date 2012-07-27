@@ -939,10 +939,11 @@ namespace Waveface.API.V2
             throw _e;
         }
 
-        public MR_posts_new posts_new(string session_token, string group_id, string content, string attachment_id_array,
+        public MR_posts_new posts_new(string session_token, string object_id, string group_id, string content, string attachment_id_array,
                                       string preview, string type, string coverAttach)
         {
             session_token = HttpUtility.UrlEncode(session_token);
+            object_id = HttpUtility.UrlEncode(object_id);
             group_id = HttpUtility.UrlEncode(group_id);
             content = HttpUtility.UrlEncode(content);
             attachment_id_array = HttpUtility.UrlEncode(attachment_id_array);
@@ -958,11 +959,14 @@ namespace Waveface.API.V2
                     "content" + "=" + content + "&" +
                     "type" + "=" + type + "&";
 
+                if (object_id != string.Empty)
+                    _parms += "object_id" + "=" + object_id + "&";
+
                 if (attachment_id_array != string.Empty)
                     _parms += "attachment_id_array" + "=" + attachment_id_array + "&";
 
                 if (preview != string.Empty)
-                    _parms += "preview" + "=" + preview + "&";
+                    _parms += "preview" + "=" + preview + "&";               
 
                 if (type == "image")
                 {

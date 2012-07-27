@@ -10,6 +10,7 @@ namespace Waveface
 
         public List<string> ObjectIDs { get; set; }
         public List<string> ObjectIDs_Edit { get; set; }
+        public Dictionary<string, string> PreUploadedPhotos;
 
         public Post Post { get; set; }
         public string PostID { get; set; }

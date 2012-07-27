@@ -141,16 +141,24 @@ namespace Waveface
 
 
 		#region Private Method
+
 		private float getDPIRatio()
 		{
-			using (Graphics _g = CreateGraphics())
-			{
-				if (_g.DpiX == 120)
-					return 0.85f;
-			}
+            try
+            {
+                using (Graphics _g = CreateGraphics())
+                {
+                    if (_g.DpiX == 120)
+                        return 0.85f;
+                }
+            }
+            catch
+            {
+            }
 
 			return 1;
 		} 
+
 		#endregion
 
         public void SetNewPostManager()
