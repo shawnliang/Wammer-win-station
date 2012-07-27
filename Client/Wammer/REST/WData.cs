@@ -50,7 +50,7 @@ namespace Waveface.API.V2
         public string favorite { get; set; }
         public int seq_num { get; set; }
 
-        [JsonIgnore]
+		//[JsonIgnore]
         public Dictionary<string, string> Sources { get; set; }
 
         public Post()

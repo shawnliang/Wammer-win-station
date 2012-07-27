@@ -215,6 +215,9 @@ namespace Waveface
 
 		protected override void Dispose(bool disposing)
 		{
+			if (IsDisposed)
+				return;
+
 			m_BmpOffscreen = null;
 
 			if (_backgroundBrush != null)
