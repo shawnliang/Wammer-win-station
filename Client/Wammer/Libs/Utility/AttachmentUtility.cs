@@ -7,6 +7,7 @@ using Waveface.API.V2;
 using System.IO;
 using System.Linq;
 using Waveface.Libs.StationDB;
+using System.Diagnostics;
 
 namespace Waveface
 {
@@ -31,6 +32,10 @@ namespace Waveface
 
         public static string GetRedirectURL(string orgURL, string session_token, string object_id, bool isImage)
         {
+			DebugInfo.ShowMethod();
+
+			Debug.WriteLine("session_token: " + session_token);
+
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
 
@@ -63,6 +68,10 @@ namespace Waveface
 
         public static string GetRedirectURL_Image(string session_token, Attachment a, string imageType, out string url, out string fileName, bool forceCloud)
         {
+			DebugInfo.ShowMethod();
+
+			Debug.WriteLine("session_token: " + session_token);
+
             const string SMALL = "small";
             const string MEDIUM = "medium";
             const string ORIGIN = "origin";

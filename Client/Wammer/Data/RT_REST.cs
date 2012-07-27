@@ -5,6 +5,8 @@ using System.IO;
 using Waveface.API.V2;
 using System;
 using Waveface.Libs.StationDB;
+using System.Diagnostics;
+using System.Web;
 
 #endregion
 
@@ -63,12 +65,16 @@ namespace Waveface
 
         public string attachments_getImageURL(string object_id, string type)
         {
+			DebugInfo.ShowMethod();
+
+			Debug.WriteLine("SessionToken: " + SessionToken);
+
             if (type == "origin")
                 return string.Format("{0}/v2/attachments/view?object_id={1}&apikey={2}&session_token={3}",
-                    WService.HostIP, object_id, WService.APIKEY, SessionToken);
+					WService.HostIP, object_id, HttpUtility.UrlEncode(WService.APIKEY), HttpUtility.UrlEncode(SessionToken));
             else
                 return string.Format("{0}/v2/attachments/view?object_id={1}&apikey={2}&session_token={3}&image_meta={4}",
-                    WService.HostIP, object_id, WService.APIKEY, SessionToken, type);
+					WService.HostIP, object_id, HttpUtility.UrlEncode(WService.APIKEY), HttpUtility.UrlEncode(SessionToken), type);
         }
 
         private string attachments_getSavedFileName(string object_id, string type)

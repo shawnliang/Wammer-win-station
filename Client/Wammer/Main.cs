@@ -196,6 +196,7 @@ namespace Waveface
         {
             Init();
 
+			Debug.WriteLine("initSessionToken: " + initSessionToken);
             m_initSessionToken = initSessionToken;
         }
 
@@ -811,6 +812,7 @@ namespace Waveface
 
                 IsPrimaryStation = isPrimaryStation(_dbServer, _login);
 
+				Debug.WriteLine("_login.session_token: " + _login.session_token);
                 procLoginResponse(_login);
             }
             catch (Exception e)
