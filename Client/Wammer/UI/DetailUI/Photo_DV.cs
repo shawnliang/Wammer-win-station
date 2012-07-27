@@ -489,12 +489,7 @@ namespace Waveface.DetailUI
                 return true;
             }
 
-			//if (firstTime)
-			//{
-				ShowImageListView(firstTime);
-			//    return false;
-			//}
-
+			ShowImageListView(firstTime);
             return false;
         }
 
@@ -587,7 +582,6 @@ namespace Waveface.DetailUI
 
         private void DetailView_Resize(object sender, EventArgs e)
         {
-			Trace.WriteLine("DetailView_Resize");
             ReLayout();
         }
 
