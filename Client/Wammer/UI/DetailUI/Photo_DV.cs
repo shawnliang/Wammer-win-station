@@ -481,6 +481,8 @@ namespace Waveface.DetailUI
 
             if (_count == Post.attachment_id_array.Count)
             {
+                Main.Current.RefreshTimelineUI();
+
                 timer.Enabled = false;
 
                 ShowImageListView(firstTime);

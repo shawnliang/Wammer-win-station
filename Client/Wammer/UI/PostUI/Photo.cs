@@ -442,7 +442,7 @@ namespace Waveface.PostUI
                             m_uploadedPhotos.Add(_file, _id);
                         }
                     }
-                    catch(Exception _e)
+                    catch (Exception _e)
                     {
                         Console.WriteLine(_e);
                     }
@@ -834,7 +834,7 @@ namespace Waveface.PostUI
             {
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
-                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag(); 
+                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
                 _tag.ObjectID = Guid.NewGuid().ToString();
 
                 if (MyParent.EditMode)
@@ -887,7 +887,21 @@ namespace Waveface.PostUI
                 imageListView.SuspendLayout();
 
                 foreach (var _item in imageListView.SelectedItems)
+                {
+                    lock (m_preUploadPhotosQueue)
+                    {
+                        try
+                        {
+                            if (m_preUploadPhotosQueue.Keys.Contains(_item.FileName))
+                                m_preUploadPhotosQueue.Remove(_item.FileName);
+                        }
+                        catch
+                        {
+                        }
+                    }
+
                     imageListView.Items.Remove(_item);
+                }
 
                 imageListView.ResumeLayout(true);
 

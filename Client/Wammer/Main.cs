@@ -68,6 +68,7 @@ namespace Waveface
 
         private CustomWindow _messageReceiver;
         private WService _service;
+
         #endregion
 
         #region Private Property
@@ -1519,6 +1520,11 @@ namespace Waveface
         #endregion
 
         #region Misc
+
+        public void RefreshTimelineUI()
+        {
+            postsArea.RefreshTimelineUI();
+        }
 
         public void RemovePost()
         {

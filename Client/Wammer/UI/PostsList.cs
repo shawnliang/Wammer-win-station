@@ -116,6 +116,11 @@ namespace Waveface
             MouseWheelRedirector.Attach(dataGridView);
         }
 
+        public void RefreshTimelineUI()
+        {
+            dataGridView.Refresh();
+        }
+
         private void InitFont()
         {
             float _d = 0;
