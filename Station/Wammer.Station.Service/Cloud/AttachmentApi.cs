@@ -96,6 +96,7 @@ namespace Wammer.Cloud
 		public static AttachmentView GetImageMetadata(string objectId, string session_token, string apikey,
 														   ImageMeta meta, string station_id)
 		{
+			Debug.WriteLine("session_token: " + session_token);
 			var parameters = new Dictionary<object, object>
 			                 	{
 			                 		{"object_id", objectId},
