@@ -92,7 +92,7 @@ namespace StationSystemTray
 		{
 			get {
 				return _baseUrl ??
-				       (_baseUrl = CloudServer.BaseUrl.Contains("develop.waveface.com") ? DEV_WEB_BASE_PAGE_URL : 
+					   (_baseUrl = CloudServer.BaseUrl.Contains("develop.waveface.com") ? DEV_WEB_BASE_PAGE_URL : 
 					   (CloudServer.BaseUrl.Contains("staging.waveface.com") ? STAGING_BASE_URL : WEB_BASE_URL));
 			}
 		}
@@ -614,7 +614,7 @@ namespace StationSystemTray
 		private void checkStationTimer_Tick(object sender, EventArgs e)
 		{
 //#if !DEBUG
-            uictrlStationStatus.PerformAction();
+			uictrlStationStatus.PerformAction();
 //#endif
 		}
 
@@ -1116,34 +1116,34 @@ namespace StationSystemTray
 
 				string signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
 				var postData = new FBPostData
-				               	{
-				               		device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
-				               		device_name = Environment.MachineName,
-				               		device = "windows",
-				               		api_key = CLIENT_API_KEY,
-				               		xurl =
-				               			string.Format(
+								{
+									device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+									device_name = Environment.MachineName,
+									device = "windows",
+									api_key = CLIENT_API_KEY,
+									xurl =
+										string.Format(
 											"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s&is_new_user=%(is_new_user)s",
-				               				signUpUrl),
-				               		locale = Thread.CurrentThread.CurrentCulture.ToString(),
+											signUpUrl),
+									locale = Thread.CurrentThread.CurrentCulture.ToString(),
 									show_tutorial = "false"
-				               	};
+								};
 
 
 				var dialog = new SignUpDialog()
-				             	{
-				             		Text = Resources.SIGNUP_PAGE_TITLE,
+								{
+									Text = Resources.SIGNUP_PAGE_TITLE,
 					StartPosition = FormStartPosition.CenterParent
-				             	};
+								};
 				var browser = dialog.Browser;
 				var signupOK = false;
 				browser.Navigated += (s, ex) =>
-				                     	{
-				                     		var url = browser.Url;
+										{
+											var url = browser.Url;
 
-				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
-				                     		                  RegexOptions.IgnoreCase))
-				                     		{
+											if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
+															  RegexOptions.IgnoreCase))
+											{
 												var parameters = HttpUtility.ParseQueryString(url.Query);
 
 												var isNewUser = parameters["is_new_user"];
@@ -1151,16 +1151,16 @@ namespace StationSystemTray
 												if (isNewUser.Equals("true",StringComparison.CurrentCultureIgnoreCase))
 													dialog.ShowTutorial();
 												else
-				                     			dialog.DialogResult = DialogResult.OK;
+												dialog.DialogResult = DialogResult.OK;
 
 												signupOK = true;
-				                     		}
-				                     	};
+											}
+										};
 
 				browser.Navigate(m_SignUpUrl,
-				                 string.Empty,
-				                 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
-				                 "Content-Type: application/json");
+								 string.Empty,
+								 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
+								 "Content-Type: application/json");
 
 				dialog.ShowDialog(this);
 				if (signupOK)
@@ -1201,9 +1201,9 @@ namespace StationSystemTray
 
 						UserStation station = GetPrimaryStation(res.Stations);
 						lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-						                                         (station == null) ? "None" : station.computer_name);
+																 (station == null) ? "None" : station.computer_name);
 						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-						                                           (station == null) ? "None" : station.computer_name);
+																   (station == null) ? "None" : station.computer_name);
 
 						//Show welcome msg
 						GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
@@ -1506,33 +1506,33 @@ namespace StationSystemTray
 				Hide();
 				string fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
 				var postData = new FBPostData
-				               	{
-				               		device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
-				               		device_name = Environment.MachineName,
-				               		device = "windows",
-				               		api_key = CLIENT_API_KEY,
-				               		xurl =
-				               			string.Format(
+								{
+									device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+									device_name = Environment.MachineName,
+									device = "windows",
+									api_key = CLIENT_API_KEY,
+									xurl =
+										string.Format(
 											"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&is_new_user=%(is_new_user)s",
-				               				fbLoginUrl),
-				               		locale = Thread.CurrentThread.CurrentCulture.ToString(),
+											fbLoginUrl),
+									locale = Thread.CurrentThread.CurrentCulture.ToString(),
 									show_tutorial = "false"
-				               	};
+								};
 
 				var dialog = new SignUpDialog() 
-				              	{
+								{
 					Text = Resources.FB_CONNECT_PAGE_TITLE,
 					StartPosition = FormStartPosition.CenterParent
-				              	};
+								};
 				var browser = dialog.Browser;
 				var signupOK = false;
 
 				browser.Navigated += (s, ex) =>
-				                     	{
-				                     		Uri url = browser.Url;
-				                     		if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
-				                     		                  RegexOptions.IgnoreCase))
-				                     		{
+										{
+											Uri url = browser.Url;
+											if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
+															  RegexOptions.IgnoreCase))
+											{
 												var parameters = HttpUtility.ParseQueryString(url.Query);
 
 												var isNewUser = parameters["is_new_user"];
@@ -1540,16 +1540,16 @@ namespace StationSystemTray
 												if (isNewUser.Equals("true", StringComparison.CurrentCultureIgnoreCase))
 													dialog.ShowTutorial();
 												else
-				                     			dialog.DialogResult = DialogResult.OK;
+												dialog.DialogResult = DialogResult.OK;
 
 												signupOK = true;
-				                     		}
-				                     	};
+											}
+										};
 
 				browser.Navigate(m_FBLoginUrl,
-				                 string.Empty,
-				                 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
-				                 "Content-Type: application/json");
+								 string.Empty,
+								 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
+								 "Content-Type: application/json");
 
 				dialog.ShowDialog(this);
 				if (signupOK)
@@ -1577,9 +1577,9 @@ namespace StationSystemTray
 
 						UserStation station = GetPrimaryStation(res.Stations);
 						lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-						                                         (station == null) ? "None" : station.computer_name);
+																 (station == null) ? "None" : station.computer_name);
 						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-						                                           (station == null) ? "None" : station.computer_name);
+																   (station == null) ? "None" : station.computer_name);
 
 						//Show welcome msg
 						GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
