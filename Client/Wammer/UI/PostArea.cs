@@ -30,6 +30,11 @@ namespace Waveface
             m_font = new Font("Tahoma", 9);
         }
 
+        public void RefreshTimelineUI()
+        {
+            postList.RefreshTimelineUI();
+        }
+
         public void RemovePost()
         {
             postList.RemovePost();

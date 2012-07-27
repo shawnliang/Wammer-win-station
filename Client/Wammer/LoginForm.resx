@@ -132,10 +132,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cbRemember.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 113</value>
+    <value>77, 90</value>
+  </data>
+  <data name="cbRemember.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="cbRemember.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 35</value>
+    <value>142, 28</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="cbRemember.TabIndex" type="System.Int32, mscorlib">
@@ -160,10 +163,13 @@
     <value>NoControl</value>
   </data>
   <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>35, 19</value>
+    <value>28, 15</value>
+  </data>
+  <data name="labelTitle.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
   </data>
   <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>299, 25</value>
+    <value>239, 20</value>
   </data>
   <data name="labelTitle.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -196,10 +202,13 @@
     <value>NoControl</value>
   </data>
   <data name="lblUserName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 30</value>
+    <value>18, 24</value>
+  </data>
+  <data name="lblUserName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
   </data>
   <data name="lblUserName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 19</value>
+    <value>59, 15</value>
   </data>
   <data name="lblUserName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -229,13 +238,16 @@
     <value>NoControl</value>
   </data>
   <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 77</value>
+    <value>77, 62</value>
+  </data>
+  <data name="txtPassword.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="txtPassword.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
     <value>*</value>
   </data>
   <data name="txtPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>262, 26</value>
+    <value>210, 22</value>
   </data>
   <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -262,16 +274,19 @@
     <value>User name</value>
   </data>
   <data name="txtUserName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 27</value>
+    <value>77, 22</value>
+  </data>
+  <data name="txtUserName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="txtUserName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>262, 26</value>
+    <value>210, 22</value>
   </data>
   <data name="txtUserName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="txtUserName.Text" xml:space="preserve">
-    <value>dev@wf.com</value>
+    <value>dev3@wf.com</value>
   </data>
   <data name="&gt;&gt;txtUserName.Name" xml:space="preserve">
     <value>txtUserName</value>
@@ -295,10 +310,13 @@
     <value>NoControl</value>
   </data>
   <data name="lblPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 81</value>
+    <value>18, 65</value>
+  </data>
+  <data name="lblPassword.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
   </data>
   <data name="lblPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>60, 18</value>
   </data>
   <data name="lblPassword.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -319,10 +337,16 @@
     <value>3</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 56</value>
+    <value>30, 45</value>
+  </data>
+  <data name="groupBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="groupBox1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>378, 156</value>
+    <value>302, 125</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -355,10 +379,10 @@
     <value>Login Form</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>120, 120</value>
+    <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>386, 221</value>
+    <value>309, 177</value>
   </data>
   <data name="btnCancel.ImageIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -367,10 +391,13 @@
     <value>NoControl</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 231</value>
+    <value>179, 185</value>
+  </data>
+  <data name="btnCancel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 35</value>
+    <value>70, 28</value>
   </data>
   <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -400,10 +427,13 @@
     <value>NoControl</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>328, 231</value>
+    <value>262, 185</value>
+  </data>
+  <data name="btnOK.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 35</value>
+    <value>70, 28</value>
   </data>
   <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -803,6 +833,9 @@
         AAAAAAAf8AAAAAAAAB/wAAAAAAAAH/AAAAAAAAAf8AAAAAAAAB/4AAAAAAAAP///////////////////
         //8=
 </value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

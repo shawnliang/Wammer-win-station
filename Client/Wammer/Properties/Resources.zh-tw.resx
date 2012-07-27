@@ -144,6 +144,9 @@
   <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
     <value>沒有網路連線</value>
   </data>
+  <data name="PHOTO_UPLOADING" xml:space="preserve">
+    <value>同步中...</value>
+  </data>
   <data name="RECONNECT_MESSAGE" xml:space="preserve">
     <value>Facebook資料同步功能已經暫停。是否需要恢復自動同步功能？</value>
   </data>

@@ -902,6 +902,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Sync in progress....
+        /// </summary>
+        internal static string PHOTO_UPLOADING {
+            get {
+                return ResourceManager.GetString("PHOTO_UPLOADING", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap photoadded_badge {
             get {
                 object obj = ResourceManager.GetObject("photoadded_badge", resourceCulture);
