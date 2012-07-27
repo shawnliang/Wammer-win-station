@@ -20,18 +20,28 @@ namespace Wammer.Station
 			downloader = new ResourceDownloader(bodySyncQueue);
 			syncer = new TimelineSyncer(new PostProvider(), new TimelineSyncerDB(), new ChangeLogsApi());
 			syncer.PostsRetrieved += downloader.PostRetrieved;
-			syncer.BodyAvailable += syncer_BodyAvailable;
+			syncer.AttachmentAvailable += syncer_AttachmentAvailable;
 		}
 
-		private void syncer_BodyAvailable(object sender, BodyAvailableEventArgs e)
+		private void syncer_AttachmentAvailable(object sender, AttachmentAvailableEventArgs e)
 		{
 			try
 			{
 				Driver user = DriverCollection.Instance.FindOne(Query.EQ("_id", e.user_id));
-				if (user != null && user.isPrimaryStation)
+
+				if (user == null)
+					return;
+
+				if (e.meta == ImageMeta.Origin && user.isPrimaryStation)
 				{
 					var info = AttachmentApi.GetInfo(e.object_id, user.session_token);
 					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
+				}
+				else if (e.meta == ImageMeta.Medium)
+				{
+					var info = AttachmentApi.GetInfo(e.object_id, user.session_token);
+					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Medium);
+					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Small);
 				}
 			}
 			catch (Exception ex)

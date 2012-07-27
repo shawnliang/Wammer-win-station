@@ -36,7 +36,7 @@ namespace Wammer.Station.Timeline
 		}
 
 		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
-		public event EventHandler<BodyAvailableEventArgs> BodyAvailable;
+		public event EventHandler<AttachmentAvailableEventArgs> AttachmentAvailable;
 
 		/// <summary>
 		/// Use PullTimeline() instead.
@@ -163,15 +163,19 @@ namespace Wammer.Station.Timeline
 				{
 					if (track.actions.Any(action => action.target_type.Contains("origin")))
 					{
-						OnBodyAvailable(new BodyAvailableEventArgs(track.target_id, track.user_id, track.group_id));
+						OnAttachmentAvailable(new AttachmentAvailableEventArgs(track.target_id, track.user_id, track.group_id, ImageMeta.Origin));
+					}
+					else if (track.actions.Any(action => action.target_type == "image.medium"))
+					{
+						OnAttachmentAvailable(new AttachmentAvailableEventArgs(track.target_id, track.user_id, track.group_id, ImageMeta.Medium));
 					}
 				}
 			}
 		}
 
-		private void OnBodyAvailable(BodyAvailableEventArgs args)
+		private void OnAttachmentAvailable(AttachmentAvailableEventArgs args)
 		{
-			EventHandler<BodyAvailableEventArgs> handler = BodyAvailable;
+			EventHandler<AttachmentAvailableEventArgs> handler = AttachmentAvailable;
 			if (handler != null)
 				handler(this, args);
 		}
@@ -296,17 +300,19 @@ namespace Wammer.Station.Timeline
 		public ICollection<PostInfo> Posts { get; private set; }
 	}
 
-	public class BodyAvailableEventArgs : EventArgs
+	public class AttachmentAvailableEventArgs : EventArgs
 	{
-		public BodyAvailableEventArgs(string object_id, string user_id, string group_id)
+		public AttachmentAvailableEventArgs(string object_id, string user_id, string group_id, ImageMeta meta)
 		{
 			this.object_id = object_id;
 			this.user_id = user_id;
 			this.group_id = group_id;
+			this.meta = meta;
 		}
 
 		public string object_id { get; private set; }
 		public string user_id { get; private set; }
 		public string group_id { get; private set; }
+		public ImageMeta meta { get; private set; }
 	}
 }
