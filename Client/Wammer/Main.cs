@@ -1513,16 +1513,11 @@ namespace Waveface
                                         break;
                                 }
                             }
-
-                            if (_action.target_type == "image.medium" &&
-                                _action.action == "add" &&
-                                !string.IsNullOrEmpty(_action.post_id))
-                            {
-                                //???
-                            }
                         }
                     }
 
+                    if (_usertracks.post_list.Count > 0)
+                    {
                     string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
 
                     MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
@@ -1540,6 +1535,7 @@ namespace Waveface
                             ShowPostInTimeline();
                     }
                 }
+            }
             }
             catch (VersionNotSupportedException)
             {

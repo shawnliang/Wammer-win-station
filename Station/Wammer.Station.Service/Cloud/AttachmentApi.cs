@@ -62,18 +62,6 @@ namespace Wammer.Cloud
 			CloudServer.requestPath<CloudResponse>("attachments/unsetloc", parameters);
 		}
 
-		public AttachmentGetResponse AttachmentGet(string object_id)
-		{
-			var parameters = new Dictionary<object, object>
-			                 	{
-			                 		{CloudServer.PARAM_OBJECT_ID, object_id},
-			                 		{CloudServer.PARAM_SESSION_TOKEN, userToken},
-			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			                 	};
-
-			return CloudServer.requestPath<AttachmentGetResponse>("attachments/get", parameters);
-		}
-
 		public void AttachmentView(ResourceDownloadEventArgs evtargs, string stationId)
 		{
 			Debug.Assert(!String.IsNullOrEmpty(evtargs.attachment.object_id));
