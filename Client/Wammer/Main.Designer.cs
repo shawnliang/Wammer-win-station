@@ -41,12 +41,6 @@ namespace Waveface
 			this.leftArea = new Waveface.LeftArea();
 			this.panelTitle = new Waveface.TitlePanel();
 			this.detailView = new Waveface.DetailView();
-			this.mnuTray = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.screenShotMenu = new System.Windows.Forms.ToolStripMenuItem();
-			this.regionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.windowsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.screenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.logoutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
 			this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
 			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
@@ -54,7 +48,6 @@ namespace Waveface
 			this.backgroundWorkerPreloadAllImages = new System.ComponentModel.BackgroundWorker();
 			this.timerPolling = new System.Windows.Forms.Timer(this.components);
 			this.panelLeft = new System.Windows.Forms.Panel();
-			this.mnuTray.SuspendLayout();
 			this.panelLeft.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -88,46 +81,6 @@ namespace Waveface
 			this.detailView.Name = "detailView";
 			this.detailView.Post = null;
 			this.detailView.User = null;
-			// 
-			// mnuTray
-			// 
-			this.mnuTray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.screenShotMenu,
-            this.logoutMenuItem});
-			this.mnuTray.Name = "mnuTree";
-			resources.ApplyResources(this.mnuTray, "mnuTray");
-			// 
-			// screenShotMenu
-			// 
-			this.screenShotMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.regionMenuItem,
-            this.windowsMenuItem,
-            this.screenMenuItem});
-			this.screenShotMenu.Name = "screenShotMenu";
-			resources.ApplyResources(this.screenShotMenu, "screenShotMenu");
-			// 
-			// regionMenuItem
-			// 
-			this.regionMenuItem.Name = "regionMenuItem";
-			resources.ApplyResources(this.regionMenuItem, "regionMenuItem");
-			this.regionMenuItem.Click += new System.EventHandler(this.regionMenuItem_Click);
-			// 
-			// windowsMenuItem
-			// 
-			this.windowsMenuItem.Name = "windowsMenuItem";
-			resources.ApplyResources(this.windowsMenuItem, "windowsMenuItem");
-			this.windowsMenuItem.Click += new System.EventHandler(this.windowsMenuItem_Click);
-			// 
-			// screenMenuItem
-			// 
-			this.screenMenuItem.Name = "screenMenuItem";
-			resources.ApplyResources(this.screenMenuItem, "screenMenuItem");
-			this.screenMenuItem.Click += new System.EventHandler(this.screenMenuItem_Click);
-			// 
-			// logoutMenuItem
-			// 
-			this.logoutMenuItem.Name = "logoutMenuItem";
-			resources.ApplyResources(this.logoutMenuItem, "logoutMenuItem");
 			// 
 			// timerDelayPost
 			// 
@@ -183,7 +136,6 @@ namespace Waveface
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form_DragEnter);
 			this.DragOver += new System.Windows.Forms.DragEventHandler(this.Form_DragOver);
 			this.DragLeave += new System.EventHandler(this.Form_DragLeave);
-			this.mnuTray.ResumeLayout(false);
 			this.panelLeft.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -192,16 +144,10 @@ namespace Waveface
 		#endregion
 
 		private DetailView detailView;
-        private PostArea postsArea;
-        private System.Windows.Forms.ContextMenuStrip mnuTray;
-        private System.Windows.Forms.ToolStripMenuItem screenShotMenu;
-        private System.Windows.Forms.ToolStripMenuItem regionMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem windowsMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem screenMenuItem;
+		private PostArea postsArea;
         private System.Windows.Forms.Timer timerDelayPost;
         private LeftArea leftArea;
-        private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
-        private System.Windows.Forms.ToolStripMenuItem logoutMenuItem;
+		private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
 		private Localization.CultureManager cultureManager;
 		private System.Windows.Forms.Timer timerShowStatuMessage;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadAllImages;
