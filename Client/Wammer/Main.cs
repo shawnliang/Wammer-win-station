@@ -88,28 +88,28 @@ namespace Waveface
             }
         }
 
-		private PostForm m_PostForm
-		{
-			get
-			{
-				return _postForm;
-			}
-			set
-			{
-				if (_postForm == value)
-					return;
+        private PostForm m_PostForm
+        {
+            get
+            {
+                return _postForm;
+            }
+            set
+            {
+                if (_postForm == value)
+                    return;
 
-				if (_postForm != null)
-				{
-					if (!_postForm.IsDisposed)
-						_postForm.Dispose();
-					_postForm = null;
-				}
+                if (_postForm != null)
+                {
+                    if (!_postForm.IsDisposed)
+                        _postForm.Dispose();
+                    _postForm = null;
+                }
 
-				_postForm = value;
-			}
-		}
-		#endregion
+                _postForm = value;
+            }
+        }
+        #endregion
 
 
         #region Public Property
@@ -175,10 +175,10 @@ namespace Waveface
 
         public RunTime RT
         {
-			get 
-			{
-				return m_runTime ?? (m_runTime = new RunTime());
-			}
+            get 
+            {
+                return m_runTime ?? (m_runTime = new RunTime());
+            }
         }
 
         public DialogResult NewPostThreadErrorDialogResult { get; set; }
@@ -196,7 +196,7 @@ namespace Waveface
         {
             Init();
 
-			Debug.WriteLine("initSessionToken: " + initSessionToken);
+            Debug.WriteLine("initSessionToken: " + initSessionToken);
             m_initSessionToken = initSessionToken;
         }
 
@@ -774,9 +774,9 @@ namespace Waveface
 
             Cursor = Cursors.Default;
 
-			//var rt = RT.LoadJSON();
+            //var rt = RT.LoadJSON();
 
-			//RT.CurrentGroupPosts = rt.CurrentGroupPosts;
+            //RT.CurrentGroupPosts = rt.CurrentGroupPosts;
 
             GetAllDataAsync();
 
@@ -812,7 +812,7 @@ namespace Waveface
 
                 IsPrimaryStation = isPrimaryStation(_dbServer, _login);
 
-				Debug.WriteLine("_login.session_token: " + _login.session_token);
+                Debug.WriteLine("_login.session_token: " + _login.session_token);
                 procLoginResponse(_login);
             }
             catch (Exception e)
@@ -1088,23 +1088,23 @@ namespace Waveface
         }
 
         public void EditPost(Post post, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
-		{
-			try
-			{
-				m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
-				DialogResult _dr = m_PostForm.ShowDialog();
+        {
+            try
+            {
+                m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
+                DialogResult _dr = m_PostForm.ShowDialog();
 
-				if (_dr == DialogResult.OK)
-				{
-					BatchPostManager.Add(m_PostForm.BatchPostItem);
+                if (_dr == DialogResult.OK)
+                {
+                    BatchPostManager.Add(m_PostForm.BatchPostItem);
 
-					if (m_PostForm.BatchPostItem.Post != null)
-					{
-						ShowPostInTimeline();
-					}
-				}
-			}
-			catch (Exception _e)
+                    if (m_PostForm.BatchPostItem.Post != null)
+                    {
+                        ShowPostInTimeline();
+                    }
+                }
+            }
+            catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "Edit Post");
             }
@@ -1126,10 +1126,10 @@ namespace Waveface
                 m_PostForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
                 DialogResult _dr = m_PostForm.ShowDialog();
 
-				if (_dr == DialogResult.OK)
-				{
-					BatchPostManager.Add(m_PostForm.BatchPostItem);
-				}
+                if (_dr == DialogResult.OK)
+                {
+                    BatchPostManager.Add(m_PostForm.BatchPostItem);
+                }
             }
             catch (Exception _e)
             {
@@ -1599,31 +1599,27 @@ namespace Waveface
                                         break;
                                 }
                             }
-
-                            if (_action.target_type == "image.medium" &&
-                                _action.action == "add" &&
-                                !string.IsNullOrEmpty(_action.post_id))
-                            {
-                                //???
-                            }
                         }
                     }
 
-                    string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
-
-                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
-
-                    if (_postsGet != null)
+                    if (_usertracks.post_list.Count > 0)
                     {
-                        bool _changed = false;
+                        string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
 
-                        foreach (Post _post in _postsGet.posts)
+                        MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+
+                        if (_postsGet != null)
                         {
-                            _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
-                        }
+                            bool _changed = false;
 
-                        if (_changed)
-                            ShowPostInTimeline();
+                            foreach (Post _post in _postsGet.posts)
+                            {
+                                _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
+                            }
+
+                            if (_changed)
+                                ShowPostInTimeline();
+                        }
                     }
                 }
             }
@@ -1676,7 +1672,7 @@ namespace Waveface
                     timerShowStatuMessage.Enabled = true;
 
                     StatusLabelPost.Text = message;
-					//panelTitle.ShowStatusText(message);
+                    //panelTitle.ShowStatusText(message);
                 }
                 else
                 {
@@ -1690,7 +1686,7 @@ namespace Waveface
             timerShowStatuMessage.Enabled = false;
 
             StatusLabelPost.Text = "";
-			//panelTitle.ShowStatusText("");
+            //panelTitle.ShowStatusText("");
         }
 
         public void ShowFileMissDialog(string text)
@@ -1809,13 +1805,13 @@ namespace Waveface
                     _post.Sources = dirtyPost.sources;
                 }
 
-				foreach (var oldPost in RT.CurrentGroupPosts)
-				{
-					if (oldPost.post_id != _post.post_id)
-						continue;
-					_post.Sources = oldPost.Sources;
-					break;
-				}
+                foreach (var oldPost in RT.CurrentGroupPosts)
+                {
+                    if (oldPost.post_id != _post.post_id)
+                        continue;
+                    _post.Sources = oldPost.Sources;
+                    break;
+                }
 
                 _tmpPosts.Add(_post);
             }
