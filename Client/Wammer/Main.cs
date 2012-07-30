@@ -498,7 +498,6 @@ namespace Waveface
                 if (StationState != null)
                 {
                     StationState.AbortThread();
-                    statusStrip = null;
                 }
             }
             catch
@@ -647,11 +646,6 @@ namespace Waveface
         public void UpdateNetworkStatus()
         {
             RT.REST.IsNetworkAvailable = true;
-
-            StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
-            StatusLabelNetwork.Image = Resources.network_receive;
-
-            StatusLabelServiceStatus.Visible = true;
         }
 
         public bool CheckNetworkStatus()
@@ -715,7 +709,6 @@ namespace Waveface
 
             if (Environment.GetCommandLineArgs().Length == 1)
             {
-                StationState.ShowStationState += StationState_ShowStationState;
                 StationState.Start();
             }
 
@@ -746,7 +739,6 @@ namespace Waveface
             {
                 m_stationIP = "http://127.0.0.1:9981";
                 WService.StationIP = m_stationIP;
-                StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
                 RT.StationMode = true;
             }
 
@@ -803,7 +795,6 @@ namespace Waveface
             {
                 m_stationIP = "http://127.0.0.1:9981";
                 WService.StationIP = m_stationIP;
-                StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
                 RT.StationMode = true;
             }
 
@@ -811,34 +802,6 @@ namespace Waveface
             return procLoginResponse(_login);
         }
 
-        private void StationState_ShowStationState(ConnectServiceStateType type)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate { StationState_ShowStationState(type); }
-                           ));
-            }
-            else
-            {
-                switch (type)
-                {
-                    case ConnectServiceStateType.NetworkDisconnected:
-                    case ConnectServiceStateType.Cloud:
-                        StatusLabelServiceStatus.Image = Resources.Cloud;
-                        StatusLabelServiceStatus.Text = "Cloud";
-                        break;
-
-                    case ConnectServiceStateType.Station_LocalIP:
-                    case ConnectServiceStateType.Station_UPnP:
-                        StatusLabelServiceStatus.Image = Resources.Station;
-                        StatusLabelServiceStatus.Text = "Station";
-                        break;
-                }
-
-                s_logger.Trace("ConnectServiceStateType:" + type);
-            }
-        }
 
  
 
@@ -1625,13 +1588,9 @@ namespace Waveface
                 if (timeout)
                 {
                     timerShowStatuMessage.Enabled = true;
-
-                    StatusLabelPost.Text = message;
-					//panelTitle.ShowStatusText(message);
                 }
                 else
                 {
-                    StatusLabelUpload.Text = message;
                 }
             }
         }
@@ -1639,9 +1598,6 @@ namespace Waveface
         private void timerShowStatuMessage_Tick(object sender, EventArgs e)
         {
             timerShowStatuMessage.Enabled = false;
-
-            StatusLabelPost.Text = "";
-			//panelTitle.ShowStatusText("");
         }
 
         public void ShowFileMissDialog(string text)
