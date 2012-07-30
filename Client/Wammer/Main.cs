@@ -88,28 +88,28 @@ namespace Waveface
             }
         }
 
-        private PostForm m_PostForm
-        {
-            get
-            {
-                return _postForm;
-            }
-            set
-            {
-                if (_postForm == value)
-                    return;
+		private PostForm m_PostForm
+		{
+			get
+			{
+				return _postForm;
+			}
+			set
+			{
+				if (_postForm == value)
+					return;
 
-                if (_postForm != null)
-                {
-                    if (!_postForm.IsDisposed)
-                        _postForm.Dispose();
-                    _postForm = null;
-                }
+				if (_postForm != null)
+				{
+					if (!_postForm.IsDisposed)
+						_postForm.Dispose();
+					_postForm = null;
+				}
 
-                _postForm = value;
-            }
-        }
-        #endregion
+				_postForm = value;
+			}
+		}
+		#endregion
 
 
         #region Public Property
@@ -175,10 +175,10 @@ namespace Waveface
 
         public RunTime RT
         {
-            get 
-            {
-                return m_runTime ?? (m_runTime = new RunTime());
-            }
+			get 
+			{
+				return m_runTime ?? (m_runTime = new RunTime());
+			}
         }
 
         public DialogResult NewPostThreadErrorDialogResult { get; set; }
@@ -189,14 +189,17 @@ namespace Waveface
 
         public Main()
         {
-            Init();
+			InitializeComponent();
+
+			Current = this;
         }
 
         public Main(string initSessionToken)
         {
-            Init();
+			InitializeComponent();
 
-            Debug.WriteLine("initSessionToken: " + initSessionToken);
+			Current = this;
+
             m_initSessionToken = initSessionToken;
         }
 
@@ -204,11 +207,7 @@ namespace Waveface
         {
             QuitOption = QuitOption.QuitProgram;
 
-            Current = this;
-
             File.Delete(m_shellContentMenuFilePath);
-
-            InitializeComponent();
 
             HttpHelp.EnableUnsafeHeaderParsing();
 
@@ -230,59 +229,11 @@ namespace Waveface
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
             m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
-
-            s_logger.Trace("Constructor: OK");
         }
 
 
 
         #region Init
-
-        private void Form_Load(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(m_initSessionToken))
-                LoginWithInitSession();
-
-            postsArea.PostsList.DetailView = detailView;
-
-            if (Environment.GetCommandLineArgs().Length == 1)
-            {
-                NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
-
-                UpdateNetworkStatus();
-            }
-
-            /*
-            InitDropableNotifyIcon();
-            
-            m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
-            
-            // Send To
-            CreateFileWatcher();
-            */
-
-            CreateLoadingImage();
-
-            panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
-
-            AdjustAccountInfoButton();
-
-            CheckRefreshStatus();
-
-            var timer = new Timer() 
-            {
-                Interval = 15000
-            };
-
-            timer.Tick += (s,ex)=>
-            {
-                CheckRefreshStatus();
-            };
-
-            timer.Start();
-
-            s_logger.Trace("Form_Load: OK");
-        }
 
         private static void CheckRefreshStatus()
         {
@@ -547,7 +498,6 @@ namespace Waveface
                 if (StationState != null)
                 {
                     StationState.AbortThread();
-                    statusStrip = null;
                 }
             }
             catch
@@ -615,28 +565,28 @@ namespace Waveface
 
         #region Windows Size
 
-        private void Main_SizeChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                panelLeftInfo.Width = leftArea.MyWidth;
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
-            }
-        }
+		//private void Main_SizeChanged(object sender, EventArgs e)
+		//{
+		//    try
+		//    {
+		//        panelLeftInfo.Width = leftArea.MyWidth;
+		//    }
+		//    catch (Exception _e)
+		//    {
+		//        NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
+		//    }
+		//}
 
         protected override bool ShowWithoutActivation // stops the window from stealing focus
         {
             get { return true; }
         }
 
-        private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
-        {
-            if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
-                e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
-        }
+		//private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
+		//{
+		//    if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
+		//        e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
+		//}
 
         protected override void WndProc(ref Message message)
         {
@@ -696,11 +646,6 @@ namespace Waveface
         public void UpdateNetworkStatus()
         {
             RT.REST.IsNetworkAvailable = true;
-
-            StatusLabelNetwork.Text = I18n.L.T("NetworkConnected");
-            StatusLabelNetwork.Image = Resources.network_receive;
-
-            StatusLabelServiceStatus.Visible = true;
         }
 
         public bool CheckNetworkStatus()
@@ -764,7 +709,6 @@ namespace Waveface
 
             if (Environment.GetCommandLineArgs().Length == 1)
             {
-                StationState.ShowStationState += StationState_ShowStationState;
                 StationState.Start();
             }
 
@@ -774,9 +718,9 @@ namespace Waveface
 
             Cursor = Cursors.Default;
 
-            //var rt = RT.LoadJSON();
+			//var rt = RT.LoadJSON();
 
-            //RT.CurrentGroupPosts = rt.CurrentGroupPosts;
+			//RT.CurrentGroupPosts = rt.CurrentGroupPosts;
 
             GetAllDataAsync();
 
@@ -795,7 +739,6 @@ namespace Waveface
             {
                 m_stationIP = "http://127.0.0.1:9981";
                 WService.StationIP = m_stationIP;
-                StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
                 RT.StationMode = true;
             }
 
@@ -812,7 +755,7 @@ namespace Waveface
 
                 IsPrimaryStation = isPrimaryStation(_dbServer, _login);
 
-                Debug.WriteLine("_login.session_token: " + _login.session_token);
+				Debug.WriteLine("_login.session_token: " + _login.session_token);
                 procLoginResponse(_login);
             }
             catch (Exception e)
@@ -852,7 +795,6 @@ namespace Waveface
             {
                 m_stationIP = "http://127.0.0.1:9981";
                 WService.StationIP = m_stationIP;
-                StationState_ShowStationState(ConnectServiceStateType.Station_LocalIP);
                 RT.StationMode = true;
             }
 
@@ -860,34 +802,6 @@ namespace Waveface
             return procLoginResponse(_login);
         }
 
-        private void StationState_ShowStationState(ConnectServiceStateType type)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new MethodInvoker(
-                           delegate { StationState_ShowStationState(type); }
-                           ));
-            }
-            else
-            {
-                switch (type)
-                {
-                    case ConnectServiceStateType.NetworkDisconnected:
-                    case ConnectServiceStateType.Cloud:
-                        StatusLabelServiceStatus.Image = Resources.Cloud;
-                        StatusLabelServiceStatus.Text = "Cloud";
-                        break;
-
-                    case ConnectServiceStateType.Station_LocalIP:
-                    case ConnectServiceStateType.Station_UPnP:
-                        StatusLabelServiceStatus.Image = Resources.Station;
-                        StatusLabelServiceStatus.Text = "Station";
-                        break;
-                }
-
-                s_logger.Trace("ConnectServiceStateType:" + type);
-            }
-        }
 
  
 
@@ -1088,23 +1002,23 @@ namespace Waveface
         }
 
         public void EditPost(Post post, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
-        {
-            try
-            {
-                m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
-                DialogResult _dr = m_PostForm.ShowDialog();
+		{
+			try
+			{
+				m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
+				DialogResult _dr = m_PostForm.ShowDialog();
 
-                if (_dr == DialogResult.OK)
-                {
-                    BatchPostManager.Add(m_PostForm.BatchPostItem);
+				if (_dr == DialogResult.OK)
+				{
+					BatchPostManager.Add(m_PostForm.BatchPostItem);
 
-                    if (m_PostForm.BatchPostItem.Post != null)
-                    {
-                        ShowPostInTimeline();
-                    }
-                }
-            }
-            catch (Exception _e)
+					if (m_PostForm.BatchPostItem.Post != null)
+					{
+						ShowPostInTimeline();
+					}
+				}
+			}
+			catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "Edit Post");
             }
@@ -1126,10 +1040,10 @@ namespace Waveface
                 m_PostForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
                 DialogResult _dr = m_PostForm.ShowDialog();
 
-                if (_dr == DialogResult.OK)
-                {
-                    BatchPostManager.Add(m_PostForm.BatchPostItem);
-                }
+				if (_dr == DialogResult.OK)
+				{
+					BatchPostManager.Add(m_PostForm.BatchPostItem);
+				}
             }
             catch (Exception _e)
             {
@@ -1604,24 +1518,24 @@ namespace Waveface
 
                     if (_usertracks.post_list.Count > 0)
                     {
-                        string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
+                    string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
 
-                        MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
-                        if (_postsGet != null)
+                    if (_postsGet != null)
+                    {
+                        bool _changed = false;
+
+                        foreach (Post _post in _postsGet.posts)
                         {
-                            bool _changed = false;
-
-                            foreach (Post _post in _postsGet.posts)
-                            {
-                                _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
-                            }
-
-                            if (_changed)
-                                ShowPostInTimeline();
+                            _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
                         }
+
+                        if (_changed)
+                            ShowPostInTimeline();
                     }
                 }
+            }
             }
             catch (VersionNotSupportedException)
             {
@@ -1670,13 +1584,9 @@ namespace Waveface
                 if (timeout)
                 {
                     timerShowStatuMessage.Enabled = true;
-
-                    StatusLabelPost.Text = message;
-                    //panelTitle.ShowStatusText(message);
                 }
                 else
                 {
-                    StatusLabelUpload.Text = message;
                 }
             }
         }
@@ -1684,9 +1594,6 @@ namespace Waveface
         private void timerShowStatuMessage_Tick(object sender, EventArgs e)
         {
             timerShowStatuMessage.Enabled = false;
-
-            StatusLabelPost.Text = "";
-            //panelTitle.ShowStatusText("");
         }
 
         public void ShowFileMissDialog(string text)
@@ -1805,13 +1712,13 @@ namespace Waveface
                     _post.Sources = dirtyPost.sources;
                 }
 
-                foreach (var oldPost in RT.CurrentGroupPosts)
-                {
-                    if (oldPost.post_id != _post.post_id)
-                        continue;
-                    _post.Sources = oldPost.Sources;
-                    break;
-                }
+				foreach (var oldPost in RT.CurrentGroupPosts)
+				{
+					if (oldPost.post_id != _post.post_id)
+						continue;
+					_post.Sources = oldPost.Sources;
+					break;
+				}
 
                 _tmpPosts.Add(_post);
             }
@@ -2009,5 +1916,53 @@ namespace Waveface
                     break;
             }
         }
+
+		private void Main_Shown(object sender, EventArgs e)
+		{
+			Application.DoEvents();
+
+			Init();
+
+			if (!string.IsNullOrEmpty(m_initSessionToken))
+				LoginWithInitSession();
+
+			postsArea.PostsList.DetailView = detailView;
+
+			if (Environment.GetCommandLineArgs().Length == 1)
+			{
+				NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+
+				UpdateNetworkStatus();
+			}
+
+			/*
+			InitDropableNotifyIcon();
+            
+			m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
+            
+			// Send To
+			CreateFileWatcher();
+			*/
+
+			CreateLoadingImage();
+
+			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+
+			AdjustAccountInfoButton();
+
+			CheckRefreshStatus();
+
+			var timer = new Timer()
+			{
+				Interval = 15000
+			};
+
+			timer.Tick += (s, ex) =>
+			{
+				CheckRefreshStatus();
+			};
+
+			timer.Start();
+		}
     }
 }

@@ -1138,7 +1138,7 @@
     <value>[User Name]</value>
   </data>
   <data name="checkBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 82</value>
+    <value>18, 82</value>
   </data>
   <data name="btnLogout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

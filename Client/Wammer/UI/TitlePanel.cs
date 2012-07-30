@@ -26,13 +26,16 @@ namespace Waveface
 		private ToolTip _toolTip;
 		private Timer _timer1;
 		private System.ComponentModel.IContainer components;
-
 		private Bitmap _bmpOffscreen;
 		#endregion
 
 
 
 		#region Private Property
+		/// <summary>
+		/// Gets or sets the m_ BMP offscreen.
+		/// </summary>
+		/// <value>The m_ BMP offscreen.</value>
 		private Bitmap m_BmpOffscreen
 		{
 			get
@@ -67,6 +70,10 @@ namespace Waveface
 			}
 		}
 
+		/// <summary>
+		/// Gets the m_ background brush.
+		/// </summary>
+		/// <value>The m_ background brush.</value>
 		private Brush m_BackgroundBrush
 		{
 			get
@@ -82,23 +89,22 @@ namespace Waveface
 		public event EventHandler AccountInfoClosed;
 		#endregion
 
+
 		#region Constructor
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TitlePanel"/> class.
+		/// </summary>
 		public TitlePanel()
 		{
 			InitializeComponent();
 
-			_toolTip.SetToolTip(this._btnRefresh, Resources.REFRESH_TOOL_TIP);
-			_toolTip.SetToolTip(this._btnRemovePost, Resources.REMOVE_TOOL_TIP);
-			_toolTip.SetToolTip(this._btnAccount, Resources.ACCOUNT_TOOL_TIP);
-			_toolTip.SetToolTip(this._btnSetting, Resources.SETTING_TOOL_TIP);
-
 			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 			SetStyle(ControlStyles.DoubleBuffer, true);
 			SetStyle(ControlStyles.UserPaint, true);
-
-			this.SizeChanged += new EventHandler(TitlePanel_SizeChanged);
 		}
 		#endregion
+
+
 
 
 		#region Windows Form Designer generated code
@@ -117,10 +123,10 @@ namespace Waveface
 			// 
 			// _btnRemovePost
 			// 
-			resources.ApplyResources(this._btnRemovePost, "_btnRemovePost");
 			this._btnRemovePost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this._btnRemovePost.CenterAlignImage = true;
 			this._btnRemovePost.Cursor = System.Windows.Forms.Cursors.Hand;
+			resources.ApplyResources(this._btnRemovePost, "_btnRemovePost");
 			this._btnRemovePost.Image = global::Waveface.Properties.Resources.FB_remove_post;
 			this._btnRemovePost.ImageDisable = global::Waveface.Properties.Resources.FB_remove_post;
 			this._btnRemovePost.ImageFront = null;
@@ -132,10 +138,10 @@ namespace Waveface
 			// 
 			// _btnSetting
 			// 
-			resources.ApplyResources(this._btnSetting, "_btnSetting");
 			this._btnSetting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this._btnSetting.CenterAlignImage = true;
 			this._btnSetting.Cursor = System.Windows.Forms.Cursors.Hand;
+			resources.ApplyResources(this._btnSetting, "_btnSetting");
 			this._btnSetting.Image = global::Waveface.Properties.Resources.FBT_setting;
 			this._btnSetting.ImageDisable = global::Waveface.Properties.Resources.FBT_setting;
 			this._btnSetting.ImageFront = null;
@@ -147,10 +153,10 @@ namespace Waveface
 			// 
 			// _btnAccount
 			// 
-			resources.ApplyResources(this._btnAccount, "_btnAccount");
 			this._btnAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this._btnAccount.CenterAlignImage = true;
 			this._btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
+			resources.ApplyResources(this._btnAccount, "_btnAccount");
 			this._btnAccount.Image = global::Waveface.Properties.Resources.FBT_account;
 			this._btnAccount.ImageDisable = global::Waveface.Properties.Resources.FBT_account;
 			this._btnAccount.ImageFront = null;
@@ -162,9 +168,9 @@ namespace Waveface
 			// 
 			// _btnRefresh
 			// 
-			resources.ApplyResources(this._btnRefresh, "_btnRefresh");
 			this._btnRefresh.CenterAlignImage = true;
 			this._btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+			resources.ApplyResources(this._btnRefresh, "_btnRefresh");
 			this._btnRefresh.Image = global::Waveface.Properties.Resources.FBT_refresh;
 			this._btnRefresh.ImageDisable = global::Waveface.Properties.Resources.FBT_refresh;
 			this._btnRefresh.ImageFront = null;
@@ -181,29 +187,27 @@ namespace Waveface
 			// 
 			// TitlePanel
 			// 
-			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(93)))), ((int)(((byte)(161)))), ((int)(((byte)(185)))));
 			this.Controls.Add(this._btnRemovePost);
 			this.Controls.Add(this._btnSetting);
 			this.Controls.Add(this._btnAccount);
 			this.Controls.Add(this._btnRefresh);
+			resources.ApplyResources(this, "$this");
 			this.Name = "TitlePanel";
+			this.Load += new System.EventHandler(this.TitlePanel_Load);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
+
+
 		#region Protected Method
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			if (!DesignMode)
-			{
-				e.Graphics.DrawImage(m_BmpOffscreen, 0, 0);
-			}
-
-			base.OnPaint(e);
+			e.Graphics.DrawImage(m_BmpOffscreen, 0, 0);
 		}
 
 		protected void OnAccountInfoClosed(EventArgs e)
@@ -253,6 +257,33 @@ namespace Waveface
 		#endregion
 
 
+
+		#region Public Method
+		public void StartRefreshing()
+		{
+			_timer1.Start();
+		}
+
+		public void StopRefreshing()
+		{
+			_timer1.Stop();
+			_btnRefresh.Image = Resources.FBT_refresh;
+			_btnRefresh.ImageHover = Resources.refresh_hl;
+		}
+		#endregion
+
+
+		#region Event Process
+		private void TitlePanel_Load(object sender, EventArgs e)
+		{
+			_toolTip.SetToolTip(this._btnRefresh, Resources.REFRESH_TOOL_TIP);
+			_toolTip.SetToolTip(this._btnRemovePost, Resources.REMOVE_TOOL_TIP);
+			_toolTip.SetToolTip(this._btnAccount, Resources.ACCOUNT_TOOL_TIP);
+			_toolTip.SetToolTip(this._btnSetting, Resources.SETTING_TOOL_TIP);
+			this.SizeChanged += new EventHandler(TitlePanel_SizeChanged);
+		}
+
+
 		private void btnAccount_Click(object sender, System.EventArgs e)
 		{
 			using (var _form = new AccountInfoForm())
@@ -274,22 +305,6 @@ namespace Waveface
 		}
 
 
-		#region Public Method
-		public void StartRefreshing()
-		{
-			_timer1.Start();
-		}
-
-		public void StopRefreshing()
-		{
-			_timer1.Stop();
-			_btnRefresh.Image = Resources.FBT_refresh;
-			_btnRefresh.ImageHover = Resources.refresh_hl;
-		}
-		#endregion
-
-
-		#region Event Process
 		void TitlePanel_SizeChanged(object sender, EventArgs e)
 		{
 			m_BmpOffscreen = null;

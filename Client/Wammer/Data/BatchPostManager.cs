@@ -110,7 +110,7 @@ namespace Waveface
                 BatchPostItem _postItem;
                 bool _editMode = false;
 
-                if (!Main.Current.RT.REST.IsNetworkAvailable)
+                if (Main.Current != null && !Main.Current.RT.REST.IsNetworkAvailable)
                 {
                     UpdateUI(0, "");
 
