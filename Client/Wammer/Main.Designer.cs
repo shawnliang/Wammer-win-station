@@ -276,7 +276,7 @@ namespace Waveface
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Activated += new System.EventHandler(this.Main_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-			this.Load += new System.EventHandler(this.Form_Load);
+			this.Shown += new System.EventHandler(this.Main_Shown);
 			this.SizeChanged += new System.EventHandler(this.Main_SizeChanged);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form_DragDrop);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form_DragEnter);

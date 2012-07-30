@@ -189,14 +189,13 @@ namespace Waveface
 
         public Main()
         {
-            Init();
+			InitializeComponent();
         }
 
         public Main(string initSessionToken)
         {
-            Init();
+			InitializeComponent();
 
-			Debug.WriteLine("initSessionToken: " + initSessionToken);
             m_initSessionToken = initSessionToken;
         }
 
@@ -207,8 +206,6 @@ namespace Waveface
             Current = this;
 
             File.Delete(m_shellContentMenuFilePath);
-
-            InitializeComponent();
 
             HttpHelp.EnableUnsafeHeaderParsing();
 
@@ -230,59 +227,11 @@ namespace Waveface
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
             m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
-
-            s_logger.Trace("Constructor: OK");
         }
 
 
 
         #region Init
-
-        private void Form_Load(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(m_initSessionToken))
-                LoginWithInitSession();
-
-            postsArea.PostsList.DetailView = detailView;
-
-            if (Environment.GetCommandLineArgs().Length == 1)
-            {
-                NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
-
-                UpdateNetworkStatus();
-            }
-
-            /*
-            InitDropableNotifyIcon();
-            
-            m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
-            
-            // Send To
-            CreateFileWatcher();
-            */
-
-            CreateLoadingImage();
-
-            panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
-
-            AdjustAccountInfoButton();
-
-            CheckRefreshStatus();
-
-            var timer = new Timer() 
-            {
-                Interval = 15000
-            };
-
-            timer.Tick += (s,ex)=>
-            {
-                CheckRefreshStatus();
-            };
-
-            timer.Start();
-
-            s_logger.Trace("Form_Load: OK");
-        }
 
         private static void CheckRefreshStatus()
         {
@@ -2013,5 +1962,53 @@ namespace Waveface
                     break;
             }
         }
+
+		private void Main_Shown(object sender, EventArgs e)
+		{
+			Application.DoEvents();
+
+			Init();
+
+			if (!string.IsNullOrEmpty(m_initSessionToken))
+				LoginWithInitSession();
+
+			postsArea.PostsList.DetailView = detailView;
+
+			if (Environment.GetCommandLineArgs().Length == 1)
+			{
+				NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+
+				UpdateNetworkStatus();
+			}
+
+			/*
+			InitDropableNotifyIcon();
+            
+			m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
+            
+			// Send To
+			CreateFileWatcher();
+			*/
+
+			CreateLoadingImage();
+
+			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+
+			AdjustAccountInfoButton();
+
+			CheckRefreshStatus();
+
+			var timer = new Timer()
+			{
+				Interval = 15000
+			};
+
+			timer.Tick += (s, ex) =>
+			{
+				CheckRefreshStatus();
+			};
+
+			timer.Start();
+		}
     }
 }

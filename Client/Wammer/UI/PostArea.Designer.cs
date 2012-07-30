@@ -19,10 +19,10 @@ namespace Waveface
             {
                 components.Dispose();
 
-				if (m_font != null)
+				if (_font != null)
 				{
-					m_font.Dispose();
-					m_font = null;
+					_font.Dispose();
+					_font = null;
 				}
             }
             base.Dispose(disposing);
@@ -36,57 +36,47 @@ namespace Waveface
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
-            this.panelTimeBar = new System.Windows.Forms.Panel();
-            this.panelMain = new System.Windows.Forms.Panel();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-            this.postList = new Waveface.PostsList();
-            this.panelMain.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // panelTimeBar
-            // 
-            resources.ApplyResources(this.panelTimeBar, "panelTimeBar");
-            this.panelTimeBar.Name = "panelTimeBar";
-            this.panelTimeBar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTimeBar_Paint);
-            // 
-            // panelMain
-            // 
-            this.panelMain.Controls.Add(this.postList);
-            this.panelMain.Controls.Add(this.panelTimeBar);
-            resources.ApplyResources(this.panelMain, "panelMain");
-            this.panelMain.Name = "panelMain";
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
-            // postList
-            // 
-            this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            this.postList.DetailView = null;
-            resources.ApplyResources(this.postList, "postList");
-            this.postList.MyParent = null;
-            this.postList.Name = "postList";
-            // 
-            // PostArea
-            // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panelMain);
-            resources.ApplyResources(this, "$this");
-            this.MinimumSize = new System.Drawing.Size(336, 2);
-            this.Name = "PostArea";
-            this.panelMain.ResumeLayout(false);
-            this.ResumeLayout(false);
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
+			this.panelTimeBar = new System.Windows.Forms.Panel();
+			this.postList = new Waveface.PostsList();
+			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+			this.SuspendLayout();
+			// 
+			// panelTimeBar
+			// 
+			resources.ApplyResources(this.panelTimeBar, "panelTimeBar");
+			this.panelTimeBar.Name = "panelTimeBar";
+			this.panelTimeBar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTimeBar_Paint);
+			// 
+			// postList
+			// 
+			this.postList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+			this.postList.DetailView = null;
+			resources.ApplyResources(this.postList, "postList");
+			this.postList.MyParent = null;
+			this.postList.Name = "postList";
+			// 
+			// cultureManager
+			// 
+			this.cultureManager.ManagedControl = this;
+			// 
+			// PostArea
+			// 
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+			this.BackColor = System.Drawing.Color.White;
+			this.Controls.Add(this.postList);
+			this.Controls.Add(this.panelTimeBar);
+			resources.ApplyResources(this, "$this");
+			this.MinimumSize = new System.Drawing.Size(336, 2);
+			this.Name = "PostArea";
+			this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private PostsList postList;
-        private System.Windows.Forms.Panel panelMain;
+		private PostsList postList;
         private Localization.CultureManager cultureManager;
         private System.Windows.Forms.Panel panelTimeBar;
     }
