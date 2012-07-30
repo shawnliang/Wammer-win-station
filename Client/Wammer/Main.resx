@@ -135,7 +135,7 @@
     <value>Tahoma, 9pt</value>
   </data>
   <data name="postsArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>167, 58</value>
   </data>
   <data name="postsArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -157,36 +157,9 @@
     <value>Waveface.PostArea, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;postsArea.Parent" xml:space="preserve">
-    <value>panelPost</value>
-  </data>
-  <data name="&gt;&gt;postsArea.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelPost.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 58</value>
-  </data>
-  <data name="panelPost.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="panelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>345, 457</value>
-  </data>
-  <data name="panelPost.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;panelPost.Name" xml:space="preserve">
-    <value>panelPost</value>
-  </data>
-  <data name="&gt;&gt;panelPost.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelPost.Parent" xml:space="preserve">
     <value>panelLeft</value>
   </data>
-  <data name="&gt;&gt;panelPost.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;postsArea.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="splitterLeft.Enabled" type="System.Boolean, mscorlib">
@@ -220,13 +193,13 @@
     <value>1</value>
   </data>
   <data name="leftArea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+    <value>Left</value>
   </data>
   <data name="leftArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
   </data>
   <data name="leftArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 58</value>
   </data>
   <data name="leftArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -244,36 +217,9 @@
     <value>Waveface.LeftArea, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;leftArea.Parent" xml:space="preserve">
-    <value>panelLeftInfo</value>
-  </data>
-  <data name="&gt;&gt;leftArea.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelLeftInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="panelLeftInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 58</value>
-  </data>
-  <data name="panelLeftInfo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="panelLeftInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 457</value>
-  </data>
-  <data name="panelLeftInfo.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;panelLeftInfo.Name" xml:space="preserve">
-    <value>panelLeftInfo</value>
-  </data>
-  <data name="&gt;&gt;panelLeftInfo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelLeftInfo.Parent" xml:space="preserve">
     <value>panelLeft</value>
   </data>
-  <data name="&gt;&gt;panelLeftInfo.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;leftArea.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="panelTitle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">

@@ -190,11 +190,15 @@ namespace Waveface
         public Main()
         {
 			InitializeComponent();
+
+			Current = this;
         }
 
         public Main(string initSessionToken)
         {
 			InitializeComponent();
+
+			Current = this;
 
             m_initSessionToken = initSessionToken;
         }
@@ -202,8 +206,6 @@ namespace Waveface
         private void Init()
         {
             QuitOption = QuitOption.QuitProgram;
-
-            Current = this;
 
             File.Delete(m_shellContentMenuFilePath);
 
@@ -564,28 +566,28 @@ namespace Waveface
 
         #region Windows Size
 
-        private void Main_SizeChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                panelLeftInfo.Width = leftArea.MyWidth;
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
-            }
-        }
+		//private void Main_SizeChanged(object sender, EventArgs e)
+		//{
+		//    try
+		//    {
+		//        panelLeftInfo.Width = leftArea.MyWidth;
+		//    }
+		//    catch (Exception _e)
+		//    {
+		//        NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
+		//    }
+		//}
 
         protected override bool ShowWithoutActivation // stops the window from stealing focus
         {
             get { return true; }
         }
 
-        private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
-        {
-            if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
-                e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
-        }
+		//private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
+		//{
+		//    if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
+		//        e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
+		//}
 
         protected override void WndProc(ref Message message)
         {

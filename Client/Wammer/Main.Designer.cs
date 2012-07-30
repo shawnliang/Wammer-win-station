@@ -38,10 +38,8 @@ namespace Waveface
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
 			this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
 			this.panelLeft = new System.Windows.Forms.Panel();
-			this.panelPost = new System.Windows.Forms.Panel();
 			this.postsArea = new Waveface.PostArea();
 			this.splitterLeft = new System.Windows.Forms.Splitter();
-			this.panelLeftInfo = new System.Windows.Forms.Panel();
 			this.leftArea = new Waveface.LeftArea();
 			this.panelTitle = new Waveface.TitlePanel();
 			this.panelMain = new System.Windows.Forms.Panel();
@@ -65,8 +63,6 @@ namespace Waveface
 			this.backgroundWorkerPreloadAllImages = new System.ComponentModel.BackgroundWorker();
 			this.timerPolling = new System.Windows.Forms.Timer(this.components);
 			this.panelLeft.SuspendLayout();
-			this.panelPost.SuspendLayout();
-			this.panelLeftInfo.SuspendLayout();
 			this.panelMain.SuspendLayout();
 			this.mnuTray.SuspendLayout();
 			this.statusStrip.SuspendLayout();
@@ -78,18 +74,12 @@ namespace Waveface
 			// 
 			// panelLeft
 			// 
-			this.panelLeft.Controls.Add(this.panelPost);
+			this.panelLeft.Controls.Add(this.postsArea);
 			this.panelLeft.Controls.Add(this.splitterLeft);
-			this.panelLeft.Controls.Add(this.panelLeftInfo);
+			this.panelLeft.Controls.Add(this.leftArea);
 			this.panelLeft.Controls.Add(this.panelTitle);
 			resources.ApplyResources(this.panelLeft, "panelLeft");
 			this.panelLeft.Name = "panelLeft";
-			// 
-			// panelPost
-			// 
-			this.panelPost.Controls.Add(this.postsArea);
-			resources.ApplyResources(this.panelPost, "panelPost");
-			this.panelPost.Name = "panelPost";
 			// 
 			// postsArea
 			// 
@@ -104,12 +94,6 @@ namespace Waveface
 			resources.ApplyResources(this.splitterLeft, "splitterLeft");
 			this.splitterLeft.Name = "splitterLeft";
 			this.splitterLeft.TabStop = false;
-			// 
-			// panelLeftInfo
-			// 
-			this.panelLeftInfo.Controls.Add(this.leftArea);
-			resources.ApplyResources(this.panelLeftInfo, "panelLeftInfo");
-			this.panelLeftInfo.Name = "panelLeftInfo";
 			// 
 			// leftArea
 			// 
@@ -190,7 +174,6 @@ namespace Waveface
 			resources.ApplyResources(this.splitterRight, "splitterRight");
 			this.splitterRight.Name = "splitterRight";
 			this.splitterRight.TabStop = false;
-			this.splitterRight.SplitterMoving += new System.Windows.Forms.SplitterEventHandler(this.splitterRight_SplitterMoving);
 			// 
 			// bgWorkerGetAllData
 			// 
@@ -277,14 +260,11 @@ namespace Waveface
 			this.Activated += new System.EventHandler(this.Main_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Shown += new System.EventHandler(this.Main_Shown);
-			this.SizeChanged += new System.EventHandler(this.Main_SizeChanged);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form_DragDrop);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form_DragEnter);
 			this.DragOver += new System.Windows.Forms.DragEventHandler(this.Form_DragOver);
 			this.DragLeave += new System.EventHandler(this.Form_DragLeave);
 			this.panelLeft.ResumeLayout(false);
-			this.panelPost.ResumeLayout(false);
-			this.panelLeftInfo.ResumeLayout(false);
 			this.panelMain.ResumeLayout(false);
 			this.mnuTray.ResumeLayout(false);
 			this.statusStrip.ResumeLayout(false);
@@ -299,9 +279,7 @@ namespace Waveface
         private System.Windows.Forms.Panel panelLeft;
         private System.Windows.Forms.Splitter splitterLeft;
         private System.Windows.Forms.Splitter splitterRight;
-        private System.Windows.Forms.Panel panelMain;
-        private System.Windows.Forms.Panel panelPost;
-        private System.Windows.Forms.Panel panelLeftInfo;
+		private System.Windows.Forms.Panel panelMain;
         private PostArea postsArea;
         private System.Windows.Forms.ContextMenuStrip mnuTray;
         private System.Windows.Forms.ToolStripMenuItem screenShotMenu;
