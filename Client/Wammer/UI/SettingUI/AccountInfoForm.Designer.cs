@@ -125,6 +125,7 @@
 			this.errorProvider1.SetIconAlignment(this.label4, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label4.IconAlignment"))));
 			this.errorProvider1.SetIconPadding(this.label4, ((int)(resources.GetObject("label4.IconPadding"))));
 			this.label4.Name = "label4";
+			this.label4.Click += new System.EventHandler(this.label4_Click);
 			// 
 			// lblEmail
 			// 

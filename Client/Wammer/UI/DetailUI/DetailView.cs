@@ -193,6 +193,7 @@ namespace Waveface
 			this.panelTop.Controls.Add(this.btnFavorite);
 			this.panelTop.Controls.Add(this.btnEdit);
 			this.panelTop.Controls.Add(this.labelTitle);
+			this.panelTop.Controls.Add(this.btnAddFootNote);
 			resources.ApplyResources(this.panelTop, "panelTop");
 			this.panelTop.Name = "panelTop";
 			// 
@@ -219,7 +220,6 @@ namespace Waveface
 			// DetailView
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.Controls.Add(this.btnAddFootNote);
 			this.Controls.Add(this.panelMain);
 			this.Controls.Add(this.panelTop);
 			resources.ApplyResources(this, "$this");

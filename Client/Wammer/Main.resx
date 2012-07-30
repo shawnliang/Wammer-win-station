@@ -135,7 +135,7 @@
     <value>Tahoma, 9pt</value>
   </data>
   <data name="postsArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>165, 65</value>
   </data>
   <data name="postsArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -144,7 +144,7 @@
     <value>308, 2</value>
   </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>345, 457</value>
+    <value>347, 450</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="postsArea.TabIndex" type="System.Int32, mscorlib">
@@ -157,82 +157,25 @@
     <value>Waveface.PostArea, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;postsArea.Parent" xml:space="preserve">
-    <value>panelPost</value>
+    <value>panelLeft</value>
   </data>
   <data name="&gt;&gt;postsArea.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="panelPost.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 58</value>
-  </data>
-  <data name="panelPost.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="panelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>345, 457</value>
-  </data>
-  <data name="panelPost.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;panelPost.Name" xml:space="preserve">
-    <value>panelPost</value>
-  </data>
-  <data name="&gt;&gt;panelPost.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelPost.Parent" xml:space="preserve">
-    <value>panelLeft</value>
-  </data>
-  <data name="&gt;&gt;panelPost.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="splitterLeft.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="splitterLeft.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="splitterLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>165, 58</value>
-  </data>
-  <data name="splitterLeft.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="splitterLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 457</value>
-  </data>
-  <data name="splitterLeft.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;splitterLeft.Name" xml:space="preserve">
-    <value>splitterLeft</value>
-  </data>
-  <data name="&gt;&gt;splitterLeft.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitterLeft.Parent" xml:space="preserve">
-    <value>panelLeft</value>
-  </data>
-  <data name="&gt;&gt;splitterLeft.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="leftArea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+    <value>Left</value>
   </data>
   <data name="leftArea.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
   </data>
   <data name="leftArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 65</value>
   </data>
   <data name="leftArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="leftArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 457</value>
+    <value>165, 450</value>
   </data>
   <data name="leftArea.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -244,37 +187,10 @@
     <value>Waveface.LeftArea, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;leftArea.Parent" xml:space="preserve">
-    <value>panelLeftInfo</value>
-  </data>
-  <data name="&gt;&gt;leftArea.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelLeftInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="panelLeftInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 58</value>
-  </data>
-  <data name="panelLeftInfo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="panelLeftInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 457</value>
-  </data>
-  <data name="panelLeftInfo.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;panelLeftInfo.Name" xml:space="preserve">
-    <value>panelLeftInfo</value>
-  </data>
-  <data name="&gt;&gt;panelLeftInfo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelLeftInfo.Parent" xml:space="preserve">
     <value>panelLeft</value>
   </data>
-  <data name="&gt;&gt;panelLeftInfo.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;leftArea.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="panelTitle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -286,7 +202,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="panelTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>512, 58</value>
+    <value>512, 65</value>
   </data>
   <data name="panelTitle.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -301,7 +217,58 @@
     <value>panelLeft</value>
   </data>
   <data name="&gt;&gt;panelTitle.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
+  </data>
+  <data name="detailView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="detailView.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="detailView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>512, 0</value>
+  </data>
+  <data name="detailView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>406, 515</value>
+  </data>
+  <data name="detailView.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;detailView.Name" xml:space="preserve">
+    <value>detailView</value>
+  </data>
+  <data name="&gt;&gt;detailView.Type" xml:space="preserve">
+    <value>Waveface.DetailView, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;detailView.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;detailView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="timerDelayPost.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>571, 17</value>
+  </metadata>
+  <metadata name="bgWorkerGetAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>182, 17</value>
+  </metadata>
+  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1100, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>52</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>96, 96</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>918, 515</value>
   </data>
   <data name="panelLeft.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Left</value>
@@ -328,226 +295,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelLeft.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="detailView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="detailView.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
-  </data>
-  <data name="detailView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="detailView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
-  </data>
-  <data name="detailView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>404, 515</value>
-  </data>
-  <data name="detailView.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;detailView.Name" xml:space="preserve">
-    <value>detailView</value>
-  </data>
-  <data name="&gt;&gt;detailView.Type" xml:space="preserve">
-    <value>Waveface.DetailView, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;detailView.Parent" xml:space="preserve">
-    <value>panelMain</value>
-  </data>
-  <data name="&gt;&gt;detailView.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 0</value>
-  </data>
-  <data name="panelMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>404, 515</value>
-  </data>
-  <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
-    <value>panelMain</value>
-  </data>
-  <data name="&gt;&gt;panelMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelMain.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <metadata name="mnuTray.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>468, 17</value>
-  </metadata>
-  <data name="regionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
-  </data>
-  <data name="regionMenuItem.Text" xml:space="preserve">
-    <value>Region</value>
-  </data>
-  <data name="windowsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
-  </data>
-  <data name="windowsMenuItem.Text" xml:space="preserve">
-    <value>Windows</value>
-  </data>
-  <data name="screenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 22</value>
-  </data>
-  <data name="screenMenuItem.Text" xml:space="preserve">
-    <value>Desktop</value>
-  </data>
-  <data name="screenShotMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
-  </data>
-  <data name="screenShotMenu.Text" xml:space="preserve">
-    <value>Screen Shot</value>
-  </data>
-  <data name="screenShotMenu.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="logoutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 22</value>
-  </data>
-  <data name="logoutMenuItem.Text" xml:space="preserve">
-    <value>Quit</value>
-  </data>
-  <data name="mnuTray.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 48</value>
-  </data>
-  <data name="&gt;&gt;mnuTray.Name" xml:space="preserve">
-    <value>mnuTray</value>
-  </data>
-  <data name="&gt;&gt;mnuTray.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <metadata name="timerDelayPost.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>571, 17</value>
-  </metadata>
-  <data name="splitterRight.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="splitterRight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="splitterRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>512, 0</value>
-  </data>
-  <data name="splitterRight.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="splitterRight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 515</value>
-  </data>
-  <data name="splitterRight.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="splitterRight.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;splitterRight.Name" xml:space="preserve">
-    <value>splitterRight</value>
-  </data>
-  <data name="&gt;&gt;splitterRight.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitterRight.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;splitterRight.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <metadata name="bgWorkerGetAllData.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>182, 17</value>
-  </metadata>
-  <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1100, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>52</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>918, 515</value>
-  </data>
-  <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>355, 17</value>
-  </metadata>
-  <data name="statusStrip.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="statusStrip.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="StatusLabelPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 17</value>
-  </data>
-  <data name="StatusLabelPost.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="StatusLabelUpload.Size" type="System.Drawing.Size, System.Drawing">
-    <value>861, 17</value>
-  </data>
-  <data name="StatusLabelUpload.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="StatusLabelServiceStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 17</value>
-  </data>
-  <data name="StatusLabelServiceStatus.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="StatusLabelNetwork.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 17</value>
-  </data>
-  <data name="StatusLabelNetwork.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 494</value>
-  </data>
-  <data name="statusStrip.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>1, 0, 13, 0</value>
-  </data>
-  <data name="statusStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>907, 22</value>
-  </data>
-  <data name="statusStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="statusStrip.Text" xml:space="preserve">
-    <value>statusStrip</value>
-  </data>
-  <data name="statusStrip.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.Name" xml:space="preserve">
-    <value>statusStrip</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;statusStrip.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
@@ -939,36 +687,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Waveface</value>
   </data>
-  <data name="&gt;&gt;screenShotMenu.Name" xml:space="preserve">
-    <value>screenShotMenu</value>
-  </data>
-  <data name="&gt;&gt;screenShotMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;regionMenuItem.Name" xml:space="preserve">
-    <value>regionMenuItem</value>
-  </data>
-  <data name="&gt;&gt;regionMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;windowsMenuItem.Name" xml:space="preserve">
-    <value>windowsMenuItem</value>
-  </data>
-  <data name="&gt;&gt;windowsMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;screenMenuItem.Name" xml:space="preserve">
-    <value>screenMenuItem</value>
-  </data>
-  <data name="&gt;&gt;screenMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;logoutMenuItem.Name" xml:space="preserve">
-    <value>logoutMenuItem</value>
-  </data>
-  <data name="&gt;&gt;logoutMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;timerDelayPost.Name" xml:space="preserve">
     <value>timerDelayPost</value>
   </data>
@@ -986,30 +704,6 @@
   </data>
   <data name="&gt;&gt;cultureManager.Type" xml:space="preserve">
     <value>Waveface.Localization.CultureManager, CommonLibs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelPost.Name" xml:space="preserve">
-    <value>StatusLabelPost</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelPost.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelUpload.Name" xml:space="preserve">
-    <value>StatusLabelUpload</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelUpload.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelServiceStatus.Name" xml:space="preserve">
-    <value>StatusLabelServiceStatus</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelServiceStatus.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelNetwork.Name" xml:space="preserve">
-    <value>StatusLabelNetwork</value>
-  </data>
-  <data name="&gt;&gt;StatusLabelNetwork.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;timerShowStatuMessage.Name" xml:space="preserve">
     <value>timerShowStatuMessage</value>
