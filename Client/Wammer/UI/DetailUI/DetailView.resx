@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <metadata name="cultureManager.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 17</value>
@@ -156,39 +156,6 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>41</value>
   </metadata>
-  <data name="btnAddFootNote.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnAddFootNote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>478, 34</value>
-  </data>
-  <data name="btnAddFootNote.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="btnAddFootNote.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>388, 10</value>
-  </metadata>
-  <data name="btnAddFootNote.ToolTip" xml:space="preserve">
-    <value>Add Note</value>
-  </data>
-  <data name="btnAddFootNote.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;btnAddFootNote.Name" xml:space="preserve">
-    <value>btnAddFootNote</value>
-  </data>
-  <data name="&gt;&gt;btnAddFootNote.Type" xml:space="preserve">
-    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnAddFootNote.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnAddFootNote.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="btnFunction1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -240,6 +207,9 @@
   <data name="btnFavorite.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>388, 10</value>
+  </metadata>
   <data name="btnFavorite.ToolTip" xml:space="preserve">
     <value>Set Favorite / Unfavorite</value>
   </data>
@@ -363,6 +333,36 @@
   <data name="&gt;&gt;labelTitle.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="btnAddFootNote.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnAddFootNote.Location" type="System.Drawing.Point, System.Drawing">
+    <value>478, 34</value>
+  </data>
+  <data name="btnAddFootNote.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="btnAddFootNote.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="btnAddFootNote.ToolTip" xml:space="preserve">
+    <value>Add Note</value>
+  </data>
+  <data name="btnAddFootNote.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnAddFootNote.Name" xml:space="preserve">
+    <value>btnAddFootNote</value>
+  </data>
+  <data name="&gt;&gt;btnAddFootNote.Type" xml:space="preserve">
+    <value>Waveface.Component.ImageButton, WavefaceWindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;btnAddFootNote.Parent" xml:space="preserve">
+    <value>panelTop</value>
+  </data>
+  <data name="&gt;&gt;btnAddFootNote.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="panelTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
@@ -388,7 +388,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelTop.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Tahoma, 9pt</value>
