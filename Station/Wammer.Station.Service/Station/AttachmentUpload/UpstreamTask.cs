@@ -35,9 +35,11 @@ namespace Wammer.Station.AttachmentUpload
 			{
 				Attachment attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
 				if (attachment == null)
-				{
 					return;
-				}
+
+				if (meta == ImageMeta.Medium && attachment.body_on_cloud)
+					return;	// Body is already uploaded to cloud. No need to upload medium again.
+							// This happens only on secondary station..
 
 				Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
 				if (user == null)
@@ -63,6 +65,11 @@ namespace Wammer.Station.AttachmentUpload
 									  user.session_token, 65535, UpstreamProgressChanged);
 
 					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
+				}
+
+				if (meta == ImageMeta.Origin)
+				{
+					AttachmentCollection.Instance.Update(Query.EQ("_id", object_id), Update.Set("body_on_cloud", true));
 				}
 			}
 			catch (WammerCloudException e)
