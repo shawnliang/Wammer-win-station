@@ -181,43 +181,45 @@ namespace Waveface
             // Test: 
             // posts = posts.GetRange(0, DateTime.Now.Second % 5);
 
-            dataGridView.SuspendLayout();
+			try
+			{
+				dataGridView.SuspendLayout();
+				GetFirstDisplayed(posts);
 
-            try
-            {
-                GetFirstDisplayed(posts);
+				m_firstPostInADay = firstPostInADay;
+				m_posts = posts;
+				m_postBS.DataSource = posts;
 
-                m_firstPostInADay = firstPostInADay;
-                m_posts = posts;
-                m_postBS.DataSource = posts;
+				try
+				{
+					dataGridView.DataSource = null;
+					dataGridView.DataSource = m_postBS;
+				}
+				catch
+				{
+				}
 
-                try
-                {
-                    dataGridView.DataSource = null;
-                    dataGridView.DataSource = m_postBS;
-                }
-                catch
-                {
-                }
+				SetDateText();
 
-                SetDateText();
+				if (m_posts.Count == 0)
+				{
+					m_detailView.ResetUI();
+				}
+				else
+				{
+					SetFirstDisplayed(posts);
 
-                if (m_posts.Count == 0)
-                {
-                    m_detailView.ResetUI();
-                }
-                else
-                {
-                    SetFirstDisplayed(posts);
-
-                    NotifyDetailView();
-                }
-            }
-            catch (Exception _e)
-            {
-            }
-
-            dataGridView.ResumeLayout();
+					NotifyDetailView();
+				}
+			}
+			catch (Exception _e)
+			{
+			}
+			finally
+			{
+				dataGridView.ResumeLayout();
+ 
+			}
         }
 
         private bool IsSamePostContent(Post p1, Post p2)
@@ -1156,40 +1158,48 @@ namespace Waveface
 
         private void ResizeCell()
         {
-            int _s = dataGridView.FirstDisplayedScrollingRowIndex;
-            int _k = 0;
-            int _cn = (dataGridView.Height / m_cellHeight);
+			try
+			{
+				SuspendLayout();
+				int _s = dataGridView.FirstDisplayedScrollingRowIndex;
+				int _k = 0;
+				int _cn = (dataGridView.Height / m_cellHeight);
 
-            for (int i = _s; (i < m_posts.Count) && (_k < _cn); i++)
-            {
-				var post = m_posts[i];
+				for (int i = _s; (i < m_posts.Count) && (_k < _cn); i++)
+				{
+					var post = m_posts[i];
 
-				bool _isLinkPost = post.type == "link";
+					bool _isLinkPost = post.type == "link";
 
-				var row = dataGridView.Rows[i];
-				if (m_firstPostInADay.ContainsValue(post.post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
-                {
-					row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
-                }
-                else
-                {
-					row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
-                }
+					var row = dataGridView.Rows[i];
+					if (m_firstPostInADay.ContainsValue(post.post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
+					{
+						row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
+					}
+					else
+					{
+						row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
+					}
 
-                if (_isLinkPost)
-                {
-					if (!string.IsNullOrEmpty(post.content))
-                    {
-						row.Height += m_fontText.Height;
-                    }
-                    else
-                    {
-						row.Height -= m_fontText.Height;
-                    }
-                }
+					if (_isLinkPost)
+					{
+						if (!string.IsNullOrEmpty(post.content))
+						{
+							row.Height += m_fontText.Height;
+						}
+						else
+						{
+							row.Height -= m_fontText.Height;
+						}
+					}
 
-                _k++;
-            }
+					_k++;
+				}
+			}
+			finally
+			{
+				ResumeLayout();
+			}
         }
 
         #region Drag & Drop

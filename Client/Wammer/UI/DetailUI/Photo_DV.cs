@@ -404,8 +404,7 @@ namespace Waveface.DetailUI
 
             InitImageListViewLoadingImage();
 
-            if (!FillImageListView(true))
-                timer.Enabled = true;
+			FillImageListView(true);
         }
 
         private void InitImageListViewLoadingImage()
@@ -483,13 +482,11 @@ namespace Waveface.DetailUI
             {
                 Main.Current.RefreshTimelineUI();
 
-                timer.Enabled = false;
-
-                ShowImageListView(firstTime);
+                timer.Enabled = !ShowImageListView(firstTime);
                 return true;
             }
 
-			ShowImageListView(firstTime);
+			timer.Enabled = !ShowImageListView(firstTime);
             return false;
         }
 
@@ -498,6 +495,8 @@ namespace Waveface.DetailUI
 			DebugInfo.ShowMethod();
 
             int k = 0;
+
+			Boolean canEdit = true;
 
             imageListView.SuspendLayout();
 
@@ -524,7 +523,8 @@ namespace Waveface.DetailUI
 					if (File.Exists(origFilePath))
 					{
 						imageListView.Items[i].FileName = origFilePath;
-						//k++;
+						k++;
+						canEdit = false;
 						continue;
 					}
 
@@ -534,7 +534,8 @@ namespace Waveface.DetailUI
                         if (File.Exists(sourcePath))
                         {
                             imageListView.Items[i].FileName = sourcePath;
-							//k++;
+							k++;
+							canEdit = false;
                             continue;
                         }
                     }
@@ -552,7 +553,7 @@ namespace Waveface.DetailUI
 
             panelPictureInfo.Visible = !_flag;
 
-			if (_flag)
+			if (canEdit)
 			{
 				m_canEdit = true;
 				Post.Sources = new Dictionary<string, string>();
