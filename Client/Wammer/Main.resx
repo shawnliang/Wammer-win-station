@@ -135,7 +135,7 @@
     <value>Tahoma, 9pt</value>
   </data>
   <data name="postsArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>165, 65</value>
+    <value>165, 63</value>
   </data>
   <data name="postsArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -144,7 +144,7 @@
     <value>308, 2</value>
   </data>
   <data name="postsArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 450</value>
+    <value>347, 452</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="postsArea.TabIndex" type="System.Int32, mscorlib">
@@ -169,13 +169,13 @@
     <value>Tahoma, 9pt</value>
   </data>
   <data name="leftArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 65</value>
+    <value>0, 63</value>
   </data>
   <data name="leftArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="leftArea.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 450</value>
+    <value>165, 452</value>
   </data>
   <data name="leftArea.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -202,7 +202,7 @@
     <value>2, 2, 2, 2</value>
   </data>
   <data name="panelTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>512, 65</value>
+    <value>512, 63</value>
   </data>
   <data name="panelTitle.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>

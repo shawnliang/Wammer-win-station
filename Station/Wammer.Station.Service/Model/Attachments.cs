@@ -404,6 +404,9 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public ImageProperty image_meta { get; set; }
 
+		[BsonIgnoreIfNull]
+		public bool body_on_cloud { get; set; }
+
 		[BsonIgnore]
 		public ExifOrientations Orientation { get; set; }
 

@@ -94,6 +94,13 @@ namespace Waveface
 
             DoubleBufferedX(dataGridView, true);
 
+			//dataGridView.MouseWheel += (s, e) =>
+			//{
+			//    if (m_postBS.Count <= 0)
+			//        return;
+
+			//    SetDateText();
+			//};
         }
 
         public void DoubleBufferedX(DataGridView dgv, bool setting)
@@ -174,43 +181,45 @@ namespace Waveface
             // Test: 
             // posts = posts.GetRange(0, DateTime.Now.Second % 5);
 
-            dataGridView.SuspendLayout();
+			try
+			{
+				dataGridView.SuspendLayout();
+				GetFirstDisplayed(posts);
 
-            try
-            {
-                GetFirstDisplayed(posts);
+				m_firstPostInADay = firstPostInADay;
+				m_posts = posts;
+				m_postBS.DataSource = posts;
 
-                m_firstPostInADay = firstPostInADay;
-                m_posts = posts;
-                m_postBS.DataSource = posts;
+				try
+				{
+					dataGridView.DataSource = null;
+					dataGridView.DataSource = m_postBS;
+				}
+				catch
+				{
+				}
 
-                try
-                {
-                    dataGridView.DataSource = null;
-                    dataGridView.DataSource = m_postBS;
-                }
-                catch
-                {
-                }
+				SetDateText();
 
-                SetDateText();
+				if (m_posts.Count == 0)
+				{
+					m_detailView.ResetUI();
+				}
+				else
+				{
+					SetFirstDisplayed(posts);
 
-                if (m_posts.Count == 0)
-                {
-                    m_detailView.ResetUI();
-                }
-                else
-                {
-                    SetFirstDisplayed(posts);
-
-                    NotifyDetailView();
-                }
-            }
-            catch (Exception _e)
-            {
-            }
-
-            dataGridView.ResumeLayout();
+					NotifyDetailView();
+				}
+			}
+			catch (Exception _e)
+			{
+			}
+			finally
+			{
+				dataGridView.ResumeLayout();
+ 
+			}
         }
 
         private bool IsSamePostContent(Post p1, Post p2)
@@ -359,7 +368,7 @@ namespace Waveface
             {
                 bool _isDrawThumbnail;
                 bool _isFirstPostInADay = false;
-                bool _isFirstDisplayed = false;
+				bool _isFirstDisplayed = false;
 
                 Graphics _g = e.Graphics;
 
@@ -373,10 +382,10 @@ namespace Waveface
                 {
                     _isFirstPostInADay = true;
 
-                    if (dataGridView.FirstDisplayedScrollingRowIndex == e.RowIndex)
-                    {
-                        _isFirstDisplayed = true;
-                    }
+					if (dataGridView.FirstDisplayedScrollingRowIndex == e.RowIndex)
+					{
+						_isFirstDisplayed = true;
+					}
                 }
 
                 bool _selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
@@ -389,7 +398,7 @@ namespace Waveface
                 int _W = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
                 int _H = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
 
-                if (_isFirstPostInADay && !_isFirstDisplayed)
+				if (_isFirstPostInADay && !_isFirstDisplayed && e.RowIndex > 0)
                 {
                     _Y += m_timeBarHeight;
                     _H -= m_timeBarHeight;
@@ -420,9 +429,8 @@ namespace Waveface
                 {
                     Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
 
-                    int _underThumbnailHeight = 17;
-
-                    int _picWH = _H - _underThumbnailHeight;
+					int _underThumbnailHeight = 17;
+					int _picWH = _H - _underThumbnailHeight;
 
                     Rectangle _thumbnailRect = new Rectangle(e.CellBounds.Width - _picWH - 10, _Y + 8, _picWH, _picWH);
 
@@ -1116,8 +1124,8 @@ namespace Waveface
 		Boolean m_IsSettingDataText = false;
         private void dataGridView_Scroll(object sender, ScrollEventArgs e)
         {
-            if (m_postBS.Count <= 0)
-                return;
+			if (m_postBS.Count <= 0)
+				return;
 
 			if (m_IsSettingDataText)
 			{
@@ -1126,7 +1134,7 @@ namespace Waveface
 			}
 			m_IsSettingDataText = true;
 			SetDateText();
-			//m_IsSettingDataText = false;
+			m_IsSettingDataText = false;
         }
 
         private void SetDateText()
@@ -1150,40 +1158,48 @@ namespace Waveface
 
         private void ResizeCell()
         {
-            int _s = dataGridView.FirstDisplayedScrollingRowIndex;
-            int _k = 0;
-            int _cn = (dataGridView.Height / m_cellHeight);
+			try
+			{
+				SuspendLayout();
+				int _s = dataGridView.FirstDisplayedScrollingRowIndex;
+				int _k = 0;
+				int _cn = (dataGridView.Height / m_cellHeight);
 
-            for (int i = _s; (i < m_posts.Count) && (_k < _cn); i++)
-            {
-				var post = m_posts[i];
+				for (int i = _s; (i < m_posts.Count) && (_k < _cn); i++)
+				{
+					var post = m_posts[i];
 
-				bool _isLinkPost = post.type == "link";
+					bool _isLinkPost = post.type == "link";
 
-				var row = dataGridView.Rows[i];
-				if (m_firstPostInADay.ContainsValue(post.post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
-                {
-					row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
-                }
-                else
-                {
-					row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
-                }
+					var row = dataGridView.Rows[i];
+					if (m_firstPostInADay.ContainsValue(post.post_id) && (i != dataGridView.FirstDisplayedScrollingRowIndex))
+					{
+						row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight) + m_timeBarHeight;
+					}
+					else
+					{
+						row.Height = (_isLinkPost ? m_cellLinkHeight : m_cellHeight);
+					}
 
-                if (_isLinkPost)
-                {
-					if (!string.IsNullOrEmpty(post.content))
-                    {
-						row.Height += m_fontText.Height;
-                    }
-                    else
-                    {
-						row.Height -= m_fontText.Height;
-                    }
-                }
+					if (_isLinkPost)
+					{
+						if (!string.IsNullOrEmpty(post.content))
+						{
+							row.Height += m_fontText.Height;
+						}
+						else
+						{
+							row.Height -= m_fontText.Height;
+						}
+					}
 
-                _k++;
-            }
+					_k++;
+				}
+			}
+			finally
+			{
+				ResumeLayout();
+			}
         }
 
         #region Drag & Drop
