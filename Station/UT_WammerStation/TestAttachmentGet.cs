@@ -91,9 +91,9 @@ namespace UT_WammerStation
 			Assert.AreEqual(200, res.status);
 			Assert.AreEqual(0, res.api_ret_code);
 			Assert.AreEqual("success", res.api_ret_message);
-			Assert.AreEqual(doc.object_id, res.attachment.object_id);
-			Assert.AreEqual(doc.title, res.attachment.title);
-			Assert.AreEqual(doc.description, res.attachment.description);
+			Assert.AreEqual(doc.object_id, res.object_id);
+			Assert.AreEqual(doc.title, res.title);
+			Assert.AreEqual(doc.description, res.description);
 		}
 
 		[TestMethod]
@@ -108,9 +108,9 @@ namespace UT_WammerStation
 			Assert.AreEqual(200, res.status);
 			Assert.AreEqual(0, res.api_ret_code);
 			Assert.AreEqual("success", res.api_ret_message);
-			Assert.AreEqual(doc.object_id, res.attachment.object_id);
-			Assert.AreEqual(doc.title, res.attachment.title);
-			Assert.AreEqual(doc.description, res.attachment.description);
+			Assert.AreEqual(doc.object_id, res.object_id);
+			Assert.AreEqual(doc.title, res.title);
+			Assert.AreEqual(doc.description, res.description);
 		}
 
 		[TestMethod]
@@ -125,9 +125,9 @@ namespace UT_WammerStation
 			Assert.AreEqual(200, res.status);
 			Assert.AreEqual(0, res.api_ret_code);
 			Assert.AreEqual("success", res.api_ret_message);
-			Assert.AreEqual(doc.object_id, res.attachment.object_id);
-			Assert.AreEqual(doc.title, res.attachment.title);
-			Assert.AreEqual(doc.description, res.attachment.description);
+			Assert.AreEqual(doc.object_id, res.object_id);
+			Assert.AreEqual(doc.title, res.title);
+			Assert.AreEqual(doc.description, res.description);
 
 		}
 
