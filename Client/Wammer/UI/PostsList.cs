@@ -366,7 +366,7 @@ namespace Waveface
             {
                 bool _isDrawThumbnail;
                 bool _isFirstPostInADay = false;
-                bool _isFirstDisplayed = false;
+				bool _isFirstDisplayed = false;
 
                 Graphics _g = e.Graphics;
 
@@ -380,10 +380,10 @@ namespace Waveface
                 {
                     _isFirstPostInADay = true;
 
-                    if (dataGridView.FirstDisplayedScrollingRowIndex == e.RowIndex)
-                    {
-                        _isFirstDisplayed = true;
-                    }
+					if (dataGridView.FirstDisplayedScrollingRowIndex == e.RowIndex)
+					{
+						_isFirstDisplayed = true;
+					}
                 }
 
                 bool _selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
@@ -396,10 +396,7 @@ namespace Waveface
                 int _W = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
                 int _H = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
 
-				int _underThumbnailHeight = 17;
-				int _picWH = _H - _underThumbnailHeight;
-
-                if (_isFirstPostInADay && !_isFirstDisplayed)
+				if (_isFirstPostInADay && !_isFirstDisplayed && e.RowIndex > 0)
                 {
                     _Y += m_timeBarHeight;
                     _H -= m_timeBarHeight;
@@ -429,6 +426,9 @@ namespace Waveface
                 else
                 {
                     Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
+
+					int _underThumbnailHeight = 17;
+					int _picWH = _H - _underThumbnailHeight;
 
                     Rectangle _thumbnailRect = new Rectangle(e.CellBounds.Width - _picWH - 10, _Y + 8, _picWH, _picWH);
 
