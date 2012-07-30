@@ -94,6 +94,13 @@ namespace Waveface
 
             DoubleBufferedX(dataGridView, true);
 
+			//dataGridView.MouseWheel += (s, e) =>
+			//{
+			//    if (m_postBS.Count <= 0)
+			//        return;
+
+			//    SetDateText();
+			//};
         }
 
         public void DoubleBufferedX(DataGridView dgv, bool setting)
@@ -389,6 +396,9 @@ namespace Waveface
                 int _W = e.CellBounds.Width - (e.CellStyle.Padding.Left + e.CellStyle.Padding.Right);
                 int _H = e.CellBounds.Height - (e.CellStyle.Padding.Top + e.CellStyle.Padding.Bottom);
 
+				int _underThumbnailHeight = 17;
+				int _picWH = _H - _underThumbnailHeight;
+
                 if (_isFirstPostInADay && !_isFirstDisplayed)
                 {
                     _Y += m_timeBarHeight;
@@ -419,10 +429,6 @@ namespace Waveface
                 else
                 {
                     Rectangle _cellRect = new Rectangle(_X, _Y, _W, _H);
-
-                    int _underThumbnailHeight = 17;
-
-                    int _picWH = _H - _underThumbnailHeight;
 
                     Rectangle _thumbnailRect = new Rectangle(e.CellBounds.Width - _picWH - 10, _Y + 8, _picWH, _picWH);
 
@@ -1116,8 +1122,8 @@ namespace Waveface
 		Boolean m_IsSettingDataText = false;
         private void dataGridView_Scroll(object sender, ScrollEventArgs e)
         {
-            if (m_postBS.Count <= 0)
-                return;
+			if (m_postBS.Count <= 0)
+				return;
 
 			if (m_IsSettingDataText)
 			{
@@ -1126,7 +1132,7 @@ namespace Waveface
 			}
 			m_IsSettingDataText = true;
 			SetDateText();
-			//m_IsSettingDataText = false;
+			m_IsSettingDataText = false;
         }
 
         private void SetDateText()
