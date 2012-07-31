@@ -95,6 +95,7 @@ namespace Waveface.DetailUI
                     PostID = m_post.post_id;
 					UnloadPhotosCount = m_post.attachment_id_array.Count;
 
+					timer.Enabled = false;
                     RefreshUI();
                 }
             }
@@ -465,30 +466,38 @@ namespace Waveface.DetailUI
         {
 			DebugInfo.ShowMethod();
 
-            int _count = 0;
+			UnloadPhotosCount = Post.attachment_id_array.Count - GetMediumPhotoReadyCount();
 
-            for (int i = 0; i < Post.attachment_id_array.Count; i++)
-            {
-                if (File.Exists(m_filePathMediums[i]))
-                {
-                    _count++;
-                }
-            }
-
-
-			UnloadPhotosCount = Post.attachment_id_array.Count - _count;
-
-            if (_count == Post.attachment_id_array.Count)
+			if (IsAllMediumPhotoReady())
             {
                 Main.Current.RefreshTimelineUI();
 
                 timer.Enabled = !ShowImageListView(firstTime);
-                return true;
+				return !timer.Enabled;
             }
 
 			timer.Enabled = !ShowImageListView(firstTime);
-            return false;
+			return !timer.Enabled;
         }
+
+		private Boolean IsAllMediumPhotoReady()
+		{
+			return GetMediumPhotoReadyCount() == Post.attachment_id_array.Count;
+		}
+
+		private int GetMediumPhotoReadyCount()
+		{
+			int _count = 0;
+
+			for (int i = 0; i < Post.attachment_id_array.Count; i++)
+			{
+				if (File.Exists(m_filePathMediums[i]))
+				{
+					_count++;
+				}
+			}
+			return _count;
+		}
 
         private bool ShowImageListView(bool firstTime)
         {
@@ -496,7 +505,6 @@ namespace Waveface.DetailUI
 
             int k = 0;
 
-			Boolean canEdit = true;
 
             imageListView.SuspendLayout();
 
@@ -514,7 +522,8 @@ namespace Waveface.DetailUI
 
                     if (File.Exists(m_filePathMediums[i]))
                     {
-                        imageListView.Items[i].FileName = m_filePathMediums[i];
+						if (new FileInfo(imageListView.Items[i].FileName).Name == "LoadingImage.jpg")
+							imageListView.Items[i].FileName = m_filePathMediums[i];
                         k++;
                         continue;
                     }
@@ -522,9 +531,9 @@ namespace Waveface.DetailUI
                     var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(object_id);
 					if (File.Exists(origFilePath))
 					{
-						imageListView.Items[i].FileName = origFilePath;
+						if (new FileInfo(imageListView.Items[i].FileName).Name == "LoadingImage.jpg")
+							imageListView.Items[i].FileName = origFilePath;
 						k++;
-						canEdit = false;
 						continue;
 					}
 
@@ -533,9 +542,9 @@ namespace Waveface.DetailUI
                         var sourcePath = Post.Sources[object_id];
                         if (File.Exists(sourcePath))
                         {
-                            imageListView.Items[i].FileName = sourcePath;
+							if (new FileInfo(imageListView.Items[i].FileName).Name == "LoadingImage.jpg")						
+								imageListView.Items[i].FileName = sourcePath;
 							k++;
-							canEdit = false;
                             continue;
                         }
                     }
@@ -547,13 +556,11 @@ namespace Waveface.DetailUI
 
             imageListView.ResumeLayout();
 
-			//labelPictureInfo.Text = string.Format(I18n.L.T("PhotosLoading"), k, Post.attachment_id_array.Count);
-
             bool _flag = (k == Post.attachment_id_array.Count);
 
             panelPictureInfo.Visible = !_flag;
 
-			if (canEdit)
+			if (IsAllMediumPhotoReady())
 			{
 				m_canEdit = true;
 				Post.Sources = new Dictionary<string, string>();
@@ -561,7 +568,7 @@ namespace Waveface.DetailUI
 
 			ReLayout();
 
-            return _flag;
+			return _flag;
         }
 
         private void ShowPhotoView(int index)

@@ -340,13 +340,13 @@ namespace Waveface
                 {
                     string _file = pItem.Files[_count];
 
-                    if (pItem.UploadedFiles.Keys.Contains(_file))
+					if (pItem.UploadedFiles != null && pItem.UploadedFiles.Keys.Contains(_file))
                     {
                         s_logger.Trace("[" + _tmpStamp + "]" + "Batch Sended Photo [" + _count + "]" + _file);
                     }
                     else
                     {
-                        if (pItem.PreUploadedPhotos.Keys.Contains(_file))
+						if (pItem.PreUploadedPhotos != null && pItem.PreUploadedPhotos.Keys.Contains(_file))
                         {
                             pItem.UploadedFiles.Add(_file, pItem.PreUploadedPhotos[_file]);
                         }
