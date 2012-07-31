@@ -280,6 +280,8 @@ namespace Waveface
 
 				lblFBImportTip.Text = string.Empty;
 
+				if (isDialogInited)
+					userInfo.Update();
 			}
 			catch (Exception ex)
 			{
@@ -489,6 +491,17 @@ namespace Waveface
 		private void label4_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void AccountInfoForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+
+		}
+
+		private void AccountInfoForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (this.DialogResult != DialogResult.OK)
+				button1.PerformClick();
 		}
     }
 }
