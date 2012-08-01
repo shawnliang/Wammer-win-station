@@ -568,7 +568,7 @@ namespace Waveface.DetailUI
 
 			ReLayout();
 
-			return _flag;
+			return m_canEdit;
         }
 
         private void ShowPhotoView(int index)
