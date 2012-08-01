@@ -1027,16 +1027,32 @@ namespace Waveface.API.V2
             {
                 string _url = BaseURL + "/posts/newComment";
 
-                _url += "?" +
-                        "apikey" + "=" + APIKEY + "&" +
-                        "session_token" + "=" + session_token + "&" +
-                        "group_id" + "=" + group_id + "&" +
-                        "post_id" + "=" + post_id + "&" +
-                        "content" + "=" + content + "&" +
-                        "objects" + "=" + objects + "&" +
-                        "previews" + "=" + previews;
+				//_url += "?" +
+				//        "apikey" + "=" + APIKEY + "&" +
+				//        "session_token" + "=" + session_token + "&" +
+				//        "group_id" + "=" + group_id + "&" +
+				//        "post_id" + "=" + post_id + "&" +
+				//        "content" + "=" + content + "&" +
+				//        "objects" + "=" + objects + "&" +
+				//        "previews" + "=" + previews;
 
-                return HttpGetObject<MR_posts_newComment>(_url);
+				var _param = "apikey" + "=" + APIKEY + "&" +
+						"session_token" + "=" + session_token + "&" +
+						"group_id" + "=" + group_id + "&" +
+						"post_id" + "=" + post_id + "&" +
+						"content" + "=" + content + "&" +
+						"objects" + "=" + objects + "&" +
+						"previews" + "=" + previews;
+
+				WebPostHelper _webPos = new WebPostHelper();
+				bool _isOK = _webPos.doPost(_url, _parms, null);
+
+				if (!_isOK)
+					return null;
+
+				string _r = _webPos.getContent();
+
+				return JsonConvert.DeserializeObject<MR_posts_newComment>(_r);
             }
             catch (WebException _e)
             {
@@ -1111,20 +1127,28 @@ namespace Waveface.API.V2
             {
                 string _url = BaseURL + "/posts/update";
 
-                _url += "?";
+				var _parms = string.Empty;
 
-                foreach (KeyValuePair<string, string> _pair in OptionalParams)
-                {
-                    _url += _pair.Key + "=" + HttpUtility.UrlEncode(_pair.Value) + "&";
-                }
+				foreach (KeyValuePair<string, string> _pair in OptionalParams)
+				{
+					_parms += _pair.Key + "=" + HttpUtility.UrlEncode(_pair.Value) + "&";
+				}
 
-                _url += "apikey" + "=" + APIKEY + "&" +
-                       "session_token" + "=" + session_token + "&" +
-                       "group_id" + "=" + group_id + "&" +
-                       "last_update_time" + "=" + last_update_time + "&" +
-                       "post_id" + "=" + post_id;
+				_parms += "apikey" + "=" + APIKEY + "&" +
+					   "session_token" + "=" + session_token + "&" +
+					   "group_id" + "=" + group_id + "&" +
+					   "last_update_time" + "=" + last_update_time + "&" +
+					   "post_id" + "=" + post_id;
 
-                return HttpGetObject<MR_posts_update>(_url);
+				WebPostHelper _webPos = new WebPostHelper();
+				bool _isOK = _webPos.doPost(_url, _parms, null);
+
+				if (!_isOK)
+					return null;
+
+				string _r = _webPos.getContent();
+
+				return JsonConvert.DeserializeObject<MR_posts_update>(_r);
             }
             catch (WebException _e)
             {
