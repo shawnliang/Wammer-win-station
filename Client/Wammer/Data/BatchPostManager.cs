@@ -492,6 +492,7 @@ namespace Waveface
                 NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
 
                 pItem.PostOK = false;
+				pItem.ErrorAndDeletePost = true;
                 return pItem;
             }
 

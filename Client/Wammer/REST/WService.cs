@@ -1036,7 +1036,7 @@ namespace Waveface.API.V2
 				//        "objects" + "=" + objects + "&" +
 				//        "previews" + "=" + previews;
 
-				var _param = "apikey" + "=" + APIKEY + "&" +
+				var _parms = "apikey" + "=" + APIKEY + "&" +
 						"session_token" + "=" + session_token + "&" +
 						"group_id" + "=" + group_id + "&" +
 						"post_id" + "=" + post_id + "&" +
