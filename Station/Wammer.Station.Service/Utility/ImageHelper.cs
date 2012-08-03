@@ -161,12 +161,20 @@ namespace Wammer.Utility
 
 		public static Size GetImageSize(ArraySegment<byte> imageRawData)
 		{
-			using (var m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
+			try
 			{
-				var decoder = BitmapDecoder.Create(m, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
-				var frame = decoder.Frames[0];
+				using (var m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))
+				{
+					var decoder = BitmapDecoder.Create(m, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+					var frame = decoder.Frames[0];
 
-				return new Size(frame.PixelWidth, frame.PixelHeight);
+					return new Size(frame.PixelWidth, frame.PixelHeight);
+				}
+			}
+			catch (Exception e)
+			{
+				throw new Wammer.Station.WammerStationException("Seems the attachment is not a valid image",
+					(int)Wammer.Station.AttachmentApiError.InvalidImage, e);
 			}
 		}
 	}

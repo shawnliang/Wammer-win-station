@@ -13,6 +13,12 @@ namespace Wammer.Station
 			this.wammerError = wammerError;
 		}
 
+		public WammerStationException(string msg, int wammerError, Exception innerException)
+			: base(msg, innerException)
+		{
+			this.wammerError = wammerError;
+		}
+
 		public WammerStationException(CloudResponse errorResp)
 			: base(errorResp.api_ret_message)
 		{
