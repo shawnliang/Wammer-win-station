@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using NLog;
 using Newtonsoft.Json;
 using Waveface.API.V2;
+using System.Net;
 
 #endregion
 
@@ -163,7 +164,8 @@ namespace Waveface
                             {
                                 Remove(_postItem);
 
-                                UpdateUI(int.MinValue, "");
+								if (UpdateUI != null)
+									UpdateUI(int.MinValue, "");
 
                                 if (_editMode)
                                 {
@@ -321,8 +323,17 @@ namespace Waveface
                         BatchPostItem _pi = UploadOneFile(pItem, _coverAttachIndex, _tmpStamp,
                                                           pItem.Files[_coverAttachIndex]);
 
-                        if (_pi != null)
-                            return _pi;
+
+
+						if (_pi != null)
+						{
+							if (_pi.ErrorAndDeletePost)
+							{
+								_pi.PostSendMetaData = false;
+								_pi.ErrorAndDeletePost = false;
+							}
+							return _pi;
+						}
                     }
                 }
 
@@ -354,8 +365,15 @@ namespace Waveface
                         {
                             BatchPostItem _pi = UploadOneFile(pItem, _count, _tmpStamp, _file);
 
-                            if (_pi != null)
-                                return _pi;
+							if (_pi != null)
+							{
+								if (_pi.ErrorAndDeletePost)
+								{
+									_pi.ErrorAndDeletePost = false;
+								}
+								else
+									return _pi;
+							}
                         }
                     }
 
@@ -424,77 +442,87 @@ namespace Waveface
 
         private BatchPostItem UploadOneFile(BatchPostItem pItem, int count, string tmpStamp, string file)
         {
-            try
-            {
-                if (!File.Exists(file))
-                {
-                    // 原始檔案不存在. 作錯誤處裡
-                    s_logger.Error("Image File does not exist: [" + file + "]");
+			try
+			{
+				if (!File.Exists(file))
+				{
+					// 原始檔案不存在. 作錯誤處裡
+					s_logger.Error("Image File does not exist: [" + file + "]");
 
-                    if (ShowFileMissDialog != null)
-                        ShowFileMissDialog(file);
+					if (ShowFileMissDialog != null)
+						ShowFileMissDialog(file);
 
-                    while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
-                        Thread.Sleep(500);
+					while (Main.Current.NewPostThreadErrorDialogResult == DialogResult.None)
+						Thread.Sleep(500);
 
-                    switch (Main.Current.NewPostThreadErrorDialogResult)
-                    {
-                        case DialogResult.Cancel: // Delete Post
-                            pItem.ErrorAndDeletePost = true;
-                            pItem.PostOK = false;
-                            return pItem;
+					switch (Main.Current.NewPostThreadErrorDialogResult)
+					{
+						case DialogResult.Cancel: // Delete Post
+							pItem.ErrorAndDeletePost = true;
+							pItem.PostOK = false;
+							return pItem;
 
-                        case DialogResult.Yes: // Remove Picture
-                            s_logger.Error("Remove: [" + file + "]");
+						case DialogResult.Yes: // Remove Picture
+							s_logger.Error("Remove: [" + file + "]");
 
-                            if (pItem.CoverAttachIndex == count)
-                                pItem.CoverAttachIndex = 0;
+							if (pItem.CoverAttachIndex == count)
+								pItem.CoverAttachIndex = 0;
 
-                            pItem.Files.Remove(file);
-                            pItem.ObjectIDs.RemoveAt(count);
+							pItem.Files.Remove(file);
+							pItem.ObjectIDs.RemoveAt(count);
 
-                            UpdatePostWhenRemovePhoto(pItem);
+							UpdatePostWhenRemovePhoto(pItem);
 
-                            pItem.PostOK = false;
+							pItem.PostOK = false;
 
-                            UpdateUI(int.MinValue, "");
+							UpdateUI(int.MinValue, "");
 
-                            return pItem;
+							return pItem;
 
-                        case DialogResult.Retry: // DoNothing
-                            s_logger.Error("Ignore & Retry Miss File: [" + file + "]");
+						case DialogResult.Retry: // DoNothing
+							s_logger.Error("Ignore & Retry Miss File: [" + file + "]");
 
-                            pItem.PostOK = false;
-                            return pItem;
-                    }
-                }
+							pItem.PostOK = false;
+							return pItem;
+					}
+				}
 
-                string _text = new FileName(file).Name;
-                string _resizedImage = ImageUtility.ResizeImage(file, _text, pItem.LongSideResizeOrRatio, 100);
+				string _text = new FileName(file).Name;
+				string _resizedImage = ImageUtility.ResizeImage(file, _text, pItem.LongSideResizeOrRatio, 100);
 
-                string _objID = pItem.EditMode ? pItem.ObjectIDs_Edit[count] : pItem.ObjectIDs[count];
+				string _objID = pItem.EditMode ? pItem.ObjectIDs_Edit[count] : pItem.ObjectIDs[count];
 
-                MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, _objID, true,
-                                                                                 pItem.PostID);
+				MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(_text, _resizedImage, _objID, true,
+																				 pItem.PostID);
 
-                if (_uf == null)
-                {
-                    pItem.PostOK = false;
-                    return pItem;
-                }
+				if (_uf == null)
+				{
+					pItem.PostOK = false;
+					return pItem;
+				}
 
-                pItem.UploadedFiles.Add(file, _uf.object_id);
+				pItem.UploadedFiles.Add(file, _uf.object_id);
 
-                s_logger.Trace("[" + tmpStamp + "][" + _objID + "] Batch Upload Photo [" + count + "]" + file);
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
+				s_logger.Trace("[" + tmpStamp + "][" + _objID + "] Batch Upload Photo [" + count + "]" + file);
+			}
+			catch (WebException e)
+			{
+				NLogUtility.Exception(s_logger, e, "UploadPhoto:File_UploadFile");
 
-                pItem.PostOK = false;
-				pItem.ErrorAndDeletePost = true;
-                return pItem;
-            }
+				pItem.PostOK = false;
+
+				if (e.Status == WebExceptionStatus.ProtocolError)
+					pItem.ErrorAndDeletePost = true;
+
+				return pItem;
+			}
+			catch (Exception _e)
+			{
+				NLogUtility.Exception(s_logger, _e, "UploadPhoto:File_UploadFile");
+
+				pItem.PostOK = false;
+				return pItem;
+			}
 
             lock (this)
             {
