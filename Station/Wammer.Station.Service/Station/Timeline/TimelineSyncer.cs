@@ -109,8 +109,8 @@ namespace Wammer.Station.Timeline
 
 		private static bool changeLogsNotAvailable(WammerCloudException e)
 		{
-			return e.WammerError == (int)UserTrackApiError.SeqNumPurged ||
-								e.WammerError == (int)UserTrackApiError.TooManyRecord;
+			return	e.WammerError == (int)UserTrackApiError.SeqNumPurged ||
+					e.WammerError == (int)UserTrackApiError.TooManyRecord;
 		}
 
 		private void ProcChangedPosts(Driver user, ChangeLogResponse res)

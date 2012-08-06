@@ -152,6 +152,18 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public int next_seq_num { get; set; }
 
+		/// <summary>
+		/// Minimum seq number of this user's changelogs
+		/// </summary>
+		[BsonDefaultValue(0)]
+		public int chlog_min_seq { get; set; }
+
+		/// <summary>
+		/// Maximum seq number of this user's changelogs
+		/// </summary>
+		[BsonDefaultValue(0)]
+		public int chlog_max_seq { get; set; }
+
 		public SyncRange Clone()
 		{
 			return (SyncRange) MemberwiseClone();
@@ -167,7 +179,9 @@ namespace Wammer.Model
 				var rhs = obj as SyncRange;
 				return start_time == rhs.start_time &&
 						first_post_time.Value == rhs.first_post_time.Value &&
-						next_seq_num == rhs.next_seq_num;
+						next_seq_num == rhs.next_seq_num &&
+						chlog_max_seq == rhs.chlog_max_seq &&
+						chlog_min_seq == rhs.chlog_min_seq;
 			}
 			else
 				return false;
@@ -175,7 +189,7 @@ namespace Wammer.Model
 
 		public override int GetHashCode()
 		{
-			return start_time.GetHashCode() + first_post_time.GetHashCode() + next_seq_num;
+			return start_time.GetHashCode() + first_post_time.GetHashCode() + next_seq_num + chlog_max_seq + chlog_min_seq;
 		}
 	}
 }

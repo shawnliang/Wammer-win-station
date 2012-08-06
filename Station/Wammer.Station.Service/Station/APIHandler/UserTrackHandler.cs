@@ -162,6 +162,13 @@ namespace Wammer.Station.APIHandler
 				return new ChangeLogResponse() { next_seq_num = since_seq_num };
 			}
 
+			if (user.sync_range.chlog_max_seq < since_seq_num)
+				return new ChangeLogResponse() { next_seq_num = user.sync_range.chlog_max_seq + 1 };
+
+			if (since_seq_num < user.sync_range.chlog_min_seq)
+				throw new WammerStationException("User's changelogs do not include this seq: " + since_seq_num, (int)UserTrackApiError.SeqNumPurged);
+
+
 			IEnumerable<UserTracks> userTracks = db.GetUserTracksSince(group_id, since_seq_num);
 
 			Debug.Assert(userTracks != null, "userTracks != null");
