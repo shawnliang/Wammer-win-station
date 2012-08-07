@@ -100,7 +100,13 @@ namespace Wammer.Station.Timeline
 				if (changeLogsNotAvailable(e))
 				{
 					int next_seq = RetrieveAllPostsBySeq(user, user.sync_range.next_seq_num);
-					UpdateDBForUserTrackBackFilled(user, next_seq);
+					//UpdateDBForUserTrackBackFilled(user, next_seq);
+					
+					var syncRange = user.sync_range.Clone();
+					syncRange.chlog_max_seq = syncRange.chlog_min_seq = int.MaxValue;
+					syncRange.next_seq_num = next_seq;
+
+					db.UpdateDriverSyncRange(user.user_id, syncRange);
 				}
 				else
 					throw;
@@ -142,12 +148,14 @@ namespace Wammer.Station.Timeline
 				OnPostsRetrieved(user, changedPost);
 
 				db.UpdateDriverSyncRange(user.user_id,
-				                         new SyncRange
-				                         	{
-				                         		start_time = user.sync_range.start_time,
+										 new SyncRange
+											{
+												start_time = user.sync_range.start_time,
 												next_seq_num = res.next_seq_num,
-				                         		first_post_time = user.sync_range.first_post_time,
-				                         	});
+												first_post_time = user.sync_range.first_post_time,
+												chlog_min_seq = user.sync_range.chlog_min_seq == int.MaxValue ? res.changelog_list.Where(x => x.seq_num > 0).Min(x => x.seq_num) : user.sync_range.chlog_min_seq,
+												chlog_max_seq = res.changelog_list.Max(x => x.seq_num)
+											});
 			}
 		}
 
@@ -195,10 +203,23 @@ namespace Wammer.Station.Timeline
 				PullForward(user);
 		}
 
+		private static int min(int a, int b)
+		{
+			return a < b ? a : b;
+		}
+
+		private static int max(int a, int b)
+		{
+			return a > b ? a : b;
+		}
+
 		private void PullOldChangeLog(Driver user)
 		{
 			int since_seq_num = 1;
 			ChangeLogResponse res = new ChangeLogResponse { post_list = new List<PostListItem>() };
+
+			int min_chlog_seq = int.MaxValue;
+			int max_chlog_seq = int.MinValue;
 
 			try
 			{
@@ -209,6 +230,15 @@ namespace Wammer.Station.Timeline
 					db.SaveUserTracks(new UserTracks(res));
 					since_seq_num = res.next_seq_num;
 
+					if (res.changelog_list != null && res.changelog_list.Count > 0)
+					{
+						int min_local = res.changelog_list.Max(x => x.seq_num);
+						int max_local = res.changelog_list.Min(x => x.seq_num);
+
+						min_chlog_seq = min(min_local, min_chlog_seq);
+						max_chlog_seq = max(max_local, max_chlog_seq);
+					}
+
 				} while (res.remaining_count > 0);
 			}
 			catch (WammerCloudException e)
@@ -216,7 +246,8 @@ namespace Wammer.Station.Timeline
 				if (changeLogsNotAvailable(e))
 				{
 					int next_seq_num = RetrieveAllPostsBySeq(user, since_seq_num);
-					UpdateDBForUserTrackBackFilled(user, next_seq_num);
+					updateSyncRangeInDB(user, int.MaxValue, int.MaxValue, next_seq_num);
+					db.UpdateDriverChangeHistorySynced(user.user_id, true);
 					return;
 				}
 				else
@@ -231,15 +262,17 @@ namespace Wammer.Station.Timeline
 
 			OnPostsRetrieved(user, newPosts);
 
-			UpdateDBForUserTrackBackFilled(user, res.next_seq_num);
+			updateSyncRangeInDB(user, min_chlog_seq, max_chlog_seq, res.next_seq_num);
+			db.UpdateDriverChangeHistorySynced(user.user_id, true);
 		}
 
-		private void UpdateDBForUserTrackBackFilled(Driver user, int next_seq_num)
+		private void updateSyncRangeInDB(Driver user, int chlog_min, int chlog_max, int next_seq)
 		{
-			SyncRange range = user.sync_range.Clone();
-			range.next_seq_num = next_seq_num;
-			db.UpdateDriverSyncRange(user.user_id, range);
-			db.UpdateDriverChangeHistorySynced(user.user_id, true);
+			var sync_range = user.sync_range.Clone();
+			sync_range.next_seq_num = next_seq;
+			sync_range.chlog_max_seq = chlog_max;
+			sync_range.chlog_min_seq = chlog_min;
+			db.UpdateDriverSyncRange(user.user_id, sync_range);
 		}
 
 		private int RetrieveAllPostsBySeq(Driver user, int since_seq_num)

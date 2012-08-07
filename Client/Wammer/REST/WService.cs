@@ -932,6 +932,8 @@ namespace Waveface.API.V2
                         var jsonObj = JsonConvert.DeserializeObject<General_R>(reader.ReadToEnd());
                         if (jsonObj.api_ret_code == "999")
                             throw new VersionNotSupportedException("Need to upgrade to latest version in order to proceed");
+                        else if (jsonObj.api_ret_code == "45060")
+                            throw new ChangeLogsPurgedException();
                     }
                 }
             }
@@ -1027,32 +1029,32 @@ namespace Waveface.API.V2
             {
                 string _url = BaseURL + "/posts/newComment";
 
-				//_url += "?" +
-				//        "apikey" + "=" + APIKEY + "&" +
-				//        "session_token" + "=" + session_token + "&" +
-				//        "group_id" + "=" + group_id + "&" +
-				//        "post_id" + "=" + post_id + "&" +
-				//        "content" + "=" + content + "&" +
-				//        "objects" + "=" + objects + "&" +
-				//        "previews" + "=" + previews;
+                //_url += "?" +
+                //        "apikey" + "=" + APIKEY + "&" +
+                //        "session_token" + "=" + session_token + "&" +
+                //        "group_id" + "=" + group_id + "&" +
+                //        "post_id" + "=" + post_id + "&" +
+                //        "content" + "=" + content + "&" +
+                //        "objects" + "=" + objects + "&" +
+                //        "previews" + "=" + previews;
 
-				var _parms = "apikey" + "=" + APIKEY + "&" +
-						"session_token" + "=" + session_token + "&" +
-						"group_id" + "=" + group_id + "&" +
-						"post_id" + "=" + post_id + "&" +
-						"content" + "=" + content + "&" +
-						"objects" + "=" + objects + "&" +
-						"previews" + "=" + previews;
+                var _parms = "apikey" + "=" + APIKEY + "&" +
+                        "session_token" + "=" + session_token + "&" +
+                        "group_id" + "=" + group_id + "&" +
+                        "post_id" + "=" + post_id + "&" +
+                        "content" + "=" + content + "&" +
+                        "objects" + "=" + objects + "&" +
+                        "previews" + "=" + previews;
 
-				WebPostHelper _webPos = new WebPostHelper();
-				bool _isOK = _webPos.doPost(_url, _parms, null);
+                WebPostHelper _webPos = new WebPostHelper();
+                bool _isOK = _webPos.doPost(_url, _parms, null);
 
-				if (!_isOK)
-					return null;
+                if (!_isOK)
+                    return null;
 
-				string _r = _webPos.getContent();
+                string _r = _webPos.getContent();
 
-				return JsonConvert.DeserializeObject<MR_posts_newComment>(_r);
+                return JsonConvert.DeserializeObject<MR_posts_newComment>(_r);
             }
             catch (WebException _e)
             {
@@ -1127,28 +1129,28 @@ namespace Waveface.API.V2
             {
                 string _url = BaseURL + "/posts/update";
 
-				var _parms = string.Empty;
+                var _parms = string.Empty;
 
-				foreach (KeyValuePair<string, string> _pair in OptionalParams)
-				{
-					_parms += _pair.Key + "=" + HttpUtility.UrlEncode(_pair.Value) + "&";
-				}
+                foreach (KeyValuePair<string, string> _pair in OptionalParams)
+                {
+                    _parms += _pair.Key + "=" + HttpUtility.UrlEncode(_pair.Value) + "&";
+                }
 
-				_parms += "apikey" + "=" + APIKEY + "&" +
-					   "session_token" + "=" + session_token + "&" +
-					   "group_id" + "=" + group_id + "&" +
-					   "last_update_time" + "=" + last_update_time + "&" +
-					   "post_id" + "=" + post_id;
+                _parms += "apikey" + "=" + APIKEY + "&" +
+                       "session_token" + "=" + session_token + "&" +
+                       "group_id" + "=" + group_id + "&" +
+                       "last_update_time" + "=" + last_update_time + "&" +
+                       "post_id" + "=" + post_id;
 
-				WebPostHelper _webPos = new WebPostHelper();
-				bool _isOK = _webPos.doPost(_url, _parms, null);
+                WebPostHelper _webPos = new WebPostHelper();
+                bool _isOK = _webPos.doPost(_url, _parms, null);
 
-				if (!_isOK)
-					return null;
+                if (!_isOK)
+                    return null;
 
-				string _r = _webPos.getContent();
+                string _r = _webPos.getContent();
 
-				return JsonConvert.DeserializeObject<MR_posts_update>(_r);
+                return JsonConvert.DeserializeObject<MR_posts_update>(_r);
             }
             catch (WebException _e)
             {

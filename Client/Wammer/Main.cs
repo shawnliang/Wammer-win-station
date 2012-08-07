@@ -1257,34 +1257,6 @@ namespace Waveface
             return _time;
         }
 
-        /*
-        public bool checkNewPosts()
-        {
-            if (RT.CurrentGroupPosts.Count == 0)
-            {
-                return true;
-            }
-
-            try
-            {
-                string _datum = RT.CurrentGroupPosts[0].timestamp;
-                _datum = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
-
-                MR_posts_get _postsGet = RT.REST.Posts_get("100", _datum, "");
-
-                if (_postsGet != null)
-                {
-                    return (_postsGet.posts.Count > 0);
-                }
-            }
-            catch
-            {
-            }
-
-            return false;
-        }
-        */
-
         #endregion
 
         #region Calendar
@@ -1512,24 +1484,28 @@ namespace Waveface
 
                     if (_usertracks.post_list.Count > 0)
                     {
-                    string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
+                        string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
 
-                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+                        MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
-                    if (_postsGet != null)
-                    {
-                        bool _changed = false;
-
-                        foreach (Post _post in _postsGet.posts)
+                        if (_postsGet != null)
                         {
-                            _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
-                        }
+                            bool _changed = false;
 
-                        if (_changed)
-                            ShowPostInTimeline();
+                            foreach (Post _post in _postsGet.posts)
+                            {
+                                _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
+                            }
+
+                            if (_changed)
+                                ShowPostInTimeline();
+                        }
                     }
                 }
             }
+            catch (ChangeLogsPurgedException)
+            {
+                ReloadAllData();
             }
             catch (VersionNotSupportedException)
             {
@@ -1627,7 +1603,7 @@ namespace Waveface
                 Invoke(new Action(() => { ReloadAllData(parameter); }));
             }
             else
-        {
+            {
                 GetAllDataAsync(parameter);
             }
         }

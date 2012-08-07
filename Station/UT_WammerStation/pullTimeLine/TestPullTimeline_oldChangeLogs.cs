@@ -26,7 +26,7 @@ namespace UT_WammerStation.pullTimeLine
 				{
 					start_time = DateTime.UtcNow.AddDays(-1.0),
 					first_post_time = DateTime.UtcNow.AddDays(-1.0),
-					next_seq_num = 0,
+					next_seq_num = 0
 				},
 				is_change_history_synced = false
 			};
@@ -93,7 +93,7 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2"))).Verifiable();
 
 			db.Setup(x => x.UpdateDriverSyncRange(
-				user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 3))).Verifiable();
+				user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 3 && sc.chlog_min_seq == 1 && sc.chlog_max_seq == 2))).Verifiable();
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
 
 			TimelineSyncer syncer = new TimelineSyncer(postProvider.Object, db.Object, api.Object);
@@ -139,7 +139,7 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 101)))
 				.Verifiable();
 
-			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 102)))
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 102 && sc.chlog_min_seq == int.MaxValue && sc.chlog_max_seq == int.MaxValue)))
 				.Verifiable();
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
 
@@ -186,7 +186,7 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 101)))
 				.Verifiable();
 
-			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 102)))
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 102 && sc.chlog_min_seq == int.MaxValue && sc.chlog_max_seq == int.MaxValue)))
 				.Verifiable();
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
 
