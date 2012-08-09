@@ -69,7 +69,9 @@ namespace Wammer.Station
 											: Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY].Trim('[', ']').Split(',').Select(x => x.Trim('"')).ToList();
 
 			var content = Parameters[CloudServer.PARAM_CONTENT];
-			var postID = Guid.NewGuid().ToString();
+			var postID = Parameters[CloudServer.PARAM_POST_ID];
+			if (string.IsNullOrEmpty(postID))
+				postID = Guid.NewGuid().ToString();
 			var timeStamp = DateTime.Now;
 			var attachmentCount = attachmentIDs.Count;
 			var creatorID = userGroup.creator_id;

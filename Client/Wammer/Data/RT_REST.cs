@@ -181,7 +181,7 @@ namespace Waveface
             return null;
         }
 
-        public MR_posts_new Posts_New(string object_id, string text, string files, string previews, string type, string coverAttach)
+        public MR_posts_new Posts_New(string post_id, string text, string files, string previews, string type, string coverAttach)
         {
             if (!IsNetworkAvailable)
                 return null;
@@ -190,7 +190,7 @@ namespace Waveface
 
             try
             {
-                _ret = m_service.posts_new(SessionToken, object_id, m_rt.CurrentGroupID, text, files, previews, type, coverAttach);
+                _ret = m_service.posts_new(SessionToken, post_id, m_rt.CurrentGroupID, text, files, previews, type, coverAttach);
             }
             catch (Station401Exception _e)
             {

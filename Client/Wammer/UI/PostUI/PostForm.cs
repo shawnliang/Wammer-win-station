@@ -56,6 +56,7 @@ namespace Waveface
 
             weblink_UI.MyParent = this;
             photo_UI.MyParent = this;
+			photo_UI.PostId = (editMode) ? post.post_id : Guid.NewGuid().ToString();
             richText_UI.MyParent = this;
             document_UI.MyParent = this;
 

@@ -27,10 +27,7 @@ namespace Waveface.PostUI
         private Dictionary<string, string> m_preUploadPhotosQueue;
         private Dictionary<string, string> m_uploadedPhotos;
 
-        private string m_postID
-        {
-            get { return MyParent.EditMode ? MyParent.Post.post_id : Guid.NewGuid().ToString(); }
-        }
+        public string PostId { get; set; }
 
         public PostForm MyParent { get; set; }
 
@@ -136,7 +133,7 @@ namespace Waveface.PostUI
 
                 imageListView.Items.Add(_item);
 
-                Main.Current.Uploader.Add(_pic, _tag.ObjectID, m_postID);
+                Main.Current.Uploader.Add(_pic, _tag.ObjectID, PostId);
             }
         }
 
@@ -403,7 +400,7 @@ namespace Waveface.PostUI
             var _objectIDs = imageListView.Items.Select(x => (x.Tag as EditModeImageListViewItemTag).ObjectID).ToArray();
 
             var post = Main.Current.RT.REST.Posts_New(
-                m_postID,
+                PostId,
                 StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)),
                 "[" + string.Join(",", _objectIDs.Select(id=>"\"" + id + "\"").ToArray()) + "]",
                 "",
@@ -635,7 +632,7 @@ namespace Waveface.PostUI
                 else
                     imageListView.Items.Insert(index, _item);
 
-                Main.Current.Uploader.Add(_pic, _tag.ObjectID, m_postID);
+                Main.Current.Uploader.Add(_pic, _tag.ObjectID, PostId);
             }
         }
 
