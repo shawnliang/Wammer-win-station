@@ -144,6 +144,9 @@
   <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
     <value>沒有網路連線</value>
   </data>
+  <data name="PHOTO_SAVE_FILTER_PATTERN" xml:space="preserve">
+    <value>圖片檔 (*{0})|*{1}</value>
+  </data>
   <data name="PHOTO_UPLOADING" xml:space="preserve">
     <value>同步中...</value>
   </data>

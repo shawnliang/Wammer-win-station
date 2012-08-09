@@ -12,6 +12,7 @@ using Waveface.Configuration;
 using View = Manina.Windows.Forms.View;
 using System.Diagnostics;
 using Waveface.Libs.StationDB;
+using Waveface.Properties;
 
 #endregion
 
@@ -121,7 +122,12 @@ namespace Waveface.DetailUI
                 trueFileName = Path.GetFileName(_picFilePath);
 
             saveFileDialog.FileName = trueFileName;
-            DialogResult _dr = saveFileDialog.ShowDialog(this);
+
+			var extension = Path.GetExtension(trueFileName);
+			if (!String.IsNullOrEmpty(extension))
+				saveFileDialog.Filter = string.Format(Resources.PHOTO_SAVE_FILTER_PATTERN, extension, extension);
+            
+			DialogResult _dr = saveFileDialog.ShowDialog(this);
 
             if (_dr == DialogResult.OK)
             {
