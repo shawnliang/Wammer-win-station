@@ -444,5 +444,11 @@
     <en-US>This version is out of date. Click ‘OK’ to download and install the latest version.</en-US>
     <zh-TW>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。在還未升級前將無法繼續使用Stream。</zh-TW>
   </WItem>
+
+  <WItem>
+    <ID>BadImageToast</ID>
+    <en-US>Not a valid image file: </en-US>
+    <zh-TW>不正確的圖檔: </zh-TW>
+  </WItem>
   
 </WItems>
