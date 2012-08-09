@@ -32,7 +32,7 @@ namespace Waveface
         private RichText_DV m_richTextDv;
 
         private DVTopPanel panelTop;
-		private Label labelTitle;
+        private Label labelTitle;
         private Panel panelMain;
         //private Popup m_dateTimePopup;
         private ImageButton btnEdit;
@@ -114,119 +114,119 @@ namespace Waveface
         // {
         private void InitializeComponent()
         {
-			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
-			this.panelMain = new System.Windows.Forms.Panel();
-			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
-			this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
-			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.btnAddFootNote = new Waveface.Component.ImageButton();
-			this.btnFavorite = new Waveface.Component.ImageButton();
-			this.btnEdit = new Waveface.Component.ImageButton();
-			this.panelTop = new Waveface.DVTopPanel();
-			this.btnFunction1 = new Waveface.Component.ImageButton();
-			this.labelTitle = new System.Windows.Forms.Label();
-			this.panelTop.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// panelMain
-			// 
-			this.panelMain.BackColor = System.Drawing.Color.White;
-			resources.ApplyResources(this.panelMain, "panelMain");
-			this.panelMain.Name = "panelMain";
-			// 
-			// cultureManager
-			// 
-			this.cultureManager.ManagedControl = this;
-			// 
-			// timerCanEdit
-			// 
-			this.timerCanEdit.Enabled = true;
-			this.timerCanEdit.Interval = 666;
-			this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
-			// 
-			// btnAddFootNote
-			// 
-			resources.ApplyResources(this.btnAddFootNote, "btnAddFootNote");
-			this.btnAddFootNote.BackColor = System.Drawing.SystemColors.Control;
-			this.btnAddFootNote.CenterAlignImage = false;
-			this.btnAddFootNote.Image = global::Waveface.Properties.Resources.FB_edit_footnote;
-			this.btnAddFootNote.ImageDisable = global::Waveface.Properties.Resources.FB_edit_footnote_hl;
-			this.btnAddFootNote.ImageFront = null;
-			this.btnAddFootNote.ImageHover = global::Waveface.Properties.Resources.FB_edit_footnote_hl;
-			this.btnAddFootNote.Name = "btnAddFootNote";
-			this.btnAddFootNote.TextShadow = true;
-			this.toolTip.SetToolTip(this.btnAddFootNote, resources.GetString("btnAddFootNote.ToolTip"));
-			this.btnAddFootNote.Click += new System.EventHandler(this.btnAddFootNote_Click);
-			// 
-			// btnFavorite
-			// 
-			resources.ApplyResources(this.btnFavorite, "btnFavorite");
-			this.btnFavorite.BackColor = System.Drawing.SystemColors.Control;
-			this.btnFavorite.CenterAlignImage = false;
-			this.btnFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnFavorite.Image = global::Waveface.Properties.Resources.FB_fav;
-			this.btnFavorite.ImageDisable = global::Waveface.Properties.Resources.FB_fav_hl;
-			this.btnFavorite.ImageFront = null;
-			this.btnFavorite.ImageHover = global::Waveface.Properties.Resources.FB_fav_hl;
-			this.btnFavorite.Name = "btnFavorite";
-			this.btnFavorite.TextShadow = true;
-			this.toolTip.SetToolTip(this.btnFavorite, resources.GetString("btnFavorite.ToolTip"));
-			this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
-			// 
-			// btnEdit
-			// 
-			resources.ApplyResources(this.btnEdit, "btnEdit");
-			this.btnEdit.BackColor = System.Drawing.Color.White;
-			this.btnEdit.CenterAlignImage = false;
-			this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnEdit.ImageFront = null;
-			this.btnEdit.Name = "btnEdit";
-			this.btnEdit.TextShadow = true;
-			this.toolTip.SetToolTip(this.btnEdit, resources.GetString("btnEdit.ToolTip"));
-			this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-			// 
-			// panelTop
-			// 
-			this.panelTop.BackColor = System.Drawing.Color.White;
-			this.panelTop.Controls.Add(this.btnFunction1);
-			this.panelTop.Controls.Add(this.btnFavorite);
-			this.panelTop.Controls.Add(this.btnEdit);
-			this.panelTop.Controls.Add(this.labelTitle);
-			this.panelTop.Controls.Add(this.btnAddFootNote);
-			resources.ApplyResources(this.panelTop, "panelTop");
-			this.panelTop.Name = "panelTop";
-			// 
-			// btnFunction1
-			// 
-			resources.ApplyResources(this.btnFunction1, "btnFunction1");
-			this.btnFunction1.BackColor = System.Drawing.SystemColors.Control;
-			this.btnFunction1.CenterAlignImage = false;
-			this.btnFunction1.Image = global::Waveface.Properties.Resources.FB_moreoption;
-			this.btnFunction1.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
-			this.btnFunction1.ImageFront = null;
-			this.btnFunction1.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
-			this.btnFunction1.Name = "btnFunction1";
-			this.btnFunction1.TextShadow = true;
-			this.btnFunction1.Click += new System.EventHandler(this.btnMoreOption1_Click);
-			this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
-			// 
-			// labelTitle
-			// 
-			resources.ApplyResources(this.labelTitle, "labelTitle");
-			this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
-			this.labelTitle.Name = "labelTitle";
-			// 
-			// DetailView
-			// 
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.Controls.Add(this.panelMain);
-			this.Controls.Add(this.panelTop);
-			resources.ApplyResources(this, "$this");
-			this.Name = "DetailView";
-			this.panelTop.ResumeLayout(false);
-			this.panelTop.PerformLayout();
-			this.ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
+            this.panelMain = new System.Windows.Forms.Panel();
+            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
+            this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnAddFootNote = new Waveface.Component.ImageButton();
+            this.btnFavorite = new Waveface.Component.ImageButton();
+            this.btnEdit = new Waveface.Component.ImageButton();
+            this.panelTop = new Waveface.DVTopPanel();
+            this.btnFunction1 = new Waveface.Component.ImageButton();
+            this.labelTitle = new System.Windows.Forms.Label();
+            this.panelTop.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // panelMain
+            // 
+            this.panelMain.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.panelMain, "panelMain");
+            this.panelMain.Name = "panelMain";
+            // 
+            // cultureManager
+            // 
+            this.cultureManager.ManagedControl = this;
+            // 
+            // timerCanEdit
+            // 
+            this.timerCanEdit.Enabled = true;
+            this.timerCanEdit.Interval = 666;
+            this.timerCanEdit.Tick += new System.EventHandler(this.timerCanEdit_Tick);
+            // 
+            // btnAddFootNote
+            // 
+            resources.ApplyResources(this.btnAddFootNote, "btnAddFootNote");
+            this.btnAddFootNote.BackColor = System.Drawing.SystemColors.Control;
+            this.btnAddFootNote.CenterAlignImage = false;
+            this.btnAddFootNote.Image = global::Waveface.Properties.Resources.FB_edit_footnote;
+            this.btnAddFootNote.ImageDisable = global::Waveface.Properties.Resources.FB_edit_footnote_hl;
+            this.btnAddFootNote.ImageFront = null;
+            this.btnAddFootNote.ImageHover = global::Waveface.Properties.Resources.FB_edit_footnote_hl;
+            this.btnAddFootNote.Name = "btnAddFootNote";
+            this.btnAddFootNote.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnAddFootNote, resources.GetString("btnAddFootNote.ToolTip"));
+            this.btnAddFootNote.Click += new System.EventHandler(this.btnAddFootNote_Click);
+            // 
+            // btnFavorite
+            // 
+            resources.ApplyResources(this.btnFavorite, "btnFavorite");
+            this.btnFavorite.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFavorite.CenterAlignImage = false;
+            this.btnFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFavorite.Image = global::Waveface.Properties.Resources.FB_fav;
+            this.btnFavorite.ImageDisable = global::Waveface.Properties.Resources.FB_fav_hl;
+            this.btnFavorite.ImageFront = null;
+            this.btnFavorite.ImageHover = global::Waveface.Properties.Resources.FB_fav_hl;
+            this.btnFavorite.Name = "btnFavorite";
+            this.btnFavorite.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnFavorite, resources.GetString("btnFavorite.ToolTip"));
+            this.btnFavorite.Click += new System.EventHandler(this.btnFavorite_Click);
+            // 
+            // btnEdit
+            // 
+            resources.ApplyResources(this.btnEdit, "btnEdit");
+            this.btnEdit.BackColor = System.Drawing.Color.White;
+            this.btnEdit.CenterAlignImage = false;
+            this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEdit.ImageFront = null;
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.TextShadow = true;
+            this.toolTip.SetToolTip(this.btnEdit, resources.GetString("btnEdit.ToolTip"));
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // panelTop
+            // 
+            this.panelTop.BackColor = System.Drawing.Color.White;
+            this.panelTop.Controls.Add(this.btnFunction1);
+            this.panelTop.Controls.Add(this.btnFavorite);
+            this.panelTop.Controls.Add(this.btnEdit);
+            this.panelTop.Controls.Add(this.labelTitle);
+            this.panelTop.Controls.Add(this.btnAddFootNote);
+            resources.ApplyResources(this.panelTop, "panelTop");
+            this.panelTop.Name = "panelTop";
+            // 
+            // btnFunction1
+            // 
+            resources.ApplyResources(this.btnFunction1, "btnFunction1");
+            this.btnFunction1.BackColor = System.Drawing.SystemColors.Control;
+            this.btnFunction1.CenterAlignImage = false;
+            this.btnFunction1.Image = global::Waveface.Properties.Resources.FB_moreoption;
+            this.btnFunction1.ImageDisable = global::Waveface.Properties.Resources.FB_moreoption_hl;
+            this.btnFunction1.ImageFront = null;
+            this.btnFunction1.ImageHover = global::Waveface.Properties.Resources.FB_moreoption_hl;
+            this.btnFunction1.Name = "btnFunction1";
+            this.btnFunction1.TextShadow = true;
+            this.btnFunction1.Click += new System.EventHandler(this.btnMoreOption1_Click);
+            this.btnFunction1.DoubleClick += new System.EventHandler(this.btnMoreOption1_DoubleClick);
+            // 
+            // labelTitle
+            // 
+            resources.ApplyResources(this.labelTitle, "labelTitle");
+            this.labelTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(121)))), ((int)(((byte)(143)))));
+            this.labelTitle.Name = "labelTitle";
+            // 
+            // DetailView
+            // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.panelMain);
+            this.Controls.Add(this.panelTop);
+            resources.ApplyResources(this, "$this");
+            this.Name = "DetailView";
+            this.panelTop.ResumeLayout(false);
+            this.panelTop.PerformLayout();
+            this.ResumeLayout(false);
 
         }
 
@@ -253,16 +253,16 @@ namespace Waveface
 
             btnFunction1.Visible = false;
 
-			btnEdit.Visible = true;
-			btnFavorite.Visible = true;
-			btnAddFootNote.Visible = true;
+            btnEdit.Visible = true;
+            btnFavorite.Visible = true;
+            btnAddFootNote.Visible = true;
 
             //Hack
             btnAddFootNote.Left = Width - 50;
 
             setFavoriteButton();
 
-            panelTop.Enabled = !Main.Current.BatchPostManager.CheckPostInQueue(m_post.post_id);
+            panelTop.Enabled = true;
 
             PostType _postType = getPostType(m_post.type);
 
@@ -289,7 +289,7 @@ namespace Waveface
                     break;
             }
 
-			timerCanEdit_Tick(null, null);
+            timerCanEdit_Tick(null, null);
             getMoreFunction1();
         }
 
@@ -335,10 +335,10 @@ namespace Waveface
         {
             var _postTime = GetTime(Post.timestamp);
 
-			if (m_currentView == null || m_currentView.CanEdit())
-				labelTitle.Text = _postTime + " " + I18n.L.T("DetailView.Via") + " " + Post.code_name;
-			else
-				labelTitle.Text = Resources.PHOTO_UPLOADING;
+            if (m_currentView == null || m_currentView.CanEdit())
+                labelTitle.Text = _postTime + " " + I18n.L.T("DetailView.Via") + " " + Post.code_name;
+            else
+                labelTitle.Text = Resources.PHOTO_UPLOADING;
         }
 
         private string GetTime(string iso8601Time)
@@ -403,11 +403,11 @@ namespace Waveface
         {
             panelMain.Controls.Clear();
 
-			if (m_photoDv != null && !m_photoDv.IsDisposed)
+            if (m_photoDv != null && !m_photoDv.IsDisposed)
             {
                 // m_photoDv.ImageListView.ClearThumbnailCache();
                 m_photoDv.Dispose();
-				m_photoDv = null;
+                m_photoDv = null;
             }
 
             m_photoDv = new Photo_DV();
@@ -461,10 +461,10 @@ namespace Waveface
             panelMain.Controls.Add(m_richTextDv);
         }
 
-		//private void timerGC_Tick(object sender, EventArgs e)
-		//{
-		//    GC.Collect(); // Hack
-		//}
+        //private void timerGC_Tick(object sender, EventArgs e)
+        //{
+        //    GC.Collect(); // Hack
+        //}
 
         public bool PostComment(RichTextBox textBox, Post post)
         {
@@ -578,10 +578,10 @@ namespace Waveface
         {
             if (m_currentView != null)
             {
-				setTitle();
+                setTitle();
                 btnEdit.Enabled = m_currentView.CanEdit();
                 btnFunction1.Enabled = m_currentView.CanEdit();
-				btnAddFootNote.Enabled = m_currentView.CanEdit();
+                btnAddFootNote.Enabled = m_currentView.CanEdit();
 
                 if (btnEdit.Enabled)
                 {

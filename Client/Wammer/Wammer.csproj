@@ -127,6 +127,10 @@
     <Compile Include="Class\CustomWindow.cs" />
     <Compile Include="Class\DebugInfo.cs" />
     <Compile Include="Class\NetworkChecker.cs" />
+    <Compile Include="Class\Upload\AttachmentUploadFacade.cs" />
+    <Compile Include="Class\Upload\Uploader.cs" />
+    <Compile Include="Class\Upload\UploadQueue.cs" />
+    <Compile Include="Class\Upload\UploadQueuePersistency.cs" />
     <Compile Include="Class\UserInfo.cs" />
     <Compile Include="Component\Analogclock.cs">
       <SubType>UserControl</SubType>
@@ -228,7 +232,7 @@
     <Compile Include="Data\Delegates.cs" />
     <Compile Include="Data\StationState.cs" />
     <Compile Include="Data\UploadOriginPhotosToStationItem.cs" />
-    <Compile Include="Data\BatchPostManager.cs" />
+    <Compile Include="Data\PhotoPostInfo.cs" />
     <Compile Include="Data\PhotoDownloader.cs" />
     <Compile Include="Data\ImageItem.cs" />
     <Compile Include="Data\PostItemType.cs" />
@@ -416,7 +420,6 @@
     <Compile Include="Libs\DragDropLib\IDragSourceHelper.cs" />
     <Compile Include="Libs\DragDropLib\IDropTargetHelper.cs" />
     <Compile Include="Libs\DragDropLib\NativeStructures.cs" />
-    <Compile Include="Data\BatchPostItem.cs" />
     <Compile Include="Libs\Utility\WebPostHelper.cs" />
     <Compile Include="REST\WService.cs" />
     <Compile Include="REST\WData.cs" />
@@ -899,13 +902,13 @@
     <None Include="Resources\webcam.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Libs\HtmlEditorControl\HTMLEditorControl.csproj">
-      <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
-      <Name>HTMLEditorControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>CommonLibs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libs\HtmlEditorControl\HTMLEditorControl.csproj">
+      <Project>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</Project>
+      <Name>HTMLEditorControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wammer Helper\Wammer Helper.csproj">
       <Project>{DAE8EDAE-A615-4C45-BA67-6D32454938CD}</Project>

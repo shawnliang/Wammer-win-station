@@ -19,9 +19,6 @@ namespace Waveface.PostUI
     public partial class Photo : UserControl
     {
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
-
-        private long m_avail_month_total_objects;
-        private long m_month_total_objects;
         private MyImageListViewRenderer m_imageListViewRenderer;
         private List<string> m_editModeOriginPhotoFiles;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
@@ -29,9 +26,8 @@ namespace Waveface.PostUI
         private ImageListViewItem m_selectedItem;
         private Dictionary<string, string> m_preUploadPhotosQueue;
         private Dictionary<string, string> m_uploadedPhotos;
-        private WorkItem m_photoWorkItem;
-        private bool m_exitUploadLoop;
-        private string m_postID;
+
+        public string PostId { get; set; }
 
         public PostForm MyParent { get; set; }
 
@@ -43,30 +39,18 @@ namespace Waveface.PostUI
 
             m_preUploadPhotosQueue = new Dictionary<string, string>();
             m_uploadedPhotos = new Dictionary<string, string>();
-
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
             FileNameMapping = new Dictionary<string, string>();
             m_editModeOriginPhotoFiles = new List<string>();
 
             InitImageListView();
-
+            
             UIHack();
             HackDPI();
         }
 
         private void Photo_Load(object sender, EventArgs e)
         {
-            StartThread();
-        }
-
-        public void StartThread()
-        {
-            m_photoWorkItem = AbortableThreadPool.QueueUserWorkItem(ThreadMethod, 0);
-        }
-
-        public WorkItemStatus AbortThread()
-        {
-            return AbortableThreadPool.Cancel(m_photoWorkItem, true);
         }
 
         public void ChangeToEditModeUI(Post post)
@@ -149,7 +133,7 @@ namespace Waveface.PostUI
 
                 imageListView.Items.Add(_item);
 
-                AddToPreUploadQueue(_pic, _tag.ObjectID);
+                Main.Current.Uploader.Add(_pic, _tag.ObjectID, PostId);
             }
         }
 
@@ -364,7 +348,7 @@ namespace Waveface.PostUI
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
-            AbortThread();
+            //AbortThread();
 
             Delay(2);
 
@@ -390,14 +374,6 @@ namespace Waveface.PostUI
             Main.Current.Cursor = Cursors.Default;
         }
 
-        private void AddToPreUploadQueue(string file, string objectID)
-        {
-            lock (m_preUploadPhotosQueue)
-            {
-                m_preUploadPhotosQueue.Add(file, objectID);
-            }
-        }
-
         private void ReturnToText_Mode()
         {
             lock (m_preUploadPhotosQueue)
@@ -413,50 +389,6 @@ namespace Waveface.PostUI
             MyParent.toPureText_Mode();
         }
 
-        private void ThreadMethod(object state)
-        {
-            Thread.Sleep(1000);
-
-            if (MyParent.EditMode)
-                m_postID = MyParent.Post.post_id;
-            else
-                m_postID = Guid.NewGuid().ToString();
-
-            m_exitUploadLoop = true;
-
-            while (m_exitUploadLoop)
-            {
-                if (m_preUploadPhotosQueue.Count != 0)
-                {
-                    string _file = m_preUploadPhotosQueue.Keys.First();
-                    string _id = m_preUploadPhotosQueue[_file];
-
-                    try
-                    {
-                        MR_attachments_upload _uf = Main.Current.RT.REST.File_UploadFile(new FileName(_file).Name, _file, _id, true, m_postID);
-
-                        if (_uf != null)
-                        {
-                            s_logger.Trace("PreUpload:" + _file);
-
-                            m_uploadedPhotos.Add(_file, _id);
-                        }
-                    }
-                    catch (Exception _e)
-                    {
-                        Console.WriteLine(_e);
-                    }
-
-                    lock (m_preUploadPhotosQueue)
-                    {
-                        m_preUploadPhotosQueue.Remove(_file);
-                    }
-                }
-
-                Thread.Sleep(100);
-            }
-        }
-
         private void BatchPost()
         {
             if (imageListView.Items.Count == 0)
@@ -465,165 +397,65 @@ namespace Waveface.PostUI
                 return;
             }
 
-            /*
-            if (Environment.GetCommandLineArgs().Length == 1)
+            var _objectIDs = imageListView.Items.Select(x => (x.Tag as EditModeImageListViewItemTag).ObjectID).ToArray();
+
+            var post = Main.Current.RT.REST.Posts_New(
+                PostId,
+                StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)),
+                "[" + string.Join(",", _objectIDs.Select(id=>"\"" + id + "\"").ToArray()) + "]",
+                "",
+                "image",
+                _objectIDs[GetCoverAttachIndex()]);
+
+
+            var sources = new Dictionary<string, string>();
+            foreach (var item in imageListView.Items)
             {
-                // check quota only in cloud mode because station will handle over quota
-                long _storagesUsage = CheckStoragesUsage(imageListView.Items.Count);
-
-                if (_storagesUsage == long.MinValue)
-                {
-                    MessageBox.Show(I18n.L.T("SystemError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-                    return;
-                }
-
-                if (_storagesUsage < 0)
-                {
-                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                    return;
-                }
+                sources.Add((item.Tag as EditModeImageListViewItemTag).ObjectID,
+                    item.FileName);
             }
-            */
+            
 
-            List<string> _objectIDs = new List<string>();
+            Main.Current.ReloadAllData(
+                new PhotoPostInfo
+                {
+                    post_id = post.post.post_id,
+                    sources = sources
+                });
 
-            BatchPostItem _bpItem = new BatchPostItem();
-            _bpItem.PostType = PostType.Photo;
-            _bpItem.Text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
-            _bpItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
-            _bpItem.OrgPostTime = DateTime.Now;
-            _bpItem.PostID = m_postID;
-
-            foreach (ImageListViewItem _vi in imageListView.Items)
-            {
-                _bpItem.Files.Add(_vi.FileName);
-
-                EditModeImageListViewItemTag _tag = (EditModeImageListViewItemTag)_vi.Tag;
-
-                _objectIDs.Add(_tag.ObjectID);
-            }
-
-            _bpItem.ObjectIDs = _objectIDs;
-
-            _bpItem.CoverAttachIndex = GetCoverAttachIndex();
-
-            _bpItem.PreUploadedPhotos = m_uploadedPhotos;
-
-            MyParent.BatchPostItem = _bpItem;
             MyParent.SetDialogResult_OK_AndClose();
         }
 
         private void EditModePost()
         {
-            List<string> _objectIDs = new List<string>();
-            List<string> _objectIDs_Edit = new List<string>();
-            List<string> _files = new List<string>();
-            int _newAdd = 0;
+            Dictionary<string, string> _params = new Dictionary<string, string>();
 
-            foreach (ImageListViewItem _vi in imageListView.Items)
+            if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
             {
-                EditModeImageListViewItemTag _tag = (EditModeImageListViewItemTag)_vi.Tag;
-
-                if (_tag.AddPhotoType == EditModePhotoType.EditModeNewAdd)
-                {
-                    _files.Add(_vi.FileName);
-
-                    _objectIDs.Add(_tag.ObjectID);
-                    _objectIDs_Edit.Add(_tag.ObjectID);
-
-                    _newAdd++;
-                }
-                else
-                {
-                    _objectIDs.Add(_tag.ObjectID);
-                }
+                _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)));
             }
 
-            if (_newAdd == 0)
+            if (EditModePhotosChanged())
             {
-                Dictionary<string, string> _params = new Dictionary<string, string>();
-
-                if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
-                {
-                    _params.Add("content", StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000)));
-                }
-
-                if (EditModePhotosChanged())
-                {
-                    _params.Add("attachment_id_array", getNewAttachmentIdArray());
-                    _params.Add("type", "image");
-                }
-
-                int _coverAttachIndex = GetCoverAttachIndex();
-
-                if (_coverAttachIndex != -1)
-                {
-                    EditModeImageListViewItemTag _tag = imageListView.Items[_coverAttachIndex].Tag as EditModeImageListViewItemTag;
-                    _params.Add("cover_attach", _tag.ObjectID);
-                }
-
-                if (_params.Count != 0)
-                {
-                    Main.Current.PostUpdate(MyParent.Post, _params);
-                }
-
-                MyParent.SetDialogResult_Yes_AndClose();
+                _params.Add("attachment_id_array", getNewAttachmentIdArray());
+                _params.Add("type", "image");
             }
-            else
+
+            int _coverAttachIndex = GetCoverAttachIndex();
+
+            if (_coverAttachIndex != -1)
             {
-                /*
-                if (Environment.GetCommandLineArgs().Length == 1)
-                {
-                    // check quota only in cloud mode because station will handle over quota
-                    long _storagesUsage = CheckStoragesUsage(_newAdd);
-
-                    if (_storagesUsage == long.MinValue)
-                    {
-                        MessageBox.Show(I18n.L.T("SystemError"), "Stream", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Exclamation);
-
-                        return;
-                    }
-
-                    if (_storagesUsage < 0)
-                    {
-                        MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
-                                        "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                        return;
-                    }
-                }
-                */
-
-                string _text = string.Empty;
-
-                if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
-                {
-                    _text = StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(MyParent.pureTextBox.Text, 80000));
-                }
-
-                BatchPostItem _bpItem = new BatchPostItem();
-                _bpItem.PostType = PostType.Photo;
-                _bpItem.Text = StringUtility.RichTextBox_ReplaceNewline(_text);
-                _bpItem.LongSideResizeOrRatio = toolStripComboBoxResize.Text;
-                _bpItem.OrgPostTime = DateTime.Now;
-                _bpItem.Files = _files;
-
-                _bpItem.EditMode = true;
-                _bpItem.ObjectIDs = _objectIDs;
-                _bpItem.ObjectIDs_Edit = _objectIDs_Edit;
-                _bpItem.Post = MyParent.Post;
-                _bpItem.PostID = m_postID;
-
-                _bpItem.CoverAttachIndex = GetCoverAttachIndex();
-
-                _bpItem.PreUploadedPhotos = m_uploadedPhotos;
-
-                MyParent.BatchPostItem = _bpItem;
-                MyParent.SetDialogResult_OK_AndClose();
+                EditModeImageListViewItemTag _tag = imageListView.Items[_coverAttachIndex].Tag as EditModeImageListViewItemTag;
+                _params.Add("cover_attach", _tag.ObjectID);
             }
+
+            if (_params.Count != 0)
+            {
+                Main.Current.PostUpdate(MyParent.Post, _params);
+            }
+
+            MyParent.SetDialogResult_Yes_AndClose();
+            
         }
 
         private bool EditModePhotosChanged()
@@ -720,57 +552,8 @@ namespace Waveface.PostUI
             return 0;
         }
 
-        private long CheckStoragesUsage(int went)
-        {
-            try
-            {
-                MR_storages_usage _storagesUsage = Main.Current.RT.REST.Storages_Usage();
-
-                if (_storagesUsage != null)
-                {
-                    int _queuedUnsendFiles = Main.Current.BatchPostManager.GetQueuedUnsendFilesCount(); //@ + EditMode ...
-                    m_avail_month_total_objects = _storagesUsage.storages.waveface.available.avail_month_total_objects;
-                    m_month_total_objects = _storagesUsage.storages.waveface.quota.month_total_objects;
-
-                    if (m_month_total_objects == -1)
-                    {
-                        return long.MaxValue;
-                    }
-
-                    return m_avail_month_total_objects - _queuedUnsendFiles - went;
-                }
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "CheckStoragesUsage");
-            }
-
-            return long.MinValue;
-        }
-
         public void ShowMessage(int went)
         {
-            if (Environment.GetCommandLineArgs().Length == 1)
-            {
-                // check quota only in cloud mode because station will handle over quota
-                long _storagesUsage = CheckStoragesUsage(went);
-
-                if (_storagesUsage == long.MinValue)
-                {
-                    MessageBox.Show(I18n.L.T("SystemError"), "Stream", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Exclamation);
-
-                    return;
-                }
-
-                if (_storagesUsage < 0)
-                {
-                    MessageBox.Show(string.Format(I18n.L.T("PhotoStorageQuotaExceeded"), m_month_total_objects),
-                                    "Stream", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                    return;
-                }
-            }
         }
 
         #endregion
@@ -849,7 +632,7 @@ namespace Waveface.PostUI
                 else
                     imageListView.Items.Insert(index, _item);
 
-                AddToPreUploadQueue(_pic, _tag.ObjectID);
+                Main.Current.Uploader.Add(_pic, _tag.ObjectID, PostId);
             }
         }
 
