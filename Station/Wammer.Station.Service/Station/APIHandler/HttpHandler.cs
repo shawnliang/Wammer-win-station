@@ -159,6 +159,12 @@ namespace Wammer.Station
 			if (logger.IsDebugEnabled)
 			{
 				Debug.Assert(Request.RemoteEndPoint != null, "Request.RemoteEndPoint != null");
+
+
+				if (Request.RemoteEndPoint.Address.ToString() == "127.0.0.1" &&
+					Request.Url.AbsolutePath.Contains("/ping"))
+					return;
+
 				logger.Info("====== Request " + Request.Url.AbsolutePath +
 				             " from " + Request.RemoteEndPoint.Address + " ======");
 				foreach (string key in Parameters.AllKeys)
