@@ -1073,10 +1073,12 @@
     <Content Include="Resources\refresh2.png" />
     <Content Include="Resources\refresh3.png" />
     <Content Include="Resources\refresh4.png" />
+    <Content Include="Resources\refresh5.png" />
     <Content Include="Resources\refresh_hl.png" />
     <Content Include="Resources\refresh_hl2.png" />
     <Content Include="Resources\refresh_hl3.png" />
     <Content Include="Resources\refresh_hl4.png" />
+    <Content Include="Resources\refresh_hl5.png" />
     <Content Include="Resources\save_hl.png" />
     <Content Include="Resources\slide.png" />
     <Content Include="Resources\slide_hl.png" />
