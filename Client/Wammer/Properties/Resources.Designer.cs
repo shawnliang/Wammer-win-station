@@ -895,6 +895,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Image file (*{0})|*{1}.
+        /// </summary>
+        internal static string PHOTO_SAVE_FILTER_PATTERN {
+            get {
+                return ResourceManager.GetString("PHOTO_SAVE_FILTER_PATTERN", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap photo_spinner {
             get {
                 object obj = ResourceManager.GetObject("photo_spinner", resourceCulture);
