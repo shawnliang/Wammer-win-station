@@ -42,7 +42,6 @@ namespace Waveface
 
         //// Main
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
-        private VirtualFolderForm m_virtualFolderForm;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         private List<string> m_delayPostPicList = new List<string>();
@@ -52,7 +51,7 @@ namespace Waveface
         private PostForm _postForm;
         private PhotoDownloader m_photoDownloader;
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
-        private BatchPostManager m_batchPostManager;
+        private Waveface.Upload.AttachmentUploadFacade m_uploader;
         private StationState m_stationState;
         private AutoUpdate m_autoUpdator;
 
@@ -138,18 +137,15 @@ namespace Waveface
             set { m_stationState = value; }
         }
 
-        public BatchPostManager BatchPostManager
+        public Waveface.Upload.AttachmentUploadFacade Uploader
         {
             get
             {
-                if (m_batchPostManager == null)
-                {
-                    m_batchPostManager = BatchPostManager.Load() ?? new BatchPostManager();
-                }
+                if (m_uploader == null)
+                    throw new InvalidOperationException("logic error");
 
-                return m_batchPostManager;
+                return m_uploader;
             }
-            set { m_batchPostManager = value; }
         }
 
         public UploadOriginPhotosToStationManager UploadOriginPhotosToStationManager
@@ -458,30 +454,27 @@ namespace Waveface
         {
             m_dropableNotifyIcon.Dispose();
 
-            if (m_virtualFolderForm != null)
-                m_virtualFolderForm.Close();
-
+			CancelAllThreads();
             SaveRunTime();
-            BatchPostManager.Save();
+            
         }
 
         public void Logout()
         {
             Program.ShowCrashReporter = false;
-
             QuitOption = QuitOption.Logout;
+            Close();
+        }
 
+        private void CancelAllThreads()
+        {
             timerPolling.Enabled = false;
 
             bgWorkerGetAllData.CancelAsync();
 
             try
             {
-                if (BatchPostManager != null)
-                {
-                    BatchPostManager.AbortThread();
-                    BatchPostManager = null;
-                }
+                m_uploader.Stop();
 
                 if (PhotoDownloader != null)
                 {
@@ -503,8 +496,6 @@ namespace Waveface
             catch
             {
             }
-
-            Close();
         }
 
 
@@ -705,14 +696,13 @@ namespace Waveface
 
             UploadOriginPhotosToStationManager.Start();
             PhotoDownloader.Start();
-            BatchPostManager.Start();
+            //BatchPostManager.Start();
+            m_uploader = new Upload.AttachmentUploadFacade(GCONST.RunTimeDataPath, _login.user.user_id);
 
             if (Environment.GetCommandLineArgs().Length == 1)
             {
                 StationState.Start();
             }
-
-            leftArea.SetNewPostManager();
 
             panelTitle.showRefreshUI(true);
 
@@ -1008,14 +998,8 @@ namespace Waveface
                 m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
                 DialogResult _dr = m_PostForm.ShowDialog();
 
-                if (_dr == DialogResult.OK)
+                if (_dr == DialogResult.Yes)
                 {
-                    BatchPostManager.Add(m_PostForm.BatchPostItem);
-
-                    if (m_PostForm.BatchPostItem.Post != null)
-                    {
-                        ShowPostInTimeline();
-                    }
                 }
             }
             catch (Exception _e)
@@ -1042,7 +1026,6 @@ namespace Waveface
 
                 if (_dr == DialogResult.OK)
                 {
-                    BatchPostManager.Add(m_PostForm.BatchPostItem);
                 }
             }
             catch (Exception _e)
@@ -1362,48 +1345,48 @@ namespace Waveface
 
         #region Screen Shot
 
-        private void capture(ShotType shotType)
-        {
-            try
-            {
-                CaptureForm _captureForm = new CaptureForm(shotType);
+        //private void capture(ShotType shotType)
+        //{
+        //    try
+        //    {
+        //        CaptureForm _captureForm = new CaptureForm(shotType);
 
-                if ((_captureForm.ShowDialog() != DialogResult.OK) || (_captureForm.Image == null))
-                {
-                    return;
-                }
+        //        if ((_captureForm.ShowDialog() != DialogResult.OK) || (_captureForm.Image == null))
+        //        {
+        //            return;
+        //        }
 
-                string _filename =
-                    string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
+        //        string _filename =
+        //            string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
 
-                Image _img = _captureForm.Image;
+        //        Image _img = _captureForm.Image;
 
-                string _pathToSave = Path.Combine(GCONST.TempPath, _filename);
+        //        string _pathToSave = Path.Combine(GCONST.TempPath, _filename);
 
-                _img.Save(_pathToSave, ImageFormat.Jpeg);
+        //        _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> { _pathToSave }, PostType.Photo, "");
-            }
-            catch (Exception _e)
-            {
-                MessageBox.Show(_e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        //        Post(new List<string> { _pathToSave }, PostType.Photo, "");
+        //    }
+        //    catch (Exception _e)
+        //    {
+        //        MessageBox.Show(_e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
 
-        private void regionMenuItem_Click(object sender, EventArgs e)
-        {
-            capture(ShotType.Region);
-        }
+        //private void regionMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    capture(ShotType.Region);
+        //}
 
-        private void windowsMenuItem_Click(object sender, EventArgs e)
-        {
-            capture(ShotType.Window);
-        }
+        //private void windowsMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    capture(ShotType.Window);
+        //}
 
-        private void screenMenuItem_Click(object sender, EventArgs e)
-        {
-            capture(ShotType.Screen);
-        }
+        //private void screenMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    capture(ShotType.Screen);
+        //}
 
         #endregion
 

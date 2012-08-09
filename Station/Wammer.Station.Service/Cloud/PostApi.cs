@@ -36,7 +36,8 @@ namespace Wammer.Cloud
 			{
 				if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{
-					parameters.Add(key, param[key]);
+					if (!parameters.ContainsKey(key))
+						parameters.Add(key, param[key]);
 				}
 			}
 
