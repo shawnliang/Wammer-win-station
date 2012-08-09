@@ -105,14 +105,14 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
     <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -173,6 +173,9 @@
   </data>
   <data name="FORGOT_PASSWORD_PAGE_TITLE1" xml:space="preserve">
     <value>忘記密碼 - Stream</value>
+  </data>
+  <data name="INDICATOR_PATTERN" xml:space="preserve">
+    <value>{0}{1}{2} {3} 張圖片, {4:0.##} {5}</value>
   </data>
   <data name="InvalidDriverError" xml:space="preserve">
     <value>帳號與這台 Stream Station 的管理者帳號不符, 請再試一次.</value>
@@ -298,5 +301,8 @@
   </data>
   <data name="WFServiceSyncing" xml:space="preserve">
     <value>同步中</value>
+  </data>
+  <data name="REMOVE_ACCOUNT_MESSAGE" xml:space="preserve">
+    <value>移除帳號...</value>
   </data>
 </root>

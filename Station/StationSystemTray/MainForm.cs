@@ -1423,7 +1423,7 @@ namespace StationSystemTray
 
 						if (upRemainedCount > 0)
 						{
-							iconText = string.Format("{0}{1}{2} {3} photos, {4:0.##} {5}",
+							iconText = string.Format(Resources.INDICATOR_PATTERN,
 													 iconText,
 													 Environment.NewLine,
 													 Resources.UPLOAD_INDICATOR,
@@ -1434,7 +1434,7 @@ namespace StationSystemTray
 
 						if (downloadRemainedCount > 0)
 						{
-							iconText = string.Format("{0}{1}{2} {3} photos, {4:0.##} {5}",
+							iconText = string.Format(Resources.INDICATOR_PATTERN,
 													 iconText,
 													 Environment.NewLine,
 													 Resources.DOWNLOAD_INDICATOR,
