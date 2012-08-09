@@ -13,6 +13,7 @@ using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.DetailUI;
 using Waveface.WebCam;
+using System.Windows.Media.Imaging;
 
 namespace Waveface.PostUI
 {
@@ -123,6 +124,12 @@ namespace Waveface.PostUI
         {
             foreach (string _pic in files)
             {
+                if (!isValidImageFile(_pic))
+                {
+                    Toast.MakeText(imageListView, I18n.L.T("BadImageToast") + _pic, Toast.LENGTH_SHORT).Show();
+                    continue;
+                }
+
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
@@ -615,6 +622,12 @@ namespace Waveface.PostUI
 
             foreach (string _pic in files)
             {
+                if (!isValidImageFile(_pic))
+                {
+                    Toast.MakeText(imageListView, I18n.L.T("BadImageToast") + _pic, Toast.LENGTH_SHORT).Show();
+                    continue;
+                }
+                
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
                 EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
@@ -633,6 +646,24 @@ namespace Waveface.PostUI
                     imageListView.Items.Insert(index, _item);
 
                 Main.Current.Uploader.Add(_pic, _tag.ObjectID, PostId);
+            }
+        }
+
+        private static bool isValidImageFile(string file_path)
+        {
+            try
+            {
+                using (var m = File.OpenRead(file_path))
+                {
+                    var decoder = BitmapDecoder.Create(m, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+                    var frame = decoder.Frames[0];
+
+                    return frame.PixelWidth > 0 && frame.PixelHeight > 0;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 
