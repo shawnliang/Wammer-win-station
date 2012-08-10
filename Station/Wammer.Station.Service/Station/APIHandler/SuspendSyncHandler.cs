@@ -26,7 +26,7 @@ namespace Wammer.Station
 		#region Public Method
 		public override void HandleRequest()
 		{
-			Station.Instance.SuspendSync();
+			Station.Instance.SuspendSyncByUser();
 			RespondSuccess();
 
 			OnSyncSuspended();
