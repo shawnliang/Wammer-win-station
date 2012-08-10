@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Manina.Windows.Forms;
 using Waveface.DetailUI;
 using View = Manina.Windows.Forms.View;
+using Waveface.Properties;
 
 #endregion
 
@@ -265,9 +266,9 @@ namespace Waveface.Component
                 if (g.DpiX == 120)
                     _fontSize = 10;
 
-                using (Font _font = new Font(I18n.L.T("DefaultFont"), _fontSize, FontStyle.Bold))
+                using (Font _font = new Font(Resources.DEFAULT_FONT, _fontSize, FontStyle.Bold))
                 {
-                    TextRenderer.DrawText(g, I18n.L.T("CoverImage"), _font, _rect, Color.White,
+                    TextRenderer.DrawText(g, Resources.COVER_IMAGE, _font, _rect, Color.White,
                                           TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                 }
             }

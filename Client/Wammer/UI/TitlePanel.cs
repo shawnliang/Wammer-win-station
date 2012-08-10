@@ -114,12 +114,17 @@ namespace Waveface
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TitlePanel));
 			this._toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this._timer1 = new System.Windows.Forms.Timer(this.components);
 			this._btnRemovePost = new Waveface.Component.ImageButton();
 			this._btnSetting = new Waveface.Component.ImageButton();
 			this._btnAccount = new Waveface.Component.ImageButton();
 			this._btnRefresh = new Waveface.Component.ImageButton();
-			this._timer1 = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
+			// 
+			// _timer1
+			// 
+			this._timer1.Interval = 125;
+			this._timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
 			// _btnRemovePost
 			// 
@@ -179,11 +184,6 @@ namespace Waveface
 			this._btnRefresh.TextShadow = true;
 			this._toolTip.SetToolTip(this._btnRefresh, resources.GetString("_btnRefresh.ToolTip"));
 			this._btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-			// 
-			// _timer1
-			// 
-			this._timer1.Interval = 500;
-			this._timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
 			// TitlePanel
 			// 

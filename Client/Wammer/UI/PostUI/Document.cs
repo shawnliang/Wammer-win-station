@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component.IconHelper;
+using Waveface.Properties;
 
 namespace Waveface.PostUI
 {
@@ -29,7 +30,7 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = I18n.L.T("Update");
+            btnSend.Text = Resources.UPDATE;
         }
 
         private void InitIconListManager()

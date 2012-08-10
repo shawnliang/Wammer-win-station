@@ -111,6 +111,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Remove this post?.
+        /// </summary>
+        internal static string ASK_REMOVE_POST {
+            get {
+                return ResourceManager.GetString("ASK_REMOVE_POST", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap back {
             get {
                 object obj = ResourceManager.GetObject("back", resourceCulture);
@@ -122,6 +131,42 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("back_hl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string CANCEL {
+            get {
+                return ResourceManager.GetString("CANCEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel Edit.
+        /// </summary>
+        internal static string CANCEL_EDIT_TITLE {
+            get {
+                return ResourceManager.GetString("CANCEL_EDIT_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel Post.
+        /// </summary>
+        internal static string CANCEL_POST_TITLE {
+            get {
+                return ResourceManager.GetString("CANCEL_POST_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cover image changed successfully..
+        /// </summary>
+        internal static string CHANGED_COVER_IMAGE {
+            get {
+                return ResourceManager.GetString("CHANGED_COVER_IMAGE", resourceCulture);
             }
         }
         
@@ -146,6 +191,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        internal static string CONTINUE {
+            get {
+                return ResourceManager.GetString("CONTINUE", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap Copy {
             get {
                 object obj = ResourceManager.GetObject("Copy", resourceCulture);
@@ -167,6 +221,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Cover Image.
+        /// </summary>
+        internal static string COVER_IMAGE {
+            get {
+                return ResourceManager.GetString("COVER_IMAGE", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap CoverImage {
             get {
                 object obj = ResourceManager.GetObject("CoverImage", resourceCulture);
@@ -181,10 +244,28 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Arial.
+        /// </summary>
+        internal static string DEFAULT_FONT {
+            get {
+                return ResourceManager.GetString("DEFAULT_FONT", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap desktop_logo {
             get {
                 object obj = ResourceManager.GetObject("desktop_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to cancel?.
+        /// </summary>
+        internal static string DISCARD_EDIT_POST {
+            get {
+                return ResourceManager.GetString("DISCARD_EDIT_POST", resourceCulture);
             }
         }
         
@@ -216,6 +297,33 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string EDIT {
+            get {
+                return ResourceManager.GetString("EDIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment text box is empty!.
+        /// </summary>
+        internal static string EMPTY_COMMENT {
+            get {
+                return ResourceManager.GetString("EMPTY_COMMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text cannot be empty!.
+        /// </summary>
+        internal static string EMPTY_CONTENT {
+            get {
+                return ResourceManager.GetString("EMPTY_CONTENT", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap Error {
             get {
                 object obj = ResourceManager.GetObject("Error", resourceCulture);
@@ -223,10 +331,37 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred, please try again..
+        /// </summary>
+        internal static string ERROR_AND_RETRY {
+            get {
+                return ResourceManager.GetString("ERROR_AND_RETRY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your authentication has expired. Re-enter your password to login again..
+        /// </summary>
+        internal static string EXCEPTION_401 {
+            get {
+                return ResourceManager.GetString("EXCEPTION_401", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap fastforward {
             get {
                 object obj = ResourceManager.GetObject("fastforward", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorite.
+        /// </summary>
+        internal static string FAVORITE {
+            get {
+                return ResourceManager.GetString("FAVORITE", resourceCulture);
             }
         }
         
@@ -653,6 +788,45 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Photo does not exist: [{0}].
+        ///        1.Click &apos;Continue&apos;, to skip this file.
+        ///        2.Click &apos;Retry&apos;, to try again.
+        ///        3.Click &apos;Cancel&apos;, to discard post..
+        /// </summary>
+        internal static string FILE_MISS_PATTERN {
+            get {
+                return ResourceManager.GetString("FILE_MISS_PATTERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please fill all the fields!.
+        /// </summary>
+        internal static string FILL_ALL_FIELDS {
+            get {
+                return ResourceManager.GetString("FILL_ALL_FIELDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please re-enter your password to login again..
+        /// </summary>
+        internal static string FORCE_LOGOUT {
+            get {
+                return ResourceManager.GetString("FORCE_LOGOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Getting the web preview for.
+        /// </summary>
+        internal static string GET_WEB_PREVIEW {
+            get {
+                return ResourceManager.GetString("GET_WEB_PREVIEW", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap gridview {
             get {
                 object obj = ResourceManager.GetObject("gridview", resourceCulture);
@@ -681,6 +855,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Not a valid image file: .
+        /// </summary>
+        internal static string INVAILD_IMAGE {
+            get {
+                return ResourceManager.GetString("INVAILD_IMAGE", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap LD {
             get {
                 object obj = ResourceManager.GetObject("LD", resourceCulture);
@@ -706,6 +889,15 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("LoadingImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log In error. Please try again..
+        /// </summary>
+        internal static string LOGIN_ERROR {
+            get {
+                return ResourceManager.GetString("LOGIN_ERROR", resourceCulture);
             }
         }
         
@@ -835,6 +1027,24 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to This version is out of date. Click ‘OK’ to download and install the latest version..
+        /// </summary>
+        internal static string NEED_UPGRADE {
+            get {
+                return ResourceManager.GetString("NEED_UPGRADE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network Disconnected..
+        /// </summary>
+        internal static string NETWORK_DISCONNECTED {
+            get {
+                return ResourceManager.GetString("NETWORK_DISCONNECTED", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap network_error {
             get {
                 object obj = ResourceManager.GetObject("network_error", resourceCulture);
@@ -867,6 +1077,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to No web preview for.
+        /// </summary>
+        internal static string NO_WEB_PREVIEW {
+            get {
+                return ResourceManager.GetString("NO_WEB_PREVIEW", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap ObjectPosition {
             get {
                 object obj = ResourceManager.GetObject("ObjectPosition", resourceCulture);
@@ -881,6 +1100,17 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to You have already reached your monthly upload limit. 
+        ///        1.Click &apos;Retry&apos;, to try again. 
+        ///        2.Click &apos;Cancel&apos;, to discard post..
+        /// </summary>
+        internal static string OVER_QUOTA {
+            get {
+                return ResourceManager.GetString("OVER_QUOTA", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap page {
             get {
                 object obj = ResourceManager.GetObject("page", resourceCulture);
@@ -892,6 +1122,15 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("Paste", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to photo.
+        /// </summary>
+        internal static string PHOTO {
+            get {
+                return ResourceManager.GetString("PHOTO", resourceCulture);
             }
         }
         
@@ -927,10 +1166,64 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to photos.
+        /// </summary>
+        internal static string PHOTOS {
+            get {
+                return ResourceManager.GetString("PHOTOS", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap Post {
             get {
                 object obj = ResourceManager.GetObject("Post", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Post Error!.
+        /// </summary>
+        internal static string POST_ERROR {
+            get {
+                return ResourceManager.GetString("POST_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photo Preview ({0} photo(s) added).
+        /// </summary>
+        internal static string POST_PHOTO_SUMMARY_PATTERN {
+            get {
+                return ResourceManager.GetString("POST_PHOTO_SUMMARY_PATTERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Post success!.
+        /// </summary>
+        internal static string POST_SUCCESS {
+            get {
+                return ResourceManager.GetString("POST_SUCCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What do you want to add?.
+        /// </summary>
+        internal static string PURE_TEXT_COMMENT_WATER_MARK {
+            get {
+                return ResourceManager.GetString("PURE_TEXT_COMMENT_WATER_MARK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add your description here....
+        /// </summary>
+        internal static string PURE_TEXT_WATER_MARK {
+            get {
+                return ResourceManager.GetString("PURE_TEXT_WATER_MARK", resourceCulture);
             }
         }
         
@@ -1023,11 +1316,48 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stream Station is no longer available because &apos;{0}&apos; setup a new station or the account does not exist anymore.
+        ///Please restart the program to initialize Stream Station..
+        /// </summary>
+        internal static string REGISTERED_REQUIRED_PATTERN {
+            get {
+                return ResourceManager.GetString("REGISTERED_REQUIRED_PATTERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to remove all files?.
+        /// </summary>
+        internal static string REMOVE_ALL_FILES {
+            get {
+                return ResourceManager.GetString("REMOVE_ALL_FILES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to remove selected file(s)?.
+        /// </summary>
+        internal static string REMOVE_SELECTED_FILES {
+            get {
+                return ResourceManager.GetString("REMOVE_SELECTED_FILES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove Post.
         /// </summary>
         internal static string REMOVE_TOOL_TIP {
             get {
                 return ResourceManager.GetString("REMOVE_TOOL_TIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        internal static string RETRY {
+            get {
+                return ResourceManager.GetString("RETRY", resourceCulture);
             }
         }
         
@@ -1042,6 +1372,24 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("Save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All images are saved..
+        /// </summary>
+        internal static string SAVE_ALL_OK {
+            get {
+                return ResourceManager.GetString("SAVE_ALL_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Save Error!.
+        /// </summary>
+        internal static string SAVE_ERROR {
+            get {
+                return ResourceManager.GetString("SAVE_ERROR", resourceCulture);
             }
         }
         
@@ -1077,6 +1425,15 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("scriptedit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select location to save files.
+        /// </summary>
+        internal static string SELECT_SAVE_PATH {
+            get {
+                return ResourceManager.GetString("SELECT_SAVE_PATH", resourceCulture);
             }
         }
         
@@ -1121,6 +1478,24 @@ namespace Waveface.Properties {
             get {
                 object obj = ResourceManager.GetObject("Station", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service..
+        /// </summary>
+        internal static string STATION_SERVICE_DOWN {
+            get {
+                return ResourceManager.GetString("STATION_SERVICE_DOWN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Error.
+        /// </summary>
+        internal static string SYSTEM_ERROR_TITLE {
+            get {
+                return ResourceManager.GetString("SYSTEM_ERROR_TITLE", resourceCulture);
             }
         }
         
@@ -1217,11 +1592,56 @@ namespace Waveface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to post. Please try again..
+        /// </summary>
+        internal static string UNABLE_POST {
+            get {
+                return ResourceManager.GetString("UNABLE_POST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An unexpected error occurred with our server. Please try again later. If the problem still occurs, please contact our support team at support@waveface.com.
         /// </summary>
         internal static string UNEXPECTED_EXCEPTION {
             get {
                 return ResourceManager.GetString("UNEXPECTED_EXCEPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfavorite.
+        /// </summary>
+        internal static string UNFAVORITE {
+            get {
+                return ResourceManager.GetString("UNFAVORITE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        internal static string UPDATE {
+            get {
+                return ResourceManager.GetString("UPDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to via.
+        /// </summary>
+        internal static string VIA {
+            get {
+                return ResourceManager.GetString("VIA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web link preview for.
+        /// </summary>
+        internal static string WEB_PREVIEW_COME_FROM {
+            get {
+                return ResourceManager.GetString("WEB_PREVIEW_COME_FROM", resourceCulture);
             }
         }
         

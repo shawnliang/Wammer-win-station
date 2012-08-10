@@ -319,7 +319,7 @@ namespace Waveface
                 btnFavorite.ImageDisable = Resources.FB_unfav_hl;
                 btnFavorite.ImageHover = Resources.FB_unfav_hl;
 
-                toolTip.SetToolTip(btnFavorite, I18n.L.T("Favorite"));
+                toolTip.SetToolTip(btnFavorite, Resources.FAVORITE);
             }
             else
             {
@@ -327,7 +327,7 @@ namespace Waveface
                 btnFavorite.ImageDisable = Resources.FB_fav_hl;
                 btnFavorite.ImageHover = Resources.FB_fav_hl;
 
-                toolTip.SetToolTip(btnFavorite, I18n.L.T("Unfavorite"));
+				toolTip.SetToolTip(btnFavorite, Resources.UNFAVORITE);
             }
         }
 
@@ -336,7 +336,7 @@ namespace Waveface
             var _postTime = GetTime(Post.timestamp);
 
             if (m_currentView == null || m_currentView.CanEdit())
-                labelTitle.Text = _postTime + " " + I18n.L.T("DetailView.Via") + " " + Post.code_name;
+                labelTitle.Text = _postTime + " " + Resources.VIA + " " + Post.code_name;
             else
                 labelTitle.Text = Resources.PHOTO_UPLOADING;
         }
@@ -473,7 +473,7 @@ namespace Waveface
 
             if (textBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Stream", MessageBoxButtons.OK,
+				MessageBox.Show(Resources.EMPTY_COMMENT, "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
                 return false;
             }
@@ -511,7 +511,7 @@ namespace Waveface
                 _s.Append("    			<tr>");
 
                 string _t = "      				<td><font size='1.75pt' color=#68b0c5>[CommentTime] " +
-                            I18n.L.T("DetailView.Via") +
+                            Resources.VIA +
                             " [code_name]</font></td>";
 
                 _s.Append(_t);

@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Waveface.Component.RichEdit;
+using Waveface.Properties;
 
 #endregion
 
@@ -21,7 +22,7 @@ namespace Waveface
         {
             InitializeComponent();
 
-            textBoxComment.WaterMarkText = I18n.L.T("AddCommentPuretextWaterMark");
+			textBoxComment.WaterMarkText = Resources.PURE_TEXT_COMMENT_WATER_MARK;
         }
 
         #region richTextBox
@@ -59,7 +60,7 @@ namespace Waveface
         {
             if (textBoxComment.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("DetailView.CommentEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Resources.EMPTY_COMMENT, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

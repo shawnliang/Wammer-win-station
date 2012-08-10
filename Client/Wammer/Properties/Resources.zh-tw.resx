@@ -120,6 +120,51 @@
   <data name="ACCOUNT_TOOL_TIP" xml:space="preserve">
     <value>帳戶資訊</value>
   </data>
+  <data name="ASK_REMOVE_POST" xml:space="preserve">
+    <value>您是否確定要移除本貼文?</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CANCEL_EDIT_TITLE" xml:space="preserve">
+    <value>取消編輯</value>
+  </data>
+  <data name="CANCEL_POST_TITLE" xml:space="preserve">
+    <value>取消貼文</value>
+  </data>
+  <data name="CHANGED_COVER_IMAGE" xml:space="preserve">
+    <value>更改封面照片成功.</value>
+  </data>
+  <data name="CONTINUE" xml:space="preserve">
+    <value>繼續</value>
+  </data>
+  <data name="COVER_IMAGE" xml:space="preserve">
+    <value>封面照片</value>
+  </data>
+  <data name="DEFAULT_FONT" xml:space="preserve">
+    <value>微軟正黑體</value>
+  </data>
+  <data name="DISCARD_EDIT_POST" xml:space="preserve">
+    <value>您確定要放棄編輯本貼文嗎?</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="EMPTY_COMMENT" xml:space="preserve">
+    <value>留言欄位不能為空白!</value>
+  </data>
+  <data name="EMPTY_CONTENT" xml:space="preserve">
+    <value>內容不能為空白!</value>
+  </data>
+  <data name="ERROR_AND_RETRY" xml:space="preserve">
+    <value>系統發生錯誤, 請稍後再試.</value>
+  </data>
+  <data name="EXCEPTION_401" xml:space="preserve">
+    <value>您的認證資訊已經過期, 請重新輸入密碼以便登入.</value>
+  </data>
+  <data name="FAVORITE" xml:space="preserve">
+    <value>設為"我的最愛"</value>
+  </data>
   <data name="FB_CONNECT_FAILED" xml:space="preserve">
     <value>輸入的Facebook帳號與原帳號不符合！請您再重新輸入一次。</value>
   </data>
@@ -135,8 +180,35 @@
   <data name="FIELD_MUST_HAVE_DATA_PATTERN" xml:space="preserve">
     <value>{0} 欄位必須要有資料</value>
   </data>
+  <data name="FILE_MISS_PATTERN" xml:space="preserve">
+    <value>圖片不存在: [{0}].
+        1.選擇[繼續], 忽略此圖片檔案.
+        2.選擇[重試], 再次嘗試.
+        3.選擇[取消], 放棄整個貼文.</value>
+  </data>
+  <data name="FILL_ALL_FIELDS" xml:space="preserve">
+    <value>請填寫所有欄位.</value>
+  </data>
+  <data name="FORCE_LOGOUT" xml:space="preserve">
+    <value>請輸入密碼重新登入.</value>
+  </data>
+  <data name="GET_WEB_PREVIEW" xml:space="preserve">
+    <value>取得網站預覽</value>
+  </data>
+  <data name="INVAILD_IMAGE" xml:space="preserve">
+    <value>不正確的圖檔: </value>
+  </data>
+  <data name="LOGIN_ERROR" xml:space="preserve">
+    <value>帳號或密碼錯誤, 請重新輸入.</value>
+  </data>
   <data name="NAME" xml:space="preserve">
     <value>名稱</value>
+  </data>
+  <data name="NEED_UPGRADE" xml:space="preserve">
+    <value>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。在還未升級前將無法繼續使用Stream。</value>
+  </data>
+  <data name="NETWORK_DISCONNECTED" xml:space="preserve">
+    <value>網路連線中斷.</value>
   </data>
   <data name="NETWORK_EXCEPTION" xml:space="preserve">
     <value>網路連線發生錯誤</value>
@@ -144,11 +216,40 @@
   <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
     <value>沒有網路連線</value>
   </data>
+  <data name="NO_WEB_PREVIEW" xml:space="preserve">
+    <value>無法取得網站預覽</value>
+  </data>
+  <data name="OVER_QUOTA" xml:space="preserve">
+    <value>您本月的傳輸使用量已經達到上限值, 因此無法繼續上傳圖片. 
+        1.選擇[重試], 再次嘗試. 
+        2.選擇[取消], 放棄整個貼文.</value>
+  </data>
+  <data name="PHOTO" xml:space="preserve">
+    <value>張圖</value>
+  </data>
+  <data name="PHOTOS" xml:space="preserve">
+    <value>張圖</value>
+  </data>
   <data name="PHOTO_SAVE_FILTER_PATTERN" xml:space="preserve">
     <value>圖片檔 (*{0})|*{1}</value>
   </data>
   <data name="PHOTO_UPLOADING" xml:space="preserve">
     <value>同步中...</value>
+  </data>
+  <data name="POST_ERROR" xml:space="preserve">
+    <value>貼文失敗!</value>
+  </data>
+  <data name="POST_PHOTO_SUMMARY_PATTERN" xml:space="preserve">
+    <value>照片預覽 (共{0}張)</value>
+  </data>
+  <data name="POST_SUCCESS" xml:space="preserve">
+    <value>貼文成功!</value>
+  </data>
+  <data name="PURE_TEXT_COMMENT_WATER_MARK" xml:space="preserve">
+    <value>在此寫下您的隻字片語...</value>
+  </data>
+  <data name="PURE_TEXT_WATER_MARK" xml:space="preserve">
+    <value>在此寫下您的隻字片語...</value>
   </data>
   <data name="RECONNECT_MESSAGE" xml:space="preserve">
     <value>Facebook資料同步功能已經暫停。是否需要恢復自動同步功能？</value>
@@ -156,11 +257,39 @@
   <data name="REFRESH_TOOL_TIP" xml:space="preserve">
     <value>重新整理</value>
   </data>
+  <data name="REGISTERED_REQUIRED_PATTERN" xml:space="preserve">
+    <value>無法使用Stream Station, 因為{0}設定了另一個Stream Station或是該帳號不存在
+請重新啟動程式再次初始化Stream Station</value>
+  </data>
+  <data name="REMOVE_ALL_FILES" xml:space="preserve">
+    <value>你是否確定要移除所有檔案?</value>
+  </data>
+  <data name="REMOVE_SELECTED_FILES" xml:space="preserve">
+    <value>你是否確定要移除所選取的檔案?</value>
+  </data>
   <data name="REMOVE_TOOL_TIP" xml:space="preserve">
     <value>移除貼文</value>
   </data>
+  <data name="RETRY" xml:space="preserve">
+    <value>重試</value>
+  </data>
+  <data name="SAVE_ALL_OK" xml:space="preserve">
+    <value>儲存所有檔案成功!</value>
+  </data>
+  <data name="SAVE_ERROR" xml:space="preserve">
+    <value>儲存檔案失敗!</value>
+  </data>
+  <data name="SELECT_SAVE_PATH" xml:space="preserve">
+    <value>選擇存檔路徑</value>
+  </data>
   <data name="SETTING_TOOL_TIP" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="STATION_SERVICE_DOWN" xml:space="preserve">
+    <value>Stream Station服務未完全啟動, 請稍候一會再登入, 或確認Stream Station服務啟動狀態.</value>
+  </data>
+  <data name="SYSTEM_ERROR_TITLE" xml:space="preserve">
+    <value>系統錯誤</value>
   </data>
   <data name="TURNED_OFF" xml:space="preserve">
     <value>已關閉</value>
@@ -174,7 +303,22 @@
   <data name="TURN_ON" xml:space="preserve">
     <value>啟用</value>
   </data>
+  <data name="UNABLE_POST" xml:space="preserve">
+    <value>無法張貼文章 請再試一次</value>
+  </data>
   <data name="UNEXPECTED_EXCEPTION" xml:space="preserve">
     <value>伺服器出現不明錯誤，請稍後再試。如果此狀況持續出現，請直接聯繫服務人員排除狀況: support@waveface.com</value>
+  </data>
+  <data name="UNFAVORITE" xml:space="preserve">
+    <value>取消設為"我的最愛"</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>更改</value>
+  </data>
+  <data name="VIA" xml:space="preserve">
+    <value>貼自</value>
+  </data>
+  <data name="WEB_PREVIEW_COME_FROM" xml:space="preserve">
+    <value>網站預覽來自</value>
   </data>
 </root>
