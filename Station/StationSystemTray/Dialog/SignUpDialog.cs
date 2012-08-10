@@ -121,6 +121,19 @@ namespace StationSystemTray.Dialog
 		#endregion
 
 
+		#region Protected Method
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			//prevent ctrl+tab to switch signin pages
+			if (keyData == (Keys.Control | Keys.Tab))
+			{
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+		#endregion
+
+
 		#region Public Method
 		public void ShowTutorial()
 		{
