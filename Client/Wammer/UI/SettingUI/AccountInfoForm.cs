@@ -6,7 +6,6 @@ using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Configuration;
-using Waveface.Localization;
 using System.Linq;
 using System.Threading;
 using System.Text.RegularExpressions;

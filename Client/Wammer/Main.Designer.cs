@@ -43,7 +43,6 @@ namespace Waveface
 			this.detailView = new Waveface.DetailView();
 			this.timerDelayPost = new System.Windows.Forms.Timer(this.components);
 			this.bgWorkerGetAllData = new System.ComponentModel.BackgroundWorker();
-			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
 			this.timerShowStatuMessage = new System.Windows.Forms.Timer(this.components);
 			this.backgroundWorkerPreloadAllImages = new System.ComponentModel.BackgroundWorker();
 			this.timerPolling = new System.Windows.Forms.Timer(this.components);
@@ -92,10 +91,6 @@ namespace Waveface
 			// 
 			this.bgWorkerGetAllData.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerGetAllData_DoWork);
 			this.bgWorkerGetAllData.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgWorkerGetAllData_RunWorkerCompleted);
-			// 
-			// cultureManager
-			// 
-			this.cultureManager.ManagedControl = this;
 			// 
 			// timerShowStatuMessage
 			// 
@@ -148,7 +143,6 @@ namespace Waveface
         private System.Windows.Forms.Timer timerDelayPost;
         private LeftArea leftArea;
 		private System.ComponentModel.BackgroundWorker bgWorkerGetAllData;
-		private Localization.CultureManager cultureManager;
 		private System.Windows.Forms.Timer timerShowStatuMessage;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerPreloadAllImages;
         private System.Windows.Forms.Timer timerPolling;

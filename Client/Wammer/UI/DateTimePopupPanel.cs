@@ -6,8 +6,6 @@ using System.Windows.Forms;
 using Waveface.Component.PopupControl;
 using Waveface.Component;
 using Waveface.Component.RichEdit;
-using Waveface.Localization;
-
 #endregion
 
 namespace Waveface
@@ -29,7 +27,7 @@ namespace Waveface
                 monthCalendar.ViewStart = value.Date;
                 monthCalendar.Invalidate();
 
-                string _tt = value.ToString("tt", CultureManager.ApplicationUICulture);
+				string _tt = value.ToString("tt", System.Threading.Thread.CurrentThread.CurrentUICulture);
                 labelM.Text = _tt;
 
                 timer.Enabled = true;

@@ -40,7 +40,6 @@ namespace Waveface
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
 			this.panelTimeBar = new System.Windows.Forms.Panel();
 			this.postList = new Waveface.PostsList();
-			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
 			this.SuspendLayout();
 			// 
 			// panelTimeBar
@@ -56,10 +55,6 @@ namespace Waveface
 			resources.ApplyResources(this.postList, "postList");
 			this.postList.MyParent = null;
 			this.postList.Name = "postList";
-			// 
-			// cultureManager
-			// 
-			this.cultureManager.ManagedControl = this;
 			// 
 			// PostArea
 			// 
@@ -77,7 +72,6 @@ namespace Waveface
         #endregion
 
 		private PostsList postList;
-        private Localization.CultureManager cultureManager;
         private System.Windows.Forms.Panel panelTimeBar;
     }
 }

@@ -55,7 +55,6 @@ namespace Waveface
 			this.monthCalendar = new CustomControls.MonthCalendar();
 			this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
 			this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
-			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
 			this.panelMain.SuspendLayout();
 			this.panelFilter.SuspendLayout();
@@ -226,10 +225,6 @@ namespace Waveface
 			this.imageListTimeline.Images.SetKeyName(0, "AllTime.png");
 			this.imageListTimeline.Images.SetKeyName(1, "Month.png");
 			// 
-			// cultureManager
-			// 
-			this.cultureManager.ManagedControl = this;
-			// 
 			// LeftArea
 			// 
 			this.AllowDrop = true;
@@ -263,7 +258,6 @@ namespace Waveface
         private System.Windows.Forms.Panel panelCustomFilter;
         private System.Windows.Forms.Panel panelTimeline;
         private CustomControls.MonthCalendar monthCalendar;
-        private Localization.CultureManager cultureManager;
         private System.Windows.Forms.TreeView tvCustomFilter;
         private System.Windows.Forms.TreeView tvTimeline;
         private ImageButton btnNewPost;

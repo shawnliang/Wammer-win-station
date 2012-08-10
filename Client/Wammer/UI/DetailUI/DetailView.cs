@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.DetailUI;
-using Waveface.Localization;
 using Waveface.Properties;
 
 #endregion
@@ -23,7 +22,6 @@ namespace Waveface
 
         private IContainer components;
 
-        private CultureManager cultureManager;
 
         private IDetailView m_currentView;
         private WebLink_DV m_webLinkDv;
@@ -117,7 +115,6 @@ namespace Waveface
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DetailView));
             this.panelMain = new System.Windows.Forms.Panel();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.timerCanEdit = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnAddFootNote = new Waveface.Component.ImageButton();
@@ -134,10 +131,6 @@ namespace Waveface
             this.panelMain.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // timerCanEdit
             // 

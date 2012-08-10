@@ -35,7 +35,6 @@
             this.btn2 = new Waveface.Component.XPButton();
             this.messageLbl = new System.Windows.Forms.Label();
             this.btn3 = new Waveface.Component.XPButton();
-            this.cultureManager1 = new Waveface.Localization.CultureManager(this.components);
             this.SuspendLayout();
             // 
             // chkBx
@@ -80,10 +79,6 @@
             this.btn3.UseVisualStyleBackColor = true;
             this.btn3.Click += new System.EventHandler(this.btn_Click);
             // 
-            // cultureManager1
-            // 
-            this.cultureManager1.ManagedControl = this;
-            // 
             // MsgBox
             // 
             resources.ApplyResources(this, "$this");
@@ -113,6 +108,5 @@
         private XPButton btn2;
         private System.Windows.Forms.Label messageLbl;
         private XPButton btn3;
-        private Localization.CultureManager cultureManager1;
     }
 }

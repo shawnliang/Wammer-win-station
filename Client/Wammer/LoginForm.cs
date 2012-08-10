@@ -9,8 +9,8 @@ using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Configuration;
-using Waveface.Localization;
 using Waveface.Properties;
+using System.Threading;
 
 #endregion
 
@@ -30,7 +30,6 @@ namespace Waveface
         private XPButton btnCancel;
         internal XPButton btnOK;
         private GroupBox groupBox1;
-        private CultureManager cultureManager;
 
         private FormSettings m_formSettings;
         private string m_savePassword = "";		
@@ -122,7 +121,6 @@ namespace Waveface
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.lblPassword = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.btnCancel = new Waveface.Component.XPButton();
             this.btnOK = new Waveface.Component.XPButton();
             this.groupBox1.SuspendLayout();
@@ -171,10 +169,6 @@ namespace Waveface
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // btnCancel
             // 
@@ -386,15 +380,15 @@ namespace Waveface
         {
             if (GCONST.DEBUG)
             {
-                if (CultureManager.ApplicationUICulture.Name == "en-US")
+				if (Thread.CurrentThread.CurrentUICulture.Name == "en-US")
                 {
-                    CultureManager.ApplicationUICulture = new CultureInfo("zh-TW");
+					Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-TW");
                     return;
                 }
 
-                if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+				if (Thread.CurrentThread.CurrentUICulture.Name == "zh-TW")
                 {
-                    CultureManager.ApplicationUICulture = new CultureInfo("en-US");
+					Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
                     return;
                 }
             }

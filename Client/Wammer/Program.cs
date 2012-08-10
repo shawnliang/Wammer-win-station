@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using NLog;
 using Waveface.Component;
 using Waveface.Diagnostics;
-using Waveface.Localization;
 
 #endregion
 
@@ -56,12 +55,16 @@ namespace Waveface
 
             Waveface.Common.TaskbarHelper.SetAppId("WavefaceStreamApp");
 
-            string _culture = (string)StationRegHelper.GetValue("Culture", null);
+			var culture = (string)StationRegHelper.GetValue("Culture", null);
 
-            if (_culture == null)
-                CultureManager.ApplicationUICulture = CultureInfo.CurrentCulture;
-            else
-                CultureManager.ApplicationUICulture = new CultureInfo(_culture);
+			if (culture != null)
+			{
+				var cultureInfo = new CultureInfo(culture);
+				Thread currentThread = Thread.CurrentThread;
+
+				currentThread.CurrentUICulture = cultureInfo;
+				currentThread.CurrentCulture = cultureInfo;
+			}
 
 
             Application.ThreadException += Application_ThreadException;

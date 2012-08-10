@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Web;
 using System.Windows.Forms;
 using Waveface.API.V2;
-using Waveface.Localization;
 using System;
 using Waveface.Properties;
 using Waveface.Component;

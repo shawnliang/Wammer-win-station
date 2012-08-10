@@ -42,7 +42,6 @@ namespace Waveface.DetailUI
 
         private List<string> _filePathMediums;
 
-        private Localization.CultureManager cultureManager;
         private ContextMenuStrip contextMenuStripTop;
         private ToolStripMenuItem miCopyTop;
 
@@ -160,7 +159,6 @@ namespace Waveface.DetailUI
             this.labelPictureInfo = new System.Windows.Forms.Label();
             this.webBrowserTop = new System.Windows.Forms.WebBrowser();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
@@ -270,10 +268,6 @@ namespace Waveface.DetailUI
             // 
             this.timer.Interval = 3000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // contextMenuStripTop
             // 

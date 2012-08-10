@@ -12,9 +12,9 @@ using NLog;
 using Newtonsoft.Json;
 using Waveface.API.V2;
 using Waveface.Component;
-using Waveface.Localization;
 using System.Diagnostics;
 using Waveface.Properties;
+using System.Threading;
 
 #endregion
 
@@ -34,9 +34,8 @@ namespace Waveface
         private DetailView m_detailView;
         private BindingSource m_postBS;
         private DataGridViewTextBoxColumn creatoridDataGridViewTextBoxColumn;
-        private Timer timer;
+        private System.Windows.Forms.Timer timer;
         private List<Post> m_posts;
-        private CultureManager cultureManager;
         private ContextMenuStrip contextMenuStrip;
         private ToolStripMenuItem miRemovePost;
 
@@ -167,7 +166,7 @@ namespace Waveface
                 m_cellHeight = (int)(m_fontText.Height * 6.9);
                 m_cellLinkHeight = m_fontText.Height * 7;
 
-                if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+				if (Thread.CurrentThread.CurrentUICulture.Name == "zh-TW")
                 {
                     m_cellLinkHeight = (int)(m_fontText.Height * 6.7);
                     m_cellHeight = (int)(m_fontText.Height * 7.3);
@@ -926,7 +925,6 @@ namespace Waveface
             this.miDisplayPhoto = new System.Windows.Forms.ToolStripMenuItem();
             this.miDisplayWebLink = new System.Windows.Forms.ToolStripMenuItem();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.dataGridView = new Waveface.Component.CustomDataGridView();
             this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
@@ -991,10 +989,6 @@ namespace Waveface
             this.timer.Enabled = true;
             this.timer.Interval = 30000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // dataGridView
             // 
