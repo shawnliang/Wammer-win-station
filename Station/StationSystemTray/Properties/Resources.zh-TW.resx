@@ -198,6 +198,9 @@
   <data name="MonthlyUsage_Unlimited" xml:space="preserve">
     <value>無上限</value>
   </data>
+  <data name="MovingResourceFolder" xml:space="preserve">
+    <value>移動中...</value>
+  </data>
   <data name="NeedToUpgrade" xml:space="preserve">
     <value>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。
 在還未升級前將無法繼續使用Stream。</value>
