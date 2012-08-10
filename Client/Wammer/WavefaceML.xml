@@ -333,7 +333,7 @@
   </WItem>
   <WItem>
     <ID>Photo.Summary</ID>
-    <en-US>Photo Preview ({0} photo added)</en-US>
+    <en-US>Photo Preview ({0} photo(s) added)</en-US>
     <zh-TW>照片預覽 (共{0}張)</zh-TW>
   </WItem>
 
