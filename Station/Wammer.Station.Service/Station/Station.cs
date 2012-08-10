@@ -41,6 +41,10 @@ namespace Wammer.Station
 		private DriverController _driverAgent;
 		private Object _bodySyncRunnersLockObj;
 		private Exit threadsExit = new Exit();
+
+		private bool userWantsSyncing = true;
+		private bool isSyncing = false;
+		private object synclock = new object();
 		#endregion
 
 
@@ -123,10 +127,6 @@ namespace Wammer.Station
 			}
 		}
 
-		
-		private Boolean m_OriginalSynchronizationStatus { get; set; }
-
-
 		/// <summary>
 		/// Gets the m_ driver agent.
 		/// </summary>
@@ -156,31 +156,10 @@ namespace Wammer.Station
 			}
 		}
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance is synchronization status.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if this instance is synchronization status; otherwise, <c>false</c>.
-		/// </value>
-		public Boolean IsSynchronizationStatus
-		{
-			get { return _isSynchronizationStatus; }
-			set
-			{
-				if (_isSynchronizationStatus == value)
-					return;
-
-				OnIsSynchronizationStatusChanging(EventArgs.Empty);
-				_isSynchronizationStatus = value;
-				OnIsSynchronizationStatusChanged(EventArgs.Empty);
-			}
-		}
 		#endregion
 
 
 		#region Event
-		public EventHandler IsSynchronizationStatusChanging;
-		public EventHandler IsSynchronizationStatusChanged;
 		public EventHandler<UserLoginEventArgs> UserLogined;
 		#endregion
 
@@ -193,8 +172,6 @@ namespace Wammer.Station
 		{
 			NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 			SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
-
-			IsSynchronizationStatusChanged += this_IsSynchronizationStatusChanged;
 		}
 		#endregion
 
@@ -262,19 +239,6 @@ namespace Wammer.Station
 			return new Guid(md5).ToString();
 		}
 
-		/// <summary>
-		/// Suspends the event process and do.
-		/// </summary>
-		/// <param name="eventHandler">The event handler.</param>
-		/// <param name="processHandler">The process handler.</param>
-		/// <param name="action">The action.</param>
-		private void SuspendEventProcessAndDo(EventHandler eventHandler, EventHandler processHandler, Action action)
-		{
-			eventHandler -= processHandler;
-			action();
-			eventHandler += processHandler;
-		}
-
 		private void CheckAndUpdateDriver(LoginedSession loginInfo, string sessionToken, string userID)
 		{
 			if (loginInfo == null)
@@ -327,33 +291,6 @@ namespace Wammer.Station
 
 
 		#region Protected Method
-		/// <summary>
-		/// Raises the <see cref="E:IsSynchronizationStatusChanging"/> event.
-		/// </summary>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		protected void OnIsSynchronizationStatusChanging(EventArgs e)
-		{
-			var handler = IsSynchronizationStatusChanging;
-
-			if (handler == null)
-				return;
-
-			handler(this, e);
-		}
-
-		/// <summary>
-		/// Raises the <see cref="E:IsSynchronizationStatusChanged"/> event.
-		/// </summary>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		protected void OnIsSynchronizationStatusChanged(EventArgs e)
-		{
-			var handler = IsSynchronizationStatusChanged;
-
-			if (handler == null)
-				return;
-
-			handler(this, e);
-		}
 
 		/// <summary>
 		/// Raises the <see cref="E:UserLogined"/> event.
@@ -376,7 +313,7 @@ namespace Wammer.Station
 		/// </summary>
 		public void Start()
 		{
-			ResumeSync();
+			ResumeSyncByUser();
 		}
 
 		/// <summary>
@@ -384,28 +321,22 @@ namespace Wammer.Station
 		/// </summary>
 		public void Stop()
 		{
-			SuspendSync();
+			SuspendSyncByUser();
 		}
 
 		/// <summary>
 		/// Suspends the sync.
 		/// </summary>
-		public void SuspendSync()
+		public void SuspendSyncByUser()
 		{
-			if (!IsSynchronizationStatus)
-			{
-				m_OriginalSynchronizationStatus = false;
-				return;
-			}
+			userWantsSyncing = false;
 
-			SuspendEventProcessAndDo(
-				IsSynchronizationStatusChanged,
-				this_IsSynchronizationStatusChanged,
-				() =>
-				{
-					IsSynchronizationStatus = false;
-				});
+			if (!isSyncing)
+				suspendSync();
+		}
 
+		private void suspendSync()
+		{
 			m_StationTimer.Stop();
 
 			threadsExit.GoExit = true;
@@ -426,24 +357,17 @@ namespace Wammer.Station
 		/// <summary>
 		/// Resumes the sync.
 		/// </summary>
-		public void ResumeSync()
+		public void ResumeSyncByUser()
+		{
+			userWantsSyncing = true;
+
+			if (!isSyncing)
+				resumeSync();
+		}
+
+		private void resumeSync()
 		{
 			threadsExit.GoExit = false;
-
-			if (IsSynchronizationStatus)
-			{
-				m_OriginalSynchronizationStatus = true;
-				return;
-			}
-
-			SuspendEventProcessAndDo(
-				IsSynchronizationStatusChanged,
-				this_IsSynchronizationStatusChanged,
-				() =>
-				{
-					IsSynchronizationStatus = true;
-				});
-
 			m_PostUploadRunner.Start();
 			m_StationTimer.Start();
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Start());
@@ -527,31 +451,15 @@ namespace Wammer.Station
 		/// <param name="e">The <see cref="System.Net.NetworkInformation.NetworkAvailabilityEventArgs"/> instance containing the event data.</param>
 		void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
 		{
-			this.LogDebugMsg("Network available => " + e.IsAvailable.ToString());
-			if (!e.IsAvailable)
+			lock (synclock)
 			{
-				m_OriginalSynchronizationStatus = IsSynchronizationStatus;
-				SuspendSync();
-				return;
+				this.LogDebugMsg("Network available => " + e.IsAvailable.ToString());
+
+				if (!e.IsAvailable)
+					suspendSync();
+				else
+					resumeSync();
 			}
-
-			if (m_OriginalSynchronizationStatus)
-				ResumeSync();
-
-			m_OriginalSynchronizationStatus = IsSynchronizationStatus;
-		}
-
-		/// <summary>
-		/// Handles the IsSynchronizationStatusChanged event of the this control.
-		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		void this_IsSynchronizationStatusChanged(object sender, EventArgs e)
-		{
-			if (IsSynchronizationStatus)
-				ResumeSync();
-			else
-				SuspendSync();
 		}
 		#endregion
 	}

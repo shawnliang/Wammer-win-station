@@ -123,7 +123,6 @@
     <Compile Include="PerfMonitor\NullPerfCounter.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
     <Compile Include="Station\AbstractTaskEnDequeueNotifier.cs" />
-    <Compile Include="Station\APIHandler\MoveResourceFolderHandler.cs" />
     <Compile Include="Station\APIHandler\PostFetchByFilterHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
