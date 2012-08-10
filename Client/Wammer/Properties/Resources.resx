@@ -604,4 +604,148 @@
   <data name="PHOTO_SAVE_FILTER_PATTERN" xml:space="preserve">
     <value>Image file (*{0})|*{1}</value>
   </data>
+  <data name="ASK_REMOVE_POST" xml:space="preserve">
+    <value>Remove this post?</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CANCEL_EDIT_TITLE" xml:space="preserve">
+    <value>Cancel Edit</value>
+  </data>
+  <data name="CANCEL_POST_TITLE" xml:space="preserve">
+    <value>Cancel Post</value>
+  </data>
+  <data name="CHANGED_COVER_IMAGE" xml:space="preserve">
+    <value>Cover image changed successfully.</value>
+  </data>
+  <data name="CONTINUE" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="COVER_IMAGE" xml:space="preserve">
+    <value>Cover Image</value>
+  </data>
+  <data name="DEFAULT_FONT" xml:space="preserve">
+    <value>Arial</value>
+  </data>
+  <data name="DISCARD_EDIT_POST" xml:space="preserve">
+    <value>Are you sure you want to cancel?</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EMPTY_COMMENT" xml:space="preserve">
+    <value>Comment text box is empty!</value>
+  </data>
+  <data name="EMPTY_CONTENT" xml:space="preserve">
+    <value>Text cannot be empty!</value>
+  </data>
+  <data name="ERROR_AND_RETRY" xml:space="preserve">
+    <value>An error occurred, please try again.</value>
+  </data>
+  <data name="EXCEPTION_401" xml:space="preserve">
+    <value>Your authentication has expired. Re-enter your password to login again.</value>
+  </data>
+  <data name="FAVORITE" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="FILE_MISS_PATTERN" xml:space="preserve">
+    <value>Photo does not exist: [{0}].
+        1.Click 'Continue', to skip this file.
+        2.Click 'Retry', to try again.
+        3.Click 'Cancel', to discard post.</value>
+  </data>
+  <data name="FILL_ALL_FIELDS" xml:space="preserve">
+    <value>Please fill all the fields!</value>
+  </data>
+  <data name="FORCE_LOGOUT" xml:space="preserve">
+    <value>Please re-enter your password to login again.</value>
+  </data>
+  <data name="GET_WEB_PREVIEW" xml:space="preserve">
+    <value>Getting the web preview for</value>
+  </data>
+  <data name="INVAILD_IMAGE" xml:space="preserve">
+    <value>Not a valid image file: </value>
+  </data>
+  <data name="LOGIN_ERROR" xml:space="preserve">
+    <value>Log In error. Please try again.</value>
+  </data>
+  <data name="NEED_UPGRADE" xml:space="preserve">
+    <value>This version is out of date. Click ‘OK’ to download and install the latest version.</value>
+  </data>
+  <data name="NETWORK_DISCONNECTED" xml:space="preserve">
+    <value>Network Disconnected.</value>
+  </data>
+  <data name="NO_WEB_PREVIEW" xml:space="preserve">
+    <value>No web preview for</value>
+  </data>
+  <data name="OVER_QUOTA" xml:space="preserve">
+    <value>You have already reached your monthly upload limit. 
+        1.Click 'Retry', to try again. 
+        2.Click 'Cancel', to discard post.</value>
+  </data>
+  <data name="PHOTO" xml:space="preserve">
+    <value>photo</value>
+  </data>
+  <data name="PHOTOS" xml:space="preserve">
+    <value>photos</value>
+  </data>
+  <data name="POST_ERROR" xml:space="preserve">
+    <value>Post Error!</value>
+  </data>
+  <data name="POST_PHOTO_SUMMARY_PATTERN" xml:space="preserve">
+    <value>Photo Preview ({0} photo(s) added)</value>
+  </data>
+  <data name="POST_SUCCESS" xml:space="preserve">
+    <value>Post success!</value>
+  </data>
+  <data name="PURE_TEXT_COMMENT_WATER_MARK" xml:space="preserve">
+    <value>What do you want to add?</value>
+  </data>
+  <data name="PURE_TEXT_WATER_MARK" xml:space="preserve">
+    <value>Add your description here...</value>
+  </data>
+  <data name="REGISTERED_REQUIRED_PATTERN" xml:space="preserve">
+    <value>Stream Station is no longer available because '{0}' setup a new station or the account does not exist anymore.
+Please restart the program to initialize Stream Station.</value>
+  </data>
+  <data name="REMOVE_ALL_FILES" xml:space="preserve">
+    <value>Do you really want to remove all files?</value>
+  </data>
+  <data name="REMOVE_SELECTED_FILES" xml:space="preserve">
+    <value>Do you really want to remove selected file(s)?</value>
+  </data>
+  <data name="RETRY" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="SAVE_ALL_OK" xml:space="preserve">
+    <value>All images are saved.</value>
+  </data>
+  <data name="SAVE_ERROR" xml:space="preserve">
+    <value>File Save Error!</value>
+  </data>
+  <data name="SELECT_SAVE_PATH" xml:space="preserve">
+    <value>Select location to save files</value>
+  </data>
+  <data name="STATION_SERVICE_DOWN" xml:space="preserve">
+    <value>Stream Station service is not completely started. Please wait for a while and try again, or ensure the running status of Stream Station windows service.</value>
+  </data>
+  <data name="SYSTEM_ERROR_TITLE" xml:space="preserve">
+    <value>System Error</value>
+  </data>
+  <data name="UNABLE_POST" xml:space="preserve">
+    <value>Unable to post. Please try again.</value>
+  </data>
+  <data name="UNFAVORITE" xml:space="preserve">
+    <value>Unfavorite</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="VIA" xml:space="preserve">
+    <value>via</value>
+  </data>
+  <data name="WEB_PREVIEW_COME_FROM" xml:space="preserve">
+    <value>Web link preview for</value>
+  </data>
 </root>

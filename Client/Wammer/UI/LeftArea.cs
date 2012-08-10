@@ -40,7 +40,7 @@ namespace Waveface
         {
             get
             {
-                return _font ?? (_font = new Font(I18n.L.T("DefaultFont"), 9 * getDPIRatio(), FontStyle.Bold));
+                return _font ?? (_font = new Font(Resources.DEFAULT_FONT, 9 * getDPIRatio(), FontStyle.Bold));
             }
         }
 

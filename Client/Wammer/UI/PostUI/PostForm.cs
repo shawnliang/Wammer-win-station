@@ -12,6 +12,7 @@ using Waveface.Component;
 using Waveface.Component.RichEdit;
 using Waveface.Configuration;
 using System.IO;
+using Waveface.Properties;
 
 #endregion
 
@@ -78,7 +79,7 @@ namespace Waveface
 
             btnAddPhoto.Focus();
 
-            pureTextBox.WaterMarkText = I18n.L.T("PostForm.PuretextWaterMark");
+            pureTextBox.WaterMarkText = Resources.PURE_TEXT_WATER_MARK;
 
             if (EditMode)
             {
@@ -143,9 +144,9 @@ namespace Waveface
         {
             List<string> _pics = new List<string>();
 
-            Text = I18n.L.T("EditPost");
+			Text = Resources.EDIT;
 
-            btnSend.Text = I18n.L.T("Update");
+			btnSend.Text = Resources.UPDATE;
 
             if (Post.type == "link")
                 weblink_UI.ChangeToEditModeUI(Post);
@@ -318,7 +319,7 @@ namespace Waveface
 
             if (IsDirty)
             {
-                DialogResult _dr = MessageBox.Show(I18n.L.T("DiscardEditPost"), EditMode ? I18n.L.T("TitleCancelEdit") : I18n.L.T("TitleCancelPost"), MessageBoxButtons.YesNo,
+                DialogResult _dr = MessageBox.Show(Resources.DISCARD_EDIT_POST, EditMode ? Resources.CANCEL_EDIT_TITLE : Resources.CANCEL_POST_TITLE, MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Warning);
 
                 if (_dr != DialogResult.Yes)
@@ -505,7 +506,7 @@ namespace Waveface
 
             if (pureTextBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("TextEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Resources.EMPTY_CONTENT, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -532,12 +533,12 @@ namespace Waveface
 
                     if (_np == null)
                     {
-                        MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK,
+						MessageBox.Show(Resources.POST_ERROR, "Stream", MessageBoxButtons.OK,
                                         MessageBoxIcon.Error);
                         return;
                     }
 
-                    Main.Current.ShowStatuMessage(I18n.L.T("PostForm.PostSuccess"), true);
+					Main.Current.ShowStatuMessage(Resources.POST_SUCCESS, true);
                     Main.Current.ReloadAllData();
 
                     SetDialogResult_Yes_AndClose();
@@ -725,7 +726,7 @@ namespace Waveface
                     if (!m_parsedErrorURLs.Contains(_url))
                         m_parsedErrorURLs.Add(_url);
 
-                    showPreviewMessage(I18n.L.T("PostForm.NoWebPreview") + " " + _url, false, 5000);
+					showPreviewMessage(Resources.NO_WEB_PREVIEW + " " + _url, false, 5000);
                 }
             }
 
@@ -760,7 +761,7 @@ namespace Waveface
                 if (flag)
                 {
                     Cursor = Cursors.WaitCursor;
-                    showPreviewMessage(I18n.L.T("PostForm.GetWebPreview") + " " + url, true, 0);
+					showPreviewMessage(Resources.GET_WEB_PREVIEW + " " + url, true, 0);
                 }
                 else
                 {

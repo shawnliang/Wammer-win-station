@@ -14,6 +14,7 @@ using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Localization;
 using System.Diagnostics;
+using Waveface.Properties;
 
 #endregion
 
@@ -132,7 +133,7 @@ namespace Waveface
         {
             float _d = 0;
 
-            m_defaultFont = I18n.L.T("DefaultFont");
+			m_defaultFont = Resources.DEFAULT_FONT;
 
             Font _font = new Font(m_defaultFont, 10, GraphicsUnit.Point);
 
@@ -537,7 +538,7 @@ namespace Waveface
         private void Draw_Photo_Doc_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, int thumbnailRectWidth, bool selected, int thumbnailRectHeight)
         {
             string _info = post.attachment_id_array.Count + " " +
-                           ((post.attachment_id_array.Count > 1) ? I18n.L.T("photos") : I18n.L.T("photo"));
+						   ((post.attachment_id_array.Count > 1) ? Resources.PHOTOS : Resources.PHOTO);
 
             Size _sizeInfo = TextRenderer.MeasureText(g, _info, m_fontInfo);
 
@@ -1103,7 +1104,7 @@ namespace Waveface
         {
             Post _post = m_postBS[m_postBS.Position] as Post;
 
-            DialogResult _dr = MessageBox.Show(I18n.L.T("AskRemovePost"), "Stream", MessageBoxButtons.YesNo,
+            DialogResult _dr = MessageBox.Show(Resources.ASK_REMOVE_POST, "Stream", MessageBoxButtons.YesNo,
                                                MessageBoxIcon.Question);
 
             if (_dr != DialogResult.Yes)

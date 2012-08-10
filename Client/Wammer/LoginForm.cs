@@ -10,6 +10,7 @@ using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.Configuration;
 using Waveface.Localization;
+using Waveface.Properties;
 
 #endregion
 
@@ -174,7 +175,6 @@ namespace Waveface
             // cultureManager
             // 
             this.cultureManager.ManagedControl = this;
-            this.cultureManager.UICultureChanged += new Waveface.Localization.CultureManager.CultureChangedHandler(this.cultureManager_UICultureChanged);
             // 
             // btnCancel
             // 
@@ -274,7 +274,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
-                MessageBox.Show(I18n.L.T("StationServiceDown"), "Stream");
+                MessageBox.Show(Resources.STATION_SERVICE_DOWN, "Stream");
                 Environment.Exit(-1);
             }
             catch (ServiceUnavailableException _e)
@@ -283,14 +283,14 @@ namespace Waveface
 
                 // user should re-register station if receive service unavailable exception
                 // so we close the login page here
-                MessageBox.Show(I18n.L.T("RegisteredRequired", txtUserName.Text), "Stream");
+				MessageBox.Show(String.Format(Resources.REGISTERED_REQUIRED_PATTERN, txtUserName.Text), "Stream");
                 Environment.Exit(-1);
             }
             catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "doLogin");
 
-                MessageBox.Show(I18n.L.T("LoginForm.LogInError") + " : " + _e.Message, "Stream");
+                MessageBox.Show(Resources.LOGIN_ERROR + " : " + _e.Message, "Stream");
                 Environment.Exit(-1);
             }
         }
@@ -322,7 +322,7 @@ namespace Waveface
             {
                 Cursor = Cursors.Default;
 
-                MessageBox.Show((_errorMessage != string.Empty) ? _errorMessage : I18n.L.T("LoginForm.LogInError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show((_errorMessage != string.Empty) ? _errorMessage : Resources.LOGIN_ERROR, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _quit = QuitOption.Logout;
             }
 
@@ -333,7 +333,7 @@ namespace Waveface
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
             {
-                MessageBox.Show(I18n.L.T("NetworkDisconnected"), "Stream", MessageBoxButtons.OK,
+				MessageBox.Show(Resources.NETWORK_DISCONNECTED, "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
 
                 return;
@@ -349,7 +349,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("LoginForm.FillAllFields"), "Stream", MessageBoxButtons.OK,
+                MessageBox.Show(Resources.FILL_ALL_FIELDS, "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
         }
@@ -363,10 +363,7 @@ namespace Waveface
             Close();
         }
 
-        private void cultureManager_UICultureChanged(CultureInfo newCulture)
-        {
-            I18n.L.CurrentCulture = newCulture;
-        }
+
 
         protected override bool ProcessDialogKey(Keys keyData)
         {

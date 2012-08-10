@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Waveface.API.V2;
+using Waveface.Properties;
 
 namespace Waveface.PostUI
 {
@@ -49,7 +50,7 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = I18n.L.T("Update");
+			btnSend.Text = Resources.UPDATE;
 
             buttonPrev.Visible = false;
             buttonNext.Visible = false;
@@ -75,7 +76,7 @@ namespace Waveface.PostUI
                 labelTitle.Text = post.preview.title.Trim();
                 labelProvider.Text = post.preview.provider_display;
                 richTextBoxDescription.Text = post.preview.description.Trim();
-                labelSummary.Text = I18n.L.T("WebLink.ComeFrom") + " " + post.preview.url;
+				labelSummary.Text = Resources.WEB_PREVIEW_COME_FROM + " " + post.preview.url;
             }
         }
 
@@ -188,11 +189,11 @@ namespace Waveface.PostUI
 
                 if (_np == null)
                 {
-                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(Resources.POST_ERROR, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
-                Main.Current.ShowStatuMessage(I18n.L.T("PostForm.PostSuccess"), true);
+				Main.Current.ShowStatuMessage(Resources.POST_SUCCESS, true);
                 Main.Current.ReloadAllData();
 
                 return true;
@@ -215,7 +216,7 @@ namespace Waveface.PostUI
             labelTitle.Text = m_mrPreviewsGetAdv.preview.title.Trim();
             labelProvider.Text = m_mrPreviewsGetAdv.preview.provider_display;
             richTextBoxDescription.Text = m_mrPreviewsGetAdv.preview.description.Trim();
-            labelSummary.Text = I18n.L.T("WebLink.ComeFrom") + " " + m_mrPreviewsGetAdv.preview.url;
+			labelSummary.Text = Resources.WEB_PREVIEW_COME_FROM + " " + m_mrPreviewsGetAdv.preview.url;
 
             buttonPrev.Enabled = false;
             buttonNext.Enabled = false;

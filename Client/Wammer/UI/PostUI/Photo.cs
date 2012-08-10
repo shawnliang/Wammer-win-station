@@ -14,6 +14,7 @@ using Waveface.Component;
 using Waveface.DetailUI;
 using Waveface.WebCam;
 using System.Windows.Media.Imaging;
+using Waveface.Properties;
 
 namespace Waveface.PostUI
 {
@@ -56,7 +57,7 @@ namespace Waveface.PostUI
 
         public void ChangeToEditModeUI(Post post)
         {
-            btnSend.Text = I18n.L.T("Update");
+			btnSend.Text = Resources.UPDATE;
         }
 
         #region Hack
@@ -126,7 +127,7 @@ namespace Waveface.PostUI
             {
                 if (!isValidImageFile(_pic))
                 {
-                    Toast.MakeText(imageListView, I18n.L.T("BadImageToast") + _pic, Toast.LENGTH_SHORT).Show();
+                    Toast.MakeText(imageListView, Resources.INVAILD_IMAGE + _pic, Toast.LENGTH_SHORT).Show();
                     continue;
                 }
 
@@ -179,7 +180,7 @@ namespace Waveface.PostUI
             {
                 Cursor = Cursors.Default;
 
-                labelSummary.Text = string.Format(I18n.L.T("Photo.Summary"), imageListView.Items.Count);
+                labelSummary.Text = string.Format(Resources.POST_PHOTO_SUMMARY_PATTERN, imageListView.Items.Count);
             }
             else
             {
@@ -248,7 +249,7 @@ namespace Waveface.PostUI
 
         private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
         {
-            labelSummary.Text = string.Format(I18n.L.T("Photo.Summary"), imageListView.Items.Count);
+			labelSummary.Text = string.Format(Resources.POST_PHOTO_SUMMARY_PATTERN, imageListView.Items.Count);
 
             if (e.Action != CollectionChangeAction.Refresh)
                 SetCoverImageUI();
@@ -504,7 +505,7 @@ namespace Waveface.PostUI
         {
             if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
             {
-                MessageBox.Show(I18n.L.T("TextEmpty"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Resources.EMPTY_CONTENT, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -525,11 +526,11 @@ namespace Waveface.PostUI
 
                 if (_np == null)
                 {
-                    MessageBox.Show(I18n.L.T("PostForm.PostError"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(Resources.POST_ERROR, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
-                MessageBox.Show(I18n.L.T("PostForm.PostSuccess"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Resources.POST_SUCCESS, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return true;
             }
             catch (Exception _e)
@@ -624,7 +625,7 @@ namespace Waveface.PostUI
             {
                 if (!isValidImageFile(_pic))
                 {
-                    Toast.MakeText(imageListView, I18n.L.T("BadImageToast") + _pic, Toast.LENGTH_SHORT).Show();
+					Toast.MakeText(imageListView, Resources.INVAILD_IMAGE + _pic, Toast.LENGTH_SHORT).Show();
                     continue;
                 }
                 
@@ -678,7 +679,7 @@ namespace Waveface.PostUI
                 return;
             }
 
-            DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveAllFiles"), "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+			DialogResult _dr = MessageBox.Show(Resources.REMOVE_ALL_FILES, "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (_dr == DialogResult.Yes)
             {
@@ -692,7 +693,7 @@ namespace Waveface.PostUI
 
         private void RemoveSelectedPhoto()
         {
-            DialogResult _dr = MessageBox.Show(I18n.L.T("RemoveSelectedFiles"), "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+			DialogResult _dr = MessageBox.Show(Resources.REMOVE_SELECTED_FILES, "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (_dr == DialogResult.Yes)
             {

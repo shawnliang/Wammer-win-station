@@ -119,14 +119,10 @@ namespace Waveface.DetailUI
                     string _destFile = saveFileDialog.FileName;
 
                     File.Copy(_picFilePath, _destFile, true);
-
-                    //Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveOK"), Toast.LENGTH_SHORT).Show();
-                    //MessageBox.Show(I18n.L.T("PhotoView.SaveOK"));
                 }
                 catch
                 {
-                    Toast.MakeText(imageBox, I18n.L.T("PhotoView.SaveError"), Toast.LENGTH_SHORT).Show();
-                    //MessageBox.Show(I18n.L.T("PhotoView.SaveError"));
+                    Toast.MakeText(imageBox, Resources.SAVE_ERROR, Toast.LENGTH_SHORT).Show();
                 }
             }
         }
@@ -152,8 +148,7 @@ namespace Waveface.DetailUI
                 m_post = _retPost;
             }
 
-            Toast.MakeText(imageBox, I18n.L.T("ChangedCoverImageOK"), Toast.LENGTH_SHORT).Show();
-            //MessageBox.Show(I18n.L.T("ChangedCoverImageOK"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			Toast.MakeText(imageBox, Resources.CHANGED_COVER_IMAGE, Toast.LENGTH_SHORT).Show();
         }
 
         private void btnCoverImage_Click(object sender, EventArgs e)
