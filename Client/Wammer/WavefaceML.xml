@@ -220,16 +220,16 @@
     <ID>BatchPostManager.FileMiss</ID>
     <en-US>
       <![CDATA[
-      Photo does not exist: [{0}]. You could choose to:
-        1.[Continue], to remove this photo file and continue uploading the others.
-        2.[Retry], to try uploading this photo again.
-        3.[Cancel], to discard this post completely.]]>
+      Photo does not exist: [{0}].
+        1.Click 'Continue', to skip this file.
+        2.Click 'Retry', to try again.
+        3.[Cancel], to discard post.]]>
     </en-US>
     <zh-TW>
       <![CDATA[
-      上傳圖片不存在: [{0}]. 您可以：
-        1.選擇[繼續], 移除此圖片檔案後繼續上傳其他照片.
-        2.選擇[重試], 再次嘗試上傳此圖片.
+      圖片不存在: [{0}].
+        1.選擇[繼續], 忽略此圖片檔案.
+        2.選擇[重試], 再次嘗試.
         3.選擇[取消], 放棄整個貼文.]]>
     </zh-TW>
   </WItem>
@@ -280,7 +280,7 @@
   
   <WItem>
     <ID>PostForm.PuretextWaterMark</ID>
-    <en-US>Write down your description here...</en-US>
+    <en-US>Add your description here...</en-US>
     <zh-TW>在此寫下您的隻字片語...</zh-TW>
   </WItem>
 
