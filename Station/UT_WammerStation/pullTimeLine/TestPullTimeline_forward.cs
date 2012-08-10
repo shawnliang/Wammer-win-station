@@ -68,7 +68,7 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() { next_seq_num = 5 },
+				sync_range = new SyncRange() { next_seq_num = 5, chlog_min_seq=1, chlog_max_seq=4 },
 				session_token = "token",
 				groups = this.groups,
 				is_change_history_synced = true
@@ -80,9 +80,14 @@ namespace UT_WammerStation.pullTimeLine
 							group_id = user.groups[0].group_id,
 							next_seq_num = 1000,
 							post_list = new List<PostListItem> {
-													 new PostListItem{ post_id = "post1" },
-													 new PostListItem{ post_id = "post2" },
-													 new PostListItem{ post_id = "post3" },
+													new PostListItem{ post_id = "post1", seq_num = 999 },
+													new PostListItem{ post_id = "post2", seq_num = 997 },
+													new PostListItem{ post_id = "post3", seq_num = 998 },
+							},
+							changelog_list = new List<UserTrackDetail>{
+							 						new UserTrackDetail { seq_num = 997, target_id="post2"},
+													new UserTrackDetail { seq_num = 998, target_id="post3"},
+													new UserTrackDetail { seq_num = 999, target_id="post1"},
 							},
 							remaining_count = 0})
 				.Verifiable();
@@ -109,10 +114,76 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1"))).Verifiable();
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2"))).Verifiable();
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3"))).Verifiable();
-			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 1000))).Verifiable();
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 1000 && s.chlog_min_seq == 1 && s.chlog_max_seq == 999))).Verifiable();
 
 			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);	
+			syncer.PullForward(user);
+
+			db.VerifyAll();
+			api.VerifyAll();
+			postInfo.VerifyAll();
+		}
+
+		[TestMethod]
+		public void TestPullForward_SetChMinMaxValueToValidRange()
+		{
+			DateTime since = new DateTime(2012, 1, 2, 13, 23, 42, DateTimeKind.Utc);
+			Driver user = new Driver
+			{
+				user_id = "user",
+				sync_range = new SyncRange() { next_seq_num = 5, chlog_min_seq = int.MaxValue, chlog_max_seq = int.MaxValue },
+				session_token = "token",
+				groups = this.groups,
+				is_change_history_synced = true
+			};
+
+			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
+			api.Setup(x => x.GetChangeHistory(user, user.sync_range.next_seq_num))
+				.Returns(new ChangeLogResponse
+				{
+					group_id = user.groups[0].group_id,
+					next_seq_num = 1000,
+					post_list = new List<PostListItem> {
+													new PostListItem{ post_id = "post1", seq_num = 999 },
+													new PostListItem{ post_id = "post2", seq_num = 997 },
+													new PostListItem{ post_id = "post3", seq_num = 998 },
+							},
+					changelog_list = new List<UserTrackDetail>{
+							 						new UserTrackDetail { seq_num = 997, target_id="post2"},
+													new UserTrackDetail { seq_num = 998, target_id="post3"},
+													new UserTrackDetail { seq_num = 999, target_id="post1"},
+							},
+					remaining_count = 0
+				})
+				.Verifiable();
+
+
+			Mock<IPostProvider> postInfo = new Mock<IPostProvider>(MockBehavior.Strict);
+			postInfo.Setup(x => x.RetrievePosts(user, new List<string> { "post1", "post2", "post3" }))
+				.Returns(new List<PostInfo> { 
+							new PostInfo { post_id = "post1"},
+							new PostInfo { post_id = "post2"},
+							new PostInfo { post_id = "post3"}})
+				.Verifiable();
+
+			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
+			db.Setup(x => x.SaveUserTracks(It.Is<UserTracks>(
+				ut =>
+						ut.post_id_list.Count == 3 &&
+						ut.post_id_list.Contains("post1") &&
+						ut.post_id_list.Contains("post2") &&
+						ut.post_id_list.Contains("post3") &&
+						ut.group_id == groups[0].group_id
+				)))
+				.Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1"))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2"))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3"))).Verifiable();
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 1000 && s.chlog_min_seq == 997 && s.chlog_max_seq == 999))).Verifiable();
+
+			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);
+			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
 			syncer.PullForward(user);
 
 			db.VerifyAll();
@@ -157,7 +228,7 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 10))).Verifiable();
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 20))).Verifiable();
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3" && p.seq_num == 15))).Verifiable();
-			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21))).Verifiable();
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21 && s.chlog_min_seq == int.MaxValue && s.chlog_max_seq == int.MaxValue))).Verifiable();
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
 			
 			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);	
@@ -201,7 +272,7 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 10))).Verifiable();
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 20))).Verifiable();
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3" && p.seq_num == 15))).Verifiable();
-			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21))).Verifiable();
+			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21 && s.chlog_min_seq == int.MaxValue && s.chlog_max_seq == int.MaxValue))).Verifiable();
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
 
 			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);

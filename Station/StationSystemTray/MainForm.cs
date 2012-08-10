@@ -1387,12 +1387,12 @@ namespace StationSystemTray
 
 				if (upRemainedCount > 0 || downloadRemainedCount > 0)
 				{
-					if (CurrentState.Value == StationStateEnum.Running)
+					if (CurrentState != null && CurrentState.Value == StationStateEnum.Running)
 					{
 						CurrentState.StartSyncing();
 					}
 
-					if (CurrentState.Value == StationStateEnum.Syncing)
+					if (CurrentState != null && CurrentState.Value == StationStateEnum.Syncing)
 					{
 						var upSpeed = m_UpStreamRateCounter.NextValue();
 						var downloadSpeed = m_DownStreamRateCounter.NextValue();
@@ -1423,7 +1423,7 @@ namespace StationSystemTray
 
 						if (upRemainedCount > 0)
 						{
-							iconText = string.Format("{0}{1}{2} {3} photos, {4:0.##} {5}",
+							iconText = string.Format(Resources.INDICATOR_PATTERN,
 													 iconText,
 													 Environment.NewLine,
 													 Resources.UPLOAD_INDICATOR,
@@ -1434,7 +1434,7 @@ namespace StationSystemTray
 
 						if (downloadRemainedCount > 0)
 						{
-							iconText = string.Format("{0}{1}{2} {3} photos, {4:0.##} {5}",
+							iconText = string.Format(Resources.INDICATOR_PATTERN,
 													 iconText,
 													 Environment.NewLine,
 													 Resources.DOWNLOAD_INDICATOR,
@@ -1448,7 +1448,7 @@ namespace StationSystemTray
 				}
 				else
 				{
-					if (CurrentState.Value == StationStateEnum.Syncing)
+					if (CurrentState != null && CurrentState.Value == StationStateEnum.Syncing)
 					{
 						if (_upRemainedCount.Count > 0 && _upRemainedCount.Average() > 0)
 							return;
@@ -1702,56 +1702,59 @@ namespace StationSystemTray
 
 		private void OpenSettingDialog()
 		{
-			var isOpenInTimeline = clientProcess != null;
-			try
+			var isLoginPageOpened = this.Visible && this.ShowInTaskbar;
+
+			if (m_SettingDialog != null)
+				return;
+
+			using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession(), this.CloseTimelineProgram))
 			{
-				if (m_SettingDialog != null)
+				EventHandler<AccountEventArgs> removeAccountAction = (senderEx, ex) =>
+				{
+					userloginContainer.RemoveUserLogin(ex.EMail);
+					RefreshUserList();
+
+					var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", userloginContainer.GetCurLoginedSession()));
+					if (loginedUser != null && loginedUser.user.email == ex.EMail)
+					{
+						m_SettingDialog.Close();
+						Logout();
+						return;
+					}
+				};
+
+				m_SettingDialog.Location = this.Location;
+				m_SettingDialog.Icon = this.Icon;
+				m_SettingDialog.TopMost = true;
+				m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
+				m_SettingDialog.ShowInTaskbar = isLoginPageOpened;
+
+
+				m_SettingDialog.FormClosed += (senderEx, ex) =>
+				{
+					m_SettingDialog.AccountRemoved -= removeAccountAction;
+					m_SettingDialog = null;
+				};
+
+				m_SettingDialog.AccountRemoved += removeAccountAction;
+				this.Hide();
+				m_SettingDialog.ShowDialog();
+			}
+			if (clientProcess != null && !clientProcess.HasExited)
+			{
+				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+
+				if (handle == IntPtr.Zero)
 					return;
 
-				using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession(), this.CloseTimelineProgram))
-				{
-					EventHandler<AccountEventArgs> removeAccountAction = (senderEx, ex) =>
-					{
-						userloginContainer.RemoveUserLogin(ex.EMail);
-						RefreshUserList();
+				int ret;
+				SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
 
-						var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", userloginContainer.GetCurLoginedSession()));
-						if (loginedUser != null && loginedUser.user.email == ex.EMail)
-						{
-							m_SettingDialog.Close();
-							Logout();
-							return;
-						}
-					};
-
-					m_SettingDialog.Location = this.Location;
-					m_SettingDialog.Icon = this.Icon;
-					m_SettingDialog.TopMost = true;
-					m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
-					m_SettingDialog.ShowInTaskbar = !isOpenInTimeline;
-
-					//if (isOpenInTimeline)
-					//{
-					//    var clientHandle = Win32Helper.FindWindow(null, "Waveface ");
-					//    Win32Helper.SetParent(m_SettingDialog.Handle, clientHandle);
-					//}
-
-					m_SettingDialog.FormClosed += (senderEx, ex) =>
-					{
-						m_SettingDialog.AccountRemoved -= removeAccountAction;
-						m_SettingDialog = null;
-					};
-
-					m_SettingDialog.AccountRemoved += removeAccountAction;
-					this.Hide();
-					m_SettingDialog.ShowDialog();
-				}
+				return;
 			}
-			finally
-			{
-				if (!isOpenInTimeline)
-					GotoTimeline(userloginContainer.GetLastUserLogin());
-			}
+
+			if (isLoginPageOpened)
+				GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 
 		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

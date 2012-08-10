@@ -54,7 +54,9 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					sync_range = new SyncRange
 					{
 						start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+						chlog_min_seq = 1,
+						chlog_max_seq = 102
 					},
 					is_change_history_synced = true,
 				});
@@ -101,7 +103,9 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					sync_range = new SyncRange
 					{
 						start_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+						first_post_time = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+						chlog_min_seq = 99,
+						chlog_max_seq = 101
 					},
 					is_change_history_synced = true,
 				});
@@ -145,6 +149,60 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 			Assert.AreEqual(2, res.changelog_list.Count);
 			Assert.AreEqual(ut1.usertrack_list[0], res.changelog_list[0]);
 			Assert.AreEqual(ut2.usertrack_list[0], res.changelog_list[1]);
+		}
+
+		[TestMethod]
+		public void ReturnsNothingIfGivenSeqIsTooLarge()
+		{
+			var mockDB = new Mock<IUserTrackHandlerDB>();
+			mockDB.Setup(x => x.GetUserByGroupId("groupId")).Returns(
+				new Driver
+				{
+					user_id = "user1",
+					is_change_history_synced = true,
+					sync_range = new SyncRange
+					{
+						chlog_min_seq = 1,
+						chlog_max_seq = 100,
+					}
+				});
+
+			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
+			var result = handler.GetUserTrack("groupId", 500, true);
+			Assert.AreEqual(101, result.next_seq_num);
+			Assert.IsNull(result.post_list);
+			Assert.IsNull(result.changelog_list);
+		}
+
+		[TestMethod]
+		public void ReturnsErrorIfGivenSeqIsTooSmall()
+		{
+			var mockDB = new Mock<IUserTrackHandlerDB>();
+			mockDB.Setup(x => x.GetUserByGroupId("groupId")).Returns(
+				new Driver
+				{
+					user_id = "user1",
+					is_change_history_synced = true,
+					sync_range = new SyncRange
+					{
+						chlog_min_seq = 50,
+						chlog_max_seq = 100
+					}
+				});
+
+			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
+
+			try
+			{
+				var result = handler.GetUserTrack("groupId", 20, true);
+			}
+			catch (Wammer.Station.WammerStationException e)
+			{
+				Assert.AreEqual(e.WammerError, (int)Wammer.Station.UserTrackApiError.SeqNumPurged);
+				return;
+			}
+
+			Assert.Fail("Should throw UserTrackApiError.SeqNumPurged");
 		}
 	}
 }

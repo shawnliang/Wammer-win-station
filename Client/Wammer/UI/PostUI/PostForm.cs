@@ -39,7 +39,6 @@ namespace Waveface
         private string m_autoText;
 
         public Post Post { get; set; }
-        public BatchPostItem BatchPostItem { get; set; }
         public bool EditMode { get; set; }
         public string OldText { get; set; }
         public bool IsBackFromEditMode_Weblink { get; set; }
@@ -57,6 +56,7 @@ namespace Waveface
 
             weblink_UI.MyParent = this;
             photo_UI.MyParent = this;
+			photo_UI.PostId = (editMode) ? post.post_id : Guid.NewGuid().ToString();
             richText_UI.MyParent = this;
             document_UI.MyParent = this;
 
@@ -91,19 +91,19 @@ namespace Waveface
 
             IsDirty = false;
 
-			EnablePhotoDragable(pureTextBox);
-			EnablePhotoDragable(this);
+            EnablePhotoDragable(pureTextBox);
+            EnablePhotoDragable(this);
         }
 
-		private void EnablePhotoDragable(Control ctrl)
-		{
-			ctrl.AllowDrop = true;
+        private void EnablePhotoDragable(Control ctrl)
+        {
+            ctrl.AllowDrop = true;
 
-			ctrl.DragDrop += panelMiddleBar_DragDrop;
-			ctrl.DragEnter += panelMiddleBar_DragEnter;
-			ctrl.DragOver += panelMiddleBar_DragOver;
-			ctrl.DragLeave += panelMiddleBar_DragLeave;
-		}
+            ctrl.DragDrop += panelMiddleBar_DragDrop;
+            ctrl.DragEnter += panelMiddleBar_DragEnter;
+            ctrl.DragOver += panelMiddleBar_DragOver;
+            ctrl.DragLeave += panelMiddleBar_DragLeave;
+        }
 
         [DllImport("User32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -174,14 +174,14 @@ namespace Waveface
 
                         foreach (KeyValuePair<string, string> _imgPair in m_oldImageFiles)
                         {
-							var file = _imgPair.Value;
-							if (!File.Exists(file))
-							{
-								var originalFile = m_fileNameMapping[file];
-								var extension = Path.GetExtension(originalFile);
-								var objectID = file.Substring(0, file.LastIndexOf("_"));
-								file = Path.Combine(Path.GetDirectoryName(file), objectID + extension);
-							}
+                            var file = _imgPair.Value;
+                            if (!File.Exists(file))
+                            {
+                                var originalFile = m_fileNameMapping[file];
+                                var extension = Path.GetExtension(originalFile);
+                                var objectID = file.Substring(0, file.LastIndexOf("_"));
+                                file = Path.Combine(Path.GetDirectoryName(file), objectID + extension);
+                            }
                             _pics.Add(file);
                         }
                     }

@@ -895,6 +895,15 @@ namespace Waveface.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Image file (*{0})|*{1}.
+        /// </summary>
+        internal static string PHOTO_SAVE_FILTER_PATTERN {
+            get {
+                return ResourceManager.GetString("PHOTO_SAVE_FILTER_PATTERN", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap photo_spinner {
             get {
                 object obj = ResourceManager.GetObject("photo_spinner", resourceCulture);
@@ -941,13 +950,6 @@ namespace Waveface.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap refresh {
-            get {
-                object obj = ResourceManager.GetObject("refresh", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap refresh_hl {
             get {
                 object obj = ResourceManager.GetObject("refresh_hl", resourceCulture);
@@ -972,6 +974,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap refresh_hl4 {
             get {
                 object obj = ResourceManager.GetObject("refresh_hl4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh_hl5 {
+            get {
+                object obj = ResourceManager.GetObject("refresh_hl5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1002,6 +1011,13 @@ namespace Waveface.Properties {
         internal static System.Drawing.Bitmap refresh4 {
             get {
                 object obj = ResourceManager.GetObject("refresh4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh5 {
+            get {
+                object obj = ResourceManager.GetObject("refresh5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

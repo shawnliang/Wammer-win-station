@@ -52,7 +52,7 @@ namespace StationSystemTray.Dialog
 		{
 			get
 			{
-				return _tutorials ?? (_tutorials = (Thread.CurrentThread.CurrentCulture.NativeName == "zh-TW") ? m_TWTutorials : m_ENTutorials);
+				return _tutorials ?? (_tutorials = (Thread.CurrentThread.CurrentCulture.Name == "zh-TW") ? m_TWTutorials : m_ENTutorials);
 			}
 		}
 
@@ -116,7 +116,20 @@ namespace StationSystemTray.Dialog
 		{
 			button1.Text = (m_Index + 1 == m_Tutorials.Count) ? Resources.CLOSE_BUTTON_TEXT : Resources.NEXT_BUTTON_TEXT;
 			button2.Text = Resources.PREVIOUS_BUTTON_TEXT;
-			button2.Enabled = m_Index > 0;
+			button2.Visible = m_Index > 0;
+		}
+		#endregion
+
+
+		#region Protected Method
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			//prevent ctrl+tab to switch signin pages
+			if (keyData == (Keys.Control | Keys.Tab))
+			{
+				return true;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 		#endregion
 

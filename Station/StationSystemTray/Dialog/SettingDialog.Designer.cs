@@ -41,7 +41,6 @@ namespace StationSystemTray
 			this.lblCopyRight = new System.Windows.Forms.Label();
 			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
 			this.label1 = new System.Windows.Forms.Label();
-			this.bgworkerUpdate = new System.ComponentModel.BackgroundWorker();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.lblResorcePath = new System.Windows.Forms.Label();
 			this.btnMove = new System.Windows.Forms.Button();
@@ -75,11 +74,6 @@ namespace StationSystemTray
 			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
 			// 
-			// bgworkerUpdate
-			// 
-			this.bgworkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgworkerUpdate_DoWork);
-			this.bgworkerUpdate.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgworkerUpdate_RunWorkerCompleted);
-			// 
 			// groupBox3
 			// 
 			resources.ApplyResources(this.groupBox3, "groupBox3");
@@ -109,7 +103,6 @@ namespace StationSystemTray
 			this.groupBox2.Controls.Add(this.lblVersion);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
-			this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
 			// 
 			// btnUpdate
 			// 
@@ -253,7 +246,6 @@ namespace StationSystemTray
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label lblResorcePath;
-		private System.ComponentModel.BackgroundWorker bgworkerUpdate;
 		private System.Windows.Forms.DataGridView dgvAccountList;
 		private System.Windows.Forms.LinkLabel linkLegalNotice;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;

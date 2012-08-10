@@ -12,6 +12,7 @@ using Waveface.Configuration;
 using View = Manina.Windows.Forms.View;
 using System.Diagnostics;
 using Waveface.Libs.StationDB;
+using Waveface.Properties;
 
 #endregion
 
@@ -19,38 +20,21 @@ namespace Waveface.DetailUI
 {
     public partial class PhotoView : Form
     {
-        private bool m_onlyOnePhoto;
         private List<string> m_filePathMediums;
         private Post m_post;
-        private FormSettings m_formSettings;
+		private int m_SelectedIndex;
 
         public PhotoView()
         {
             InitializeComponent();
-            Bounds = Screen.PrimaryScreen.Bounds;
-            this.FullScreen();
         }
 
         public PhotoView(Post post, List<string> filePathMediums, int selectedIndex)
             : this()
         {
-            m_formSettings = new FormSettings(this);
-            m_formSettings.UseLocation = true;
-            m_formSettings.UseSize = true;
-            m_formSettings.UseWindowState = true;
-            m_formSettings.AllowMinimized = false;
-            m_formSettings.SaveOnClose = true;
-
             m_post = post;
-
             m_filePathMediums = filePathMediums;
-
-            m_onlyOnePhoto = (m_post.attachment_id_array.Count == 1);
-
-            thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
-            thumbnailNavigator1.ThumbnailWidth = 64;
-            thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
-            thumbnailNavigator1.LoadThumbnails(filePathMediums, selectedIndex);
+			m_SelectedIndex = selectedIndex;
         }
 
         void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
@@ -121,7 +105,12 @@ namespace Waveface.DetailUI
                 trueFileName = Path.GetFileName(_picFilePath);
 
             saveFileDialog.FileName = trueFileName;
-            DialogResult _dr = saveFileDialog.ShowDialog(this);
+
+			var extension = Path.GetExtension(trueFileName);
+			if (!String.IsNullOrEmpty(extension))
+				saveFileDialog.Filter = string.Format(Resources.PHOTO_SAVE_FILTER_PATTERN, extension, extension);
+            
+			DialogResult _dr = saveFileDialog.ShowDialog(this);
 
             if (_dr == DialogResult.OK)
             {
@@ -216,9 +205,6 @@ namespace Waveface.DetailUI
 
         private void imageBox_Click(object sender, EventArgs e)
         {
-            //thumbnailNavigator1.Visible = !thumbnailNavigator1.Visible;
-            //panelBottom.Visible = thumbnailNavigator1.Visible;
-            //imageBox.ZoomToFit();
             imageBox.SizeToFit = false;
             imageBox.AutoPan = true;
             imageBox.AdjustLayout();
@@ -228,5 +214,24 @@ namespace Waveface.DetailUI
         {
             this.Close();
         }
+
+		private void PhotoView_Load(object sender, EventArgs e)
+		{
+			Bounds = Screen.PrimaryScreen.Bounds;
+			this.FullScreen();
+
+			try
+			{
+				thumbnailNavigator1.SuspendLayout();
+				thumbnailNavigator1.ThumbnailPadding = new Padding(3, 3, 3, 3);
+				thumbnailNavigator1.ThumbnailWidth = 64;
+				thumbnailNavigator1.SelectedIndexChanged += new EventHandler(thumbnailNavigator1_SelectedIndexChanged);
+				thumbnailNavigator1.LoadThumbnails(m_filePathMediums, m_SelectedIndex);
+			}
+			finally
+			{
+				thumbnailNavigator1.ResumeLayout();
+			}
+		}
     }
 }

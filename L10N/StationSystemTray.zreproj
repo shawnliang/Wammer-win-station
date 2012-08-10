@@ -57,25 +57,41 @@ Kind regards</globalSetting>
     <userSetting name="larry@larry-PC.FindText">
     </userSetting>
     <userSetting name="larry@larry-PC.RecentFiles">C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx###***###C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx###***###C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx;C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-TW.resx</userSetting>
+    <userSetting name="shawnliang@shawnliangMBP.filesInitialDir">C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Dialog</userSetting>
+    <userSetting name="shawnliang@shawnliangMBP.FindText">
+    </userSetting>
+    <userSetting name="shawnliang@shawnliangMBP.RecentFiles">C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\MainForm.resx;C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx###***###C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx;C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx###***###C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx;C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-TW.resx</userSetting>
     <description>
     </description>
   </configuration>
   <fileGroups>
     <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="72e3b23a-5156-4381-a2fc-0cc5b07a1a80">
-      <file filePath="..\Station\StationSystemTray\CleanResourceForm.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx" uniqueID="828457d4-9873-4755-b319-303a99b4b67e" />
-      <file filePath="..\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" uniqueID="3c0b143e-85af-4659-9a0d-0ce783e6c45f" />
+      <file filePath="..\Station\StationSystemTray\CleanResourceForm.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.resx" uniqueID="828457d4-9873-4755-b319-303a99b4b67e" />
+      <file filePath="..\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\CleanResourceForm.zh-TW.resx" uniqueID="3c0b143e-85af-4659-9a0d-0ce783e6c45f" />
       <remarks>
       </remarks>
     </fileGroup>
     <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="c0687fec-8307-424f-8909-8a16fc8608a5">
-      <file filePath="..\Station\StationSystemTray\MainForm.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.resx" uniqueID="f4789894-444c-445e-9715-7f0de739192c" />
-      <file filePath="..\Station\StationSystemTray\MainForm.zh-TW.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx" uniqueID="74611a41-dc40-4fe9-a19b-330629f0ef56" />
+      <file filePath="..\Station\StationSystemTray\MainForm.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\MainForm.resx" uniqueID="f4789894-444c-445e-9715-7f0de739192c" />
+      <file filePath="..\Station\StationSystemTray\MainForm.zh-TW.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\MainForm.zh-TW.resx" uniqueID="74611a41-dc40-4fe9-a19b-330629f0ef56" />
       <remarks>
       </remarks>
     </fileGroup>
     <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="0f456aff-a6ca-43ab-9036-b5899aa02470">
-      <file filePath="..\Station\StationSystemTray\Properties\Resources.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx" uniqueID="c2fb512a-b726-4331-be38-ce79d08963ce" />
-      <file filePath="..\Station\StationSystemTray\Properties\Resources.zh-TW.resx" absoluteFilePath="C:\Users\larry\Documents\Waveface\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-TW.resx" uniqueID="6ef4fae2-8835-41e6-bd4d-de5d73c33fa3" />
+      <file filePath="..\Station\StationSystemTray\Properties\Resources.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Properties\Resources.resx" uniqueID="c2fb512a-b726-4331-be38-ce79d08963ce" />
+      <file filePath="..\Station\StationSystemTray\Properties\Resources.zh-TW.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Properties\Resources.zh-TW.resx" uniqueID="6ef4fae2-8835-41e6-bd4d-de5d73c33fa3" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="..\Station\StationSystemTray\Dialog\SignUpDialog.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Dialog\SignUpDialog.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <file filePath="..\Station\StationSystemTray\Dialog\SignUpDialog.zh-TW.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Dialog\SignUpDialog.zh-TW.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="00000000-0000-0000-0000-000000000000" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="..\Station\StationSystemTray\Dialog\SettingDialog.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Dialog\SettingDialog.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <file filePath="..\Station\StationSystemTray\Dialog\SettingDialog.zh-TW.resx" absoluteFilePath="C:\Users\shawnliang\workspace\Wammer-win-station\Station\StationSystemTray\Dialog\SettingDialog.zh-TW.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
       <remarks>
       </remarks>
     </fileGroup>

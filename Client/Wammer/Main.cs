@@ -42,7 +42,6 @@ namespace Waveface
 
         //// Main
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
-        private VirtualFolderForm m_virtualFolderForm;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 
         private List<string> m_delayPostPicList = new List<string>();
@@ -52,7 +51,7 @@ namespace Waveface
         private PostForm _postForm;
         private PhotoDownloader m_photoDownloader;
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
-        private BatchPostManager m_batchPostManager;
+        private Waveface.Upload.AttachmentUploadFacade m_uploader;
         private StationState m_stationState;
         private AutoUpdate m_autoUpdator;
 
@@ -88,28 +87,28 @@ namespace Waveface
             }
         }
 
-		private PostForm m_PostForm
-		{
-			get
-			{
-				return _postForm;
-			}
-			set
-			{
-				if (_postForm == value)
-					return;
+        private PostForm m_PostForm
+        {
+            get
+            {
+                return _postForm;
+            }
+            set
+            {
+                if (_postForm == value)
+                    return;
 
-				if (_postForm != null)
-				{
-					if (!_postForm.IsDisposed)
-						_postForm.Dispose();
-					_postForm = null;
-				}
+                if (_postForm != null)
+                {
+                    if (!_postForm.IsDisposed)
+                        _postForm.Dispose();
+                    _postForm = null;
+                }
 
-				_postForm = value;
-			}
-		}
-		#endregion
+                _postForm = value;
+            }
+        }
+        #endregion
 
 
         #region Public Property
@@ -138,18 +137,15 @@ namespace Waveface
             set { m_stationState = value; }
         }
 
-        public BatchPostManager BatchPostManager
+        public Waveface.Upload.AttachmentUploadFacade Uploader
         {
             get
             {
-                if (m_batchPostManager == null)
-                {
-                    m_batchPostManager = BatchPostManager.Load() ?? new BatchPostManager();
-                }
+                if (m_uploader == null)
+                    throw new InvalidOperationException("logic error");
 
-                return m_batchPostManager;
+                return m_uploader;
             }
-            set { m_batchPostManager = value; }
         }
 
         public UploadOriginPhotosToStationManager UploadOriginPhotosToStationManager
@@ -175,10 +171,10 @@ namespace Waveface
 
         public RunTime RT
         {
-			get 
-			{
-				return m_runTime ?? (m_runTime = new RunTime());
-			}
+            get 
+            {
+                return m_runTime ?? (m_runTime = new RunTime());
+            }
         }
 
         public DialogResult NewPostThreadErrorDialogResult { get; set; }
@@ -189,16 +185,16 @@ namespace Waveface
 
         public Main()
         {
-			InitializeComponent();
+            InitializeComponent();
 
-			Current = this;
+            Current = this;
         }
 
         public Main(string initSessionToken)
         {
-			InitializeComponent();
+            InitializeComponent();
 
-			Current = this;
+            Current = this;
 
             m_initSessionToken = initSessionToken;
         }
@@ -458,30 +454,27 @@ namespace Waveface
         {
             m_dropableNotifyIcon.Dispose();
 
-            if (m_virtualFolderForm != null)
-                m_virtualFolderForm.Close();
-
+			CancelAllThreads();
             SaveRunTime();
-            BatchPostManager.Save();
+            
         }
 
         public void Logout()
         {
             Program.ShowCrashReporter = false;
-
             QuitOption = QuitOption.Logout;
+            Close();
+        }
 
+        private void CancelAllThreads()
+        {
             timerPolling.Enabled = false;
 
             bgWorkerGetAllData.CancelAsync();
 
             try
             {
-                if (BatchPostManager != null)
-                {
-                    BatchPostManager.AbortThread();
-                    BatchPostManager = null;
-                }
+                m_uploader.Stop();
 
                 if (PhotoDownloader != null)
                 {
@@ -503,8 +496,6 @@ namespace Waveface
             catch
             {
             }
-
-            Close();
         }
 
 
@@ -565,28 +556,28 @@ namespace Waveface
 
         #region Windows Size
 
-		//private void Main_SizeChanged(object sender, EventArgs e)
-		//{
-		//    try
-		//    {
-		//        panelLeftInfo.Width = leftArea.MyWidth;
-		//    }
-		//    catch (Exception _e)
-		//    {
-		//        NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
-		//    }
-		//}
+        //private void Main_SizeChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        panelLeftInfo.Width = leftArea.MyWidth;
+        //    }
+        //    catch (Exception _e)
+        //    {
+        //        NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
+        //    }
+        //}
 
         protected override bool ShowWithoutActivation // stops the window from stealing focus
         {
             get { return true; }
         }
 
-		//private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
-		//{
-		//    if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
-		//        e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
-		//}
+        //private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
+        //{
+        //    if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
+        //        e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
+        //}
 
         protected override void WndProc(ref Message message)
         {
@@ -705,22 +696,21 @@ namespace Waveface
 
             UploadOriginPhotosToStationManager.Start();
             PhotoDownloader.Start();
-            BatchPostManager.Start();
+            //BatchPostManager.Start();
+            m_uploader = new Upload.AttachmentUploadFacade(GCONST.RunTimeDataPath, _login.user.user_id);
 
             if (Environment.GetCommandLineArgs().Length == 1)
             {
                 StationState.Start();
             }
 
-            leftArea.SetNewPostManager();
-
             panelTitle.showRefreshUI(true);
 
             Cursor = Cursors.Default;
 
-			//var rt = RT.LoadJSON();
+            //var rt = RT.LoadJSON();
 
-			//RT.CurrentGroupPosts = rt.CurrentGroupPosts;
+            //RT.CurrentGroupPosts = rt.CurrentGroupPosts;
 
             GetAllDataAsync();
 
@@ -755,7 +745,7 @@ namespace Waveface
 
                 IsPrimaryStation = isPrimaryStation(_dbServer, _login);
 
-				Debug.WriteLine("_login.session_token: " + _login.session_token);
+                Debug.WriteLine("_login.session_token: " + _login.session_token);
                 procLoginResponse(_login);
             }
             catch (Exception e)
@@ -1002,23 +992,17 @@ namespace Waveface
         }
 
         public void EditPost(Post post, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
-		{
-			try
-			{
-				m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
-				DialogResult _dr = m_PostForm.ShowDialog();
+        {
+            try
+            {
+                m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
+                DialogResult _dr = m_PostForm.ShowDialog();
 
-				if (_dr == DialogResult.OK)
-				{
-					BatchPostManager.Add(m_PostForm.BatchPostItem);
-
-					if (m_PostForm.BatchPostItem.Post != null)
-					{
-						ShowPostInTimeline();
-					}
-				}
-			}
-			catch (Exception _e)
+                if (_dr == DialogResult.Yes)
+                {
+                }
+            }
+            catch (Exception _e)
             {
                 NLogUtility.Exception(s_logger, _e, "Edit Post");
             }
@@ -1040,10 +1024,9 @@ namespace Waveface
                 m_PostForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
                 DialogResult _dr = m_PostForm.ShowDialog();
 
-				if (_dr == DialogResult.OK)
-				{
-					BatchPostManager.Add(m_PostForm.BatchPostItem);
-				}
+                if (_dr == DialogResult.OK)
+                {
+                }
             }
             catch (Exception _e)
             {
@@ -1257,34 +1240,6 @@ namespace Waveface
             return _time;
         }
 
-        /*
-        public bool checkNewPosts()
-        {
-            if (RT.CurrentGroupPosts.Count == 0)
-            {
-                return true;
-            }
-
-            try
-            {
-                string _datum = RT.CurrentGroupPosts[0].timestamp;
-                _datum = DateTimeHelp.ToUniversalTime_ToISO8601(DateTimeHelp.ISO8601ToDateTime(_datum).AddSeconds(1));
-
-                MR_posts_get _postsGet = RT.REST.Posts_get("100", _datum, "");
-
-                if (_postsGet != null)
-                {
-                    return (_postsGet.posts.Count > 0);
-                }
-            }
-            catch
-            {
-            }
-
-            return false;
-        }
-        */
-
         #endregion
 
         #region Calendar
@@ -1390,48 +1345,48 @@ namespace Waveface
 
         #region Screen Shot
 
-        private void capture(ShotType shotType)
-        {
-            try
-            {
-                CaptureForm _captureForm = new CaptureForm(shotType);
+        //private void capture(ShotType shotType)
+        //{
+        //    try
+        //    {
+        //        CaptureForm _captureForm = new CaptureForm(shotType);
 
-                if ((_captureForm.ShowDialog() != DialogResult.OK) || (_captureForm.Image == null))
-                {
-                    return;
-                }
+        //        if ((_captureForm.ShowDialog() != DialogResult.OK) || (_captureForm.Image == null))
+        //        {
+        //            return;
+        //        }
 
-                string _filename =
-                    string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
+        //        string _filename =
+        //            string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
 
-                Image _img = _captureForm.Image;
+        //        Image _img = _captureForm.Image;
 
-                string _pathToSave = Path.Combine(GCONST.TempPath, _filename);
+        //        string _pathToSave = Path.Combine(GCONST.TempPath, _filename);
 
-                _img.Save(_pathToSave, ImageFormat.Jpeg);
+        //        _img.Save(_pathToSave, ImageFormat.Jpeg);
 
-                Post(new List<string> { _pathToSave }, PostType.Photo, "");
-            }
-            catch (Exception _e)
-            {
-                MessageBox.Show(_e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        //        Post(new List<string> { _pathToSave }, PostType.Photo, "");
+        //    }
+        //    catch (Exception _e)
+        //    {
+        //        MessageBox.Show(_e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
 
-        private void regionMenuItem_Click(object sender, EventArgs e)
-        {
-            capture(ShotType.Region);
-        }
+        //private void regionMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    capture(ShotType.Region);
+        //}
 
-        private void windowsMenuItem_Click(object sender, EventArgs e)
-        {
-            capture(ShotType.Window);
-        }
+        //private void windowsMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    capture(ShotType.Window);
+        //}
 
-        private void screenMenuItem_Click(object sender, EventArgs e)
-        {
-            capture(ShotType.Screen);
-        }
+        //private void screenMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    capture(ShotType.Screen);
+        //}
 
         #endregion
 
@@ -1463,20 +1418,14 @@ namespace Waveface
 
             try
             {
-                /*
-                if (checkNewPosts())
-                {
-                    ReloadAllData();
-
-                    return;
-                }
-                */
-
                 int _next_seq_num;
 
                 if (m_next_seq_num <= 0)
                 {
-                    _next_seq_num = RT.CurrentGroupPosts.Max(x => x.seq_num) + 1;
+                    if (RT.CurrentGroupPosts.Count == 0)
+                        _next_seq_num = 1;
+                    else
+                        _next_seq_num = RT.CurrentGroupPosts.Max(x => x.seq_num) + 1;
                 }
                 else
                 {
@@ -1518,24 +1467,28 @@ namespace Waveface
 
                     if (_usertracks.post_list.Count > 0)
                     {
-                    string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
+                        string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
 
-                    MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+                        MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
-                    if (_postsGet != null)
-                    {
-                        bool _changed = false;
-
-                        foreach (Post _post in _postsGet.posts)
+                        if (_postsGet != null)
                         {
-                            _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
-                        }
+                            bool _changed = false;
 
-                        if (_changed)
-                            ShowPostInTimeline();
+                            foreach (Post _post in _postsGet.posts)
+                            {
+                                _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
+                            }
+
+                            if (_changed)
+                                ShowPostInTimeline();
+                        }
                     }
                 }
             }
+            catch (ChangeLogsPurgedException)
+            {
+                ReloadAllData();
             }
             catch (VersionNotSupportedException)
             {
@@ -1633,7 +1586,7 @@ namespace Waveface
                 Invoke(new Action(() => { ReloadAllData(parameter); }));
             }
             else
-        {
+            {
                 GetAllDataAsync(parameter);
             }
         }
@@ -1712,13 +1665,13 @@ namespace Waveface
                     _post.Sources = dirtyPost.sources;
                 }
 
-				foreach (var oldPost in RT.CurrentGroupPosts)
-				{
-					if (oldPost.post_id != _post.post_id)
-						continue;
-					_post.Sources = oldPost.Sources;
-					break;
-				}
+                foreach (var oldPost in RT.CurrentGroupPosts)
+                {
+                    if (oldPost.post_id != _post.post_id)
+                        continue;
+                    _post.Sources = oldPost.Sources;
+                    break;
+                }
 
                 _tmpPosts.Add(_post);
             }
@@ -1917,52 +1870,52 @@ namespace Waveface
             }
         }
 
-		private void Main_Shown(object sender, EventArgs e)
-		{
-			Application.DoEvents();
+        private void Main_Shown(object sender, EventArgs e)
+        {
+            Application.DoEvents();
 
-			Init();
+            Init();
 
-			if (!string.IsNullOrEmpty(m_initSessionToken))
-				LoginWithInitSession();
+            if (!string.IsNullOrEmpty(m_initSessionToken))
+                LoginWithInitSession();
 
-			postsArea.PostsList.DetailView = detailView;
+            postsArea.PostsList.DetailView = detailView;
 
-			if (Environment.GetCommandLineArgs().Length == 1)
-			{
-				NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+            if (Environment.GetCommandLineArgs().Length == 1)
+            {
+                NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 
-				UpdateNetworkStatus();
-			}
+                UpdateNetworkStatus();
+            }
 
-			/*
-			InitDropableNotifyIcon();
+            /*
+            InitDropableNotifyIcon();
             
-			m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
+            m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
             
-			// Send To
-			CreateFileWatcher();
-			*/
+            // Send To
+            CreateFileWatcher();
+            */
 
-			CreateLoadingImage();
+            CreateLoadingImage();
 
-			panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
+            panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
 
-			AdjustAccountInfoButton();
+            AdjustAccountInfoButton();
 
-			CheckRefreshStatus();
+            CheckRefreshStatus();
 
-			var timer = new Timer()
-			{
-				Interval = 15000
-			};
+            var timer = new Timer()
+            {
+                Interval = 15000
+            };
 
-			timer.Tick += (s, ex) =>
-			{
-				CheckRefreshStatus();
-			};
+            timer.Tick += (s, ex) =>
+            {
+                CheckRefreshStatus();
+            };
 
-			timer.Start();
-		}
+            timer.Start();
+        }
     }
 }

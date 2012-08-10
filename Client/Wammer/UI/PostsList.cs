@@ -363,7 +363,6 @@ namespace Waveface
 
         private void dataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            //var sw = Stopwatch.StartNew();
             try
             {
                 bool _isDrawThumbnail;
@@ -372,7 +371,6 @@ namespace Waveface
 
                 Graphics _g = e.Graphics;
 
-                //Trace.WriteLine("cell index: " + e.RowIndex.ToString());
 
                 Post _post = m_postBS[e.RowIndex] as Post;
 
@@ -390,8 +388,6 @@ namespace Waveface
 
                 bool _selected = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected);
 
-                //Color _fcolor = (_selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
-                //Color _bcolor = (_selected ? e.CellStyle.SelectionBackColor : e.CellStyle.BackColor);
 
                 int _X = e.CellBounds.Left + e.CellStyle.Padding.Left;
                 int _Y = e.CellBounds.Top + e.CellStyle.Padding.Top;

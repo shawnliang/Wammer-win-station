@@ -50,9 +50,9 @@ if __name__ == "__main__":
 	# change build number in wix config file
 	packageVersion.find_and_replace(solution_dir + r'\Setup\Package\Product.wxs', build_num)
 
-	# change log level to "INFO"
-	changeLogLevel.dir_traverse(solution_dir, version_full)
-
 	build_target(solution_dir, "development", version, build_num)
 	build_target(solution_dir, "staging", version, build_num)
+
+	# change log level to "INFO"
+	changeLogLevel.dir_traverse(solution_dir, "INFO")
 	build_target(solution_dir, "production", version, build_num)

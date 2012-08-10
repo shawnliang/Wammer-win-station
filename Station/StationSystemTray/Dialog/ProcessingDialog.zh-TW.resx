@@ -105,76 +105,19 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
     <value>2.0</value>
   </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ACCOUNT_TOOL_TIP" xml:space="preserve">
-    <value>帳戶資訊</value>
-  </data>
-  <data name="FB_CONNECT_FAILED" xml:space="preserve">
-    <value>輸入的Facebook帳號與原帳號不符合！請您再重新輸入一次。</value>
-  </data>
-  <data name="FB_IMPORT_CLAST_SYNC_PATTERN" xml:space="preserve">
-    <value>上次Facebook同步時間: {0}</value>
-  </data>
-  <data name="FB_IMPRORT_PROGRESSING" xml:space="preserve">
-    <value>Facebook資料還在同步中，資料輸入需要一些時間，請您稍候再確認。</value>
-  </data>
-  <data name="FB_TOKEN_EXPIRED" xml:space="preserve">
-    <value>Facebook Token已過期</value>
-  </data>
-  <data name="FIELD_MUST_HAVE_DATA_PATTERN" xml:space="preserve">
-    <value>{0} 欄位必須要有資料</value>
-  </data>
-  <data name="NAME" xml:space="preserve">
-    <value>名稱</value>
-  </data>
-  <data name="NETWORK_EXCEPTION" xml:space="preserve">
-    <value>網路連線發生錯誤</value>
-  </data>
-  <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
-    <value>沒有網路連線</value>
-  </data>
-  <data name="PHOTO_SAVE_FILTER_PATTERN" xml:space="preserve">
-    <value>圖片檔 (*{0})|*{1}</value>
-  </data>
-  <data name="PHOTO_UPLOADING" xml:space="preserve">
-    <value>同步中...</value>
-  </data>
-  <data name="RECONNECT_MESSAGE" xml:space="preserve">
-    <value>Facebook資料同步功能已經暫停。是否需要恢復自動同步功能？</value>
-  </data>
-  <data name="REFRESH_TOOL_TIP" xml:space="preserve">
-    <value>重新整理</value>
-  </data>
-  <data name="REMOVE_TOOL_TIP" xml:space="preserve">
-    <value>移除貼文</value>
-  </data>
-  <data name="SETTING_TOOL_TIP" xml:space="preserve">
-    <value>設定</value>
-  </data>
-  <data name="TURNED_OFF" xml:space="preserve">
-    <value>已關閉</value>
-  </data>
-  <data name="TURNED_ON" xml:space="preserve">
-    <value>已啟用</value>
-  </data>
-  <data name="TURN_OFF" xml:space="preserve">
-    <value>關閉</value>
-  </data>
-  <data name="TURN_ON" xml:space="preserve">
-    <value>啟用</value>
-  </data>
-  <data name="UNEXPECTED_EXCEPTION" xml:space="preserve">
-    <value>伺服器出現不明錯誤，請稍後再試。如果此狀況持續出現，請直接聯繫服務人員排除狀況: support@waveface.com</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>處理中...</value>
   </data>
 </root>

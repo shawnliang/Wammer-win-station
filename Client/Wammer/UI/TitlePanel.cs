@@ -337,8 +337,8 @@ namespace Waveface
 			}
 			else if (_refreshImageIndex == 3)
 			{
-				_btnRefresh.Image = Resources.FBT_refresh;
-				_btnRefresh.ImageHover = Resources.refresh_hl;
+				_btnRefresh.Image = Resources.refresh5;
+				_btnRefresh.ImageHover = Resources.refresh_hl5;
 			}
 
 			_refreshImageIndex = (_refreshImageIndex + 1) % 4;
