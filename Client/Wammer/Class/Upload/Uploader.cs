@@ -52,8 +52,8 @@ namespace Waveface.Upload
 				}
 				catch (Exception e)
 				{
-					logger.WarnException("attachment upload failed. Try again later", e);
-					queue.AddLast(uploadItem);
+					logger.ErrorException("attachment upload failed. Drop this item.", e);
+					queue.ConfirmPop(uploadItem);
 				}
 			}
 		}

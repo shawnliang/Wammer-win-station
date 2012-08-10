@@ -224,6 +224,9 @@
   <data name="MonthlyUsage_Unlimited" xml:space="preserve">
     <value>Unlimited</value>
   </data>
+  <data name="MovingResourceFolder" xml:space="preserve">
+    <value>Moving...</value>
+  </data>
   <data name="NeedToUpgrade" xml:space="preserve">
     <value>This version is out of date. Click ‘OK’ to download and install the latest version.</value>
   </data>
