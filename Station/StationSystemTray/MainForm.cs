@@ -1299,8 +1299,6 @@ namespace StationSystemTray
 
 					var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
-					Debug.Assert(loginedSession != null);
-
 					if (loginedSession != null)
 						LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
 				}
