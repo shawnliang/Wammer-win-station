@@ -15,6 +15,7 @@ using Waveface.Component;
 using Waveface.Libs.StationDB;
 using MongoDB.Driver.Builders;
 using System.Diagnostics;
+using Waveface.Properties;
 
 #endregion
 
@@ -707,7 +708,7 @@ namespace Waveface.DetailUI
                         m_post = _retPost;
                     }
 
-                    Main.Current.ShowStatuMessage(I18n.L.T("ChangedCoverImageOK"), true);
+					Main.Current.ShowStatuMessage(Resources.CHANGED_COVER_IMAGE, true);
                 }
                 catch
                 {
@@ -754,7 +755,7 @@ namespace Waveface.DetailUI
 
             FolderBrowserDialog _dialog = new FolderBrowserDialog();
 
-            _dialog.Description = I18n.L.T("PhotoView.SelectLoc");
+            _dialog.Description = Resources.SELECT_SAVE_PATH;
             _dialog.ShowNewFolderButton = true;
             _dialog.RootFolder = Environment.SpecialFolder.Desktop;
             _dialog.SelectedPath = Environment.SpecialFolder.Desktop.ToString();
@@ -799,7 +800,7 @@ namespace Waveface.DetailUI
                     }
                 }
 
-                MessageBox.Show(I18n.L.T("PhotoView.SaveAllOK"), "Stream", MessageBoxButtons.OK,
+                MessageBox.Show(Resources.SAVE_ALL_OK, "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
             }
         }

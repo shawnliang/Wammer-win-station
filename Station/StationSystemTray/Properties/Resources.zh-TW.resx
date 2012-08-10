@@ -105,14 +105,14 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
     <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -198,6 +198,9 @@
   <data name="MonthlyUsage_Unlimited" xml:space="preserve">
     <value>無上限</value>
   </data>
+  <data name="MovingResourceFolder" xml:space="preserve">
+    <value>移動中...</value>
+  </data>
   <data name="NeedToUpgrade" xml:space="preserve">
     <value>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。
 在還未升級前將無法繼續使用Stream。</value>
@@ -238,6 +241,9 @@
   </data>
   <data name="REMOVE_ACCOUNT_BUTTON_TITLE" xml:space="preserve">
     <value>移除</value>
+  </data>
+  <data name="REMOVE_ACCOUNT_MESSAGE" xml:space="preserve">
+    <value>移除帳號...</value>
   </data>
   <data name="ResumeWFService" xml:space="preserve">
     <value>重啟同步</value>
@@ -301,8 +307,5 @@
   </data>
   <data name="WFServiceSyncing" xml:space="preserve">
     <value>同步中</value>
-  </data>
-  <data name="REMOVE_ACCOUNT_MESSAGE" xml:space="preserve">
-    <value>移除帳號...</value>
   </data>
 </root>

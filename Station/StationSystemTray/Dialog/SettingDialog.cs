@@ -99,13 +99,13 @@ namespace StationSystemTray
 			}
 		}
 
-		private string m_CurrentUserSession { get; set; } 
+		private string m_CurrentUserSession { get; set; }
 		#endregion
 
 
 		#region Event
 		public event EventHandler<AccountEventArgs> AccountRemoving;
-		public event EventHandler<AccountEventArgs> AccountRemoved; 
+		public event EventHandler<AccountEventArgs> AccountRemoved;
 		#endregion
 
 
@@ -116,7 +116,7 @@ namespace StationSystemTray
 
 			m_CurrentUserSession = currentUserSession;
 			this._closeClientProgram = closeClientProgram;
-		} 
+		}
 		#endregion
 
 
@@ -175,13 +175,13 @@ namespace StationSystemTray
 
 		private void RemoveAccount(string userID, string email, Boolean removeAllDatas)
 		{
-			MethodInvoker mi = new MethodInvoker(() => 
+			MethodInvoker mi = new MethodInvoker(() =>
 			{
 				StationController.RemoveOwner(userID, removeAllDatas);
 			});
 
 			AutoResetEvent autoEvent = new AutoResetEvent(false);
-			mi.BeginInvoke((result) => 
+			mi.BeginInvoke((result) =>
 			{
 				autoEvent.WaitOne();
 				SendSyncContext(() =>
@@ -220,7 +220,7 @@ namespace StationSystemTray
 
 			autoEvent.Set();
 			m_ProcessingDialog.ShowDialog(this);
-		} 
+		}
 		#endregion
 
 
@@ -293,9 +293,19 @@ namespace StationSystemTray
 				bgWorker.RunWorkerAsync(bgWorker);
 
 				Cursor.Current = Cursors.WaitCursor;
-				this.Enabled = false;
+				SetUIEnabled(false);
 				_isMovingFolder = true;
+
+				m_ProcessingDialog.ProcessMessage = Resources.MovingResourceFolder;
+				m_ProcessingDialog.ProgressStyle = ProgressBarStyle.Marquee;
+				m_ProcessingDialog.StartPosition = FormStartPosition.CenterParent;
+				m_ProcessingDialog.ShowDialog();
 			}
+		}
+
+		private void SetUIEnabled(bool enabled)
+		{
+			groupBox2.Enabled = groupBox3.Enabled = dgvAccountList.Enabled = enabled;
 		}
 
 		private void MoveResourceFolder_DoWork(object sender, DoWorkEventArgs args)
@@ -307,10 +317,12 @@ namespace StationSystemTray
 			{
 				FileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Station.Management.exe"),
 				Arguments = string.Format("--moveFolder \"{0}\" --output \"{1}\"", lblResorcePath.Text, outputFilename),
-				Verb = "runas",
 				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Hidden,
 			};
+
+			if (isWinVistaOrLater())
+				p.StartInfo.Verb = "runas";
 
 			p.Start();
 			p.WaitForExit();
@@ -329,6 +341,18 @@ namespace StationSystemTray
 					throw new Exception("Unknown error");
 				}
 			}
+		}
+
+		private static bool isWinVistaOrLater()
+		{
+			bool isWinVistaOrLater;
+
+			var os = Environment.OSVersion;
+			if (os.Platform == PlatformID.Win32NT && os.Version.Major == 6)
+				isWinVistaOrLater = true;
+			else
+				isWinVistaOrLater = false;
+			return isWinVistaOrLater;
 		}
 
 		private void MoveResourceFolder_WorkCompleted(object sender, RunWorkerCompletedEventArgs args)
@@ -354,8 +378,9 @@ namespace StationSystemTray
 
 				Cursor.Current = Cursors.Default;
 
-				this.Enabled = true;
+				SetUIEnabled(true);
 				_isMovingFolder = false;
+				m_ProcessingDialog = null;
 			}
 		}
 

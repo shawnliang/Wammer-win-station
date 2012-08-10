@@ -10,7 +10,7 @@ namespace Wammer.Station
 
 		public override void HandleRequest()
 		{
-			Station.Instance.ResumeSync();
+			Station.Instance.ResumeSyncByUser();
 
 			RespondSuccess();
 

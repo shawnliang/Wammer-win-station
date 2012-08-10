@@ -1299,8 +1299,6 @@ namespace StationSystemTray
 
 					var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
-					Debug.Assert(loginedSession != null);
-
 					if (loginedSession != null)
 						LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
 				}
@@ -1725,7 +1723,7 @@ namespace StationSystemTray
 
 				m_SettingDialog.Location = this.Location;
 				m_SettingDialog.Icon = this.Icon;
-				m_SettingDialog.TopMost = true;
+				//m_SettingDialog.TopMost = true;
 				m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
 				m_SettingDialog.ShowInTaskbar = isLoginPageOpened;
 

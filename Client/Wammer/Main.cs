@@ -418,7 +418,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("Station401Exception"), "Stream", MessageBoxButtons.OK,
+				MessageBox.Show(Resources.EXCEPTION_401, "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 QuitOption = QuitOption.Logout;
@@ -437,7 +437,7 @@ namespace Waveface
             }
             else
             {
-                MessageBox.Show(I18n.L.T("ForceLogout"), I18n.L.T("TitleSystemError"), MessageBoxButtons.OK,
+				MessageBox.Show(Resources.FORCE_LOGOUT, Resources.SYSTEM_ERROR_TITLE, MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 QuitOption = QuitOption.Logout;
@@ -751,7 +751,7 @@ namespace Waveface
             catch (Exception e)
             {
                 s_logger.Error("Cannot login: " + e);
-                MessageBox.Show(I18n.L.T("ForceLogout"), I18n.L.T("SystemErrorCaption"));
+				MessageBox.Show(Resources.FORCE_LOGOUT, Resources.SYSTEM_ERROR_TITLE);
                 QuitOption = QuitOption.Logout;
                 Close();
             }
@@ -1030,7 +1030,7 @@ namespace Waveface
             }
             catch (Exception _e)
             {
-                MessageBox.Show(I18n.L.T("PostError") + " : " + _e.Message, "Stream");
+                MessageBox.Show(Resources.UNABLE_POST + " : " + _e.Message, "Stream");
 
                 NLogUtility.Exception(s_logger, _e, "Post");
             }
@@ -1086,7 +1086,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Resources.ERROR_AND_RETRY, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1125,7 +1125,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-                MessageBox.Show(I18n.L.T("ErrorAndTry"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Resources.ERROR_AND_RETRY, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1553,9 +1553,9 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.FileMiss"), text), "Stream",
+            MsgBox _msgBox = new MsgBox(string.Format(Resources.FILE_MISS_PATTERN, text), "Stream",
                                         MessageBoxIcon.Warning);
-            _msgBox.SetButtons(new[] { I18n.L.T("Continue"), I18n.L.T("Retry"), I18n.L.T("Cancel") },
+            _msgBox.SetButtons(new[] { Resources.CONTINUE, Resources.RETRY, Resources.CANCEL },
                                new[] { DialogResult.Yes, DialogResult.Retry, DialogResult.Cancel }, 3);
             DialogResult _dr = _msgBox.ShowDialog();
 
@@ -1566,9 +1566,9 @@ namespace Waveface
         {
             NewPostThreadErrorDialogResult = DialogResult.None;
 
-            MsgBox _msgBox = new MsgBox(string.Format(I18n.L.T("BatchPostManager.OverQuota"), text), "Stream",
+            MsgBox _msgBox = new MsgBox(string.Format(Resources.OVER_QUOTA, text), "Stream",
                                         MessageBoxIcon.Warning);
-            _msgBox.SetButtons(new[] { I18n.L.T("Retry"), I18n.L.T("Cancel") },
+            _msgBox.SetButtons(new[] { Resources.RETRY, Resources.CANCEL },
                                new[] { DialogResult.Retry, DialogResult.Cancel }, 2);
             DialogResult _dr = _msgBox.ShowDialog();
 
@@ -1710,7 +1710,7 @@ namespace Waveface
             if (original == 1)
                 return;
 
-            MessageBox.Show(I18n.L.T("NeedToUpgrade"), "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			MessageBox.Show(Resources.NEED_UPGRADE, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
             AutoUpdate update = new AutoUpdate(true);
             if (update.IsUpdateRequired())
                 update.ShowUpdateNeededUI();
