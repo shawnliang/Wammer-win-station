@@ -6,7 +6,7 @@
   <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
   <?define AppVersionMajor = "1" ?>
   <?define AppVersionMinor = "0" ?>
-  <?define AppVersionPatch = "5" ?>
+  <?define AppVersionPatch = "6" ?>
   <?define AppVersionBuild = "0" ?>
   <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
   <?define AppManufacturer = "Waveface" ?>
@@ -219,7 +219,6 @@
       <ComponentRef Id="WebCam_Capture.dll"/>
       <ComponentRef Id="CommonLibs.dll"/>
       <ComponentRef Id="WavefaceWindowsClient.resources.dll"/>
-      <ComponentRef Id="WavefaceML.xml"/>
       <ComponentRef Id="Microsoft.mshtml.dll"/>
       <ComponentRef Id="nlog.config"/>
       <ComponentRef Id="nlog.dll"/>
@@ -307,9 +306,6 @@
       </Component>
       <Component Id="WebCam_Capture.dll" Guid="{6FB4742B-8748-4ED4-AEE5-83EF7CC2BA2F}">
         <File Id="WebCam_Capture.dll" Source="$(var.Wammer.TargetDir)\WebCam_Capture.dll" KeyPath="yes" Checksum="yes"/>
-      </Component>
-      <Component Id="WavefaceML.xml" Guid="{509DC419-360D-4A3E-832E-62515E094FD9}">
-        <File Id="WavefaceML.xML" Source="$(var.Wammer.ProjectDir)\WavefaceML.xml"/>
       </Component>
       <Component Guid="{57E17EB6-BEA0-437F-987C-D5D0E569F855}">
         <File Id="CommonLibs.dll" Source="$(var.CommonLibs.TargetPath)" KeyPath="yes" Checksum="yes"/>

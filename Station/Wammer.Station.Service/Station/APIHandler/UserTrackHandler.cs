@@ -156,6 +156,9 @@ namespace Wammer.Station.APIHandler
 				throw new WammerStationException("user of group " + group_id + " not found",
 				                                 (int) StationLocalApiError.InvalidDriver);
 
+			if (string.IsNullOrEmpty(user.session_token))
+				throw new SessionNotExistException("session not exist", (int)GeneralApiError.SessionNotExist);
+
 			if (!user.is_change_history_synced)
 			{
 				this.LogInfoMsg("changelogs API is not ready because syncing in progress.");
