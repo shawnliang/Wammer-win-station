@@ -54,7 +54,6 @@ namespace Waveface
         private ProgressDialogStart m_onstart;
         private object[] m_paramlist;
         private object m_result;
-        private Localization.CultureManager cultureManager;
         private ProgressBar m_progressBarEx;
 
         # region Properties
@@ -255,7 +254,6 @@ namespace Waveface
         {
             this.components = new System.ComponentModel.Container();
             this.btnCancel = new Waveface.Component.XPButton();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.SuspendLayout();
             // 
             // btnCancel
@@ -271,10 +269,6 @@ namespace Waveface
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // ProgressDialog
             // 

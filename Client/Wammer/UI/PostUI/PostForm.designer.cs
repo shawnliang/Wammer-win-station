@@ -61,7 +61,6 @@ namespace Waveface
             this.pictureBoxWaiting = new System.Windows.Forms.PictureBox();
             this.panelToolbar = new System.Windows.Forms.Panel();
             this.labelPreviewMsg = new System.Windows.Forms.Label();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.backgroundWorker_GetPreview = new System.ComponentModel.BackgroundWorker();
             this.timerNoPreviewMsg = new System.Windows.Forms.Timer(this.components);
             this.richText_UI = new Waveface.PostUI.RichText();
@@ -266,10 +265,6 @@ namespace Waveface
             this.labelPreviewMsg.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(97)))), ((int)(((byte)(101)))));
             this.labelPreviewMsg.Name = "labelPreviewMsg";
             // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
             // timerNoPreviewMsg
             // 
             this.timerNoPreviewMsg.Interval = 5000;
@@ -449,7 +444,6 @@ namespace Waveface
         private ToolStripMenuItem copyToolStripMenuItem;
         private ToolStripMenuItem pasteToolStripMenuItem;
         private Panel panelToolbar;
-        private Localization.CultureManager cultureManager;
         private ToolTip toolTip;
         private System.ComponentModel.BackgroundWorker backgroundWorker_GetPreview;
         private Label labelPreviewMsg;

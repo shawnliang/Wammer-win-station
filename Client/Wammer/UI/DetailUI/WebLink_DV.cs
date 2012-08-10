@@ -20,7 +20,6 @@ namespace Waveface.DetailUI
         private IContainer components;
         private Panel panelMain;
         private Post m_post;
-        private Localization.CultureManager cultureManager;
         private WebBrowserContextMenuHandler m_soulBrowserContextMenuHandler;
         private ContextMenuStrip contextMenuStrip;
         private ToolStripMenuItem miCopySoul;
@@ -92,7 +91,6 @@ namespace Waveface.DetailUI
             this.panelMain = new System.Windows.Forms.Panel();
             this.btnOpenInWebBrowser = new Waveface.Component.ImageButton();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopySoul = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
@@ -130,10 +128,6 @@ namespace Waveface.DetailUI
             this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating);
             this.webBrowser.NewWindow += new System.ComponentModel.CancelEventHandler(this.webBrowser_NewWindow);
             this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
-            // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
             // 
             // contextMenuStrip
             // 

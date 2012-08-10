@@ -58,7 +58,6 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripComboBoxResize = new System.Windows.Forms.ToolStripComboBox();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnSend = new Waveface.Component.ImageButton();
 			this.panel.SuspendLayout();
@@ -273,10 +272,6 @@
 			this.openFileDialog.Multiselect = true;
 			this.openFileDialog.ShowReadOnly = true;
 			// 
-			// cultureManager
-			// 
-			this.cultureManager.ManagedControl = this;
-			// 
 			// btnSend
 			// 
 			resources.ApplyResources(this.btnSend, "btnSend");
@@ -334,7 +329,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem sortAscendingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortDescendingToolStripMenuItem;
-        private Localization.CultureManager cultureManager;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Label labelSummary;
         private System.Windows.Forms.ToolStripMenuItem miSetCoverImage;

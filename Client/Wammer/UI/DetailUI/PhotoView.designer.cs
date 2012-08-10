@@ -46,7 +46,6 @@ namespace Waveface.DetailUI
 			this.panelBottom = new System.Windows.Forms.Panel();
 			this.pnlPhotoViewToolBar = new System.Windows.Forms.Panel();
 			this.imageBox = new Waveface.Component.ImageBox();
-			this.cultureManager = new Waveface.Localization.CultureManager(this.components);
 			this.contextMenuStrip.SuspendLayout();
 			this.panelBottom.SuspendLayout();
 			this.pnlPhotoViewToolBar.SuspendLayout();
@@ -164,10 +163,6 @@ namespace Waveface.DetailUI
 			this.imageBox.ZoomIncrement = 10;
 			this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
 			// 
-			// cultureManager
-			// 
-			this.cultureManager.ManagedControl = this;
-			// 
 			// PhotoView
 			// 
 			resources.ApplyResources(this, "$this");
@@ -195,7 +190,6 @@ namespace Waveface.DetailUI
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem miSave;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private Localization.CultureManager cultureManager;
 		private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ToolStripMenuItem miSetAsCoverImage;
 		private System.Windows.Forms.Panel panelBottom;

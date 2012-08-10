@@ -2,8 +2,7 @@
 
 using System;
 using System.Globalization;
-using Waveface.Localization;
-
+using System.Threading;
 #endregion
 
 namespace Waveface
@@ -79,6 +78,8 @@ namespace Waveface
 
         public static string PrettyDate(String timeSubmitted, bool shortFormat)
         {
+			//TODO: 待重構，多語處理方式不太好
+
             // accepts standard DateTime: 5/12/2011 2:36:00 PM 
             // returns: "# month(s)/week(s)/day(s)/hour(s)/minute(s)/second(s)) ago"
             string _ret;
@@ -92,7 +93,7 @@ namespace Waveface
                 timeSubmitted = _submittedDate.ToString("yyyy-MM-dd");
             }
 
-            if (CultureManager.ApplicationUICulture.Name == "zh-TW")
+            if (Thread.CurrentThread.CurrentUICulture.Name == "zh-TW")
             {
                 if (_diff.Seconds <= 0)
                 {

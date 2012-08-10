@@ -45,7 +45,6 @@
             this.panelToolbar = new System.Windows.Forms.Panel();
             this.labelSummary = new System.Windows.Forms.Label();
             this.buttonRemovePreview = new Waveface.Component.ImageButton();
-            this.cultureManager = new Waveface.Localization.CultureManager(this.components);
             this.btnSend = new Waveface.Component.ImageButton();
             this.panel.SuspendLayout();
             this.panelPreview.SuspendLayout();
@@ -179,10 +178,6 @@
             this.buttonRemovePreview.TextShadow = true;
             this.buttonRemovePreview.Click += new System.EventHandler(this.buttonRemovePreview_Click);
             // 
-            // cultureManager
-            // 
-            this.cultureManager.ManagedControl = this;
-            // 
             // btnSend
             // 
             resources.ApplyResources(this.btnSend, "btnSend");
@@ -232,7 +227,6 @@
         private Component.ImageButton buttonRemovePreview;
         private Component.XPButton buttonNext;
         private Component.XPButton buttonPrev;
-        private Localization.CultureManager cultureManager;
         private System.Windows.Forms.Panel panelContent;
         private System.Windows.Forms.Label labelProvider;
         private System.Windows.Forms.Panel panelSelectPicture;
