@@ -397,7 +397,7 @@ namespace StationSystemTray
 
 			if (e.ColumnIndex == 2)
 			{
-				using (var dialog = new CleanResourceForm(dgvAccountList.Rows[e.RowIndex].Cells[0].Value.ToString()))
+				using (var dialog = new CleanResourceDialog(dgvAccountList.Rows[e.RowIndex].Cells[0].Value.ToString()))
 				{
 					dialog.TopMost = this.TopMost;
 					dialog.BackColor = this.BackColor;

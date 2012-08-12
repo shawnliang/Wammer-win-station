@@ -1073,7 +1073,7 @@ namespace StationSystemTray
 				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
 
 				bool isCleanResource = false;
-				var cleanform = new CleanResourceForm(userlogin.Email);
+				var cleanform = new CleanResourceDialog(userlogin.Email);
 				DialogResult cleanResult = cleanform.ShowDialog();
 				if (cleanResult == DialogResult.Yes)
 				{

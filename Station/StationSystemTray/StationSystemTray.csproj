@@ -62,94 +62,93 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountEventArgs.cs" />
-    <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="Control\CueTextBox.cs">
+    <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
+    <Compile Include="Src\Class\ApplicationSettings.cs" />
+    <Compile Include="Src\Control\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Control\FBLoginButton.cs">
+    <Compile Include="Src\Control\FBLoginButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Control\FBLoginButton.Designer.cs">
+    <Compile Include="Src\Control\FBLoginButton.Designer.cs">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="Control\GroupBoxEx.cs">
+    <Compile Include="Src\Control\GroupBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Control\LoginButton.cs">
+    <Compile Include="Src\Control\LoginButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Control\LoginInputPanel.cs">
+    <Compile Include="Src\Control\LoginInputPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Control\TabControlEx.cs">
+    <Compile Include="Src\Control\TabControlEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomWindow.cs" />
-    <Compile Include="Dialog\ProcessingDialog.cs">
+    <Compile Include="Src\Class\CustomWindow.cs" />
+    <Compile Include="Src\Dialog\ProcessingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialog\ProcessingDialog.Designer.cs">
+    <Compile Include="Src\Dialog\ProcessingDialog.Designer.cs">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialog\SettingDialog.cs">
+    <Compile Include="Src\Dialog\SettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialog\SettingDialog.Designer.cs">
+    <Compile Include="Src\Dialog\SettingDialog.Designer.cs">
       <DependentUpon>SettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialog\SignUpDialog.cs">
+    <Compile Include="Src\Dialog\SignUpDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialog\SignUpDialog.Designer.cs">
+    <Compile Include="Src\Dialog\SignUpDialog.Designer.cs">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Src\Form\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Src\Form\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Messenger.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CleanResourceForm.cs">
+    <Compile Include="Src\Dialog\CleanResourceDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CleanResourceForm.Designer.cs">
-      <DependentUpon>CleanResourceForm.cs</DependentUpon>
+    <Compile Include="Src\Dialog\CleanResourceDialog.Designer.cs">
+      <DependentUpon>CleanResourceDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="SecurityHelper.cs" />
-    <Compile Include="SimpleUIController.cs" />
-    <Compile Include="StateMachine.cs" />
-    <Compile Include="Win32Helper.cs" />
-    <EmbeddedResource Include="Control\FBLoginButton.resx">
+    <Compile Include="Src\Class\SecurityHelper.cs" />
+    <Compile Include="Src\Class\SimpleUIController.cs" />
+    <Compile Include="Src\Class\StateMachine.cs" />
+    <Compile Include="Src\Class\Win32Helper.cs" />
+    <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\ProcessingDialog.resx">
+    <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\ProcessingDialog.zh-TW.resx">
+    <EmbeddedResource Include="Src\Dialog\ProcessingDialog.zh-TW.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\SettingDialog.resx">
+    <EmbeddedResource Include="Src\Dialog\SettingDialog.resx">
       <DependentUpon>SettingDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\SettingDialog.zh-TW.resx">
+    <EmbeddedResource Include="Src\Dialog\SettingDialog.zh-TW.resx">
       <DependentUpon>SettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\SignUpDialog.resx">
+    <EmbeddedResource Include="Src\Dialog\SignUpDialog.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\SignUpDialog.zh-TW.resx">
+    <EmbeddedResource Include="Src\Dialog\SignUpDialog.zh-TW.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Src\Form\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.zh-TW.resx">
+    <EmbeddedResource Include="Src\Form\MainForm.zh-TW.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -163,12 +162,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="CleanResourceForm.resx">
-      <DependentUpon>CleanResourceForm.cs</DependentUpon>
+    <EmbeddedResource Include="Src\Dialog\CleanResourceDialog.resx">
+      <DependentUpon>CleanResourceDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="CleanResourceForm.zh-TW.resx">
-      <DependentUpon>CleanResourceForm.cs</DependentUpon>
+    <EmbeddedResource Include="Src\Dialog\CleanResourceDialog.zh-TW.resx">
+      <DependentUpon>CleanResourceDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.zh-TW.resx">

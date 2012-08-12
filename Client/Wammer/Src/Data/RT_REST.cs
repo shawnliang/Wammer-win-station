@@ -7,6 +7,7 @@ using System;
 using Waveface.Libs.StationDB;
 using System.Diagnostics;
 using System.Web;
+using Newtonsoft.Json;
 
 #endregion
 
@@ -27,6 +28,7 @@ namespace Waveface
             }
         }
 
+		[JsonIgnore]
         public string SessionToken
         {
             get

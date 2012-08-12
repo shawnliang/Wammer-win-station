@@ -1,6 +1,6 @@
 ﻿namespace StationSystemTray
 {
-	partial class CleanResourceForm
+	partial class CleanResourceDialog
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CleanResourceForm));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CleanResourceDialog));
 			this.btnYes = new System.Windows.Forms.Button();
 			this.btnNo = new System.Windows.Forms.Button();
 			this.lblConfirm = new System.Windows.Forms.Label();

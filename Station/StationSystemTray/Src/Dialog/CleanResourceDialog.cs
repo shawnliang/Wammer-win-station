@@ -5,14 +5,14 @@ using StationSystemTray.Properties;
 
 namespace StationSystemTray
 {
-	public partial class CleanResourceForm : Form
+	public partial class CleanResourceDialog : Form
 	{
 		public Boolean RemoveAllDatas
 		{
 			get { return checkBox1.Checked; }
 		}
 
-		public CleanResourceForm(string email)
+		public CleanResourceDialog(string email)
 		{
 			Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();

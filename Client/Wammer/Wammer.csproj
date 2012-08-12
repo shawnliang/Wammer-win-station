@@ -126,435 +126,435 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\CustomWindow.cs" />
-    <Compile Include="Class\DebugInfo.cs" />
-    <Compile Include="Class\NetworkChecker.cs" />
-    <Compile Include="Class\Upload\AttachmentUploadFacade.cs" />
-    <Compile Include="Class\Upload\Uploader.cs" />
-    <Compile Include="Class\Upload\UploadQueue.cs" />
-    <Compile Include="Class\Upload\UploadQueuePersistency.cs" />
-    <Compile Include="Class\UserInfo.cs" />
-    <Compile Include="Component\Analogclock.cs">
+    <Compile Include="Src\Class\CustomWindow.cs" />
+    <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\NetworkChecker.cs" />
+    <Compile Include="Src\Class\Upload\AttachmentUploadFacade.cs" />
+    <Compile Include="Src\Class\Upload\Uploader.cs" />
+    <Compile Include="Src\Class\Upload\UploadQueue.cs" />
+    <Compile Include="Src\Class\Upload\UploadQueuePersistency.cs" />
+    <Compile Include="Src\Class\UserInfo.cs" />
+    <Compile Include="Src\Component\Analogclock.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Component\CustomDataGridView.cs">
+    <Compile Include="Src\Component\CustomDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\ExifStuff.cs" />
-    <Compile Include="Component\ImageBox.cs">
+    <Compile Include="Src\Component\ExifStuff.cs" />
+    <Compile Include="Src\Component\ImageBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\ImageBox.designer.cs">
+    <Compile Include="Src\Component\ImageBox.designer.cs">
       <DependentUpon>ImageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\ImageButton.cs">
+    <Compile Include="Src\Component\ImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\Panel\AutoScrollPanel.cs">
+    <Compile Include="Src\Component\Panel\AutoScrollPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\MsgBox.cs">
+    <Compile Include="Src\Component\MsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\MsgBox.designer.cs">
+    <Compile Include="Src\Component\MsgBox.designer.cs">
       <DependentUpon>MsgBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\PSTaskDialog\CommandButton.cs">
+    <Compile Include="Src\Component\PSTaskDialog\CommandButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\PSTaskDialog\CommandButton.designer.cs">
+    <Compile Include="Src\Component\PSTaskDialog\CommandButton.designer.cs">
       <DependentUpon>CommandButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\PSTaskDialog\cTaskDialog.cs" />
-    <Compile Include="Component\PSTaskDialog\FormTaskDialog.cs">
+    <Compile Include="Src\Component\PSTaskDialog\cTaskDialog.cs" />
+    <Compile Include="Src\Component\PSTaskDialog\FormTaskDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\PSTaskDialog\FormTaskDialog.designer.cs">
+    <Compile Include="Src\Component\PSTaskDialog\FormTaskDialog.designer.cs">
       <DependentUpon>FormTaskDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\PSTaskDialog\frmTaskDialog.cs">
+    <Compile Include="Src\Component\PSTaskDialog\frmTaskDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\PSTaskDialog\frmTaskDialog.designer.cs">
+    <Compile Include="Src\Component\PSTaskDialog\frmTaskDialog.designer.cs">
       <DependentUpon>frmTaskDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\PSTaskDialog\VistaActiveTaskDialog.cs" />
-    <Compile Include="Component\PSTaskDialog\VistaTaskDialog.cs" />
-    <Compile Include="Component\PSTaskDialog\VistaTaskDialogCommonDialog.cs">
+    <Compile Include="Src\Component\PSTaskDialog\VistaActiveTaskDialog.cs" />
+    <Compile Include="Src\Component\PSTaskDialog\VistaTaskDialog.cs" />
+    <Compile Include="Src\Component\PSTaskDialog\VistaTaskDialogCommonDialog.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\PSTaskDialog\VistaTaskDialogNotificationArgs.cs" />
-    <Compile Include="Component\PSTaskDialog\VistaUnsafeNativeMethods.cs" />
-    <Compile Include="Component\Panel\ScrollablePanel.cs">
+    <Compile Include="Src\Component\PSTaskDialog\VistaTaskDialogNotificationArgs.cs" />
+    <Compile Include="Src\Component\PSTaskDialog\VistaUnsafeNativeMethods.cs" />
+    <Compile Include="Src\Component\Panel\ScrollablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\RichEdit\AutoCompleteAcceptedArgs.cs" />
-    <Compile Include="Component\RichEdit\AutoCompleteAcceptedHandler.cs" />
-    <Compile Include="Component\RichEdit\AutoCompleteDialog.cs">
+    <Compile Include="Src\Component\RichEdit\AutoCompleteAcceptedArgs.cs" />
+    <Compile Include="Src\Component\RichEdit\AutoCompleteAcceptedHandler.cs" />
+    <Compile Include="Src\Component\RichEdit\AutoCompleteDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\RichEdit\ChangeDescription.cs" />
-    <Compile Include="Component\RichEdit\ChangeTracker.cs" />
-    <Compile Include="Component\RichEdit\CharacterInfo.cs" />
-    <Compile Include="Component\RichEdit\Format.cs" />
-    <Compile Include="Component\RichEdit\FormattingInstruction.cs" />
-    <Compile Include="Component\RichEdit\FormattingRule.cs" />
-    <Compile Include="Component\RichEdit\FormattinInstructionCollection.cs" />
-    <Compile Include="Component\RichEdit\IEditor.cs" />
-    <Compile Include="Component\RichEdit\Interop.cs" />
-    <Compile Include="Component\RichEdit\RichEditConstants.cs" />
-    <Compile Include="Component\RichEdit\RichTextBox2.cs">
+    <Compile Include="Src\Component\RichEdit\ChangeDescription.cs" />
+    <Compile Include="Src\Component\RichEdit\ChangeTracker.cs" />
+    <Compile Include="Src\Component\RichEdit\CharacterInfo.cs" />
+    <Compile Include="Src\Component\RichEdit\Format.cs" />
+    <Compile Include="Src\Component\RichEdit\FormattingInstruction.cs" />
+    <Compile Include="Src\Component\RichEdit\FormattingRule.cs" />
+    <Compile Include="Src\Component\RichEdit\FormattinInstructionCollection.cs" />
+    <Compile Include="Src\Component\RichEdit\IEditor.cs" />
+    <Compile Include="Src\Component\RichEdit\Interop.cs" />
+    <Compile Include="Src\Component\RichEdit\RichEditConstants.cs" />
+    <Compile Include="Src\Component\RichEdit\RichTextBox2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\RichEdit\RichTextEditor.cs">
+    <Compile Include="Src\Component\RichEdit\RichTextEditor.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\RichEdit\RichTextEditorSample.cs">
+    <Compile Include="Src\Component\RichEdit\RichTextEditorSample.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\RichEdit\TextChanged2EventArgs.cs" />
-    <Compile Include="Component\RichEdit\TextChanged2EventHanlder.cs" />
-    <Compile Include="Component\RichEdit\UnderlineColor.cs" />
-    <Compile Include="Component\RichEdit\UnderlineFormat.cs" />
-    <Compile Include="Component\RichEdit\UnderlineStyle.cs" />
-    <Compile Include="Component\RichEdit\WinUserConstants.cs" />
-    <Compile Include="Component\SingleInstance.cs" />
-    <Compile Include="Component\RichEdit\WaterMarkRichTextBox.cs">
+    <Compile Include="Src\Component\RichEdit\TextChanged2EventArgs.cs" />
+    <Compile Include="Src\Component\RichEdit\TextChanged2EventHanlder.cs" />
+    <Compile Include="Src\Component\RichEdit\UnderlineColor.cs" />
+    <Compile Include="Src\Component\RichEdit\UnderlineFormat.cs" />
+    <Compile Include="Src\Component\RichEdit\UnderlineStyle.cs" />
+    <Compile Include="Src\Component\RichEdit\WinUserConstants.cs" />
+    <Compile Include="Src\Component\SingleInstance.cs" />
+    <Compile Include="Src\Component\RichEdit\WaterMarkRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\WebBrowserContextMenuHandler.cs" />
-    <Compile Include="Controls\PhotoBox.cs">
+    <Compile Include="Src\Component\WebBrowserContextMenuHandler.cs" />
+    <Compile Include="Src\Controls\PhotoBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Toast.cs">
+    <Compile Include="Src\Controls\Toast.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Data\ConnectServiceStateType.cs" />
-    <Compile Include="Data\EditMode.cs" />
-    <Compile Include="Data\Delegates.cs" />
-    <Compile Include="Data\StationState.cs" />
-    <Compile Include="Data\UploadOriginPhotosToStationItem.cs" />
-    <Compile Include="Data\PhotoPostInfo.cs" />
-    <Compile Include="Data\PhotoDownloader.cs" />
-    <Compile Include="Data\ImageItem.cs" />
-    <Compile Include="Data\PostItemType.cs" />
-    <Compile Include="Dialog\NameSettingDialog.cs">
+    <Compile Include="Src\Data\ConnectServiceStateType.cs" />
+    <Compile Include="Src\Data\EditMode.cs" />
+    <Compile Include="Src\Data\Delegates.cs" />
+    <Compile Include="Src\Data\StationState.cs" />
+    <Compile Include="Src\Data\UploadOriginPhotosToStationItem.cs" />
+    <Compile Include="Src\Data\PhotoPostInfo.cs" />
+    <Compile Include="Src\Data\PhotoDownloader.cs" />
+    <Compile Include="Src\Data\ImageItem.cs" />
+    <Compile Include="Src\Data\PostItemType.cs" />
+    <Compile Include="Src\Dialog\NameSettingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialog\NameSettingDialog.Designer.cs">
+    <Compile Include="Src\Dialog\NameSettingDialog.Designer.cs">
       <DependentUpon>NameSettingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Exception\ChangeLogsPurgedException.cs" />
-    <Compile Include="Exception\VersionNotSupportedException.cs" />
-    <Compile Include="Extension\ErrorProviderExtension.cs" />
-    <Compile Include="Extension\FormExtension.cs" />
-    <Compile Include="Class\Lazy.cs" />
-    <Compile Include="Libs\StationDB\AttachmentCollection.cs" />
-    <Compile Include="Libs\StationDB\StationDB.cs" />
-    <Compile Include="Libs\Utility\ApplicationInformation.cs" />
-    <Compile Include="Libs\Utility\ControlUtility.cs" />
-    <Compile Include="Libs\Utility\StationRegHelper.cs" />
-    <Compile Include="Libs\Utility\WebBrowser.cs" />
-    <Compile Include="Libs\Utility\AttachmentUtility.cs" />
-    <Compile Include="Data\RT_REST.cs" />
-    <Compile Include="Libs\Utility\NLogUtility.cs" />
-    <Compile Include="Controls\LogoutButton.cs">
+    <Compile Include="Src\Exception\ChangeLogsPurgedException.cs" />
+    <Compile Include="Src\Exception\VersionNotSupportedException.cs" />
+    <Compile Include="Src\Extension\ErrorProviderExtension.cs" />
+    <Compile Include="Src\Extension\FormExtension.cs" />
+    <Compile Include="Src\Class\Lazy.cs" />
+    <Compile Include="Src\Libs\StationDB\AttachmentCollection.cs" />
+    <Compile Include="Src\Libs\StationDB\StationDB.cs" />
+    <Compile Include="Src\Libs\Utility\ApplicationInformation.cs" />
+    <Compile Include="Src\Libs\Utility\ControlUtility.cs" />
+    <Compile Include="Src\Libs\Utility\StationRegHelper.cs" />
+    <Compile Include="Src\Libs\Utility\WebBrowser.cs" />
+    <Compile Include="Src\Libs\Utility\AttachmentUtility.cs" />
+    <Compile Include="Src\Data\RT_REST.cs" />
+    <Compile Include="Src\Libs\Utility\NLogUtility.cs" />
+    <Compile Include="Src\Controls\LogoutButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProgramSetting.cs" />
-    <Compile Include="Exception\Station401Exception.cs" />
-    <Compile Include="Controls\PhotoNavigator.cs">
+    <Compile Include="Src\ProgramSetting.cs" />
+    <Compile Include="Src\Exception\Station401Exception.cs" />
+    <Compile Include="Src\Controls\PhotoNavigator.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DateTimePopupPanel.cs">
+    <Compile Include="Src\UI\DateTimePopupPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DateTimePopupPanel.designer.cs">
+    <Compile Include="Src\UI\DateTimePopupPanel.designer.cs">
       <DependentUpon>DateTimePopupPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DetailUI\CommentForm.cs">
+    <Compile Include="Src\UI\DetailUI\CommentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\CommentForm.Designer.cs">
+    <Compile Include="Src\UI\DetailUI\CommentForm.Designer.cs">
       <DependentUpon>CommentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DVTopPanel.cs">
+    <Compile Include="Src\UI\DVTopPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\SettingUI\AccountInfoForm.cs">
+    <Compile Include="Src\UI\SettingUI\AccountInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SettingUI\AccountInfoForm.Designer.cs">
+    <Compile Include="Src\UI\SettingUI\AccountInfoForm.Designer.cs">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\TitlePanel.cs">
+    <Compile Include="Src\UI\TitlePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\IDetailView.cs" />
-    <Compile Include="UI\DetailUI\ImageViewItemTAG.cs" />
-    <Compile Include="UI\DetailUI\SlideShowForm.cs">
+    <Compile Include="Src\UI\DetailUI\IDetailView.cs" />
+    <Compile Include="Src\UI\DetailUI\ImageViewItemTAG.cs" />
+    <Compile Include="Src\UI\DetailUI\SlideShowForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\SlideShowForm.designer.cs">
+    <Compile Include="Src\UI\DetailUI\SlideShowForm.designer.cs">
       <DependentUpon>SlideShowForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DropAreaInforForm.cs">
+    <Compile Include="Src\UI\DropAreaInforForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\DropAreaInforForm.Designer.cs">
+    <Compile Include="Src\UI\DropAreaInforForm.Designer.cs">
       <DependentUpon>DropAreaInforForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\NewPostManagerUI.cs">
+    <Compile Include="Src\UI\NewPostManagerUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\NewPostManagerUI.Designer.cs">
+    <Compile Include="Src\UI\NewPostManagerUI.Designer.cs">
       <DependentUpon>NewPostManagerUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data\UploadOriginPhotosToStationManager.cs" />
-    <Compile Include="Component\FileIconLib.cs" />
-    <Compile Include="Component\IconHelper\IconHelper.cs" />
-    <Compile Include="Component\IconHelper\IconListManager.cs" />
-    <Compile Include="Component\MouseWheelRedirector.cs" />
-    <Compile Include="Component\MyImageListViewRenderer.cs" />
-    <Compile Include="Component\PopupControl\ComboBox.cs">
+    <Compile Include="Src\Data\UploadOriginPhotosToStationManager.cs" />
+    <Compile Include="Src\Component\FileIconLib.cs" />
+    <Compile Include="Src\Component\IconHelper\IconHelper.cs" />
+    <Compile Include="Src\Component\IconHelper\IconListManager.cs" />
+    <Compile Include="Src\Component\MouseWheelRedirector.cs" />
+    <Compile Include="Src\Component\MyImageListViewRenderer.cs" />
+    <Compile Include="Src\Component\PopupControl\ComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\PopupControl\ComboBox.designer.cs">
+    <Compile Include="Src\Component\PopupControl\ComboBox.designer.cs">
       <DependentUpon>ComboBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\PopupControl\GripBounds.cs" />
-    <Compile Include="Component\PopupControl\NativeMethods.cs" />
-    <Compile Include="Component\PopupControl\Popup.cs">
+    <Compile Include="Src\Component\PopupControl\GripBounds.cs" />
+    <Compile Include="Src\Component\PopupControl\NativeMethods.cs" />
+    <Compile Include="Src\Component\PopupControl\Popup.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\PopupControl\Popup.designer.cs">
+    <Compile Include="Src\Component\PopupControl\Popup.designer.cs">
       <DependentUpon>Popup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\PopupControl\PopupAnimations.cs" />
-    <Compile Include="Component\PopupControl\PopupComboBox.cs">
+    <Compile Include="Src\Component\PopupControl\PopupAnimations.cs" />
+    <Compile Include="Src\Component\PopupControl\PopupComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\PopupControl\PopupComboBox.designer.cs">
+    <Compile Include="Src\Component\PopupControl\PopupComboBox.designer.cs">
       <DependentUpon>PopupComboBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\PreviewHandler.cs">
+    <Compile Include="Src\Component\PreviewHandler.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\TimePicker\HourMinuteSelectorForm.cs">
+    <Compile Include="Src\Component\TimePicker\HourMinuteSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\TimePicker\HourMinuteSelectorForm.designer.cs">
+    <Compile Include="Src\Component\TimePicker\HourMinuteSelectorForm.designer.cs">
       <DependentUpon>HourMinuteSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\TimePicker\HourSelectorForm.cs">
+    <Compile Include="Src\Component\TimePicker\HourSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\TimePicker\HourSelectorForm.designer.cs">
+    <Compile Include="Src\Component\TimePicker\HourSelectorForm.designer.cs">
       <DependentUpon>HourSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\TimePicker\MinuteSelectorForm.cs">
+    <Compile Include="Src\Component\TimePicker\MinuteSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\TimePicker\MinuteSelectorForm.designer.cs">
+    <Compile Include="Src\Component\TimePicker\MinuteSelectorForm.designer.cs">
       <DependentUpon>MinuteSelectorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\TimePicker\TimeChangeEventArgs.cs" />
-    <Compile Include="Component\TimePicker\TimePicker.cs">
+    <Compile Include="Src\Component\TimePicker\TimeChangeEventArgs.cs" />
+    <Compile Include="Src\Component\TimePicker\TimePicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Component\TimePicker\TimePicker.designer.cs">
+    <Compile Include="Src\Component\TimePicker\TimePicker.designer.cs">
       <DependentUpon>TimePicker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\TimePicker\TimePickerValueEditor.cs" />
-    <Compile Include="Data\ClipObject.cs" />
-    <Compile Include="Component\CollapsibleSplitter.cs">
+    <Compile Include="Src\Component\TimePicker\TimePickerValueEditor.cs" />
+    <Compile Include="Src\Data\ClipObject.cs" />
+    <Compile Include="Src\Component\CollapsibleSplitter.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\Colors.cs" />
-    <Compile Include="Component\ControlPaint.cs" />
-    <Compile Include="Component\DragDropTabControl.cs">
+    <Compile Include="Src\Component\Colors.cs" />
+    <Compile Include="Src\Component\ControlPaint.cs" />
+    <Compile Include="Src\Component\DragDropTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\FlashWindow.cs" />
-    <Compile Include="Component\FlatTabControl.cs">
+    <Compile Include="Src\Component\FlashWindow.cs" />
+    <Compile Include="Src\Component\FlatTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Component\ListBarControl\CustomBorderColor.cs" />
-    <Compile Include="Component\ListBarControl\frmListBarTest.cs">
+    <Compile Include="Src\Component\ListBarControl\CustomBorderColor.cs" />
+    <Compile Include="Src\Component\ListBarControl\frmListBarTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\ListBarControl\frmVsNetListBarTest.cs">
+    <Compile Include="Src\Component\ListBarControl\frmVsNetListBarTest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\ListBarControl\HLSRGB.cs" />
-    <Compile Include="Component\ListBarControl\ListBar.cs">
+    <Compile Include="Src\Component\ListBarControl\HLSRGB.cs" />
+    <Compile Include="Src\Component\ListBarControl\ListBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Component\ListBarControl\PopupCancel.cs" />
-    <Compile Include="Component\ListBarControl\VSNetListBar.cs">
+    <Compile Include="Src\Component\ListBarControl\PopupCancel.cs" />
+    <Compile Include="Src\Component\ListBarControl\VSNetListBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Data\PostType.cs" />
-    <Compile Include="Libs\Utility\OsUtility.cs" />
-    <Compile Include="Libs\Utility\HtmlUtility.cs" />
-    <Compile Include="Libs\Utility\TabOrderManager.cs" />
-    <Compile Include="Component\TaskbarNotifier\MyTaskbarNotifier.cs">
+    <Compile Include="Src\Data\PostType.cs" />
+    <Compile Include="Src\Libs\Utility\OsUtility.cs" />
+    <Compile Include="Src\Libs\Utility\HtmlUtility.cs" />
+    <Compile Include="Src\Libs\Utility\TabOrderManager.cs" />
+    <Compile Include="Src\Component\TaskbarNotifier\MyTaskbarNotifier.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\TaskbarNotifier\MyTaskbarNotifier.designer.cs">
+    <Compile Include="Src\Component\TaskbarNotifier\MyTaskbarNotifier.designer.cs">
       <DependentUpon>MyTaskbarNotifier.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\TaskbarNotifier\TaskbarNotifier.cs">
+    <Compile Include="Src\Component\TaskbarNotifier\TaskbarNotifier.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\XPButton.cs">
+    <Compile Include="Src\Component\XPButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Libs\Diagnostics\CrashReporter.cs">
+    <Compile Include="Src\Libs\Diagnostics\CrashReporter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Libs\Diagnostics\CrashReporter.designer.cs">
+    <Compile Include="Src\Libs\Diagnostics\CrashReporter.designer.cs">
       <DependentUpon>CrashReporter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Libs\DragDropLib\DataObject.cs" />
-    <Compile Include="Libs\DragDropLib\DragDropHelper.cs" />
-    <Compile Include="Libs\DragDropLib\IDragSourceHelper.cs" />
-    <Compile Include="Libs\DragDropLib\IDropTargetHelper.cs" />
-    <Compile Include="Libs\DragDropLib\NativeStructures.cs" />
-    <Compile Include="Libs\Utility\WebPostHelper.cs" />
-    <Compile Include="REST\WService.cs" />
-    <Compile Include="REST\WData.cs" />
-    <Compile Include="Data\RunTime.cs" />
-    <Compile Include="UI\DetailUI\RichText_DV.cs">
+    <Compile Include="Src\Libs\DragDropLib\DataObject.cs" />
+    <Compile Include="Src\Libs\DragDropLib\DragDropHelper.cs" />
+    <Compile Include="Src\Libs\DragDropLib\IDragSourceHelper.cs" />
+    <Compile Include="Src\Libs\DragDropLib\IDropTargetHelper.cs" />
+    <Compile Include="Src\Libs\DragDropLib\NativeStructures.cs" />
+    <Compile Include="Src\Libs\Utility\WebPostHelper.cs" />
+    <Compile Include="Src\REST\WService.cs" />
+    <Compile Include="Src\REST\WData.cs" />
+    <Compile Include="Src\Data\RunTime.cs" />
+    <Compile Include="Src\UI\DetailUI\RichText_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\Photo_DV.cs">
+    <Compile Include="Src\UI\DetailUI\Photo_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\WebLink_DV.cs">
+    <Compile Include="Src\UI\DetailUI\WebLink_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\Document_DV.cs">
+    <Compile Include="Src\UI\DetailUI\Document_DV.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\FilterUI\FilterHelper.cs" />
-    <Compile Include="UI\FilterUI\FilterItem.cs" />
-    <Compile Include="UI\FilterUI\FilterManager.cs">
+    <Compile Include="Src\UI\FilterUI\FilterHelper.cs" />
+    <Compile Include="Src\UI\FilterUI\FilterItem.cs" />
+    <Compile Include="Src\UI\FilterUI\FilterManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FilterUI\FilterManager.Designer.cs">
+    <Compile Include="Src\UI\FilterUI\FilterManager.Designer.cs">
       <DependentUpon>FilterManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FilterUI\TimeRangeFilter.cs" />
-    <Compile Include="UI\FilterUI\TimeStampFilter.cs" />
-    <Compile Include="UI\PostArea.cs">
+    <Compile Include="Src\UI\FilterUI\TimeRangeFilter.cs" />
+    <Compile Include="Src\UI\FilterUI\TimeStampFilter.cs" />
+    <Compile Include="Src\UI\PostArea.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\PostArea.Designer.cs">
+    <Compile Include="Src\UI\PostArea.Designer.cs">
       <DependentUpon>PostArea.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PostUI\OldImagesPopupPanel.cs">
+    <Compile Include="Src\UI\PostUI\OldImagesPopupPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\PostUI\OldImagesPopupPanel.designer.cs">
+    <Compile Include="Src\UI\PostUI\OldImagesPopupPanel.designer.cs">
       <DependentUpon>OldImagesPopupPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PostUI\Document.cs">
+    <Compile Include="Src\UI\PostUI\Document.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\PostUI\Document.Designer.cs">
+    <Compile Include="Src\UI\PostUI\Document.Designer.cs">
       <DependentUpon>Document.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PostUI\WebLink.cs">
+    <Compile Include="Src\UI\PostUI\WebLink.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\PostUI\WebLink.Designer.cs">
+    <Compile Include="Src\UI\PostUI\WebLink.Designer.cs">
       <DependentUpon>WebLink.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PostUI\Photo.cs">
+    <Compile Include="Src\UI\PostUI\Photo.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\PostUI\Photo.Designer.cs">
+    <Compile Include="Src\UI\PostUI\Photo.Designer.cs">
       <DependentUpon>Photo.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PostUI\PostForm.cs">
+    <Compile Include="Src\UI\PostUI\PostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\PostUI\PostForm.designer.cs">
+    <Compile Include="Src\UI\PostUI\PostForm.designer.cs">
       <DependentUpon>PostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Libs\Utility\AbortableThreadPool.cs" />
-    <Compile Include="Libs\Utility\DragDrop_Clipboard_Helper.cs" />
-    <Compile Include="Subs\ImageCapture\CaptureForm.cs">
+    <Compile Include="Src\Libs\Utility\AbortableThreadPool.cs" />
+    <Compile Include="Src\Libs\Utility\DragDrop_Clipboard_Helper.cs" />
+    <Compile Include="Src\Subs\ImageCapture\CaptureForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subs\ImageCapture\CaptureForm.designer.cs">
+    <Compile Include="Src\Subs\ImageCapture\CaptureForm.designer.cs">
       <DependentUpon>CaptureForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subs\ImageCapture\CaptureInfo.cs" />
-    <Compile Include="Subs\ImageCapture\States\BaseState.cs" />
-    <Compile Include="Subs\ImageCapture\States\GeneralState.cs" />
-    <Compile Include="Subs\ImageCapture\States\ICaptureState.cs" />
-    <Compile Include="Subs\ImageCapture\States\RegionState.cs" />
-    <Compile Include="Subs\ImageCapture\States\ScreenState.cs" />
-    <Compile Include="Subs\ImageCapture\States\WindowState.cs" />
-    <Compile Include="Subs\ImageCapture\Utils\ScreenCapture.cs" />
-    <Compile Include="Subs\ImageCapture\Utils\WinApi.cs" />
-    <Compile Include="Component\StickyWindow.cs" />
-    <Compile Include="UI\PostUI\RichText.cs">
+    <Compile Include="Src\Subs\ImageCapture\CaptureInfo.cs" />
+    <Compile Include="Src\Subs\ImageCapture\States\BaseState.cs" />
+    <Compile Include="Src\Subs\ImageCapture\States\GeneralState.cs" />
+    <Compile Include="Src\Subs\ImageCapture\States\ICaptureState.cs" />
+    <Compile Include="Src\Subs\ImageCapture\States\RegionState.cs" />
+    <Compile Include="Src\Subs\ImageCapture\States\ScreenState.cs" />
+    <Compile Include="Src\Subs\ImageCapture\States\WindowState.cs" />
+    <Compile Include="Src\Subs\ImageCapture\Utils\ScreenCapture.cs" />
+    <Compile Include="Src\Subs\ImageCapture\Utils\WinApi.cs" />
+    <Compile Include="Src\Component\StickyWindow.cs" />
+    <Compile Include="Src\UI\PostUI\RichText.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\PostUI\RichText.Designer.cs">
+    <Compile Include="Src\UI\PostUI\RichText.Designer.cs">
       <DependentUpon>RichText.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\PostUI\RichTextPostForm.cs">
+    <Compile Include="Src\UI\PostUI\RichTextPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\PostUI\RichTextPostForm.Designer.cs">
+    <Compile Include="Src\UI\PostUI\RichTextPostForm.Designer.cs">
       <DependentUpon>RichTextPostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ProgressDialog.cs">
+    <Compile Include="Src\UI\ProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="Src\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\PhotoView.cs">
+    <Compile Include="Src\UI\DetailUI\PhotoView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\DetailUI\PhotoView.designer.cs">
+    <Compile Include="Src\UI\DetailUI\PhotoView.designer.cs">
       <DependentUpon>PhotoView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\BatchPostViewerForm.cs">
+    <Compile Include="Src\UI\BatchPostViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\BatchPostViewerForm.designer.cs">
+    <Compile Include="Src\UI\BatchPostViewerForm.designer.cs">
       <DependentUpon>BatchPostViewerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Libs\Utility\Base64Helper.cs" />
-    <Compile Include="Libs\Utility\DateTimeHelp.cs" />
-    <Compile Include="Libs\Utility\FileName.cs" />
-    <Compile Include="Libs\Utility\FileUtility.cs" />
-    <Compile Include="UI\PostsList.cs">
+    <Compile Include="Src\Libs\Utility\Base64Helper.cs" />
+    <Compile Include="Src\Libs\Utility\DateTimeHelp.cs" />
+    <Compile Include="Src\Libs\Utility\FileName.cs" />
+    <Compile Include="Src\Libs\Utility\FileUtility.cs" />
+    <Compile Include="Src\UI\PostsList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\LeftArea.cs">
+    <Compile Include="Src\UI\LeftArea.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\LeftArea.Designer.cs">
+    <Compile Include="Src\UI\LeftArea.Designer.cs">
       <DependentUpon>LeftArea.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\DetailUI\DetailView.cs">
+    <Compile Include="Src\UI\DetailUI\DetailView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Data\GCONST.cs" />
-    <Compile Include="Main.cs">
+    <Compile Include="Src\Data\GCONST.cs" />
+    <Compile Include="Src\Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main.Designer.cs">
+    <Compile Include="Src\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="app.config" />
     <None Include="NLog.config">
@@ -568,250 +568,250 @@
     <None Include="Resources\Month.png" />
     <None Include="Resources\script.png" />
     <None Include="Resources\scriptedit.png" />
-    <Compile Include="Libs\Utility\ImageUtility.cs" />
-    <Compile Include="Libs\Utility\Shadow.cs" />
-    <Compile Include="Libs\Utility\StringUtility.cs" />
-    <Compile Include="Libs\Utility\WebHelper.cs">
+    <Compile Include="Src\Libs\Utility\ImageUtility.cs" />
+    <Compile Include="Src\Libs\Utility\Shadow.cs" />
+    <Compile Include="Src\Libs\Utility\StringUtility.cs" />
+    <Compile Include="Src\Libs\Utility\WebHelper.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\SettingUI\UnlinkForm.cs">
+    <Compile Include="Src\UI\SettingUI\UnlinkForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SettingUI\UnlinkForm.Designer.cs">
+    <Compile Include="Src\UI\SettingUI\UnlinkForm.Designer.cs">
       <DependentUpon>UnlinkForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\TrayIconPanel.cs">
+    <Compile Include="Src\UI\TrayIconPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\TrayIconPanel.designer.cs">
+    <Compile Include="Src\UI\TrayIconPanel.designer.cs">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\WebCamForm.cs">
+    <Compile Include="Src\UI\WebCamForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\WebCamForm.designer.cs">
+    <Compile Include="Src\UI\WebCamForm.designer.cs">
       <DependentUpon>WebCamForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\VirtualFolderForm.cs">
+    <Compile Include="Src\UI\VirtualFolderForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\VirtualFolderForm.designer.cs">
+    <Compile Include="Src\UI\VirtualFolderForm.designer.cs">
       <DependentUpon>VirtualFolderForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Component\Analogclock.resx">
+    <EmbeddedResource Include="Src\Component\Analogclock.resx">
       <DependentUpon>Analogclock.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\CollapsibleSplitter.resx">
+    <EmbeddedResource Include="Src\Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\ImageButton.resx">
+    <EmbeddedResource Include="Src\Component\ImageButton.resx">
       <DependentUpon>ImageButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\ListBarControl\frmListBarTest.resx">
+    <EmbeddedResource Include="Src\Component\ListBarControl\frmListBarTest.resx">
       <DependentUpon>frmListBarTest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\ListBarControl\frmVsNetListBarTest.resx">
+    <EmbeddedResource Include="Src\Component\ListBarControl\frmVsNetListBarTest.resx">
       <DependentUpon>frmVsNetListBarTest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\ListBarControl\ListBar.resx">
+    <EmbeddedResource Include="Src\Component\ListBarControl\ListBar.resx">
       <DependentUpon>ListBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\ListBarControl\VSNetListBar.resx">
+    <EmbeddedResource Include="Src\Component\ListBarControl\VSNetListBar.resx">
       <DependentUpon>VSNetListBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\MsgBox.resx">
+    <EmbeddedResource Include="Src\Component\MsgBox.resx">
       <DependentUpon>MsgBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\MsgBox.zh-TW.resx">
+    <EmbeddedResource Include="Src\Component\MsgBox.zh-TW.resx">
       <DependentUpon>MsgBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\PSTaskDialog\FormTaskDialog.resx">
+    <EmbeddedResource Include="Src\Component\PSTaskDialog\FormTaskDialog.resx">
       <DependentUpon>FormTaskDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\PSTaskDialog\frmTaskDialog.resx">
+    <EmbeddedResource Include="Src\Component\PSTaskDialog\frmTaskDialog.resx">
       <DependentUpon>frmTaskDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\RichEdit\AutoCompleteDialog.resx">
+    <EmbeddedResource Include="Src\Component\RichEdit\AutoCompleteDialog.resx">
       <DependentUpon>AutoCompleteDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\RichEdit\RichTextEditor.resx">
+    <EmbeddedResource Include="Src\Component\RichEdit\RichTextEditor.resx">
       <DependentUpon>RichTextEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\RichEdit\RichTextEditorSample.resx">
+    <EmbeddedResource Include="Src\Component\RichEdit\RichTextEditorSample.resx">
       <DependentUpon>RichTextEditorSample.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\TaskbarNotifier\MyTaskbarNotifier.resx">
+    <EmbeddedResource Include="Src\Component\TaskbarNotifier\MyTaskbarNotifier.resx">
       <DependentUpon>MyTaskbarNotifier.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\TimePicker\HourMinuteSelectorForm.resx">
+    <EmbeddedResource Include="Src\Component\TimePicker\HourMinuteSelectorForm.resx">
       <DependentUpon>HourMinuteSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\TimePicker\HourSelectorForm.resx">
+    <EmbeddedResource Include="Src\Component\TimePicker\HourSelectorForm.resx">
       <DependentUpon>HourSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\TimePicker\MinuteSelectorForm.resx">
+    <EmbeddedResource Include="Src\Component\TimePicker\MinuteSelectorForm.resx">
       <DependentUpon>MinuteSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\TimePicker\TimePicker.resx">
+    <EmbeddedResource Include="Src\Component\TimePicker\TimePicker.resx">
       <DependentUpon>TimePicker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\XPButton.resx">
+    <EmbeddedResource Include="Src\Component\XPButton.resx">
       <DependentUpon>XPButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialog\NameSettingDialog.resx">
+    <EmbeddedResource Include="Src\Dialog\NameSettingDialog.resx">
       <DependentUpon>NameSettingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.zh-TW.resx">
+    <EmbeddedResource Include="Src\LoginForm.zh-TW.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.zh-TW.resx">
+    <EmbeddedResource Include="Src\Main.zh-TW.resx">
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Libs\Diagnostics\CrashReporter.resx">
+    <EmbeddedResource Include="Src\Libs\Diagnostics\CrashReporter.resx">
       <DependentUpon>CrashReporter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.zh-tw.resx" />
-    <EmbeddedResource Include="Subs\ImageCapture\CaptureForm.resx">
+    <EmbeddedResource Include="Src\Subs\ImageCapture\CaptureForm.resx">
       <DependentUpon>CaptureForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DateTimePopupPanel.resx">
+    <EmbeddedResource Include="Src\UI\DateTimePopupPanel.resx">
       <DependentUpon>DateTimePopupPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DateTimePopupPanel.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\DateTimePopupPanel.zh-TW.resx">
       <DependentUpon>DateTimePopupPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\CommentForm.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\CommentForm.resx">
       <DependentUpon>CommentForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\CommentForm.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\CommentForm.zh-TW.resx">
       <DependentUpon>CommentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DVTopPanel.resx">
+    <EmbeddedResource Include="Src\UI\DVTopPanel.resx">
       <DependentUpon>DVTopPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SettingUI\AccountInfoForm.resx">
+    <EmbeddedResource Include="Src\UI\SettingUI\AccountInfoForm.resx">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SettingUI\AccountInfoForm.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\SettingUI\AccountInfoForm.zh-TW.resx">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\TitlePanel.resx">
+    <EmbeddedResource Include="Src\UI\TitlePanel.resx">
       <DependentUpon>TitlePanel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\DetailView.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\DetailView.zh-TW.resx">
       <DependentUpon>DetailView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\Photo_DV.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\Photo_DV.zh-TW.resx">
       <DependentUpon>Photo_DV.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\RichText_DV.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\RichText_DV.resx">
       <DependentUpon>RichText_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\Photo_DV.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\Photo_DV.resx">
       <DependentUpon>Photo_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\SlideShowForm.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\SlideShowForm.resx">
       <DependentUpon>SlideShowForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\SlideShowForm.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\SlideShowForm.zh-TW.resx">
       <DependentUpon>SlideShowForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\WebLink_DV.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\WebLink_DV.resx">
       <DependentUpon>WebLink_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\Document_DV.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\Document_DV.resx">
       <DependentUpon>Document_DV.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\WebLink_DV.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\WebLink_DV.zh-TW.resx">
       <DependentUpon>WebLink_DV.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DropAreaInforForm.resx">
+    <EmbeddedResource Include="Src\UI\DropAreaInforForm.resx">
       <DependentUpon>DropAreaInforForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DropAreaInforForm.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\DropAreaInforForm.zh-TW.resx">
       <DependentUpon>DropAreaInforForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\NewPostManagerUI.resx">
+    <EmbeddedResource Include="Src\UI\NewPostManagerUI.resx">
       <DependentUpon>NewPostManagerUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FilterUI\FilterManager.resx">
+    <EmbeddedResource Include="Src\UI\FilterUI\FilterManager.resx">
       <DependentUpon>FilterManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\LeftArea.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\LeftArea.zh-TW.resx">
       <DependentUpon>LeftArea.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\PhotoView.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\PhotoView.zh-TW.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostArea.resx">
+    <EmbeddedResource Include="Src\UI\PostArea.resx">
       <DependentUpon>PostArea.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostArea.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\PostArea.zh-TW.resx">
       <DependentUpon>PostArea.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostsList.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\PostsList.zh-TW.resx">
       <DependentUpon>PostsList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\OldImagesPopupPanel.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\OldImagesPopupPanel.resx">
       <DependentUpon>OldImagesPopupPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\OldImagesPopupPanel.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\OldImagesPopupPanel.zh-TW.resx">
       <DependentUpon>OldImagesPopupPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\Document.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\Document.resx">
       <DependentUpon>Document.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\WebLink.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\WebLink.resx">
       <DependentUpon>WebLink.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\Photo.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\Photo.resx">
       <DependentUpon>Photo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\Photo.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\Photo.zh-TW.resx">
       <DependentUpon>Photo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\PostForm.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\PostForm.resx">
       <DependentUpon>PostForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\PostForm.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\PostForm.zh-TW.resx">
       <DependentUpon>PostForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\RichText.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\RichText.resx">
       <DependentUpon>RichText.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\RichTextPostForm.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\RichTextPostForm.resx">
       <DependentUpon>RichTextPostForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostUI\WebLink.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\PostUI\WebLink.zh-TW.resx">
       <DependentUpon>WebLink.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ProgressDialog.resx">
+    <EmbeddedResource Include="Src\UI\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
+    <EmbeddedResource Include="Src\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\PhotoView.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\PhotoView.resx">
       <DependentUpon>PhotoView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\BatchPostViewerForm.resx">
+    <EmbeddedResource Include="Src\UI\BatchPostViewerForm.resx">
       <DependentUpon>BatchPostViewerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
+    <EmbeddedResource Include="Src\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -825,36 +825,36 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\SettingUI\UnlinkForm.resx">
+    <EmbeddedResource Include="Src\UI\SettingUI\UnlinkForm.resx">
       <DependentUpon>UnlinkForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SettingUI\UnlinkForm.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\SettingUI\UnlinkForm.zh-TW.resx">
       <DependentUpon>UnlinkForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\TitlePanel.zh-TW.resx">
+    <EmbeddedResource Include="Src\UI\TitlePanel.zh-TW.resx">
       <DependentUpon>TitlePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\TrayIconPanel.resx">
+    <EmbeddedResource Include="Src\UI\TrayIconPanel.resx">
       <DependentUpon>TrayIconPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\WebCamForm.resx">
+    <EmbeddedResource Include="Src\UI\WebCamForm.resx">
       <DependentUpon>WebCamForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\VirtualFolderForm.resx">
+    <EmbeddedResource Include="Src\UI\VirtualFolderForm.resx">
       <DependentUpon>VirtualFolderForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UI\LeftArea.resx">
+    <EmbeddedResource Include="Src\UI\LeftArea.resx">
       <DependentUpon>LeftArea.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PostsList.resx">
+    <EmbeddedResource Include="Src\UI\PostsList.resx">
       <DependentUpon>PostsList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\DetailUI\DetailView.resx">
+    <EmbeddedResource Include="Src\UI\DetailUI\DetailView.resx">
       <DependentUpon>DetailView.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -966,8 +966,8 @@
     <None Include="Resources\LoadingImage.jpg" />
     <None Include="Resources\network-error.png" />
     <None Include="Resources\network-receive.png" />
-    <EmbeddedResource Include="Component\PSTaskDialog\green_arrow1.png" />
-    <EmbeddedResource Include="Component\PSTaskDialog\green_arrow2.png" />
+    <EmbeddedResource Include="Src\Component\PSTaskDialog\green_arrow1.png" />
+    <EmbeddedResource Include="Src\Component\PSTaskDialog\green_arrow2.png" />
     <Content Include="Icon.ico" />
     <None Include="Resources\Cloud.png" />
     <None Include="Resources\Station.png" />

@@ -27,11 +27,13 @@ namespace Waveface
         public bool StationMode { get; set; }
         public bool FilterMode { get; set; }
 
+		[JsonIgnore]
         public RT_REST REST
         {
             get { return m_rest; }
         }
 
+		[JsonIgnore]
         public bool LoginOK
         {
             get { return Login != null; }

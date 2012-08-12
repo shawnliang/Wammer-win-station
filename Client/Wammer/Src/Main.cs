@@ -738,10 +738,18 @@ namespace Waveface
                 BsonDocument _doc =
                     _dbServer.GetDatabase("wammer").GetCollection("LoginedSession").FindOne(Query.EQ("_id",
                                                                                                      m_initSessionToken));
-                string _json = _doc.ToJson();
+
+				if (_doc == null)
+					s_logger.Warn("Cannot found the specified logined data from DB");
+
+				string _json = _doc.ToJson();
 
                 MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(_json);
-                _login.session_token = m_initSessionToken;
+
+				if (_login == null)
+					s_logger.Warn("Cannot deserialize to MR_auth_login");
+				
+				_login.session_token = m_initSessionToken;
 
                 IsPrimaryStation = isPrimaryStation(_dbServer, _login);
 
