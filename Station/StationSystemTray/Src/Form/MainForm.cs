@@ -562,7 +562,15 @@ namespace StationSystemTray
 
 		private void trayIcon_DoubleClicked(object sender, EventArgs e)
 		{
-			GotoTimeline(userloginContainer.GetLastUserLogin());
+			UpdateTrayMenu();
+			if (menuSignIn.Text == Resources.LogoutMenuItem)
+			{
+				GotoTimeline(userloginContainer.GetLastUserLogin());
+			}
+			else
+			{
+				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
+			}
 		}
 		[DllImport("wininet")]
 		public static extern bool InternetGetConnectedState(
