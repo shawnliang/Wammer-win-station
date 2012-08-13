@@ -147,7 +147,7 @@
     <Compile Include="Src\Component\ImageBox.designer.cs">
       <DependentUpon>ImageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Component\ImageButton.cs">
+    <Compile Include="Src\Controls\ImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Component\Panel\AutoScrollPanel.cs">
@@ -604,7 +604,7 @@
     <EmbeddedResource Include="Src\Component\CollapsibleSplitter.resx">
       <DependentUpon>CollapsibleSplitter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Component\ImageButton.resx">
+    <EmbeddedResource Include="Src\Controls\ImageButton.resx">
       <DependentUpon>ImageButton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Component\ListBarControl\frmListBarTest.resx">

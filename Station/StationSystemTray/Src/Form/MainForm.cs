@@ -1702,12 +1702,17 @@ namespace StationSystemTray
 			OpenSettingDialog();
 		}
 
+
 		private void OpenSettingDialog()
 		{
+			DebugInfo.ShowMethod();
 			var isLoginPageOpened = this.Visible && this.ShowInTaskbar;
 
 			if (m_SettingDialog != null)
+			{
+				m_SettingDialog.BringToFront();
 				return;
+			}
 
 			using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession(), this.CloseTimelineProgram))
 			{
@@ -1727,7 +1732,7 @@ namespace StationSystemTray
 
 				m_SettingDialog.Location = this.Location;
 				m_SettingDialog.Icon = this.Icon;
-				//m_SettingDialog.TopMost = true;
+				m_SettingDialog.TopMost = true;
 				m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
 				m_SettingDialog.ShowInTaskbar = isLoginPageOpened;
 

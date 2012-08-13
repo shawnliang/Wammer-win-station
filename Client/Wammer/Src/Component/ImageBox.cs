@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 #endregion
 
@@ -59,8 +60,7 @@ namespace Waveface.Component
 
         #endregion  Private Member Declarations
 
-        #region  Public Constructors
-
+        #region Constructor
         public ImageBox()
         {
             InitializeComponent();
@@ -72,7 +72,7 @@ namespace Waveface.Component
 
             UpdateStyles();
 
-            BackColor = Color.White;
+			//BackColor = Color.White;
             AutoSize = true;
             GridScale = ImageBoxGridScale.Small;
             GridDisplayMode = ImageBoxGridDisplayMode.Client;
@@ -86,8 +86,8 @@ namespace Waveface.Component
             InterpolationMode = InterpolationMode.Default;
             AutoCenter = true;
         }
+        #endregion
 
-        #endregion  Public Constructors
 
         #region  Events
 
@@ -349,49 +349,49 @@ namespace Waveface.Component
                 Focus();
         }
 
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
+		//protected override void OnMouseMove(MouseEventArgs e)
+		//{
+		//    base.OnMouseMove(e);
 
-            if (e.Button == MouseButtons.Left && AutoPan && Image != null)
-            {
-                if (!IsPanning)
-                {
-                    m_startMousePosition = e.Location;
-                    IsPanning = true;
-                }
+		//    if (e.Button == MouseButtons.Left && AutoPan && Image != null)
+		//    {
+		//        if (!IsPanning)
+		//        {
+		//            m_startMousePosition = e.Location;
+		//            IsPanning = true;
+		//        }
 
-                if (IsPanning)
-                {
-                    int x;
-                    int y;
-                    Point position;
+		//        if (IsPanning)
+		//        {
+		//            int x;
+		//            int y;
+		//            Point position;
 
-                    if (!InvertMouse)
-                    {
-                        x = -m_startScrollPosition.X + (m_startMousePosition.X - e.Location.X);
-                        y = -m_startScrollPosition.Y + (m_startMousePosition.Y - e.Location.Y);
-                    }
-                    else
-                    {
-                        x = -(m_startScrollPosition.X + (m_startMousePosition.X - e.Location.X));
-                        y = -(m_startScrollPosition.Y + (m_startMousePosition.Y - e.Location.Y));
-                    }
+		//            if (!InvertMouse)
+		//            {
+		//                x = -m_startScrollPosition.X + (m_startMousePosition.X - e.Location.X);
+		//                y = -m_startScrollPosition.Y + (m_startMousePosition.Y - e.Location.Y);
+		//            }
+		//            else
+		//            {
+		//                x = -(m_startScrollPosition.X + (m_startMousePosition.X - e.Location.X));
+		//                y = -(m_startScrollPosition.Y + (m_startMousePosition.Y - e.Location.Y));
+		//            }
 
-                    position = new Point(x, y);
+		//            position = new Point(x, y);
 
-                    UpdateScrollPosition(position);
-                }
-            }
-        }
+		//            UpdateScrollPosition(position);
+		//        }
+		//    }
+		//}
 
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            base.OnMouseUp(e);
+		//protected override void OnMouseUp(MouseEventArgs e)
+		//{
+		//    base.OnMouseUp(e);
 
-            if (IsPanning)
-                IsPanning = false;
-        }
+		//    if (IsPanning)
+		//        IsPanning = false;
+		//}
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
@@ -414,15 +414,17 @@ namespace Waveface.Component
         protected override void OnPaddingChanged(EventArgs e)
         {
             base.OnPaddingChanged(e);
-            AdjustLayout();
+			AdjustLayout();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
+			var sw = Stopwatch.StartNew();
             Rectangle innerRectangle;
+			e.Graphics.Clear(BackColor);
 
             e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+			e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;//InterpolationMode.HighQualityBilinear;
             e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
@@ -469,7 +471,7 @@ namespace Waveface.Component
             if (Image != null)
                 DrawImage(e.Graphics);
 
-            base.OnPaint(e);
+			Debug.WriteLine(sw.ElapsedMilliseconds.ToString());
         }
 
         protected override void OnParentChanged(EventArgs e)
@@ -1141,12 +1143,12 @@ namespace Waveface.Component
                 ZoomIncrementChanged(this, e);
         }
 
-        protected virtual void UpdateScrollPosition(Point position)
-        {
-            AutoScrollPosition = position;
-            Invalidate();
-            OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, 0));
-        }
+		protected virtual void UpdateScrollPosition(Point position)
+		{
+			AutoScrollPosition = position;
+			Invalidate();
+			OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, 0));
+		}
 
         #endregion  Protected Methods
     }
