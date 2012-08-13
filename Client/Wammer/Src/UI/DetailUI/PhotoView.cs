@@ -305,8 +305,6 @@ namespace Waveface.DetailUI
 		private void imageBox_Click(object sender, EventArgs e)
 		{
 			imageBox.SizeToFit = false;
-			imageBox.AutoPan = true;
-			//imageBox.AdjustLayout();
 		}
 
 		/// <summary>

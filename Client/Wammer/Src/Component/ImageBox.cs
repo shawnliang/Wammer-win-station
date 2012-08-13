@@ -38,8 +38,6 @@ namespace Waveface.Component
         #region  Private Member Declarations
 
         private bool m_autoCenter;
-        private bool m_autoPan;
-        private BorderStyle m_borderStyle;
         private int m_gridCellSize;
         private Color m_gridColor;
         private Color m_gridColorAlternate;
@@ -48,12 +46,8 @@ namespace Waveface.Component
         private ImageBoxGridScale m_gridScale;
         private Bitmap m_gridTile;
         private Image m_image;
-        private InterpolationMode m_interpolationMode;
         private bool m_invertMouse;
-        private bool m_isPanning;
         private bool m_sizeToFit;
-        private Point m_startMousePosition;
-        private Point m_startScrollPosition;
         private TextureBrush m_texture;
         private int m_zoom;
         private int m_zoomIncrement;
@@ -72,18 +66,9 @@ namespace Waveface.Component
 
             UpdateStyles();
 
-			//BackColor = Color.White;
             AutoSize = true;
-			//GridScale = ImageBoxGridScale.Small;
-			//GridDisplayMode = ImageBoxGridDisplayMode.Client;
-			//GridColor = Color.Gainsboro;
-			//GridColorAlternate = Color.White;
-			//GridCellSize = 8;
-            BorderStyle = BorderStyle.FixedSingle;
-            AutoPan = true;
             Zoom = 100;
             ZoomIncrement = 10;
-            InterpolationMode = InterpolationMode.Default;
             AutoCenter = true;
         }
         #endregion
@@ -94,41 +79,15 @@ namespace Waveface.Component
         [Category("Property Changed")]
         public event EventHandler AutoCenterChanged;
 
-        [Category("Property Changed")]
-        public event EventHandler AutoPanChanged;
 
-        [Category("Property Changed")]
-        public event EventHandler BorderStyleChanged;
-
-        [Category("Property Changed")]
-        public event EventHandler GridCellSizeChanged;
-
-        [Category("Property Changed")]
-        public event EventHandler GridColorAlternateChanged;
-
-        [Category("Property Changed")]
-        public event EventHandler GridColorChanged;
-
-        [Category("Property Changed")]
-        public event EventHandler GridDisplayModeChanged;
-
-        [Category("Property Changed")]
-        public event EventHandler GridScaleChanged;
 
         [Category("Property Changed")]
         public event EventHandler ImageChanged;
 
-        [Category("Property Changed")]
-        public event EventHandler InterpolationModeChanged;
 
         [Category("Property Changed")]
         public event EventHandler InvertMouseChanged;
 
-        [Category("Property Changed")]
-        public event EventHandler PanEnd;
-
-        [Category("Property Changed")]
-        public event EventHandler PanStart;
 
         [Category("Property Changed")]
         public event EventHandler SizeToFitChanged;
@@ -290,57 +249,6 @@ namespace Waveface.Component
                 AutoSize = false;
         }
 
-		//protected override void OnKeyDown(KeyEventArgs e)
-		//{
-		//    base.OnKeyDown(e);
-
-		//    switch (e.KeyCode)
-		//    {
-		//        case Keys.Left:
-		//            AdjustScroll(
-		//                -(e.Modifiers == Keys.None ? HorizontalScroll.SmallChange : HorizontalScroll.LargeChange), 0);
-		//            break;
-		//        case Keys.Right:
-		//            AdjustScroll(
-		//                e.Modifiers == Keys.None ? HorizontalScroll.SmallChange : HorizontalScroll.LargeChange, 0);
-		//            break;
-		//        case Keys.Up:
-		//            AdjustScroll(0,
-		//                         -(e.Modifiers == Keys.None ? VerticalScroll.SmallChange : VerticalScroll.LargeChange));
-		//            break;
-		//        case Keys.Down:
-		//            AdjustScroll(0, e.Modifiers == Keys.None ? VerticalScroll.SmallChange : VerticalScroll.LargeChange);
-		//            break;
-		//    }
-		//}
-
-		//protected override void OnMouseClick(MouseEventArgs e)
-		//{
-		//    if (!IsPanning && !SizeToFit)
-		//    {
-		//        if (e.Button == MouseButtons.Left && ModifierKeys == Keys.None)
-		//        {
-		//            if (Zoom >= 100)
-		//                Zoom = (int)Math.Round((double)(Zoom + 100) / 100) * 100;
-		//            else if (Zoom >= 75)
-		//                Zoom = 100;
-		//            else
-		//                Zoom = (int)(Zoom / 0.75F);
-		//        }
-		//        else if (e.Button == MouseButtons.Right || (e.Button == MouseButtons.Left && ModifierKeys != Keys.None))
-		//        {
-		//            if (Zoom > 100 && Zoom <= 125)
-		//                Zoom = 100;
-		//            else if (Zoom > 100)
-		//                Zoom = (int)Math.Round((double)(Zoom - 100) / 100) * 100;
-		//            else
-		//                Zoom = (int)(Zoom * 0.75F);
-		//        }
-		//    }
-
-		//    base.OnMouseClick(e);
-		//}
-
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -348,50 +256,6 @@ namespace Waveface.Component
             if (!Focused)
                 Focus();
         }
-
-		//protected override void OnMouseMove(MouseEventArgs e)
-		//{
-		//    base.OnMouseMove(e);
-
-		//    if (e.Button == MouseButtons.Left && AutoPan && Image != null)
-		//    {
-		//        if (!IsPanning)
-		//        {
-		//            m_startMousePosition = e.Location;
-		//            IsPanning = true;
-		//        }
-
-		//        if (IsPanning)
-		//        {
-		//            int x;
-		//            int y;
-		//            Point position;
-
-		//            if (!InvertMouse)
-		//            {
-		//                x = -m_startScrollPosition.X + (m_startMousePosition.X - e.Location.X);
-		//                y = -m_startScrollPosition.Y + (m_startMousePosition.Y - e.Location.Y);
-		//            }
-		//            else
-		//            {
-		//                x = -(m_startScrollPosition.X + (m_startMousePosition.X - e.Location.X));
-		//                y = -(m_startScrollPosition.Y + (m_startMousePosition.Y - e.Location.Y));
-		//            }
-
-		//            position = new Point(x, y);
-
-		//            UpdateScrollPosition(position);
-		//        }
-		//    }
-		//}
-
-		//protected override void OnMouseUp(MouseEventArgs e)
-		//{
-		//    base.OnMouseUp(e);
-
-		//    if (IsPanning)
-		//        IsPanning = false;
-		//}
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
@@ -587,23 +451,6 @@ namespace Waveface.Component
             }
         }
 
-        [DefaultValue(true), Category("Behavior")]
-        public bool AutoPan
-        {
-            get { return m_autoPan; }
-            set
-            {
-                if (m_autoPan != value)
-                {
-                    m_autoPan = value;
-                    OnAutoPanChanged(EventArgs.Empty);
-
-                    if (value)
-                        SizeToFit = false;
-                }
-            }
-        }
-
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new Size AutoScrollMinSize
@@ -611,21 +458,6 @@ namespace Waveface.Component
             get { return base.AutoScrollMinSize; }
             set { base.AutoScrollMinSize = value; }
         }
-
-        [Category("Appearance"), DefaultValue(typeof(BorderStyle), "FixedSingle")]
-        public BorderStyle BorderStyle
-        {
-            get { return m_borderStyle; }
-            set
-            {
-                if (m_borderStyle != value)
-                {
-                    m_borderStyle = value;
-                    OnBorderStyleChanged(EventArgs.Empty);
-                }
-            }
-        }
-
         [Category("Appearance"), DefaultValue(null)]
         public virtual Image Image
         {
@@ -639,23 +471,6 @@ namespace Waveface.Component
                     ExifStuff.OrientImage(m_image);
 
                     OnImageChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [DefaultValue(InterpolationMode.Default), Category("Appearance")]
-        public InterpolationMode InterpolationMode
-        {
-            get { return m_interpolationMode; }
-            set
-            {
-                if (value == InterpolationMode.Invalid)
-                    value = InterpolationMode.Default;
-
-                if (m_interpolationMode != value)
-                {
-                    m_interpolationMode = value;
-                    OnInterpolationModeChanged(EventArgs.Empty);
                 }
             }
         }
@@ -674,31 +489,6 @@ namespace Waveface.Component
             }
         }
 
-        [DefaultValue(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-        public bool IsPanning
-        {
-            get { return m_isPanning; }
-            protected set
-            {
-                if (m_isPanning != value)
-                {
-                    m_isPanning = value;
-                    m_startScrollPosition = AutoScrollPosition;
-
-                    if (value)
-                    {
-                        Cursor = Cursors.SizeAll;
-                        OnPanStart(EventArgs.Empty);
-                    }
-                    else
-                    {
-                        Cursor = Cursors.Default;
-                        OnPanEnd(EventArgs.Empty);
-                    }
-                }
-            }
-        }
-
         [DefaultValue(false), Category("Appearance")]
         public bool SizeToFit
         {
@@ -709,9 +499,6 @@ namespace Waveface.Component
                 {
                     m_sizeToFit = value;
                     OnSizeToFitChanged(EventArgs.Empty);
-
-                    if (value)
-                        AutoPan = false;
                 }
             }
         }
@@ -816,21 +603,6 @@ namespace Waveface.Component
                 AutoCenterChanged(this, e);
         }
 
-        protected virtual void OnAutoPanChanged(EventArgs e)
-        {
-            if (AutoPanChanged != null)
-                AutoPanChanged(this, e);
-        }
-
-        protected virtual void OnBorderStyleChanged(EventArgs e)
-        {
-            AdjustLayout();
-
-            if (BorderStyleChanged != null)
-                BorderStyleChanged(this, e);
-        }
-
-
         protected virtual void OnImageChanged(EventArgs e)
         {
             AdjustLayout();
@@ -839,31 +611,12 @@ namespace Waveface.Component
                 ImageChanged(this, e);
         }
 
-        protected virtual void OnInterpolationModeChanged(EventArgs e)
-        {
-            Invalidate();
-
-            if (InterpolationModeChanged != null)
-                InterpolationModeChanged(this, e);
-        }
-
         protected virtual void OnInvertMouseChanged(EventArgs e)
         {
             if (InvertMouseChanged != null)
                 InvertMouseChanged(this, e);
         }
 
-        protected virtual void OnPanEnd(EventArgs e)
-        {
-            if (PanEnd != null)
-                PanEnd(this, e);
-        }
-
-        protected virtual void OnPanStart(EventArgs e)
-        {
-            if (PanStart != null)
-                PanStart(this, e);
-        }
 
         protected virtual void OnSizeToFitChanged(EventArgs e)
         {
