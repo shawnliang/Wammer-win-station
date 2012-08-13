@@ -562,6 +562,7 @@ namespace StationSystemTray
 
 		private void trayIcon_DoubleClicked(object sender, EventArgs e)
 		{
+			DebugInfo.ShowMethod();
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 		[DllImport("wininet")]
@@ -1288,6 +1289,7 @@ namespace StationSystemTray
 
 		private void Logout()
 		{
+			DebugInfo.ShowMethod();
 			var lastLoginUser = userloginContainer.GetLastUserLogin();
 			if (menuSignIn.Text == Resources.LogoutMenuItem)
 			{
@@ -1303,7 +1305,9 @@ namespace StationSystemTray
 						LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
+
 			GotoTabPage(tabSignIn, lastLoginUser);
+			userloginContainer.CleartCurLoginedSession();
 		}
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
