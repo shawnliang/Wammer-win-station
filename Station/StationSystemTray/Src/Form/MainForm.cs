@@ -581,12 +581,12 @@ namespace StationSystemTray
 				SendSyncStatusToClient();
 			}
 
-				////³s½uªºFlag
+				////ï¿½sï¿½uï¿½ï¿½Flag
 				//uint flags = 0x0;
 
 				//bool rtvl;
 
-				////¨ú±o¥»¾÷¹q¸£¥Ø«eªº³s½uª¬ºA
+				////ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½ï¿½Ø«eï¿½ï¿½ï¿½sï¿½uï¿½ï¿½ï¿½A
 				//rtvl = InternetGetConnectedState(ref flags, 0);
 
 				//if (!rtvl)
