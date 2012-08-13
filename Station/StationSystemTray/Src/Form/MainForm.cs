@@ -562,6 +562,7 @@ namespace StationSystemTray
 
 		private void trayIcon_DoubleClicked(object sender, EventArgs e)
 		{
+			DebugInfo.ShowMethod();
 			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 		[DllImport("wininet")]
@@ -580,12 +581,12 @@ namespace StationSystemTray
 				SendSyncStatusToClient();
 			}
 
-				////³s½uªºFlag
+				////ï¿½sï¿½uï¿½ï¿½Flag
 				//uint flags = 0x0;
 
 				//bool rtvl;
 
-				////¨ú±o¥»¾÷¹q¸£¥Ø«eªº³s½uª¬ºA
+				////ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½ï¿½Ø«eï¿½ï¿½ï¿½sï¿½uï¿½ï¿½ï¿½A
 				//rtvl = InternetGetConnectedState(ref flags, 0);
 
 				//if (!rtvl)
@@ -1288,6 +1289,7 @@ namespace StationSystemTray
 
 		private void Logout()
 		{
+			DebugInfo.ShowMethod();
 			var lastLoginUser = userloginContainer.GetLastUserLogin();
 			if (menuSignIn.Text == Resources.LogoutMenuItem)
 			{
@@ -1303,7 +1305,9 @@ namespace StationSystemTray
 						LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
+
 			GotoTabPage(tabSignIn, lastLoginUser);
+			userloginContainer.CleartCurLoginedSession();
 		}
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
@@ -1698,12 +1702,17 @@ namespace StationSystemTray
 			OpenSettingDialog();
 		}
 
+
 		private void OpenSettingDialog()
 		{
+			DebugInfo.ShowMethod();
 			var isLoginPageOpened = this.Visible && this.ShowInTaskbar;
 
 			if (m_SettingDialog != null)
+			{
+				m_SettingDialog.BringToFront();
 				return;
+			}
 
 			using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession(), this.CloseTimelineProgram))
 			{
@@ -1723,7 +1732,7 @@ namespace StationSystemTray
 
 				m_SettingDialog.Location = this.Location;
 				m_SettingDialog.Icon = this.Icon;
-				//m_SettingDialog.TopMost = true;
+				m_SettingDialog.TopMost = true;
 				m_SettingDialog.StartPosition = FormStartPosition.CenterScreen;
 				m_SettingDialog.ShowInTaskbar = isLoginPageOpened;
 
@@ -1816,6 +1825,14 @@ namespace StationSystemTray
 		//            Show();
 		//        MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		//    }
+		}
+
+		private void MainForm_Shown(object sender, EventArgs e)
+		{
+			var server = (string)StationRegistry.GetValue("cloudBaseURL", null);
+
+			bool isProductionVersion = server != null && server.Contains("api.waveface.com");
+			devVersionTag.Visible = !isProductionVersion;
 		}
 	}
 

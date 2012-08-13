@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\ApplicationSettings.cs" />
     <Compile Include="Src\Control\CueTextBox.cs">
