@@ -74,11 +74,11 @@ namespace Waveface.Component
 
 			//BackColor = Color.White;
             AutoSize = true;
-            GridScale = ImageBoxGridScale.Small;
-            GridDisplayMode = ImageBoxGridDisplayMode.Client;
-            GridColor = Color.Gainsboro;
-            GridColorAlternate = Color.White;
-            GridCellSize = 8;
+			//GridScale = ImageBoxGridScale.Small;
+			//GridDisplayMode = ImageBoxGridDisplayMode.Client;
+			//GridColor = Color.Gainsboro;
+			//GridColorAlternate = Color.White;
+			//GridCellSize = 8;
             BorderStyle = BorderStyle.FixedSingle;
             AutoPan = true;
             Zoom = 100;
@@ -219,9 +219,9 @@ namespace Waveface.Component
                 width += Padding.Horizontal;
                 height += Padding.Vertical;
 
-                // add an offset based on the border style
-                width += GetBorderOffset();
-                height += GetBorderOffset();
+				//// add an offset based on the border style
+				//width += GetBorderOffset();
+				//height += GetBorderOffset();
 
                 size = new Size(width, height);
             }
@@ -419,59 +419,16 @@ namespace Waveface.Component
 
         protected override void OnPaint(PaintEventArgs e)
         {
-			var sw = Stopwatch.StartNew();
             Rectangle innerRectangle;
-			e.Graphics.Clear(BackColor);
 
-            e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-			e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;//InterpolationMode.HighQualityBilinear;
-            e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+			var g = e.Graphics;
+			g.Clear(BackColor);
 
-            // draw the borders
-            switch (BorderStyle)
-            {
-                case BorderStyle.FixedSingle:
-                    System.Windows.Forms.ControlPaint.DrawBorder(e.Graphics, ClientRectangle, ForeColor, ButtonBorderStyle.Solid);
-                    break;
-                case BorderStyle.Fixed3D:
-                    System.Windows.Forms.ControlPaint.DrawBorder3D(e.Graphics, ClientRectangle, Border3DStyle.Sunken);
-                    break;
-            }
-
-            innerRectangle = GetInsideViewPort();
-
-            // draw the background
-            using (SolidBrush brush = new SolidBrush(BackColor))
-                e.Graphics.FillRectangle(brush, innerRectangle);
-
-            if (m_texture != null && GridDisplayMode != ImageBoxGridDisplayMode.None)
-            {
-                switch (GridDisplayMode)
-                {
-                    case ImageBoxGridDisplayMode.Image:
-                        Rectangle fillRectangle;
-
-                        fillRectangle = GetImageViewPort();
-                        e.Graphics.FillRectangle(m_texture, fillRectangle);
-
-                        if (!fillRectangle.Equals(innerRectangle))
-                        {
-                            fillRectangle.Inflate(1, 1);
-                            System.Windows.Forms.ControlPaint.DrawBorder(e.Graphics, fillRectangle, ForeColor, ButtonBorderStyle.Solid);
-                        }
-                        break;
-                    case ImageBoxGridDisplayMode.Client:
-                        e.Graphics.FillRectangle(m_texture, innerRectangle);
-                        break;
-                }
-            }
-
-            // draw the image
-            if (Image != null)
-                DrawImage(e.Graphics);
-
-			Debug.WriteLine(sw.ElapsedMilliseconds.ToString());
+			// draw the image
+			if (Image != null)
+			{
+				g.DrawImage(Image, GetImageViewPort(), GetSourceImageRegion(), GraphicsUnit.Pixel);
+			}
         }
 
         protected override void OnParentChanged(EventArgs e)
@@ -499,59 +456,45 @@ namespace Waveface.Component
 
         #region  Public Methods
 
-        public virtual Rectangle GetImageViewPort()
+		public virtual Rectangle GetImageViewPort()
+		{
+			if (Image == null)
+				return Rectangle.Empty;
+
+			Rectangle viewPort;
+			Rectangle innerRectangle;
+			Point offset;
+
+			innerRectangle = GetInsideViewPort();
+
+			if (AutoCenter)
+			{
+				int x;
+				int y;
+
+				x = !HScroll ? (innerRectangle.Width - (ScaledImageWidth + Padding.Horizontal)) / 2 : 0;
+				y = !VScroll ? (innerRectangle.Height - (ScaledImageHeight + Padding.Vertical)) / 2 : 0;
+
+				offset = new Point(x, y);
+			}
+			else
+				offset = Point.Empty;
+
+			viewPort = new Rectangle(offset.X + innerRectangle.Left + Padding.Left,
+									 offset.Y + innerRectangle.Top + Padding.Top,
+									 innerRectangle.Width - (Padding.Horizontal + (offset.X * 2)),
+									 innerRectangle.Height - (Padding.Vertical + (offset.Y * 2)));
+
+			return viewPort;
+		}
+
+
+        public virtual Rectangle GetInsideViewPort(bool includePadding = false)
         {
-            Rectangle viewPort;
-
-            if (Image != null)
-            {
-                Rectangle innerRectangle;
-                Point offset;
-
-                innerRectangle = GetInsideViewPort();
-
-                if (AutoCenter)
-                {
-                    int x;
-                    int y;
-
-                    x = !HScroll ? (innerRectangle.Width - (ScaledImageWidth + Padding.Horizontal)) / 2 : 0;
-                    y = !VScroll ? (innerRectangle.Height - (ScaledImageHeight + Padding.Vertical)) / 2 : 0;
-
-                    offset = new Point(x, y);
-                }
-                else
-                    offset = Point.Empty;
-
-                viewPort = new Rectangle(offset.X + innerRectangle.Left + Padding.Left,
-                                         offset.Y + innerRectangle.Top + Padding.Top,
-                                         innerRectangle.Width - (Padding.Horizontal + (offset.X * 2)),
-                                         innerRectangle.Height - (Padding.Vertical + (offset.Y * 2)));
-            }
-            else
-                viewPort = Rectangle.Empty;
-
-            return viewPort;
-        }
-
-        public Rectangle GetInsideViewPort()
-        {
-            return GetInsideViewPort(false);
-        }
-
-        public virtual Rectangle GetInsideViewPort(bool includePadding)
-        {
-            int left;
-            int top;
-            int width;
-            int height;
-            int borderOffset;
-
-            borderOffset = GetBorderOffset();
-            left = borderOffset;
-            top = borderOffset;
-            width = ClientSize.Width - (borderOffset * 2);
-            height = ClientSize.Height - (borderOffset * 2);
+            int left = 0;
+            int top = 0;
+			int width = ClientSize.Width;
+			int height = ClientSize.Height;
 
             if (includePadding)
             {
@@ -564,30 +507,28 @@ namespace Waveface.Component
             return new Rectangle(left, top, width, height);
         }
 
-        public virtual Rectangle GetSourceImageRegion()
-        {
-            int sourceLeft;
-            int sourceTop;
-            int sourceWidth;
-            int sourceHeight;
-            Rectangle viewPort;
-            Rectangle region;
+		public virtual Rectangle GetSourceImageRegion()
+		{
+			if (Image == null)
+				return Rectangle.Empty;
 
-            if (Image != null)
-            {
-                viewPort = GetImageViewPort();
-                sourceLeft = (int)(-AutoScrollPosition.X / ZoomFactor);
-                sourceTop = (int)(-AutoScrollPosition.Y / ZoomFactor);
-                sourceWidth = (int)(viewPort.Width / ZoomFactor);
-                sourceHeight = (int)(viewPort.Height / ZoomFactor);
+			int sourceLeft;
+			int sourceTop;
+			int sourceWidth;
+			int sourceHeight;
+			Rectangle viewPort;
+			Rectangle region;
 
-                region = new Rectangle(sourceLeft, sourceTop, sourceWidth, sourceHeight);
-            }
-            else
-                region = Rectangle.Empty;
+			viewPort = GetImageViewPort();
+			sourceLeft = (int)(-AutoScrollPosition.X / ZoomFactor);
+			sourceTop = (int)(-AutoScrollPosition.Y / ZoomFactor);
+			sourceWidth = (int)(viewPort.Width / ZoomFactor);
+			sourceHeight = (int)(viewPort.Height / ZoomFactor);
 
-            return region;
-        }
+			region = new Rectangle(sourceLeft, sourceTop, sourceWidth, sourceHeight);
+
+			return region;
+		}
 
         public virtual void ZoomToFit()
         {
@@ -681,76 +622,6 @@ namespace Waveface.Component
                 {
                     m_borderStyle = value;
                     OnBorderStyleChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [Category("Appearance"), DefaultValue(8)]
-        public int GridCellSize
-        {
-            get { return m_gridCellSize; }
-            set
-            {
-                if (m_gridCellSize != value)
-                {
-                    m_gridCellSize = value;
-                    OnGridCellSizeChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [Category("Appearance"), DefaultValue(typeof(Color), "Gainsboro")]
-        public Color GridColor
-        {
-            get { return m_gridColor; }
-            set
-            {
-                if (m_gridColor != value)
-                {
-                    m_gridColor = value;
-                    OnGridColorChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [Category("Appearance"), DefaultValue(typeof(Color), "White")]
-        public Color GridColorAlternate
-        {
-            get { return m_gridColorAlternate; }
-            set
-            {
-                if (m_gridColorAlternate != value)
-                {
-                    m_gridColorAlternate = value;
-                    OnGridColorAlternateChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [DefaultValue(ImageBoxGridDisplayMode.Client), Category("Appearance")]
-        public ImageBoxGridDisplayMode GridDisplayMode
-        {
-            get { return m_gridDisplayMode; }
-            set
-            {
-                if (m_gridDisplayMode != value)
-                {
-                    m_gridDisplayMode = value;
-                    OnGridDisplayModeChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [DefaultValue(typeof(ImageBoxGridScale), "Small"), Category("Appearance")]
-        public ImageBoxGridScale GridScale
-        {
-            get { return m_gridScale; }
-            set
-            {
-                if (m_gridScale != value)
-                {
-                    m_gridScale = value;
-                    OnGridScaleChanged(EventArgs.Empty);
                 }
             }
         }
@@ -881,46 +752,6 @@ namespace Waveface.Component
 
         #endregion  Public Properties
 
-        #region  Private Methods
-
-        private int GetBorderOffset()
-        {
-            int offset;
-
-            switch (BorderStyle)
-            {
-                case BorderStyle.Fixed3D:
-                    offset = 2;
-                    break;
-                case BorderStyle.FixedSingle:
-                    offset = 1;
-                    break;
-                default:
-                    offset = 0;
-                    break;
-            }
-
-            return offset;
-        }
-
-        private void InitializeGridTile()
-        {
-            if (m_texture != null)
-                m_texture.Dispose();
-
-            if (m_gridTile != null)
-                m_gridTile.Dispose();
-
-            if (GridDisplayMode != ImageBoxGridDisplayMode.None && GridCellSize != 0)
-            {
-                m_gridTile = CreateGridTileImage(GridCellSize, GridColor, GridColorAlternate);
-                m_texture = new TextureBrush(m_gridTile);
-            }
-
-            Invalidate();
-        }
-
-        #endregion  Private Methods
 
         #region  Protected Properties
 
@@ -976,53 +807,6 @@ namespace Waveface.Component
                 AutoScrollMinSize = new Size(ScaledImageWidth + Padding.Horizontal, ScaledImageHeight + Padding.Vertical);
         }
 
-        protected virtual Bitmap CreateGridTileImage(int cellSize, Color firstColor, Color secondColor)
-        {
-            Bitmap result;
-            int width;
-            int height;
-            float scale;
-
-            // rescale the cell size
-            switch (GridScale)
-            {
-                case ImageBoxGridScale.Medium:
-                    scale = 1.5F;
-                    break;
-                case ImageBoxGridScale.Large:
-                    scale = 2;
-                    break;
-                default:
-                    scale = 1;
-                    break;
-            }
-
-            cellSize = (int)(cellSize * scale);
-
-            // draw the tile
-            width = cellSize * 2;
-            height = cellSize * 2;
-            result = new Bitmap(width, height);
-            using (Graphics g = Graphics.FromImage(result))
-            {
-                using (SolidBrush brush = new SolidBrush(firstColor))
-                    g.FillRectangle(brush, new Rectangle(0, 0, width, height));
-
-                using (SolidBrush brush = new SolidBrush(secondColor))
-                {
-                    g.FillRectangle(brush, new Rectangle(0, 0, cellSize, cellSize));
-                    g.FillRectangle(brush, new Rectangle(cellSize, cellSize, cellSize, cellSize));
-                }
-            }
-
-            return result;
-        }
-
-        protected virtual void DrawImage(Graphics g)
-        {
-            g.InterpolationMode = InterpolationMode;
-            g.DrawImage(Image, GetImageViewPort(), GetSourceImageRegion(), GraphicsUnit.Pixel);
-        }
 
         protected virtual void OnAutoCenterChanged(EventArgs e)
         {
@@ -1046,46 +830,6 @@ namespace Waveface.Component
                 BorderStyleChanged(this, e);
         }
 
-        protected virtual void OnGridCellSizeChanged(EventArgs e)
-        {
-            InitializeGridTile();
-
-            if (GridCellSizeChanged != null)
-                GridCellSizeChanged(this, e);
-        }
-
-        protected virtual void OnGridColorAlternateChanged(EventArgs e)
-        {
-            InitializeGridTile();
-
-            if (GridColorAlternateChanged != null)
-                GridColorAlternateChanged(this, e);
-        }
-
-        protected virtual void OnGridColorChanged(EventArgs e)
-        {
-            InitializeGridTile();
-
-            if (GridColorChanged != null)
-                GridColorChanged(this, e);
-        }
-
-        protected virtual void OnGridDisplayModeChanged(EventArgs e)
-        {
-            InitializeGridTile();
-            Invalidate();
-
-            if (GridDisplayModeChanged != null)
-                GridDisplayModeChanged(this, e);
-        }
-
-        protected virtual void OnGridScaleChanged(EventArgs e)
-        {
-            InitializeGridTile();
-
-            if (GridScaleChanged != null)
-                GridScaleChanged(this, e);
-        }
 
         protected virtual void OnImageChanged(EventArgs e)
         {

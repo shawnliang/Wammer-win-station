@@ -157,8 +157,6 @@ namespace Waveface.DetailUI
 			resources.ApplyResources(this.imageBox, "imageBox");
 			this.imageBox.BackColor = System.Drawing.Color.Black;
 			this.imageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.imageBox.GridColor = System.Drawing.Color.Black;
-			this.imageBox.GridColorAlternate = System.Drawing.Color.Black;
 			this.imageBox.Name = "imageBox";
 			this.imageBox.ZoomIncrement = 10;
 			this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
