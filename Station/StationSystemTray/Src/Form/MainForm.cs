@@ -1826,6 +1826,14 @@ namespace StationSystemTray
 		//        MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		//    }
 		}
+
+		private void MainForm_Shown(object sender, EventArgs e)
+		{
+			var server = (string)StationRegistry.GetValue("cloudBaseURL", null);
+
+			bool isProductionVersion = server != null && server.Contains("api.waveface.com");
+			devVersionTag.Visible = !isProductionVersion;
+		}
 	}
 
 	#region StationStatusUIController

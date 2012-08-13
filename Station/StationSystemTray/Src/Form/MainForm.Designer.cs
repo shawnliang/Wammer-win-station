@@ -44,6 +44,7 @@ namespace StationSystemTray
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
 			this.tabControl = new StationSystemTray.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
+			this.devVersionTag = new System.Windows.Forms.Label();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.loginInputPanel1 = new StationSystemTray.LoginInputPanel();
@@ -163,6 +164,7 @@ namespace StationSystemTray
 			// tabSignIn
 			// 
 			this.tabSignIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+			this.tabSignIn.Controls.Add(this.devVersionTag);
 			this.tabSignIn.Controls.Add(this.pictureBox2);
 			this.tabSignIn.Controls.Add(this.linkLabel1);
 			this.tabSignIn.Controls.Add(this.loginInputPanel1);
@@ -176,6 +178,13 @@ namespace StationSystemTray
 			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
 			this.tabSignIn.Click += new System.EventHandler(this.tabSignIn_Click);
+			// 
+			// devVersionTag
+			// 
+			resources.ApplyResources(this.devVersionTag, "devVersionTag");
+			this.devVersionTag.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.devVersionTag.ForeColor = System.Drawing.Color.Red;
+			this.devVersionTag.Name = "devVersionTag";
 			// 
 			// pictureBox2
 			// 
@@ -241,6 +250,7 @@ namespace StationSystemTray
 			// loginButton1
 			// 
 			resources.ApplyResources(this.loginButton1, "loginButton1");
+			this.loginButton1.MaximumSize = new System.Drawing.Size(110, 40);
 			this.loginButton1.Name = "loginButton1";
 			this.loginButton1.Click += new System.EventHandler(this.btnSignIn_Click);
 			// 
@@ -344,8 +354,10 @@ namespace StationSystemTray
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MainForm";
+			this.Activated += new System.EventHandler(this.MainForm_Shown);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.TrayMenu.ResumeLayout(false);
 			this.tabControl.ResumeLayout(false);
 			this.tabSignIn.ResumeLayout(false);
@@ -399,6 +411,7 @@ namespace StationSystemTray
 		private System.Windows.Forms.LinkLabel linkLabel1;
 		private System.Windows.Forms.Label label2;
 		private LoginButton loginButton1;
+		private System.Windows.Forms.Label devVersionTag;
 	}
 }
 
