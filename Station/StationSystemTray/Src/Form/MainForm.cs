@@ -562,15 +562,8 @@ namespace StationSystemTray
 
 		private void trayIcon_DoubleClicked(object sender, EventArgs e)
 		{
-			UpdateTrayMenu();
-			if (menuSignIn.Text == Resources.LogoutMenuItem)
-			{
-				GotoTimeline(userloginContainer.GetLastUserLogin());
-			}
-			else
-			{
-				GotoTabPage(tabSignIn, userloginContainer.GetLastUserLogin());
-			}
+			DebugInfo.ShowMethod();
+			GotoTimeline(userloginContainer.GetLastUserLogin());
 		}
 		[DllImport("wininet")]
 		public static extern bool InternetGetConnectedState(
@@ -588,12 +581,12 @@ namespace StationSystemTray
 				SendSyncStatusToClient();
 			}
 
-				////³s½uªºFlag
+				////ï¿½sï¿½uï¿½ï¿½Flag
 				//uint flags = 0x0;
 
 				//bool rtvl;
 
-				////¨ú±o¥»¾÷¹q¸£¥Ø«eªº³s½uª¬ºA
+				////ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½ï¿½ï¿½qï¿½ï¿½ï¿½Ø«eï¿½ï¿½ï¿½sï¿½uï¿½ï¿½ï¿½A
 				//rtvl = InternetGetConnectedState(ref flags, 0);
 
 				//if (!rtvl)
@@ -1296,6 +1289,7 @@ namespace StationSystemTray
 
 		private void Logout()
 		{
+			DebugInfo.ShowMethod();
 			var lastLoginUser = userloginContainer.GetLastUserLogin();
 			if (menuSignIn.Text == Resources.LogoutMenuItem)
 			{
@@ -1311,7 +1305,9 @@ namespace StationSystemTray
 						LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
 				}
 			}
+
 			GotoTabPage(tabSignIn, lastLoginUser);
+			userloginContainer.CleartCurLoginedSession();
 		}
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
