@@ -10,7 +10,7 @@ namespace Waveface.Common
 {
 	public class AutoUpdate
 	{
-		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/";
+		public const string DEF_BASE_URL = "https://api.waveface.com/v2/";
 
 		private Sparkle m_autoUpdator;
 		private NetSparkleAppCastItem versionInfo;
@@ -50,7 +50,10 @@ namespace Waveface.Common
 		{
 			get
 			{
-				var url = Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation", "cloudBaseURL", DEF_BASE_URL) as string;
+				var keypath = (IntPtr.Size == 8) ? @"HKEY_LOCAL_MACHINE\Software\Wow6432Node\Wammer\WinStation" :
+					@"HKEY_LOCAL_MACHINE\Software\Wammer\WinStation";
+
+				var url = Registry.GetValue(keypath, "cloudBaseURL", DEF_BASE_URL) as string;
 
 				return url ?? DEF_BASE_URL;
 			}
