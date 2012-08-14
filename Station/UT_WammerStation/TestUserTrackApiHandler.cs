@@ -22,7 +22,8 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 				new Driver
 				{
 					user_id = "user1",
-					is_change_history_synced = false
+					is_change_history_synced = false,
+					session_token = "123"
 				});
 
 			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
@@ -59,6 +60,7 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 						chlog_max_seq = 102
 					},
 					is_change_history_synced = true,
+					session_token = "123"
 				});
 
 			UserTracks ut1 = new UserTracks
@@ -108,6 +110,7 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 						chlog_max_seq = 101
 					},
 					is_change_history_synced = true,
+					session_token = "123"
 				});
 
 			UserTracks ut1 = new UserTracks
@@ -164,7 +167,8 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					{
 						chlog_min_seq = 1,
 						chlog_max_seq = 100,
-					}
+					},
+					session_token = "123"
 				});
 
 			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
@@ -187,7 +191,8 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					{
 						chlog_min_seq = 50,
 						chlog_max_seq = 100
-					}
+					}, 
+					session_token = "123"
 				});
 
 			UserTrackHandlerImp handler = new UserTrackHandlerImp(mockDB.Object);
