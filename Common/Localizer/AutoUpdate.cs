@@ -18,7 +18,7 @@ namespace Waveface.Common
 
 		public AutoUpdate(bool forceUpgrade)
 		{
-			m_autoUpdator = new Sparkle(UpdateURL + "/extensions/windowsUpdate/versioninfo.xml");
+			m_autoUpdator = new Sparkle(UpdateURL);
 			m_autoUpdator.ApplicationIcon = Resources.software_update_available;
 			m_autoUpdator.ApplicationWindowIcon = Resources.UpdateAvailable;
 
@@ -64,13 +64,13 @@ namespace Waveface.Common
 			get
 			{
 				if (CloudBaseURL.Contains("api.waveface.com"))
-					return "https://waveface.com";
+					return "https://waveface.com/extensions/windowsUpdate/versioninfo.xml";
 				else if (CloudBaseURL.Contains("develop.waveface.com"))
-					return "http://develop.waveface.com:4343";
+					return "http://develop.waveface.com:4343/extensions/windowsUpdate/versioninfo_dev.xml";
 				else if (CloudBaseURL.Contains("staging.waveface.com"))
-					return "http://staging.waveface.com";
+					return "http://staging.waveface.com/extensions/windowsUpdate/versioninfo.xml";
 				else
-					return "https://waveface.com";
+					return "https://waveface.com/extensions/windowsUpdate/versioninfo.xml";
 			}
 		}
 
