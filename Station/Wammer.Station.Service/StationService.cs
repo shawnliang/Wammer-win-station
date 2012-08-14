@@ -140,7 +140,7 @@ namespace Wammer.Station.Service
 				MakeThumbnailTask.ThumbnailGenerated += localUserTrackMgr.OnThumbnailGenerated;
 				UpstreamTask.AttachmentUpstreamed += localUserTrackMgr.OnAttachmentUpstreamed;
 
-				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl);
+				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl, Station.Instance.StationID);
 				InitCloudForwarder(cloudForwarder);
 				InitFunctionServerHandlers(attachmentHandler, cloudForwarder, localUserTrackMgr);
 
