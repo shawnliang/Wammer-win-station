@@ -28,297 +28,468 @@ namespace Waveface.Component
 
     public partial class ImageBox : ScrollableControl
     {
-        #region  Private Class Member Declarations
+        #region Const
+		const int MIN_ZOOM = 10;
+        const int MAX_ZOOM = 3500;
+        #endregion
 
-        private static readonly int MinZoom = 10;
-        private static readonly int MaxZoom = 3500;
+        #region  Var
+        private bool _autoCenter;
+        private Image _image;
+        private bool _sizeToFit;
+        private int _zoom;
+        private int _zoomIncrement;
+		private Rectangle? _imageViewPort;
+		private Rectangle? _sourceImageRegion;
+        #endregion
 
-        #endregion  Private Class Member Declarations
 
-        #region  Private Member Declarations
 
-        private bool m_autoCenter;
-        private int m_gridCellSize;
-        private Color m_gridColor;
-        private Color m_gridColorAlternate;
-        [Category("Property Changed")]
-        private ImageBoxGridDisplayMode m_gridDisplayMode;
-        private ImageBoxGridScale m_gridScale;
-        private Bitmap m_gridTile;
-        private Image m_image;
-        private bool m_invertMouse;
-        private bool m_sizeToFit;
-        private TextureBrush m_texture;
-        private int m_zoom;
-        private int m_zoomIncrement;
+		#region Private Property
+		/// <summary>
+		/// Gets or sets the m_image view port.
+		/// </summary>
+		/// <value>The m_image view port.</value>
+		private Rectangle? m_imageViewPort 
+		{
+			get
+			{
+ 				return _imageViewPort??(_imageViewPort = GetImageViewPort());
+			}
+			set
+			{
+				_imageViewPort = value;
+			}
+		}
 
-        #endregion  Private Member Declarations
+		/// <summary>
+		/// Gets or sets the m_ source image region.
+		/// </summary>
+		/// <value>The m_ source image region.</value>
+		private Rectangle? m_SourceImageRegion
+		{
+			get
+			{
+				return _sourceImageRegion??(_sourceImageRegion = GetSourceImageRegion());
+			}
+			set
+			{
+				_sourceImageRegion = value;
+			}
+		}
+		#endregion
+
+
+
+		#region Protected Property
+		/// <summary>
+		/// Gets the height of the scaled image.
+		/// </summary>
+		/// <value>The height of the scaled image.</value>
+		protected virtual int m_ScaledImageHeight
+		{
+			get { return Image != null ? (int)(Image.Size.Height * m_ZoomFactor) : 0; }
+		}
+
+		/// <summary>
+		/// Gets the width of the scaled image.
+		/// </summary>
+		/// <value>The width of the scaled image.</value>
+		protected virtual int m_ScaledImageWidth
+		{
+			get { return Image != null ? (int)(Image.Size.Width * m_ZoomFactor) : 0; }
+		}
+
+		/// <summary>
+		/// Gets the zoom factor.
+		/// </summary>
+		/// <value>The zoom factor.</value>
+		protected virtual double m_ZoomFactor
+		{
+			get { return (double)Zoom / 100; }
+		}
+		#endregion 
+
+
+
+		#region Public Property
+		/// <summary>
+		/// This property is not relevant for this class.
+		/// </summary>
+		/// <value></value>
+		/// <returns>true if enabled; otherwise, false.</returns>
+		[Browsable(true), EditorBrowsable(EditorBrowsableState.Always),
+		 DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), DefaultValue(true)]
+		public override bool AutoSize
+		{
+			get { return base.AutoSize; }
+			set
+			{
+				if (base.AutoSize == value)
+					return;
+
+				base.AutoSize = value;
+				OnAutoSizeChanged(EventArgs.Empty);
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether [auto center].
+		/// </summary>
+		/// <value><c>true</c> if [auto center]; otherwise, <c>false</c>.</value>
+		[DefaultValue(true), Category("Appearance")]
+		public bool AutoCenter
+		{
+			get { return _autoCenter; }
+			set
+			{
+				if (_autoCenter == value)
+					return;
+
+				_autoCenter = value;
+				OnAutoCenterChanged(EventArgs.Empty);
+			}
+		}
+
+		[Category("Appearance"), DefaultValue(null)]
+		public virtual Image Image
+		{
+			get { return _image; }
+			set
+			{
+				if (_image == value)
+					return;
+
+				_image = value;
+
+				ExifStuff.OrientImage(_image);
+				OnImageChanged(EventArgs.Empty);
+			}
+		}
+
+		[DefaultValue(false), Category("Appearance")]
+		public bool SizeToFit
+		{
+			get { return _sizeToFit; }
+			set
+			{
+				if (_sizeToFit != value)
+				{
+					_sizeToFit = value;
+					OnSizeToFitChanged(EventArgs.Empty);
+				}
+			}
+		}
+
+		[DefaultValue(100), Category("Appearance")]
+		public int Zoom
+		{
+			get { return _zoom; }
+			set
+			{
+				if (value < MIN_ZOOM)
+					value = MIN_ZOOM;
+				else if (value > MAX_ZOOM)
+					value = MAX_ZOOM;
+
+				if (_zoom != value)
+				{
+					_zoom = value;
+
+					OnZoomChanged(EventArgs.Empty);
+				}
+			}
+		}
+
+		[DefaultValue(20), Category("Behavior")]
+		public int ZoomIncrement
+		{
+			get { return _zoomIncrement; }
+			set
+			{
+				if (_zoomIncrement != value)
+				{
+					_zoomIncrement = value;
+					OnZoomIncrementChanged(EventArgs.Empty);
+				}
+			}
+		}
+		#endregion
+
+
+
+		#region Events
+		public event EventHandler AutoSizeChanged;
+		public event EventHandler AutoCenterChanged;
+		public event EventHandler ImageChanged;
+		public event EventHandler SizeToFitChanged;
+		public event EventHandler ZoomChanged;
+		public event EventHandler ZoomIncrementChanged;
+		#endregion
+
 
         #region Constructor
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ImageBox"/> class.
+		/// </summary>
         public ImageBox()
         {
             InitializeComponent();
 
-            SetStyle(
-                ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw, true);
-            SetStyle(ControlStyles.StandardDoubleClick, false);
+			try
+			{
+				this.SuspendLayout();
+				SetStyle(
+					ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer |
+					ControlStyles.ResizeRedraw, true);
+				SetStyle(ControlStyles.StandardDoubleClick, false);
 
-            UpdateStyles();
+				UpdateStyles();
 
-            AutoSize = true;
-            Zoom = 100;
-            ZoomIncrement = 10;
-            AutoCenter = true;
+				AutoSize = true;
+				Zoom = 100;
+				ZoomIncrement = 10;
+				AutoCenter = true;
+
+				this.ZoomChanged += new EventHandler(ImageBox_ZoomChanged);
+				this.AutoSizeChanged += new EventHandler(ImageBox_AutoSizeChanged);
+				this.ImageChanged += new EventHandler(ImageBox_ImageChanged);
+				this.AutoCenterChanged += new EventHandler(ImageBox_AutoCenterChanged);
+				this.SizeToFitChanged += new EventHandler(ImageBox_SizeToFitChanged);
+				this.BackColorChanged += new EventHandler(ImageBox_BackColorChanged);
+			}
+			finally
+			{
+				this.ResumeLayout();
+			}
         }
         #endregion
 
 
-        #region  Events
-
-        [Category("Property Changed")]
-        public event EventHandler AutoCenterChanged;
 
 
+		#region Protected Method
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (components != null)
+					components.Dispose();
+			}
 
-        [Category("Property Changed")]
-        public event EventHandler ImageChanged;
+			base.Dispose(disposing);
+		}
 
+		/// <summary>
+		/// Determines whether the specified key is a regular input key or a special key that requires preprocessing.
+		/// </summary>
+		/// <param name="keyData">One of the <see cref="T:System.Windows.Forms.Keys"/> values.</param>
+		/// <returns>
+		/// true if the specified key is a regular input key; otherwise, false.
+		/// </returns>
+		protected override bool IsInputKey(Keys keyData)
+		{
+			bool result;
 
-        [Category("Property Changed")]
-        public event EventHandler InvertMouseChanged;
+			if ((keyData & Keys.Right) == Keys.Right | (keyData & Keys.Left) == Keys.Left |
+				(keyData & Keys.Up) == Keys.Up | (keyData & Keys.Down) == Keys.Down)
+				result = true;
+			else
+				result = base.IsInputKey(keyData);
 
+			return result;
+		}
 
-        [Category("Property Changed")]
-        public event EventHandler SizeToFitChanged;
+		protected override void OnDockChanged(EventArgs e)
+		{
+			base.OnDockChanged(e);
 
-        [Category("Property Changed")]
-        public event EventHandler ZoomChanged;
+			if (Dock != DockStyle.None)
+				AutoSize = false;
+		}
 
-        [Category("Property Changed")]
-        public event EventHandler ZoomIncrementChanged;
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
 
-        #endregion  Events
+			if (!Focused)
+				Focus();
+		}
 
-        #region  Overriden Properties
+		protected override void OnMouseWheel(MouseEventArgs e)
+		{
+			if (!SizeToFit)
+			{
+				int increment;
 
-        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), DefaultValue(true)]
-        public override bool AutoSize
-        {
-            get { return base.AutoSize; }
-            set
-            {
-                if (base.AutoSize != value)
-                {
-                    base.AutoSize = value;
+				if (ModifierKeys == Keys.None)
+					increment = ZoomIncrement;
+				else
+					increment = ZoomIncrement * 5;
 
-                    AdjustLayout();
-                }
-            }
-        }
+				if (e.Delta < 0)
+					increment = -increment;
 
-        [DefaultValue(typeof(Color), "White")]
-        public override Color BackColor
-        {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
-        }
+				Zoom += increment;
+			}
+		}
 
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Image BackgroundImage
-        {
-            get { return base.BackgroundImage; }
-            set { base.BackgroundImage = value; }
-        }
+		protected override void OnPaddingChanged(EventArgs e)
+		{
+			base.OnPaddingChanged(e);
 
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override ImageLayout BackgroundImageLayout
-        {
-            get { return base.BackgroundImageLayout; }
-            set { base.BackgroundImageLayout = value; }
-        }
-
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Font Font
-        {
-            get { return base.Font; }
-            set { base.Font = value; }
-        }
-
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
-        }
-
-        #endregion  Overriden Properties
-
-        #region  Public Overridden Methods
-
-        public override Size GetPreferredSize(Size proposedSize)
-        {
-            Size size;
-
-            if (Image != null)
-            {
-                int width;
-                int height;
-
-                // get the size of the image
-                width = ScaledImageWidth;
-                height = ScaledImageHeight;
-
-                // add an offset based on padding
-                width += Padding.Horizontal;
-                height += Padding.Vertical;
-
-				//// add an offset based on the border style
-				//width += GetBorderOffset();
-				//height += GetBorderOffset();
-
-                size = new Size(width, height);
-            }
-            else
-                size = base.GetPreferredSize(proposedSize);
-
-            return size;
-        }
-
-        #endregion  Public Overridden Methods
-
-        #region  Protected Overridden Methods
-
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (components != null)
-                    components.Dispose();
-
-                if (m_texture != null)
-                {
-                    m_texture.Dispose();
-                    m_texture = null;
-                }
-
-                if (m_gridTile != null)
-                {
-                    m_gridTile.Dispose();
-                    m_gridTile = null;
-                }
-            }
-
-            base.Dispose(disposing);
-        }
-
-        protected override bool IsInputKey(Keys keyData)
-        {
-            bool result;
-
-            if ((keyData & Keys.Right) == Keys.Right | (keyData & Keys.Left) == Keys.Left |
-                (keyData & Keys.Up) == Keys.Up | (keyData & Keys.Down) == Keys.Down)
-                result = true;
-            else
-                result = base.IsInputKey(keyData);
-
-            return result;
-        }
-
-        protected override void OnBackColorChanged(EventArgs e)
-        {
-            base.OnBackColorChanged(e);
-
-            Invalidate();
-        }
-
-        protected override void OnDockChanged(EventArgs e)
-        {
-            base.OnDockChanged(e);
-
-            if (Dock != DockStyle.None)
-                AutoSize = false;
-        }
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-
-            if (!Focused)
-                Focus();
-        }
-
-        protected override void OnMouseWheel(MouseEventArgs e)
-        {
-            if (!SizeToFit)
-            {
-                int increment;
-
-                if (ModifierKeys == Keys.None)
-                    increment = ZoomIncrement;
-                else
-                    increment = ZoomIncrement * 5;
-
-                if (e.Delta < 0)
-                    increment = -increment;
-
-                Zoom += increment;
-            }
-        }
-
-        protected override void OnPaddingChanged(EventArgs e)
-        {
-            base.OnPaddingChanged(e);
+			m_imageViewPort = null;
 			AdjustLayout();
-        }
+		}
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            Rectangle innerRectangle;
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			Rectangle innerRectangle;
 
 			var g = e.Graphics;
-			g.Clear(BackColor);
 
 			// draw the image
 			if (Image != null)
 			{
-				g.DrawImage(Image, GetImageViewPort(), GetSourceImageRegion(), GraphicsUnit.Pixel);
+				g.DrawImage(Image, m_imageViewPort.Value, m_SourceImageRegion.Value, GraphicsUnit.Pixel);
 			}
-        }
+		}
 
-        protected override void OnParentChanged(EventArgs e)
-        {
-            base.OnParentChanged(e);
+		protected override void OnParentChanged(EventArgs e)
+		{
+			base.OnParentChanged(e);
 
-            AdjustLayout();
-        }
+			AdjustLayout();
+		}
 
-        protected override void OnResize(EventArgs e)
-        {
-            AdjustLayout();
+		protected override void OnResize(EventArgs e)
+		{
+			AdjustLayout();
 
-            base.OnResize(e);
-        }
+			base.OnResize(e);
+		}
 
-        protected override void OnScroll(ScrollEventArgs se)
-        {
-            Invalidate();
+		protected override void OnScroll(ScrollEventArgs se)
+		{
+			Invalidate();
 
-            base.OnScroll(se);
-        }
+			base.OnScroll(se);
+		}
 
-        #endregion  Protected Overridden Methods
+		public virtual void AdjustLayout()
+		{
+			if (AutoSize)
+				AdjustSize();
+			else if (SizeToFit)
+				ZoomToFit();
+			else if (AutoScroll)
+				AdjustViewPort();
 
-        #region  Public Methods
+			m_imageViewPort = null;
+			m_SourceImageRegion = null;
+			Invalidate();
+		}
+
+		protected virtual void AdjustScroll(int x, int y)
+		{
+			Point scrollPosition;
+
+			scrollPosition = new Point(HorizontalScroll.Value + x, VerticalScroll.Value + y);
+
+			UpdateScrollPosition(scrollPosition);
+		}
+
+		protected virtual void AdjustSize()
+		{
+			if (AutoSize && Dock == DockStyle.None)
+				base.Size = base.PreferredSize;
+		}
+
+		protected virtual void AdjustViewPort()
+		{
+			if (AutoScroll && Image != null)
+				AutoScrollMinSize = new Size(m_ScaledImageWidth + Padding.Horizontal, m_ScaledImageHeight + Padding.Vertical);
+		}
+
+		protected virtual void OnAutoSizeChanged(EventArgs e)
+		{
+			if (AutoSizeChanged == null)
+				return;
+
+			AutoSizeChanged(this, e);
+		}
+
+		protected virtual void OnAutoCenterChanged(EventArgs e)
+		{
+			if (AutoCenterChanged != null)
+				AutoCenterChanged(this, e);
+		}
+
+		protected virtual void OnImageChanged(EventArgs e)
+		{
+			if (ImageChanged != null)
+				ImageChanged(this, e);
+		}
+
+
+		protected virtual void OnSizeToFitChanged(EventArgs e)
+		{
+			if (SizeToFitChanged != null)
+				SizeToFitChanged(this, e);
+		}
+
+		protected virtual void OnZoomChanged(EventArgs e)
+		{
+			if (ZoomChanged != null)
+				ZoomChanged(this, e);
+		}
+
+		protected virtual void OnZoomIncrementChanged(EventArgs e)
+		{
+			if (ZoomIncrementChanged != null)
+				ZoomIncrementChanged(this, e);
+		}
+
+		protected virtual void UpdateScrollPosition(Point position)
+		{
+			AutoScrollPosition = position;
+			Invalidate();
+			OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, 0));
+		}
+		#endregion
+
+
+
+
+        #region Public Method
+		public override Size GetPreferredSize(Size proposedSize)
+		{
+			Size size;
+
+			if (Image != null)
+			{
+				int width;
+				int height;
+
+				// get the size of the image
+				width = m_ScaledImageWidth;
+				height = m_ScaledImageHeight;
+
+				// add an offset based on padding
+				width += Padding.Horizontal;
+				height += Padding.Vertical;
+
+				size = new Size(width, height);
+			}
+			else
+				size = base.GetPreferredSize(proposedSize);
+
+			return size;
+		}
 
 		public virtual Rectangle GetImageViewPort()
 		{
@@ -336,8 +507,8 @@ namespace Waveface.Component
 				int x;
 				int y;
 
-				x = !HScroll ? (innerRectangle.Width - (ScaledImageWidth + Padding.Horizontal)) / 2 : 0;
-				y = !VScroll ? (innerRectangle.Height - (ScaledImageHeight + Padding.Vertical)) / 2 : 0;
+				x = !HScroll ? (innerRectangle.Width - (m_ScaledImageWidth + Padding.Horizontal)) / 2 : 0;
+				y = !VScroll ? (innerRectangle.Height - (m_ScaledImageHeight + Padding.Vertical)) / 2 : 0;
 
 				offset = new Point(x, y);
 			}
@@ -384,10 +555,10 @@ namespace Waveface.Component
 			Rectangle region;
 
 			viewPort = GetImageViewPort();
-			sourceLeft = (int)(-AutoScrollPosition.X / ZoomFactor);
-			sourceTop = (int)(-AutoScrollPosition.Y / ZoomFactor);
-			sourceWidth = (int)(viewPort.Width / ZoomFactor);
-			sourceHeight = (int)(viewPort.Height / ZoomFactor);
+			sourceLeft = (int)(-AutoScrollPosition.X / m_ZoomFactor);
+			sourceTop = (int)(-AutoScrollPosition.Y / m_ZoomFactor);
+			sourceWidth = (int)(viewPort.Width / m_ZoomFactor);
+			sourceHeight = (int)(viewPort.Height / m_ZoomFactor);
 
 			region = new Rectangle(sourceLeft, sourceTop, sourceWidth, sourceHeight);
 
@@ -432,221 +603,75 @@ namespace Waveface.Component
                 Zoom = (int)Math.Round(Math.Floor(zoom));
             }
         }
-
-        #endregion  Public Methods
-
-        #region  Public Properties
-
-        [DefaultValue(true), Category("Appearance")]
-        public bool AutoCenter
-        {
-            get { return m_autoCenter; }
-            set
-            {
-                if (m_autoCenter != value)
-                {
-                    m_autoCenter = value;
-                    OnAutoCenterChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Size AutoScrollMinSize
-        {
-            get { return base.AutoScrollMinSize; }
-            set { base.AutoScrollMinSize = value; }
-        }
-        [Category("Appearance"), DefaultValue(null)]
-        public virtual Image Image
-        {
-            get { return m_image; }
-            set
-            {
-                if (m_image != value)
-                {
-                    m_image = value;
-
-                    ExifStuff.OrientImage(m_image);
-
-                    OnImageChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [DefaultValue(false), Category("Behavior")]
-        public bool InvertMouse
-        {
-            get { return m_invertMouse; }
-            set
-            {
-                if (m_invertMouse != value)
-                {
-                    m_invertMouse = value;
-                    OnInvertMouseChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [DefaultValue(false), Category("Appearance")]
-        public bool SizeToFit
-        {
-            get { return m_sizeToFit; }
-            set
-            {
-                if (m_sizeToFit != value)
-                {
-                    m_sizeToFit = value;
-                    OnSizeToFitChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [DefaultValue(100), Category("Appearance")]
-        public int Zoom
-        {
-            get { return m_zoom; }
-            set
-            {
-                if (value < MinZoom)
-                    value = MinZoom;
-                else if (value > MaxZoom)
-                    value = MaxZoom;
-
-                if (m_zoom != value)
-                {
-                    m_zoom = value;
-
-                    OnZoomChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        [DefaultValue(20), Category("Behavior")]
-        public int ZoomIncrement
-        {
-            get { return m_zoomIncrement; }
-            set
-            {
-                if (m_zoomIncrement != value)
-                {
-                    m_zoomIncrement = value;
-                    OnZoomIncrementChanged(EventArgs.Empty);
-                }
-            }
-        }
-
-        #endregion  Public Properties
+        #endregion
 
 
-        #region  Protected Properties
-
-        protected virtual int ScaledImageHeight
-        {
-            get { return Image != null ? (int)(Image.Size.Height * ZoomFactor) : 0; }
-        }
-
-        protected virtual int ScaledImageWidth
-        {
-            get { return Image != null ? (int)(Image.Size.Width * ZoomFactor) : 0; }
-        }
-
-        protected virtual double ZoomFactor
-        {
-            get { return (double)Zoom / 100; }
-        }
-
-        #endregion  Protected Properties
-
-        #region  Protected Methods
-
-        public virtual void AdjustLayout()
-        {
-            if (AutoSize)
-                AdjustSize();
-            else if (SizeToFit)
-                ZoomToFit();
-            else if (AutoScroll)
-                AdjustViewPort();
-
-            Invalidate();
-        }
-
-        protected virtual void AdjustScroll(int x, int y)
-        {
-            Point scrollPosition;
-
-            scrollPosition = new Point(HorizontalScroll.Value + x, VerticalScroll.Value + y);
-
-            UpdateScrollPosition(scrollPosition);
-        }
-
-        protected virtual void AdjustSize()
-        {
-            if (AutoSize && Dock == DockStyle.None)
-                base.Size = base.PreferredSize;
-        }
-
-        protected virtual void AdjustViewPort()
-        {
-            if (AutoScroll && Image != null)
-                AutoScrollMinSize = new Size(ScaledImageWidth + Padding.Horizontal, ScaledImageHeight + Padding.Vertical);
-        }
 
 
-        protected virtual void OnAutoCenterChanged(EventArgs e)
-        {
-            Invalidate();
-
-            if (AutoCenterChanged != null)
-                AutoCenterChanged(this, e);
-        }
-
-        protected virtual void OnImageChanged(EventArgs e)
-        {
-            AdjustLayout();
-
-            if (ImageChanged != null)
-                ImageChanged(this, e);
-        }
-
-        protected virtual void OnInvertMouseChanged(EventArgs e)
-        {
-            if (InvertMouseChanged != null)
-                InvertMouseChanged(this, e);
-        }
 
 
-        protected virtual void OnSizeToFitChanged(EventArgs e)
-        {
-            AdjustLayout();
-
-            if (SizeToFitChanged != null)
-                SizeToFitChanged(this, e);
-        }
-
-        protected virtual void OnZoomChanged(EventArgs e)
-        {
-            AdjustLayout();
-
-            if (ZoomChanged != null)
-                ZoomChanged(this, e);
-        }
-
-        protected virtual void OnZoomIncrementChanged(EventArgs e)
-        {
-            if (ZoomIncrementChanged != null)
-                ZoomIncrementChanged(this, e);
-        }
-
-		protected virtual void UpdateScrollPosition(Point position)
+		#region Event Process
+		/// <summary>
+		/// Handles the ZoomChanged event of the ImageBox control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		void ImageBox_ZoomChanged(object sender, EventArgs e)
 		{
-			AutoScrollPosition = position;
-			Invalidate();
-			OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, 0));
+			AdjustLayout();
 		}
 
-        #endregion  Protected Methods
-    }
+		/// <summary>
+		/// Handles the AutoSizeChanged event of the ImageBox control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		void ImageBox_AutoSizeChanged(object sender, EventArgs e)
+		{
+			AdjustLayout();
+		}
+
+		/// <summary>
+		/// Handles the ImageChanged event of the ImageBox control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		void ImageBox_ImageChanged(object sender, EventArgs e)
+		{
+			AdjustLayout();
+		}
+
+		/// <summary>
+		/// Handles the AutoCenterChanged event of the ImageBox control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		void ImageBox_AutoCenterChanged(object sender, EventArgs e)
+		{
+			m_imageViewPort = null;
+			m_SourceImageRegion = null;
+			Invalidate();
+		}
+
+		/// <summary>
+		/// Handles the SizeToFitChanged event of the ImageBox control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		void ImageBox_SizeToFitChanged(object sender, EventArgs e)
+		{
+			AdjustLayout();
+		}
+
+		/// <summary>
+		/// Handles the BackColorChanged event of the ImageBox control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		void ImageBox_BackColorChanged(object sender, EventArgs e)
+		{
+			Invalidate();
+		}
+		#endregion
+	}
 }
