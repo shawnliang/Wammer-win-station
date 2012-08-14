@@ -12,20 +12,6 @@ using System.Diagnostics;
 
 namespace Waveface.Component
 {
-    public enum ImageBoxGridDisplayMode
-    {
-        None,
-        Client,
-        Image
-    }
-
-    public enum ImageBoxGridScale
-    {
-        Small,
-        Medium,
-        Large
-    }
-
     public partial class ImageBox : ScrollableControl
     {
         #region Const
@@ -114,26 +100,6 @@ namespace Waveface.Component
 
 		#region Public Property
 		/// <summary>
-		/// This property is not relevant for this class.
-		/// </summary>
-		/// <value></value>
-		/// <returns>true if enabled; otherwise, false.</returns>
-		[Browsable(true), EditorBrowsable(EditorBrowsableState.Always),
-		 DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), DefaultValue(true)]
-		public override bool AutoSize
-		{
-			get { return base.AutoSize; }
-			set
-			{
-				if (base.AutoSize == value)
-					return;
-
-				base.AutoSize = value;
-				OnAutoSizeChanged(EventArgs.Empty);
-			}
-		}
-
-		/// <summary>
 		/// Gets or sets a value indicating whether [auto center].
 		/// </summary>
 		/// <value><c>true</c> if [auto center]; otherwise, <c>false</c>.</value>
@@ -151,6 +117,10 @@ namespace Waveface.Component
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the image.
+		/// </summary>
+		/// <value>The image.</value>
 		[Category("Appearance"), DefaultValue(null)]
 		public virtual Image Image
 		{
@@ -167,20 +137,28 @@ namespace Waveface.Component
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether [size to fit].
+		/// </summary>
+		/// <value><c>true</c> if [size to fit]; otherwise, <c>false</c>.</value>
 		[DefaultValue(false), Category("Appearance")]
 		public bool SizeToFit
 		{
 			get { return _sizeToFit; }
 			set
 			{
-				if (_sizeToFit != value)
-				{
-					_sizeToFit = value;
-					OnSizeToFitChanged(EventArgs.Empty);
-				}
+				if (_sizeToFit == value)
+					return;
+
+				_sizeToFit = value;
+				OnSizeToFitChanged(EventArgs.Empty);
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the zoom.
+		/// </summary>
+		/// <value>The zoom.</value>
 		[DefaultValue(100), Category("Appearance")]
 		public int Zoom
 		{
@@ -192,26 +170,27 @@ namespace Waveface.Component
 				else if (value > MAX_ZOOM)
 					value = MAX_ZOOM;
 
-				if (_zoom != value)
-				{
-					_zoom = value;
-
-					OnZoomChanged(EventArgs.Empty);
-				}
+				if (_zoom == value)
+					return;
+				_zoom = value;
+				OnZoomChanged(EventArgs.Empty);
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the zoom increment.
+		/// </summary>
+		/// <value>The zoom increment.</value>
 		[DefaultValue(20), Category("Behavior")]
 		public int ZoomIncrement
 		{
 			get { return _zoomIncrement; }
 			set
 			{
-				if (_zoomIncrement != value)
-				{
-					_zoomIncrement = value;
-					OnZoomIncrementChanged(EventArgs.Empty);
-				}
+				if (_zoomIncrement == value)
+					return;
+				_zoomIncrement = value;
+				OnZoomIncrementChanged(EventArgs.Empty);
 			}
 		}
 		#endregion
@@ -219,7 +198,6 @@ namespace Waveface.Component
 
 
 		#region Events
-		public event EventHandler AutoSizeChanged;
 		public event EventHandler AutoCenterChanged;
 		public event EventHandler ImageChanged;
 		public event EventHandler SizeToFitChanged;
@@ -242,17 +220,12 @@ namespace Waveface.Component
 				SetStyle(
 					ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer |
 					ControlStyles.ResizeRedraw, true);
-				SetStyle(ControlStyles.StandardDoubleClick, false);
 
-				UpdateStyles();
-
-				AutoSize = true;
 				Zoom = 100;
 				ZoomIncrement = 10;
 				AutoCenter = true;
 
 				this.ZoomChanged += new EventHandler(ImageBox_ZoomChanged);
-				this.AutoSizeChanged += new EventHandler(ImageBox_AutoSizeChanged);
 				this.ImageChanged += new EventHandler(ImageBox_ImageChanged);
 				this.AutoCenterChanged += new EventHandler(ImageBox_AutoCenterChanged);
 				this.SizeToFitChanged += new EventHandler(ImageBox_SizeToFitChanged);
@@ -269,21 +242,6 @@ namespace Waveface.Component
 
 
 		#region Protected Method
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				if (components != null)
-					components.Dispose();
-			}
-
-			base.Dispose(disposing);
-		}
-
 		/// <summary>
 		/// Determines whether the specified key is a regular input key or a special key that requires preprocessing.
 		/// </summary>
@@ -304,14 +262,10 @@ namespace Waveface.Component
 			return result;
 		}
 
-		protected override void OnDockChanged(EventArgs e)
-		{
-			base.OnDockChanged(e);
-
-			if (Dock != DockStyle.None)
-				AutoSize = false;
-		}
-
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseDown"/> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs"/> that contains the event data.</param>
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			base.OnMouseDown(e);
@@ -320,16 +274,15 @@ namespace Waveface.Component
 				Focus();
 		}
 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.MouseWheel"/> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.MouseEventArgs"/> that contains the event data.</param>
 		protected override void OnMouseWheel(MouseEventArgs e)
 		{
 			if (!SizeToFit)
 			{
-				int increment;
-
-				if (ModifierKeys == Keys.None)
-					increment = ZoomIncrement;
-				else
-					increment = ZoomIncrement * 5;
+				int increment = ZoomIncrement;
 
 				if (e.Delta < 0)
 					increment = -increment;
@@ -338,14 +291,20 @@ namespace Waveface.Component
 			}
 		}
 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.PaddingChanged"/> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
 		protected override void OnPaddingChanged(EventArgs e)
 		{
 			base.OnPaddingChanged(e);
-
-			m_imageViewPort = null;
 			AdjustLayout();
 		}
 
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.Paint"/> event.
+		/// </summary>
+		/// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs"/> that contains the event data.</param>
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			Rectangle innerRectangle;
@@ -359,13 +318,11 @@ namespace Waveface.Component
 			}
 		}
 
-		protected override void OnParentChanged(EventArgs e)
-		{
-			base.OnParentChanged(e);
 
-			AdjustLayout();
-		}
-
+		/// <summary>
+		/// Raises the <see cref="E:System.Windows.Forms.Control.Resize"/> event.
+		/// </summary>
+		/// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
 		protected override void OnResize(EventArgs e)
 		{
 			AdjustLayout();
@@ -373,18 +330,12 @@ namespace Waveface.Component
 			base.OnResize(e);
 		}
 
-		protected override void OnScroll(ScrollEventArgs se)
-		{
-			Invalidate();
-
-			base.OnScroll(se);
-		}
-
+		/// <summary>
+		/// Adjusts the layout.
+		/// </summary>
 		public virtual void AdjustLayout()
 		{
-			if (AutoSize)
-				AdjustSize();
-			else if (SizeToFit)
+			if (SizeToFit)
 				ZoomToFit();
 			else if (AutoScroll)
 				AdjustViewPort();
@@ -394,41 +345,30 @@ namespace Waveface.Component
 			Invalidate();
 		}
 
-		protected virtual void AdjustScroll(int x, int y)
-		{
-			Point scrollPosition;
-
-			scrollPosition = new Point(HorizontalScroll.Value + x, VerticalScroll.Value + y);
-
-			UpdateScrollPosition(scrollPosition);
-		}
-
-		protected virtual void AdjustSize()
-		{
-			if (AutoSize && Dock == DockStyle.None)
-				base.Size = base.PreferredSize;
-		}
-
+		/// <summary>
+		/// Adjusts the view port.
+		/// </summary>
 		protected virtual void AdjustViewPort()
 		{
 			if (AutoScroll && Image != null)
 				AutoScrollMinSize = new Size(m_ScaledImageWidth + Padding.Horizontal, m_ScaledImageHeight + Padding.Vertical);
 		}
 
-		protected virtual void OnAutoSizeChanged(EventArgs e)
-		{
-			if (AutoSizeChanged == null)
-				return;
 
-			AutoSizeChanged(this, e);
-		}
-
+		/// <summary>
+		/// Raises the <see cref="E:AutoCenterChanged"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected virtual void OnAutoCenterChanged(EventArgs e)
 		{
 			if (AutoCenterChanged != null)
 				AutoCenterChanged(this, e);
 		}
 
+		/// <summary>
+		/// Raises the <see cref="E:ImageChanged"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected virtual void OnImageChanged(EventArgs e)
 		{
 			if (ImageChanged != null)
@@ -436,29 +376,34 @@ namespace Waveface.Component
 		}
 
 
+		/// <summary>
+		/// Raises the <see cref="E:SizeToFitChanged"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected virtual void OnSizeToFitChanged(EventArgs e)
 		{
 			if (SizeToFitChanged != null)
 				SizeToFitChanged(this, e);
 		}
 
+		/// <summary>
+		/// Raises the <see cref="E:ZoomChanged"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected virtual void OnZoomChanged(EventArgs e)
 		{
 			if (ZoomChanged != null)
 				ZoomChanged(this, e);
 		}
 
+		/// <summary>
+		/// Raises the <see cref="E:ZoomIncrementChanged"/> event.
+		/// </summary>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected virtual void OnZoomIncrementChanged(EventArgs e)
 		{
 			if (ZoomIncrementChanged != null)
 				ZoomIncrementChanged(this, e);
-		}
-
-		protected virtual void UpdateScrollPosition(Point position)
-		{
-			AutoScrollPosition = position;
-			Invalidate();
-			OnScroll(new ScrollEventArgs(ScrollEventType.ThumbPosition, 0));
 		}
 		#endregion
 
@@ -466,31 +411,10 @@ namespace Waveface.Component
 
 
         #region Public Method
-		public override Size GetPreferredSize(Size proposedSize)
-		{
-			Size size;
-
-			if (Image != null)
-			{
-				int width;
-				int height;
-
-				// get the size of the image
-				width = m_ScaledImageWidth;
-				height = m_ScaledImageHeight;
-
-				// add an offset based on padding
-				width += Padding.Horizontal;
-				height += Padding.Vertical;
-
-				size = new Size(width, height);
-			}
-			else
-				size = base.GetPreferredSize(proposedSize);
-
-			return size;
-		}
-
+		/// <summary>
+		/// Gets the image view port.
+		/// </summary>
+		/// <returns></returns>
 		public virtual Rectangle GetImageViewPort()
 		{
 			if (Image == null)
@@ -524,6 +448,11 @@ namespace Waveface.Component
 		}
 
 
+		/// <summary>
+		/// Gets the inside view port.
+		/// </summary>
+		/// <param name="includePadding">if set to <c>true</c> [include padding].</param>
+		/// <returns></returns>
         public virtual Rectangle GetInsideViewPort(bool includePadding = false)
         {
             int left = 0;
@@ -542,6 +471,10 @@ namespace Waveface.Component
             return new Rectangle(left, top, width, height);
         }
 
+		/// <summary>
+		/// Gets the source image region.
+		/// </summary>
+		/// <returns></returns>
 		public virtual Rectangle GetSourceImageRegion()
 		{
 			if (Image == null)
@@ -565,6 +498,9 @@ namespace Waveface.Component
 			return region;
 		}
 
+		/// <summary>
+		/// Zooms to fit.
+		/// </summary>
         public virtual void ZoomToFit()
         {
             if (Image != null)
@@ -617,16 +553,6 @@ namespace Waveface.Component
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void ImageBox_ZoomChanged(object sender, EventArgs e)
-		{
-			AdjustLayout();
-		}
-
-		/// <summary>
-		/// Handles the AutoSizeChanged event of the ImageBox control.
-		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		void ImageBox_AutoSizeChanged(object sender, EventArgs e)
 		{
 			AdjustLayout();
 		}

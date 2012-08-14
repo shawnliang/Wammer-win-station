@@ -13,6 +13,7 @@ using View = Manina.Windows.Forms.View;
 using System.Diagnostics;
 using Waveface.Libs.StationDB;
 using Waveface.Properties;
+using System.Threading;
 
 #endregion
 
@@ -25,6 +26,7 @@ namespace Waveface.DetailUI
     {
 		#region Var
 		private List<string> _filePathMediums;
+		private Dictionary<int, Image> _preparePhotos;
 		#endregion
 
 		#region Private Property
@@ -46,11 +48,24 @@ namespace Waveface.DetailUI
 		/// <value>The m_ post.</value>
 		private Post m_Post { get; set; }
 
+
 		/// <summary>
 		/// Gets or sets the index of the m_ selected.
 		/// </summary>
 		/// <value>The index of the m_ selected.</value>
 		private int m_SelectedIndex { get; set; }
+
+		/// <summary>
+		/// Gets the m_ prepare photos.
+		/// </summary>
+		/// <value>The m_ prepare photos.</value>
+		private Dictionary<int, Image> m_PreparePhotos 
+		{
+			get
+			{
+				return _preparePhotos ?? (_preparePhotos = new Dictionary<int, Image>());
+			}
+		}
 		#endregion
 
 
@@ -61,7 +76,6 @@ namespace Waveface.DetailUI
 		public PhotoView()
 		{
 			InitializeComponent();
-			//Bounds = Screen.PrimaryScreen.Bounds;
 		}
 
 		/// <summary>
@@ -195,7 +209,8 @@ namespace Waveface.DetailUI
 		}
 		#endregion
 
-		
+
+		Thread m_preparePhotoThread;
 		#region Event Process
 		/// <summary>
 		/// Handles the SelectedIndexChanged event of the thumbnailNavigator1 control.
@@ -204,8 +219,42 @@ namespace Waveface.DetailUI
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			imageBox.Image = new Bitmap(GetPhotoFilePath(thumbnailNavigator1.SelectedIndex));
+			var sw = Stopwatch.StartNew();
+			var index = thumbnailNavigator1.SelectedIndex;
+			var photo = (m_PreparePhotos.ContainsKey(index)) ? m_PreparePhotos[index] : new Bitmap(GetPhotoFilePath(index));
+
+			imageBox.Image = photo;
 			imageBox.ZoomToFit();
+
+			Debug.WriteLine(sw.ElapsedMilliseconds.ToString());
+
+			if (m_preparePhotoThread != null && m_preparePhotoThread.IsAlive)
+			{
+				try {	        
+					m_preparePhotoThread.Abort();
+				}
+				catch {}
+			}
+
+			m_preparePhotoThread = new Thread(() => 
+			{
+				try
+				{
+					m_PreparePhotos.Clear();
+
+					var previousPhoto = index - 1;
+					if(previousPhoto < 0)
+						previousPhoto = m_FilePathMediums.Count - 1;
+					m_PreparePhotos.Add(previousPhoto, new Bitmap(GetPhotoFilePath(previousPhoto)));
+
+					var nextPhoto = index + 1;
+					if(nextPhoto >= m_FilePathMediums.Count)
+						nextPhoto = 0;
+					m_PreparePhotos.Add(nextPhoto, new Bitmap(GetPhotoFilePath(nextPhoto)));
+				}
+				catch { }
+			});
+			m_preparePhotoThread.Start();
 		}
 
 		/// <summary>
