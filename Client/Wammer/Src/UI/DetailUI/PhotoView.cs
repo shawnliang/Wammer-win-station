@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Waveface.Libs.StationDB;
 using Waveface.Properties;
 using System.Threading;
+using System.Linq;
 
 #endregion
 
@@ -27,6 +28,7 @@ namespace Waveface.DetailUI
 		#region Var
 		private List<string> _filePathMediums;
 		private Dictionary<int, Image> _preparePhotos;
+		Thread m_preparePhotoThread;
 		#endregion
 
 		#region Private Property
@@ -210,7 +212,7 @@ namespace Waveface.DetailUI
 		#endregion
 
 
-		Thread m_preparePhotoThread;
+		
 		#region Event Process
 		/// <summary>
 		/// Handles the SelectedIndexChanged event of the thumbnailNavigator1 control.
@@ -240,19 +242,33 @@ namespace Waveface.DetailUI
 			{
 				try
 				{
-					m_PreparePhotos.Clear();
-
-					var previousPhoto = index - 1;
+					var currentIndex = index;
+					var previousPhoto = currentIndex - 1;
 					if(previousPhoto < 0)
 						previousPhoto = m_FilePathMediums.Count - 1;
-					m_PreparePhotos.Add(previousPhoto, new Bitmap(GetPhotoFilePath(previousPhoto)));
 
-					var nextPhoto = index + 1;
-					if(nextPhoto >= m_FilePathMediums.Count)
+					var nextPhoto = currentIndex + 1;
+					if (nextPhoto >= m_FilePathMediums.Count)
 						nextPhoto = 0;
-					m_PreparePhotos.Add(nextPhoto, new Bitmap(GetPhotoFilePath(nextPhoto)));
+
+					var preparePhotoIndexs = new int[] { previousPhoto, currentIndex, nextPhoto };
+
+					var keys = m_PreparePhotos.Keys.ToArray();
+					for (var i = keys.Length - 1; i >= 0; --i)
+					{
+						var key = keys[i];
+						if (!preparePhotoIndexs.Contains(key))
+							m_PreparePhotos.Remove(key);
+					}
+					
+					foreach (var photoIndex in preparePhotoIndexs)
+					{
+						if (m_PreparePhotos.ContainsKey(photoIndex))
+							continue;
+						m_PreparePhotos.Add(photoIndex, new Bitmap(GetPhotoFilePath(photoIndex)));
+					}
 				}
-				catch { }
+				catch (Exception ex){ }
 			});
 			m_preparePhotoThread.Start();
 		}
