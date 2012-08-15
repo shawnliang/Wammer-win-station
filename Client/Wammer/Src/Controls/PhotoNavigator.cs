@@ -313,6 +313,7 @@ namespace Waveface
 			}
 		}
 
+	
 		private void PrepareDisplayedThumbnailInfos()
 		{
 			var itemWidth = ThumbnailWidth + ThumbnailPadding.Left + ThumbnailPadding.Right;
@@ -360,6 +361,7 @@ namespace Waveface
 			}
 			m_DisplayedThumbnailInfos = thumbnailInfos.ToArray();
 
+			m_PrepareThumbnailLoadingThread = null;
 			m_PrepareThumbnailsIndex.Clear();
 			if (rightThumbnailIndex < m_Thumbnails.Count)
 			{
@@ -391,14 +393,7 @@ namespace Waveface
 					(item) => m_PrepareThumbnailsIndex.Enqueue(item));
 			}
 
-			m_PrepareThumbnailLoadingThread = null;
 			m_PrepareThumbnailLoadingThread.Start();
-		}
-
-		[Conditional("DEBUG")]
-		private void ShowMessageBoxWhenDebug(string message)
-		{
-			MessageBox.Show(message);
 		}
 		#endregion
 
@@ -518,7 +513,6 @@ namespace Waveface
 		}
 		#endregion
 
-
 		#region Event Process
 		/// <summary>
 		/// Raises the <see cref="E:System.Windows.Forms.Control.Paint"/> event.
@@ -526,34 +520,27 @@ namespace Waveface
 		/// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs"/> that contains the event data.</param>
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			try
+			if (m_Thumbnails.Count == 0)
+				return;
+
+			if (SelectedIndex == DEFAULT_INDEX)
+				return;
+
+			PrepareDisplayedThumbnailInfos();
+
+			var g = e.Graphics;
+			foreach (var info in m_DisplayedThumbnailInfos)
 			{
-				if (m_Thumbnails.Count == 0)
-					return;
+				var bounds = info.Bounds;
 
-				if (SelectedIndex == DEFAULT_INDEX)
-					return;
+				if (Rectangle.Intersect(e.ClipRectangle, bounds).IsEmpty)
+					continue;
 
-				PrepareDisplayedThumbnailInfos();
-
-				var g = e.Graphics;
-				foreach (var info in m_DisplayedThumbnailInfos)
-				{
-					var bounds = info.Bounds;
-
-					if (Rectangle.Intersect(e.ClipRectangle, bounds).IsEmpty)
-						continue;
-
-					g.DrawImage(m_Thumbnails[info.Index].Value, bounds);
-				}
-
-				if (!Rectangle.Intersect(e.ClipRectangle, m_SelectedRectangle).IsEmpty)
-					g.DrawRectangle(Pens.White, m_SelectedRectangle);
+				g.DrawImage(m_Thumbnails[info.Index].Value, bounds);
 			}
-			catch (Exception ex)
-			{
-				ShowMessageBoxWhenDebug(ex.ToString());
-			}
+
+			if (!Rectangle.Intersect(e.ClipRectangle, m_SelectedRectangle).IsEmpty)
+				g.DrawRectangle(Pens.White, m_SelectedRectangle);
 		}
 
 
