@@ -221,14 +221,11 @@ namespace Waveface.DetailUI
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			var sw = Stopwatch.StartNew();
 			var index = thumbnailNavigator1.SelectedIndex;
 			var photo = (m_PreparePhotos.ContainsKey(index)) ? m_PreparePhotos[index] : new Bitmap(GetPhotoFilePath(index));
 
 			imageBox.Image = photo;
 			imageBox.ZoomToFit();
-
-			Debug.WriteLine(sw.ElapsedMilliseconds.ToString());
 
 			if (m_preparePhotoThread != null && m_preparePhotoThread.IsAlive)
 			{
