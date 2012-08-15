@@ -278,6 +278,12 @@ namespace StationSystemTray
 				settings.isUpgraded = true;
 			}
 
+			using (Graphics g = this.CreateGraphics())
+			{
+				if (g.DpiX == 120)
+					label2.Font = new Font("Arial", 8);
+			}
+
 			userloginContainer = new UserLoginSettingContainer(settings);
 
 			UpdateTrayMenu();
@@ -1689,11 +1695,6 @@ namespace StationSystemTray
 		private void label1_Paint(object sender, PaintEventArgs e)
 		{
 			ControlPaint.DrawBorder(e.Graphics, label1.DisplayRectangle, ColorTranslator.FromHtml("#868686"), ButtonBorderStyle.Solid);
-		}
-
-		private void MainForm_Load(object sender, EventArgs e)
-		{
-			
 		}
 
 		private SettingDialog m_SettingDialog;

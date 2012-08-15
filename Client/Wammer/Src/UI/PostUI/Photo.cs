@@ -86,6 +86,10 @@ namespace Waveface.PostUI
             }
         }
 
+		/// <summary>
+		/// Gets the DPI ratio.
+		/// </summary>
+		/// <returns></returns>
         private float getDPIRatio()
         {
             using (Graphics _g = CreateGraphics())

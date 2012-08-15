@@ -13,6 +13,8 @@ using View = Manina.Windows.Forms.View;
 using System.Diagnostics;
 using Waveface.Libs.StationDB;
 using Waveface.Properties;
+using System.Threading;
+using System.Linq;
 
 #endregion
 
@@ -25,6 +27,8 @@ namespace Waveface.DetailUI
     {
 		#region Var
 		private List<string> _filePathMediums;
+		private Dictionary<int, Image> _preparePhotos;
+		Thread m_preparePhotoThread;
 		#endregion
 
 		#region Private Property
@@ -46,11 +50,24 @@ namespace Waveface.DetailUI
 		/// <value>The m_ post.</value>
 		private Post m_Post { get; set; }
 
+
 		/// <summary>
 		/// Gets or sets the index of the m_ selected.
 		/// </summary>
 		/// <value>The index of the m_ selected.</value>
 		private int m_SelectedIndex { get; set; }
+
+		/// <summary>
+		/// Gets the m_ prepare photos.
+		/// </summary>
+		/// <value>The m_ prepare photos.</value>
+		private Dictionary<int, Image> m_PreparePhotos 
+		{
+			get
+			{
+				return _preparePhotos ?? (_preparePhotos = new Dictionary<int, Image>());
+			}
+		}
 		#endregion
 
 
@@ -61,7 +78,6 @@ namespace Waveface.DetailUI
 		public PhotoView()
 		{
 			InitializeComponent();
-			//Bounds = Screen.PrimaryScreen.Bounds;
 		}
 
 		/// <summary>
@@ -195,6 +211,7 @@ namespace Waveface.DetailUI
 		}
 		#endregion
 
+
 		
 		#region Event Process
 		/// <summary>
@@ -204,8 +221,53 @@ namespace Waveface.DetailUI
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void thumbnailNavigator1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			imageBox.Image = new Bitmap(GetPhotoFilePath(thumbnailNavigator1.SelectedIndex));
+			var index = thumbnailNavigator1.SelectedIndex;
+			var photo = (m_PreparePhotos.ContainsKey(index)) ? m_PreparePhotos[index] : new Bitmap(GetPhotoFilePath(index));
+
+			imageBox.Image = photo;
 			imageBox.ZoomToFit();
+
+			if (m_preparePhotoThread != null && m_preparePhotoThread.IsAlive)
+			{
+				try {	        
+					m_preparePhotoThread.Abort();
+				}
+				catch {}
+			}
+
+			m_preparePhotoThread = new Thread(() => 
+			{
+				try
+				{
+					var currentIndex = index;
+					var previousPhoto = currentIndex - 1;
+					if(previousPhoto < 0)
+						previousPhoto = m_FilePathMediums.Count - 1;
+
+					var nextPhoto = currentIndex + 1;
+					if (nextPhoto >= m_FilePathMediums.Count)
+						nextPhoto = 0;
+
+					var preparePhotoIndexs = new int[] { previousPhoto, currentIndex, nextPhoto };
+
+					var keys = m_PreparePhotos.Keys.ToArray();
+					for (var i = keys.Length - 1; i >= 0; --i)
+					{
+						var key = keys[i];
+						if (!preparePhotoIndexs.Contains(key))
+							m_PreparePhotos.Remove(key);
+					}
+					
+					foreach (var photoIndex in preparePhotoIndexs)
+					{
+						if (m_PreparePhotos.ContainsKey(photoIndex))
+							continue;
+						m_PreparePhotos.Add(photoIndex, new Bitmap(GetPhotoFilePath(photoIndex)));
+					}
+				}
+				catch (Exception ex){ }
+			});
+			m_preparePhotoThread.Start();
 		}
 
 		/// <summary>
