@@ -1,10 +1,13 @@
 ﻿using MongoDB.Driver.Builders;
 using Wammer.Cloud;
+using System;
 namespace Wammer.Station
 {
 	[APIHandlerInfo(APIHandlerType.FunctionAPI | APIHandlerType.ManagementAPI, "/availability/ping/")]
 	internal class PingHandler : HttpHandler
 	{
+		private static volatile bool syncEnabled = true;
+
 		public override void HandleRequest()
 		{
 			var user_id = Parameters[CloudServer.PARAM_USER_ID];
@@ -15,10 +18,20 @@ namespace Wammer.Station
 
 			var user = Model.DriverCollection.Instance.FindOne(Query.EQ("_id", user_id));
 
-			if (user != null)
+			if (user != null && syncEnabled)
 				RespondSuccess();
 			else
 				RespondError("User not belonging to this station: " + user_id, (int)StationLocalApiError.InvalidDriver);
+		}
+
+		public void OnSyncSuspended(object sender, EventArgs e)
+		{
+			syncEnabled = false;
+		}
+
+		public void OnSyncResumed(object sender, EventArgs e)
+		{
+			syncEnabled = true;
 		}
 
 		public override object Clone()
