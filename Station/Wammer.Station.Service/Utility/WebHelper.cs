@@ -167,8 +167,7 @@ namespace Waveface
 		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent,
 		                                                    Dictionary<string, object> postParameters, string fileName,
 		                                                    string mimeType, Stream dataStream, int bufferSize = 1024,
-		                                                    Action<object, ProgressChangedEventArgs> progressChangedCallBack =
-		                                                    	null)
+		                                                    Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			byte[] formData = GetMultipartFormData(postParameters, FORM_DATA_BOUNDARY, fileName, mimeType, dataStream);
 

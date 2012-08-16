@@ -214,7 +214,7 @@ namespace Wammer.Model
 		#region Private Method
 
 		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta,
-		                                                              AttachmentType type, string apiKey, string token)
+		                                                              AttachmentType type, string apiKey, string token, string post_id = null)
 		{
 			var pars = new Dictionary<string, object>();
 			pars["type"] = type.ToString();
@@ -225,6 +225,8 @@ namespace Wammer.Model
 			if (objectId != null)
 				pars["object_id"] = objectId;
 			pars["group_id"] = groupId;
+			if (!string.IsNullOrEmpty(post_id))
+				pars["post_id"] = post_id;
 			return pars;
 		}
 
@@ -233,27 +235,28 @@ namespace Wammer.Model
 		#region Upload utility functions
 
 		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
-		                                          string objectId, string fileName, string contentType,
-		                                          ImageMeta meta, AttachmentType type, string apiKey,
-		                                          string token, int bufferSize = 1024,
-		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+												  string objectId, string fileName, string contentType,
+												  ImageMeta meta, AttachmentType type, string apiKey,
+												  string token, int bufferSize = 1024,
+												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null, string post_id = null)
 		{
 			return Upload(CloudServer.BaseUrl + "attachments/upload", dataStream, groupId,
-			              objectId, fileName, contentType, meta, type, apiKey, token, bufferSize, progressChangedCallBack);
+						  objectId, fileName, contentType, meta, type, apiKey, token, bufferSize, progressChangedCallBack, post_id);
 		}
 
 		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
 		                                          string objectId, string fileName, string contentType,
 		                                          ImageMeta meta, AttachmentType type, string apiKey,
 		                                          string token, int bufferSize = 1024,
-		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
+												  string post_id = null)
 		{
 			try
 			{
 				if (token == null)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
-				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id);
 				HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(
 					url,
 					"Mozilla 4.0+",
@@ -278,14 +281,15 @@ namespace Wammer.Model
 		                                          string objectId, string fileName, string contentType,
 		                                          ImageMeta meta, AttachmentType type, string apiKey,
 		                                          string token, int bufferSize = 1024,
-		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
+												  string post_id = null)
 		{
 			try
 			{
 				if (token == null)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
-				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token);
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id);
 
 				HttpWebResponse _webResponse =
 					MultipartFormDataPostHelper.MultipartFormDataPost(
@@ -312,16 +316,18 @@ namespace Wammer.Model
 		public static ObjectUploadResponse UploadImage(string url, ArraySegment<byte> imageData, string groupId,
 		                                               string objectId, string fileName, string contentType,
 		                                               ImageMeta meta, string apiKey, string token, int bufSize = 1024,
-		                                               Action<object, ProgressChangedEventArgs> callback = null)
+		                                               Action<object, ProgressChangedEventArgs> callback = null,
+													   string post_id = null)
 		{
 			return Upload(url, imageData, groupId, objectId, fileName, contentType, meta,
-			              AttachmentType.image, apiKey, token, bufSize, callback);
+			              AttachmentType.image, apiKey, token, bufSize, callback, post_id);
 		}
 
 		public static ObjectUploadResponse UploadImage(ArraySegment<byte> imageData, string group_id,
 		                                               string objectId, string fileName, string contentType, ImageMeta meta,
 		                                               string apikey, string token, int buffSize = 1024,
-		                                               Action<object, ProgressChangedEventArgs> callback = null)
+		                                               Action<object, ProgressChangedEventArgs> callback = null,
+													   string post_id = null)
 		{
 			string url = CloudServer.BaseUrl + "attachments/upload/";
 
@@ -329,14 +335,6 @@ namespace Wammer.Model
 			                   apikey, token, buffSize, callback);
 		}
 
-		public ObjectUploadResponse Upload(ImageMeta meta, string apiKey, string sessionToken, int bufferSize = 1024,
-		                                   Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
-		{
-			string url = CloudServer.BaseUrl + "attachments/upload/";
-
-			return Upload(url, rawData, group_id, object_id, file_name, mime_type,
-			              meta, type, apiKey, sessionToken, bufferSize, progressChangedCallBack);
-		}
 
 		#endregion
 
