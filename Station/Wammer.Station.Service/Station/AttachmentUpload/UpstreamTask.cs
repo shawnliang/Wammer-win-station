@@ -79,7 +79,7 @@ namespace Wammer.Station.AttachmentUpload
 					e.WammerError == (int)AttachmentApiError.InvalidObjectId ||
 					e.WammerError == (int)AttachmentApiError.InvalidPostId)
 				{
-					this.LogWarnMsg("attachment is rejected by Cloud. Drop this task.", e);
+					this.LogWarnMsg("attachment " + object_id + " is rejected by Cloud. Drop this task.");
 				}
 				else
 					throw;
