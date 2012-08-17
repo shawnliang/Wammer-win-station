@@ -557,7 +557,7 @@ namespace Waveface
                                                rect.Height - underThumbnailHeight - 18);
 
             TextRenderer.DrawText(g, post.content, m_fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
-                                  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+								  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix | TextFormatFlags.WordEllipsis);
         }
 
         private void Draw_RichText_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontText,
