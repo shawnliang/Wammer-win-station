@@ -76,9 +76,9 @@ namespace StationSystemTray
 			{
 				string arg;
 				if (IntPtr.Size == 8)
-					arg = string.Format("dump HKLM\\Software\\Wow6432Node\\Wammer \"{0}\"", Path.Combine(supportDir, "Stream.reg"));
+					arg = string.Format("export HKLM\\Software\\Wow6432Node\\Wammer \"{0}\"", Path.Combine(supportDir, "Stream.reg"));
 				else
-					arg = string.Format("dump HKLM\\Software\\Wammer \"{0}\"", Path.Combine(supportDir, "Stream.reg"));
+					arg = string.Format("export HKLM\\Software\\Wammer \"{0}\"", Path.Combine(supportDir, "Stream.reg"));
 
 				var p = Process.Start("reg.exe", arg);
 				p.WaitForExit();
