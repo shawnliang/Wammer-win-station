@@ -353,7 +353,9 @@
       <Component Guid="*">
         <File Id="mongorestore.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongorestore.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
-      
+      <Component Guid="*">
+        <File Id="mongodump.exe" Source="$(var.SolutionDir)\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongodump.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="DB">
       <Component Guid="*">
@@ -370,6 +372,7 @@
       <ComponentRef Id="mongos.exe"/>
       <ComponentRef Id="mongo.exe"/>
       <ComponentRef Id="mongorestore.exe"/>
+      <ComponentRef Id="mongodump.exe"/>
       <ComponentRef Id="mongoPrealloc.tar.gz"/>
       <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id='Wammer.Station.Service'/>

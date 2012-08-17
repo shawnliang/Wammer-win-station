@@ -87,6 +87,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Class\CustomWindow.cs" />
+    <Compile Include="Src\Dialog\ContactUsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\ContactUsDialog.Designer.cs">
+      <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Dialog\ProcessingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,9 @@
     <Compile Include="Src\Class\Win32Helper.cs" />
     <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\ContactUsDialog.resx">
+      <DependentUpon>ContactUsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>

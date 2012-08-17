@@ -9524,6 +9524,9 @@
         //////////////////////////////////////////////////8=
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
@@ -9745,6 +9748,12 @@
   </data>
   <data name="&gt;&gt;loginInputPanel1.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="&gt;&gt;menuItemContactUs.Name" xml:space="preserve">
+    <value>menuItemContactUs</value>
+  </data>
+  <data name="&gt;&gt;menuItemContactUs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;menuQuit.Name" xml:space="preserve">
     <value>menuQuit</value>
@@ -10001,6 +10010,9 @@
   <data name="devVersionTag.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 18pt</value>
   </data>
+  <data name="devVersionTag.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="devVersionTag.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 13</value>
   </data>
@@ -10055,6 +10067,9 @@ Version</value>
   </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 10.5pt</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>46, 142</value>
@@ -10194,6 +10209,9 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   <data name="linkLabel1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 10.5pt</value>
   </data>
+  <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>46, 362</value>
   </data>
@@ -10235,6 +10253,12 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   </data>
   <data name="loginInputPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
+  </data>
+  <data name="menuItemContactUs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="menuItemContactUs.Text" xml:space="preserve">
+    <value>Contact us...</value>
   </data>
   <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
@@ -10304,7 +10328,7 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
         RudN65tdA8sHzg46DF645Xrr8m2v29fvrLwzMBQydHc4cnjkLvvu5L2key/vZ9yff7DpIfph4SOpR+WP
         lR7X/aj3Y+uI5ciZUdfRvidBTx6Mscae/5T+04fx/Kfkp+UTqhONk2aTp6fcp24+W/1s/Hnq8/npgp+l
         f65+ofviu18cf+mbWTUz/pL/cuHX4lfyr468Xva6e9Z/9vGb5Dfzc4Vv5d8efcd41/s+7P3EfOYH7IeK
-        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAALDQAACw0B7QfALAAADGBJREFUeF7tnM+KZEkV
+        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAALDAAACwwBP0AiyAAADGBJREFUeF7tnM+KZEkV
         xusRsvciSQuCIpjYCDIgpjiu3OSmcZurWdeut7lsUEkZGbQdNB1w1f4pcUbGsYR8gYZ8gibfoPMR0vO7
         xHc9eTpO5K2pYrqavovDjRtxznf+fRFxsxr64ng8Xozy7tZgbP47vgFuTYCffvLfiyATe1+arE22Tnhn
         flqxiRjj++t1rdbktqf3XRKAxm9MjgMEPfTHRt+yBveFADNr5qHR+J2tIZ4c6GM3kuAWNbgPBGAnZ81n
@@ -10506,7 +10530,7 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>True</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 132</value>
+    <value>153, 154</value>
   </data>
   <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>

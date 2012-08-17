@@ -40,6 +40,7 @@ namespace StationSystemTray
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuItemContactUs = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
 			this.tabControl = new StationSystemTray.TabControlEx();
@@ -93,6 +94,7 @@ namespace StationSystemTray
             this.toolStripMenuItem1,
             this.settingToolStripMenuItem,
             this.toolStripSeparator3,
+            this.menuItemContactUs,
             this.menuQuit});
 			this.TrayMenu.Name = "TrayMenu";
 			resources.ApplyResources(this.TrayMenu, "TrayMenu");
@@ -137,6 +139,12 @@ namespace StationSystemTray
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
+			// 
+			// menuItemContactUs
+			// 
+			this.menuItemContactUs.Name = "menuItemContactUs";
+			resources.ApplyResources(this.menuItemContactUs, "menuItemContactUs");
+			this.menuItemContactUs.Click += new System.EventHandler(this.menuItemContactUs_Click);
 			// 
 			// menuQuit
 			// 
@@ -412,6 +420,7 @@ namespace StationSystemTray
 		private System.Windows.Forms.Label label2;
 		private LoginButton loginButton1;
 		private System.Windows.Forms.Label devVersionTag;
+		private System.Windows.Forms.ToolStripMenuItem menuItemContactUs;
 	}
 }
 
