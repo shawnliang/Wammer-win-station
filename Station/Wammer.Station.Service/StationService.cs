@@ -42,6 +42,7 @@ namespace Wammer.Station.Service
 		private HttpServer functionServer;
 		private HttpServer managementServer;
 		private AttachmentViewHandler viewHandler;
+		private PingHandler funcPingHandler = new PingHandler();
 		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
 		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
 
@@ -203,7 +204,9 @@ namespace Wammer.Station.Service
 
 			(managementServer.m_Handlers[GetDefaultBathPath("/station/drivers/remove/")] as RemoveOwnerHandler).DriverRemoved += removeOwnerHandler_DriverRemoved;
 			(managementServer.m_Handlers[GetDefaultBathPath("/station/suspendSync/")] as SuspendSyncHandler).SyncSuspended += viewHandler.OnSyncSuspended;
+			(managementServer.m_Handlers[GetDefaultBathPath("/station/suspendSync/")] as SuspendSyncHandler).SyncSuspended += funcPingHandler.OnSyncSuspended;
 			(managementServer.m_Handlers[GetDefaultBathPath("/station/resumeSync/")] as ResumeSyncHandler).SyncResumed += viewHandler.OnSyncResumed;
+			(managementServer.m_Handlers[GetDefaultBathPath("/station/resumeSync/")] as ResumeSyncHandler).SyncResumed += funcPingHandler.OnSyncResumed;
 		}
 
 		void removeOwnerHandler_DriverRemoved(object sender, DriverRemovedEventArgs e)
@@ -241,10 +244,10 @@ namespace Wammer.Station.Service
 			                          new AttachmentGetHandler());
 
 			functionServer.AddHandler(GetDefaultBathPath("/availability/ping/"),
-			                          new PingHandler());
+			                          funcPingHandler);
 
 			functionServer.AddHandler(GetDefaultBathPath("/reachability/ping/"),
-			                          new PingHandler());
+									  funcPingHandler);
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/getLatest/"),
 			                          new HybridCloudHttpRouter(new PostGetLatestHandler()));
@@ -293,8 +296,7 @@ namespace Wammer.Station.Service
 									  new UserLogoutHandler());
 
 			viewHandler = new AttachmentViewHandler(Station.Instance.StationID);
-			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"),
-			                          viewHandler);
+			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"), viewHandler);
 		}
 
 		private void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
