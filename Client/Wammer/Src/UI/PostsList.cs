@@ -475,7 +475,7 @@ namespace Waveface
                                                      m_fontText.Height * 2 - m_cellLinkHackValue);
 
                 TextRenderer.DrawText(_g, post.content.Trim(), m_fontText, _rTContent, m_textColor,
-                                      TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+									  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix | TextFormatFlags.WordEllipsis);
 
                 Y += m_fontText.Height * 2;
                 H -= m_fontText.Height * 2;
@@ -530,7 +530,7 @@ namespace Waveface
             if (!string.IsNullOrEmpty(post.preview.description))
             {
                 TextRenderer.DrawText(g, post.preview.description.Trim(), m_fontText, _rText, m_linkURLColor,
-                                      TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+									  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix | TextFormatFlags.WordEllipsis);
             }
         }
 
@@ -557,7 +557,7 @@ namespace Waveface
                                                rect.Height - underThumbnailHeight - 18);
 
             TextRenderer.DrawText(g, post.content, m_fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
-                                  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+								  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix | TextFormatFlags.WordEllipsis);
         }
 
         private void Draw_RichText_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontText,
@@ -567,7 +567,7 @@ namespace Waveface
                                                rect.Height - underThumbnailHeight - 16);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, m_textColor,
-                                  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+								  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix | TextFormatFlags.WordEllipsis);
         }
 
         private void Draw_Text_Post(Graphics g, Post post, Rectangle rect, int underThumbnailHeight, Font fontText,
@@ -577,7 +577,7 @@ namespace Waveface
                                                rect.Height - 18);
 
             TextRenderer.DrawText(g, post.content, fontText, _rectAll, selected ? m_selectedTextColor : m_textColor,
-                                  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+								  TextFormatFlags.WordBreak | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix | TextFormatFlags.WordEllipsis);
         }
 
         #region Draw Thumbnail
