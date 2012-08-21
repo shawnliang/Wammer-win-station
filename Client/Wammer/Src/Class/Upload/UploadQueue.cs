@@ -18,12 +18,13 @@ namespace Waveface.Upload
 			storage = new UploadQueuePersistency(runtimeDataPath, user_id);
 		}
 
-		public void AddLast(UploadItem item)
+		public void AddLast(params UploadItem[] items)
 		{
 			lock (cs)
 			{
-				queue.AddLast(item);
-				storage.Add(item);
+				foreach (var item in items)
+					queue.AddLast(item);
+				storage.Add(items);
 			}
 			sem.Release();
 		}
@@ -58,11 +59,16 @@ namespace Waveface.Upload
 
 		public void Load()
 		{
-			storage.Load(this);
+			lock (cs)
+			{
+				foreach (var item in storage.Load())
+					queue.AddLast(item);
+			}
+			sem.Release();
 		}
 	}
 
-	class UploadItem
+	public class UploadItem
 	{
 		public string post_id { get; set; }
 		public string object_id { get; set; }

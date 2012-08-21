@@ -10,29 +10,53 @@ namespace Waveface.Upload
 {
 	class UploadQueuePersistency
 	{
-		private HashSet<UploadItem> items = new HashSet<UploadItem>();
+		#region Var
+		private HashSet<UploadItem> _items;
 		private readonly string filePath;
-		private static Logger logger = LogManager.GetCurrentClassLogger();
+		private static Logger logger = LogManager.GetCurrentClassLogger(); 
+		#endregion
+
+		#region Private Property
+		/// <summary>
+		/// Gets the items.
+		/// </summary>
+		/// <value>The items.</value>
+		private HashSet<UploadItem> Items
+		{
+			get
+			{
+				return _items ?? (_items = new HashSet<UploadItem>());
+			}
+		}
+		#endregion
 
 		public UploadQueuePersistency(string runtimeDataPath, string user_id)
 		{
+			DebugInfo.ShowMethod();
 			this.filePath = Path.Combine(runtimeDataPath, user_id + "_NP.txt");
 		}
 
-		public void Add(UploadItem item)
+		public void Add(params UploadItem[] items)
 		{
-			items.Add(item);
+			DebugInfo.ShowMethod();
+
+			foreach (var item in items)
+				Items.Add(item);
 			Save();
 		}
 
 		public void Remove(UploadItem item)
 		{
-			items.Remove(item);
+			DebugInfo.ShowMethod();
+
+			Items.Remove(item);
 			Save();
 		}
 
-		public void Load(UploadQueue queue)
+		public IEnumerable<UploadItem> Load()
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				using (StreamReader _sr = File.OpenText(filePath))
@@ -42,11 +66,12 @@ namespace Waveface.Upload
 					if (!GCONST.DEBUG)
 						_json = StringUtility.Decompress(_json);
 
-					items = JsonConvert.DeserializeObject<HashSet<UploadItem>>(_json);
-					
-					foreach (var item in items)
+					var items = JsonConvert.DeserializeObject<HashSet<UploadItem>>(_json);
+
+					this.Items.Clear();
+					if (items != null)
 					{
-						queue.AddLast(item);
+						this.Items.UnionWith(items);
 					}
 				}
 			}
@@ -54,13 +79,17 @@ namespace Waveface.Upload
 			{
 				logger.WarnException("Unable to load UploadQueue from " + filePath, _e);
 			}
+
+			return this.Items;
 		}
 
 		private void Save()
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
-				string _json = JsonConvert.SerializeObject(items);
+				string _json = JsonConvert.SerializeObject(Items);
 
 				if (!GCONST.DEBUG)
 					_json = StringUtility.Compress(_json);
