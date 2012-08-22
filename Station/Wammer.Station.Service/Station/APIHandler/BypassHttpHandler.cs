@@ -20,10 +20,11 @@ namespace Wammer.Station
 		private readonly string scheme;
 		private long beginTime;
 		private bool notifyRequestBypassed;
+		private string stationId;
 
 		public event EventHandler<BypassedEventArgs> RequestBypassed;
 
-		public BypassHttpHandler(string baseUrl, bool notifyRequestBypassed = false)
+		public BypassHttpHandler(string baseUrl, string stationId, bool notifyRequestBypassed = false)
 		{
 			var url = new Uri(baseUrl);
 			host = url.Host;
@@ -31,6 +32,7 @@ namespace Wammer.Station
 			scheme = url.Scheme;
 			ProcessSucceeded += HttpRequestMonitor.Instance.OnProcessSucceeded;
 			this.notifyRequestBypassed = notifyRequestBypassed;
+			this.stationId = stationId;
 		}
 
 		#region IHttpHandler Members
@@ -63,6 +65,7 @@ namespace Wammer.Station
 				var newReq = (HttpWebRequest) WebRequest.Create(targetUri);
 
 				CopyRequestHeaders(origReq, newReq);
+				newReq.Headers.Add("VIA_WF_STATION", stationId);
 
 				if (origReq.HasEntityBody)
 				{

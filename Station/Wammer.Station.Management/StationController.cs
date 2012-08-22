@@ -118,24 +118,7 @@ namespace Wammer.Station.Management
 			}
 			catch (Cloud.WammerCloudException e)
 			{
-				if (e.HttpError == WebExceptionStatus.ConnectFailure)
-					throw new StationServiceDownException("Station service down?");
-
-				switch (e.WammerError)
-				{
-					case (int)StationLocalApiError.ConnectToCloudError:
-						throw new ConnectToCloudException(e.Message);
-					case (int)StationLocalApiError.AuthFailed:
-						throw new AuthenticationException(e.Message);
-					case (int)StationLocalApiError.DriverExist:
-						throw new StationAlreadyHasDriverException(e.Message);
-					case (int)AuthApiError.InvalidEmailPassword:
-						throw new AuthenticationException(e.Message);
-					case (int)StationApiError.UserNotExist:
-						throw new AuthenticationException(e.Message);
-					default:
-						throw;
-				}
+				throw ExtractApiRetMsg(e);
 			}
 		}
 
@@ -702,8 +685,6 @@ namespace Wammer.Station.Management
 								return new AuthenticationException(r.api_ret_message);
 							case (int)StationApiError.AlreadyRegisteredAnotherStation:
 								return new UserAlreadyHasStationException(r.api_ret_message);
-							case (int)StationApiError.UserNotExist:
-								return new UserDoesNotExistException(r.api_ret_message);
 							case (int)StationLocalApiError.InvalidDriver:
 								return new InvalidDriverException(r.api_ret_message);
 							case (int)StationLocalApiError.ConnectToCloudError:
@@ -714,6 +695,8 @@ namespace Wammer.Station.Management
 								throw new AuthenticationException(e.Message);
 							case (int)StationLocalApiError.DriverExist:
 								throw new StationAlreadyHasDriverException(e.Message);
+							case (int)StationApiError.UserNotExist:
+								throw new AuthenticationException(r.api_ret_message);
 							default:
 								return new Exception(r.api_ret_message);
 						}
@@ -1022,14 +1005,6 @@ namespace Wammer.Station.Management
 		}
 
 		public UserAlreadyHasStationException(string msg)
-			: base(msg)
-		{
-		}
-	}
-
-	public class UserDoesNotExistException : Exception
-	{
-		public UserDoesNotExistException(string msg)
 			: base(msg)
 		{
 		}

@@ -62,7 +62,8 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					Attachment.Upload(f, attachment.group_id, object_id, attachment.file_name,
 									  info.mime_type, meta, attachment.type, CloudServer.APIKey,
-									  user.session_token, 65535, UpstreamProgressChanged);
+									  user.session_token, 65535, UpstreamProgressChanged,
+									  attachment.post_id);
 
 					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
 				}
@@ -78,7 +79,7 @@ namespace Wammer.Station.AttachmentUpload
 					e.WammerError == (int)AttachmentApiError.InvalidObjectId ||
 					e.WammerError == (int)AttachmentApiError.InvalidPostId)
 				{
-					this.LogWarnMsg("attachment is rejected by Cloud. Drop this task.", e);
+					this.LogWarnMsg("attachment " + object_id + " is rejected by Cloud. Drop this task.");
 				}
 				else
 					throw;

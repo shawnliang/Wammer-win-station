@@ -981,6 +981,8 @@ namespace Waveface
 
         private void timerDelayPost_Tick(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (m_delayPostPicList.Count == 0)
                 return;
 
@@ -1027,6 +1029,7 @@ namespace Waveface
 
         private void DoRealPostForm(List<string> pics, PostType postType, string delayPostText)
         {
+			DebugInfo.ShowMethod();
             try
             {
                 m_PostForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);

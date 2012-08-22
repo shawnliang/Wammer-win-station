@@ -27,12 +27,17 @@ namespace Waveface.Upload
 
 		public void Add(string file_path, string object_id, string post_id)
 		{
-			queue.AddLast(new UploadItem
+			Add(new UploadItem
 			{
 				file_path = file_path,
 				object_id = object_id,
 				post_id = post_id
 			});
+		}
+
+		public void Add(params UploadItem[] uploadItem)
+		{
+			queue.AddLast(uploadItem);
 		}
 	}
 }

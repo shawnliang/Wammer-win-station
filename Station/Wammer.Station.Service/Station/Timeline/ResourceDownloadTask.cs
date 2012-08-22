@@ -260,7 +260,7 @@ namespace Wammer.Station.Timeline
 
 				if (alreadyExist)
 				{
-					logger.InfoFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id,
+					logger.DebugFormat("Attachment {0} meta {1} already exists. Skip downstreaming it.", evtargs.attachment.object_id,
 									   meta);
 					return;
 				}
