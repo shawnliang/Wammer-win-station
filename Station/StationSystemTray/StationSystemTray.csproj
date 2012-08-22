@@ -138,6 +138,9 @@
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
+      <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
     </EmbeddedResource>
