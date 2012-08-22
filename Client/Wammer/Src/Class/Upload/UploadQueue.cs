@@ -23,10 +23,12 @@ namespace Waveface.Upload
 			lock (cs)
 			{
 				foreach (var item in items)
+				{
 					queue.AddLast(item);
+					sem.Release();
+				}
 				storage.Add(items);
 			}
-			sem.Release();
 		}
 
 		public void AddStopItem()
