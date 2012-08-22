@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using ICSharpCode.SharpZipLib.GZip;
+using ICSharpCode.SharpZipLib.Tar;
 
 namespace StationSystemTray
 {
@@ -27,17 +29,38 @@ namespace StationSystemTray
 
 		private void emailLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			Process.Start("mailto:contact@waveface.com");
+			try
+			{
+				Process.Start("mailto:contact@waveface.com");
+			}
+			catch
+			{
+				// mail client is not define or is not opened successfully
+			}
 		}
 
 		private void twitterLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			Process.Start("https://twitter.com/#!/waveface");
+			try
+			{
+				Process.Start("https://twitter.com/#!/waveface");
+			}
+			catch
+			{
+				// web browser is not define or is not opened successfully
+			}
 		}
 
 		private void fbLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			Process.Start("https://www.facebook.com/waveface");
+			try
+			{
+				Process.Start("https://www.facebook.com/waveface");
+			}
+			catch
+			{
+				// web browser is not define or is not opened successfully
+			}
 		}
 
 		private void collectLogsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -67,7 +90,25 @@ namespace StationSystemTray
 			dumpMongoDB(supportDir, installDir);
 			dumpRegistry(supportDir);
 
+			packLogsToTarGzFile(wavefaceDir, supportDir, "support.tar.gz");
+
 			e.Result = supportDir;
+		}
+
+		private static void packLogsToTarGzFile(string wavefaceDir, string supportDir, string tarGzFileName)
+		{
+			var tarGzipFile = Path.Combine(wavefaceDir, tarGzFileName);
+			using (var tarGzipStream = File.Open(tarGzipFile, FileMode.Create, FileAccess.Write))
+			{
+				var gzip = new GZipOutputStream(tarGzipStream);
+				var tar = TarArchive.CreateOutputTarArchive(gzip);
+				tar.RootPath = wavefaceDir;
+				tar.WriteEntry(TarEntry.CreateEntryFromFile(supportDir), true);
+				tar.RootPath = wavefaceDir;
+				tar.Close();
+			}
+			makeEmptyDir(supportDir);
+			File.Move(tarGzipFile, Path.Combine(supportDir, tarGzFileName));
 		}
 
 		private static void dumpRegistry(string supportDir)
@@ -135,16 +176,24 @@ namespace StationSystemTray
 
 		private static void copyLogFiles(string srcDir, string logPattern, string supportDir)
 		{
-			var files = Directory.GetFiles(srcDir, logPattern);
-			Array.ForEach(files, filePath => {
-				var src = filePath;
-				var dest = Path.Combine(supportDir, Path.GetFileName(filePath));
-
-				using (var srcFile = new FileStream(src, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+			try
+			{
+				var files = Directory.GetFiles(srcDir, logPattern);
+				Array.ForEach(files, filePath =>
 				{
-					srcFile.WriteTo(dest, 64 * 1024);
-				}
-			});
+					var src = filePath;
+					var dest = Path.Combine(supportDir, Path.GetFileName(filePath));
+
+					using (var srcFile = new FileStream(src, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+					{
+						srcFile.WriteTo(dest, 64 * 1024);
+					}
+				});
+			}
+			catch
+			{
+
+			}
 		}
 
 		private static void makeEmptyDir(string supportDir)
