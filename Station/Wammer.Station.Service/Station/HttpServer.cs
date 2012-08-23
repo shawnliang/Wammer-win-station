@@ -362,14 +362,18 @@ namespace Wammer.Station
 						{
 							var cloudres = JSON.Instance.ToObject<CloudResponse>(e.response);
 							HttpHelper.RespondFailure(context.Response, cloudres);
-							logger.Info("Connection to cloud error", e);
+							
+							if (cloudres.api_ret_code == (int)AttachmentApiError.AttachmentNotExist)
+								logger.Info("Object not found on cloud: " + e.Message);
+							else
+								logger.Info("Cloud responded error", e);
 							return;
 						}
 
 						HttpHelper.RespondFailure(context.Response,
 												  new WammerStationException(e.InnerException.Message, e.WammerError),
 												  (int)webres.StatusCode);
-						logger.Info("Connecting to cloud error", e);
+						logger.Info("Cloud responded error", e);
 						return;
 					}
 				}

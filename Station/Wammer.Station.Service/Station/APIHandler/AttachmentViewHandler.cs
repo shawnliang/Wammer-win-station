@@ -201,7 +201,7 @@ namespace Wammer.Station
 			catch (WammerCloudException e)
 			{
 				throw new WammerCloudException(
-					"AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e);
+					"AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e.response, e.InnerException);
 			}
 			finally
 			{

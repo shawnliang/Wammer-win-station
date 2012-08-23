@@ -78,15 +78,14 @@ namespace Wammer.Utility
 		private static IEnumerable<String> GetLocalIPAddresses()
 		{
 			return (from adapter in NetworkInterface.GetAllNetworkInterfaces()
-			        let statistics = adapter.GetIPv4Statistics()
-			        where
-			        	(!adapter.IsReceiveOnly && adapter.NetworkInterfaceType != NetworkInterfaceType.Loopback &&
-			        	 adapter.NetworkInterfaceType != NetworkInterfaceType.Tunnel) &&
-			        	(statistics.BytesReceived > 0 && statistics.BytesSent > 0)
-			        from AddressInfo in adapter.GetIPProperties().UnicastAddresses
-			        where AddressInfo.Address.AddressFamily == AddressFamily.InterNetwork
-			        let ipAddress = AddressInfo.Address.ToString()
-			        select ipAddress);
+					let statistics = adapter.GetIPv4Statistics()
+					where (!adapter.IsReceiveOnly && adapter.NetworkInterfaceType != NetworkInterfaceType.Loopback &&
+							adapter.NetworkInterfaceType != NetworkInterfaceType.Tunnel) &&
+							(statistics.BytesReceived > 0 && statistics.BytesSent > 0)
+					from AddressInfo in adapter.GetIPProperties().UnicastAddresses
+					let ipAddress = AddressInfo.Address.ToString()
+					where !ipAddress.StartsWith("169.254.") && AddressInfo.Address.AddressFamily == AddressFamily.InterNetwork
+					select ipAddress);
 		}
 
 		#endregion

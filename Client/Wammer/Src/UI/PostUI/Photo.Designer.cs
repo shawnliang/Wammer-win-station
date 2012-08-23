@@ -48,22 +48,12 @@
 			this.labelSummary = new System.Windows.Forms.Label();
 			this.btnDeletePhoto = new Waveface.Component.ImageButton();
 			this.btnAddPhoto = new Waveface.Component.ImageButton();
-			this.toolStrip = new System.Windows.Forms.ToolStrip();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.rotateCCWToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.rotateCWToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripButtonCamera = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-			this.toolStripComboBoxResize = new System.Windows.Forms.ToolStripComboBox();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnSend = new Waveface.Component.ImageButton();
 			this.panel.SuspendLayout();
 			this.columnContextMenu.SuspendLayout();
 			this.panelToolbar.SuspendLayout();
-			this.toolStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel
@@ -102,8 +92,6 @@
             this.miSetCoverImage});
 			this.columnContextMenu.Name = "columnContextMenu";
 			resources.ApplyResources(this.columnContextMenu, "columnContextMenu");
-			this.columnContextMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.columnContextMenu_Closing);
-			this.columnContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.columnContextMenu_Opening);
 			// 
 			// sortByToolStripMenuItem
 			// 
@@ -181,91 +169,6 @@
 			this.toolTip.SetToolTip(this.btnAddPhoto, resources.GetString("btnAddPhoto.ToolTip"));
 			this.btnAddPhoto.Click += new System.EventHandler(this.btnAddPhoto_Click);
 			// 
-			// toolStrip
-			// 
-			resources.ApplyResources(this.toolStrip, "toolStrip");
-			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripSeparator1,
-            this.rotateCCWToolStripButton,
-            this.rotateCWToolStripButton,
-            this.toolStripSeparator5,
-            this.toolStripButtonCamera,
-            this.toolStripSeparator6,
-            this.toolStripLabel1,
-            this.toolStripComboBoxResize});
-			this.toolStrip.Name = "toolStrip";
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-			// 
-			// rotateCCWToolStripButton
-			// 
-			this.rotateCCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			resources.ApplyResources(this.rotateCCWToolStripButton, "rotateCCWToolStripButton");
-			this.rotateCCWToolStripButton.Name = "rotateCCWToolStripButton";
-			this.rotateCCWToolStripButton.Click += new System.EventHandler(this.rotateCCWToolStripButton_Click);
-			// 
-			// rotateCWToolStripButton
-			// 
-			this.rotateCWToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			resources.ApplyResources(this.rotateCWToolStripButton, "rotateCWToolStripButton");
-			this.rotateCWToolStripButton.Name = "rotateCWToolStripButton";
-			this.rotateCWToolStripButton.Click += new System.EventHandler(this.rotateCWToolStripButton_Click);
-			// 
-			// toolStripSeparator5
-			// 
-			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
-			// 
-			// toolStripButtonCamera
-			// 
-			this.toolStripButtonCamera.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButtonCamera.Image = global::Waveface.Properties.Resources.webcam;
-			resources.ApplyResources(this.toolStripButtonCamera, "toolStripButtonCamera");
-			this.toolStripButtonCamera.Name = "toolStripButtonCamera";
-			this.toolStripButtonCamera.Click += new System.EventHandler(this.toolStripButtonCamera_Click);
-			// 
-			// toolStripSeparator6
-			// 
-			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
-			// 
-			// toolStripLabel1
-			// 
-			this.toolStripLabel1.Name = "toolStripLabel1";
-			resources.ApplyResources(this.toolStripLabel1, "toolStripLabel1");
-			// 
-			// toolStripComboBoxResize
-			// 
-			this.toolStripComboBoxResize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.toolStripComboBoxResize.Items.AddRange(new object[] {
-            resources.GetString("toolStripComboBoxResize.Items"),
-            resources.GetString("toolStripComboBoxResize.Items1"),
-            resources.GetString("toolStripComboBoxResize.Items2"),
-            resources.GetString("toolStripComboBoxResize.Items3"),
-            resources.GetString("toolStripComboBoxResize.Items4"),
-            resources.GetString("toolStripComboBoxResize.Items5"),
-            resources.GetString("toolStripComboBoxResize.Items6"),
-            resources.GetString("toolStripComboBoxResize.Items7"),
-            resources.GetString("toolStripComboBoxResize.Items8"),
-            resources.GetString("toolStripComboBoxResize.Items9"),
-            resources.GetString("toolStripComboBoxResize.Items10"),
-            resources.GetString("toolStripComboBoxResize.Items11"),
-            resources.GetString("toolStripComboBoxResize.Items12"),
-            resources.GetString("toolStripComboBoxResize.Items13"),
-            resources.GetString("toolStripComboBoxResize.Items14"),
-            resources.GetString("toolStripComboBoxResize.Items15"),
-            resources.GetString("toolStripComboBoxResize.Items16"),
-            resources.GetString("toolStripComboBoxResize.Items17"),
-            resources.GetString("toolStripComboBoxResize.Items18"),
-            resources.GetString("toolStripComboBoxResize.Items19"),
-            resources.GetString("toolStripComboBoxResize.Items20"),
-            resources.GetString("toolStripComboBoxResize.Items21")});
-			this.toolStripComboBoxResize.Name = "toolStripComboBoxResize";
-			resources.ApplyResources(this.toolStripComboBoxResize, "toolStripComboBoxResize");
-			// 
 			// openFileDialog
 			// 
 			resources.ApplyResources(this.openFileDialog, "openFileDialog");
@@ -289,20 +192,15 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.panel);
 			this.Controls.Add(this.btnSend);
 			resources.ApplyResources(this, "$this");
 			this.Name = "Photo";
-			this.Load += new System.EventHandler(this.Photo_Load);
 			this.Resize += new System.EventHandler(this.Photo_Resize);
 			this.panel.ResumeLayout(false);
 			this.columnContextMenu.ResumeLayout(false);
 			this.panelToolbar.ResumeLayout(false);
-			this.toolStrip.ResumeLayout(false);
-			this.toolStrip.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
         }
 
@@ -310,16 +208,7 @@
 
         private Component.ImageButton btnSend;
         private System.Windows.Forms.Panel panel;
-        private Manina.Windows.Forms.ImageListView imageListView;
-        private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton rotateCCWToolStripButton;
-        private System.Windows.Forms.ToolStripButton rotateCWToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripButton toolStripButtonCamera;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBoxResize;
+		private Manina.Windows.Forms.ImageListView imageListView;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Panel panelToolbar;
         private Component.ImageButton btnAddPhoto;

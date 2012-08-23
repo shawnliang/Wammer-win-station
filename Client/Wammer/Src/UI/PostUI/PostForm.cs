@@ -49,6 +49,8 @@ namespace Waveface
 
         public PostForm(string autoText, List<string> files, PostType postType, Post post, bool editMode, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
+			DebugInfo.ShowMethod();
+
             EditMode = editMode;
             Post = post;
             m_autoText = autoText;
@@ -98,6 +100,8 @@ namespace Waveface
 
         private void EnablePhotoDragable(Control ctrl)
         {
+			DebugInfo.ShowMethod();
+
             ctrl.AllowDrop = true;
 
             ctrl.DragDrop += panelMiddleBar_DragDrop;
@@ -111,6 +115,8 @@ namespace Waveface
 
         private void PostForm_Load(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             SetForegroundWindow(Handle);
 
             HackDPI();
@@ -118,6 +124,8 @@ namespace Waveface
 
         private void HackDPI()
         {
+			DebugInfo.ShowMethod();
+
             float _r = getDPIRatio();
 
             if (_r != 0)
@@ -142,6 +150,8 @@ namespace Waveface
 
         private void InitEditMode()
         {
+			DebugInfo.ShowMethod();
+
             List<string> _pics = new List<string>();
 
 			Text = Resources.EDIT;
@@ -221,11 +231,15 @@ namespace Waveface
 
         private void InitNewMode(List<string> files, PostType postType)
         {
+			DebugInfo.ShowMethod();
+
             ToSubControl(files, postType);
         }
 
         private void CreateLinkFormattingRule()
         {
+			DebugInfo.ShowMethod();
+
             Format _format = new Format();
             _format.Link = true;
             _format.Font = pureTextBox.Font;
@@ -259,6 +273,8 @@ namespace Waveface
 
         private void ToSubControl(List<string> files, PostType postType)
         {
+			DebugInfo.ShowMethod();
+
             switch (postType)
             {
                 case PostType.All:
@@ -409,6 +425,8 @@ namespace Waveface
 
         private void toPhoto_Mode(List<string> files)
         {
+			DebugInfo.ShowMethod();
+
             uiToPhotoMode();
 
             if (!EditMode || IsBackFromEditMode_Weblink)
@@ -437,6 +455,8 @@ namespace Waveface
 
         private void uiToPhotoMode()
         {
+			DebugInfo.ShowMethod();
+
             m_postType = PostType.Photo;
 
             multiPanel.SelectedPage = Page_P_D_W;
@@ -457,6 +477,8 @@ namespace Waveface
 
         private void RelayoutUI(bool toTextType)
         {
+			DebugInfo.ShowMethod();
+
             int _d = 22;
 
             panelMiddleBar.Visible = toTextType;

@@ -104,12 +104,37 @@ namespace Wammer.Cloud
 															   Action<object, ProgressChangedEventArgs>
 																progressChangedCallBack)
 		{
-			using (var agent = new DefaultWebClient())
+			var resDir = Path.GetDirectoryName(file);
+			var tempFile = Path.Combine(resDir, Guid.NewGuid().ToString());
+
+			try
 			{
-				string tempFile = Guid.NewGuid().ToString();
-				agent.DownloadFile(metadata.redirect_to, tempFile, true, progressChangedCallBack);
-				contentType = agent.ResponseHeaders["Content-type"];
-				File.Move(tempFile, file);
+				using (var agent = new DefaultWebClient())
+				{
+					agent.DownloadFile(metadata.redirect_to, tempFile, true, progressChangedCallBack);
+					contentType = agent.ResponseHeaders["Content-type"];
+					File.Move(tempFile, file);
+				}
+			}
+			catch (IOException)
+			{
+				// File.Move() failed because destination already exists. Consider this case successful.
+			}
+			finally
+			{
+				removeTempFile(tempFile);
+			}
+		}
+
+		private static void removeTempFile(string tempFile)
+		{
+			try
+			{
+				if (File.Exists(tempFile))
+					File.Delete(tempFile);
+			}
+			catch
+			{
 			}
 		}
 

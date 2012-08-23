@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Waveface.Component;
 using Waveface.DragDropLib;
+using System.Diagnostics;
 
 namespace Waveface
 {
@@ -128,6 +129,8 @@ namespace Waveface
 
         private List<string> DoDataPaste(IDataObject data)
         {
+			DebugInfo.ShowMethod();
+
             string _dirText = string.Empty;
 
             List<string> _pics = new List<string>();
@@ -139,39 +142,38 @@ namespace Waveface
                     string[] _dropFiles = (string[])data.GetData(DataFormats.FileDrop, false);
 
 
-                    foreach (string _file in _dropFiles)
-                    {
-                        if (Directory.Exists(_file))
-                        {
-                            DirectoryInfo _d = new DirectoryInfo(_file);
+					foreach (string _file in _dropFiles)
+					{
+						if (Directory.Exists(_file))
+						{
+							DirectoryInfo _d = new DirectoryInfo(_file);
 
-                            _dirText += _d.Name + Environment.NewLine;
+							_dirText += _d.Name + Environment.NewLine;
 
-                            FileInfo[] _fileInfos = _d.GetFiles();
+							FileInfo[] _fileInfos = _d.GetFiles();
 
-                            foreach (FileInfo _f in _fileInfos)
-                            {
-                                FileAttributes _a = File.GetAttributes(_f.FullName);
+							foreach (FileInfo _f in _fileInfos)
+							{
+								FileAttributes _a = File.GetAttributes(_f.FullName);
 
-                                // 過濾隱藏檔
-                                if ((_a & FileAttributes.Hidden) == FileAttributes.Hidden)
-                                    continue;
+								// 過濾隱藏檔
+								if ((_a & FileAttributes.Hidden) == FileAttributes.Hidden)
+									continue;
 
-                                string _mime = FileUtility.GetMimeType(_f).ToLower();
+								string _mime = FileUtility.GetMimeType(_f).ToLower();
 
-                                if (_mime.IndexOf("image") >= 0)
-                                    _pics.Add(_f.FullName);
-                            }
-                        }
-                        else
-                        {
-                            string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
+								if (_mime.IndexOf("image") >= 0)
+									_pics.Add(_f.FullName);
+							}
+						}
+						else
+						{
+							string _mime = FileUtility.GetMimeType(new FileInfo(_file)).ToLower();
 
-                            if (_mime.IndexOf("image") >= 0)
-                                _pics.Add(_file);
-                        }
-                    }
-
+							if (_mime.IndexOf("image") >= 0)
+								_pics.Add(_file);
+						}
+					}
                     if (_pics.Count > 0)
                     {
                         if (m_createNewPost)

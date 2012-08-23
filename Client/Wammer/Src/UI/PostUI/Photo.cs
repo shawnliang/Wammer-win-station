@@ -12,51 +12,120 @@ using NLog;
 using Waveface.API.V2;
 using Waveface.Component;
 using Waveface.DetailUI;
-using Waveface.WebCam;
 using System.Windows.Media.Imaging;
 using Waveface.Properties;
+using System.Diagnostics;
+using Waveface.Upload;
 
 namespace Waveface.PostUI
 {
     public partial class Photo : UserControl
     {
-        private static Logger s_logger = LogManager.GetCurrentClassLogger();
-        private MyImageListViewRenderer m_imageListViewRenderer;
-        private List<string> m_editModeOriginPhotoFiles;
-        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
-        private string m_coverAttachGUID;
-        private ImageListViewItem m_selectedItem;
-        private Dictionary<string, string> m_preUploadPhotosQueue;
-        private Dictionary<string, string> m_uploadedPhotos;
+		#region Var
+		private static Logger s_logger = LogManager.GetCurrentClassLogger();
+		private MyImageListViewRenderer m_imageListViewRenderer;
+		private List<string> _editModeOriginPhotoFiles;
+		private DragDrop_Clipboard_Helper _dragDropClipboardHelper;
+		private string m_coverAttachGUID;
+		private ImageListViewItem m_selectedItem;
+		private Dictionary<string, string> _preUploadPhotosQueue;
+		private Dictionary<string, string> _uploadedPhotos;
+		public Dictionary<string, string> _fileNameMapping; 
+		#endregion
 
-        public string PostId { get; set; }
 
-        public PostForm MyParent { get; set; }
+		#region Private Property
+		/// <summary>
+		/// Gets the m_ drag drop clipboard helper.
+		/// </summary>
+		/// <value>The m_ drag drop clipboard helper.</value>
+		private DragDrop_Clipboard_Helper m_DragDropClipboardHelper
+		{
+			get
+			{
+				return _dragDropClipboardHelper ?? (_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false));
+			}
+		}
 
-        public Dictionary<string, string> FileNameMapping { get; set; }
+		/// <summary>
+		/// Gets the m_ edit mode origin photo files.
+		/// </summary>
+		/// <value>The m_ edit mode origin photo files.</value>
+		private List<string> m_EditModeOriginPhotoFiles
+		{
+			get
+			{
+				return _editModeOriginPhotoFiles ?? (_editModeOriginPhotoFiles = new List<string>());
+			}
+		}
 
-        public Photo()
-        {
-            InitializeComponent();
+		/// <summary>
+		/// Gets the m_ pre upload photos queue.
+		/// </summary>
+		/// <value>The m_ pre upload photos queue.</value>
+		private Dictionary<string, string> m_PreUploadPhotosQueue
+		{
+			get
+			{
+				return _preUploadPhotosQueue ?? (_preUploadPhotosQueue = new Dictionary<string, string>());
+			}
+		}
 
-            m_preUploadPhotosQueue = new Dictionary<string, string>();
-            m_uploadedPhotos = new Dictionary<string, string>();
-            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper(false);
-            FileNameMapping = new Dictionary<string, string>();
-            m_editModeOriginPhotoFiles = new List<string>();
+		/// <summary>
+		/// Gets the m_uploaded photos.
+		/// </summary>
+		/// <value>The m_uploaded photos.</value>
+		private Dictionary<string, string> m_UploadedPhotos
+		{
+			get
+			{
+				return _uploadedPhotos ?? (_uploadedPhotos = new Dictionary<string, string>());
+			}
+		}
+		#endregion
 
-            InitImageListView();
-            
-            UIHack();
-            HackDPI();
-        }
 
-        private void Photo_Load(object sender, EventArgs e)
-        {
-        }
+		#region Public Property
+		public string PostId { get; set; }
+
+		public PostForm MyParent { get; set; }
+
+		/// <summary>
+		/// Gets the file name mapping.
+		/// </summary>
+		/// <value>The file name mapping.</value>
+		public Dictionary<string, string> FileNameMapping
+		{
+			get
+			{
+				return _fileNameMapping ?? (_fileNameMapping = new Dictionary<string, string>());
+			}
+			set
+			{
+				_fileNameMapping = value;
+			}
+		}
+		#endregion
+
+		#region Constructor
+		public Photo()
+		{
+			DebugInfo.ShowMethod();
+
+			InitializeComponent();
+
+			InitImageListView();
+
+			UIHack();
+			HackDPI();
+		} 
+		#endregion
+
 
         public void ChangeToEditModeUI(Post post)
         {
+			DebugInfo.ShowMethod();
+
 			btnSend.Text = Resources.UPDATE;
         }
 
@@ -64,6 +133,8 @@ namespace Waveface.PostUI
 
         private void UIHack()
         {
+			DebugInfo.ShowMethod();
+
             if (btnDeletePhoto.Width > Properties.Resources.FB_blue_btn.Width)
             {
                 btnDeletePhoto.Image = Properties.Resources.FB_blue_btn_2;
@@ -74,6 +145,8 @@ namespace Waveface.PostUI
 
         private void HackDPI()
         {
+			DebugInfo.ShowMethod();
+
             float _r = getDPIRatio();
 
             if (_r != 0)
@@ -92,6 +165,8 @@ namespace Waveface.PostUI
 		/// <returns></returns>
         private float getDPIRatio()
         {
+			DebugInfo.ShowMethod();
+
             using (Graphics _g = CreateGraphics())
             {
                 if (_g.DpiX == 120)
@@ -103,6 +178,8 @@ namespace Waveface.PostUI
 
         private void Photo_Resize(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             BackColor = Color.FromArgb(226, 226, 226); //Hack
 
             ChengeThumbnailSize();
@@ -114,7 +191,8 @@ namespace Waveface.PostUI
 
         private void InitImageListView()
         {
-            Application.Idle += Application_Idle;
+			DebugInfo.ShowMethod();
+
 
             m_imageListViewRenderer = new MyImageListViewRenderer();
 
@@ -127,35 +205,53 @@ namespace Waveface.PostUI
 
         public void AddNewPostPhotoFiles(List<string> files)
         {
-            foreach (string _pic in files)
-            {
-                if (!isValidImageFile(_pic))
-                {
-                    Toast.MakeText(imageListView, Resources.INVAILD_IMAGE + _pic, Toast.LENGTH_SHORT).Show();
-                    continue;
-                }
+			DebugInfo.ShowMethod();
 
-                ImageListViewItem _item = new ImageListViewItem(_pic);
+			var linq = from file in files
+					   where isValidImageFile(file)
+					   select new ImageListViewItem(file)
+					   {
+						   Tag = new EditModeImageListViewItemTag()
+						   {
+							   AddPhotoType = EditModePhotoType.NewPostOrigin,
+							   ObjectID = Guid.NewGuid().ToString()
+						   }
+					   };
 
-                EditModeImageListViewItemTag _tag = new EditModeImageListViewItemTag();
-                _tag.AddPhotoType = EditModePhotoType.NewPostOrigin;
-                _tag.ObjectID = Guid.NewGuid().ToString();
+			var items = linq.ToArray();
+			imageListView.ItemCollectionChanged -= imageListView_ItemCollectionChanged;
+			imageListView.Items.AddRange(items);
+			imageListView.ItemCollectionChanged += imageListView_ItemCollectionChanged;
+			imageListView_ItemCollectionChanged(null, null);
 
-                _item.Tag = _tag;
+			MethodInvoker mi = new MethodInvoker(() =>
+			{
+				var uploadItems = from item in items
+								  select new UploadItem
+								  {
+									  file_path = item.FileName,
+									  object_id = (item.Tag as EditModeImageListViewItemTag).ObjectID,
+									  post_id = PostId
+								  };
+				Main.Current.Uploader.Add(uploadItems.ToArray());
+			});
 
-                imageListView.Items.Add(_item);
-
-                Main.Current.Uploader.Add(_pic, _tag.ObjectID, PostId);
-            }
+			mi.BeginInvoke((result) =>
+			{
+				mi.EndInvoke(result);
+			}, null);
         }
 
         public void AddEditModePhotoFiles(List<string> files, Post post)
         {
-            m_editModeOriginPhotoFiles = files;
+			DebugInfo.ShowMethod();
+
+			m_EditModeOriginPhotoFiles.Clear();
+            m_EditModeOriginPhotoFiles.AddRange(files);
 
             int i = 0;
 
-            foreach (string _pic in m_editModeOriginPhotoFiles)
+            foreach (string _pic in m_EditModeOriginPhotoFiles)
             {
                 ImageListViewItem _item = new ImageListViewItem(_pic);
 
@@ -180,6 +276,8 @@ namespace Waveface.PostUI
 
         private void imageListView_ItemHover(object sender, ItemHoverEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (e.Item == null)
             {
                 Cursor = Cursors.Default;
@@ -202,6 +300,8 @@ namespace Waveface.PostUI
 
         private void imageListView_DropFiles(object sender, DropFileEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 List<string> _pics = new List<string>();
@@ -251,18 +351,22 @@ namespace Waveface.PostUI
             e.Cancel = true;
         }
 
-        private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
-        {
+		private void imageListView_ItemCollectionChanged(object sender, ItemCollectionChangedEventArgs e)
+		{
+			DebugInfo.ShowMethod();
+
 			labelSummary.Text = string.Format(Resources.POST_PHOTO_SUMMARY_PATTERN, imageListView.Items.Count);
 
-            if (e.Action != CollectionChangeAction.Refresh)
-                SetCoverImageUI();
+			if (e != null && e.Action != CollectionChangeAction.Refresh)
+				SetCoverImageUI();
 
-            ChengeThumbnailSize();
-        }
+			ChengeThumbnailSize();
+		}
 
         private void SetCoverImageUI()
         {
+			DebugInfo.ShowMethod();
+
             bool _setCoverImage_UI = false;
 
             foreach (ImageListViewItem _item in imageListView.Items)
@@ -289,6 +393,8 @@ namespace Waveface.PostUI
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_selectedItem = e.Item;
         }
 
@@ -296,12 +402,14 @@ namespace Waveface.PostUI
 
         private void imageListView_DragDrop(object sender, DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             MyParent.IsDirty = true;
 
             ImageListView.HitInfo _hitInfo;
             imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
 
-            List<string> _pics = m_dragDropClipboardHelper.Drag_Drop_HtmlImage(e);
+            List<string> _pics = m_DragDropClipboardHelper.Drag_Drop_HtmlImage(e);
 
             if (_pics != null)
             {
@@ -316,29 +424,37 @@ namespace Waveface.PostUI
 
         private void imageListView_DragEnter(object sender, DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             FlashWindow.Start(MyParent);
 
-            m_dragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
+            m_DragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
 
             DragHitTest(e);
         }
 
         private void imageListView_DragLeave(object sender, EventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
+			DebugInfo.ShowMethod();
+
+            m_DragDropClipboardHelper.Drag_Leave_HtmlImage();
 
             FlashWindow.Stop(MyParent);
         }
 
         private void imageListView_DragOver(object sender, DragEventArgs e)
         {
-            m_dragDropClipboardHelper.Drag_Over_HtmlImage(e, false);
+			DebugInfo.ShowMethod();
+
+            m_DragDropClipboardHelper.Drag_Over_HtmlImage(e, false);
 
             DragHitTest(e);
         }
 
         private void DragHitTest(DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             ImageListView.HitInfo _hitInfo;
             imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
 
@@ -357,6 +473,8 @@ namespace Waveface.PostUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
@@ -376,6 +494,8 @@ namespace Waveface.PostUI
 
         private static void Delay(int seconds)
         {
+			DebugInfo.ShowMethod();
+
             DateTime _dt = DateTime.Now;
 
             Main.Current.Cursor = Cursors.WaitCursor;
@@ -388,14 +508,16 @@ namespace Waveface.PostUI
 
         private void ReturnToText_Mode()
         {
-            lock (m_preUploadPhotosQueue)
+			DebugInfo.ShowMethod();
+
+            lock (m_PreUploadPhotosQueue)
             {
-                m_preUploadPhotosQueue.Clear();
+                m_PreUploadPhotosQueue.Clear();
             }
 
-            lock (m_uploadedPhotos)
+            lock (m_UploadedPhotos)
             {
-                m_uploadedPhotos.Clear();
+                m_UploadedPhotos.Clear();
             }
 
             MyParent.toPureText_Mode();
@@ -403,6 +525,8 @@ namespace Waveface.PostUI
 
         private void BatchPost()
         {
+			DebugInfo.ShowMethod();
+
             if (imageListView.Items.Count == 0)
             {
                 SendPureText();
@@ -440,6 +564,8 @@ namespace Waveface.PostUI
 
         private void EditModePost()
         {
+			DebugInfo.ShowMethod();
+
             Dictionary<string, string> _params = new Dictionary<string, string>();
 
             if (!MyParent.pureTextBox.Text.Trim().Equals(MyParent.OldText))
@@ -472,11 +598,13 @@ namespace Waveface.PostUI
 
         private bool EditModePhotosChanged()
         {
-            if (imageListView.Items.Count == m_editModeOriginPhotoFiles.Count)
+			DebugInfo.ShowMethod();
+
+            if (imageListView.Items.Count == m_EditModeOriginPhotoFiles.Count)
             {
                 for (int i = 0; i < imageListView.Items.Count; i++)
                 {
-                    if (imageListView.Items[i].FileName != m_editModeOriginPhotoFiles[i])
+                    if (imageListView.Items[i].FileName != m_EditModeOriginPhotoFiles[i])
                     {
                         return true;
                     }
@@ -492,6 +620,8 @@ namespace Waveface.PostUI
 
         private string getNewAttachmentIdArray()
         {
+			DebugInfo.ShowMethod();
+
             string _ids = string.Empty;
 
             foreach (ImageListViewItem _item in imageListView.Items)
@@ -507,6 +637,8 @@ namespace Waveface.PostUI
 
         private void SendPureText()
         {
+			DebugInfo.ShowMethod();
+
             if (MyParent.pureTextBox.Text.Trim().Equals(string.Empty))
             {
                 MessageBox.Show(Resources.EMPTY_CONTENT, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -522,6 +654,8 @@ namespace Waveface.PostUI
 
         private bool DoRealPost(string files)
         {
+			DebugInfo.ShowMethod();
+
             string _type = (files != "") ? "image" : "text";
 
             try
@@ -547,6 +681,8 @@ namespace Waveface.PostUI
 
         private int GetCoverAttachIndex()
         {
+			DebugInfo.ShowMethod();
+
             int k = 0;
 
             foreach (ImageListViewItem _item in imageListView.Items)
@@ -564,42 +700,22 @@ namespace Waveface.PostUI
             return 0;
         }
 
-        public void ShowMessage(int went)
-        {
-        }
-
         #endregion
 
         #region Misc
 
         private void ChengeThumbnailSize()
         {
+			DebugInfo.ShowMethod();
+
             Photo_DV.ChengeThumbnailSize(imageListView, 112, 24);
         }
 
-        private void toolStripButtonCamera_Click(object sender, EventArgs e)
-        {
-            WebCamForm _camera = new WebCamForm();
-
-            DialogResult _dialogResult = _camera.ShowDialog();
-
-            if (_dialogResult == DialogResult.Yes)
-            {
-                imageListView.Items.Add(_camera.CapturedImagePath);
-            }
-        }
-
-        private void Application_Idle(object sender, EventArgs e)
-        {
-            rotateCCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
-            rotateCWToolStripButton.Enabled = (imageListView.SelectedItems.Count > 0);
-
-            sortAscendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Ascending;
-            sortDescendingToolStripMenuItem.Checked = imageListView.SortOrder == SortOrder.Descending;
-        }
 
         public void AddPhoto()
         {
+			DebugInfo.ShowMethod();
+
             openFileDialog.RestoreDirectory = true;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -620,6 +736,8 @@ namespace Waveface.PostUI
 
         public void AddPhotos(string[] files, int index)
         {
+			DebugInfo.ShowMethod();
+
             MyParent.IsDirty = true;
 
             if (index >= 0)
@@ -656,13 +774,14 @@ namespace Waveface.PostUI
 
         private static bool isValidImageFile(string file_path)
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 using (var m = File.OpenRead(file_path))
                 {
                     var decoder = BitmapDecoder.Create(m, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
                     var frame = decoder.Frames[0];
-
                     return frame.PixelWidth > 0 && frame.PixelHeight > 0;
                 }
             }
@@ -674,6 +793,8 @@ namespace Waveface.PostUI
 
         private void RemoveAllAndReturnToParent()
         {
+			DebugInfo.ShowMethod();
+
             if (imageListView.Items.Count == 0)
             {
                 MyParent.IsDirty = true;
@@ -697,6 +818,8 @@ namespace Waveface.PostUI
 
         private void RemoveSelectedPhoto()
         {
+			DebugInfo.ShowMethod();
+
 			DialogResult _dr = MessageBox.Show(Resources.REMOVE_SELECTED_FILES, "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (_dr == DialogResult.Yes)
@@ -707,12 +830,12 @@ namespace Waveface.PostUI
 
                 foreach (var _item in imageListView.SelectedItems)
                 {
-                    lock (m_preUploadPhotosQueue)
+                    lock (m_PreUploadPhotosQueue)
                     {
                         try
                         {
-                            if (m_preUploadPhotosQueue.Keys.Contains(_item.FileName))
-                                m_preUploadPhotosQueue.Remove(_item.FileName);
+                            if (m_PreUploadPhotosQueue.Keys.Contains(_item.FileName))
+                                m_PreUploadPhotosQueue.Remove(_item.FileName);
                         }
                         catch
                         {
@@ -734,6 +857,8 @@ namespace Waveface.PostUI
 
         private void btnAddPhoto_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
@@ -742,6 +867,8 @@ namespace Waveface.PostUI
 
         private void btnDeletePhoto_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (!Main.Current.CheckNetworkStatus())
                 return;
 
@@ -760,14 +887,10 @@ namespace Waveface.PostUI
 
         #region ContextMenu
 
-        private void columnContextMenu_Opening(object sender, CancelEventArgs e)
-        {
-            // CreateSortMenuItems();
-            // imageListView.SetRenderer(new ImageListViewRenderers.TilesRenderer());
-        }
-
         private void miSetCoverImage_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (m_selectedItem != null)
             {
                 EditModeImageListViewItemTag _tag = m_selectedItem.Tag as EditModeImageListViewItemTag;
@@ -777,104 +900,22 @@ namespace Waveface.PostUI
             }
         }
 
-        /*
-        private void CreateSortMenuItems()
-        {
-            for (int j = sortByToolStripMenuItem.DropDownItems.Count - 1; j >= 0; j--)
-            {
-                if (sortByToolStripMenuItem.DropDownItems[j].Tag != null)
-                    sortByToolStripMenuItem.DropDownItems.RemoveAt(j);
-            }
-
-            int i = 0;
-
-            foreach (ImageListView.ImageListViewColumnHeader col in imageListView.Columns)
-            {
-                ToolStripMenuItem _item = new ToolStripMenuItem(col.Text);
-                _item.Checked = (imageListView.SortColumn == i);
-                _item.Tag = i;
-                _item.Click += sortColumnMenuItem_Click;
-                sortByToolStripMenuItem.DropDownItems.Insert(i, _item);
-                i++;
-            }
-
-            if (i == 0)
-            {
-                ToolStripMenuItem _item = new ToolStripMenuItem("None");
-                _item.Enabled = false;
-                sortByToolStripMenuItem.DropDownItems.Insert(0, _item);
-            }
-        }
-
-        private void sortColumnMenuItem_Click(object sender, EventArgs e)
-        {
-            int i = (int)((ToolStripMenuItem)sender).Tag;
-            imageListView.SortColumn = i;
-        }
-         
-        */
 
         private void sortAscendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             imageListView.SortOrder = SortOrder.Ascending;
         }
 
         private void sortDescendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             imageListView.SortOrder = SortOrder.Descending;
         }
 
-        private void columnContextMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e)
-        {
-            // imageListView.SetRenderer(new MyImageListViewRenderer());
-        }
-
         #endregion
 
-        #region Image Rotate
-
-        private void rotateCCWToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                                "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-            {
-                foreach (ImageListViewItem _item in imageListView.SelectedItems)
-                {
-                    _item.BeginEdit();
-
-                    using (Image _img = Image.FromFile(_item.FileName))
-                    {
-                        _img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                        _img.Save(_item.FileName);
-                    }
-
-                    _item.Update();
-                    _item.EndEdit();
-                }
-            }
-        }
-
-        private void rotateCWToolStripButton_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Rotating will overwrite original images. Are you sure you want to continue?",
-                                "Stream", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-            {
-                foreach (ImageListViewItem _item in imageListView.SelectedItems)
-                {
-                    _item.BeginEdit();
-
-                    using (Image _img = Image.FromFile(_item.FileName))
-                    {
-                        _img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                        _img.Save(_item.FileName);
-                    }
-
-                    _item.Update();
-                    _item.EndEdit();
-                }
-            }
-        }
-
-        #endregion
     }
 }
