@@ -64,9 +64,11 @@ namespace Waveface.Upload
 			lock (cs)
 			{
 				foreach (var item in storage.Load())
+				{
 					queue.AddLast(item);
+					sem.Release();
+				}
 			}
-			sem.Release();
 		}
 	}
 
