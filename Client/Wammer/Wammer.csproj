@@ -126,6 +126,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Src\Class\AutoImportContentProvider.cs" />
+    <Compile Include="Src\Class\Content.cs" />
+    <Compile Include="Src\Class\ContentBase.cs" />
+    <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
+    <Compile Include="Src\Class\ContentProvider\PicasaContentProvider.cs" />
     <Compile Include="Src\Class\CustomWindow.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\NetworkChecker.cs" />
@@ -244,11 +249,14 @@
     <Compile Include="Src\Dialog\NameSettingDialog.Designer.cs">
       <DependentUpon>NameSettingDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Enum\ContentType.cs" />
     <Compile Include="Src\Exception\ChangeLogsPurgedException.cs" />
     <Compile Include="Src\Exception\VersionNotSupportedException.cs" />
     <Compile Include="Src\Extension\ErrorProviderExtension.cs" />
     <Compile Include="Src\Extension\FormExtension.cs" />
     <Compile Include="Src\Class\Lazy.cs" />
+    <Compile Include="Src\Interface\IContent.cs" />
+    <Compile Include="Src\Interface\IContentProvider.cs" />
     <Compile Include="Src\Libs\StationDB\AttachmentCollection.cs" />
     <Compile Include="Src\Libs\StationDB\StationDB.cs" />
     <Compile Include="Src\Libs\Utility\ApplicationInformation.cs" />
