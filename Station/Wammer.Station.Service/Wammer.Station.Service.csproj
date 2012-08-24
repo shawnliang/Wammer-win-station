@@ -139,6 +139,7 @@
     <Compile Include="Station\Notify\INotifyChannel.cs" />
     <Compile Include="Station\Notify\Messages.cs" />
     <Compile Include="Station\Notify\NotificationWebSocketService.cs" />
+    <Compile Include="Station\Notify\NotifyChannelEventArgs.cs" />
     <Compile Include="Station\Notify\WebSocketNotifyChannel.cs" />
     <Compile Include="Station\Notify\WebSocketNotifyChannels.cs" />
     <Compile Include="Station\PostUpload\MobileDevicePostActivity.cs" />

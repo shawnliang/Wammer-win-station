@@ -10,13 +10,13 @@ namespace Wammer.Station.Notify
 	{
 		private WebSocketServer<NotificationWebSocketService> wsServer;
 
-		public event EventHandler<EventArgs> ChannelAdded
+		public event EventHandler<NotifyChannelEventArgs> ChannelAdded
 		{
 			add { NotificationWebSocketService.ChannelAdded += value; }
 			remove { NotificationWebSocketService.ChannelAdded -= value; }
 		}
 
-		public event EventHandler<EventArgs> ChannelRemoved
+		public event EventHandler<NotifyChannelEventArgs> ChannelRemoved
 		{
 			add { NotificationWebSocketService.ChannelRemoved += value; }
 			remove { NotificationWebSocketService.ChannelRemoved -= value; }

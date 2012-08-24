@@ -11,14 +11,14 @@ namespace Wammer.Station.Notify
 		public string UserId { get; private set; }
 		public string SessionToken { get; private set; }
 		public string ApiKey { get; private set; }
-		public WebSocketService svc { get; private set; }
+		public WebSocketService WSService { get; private set; }
 
 		public WebSocketNotifyChannel(WebSocketService notifySvc, string user_id, string session_token, string apikey)
 		{
 			UserId = user_id;
 			SessionToken = session_token;
 			ApiKey = apikey;
-			svc = notifySvc;
+			WSService = notifySvc;
 		}
 	}
 }

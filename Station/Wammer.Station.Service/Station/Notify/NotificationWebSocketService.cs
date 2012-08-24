@@ -12,8 +12,8 @@ namespace Wammer.Station.Notify
 		private bool connected;
 		private static List<WebSocketNotifyChannel> allChannels = new List<WebSocketNotifyChannel>();
 
-		public static event EventHandler<EventArgs> ChannelAdded;
-		public static event EventHandler<EventArgs> ChannelRemoved;
+		public static event EventHandler<NotifyChannelEventArgs> ChannelAdded;
+		public static event EventHandler<NotifyChannelEventArgs> ChannelRemoved;
 
 		protected override void onMessage(object sender, WebSocketSharp.MessageEventArgs e)
 		{
@@ -30,7 +30,7 @@ namespace Wammer.Station.Notify
 			if (connect != null && connect.IsValid())
 			{
 				connected = true;
-				addChannel(new WebSocketNotifyChannel(this, connect.user_id, connect.session_token, connect.apikey), this);
+				addChannel(new WebSocketNotifyChannel(this, connect.user_id, connect.session_token, connect.apikey));
 			}
 		}
 
@@ -45,34 +45,36 @@ namespace Wammer.Station.Notify
 		{
 			lock (allChannels)
 			{
-				var channel = allChannels.Find((x) => x.svc == wsSvc);
-				allChannels.Remove(channel);
-
-				OnChannelRemoved(this);
+				var channel = allChannels.Find((x) => x.WSService == wsSvc);
+				if (channel != null)
+				{
+					allChannels.Remove(channel);
+					OnChannelRemoved(channel);
+				}
 			}
 		}
 
-		private static void addChannel(WebSocketNotifyChannel channel, WebSocketService sender)
+		private static void addChannel(WebSocketNotifyChannel channel)
 		{
 			lock (allChannels)
 			{
 				allChannels.Add(channel);
-				OnChannelAdded(sender);
+				OnChannelAdded(channel);
 			}
 		}
 
-		private static void OnChannelAdded(object sender)
+		private static void OnChannelAdded(WebSocketNotifyChannel channel)
 		{
 			var handler = ChannelAdded;
 			if (handler != null)
-				handler(sender, EventArgs.Empty);
+				handler(channel.WSService, new NotifyChannelEventArgs(channel));
 		}
 
-		private static void OnChannelRemoved(object sender)
+		private static void OnChannelRemoved(WebSocketNotifyChannel channel)
 		{
 			var handler = ChannelRemoved;
 			if (handler != null)
-				handler(sender, EventArgs.Empty);
+				handler(channel.WSService, new NotifyChannelEventArgs(channel));
 		}
 
 		public static IEnumerable<INotifyChannel> GetChannels(string user_id)
