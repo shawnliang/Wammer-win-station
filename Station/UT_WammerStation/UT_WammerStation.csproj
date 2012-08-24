@@ -81,6 +81,9 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="websocket-sharp">
+      <HintPath>..\3rd_party\websocket-sharp\websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +140,7 @@
     <Compile Include="TestUserTrackApiHandler.cs" />
     <Compile Include="TestUserTrackCollection.cs" />
     <Compile Include="TestMongoPersistentStorage.cs" />
+    <Compile Include="WebSocketChannel\TestWebSocketChannel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\ContentDisposition.txt">
