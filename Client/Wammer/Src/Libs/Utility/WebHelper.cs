@@ -59,6 +59,7 @@ namespace Waveface
             request.Method = "POST";
             request.ContentType = contentType;
             request.UserAgent = userAgent;
+			request.Headers.Add("Content-Encoding", "utf-8");
             request.CookieContainer = new CookieContainer();
 
             // We need to count how many bytes we're sending. 
@@ -101,7 +102,7 @@ namespace Waveface
 					else
 					{
 						string postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n", boundary, param.Key, param.Value);
-						formDataStream.Write(encoding.GetBytes(postData), 0, postData.Length);
+						formDataStream.Write(postData, encoding);
 					}
 				}
 

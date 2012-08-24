@@ -1436,12 +1436,12 @@ namespace Waveface.API.V2
 
 		#region attachments
 
-		public class AttachementMemo
-		{
-			public string SourceFile { get; set; }
-			public string SourceDeviceID { get; set; }
-			public string SourceCodeName { get; set; }
-		}
+		//public class AttachementMemo
+		//{
+		//    public string SourceFile { get; set; }
+		//    public string SourceDeviceID { get; set; }
+		//    public string SourceCodeName { get; set; }
+		//}
 
 		public MR_attachments_upload attachments_upload(string session_token, string group_id, string fileName,
 														string title, string description, string type, string image_meta,
@@ -1463,12 +1463,14 @@ namespace Waveface.API.V2
 				_dic.Add("group_id", group_id);
 				_dic.Add("title", title);
 
-				_dic.Add("memo", JsonConvert.SerializeObject(new AttachementMemo()
-				{
-					SourceFile = fileName,
-					SourceDeviceID = m_StationID,
-					SourceCodeName = m_StationCodeName
-				}));
+				//_dic.Add("memo", HttpUtility.HtmlEncode(JsonConvert.SerializeObject(new AttachementMemo()
+				//{
+				//    SourceFile = fileName,
+				//    SourceDeviceID = m_StationID,
+				//    SourceCodeName = m_StationCodeName
+				//})));
+
+				_dic.Add("memo", fileName);
 
 				//if (description == string.Empty)
 				//   description = title;

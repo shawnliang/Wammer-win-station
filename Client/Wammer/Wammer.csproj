@@ -249,6 +249,7 @@
     <Compile Include="Src\Extension\ErrorProviderExtension.cs" />
     <Compile Include="Src\Extension\FormExtension.cs" />
     <Compile Include="Src\Class\Lazy.cs" />
+    <Compile Include="Src\Extension\StreamExtension.cs" />
     <Compile Include="Src\Libs\StationDB\AttachmentCollection.cs" />
     <Compile Include="Src\Libs\StationDB\StationDB.cs" />
     <Compile Include="Src\Libs\Utility\ApplicationInformation.cs" />
