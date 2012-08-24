@@ -10,5 +10,7 @@ namespace Wammer.Station.Notify
 		string UserId { get; }
 		string SessionToken { get; }
 		string ApiKey { get; }
+
+		void Notify();
 	}
 }

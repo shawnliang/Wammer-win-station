@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WebSocketSharp.Server;
+using Wammer.Utility;
 
 namespace Wammer.Station.Notify
 {
@@ -19,6 +20,16 @@ namespace Wammer.Station.Notify
 			SessionToken = session_token;
 			ApiKey = apikey;
 			WSService = notifySvc;
+		}
+
+		public void Notify()
+		{
+			var notifyMsg = new GenericCommand
+			{
+				notify = new NotifyMsg { updated = true }
+			};
+
+			WSService.Send(notifyMsg.ToFastJSON());
 		}
 	}
 }

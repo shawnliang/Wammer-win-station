@@ -78,13 +78,85 @@ namespace UT_WammerStation.WebSocketChannel
 			var remains = wsServer.GetChannelsByUser("user");
 			Assert.AreEqual(0, remains.Count());
 		}
+
+		[TestMethod]
+		public void NotifyTest()
+		{
+			ManualResetEvent added = new ManualResetEvent(false);
+			INotifyChannel channel = null;
+			wsServer.ChannelAdded += (s, e) => { channel = e.Channel; added.Set(); };
+			
+			// connect
+			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
+			string notifyData = "";
+			ManualResetEvent notified = new ManualResetEvent(false);
+			client.socket.OnMessage += (s, e) => { notifyData = e.Data; notified.Set(); };
+			client.Connect("session", "apikey", "user", 2000);
+			Assert.IsTrue(added.WaitOne(3000));
+
+			// send notify
+			channel.Notify();
+
+			// verify
+			Assert.IsTrue(notified.WaitOne(3000));
+			var cmd = fastJSON.JSON.Instance.ToObject<GenericCommand>(notifyData);
+			Assert.IsNotNull(cmd.notify);
+			Assert.IsTrue(cmd.notify.updated);
+		}
+
+		[TestMethod]
+		public void NotifyAllExcept_ExceptSessionWontBeSent()
+		{
+			ManualResetEvent added = new ManualResetEvent(false);
+			INotifyChannel channel = null;
+			wsServer.ChannelAdded += (s, e) => { channel = e.Channel; added.Set(); };
+
+			// connect
+			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
+			string notifyData = "";
+			ManualResetEvent notified = new ManualResetEvent(false);
+			client.socket.OnMessage += (s, e) => { notifyData = e.Data; notified.Set(); };
+			client.Connect("session", "apikey", "user", 2000);
+			Assert.IsTrue(added.WaitOne(3000));
+
+			// send notify
+			wsServer.NotifyToUserChannels("user", "session");
+
+			// verify
+			Assert.IsFalse(notified.WaitOne(2000));
+		}
+
+		[TestMethod]
+		public void NotifyAllExcept()
+		{
+			ManualResetEvent added = new ManualResetEvent(false);
+			INotifyChannel channel = null;
+			wsServer.ChannelAdded += (s, e) => { channel = e.Channel; added.Set(); };
+
+			// connect
+			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
+			string notifyData = "";
+			ManualResetEvent notified = new ManualResetEvent(false);
+			client.socket.OnMessage += (s, e) => { notifyData = e.Data; notified.Set(); };
+			client.Connect("session", "apikey", "user", 2000);
+			Assert.IsTrue(added.WaitOne(3000));
+
+			// send notify
+			wsServer.NotifyToUserChannels("user", "no_such_session");
+
+			// verify
+			Assert.IsTrue(notified.WaitOne(3000));
+			var cmd = fastJSON.JSON.Instance.ToObject<GenericCommand>(notifyData);
+			Assert.IsNotNull(cmd.notify);
+			Assert.IsTrue(cmd.notify.updated);
+		}
 	}
 
 
 
 	class StreamWebSocketClient
 	{
-		WebSocket socket;
+		public WebSocket socket;
 		string errorMsg;
 		ManualResetEvent connectEvt = new ManualResetEvent(false);
 		

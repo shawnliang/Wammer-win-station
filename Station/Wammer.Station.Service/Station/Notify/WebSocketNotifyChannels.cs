@@ -42,6 +42,13 @@ namespace Wammer.Station.Notify
 		{
 			return NotificationWebSocketService.GetChannels(user_id);
 		}
+
+		public void NotifyToUserChannels(string user_id, string exceptSessionToken)
+		{
+			var channels = GetChannelsByUser(user_id).Where(x => x.SessionToken != exceptSessionToken);
+			foreach (var channel in channels)
+				channel.Notify();
+		}
 	}
 
 }

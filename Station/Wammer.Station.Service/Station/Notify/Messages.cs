@@ -35,6 +35,13 @@ namespace Wammer.Station.Notify
 		public string api_ret_message { get; set; }
 	}
 
+	public class NotifyMsg
+	{
+		public bool updated { get; set; }
+		public string message { get; set; }
+		public string exception { get; set; }
+	}
+
 	public class LogonCommand
 	{
 		public ConnectMsg connect { get; set; }
@@ -46,5 +53,6 @@ namespace Wammer.Station.Notify
 		public ResultMsg result { get; set; }
 		public ConnectMsg connect { get; set; }
 		public SubscribeMSg subscribe { get; set; }
+		public NotifyMsg notify { get; set; }
 	}
 }
