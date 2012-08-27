@@ -38,10 +38,10 @@ namespace Wammer.Station.Notify
 		{
 			base.onClose(sender, e);
 
-			removeChannel(this);
+			RemoveChannel(this);
 		}
 
-		private void removeChannel(WebSocketService wsSvc)
+		public static void RemoveChannel(WebSocketService wsSvc)
 		{
 			lock (allChannels)
 			{

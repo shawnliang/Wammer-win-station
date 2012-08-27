@@ -49,6 +49,17 @@ namespace Wammer.Station.Notify
 			foreach (var channel in channels)
 				channel.Notify();
 		}
+
+		public void CloseChannel(INotifyChannel channel, WebSocketSharp.Frame.CloseStatusCode status, string reason)
+		{
+			if (channel is WebSocketNotifyChannel)
+			{
+				var wsChannel = (WebSocketNotifyChannel)channel;
+				wsChannel.WSService.Stop(status, reason == null ? "" : reason);
+				NotificationWebSocketService.RemoveChannel(wsChannel.WSService);
+			}
+		}
 	}
 
 }
+ 

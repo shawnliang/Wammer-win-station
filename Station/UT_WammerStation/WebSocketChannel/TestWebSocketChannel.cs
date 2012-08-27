@@ -150,6 +150,42 @@ namespace UT_WammerStation.WebSocketChannel
 			Assert.IsNotNull(cmd.notify);
 			Assert.IsTrue(cmd.notify.updated);
 		}
+
+		[TestMethod]
+		public void CloseWithStatusCodeAndReason()
+		{
+			
+			ManualResetEvent added = new ManualResetEvent(false);
+			ManualResetEvent closed = new ManualResetEvent(false);
+			WebSocketSharp.Frame.CloseStatusCode closeStatus = WebSocketSharp.Frame.CloseStatusCode.NO_STATUS_CODE;
+			string closeReason = "";
+			wsServer.ChannelAdded += (s, e) =>
+			{
+				added.Set();
+			};
+
+			// connect
+			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
+			client.socket.OnClose += (s, e) => 
+			{
+				closeStatus = e.Code;
+				closeReason = e.Reason;
+				closed.Set();
+			};
+			client.Connect("session", "api", "user", 1000);
+			Assert.IsTrue(added.WaitOne(2000));
+
+			// close connection
+			var chs = wsServer.GetChannelsByUser("user");
+			Assert.AreEqual(1, chs.Count());
+			wsServer.CloseChannel(chs.First(), WebSocketSharp.Frame.CloseStatusCode.POLICY_VIOLATION, "test123");
+			
+			// verify
+			Assert.AreEqual(0, wsServer.GetChannelsByUser("user").Count());
+			Assert.IsTrue(closed.WaitOne(1000));
+			Assert.AreEqual(WebSocketSharp.Frame.CloseStatusCode.POLICY_VIOLATION, closeStatus);
+			Assert.AreEqual("test123", closeReason);
+		}
 	}
 
 
