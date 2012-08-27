@@ -214,7 +214,7 @@ namespace Wammer.Model
 		#region Private Method
 
 		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta,
-		                                                              AttachmentType type, string apiKey, string token, string post_id = null)
+																	  AttachmentType type, string apiKey, string token, string post_id = null, string memo = null)
 		{
 			var pars = new Dictionary<string, object>();
 			pars["type"] = type.ToString();
@@ -227,6 +227,9 @@ namespace Wammer.Model
 			pars["group_id"] = groupId;
 			if (!string.IsNullOrEmpty(post_id))
 				pars["post_id"] = post_id;
+
+			if (!string.IsNullOrEmpty(memo))
+				pars["memo"] = memo;
 			return pars;
 		}
 
@@ -238,10 +241,10 @@ namespace Wammer.Model
 												  string objectId, string fileName, string contentType,
 												  ImageMeta meta, AttachmentType type, string apiKey,
 												  string token, int bufferSize = 1024,
-												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null, string post_id = null)
+												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null, string post_id = null, string memo = null)
 		{
 			return Upload(CloudServer.BaseUrl + "attachments/upload", dataStream, groupId,
-						  objectId, fileName, contentType, meta, type, apiKey, token, bufferSize, progressChangedCallBack, post_id);
+						  objectId, fileName, contentType, meta, type, apiKey, token, bufferSize, progressChangedCallBack, post_id, memo);
 		}
 
 		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
@@ -249,14 +252,14 @@ namespace Wammer.Model
 		                                          ImageMeta meta, AttachmentType type, string apiKey,
 		                                          string token, int bufferSize = 1024,
 		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
-												  string post_id = null)
+												  string post_id = null, string memo = null)
 		{
 			try
 			{
 				if (token == null)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
-				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id);
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id, memo);
 				HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(
 					url,
 					"Mozilla 4.0+",
@@ -411,8 +414,11 @@ namespace Wammer.Model
 		[BsonIgnore]
 		public string creator_id { get; set; }
 
-		[BsonIgnore]
+		[BsonIgnoreIfNull]
 		public string post_id { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string memo { get; set; }
 
 		[BsonIgnore]
 		[XmlIgnore]

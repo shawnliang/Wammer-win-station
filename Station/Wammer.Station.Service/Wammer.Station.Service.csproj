@@ -171,7 +171,6 @@
     <Compile Include="Extension\EnumExtension.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Event\TaskQueueEventArgs.cs" />
-    <Compile Include="Extension\StreamExtension.cs" />
     <Compile Include="Interface\IPostUploadSupportable.cs" />
     <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\CloudStorage.cs" />
@@ -335,7 +334,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
+      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
+      <Name>CommonLibs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
