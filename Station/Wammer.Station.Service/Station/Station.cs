@@ -45,6 +45,9 @@ namespace Wammer.Station
 		private bool userWantsSyncing = true;
 		private bool isSyncing = false;
 		private object synclock = new object();
+
+		private Notify.WebSocketNotifyChannels wsChannelServer = new Notify.WebSocketNotifyChannels(9983);
+		private Notify.PostUpsertNotifier postUpsertNotifier;
 		#endregion
 
 
@@ -156,6 +159,10 @@ namespace Wammer.Station
 			}
 		}
 
+		public Wammer.Station.Notify.PostUpsertNotifier PostUpsertNotifier
+		{
+			get { return postUpsertNotifier; }
+		}
 		#endregion
 
 
@@ -172,11 +179,29 @@ namespace Wammer.Station
 		{
 			NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 			SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+
+			postUpsertNotifier = new Notify.PostUpsertNotifier(wsChannelServer, new Notify.PostUpsertNotifierDB());
+
+			wsChannelServer.ChannelAdded += (s, e) =>
+			{
+				try
+				{
+					// After device notification channel is established, force device to check changelogs/usertracks because 
+					// station ignores its subscription message which specifies where the sync should starts ( a timestamp or seq_num ).
+					e.Channel.Notify();
+				}
+				catch (Exception ex)
+				{
+					this.LogWarnMsg("Unable to notify device to check changelogs after connection is established. User: " + e.Channel.UserId, ex);
+				}
+			};
+			wsChannelServer.Start();
+			m_PostUploadRunner.PostUpserted += postUpsertNotifier.OnPostUpserted;
 		}
 		#endregion
 
-
 		#region Private Method
+
 		/// <summary>
 		/// Inits the station id.
 		/// </summary>
@@ -322,6 +347,7 @@ namespace Wammer.Station
 		public void Stop()
 		{
 			SuspendSyncByUser();
+			wsChannelServer.Stop();
 		}
 
 		/// <summary>
@@ -457,8 +483,20 @@ namespace Wammer.Station
 
 				if (!e.IsAvailable)
 					suspendSync();
-				else
+				else if (userWantsSyncing)
 					resumeSync();
+			}
+		}
+
+		void m_PostUploadRunner_PostUpserted(object sender, PostUpsertEventArgs e)
+		{
+			try
+			{
+				wsChannelServer.NotifyToUserChannels(e.UserId, e.SessionToken);
+			}
+			catch (Exception ex)
+			{
+				this.LogWarnMsg("Unable to notify post changed event to devices. user: " + e.UserId, ex);
 			}
 		}
 		#endregion

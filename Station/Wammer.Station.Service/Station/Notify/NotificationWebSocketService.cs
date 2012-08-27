@@ -85,11 +85,35 @@ namespace Wammer.Station.Notify
 			}
 		}
 
+		public static IEnumerable<INotifyChannel> GetChannels(Func<WebSocketNotifyChannel, bool> where)
+		{
+			lock (allChannels)
+			{
+				return allChannels.Where(where).Select(x => x as INotifyChannel);
+			}
+		}
+
 		public static void ClearAllChannels()
 		{
 			lock (allChannels)
 			{
 				allChannels.Clear();
+			}
+
+			if (ChannelAdded != null)
+			{
+				foreach (Delegate d in ChannelAdded.GetInvocationList())
+				{
+					ChannelAdded -= (EventHandler<NotifyChannelEventArgs>)d;
+				}
+			}
+
+			if (ChannelRemoved != null)
+			{
+				foreach (Delegate d in ChannelRemoved.GetInvocationList())
+				{
+					ChannelRemoved -= (EventHandler<NotifyChannelEventArgs>)d;
+				}
 			}
 		}
 	}

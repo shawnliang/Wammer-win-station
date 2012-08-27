@@ -140,6 +140,7 @@
     <Compile Include="TestUserTrackApiHandler.cs" />
     <Compile Include="TestUserTrackCollection.cs" />
     <Compile Include="TestMongoPersistentStorage.cs" />
+    <Compile Include="WebSocketChannel\TestPostUpsertNotifier.cs" />
     <Compile Include="WebSocketChannel\TestWebSocketChannel.cs" />
   </ItemGroup>
   <ItemGroup>

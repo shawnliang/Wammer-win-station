@@ -7,7 +7,7 @@ using Wammer.Utility;
 
 namespace Wammer.Station.Notify
 {
-	class WebSocketNotifyChannel : INotifyChannel
+	public class WebSocketNotifyChannel : INotifyChannel
 	{
 		public string UserId { get; private set; }
 		public string SessionToken { get; private set; }

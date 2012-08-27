@@ -18,6 +18,7 @@ namespace UT_WammerStation.WebSocketChannel
 	{
 		private WebSocketNotifyChannels wsServer;
 		private int wsPort = 9999;
+		private StreamWebSocketClient client;
 
 		[TestInitialize]
 		public void Setup()
@@ -25,12 +26,16 @@ namespace UT_WammerStation.WebSocketChannel
 			NotificationWebSocketService.ClearAllChannels();
 			wsServer = new WebSocketNotifyChannels(wsPort);
 			wsServer.Start();
+
+
+			client = new StreamWebSocketClient("ws://localhost:9999");
 		}
 
 		[TestCleanup]
 		public void TearDown()
 		{
 			wsServer.Stop();
+			client.Close();
 		}
 
 		[TestMethod]
@@ -48,7 +53,6 @@ namespace UT_WammerStation.WebSocketChannel
 			wsServer.ChannelAdded += (sender, evt) => { added.Set(); };
 
 			// connect 
-			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
 			client.Connect("session", "apikey", "user", 2000);
 
 			
@@ -69,7 +73,6 @@ namespace UT_WammerStation.WebSocketChannel
 			wsServer.ChannelRemoved += (sender, evt) => { removed.Set(); };
 
 			// connect + disconnect
-			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
 			client.Connect("session", "apikey", "user", 2000);
 			client.Close();
 
@@ -87,7 +90,6 @@ namespace UT_WammerStation.WebSocketChannel
 			wsServer.ChannelAdded += (s, e) => { channel = e.Channel; added.Set(); };
 			
 			// connect
-			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
 			string notifyData = "";
 			ManualResetEvent notified = new ManualResetEvent(false);
 			client.socket.OnMessage += (s, e) => { notifyData = e.Data; notified.Set(); };
@@ -105,28 +107,6 @@ namespace UT_WammerStation.WebSocketChannel
 		}
 
 		[TestMethod]
-		public void NotifyAllExcept_ExceptSessionWontBeSent()
-		{
-			ManualResetEvent added = new ManualResetEvent(false);
-			INotifyChannel channel = null;
-			wsServer.ChannelAdded += (s, e) => { channel = e.Channel; added.Set(); };
-
-			// connect
-			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
-			string notifyData = "";
-			ManualResetEvent notified = new ManualResetEvent(false);
-			client.socket.OnMessage += (s, e) => { notifyData = e.Data; notified.Set(); };
-			client.Connect("session", "apikey", "user", 2000);
-			Assert.IsTrue(added.WaitOne(3000));
-
-			// send notify
-			wsServer.NotifyToUserChannels("user", "session");
-
-			// verify
-			Assert.IsFalse(notified.WaitOne(2000));
-		}
-
-		[TestMethod]
 		public void NotifyAllExcept()
 		{
 			ManualResetEvent added = new ManualResetEvent(false);
@@ -134,7 +114,6 @@ namespace UT_WammerStation.WebSocketChannel
 			wsServer.ChannelAdded += (s, e) => { channel = e.Channel; added.Set(); };
 
 			// connect
-			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
 			string notifyData = "";
 			ManualResetEvent notified = new ManualResetEvent(false);
 			client.socket.OnMessage += (s, e) => { notifyData = e.Data; notified.Set(); };
@@ -165,7 +144,6 @@ namespace UT_WammerStation.WebSocketChannel
 			};
 
 			// connect
-			var client = new StreamWebSocketClient("ws://127.0.0.1:9999");
 			client.socket.OnClose += (s, e) => 
 			{
 				closeStatus = e.Code;
@@ -186,6 +164,32 @@ namespace UT_WammerStation.WebSocketChannel
 			Assert.AreEqual(WebSocketSharp.Frame.CloseStatusCode.POLICY_VIOLATION, closeStatus);
 			Assert.AreEqual("test123", closeReason);
 		}
+
+		[TestMethod]
+		public void NotifyAllExcept_ExceptSessionWontBeSent()
+		{
+			ManualResetEvent added = new ManualResetEvent(false);
+			INotifyChannel channel = null;
+			wsServer.ChannelAdded += (s, e) => { channel = e.Channel; added.Set(); };
+
+			// connect
+			string notifyData = "";
+			ManualResetEvent notified = new ManualResetEvent(false);
+			client.socket.OnMessage += (s, e) =>
+			{
+				notifyData = e.Data;
+				notified.Set();
+			};
+
+			client.Connect("session", "apikey", "user", 2000);
+			Assert.IsTrue(added.WaitOne(3000));
+
+			// send notify
+			wsServer.NotifyToUserChannels("user", "session");
+
+			// verify
+			Assert.IsFalse(notified.WaitOne(2000));
+		}
 	}
 
 
@@ -195,7 +199,8 @@ namespace UT_WammerStation.WebSocketChannel
 		public WebSocket socket;
 		string errorMsg;
 		ManualResetEvent connectEvt = new ManualResetEvent(false);
-		
+
+		bool isClosed = false;
 
 		public StreamWebSocketClient(string url)
 		{
@@ -239,7 +244,10 @@ namespace UT_WammerStation.WebSocketChannel
 
 		public void Close()
 		{
-			socket.Close();
+			if (!isClosed)
+				socket.Close();
+
+			isClosed = true;
 		}
 	}
 
