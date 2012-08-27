@@ -143,6 +143,7 @@ namespace Wammer.Cloud
 	public class StationDetail
 	{
 		public string location { get; set; }
+		public string ws_location { get; set; }
 		public List<DiskUsage> diskusage { get; set; }
 		public UPnPInfo upnp { get; set; }
 		public string computer_name { get; set; }
