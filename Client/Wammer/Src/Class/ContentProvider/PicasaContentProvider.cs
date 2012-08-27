@@ -14,14 +14,11 @@ namespace Waveface
 		#region Const
 		const string PICASA_DB_RELATIVED_STORAGE_PATH = @"Google\Picasa2\db3";
 		const string ALBUM_PATH_PMP_FILENAME = "albumdata_filename.pmp";
-		const string ALBUM_NAME_PMP_FILENAME = "albumdata_name.pmp";
-
 		#endregion
 
 		#region Var
 		private string _picasaDBStoragePath;
 		private string _albumPathPMPFileName;
-		private string _albumNamePMPFileName;
 		private IEnumerable<ContentType> _supportTypes;
 		#endregion
 
@@ -50,20 +47,6 @@ namespace Waveface
 			{
 				return _albumPathPMPFileName ?? 
 					(_albumPathPMPFileName = Path.Combine(m_PicasaDBStoragePath, ALBUM_PATH_PMP_FILENAME));
-			}
-		}
-
-		
-		/// <summary>
-		/// Gets the name of the m_ album name PMP file.
-		/// </summary>
-		/// <value>The name of the m_ album name PMP file.</value>
-		private string m_AlbumNamePMPFileName
-		{
-			get
-			{
-				return _albumNamePMPFileName ?? 
-					(_albumNamePMPFileName = Path.Combine(m_PicasaDBStoragePath, ALBUM_NAME_PMP_FILENAME));
 			}
 		}
 		#endregion
@@ -246,17 +229,19 @@ namespace Waveface
 		{
 			if (!Directory.Exists(m_PicasaDBStoragePath) ||
 				!File.Exists(m_AlbumPathPMPFileName) ||
-				!File.Exists(m_AlbumNamePMPFileName) ||
-				!IsValidPicasaFormat(m_AlbumPathPMPFileName) ||
-				!IsValidPicasaFormat(m_AlbumNamePMPFileName))
+				!IsValidPicasaFormat(m_AlbumPathPMPFileName))
 				return new Content[0];
 
-			var albumPaths = ReadAllStringField(m_AlbumPathPMPFileName).ToArray();
-			var albumNames = ReadAllStringField(m_AlbumNamePMPFileName).ToArray();
+			var albumPaths = ReadAllStringField(m_AlbumPathPMPFileName);
 
-			var count = albumPaths.Length;
-			return from index in Enumerable.Range(0, count)
-				   select (new Content(albumNames[index], albumPaths[index], ContentType.Photo) as IContent);
+			return from albumPath in albumPaths
+				   where !string.IsNullOrEmpty(albumPath)
+				   from file in EnumerateFiles(albumPath)
+				   let extension = Path.GetExtension(file)
+				   where extension.Equals(".jpg", StringComparison.CurrentCultureIgnoreCase) || 
+				   extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase) || 
+				   extension.Equals(".bmp", StringComparison.CurrentCultureIgnoreCase)
+				   select (new Content(file, ContentType.Photo) as IContent);
 		} 
 		#endregion
 	}

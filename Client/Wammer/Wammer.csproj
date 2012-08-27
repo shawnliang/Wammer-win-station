@@ -86,6 +86,12 @@
       <HintPath>..\Libs\Interop.SHDocVw.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\Libs\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\Libs\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
     </Reference>
@@ -130,6 +136,7 @@
     <Compile Include="Src\Class\Content.cs" />
     <Compile Include="Src\Class\ContentBase.cs" />
     <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
+    <Compile Include="Src\Class\ContentProvider\LibrarysContentProvider.cs" />
     <Compile Include="Src\Class\ContentProvider\PicasaContentProvider.cs" />
     <Compile Include="Src\Class\CustomWindow.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />

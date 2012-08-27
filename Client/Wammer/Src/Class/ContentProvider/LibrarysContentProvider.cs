@@ -34,15 +34,50 @@ namespace Waveface
 
 
 		#region Private Method
-		private IEnumerable<IContent> GetLibrarysContents()
+		/// <summary>
+		/// Determines whether [is win vista or later].
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if [is win vista or later]; otherwise, <c>false</c>.
+		/// </returns>
+		private static bool isWinVistaOrLater()
+		{
+			bool isWinVistaOrLater;
+
+			var os = Environment.OSVersion;
+			if (os.Platform == PlatformID.Win32NT && os.Version.Major == 6)
+				isWinVistaOrLater = true;
+			else
+				isWinVistaOrLater = false;
+			return isWinVistaOrLater;
+		}
+
+		/// <summary>
+		/// Gets the librarys files.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerable<string> GetLibrarysFiles()
 		{
 			using (ShellLibrary library = ShellLibrary.Load(PICTURE_LIBRARYS_NAME, false))
 			{
 				foreach (ShellFolder folder in library)
 				{
-					Console.WriteLine(folder);
+					var folderPath = folder.ParsingName;
+					foreach(var file in EnumerateFiles(folderPath))
+						yield return file;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Gets my pictres files.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerable<string> GetMyPictresFiles()
+		{
+			var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+			foreach (var file in EnumerateFiles(path))
+				yield return file;
 		}
 		#endregion
 
@@ -54,6 +89,13 @@ namespace Waveface
 		/// <returns></returns>
 		public override IEnumerable<IContent> GetContents()
 		{
+			var files = isWinVistaOrLater() ? GetLibrarysFiles() : GetMyPictresFiles();
+			return from file in files
+				   let extension = Path.GetExtension(file)
+				   where extension.Equals(".jpg", StringComparison.CurrentCultureIgnoreCase) ||
+				   extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase) ||
+				   extension.Equals(".bmp", StringComparison.CurrentCultureIgnoreCase)
+				   select (new Content(file, ContentType.Photo) as IContent);
 		} 
 		#endregion
 	}

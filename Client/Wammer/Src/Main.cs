@@ -518,6 +518,12 @@ namespace Waveface
 
         public void AccountInformation()
         {
+			//AutoImportContentProvider p = new AutoImportContentProvider();
+			//var contents = p.GetContents();
+			//var sw = Stopwatch.StartNew();
+			//foreach(var content in contents)
+			//    Debug.WriteLine(sw.ElapsedMilliseconds.ToString());
+
             var receiver = FindWindow("SystemTrayMessageReceiver", null);
             if (receiver != null)
             {

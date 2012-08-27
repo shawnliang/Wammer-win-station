@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace Waveface
 {
@@ -24,7 +25,7 @@ namespace Waveface
 		{
 			get 
 			{
-				return _name ?? string.Empty;
+				return _name ?? (_name = Path.GetFileName(FilePath));
 			}
 			protected set
 			{
@@ -65,15 +66,27 @@ namespace Waveface
 
 		}
 
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ContentBase"/> class.
 		/// </summary>
-		/// <param name="name">The name.</param>
 		/// <param name="filePath">The file path.</param>
+		/// <param name="name">The name.</param>
 		/// <param name="type">The type.</param>
-		public ContentBase(string name, string filePath, ContentType type)
+		public ContentBase(string filePath, string name, ContentType type)
 		{
 			this.Name = name;
+			this.FilePath = filePath;
+			this.Type = type;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ContentBase"/> class.
+		/// </summary>
+		/// <param name="filePath">The file path.</param>
+		/// <param name="type">The type.</param>
+		public ContentBase(string filePath, ContentType type)
+		{
 			this.FilePath = filePath;
 			this.Type = type;
 		}

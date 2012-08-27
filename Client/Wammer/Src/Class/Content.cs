@@ -16,7 +16,13 @@ namespace Waveface
 
 		}
 
-		public Content(string name, string filePath, ContentType type) : base(name, filePath, type)
+		public Content(string filePath, string name, ContentType type)
+			: base(filePath, name, type)
+		{
+		}
+
+		public Content(string filePath, ContentType type)
+			: base(filePath, type)
 		{
 		}
 	}
