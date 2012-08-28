@@ -10,8 +10,9 @@ namespace Wammer.Station.Notify
 	public class NotificationWebSocketService : WebSocketService
 	{
 		private bool connected;
-		private static List<WebSocketNotifyChannel> allChannels = new List<WebSocketNotifyChannel>();
+		private WebSocketNotifyChannel channelInfo;
 
+		private static List<WebSocketNotifyChannel> allChannels = new List<WebSocketNotifyChannel>();
 		public static event EventHandler<NotifyChannelEventArgs> ChannelAdded;
 		public static event EventHandler<NotifyChannelEventArgs> ChannelRemoved;
 
@@ -29,16 +30,26 @@ namespace Wammer.Station.Notify
 			var connect = cmd.connect;
 			if (connect != null && connect.IsValid())
 			{
-				connected = true;
-				addChannel(new WebSocketNotifyChannel(this, connect.user_id, connect.session_token, connect.apikey));
+				this.connected = true;
+				this.channelInfo = new WebSocketNotifyChannel(this, connect.user_id, connect.session_token, connect.apikey);
+				addChannel(channelInfo);
+			}
+			else
+			{
+				this.LogDebugMsg("Unknown command from web socket channel: " + e.Data);
 			}
 		}
 
 		protected override void onClose(object sender, WebSocketSharp.CloseEventArgs e)
 		{
 			base.onClose(sender, e);
-
 			RemoveChannel(this);
+		}
+
+		protected override void onError(object sender, WebSocketSharp.ErrorEventArgs e)
+		{
+			base.onError(sender, e);
+			this.LogWarnMsg("Web socket channel error: " + e.Message + " from :" + channelInfo.ToString() );
 		}
 
 		public static void RemoveChannel(WebSocketService wsSvc)

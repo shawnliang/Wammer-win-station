@@ -15,7 +15,6 @@ namespace Wammer.Station.Notify
 	{
 		private INotifyChannels channels;
 		private IPostUpsertNotifierDB db;
-
 		public PostUpsertNotifier(INotifyChannels channels, IPostUpsertNotifierDB db)
 		{
 			this.channels = channels;
@@ -28,9 +27,9 @@ namespace Wammer.Station.Notify
 			{
 				channels.NotifyToUserChannels(evt.UserId, evt.SessionToken);
 			}
-			catch
+			catch (Exception ex)
 			{
-
+				this.LogWarnMsg("web socket notification failed", ex);
 			}
 		}
 
@@ -51,9 +50,9 @@ namespace Wammer.Station.Notify
 					channels.NotifyToAllChannels(respObj.session_token);
 				}
 			}
-			catch
+			catch (Exception ex)
 			{
-
+				this.LogWarnMsg("web socket notification failed", ex);
 			}
 		}
 	}

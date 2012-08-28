@@ -31,5 +31,10 @@ namespace Wammer.Station.Notify
 
 			WSService.Send(notifyMsg.ToFastJSON());
 		}
+
+		public override string ToString()
+		{
+			return string.Format("WebSocketNotifyChannel - user: {0}, session_token: {1}, apikey: {2}", UserId??"", SessionToken??"", ApiKey??"");
+		}
 	}
 }

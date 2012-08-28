@@ -66,6 +66,7 @@ namespace Wammer.Station.Notify
 			foreach (var channel in channels)
 				channel.Notify();
 		}
+
 		/// <summary>
 		/// Close a channel
 		/// </summary>
