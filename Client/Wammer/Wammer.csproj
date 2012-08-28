@@ -133,10 +133,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\Class\AutoImportContentProvider.cs" />
+    <Compile Include="Src\Class\AutoImporter.cs" />
     <Compile Include="Src\Class\Content.cs" />
     <Compile Include="Src\Class\ContentBase.cs" />
     <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
-    <Compile Include="Src\Class\ContentProvider\LibrarysContentProvider.cs" />
+    <Compile Include="Src\Class\ContentProvider\LibrariesContentProvider.cs" />
     <Compile Include="Src\Class\ContentProvider\PicasaContentProvider.cs" />
     <Compile Include="Src\Class\CustomWindow.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
@@ -250,15 +251,16 @@
     <Compile Include="Src\Data\PhotoDownloader.cs" />
     <Compile Include="Src\Data\ImageItem.cs" />
     <Compile Include="Src\Data\PostItemType.cs" />
-    <Compile Include="Src\Dialog\NameSettingDialog.cs">
+    <Compile Include="Src\Dialog\AutoImportDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Src\Dialog\NameSettingDialog.Designer.cs">
-      <DependentUpon>NameSettingDialog.cs</DependentUpon>
+    <Compile Include="Src\Dialog\AutoImportDialog.Designer.cs">
+      <DependentUpon>AutoImportDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Enum\ContentType.cs" />
     <Compile Include="Src\Exception\ChangeLogsPurgedException.cs" />
     <Compile Include="Src\Exception\VersionNotSupportedException.cs" />
+    <Compile Include="Src\Extension\EnumerableExtender.cs" />
     <Compile Include="Src\Extension\ErrorProviderExtension.cs" />
     <Compile Include="Src\Extension\FormExtension.cs" />
     <Compile Include="Src\Class\Lazy.cs" />
@@ -674,8 +676,8 @@
     <EmbeddedResource Include="Src\Component\XPButton.resx">
       <DependentUpon>XPButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\NameSettingDialog.resx">
-      <DependentUpon>NameSettingDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Src\Dialog\AutoImportDialog.resx">
+      <DependentUpon>AutoImportDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\LoginForm.zh-TW.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -687,7 +689,9 @@
     <EmbeddedResource Include="Src\Libs\Diagnostics\CrashReporter.resx">
       <DependentUpon>CrashReporter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.zh-tw.resx" />
+    <EmbeddedResource Include="Properties\Resources.zh-tw.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Subs\ImageCapture\CaptureForm.resx">
       <DependentUpon>CaptureForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -966,6 +970,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <Private>True</Private>
     </COMReference>
+    <Content Include="Resources\streamfotocollector_icon_128.png" />
     <None Include="Resources\Save.png" />
     <None Include="Resources\SaveAll.png" />
     <None Include="Resources\refresh.png" />

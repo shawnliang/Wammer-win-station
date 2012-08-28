@@ -18,7 +18,17 @@ namespace Waveface.Upload
 			storage = new UploadQueuePersistency(runtimeDataPath, user_id);
 		}
 
-		public void AddLast(params UploadItem[] items)
+		public void AddLast(UploadItem item)
+		{
+			lock (cs)
+			{
+				queue.AddLast(item);
+				sem.Release();
+				storage.Add(item);
+			}
+		}
+
+		public void AddLast(IEnumerable<UploadItem> items)
 		{
 			lock (cs)
 			{

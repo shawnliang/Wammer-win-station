@@ -10,7 +10,7 @@ namespace Waveface
 	/// <summary>
 	/// 
 	/// </summary>
-	public class LibrarysContentProvider : ContentProviderBase
+	public class LibrariesContentProvider : ContentProviderBase
 	{
 		#region Const
 		const string PICTURE_LIBRARYS_NAME = "Pictures";

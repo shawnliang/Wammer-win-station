@@ -12,7 +12,8 @@ namespace Waveface
 	public abstract class ContentBase : IContent
 	{
 		#region Var
-		private string _name;
+		private string _fileName;
+		private string _path;
 		private string _filePath;
 		#endregion
 
@@ -21,15 +22,11 @@ namespace Waveface
 		/// Gets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		public string Name 
+		public string FileName 
 		{
 			get 
 			{
-				return _name ?? (_name = Path.GetFileName(FilePath));
-			}
-			protected set
-			{
-				_name = value;
+				return _fileName ?? (_fileName = System.IO.Path.GetFileName(FilePath));
 			}
 		}
 
@@ -50,6 +47,18 @@ namespace Waveface
 		}
 
 		/// <summary>
+		/// Gets the path.
+		/// </summary>
+		/// <value>The path.</value>
+		public string Path
+		{
+			get
+			{
+				return _path ?? (_path = System.IO.Path.GetDirectoryName(FilePath));
+			}
+		}
+
+		/// <summary>
 		/// Gets the type.
 		/// </summary>
 		/// <value>The type.</value>
@@ -64,20 +73,6 @@ namespace Waveface
 		public ContentBase()
 		{
 
-		}
-
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ContentBase"/> class.
-		/// </summary>
-		/// <param name="filePath">The file path.</param>
-		/// <param name="name">The name.</param>
-		/// <param name="type">The type.</param>
-		public ContentBase(string filePath, string name, ContentType type)
-		{
-			this.Name = name;
-			this.FilePath = filePath;
-			this.Type = type;
 		}
 
 		/// <summary>

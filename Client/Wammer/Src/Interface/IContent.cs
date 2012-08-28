@@ -12,16 +12,22 @@ namespace Waveface
 	{
 		#region Property
 		/// <summary>
-		/// Gets the name.
+		/// Gets the name of the file.
 		/// </summary>
-		/// <value>The name.</value>
-		String Name { get; }
+		/// <value>The name of the file.</value>
+		String FileName { get; }
 
 		/// <summary>
 		/// Gets the file path.
 		/// </summary>
 		/// <value>The file path.</value>
 		String FilePath { get; }
+
+		/// <summary>
+		/// Gets the path.
+		/// </summary>
+		/// <value>The path.</value>
+		String Path { get; }
 
 		/// <summary>
 		/// Gets the type.
