@@ -52,6 +52,12 @@ namespace Wammer.Station.Notify
 			this.LogWarnMsg("Web socket channel error: " + e.Message + " from :" + channelInfo.ToString() );
 		}
 
+		protected override void onOpen(object sender, EventArgs e)
+		{
+			base.onOpen(sender, e);
+			this.LogDebugMsg("web socket connected");
+		}
+
 		public static void RemoveChannel(WebSocketService wsSvc)
 		{
 			lock (allChannels)

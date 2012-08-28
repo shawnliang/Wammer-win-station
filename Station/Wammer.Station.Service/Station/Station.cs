@@ -367,6 +367,9 @@ namespace Wammer.Station
 
 			threadsExit.GoExit = true;
 
+			// stop ws notify channel
+			wsChannelServer.Stop();
+
 			// Signal to stop runners
 			m_PostUploadRunner.StopAsync();
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.StopAsync());
@@ -398,6 +401,7 @@ namespace Wammer.Station
 			m_StationTimer.Start();
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Start());
 			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Start());
+			wsChannelServer.Start();
 
 			this.LogDebugMsg("Start synchronization successfully");
 		}
