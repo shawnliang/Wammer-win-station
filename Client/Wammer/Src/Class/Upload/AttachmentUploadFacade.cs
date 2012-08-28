@@ -35,9 +35,14 @@ namespace Waveface.Upload
 			});
 		}
 
-		public void Add(params UploadItem[] uploadItem)
+		public void Add(UploadItem uploadItem)
 		{
 			queue.AddLast(uploadItem);
+		}
+
+		public void Add(IEnumerable<UploadItem> uploadItems)
+		{
+			queue.AddLast(uploadItems);
 		}
 	}
 }

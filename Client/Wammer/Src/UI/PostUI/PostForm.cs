@@ -13,6 +13,7 @@ using Waveface.Component.RichEdit;
 using Waveface.Configuration;
 using System.IO;
 using Waveface.Properties;
+using System.Diagnostics;
 
 #endregion
 
@@ -50,6 +51,9 @@ namespace Waveface
         public PostForm(string autoText, List<string> files, PostType postType, Post post, bool editMode, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
 			DebugInfo.ShowMethod();
+
+			Debug.Assert(editMode && post != null, "post can't null!");
+
 
             EditMode = editMode;
             Post = post;

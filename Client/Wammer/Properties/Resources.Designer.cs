@@ -1490,6 +1490,13 @@ namespace Waveface.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap streamfotocollector_icon_128 {
+            get {
+                object obj = ResourceManager.GetObject("streamfotocollector_icon_128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to System Error.
         /// </summary>
