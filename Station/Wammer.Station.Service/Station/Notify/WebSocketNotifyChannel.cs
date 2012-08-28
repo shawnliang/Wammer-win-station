@@ -34,7 +34,7 @@ namespace Wammer.Station.Notify
 
 		public override string ToString()
 		{
-			return string.Format("WebSocketNotifyChannel - user: {0}, session_token: {1}, apikey: {2}", UserId??"", SessionToken??"", ApiKey??"");
+			return string.Format("WebSocketNotifyChannel - user: {0}, session_token: {1}, apikey: {2}", UserId, SessionToken, ApiKey);
 		}
 	}
 }
