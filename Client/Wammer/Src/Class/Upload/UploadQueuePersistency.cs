@@ -36,7 +36,15 @@ namespace Waveface.Upload
 			this.filePath = Path.Combine(runtimeDataPath, user_id + "_NP.txt");
 		}
 
-		public void Add(params UploadItem[] items)
+		public void Add(UploadItem item)
+		{
+			DebugInfo.ShowMethod();
+
+			Items.Add(item);
+			Save();
+		}
+
+		public void Add(IEnumerable<UploadItem> items)
 		{
 			DebugInfo.ShowMethod();
 
