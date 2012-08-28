@@ -185,6 +185,8 @@ namespace Waveface
 
         public Main()
         {
+			DebugInfo.ShowMethod();
+
             InitializeComponent();
 
             Current = this;
@@ -192,6 +194,8 @@ namespace Waveface
 
         public Main(string initSessionToken)
         {
+			DebugInfo.ShowMethod();
+
             InitializeComponent();
 
             Current = this;
@@ -201,6 +205,8 @@ namespace Waveface
 
         private void Init()
         {
+			DebugInfo.ShowMethod();
+
             QuitOption = QuitOption.QuitProgram;
 
             File.Delete(m_shellContentMenuFilePath);
@@ -233,6 +239,8 @@ namespace Waveface
 
         private static void CheckRefreshStatus()
         {
+			DebugInfo.ShowMethod();
+
             var receiver = FindWindow("SystemTrayMessageReceiver", null);
             if (receiver != null)
             {
@@ -243,11 +251,15 @@ namespace Waveface
 
         void panelTitle_AccountInfoClosed(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             AdjustAccountInfoButton();
         }
 
         private void AdjustAccountInfoButton()
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 var userInfo = UserInfo.Instance;
@@ -299,6 +311,8 @@ namespace Waveface
 
         private void CreateLoadingImage()
         {
+			DebugInfo.ShowMethod();
+
             int s = 512;
             int k = 16;
 
@@ -324,92 +338,17 @@ namespace Waveface
             }
         }
 
-        /*
-        private void InitDropableNotifyIcon()
-        {
-            m_dropableNotifyIcon.Text = "Waveface: Drop something here to start post!";
-            m_dropableNotifyIcon.NotifyIcon.Icon = Icon;
-            m_dropableNotifyIcon.NotifyIcon.ContextMenuStrip = mnuTray;
-            m_dropableNotifyIcon.NotifyIcon.Visible = true;
-            //m_dropableNotifyIcon.NotifyIcon.DoubleClick += NotifyIcon_DoubleClick;
-            m_dropableNotifyIcon.InitDrop();
-            m_dropableNotifyIcon.DragEnter += DropableNotifyIcon_DragEnter;
-        }
-
-        private void initVirtualFolderForm()
-        {
-            m_virtualFolderForm = new VirtualFolderForm();
-            m_virtualFolderForm.Top = Screen.PrimaryScreen.Bounds.Height - m_virtualFolderForm.Height*3;
-            m_virtualFolderForm.Left = Screen.PrimaryScreen.Bounds.Width - m_virtualFolderForm.Width;
-            m_virtualFolderForm.Show();
-        }
-
-        private void InitTaskbarNotifier()
-        {
-            m_taskbarNotifier = new MyTaskbarNotifier();
-            m_taskbarNotifier.SetBackgroundBitmap(Resources.skin, Color.FromArgb(255, 0, 255));
-            m_taskbarNotifier.SetCloseBitmap(Resources.close, Color.FromArgb(255, 0, 255), new Point(127, 8));
-            m_taskbarNotifier.TitleRectangle = new Rectangle(40, 9, 70, 25);
-            m_taskbarNotifier.ContentRectangle = new Rectangle(8, 41, 133, 68);
-            m_taskbarNotifier.CloseClickable = true;
-            m_taskbarNotifier.ContentClickable = true;
-            // m_taskbarNotifier.ContentClick += taskbarNotifier_ContentClick;
-            m_taskbarNotifier.EnableSelectionRectangle = true;
-            m_taskbarNotifier.KeepVisibleOnMousOver = true;
-            m_taskbarNotifier.ReShowOnMouseOver = true;
-        }
-
-        private bool LoadRunTime()
-        {
-            RunTime _rt = RT.LoadJSON();
-
-            if (_rt != null)
-            {
-                RT = _rt;
-                return true;
-            }
-
-            return false;
-        }
-        
-        private void SetLastReadPos()
-        {
-            try
-            {
-                if (RT.CurrentGroupPosts.Count == 0)
-                {
-                    s_logger.Trace("SetLastReadPos RT.CurrentGroupPosts.Count = 0");
-
-                    return;
-                }
-
-                string _id = RT.CurrentGroupPosts[0].post_id;
-
-                if (_id != string.Empty)
-                {
-                    string _ret = RT.REST.Footprints_setLastScan(_id);
-
-                    if (_ret == null)
-                        s_logger.Trace("SetLastReadPos.Footprints_setLastScan: null");
-                    else
-                        s_logger.Info("SetLastReadPos.Footprints_setLastScan: " + _ret);
-                }
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "SetLastReadPos");
-            }
-        }        
-        
-        */
-
         private void SaveRunTime()
         {
+			DebugInfo.ShowMethod();
+
             RT.SaveJSON();
         }
 
         public void Station401ExceptionHandler(string message)
         {
+			DebugInfo.ShowMethod();
+
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
@@ -429,6 +368,8 @@ namespace Waveface
 
         public void ForceLogout()
         {
+			DebugInfo.ShowMethod();
+
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
@@ -452,6 +393,8 @@ namespace Waveface
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_dropableNotifyIcon.Dispose();
 
 			CancelAllThreads();
@@ -461,6 +404,8 @@ namespace Waveface
 
         public void Logout()
         {
+			DebugInfo.ShowMethod();
+
             Program.ShowCrashReporter = false;
             QuitOption = QuitOption.Logout;
             Close();
@@ -468,6 +413,8 @@ namespace Waveface
 
         private void CancelAllThreads()
         {
+			DebugInfo.ShowMethod();
+
             timerPolling.Enabled = false;
 
             bgWorkerGetAllData.CancelAsync();
@@ -518,15 +465,17 @@ namespace Waveface
 
         public void AccountInformation()
         {
+			DebugInfo.ShowMethod();
+
+			AutoImportDialog dialog = new AutoImportDialog();
+			dialog.ShowDialog();
+
             var receiver = FindWindow("SystemTrayMessageReceiver", null);
             if (receiver != null)
             {
                 int ret;
                 SendMessageTimeout(receiver, 0x403, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
             }
-            //m_setting = new SettingForm(m_autoUpdator);
-            //m_setting.ShowDialog();
-            //m_setting = null;
         }
 
         [DllImport("user32.dll")]
@@ -537,47 +486,24 @@ namespace Waveface
 
         private void Main_Activated(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (m_PostForm != null)
             {
                 BringWindowToTop(m_PostForm.Handle);
                 ShowWindow(m_PostForm.Handle, 5); //SW_SHOW
                 m_PostForm.Activate();
             }
-
-            //if (m_setting != null)
-            //{
-            //    BringWindowToTop(m_setting.Handle);
-            //    ShowWindow(m_setting.Handle, 5); //SW_SHOW
-            //    m_setting.Activate();
-            //}
         }
 
         #endregion
 
         #region Windows Size
 
-        //private void Main_SizeChanged(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        panelLeftInfo.Width = leftArea.MyWidth;
-        //    }
-        //    catch (Exception _e)
-        //    {
-        //        NLogUtility.Exception(s_logger, _e, "Main_SizeChanged");
-        //    }
-        //}
-
         protected override bool ShowWithoutActivation // stops the window from stealing focus
         {
             get { return true; }
         }
-
-        //private void splitterRight_SplitterMoving(object sender, SplitterEventArgs e)
-        //{
-        //    if (e.SplitX < (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8))
-        //        e.SplitX = (panelLeftInfo.Width + postsArea.MinimumSize.Width + 8);
-        //}
 
         protected override void WndProc(ref Message message)
         {
@@ -595,6 +521,8 @@ namespace Waveface
 
         private void Form_DragEnter(object sender, DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (m_PostForm != null)
                 return;
 
@@ -605,6 +533,8 @@ namespace Waveface
 
         private void Form_DragDrop(object sender, DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_dragDropClipboardHelper.Drag_Drop(e);
 
             FlashWindow.Stop(Current);
@@ -612,6 +542,8 @@ namespace Waveface
 
         private void Form_DragLeave(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_dragDropClipboardHelper.Drag_Leave();
 
             FlashWindow.Stop(Current);
@@ -619,16 +551,10 @@ namespace Waveface
 
         private void Form_DragOver(object sender, DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_dragDropClipboardHelper.Drag_Over(e, false);
         }
-
-        /*
-        private void DropableNotifyIcon_DragEnter(object sender, DragEventArgs e)
-        {
-            if (!m_trayIconPopup.Visible)
-                m_trayIconPopup.Show(m_dropableNotifyIcon.GetLocation());
-        }
-        */
 
         #endregion
 
@@ -636,16 +562,22 @@ namespace Waveface
 
         public void UpdateNetworkStatus()
         {
+			DebugInfo.ShowMethod();
+
             RT.REST.IsNetworkAvailable = true;
         }
 
         public bool CheckNetworkStatus()
         {
+			DebugInfo.ShowMethod();
+
             return true;
         }
 
         private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 if (IsHandleCreated)
@@ -663,6 +595,8 @@ namespace Waveface
 
         public void Reset(bool online)
         {
+			DebugInfo.ShowMethod();
+
             if (online)
                 RT.Reset();
 
@@ -676,6 +610,8 @@ namespace Waveface
 
         private bool procLoginResponse(MR_auth_login _login)
         {
+			DebugInfo.ShowMethod();
+
             if (_login == null)
             {
                 s_logger.Trace("Login.Auth_Login: null");
@@ -721,6 +657,8 @@ namespace Waveface
 
         private void LoginWithInitSession()
         {
+			DebugInfo.ShowMethod();
+
             UpdateNetworkStatus();
 
             Reset(true);
@@ -767,6 +705,8 @@ namespace Waveface
 
         private bool isPrimaryStation(MongoServer dbServer, MR_auth_login _login)
         {
+			DebugInfo.ShowMethod();
+
             BsonDocument _userInfo =
                 dbServer.GetDatabase("wammer").GetCollection("drivers").FindOne(Query.EQ("_id", _login.user.user_id));
 
@@ -781,6 +721,8 @@ namespace Waveface
 
         public bool Login(string email, string password, out string errorMessage)
         {
+			DebugInfo.ShowMethod();
+
             Cursor = Cursors.WaitCursor;
 
             errorMessage = string.Empty;
@@ -889,6 +831,8 @@ namespace Waveface
 
         private void ShowTimelineUI()
         {
+			DebugInfo.ShowMethod();
+
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
@@ -905,6 +849,8 @@ namespace Waveface
 
         public void GetAllDataAsync(object parameter = null)
         {
+			DebugInfo.ShowMethod();
+
             if (InvokeRequired)
             {
                 Invoke(new Action(() => { GetAllDataAsync(parameter); }));
@@ -924,6 +870,8 @@ namespace Waveface
 
         private void ShowPostInTimeline()
         {
+			DebugInfo.ShowMethod();
+
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
@@ -949,6 +897,8 @@ namespace Waveface
 
         private List<Post> filterPost(List<Post> posts)
         {
+			DebugInfo.ShowMethod();
+
             if (string.IsNullOrEmpty(m_displayType))
                 return posts;
 
@@ -965,6 +915,8 @@ namespace Waveface
 
         public void DisplayFilter(string displayType)
         {
+			DebugInfo.ShowMethod();
+
             m_displayType = displayType;
 
             ShowPostInTimeline();
@@ -972,6 +924,8 @@ namespace Waveface
 
         public void PrefetchImages()
         {
+			DebugInfo.ShowMethod();
+
             backgroundWorkerPreloadAllImages.RunWorkerAsync();
         }
 
@@ -998,11 +952,15 @@ namespace Waveface
 
         public void Post()
         {
+			DebugInfo.ShowMethod();
+
             DoRealPostForm(new List<string>(), PostType.All, "");
         }
 
         public void EditPost(Post post, List<string> existPostAddPhotos, int existPostAddPhotosIndex)
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 m_PostForm = new PostForm("", new List<string>(), PostType.All, post, true, existPostAddPhotos, existPostAddPhotosIndex);
@@ -1022,6 +980,8 @@ namespace Waveface
 
         public void Post(List<string> pics, PostType postType, string postText)
         {
+			DebugInfo.ShowMethod();
+
             m_delayPostType = postType;
             m_delayPostPicList = pics;
             m_delayPostText = postText;
@@ -1033,11 +993,7 @@ namespace Waveface
             try
             {
                 m_PostForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
-                DialogResult _dr = m_PostForm.ShowDialog();
-
-                if (_dr == DialogResult.OK)
-                {
-                }
+                m_PostForm.ShowDialog();
             }
             catch (Exception _e)
             {
@@ -1055,6 +1011,8 @@ namespace Waveface
 
         public string GetPostUpdateTime(Post post)
         {
+			DebugInfo.ShowMethod();
+
             string _time = post.timestamp;
 
             try
@@ -1078,6 +1036,8 @@ namespace Waveface
 
         public Post PostUpdate(Post post, Dictionary<string, string> optionalParams)
         {
+			DebugInfo.ShowMethod();
+
             MR_posts_update _update = null;
 
             try
@@ -1109,6 +1069,8 @@ namespace Waveface
 
         public bool ChangePostFavorite(Post post)
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 if (post.favorite == null)
@@ -1148,6 +1110,8 @@ namespace Waveface
 
         public bool HidePost(string postId)
         {
+			DebugInfo.ShowMethod();
+
             Cursor = Cursors.WaitCursor;
 
             MR_posts_hide_ret _ret = RT.REST.Posts_hide(postId);
@@ -1168,6 +1132,8 @@ namespace Waveface
 
         private void RemovePostLocalAndRefresh(string postId)
         {
+			DebugInfo.ShowMethod();
+
             foreach (Post _p in RT.CurrentGroupPosts)
             {
                 if (_p.post_id == postId)
@@ -1183,6 +1149,8 @@ namespace Waveface
 
         public void RefreshSinglePost_ByID(string post_id)
         {
+			DebugInfo.ShowMethod();
+
             MR_posts_getSingle _singlePost = RT.REST.Posts_GetSingle(post_id);
 
             if ((_singlePost != null) && (_singlePost.post != null))
@@ -1195,6 +1163,8 @@ namespace Waveface
 
         public void RefreshSinglePost(Post post)
         {
+			DebugInfo.ShowMethod();
+
             ReplacePostInList(post, RT.CurrentGroupPosts);
 
             ShowPostInTimeline();
@@ -1202,6 +1172,8 @@ namespace Waveface
 
         private bool ReplacePostInList(Post post, List<Post> posts)
         {
+			DebugInfo.ShowMethod();
+
             int k = -1;
 
             for (int i = 0; i < posts.Count; i++)
@@ -1225,6 +1197,8 @@ namespace Waveface
 
         private string GetNewestUpdateTimeInPosts(List<Post> posts)
         {
+			DebugInfo.ShowMethod();
+
             DateTime _dtNewest = new DateTime(1, 1, 1);
             DateTime _dt;
 
@@ -1257,6 +1231,8 @@ namespace Waveface
 
         private Dictionary<DateTime, string> setCalendarBoldedDates(List<Post> posts)
         {
+			DebugInfo.ShowMethod();
+
             Dictionary<DateTime, string> _firstPostInADay = new Dictionary<DateTime, string>();
 
             MonthCalendar _mc = leftArea.MonthCalendar;
@@ -1285,6 +1261,8 @@ namespace Waveface
 
         public void ClickCalendar(DateTime date)
         {
+			DebugInfo.ShowMethod();
+
             if (date == DateTime.Now.Date)
             {
                 setCalendarDay(date);
@@ -1302,6 +1280,8 @@ namespace Waveface
 
         public void setCalendarDay(DateTime date)
         {
+			DebugInfo.ShowMethod();
+
             MonthCalendar _calendar = leftArea.MonthCalendar;
             _calendar.SelectionStart = date;
             _calendar.SelectionEnd = date;
@@ -1314,6 +1294,8 @@ namespace Waveface
 
         public void CreateFileWatcher()
         {
+			DebugInfo.ShowMethod();
+
             FileSystemWatcher _watcher = new FileSystemWatcher();
             _watcher.Filter = "*.dat";
             _watcher.Created += watcher_FileCreated;
@@ -1323,6 +1305,8 @@ namespace Waveface
 
         private void watcher_FileCreated(object sender, FileSystemEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
                 try
@@ -1405,26 +1389,36 @@ namespace Waveface
 
         public void RefreshTimelineUI()
         {
+			DebugInfo.ShowMethod();
+
             postsArea.RefreshTimelineUI();
         }
 
         public void RemovePost()
         {
+			DebugInfo.ShowMethod();
+
             postsArea.RemovePost();
         }
 
         public void SetClock(bool visible, DateTime dateTime)
         {
+			DebugInfo.ShowMethod();
+
             detailView.SetClock(visible, dateTime);
         }
 
         public int GetLeftAreaWidth()
         {
+			DebugInfo.ShowMethod();
+
             return leftArea.Width;
         }
 
         private void timerPolling_Tick(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             timerPolling.Enabled = false;
 
             try
@@ -1476,25 +1470,25 @@ namespace Waveface
                         }
                     }
 
-                    if (_usertracks.post_list.Count > 0)
-                    {
-                        string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
+					if (_usertracks.post_list.Count > 0)
+					{
+						string _json = JsonConvert.SerializeObject(_usertracks.post_list.Select(x => x.post_id).ToList());
 
-                        MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
+						MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter_2(_json);
 
-                        if (_postsGet != null)
-                        {
-                            bool _changed = false;
+						if (_postsGet != null)
+						{
+							bool _changed = false;
 
-                            foreach (Post _post in _postsGet.posts)
-                            {
-                                _changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
-                            }
+							foreach (Post _post in _postsGet.posts)
+							{
+								_changed = ReplacePostInList(_post, RT.CurrentGroupPosts);
+							}
 
-                            if (_changed)
-                                ShowPostInTimeline();
-                        }
-                    }
+							if (_changed)
+								ShowPostInTimeline();
+						}
+					}
                 }
             }
             catch (ChangeLogsPurgedException)
@@ -1537,6 +1531,8 @@ namespace Waveface
 
         public void ShowStatuMessage(string message, bool timeout)
         {
+			DebugInfo.ShowMethod();
+
             if (InvokeRequired)
             {
                 Invoke(new MethodInvoker(
@@ -1557,11 +1553,15 @@ namespace Waveface
 
         private void timerShowStatuMessage_Tick(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             timerShowStatuMessage.Enabled = false;
         }
 
         public void ShowFileMissDialog(string text)
         {
+			DebugInfo.ShowMethod();
+
             NewPostThreadErrorDialogResult = DialogResult.None;
 
             MsgBox _msgBox = new MsgBox(string.Format(Resources.FILE_MISS_PATTERN, text), "Stream",
@@ -1575,6 +1575,8 @@ namespace Waveface
 
         public void OverQuotaMissDialog(string text)
         {
+			DebugInfo.ShowMethod();
+
             NewPostThreadErrorDialogResult = DialogResult.None;
 
             MsgBox _msgBox = new MsgBox(string.Format(Resources.OVER_QUOTA, text), "Stream",
@@ -1592,6 +1594,8 @@ namespace Waveface
 
         public void ReloadAllData(object parameter = null)
         {
+			DebugInfo.ShowMethod();
+
             if (InvokeRequired)
             {
                 Invoke(new Action(() => { ReloadAllData(parameter); }));
@@ -1604,6 +1608,8 @@ namespace Waveface
 
         private void bgWorkerGetAllData_DoWork(object sender, DoWorkEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             string _firstGetCount = "100"; //200
             string _continueGetCount = "-100"; //200
             Dictionary<string, Post> _allPosts = new Dictionary<string, Post>();
@@ -1694,6 +1700,8 @@ namespace Waveface
 
         private void bgWorkerGetAllData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             Cursor = Cursors.Default;
 
             if (e.Error is VersionNotSupportedException)
@@ -1716,6 +1724,8 @@ namespace Waveface
 
         private void handleVersionNotSupportedError()
         {
+			DebugInfo.ShowMethod();
+
             int original = System.Threading.Interlocked.Exchange(ref m_InForceAutoUpdate, 1);
 
             if (original == 1)
@@ -1736,6 +1746,8 @@ namespace Waveface
 
         public void PrefetchImages(List<Post> posts, bool allSize)
         {
+			DebugInfo.ShowMethod();
+
             foreach (Post post in posts)
             {
                 switch (post.type)
@@ -1833,6 +1845,8 @@ namespace Waveface
 
         private void PreloadThumbnail(string url, string localPicPath)
         {
+			DebugInfo.ShowMethod();
+
             if (!File.Exists(localPicPath))
             {
                 ImageItem _item = new ImageItem();
@@ -1846,6 +1860,8 @@ namespace Waveface
 
         private void backgroundWorkerPreloadAllImages_DoWork(object sender, DoWorkEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (RT.CurrentGroupPosts != null)
             {
                 PrefetchImages(RT.CurrentGroupPosts, true);
@@ -1883,6 +1899,8 @@ namespace Waveface
 
         private void Main_Shown(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             Application.DoEvents();
 
             Init();
@@ -1898,15 +1916,6 @@ namespace Waveface
 
                 UpdateNetworkStatus();
             }
-
-            /*
-            InitDropableNotifyIcon();
-            
-            m_trayIconPopup = new Popup(m_trayIconPanel = new TrayIconPanel());
-            
-            // Send To
-            CreateFileWatcher();
-            */
 
             CreateLoadingImage();
 
