@@ -222,6 +222,8 @@
       <ComponentRef Id="Microsoft.mshtml.dll"/>
       <ComponentRef Id="nlog.config"/>
       <ComponentRef Id="nlog.dll"/>
+      <ComponentRef Id="Microsoft.WindowsAPICodePack.Shell.dll"/>
+      <ComponentRef Id="Microsoft.WindowsAPICodePack.dll"/>
     </ComponentGroup>
     
     <DirectoryRef Id="INSTALLLOCATION">
@@ -319,6 +321,15 @@
       <Component Id="nlog.config" Guid="{873B6B1B-036A-444E-A530-418F095A2A11}">
         <File Id="nlog.config" Source="$(var.Wammer.ProjectDir)\nlog.config"/>
       </Component>
+
+      <Component Id="Microsoft.WindowsAPICodePack.dll" Guid="*">
+        <File Id="Microsoft.WindowsAPICodePack.dll" Source="$(var.Wammer.ProjectDir)\..\Libs\Microsoft.WindowsAPICodePack.dll"/>
+      </Component>
+
+      <Component Id="Microsoft.WindowsAPICodePack.Shell.dll" Guid="*">
+        <File Id="Microsoft.WindowsAPICodePack.Shell.dll" Source="$(var.Wammer.ProjectDir)\..\Libs\Microsoft.WindowsAPICodePack.Shell.dll"/>
+      </Component>
+      
     </DirectoryRef>
 
     <!-- localization resources -->
