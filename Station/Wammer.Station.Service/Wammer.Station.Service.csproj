@@ -14,6 +14,7 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -110,6 +110,9 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="websocket-sharp">
+      <HintPath>..\3rd_party\websocket-sharp\websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -133,7 +136,17 @@
     <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
+    <Compile Include="Station\Notify\PostUpsertNotifierDB.cs" />
+    <Compile Include="Station\Notify\INotifyChannel.cs" />
+    <Compile Include="Station\Notify\INotifyChannels.cs" />
+    <Compile Include="Station\Notify\Messages.cs" />
+    <Compile Include="Station\Notify\NotificationWebSocketService.cs" />
+    <Compile Include="Station\Notify\NotifyChannelEventArgs.cs" />
+    <Compile Include="Station\Notify\PostUpsertNotifier.cs" />
+    <Compile Include="Station\Notify\WebSocketNotifyChannel.cs" />
+    <Compile Include="Station\Notify\WebSocketNotifyChannels.cs" />
     <Compile Include="Station\PostUpload\MobileDevicePostActivity.cs" />
+    <Compile Include="Station\PostUpload\PostUpsertEventArgs.cs" />
     <Compile Include="Station\Retry\RetryQueueHelper.cs" />
     <Compile Include="Station\SessionNotExistException.cs" />
     <Compile Include="Station\Station.cs" />

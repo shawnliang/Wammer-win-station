@@ -314,6 +314,9 @@ namespace Wammer.Station
 				TunnelToCloud();
 
 				UpdateLocalPostDataFromCloud();
+
+				NotifyDevicesForPostUpdate();
+
 				return;
 			}
 
@@ -341,6 +344,14 @@ namespace Wammer.Station
 
 			var response = new UpdatePostResponse {post = post};
 			RespondSuccess(response);
+		}
+
+		private void NotifyDevicesForPostUpdate()
+		{
+			var group_id = Parameters[CloudServer.PARAM_GROUP_ID];
+			var user = DriverCollection.Instance.FindDriverByGroupId(group_id);
+			Station.Instance.PostUpsertNotifier.OnPostUpserted(this,
+				new Wammer.PostUpload.PostUpsertEventArgs(Parameters[CloudServer.PARAM_POST_ID], Parameters[CloudServer.PARAM_SESSION_TOKEN], user.user_id));
 		}
 
 		#endregion

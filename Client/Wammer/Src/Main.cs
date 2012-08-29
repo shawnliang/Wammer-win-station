@@ -67,7 +67,7 @@ namespace Waveface
 
         private CustomWindow _messageReceiver;
         private WService _service;
-
+        private WebSocketSharp.WebSocket wsNotifyChannel;
         #endregion
 
         #region Private Property
@@ -357,7 +357,7 @@ namespace Waveface
             }
             else
             {
-				MessageBox.Show(Resources.EXCEPTION_401, "Stream", MessageBoxButtons.OK,
+                MessageBox.Show(Resources.EXCEPTION_401, "Stream", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 QuitOption = QuitOption.Logout;
@@ -378,7 +378,7 @@ namespace Waveface
             }
             else
             {
-				MessageBox.Show(Resources.FORCE_LOGOUT, Resources.SYSTEM_ERROR_TITLE, MessageBoxButtons.OK,
+                MessageBox.Show(Resources.FORCE_LOGOUT, Resources.SYSTEM_ERROR_TITLE, MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
 
                 QuitOption = QuitOption.Logout;
@@ -397,7 +397,7 @@ namespace Waveface
 
             m_dropableNotifyIcon.Dispose();
 
-			CancelAllThreads();
+            CancelAllThreads();
             SaveRunTime();
             
         }
@@ -677,17 +677,17 @@ namespace Waveface
                     _dbServer.GetDatabase("wammer").GetCollection("LoginedSession").FindOne(Query.EQ("_id",
                                                                                                      m_initSessionToken));
 
-				if (_doc == null)
-					s_logger.Warn("Cannot found the specified logined data from DB");
+                if (_doc == null)
+                    s_logger.Warn("Cannot found the specified logined data from DB");
 
-				string _json = _doc.ToJson();
+                string _json = _doc.ToJson();
 
                 MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(_json);
 
-				if (_login == null)
-					s_logger.Warn("Cannot deserialize to MR_auth_login");
-				
-				_login.session_token = m_initSessionToken;
+                if (_login == null)
+                    s_logger.Warn("Cannot deserialize to MR_auth_login");
+                
+                _login.session_token = m_initSessionToken;
 
                 IsPrimaryStation = isPrimaryStation(_dbServer, _login);
 
@@ -697,7 +697,7 @@ namespace Waveface
             catch (Exception e)
             {
                 s_logger.Error("Cannot login: " + e);
-				MessageBox.Show(Resources.FORCE_LOGOUT, Resources.SYSTEM_ERROR_TITLE);
+                MessageBox.Show(Resources.FORCE_LOGOUT, Resources.SYSTEM_ERROR_TITLE);
                 QuitOption = QuitOption.Logout;
                 Close();
             }
@@ -935,7 +935,7 @@ namespace Waveface
 
         private void timerDelayPost_Tick(object sender, EventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             if (m_delayPostPicList.Count == 0)
                 return;
@@ -989,7 +989,7 @@ namespace Waveface
 
         private void DoRealPostForm(List<string> pics, PostType postType, string delayPostText)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
             try
             {
                 m_PostForm = new PostForm(delayPostText, pics, postType, null, false, null, -1);
@@ -1057,7 +1057,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-				MessageBox.Show(Resources.ERROR_AND_RETRY, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Resources.ERROR_AND_RETRY, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1098,7 +1098,7 @@ namespace Waveface
             {
                 NLogUtility.Exception(s_logger, _e, "PostUpdate");
 
-				MessageBox.Show(Resources.ERROR_AND_RETRY, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Resources.ERROR_AND_RETRY, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ReloadAllData();
 
@@ -1731,7 +1731,7 @@ namespace Waveface
             if (original == 1)
                 return;
 
-			MessageBox.Show(Resources.NEED_UPGRADE, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(Resources.NEED_UPGRADE, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
             AutoUpdate update = new AutoUpdate(true);
             if (update.IsUpdateRequired())
                 update.ShowUpdateNeededUI();
@@ -1917,6 +1917,10 @@ namespace Waveface
                 UpdateNetworkStatus();
             }
 
+
+            CreateWebSocketChannelToStation();
+
+
             CreateLoadingImage();
 
             panelTitle.AccountInfoClosed += new EventHandler(panelTitle_AccountInfoClosed);
@@ -1936,6 +1940,31 @@ namespace Waveface
             };
 
             timer.Start();
+        }
+
+        private void CreateWebSocketChannelToStation()
+        {
+            wsNotifyChannel = new WebSocketSharp.WebSocket("ws://127.0.0.1:9983");
+
+            wsNotifyChannel.OnOpen += (s, evt) =>
+            {
+                var json = new {
+                    connect = new {
+                        session_token = RT.REST.SessionToken,
+                        apikey = RT.Login.apikey.apikey,
+                        user_id = RT.Login.user.user_id
+                    }
+                };
+
+                var req = JsonConvert.SerializeObject(json);
+                wsNotifyChannel.Send(req);
+            };
+
+            wsNotifyChannel.OnMessage += (s, evt) =>
+            {
+                ReloadAllData();
+            };
+            wsNotifyChannel.Connect();
         }
     }
 }

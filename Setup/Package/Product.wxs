@@ -199,6 +199,7 @@
       <ComponentRef Id="StationSystemTray.resources.dll"/>
       <ComponentRef Id="System.Data.SQLite.dll"/>
       <ComponentRef Id="CommonLibs.dll"/>
+      <ComponentRef Id="websocketsharp.dll"/>
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
@@ -228,7 +229,8 @@
     
     <DirectoryRef Id="INSTALLLOCATION">
       <Component Id="station.service.exe" Guid="{C428C8C2-9C38-4E40-8372-E39C56970A82}">
-        <fire:FirewallException Id="WFFWX1" Name="Waveface Station Service" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
+        <fire:FirewallException Id="WFFWX1" Name="Waveface Station Service REST" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
+        <fire:FirewallException Id="WFFWX2" Name="Waveface Station Service SOCK" Port="9983" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
         <File Id="station.service.exe" Source="$(var.Wammer.Station.Service.TargetPath)" KeyPath="yes" Checksum="yes"/>
         <ServiceInstall Description="!(loc.STATION_SVC_DESC)" DisplayName="Waveface Station"
                         Name="WavefaceStation" Start="auto" Type="ownProcess" ErrorControl="ignore">
@@ -264,6 +266,9 @@
       </Component>
       <Component Guid="*">
         <File Id="StationSystemTray.exe.config" Source="$(var.StationSystemTray.TargetPath).config" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Guid="*">
+        <File Id="websocketsharp.dll" Source="$(var.Wammer.Station.Service.TargetDir)\websocket-sharp.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
      
       <!-- client files -->

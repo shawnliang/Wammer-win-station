@@ -52,7 +52,7 @@ namespace Waveface
         {
 			DebugInfo.ShowMethod();
 
-			Debug.Assert(editMode && post != null, "post can't null!");
+			Debug.Assert(!editMode || post != null, "post can't be null in edit mode");
 
 
             EditMode = editMode;
