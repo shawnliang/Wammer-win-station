@@ -7,6 +7,7 @@ using Waveface.Upload;
 using Waveface.API.V2;
 using System.Drawing;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 namespace Waveface
 {
@@ -40,6 +41,7 @@ namespace Waveface
 		/// <returns></returns>
 		private BitmapFrame GetBitmapFrame(string photoFile)
 		{
+			DebugInfo.ShowMethod();
 			try
 			{
 				var decoder = BitmapDecoder.Create(new Uri(photoFile), BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
@@ -59,8 +61,11 @@ namespace Waveface
 		/// </summary>
 		public void Import()
 		{
+			DebugInfo.ShowMethod();
+
 			var systemResourcePath = StationRegHelper.GetValue("ResourceFolder", "");
 
+			
 			var validContents = from content in m_ContentProvider.GetContents()
 								where content.Path != systemResourcePath 
 								let info = new FileInfo(content.FilePath)
@@ -68,8 +73,9 @@ namespace Waveface
 								let frame = GetBitmapFrame(content.FilePath)
 								where frame != null && frame.Height >= 256 && frame.Width >= 256
 								select content;
-								
+
 			var contentGroup = validContents.DistinctBy(content => content.FilePath).GroupBy(content => content.Path);
+
 
 			var coverUploadItems = new List<UploadItem>();
 			var otherUploadItems = new List<UploadItem>();
@@ -93,6 +99,22 @@ namespace Waveface
 					"",
 					"image",
 					objectIDs.FirstOrDefault());
+
+
+				var sources = new Dictionary<string, string>();
+				foreach (var item in uploadItems)
+				{
+					sources.Add(item.object_id,
+						item.file_path);
+				}
+
+
+				Main.Current.ReloadAllData(
+					new PhotoPostInfo
+					{
+						post_id = postID,
+						sources = sources
+					});
 
 				coverUploadItems.Add(uploadItems.FirstOrDefault());
 

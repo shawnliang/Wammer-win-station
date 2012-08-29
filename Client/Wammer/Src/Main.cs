@@ -215,8 +215,6 @@ namespace Waveface
 
             m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
-            // InitVirtualFolderForm();
-            // InitTaskbarNotifier();
 
             m_formSettings = new FormSettings(this);
             m_formSettings.UseSize = true;
@@ -883,6 +881,27 @@ namespace Waveface
                 List<Post> _posts = RT.CurrentGroupPosts;
 
                 _posts = filterPost(_posts);
+
+				if (_posts.Count == 0)
+				{
+					MongoServer dbServer = MongoServer.Create("mongodb://localhost:10319/?safe=true");
+					BsonDocument _userInfo =
+		 dbServer.GetDatabase("wammer").GetCollection("drivers").FindOne(Query.EQ("_id", RT.Login.user.user_id));
+
+
+					Boolean isDataImportQueried = _userInfo.Contains("isDataImportQueried") ? _userInfo.GetElement("isDataImportQueried").Value.AsBoolean : false;
+
+					if (!isDataImportQueried)
+					{
+						AutoImportDialog dialog = new AutoImportDialog() 
+						{
+							StartPosition = FormStartPosition.CenterParent
+						};
+						dialog.ShowDialog(this);
+						dbServer.GetDatabase("wammer").GetCollection("drivers").Update(Query.EQ("_id", RT.Login.user.user_id), MongoDB.Driver.Builders.Update.Set("isDataImportQueried", true));
+						return;
+					}
+				}
 
                 Dictionary<DateTime, string> _firstPostInADay = setCalendarBoldedDates(_posts);
 
