@@ -200,7 +200,7 @@ namespace UT_WammerStation.WebSocketChannel
 		string errorMsg;
 		ManualResetEvent connectEvt = new ManualResetEvent(false);
 
-		bool isClosed = false;
+		bool isClosed;
 
 		public StreamWebSocketClient(string url)
 		{
