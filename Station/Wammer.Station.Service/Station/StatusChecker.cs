@@ -41,6 +41,7 @@ namespace Wammer.Station
 			var status = new StationDetail
 			             	{
 			             		location = baseurl,
+								ws_location = "ws://" + new Uri(baseurl).Host + ":9983",
 			             		diskusage = new List<DiskUsage>(),
 			             		upnp = new UPnPInfo { status = false },
 			             		computer_name = Environment.MachineName,
