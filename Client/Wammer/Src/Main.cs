@@ -688,8 +688,6 @@ namespace Waveface
 				_login.session_token = m_initSessionToken;
 
                 IsPrimaryStation = isPrimaryStation(_dbServer, _login);
-
-                Debug.WriteLine("_login.session_token: " + _login.session_token);
                 procLoginResponse(_login);
             }
             catch (Exception e)

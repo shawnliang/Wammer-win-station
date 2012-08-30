@@ -1460,7 +1460,7 @@ namespace Waveface.API.V2
 
                 string _userAgent = "Windows";
 
-                string _fileName = new FileInfo(fileName).Name;
+                string _fileName = Path.GetFileName(fileName);
 
                 HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic,
                                                                                                  _fileName, _mimeType);

@@ -52,9 +52,6 @@ namespace Waveface
         {
 			DebugInfo.ShowMethod();
 
-			Debug.Assert(editMode && post != null, "post can't null!");
-
-
             EditMode = editMode;
             Post = post;
             m_autoText = autoText;

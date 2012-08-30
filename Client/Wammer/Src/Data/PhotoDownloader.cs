@@ -35,6 +35,8 @@ namespace Waveface
 
         public PhotoDownloader()
         {
+			DebugInfo.ShowMethod();
+
             ThumbnailItems = new List<ImageItem>();
             PhotoItems = new List<ImageItem>();
 
@@ -48,18 +50,24 @@ namespace Waveface
 
         public void Start()
         {
+			DebugInfo.ShowMethod();
+
             m_thumbnailWorkItem = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 0);
             m_photoItemsWorkItem2 = AbortableThreadPool.QueueUserWorkItem(DownloadThreadMethod, 1);
         }
 
         public WorkItemStatus AbortThread()
         {
+			DebugInfo.ShowMethod();
+
             AbortableThreadPool.Cancel(m_thumbnailWorkItem, true);
             return AbortableThreadPool.Cancel(m_photoItemsWorkItem2, true);
         }
 
         public void Add(ImageItem item, bool forceRetry)
         {
+			DebugInfo.ShowMethod();
+
             if (item.PostItemType == PostItemType.Thumbnail)
             {
                 lock (ThumbnailItems)
@@ -122,6 +130,8 @@ namespace Waveface
 
         public void RemoveAll()
         {
+			DebugInfo.ShowMethod();
+
             lock (ThumbnailItems)
             {
                 ThumbnailItems.Clear();
@@ -137,6 +147,8 @@ namespace Waveface
 
         private void DownloadThreadMethod(object state)
         {
+			DebugInfo.ShowMethod();
+
             long _count = 0;
             string _localPath = string.Empty;
             string _url = string.Empty;
@@ -382,6 +394,8 @@ namespace Waveface
 
         private bool canGetOrigin(ImageItem item)
         {
+			DebugInfo.ShowMethod();
+
             if (m_downlaodErrorOriginFiles.ContainsKey(item.OriginPath))
             {
                 DateTime _dt = m_downlaodErrorOriginFiles[item.OriginPath];
@@ -415,6 +429,8 @@ namespace Waveface
 
         public static void PreloadPictures(Post post, bool allSize)
         {
+			DebugInfo.ShowMethod();
+
             List<string> _filePathMediums = new List<string>();
             List<string> _urlMediums = new List<string>();
 

@@ -83,6 +83,7 @@ namespace Waveface
 			});
 
 			btnImport.Enabled = false;
+			button1.Enabled = false;
 			progressBar1.Visible = true;
 			mi.BeginInvoke((result) =>
 			{
@@ -92,7 +93,31 @@ namespace Waveface
 					progressBar1.Visible = false;
 				});
 			}, null);
-		} 
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			if (folderBrowserDialog1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+				return;
+
+			MethodInvoker mi = new MethodInvoker(() =>
+			{
+				var importer = new AutoImporter();
+				importer.Import(folderBrowserDialog1.SelectedPath);
+			});
+
+			btnImport.Enabled = false;
+			button1.Enabled = false;
+			progressBar1.Visible = true;
+			mi.BeginInvoke((result) =>
+			{
+				SendSyncContext(() =>
+				{
+					this.DialogResult = DialogResult.OK;
+					progressBar1.Visible = false;
+				});
+			}, null);
+		}
 		#endregion
 	}
 }
