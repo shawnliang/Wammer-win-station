@@ -70,45 +70,51 @@ namespace Waveface
 			var pendingUploadItems = new List<UploadItem>();
 			foreach (var content in importContents)
 			{
-				var contentPath = content.Path;
-				if (content.Path == systemResourcePath)
-					continue;
-
-				if (processedPaths.Contains(contentPath))
-					continue;
-
-				var contentLength = (new FileInfo(content.FilePath)).Length;
-				if (contentLength < 20 * 1024)
-					continue;
-
-				var frame = GetBitmapFrame(content.FilePath);
-				if (frame == null || frame.Height < 256 || frame.Width < 256)
-					continue;
-
-				var objectID = Guid.NewGuid().ToString();
-				var uploadItem = new UploadItem()
+				try
 				{
-					file_path = content.FilePath,
-					object_id = objectID,
-					post_id = postID
-				};
+					var contentPath = content.Path;
+					if (content.Path == systemResourcePath)
+						continue;
 
-				if (uploadItems.Count == 0)
-					Main.Current.Uploader.Add(uploadItem);
-				else
-					pendingUploadItems.Add(uploadItem);
+					if (processedPaths.Contains(contentPath))
+						continue;
 
-				uploadItems.Add(uploadItem);
+					var contentLength = (new FileInfo(content.FilePath)).Length;
+					if (contentLength < 20 * 1024)
+						continue;
 
-				if (processPath != contentPath)
-				{
-					postID = Guid.NewGuid().ToString();
-					if (processPath.Length > 0 && uploadItems.Count > 0)
+					var frame = GetBitmapFrame(content.FilePath);
+					if (frame == null || frame.Height < 256 || frame.Width < 256)
+						continue;
+
+					var objectID = Guid.NewGuid().ToString();
+					var uploadItem = new UploadItem()
 					{
-						CreatePost(postID, uploadItems, processPath);
-						processedPaths.Add(processPath);
+						file_path = content.FilePath,
+						object_id = objectID,
+						post_id = postID
+					};
+
+					if (uploadItems.Count == 0)
+						Main.Current.Uploader.Add(uploadItem);
+					else
+						pendingUploadItems.Add(uploadItem);
+
+					if (processPath != contentPath)
+					{
+						postID = Guid.NewGuid().ToString();
+						if (processPath.Length > 0 && uploadItems.Count > 0)
+						{
+							CreatePost(postID, uploadItems, processPath);
+							processedPaths.Add(processPath);
+						}
+						processPath = contentPath;
 					}
-					processPath = contentPath;
+
+					uploadItems.Add(uploadItem);
+				}
+				catch (Exception)
+				{
 				}
 			}
 
