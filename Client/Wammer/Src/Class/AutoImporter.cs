@@ -61,64 +61,96 @@ namespace Waveface
 		{
 			DebugInfo.ShowMethod();
 			var systemResourcePath = StationRegHelper.GetValue("ResourceFolder", "");
-			var validContents = from content in importContents
-								where content.Path != systemResourcePath
-								let info = new FileInfo(content.FilePath)
-								where info.Length >= 20 * 1024
-								let frame = GetBitmapFrame(content.FilePath)
-								where frame != null && frame.Height >= 256 && frame.Width >= 256
-								select content;
 
-			var contentGroup = validContents.GroupBy(content => content.Path);
+			var processPath = string.Empty;
+			var postID = string.Empty;
+			var processedPaths = new HashSet<string>();
 
-
-			var coverUploadItems = new List<UploadItem>();
-			var otherUploadItems = new List<UploadItem>();
-			foreach (var contents in contentGroup)
+			var uploadItems = new List<UploadItem>();
+			var pendingUploadItems = new List<UploadItem>();
+			foreach (var content in importContents)
 			{
-				var distinctedContents = contents.DistinctBy(content => content.FilePath);
-				var postID = Guid.NewGuid().ToString();
-				var uploadItems = (from content in distinctedContents
-								   select new UploadItem
-								   {
-									   file_path = content.FilePath,
-									   object_id = Guid.NewGuid().ToString(),
-									   post_id = postID
-								   }).ToList();
+				var contentPath = content.Path;
+				if (content.Path == systemResourcePath)
+					continue;
 
-				var objectIDs = uploadItems.Select(item => item.object_id).ToArray();
+				if (processedPaths.Contains(contentPath))
+					continue;
 
-				var post = Main.Current.RT.REST.Posts_New(
-					postID,
-					StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(contents.Key.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault(), 80000)),
-					"[" + string.Join(",", objectIDs.Select(id => "\"" + id + "\"").ToArray()) + "]",
-					"",
-					"image",
-					objectIDs.FirstOrDefault());
+				var contentLength = (new FileInfo(content.FilePath)).Length;
+				if (contentLength < 20 * 1024)
+					continue;
 
+				var frame = GetBitmapFrame(content.FilePath);
+				if (frame == null || frame.Height < 256 || frame.Width < 256)
+					continue;
 
-				var sources = new Dictionary<string, string>();
-				foreach (var item in uploadItems)
+				var objectID = Guid.NewGuid().ToString();
+				var uploadItem = new UploadItem()
 				{
-					sources.Add(item.object_id,
-						item.file_path);
-				}
+					file_path = content.FilePath,
+					object_id = objectID,
+					post_id = postID
+				};
 
+				if (uploadItems.Count == 0)
+					Main.Current.Uploader.Add(uploadItem);
+				else
+					pendingUploadItems.Add(uploadItem);
 
-				Main.Current.ReloadAllData(
-					new PhotoPostInfo
+				uploadItems.Add(uploadItem);
+
+				if (processPath != contentPath)
+				{
+					postID = Guid.NewGuid().ToString();
+					if (processPath.Length > 0 && uploadItems.Count > 0)
 					{
-						post_id = postID,
-						sources = sources
-					});
-
-				coverUploadItems.Add(uploadItems.FirstOrDefault());
-
-				uploadItems.RemoveAt(0);
-				otherUploadItems.AddRange(uploadItems);
+						CreatePost(postID, uploadItems, processPath);
+						processedPaths.Add(processPath);
+					}
+					processPath = contentPath;
+				}
 			}
-			Main.Current.Uploader.Add(coverUploadItems);
-			Main.Current.Uploader.Add(otherUploadItems);
+
+			if (processPath.Length > 0 && uploadItems.Count > 0)
+				CreatePost(postID, uploadItems, processPath);
+
+			Main.Current.Uploader.Add(pendingUploadItems);
+		}
+
+		/// <summary>
+		/// Creates the post.
+		/// </summary>
+		/// <param name="postID">The post ID.</param>
+		/// <param name="uploadItems">The upload items.</param>
+		/// <param name="contentPath">The content path.</param>
+		private static void CreatePost(string postID, List<UploadItem> uploadItems, string contentPath)
+		{
+			var objectIDs = uploadItems.Select(item => item.object_id).ToArray();
+			var post = Main.Current.RT.REST.Posts_New(
+				postID,
+				StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(contentPath.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault(), 80000)),
+				"[" + string.Join(",", objectIDs.Select(id => "\"" + id + "\"").ToArray()) + "]",
+				"",
+				"image",
+				objectIDs.FirstOrDefault());
+
+
+			var sources = new Dictionary<string, string>();
+			foreach (var item in uploadItems)
+			{
+				sources.Add(item.object_id,
+					item.file_path);
+			}
+
+
+			Main.Current.ReloadAllData(
+				new PhotoPostInfo
+				{
+					post_id = postID,
+					sources = sources
+				});
+			uploadItems.Clear();
 		}
 		#endregion
 
