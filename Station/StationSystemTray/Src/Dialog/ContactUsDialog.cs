@@ -198,10 +198,20 @@ namespace StationSystemTray
 
 		private static void makeEmptyDir(string supportDir)
 		{
-			if (Directory.Exists(supportDir))
-				Directory.Delete(supportDir, true);
-
-			Directory.CreateDirectory(supportDir);
+			if (!Directory.Exists(supportDir))
+			{
+				Directory.CreateDirectory(supportDir);
+			}
+			else
+			{
+				foreach (var entry in Directory.GetFileSystemEntries(supportDir))
+				{
+					if (Directory.Exists(entry))
+						Directory.Delete(entry, true);
+					else
+						File.Delete(entry);
+				}
+			}
 		}
 
 		private void btnOK_Click(object sender, EventArgs e)
