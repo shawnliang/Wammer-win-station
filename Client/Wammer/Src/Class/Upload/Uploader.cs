@@ -17,22 +17,30 @@ namespace Waveface.Upload
 
 		public Uploader(UploadQueue queue)
 		{
+			DebugInfo.ShowMethod();
+
 			this.queue = queue;
 			this.thread = new Thread(this.run);
 		}
 
 		public void Start()
 		{
+			DebugInfo.ShowMethod();
+
 			this.thread.Start();
 		}
 
 		public void Join()
 		{
+			DebugInfo.ShowMethod();
+
 			this.thread.Join();
 		}
 
 		private void run()
 		{
+			DebugInfo.ShowMethod();
+
 			while (!exit)
 			{
 				var uploadItem = queue.Pop();
@@ -60,6 +68,8 @@ namespace Waveface.Upload
 
 		private void handleWebException(UploadItem uploadItem, WebException e)
 		{
+			DebugInfo.ShowMethod();
+
 			logger.WarnException("attachment upload failed", e);
 
 			if (e.Status == WebExceptionStatus.ProtocolError)
