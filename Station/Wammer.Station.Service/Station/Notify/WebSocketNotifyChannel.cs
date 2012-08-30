@@ -36,5 +36,20 @@ namespace Wammer.Station.Notify
 		{
 			return string.Format("WebSocketNotifyChannel - user: {0}, session_token: {1}, apikey: {2}", UserId, SessionToken, ApiKey);
 		}
+
+		public void Close(WebSocketSharp.Frame.CloseStatusCode closeCode, string reason)
+		{
+			var result = new GenericCommand
+			{
+				result = new ResultMsg
+				{
+					api_ret_code = (int)closeCode,
+					api_ret_message = reason
+				}
+			};
+
+			WSService.Send(result.ToFastJSON());
+			WSService.Stop(closeCode, reason);
+		}
 	}
 }

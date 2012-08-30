@@ -37,7 +37,6 @@ namespace Wammer.Station
 		private string _stationID;
 		private TaskRunner<IResourceDownloadTask>[] _bodySyncRunners;
 		private TaskRunner<ITask>[] _upstreamTaskRunner;
-		private Boolean _isSynchronizationStatus;
 		private DriverController _driverAgent;
 		private Object _bodySyncRunnersLockObj;
 		private Exit threadsExit = new Exit();
@@ -186,6 +185,12 @@ namespace Wammer.Station
 			{
 				try
 				{
+					if (DriverCollection.Instance.FindOne(Query.EQ("_id", e.UserId)) == null)
+					{
+						e.Channel.Close(WebSocketSharp.Frame.CloseStatusCode.POLICY_VIOLATION, "User not exist");
+						return;
+					}
+
 					// After device notification channel is established, force device to check changelogs/usertracks because 
 					// station ignores its subscription message which specifies where the sync should starts ( a timestamp or seq_num ).
 					e.Channel.Notify();
