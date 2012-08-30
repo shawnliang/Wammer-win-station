@@ -236,7 +236,7 @@ namespace UT_WammerStation.WebSocketChannel
 					session_token = session_token,
 					user_id = user_id
 				},
-				subscribe = new SubscribeMSg { since_seq_num = 12345 }
+				subscribe = new SubscribeMSg {  }
 			};
 
 			socket.Send(cmd.ToFastJSON());

@@ -9,7 +9,6 @@ namespace Wammer.Station.Notify
 {
 	public class NotificationWebSocketService : WebSocketService
 	{
-		private bool connected;
 		private WebSocketNotifyChannel channelInfo;
 
 		private static List<WebSocketNotifyChannel> allChannels = new List<WebSocketNotifyChannel>();
@@ -20,23 +19,25 @@ namespace Wammer.Station.Notify
 		{
 			base.onMessage(sender, e);
 
-			if (e.Type != WebSocketSharp.Frame.Opcode.TEXT)
+			try
 			{
-				Stop(WebSocketSharp.Frame.CloseStatusCode.PROTOCOL_ERROR, "Not supported opcode by station");
-				return;
-			}
+				if (e.Type != WebSocketSharp.Frame.Opcode.TEXT)
+				{
+					Stop(WebSocketSharp.Frame.CloseStatusCode.PROTOCOL_ERROR, "Not supported opcode by station");
+					return;
+				}
 
-			var cmd = fastJSON.JSON.Instance.ToObject<GenericCommand>(e.Data);
-			var connect = cmd.connect;
-			if (connect != null && connect.IsValid())
-			{
-				this.connected = true;
-				this.channelInfo = new WebSocketNotifyChannel(this, connect.user_id, connect.session_token, connect.apikey);
-				addChannel(channelInfo);
+				var cmd = fastJSON.JSON.Instance.ToObject<GenericCommand>(e.Data);
+				var connect = cmd.connect;
+				if (connect != null && connect.IsValid())
+				{
+					this.channelInfo = new WebSocketNotifyChannel(this, connect.user_id, connect.session_token, connect.apikey);
+					addChannel(channelInfo);
+				}
 			}
-			else
+			catch (Exception ex)
 			{
-				this.LogDebugMsg("Unknown command from web socket channel: " + e.Data);
+				this.LogErrorMsg("Error while processing web socket message: " + ex.ToString());
 			}
 		}
 
