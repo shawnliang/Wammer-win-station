@@ -81,6 +81,9 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public bool isPrimaryStation { get; set; }
 
+		[BsonIgnoreIfNull]
+		public bool isDataImportQueried { get; set; }
+
 		/// <summary>
 		/// Gets or sets the sync_range.
 		/// </summary>

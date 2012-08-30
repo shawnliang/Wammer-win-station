@@ -12,10 +12,19 @@ namespace Wammer.Model
 		private object cs = new object();
 		#endregion
 
+
+		static PostCollection()
+		{
+			_instance = new PostCollection();
+			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
+			_instance.collection.EnsureIndex(new IndexKeysBuilder().Descending("timestamp"));
+		}
+
+
 		#region Property
 		public static PostCollection Instance
 		{
-			get { return _instance ?? (_instance = new PostCollection()); }
+			get { return _instance; }
 		}
 		#endregion
 		
