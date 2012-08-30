@@ -71,13 +71,13 @@
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
-			// CleanResourceForm
+			// CleanResourceDialog
 			// 
 			this.AcceptButton = this.btnYes;
-			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.CancelButton = this.btnNo;
+			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.checkBox1);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.lblConfirm);
@@ -86,7 +86,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "CleanResourceForm";
+			this.Name = "CleanResourceDialog";
 			this.ShowIcon = false;
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);

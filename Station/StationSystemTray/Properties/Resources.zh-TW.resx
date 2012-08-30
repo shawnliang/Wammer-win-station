@@ -187,10 +187,10 @@
     <value>登錄時發生錯誤, 請重新輸入.</value>
   </data>
   <data name="LoginMenuItem" xml:space="preserve">
-    <value>登入...</value>
+    <value>登入</value>
   </data>
   <data name="LogoutMenuItem" xml:space="preserve">
-    <value>登出...</value>
+    <value>登出</value>
   </data>
   <data name="MonthlyUsage_NotConnectedYet" xml:space="preserve">
     <value>尚未連結</value>
