@@ -152,6 +152,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CollectingLogs.
+        /// </summary>
+        public static string CollectingLogs {
+            get {
+                return ResourceManager.GetString("CollectingLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to connect to Stream server.
         /// </summary>
         public static string ConnectCloudError {

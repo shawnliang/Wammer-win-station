@@ -68,7 +68,7 @@ namespace StationSystemTray
 			m_logCollector.RunWorkerAsync();
 			m_inProgressDialog = new ProcessingDialog();
 			m_inProgressDialog.StartPosition = FormStartPosition.CenterParent;
-			m_inProgressDialog.Text = "Collecting logs...";
+			m_inProgressDialog.Text = StationSystemTray.Properties.Resources.CollectingLogs;
 			m_inProgressDialog.ShowDialog();
 		}
 
