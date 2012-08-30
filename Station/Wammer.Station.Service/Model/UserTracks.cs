@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Cloud;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Model
 {
@@ -44,6 +45,33 @@ namespace Wammer.Model
 		private static UserTrackCollection _instance; 
 		#endregion
 
+
+		static UserTrackCollection()
+		{
+			_instance = new UserTrackCollection();
+			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("next_seq_num"));
+			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
+
+			try
+			{
+				// purge user tracks if they grow too large.
+				if (_instance.collection.Count() > 100)
+				{
+					_instance.collection.RemoveAll();
+
+					// int.MaxValue is the initial value if there is not user tracks available
+					var update = MongoDB.Driver.Builders.Update.
+						Set("sync_range.chlog_min_seq", int.MaxValue).
+						Set("sync_range.chlog_max_seq", int.MaxValue);
+
+					DriverCollection.Instance.Update(Query.Exists("sync_range", true), update);
+				}
+			}
+			catch
+			{
+			}
+		}
+
 		#region Property
 		/// <summary>
 		/// Gets the instance.
@@ -51,7 +79,7 @@ namespace Wammer.Model
 		/// <value>The instance.</value>
 		public static UserTrackCollection Instance
 		{
-			get { return _instance ?? (_instance = new UserTrackCollection()); }
+			get { return _instance; }
 		}
 		#endregion
 
