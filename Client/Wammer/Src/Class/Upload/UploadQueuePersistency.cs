@@ -13,7 +13,8 @@ namespace Waveface.Upload
 		#region Var
 		private HashSet<UploadItem> _items;
 		private readonly string filePath;
-		private static Logger logger = LogManager.GetCurrentClassLogger(); 
+		private static Logger logger = LogManager.GetCurrentClassLogger();
+		private BufferProcesser _bufferSaveProcesser;
 		#endregion
 
 		#region Private Property
@@ -26,6 +27,21 @@ namespace Waveface.Upload
 			get
 			{
 				return _items ?? (_items = new HashSet<UploadItem>());
+			}
+		}
+
+		/// <summary>
+		/// Gets the m_ buffer save processer.
+		/// </summary>
+		/// <value>The m_ buffer save processer.</value>
+		private BufferProcesser m_BufferSaveProcesser
+		{
+			get
+			{
+				return _bufferSaveProcesser ?? (_bufferSaveProcesser = new BufferProcesser(() =>
+					{
+						Save();
+					}, 1000));
 			}
 		}
 		#endregion
@@ -41,7 +57,7 @@ namespace Waveface.Upload
 			DebugInfo.ShowMethod();
 
 			Items.Add(item);
-			Save();
+			m_BufferSaveProcesser.WantProcess();
 		}
 
 		public void Add(IEnumerable<UploadItem> items)
@@ -50,7 +66,7 @@ namespace Waveface.Upload
 
 			foreach (var item in items)
 				Items.Add(item);
-			Save();
+			m_BufferSaveProcesser.WantProcess();
 		}
 
 		public void Remove(UploadItem item)
@@ -58,7 +74,7 @@ namespace Waveface.Upload
 			DebugInfo.ShowMethod();
 
 			Items.Remove(item);
-			Save();
+			m_BufferSaveProcesser.WantProcess();
 		}
 
 		public IEnumerable<UploadItem> Load()

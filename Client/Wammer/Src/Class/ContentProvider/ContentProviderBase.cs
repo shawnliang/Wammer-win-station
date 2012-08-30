@@ -79,14 +79,15 @@ namespace Waveface
 					if (FindFileData.cFileName.Equals(@".") || FindFileData.cFileName.Equals(@".."))
 						continue;
 
+					var folderOrFilePath = Path.Combine(path, FindFileData.cFileName);
 					if (searchOption == SearchOption.AllDirectories && ((FindFileData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory))
 					{
-						foreach (var file in EnumerateFiles(Path.Combine(path, FindFileData.cFileName)))
+						foreach (var file in EnumerateFiles(folderOrFilePath))
 							yield return file;
 					}
 					else
 					{
-						yield return Path.Combine(path, FindFileData.cFileName);
+						yield return folderOrFilePath;
 					}
 				}
 				while (FindNextFile(hFind, ref  FindFileData));
