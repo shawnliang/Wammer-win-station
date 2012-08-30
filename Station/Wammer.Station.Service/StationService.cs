@@ -263,20 +263,24 @@ namespace Wammer.Station.Service
 
 			var newPostHandler = new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance));
 			newPostHandler.RequestBypassed += mobileDevicePostActivity.OnPostCreated;
+			newPostHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
 			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"), newPostHandler);
 
 			
 			var updatePostHandler = new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance)));
 			updatePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostUpdated;
+			updatePostHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
 			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),updatePostHandler);
 
 			var hidePostHandler = new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance)));
 			hidePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostHidden;
+			hidePostHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
 			functionServer.AddHandler(GetDefaultBathPath("/posts/hide/"), hidePostHandler);
 
 
 			var commentHandler = new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance)));
 			commentHandler.RequestBypassed += mobileDevicePostActivity.OnCommentCreated;
+			commentHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
 			functionServer.AddHandler(GetDefaultBathPath("/posts/newComment/"), commentHandler);
 
 

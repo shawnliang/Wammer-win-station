@@ -46,6 +46,7 @@ namespace Wammer.Station.AttachmentUpload
 		public string api_key { get; set; }
 		public string session_token { get; set; }
 		public string post_id { get; set; }
+		public string memo { get; set; }
 	}
 
 	public class AttachmentEventArgs : EventArgs
@@ -101,6 +102,7 @@ namespace Wammer.Station.AttachmentUpload
 			            		description = uploadData.description,
 			            		modify_time = DateTime.UtcNow,
 								post_id = uploadData.post_id,
+								memo = uploadData.memo,
 			            		image_meta = new ImageProperty()
 			            	};
 

@@ -233,7 +233,7 @@ namespace Waveface.PostUI
 									  object_id = (item.Tag as EditModeImageListViewItemTag).ObjectID,
 									  post_id = PostId
 								  };
-				Main.Current.Uploader.Add(uploadItems.ToArray());
+				Main.Current.Uploader.Add(uploadItems);
 			});
 
 			mi.BeginInvoke((result) =>
