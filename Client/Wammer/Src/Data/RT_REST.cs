@@ -69,8 +69,6 @@ namespace Waveface
         {
 			DebugInfo.ShowMethod();
 
-			Debug.WriteLine("SessionToken: " + SessionToken);
-
             if (type == "origin")
                 return string.Format("{0}/v2/attachments/view?object_id={1}&apikey={2}&session_token={3}",
 					WService.HostIP, object_id, HttpUtility.UrlEncode(WService.APIKEY), HttpUtility.UrlEncode(SessionToken));
