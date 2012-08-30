@@ -6,6 +6,8 @@ using System.IO;
 using Waveface.Upload;
 using Waveface.API.V2;
 using System.Drawing;
+using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 namespace Waveface
 {
@@ -31,20 +33,52 @@ namespace Waveface
 		#endregion
 
 
+		#region Private Method
+		/// <summary>
+		/// Gets the bitmap frame.
+		/// </summary>
+		/// <param name="photoFile">The photo file.</param>
+		/// <returns></returns>
+		private BitmapFrame GetBitmapFrame(string photoFile)
+		{
+			DebugInfo.ShowMethod();
+			try
+			{
+				var decoder = BitmapDecoder.Create(new Uri(photoFile), BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+				return decoder.Frames.FirstOrDefault();
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
+		}
+		#endregion
+
+
 		#region Public Method
 		/// <summary>
 		/// Imports this instance.
 		/// </summary>
 		public void Import()
 		{
+			DebugInfo.ShowMethod();
+
+			var systemResourcePath = StationRegHelper.GetValue("ResourceFolder", "");
+
+			
 			var validContents = from content in m_ContentProvider.GetContents()
+								where content.Path != systemResourcePath 
 								let info = new FileInfo(content.FilePath)
-								//let img = Bitmap.FromFile(content.FilePath)
-								where info.Length >= 20 * 1024 //&& img.Height >= 256 && img.Width >= 256
+								where info.Length >= 20 * 1024
+								let frame = GetBitmapFrame(content.FilePath)
+								where frame != null && frame.Height >= 256 && frame.Width >= 256
 								select content;
-								
+
 			var contentGroup = validContents.DistinctBy(content => content.FilePath).GroupBy(content => content.Path);
 
+
+			var coverUploadItems = new List<UploadItem>();
+			var otherUploadItems = new List<UploadItem>();
 			foreach (var contents in contentGroup)
 			{
 				var postID = Guid.NewGuid().ToString();
@@ -54,7 +88,7 @@ namespace Waveface
 									  file_path = content.FilePath,
 									  object_id = Guid.NewGuid().ToString(),
 									  post_id = postID
-								  }).ToArray();
+								  }).ToList();
 
 				var objectIDs = uploadItems.Select(item => item.object_id).ToArray();
 
@@ -66,8 +100,29 @@ namespace Waveface
 					"image",
 					objectIDs.FirstOrDefault());
 
-				Main.Current.Uploader.Add(uploadItems);
-			} 
+
+				var sources = new Dictionary<string, string>();
+				foreach (var item in uploadItems)
+				{
+					sources.Add(item.object_id,
+						item.file_path);
+				}
+
+
+				Main.Current.ReloadAllData(
+					new PhotoPostInfo
+					{
+						post_id = postID,
+						sources = sources
+					});
+
+				coverUploadItems.Add(uploadItems.FirstOrDefault());
+
+				uploadItems.RemoveAt(0);
+				otherUploadItems.AddRange(uploadItems);
+			}
+			Main.Current.Uploader.Add(coverUploadItems);
+			Main.Current.Uploader.Add(otherUploadItems);
 		}
 		#endregion
 	}

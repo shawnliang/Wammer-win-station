@@ -517,7 +517,7 @@ namespace Waveface.DetailUI
 
                     if (File.Exists(m_filePathMediums[i]))
                     {
-						if (new FileInfo(imageListView.Items[i].FileName).Name == "LoadingImage.jpg")
+						if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")
 							imageListView.Items[i].FileName = m_filePathMediums[i];
                         k++;
                         continue;
@@ -526,7 +526,7 @@ namespace Waveface.DetailUI
                     var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(object_id);
 					if (File.Exists(origFilePath))
 					{
-						if (new FileInfo(imageListView.Items[i].FileName).Name == "LoadingImage.jpg")
+						if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")
 							imageListView.Items[i].FileName = origFilePath;
 						k++;
 						continue;
@@ -537,7 +537,7 @@ namespace Waveface.DetailUI
                         var sourcePath = Post.Sources[object_id];
                         if (File.Exists(sourcePath))
                         {
-							if (new FileInfo(imageListView.Items[i].FileName).Name == "LoadingImage.jpg")						
+							if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")						
 								imageListView.Items[i].FileName = sourcePath;
 							k++;
                             continue;
