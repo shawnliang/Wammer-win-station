@@ -39,17 +39,22 @@ namespace Wammer.Station
 				CloudServer.PARAM_GROUP_ID);
 
 			var type = Parameters[CloudServer.PARAM_TYPE];
-			if (type == "link")
-			{
-				TunnelToCloud();
-				return;
-			}
-
 			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			var driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
 				throw new WammerStationException(
-					"Driver not found!", (int) StationLocalApiError.InvalidDriver);
+					"Driver not found!", (int)StationLocalApiError.InvalidDriver);
+
+
+			if (type == "link")
+			{
+				TunnelToCloud();
+				Station.Instance.PostUpsertNotifier.OnPostUpserted(this, 
+					new Wammer.PostUpload.PostUpsertEventArgs(Parameters[CloudServer.PARAM_POST_ID], Parameters[CloudServer.PARAM_SESSION_TOKEN], driver.user_id));
+				return;
+			}
+
+			
 
 			var userGroup = driver.groups.FirstOrDefault(group => @group.group_id == groupID);
 

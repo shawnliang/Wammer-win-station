@@ -13,6 +13,9 @@ namespace Wammer.PostUpload
 		private readonly PostUploadTaskQueue queue;
 		private readonly ManualResetEvent quitEvent = new ManualResetEvent(false);
 
+		public event EventHandler<PostUpsertEventArgs> PostUpserted;
+
+
 		public PostUploadTaskRunner(PostUploadTaskQueue queue)
 		{
 			this.queue = queue;
@@ -28,6 +31,8 @@ namespace Wammer.PostUpload
 					task = queue.Dequeue();
 					task.Execute();
 					queue.Done(task);
+
+					OnPostUpserted(task);
 					backoff.ResetLevel();
 				}
 				catch (Exception e)
@@ -63,6 +68,20 @@ namespace Wammer.PostUpload
 		{
 			quitEvent.Reset();
 			base.Start();
+		}
+
+		protected void OnPostUpserted(PostUploadTask task)
+		{
+			var handler = PostUpserted;
+			if (handler != null)
+			{
+				var session = string.Empty;
+
+				if (task.Parameters.ContainsKey(CloudServer.PARAM_SESSION_TOKEN))
+					session = task.Parameters[CloudServer.PARAM_SESSION_TOKEN];
+
+				handler(this, new PostUpsertEventArgs(task.PostId, session, task.UserId));
+			}
 		}
 	}
 }
