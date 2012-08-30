@@ -10090,7 +10090,7 @@ Version</value>
     <value>0</value>
   </data>
   <data name="lblMainStationSetup.Text" xml:space="preserve">
-    <value>This computer will be set up as your Station PC. All the photos you upload from your phone and tablet devices will be sent to this computer:{0} automatically via Wi-Fi from the cloud.
+    <value>This computer will be set up as your Station PC. All the photos you upload from your phone and tablet devices will be sent to this computer ({0}) automatically via Wi-Fi from the cloud.
 
 Please click 'Start' to enter Stream. Once inside you can click on 'Account Info' for more options.</value>
   </data>
@@ -10198,13 +10198,13 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>46, 362</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 16</value>
+    <value>122, 16</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Forgot password</value>
+    <value>Forgot password?</value>
   </data>
   <data name="loginButton1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 12.75pt, style=Bold</value>
@@ -10237,22 +10237,22 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>3</value>
   </data>
   <data name="menuQuit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="menuQuit.Text" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="menuServiceAction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="menuServiceAction.Text" xml:space="preserve">
     <value>Pause Service</value>
   </data>
   <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="menuSignIn.Text" xml:space="preserve">
-    <value>Login...</value>
+    <value>Login</value>
   </data>
   <data name="pictureBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -10304,7 +10304,7 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
         RudN65tdA8sHzg46DF645Xrr8m2v29fvrLwzMBQydHc4cnjkLvvu5L2key/vZ9yff7DpIfph4SOpR+WP
         lR7X/aj3Y+uI5ciZUdfRvidBTx6Mscae/5T+04fx/Kfkp+UTqhONk2aTp6fcp24+W/1s/Hnq8/npgp+l
         f65+ofviu18cf+mbWTUz/pL/cuHX4lfyr468Xva6e9Z/9vGb5Dfzc4Vv5d8efcd41/s+7P3EfOYH7IeK
-        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAALDQAACw0B7QfALAAADGBJREFUeF7tnM+KZEkV
+        j3ofuz55f3q4kLyw8Bv3hPP74uYdwgAAAAlwSFlzAAALDAAACwwBP0AiyAAADGBJREFUeF7tnM+KZEkV
         xusRsvciSQuCIpjYCDIgpjiu3OSmcZurWdeut7lsUEkZGbQdNB1w1f4pcUbGsYR8gYZ8gibfoPMR0vO7
         xHc9eTpO5K2pYrqavovDjRtxznf+fRFxsxr64ng8Xozy7tZgbP47vgFuTYCffvLfiyATe1+arE22Tnhn
         flqxiRjj++t1rdbktqf3XRKAxm9MjgMEPfTHRt+yBveFADNr5qHR+J2tIZ4c6GM3kuAWNbgPBGAnZ81n
@@ -10428,10 +10428,10 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>10</value>
   </data>
   <data name="settingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="settingToolStripMenuItem.Text" xml:space="preserve">
-    <value>Settings...</value>
+    <value>Settings</value>
   </data>
   <data name="tabControl.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -10491,13 +10491,13 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>0</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>142, 6</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>142, 6</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>142, 6</value>
   </data>
   <data name="TrayIcon.Text" xml:space="preserve">
     <value>Waveface Stream</value>
@@ -10506,13 +10506,13 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>True</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 132</value>
+    <value>146, 132</value>
   </data>
   <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="tsmiOpenStream.Text" xml:space="preserve">
-    <value>Open Stream...</value>
+    <value>Open Stream</value>
   </data>
   <data name="tsmiOpenStream.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
