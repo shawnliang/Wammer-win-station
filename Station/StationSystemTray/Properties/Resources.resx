@@ -224,6 +224,9 @@
   <data name="MonthlyUsage_Unlimited" xml:space="preserve">
     <value>Unlimited</value>
   </data>
+  <data name="MoveFolderUnsuccess" xml:space="preserve">
+    <value>Unable to move</value>
+  </data>
   <data name="MovingResourceFolder" xml:space="preserve">
     <value>Moving...</value>
   </data>
