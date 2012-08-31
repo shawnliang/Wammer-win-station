@@ -187,16 +187,19 @@
     <value>登錄時發生錯誤, 請重新輸入.</value>
   </data>
   <data name="LoginMenuItem" xml:space="preserve">
-    <value>登入...</value>
+    <value>登入</value>
   </data>
   <data name="LogoutMenuItem" xml:space="preserve">
-    <value>登出...</value>
+    <value>登出</value>
   </data>
   <data name="MonthlyUsage_NotConnectedYet" xml:space="preserve">
     <value>尚未連結</value>
   </data>
   <data name="MonthlyUsage_Unlimited" xml:space="preserve">
     <value>無上限</value>
+  </data>
+  <data name="MoveFolderUnsuccess" xml:space="preserve">
+    <value>無法移動</value>
   </data>
   <data name="MovingResourceFolder" xml:space="preserve">
     <value>移動中...</value>
