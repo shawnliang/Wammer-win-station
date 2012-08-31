@@ -88,6 +88,19 @@ namespace Waveface
 						continue;
 
 					var objectID = Guid.NewGuid().ToString();
+
+					if (processPath != contentPath)
+					{
+						if (processPath.Length > 0 && uploadItems.Count > 0)
+						{
+							CreatePost(postID, uploadItems, processPath);
+							processedPaths.Add(processPath);
+						}
+
+						processPath = contentPath;
+						postID = Guid.NewGuid().ToString();
+					}
+
 					var uploadItem = new UploadItem()
 					{
 						file_path = content.FilePath,
@@ -99,17 +112,6 @@ namespace Waveface
 						Main.Current.Uploader.Add(uploadItem);
 					else
 						pendingUploadItems.Add(uploadItem);
-
-					if (processPath != contentPath)
-					{
-						postID = Guid.NewGuid().ToString();
-						if (processPath.Length > 0 && uploadItems.Count > 0)
-						{
-							CreatePost(postID, uploadItems, processPath);
-							processedPaths.Add(processPath);
-						}
-						processPath = contentPath;
-					}
 
 					uploadItems.Add(uploadItem);
 				}

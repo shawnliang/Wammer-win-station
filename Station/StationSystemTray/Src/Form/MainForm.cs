@@ -198,8 +198,14 @@ namespace StationSystemTray
 
 				if (!clientProcess.WaitForExit(300))
 				{
-					clientProcess.Kill();
-					clientProcess.WaitForExit(300);
+					try
+					{
+						clientProcess.Kill();
+						clientProcess.WaitForExit(300);
+					}
+					catch
+					{
+					}
 				}
 				clientProcess.Dispose();
 				clientProcess = null;

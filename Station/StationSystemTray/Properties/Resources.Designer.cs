@@ -363,6 +363,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to move.
+        /// </summary>
+        public static string MoveFolderUnsuccess {
+            get {
+                return ResourceManager.GetString("MoveFolderUnsuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Moving....
         /// </summary>
         public static string MovingResourceFolder {
