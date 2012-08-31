@@ -1,5 +1,4 @@
 ﻿#region
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +7,6 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
-
 #endregion
 
 namespace Waveface
