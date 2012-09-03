@@ -86,6 +86,9 @@ namespace Waveface.DetailUI
             get { return m_post; }
             set
             {
+				//if (m_post == value)
+				//    return;
+
                 m_post = value;
 
                 if (m_post != null)
@@ -115,6 +118,8 @@ namespace Waveface.DetailUI
 
         public Photo_DV()
         {
+			DebugInfo.ShowMethod();
+
             InitializeComponent();
 
             MyImageListViewRenderer _imageListViewRenderer = new MyImageListViewRenderer
@@ -316,11 +321,15 @@ namespace Waveface.DetailUI
 
         public bool CanEdit()
         {
+			DebugInfo.ShowMethod();
+
             return m_canEdit;
         }
 
         private void RefreshUI()
         {
+			DebugInfo.ShowMethod();
+
             PhotoDownloader.PreloadPictures(m_post, true);
 
             Set_MainContent_Part();
@@ -344,6 +353,8 @@ namespace Waveface.DetailUI
 
         private void Set_MainContent_Part()
         {
+			DebugInfo.ShowMethod();
+
             StringBuilder sb = new StringBuilder(256);
 
             sb.Append("<body bgcolor=\"rgb(255, 255, 255)\"><font face='�L�n������, Helvetica, Arial, Verdana, sans-serif'><p>");
@@ -368,6 +379,8 @@ namespace Waveface.DetailUI
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             Visible = true;
 
             int _h = webBrowserTop.Document.Body.ScrollRectangle.Height;
@@ -405,6 +418,8 @@ namespace Waveface.DetailUI
 
         private void InitImageListViewLoadingImage()
         {
+			DebugInfo.ShowMethod();
+
             imageListView.SuspendLayout();
 
             string _cover_attach = m_post.getCoverImageId();
@@ -454,6 +469,8 @@ namespace Waveface.DetailUI
 
         private void timer_Tick(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             FillImageListView(false);
         }
 
@@ -477,11 +494,15 @@ namespace Waveface.DetailUI
 
 		private Boolean IsAllMediumPhotoReady()
 		{
+			DebugInfo.ShowMethod();
+
 			return GetMediumPhotoReadyCount() == Post.attachment_id_array.Count;
 		}
 
 		private int GetMediumPhotoReadyCount()
 		{
+			DebugInfo.ShowMethod();
+
 			int _count = 0;
 
 			for (int i = 0; i < Post.attachment_id_array.Count; i++)
@@ -568,6 +589,8 @@ namespace Waveface.DetailUI
 
         private void ShowPhotoView(int index)
         {
+			DebugInfo.ShowMethod();
+
             PhotoDownloader.PreloadPictures(m_post, true);
 
             List<string> _files = new List<string>();
@@ -585,6 +608,8 @@ namespace Waveface.DetailUI
 
         private void DetailView_Resize(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             ReLayout();
         }
 
@@ -605,6 +630,8 @@ namespace Waveface.DetailUI
 
         private void imageListView_Resize(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 if ((webBrowserTop.Document != null) && (webBrowserTop.Document.Body != null))
@@ -619,6 +646,8 @@ namespace Waveface.DetailUI
 
         public static void ChengeThumbnailSize(ImageListView imgListView, int smallest, int padding)
         {
+			DebugInfo.ShowMethod();
+
             int W;
 
             if (imgListView.Items.Count < 3)
@@ -674,11 +703,15 @@ namespace Waveface.DetailUI
 
         private void imageListView_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             ShowPhotoView(int.Parse(((DetailViewImageListViewItemTag)(e.Item.Tag)).Index));
         }
 
         private void miSetCoverImage_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (m_selectedItem != null)
             {
                 Cursor = Cursors.WaitCursor;
@@ -714,36 +747,50 @@ namespace Waveface.DetailUI
 
         private void contextMenuStripImageList_Opening(object sender, CancelEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             e.Cancel = !m_canEdit;
         }
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_selectedItem = e.Item;
         }
 
         public ImageButton GetMoreFonction1()
         {
+			DebugInfo.ShowMethod();
+
             return btnSaveAllPhotos;
         }
 
         public void MoreFonction1()
         {
+			DebugInfo.ShowMethod();
+
             SaveAllPics();
         }
 
         private void miOpen_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             ShowPhotoView(int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index));
         }
 
         private bool CheckIfLoadingImage(ImageListViewItem imageListViewItem)
         {
+			DebugInfo.ShowMethod();
+
             return imageListViewItem.FileName.Contains("LoadingImage.jpg");
         }
 
         public void SaveAllPics()
         {
+			DebugInfo.ShowMethod();
+
             string _fileName = string.Empty;
             bool _OriginFileExist;
 
@@ -801,6 +848,8 @@ namespace Waveface.DetailUI
 
         private string queryFileName(string objectId, string extension)
         {
+			DebugInfo.ShowMethod();
+
             var fileName = AttachmentCollection.QueryFileName(objectId);
 
             if (string.IsNullOrEmpty(fileName))
@@ -811,6 +860,8 @@ namespace Waveface.DetailUI
 
         private void imageListView_DropFiles(object sender, DropFileEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 List<string> _pics = new List<string>();
@@ -864,6 +915,8 @@ namespace Waveface.DetailUI
 
         private void imageListView_DragDrop(object sender, DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             ImageListView.HitInfo _hitInfo;
             imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
 
@@ -882,6 +935,8 @@ namespace Waveface.DetailUI
 
         private void imageListView_DragEnter(object sender, DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             FlashWindow.Start(Main.Current);
 
             m_dragDropClipboardHelper.Drag_Enter_HtmlImage(e, false);
@@ -891,6 +946,8 @@ namespace Waveface.DetailUI
 
         private void imageListView_DragLeave(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
 
             FlashWindow.Stop(Main.Current);
@@ -898,6 +955,8 @@ namespace Waveface.DetailUI
 
         private void imageListView_DragOver(object sender, DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_dragDropClipboardHelper.Drag_Over_HtmlImage(e, false);
 
             DragHitTest(e);
@@ -905,6 +964,8 @@ namespace Waveface.DetailUI
 
         private void DragHitTest(DragEventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             ImageListView.HitInfo _hitInfo;
             imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
 

@@ -125,7 +125,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Checking.
+        ///   Looks up a localized string similar to Checking....
         /// </summary>
         public static string CHECKING_UPDATE {
             get {
@@ -134,7 +134,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove {0}  account from this computer?.
+        ///   Looks up a localized string similar to Are you sure you want to remove user account {0} from this computer?.
         /// </summary>
         public static string CleanResourceMsg {
             get {
@@ -254,7 +254,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please fill all the fields!.
+        ///   Looks up a localized string similar to Please fill in all the fields!.
         /// </summary>
         public static string FillAllFields {
             get {
@@ -263,7 +263,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forgot password - Stream.
+        ///   Looks up a localized string similar to Forgot password?.
         /// </summary>
         public static string FORGOT_PASSWORD_PAGE_TITLE1 {
             get {
@@ -304,7 +304,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to invalid email.
+        ///   Looks up a localized string similar to Invalid email address.
         /// </summary>
         public static string InvalidEmail {
             get {
@@ -336,7 +336,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login....
+        ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string LoginMenuItem {
             get {
@@ -345,7 +345,7 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logout....
+        ///   Looks up a localized string similar to Logout.
         /// </summary>
         public static string LogoutMenuItem {
             get {
@@ -368,6 +368,15 @@ namespace StationSystemTray.Properties {
         public static string MonthlyUsage_Unlimited {
             get {
                 return ResourceManager.GetString("MonthlyUsage_Unlimited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to move.
+        /// </summary>
+        public static string MoveFolderUnsuccess {
+            get {
+                return ResourceManager.GetString("MoveFolderUnsuccess", resourceCulture);
             }
         }
         

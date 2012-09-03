@@ -13,6 +13,7 @@ using Wammer.Station;
 using Wammer.Utility;
 using Waveface;
 using fastJSON;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Model
 {
@@ -509,10 +510,17 @@ namespace Wammer.Model
 		private static AttachmentCollection _instance;
 		#endregion
 
+
+		static AttachmentCollection()
+		{
+			_instance = new AttachmentCollection();
+			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
+		}
+
 		#region Property
 		public static AttachmentCollection Instance
 		{
-			get { return _instance ?? (_instance = new AttachmentCollection()); }
+			get { return _instance; }
 		}
 		#endregion
 

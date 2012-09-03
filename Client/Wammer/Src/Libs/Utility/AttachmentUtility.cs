@@ -34,8 +34,6 @@ namespace Waveface
         {
 			DebugInfo.ShowMethod();
 
-			Debug.WriteLine("session_token: " + session_token);
-
             session_token = HttpUtility.UrlEncode(session_token);
             object_id = HttpUtility.UrlEncode(object_id);
 
@@ -69,8 +67,6 @@ namespace Waveface
         public static string GetRedirectURL_Image(string session_token, Attachment a, string imageType, out string url, out string fileName, bool forceCloud)
         {
 			DebugInfo.ShowMethod();
-
-			Debug.WriteLine("session_token: " + session_token);
 
             const string SMALL = "small";
             const string MEDIUM = "medium";

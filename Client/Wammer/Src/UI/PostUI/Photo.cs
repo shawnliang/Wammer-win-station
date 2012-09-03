@@ -289,7 +289,7 @@ namespace Waveface.PostUI
                 Cursor = Cursors.SizeAll;
 
                 string _filePath = e.Item.FileName;
-                string _fileName = new FileInfo(e.Item.FileName).Name;
+                string _fileName = Path.GetFileName(e.Item.FileName);
 
                 if (FileNameMapping.ContainsKey(_fileName))
                     _filePath = FileNameMapping[_fileName];

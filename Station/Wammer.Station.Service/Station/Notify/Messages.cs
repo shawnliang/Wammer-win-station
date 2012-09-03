@@ -25,8 +25,6 @@ namespace Wammer.Station.Notify
 
 	public class SubscribeMSg
 	{
-		public DateTime since { get; set; }
-		public int since_seq_num { get; set; }
 	}
 
 	public class ResultMsg
@@ -39,7 +37,6 @@ namespace Wammer.Station.Notify
 	{
 		public bool updated { get; set; }
 		public string message { get; set; }
-		public string exception { get; set; }
 	}
 
 	public class LogonCommand

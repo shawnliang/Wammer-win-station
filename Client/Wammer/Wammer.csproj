@@ -264,6 +264,7 @@
     <Compile Include="Src\Enum\ContentType.cs" />
     <Compile Include="Src\Exception\ChangeLogsPurgedException.cs" />
     <Compile Include="Src\Exception\VersionNotSupportedException.cs" />
+    <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
     <Compile Include="Src\Extension\EnumerableExtender.cs" />
     <Compile Include="Src\Extension\ErrorProviderExtension.cs" />
     <Compile Include="Src\Extension\FormExtension.cs" />

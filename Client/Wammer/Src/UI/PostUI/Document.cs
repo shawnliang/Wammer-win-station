@@ -253,7 +253,7 @@ namespace Waveface.PostUI
 
                 foreach (ListViewItem _item in listViewFiles.Items)
                 {
-                    _uploadFiles.Add(_item.Tag.ToString(), new FileInfo(_item.Tag.ToString()).Name); // Path, FileName
+                    _uploadFiles.Add(_item.Tag.ToString(), Path.GetFileName(_item.Tag.ToString())); // Path, FileName
                 }
 
                 resetUI(true);

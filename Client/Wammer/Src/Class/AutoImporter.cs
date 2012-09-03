@@ -52,6 +52,114 @@ namespace Waveface
 				return null;
 			}
 		}
+
+		/// <summary>
+		/// Imports the specified contents.
+		/// </summary>
+		/// <param name="contents">The contents.</param>
+		private void Import(IEnumerable<IContent> importContents)
+		{
+			DebugInfo.ShowMethod();
+			var systemResourcePath = StationRegHelper.GetValue("ResourceFolder", "");
+
+			var processPath = string.Empty;
+			var postID = string.Empty;
+			var processedPaths = new HashSet<string>();
+
+			var uploadItems = new List<UploadItem>();
+			var pendingUploadItems = new List<UploadItem>();
+			foreach (var content in importContents)
+			{
+				try
+				{
+					var contentPath = content.Path;
+					if (content.Path == systemResourcePath)
+						continue;
+
+					if (processedPaths.Contains(contentPath))
+						continue;
+
+					var contentLength = (new FileInfo(content.FilePath)).Length;
+					if (contentLength < 20 * 1024)
+						continue;
+
+					var frame = GetBitmapFrame(content.FilePath);
+					if (frame == null || frame.Height < 256 || frame.Width < 256)
+						continue;
+
+					var objectID = Guid.NewGuid().ToString();
+
+					if (processPath != contentPath)
+					{
+						if (processPath.Length > 0 && uploadItems.Count > 0)
+						{
+							CreatePost(postID, uploadItems, processPath);
+							processedPaths.Add(processPath);
+						}
+
+						processPath = contentPath;
+						postID = Guid.NewGuid().ToString();
+					}
+
+					var uploadItem = new UploadItem()
+					{
+						file_path = content.FilePath,
+						object_id = objectID,
+						post_id = postID
+					};
+
+					if (uploadItems.Count == 0)
+						Main.Current.Uploader.Add(uploadItem);
+					else
+						pendingUploadItems.Add(uploadItem);
+
+					uploadItems.Add(uploadItem);
+				}
+				catch (Exception)
+				{
+				}
+			}
+
+			if (processPath.Length > 0 && uploadItems.Count > 0)
+				CreatePost(postID, uploadItems, processPath);
+
+			Main.Current.Uploader.Add(pendingUploadItems);
+		}
+
+		/// <summary>
+		/// Creates the post.
+		/// </summary>
+		/// <param name="postID">The post ID.</param>
+		/// <param name="uploadItems">The upload items.</param>
+		/// <param name="contentPath">The content path.</param>
+		private static void CreatePost(string postID, List<UploadItem> uploadItems, string contentPath)
+		{
+			var objectIDs = uploadItems.Select(item => item.object_id).ToArray();
+			var post = Main.Current.RT.REST.Posts_New(
+				postID,
+				StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(contentPath.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault(), 80000)),
+				"[" + string.Join(",", objectIDs.Select(id => "\"" + id + "\"").ToArray()) + "]",
+				"",
+				"image",
+				objectIDs.FirstOrDefault());
+
+
+			var sources = new Dictionary<string, string>();
+			foreach (var item in uploadItems)
+			{
+				sources.Add(item.object_id,
+					item.file_path);
+			}
+
+
+			Main.Current.ReloadAllData(
+				new PhotoPostInfo
+				{
+					post_id = postID,
+					sources = sources
+				});
+			uploadItems.Clear();
+		}
 		#endregion
 
 
@@ -63,66 +171,25 @@ namespace Waveface
 		{
 			DebugInfo.ShowMethod();
 
-			var systemResourcePath = StationRegHelper.GetValue("ResourceFolder", "");
-
-			
-			var validContents = from content in m_ContentProvider.GetContents()
-								where content.Path != systemResourcePath 
-								let info = new FileInfo(content.FilePath)
-								where info.Length >= 20 * 1024
-								let frame = GetBitmapFrame(content.FilePath)
-								where frame != null && frame.Height >= 256 && frame.Width >= 256
-								select content;
-
-			var contentGroup = validContents.DistinctBy(content => content.FilePath).GroupBy(content => content.Path);
+			Import(m_ContentProvider.GetContents());
+		}
 
 
-			var coverUploadItems = new List<UploadItem>();
-			var otherUploadItems = new List<UploadItem>();
-			foreach (var contents in contentGroup)
-			{
-				var postID = Guid.NewGuid().ToString();
-				var uploadItems = (from content in contents
-								  select new UploadItem
-								  {
-									  file_path = content.FilePath,
-									  object_id = Guid.NewGuid().ToString(),
-									  post_id = postID
-								  }).ToList();
+		/// <summary>
+		/// Imports the specified folder.
+		/// </summary>
+		/// <param name="folder">The folder.</param>
+		public void Import(string folder)
+		{
+			DebugInfo.ShowMethod();
 
-				var objectIDs = uploadItems.Select(item => item.object_id).ToArray();
-
-				var post = Main.Current.RT.REST.Posts_New(
-					postID,
-					StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(contents.Key.Split(new char[]{Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries).LastOrDefault(), 80000)),
-					"[" + string.Join(",", objectIDs.Select(id => "\"" + id + "\"").ToArray()) + "]",
-					"",
-					"image",
-					objectIDs.FirstOrDefault());
-
-
-				var sources = new Dictionary<string, string>();
-				foreach (var item in uploadItems)
-				{
-					sources.Add(item.object_id,
-						item.file_path);
-				}
-
-
-				Main.Current.ReloadAllData(
-					new PhotoPostInfo
-					{
-						post_id = postID,
-						sources = sources
-					});
-
-				coverUploadItems.Add(uploadItems.FirstOrDefault());
-
-				uploadItems.RemoveAt(0);
-				otherUploadItems.AddRange(uploadItems);
-			}
-			Main.Current.Uploader.Add(coverUploadItems);
-			Main.Current.Uploader.Add(otherUploadItems);
+			var contents = from file in (new DirectoryInfo(folder)).EnumerateFiles()
+						   let extension = Path.GetExtension(file)
+						   where extension.Equals(".jpg", StringComparison.CurrentCultureIgnoreCase) ||
+						   extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase) ||
+						   extension.Equals(".bmp", StringComparison.CurrentCultureIgnoreCase)
+						   select (new Content(file, ContentType.Photo) as IContent);
+			Import(contents);
 		}
 		#endregion
 	}

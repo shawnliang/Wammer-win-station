@@ -299,7 +299,7 @@ namespace StationSystemTray
 				m_ProcessingDialog.ProcessMessage = Resources.MovingResourceFolder;
 				m_ProcessingDialog.ProgressStyle = ProgressBarStyle.Marquee;
 				m_ProcessingDialog.StartPosition = FormStartPosition.CenterParent;
-				m_ProcessingDialog.ShowDialog();
+				m_ProcessingDialog.ShowDialog(this);
 			}
 		}
 
@@ -352,7 +352,7 @@ namespace StationSystemTray
 
 				if (args.Error != null)
 				{
-					MessageBox.Show(args.Error.Message);
+					MessageBox.Show(args.Error.Message, Resources.MoveFolderUnsuccess);
 					return;
 				}
 			}
