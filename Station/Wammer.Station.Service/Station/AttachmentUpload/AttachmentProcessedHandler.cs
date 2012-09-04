@@ -1,4 +1,5 @@
 ﻿using Wammer.Model;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -49,16 +50,18 @@ namespace Wammer.Station.AttachmentUpload
 
 		private void ProcessForFastAndSmoothClients(AttachmentEventArgs args, Attachment attachment, Driver user)
 		{
+			var postInfo = PostCollection.Instance.FindOne(Query.EQ("_id", attachment.post_id));
+			var isCoverImage = (postInfo != null && postInfo.cover_attach == attachment.object_id);
 			if (args.ImgMeta == ImageMeta.Medium)
 			{
-				util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.Medium);
+				util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, isCoverImage ? TaskPriority.High : TaskPriority.Medium);
 				util.UpstreamAttachmentAsync(args.AttachmentId, ImageMeta.Medium, TaskPriority.VeryLow);
 			}
 			else if (args.ImgMeta == ImageMeta.Origin)
 			{
 				if (args.UpsertResult == UpsertResult.Insert)
 				{
-					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, TaskPriority.Medium);
+					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, isCoverImage ? TaskPriority.High : TaskPriority.Medium);
 					util.GenerateThumbnailAsyncAndUpstream(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
 				}
 

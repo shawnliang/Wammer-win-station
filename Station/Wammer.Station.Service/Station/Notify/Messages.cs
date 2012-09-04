@@ -27,10 +27,10 @@ namespace Wammer.Station.Notify
 	{
 	}
 
-	public class ResultMsg
+	public class ErrorMsg
 	{
-		public int api_ret_code { get; set; }
-		public string api_ret_message { get; set; }
+		public int code { get; set; }
+		public string reason { get; set; }
 	}
 
 	public class NotifyMsg
@@ -39,17 +39,16 @@ namespace Wammer.Station.Notify
 		public string message { get; set; }
 	}
 
-	public class LogonCommand
-	{
-		public ConnectMsg connect { get; set; }
-		public SubscribeMSg subscribe { get; set; }
-	}
-
 	public class GenericCommand
 	{
-		public ResultMsg result { get; set; }
+		public ErrorMsg error { get; set; }
 		public ConnectMsg connect { get; set; }
 		public SubscribeMSg subscribe { get; set; }
 		public NotifyMsg notify { get; set; }
+	}
+
+	public enum ErrorCode
+	{
+		AccessDenied = 3001,
 	}
 }

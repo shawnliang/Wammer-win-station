@@ -12,6 +12,6 @@ namespace Wammer.Station.Notify
 		string ApiKey { get; }
 
 		void Notify();
-		void Close(WebSocketSharp.Frame.CloseStatusCode closeCode, string reason);
+		void Close(int close, string reason);
 	}
 }
