@@ -28,7 +28,7 @@ namespace Waveface.DetailUI
         #region Fields
 
         public static string PostID;
-		public static int UnloadPhotosCount;
+        public static int UnloadPhotosCount;
 
         private Panel panelMain;
         private AutoScrollPanel panelRight;
@@ -45,7 +45,7 @@ namespace Waveface.DetailUI
         private ContextMenuStrip contextMenuStripTop;
         private ToolStripMenuItem miCopyTop;
 
-		//private int m_loadingPhotosCount;
+        //private int m_loadingPhotosCount;
 
         private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
 
@@ -57,10 +57,9 @@ namespace Waveface.DetailUI
         private ToolStripMenuItem miOpen;
         private ImageButton btnSaveAllPhotos;
         private ImageListViewItem m_selectedItem;
+        private ToolStripMenuItem miDuplicate;
 
-        //private List<Attachment> m_imageAttachments;
         private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
-
         #endregion
 
 
@@ -86,8 +85,8 @@ namespace Waveface.DetailUI
             get { return m_post; }
             set
             {
-				//if (m_post == value)
-				//    return;
+                //if (m_post == value)
+                //    return;
 
                 m_post = value;
 
@@ -96,9 +95,9 @@ namespace Waveface.DetailUI
                     m_canEdit = false;
 
                     PostID = m_post.post_id;
-					UnloadPhotosCount = m_post.attachment_id_array.Count;
+                    UnloadPhotosCount = m_post.attachment_id_array.Count;
 
-					timer.Enabled = false;
+                    timer.Enabled = false;
                     RefreshUI();
                 }
             }
@@ -118,7 +117,7 @@ namespace Waveface.DetailUI
 
         public Photo_DV()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             InitializeComponent();
 
@@ -166,6 +165,7 @@ namespace Waveface.DetailUI
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDuplicate = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.contextMenuStripImageList.SuspendLayout();
@@ -175,9 +175,9 @@ namespace Waveface.DetailUI
             // 
             // panelMain
             // 
-            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.BackColor = System.Drawing.Color.White;
             this.panelMain.Controls.Add(this.panelRight);
+            resources.ApplyResources(this.panelMain, "panelMain");
             this.panelMain.Name = "panelMain";
             // 
             // panelRight
@@ -192,18 +192,17 @@ namespace Waveface.DetailUI
             // 
             // btnSaveAllPhotos
             // 
-            resources.ApplyResources(this.btnSaveAllPhotos, "btnSaveAllPhotos");
             this.btnSaveAllPhotos.CenterAlignImage = false;
             this.btnSaveAllPhotos.Image = global::Waveface.Properties.Resources.FB_saveall;
             this.btnSaveAllPhotos.ImageDisable = global::Waveface.Properties.Resources.FB_saveall_hl;
             this.btnSaveAllPhotos.ImageFront = null;
             this.btnSaveAllPhotos.ImageHover = global::Waveface.Properties.Resources.FB_saveall_hl;
+            resources.ApplyResources(this.btnSaveAllPhotos, "btnSaveAllPhotos");
             this.btnSaveAllPhotos.Name = "btnSaveAllPhotos";
             this.btnSaveAllPhotos.TextShadow = true;
             // 
             // imageListView
             // 
-            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.AllowDrop = true;
             this.imageListView.AllowDuplicateFileNames = true;
             this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -211,6 +210,7 @@ namespace Waveface.DetailUI
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.ContextMenuStrip = this.contextMenuStripImageList;
             this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
+            resources.ApplyResources(this.imageListView, "imageListView");
             this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.imageListView.Name = "imageListView";
@@ -227,32 +227,33 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStripImageList
             // 
-            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
             this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSetCoverImage,
-            this.miOpen});
+            this.miOpen,
+            this.miDuplicate});
             this.contextMenuStripImageList.Name = "contextMenuStripImageList";
+            resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
             this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
             // 
             // miSetCoverImage
             // 
-            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
             this.miSetCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
             this.miSetCoverImage.Name = "miSetCoverImage";
+            resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
             this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
             // 
             // miOpen
             // 
-            resources.ApplyResources(this.miOpen, "miOpen");
             this.miOpen.Image = global::Waveface.Properties.Resources.FB_openin;
             this.miOpen.Name = "miOpen";
+            resources.ApplyResources(this.miOpen, "miOpen");
             this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
             // 
             // panelPictureInfo
             // 
-            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.BackColor = System.Drawing.Color.White;
             this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
+            resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
             this.panelPictureInfo.Name = "panelPictureInfo";
             // 
             // labelPictureInfo
@@ -263,8 +264,8 @@ namespace Waveface.DetailUI
             // 
             // webBrowserTop
             // 
-            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.AllowWebBrowserDrop = false;
+            resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
             this.webBrowserTop.Name = "webBrowserTop";
             this.webBrowserTop.ScrollBarsEnabled = false;
             this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
@@ -276,21 +277,26 @@ namespace Waveface.DetailUI
             // 
             // contextMenuStripTop
             // 
-            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
             this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopyTop});
             this.contextMenuStripTop.Name = "contextMenuStripTop";
+            resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
             // 
             // miCopyTop
             // 
-            resources.ApplyResources(this.miCopyTop, "miCopyTop");
             this.miCopyTop.Name = "miCopyTop";
+            resources.ApplyResources(this.miCopyTop, "miCopyTop");
+            // 
+            // miDuplicate
+            // 
+            this.miDuplicate.Name = "miDuplicate";
+            resources.ApplyResources(this.miDuplicate, "miDuplicate");
             // 
             // Photo_DV
             // 
-            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panelMain);
+            resources.ApplyResources(this, "$this");
             this.Name = "Photo_DV";
             this.Resize += new System.EventHandler(this.DetailView_Resize);
             this.panelMain.ResumeLayout(false);
@@ -321,14 +327,14 @@ namespace Waveface.DetailUI
 
         public bool CanEdit()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             return m_canEdit;
         }
 
         private void RefreshUI()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             PhotoDownloader.PreloadPictures(m_post, true);
 
@@ -339,7 +345,7 @@ namespace Waveface.DetailUI
 
         private void ReLayout()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             if (Post.attachment_id_array.Count > 0)
             {
@@ -353,7 +359,7 @@ namespace Waveface.DetailUI
 
         private void Set_MainContent_Part()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             StringBuilder sb = new StringBuilder(256);
 
@@ -379,7 +385,7 @@ namespace Waveface.DetailUI
 
         private void webBrowserTop_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             Visible = true;
 
@@ -394,7 +400,7 @@ namespace Waveface.DetailUI
 
         private void Set_Pictures()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             imageListView.Items.Clear();
 
@@ -413,12 +419,12 @@ namespace Waveface.DetailUI
 
             InitImageListViewLoadingImage();
 
-			FillImageListView(true);
+            FillImageListView(true);
         }
 
         private void InitImageListViewLoadingImage()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             imageListView.SuspendLayout();
 
@@ -469,55 +475,55 @@ namespace Waveface.DetailUI
 
         private void timer_Tick(object sender, EventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             FillImageListView(false);
         }
 
         private bool FillImageListView(bool firstTime)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
-			UnloadPhotosCount = Post.attachment_id_array.Count - GetMediumPhotoReadyCount();
+            UnloadPhotosCount = Post.attachment_id_array.Count - GetMediumPhotoReadyCount();
 
-			if (IsAllMediumPhotoReady())
+            if (IsAllMediumPhotoReady())
             {
                 Main.Current.RefreshTimelineUI();
 
                 timer.Enabled = !ShowImageListView(firstTime);
-				return !timer.Enabled;
+                return !timer.Enabled;
             }
 
-			timer.Enabled = !ShowImageListView(firstTime);
-			return !timer.Enabled;
+            timer.Enabled = !ShowImageListView(firstTime);
+            return !timer.Enabled;
         }
 
-		private Boolean IsAllMediumPhotoReady()
-		{
-			DebugInfo.ShowMethod();
+        private Boolean IsAllMediumPhotoReady()
+        {
+            DebugInfo.ShowMethod();
 
-			return GetMediumPhotoReadyCount() == Post.attachment_id_array.Count;
-		}
+            return GetMediumPhotoReadyCount() == Post.attachment_id_array.Count;
+        }
 
-		private int GetMediumPhotoReadyCount()
-		{
-			DebugInfo.ShowMethod();
+        private int GetMediumPhotoReadyCount()
+        {
+            DebugInfo.ShowMethod();
 
-			int _count = 0;
+            int _count = 0;
 
-			for (int i = 0; i < Post.attachment_id_array.Count; i++)
-			{
-				if (File.Exists(m_filePathMediums[i]))
-				{
-					_count++;
-				}
-			}
-			return _count;
-		}
+            for (int i = 0; i < Post.attachment_id_array.Count; i++)
+            {
+                if (File.Exists(m_filePathMediums[i]))
+                {
+                    _count++;
+                }
+            }
+            return _count;
+        }
 
         private bool ShowImageListView(bool firstTime)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             int k = 0;
 
@@ -538,29 +544,29 @@ namespace Waveface.DetailUI
 
                     if (File.Exists(m_filePathMediums[i]))
                     {
-						if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")
-							imageListView.Items[i].FileName = m_filePathMediums[i];
+                        if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")
+                            imageListView.Items[i].FileName = m_filePathMediums[i];
                         k++;
                         continue;
                     }
 
                     var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(object_id);
-					if (File.Exists(origFilePath))
-					{
-						if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")
-							imageListView.Items[i].FileName = origFilePath;
-						k++;
-						continue;
-					}
+                    if (File.Exists(origFilePath))
+                    {
+                        if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")
+                            imageListView.Items[i].FileName = origFilePath;
+                        k++;
+                        continue;
+                    }
 
                     if (Post.Sources.ContainsKey(object_id))
                     {
                         var sourcePath = Post.Sources[object_id];
                         if (File.Exists(sourcePath))
                         {
-							if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")						
-								imageListView.Items[i].FileName = sourcePath;
-							k++;
+                            if (Path.GetFileName(imageListView.Items[i].FileName) == "LoadingImage.jpg")						
+                                imageListView.Items[i].FileName = sourcePath;
+                            k++;
                             continue;
                         }
                     }
@@ -576,20 +582,20 @@ namespace Waveface.DetailUI
 
             panelPictureInfo.Visible = !_flag;
 
-			if (IsAllMediumPhotoReady())
-			{
-				m_canEdit = true;
-				Post.Sources = new Dictionary<string, string>();
-			}
+            if (IsAllMediumPhotoReady())
+            {
+                m_canEdit = true;
+                Post.Sources = new Dictionary<string, string>();
+            }
 
-			ReLayout();
+            ReLayout();
 
-			return m_canEdit;
+            return m_canEdit;
         }
 
         private void ShowPhotoView(int index)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             PhotoDownloader.PreloadPictures(m_post, true);
 
@@ -608,7 +614,7 @@ namespace Waveface.DetailUI
 
         private void DetailView_Resize(object sender, EventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             ReLayout();
         }
@@ -630,7 +636,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_Resize(object sender, EventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             try
             {
@@ -646,7 +652,7 @@ namespace Waveface.DetailUI
 
         public static void ChengeThumbnailSize(ImageListView imgListView, int smallest, int padding)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             int W;
 
@@ -695,22 +701,22 @@ namespace Waveface.DetailUI
                 W = (imgListView.Width - (padding * 12)) / 12;
             }
 
-			if (W < smallest)
-				W = smallest;
+            if (W < smallest)
+                W = smallest;
 
-			imgListView.ThumbnailSize = new Size(W, W);
+            imgListView.ThumbnailSize = new Size(W, W);
         }
 
         private void imageListView_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             ShowPhotoView(int.Parse(((DetailViewImageListViewItemTag)(e.Item.Tag)).Index));
         }
 
         private void miSetCoverImage_Click(object sender, EventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             if (m_selectedItem != null)
             {
@@ -735,7 +741,7 @@ namespace Waveface.DetailUI
                         m_post = _retPost;
                     }
 
-					Main.Current.ShowStatuMessage(Resources.CHANGED_COVER_IMAGE, true);
+                    Main.Current.ShowStatuMessage(Resources.CHANGED_COVER_IMAGE, true);
                 }
                 catch
                 {
@@ -747,49 +753,77 @@ namespace Waveface.DetailUI
 
         private void contextMenuStripImageList_Opening(object sender, CancelEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
-            e.Cancel = !m_canEdit;
+            this.miSetCoverImage.Enabled = m_canEdit;
+            detectDuplication();			
+        }
+
+        private void detectDuplication()
+        {
+            var index = Int32.Parse(((DetailViewImageListViewItemTag)m_selectedItem.Tag).Index);
+            var object_id = Post.attachment_id_array[index];
+            var attachmentCollection = StationDB.GetCollection("attachments");
+            var selected = attachmentCollection.FindOne(Query.EQ("_id", object_id));
+
+            if (selected != null)
+            {
+                var selectedMD5 = selected.GetValue("md5", string.Empty).AsString;
+
+                if (!string.IsNullOrEmpty(selectedMD5))
+                {
+                    var total = attachmentCollection.Find(Query.EQ("md5", selectedMD5));
+                    var totalCount = total.Count();
+
+                    if (totalCount > 1)
+                    {
+                        miDuplicate.Text = "Duplicated photo(s): " + (totalCount - 1);
+                        return;
+                    }
+                }
+            }
+
+            miDuplicate.Text = "Duplicated photo(s): not found";
         }
 
         private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             m_selectedItem = e.Item;
         }
 
         public ImageButton GetMoreFonction1()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             return btnSaveAllPhotos;
         }
 
         public void MoreFonction1()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             SaveAllPics();
         }
 
         private void miOpen_Click(object sender, EventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             ShowPhotoView(int.Parse(((DetailViewImageListViewItemTag)(m_selectedItem.Tag)).Index));
         }
 
         private bool CheckIfLoadingImage(ImageListViewItem imageListViewItem)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             return imageListViewItem.FileName.Contains("LoadingImage.jpg");
         }
 
         public void SaveAllPics()
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             string _fileName = string.Empty;
             bool _OriginFileExist;
@@ -848,7 +882,7 @@ namespace Waveface.DetailUI
 
         private string queryFileName(string objectId, string extension)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             var fileName = AttachmentCollection.QueryFileName(objectId);
 
@@ -860,7 +894,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_DropFiles(object sender, DropFileEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             try
             {
@@ -915,7 +949,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_DragDrop(object sender, DragEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             ImageListView.HitInfo _hitInfo;
             imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
@@ -935,7 +969,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_DragEnter(object sender, DragEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             FlashWindow.Start(Main.Current);
 
@@ -946,7 +980,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_DragLeave(object sender, EventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             m_dragDropClipboardHelper.Drag_Leave_HtmlImage();
 
@@ -955,7 +989,7 @@ namespace Waveface.DetailUI
 
         private void imageListView_DragOver(object sender, DragEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             m_dragDropClipboardHelper.Drag_Over_HtmlImage(e, false);
 
@@ -964,7 +998,7 @@ namespace Waveface.DetailUI
 
         private void DragHitTest(DragEventArgs e)
         {
-			DebugInfo.ShowMethod();
+            DebugInfo.ShowMethod();
 
             ImageListView.HitInfo _hitInfo;
             imageListView.HitTest(imageListView.PointToClient(new Point(e.X, e.Y)), out _hitInfo);
@@ -977,5 +1011,6 @@ namespace Waveface.DetailUI
         }
 
         #endregion
+
     }
 }

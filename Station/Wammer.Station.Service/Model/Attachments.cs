@@ -515,6 +515,7 @@ namespace Wammer.Model
 		{
 			_instance = new AttachmentCollection();
 			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
+			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("md5"));
 		}
 
 		#region Property
