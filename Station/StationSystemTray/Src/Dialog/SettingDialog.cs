@@ -321,7 +321,7 @@ namespace StationSystemTray
 				WindowStyle = ProcessWindowStyle.Hidden,
 			};
 
-			if (isWinVistaOrLater())
+			if (Waveface.Env.IsWinVistaOrLater())
 				p.StartInfo.Verb = "runas";
 
 			p.Start();
@@ -341,18 +341,6 @@ namespace StationSystemTray
 					throw new Exception("Unknown error");
 				}
 			}
-		}
-
-		private static bool isWinVistaOrLater()
-		{
-			bool isWinVistaOrLater;
-
-			var os = Environment.OSVersion;
-			if (os.Platform == PlatformID.Win32NT && os.Version.Major == 6)
-				isWinVistaOrLater = true;
-			else
-				isWinVistaOrLater = false;
-			return isWinVistaOrLater;
 		}
 
 		private void MoveResourceFolder_WorkCompleted(object sender, RunWorkerCompletedEventArgs args)

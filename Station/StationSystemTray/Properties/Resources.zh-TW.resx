@@ -144,6 +144,9 @@
   <data name="CLOSE_BUTTON_TEXT" xml:space="preserve">
     <value>關閉</value>
   </data>
+  <data name="CollectingLogs" xml:space="preserve">
+    <value>蒐集記錄檔中...</value>
+  </data>
   <data name="ConnectCloudError" xml:space="preserve">
     <value>無法連線至 Stream 伺服器</value>
   </data>
