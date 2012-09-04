@@ -37,19 +37,19 @@ namespace Wammer.Station.Notify
 			return string.Format("WebSocketNotifyChannel - user: {0}, session_token: {1}, apikey: {2}", UserId, SessionToken, ApiKey);
 		}
 
-		public void Close(WebSocketSharp.Frame.CloseStatusCode closeCode, string reason)
+		public void Close(int closeCode, string reason)
 		{
 			var result = new GenericCommand
 			{
-				result = new ResultMsg
+				error = new ErrorMsg
 				{
-					api_ret_code = (int)closeCode,
-					api_ret_message = reason
+					code = closeCode,
+					reason = reason
 				}
 			};
 
 			WSService.Send(result.ToFastJSON());
-			WSService.Stop(closeCode, reason);
+			WSService.Stop((ushort)closeCode, reason);
 		}
 	}
 }

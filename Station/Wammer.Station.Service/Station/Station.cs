@@ -187,7 +187,7 @@ namespace Wammer.Station
 				{
 					if (DriverCollection.Instance.FindOne(Query.EQ("_id", e.UserId)) == null)
 					{
-						e.Channel.Close(WebSocketSharp.Frame.CloseStatusCode.POLICY_VIOLATION, "User not exist");
+						e.Channel.Close((int)Notify.ErrorCode.AccessDenied, "User not exist");
 						return;
 					}
 
