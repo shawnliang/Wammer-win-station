@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
+using System.IO.Packaging;
 
 namespace StationSystemTray
 {
@@ -82,50 +83,53 @@ namespace StationSystemTray
 			var stationLogDir = Path.Combine(installDir, "log");
 
 			makeEmptyDir(supportDir);
-			copyLogFiles(stationLogDir, "*.*", supportDir);
-			copyLogFiles(wavefaceDir, "*.log", supportDir);
-			copyLogFiles(cacheDir, "*.dat", supportDir);
-			copyLogFiles(cacheDir, "*.txt", supportDir);
-			copyLogFiles(wavefaceDir, "trayIcon.*", supportDir);
-			dumpMongoDB(supportDir, installDir);
-			dumpRegistry(supportDir);
 
-			packLogsToTarGzFile(wavefaceDir, supportDir, "support.tar.gz");
+			using (var zip = ZipPackage.Open(Path.Combine(supportDir, "support.zip"), FileMode.Create))
+			{
+				addDirToZip(stationLogDir, "*.*", zip);
+				addDirToZip(wavefaceDir, "*.log", zip);
+				addDirToZip(cacheDir, "*.dat", zip);
+				addDirToZip(cacheDir, "*.txt", zip);
+				addDirToZip(wavefaceDir, "trayIcon.*", zip);
+
+				var dumpDir = dumpMongoDB(supportDir, installDir);
+				if (dumpDir != null)
+				{
+					addDirToZip(dumpDir, "*.*", zip);
+					Directory.Delete(dumpDir, true);
+				}
+
+				var regFile = dumpRegistry(supportDir);
+				if (regFile != null)
+				{
+					addFileToZip(regFile, zip);
+					File.Delete(regFile);
+				}
+			}
 
 			e.Result = supportDir;
 		}
 
-		private static void packLogsToTarGzFile(string wavefaceDir, string supportDir, string tarGzFileName)
-		{
-			var tarGzipFile = Path.Combine(wavefaceDir, tarGzFileName);
-			using (var tarGzipStream = File.Open(tarGzipFile, FileMode.Create, FileAccess.Write))
-			{
-				var gzip = new GZipOutputStream(tarGzipStream);
-				var tar = TarArchive.CreateOutputTarArchive(gzip);
-				tar.RootPath = wavefaceDir;
-				tar.WriteEntry(TarEntry.CreateEntryFromFile(supportDir), true);
-				tar.RootPath = wavefaceDir;
-				tar.Close();
-			}
-			makeEmptyDir(supportDir);
-			File.Move(tarGzipFile, Path.Combine(supportDir, tarGzFileName));
-		}
-
-		private static void dumpRegistry(string supportDir)
+		private static string dumpRegistry(string supportDir)
 		{
 			try
 			{
 				string arg;
+				string outputFile = Path.Combine(supportDir, "Stream.reg");
+
 				if (IntPtr.Size == 8)
-					arg = string.Format("export HKLM\\Software\\Wow6432Node\\Wammer \"{0}\"", Path.Combine(supportDir, "Stream.reg"));
+					arg = string.Format("export HKLM\\Software\\Wow6432Node\\Wammer \"{0}\"", outputFile);
 				else
-					arg = string.Format("export HKLM\\Software\\Wammer \"{0}\"", Path.Combine(supportDir, "Stream.reg"));
+					arg = string.Format("export HKLM\\Software\\Wammer \"{0}\"", outputFile);
 
 				var p = Process.Start("reg.exe", arg);
 				p.WaitForExit();
+
+				return outputFile;
 			}
 			catch
 			{
+				return null;
 			}
 		}
 
@@ -151,7 +155,7 @@ namespace StationSystemTray
 			}
 		}
 
-		private static void dumpMongoDB(string supportDir, string installDir)
+		private static string dumpMongoDB(string supportDir, string installDir)
 		{
 			try
 			{
@@ -168,31 +172,53 @@ namespace StationSystemTray
 					var p = Process.Start(info);
 					p.WaitForExit();
 				}
+
+				return dumpDest;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		private static void addDirToZip(string srcDir, string logPattern, Package zip)
+		{
+			try
+			{
+				var files = Directory.GetFileSystemEntries(srcDir, logPattern);
+				Array.ForEach(files, filePath =>
+				{
+					if (Directory.Exists(filePath))
+					{
+						addDirToZip(filePath, logPattern, zip);
+					}
+					else
+					{
+						addFileToZip(filePath, zip);
+					}
+				});
 			}
 			catch
 			{
 			}
 		}
 
-		private static void copyLogFiles(string srcDir, string logPattern, string supportDir)
+		private static void addFileToZip(string filePath, Package zip)
 		{
 			try
 			{
-				var files = Directory.GetFiles(srcDir, logPattern);
-				Array.ForEach(files, filePath =>
-				{
-					var src = filePath;
-					var dest = Path.Combine(supportDir, Path.GetFileName(filePath));
+				var fileName = Path.GetFileName(filePath);
 
-					using (var srcFile = new FileStream(src, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-					{
-						srcFile.WriteTo(dest, 64 * 1024);
-					}
-				});
+				var partUri = PackUriHelper.CreatePartUri(new Uri(fileName, UriKind.Relative));
+				var part = zip.CreatePart(partUri, "application/octet-stream", CompressionOption.Normal);
+
+				using (var srcFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+				{
+					srcFile.WriteTo(part.GetStream());
+				}
 			}
 			catch
 			{
-
 			}
 		}
 
