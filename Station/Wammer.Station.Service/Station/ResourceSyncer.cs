@@ -105,7 +105,8 @@ namespace Wammer.Station
 					continue;
 				try
 				{
-					syncer.PullTimeline(user);
+					if (syncer.PullTimeline(user))
+						Station.Instance.PostUpsertNotifier.NotifyUser(user.user_id);
 				}
 				catch (Exception e)
 				{
