@@ -84,6 +84,7 @@ namespace StationSystemTray
 		private string _signUpUrl;
 		private Timer _timer;
 		private CustomWindow _messageReceiver;
+		private ContactUsDialog _contactUsDialog;
 		#endregion Var
 
 		#region Private Property
@@ -1840,6 +1841,21 @@ namespace StationSystemTray
 
 			bool isProductionVersion = server != null && server.Contains("api.waveface.com");
 			devVersionTag.Visible = !isProductionVersion;
+		}
+
+		private void menuItemContactUs_Click(object sender, EventArgs e)
+		{
+			if (_contactUsDialog == null)
+			{
+				_contactUsDialog = new ContactUsDialog();
+				_contactUsDialog.FormClosed += (sendr, arg) =>
+				{
+					this._contactUsDialog = null;
+				};
+				_contactUsDialog.Show();
+			}
+			else
+				_contactUsDialog.Activate();
 		}
 	}
 

@@ -81,6 +81,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Src\Env.cs" />
     <Compile Include="Src\Extension\StreamExtension.cs" />
     <Compile Include="TaskbarHelper.cs" />
   </ItemGroup>
