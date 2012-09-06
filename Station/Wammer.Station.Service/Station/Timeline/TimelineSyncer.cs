@@ -79,7 +79,7 @@ namespace Wammer.Station.Timeline
 		/// Calls user track api to get changed posts and saves to db
 		/// </summary>
 		/// <param name="user"></param>
-		public void PullForward(Driver user)
+		public bool PullForward(Driver user)
 		{
 			if (user == null)
 				throw new ArgumentNullException("user");
@@ -94,6 +94,8 @@ namespace Wammer.Station.Timeline
 
 				ProcChangedPosts(user, res);
 				ProcNewAttachments(res);
+
+				return res.post_list != null && res.post_list.Count > 0;
 			}
 			catch(WammerCloudException e)
 			{
@@ -107,6 +109,8 @@ namespace Wammer.Station.Timeline
 					syncRange.next_seq_num = next_seq;
 
 					db.UpdateDriverSyncRange(user.user_id, syncRange);
+
+					return true;
 				}
 				else
 					throw;
@@ -146,7 +150,10 @@ namespace Wammer.Station.Timeline
 					db.SavePost(post);
 
 				OnPostsRetrieved(user, changedPost);
+			}
 
+			if (res.changelog_list != null && res.changelog_list.Count > 0)
+			{
 				db.UpdateDriverSyncRange(user.user_id,
 										 new SyncRange
 											{
@@ -188,7 +195,12 @@ namespace Wammer.Station.Timeline
 				handler(this, args);
 		}
 
-		public void PullTimeline(Driver user)
+		/// <summary>
+		/// Pull user timeline
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns>Returns true if a post change is received; otherwise false</returns>
+		public bool PullTimeline(Driver user)
 		{
 			if (user == null)
 				throw new ArgumentNullException("user");
@@ -200,7 +212,10 @@ namespace Wammer.Station.Timeline
 			else if (!user.is_change_history_synced)
 				PullOldChangeLog(user);
 			else
-				PullForward(user);
+				return PullForward(user);
+
+			// Always return true for PullBackward() and PullOldChangeLog() because it will prevent data leakage
+			return true;
 		}
 
 		private static int min(int a, int b)

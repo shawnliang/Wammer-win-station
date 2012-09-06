@@ -21,6 +21,18 @@ namespace Wammer.Station.Notify
 			this.db = db;
 		}
 
+		public void NotifyUser(string user_id)
+		{
+			try
+			{
+				channels.NotifyToUserChannels(user_id, "");
+			}
+			catch (Exception ex)
+			{
+				this.LogWarnMsg("web socket notification failed", ex);
+			}
+		}
+
 		public void OnPostUpserted(object sender, PostUpsertEventArgs evt)
 		{
 			try

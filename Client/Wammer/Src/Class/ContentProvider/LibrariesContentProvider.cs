@@ -35,24 +35,6 @@ namespace Waveface
 
 		#region Private Method
 		/// <summary>
-		/// Determines whether [is win vista or later].
-		/// </summary>
-		/// <returns>
-		/// 	<c>true</c> if [is win vista or later]; otherwise, <c>false</c>.
-		/// </returns>
-		private static bool isWinVistaOrLater()
-		{
-			bool isWinVistaOrLater;
-
-			var os = Environment.OSVersion;
-			if (os.Platform == PlatformID.Win32NT && os.Version.Major == 6)
-				isWinVistaOrLater = true;
-			else
-				isWinVistaOrLater = false;
-			return isWinVistaOrLater;
-		}
-
-		/// <summary>
 		/// Gets the librarys files.
 		/// </summary>
 		/// <returns></returns>
@@ -89,7 +71,7 @@ namespace Waveface
 		/// <returns></returns>
 		public override IEnumerable<IContent> GetContents()
 		{
-			var files = isWinVistaOrLater() ? GetLibrarysFiles() : GetMyPictresFiles();
+			var files = Waveface.Env.IsWinVistaOrLater() ? GetLibrarysFiles() : GetMyPictresFiles();
 			return from file in files
 				   let extension = Path.GetExtension(file)
 				   where extension.Equals(".jpg", StringComparison.CurrentCultureIgnoreCase) ||

@@ -149,6 +149,9 @@
   <data name="CLOSE_BUTTON_TEXT" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="CollectingLogs" xml:space="preserve">
+    <value>CollectingLogs</value>
+  </data>
   <data name="ConnectCloudError" xml:space="preserve">
     <value>Unable to connect to Stream server</value>
   </data>
