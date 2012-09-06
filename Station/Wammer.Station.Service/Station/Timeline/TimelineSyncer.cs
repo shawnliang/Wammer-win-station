@@ -150,7 +150,10 @@ namespace Wammer.Station.Timeline
 					db.SavePost(post);
 
 				OnPostsRetrieved(user, changedPost);
+			}
 
+			if (res.changelog_list != null && res.changelog_list.Count > 0)
+			{
 				db.UpdateDriverSyncRange(user.user_id,
 										 new SyncRange
 											{
