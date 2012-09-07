@@ -51,7 +51,7 @@ namespace Wammer.Station.Service
 			XmlConfigurator.Configure();
 			InitializeComponent();
 			ServiceName = SERVICE_NAME;
-
+			HttpWebRequest.DefaultMaximumErrorResponseLength = 10 * 1024; // in KB => 10 * 1024 * K => 10 MB
 			ServicePointManager.DefaultConnectionLimit = 200;
 		}
 
