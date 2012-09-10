@@ -85,6 +85,9 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExifLibrary">
+      <HintPath>..\3rd_party\ExifLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="fastJSON">
       <HintPath>..\3rd_party\fastJSON\fastJSON.dll</HintPath>
     </Reference>
@@ -97,6 +100,10 @@
     <Reference Include="MongoDB.Driver">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Client\Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -106,6 +113,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
