@@ -38,11 +38,11 @@ namespace Waveface
 
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
-        #region Fields
+        #region Var
 
         //// Main
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
-        private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
+        private DragDrop_Clipboard_Helper _dragDropClipboardHelper;
 
         private List<string> m_delayPostPicList = new List<string>();
         private RunTime m_runTime;
@@ -71,6 +71,15 @@ namespace Waveface
         #endregion
 
         #region Private Property
+		private DragDrop_Clipboard_Helper m_dragDropClipboardHelper
+		{
+			get
+			{
+				return _dragDropClipboardHelper ?? (_dragDropClipboardHelper = new DragDrop_Clipboard_Helper());
+			}
+		}
+
+
         private WService m_Service
         {
             get
@@ -212,8 +221,6 @@ namespace Waveface
             File.Delete(m_shellContentMenuFilePath);
 
             HttpHelp.EnableUnsafeHeaderParsing();
-
-            m_dragDropClipboardHelper = new DragDrop_Clipboard_Helper();
 
 
             m_formSettings = new FormSettings(this);
@@ -556,38 +563,6 @@ namespace Waveface
 
         #endregion
 
-        #region Network Status
-
-        public void UpdateNetworkStatus()
-        {
-			DebugInfo.ShowMethod();
-
-            RT.REST.IsNetworkAvailable = true;
-        }
-
-        public bool CheckNetworkStatus()
-        {
-			DebugInfo.ShowMethod();
-
-            return true;
-        }
-
-        private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
-        {
-			DebugInfo.ShowMethod();
-
-            try
-            {
-                if (IsHandleCreated)
-                    Invoke(new MethodInvoker(UpdateNetworkStatus));
-            }
-            catch (Exception _e)
-            {
-                NLogUtility.Exception(s_logger, _e, "NetworkChange_NetworkAvailabilityChanged");
-            }
-        }
-
-        #endregion
 
         #region Login
 
@@ -657,8 +632,6 @@ namespace Waveface
         {
 			DebugInfo.ShowMethod();
 
-            UpdateNetworkStatus();
-
             Reset(true);
 
             if (Environment.GetCommandLineArgs().Length > 1)
@@ -722,8 +695,6 @@ namespace Waveface
             Cursor = Cursors.WaitCursor;
 
             errorMessage = string.Empty;
-
-            UpdateNetworkStatus();
 
             Reset(true);
 
@@ -1926,13 +1897,6 @@ namespace Waveface
                 LoginWithInitSession();
 
             postsArea.PostsList.DetailView = detailView;
-
-            if (Environment.GetCommandLineArgs().Length == 1)
-            {
-                NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
-
-                UpdateNetworkStatus();
-            }
 
 
             CreateWebSocketChannelToStation();

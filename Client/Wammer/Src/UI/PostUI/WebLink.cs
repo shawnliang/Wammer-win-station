@@ -58,20 +58,17 @@ namespace Waveface.PostUI
             cbNoThumbnail.Visible = false;
 
             if (post.type == "link")
-            {
-                if (Main.Current.CheckNetworkStatus())
-                {
-                    if (string.IsNullOrEmpty(post.preview.thumbnail_url))
-                    {
-                        panelContent.Left = 0;
-                        panelContent.Width = panelPreview.Width - 8;
-                        panelSelectPicture.Visible = false;
-                    }
-                    else
-                    {
-                        pictureBoxPreview.LoadAsync(post.preview.thumbnail_url);
-                    }
-                }
+			{
+				if (string.IsNullOrEmpty(post.preview.thumbnail_url))
+				{
+					panelContent.Left = 0;
+					panelContent.Width = panelPreview.Width - 8;
+					panelSelectPicture.Visible = false;
+				}
+				else
+				{
+					pictureBoxPreview.LoadAsync(post.preview.thumbnail_url);
+				}
 
                 labelTitle.Text = post.preview.title.Trim();
                 labelProvider.Text = post.preview.provider_display;
@@ -82,9 +79,6 @@ namespace Waveface.PostUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
             if (MyParent.EditMode)
             {
                 if (m_mrPreviewsGetAdv == null)

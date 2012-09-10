@@ -552,9 +552,6 @@ namespace Waveface
 
         private void pbDropArea_Click(object sender, EventArgs e)
         {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
             using (var dialog = new DropAreaInforForm())
             {
                 dialog.ShowDialog();
