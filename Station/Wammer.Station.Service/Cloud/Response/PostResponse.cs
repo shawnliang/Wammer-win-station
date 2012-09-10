@@ -274,6 +274,9 @@ namespace Wammer.Cloud
 		public DateTime update_time { get; set; }
 
 		[BsonIgnoreIfNull]
+		public Boolean isImported { get; set; }
+
+		[BsonIgnoreIfNull]
 		public DateTime timestamp { get; set; }
 
 		[BsonId]

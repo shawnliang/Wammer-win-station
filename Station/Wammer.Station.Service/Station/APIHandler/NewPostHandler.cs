@@ -83,6 +83,7 @@ namespace Wammer.Station
 			var codeName = loginedSession.apikey.name;
 			var cover_attach = Parameters[CloudServer.PARAM_COVER_ATTACH];
 			var favorite = Parameters[CloudServer.PARAM_FAVORITE];
+			var isImported = Parameters[CloudServer.PARAM_IMPORT];
 
 			var attachmentInfos = AttachmentHelper.GetAttachmentInfoList(attachmentIDs, codeName);
 
@@ -105,7 +106,8 @@ namespace Wammer.Station
 							event_time = timeStamp.ToCloudTimeString(),
 							type = type,
 							cover_attach = cover_attach,
-							favorite = "1".Equals(favorite) ? 1 : 0
+							favorite = "1".Equals(favorite) ? 1 : 0,
+							isImported = isImported == "true"
 						};
 
 			PostCollection.Instance.Save(post);
