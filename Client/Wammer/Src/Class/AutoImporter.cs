@@ -141,7 +141,8 @@ namespace Waveface
 				"[" + string.Join(",", objectIDs.Select(id => "\"" + id + "\"").ToArray()) + "]",
 				"",
 				"image",
-				objectIDs.FirstOrDefault());
+				objectIDs.FirstOrDefault(),
+				true);
 
 
 			var sources = new Dictionary<string, string>();

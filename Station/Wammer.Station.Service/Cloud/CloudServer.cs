@@ -46,6 +46,7 @@ namespace Wammer.Cloud
 		public const string PARAM_COVER_ATTACH = "cover_attach";
 		public const string PARAM_FAVORITE = "favorite";
 		public const string PARAM_UPDATE_TIME = "update_time";
+		public const string PARAM_IMPORT = "import";
 		public const string PARAM_REMOVE_ALL_DATA = "remove_resource";
 		public const string PARAM_COUNT = "count";
 		public const string PARAM_TARGET = "target";
