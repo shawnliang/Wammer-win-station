@@ -62,6 +62,7 @@ namespace Waveface
 			DebugInfo.ShowMethod();
 			var systemResourcePath = StationRegHelper.GetValue("ResourceFolder", "");
 
+			var importDate = DateTimeHelp.ToISO8601(DateTime.Now);
 			var processPath = string.Empty;
 			var postID = string.Empty;
 			var processedPaths = new HashSet<string>();
@@ -93,7 +94,7 @@ namespace Waveface
 					{
 						if (processPath.Length > 0 && uploadItems.Count > 0)
 						{
-							CreatePost(postID, uploadItems, processPath);
+							CreatePost(postID, uploadItems, processPath, importDate);
 							processedPaths.Add(processPath);
 						}
 
@@ -121,7 +122,7 @@ namespace Waveface
 			}
 
 			if (processPath.Length > 0 && uploadItems.Count > 0)
-				CreatePost(postID, uploadItems, processPath);
+				CreatePost(postID, uploadItems, processPath, importDate);
 
 			Main.Current.Uploader.Add(pendingUploadItems);
 		}
@@ -132,7 +133,7 @@ namespace Waveface
 		/// <param name="postID">The post ID.</param>
 		/// <param name="uploadItems">The upload items.</param>
 		/// <param name="contentPath">The content path.</param>
-		private static void CreatePost(string postID, List<UploadItem> uploadItems, string contentPath)
+		private static void CreatePost(string postID, List<UploadItem> uploadItems, string contentPath, string memo = null)
 		{
 			var objectIDs = uploadItems.Select(item => item.object_id).ToArray();
 			var post = Main.Current.RT.REST.Posts_New(
@@ -141,7 +142,8 @@ namespace Waveface
 				"[" + string.Join(",", objectIDs.Select(id => "\"" + id + "\"").ToArray()) + "]",
 				"",
 				"image",
-				objectIDs.FirstOrDefault());
+				objectIDs.FirstOrDefault(),
+				memo);
 
 
 			var sources = new Dictionary<string, string>();
