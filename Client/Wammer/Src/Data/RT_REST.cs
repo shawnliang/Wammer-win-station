@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System.Collections.Generic;
 using System.IO;
@@ -172,14 +172,14 @@ namespace Waveface
             return null;
         }
 
-        public MR_posts_new Posts_New(string post_id, string text, string files, string previews, string type, string coverAttach, string memo = null)
+        public MR_posts_new Posts_New(string post_id, string text, string files, string previews, string type, string coverAttach, Boolean imported = false, string memo = null)
         {
 
             MR_posts_new _ret = null;
 
             try
             {
-				_ret = m_service.posts_new(SessionToken, post_id, m_rt.CurrentGroupID, text, files, previews, type, coverAttach, memo);
+				_ret = m_service.posts_new(SessionToken, post_id, m_rt.CurrentGroupID, text, files, previews, type, coverAttach, imported, memo);
             }
             catch (Station401Exception _e)
             {

@@ -14,6 +14,8 @@ using Wammer.Utility;
 using Waveface;
 using fastJSON;
 using MongoDB.Driver.Builders;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Wammer.Model
 {
@@ -142,6 +144,9 @@ namespace Wammer.Model
 	public class ImageProperty
 	{
 		[BsonIgnoreIfNull]
+		public exif exif { get; set; }
+
+		[BsonIgnoreIfNull]
 		public int width { get; set; }
 
 		[BsonIgnoreIfNull]
@@ -209,13 +214,60 @@ namespace Wammer.Model
 		}
 	}
 
+	[DataContract]
+	public class GPSInfo
+	{
+		[DataMember(Name = "1")]
+		public string GPSLatitudeRef { get; set; }
+
+		[DataMember(Name = "2")]
+		public List<List<int>> GPSLatitude { get; set; }
+
+		[DataMember(Name = "3")]
+		public string GPSLongitudeRef { get; set; }
+
+		[DataMember(Name = "4")]
+		public List<List<int>> GPSLongitude { get; set; }
+	}
+
+	public class exif
+	{
+		public List<int> YResolution { get; set; }
+		public int ResolutionUnit { get; set; }
+		public string Make { get; set; }
+		public int Flash { get; set; }
+		public string DateTime { get; set; }
+		public int MeteringMode { get; set; }
+		public List<int> XResolution { get; set; }
+		public int ExposureProgram { get; set; }
+		public int ColorSpace { get; set; }
+		public int ExifImageWidth { get; set; }
+		public string DateTimeDigitized { get; set; }
+		public string DateTimeOriginal { get; set; }
+		public int SensingMethod { get; set; }
+		public List<int> FNumber { get; set; }
+		public List<int> ApertureValue { get; set; }
+		public List<int> FocalLength { get; set; }
+		public string ComponentsConfiguration { get; set; }
+		public int ExifOffset { get; set; }
+		public int ExifImageHeight { get; set; }
+		public int ISOSpeedRatings { get; set; }
+		public string Model { get; set; }
+		public string Software { get; set; }
+		public List<int> ExposureTime { get; set; }
+		public string FlashPixVersion { get; set; }
+		public int YCbCrPositioning { get; set; }
+		public string ExifVersion { get; set; }
+		public GPSInfo GPSInfo { get; set; }
+	}
+
 	[BsonIgnoreExtraElements]
 	public class Attachment : IAttachmentInfo
 	{
 		#region Private Method
 
 		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta,
-																	  AttachmentType type, string apiKey, string token, string post_id = null, string memo = null)
+																	  AttachmentType type, string apiKey, string token, string post_id = null, string memo = null, exif exif = null)
 		{
 			var pars = new Dictionary<string, object>();
 			pars["type"] = type.ToString();
@@ -231,6 +283,9 @@ namespace Wammer.Model
 
 			if (!string.IsNullOrEmpty(memo))
 				pars["memo"] = memo;
+
+			if (exif != null)
+				pars["exif"] = JsonConvert.SerializeObject(exif, Formatting.Indented);
 			return pars;
 		}
 
@@ -242,10 +297,10 @@ namespace Wammer.Model
 												  string objectId, string fileName, string contentType,
 												  ImageMeta meta, AttachmentType type, string apiKey,
 												  string token, int bufferSize = 1024,
-												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null, string post_id = null, string memo = null)
+												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null, string post_id = null, string memo = null, exif exif = null)
 		{
 			return Upload(CloudServer.BaseUrl + "attachments/upload", dataStream, groupId,
-						  objectId, fileName, contentType, meta, type, apiKey, token, bufferSize, progressChangedCallBack, post_id, memo);
+						  objectId, fileName, contentType, meta, type, apiKey, token, bufferSize, progressChangedCallBack, post_id, memo, exif);
 		}
 
 		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
@@ -253,14 +308,14 @@ namespace Wammer.Model
 		                                          ImageMeta meta, AttachmentType type, string apiKey,
 		                                          string token, int bufferSize = 1024,
 		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
-												  string post_id = null, string memo = null)
+												  string post_id = null, string memo = null, exif exif = null)
 		{
 			try
 			{
 				if (token == null)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
-				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id, memo);
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id, memo, exif);
 				HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(
 					url,
 					"Mozilla 4.0+",
