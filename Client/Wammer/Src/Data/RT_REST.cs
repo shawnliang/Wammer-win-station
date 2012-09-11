@@ -37,8 +37,6 @@ namespace Waveface
             }
         }
 
-        public bool IsNetworkAvailable { get; set; }
-
         #endregion
 
         public RT_REST(RunTime rt)
@@ -106,9 +104,6 @@ namespace Waveface
 
         public bool CheckStationAlive(string ip, int timeout)
         {
-            if (!IsNetworkAvailable)
-                return false;
-
             string _url = ip + "/v2/availability/ping/";
 
             string _ret = m_service.HttpGet(_url, timeout, true);
@@ -121,8 +116,6 @@ namespace Waveface
 
         public MR_auth_login Auth_Login(string email, string password)
         {
-            //if (!IsNetworkAvailable)
-            //    return null;
 
             MR_auth_login _ret = null;
 
@@ -158,8 +151,6 @@ namespace Waveface
 
         public MR_groups_get Groups_Get(string group_id)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_groups_get _ret = null;
 
@@ -183,8 +174,6 @@ namespace Waveface
 
         public MR_posts_new Posts_New(string post_id, string text, string files, string previews, string type, string coverAttach)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_new _ret = null;
 
@@ -208,8 +197,6 @@ namespace Waveface
 
         public MR_posts_newComment Posts_NewComment(string post_id, string content, string objects, string previews)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_newComment _ret = null;
 
@@ -233,8 +220,6 @@ namespace Waveface
 
         public MR_posts_update Posts_update(string post_id, string last_update_time, Dictionary<string, string> OptionalParams)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_update _ret = null;
 
@@ -258,8 +243,6 @@ namespace Waveface
 
         public MR_posts_getSingle Posts_GetSingle(string post_id)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_getSingle _ret = null;
 
@@ -285,8 +268,6 @@ namespace Waveface
 
         public MR_previews_get_adv Preview_GetAdvancedPreview(string url)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_previews_get_adv _ret = null;
 
@@ -314,8 +295,6 @@ namespace Waveface
 
         public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage, string post_id)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_attachments_upload _ret;
             string _resizedImageFilePath = string.Empty;
@@ -372,8 +351,6 @@ namespace Waveface
 
         public MR_fetchfilters_list SearchFilters_List()
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_fetchfilters_list _ret = null;
 
@@ -397,8 +374,6 @@ namespace Waveface
 
         public MR_fetchfilters_item FetchFilters_New(string filter_name, string filter_entity, string tag)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_fetchfilters_item _ret = null;
 
@@ -422,8 +397,6 @@ namespace Waveface
 
         public MR_fetchfilters_item FetchFilters_Update(string searchfilter_id, string filter_name, string filter_entity, string tag)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_fetchfilters_item _ret = null;
 
@@ -447,8 +420,6 @@ namespace Waveface
 
         public MR_users_findMyStation Users_findMyStation()
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_users_findMyStation _ret = null;
 
@@ -472,8 +443,6 @@ namespace Waveface
 
         public MR_posts_hide_ret Posts_hide(string post_id)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_hide_ret _ret = null;
 
@@ -497,8 +466,6 @@ namespace Waveface
 
         public MR_posts_get Posts_FetchByFilter(string filter_entity)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_get _ret = null;
 
@@ -522,8 +489,6 @@ namespace Waveface
 
         public MR_posts_get Posts_FetchByFilter_2(string post_id_list)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_get _ret = null;
 
@@ -547,8 +512,6 @@ namespace Waveface
 
         public MR_posts_getLatest Posts_getLatest(string limit)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_getLatest _ret = null;
 
@@ -572,8 +535,6 @@ namespace Waveface
 
         public MR_posts_get Posts_get(string limit, string datum, string filter)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_posts_get _ret = null;
 
@@ -597,8 +558,6 @@ namespace Waveface
 
         public LastScan Footprints_getLastScan()
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_footprints_LastScan _ret = null;
 
@@ -622,8 +581,6 @@ namespace Waveface
 
         public string Footprints_setLastScan(string post_id)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_footprints_LastScan _ret = null;
 
@@ -647,8 +604,6 @@ namespace Waveface
 
         public MR_storages_usage Storages_Usage()
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_storages_usage _ret = null;
 
@@ -672,8 +627,6 @@ namespace Waveface
 
         public MR_station_status GetStationStatus()
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_station_status _ret = null;
 
@@ -697,8 +650,6 @@ namespace Waveface
 
         public MR_usertracks_get usertracks_get(string since)
         {
-            if (!IsNetworkAvailable)
-                return null;
 
             MR_usertracks_get _ret = null;
 

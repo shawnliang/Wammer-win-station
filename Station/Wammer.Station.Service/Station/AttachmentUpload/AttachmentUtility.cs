@@ -75,7 +75,7 @@ namespace Wammer.Station.AttachmentUpload
 
 
 		public void UpstreamAttachmentNow(string filename, Driver user, string object_id, string origFileName,
-		                                  string mime_type, ImageMeta meta, AttachmentType type, string session, string apikey)
+										  string mime_type, ImageMeta meta, AttachmentType type, string session, string apikey)
 		{
 			var fileStorage = new FileStorage(user);
 
