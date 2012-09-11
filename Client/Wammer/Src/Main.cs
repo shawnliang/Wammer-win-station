@@ -862,12 +862,13 @@ namespace Waveface
 
 					if (!isDataImportQueried)
 					{
+						dbServer.GetDatabase("wammer").GetCollection("drivers").Update(Query.EQ("_id", RT.Login.user.user_id), MongoDB.Driver.Builders.Update.Set("isDataImportQueried", true));
+
 						AutoImportDialog dialog = new AutoImportDialog() 
 						{
 							StartPosition = FormStartPosition.CenterParent
 						};
 						dialog.ShowDialog(this);
-						dbServer.GetDatabase("wammer").GetCollection("drivers").Update(Query.EQ("_id", RT.Login.user.user_id), MongoDB.Driver.Builders.Update.Set("isDataImportQueried", true));
 						return;
 					}
 				}
