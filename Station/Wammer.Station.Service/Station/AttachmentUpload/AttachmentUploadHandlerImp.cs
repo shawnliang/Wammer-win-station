@@ -147,7 +147,7 @@ namespace Wammer.Station.AttachmentUpload
 							exif.Flash = (int)((Flash)item.Value);
 							break;
 						case ExifTag.DateTime:
-							exif.DateTime = item.Value.ToString();
+							exif.DateTime = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
 							break;
 						case ExifTag.MeteringMode:
 							exif.MeteringMode = (int)((MeteringMode)item.Value);
@@ -162,10 +162,10 @@ namespace Wammer.Station.AttachmentUpload
 							exif.ColorSpace = (int)((ColorSpace)item.Value);
 							break;
 						case ExifTag.DateTimeDigitized:
-							exif.DateTimeDigitized = item.Value.ToString();
+							exif.DateTimeDigitized = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
 							break;
 						case ExifTag.DateTimeOriginal:
-							exif.DateTimeOriginal = item.Value.ToString();
+							exif.DateTimeOriginal = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
 							break;
 						case ExifTag.SensingMethod:
 							exif.SensingMethod = (int)item.Value;
