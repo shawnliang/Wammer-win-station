@@ -1059,160 +1059,160 @@ namespace Waveface
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostsList));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
-            this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.miDisplayAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.miDisplayText = new System.Windows.Forms.ToolStripMenuItem();
-            this.miDisplayPhoto = new System.Windows.Forms.ToolStripMenuItem();
-            this.miDisplayWebLink = new System.Windows.Forms.ToolStripMenuItem();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.dataGridView = new Waveface.Component.CustomDataGridView();
-            this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
-            this.contextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostsList));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.miRemovePost = new System.Windows.Forms.ToolStripMenuItem();
+			this.displayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.miDisplayAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.miDisplayText = new System.Windows.Forms.ToolStripMenuItem();
+			this.miDisplayPhoto = new System.Windows.Forms.ToolStripMenuItem();
+			this.miDisplayWebLink = new System.Windows.Forms.ToolStripMenuItem();
+			this.timer = new System.Windows.Forms.Timer(this.components);
+			this.dataGridView = new Waveface.Component.CustomDataGridView();
+			this.creatoridDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.m_postBS = new System.Windows.Forms.BindingSource(this.components);
+			this.contextMenuStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.m_postBS)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// contextMenuStrip
+			// 
+			this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miRemovePost,
             this.displayToolStripMenuItem});
-            this.contextMenuStrip.Name = "contextMenuStripImageList";
-            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
-            // 
-            // miRemovePost
-            // 
-            this.miRemovePost.Image = global::Waveface.Properties.Resources.FB_remove;
-            this.miRemovePost.Name = "miRemovePost";
-            resources.ApplyResources(this.miRemovePost, "miRemovePost");
-            this.miRemovePost.Click += new System.EventHandler(this.miRemovePost_Click);
-            // 
-            // displayToolStripMenuItem
-            // 
-            this.displayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.contextMenuStrip.Name = "contextMenuStripImageList";
+			resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
+			// 
+			// miRemovePost
+			// 
+			this.miRemovePost.Image = global::Waveface.Properties.Resources.FB_remove;
+			this.miRemovePost.Name = "miRemovePost";
+			resources.ApplyResources(this.miRemovePost, "miRemovePost");
+			this.miRemovePost.Click += new System.EventHandler(this.miRemovePost_Click);
+			// 
+			// displayToolStripMenuItem
+			// 
+			this.displayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miDisplayAll,
             this.miDisplayText,
             this.miDisplayPhoto,
             this.miDisplayWebLink});
-            this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
-            resources.ApplyResources(this.displayToolStripMenuItem, "displayToolStripMenuItem");
-            // 
-            // miDisplayAll
-            // 
-            this.miDisplayAll.Checked = true;
-            this.miDisplayAll.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.miDisplayAll.Name = "miDisplayAll";
-            resources.ApplyResources(this.miDisplayAll, "miDisplayAll");
-            this.miDisplayAll.Click += new System.EventHandler(this.miDisplayAll_Click);
-            // 
-            // miDisplayText
-            // 
-            this.miDisplayText.Name = "miDisplayText";
-            resources.ApplyResources(this.miDisplayText, "miDisplayText");
-            this.miDisplayText.Click += new System.EventHandler(this.miDisplayText_Click);
-            // 
-            // miDisplayPhoto
-            // 
-            this.miDisplayPhoto.Name = "miDisplayPhoto";
-            resources.ApplyResources(this.miDisplayPhoto, "miDisplayPhoto");
-            this.miDisplayPhoto.Click += new System.EventHandler(this.miDisplayPhoto_Click);
-            // 
-            // miDisplayWebLink
-            // 
-            this.miDisplayWebLink.Name = "miDisplayWebLink";
-            resources.ApplyResources(this.miDisplayWebLink, "miDisplayWebLink");
-            this.miDisplayWebLink.Click += new System.EventHandler(this.miDisplayWebLink_Click);
-            // 
-            // timer
-            // 
-            this.timer.Enabled = true;
-            this.timer.Interval = 30000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // dataGridView
-            // 
-            this.dataGridView.AllowDrop = true;
-            this.dataGridView.AllowUserToAddRows = false;
-            this.dataGridView.AllowUserToDeleteRows = false;
-            this.dataGridView.AllowUserToResizeRows = false;
-            this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridView.ColumnHeadersVisible = false;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+			this.displayToolStripMenuItem.Name = "displayToolStripMenuItem";
+			resources.ApplyResources(this.displayToolStripMenuItem, "displayToolStripMenuItem");
+			// 
+			// miDisplayAll
+			// 
+			this.miDisplayAll.Checked = true;
+			this.miDisplayAll.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.miDisplayAll.Name = "miDisplayAll";
+			resources.ApplyResources(this.miDisplayAll, "miDisplayAll");
+			this.miDisplayAll.Click += new System.EventHandler(this.miDisplayAll_Click);
+			// 
+			// miDisplayText
+			// 
+			this.miDisplayText.Name = "miDisplayText";
+			resources.ApplyResources(this.miDisplayText, "miDisplayText");
+			this.miDisplayText.Click += new System.EventHandler(this.miDisplayText_Click);
+			// 
+			// miDisplayPhoto
+			// 
+			this.miDisplayPhoto.Name = "miDisplayPhoto";
+			resources.ApplyResources(this.miDisplayPhoto, "miDisplayPhoto");
+			this.miDisplayPhoto.Click += new System.EventHandler(this.miDisplayPhoto_Click);
+			// 
+			// miDisplayWebLink
+			// 
+			this.miDisplayWebLink.Name = "miDisplayWebLink";
+			resources.ApplyResources(this.miDisplayWebLink, "miDisplayWebLink");
+			this.miDisplayWebLink.Click += new System.EventHandler(this.miDisplayWebLink_Click);
+			// 
+			// timer
+			// 
+			this.timer.Enabled = true;
+			this.timer.Interval = 30000;
+			this.timer.Tick += new System.EventHandler(this.timer_Tick);
+			// 
+			// dataGridView
+			// 
+			this.dataGridView.AllowDrop = true;
+			this.dataGridView.AllowUserToAddRows = false;
+			this.dataGridView.AllowUserToDeleteRows = false;
+			this.dataGridView.AllowUserToResizeRows = false;
+			this.dataGridView.AutoGenerateColumns = false;
+			this.dataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
+			this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.dataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+			this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			this.dataGridView.ColumnHeadersVisible = false;
+			this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.creatoridDataGridViewTextBoxColumn});
-            this.dataGridView.ContextMenuStrip = this.contextMenuStrip;
-            this.dataGridView.DataSource = this.m_postBS;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.FormatProvider = new System.Globalization.CultureInfo("en-US");
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            resources.ApplyResources(this.dataGridView, "dataGridView");
-            this.dataGridView.EnableHeadersVisualStyles = false;
-            this.dataGridView.GridColor = System.Drawing.Color.LightGray;
-            this.dataGridView.MultiSelect = false;
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.ReadOnly = true;
-            this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.dataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.dataGridView.RowTemplate.Height = 64;
-            this.dataGridView.RowTemplate.ReadOnly = true;
-            this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.VirtualMode = true;
-            this.dataGridView.ContextMenuStripNeeded += new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(this.dataGridView_ContextMenuStripNeeded);
-            this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
-            this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
-            this.dataGridView.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dataGridView_Scroll);
-            this.dataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragDrop);
-            this.dataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragEnter);
-            this.dataGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragOver);
-            this.dataGridView.DragLeave += new System.EventHandler(this.dataGridView_DragLeave);
-            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
-            this.dataGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyUp);
-            // 
-            // creatoridDataGridViewTextBoxColumn
-            // 
-            this.creatoridDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.creatoridDataGridViewTextBoxColumn.DataPropertyName = "creator_id";
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 0);
-            this.creatoridDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            resources.ApplyResources(this.creatoridDataGridViewTextBoxColumn, "creatoridDataGridViewTextBoxColumn");
-            this.creatoridDataGridViewTextBoxColumn.Name = "creatoridDataGridViewTextBoxColumn";
-            this.creatoridDataGridViewTextBoxColumn.ReadOnly = true;
-            this.creatoridDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // m_postBS
-            // 
-            this.m_postBS.DataSource = typeof(Waveface.API.V2.Post);
-            this.m_postBS.PositionChanged += new System.EventHandler(this.postBS_PositionChanged);
-            // 
-            // PostsList
-            // 
-            this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.dataGridView);
-            resources.ApplyResources(this, "$this");
-            this.Name = "PostsList";
-            this.Load += new System.EventHandler(this.PostsList_Load);
-            this.contextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.m_postBS)).EndInit();
-            this.ResumeLayout(false);
+			this.dataGridView.ContextMenuStrip = this.contextMenuStrip;
+			this.dataGridView.DataSource = this.m_postBS;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 9F);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.FormatProvider = new System.Globalization.CultureInfo("en-US");
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+			resources.ApplyResources(this.dataGridView, "dataGridView");
+			this.dataGridView.EnableHeadersVisualStyles = false;
+			this.dataGridView.GridColor = System.Drawing.Color.LightGray;
+			this.dataGridView.MultiSelect = false;
+			this.dataGridView.Name = "dataGridView";
+			this.dataGridView.ReadOnly = true;
+			this.dataGridView.RowHeadersVisible = false;
+			this.dataGridView.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.InactiveCaption;
+			this.dataGridView.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+			this.dataGridView.RowTemplate.Height = 64;
+			this.dataGridView.RowTemplate.ReadOnly = true;
+			this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.dataGridView.VirtualMode = true;
+			this.dataGridView.ContextMenuStripNeeded += new System.EventHandler<System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventArgs>(this.dataGridView_ContextMenuStripNeeded);
+			this.dataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView_CellPainting);
+			this.dataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView_RowPostPaint);
+			this.dataGridView.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dataGridView_Scroll);
+			this.dataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragDrop);
+			this.dataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragEnter);
+			this.dataGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView_DragOver);
+			this.dataGridView.DragLeave += new System.EventHandler(this.dataGridView_DragLeave);
+			this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
+			this.dataGridView.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyUp);
+			// 
+			// creatoridDataGridViewTextBoxColumn
+			// 
+			this.creatoridDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.creatoridDataGridViewTextBoxColumn.DataPropertyName = "creator_id";
+			dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 0);
+			this.creatoridDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+			resources.ApplyResources(this.creatoridDataGridViewTextBoxColumn, "creatoridDataGridViewTextBoxColumn");
+			this.creatoridDataGridViewTextBoxColumn.Name = "creatoridDataGridViewTextBoxColumn";
+			this.creatoridDataGridViewTextBoxColumn.ReadOnly = true;
+			this.creatoridDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			// 
+			// m_postBS
+			// 
+			this.m_postBS.DataSource = typeof(Waveface.API.V2.Post);
+			this.m_postBS.PositionChanged += new System.EventHandler(this.postBS_PositionChanged);
+			// 
+			// PostsList
+			// 
+			this.BackColor = System.Drawing.SystemColors.Window;
+			this.Controls.Add(this.dataGridView);
+			resources.ApplyResources(this, "$this");
+			this.Name = "PostsList";
+			this.Load += new System.EventHandler(this.PostsList_Load);
+			this.contextMenuStrip.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.m_postBS)).EndInit();
+			this.ResumeLayout(false);
 
         }
 
