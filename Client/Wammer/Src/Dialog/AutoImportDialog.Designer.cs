@@ -41,8 +41,8 @@
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Image = global::Waveface.Properties.Resources.streamfotocollector_icon_128;
 			resources.ApplyResources(this.pictureBox1, "pictureBox1");
+			this.pictureBox1.Image = global::Waveface.Properties.Resources.streamfotocollector_icon_128;
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.TabStop = false;
 			// 
@@ -73,6 +73,7 @@
 			// 
 			// folderBrowserDialog1
 			// 
+			resources.ApplyResources(this.folderBrowserDialog1, "folderBrowserDialog1");
 			this.folderBrowserDialog1.ShowNewFolderButton = false;
 			// 
 			// button2
