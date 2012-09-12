@@ -68,7 +68,7 @@ namespace Waveface
 			var processedPaths = new HashSet<string>();
 
 			var uploadItems = new List<UploadItem>();
-			var pendingUploadItems = new List<UploadItem>();
+			//var pendingUploadItems = new List<UploadItem>();
 			foreach (var content in importContents)
 			{
 				try
@@ -109,10 +109,10 @@ namespace Waveface
 						post_id = postID
 					};
 
-					if (uploadItems.Count == 0)
+					//if (uploadItems.Count == 0)
 						Main.Current.Uploader.Add(uploadItem);
-					else
-						pendingUploadItems.Add(uploadItem);
+					//else
+					//    pendingUploadItems.Add(uploadItem);
 
 					uploadItems.Add(uploadItem);
 				}
@@ -124,7 +124,7 @@ namespace Waveface
 			if (processPath.Length > 0 && uploadItems.Count > 0)
 				CreatePost(postID, uploadItems, processPath, importDate);
 
-			Main.Current.Uploader.Add(pendingUploadItems);
+			//Main.Current.Uploader.Add(pendingUploadItems);
 		}
 
 		/// <summary>
@@ -175,6 +175,17 @@ namespace Waveface
 			DebugInfo.ShowMethod();
 
 			Import(m_ContentProvider.GetContents());
+		}
+
+		/// <summary>
+		/// Imports the specified provider type.
+		/// </summary>
+		/// <param name="providerType">Type of the provider.</param>
+		public void Import(ContentProviderType providerType)
+		{
+			DebugInfo.ShowMethod();
+
+			Import(m_ContentProvider.GetContents(providerType));
 		}
 
 

@@ -261,6 +261,7 @@
     <Compile Include="Src\Dialog\AutoImportDialog.Designer.cs">
       <DependentUpon>AutoImportDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Enum\ContentProviderType.cs" />
     <Compile Include="Src\Enum\ContentType.cs" />
     <Compile Include="Src\Exception\ChangeLogsPurgedException.cs" />
     <Compile Include="Src\Exception\VersionNotSupportedException.cs" />
@@ -682,6 +683,9 @@
       <DependentUpon>XPButton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\AutoImportDialog.resx">
+      <DependentUpon>AutoImportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AutoImportDialog.zh-TW.resx">
       <DependentUpon>AutoImportDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\LoginForm.zh-TW.resx">
