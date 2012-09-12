@@ -7,6 +7,9 @@ using System.Text;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using ExifLibrary;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -94,17 +97,17 @@ namespace Wammer.Station.AttachmentUpload
 				uploadData.object_id = Guid.NewGuid().ToString();
 
 			var dbDoc = new Attachment
-			            	{
-			            		object_id = uploadData.object_id,
-			            		group_id = uploadData.group_id,
-			            		file_name = uploadData.file_name,
-			            		title = uploadData.title,
-			            		description = uploadData.description,
-			            		modify_time = DateTime.UtcNow,
+							{
+								object_id = uploadData.object_id,
+								group_id = uploadData.group_id,
+								file_name = uploadData.file_name,
+								title = uploadData.title,
+								description = uploadData.description,
+								modify_time = DateTime.UtcNow,
 								post_id = uploadData.post_id,
 								memo = uploadData.memo,
-			            		image_meta = new ImageProperty()
-			            	};
+								image_meta = new ImageProperty()
+							};
 
 			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
 			var storage = GetUserStorage(uploadData);
@@ -120,19 +123,24 @@ namespace Wammer.Station.AttachmentUpload
 				dbDoc.image_meta.height = imageSize.Height;
 
 				storage.SaveFile(dbDoc.saved_file_name, uploadData.raw_data);
+
+				var photoFile = Path.Combine(storage.basePath, dbDoc.saved_file_name);
+
+
+				extractExif(dbDoc, photoFile);
 			}
 			else
 			{
 				var thumb = new ThumbnailInfo
-				            	{
-				            		file_size = uploadData.raw_data.Count,
-				            		md5 = ComputeMD5(uploadData.raw_data),
-				            		mime_type = uploadData.mime_type,
-				            		saved_file_name = GetSavedFileName(uploadData),
-				            		url = GetViewApiUrl(uploadData),
-				            		width = imageSize.Width,
-				            		height = imageSize.Height
-				            	};
+								{
+									file_size = uploadData.raw_data.Count,
+									md5 = ComputeMD5(uploadData.raw_data),
+									mime_type = uploadData.mime_type,
+									saved_file_name = GetSavedFileName(uploadData),
+									url = GetViewApiUrl(uploadData),
+									width = imageSize.Width,
+									height = imageSize.Height
+								};
 
 				dbDoc.image_meta.SetThumbnailInfo(uploadData.imageMeta, thumb);
 				storage.SaveFile(thumb.saved_file_name, uploadData.raw_data);
@@ -154,6 +162,118 @@ namespace Wammer.Station.AttachmentUpload
 			);
 
 			return ObjectUploadResponse.CreateSuccess(uploadData.object_id);
+		}
+
+		private static void extractExif(Attachment dbDoc, string photoFile)
+		{
+			try
+			{
+				ExifFile exifFile = ExifFile.Read(photoFile);
+
+				var exif = new exif();
+
+				// Read metadata
+				foreach (ExifProperty item in exifFile.Properties.Values)
+				{
+					switch (item.Tag)
+					{
+						case ExifTag.YResolution:
+							exif.YResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.ResolutionUnit:
+							exif.ResolutionUnit = (int)((ResolutionUnit)item.Value);
+							break;
+						case ExifTag.Make:
+							exif.Make = item.Value.ToString();
+							break;
+						case ExifTag.Flash:
+							exif.Flash = (int)((Flash)item.Value);
+							break;
+						case ExifTag.DateTime:
+							exif.DateTime = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.MeteringMode:
+							exif.MeteringMode = (int)((MeteringMode)item.Value);
+							break;
+						case ExifTag.XResolution:
+							exif.XResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.ExposureProgram:
+							exif.ExposureProgram = (int)((ExposureMode)item.Value);
+							break;
+						case ExifTag.ColorSpace:
+							exif.ColorSpace = (int)((ColorSpace)item.Value);
+							break;
+						case ExifTag.DateTimeDigitized:
+							exif.DateTimeDigitized = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.DateTimeOriginal:
+							exif.DateTimeOriginal = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.SensingMethod:
+							exif.SensingMethod = (int)item.Value;
+							break;
+						case ExifTag.FNumber:
+							exif.FNumber = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.FocalLength:
+							exif.FocalLength = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.ISOSpeedRatings:
+							exif.ISOSpeedRatings = (int)((ExifLibrary.ExifUShort)(item)).Value;
+							break;
+						case ExifTag.Model:
+							exif.Model = item.Value.ToString();
+							break;
+						case ExifTag.Software:
+							exif.Software = item.Value.ToString();
+							break;
+						case ExifTag.FlashpixVersion:
+							exif.FlashPixVersion = item.Value.ToString();
+							break;
+						case ExifTag.YCbCrPositioning:
+							exif.YCbCrPositioning = (int)((YCbCrPositioning)item.Value);
+							break;
+						case ExifTag.ExifVersion:
+							exif.ExifVersion = exifFile.Properties[ExifTag.ExifVersion].Value.ToString();
+							break;
+					}
+				}
+
+				if (exifFile.Properties.ContainsKey(ExifTag.GPSLatitudeRef) &&
+					exifFile.Properties.ContainsKey(ExifTag.GPSLatitude) &&
+					exifFile.Properties.ContainsKey(ExifTag.GPSLongitudeRef) &&
+					exifFile.Properties.ContainsKey(ExifTag.GPSLongitude))
+				{
+					var gpsLatitudeRef = exifFile.Properties[ExifTag.GPSLatitudeRef].Value.ToString();
+					var gpsLatitude = exifFile.Properties[ExifTag.GPSLatitude] as GPSLatitudeLongitude;
+					var gpsLongitudeRef = exifFile.Properties[ExifTag.GPSLongitudeRef].Value.ToString();
+					var gpsLongitude = exifFile.Properties[ExifTag.GPSLongitude] as GPSLatitudeLongitude;
+
+					var gpsInfo = new GPSInfo()
+					{
+						GPSLatitudeRef = gpsLatitudeRef[0].ToString(),
+						GPSLongitudeRef = gpsLongitudeRef[0].ToString()
+					};
+
+					gpsInfo.GPSLatitude = new List<List<int>>();
+					gpsInfo.GPSLatitude.Add(new List<int>() { (int)gpsLatitude.Degrees.Numerator, (int)gpsLatitude.Degrees.Denominator });
+					gpsInfo.GPSLatitude.Add(new List<int>() { (int)gpsLatitude.Minutes.Numerator, (int)gpsLatitude.Minutes.Denominator });
+					gpsInfo.GPSLatitude.Add(new List<int>() { (int)gpsLatitude.Seconds.Numerator, (int)gpsLatitude.Seconds.Denominator });
+
+					gpsInfo.GPSLongitude = new List<List<int>>();
+					gpsInfo.GPSLongitude.Add(new List<int>() { (int)gpsLongitude.Degrees.Numerator, (int)gpsLongitude.Degrees.Denominator });
+					gpsInfo.GPSLongitude.Add(new List<int>() { (int)gpsLongitude.Minutes.Numerator, (int)gpsLongitude.Minutes.Denominator });
+					gpsInfo.GPSLongitude.Add(new List<int>() { (int)gpsLongitude.Seconds.Numerator, (int)gpsLongitude.Seconds.Denominator });
+
+					exif.GPSInfo = gpsInfo;
+				}
+
+				dbDoc.image_meta.exif = exif;
+			}
+			catch
+			{
+			}
 		}
 
 		private FileStorage GetUserStorage(UploadData uploadData)

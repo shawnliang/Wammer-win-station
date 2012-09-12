@@ -249,10 +249,7 @@ namespace Waveface.PostUI
         #endregion
 
         private void btnSend_Click(object sender, EventArgs e)
-        {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-            
+        {   
             m_progressDialog = new ProgressDialog("Upload ..."
                      , delegate
                      {

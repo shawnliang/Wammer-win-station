@@ -97,14 +97,26 @@ namespace StationSystemTray
 				if (dumpDir != null)
 				{
 					addDirToZip(dumpDir, "*.*", zip);
-					Directory.Delete(dumpDir, true);
+					try
+					{
+						Directory.Delete(dumpDir, true);
+					}
+					catch
+					{
+					}
 				}
 
 				var regFile = dumpRegistry(supportDir);
 				if (regFile != null)
 				{
 					addFileToZip(regFile, zip);
-					File.Delete(regFile);
+					try
+					{
+						File.Delete(regFile);
+					}
+					catch
+					{
+					}
 				}
 			}
 
@@ -168,13 +180,15 @@ namespace StationSystemTray
 					var info = new ProcessStartInfo(mongodump, args)
 					{
 						CreateNoWindow = true,
-						WindowStyle = ProcessWindowStyle.Hidden, 
+						WindowStyle = ProcessWindowStyle.Hidden,
 					};
 					var p = Process.Start(info);
 					p.WaitForExit();
-				}
 
-				return dumpDest;
+					return dumpDest;
+				}
+				else
+					return null;
 			}
 			catch
 			{

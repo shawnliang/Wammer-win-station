@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -957,7 +957,7 @@ namespace Waveface.API.V2
 		}
 
 		public MR_posts_new posts_new(string session_token, string post_id, string group_id, string content, string attachment_id_array,
-									  string preview, string type, string coverAttach)
+									  string preview, string type, string coverAttach, Boolean imported = false, string memo = null)
 		{
 			session_token = HttpUtility.UrlEncode(session_token);
 			post_id = HttpUtility.UrlEncode(post_id);
@@ -992,6 +992,10 @@ namespace Waveface.API.V2
 						_parms += "cover_attach" + "=" + coverAttach + "&";
 					}
 				}
+
+				if (!string.IsNullOrEmpty(memo))
+					_parms += "memo" + "=" + memo + "&";
+				_parms += "import" + "=" + imported.ToString().ToLower() + "&";
 
 				_parms += "group_id" + "=" + group_id;
 

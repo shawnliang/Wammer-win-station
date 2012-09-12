@@ -90,7 +90,7 @@ namespace Wammer.Station.Timeline
 			try
 			{
 				var res = changelogs.GetChangeHistory(user, user.sync_range.next_seq_num);
-				db.SaveUserTracks(new UserTracks(res));
+				 db.SaveUserTracks(new UserTracks(res));
 
 				ProcChangedPosts(user, res);
 				ProcNewAttachments(res);

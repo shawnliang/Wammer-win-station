@@ -261,6 +261,7 @@
     <Compile Include="Src\Dialog\AutoImportDialog.Designer.cs">
       <DependentUpon>AutoImportDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Enum\ContentProviderType.cs" />
     <Compile Include="Src\Enum\ContentType.cs" />
     <Compile Include="Src\Exception\ChangeLogsPurgedException.cs" />
     <Compile Include="Src\Exception\VersionNotSupportedException.cs" />
@@ -684,6 +685,9 @@
     <EmbeddedResource Include="Src\Dialog\AutoImportDialog.resx">
       <DependentUpon>AutoImportDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AutoImportDialog.zh-TW.resx">
+      <DependentUpon>AutoImportDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\LoginForm.zh-TW.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -975,6 +979,8 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <Private>True</Private>
     </COMReference>
+    <Content Include="Resources\import-photos_normal.png" />
+    <Content Include="Resources\import-photos_press.png" />
     <Content Include="Resources\streamfotocollector_icon_128.png" />
     <None Include="Resources\Save.png" />
     <None Include="Resources\SaveAll.png" />

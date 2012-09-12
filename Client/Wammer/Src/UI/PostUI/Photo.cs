@@ -475,9 +475,6 @@ namespace Waveface.PostUI
         {
 			DebugInfo.ShowMethod();
 
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
             //AbortThread();
 
             Delay(2);
@@ -859,18 +856,12 @@ namespace Waveface.PostUI
         {
 			DebugInfo.ShowMethod();
 
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
             AddPhoto();
         }
 
         private void btnDeletePhoto_Click(object sender, EventArgs e)
         {
 			DebugInfo.ShowMethod();
-
-            if (!Main.Current.CheckNetworkStatus())
-                return;
 
             if (imageListView.SelectedItems.Count == 0)
             {

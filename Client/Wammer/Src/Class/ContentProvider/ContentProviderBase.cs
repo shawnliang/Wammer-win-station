@@ -15,6 +15,12 @@ namespace Waveface
 		/// </summary>
 		/// <value>The support types.</value>
 		public abstract IEnumerable<ContentType> SupportTypes { get; }
+
+		/// <summary>
+		/// Gets the type.
+		/// </summary>
+		/// <value>The type.</value>
+		public abstract ContentProviderType Type { get; }
 		#endregion
 
 

@@ -352,7 +352,7 @@ namespace Waveface
 
         public void SetUI(bool flag)
         {
-            //@ panelFilter.Visible = flag;
+            panelFilter.Visible = flag;
 
             FillCustomizedFilters();
         }
@@ -552,9 +552,6 @@ namespace Waveface
 
         private void pbDropArea_Click(object sender, EventArgs e)
         {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
             using (var dialog = new DropAreaInforForm())
             {
                 dialog.ShowDialog();
@@ -569,6 +566,7 @@ namespace Waveface
                 m_buttonAddNewFilter.Width = Width - 8;
 
             btnNewPost.Left = (Width - btnNewPost.Width) / 2;
+			btnImport.Left = btnNewPost.Left;
             btnToday.Left = (Width - btnToday.Width) / 2;
         }
 
@@ -601,5 +599,10 @@ namespace Waveface
         {
             Main.Current.ClickCalendar(DateTime.Now.Date);
         }
+
+		private void btnImport_Click(object sender, EventArgs e)
+		{
+			Main.Current.AutoImport();
+		}
     }
 }

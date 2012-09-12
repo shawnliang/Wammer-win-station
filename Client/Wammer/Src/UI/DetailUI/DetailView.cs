@@ -461,9 +461,6 @@ namespace Waveface
 
         public bool PostComment(RichTextBox textBox, Post post)
         {
-            if (!Main.Current.CheckNetworkStatus())
-                return false;
-
             if (textBox.Text.Trim().Equals(string.Empty))
             {
 				MessageBox.Show(Resources.EMPTY_COMMENT, "Stream", MessageBoxButtons.OK,
@@ -561,9 +558,6 @@ namespace Waveface
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
             Main.Current.EditPost(Post, null, -1);
         }
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using System.IO;
 
 namespace Waveface
 {
@@ -15,8 +16,15 @@ namespace Waveface
 	/// </summary>
 	public partial class AutoImportDialog : Form
 	{
+		#region Const
+		const string PICASA_DB_RELATIVED_STORAGE_PATH = @"Google\Picasa2\db3";
+		const string ALBUM_PATH_PMP_FILENAME = "albumdata_filename.pmp";
+		#endregion
+
 		#region Var
 		private SynchronizationContext _syncContext = SynchronizationContext.Current;
+		private string _picasaDBStoragePath;
+		private string _albumPathPMPFileName;
 		#endregion
 
 		#region Private Property
@@ -29,6 +37,32 @@ namespace Waveface
 			get
 			{
 				return _syncContext;
+			}
+		}
+
+		/// <summary>
+		/// Gets the m_ picasa DB storage path.
+		/// </summary>
+		/// <value>The m_ picasa DB storage path.</value>
+		private string m_PicasaDBStoragePath
+		{
+			get
+			{
+				return _picasaDBStoragePath ??
+					(_picasaDBStoragePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), PICASA_DB_RELATIVED_STORAGE_PATH));
+			}
+		}
+
+		/// <summary>
+		/// Gets the name of the m_ album path PMP file.
+		/// </summary>
+		/// <value>The name of the m_ album path PMP file.</value>
+		private string m_AlbumPathPMPFileName
+		{
+			get
+			{
+				return _albumPathPMPFileName ??
+					(_albumPathPMPFileName = Path.Combine(m_PicasaDBStoragePath, ALBUM_PATH_PMP_FILENAME));
 			}
 		}
 		#endregion
@@ -79,11 +113,12 @@ namespace Waveface
 			MethodInvoker mi = new MethodInvoker(() =>
 			{
 				var importer = new AutoImporter();
-				importer.Import();
+				importer.Import(ContentProviderType.Libraries);
 			});
 
 			btnImport.Enabled = false;
 			button1.Enabled = false;
+			button2.Enabled = false;
 			progressBar1.Visible = true;
 			mi.BeginInvoke((result) =>
 			{
@@ -108,6 +143,7 @@ namespace Waveface
 
 			btnImport.Enabled = false;
 			button1.Enabled = false;
+			button2.Enabled = false;
 			progressBar1.Visible = true;
 			mi.BeginInvoke((result) =>
 			{
@@ -117,6 +153,38 @@ namespace Waveface
 					progressBar1.Visible = false;
 				});
 			}, null);
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			MethodInvoker mi = new MethodInvoker(() =>
+			{
+				var importer = new AutoImporter();
+				importer.Import(ContentProviderType.Picasa);
+			});
+
+			btnImport.Enabled = false;
+			button1.Enabled = false;
+			button2.Enabled = false;
+			progressBar1.Visible = true;
+			mi.BeginInvoke((result) =>
+			{
+				SendSyncContext(() =>
+				{
+					this.DialogResult = DialogResult.OK;
+					progressBar1.Visible = false;
+				});
+			}, null);
+		}
+
+		/// <summary>
+		/// Handles the Load event of the AutoImportDialog control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void AutoImportDialog_Load(object sender, EventArgs e)
+		{
+			button2.Enabled = File.Exists(m_AlbumPathPMPFileName);
 		}
 		#endregion
 	}

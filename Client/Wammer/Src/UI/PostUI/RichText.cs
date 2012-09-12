@@ -38,9 +38,6 @@ namespace Waveface.PostUI
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (!Main.Current.CheckNetworkStatus())
-                return;
-
             RichTextPostForm _dlg = new RichTextPostForm();
             _dlg.MyParent = this;
 
