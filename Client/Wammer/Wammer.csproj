@@ -975,6 +975,8 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <Private>True</Private>
     </COMReference>
+    <Content Include="Resources\import-photos_normal.png" />
+    <Content Include="Resources\import-photos_press.png" />
     <Content Include="Resources\streamfotocollector_icon_128.png" />
     <None Include="Resources\Save.png" />
     <None Include="Resources\SaveAll.png" />

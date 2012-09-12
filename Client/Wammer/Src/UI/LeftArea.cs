@@ -566,6 +566,7 @@ namespace Waveface
                 m_buttonAddNewFilter.Width = Width - 8;
 
             btnNewPost.Left = (Width - btnNewPost.Width) / 2;
+			btnImport.Left = btnNewPost.Left;
             btnToday.Left = (Width - btnToday.Width) / 2;
         }
 
@@ -598,5 +599,10 @@ namespace Waveface
         {
             Main.Current.ClickCalendar(DateTime.Now.Date);
         }
+
+		private void btnImport_Click(object sender, EventArgs e)
+		{
+			Main.Current.AutoImport();
+		}
     }
 }
