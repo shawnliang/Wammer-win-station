@@ -15,6 +15,7 @@ using Waveface.Component;
 using System.Diagnostics;
 using Waveface.Properties;
 using System.Threading;
+using System.Linq;
 
 #endregion
 
@@ -269,6 +270,23 @@ namespace Waveface
 
 			try
 			{
+				if (m_posts != null)
+				{
+					if (m_posts.Count == posts.Count)
+					{
+						var index = 0;
+						for (index = 0; index < m_posts.Count; ++index)
+						{
+							if (m_posts[index].post_id != posts[index].post_id)
+							{
+								break;
+							}
+						}
+						if (m_posts.Count == index + 1)
+							return;
+					}
+				}
+
 				m_PhotoPool.Clear(); 
 				dataGridView.SuspendLayout();
 				GetFirstDisplayed(posts);
@@ -790,8 +808,11 @@ namespace Waveface
 					}
 					else
 					{
+						var hasThumbnail = File.Exists(_localPic);
 						img = LoadThumbnail(_url, _localPic, false);
-						m_PhotoPool.Add(postID, img);
+
+						if (hasThumbnail)
+							m_PhotoPool.Add(postID, img);
 					}
 
 
@@ -893,9 +914,7 @@ namespace Waveface
 
 			string _url = Main.Current.RT.REST.attachments_getImageURL(object_id, "small");
 
-			m_PhotoPool.Add(object_id, LoadThumbnail(_url, localPicPath, forceNull));
-
-			return m_PhotoPool[object_id];
+			return LoadThumbnail(_url, localPicPath, forceNull);
         }
 
         private static void DrawResizedThumbnail(Rectangle thumbnailRect, Graphics g, Image image)
