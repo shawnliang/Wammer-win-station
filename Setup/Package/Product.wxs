@@ -200,6 +200,7 @@
       <ComponentRef Id="System.Data.SQLite.dll"/>
       <ComponentRef Id="CommonLibs.dll"/>
       <ComponentRef Id="websocketsharp.dll"/>
+      <ComponentRef Id="ExifLibrary.dll"/>
     </ComponentGroup>
 
     <ComponentGroup Id="Wammer.Client">
@@ -270,6 +271,9 @@
       </Component>
       <Component Guid="*">
         <File Id="websocketsharp.dll" Source="$(var.Wammer.Station.Service.TargetDir)\websocket-sharp.dll" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Guid="*">
+        <File Id="ExifLibrary.dll" Source="$(var.Wammer.Station.Service.TargetDir)\ExifLibrary.dll" KeyPath="yes" Checksum="yes"/>
       </Component>
      
       <!-- client files -->
