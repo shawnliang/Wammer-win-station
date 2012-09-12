@@ -264,28 +264,32 @@ namespace Waveface
             dataGridView.RowTemplate.Height = m_cellHeight;
         }
 
+		private Boolean NeedUpdatePosts(List<Post> posts)
+		{
+			if (m_posts == null)
+				return true;
+
+			if (m_posts.Count != posts.Count)
+				return true;
+
+			for (var index = 0; index < m_posts.Count; ++index)
+			{
+				if (m_posts[index].post_id != posts[index].post_id)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
         public void SetPosts(List<Post> posts, Dictionary<DateTime, string> firstPostInADay)
         {
 			DebugInfo.ShowMethod();
 
 			try
 			{
-				if (m_posts != null)
-				{
-					if (m_posts.Count == posts.Count)
-					{
-						var index = 0;
-						for (index = 0; index < m_posts.Count; ++index)
-						{
-							if (m_posts[index].post_id != posts[index].post_id)
-							{
-								break;
-							}
-						}
-						if (m_posts.Count == index + 1)
-							return;
-					}
-				}
+				if (!NeedUpdatePosts(posts))
+					return;
 
 				m_PhotoPool.Clear(); 
 				dataGridView.SuspendLayout();
