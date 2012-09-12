@@ -97,17 +97,17 @@ namespace Wammer.Station.AttachmentUpload
 				uploadData.object_id = Guid.NewGuid().ToString();
 
 			var dbDoc = new Attachment
-			            	{
-			            		object_id = uploadData.object_id,
-			            		group_id = uploadData.group_id,
-			            		file_name = uploadData.file_name,
-			            		title = uploadData.title,
-			            		description = uploadData.description,
-			            		modify_time = DateTime.UtcNow,
+							{
+								object_id = uploadData.object_id,
+								group_id = uploadData.group_id,
+								file_name = uploadData.file_name,
+								title = uploadData.title,
+								description = uploadData.description,
+								modify_time = DateTime.UtcNow,
 								post_id = uploadData.post_id,
 								memo = uploadData.memo,
-			            		image_meta = new ImageProperty()
-			            	};
+								image_meta = new ImageProperty()
+							};
 
 			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
 			var storage = GetUserStorage(uploadData);
@@ -125,6 +125,49 @@ namespace Wammer.Station.AttachmentUpload
 				storage.SaveFile(dbDoc.saved_file_name, uploadData.raw_data);
 
 				var photoFile = Path.Combine(storage.basePath, dbDoc.saved_file_name);
+
+
+				extractExif(dbDoc, photoFile);
+			}
+			else
+			{
+				var thumb = new ThumbnailInfo
+								{
+									file_size = uploadData.raw_data.Count,
+									md5 = ComputeMD5(uploadData.raw_data),
+									mime_type = uploadData.mime_type,
+									saved_file_name = GetSavedFileName(uploadData),
+									url = GetViewApiUrl(uploadData),
+									width = imageSize.Width,
+									height = imageSize.Height
+								};
+
+				dbDoc.image_meta.SetThumbnailInfo(uploadData.imageMeta, thumb);
+				storage.SaveFile(thumb.saved_file_name, uploadData.raw_data);
+			}
+
+			UpsertResult dbResult = db.InsertOrMergeToExistingDoc(dbDoc);
+
+			OnAttachmentProcessed(
+				new AttachmentEventArgs(
+					uploadData.object_id,
+					db.FindSession(uploadData.session_token, uploadData.api_key) != null,
+					dbResult,
+					uploadData.imageMeta,
+					uploadData.session_token,
+					uploadData.api_key,
+					uploadData.post_id,
+					uploadData.group_id
+				)
+			);
+
+			return ObjectUploadResponse.CreateSuccess(uploadData.object_id);
+		}
+
+		private static void extractExif(Attachment dbDoc, string photoFile)
+		{
+			try
+			{
 				ExifFile exifFile = ExifFile.Read(photoFile);
 
 				var exif = new exif();
@@ -134,7 +177,7 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					switch (item.Tag)
 					{
- 						case ExifTag.YResolution:
+						case ExifTag.YResolution:
 							exif.YResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
 							break;
 						case ExifTag.ResolutionUnit:
@@ -207,7 +250,7 @@ namespace Wammer.Station.AttachmentUpload
 					var gpsLongitudeRef = exifFile.Properties[ExifTag.GPSLongitudeRef].Value.ToString();
 					var gpsLongitude = exifFile.Properties[ExifTag.GPSLongitude] as GPSLatitudeLongitude;
 
-					var gpsInfo = new GPSInfo() 
+					var gpsInfo = new GPSInfo()
 					{
 						GPSLatitudeRef = gpsLatitudeRef[0].ToString(),
 						GPSLongitudeRef = gpsLongitudeRef[0].ToString()
@@ -228,39 +271,9 @@ namespace Wammer.Station.AttachmentUpload
 
 				dbDoc.image_meta.exif = exif;
 			}
-			else
+			catch
 			{
-				var thumb = new ThumbnailInfo
-				            	{
-				            		file_size = uploadData.raw_data.Count,
-				            		md5 = ComputeMD5(uploadData.raw_data),
-				            		mime_type = uploadData.mime_type,
-				            		saved_file_name = GetSavedFileName(uploadData),
-				            		url = GetViewApiUrl(uploadData),
-				            		width = imageSize.Width,
-				            		height = imageSize.Height
-				            	};
-
-				dbDoc.image_meta.SetThumbnailInfo(uploadData.imageMeta, thumb);
-				storage.SaveFile(thumb.saved_file_name, uploadData.raw_data);
 			}
-
-			UpsertResult dbResult = db.InsertOrMergeToExistingDoc(dbDoc);
-
-			OnAttachmentProcessed(
-				new AttachmentEventArgs(
-					uploadData.object_id,
-					db.FindSession(uploadData.session_token, uploadData.api_key) != null,
-					dbResult,
-					uploadData.imageMeta,
-					uploadData.session_token,
-					uploadData.api_key,
-					uploadData.post_id,
-					uploadData.group_id
-				)
-			);
-
-			return ObjectUploadResponse.CreateSuccess(uploadData.object_id);
 		}
 
 		private FileStorage GetUserStorage(UploadData uploadData)
