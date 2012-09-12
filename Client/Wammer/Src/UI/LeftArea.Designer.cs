@@ -54,6 +54,8 @@ namespace Waveface
 			this.btnToday = new Waveface.Component.ImageButton();
 			this.monthCalendar = new CustomControls.MonthCalendar();
 			this.vsNetListBarGroups = new Waveface.Component.ListBarControl.VSNetListBar();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.btnImport = new Waveface.Component.ImageButton();
 			this.imageListTimeline = new System.Windows.Forms.ImageList(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.pbDropArea)).BeginInit();
 			this.panelMain.SuspendLayout();
@@ -61,6 +63,7 @@ namespace Waveface
 			this.panelCustomFilter.SuspendLayout();
 			this.panelTimeline.SuspendLayout();
 			this.panelCalendar.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panelBottom
@@ -91,7 +94,7 @@ namespace Waveface
 			this.panelMain.Controls.Add(this.panelFilter);
 			this.panelMain.Controls.Add(this.panelCalendar);
 			this.panelMain.Controls.Add(this.vsNetListBarGroups);
-			this.panelMain.Controls.Add(this.pbDropArea);
+			this.panelMain.Controls.Add(this.panel1);
 			resources.ApplyResources(this.panelMain, "panelMain");
 			this.panelMain.Name = "panelMain";
 			// 
@@ -218,6 +221,27 @@ namespace Waveface
 			this.vsNetListBarGroups.SmallImageList = null;
 			this.vsNetListBarGroups.ToolTip = null;
 			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+			this.panel1.Controls.Add(this.btnImport);
+			this.panel1.Controls.Add(this.pbDropArea);
+			resources.ApplyResources(this.panel1, "panel1");
+			this.panel1.Name = "panel1";
+			// 
+			// btnImport
+			// 
+			this.btnImport.CenterAlignImage = false;
+			resources.ApplyResources(this.btnImport, "btnImport");
+			this.btnImport.ForeColor = System.Drawing.Color.White;
+			this.btnImport.Image = global::Waveface.Properties.Resources.import_photos_normal;
+			this.btnImport.ImageDisable = global::Waveface.Properties.Resources.import_photos_normal;
+			this.btnImport.ImageFront = null;
+			this.btnImport.ImageHover = global::Waveface.Properties.Resources.import_photos_press;
+			this.btnImport.Name = "btnImport";
+			this.btnImport.TextShadow = true;
+			this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+			// 
 			// imageListTimeline
 			// 
 			this.imageListTimeline.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTimeline.ImageStream")));
@@ -241,6 +265,7 @@ namespace Waveface
 			this.panelCustomFilter.ResumeLayout(false);
 			this.panelTimeline.ResumeLayout(false);
 			this.panelCalendar.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -262,6 +287,8 @@ namespace Waveface
         private System.Windows.Forms.TreeView tvTimeline;
         private ImageButton btnNewPost;
 		private ImageButton btnToday;
+		private ImageButton btnImport;
+		private System.Windows.Forms.Panel panel1;
 
     }
 }

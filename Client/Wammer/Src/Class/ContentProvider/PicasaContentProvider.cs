@@ -60,7 +60,16 @@ namespace Waveface
 		public override IEnumerable<ContentType> SupportTypes
 		{
 			get { return _supportTypes ?? (_supportTypes = new ContentType[] { ContentType.Photo }); }
-		} 
+		}
+
+		/// <summary>
+		/// Gets the type.
+		/// </summary>
+		/// <value>The type.</value>
+		public override ContentProviderType Type
+		{
+			get { return ContentProviderType.Picasa; }
+		}
 		#endregion
 
 

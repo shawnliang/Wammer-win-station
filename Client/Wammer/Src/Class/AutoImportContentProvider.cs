@@ -65,6 +65,18 @@ namespace Waveface
 				   from content in contentProvider.GetContents()
 				   select content;
 		}
+
+		/// <summary>
+		/// Gets the contents.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<IContent> GetContents(ContentProviderType providerType)
+		{
+			return from contentProvider in m_ContentProviders
+				   where contentProvider.Type == providerType
+				   from content in contentProvider.GetContents()
+				   select content;
+		}
 		#endregion
 	}
 }

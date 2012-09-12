@@ -472,9 +472,6 @@ namespace Waveface
         {
 			DebugInfo.ShowMethod();
 
-			AutoImportDialog dialog = new AutoImportDialog();
-			dialog.ShowDialog();
-
             var receiver = FindWindow("SystemTrayMessageReceiver", null);
             if (receiver != null)
             {
@@ -938,6 +935,15 @@ namespace Waveface
 
             timerDelayPost.Enabled = true;
         }
+
+		public void AutoImport()
+		{
+			AutoImportDialog dialog = new AutoImportDialog()
+			{
+				StartPosition = FormStartPosition.CenterParent
+			};
+			dialog.ShowDialog(this);
+		}
 
         public void Post()
         {
