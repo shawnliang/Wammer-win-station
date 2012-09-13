@@ -319,16 +319,22 @@ namespace Wammer.Station
 
 		protected void RespondSuccess()
 		{
+			DebugInfo.ShowMethod();
+
 			HttpHelper.RespondSuccess(Response, new CloudResponse(200, DateTime.UtcNow));
 		}
 
 		protected void RespondSuccess(object json)
 		{
+			DebugInfo.ShowMethod();
+
 			HttpHelper.RespondSuccess(Response, json);
 		}
 
 		protected void RespondSuccess(string contentType, byte[] data)
 		{
+			DebugInfo.ShowMethod();
+
 			Response.StatusCode = 200;
 			Response.ContentType = contentType;
 
