@@ -36,6 +36,8 @@ namespace Wammer.Station.Service
 		private PingHandler funcPingHandler = new PingHandler();
 		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
 		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
+		private Timer mongoDbTimer;
+		private MongoDBMonitor mongoMonitor;
 
 		public StationService()
 		{
@@ -66,6 +68,11 @@ namespace Wammer.Station.Service
 		}
 
 		protected override void OnStart(string[] args)
+		{
+			mongoMonitor = new MongoDBMonitor(RunStation);
+		}
+
+		private void RunStation()
 		{
 			try
 			{
@@ -378,16 +385,12 @@ namespace Wammer.Station.Service
 		}
 	}
 
-
 	internal class DummyHandler : IHttpHandler
 	{
-		#region IHttpHandler Members
-
 		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			//Debug.Fail("should not reach this code");
 		}
 
 		public object Clone()
@@ -398,13 +401,41 @@ namespace Wammer.Station.Service
 		public void SetBeginTimestamp(long beginTime)
 		{
 		}
-
-
+		
 		public void HandleRequest()
 		{
-			throw new NotImplementedException();
+		}
+	}
+
+	internal class MongoDBMonitor
+	{
+		private object cs = new object();
+		private Timer timer;
+		private bool isReady;
+		private Action onReady;
+
+		public MongoDBMonitor(Action onReady)
+		{
+			timer = new Timer(Do, this, 1000, 2000);
+			this.onReady = onReady;
 		}
 
-		#endregion
+		private void Do(object state)
+		{
+			lock (cs)
+			{
+				if (isReady)
+					return;
+
+				if (Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
+				{
+					timer.Change(Timeout.Infinite, Timeout.Infinite);
+					isReady = true;
+					onReady();
+				}
+				else
+					this.LogInfoMsg("MongoDB is not ready...");
+			}
+		}
 	}
 }
