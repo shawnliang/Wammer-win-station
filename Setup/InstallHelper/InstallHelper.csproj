@@ -68,6 +68,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
+      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
+      <Name>CommonLibs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Station\Wammer.Station.Service\Wammer.Station.Service.csproj">
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>
@@ -80,7 +84,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(Wix36Dir)\SDK\MakeSfxCA.exe" "$(TargetDir)\InstallHelperPkg.dll" "$(Wix36Dir)\SDK\x86\sfxca.dll" "$(TargetPath)" "$(SolutionDir)\Station\3rd_party\Wix3.6\Microsoft.Deployment.WindowsInstaller.dll" "$(TargetPath).config" "$(TargetDir)\Station.Service.exe" "$(TargetDir)\fastJSON.dll" "$(TargetDir)\log4net.dll" "$(TargetDir)\MongoDB.Bson.dll" "$(TargetDir)\MongoDB.Driver.dll" "$(TargetDir)\ICSharpCode.SharpZipLib.dll"
+    <PostBuildEvent>"$(Wix36Dir)\SDK\MakeSfxCA.exe" "$(TargetDir)\InstallHelperPkg.dll" "$(Wix36Dir)\SDK\x86\sfxca.dll" "$(TargetPath)" "$(SolutionDir)\Station\3rd_party\Wix3.6\Microsoft.Deployment.WindowsInstaller.dll" "$(TargetPath).config" "$(TargetDir)\Station.Service.exe" "$(TargetDir)\fastJSON.dll" "$(TargetDir)\log4net.dll" "$(TargetDir)\MongoDB.Bson.dll" "$(TargetDir)\MongoDB.Driver.dll" "$(TargetDir)\ICSharpCode.SharpZipLib.dll" "$(TargetDir)\CommonLibs.dll"
 if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

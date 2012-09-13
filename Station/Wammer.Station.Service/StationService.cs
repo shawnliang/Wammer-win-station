@@ -29,15 +29,6 @@ namespace Wammer.Station.Service
 		private BackOff _backoff;
 		#endregion
 
-
-		#region Private Property
-		private BackOff m_BackOff
-		{
-			get { return _backoff ?? (_backoff = new BackOff(500, 1000, 2000, 3000, 5000)); }
-		}
-
-		#endregion
-
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
 		private HttpServer functionServer;
 		private HttpServer managementServer;
@@ -80,13 +71,12 @@ namespace Wammer.Station.Service
 			{
 				logger.Warn("============== Starting Stream Station =================");
 
-				m_BackOff.ResetLevel();
-				while (!Database.TestConnection(1))
+				while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
 				{
-					Thread.Sleep(m_BackOff.NextValue());
-					System.Windows.Forms.Application.DoEvents();
-					m_BackOff.IncreaseLevel();
+					System.Threading.Thread.Sleep(1000);
+					logger.Info("Waiting mongo db...");
 				}
+
 				InitResourceFolder();
 				TaskQueue.Init();
 
