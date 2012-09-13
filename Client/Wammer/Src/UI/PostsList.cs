@@ -264,23 +264,25 @@ namespace Waveface
             dataGridView.RowTemplate.Height = m_cellHeight;
         }
 
-		private Boolean NeedUpdatePosts(List<Post> posts)
-		{
-			if (m_posts == null)
-				return true;
+		//private Boolean NeedUpdatePosts(List<Post> posts)
+		//{
+		//    DebugInfo.ShowMethod();
 
-			if (m_posts.Count != posts.Count)
-				return true;
+		//    if (m_posts == null)
+		//        return true;
 
-			for (var index = 0; index < m_posts.Count; ++index)
-			{
-				if (m_posts[index].post_id != posts[index].post_id)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
+		//    if (m_posts.Count != posts.Count)
+		//        return true;
+
+		//    for (var index = 0; index < m_posts.Count; ++index)
+		//    {
+		//        if (m_posts[index].post_id != posts[index].post_id)
+		//        {
+		//            return true;
+		//        }
+		//    }
+		//    return false;
+		//}
 
         public void SetPosts(List<Post> posts, Dictionary<DateTime, string> firstPostInADay)
         {
@@ -288,8 +290,8 @@ namespace Waveface
 
 			try
 			{
-				if (!NeedUpdatePosts(posts))
-					return;
+				//if (!NeedUpdatePosts(posts))
+				//    return;
 
 				m_PhotoPool.Clear(); 
 				dataGridView.SuspendLayout();

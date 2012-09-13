@@ -39,6 +39,7 @@ namespace Waveface
         private static Logger s_logger = LogManager.GetCurrentClassLogger();
 
         #region Var
+		private AutoUpdate _autoUpdator;
 
         //// Main
         private DropableNotifyIcon m_dropableNotifyIcon = new DropableNotifyIcon();
@@ -53,14 +54,14 @@ namespace Waveface
         private UploadOriginPhotosToStationManager m_uploadOriginPhotosToStationManager;
         private Waveface.Upload.AttachmentUploadFacade m_uploader;
         private StationState m_stationState;
-        private AutoUpdate m_autoUpdator;
+       
 
         private bool m_getAllDataError;
         private int m_InForceAutoUpdate;
         private string m_stationIP;
         private int m_next_seq_num;
         private string m_initSessionToken;
-        private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
+		//private string m_shellContentMenuFilePath = Application.StartupPath + @"\ShellContextMenu.dat";
         private bool m_isPrimaryStation;
         private string m_displayType;
         private string m_delayPostText;
@@ -71,6 +72,14 @@ namespace Waveface
         #endregion
 
         #region Private Property
+		private AutoUpdate m_AutoUpdator
+		{
+			get
+			{
+				return _autoUpdator ?? (_autoUpdator = new AutoUpdate(false));
+			}
+		}
+
 		private DragDrop_Clipboard_Helper m_dragDropClipboardHelper
 		{
 			get
@@ -218,7 +227,7 @@ namespace Waveface
 
             QuitOption = QuitOption.QuitProgram;
 
-            File.Delete(m_shellContentMenuFilePath);
+			//File.Delete(m_shellContentMenuFilePath);
 
             HttpHelp.EnableUnsafeHeaderParsing();
 
@@ -230,8 +239,7 @@ namespace Waveface
             m_formSettings.AllowMinimized = false;
             m_formSettings.SaveOnClose = true;
 
-            m_autoUpdator = new AutoUpdate(false);
-            m_autoUpdator.StartLoop();
+            m_AutoUpdator.StartLoop();
 
             bgWorkerGetAllData.WorkerSupportsCancellation = true;
 
@@ -318,11 +326,14 @@ namespace Waveface
         {
 			DebugInfo.ShowMethod();
 
-            int s = 512;
-            int k = 16;
+			if (File.Exists(LoadingImagePath))
+				return;
 
             try
             {
+				int s = 512;
+				int k = 16;
+
                 Bitmap _img = new Bitmap(s, s);
                 Graphics _g = Graphics.FromImage(_img);
 
@@ -711,85 +722,7 @@ namespace Waveface
 
         #endregion
 
-        #region Filter (NOT USED NOW)
-
-        /*
-        public void DoTimelineFilter(FilterItem item, bool isFilterTimelineMode)
-        {
-            if (!RT.LoginOK)
-                return;
-
-            RT.FilterMode = true;
-
-            if (item != null)
-            {
-                RT.CurrentFilterItem = item;
-            }
-
-            RT.FilterPosts = new List<Post>(); // Reset
-
-            RT.FilterTimelineMode = isFilterTimelineMode;
-
-            FilterFetchPostsAndShow(true);
-        }
-
-        public void FilterReadMorePost()
-        {
-            FilterFetchPostsAndShow(false);
-        }
-
-        private void FilterFetchPostsAndShow(bool firstTime)
-        {
-            if ((RT.FilterPostsAllCount != 0) && (RT.FilterPostsAllCount == RT.FilterPosts.Count))
-                return;
-
-            int _offset = RT.FilterPosts.Count;
-
-            string _filter = RT.CurrentFilterItem.Filter;
-
-            if (RT.CurrentFilterItem.DynamicNow)
-                _filter = FilterHelper.GetAllPostFilterStringByPostType(_filter);
-
-            _filter = _filter.Replace("[offset]", _offset.ToString());
-
-            Cursor = Cursors.WaitCursor;
-
-            MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter(_filter);
-
-            if (_postsGet != null)
-            {
-                RT.FilterPosts.AddRange(_postsGet.posts);
-
-                if (firstTime)
-                {
-                    RT.FilterPostsAllCount = _postsGet.remaining_count + _postsGet.get_count;
-
-                    RT.IsFilterFirstTimeGetData = true;
-                }
-                else
-                {
-                    RT.IsFilterFirstTimeGetData = false;
-                }
-            }
-
-            Cursor = Cursors.Default;
-
-            ShowPostToUI(false);
-        }
-
-        private void ShowPostToUI(bool refreshCurrentPost)
-        {
-            List<Post> _posts = RT.FilterPosts;
-
-            setCalendarBoldedDates(_posts);
-
-            postsArea.ShowPostInfor(RT.FilterPostsAllCount, _posts.Count);
-
-            postsArea.PostsList.SetFilterPosts(_posts, refreshCurrentPost, RT.IsFilterFirstTimeGetData);
-        }
-        */
-
-        #endregion
+      
 
         #region Helper
 
@@ -844,11 +777,8 @@ namespace Waveface
             }
             else
             {
-                List<Post> _posts = RT.CurrentGroupPosts;
-
-                _posts = filterPost(_posts);
-
-				if (_posts.Count == 0)
+                List<Post> posts = RT.CurrentGroupPosts;
+				if (posts.Count == 0)
 				{
 					MongoServer dbServer = MongoServer.Create("mongodb://localhost:10319/?safe=true");
 					BsonDocument _userInfo =
@@ -870,33 +800,26 @@ namespace Waveface
 					}
 				}
 
-                Dictionary<DateTime, string> _firstPostInADay = setCalendarBoldedDates(_posts);
+				posts = filterPost(posts).ToList();
 
-                leftArea.SetUI(true);
+                Dictionary<DateTime, string> firstPostInADay = setCalendarBoldedDates(posts);
+
+				//leftArea.SetUI(true);
 
                 lock (postsArea.PostsList)
                 {
-                    postsArea.PostsList.SetPosts(_posts, _firstPostInADay);
+                    postsArea.PostsList.SetPosts(posts, firstPostInADay);
                 }
             }
         }
 
-        private List<Post> filterPost(List<Post> posts)
+        private IEnumerable<Post> filterPost(List<Post> posts)
         {
 			DebugInfo.ShowMethod();
 
-            if (string.IsNullOrEmpty(m_displayType))
-                return posts;
-
-            List<Post> _posts = new List<Post>();
-
-            foreach (Post _p in posts)
-            {
-                if (_p.type == m_displayType)
-                    _posts.Add(_p);
-            }
-
-            return _posts;
+			return from post in posts
+				   where string.IsNullOrEmpty(m_displayType) || post.type == m_displayType
+				   select post;
         }
 
         public void DisplayFilter(string displayType)
@@ -938,6 +861,8 @@ namespace Waveface
 
 		public void AutoImport()
 		{
+			DebugInfo.ShowMethod();
+
 			AutoImportDialog dialog = new AutoImportDialog()
 			{
 				StartPosition = FormStartPosition.CenterParent
@@ -1285,100 +1210,6 @@ namespace Waveface
 
         #endregion
 
-        #region SendTo
-
-        public void CreateFileWatcher()
-        {
-			DebugInfo.ShowMethod();
-
-            FileSystemWatcher _watcher = new FileSystemWatcher();
-            _watcher.Filter = "*.dat";
-            _watcher.Created += watcher_FileCreated;
-            _watcher.Path = Application.StartupPath;
-            _watcher.EnableRaisingEvents = true;
-        }
-
-        private void watcher_FileCreated(object sender, FileSystemEventArgs e)
-        {
-			DebugInfo.ShowMethod();
-
-            if (e.ChangeType == WatcherChangeTypes.Created)
-            {
-                try
-                {
-                    if (e.FullPath == m_shellContentMenuFilePath)
-                    {
-                        string _fileContents;
-
-                        using (StreamReader _textFile = new StreamReader(m_shellContentMenuFilePath))
-                        {
-                            _fileContents = _textFile.ReadToEnd();
-                        }
-
-                        m_delayPostType = PostType.Photo;
-                        m_delayPostText = "";
-                        m_delayPostPicList = new List<string>
-                                                 {
-                                                     _fileContents
-                                                 };
-                    }
-                }
-                catch
-                {
-                }
-            }
-
-            File.Delete(m_shellContentMenuFilePath);
-        }
-
-        #endregion
-
-        #region Screen Shot
-
-        //private void capture(ShotType shotType)
-        //{
-        //    try
-        //    {
-        //        CaptureForm _captureForm = new CaptureForm(shotType);
-
-        //        if ((_captureForm.ShowDialog() != DialogResult.OK) || (_captureForm.Image == null))
-        //        {
-        //            return;
-        //        }
-
-        //        string _filename =
-        //            string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
-
-        //        Image _img = _captureForm.Image;
-
-        //        string _pathToSave = Path.Combine(GCONST.TempPath, _filename);
-
-        //        _img.Save(_pathToSave, ImageFormat.Jpeg);
-
-        //        Post(new List<string> { _pathToSave }, PostType.Photo, "");
-        //    }
-        //    catch (Exception _e)
-        //    {
-        //        MessageBox.Show(_e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
-
-        //private void regionMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    capture(ShotType.Region);
-        //}
-
-        //private void windowsMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    capture(ShotType.Window);
-        //}
-
-        //private void screenMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    capture(ShotType.Screen);
-        //}
-
-        #endregion
 
         #region Misc
 
@@ -1932,6 +1763,8 @@ namespace Waveface
 
         private void CreateWebSocketChannelToStation()
         {
+			DebugInfo.ShowMethod();
+
             wsNotifyChannel = new WebSocketSharp.WebSocket("ws://127.0.0.1:9983");
 
             wsNotifyChannel.OnOpen += (s, evt) =>
@@ -1954,5 +1787,174 @@ namespace Waveface
             };
             wsNotifyChannel.Connect();
         }
+
+
+
+
+		#region 資源回收桶
+		/*
+        public void DoTimelineFilter(FilterItem item, bool isFilterTimelineMode)
+        {
+            if (!RT.LoginOK)
+                return;
+
+            RT.FilterMode = true;
+
+            if (item != null)
+            {
+                RT.CurrentFilterItem = item;
+            }
+
+            RT.FilterPosts = new List<Post>(); // Reset
+
+            RT.FilterTimelineMode = isFilterTimelineMode;
+
+            FilterFetchPostsAndShow(true);
+        }
+
+        public void FilterReadMorePost()
+        {
+            FilterFetchPostsAndShow(false);
+        }
+
+        private void FilterFetchPostsAndShow(bool firstTime)
+        {
+            if ((RT.FilterPostsAllCount != 0) && (RT.FilterPostsAllCount == RT.FilterPosts.Count))
+                return;
+
+            int _offset = RT.FilterPosts.Count;
+
+            string _filter = RT.CurrentFilterItem.Filter;
+
+            if (RT.CurrentFilterItem.DynamicNow)
+                _filter = FilterHelper.GetAllPostFilterStringByPostType(_filter);
+
+            _filter = _filter.Replace("[offset]", _offset.ToString());
+
+            Cursor = Cursors.WaitCursor;
+
+            MR_posts_get _postsGet = RT.REST.Posts_FetchByFilter(_filter);
+
+            if (_postsGet != null)
+            {
+                RT.FilterPosts.AddRange(_postsGet.posts);
+
+                if (firstTime)
+                {
+                    RT.FilterPostsAllCount = _postsGet.remaining_count + _postsGet.get_count;
+
+                    RT.IsFilterFirstTimeGetData = true;
+                }
+                else
+                {
+                    RT.IsFilterFirstTimeGetData = false;
+                }
+            }
+
+            Cursor = Cursors.Default;
+
+            ShowPostToUI(false);
+        }
+
+        private void ShowPostToUI(bool refreshCurrentPost)
+        {
+            List<Post> _posts = RT.FilterPosts;
+
+            setCalendarBoldedDates(_posts);
+
+            postsArea.ShowPostInfor(RT.FilterPostsAllCount, _posts.Count);
+
+            postsArea.PostsList.SetFilterPosts(_posts, refreshCurrentPost, RT.IsFilterFirstTimeGetData);
+        }
+        */
+
+		//public void CreateFileWatcher()
+		//{
+		//    DebugInfo.ShowMethod();
+
+		//    FileSystemWatcher _watcher = new FileSystemWatcher();
+		//    _watcher.Filter = "*.dat";
+		//    _watcher.Created += watcher_FileCreated;
+		//    _watcher.Path = Application.StartupPath;
+		//    _watcher.EnableRaisingEvents = true;
+		//}
+
+		//private void watcher_FileCreated(object sender, FileSystemEventArgs e)
+		//{
+		//    DebugInfo.ShowMethod();
+
+		//    if (e.ChangeType == WatcherChangeTypes.Created)
+		//    {
+		//        try
+		//        {
+		//            if (e.FullPath == m_shellContentMenuFilePath)
+		//            {
+		//                string _fileContents;
+
+		//                using (StreamReader _textFile = new StreamReader(m_shellContentMenuFilePath))
+		//                {
+		//                    _fileContents = _textFile.ReadToEnd();
+		//                }
+
+		//                m_delayPostType = PostType.Photo;
+		//                m_delayPostText = "";
+		//                m_delayPostPicList = new List<string>
+		//                                         {
+		//                                             _fileContents
+		//                                         };
+		//            }
+		//        }
+		//        catch
+		//        {
+		//        }
+		//    }
+
+		//    File.Delete(m_shellContentMenuFilePath);
+		//}
+
+		//private void capture(ShotType shotType)
+		//{
+		//    try
+		//    {
+		//        CaptureForm _captureForm = new CaptureForm(shotType);
+
+		//        if ((_captureForm.ShowDialog() != DialogResult.OK) || (_captureForm.Image == null))
+		//        {
+		//            return;
+		//        }
+
+		//        string _filename =
+		//            string.Format("{0}.{1}", DateTime.Now.ToString("yyyyMMddHHmmssff"), ImageFormat.Jpeg).ToLower();
+
+		//        Image _img = _captureForm.Image;
+
+		//        string _pathToSave = Path.Combine(GCONST.TempPath, _filename);
+
+		//        _img.Save(_pathToSave, ImageFormat.Jpeg);
+
+		//        Post(new List<string> { _pathToSave }, PostType.Photo, "");
+		//    }
+		//    catch (Exception _e)
+		//    {
+		//        MessageBox.Show(_e.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+		//    }
+		//}
+
+		//private void regionMenuItem_Click(object sender, EventArgs e)
+		//{
+		//    capture(ShotType.Region);
+		//}
+
+		//private void windowsMenuItem_Click(object sender, EventArgs e)
+		//{
+		//    capture(ShotType.Window);
+		//}
+
+		//private void screenMenuItem_Click(object sender, EventArgs e)
+		//{
+		//    capture(ShotType.Screen);
+		//}
+
+		#endregion
     }
 }
