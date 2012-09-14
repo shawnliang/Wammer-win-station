@@ -10,6 +10,7 @@ using Wammer.Utility;
 using ExifLibrary;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -83,18 +84,42 @@ namespace Wammer.Station.AttachmentUpload
 
 		public AttachmentUploadHandlerImp(IAttachmentUploadHandlerDB db)
 		{
+			DebugInfo.ShowMethod();
+
 			this.db = db;
 		}
 
 		public event EventHandler<AttachmentEventArgs> AttachmentProcessed;
 
-		public ObjectUploadResponse Process(UploadData uploadData)
+		public void Process(UploadData uploadData)
 		{
+			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
+			Process(uploadData, imageSize);
+		}
+
+		public void Process(UploadData uploadData, Size imageSize)
+		{
+			DebugInfo.ShowMethod();
 			if (uploadData == null)
 				throw new ArgumentNullException("uploadData");
 
 			if (uploadData.object_id == null)
 				uploadData.object_id = Guid.NewGuid().ToString();
+
+			//Attachment already exists => return
+			var metaStr = uploadData.imageMeta.GetCustomAttribute<DescriptionAttribute>().Description;
+
+			var doc =
+				AttachmentCollection.Instance.FindOne(uploadData.imageMeta == ImageMeta.Origin
+														? Query.And(Query.EQ("_id", uploadData.object_id), Query.Exists("saved_file_name", true))
+														: Query.And(Query.EQ("_id", uploadData.object_id),
+																	Query.Exists("image_meta." + metaStr, true)));
+			if (doc != null)
+				return;
+
+			var storage = GetUserStorage(uploadData);
+			var filename = GetSavedFileName(uploadData);
+			storage.SaveFile(filename, uploadData.raw_data);
 
 			var dbDoc = new Attachment
 							{
@@ -109,20 +134,16 @@ namespace Wammer.Station.AttachmentUpload
 								image_meta = new ImageProperty()
 							};
 
-			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
-			var storage = GetUserStorage(uploadData);
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
 				dbDoc.mime_type = uploadData.mime_type;
-				dbDoc.saved_file_name = GetSavedFileName(uploadData);
+				dbDoc.saved_file_name = filename;
 				dbDoc.file_size = uploadData.raw_data.Count;
 				dbDoc.url = GetViewApiUrl(uploadData);
 				dbDoc.md5 = ComputeMD5(uploadData.raw_data);
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
-
-				storage.SaveFile(dbDoc.saved_file_name, uploadData.raw_data);
 
 				var photoFile = Path.Combine(storage.basePath, dbDoc.saved_file_name);
 
@@ -136,14 +157,13 @@ namespace Wammer.Station.AttachmentUpload
 									file_size = uploadData.raw_data.Count,
 									md5 = ComputeMD5(uploadData.raw_data),
 									mime_type = uploadData.mime_type,
-									saved_file_name = GetSavedFileName(uploadData),
+									saved_file_name = filename,
 									url = GetViewApiUrl(uploadData),
 									width = imageSize.Width,
 									height = imageSize.Height
 								};
 
 				dbDoc.image_meta.SetThumbnailInfo(uploadData.imageMeta, thumb);
-				storage.SaveFile(thumb.saved_file_name, uploadData.raw_data);
 			}
 
 			UpsertResult dbResult = db.InsertOrMergeToExistingDoc(dbDoc);
@@ -160,12 +180,12 @@ namespace Wammer.Station.AttachmentUpload
 					uploadData.group_id
 				)
 			);
-
-			return ObjectUploadResponse.CreateSuccess(uploadData.object_id);
 		}
 
 		private static void extractExif(Attachment dbDoc, string photoFile)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				ExifFile exifFile = ExifFile.Read(photoFile);
@@ -278,6 +298,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private FileStorage GetUserStorage(UploadData uploadData)
 		{
+			DebugInfo.ShowMethod();
+
 			Driver user = db.GetUserByGroupId(uploadData.group_id);
 			if (user == null)
 				throw new WammerStationException("User is not associated with this station", (int)StationLocalApiError.InvalidDriver);
@@ -288,6 +310,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private void OnAttachmentProcessed(AttachmentEventArgs evt)
 		{
+			DebugInfo.ShowMethod();
+
 			EventHandler<AttachmentEventArgs> handler = AttachmentProcessed;
 
 			if (handler != null)
@@ -298,6 +322,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string GetViewApiUrl(UploadData data)
 		{
+			DebugInfo.ShowMethod();
+
 			var buf = new StringBuilder();
 			buf.Append("/v2/attachments/view/?object_id=").
 				Append(data.object_id);
@@ -314,6 +340,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string GetSavedFileName(UploadData data)
 		{
+			DebugInfo.ShowMethod();
+
 			var buf = new StringBuilder();
 			buf.Append(data.object_id);
 
@@ -334,6 +362,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string ComputeMD5(ArraySegment<byte> rawData)
 		{
+			DebugInfo.ShowMethod();
+
 			using (MD5 md5 = MD5.Create())
 			{
 				byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
