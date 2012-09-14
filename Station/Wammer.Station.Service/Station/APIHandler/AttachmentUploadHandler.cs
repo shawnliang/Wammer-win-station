@@ -46,17 +46,8 @@ namespace Wammer.Station.APIHandler
 			CheckParameter("session_token", "apikey", "group_id", "type");
 
 			UploadData data = GetUploadData();
-
-			Size imageSize = ImageHelper.GetImageSize(data.raw_data);
-
-			Debug.WriteLine(Parameters["object_id"]);
-			Debug.WriteLine(Parameters["image_meta"]);
-
-			if (data.object_id == null)
-				data.object_id = Guid.NewGuid().ToString();
-
+			imp.Process(data);
 			RespondSuccess(ObjectUploadResponse.CreateSuccess(data.object_id));
-			imp.Process(data, imageSize);
 		}
 
 		private UploadData GetUploadData()
