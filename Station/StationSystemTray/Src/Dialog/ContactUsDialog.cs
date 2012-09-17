@@ -9,8 +9,6 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Tar;
 using System.IO.Packaging;
 
 namespace StationSystemTray

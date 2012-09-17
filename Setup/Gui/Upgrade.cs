@@ -124,12 +124,13 @@ namespace Gui
 
 		private static void MongoDump()
 		{
-			StartMongoDB();
+			StopService("MongoDbForWaveface");
 
 			try
 			{
 				string appRoot = MsiConnection.Instance.GetPath("INSTALLLOCATION");
 				string dumpFolder = Path.Combine(appRoot, @"MongoDB\Backup");
+				string dbPath = Path.Combine(appRoot, @"MongoDB\Data");
 
 				if (Directory.Exists(dumpFolder))
 				{
@@ -141,7 +142,7 @@ namespace Gui
 				Process p = new Process();
 				ProcessStartInfo info = new ProcessStartInfo(
 					"mongodump.exe",
-					string.Format("--port 10319 --forceTableScan --out \"{0}\" --db wammer", dumpFolder));
+					string.Format("--dbpath \"{1}\" --forceTableScan --out \"{0}\" --db wammer", dumpFolder, dbPath));
 
 				info.CreateNoWindow = true;
 				info.WindowStyle = ProcessWindowStyle.Hidden;
@@ -153,7 +154,9 @@ namespace Gui
 					throw new DataBackupException("mongodump.exe returns failure: " + p.ExitCode);
 
 				logger.Info("dump completed");
+
 				// delete station collection to prevent previous version's uninstaller unregistering station. 
+				StartMongoDB();
 				MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true").GetDatabase("wammer").GetCollection("station").RemoveAll();
 			}
 			catch (Exception e)
@@ -169,7 +172,6 @@ namespace Gui
 
 			try
 			{
-				
 				if (svc.Status != ServiceControllerStatus.Running &&
 					svc.Status != ServiceControllerStatus.StartPending)
 				{
@@ -190,30 +192,15 @@ namespace Gui
 
 			logger.Info("Mongo db is running");
 
-			DateTime start = DateTime.Now;
-			bool mongoDBOK = false;
-			do
+			int retry = 60;
+			while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319) && retry > 0)
 			{
-				try
-				{
-					logger.Info("checking if mongo db is accepting connection?");
-					MongoServer sv = MongoServer.Create("mongodb://127.0.0.1:10319/?safe=true");
-					mongoDBOK = true;
-
-					logger.Info("mongo db is ready to accept connection");
-				}
-				catch
-				{
-					mongoDBOK = false;
-				}
+				System.Threading.Thread.Sleep(3000);
+				retry--;
 			}
-			while (!mongoDBOK && DateTime.Now - start < TimeSpan.FromMinutes(5.0));
 
-			if (!mongoDBOK)
-			{
-				logger.Error("mongo db is still not ready to accept connections for 5 minutes");
+			if (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
 				throw new DataBackupException("MongoDB is not accessible");
-			}
 		}
 
 

@@ -65,7 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoUpdate.cs" />
+    <Compile Include="Src\AutoUpdate.cs" />
     <Compile Include="Components\MultiPanel\MultiPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -83,7 +83,8 @@
     </Compile>
     <Compile Include="Src\Env.cs" />
     <Compile Include="Src\Extension\StreamExtension.cs" />
-    <Compile Include="TaskbarHelper.cs" />
+    <Compile Include="Src\MongoDbHelper.cs" />
+    <Compile Include="Src\TaskbarHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

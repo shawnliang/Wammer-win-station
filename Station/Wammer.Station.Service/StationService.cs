@@ -25,19 +25,6 @@ namespace Wammer.Station.Service
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 		#endregion
 
-		#region Var
-		private BackOff _backoff;
-		#endregion
-
-
-		#region Private Property
-		private BackOff m_BackOff
-		{
-			get { return _backoff ?? (_backoff = new BackOff(500, 1000, 2000, 3000, 5000)); }
-		}
-
-		#endregion
-
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
 		private HttpServer functionServer;
 		private HttpServer managementServer;
@@ -45,6 +32,7 @@ namespace Wammer.Station.Service
 		private PingHandler funcPingHandler = new PingHandler();
 		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
 		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
+		private MongoDBMonitor mongoMonitor;
 
 		public StationService()
 		{
@@ -76,17 +64,21 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
+			mongoMonitor = new MongoDBMonitor(RunStation);
+		}
+
+		private void RunStation()
+		{
 			try
 			{
 				logger.Warn("============== Starting Stream Station =================");
 
-				m_BackOff.ResetLevel();
-				while (!Database.TestConnection(1))
+				while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
 				{
-					Thread.Sleep(m_BackOff.NextValue());
-					System.Windows.Forms.Application.DoEvents();
-					m_BackOff.IncreaseLevel();
+					System.Threading.Thread.Sleep(1000);
+					logger.Info("Waiting mongo db...");
 				}
+
 				InitResourceFolder();
 				TaskQueue.Init();
 
@@ -388,16 +380,12 @@ namespace Wammer.Station.Service
 		}
 	}
 
-
 	internal class DummyHandler : IHttpHandler
 	{
-		#region IHttpHandler Members
-
 		public event EventHandler<HttpHandlerEventArgs> ProcessSucceeded;
 
 		public void HandleRequest(HttpListenerRequest request, HttpListenerResponse response)
 		{
-			//Debug.Fail("should not reach this code");
 		}
 
 		public object Clone()
@@ -408,13 +396,41 @@ namespace Wammer.Station.Service
 		public void SetBeginTimestamp(long beginTime)
 		{
 		}
-
-
+		
 		public void HandleRequest()
 		{
-			throw new NotImplementedException();
+		}
+	}
+
+	internal class MongoDBMonitor
+	{
+		private object cs = new object();
+		private Timer timer;
+		private bool isReady;
+		private Action onReady;
+
+		public MongoDBMonitor(Action onReady)
+		{
+			timer = new Timer(Do, this, 1000, 2000);
+			this.onReady = onReady;
 		}
 
-		#endregion
+		private void Do(object state)
+		{
+			lock (cs)
+			{
+				if (isReady)
+					return;
+
+				if (Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
+				{
+					timer.Change(Timeout.Infinite, Timeout.Infinite);
+					isReady = true;
+					onReady();
+				}
+				else
+					this.LogInfoMsg("MongoDB is not ready...");
+			}
+		}
 	}
 }
