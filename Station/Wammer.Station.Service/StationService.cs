@@ -25,10 +25,6 @@ namespace Wammer.Station.Service
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 		#endregion
 
-		#region Var
-		private BackOff _backoff;
-		#endregion
-
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
 		private HttpServer functionServer;
 		private HttpServer managementServer;
@@ -36,7 +32,6 @@ namespace Wammer.Station.Service
 		private PingHandler funcPingHandler = new PingHandler();
 		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
 		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
-		private Timer mongoDbTimer;
 		private MongoDBMonitor mongoMonitor;
 
 		public StationService()
