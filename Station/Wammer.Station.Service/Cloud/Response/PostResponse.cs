@@ -271,6 +271,9 @@ namespace Wammer.Cloud
 		public string type { get; set; }
 
 		[BsonIgnoreIfNull]
+		public List<string> style { get; set; }
+
+		[BsonIgnoreIfNull]
 		public DateTime update_time { get; set; }
 
 		[BsonIgnoreIfNull]

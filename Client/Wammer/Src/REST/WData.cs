@@ -30,6 +30,10 @@ namespace Waveface.API.V2
         public string timestamp { get; set; }
         public string content { get; set; }
         public string type { get; set; }
+
+		public List<string> style { get; set; }
+
+
         public string status { get; set; }
 
         public bool hidden { get; set; }

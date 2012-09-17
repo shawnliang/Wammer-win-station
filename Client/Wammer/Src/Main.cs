@@ -778,8 +778,8 @@ namespace Waveface
             else
             {
                 List<Post> posts = RT.CurrentGroupPosts;
-				if (posts.Count == 0)
-				{
+				//if (posts.Count == 0)
+				//{
 					MongoServer dbServer = MongoServer.Create("mongodb://localhost:10319/?safe=true");
 					BsonDocument _userInfo =
 		 dbServer.GetDatabase("wammer").GetCollection("drivers").FindOne(Query.EQ("_id", RT.Login.user.user_id));
@@ -798,9 +798,18 @@ namespace Waveface
 						dialog.ShowDialog(this);
 						return;
 					}
-				}
+				//}
 
 				posts = filterPost(posts).ToList();
+
+				var linq = from post in posts
+						   where post.type == "image" && (post.style != null && post.style.Contains("url_history"))
+						   select post;
+
+				if (linq.Any())
+					this.postsArea.EnableWebHistoryFilter();
+				else
+					this.postsArea.DisableWebHistoryFilter();
 
                 Dictionary<DateTime, string> firstPostInADay = setCalendarBoldedDates(posts);
 
@@ -817,9 +826,26 @@ namespace Waveface
         {
 			DebugInfo.ShowMethod();
 
-			return from post in posts
-				   where string.IsNullOrEmpty(m_displayType) || post.type == m_displayType
-				   select post;
+			foreach (var post in posts)
+			{
+				if (string.IsNullOrEmpty(m_displayType))
+					yield return post;
+
+				if (post.type == m_displayType)
+				{
+					if (post.type == "image")
+					{ 
+						if(post.style == null || !post.style.Contains("url_history"))
+							yield return post;
+					}
+					else
+						yield return post;
+				}
+				else if (m_displayType == "web history" && post.type == "image" && (post.style != null && post.style.Contains("url_history")))
+				{
+					yield return post;
+				}
+			}
         }
 
         public void DisplayFilter(string displayType)
