@@ -115,8 +115,6 @@ namespace Waveface
 			_font = new Font("Tahoma", 9);
 
 			m_WebHistoryItem = comboBox1.Items[4].ToString();
-
-			comboBox1.Items.RemoveAt(4);
 		}
 		#endregion
 
