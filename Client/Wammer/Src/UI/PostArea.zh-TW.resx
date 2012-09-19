@@ -124,10 +124,10 @@
     <value>純文字</value>
   </data>
   <data name="comboBox1.Items2" xml:space="preserve">
-    <value>相片</value>
+    <value>照片</value>
   </data>
   <data name="comboBox1.Items3" xml:space="preserve">
-    <value>網頁</value>
+    <value>收藏網頁</value>
   </data>
   <data name="comboBox1.Items4" xml:space="preserve">
     <value>瀏覽紀錄</value>
