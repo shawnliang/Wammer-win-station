@@ -1314,7 +1314,7 @@ namespace Waveface.API.V2
 
 		public MR_attachments_upload attachments_upload(string session_token, string group_id, string fileName,
 														string title, string description, string type, string image_meta,
-														string object_id, string post_id)
+														string object_id, string post_id, DateTime? import_time = null)
 		{
 			MR_attachments_upload _ret;
 
@@ -1339,7 +1339,9 @@ namespace Waveface.API.V2
 				//    SourceCodeName = m_StationCodeName
 				//})));
 
-				_dic.Add("memo", fileName);
+				_dic.Add("file_path", fileName);
+				if (import_time.HasValue)
+					_dic.Add("import_time", DateTimeHelp.ToUniversalTime_ToISO8601(import_time.Value));
 
 				//if (description == string.Empty)
 				//   description = title;

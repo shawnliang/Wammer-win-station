@@ -60,10 +60,10 @@ namespace Wammer.Station.AttachmentUpload
 
 				using (FileStream f = fileStorage.Load(info.saved_file_name))
 				{
-					Attachment.Upload(f, attachment.group_id, object_id, attachment.file_name,
+					AttachmentApi.Upload(f, attachment.group_id, object_id, attachment.file_name,
 									  info.mime_type, meta, attachment.type, CloudServer.APIKey,
 									  user.session_token, 65535, UpstreamProgressChanged,
-									  attachment.post_id, attachment.memo, attachment.image_meta.exif);
+									  attachment.post_id, attachment.file_path, attachment.image_meta.exif, attachment.import_time);
 
 					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
 				}

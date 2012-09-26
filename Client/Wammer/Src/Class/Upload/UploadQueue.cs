@@ -87,6 +87,7 @@ namespace Waveface.Upload
 		public string post_id { get; set; }
 		public string object_id { get; set; }
 		public string file_path { get; set; }
+		public DateTime? import_time { get; set; }
 
 		public bool IsEmpty()
 		{

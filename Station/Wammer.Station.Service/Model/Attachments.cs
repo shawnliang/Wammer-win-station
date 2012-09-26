@@ -264,139 +264,6 @@ namespace Wammer.Model
 	[BsonIgnoreExtraElements]
 	public class Attachment : IAttachmentInfo
 	{
-		#region Private Method
-
-		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta,
-																	  AttachmentType type, string apiKey, string token, string post_id = null, string memo = null, exif exif = null)
-		{
-			var pars = new Dictionary<string, object>();
-			pars["type"] = type.ToString();
-			if (meta != ImageMeta.None)
-				pars["image_meta"] = meta.ToString().ToLower();
-			pars["session_token"] = token;
-			pars["apikey"] = apiKey;
-			if (objectId != null)
-				pars["object_id"] = objectId;
-			pars["group_id"] = groupId;
-			if (!string.IsNullOrEmpty(post_id))
-				pars["post_id"] = post_id;
-
-			if (!string.IsNullOrEmpty(memo))
-				pars["memo"] = memo;
-
-			if (exif != null)
-				pars["exif"] = JsonConvert.SerializeObject(exif, Formatting.Indented);
-			return pars;
-		}
-
-		#endregion
-
-		#region Upload utility functions
-
-		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
-												  string objectId, string fileName, string contentType,
-												  ImageMeta meta, AttachmentType type, string apiKey,
-												  string token, int bufferSize = 1024,
-												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null, string post_id = null, string memo = null, exif exif = null)
-		{
-			return Upload(CloudServer.BaseUrl + "attachments/upload", dataStream, groupId,
-						  objectId, fileName, contentType, meta, type, apiKey, token, bufferSize, progressChangedCallBack, post_id, memo, exif);
-		}
-
-		public static ObjectUploadResponse Upload(string url, Stream dataStream, string groupId,
-		                                          string objectId, string fileName, string contentType,
-		                                          ImageMeta meta, AttachmentType type, string apiKey,
-		                                          string token, int bufferSize = 1024,
-		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
-												  string post_id = null, string memo = null, exif exif = null)
-		{
-			try
-			{
-				if (token == null)
-					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
-
-				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id, memo, exif);
-				HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(
-					url,
-					"Mozilla 4.0+",
-					pars,
-					fileName,
-					contentType,
-					dataStream, bufferSize, progressChangedCallBack);
-
-				Debug.Assert(_webResponse != null, "_webResponse != null");
-				using (var reader = new StreamReader(_webResponse.GetResponseStream()))
-				{
-					return JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
-				}
-			}
-			catch (WebException e)
-			{
-				throw new WammerCloudException("Wammer cloud error", e);
-			}
-		}
-
-		public static ObjectUploadResponse Upload(string url, ArraySegment<byte> imageData, string groupId,
-		                                          string objectId, string fileName, string contentType,
-		                                          ImageMeta meta, AttachmentType type, string apiKey,
-		                                          string token, int bufferSize = 1024,
-		                                          Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
-												  string post_id = null)
-		{
-			try
-			{
-				if (token == null)
-					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
-
-				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id);
-
-				HttpWebResponse _webResponse =
-					MultipartFormDataPostHelper.MultipartFormDataPost(
-						url,
-						"Mozilla 4.0+",
-						pars,
-						fileName,
-						contentType,
-						imageData, bufferSize, progressChangedCallBack);
-
-				Debug.Assert(_webResponse != null, "_webResponse != null");
-				using (var reader = new StreamReader(_webResponse.GetResponseStream()))
-				{
-					return JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
-				}
-			}
-			catch (WebException e)
-			{
-				throw new WammerCloudException("Wammer cloud error", e);
-			}
-		}
-
-
-		public static ObjectUploadResponse UploadImage(string url, ArraySegment<byte> imageData, string groupId,
-		                                               string objectId, string fileName, string contentType,
-		                                               ImageMeta meta, string apiKey, string token, int bufSize = 1024,
-		                                               Action<object, ProgressChangedEventArgs> callback = null,
-													   string post_id = null)
-		{
-			return Upload(url, imageData, groupId, objectId, fileName, contentType, meta,
-			              AttachmentType.image, apiKey, token, bufSize, callback, post_id);
-		}
-
-		public static ObjectUploadResponse UploadImage(ArraySegment<byte> imageData, string group_id,
-		                                               string objectId, string fileName, string contentType, ImageMeta meta,
-		                                               string apikey, string token, int buffSize = 1024,
-		                                               Action<object, ProgressChangedEventArgs> callback = null,
-													   string post_id = null)
-		{
-			string url = CloudServer.BaseUrl + "attachments/upload/";
-
-			return UploadImage(url, imageData, group_id, objectId, fileName, contentType, meta,
-			                   apikey, token, buffSize, callback);
-		}
-
-
-		#endregion
-
 		[BsonIgnore] private readonly object rawDataMutex = new object();
 		private ArraySegment<byte> rawData;
 
@@ -474,7 +341,10 @@ namespace Wammer.Model
 		public string post_id { get; set; }
 
 		[BsonIgnoreIfNull]
-		public string memo { get; set; }
+		public string file_path { get; set; }
+
+		[BsonIgnoreIfNull]
+		public DateTime? import_time { get; set; }
 
 		[BsonIgnore]
 		[XmlIgnore]

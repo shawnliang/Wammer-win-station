@@ -50,7 +50,7 @@ namespace Waveface.Upload
 				try
 				{
 					Main.Current.RT.REST.File_UploadFile(string.Empty,
-						uploadItem.file_path, uploadItem.object_id, true, uploadItem.post_id);
+						uploadItem.file_path, uploadItem.object_id, true, uploadItem.post_id, uploadItem.import_time);
 
 					queue.ConfirmPop(uploadItem);
 				}
