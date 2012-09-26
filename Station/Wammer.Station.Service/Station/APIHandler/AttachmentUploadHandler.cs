@@ -71,7 +71,17 @@ namespace Wammer.Station.APIHandler
 			data.api_key = Parameters["apikey"];
 			data.session_token = Parameters["session_token"];
 			data.post_id = Parameters["post_id"];
-			data.memo = Parameters["memo"];
+			data.file_path = Parameters["file_path"];
+
+			try
+			{
+				if (!string.IsNullOrEmpty(Parameters["import_time"]))
+					data.import_time = TimeHelper.ParseCloudTimeString(Parameters["import_time"]);
+			}
+			catch (Exception e)
+			{
+				throw new FormatException("import_time format error", e);
+			}
 
 			try
 			{
