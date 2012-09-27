@@ -16,8 +16,8 @@ namespace Wammer.Station.APIHandler
 
 		public AttachmentUploadHandler()
 		{
+			imp = new AttachmentUploadHandlerImp(new AttachmentUploadHandlerDB(), new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
 			DebugInfo.ShowMethod();
-			imp = new AttachmentUploadHandlerImp(new AttachmentUploadHandlerDB());
 		}
 
 		public event EventHandler<AttachmentEventArgs> AttachmentProcessed

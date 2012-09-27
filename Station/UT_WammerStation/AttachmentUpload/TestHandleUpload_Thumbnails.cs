@@ -37,18 +37,22 @@ namespace UT_WammerStation.AttachmentUpload
 		{
 			Attachment savedAttachment = null;
 
+			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
+			storage.Setup(x => x.Save(uploadData)).Returns(new AttachmentSaveResult("", "123.jpg")).Verifiable();
+
 			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
 			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
 				(Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
-			db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
+			//db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
 			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
 
-			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
+			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object, storage.Object);
 
 			handler.Process(uploadData);
 
 			// verify db.SaveToDB is called
 			db.VerifyAll();
+			storage.VerifyAll();
 
 			Assert.AreEqual(uploadData.file_name, savedAttachment.file_name);
 			Assert.AreEqual(uploadData.title, savedAttachment.title);
@@ -65,10 +69,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual(
 				"/v2/attachments/view/?object_id=" + savedAttachment.object_id + "&image_meta=" + uploadData.imageMeta.ToString().ToLower(),
 				savedAttachment.image_meta.medium.url);
-			Assert.AreEqual(savedAttachment.object_id + "_medium.dat", savedAttachment.image_meta.medium.saved_file_name);
-
-			FileStorage storage = new FileStorage(new Driver { folder = "" });
-			Assert.IsTrue(File.Exists(Path.Combine(storage.basePath, savedAttachment.object_id + "_medium.dat")));
+			Assert.AreEqual("123.jpg", savedAttachment.image_meta.medium.saved_file_name);
 		}
 	}
 }

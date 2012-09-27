@@ -39,19 +39,23 @@ namespace UT_WammerStation.AttachmentUpload
 		public void UploadNewOriginImg_AttachmentInfoIsSavedToDB()
 		{
 			Attachment savedAttachment = null;
+			
+			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
+			storage.Setup(x => x.Save(uploadData)).Returns(new AttachmentSaveResult("",@"2001\10\20\filename.jpg")).Verifiable();
 
 			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
 			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
 				(Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
-			db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
+			//db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
 			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
 
-			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
+			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object, storage.Object);
 
 			handler.Process(uploadData);
 
 			// verify db.SaveToDB is called
 			db.VerifyAll();
+			storage.VerifyAll();
 
 			// verify saved data
 			Assert.AreEqual(uploadData.file_name, savedAttachment.file_name);
@@ -71,32 +75,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual(768, savedAttachment.image_meta.height);
 		}
 
-		[TestMethod]
-		public void UploadNewOriginImg_AttachmentIsSavedToFile()
-		{
-			Attachment savedAttachment = null;
 
-			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
-			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
-				(Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
-			db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = ""}).Verifiable();
-			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
-
-			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
-
-			handler.Process(uploadData);
-
-			// verify all
-			db.VerifyAll();
-
-			// verify saved data
-			Assert.AreEqual(savedAttachment.object_id + ".jpg", savedAttachment.saved_file_name);
-			Wammer.Station.FileStorage storage = new Wammer.Station.FileStorage(new Driver { folder = "" });
-			byte[] savedFile = File.ReadAllBytes(Path.Combine(storage.basePath, savedAttachment.saved_file_name));
-			Assert.AreEqual(uploadData.raw_data.Count, savedFile.Length);
-			for (int i=0;i<savedFile.Length; i++)
-				Assert.AreEqual(uploadData.raw_data.Array[i], savedFile[i]);
-		}
 
 		//[TestMethod]
 		//public void UploadNewOriginImg_ResponseIsReturned()
@@ -123,14 +102,17 @@ namespace UT_WammerStation.AttachmentUpload
 		public void UploadNewOriginImg_MimeTypeDefaultsToOctectStream()
 		{
 			Attachment savedAttachment = null;
+			
+			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
+			storage.Setup(x => x.Save(uploadData)).Returns(new AttachmentSaveResult("",@"2001\10\20\filename.jpg")).Verifiable();
 
 			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
 			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
 				(Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
-			db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
+			//db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
 			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
 
-			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
+			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object, storage.Object);
 
 
 			uploadData.mime_type = null; // no mime_type 
@@ -143,42 +125,46 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual("application/octet-stream", savedAttachment.mime_type);
 		}
 
-		[TestMethod]
-		public void UploadNewOriginImg_SavedFileNameHasNoSuffixIfInputFileNameHasNoSuffix()
-		{
-			Attachment savedAttachment = null;
+		// todo : to be moved to new class
+		//[TestMethod]
+		//public void UploadNewOriginImg_SavedFileNameHasNoSuffixIfInputFileNameHasNoSuffix()
+		//{
+		//    Attachment savedAttachment = null;
 
-			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
-			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
-				(Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
-			db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
-			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
+		//    Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
+		//    db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
+		//        (Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
+		//    db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
+		//    db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
 
-			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
+		//    AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
 
-			uploadData.file_name = "no_suffix";
-			handler.Process(uploadData);
+		//    uploadData.file_name = "no_suffix";
+		//    handler.Process(uploadData);
 
-			// verify all
-			db.VerifyAll();
+		//    // verify all
+		//    db.VerifyAll();
 
-			// verify saved data
-			Assert.AreEqual(savedAttachment.object_id, savedAttachment.saved_file_name);
-			Assert.AreEqual(uploadData.file_name, savedAttachment.file_name);
-		}
+		//    // verify saved data
+		//    Assert.AreEqual(savedAttachment.object_id, savedAttachment.saved_file_name);
+		//    Assert.AreEqual(uploadData.file_name, savedAttachment.file_name);
+		//}
 
 		[TestMethod]
 		public void UploadNewOriginImg_EventIsEmitted()
 		{
 			Attachment savedAttachment = null;
 
+			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
+			storage.Setup(x => x.Save(uploadData)).Returns(new AttachmentSaveResult("",@"2001\10\20\filename.jpg")).Verifiable();
+
 			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
 			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
 				(Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
-			db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
+			//db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
 			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
 
-			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
+			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object, storage.Object);
 			
 			AttachmentEventArgs arg = null;
 			handler.AttachmentProcessed += ((sender, evtArg) => { arg = evtArg; });

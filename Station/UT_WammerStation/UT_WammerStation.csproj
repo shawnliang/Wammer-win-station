@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttachmentUpload\TestAttachmentUploadHandlerDB.cs" />
+    <Compile Include="AttachmentUpload\TestAttachmentUploadStorage.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_NewOriginalImage.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />

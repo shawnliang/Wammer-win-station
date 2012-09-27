@@ -23,8 +23,41 @@ namespace Wammer.Station.AttachmentUpload
 	public interface IAttachmentUploadHandlerDB
 	{
 		UpsertResult InsertOrMergeToExistingDoc(Attachment doc);
-		Driver GetUserByGroupId(string groupId);
 		LoginedSession FindSession(string sessionToken, string apiKey);
+	}
+
+	public class AttachmentSaveResult
+	{
+		public AttachmentSaveResult(string storagePath, string relativePath)
+		{
+			this.StorageBasePath = storagePath;
+			this.RelativePath = relativePath;
+		}
+
+		/// <summary>
+		/// Storage base path
+		/// </summary>
+		public string StorageBasePath { get; private set; }
+		
+		/// <summary>
+		/// Attachment saved path which is a relative path to StorageBasePath
+		/// </summary>
+		public string RelativePath { get; private set; }
+		
+		public string FullPath
+		{
+			get { return Path.Combine(StorageBasePath, RelativePath); }
+		}
+	}
+
+	public interface IAttachmentUploadStorage
+	{
+		/// <summary>
+		/// Saves attachment to proper location
+		/// </summary>
+		/// <param name="data">attachment data</param>
+		/// <returns>relative save path to user resource filder (if attachment is original) or to user cache folder (if attachment is a thumbnail)</returns>
+		AttachmentSaveResult Save(UploadData data);
 	}
 
 	public class UploadData
@@ -81,12 +114,14 @@ namespace Wammer.Station.AttachmentUpload
 	public class AttachmentUploadHandlerImp
 	{
 		private readonly IAttachmentUploadHandlerDB db;
+		private readonly IAttachmentUploadStorage storage;
 
-		public AttachmentUploadHandlerImp(IAttachmentUploadHandlerDB db)
+		public AttachmentUploadHandlerImp(IAttachmentUploadHandlerDB db, IAttachmentUploadStorage storage)
 		{
 			DebugInfo.ShowMethod();
 
 			this.db = db;
+			this.storage = storage;
 		}
 
 		public event EventHandler<AttachmentEventArgs> AttachmentProcessed;
@@ -117,9 +152,7 @@ namespace Wammer.Station.AttachmentUpload
 			if (doc != null)
 				return;
 
-			var storage = GetUserStorage(uploadData);
-			var filename = GetSavedFileName(uploadData);
-			storage.SaveFile(filename, uploadData.raw_data);
+			var saveReult = storage.Save(uploadData);
 
 			var dbDoc = new Attachment
 							{
@@ -138,17 +171,15 @@ namespace Wammer.Station.AttachmentUpload
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
 				dbDoc.mime_type = uploadData.mime_type;
-				dbDoc.saved_file_name = filename;
+				dbDoc.saved_file_name = saveReult.RelativePath;
 				dbDoc.file_size = uploadData.raw_data.Count;
 				dbDoc.url = GetViewApiUrl(uploadData);
 				dbDoc.md5 = ComputeMD5(uploadData.raw_data);
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
 
-				var photoFile = Path.Combine(storage.basePath, dbDoc.saved_file_name);
-
-
-				extractExif(dbDoc, photoFile);
+				
+				extractExif(dbDoc, saveReult.FullPath);
 			}
 			else
 			{
@@ -157,7 +188,7 @@ namespace Wammer.Station.AttachmentUpload
 									file_size = uploadData.raw_data.Count,
 									md5 = ComputeMD5(uploadData.raw_data),
 									mime_type = uploadData.mime_type,
-									saved_file_name = filename,
+									saved_file_name = saveReult.RelativePath,
 									url = GetViewApiUrl(uploadData),
 									width = imageSize.Width,
 									height = imageSize.Height
@@ -294,18 +325,6 @@ namespace Wammer.Station.AttachmentUpload
 			catch
 			{
 			}
-		}
-
-		private FileStorage GetUserStorage(UploadData uploadData)
-		{
-			DebugInfo.ShowMethod();
-
-			Driver user = db.GetUserByGroupId(uploadData.group_id);
-			if (user == null)
-				throw new WammerStationException("User is not associated with this station", (int)StationLocalApiError.InvalidDriver);
-
-			var storage = new FileStorage(user);
-			return storage;
 		}
 
 		private void OnAttachmentProcessed(AttachmentEventArgs evt)

@@ -137,6 +137,7 @@
     <Compile Include="Station\APIHandler\PostFetchByFilterHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
+    <Compile Include="Station\AttachmentUpload\AttachmentUploadStorage.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
     <Compile Include="Station\DebugInfo.cs" />
