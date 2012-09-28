@@ -83,7 +83,8 @@ namespace Wammer.Station.AttachmentUpload
 		public string api_key { get; set; }
 		public string session_token { get; set; }
 		public string post_id { get; set; }
-		public string memo { get; set; }
+		public string file_path { get; set; }
+		public DateTime? import_time { get; set; }
 	}
 
 	public class AttachmentEventArgs : EventArgs
@@ -163,7 +164,8 @@ namespace Wammer.Station.AttachmentUpload
 								description = uploadData.description,
 								modify_time = DateTime.UtcNow,
 								post_id = uploadData.post_id,
-								memo = uploadData.memo,
+								file_path = uploadData.file_path,
+								import_time = uploadData.import_time,
 								image_meta = new ImageProperty()
 							};
 

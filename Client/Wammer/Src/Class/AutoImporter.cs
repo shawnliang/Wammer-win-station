@@ -68,7 +68,8 @@ namespace Waveface
 			var processedPaths = new HashSet<string>();
 
 			var uploadItems = new List<UploadItem>();
-			//var pendingUploadItems = new List<UploadItem>();
+			DateTime import_time = DateTime.UtcNow;
+
 			foreach (var content in importContents)
 			{
 				try
@@ -106,14 +107,11 @@ namespace Waveface
 					{
 						file_path = content.FilePath,
 						object_id = objectID,
-						post_id = postID
+						post_id = postID,
+						import_time = import_time
 					};
 
-					//if (uploadItems.Count == 0)
-						Main.Current.Uploader.Add(uploadItem);
-					//else
-					//    pendingUploadItems.Add(uploadItem);
-
+					Main.Current.Uploader.Add(uploadItem);
 					uploadItems.Add(uploadItem);
 				}
 				catch (Exception)

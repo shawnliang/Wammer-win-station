@@ -293,7 +293,7 @@ namespace Waveface
             return null;
         }
 
-        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage, string post_id)
+        public MR_attachments_upload File_UploadFile(string text, string filePath, string object_id, bool isImage, string post_id, DateTime? import_time = null)
         {
 
             MR_attachments_upload _ret;
@@ -303,7 +303,7 @@ namespace Waveface
             {
                 if (m_rt.StationMode) //如果有Station則上傳原圖, 否則就上1024中圖 (512 - > 1024)
                 {
-                    _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, filePath, text, "", "image", "origin", object_id, post_id);
+                    _ret = m_service.attachments_upload(SessionToken, m_rt.CurrentGroupID, filePath, text, "", "image", "origin", object_id, post_id, import_time);
                 }
                 else
                 {
