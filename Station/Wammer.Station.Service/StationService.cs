@@ -374,7 +374,7 @@ namespace Wammer.Station.Service
 				                  minWorker.ToString(), minIO.ToString());
 			}
 
-			int maxConcurrentTaskCount = int.Parse(StationRegistry.GetValue("MaxConcurrentTaskCount", "6").ToString());
+			int maxConcurrentTaskCount = int.Parse(StationRegistry.GetValue("MaxConcurrentTaskCount", "20").ToString());
 			if (maxConcurrentTaskCount > 0)
 				TaskQueue.MaxConcurrentTaskCount = maxConcurrentTaskCount;
 		}
