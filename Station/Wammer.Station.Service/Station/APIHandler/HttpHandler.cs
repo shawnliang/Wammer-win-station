@@ -124,25 +124,25 @@ namespace Wammer.Station
 			Files = new List<UploadedFile>();
 			Request = request;
 			Response = response;
-			RawPostData = InitRawPostData();
-			Parameters = InitParameters(request);
 
-			if (HasMultiPartFormData(request))
+			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
 			{
-				ParseMultiPartData(request);
+				var initialSize = postBufferSize();
+
+				var buff = new MemoryStream(initialSize);
+				StreamHelper.BeginCopy(Request.InputStream, buff, PostReadComplete, buff);
+				return;
 			}
 
-			LogRequest();
+			ParseAndHandleRequest();
+		}
 
-			HandleRequest();
-
-			long end = Stopwatch.GetTimestamp();
-
-			long duration = end - beginTime;
-			if (duration < 0)
-				duration += long.MaxValue;
-
-			OnProcessSucceeded(new HttpHandlerEventArgs(duration));
+		private int postBufferSize()
+		{
+			var initialSize = (int)Request.ContentLength64;
+			if (initialSize <= 0)
+				initialSize = 65535;
+			return initialSize;
 		}
 
 		public abstract void HandleRequest();
@@ -153,6 +153,29 @@ namespace Wammer.Station
 		}
 
 		#endregion
+
+		private void PostReadComplete(IAsyncResult ar)
+		{
+			try
+			{
+				StreamHelper.EndCopy(ar);
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to read post data from " + Request.RemoteEndPoint, e);
+			}
+
+			using (MemoryStream buff = ar.AsyncState as MemoryStream)
+			{
+				Action action = () =>
+					{
+						RawPostData = buff.ToArray();
+						ParseAndHandleRequest();
+					};
+
+				HttpHandlingTask.HandleRequestWithinExceptionHandler(action, Response);
+			}
+		}
 
 		private void LogRequest()
 		{
@@ -197,6 +220,28 @@ namespace Wammer.Station
 			}
 		}
 
+		private void ParseAndHandleRequest()
+		{
+			Parameters = InitParameters(Request);
+
+			if (HasMultiPartFormData(Request))
+			{
+				ParseMultiPartData(Request);
+			}
+
+			LogRequest();
+
+			HandleRequest();
+
+			long end = Stopwatch.GetTimestamp();
+
+			long duration = end - beginTime;
+			if (duration < 0)
+				duration += long.MaxValue;
+
+			OnProcessSucceeded(new HttpHandlerEventArgs(duration));
+		}
+
 		private void ParseMultiPartData(HttpListenerRequest request)
 		{
 			try
@@ -223,23 +268,6 @@ namespace Wammer.Station
 				logger.Warn("Parsing multipart data error. Post data written to log\\" + filename);
 				throw;
 			}
-		}
-
-		private byte[] InitRawPostData()
-		{
-			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
-			{
-				var initialSize = (int) Request.ContentLength64;
-				if (initialSize <= 0)
-					initialSize = 65535;
-
-				using (var buff = new MemoryStream(initialSize))
-				{
-					StreamHelper.Copy(Request.InputStream, buff);
-					return buff.ToArray();
-				}
-			}
-			return null;
 		}
 
 		private void ExtractParamsFromMultiPartFormData(Part part)
