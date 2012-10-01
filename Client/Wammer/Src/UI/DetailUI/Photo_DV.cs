@@ -16,6 +16,7 @@ using Waveface.Libs.StationDB;
 using MongoDB.Driver.Builders;
 using System.Diagnostics;
 using Waveface.Properties;
+using MongoDB.Bson;
 
 #endregion
 
@@ -58,6 +59,7 @@ namespace Waveface.DetailUI
 		private ImageButton btnSaveAllPhotos;
 		private ImageListViewItem m_selectedItem;
 		private ToolStripMenuItem miDuplicate;
+		private ToolStripMenuItem propertyToolStripMenuItem;
 
 		private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 		#endregion
@@ -161,13 +163,14 @@ namespace Waveface.DetailUI
 			this.contextMenuStripImageList = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.miSetCoverImage = new System.Windows.Forms.ToolStripMenuItem();
 			this.miOpen = new System.Windows.Forms.ToolStripMenuItem();
+			this.miDuplicate = new System.Windows.Forms.ToolStripMenuItem();
 			this.panelPictureInfo = new System.Windows.Forms.Panel();
 			this.labelPictureInfo = new System.Windows.Forms.Label();
 			this.webBrowserTop = new System.Windows.Forms.WebBrowser();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.contextMenuStripTop = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.miCopyTop = new System.Windows.Forms.ToolStripMenuItem();
-			this.miDuplicate = new System.Windows.Forms.ToolStripMenuItem();
+			this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.panelMain.SuspendLayout();
 			this.panelRight.SuspendLayout();
 			this.contextMenuStripImageList.SuspendLayout();
@@ -232,7 +235,8 @@ namespace Waveface.DetailUI
 			this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSetCoverImage,
             this.miOpen,
-            this.miDuplicate});
+            this.miDuplicate,
+            this.propertyToolStripMenuItem});
 			this.contextMenuStripImageList.Name = "contextMenuStripImageList";
 			resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
 			this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
@@ -250,6 +254,11 @@ namespace Waveface.DetailUI
 			this.miOpen.Name = "miOpen";
 			resources.ApplyResources(this.miOpen, "miOpen");
 			this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
+			// 
+			// miDuplicate
+			// 
+			this.miDuplicate.Name = "miDuplicate";
+			resources.ApplyResources(this.miDuplicate, "miDuplicate");
 			// 
 			// panelPictureInfo
 			// 
@@ -289,10 +298,11 @@ namespace Waveface.DetailUI
 			this.miCopyTop.Name = "miCopyTop";
 			resources.ApplyResources(this.miCopyTop, "miCopyTop");
 			// 
-			// miDuplicate
+			// propertyToolStripMenuItem
 			// 
-			this.miDuplicate.Name = "miDuplicate";
-			resources.ApplyResources(this.miDuplicate, "miDuplicate");
+			this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
+			resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
+			this.propertyToolStripMenuItem.Click += new System.EventHandler(this.propertyToolStripMenuItem_Click);
 			// 
 			// Photo_DV
 			// 
@@ -780,6 +790,8 @@ namespace Waveface.DetailUI
 
 		private void detectDuplication()
 		{
+			if (m_selectedItem == null)
+				return;
 			var index = Int32.Parse(((DetailViewImageListViewItemTag)m_selectedItem.Tag).Index);
 			var object_id = Post.attachment_id_array[index];
 			var attachmentCollection = StationDB.GetCollection("attachments");
@@ -1030,6 +1042,39 @@ namespace Waveface.DetailUI
 		}
 
 		#endregion
+
+		private void propertyToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (m_selectedItem == null)
+				return;
+
+			DebugInfo.ShowMethod();
+
+			var index = Int32.Parse(((DetailViewImageListViewItemTag)m_selectedItem.Tag).Index);
+			var object_id = Post.attachment_id_array[index];
+			var attachmentCollection = StationDB.GetCollection("attachments");
+			var selected = attachmentCollection.FindOne(Query.EQ("_id", object_id));
+
+			if (selected != null)
+			{
+				var imageMeta = selected.GetValue("image_meta", null).AsBsonDocument;
+				var exif = imageMeta.GetValue("exif", null).AsBsonDocument;
+
+				var exifItems = new List<KeyValuePair<string, string>>();
+				foreach (var item in exif)
+				{
+					if (item.Value is BsonNull)
+						continue;
+					exifItems.Add(new KeyValuePair<string, string>(item.Name, item.Value.ToString()));
+				}
+
+				using (var dialog = new PropertyDialog(exifItems))
+				{
+					dialog.StartPosition = FormStartPosition.CenterParent;
+					dialog.ShowDialog();
+				}
+			}
+		}
 
 	}
 }
