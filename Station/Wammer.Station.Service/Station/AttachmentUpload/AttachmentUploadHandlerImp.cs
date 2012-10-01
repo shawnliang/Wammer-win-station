@@ -230,21 +230,54 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					switch (item.Tag)
 					{
+						case ExifTag.DateTimeOriginal:
+							exif.DateTimeOriginal = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.DateTimeDigitized:
+							exif.DateTimeDigitized = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.DateTime:
+							exif.DateTime = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.Model:
+							exif.Model = item.Value.ToString();
+							break;
+						case ExifTag.Make:
+							exif.Make = item.Value.ToString();
+							break;
+						case ExifTag.ExposureTime:
+							exif.ExposureTime = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.FNumber:
+							exif.FNumber = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.ApertureValue:
+							exif.ApertureValue = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.FocalLength:
+							exif.FocalLength = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.Flash:
+							exif.Flash = (int)((Flash)item.Value);
+							break;
+						case ExifTag.ISOSpeedRatings:
+							exif.ISOSpeedRatings = (int)((ExifLibrary.ExifUShort)(item)).Value;
+							break;
+						case ExifTag.ColorSpace:
+							exif.ColorSpace = (int)((ColorSpace)item.Value);
+							break;
+						case ExifTag.WhiteBalance:
+							exif.WhiteBalance = (int)((WhiteBalance)item.Value);
+							break;
+
 						case ExifTag.YResolution:
 							exif.YResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
 							break;
 						case ExifTag.ResolutionUnit:
 							exif.ResolutionUnit = (int)((ResolutionUnit)item.Value);
 							break;
-						case ExifTag.Make:
-							exif.Make = item.Value.ToString();
-							break;
-						case ExifTag.Flash:
-							exif.Flash = (int)((Flash)item.Value);
-							break;
-						case ExifTag.DateTime:
-							exif.DateTime = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
+
+
 						case ExifTag.MeteringMode:
 							exif.MeteringMode = (int)((MeteringMode)item.Value);
 							break;
@@ -254,29 +287,8 @@ namespace Wammer.Station.AttachmentUpload
 						case ExifTag.ExposureProgram:
 							exif.ExposureProgram = (int)((ExposureMode)item.Value);
 							break;
-						case ExifTag.ColorSpace:
-							exif.ColorSpace = (int)((ColorSpace)item.Value);
-							break;
-						case ExifTag.DateTimeDigitized:
-							exif.DateTimeDigitized = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
-						case ExifTag.DateTimeOriginal:
-							exif.DateTimeOriginal = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
 						case ExifTag.SensingMethod:
 							exif.SensingMethod = (int)item.Value;
-							break;
-						case ExifTag.FNumber:
-							exif.FNumber = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.FocalLength:
-							exif.FocalLength = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.ISOSpeedRatings:
-							exif.ISOSpeedRatings = (int)((ExifLibrary.ExifUShort)(item)).Value;
-							break;
-						case ExifTag.Model:
-							exif.Model = item.Value.ToString();
 							break;
 						case ExifTag.Software:
 							exif.Software = item.Value.ToString();

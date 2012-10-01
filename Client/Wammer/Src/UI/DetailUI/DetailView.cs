@@ -72,6 +72,8 @@ namespace Waveface
 
         public DetailView()
         {
+			DebugInfo.ShowMethod();
+
             InitializeComponent();
 
             SetStyle(ControlStyles.DoubleBuffer, true);
@@ -91,6 +93,8 @@ namespace Waveface
 
         protected override void Dispose(bool disposing)
         {
+			DebugInfo.ShowMethod();
+
             if (disposing)
             {
                 if (components != null)
@@ -227,6 +231,8 @@ namespace Waveface
 
         public void ResetUI()
         {
+			DebugInfo.ShowMethod();
+
             btnFunction1.Visible = false;
             btnEdit.Visible = false;
             btnFavorite.Visible = false;
@@ -239,6 +245,8 @@ namespace Waveface
 
         private void ShowContent()
         {
+			DebugInfo.ShowMethod();
+
             if (m_post == null)
                 return;
 
@@ -288,6 +296,8 @@ namespace Waveface
 
         private void getMoreFunction1()
         {
+			DebugInfo.ShowMethod();
+
             m_childBtnFunction1 = m_currentView.GetMoreFonction1();
 
             if (m_childBtnFunction1 != null)
@@ -304,6 +314,8 @@ namespace Waveface
 
         private void setFavoriteButton()
         {
+			DebugInfo.ShowMethod();
+
             int _value = int.Parse(m_post.favorite);
 
             if (_value == 0)
@@ -326,16 +338,18 @@ namespace Waveface
 
         private void setTitle()
         {
-            var _postTime = GetTime(Post.timestamp);
+			DebugInfo.ShowMethod();
 
-            if (m_currentView == null || m_currentView.CanEdit())
-                labelTitle.Text = _postTime + " " + Resources.VIA + " " + Post.code_name;
-            else
-                labelTitle.Text = Resources.PHOTO_UPLOADING;
+			if (m_currentView == null || m_currentView.CanEdit())
+				labelTitle.Text = String.Format("{0} {1} {2}", GetTime(Post.timestamp), Resources.VIA, Post.code_name);
+			else
+				labelTitle.Text = Resources.PHOTO_UPLOADING;
         }
 
         private string GetTime(string iso8601Time)
         {
+			DebugInfo.ShowMethod();
+
             try
             {
                 iso8601Time = DateTimeHelp.ISO8601ToDotNet(iso8601Time, false);
@@ -350,6 +364,8 @@ namespace Waveface
 
         private PostType getPostType(string postType)
         {
+			DebugInfo.ShowMethod();
+
             switch (postType)
             {
                 case "text":
@@ -374,6 +390,8 @@ namespace Waveface
 
         private void ShowText_LinkView()
         {
+			DebugInfo.ShowMethod();
+
             panelMain.Controls.Clear();
 
             if (m_webLinkDv != null)
@@ -394,6 +412,8 @@ namespace Waveface
 
         private void ShowPhoto()
         {
+			DebugInfo.ShowMethod();
+
             panelMain.Controls.Clear();
 
             if (m_photoDv != null && !m_photoDv.IsDisposed)
@@ -416,6 +436,8 @@ namespace Waveface
 
         private void ShowDocument()
         {
+			DebugInfo.ShowMethod();
+
             panelMain.Controls.Clear();
 
             if (m_documentDv != null)
@@ -436,6 +458,8 @@ namespace Waveface
 
         private void ShowRichText()
         {
+			DebugInfo.ShowMethod();
+
             panelMain.Controls.Clear();
 
             if (m_richTextDv != null)
@@ -461,6 +485,8 @@ namespace Waveface
 
         public bool PostComment(RichTextBox textBox, Post post)
         {
+			DebugInfo.ShowMethod();
+
             if (textBox.Text.Trim().Equals(string.Empty))
             {
 				MessageBox.Show(Resources.EMPTY_COMMENT, "Stream", MessageBoxButtons.OK,
@@ -487,6 +513,8 @@ namespace Waveface
 
         public string GenCommentHTML(Post post, bool endHR)
         {
+			DebugInfo.ShowMethod();
+
             string _html =
                 "<div style='border-left:2px solid #559aae; padding-left:4px'><font face='·L³n¥¿¶ÂÅé, Helvetica, Arial, Verdana, sans-serif' color='#eef'>";
 
@@ -544,6 +572,8 @@ namespace Waveface
 
         private void AddComment_Form()
         {
+			DebugInfo.ShowMethod();
+
             CommentForm _form = new CommentForm();
             _form.Left = Main.Current.Right - _form.Width - 16;
             _form.Top = Main.Current.Top + 96;
@@ -558,11 +588,15 @@ namespace Waveface
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             Main.Current.EditPost(Post, null, -1);
         }
 
         private void timerCanEdit_Tick(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (m_currentView != null)
             {
                 setTitle();
@@ -587,6 +621,8 @@ namespace Waveface
 
         public void ExistPostAddPhotos(List<string> pics, int index)
         {
+			DebugInfo.ShowMethod();
+
             m_existPostAddPhotos = true;
             m_existPostPhotos = pics;
             m_existPostAddPhotosIndex = index;
@@ -594,6 +630,8 @@ namespace Waveface
 
         private void btnFavorite_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             Cursor = Cursors.WaitCursor;
 
             Main.Current.ChangePostFavorite(m_post);
@@ -603,6 +641,8 @@ namespace Waveface
 
         private void btnMoreOption1_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             if (m_childBtnFunction1 != null)
             {
                 m_currentView.MoreFonction1();
@@ -611,6 +651,8 @@ namespace Waveface
 
         public void SetClock(bool visible, DateTime dateTime)
         {
+			DebugInfo.ShowMethod();
+
             if (m_clockTest)
             {
                 //m_dateTimePopupPanel.DateTime = dateTime;
@@ -621,11 +663,15 @@ namespace Waveface
 
         private void btnMoreOption1_DoubleClick(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             m_clockTest = !m_clockTest;
         }
 
         private void btnAddFootNote_Click(object sender, EventArgs e)
         {
+			DebugInfo.ShowMethod();
+
             AddComment_Form();
         }
     }

@@ -95,6 +95,8 @@ namespace Waveface
 		/// </summary>
 		public TitlePanel()
 		{
+			DebugInfo.ShowMethod();
+
 			InitializeComponent();
 
 			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
@@ -206,11 +208,15 @@ namespace Waveface
 		#region Protected Method
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			DebugInfo.ShowMethod();
+
 			e.Graphics.DrawImage(m_BmpOffscreen, 0, 0);
 		}
 
 		protected void OnAccountInfoClosed(EventArgs e)
 		{
+			DebugInfo.ShowMethod();
+
 			if (AccountInfoClosed == null)
 				return;
 			AccountInfoClosed(this, e);
@@ -218,6 +224,8 @@ namespace Waveface
 
 		protected override void Dispose(bool disposing)
 		{
+			DebugInfo.ShowMethod();
+
 			if (IsDisposed)
 				return;
 
@@ -236,6 +244,8 @@ namespace Waveface
 		#region Public Method
 		public void showRefreshUI(bool flag)
 		{
+			DebugInfo.ShowMethod();
+
 			_btnRefresh.Visible = flag;
 
 			_btnRemovePost.Visible = true;
@@ -245,6 +255,8 @@ namespace Waveface
 
 		public void updateRefreshUI(bool flag)
 		{
+			DebugInfo.ShowMethod();
+
 			//DPI Hack
 			Height = Properties.Resources.titlebar_1.Height;
 
@@ -260,11 +272,15 @@ namespace Waveface
 		#region Public Method
 		public void StartRefreshing()
 		{
+			DebugInfo.ShowMethod();
+
 			_timer1.Start();
 		}
 
 		public void StopRefreshing()
 		{
+			DebugInfo.ShowMethod();
+
 			_timer1.Stop();
 			_btnRefresh.Image = Resources.FBT_refresh;
 			_btnRefresh.ImageHover = Resources.refresh_hl;
@@ -275,6 +291,8 @@ namespace Waveface
 		#region Event Process
 		private void TitlePanel_Load(object sender, EventArgs e)
 		{
+			DebugInfo.ShowMethod();
+
 			_toolTip.SetToolTip(this._btnRefresh, Resources.REFRESH_TOOL_TIP);
 			_toolTip.SetToolTip(this._btnRemovePost, Resources.REMOVE_TOOL_TIP);
 			_toolTip.SetToolTip(this._btnAccount, Resources.ACCOUNT_TOOL_TIP);
@@ -285,6 +303,8 @@ namespace Waveface
 
 		private void btnAccount_Click(object sender, System.EventArgs e)
 		{
+			DebugInfo.ShowMethod();
+
 			using (var _form = new AccountInfoForm())
 			{
 				_form.StartPosition = FormStartPosition.CenterParent;
@@ -295,23 +315,31 @@ namespace Waveface
 
 		private void btnRemovePost_Click(object sender, System.EventArgs e)
 		{
+			DebugInfo.ShowMethod();
+
 			Main.Current.RemovePost();
 		}
 
 		private void btnSetting_Click(object sender, System.EventArgs e)
 		{
+			DebugInfo.ShowMethod();
+
 			Main.Current.AccountInformation();
 		}
 
 
 		void TitlePanel_SizeChanged(object sender, EventArgs e)
 		{
+			DebugInfo.ShowMethod();
+
 			m_BmpOffscreen = null;
 		}
 
 
 		private void btnRefresh_Click(object sender, System.EventArgs e)
 		{
+			DebugInfo.ShowMethod();
+
 			Main.Current.ReloadAllData();
 		}
 

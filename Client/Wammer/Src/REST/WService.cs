@@ -101,6 +101,8 @@ namespace Waveface.API.V2
 
 		public WService()
 		{
+			DebugInfo.ShowMethod();
+
 			var stationInfo = StationDB.GetCollection("station").FindOne();
 			if (stationInfo != null)
 				m_StationID = stationInfo["_id"].AsString;
@@ -112,6 +114,8 @@ namespace Waveface.API.V2
 
 		private T HttpGetObject<T>(string _url)
 		{
+			DebugInfo.ShowMethod();
+
 			HttpWebRequest _req = (HttpWebRequest)WebRequest.Create(_url);
 			_req.Timeout = 30000;
 			_req.Headers.Set("Content-Encoding", "UTF-8");
@@ -130,6 +134,8 @@ namespace Waveface.API.V2
 
 		public string HttpGet(string _url, int timeout, bool useWarnLog)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				HttpWebRequest _req = (HttpWebRequest)WebRequest.Create(_url);
@@ -167,6 +173,8 @@ namespace Waveface.API.V2
 
 		public MR_auth_signup auth_signup(string email, string password, string nickname, string avatar_url)
 		{
+			DebugInfo.ShowMethod();
+
 			MR_auth_signup _ret;
 
 			email = email.Replace("@", "%40");
@@ -216,6 +224,8 @@ namespace Waveface.API.V2
 
 		public MR_auth_login auth_login(string email, string password)
 		{
+			DebugInfo.ShowMethod();
+
 			email = HttpUtility.UrlEncode(email);
 			password = HttpUtility.UrlEncode(password);
 
@@ -272,6 +282,8 @@ namespace Waveface.API.V2
 
 		public MR_auth_logout auth_logout(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 
 			try
@@ -307,6 +319,8 @@ namespace Waveface.API.V2
 
 		public MR_users_get users_get(string session_token, string user_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			user_id = HttpUtility.UrlEncode(user_id);
 
@@ -340,6 +354,8 @@ namespace Waveface.API.V2
 
 		public MR_FB_Disconnect SNSDisconnect(string session_token, string sns)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 
 			try
@@ -373,6 +389,8 @@ namespace Waveface.API.V2
 
 		public MR_users_update users_update(string session_token, string user_id, string nickname, string avatar_url)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			user_id = HttpUtility.UrlEncode(user_id);
 			nickname = HttpUtility.UrlEncode(nickname);
@@ -410,6 +428,8 @@ namespace Waveface.API.V2
 
 		public MR_users_update users_update(string session_token, string user_id, Boolean subscribed)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			user_id = HttpUtility.UrlEncode(user_id);
 
@@ -444,6 +464,8 @@ namespace Waveface.API.V2
 
 		public MR_users_passwd users_passwd(string session_token, string old_passwd, string new_passwd)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			old_passwd = HttpUtility.UrlEncode(old_passwd);
 			new_passwd = HttpUtility.UrlEncode(new_passwd);
@@ -479,6 +501,8 @@ namespace Waveface.API.V2
 
 		public MR_users_findMyStation users_findMyStation(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 
 			try
@@ -510,6 +534,8 @@ namespace Waveface.API.V2
 
 		public void pingMyStation(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			string _url = BaseURLForGroupUserAuth + "/users/pingMyStation";
 
 			_url += "?" +
@@ -528,6 +554,8 @@ namespace Waveface.API.V2
 
 		public MR_groups_create groups_create(string session_token, string name, string description)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			name = HttpUtility.UrlEncode(name);
 			description = HttpUtility.UrlEncode(description);
@@ -563,6 +591,8 @@ namespace Waveface.API.V2
 
 		public MR_groups_get groups_get(string session_token, string group_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 
@@ -596,6 +626,8 @@ namespace Waveface.API.V2
 
 		public MR_groups_update groups_update(string session_token, string group_id, string name, string description)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			name = HttpUtility.UrlEncode(name);
@@ -633,6 +665,8 @@ namespace Waveface.API.V2
 
 		public MR_groups_delete groups_delete(string session_token, string group_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 
@@ -666,6 +700,8 @@ namespace Waveface.API.V2
 
 		public MR_groups_inviteUser groups_inviteUser(string session_token, string group_id, string email)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			email = HttpUtility.UrlEncode(email);
@@ -701,6 +737,8 @@ namespace Waveface.API.V2
 
 		public MR_groups_kickUser groups_kickUser(string session_token, string group_id, string user_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			user_id = HttpUtility.UrlEncode(user_id);
@@ -740,6 +778,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_getSingle posts_getSingle(string session_token, string group_id, string post_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id = HttpUtility.UrlEncode(post_id);
@@ -775,6 +815,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_get posts_get(string session_token, string group_id, string limit, string datum, string filter)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			limit = HttpUtility.UrlEncode(limit);
@@ -814,6 +856,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_getLatest posts_getLatest(string session_token, string group_id, string limit)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			limit = HttpUtility.UrlEncode(limit);
@@ -845,6 +889,8 @@ namespace Waveface.API.V2
 
 		private static void ThrowProperException(WebException _e, string methodName)
 		{
+			DebugInfo.ShowMethod();
+
 			NLogUtility.WebException(s_logger, _e, methodName, false);
 
 			if (_e.Status == WebExceptionStatus.ProtocolError)
@@ -874,6 +920,8 @@ namespace Waveface.API.V2
 		public MR_posts_new posts_new(string session_token, string post_id, string group_id, string content, string attachment_id_array,
 									  string preview, string type, string coverAttach, Boolean imported = false, string memo = null)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			post_id = HttpUtility.UrlEncode(post_id);
 			group_id = HttpUtility.UrlEncode(group_id);
@@ -947,6 +995,8 @@ namespace Waveface.API.V2
 		public MR_posts_newComment posts_newComment(string session_token, string group_id, string post_id,
 													string content, string objects, string previews)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id = HttpUtility.UrlEncode(post_id);
@@ -1004,6 +1054,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_getComments posts_getComments(string session_token, string group_id, string post_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id = HttpUtility.UrlEncode(post_id);
@@ -1039,6 +1091,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_update posts_update(string session_token, string group_id, string post_id, string last_update_time, Dictionary<string, string> OptionalParams)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id = HttpUtility.UrlEncode(post_id);
@@ -1091,6 +1145,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_get posts_fetchByFilter(string session_token, string group_id, string filter_entity)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			filter_entity = HttpUtility.UrlEncode(filter_entity);
@@ -1126,6 +1182,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_get posts_fetchByFilter_2(string session_token, string group_id, string post_id_list)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id_list = HttpUtility.UrlEncode(post_id_list);
@@ -1161,6 +1219,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_hide_ret posts_hide(string session_token, string group_id, string post_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id = HttpUtility.UrlEncode(post_id);
@@ -1196,6 +1256,8 @@ namespace Waveface.API.V2
 
 		public MR_posts_hide_ret posts_unhide(string session_token, string group_id, string post_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id = HttpUtility.UrlEncode(post_id);
@@ -1235,6 +1297,8 @@ namespace Waveface.API.V2
 
 		public MR_previews_get previews_get(string session_token, string url)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			url = HttpUtility.UrlEncode(url);
 
@@ -1269,6 +1333,8 @@ namespace Waveface.API.V2
 
 		public MR_previews_get_adv previews_get_adv(string session_token, string url)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			url = HttpUtility.UrlEncode(url);
 
@@ -1316,6 +1382,8 @@ namespace Waveface.API.V2
 														string title, string description, string type, string image_meta,
 														string object_id, string post_id, DateTime? import_time = null)
 		{
+			DebugInfo.ShowMethod();
+
 			MR_attachments_upload _ret;
 
 			try
@@ -1401,6 +1469,8 @@ namespace Waveface.API.V2
 
 		public MR_attachments_get attachments_get(string session_token, string object_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			object_id = HttpUtility.UrlEncode(object_id);
 
@@ -1434,6 +1504,8 @@ namespace Waveface.API.V2
 
 		public MR_attachments_delete attachments_delete(string session_token, string object_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			object_id = HttpUtility.UrlEncode(object_id);
 
@@ -1479,6 +1551,8 @@ namespace Waveface.API.V2
 
 		public MR_footprints_LastScan footprints_getLastScan(string session_token, string group_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 
@@ -1512,6 +1586,8 @@ namespace Waveface.API.V2
 
 		public MR_footprints_LastScan footprints_setLastScan(string session_token, string group_id, string post_id)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id = HttpUtility.UrlEncode(post_id);
@@ -1547,6 +1623,8 @@ namespace Waveface.API.V2
 
 		public MR_footprints_LastRead footprints_getLastRead(string session_token, string group_id, string post_id_array)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			post_id_array = HttpUtility.UrlEncode(post_id_array);
@@ -1583,6 +1661,8 @@ namespace Waveface.API.V2
 		public MR_footprints_LastRead footprints_setLastRead(string session_token, string group_id,
 															 string last_read_input_array)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			last_read_input_array = HttpUtility.UrlEncode(last_read_input_array);
@@ -1623,6 +1703,8 @@ namespace Waveface.API.V2
 		public MR_fetchfilters_item fetchfilters_new(string session_token, string filter_name, string filter_entity,
 													 string tag)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			filter_name = HttpUtility.UrlEncode(filter_name);
 			filter_entity = HttpUtility.UrlEncode(filter_entity);
@@ -1661,6 +1743,8 @@ namespace Waveface.API.V2
 		public MR_fetchfilters_item fetchfilters_update(string session_token, string filter_id, string filter_name,
 														string filter_entity, string tag)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			filter_id = HttpUtility.UrlEncode(filter_id);
 			filter_name = HttpUtility.UrlEncode(filter_name);
@@ -1740,6 +1824,8 @@ namespace Waveface.API.V2
 
 		public MR_storages_usage storages_usage(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				string _url = BaseURLForGroupUserAuth + "/storages/usage";
@@ -1771,6 +1857,8 @@ namespace Waveface.API.V2
 
 		public MR_station_status GetStationStatus(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				string _url = BaseURL + "/station/status/get";
@@ -1799,6 +1887,8 @@ namespace Waveface.API.V2
 
 		public static string LoginStation(string email, string password)
 		{
+			DebugInfo.ShowMethod();
+
 			//email = email.Replace("@", "%40");
 			email = HttpUtility.UrlEncode(email);
 			password = HttpUtility.UrlEncode(password);
@@ -1841,6 +1931,8 @@ namespace Waveface.API.V2
 
 		public static void LogoutStation(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				using (WebClient agent = new WebClient())
@@ -1866,6 +1958,8 @@ namespace Waveface.API.V2
 
 		public static string ExtractApiRetMsg(WebException e)
 		{
+			DebugInfo.ShowMethod();
+
 			HttpWebResponse res = (HttpWebResponse)e.Response;
 
 			if (res != null)
@@ -1887,6 +1981,8 @@ namespace Waveface.API.V2
 
 		public static void RemoveOwner(string email, string password, string token)
 		{
+			DebugInfo.ShowMethod();
+
 			using (WebClient agent = new WebClient())
 			{
 				string url =
@@ -1907,6 +2003,8 @@ namespace Waveface.API.V2
 
 		public MR_cloudstorage_list cloudstorage_list(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				string _url = BaseURL + "/cloudstorage/list";
@@ -1952,6 +2050,8 @@ namespace Waveface.API.V2
 
 		public MR_cloudstorage_dropbox_oauth cloudstorage_dropbox_oauth(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				string _url = BaseURL + "/cloudstorage/dropbox/oauth";
@@ -1980,6 +2080,8 @@ namespace Waveface.API.V2
 
 		public MR_cloudstorage_dropbox_connect cloudstorage_dropbox_connect(string session_token, long quota)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				string _url = BaseURL + "/cloudstorage/dropbox/connect";
@@ -2008,6 +2110,8 @@ namespace Waveface.API.V2
 
 		public MR_cloudstorage_dropbox_update cloudstorage_dropbox_update(string session_token, long quota)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				string _url = BaseURL + "/cloudstorage/dropbox/update";
@@ -2036,6 +2140,8 @@ namespace Waveface.API.V2
 
 		public MR_cloudstorage_dropbox_disconnect cloudstorage_dropbox_disconnect(string session_token)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				string _url = BaseURL + "/cloudstorage/dropbox/disconnect";
@@ -2063,6 +2169,8 @@ namespace Waveface.API.V2
 
 		private bool dropboxInstalled()
 		{
+			DebugInfo.ShowMethod();
+
 			string hostDb = @"Dropbox\host.db";
 			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			string hostDbPath = Path.Combine(appData, hostDb);
@@ -2072,6 +2180,8 @@ namespace Waveface.API.V2
 
 		private string getSyncFolder()
 		{
+			DebugInfo.ShowMethod();
+
 			string hostDb = @"Dropbox\host.db";
 			string syncFolder = @"Waveface";
 			string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -2100,6 +2210,8 @@ namespace Waveface.API.V2
 
 		public MR_usertracks_get usertracks_get(string session_token, string group_id, string since)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 			since = HttpUtility.UrlEncode(since);
@@ -2135,6 +2247,8 @@ namespace Waveface.API.V2
 
 		private static void CheckProtocolError(WebException e)
 		{
+			DebugInfo.ShowMethod();
+
 			if (e.Status == WebExceptionStatus.ProtocolError)
 			{
 				HttpWebResponse _res = (HttpWebResponse)e.Response;
@@ -2150,6 +2264,8 @@ namespace Waveface.API.V2
 		#region changelogs
 		public MR_changelogs_get changelogs_get(string session_token, string group_id, int since)
 		{
+			DebugInfo.ShowMethod();
+
 			session_token = HttpUtility.UrlEncode(session_token);
 			group_id = HttpUtility.UrlEncode(group_id);
 
@@ -2188,6 +2304,7 @@ namespace Waveface.API.V2
 		public ServiceUnavailableException(string msg)
 			: base(msg)
 		{
+			DebugInfo.ShowMethod();
 		}
 	}
 
@@ -2200,6 +2317,7 @@ namespace Waveface.API.V2
 		public StationServiceDownException(string msg)
 			: base(msg)
 		{
+			DebugInfo.ShowMethod();
 		}
 	}
 

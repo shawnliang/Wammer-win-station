@@ -333,17 +333,28 @@ namespace Wammer.Station
 
 		public void Execute()
 		{
-			try
+
+			Action action = () =>
 			{
 				handler.SetBeginTimestamp(beginTime);
 				handler.HandleRequest(context.Request, context.Response);
+			};
+
+			HandleRequestWithinExceptionHandler(action, context.Response);
+		}
+
+		public static void HandleRequestWithinExceptionHandler(Action action, HttpListenerResponse response)
+		{
+			try
+			{
+				action();
 			}
 			catch (WammerCloudException e)
 			{
 				// cannot connect to Waveface cloud
 				if (e.HttpError != WebExceptionStatus.ProtocolError)
 				{
-					HttpHelper.RespondFailure(context.Response,
+					HttpHelper.RespondFailure(response,
 											  new WammerStationException(e.InnerException.Message,
 																		 (int)StationLocalApiError.ConnectToCloudError),
 											  (int)HttpStatusCode.BadRequest);
@@ -361,8 +372,8 @@ namespace Wammer.Station
 						if (webres.StatusCode == HttpStatusCode.BadRequest)
 						{
 							var cloudres = JSON.Instance.ToObject<CloudResponse>(e.response);
-							HttpHelper.RespondFailure(context.Response, cloudres);
-							
+							HttpHelper.RespondFailure(response, cloudres);
+
 							if (cloudres.api_ret_code == (int)AttachmentApiError.AttachmentNotExist)
 								logger.Info("Object not found on cloud: " + e.Message);
 							else
@@ -370,7 +381,7 @@ namespace Wammer.Station
 							return;
 						}
 
-						HttpHelper.RespondFailure(context.Response,
+						HttpHelper.RespondFailure(response,
 												  new WammerStationException(e.InnerException.Message, e.WammerError),
 												  (int)webres.StatusCode);
 						logger.Info("Cloud responded error", e);
@@ -378,39 +389,39 @@ namespace Wammer.Station
 					}
 				}
 
-				HttpHelper.RespondFailure(context.Response,
+				HttpHelper.RespondFailure(response,
 										  new WammerStationException(e.Message, e.WammerError), (int)HttpStatusCode.BadRequest);
 				logger.Info("Connecting to cloud error", e);
 			}
 			catch (SessionNotExistException e)
 			{
-				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.Unauthorized);
+				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.Unauthorized);
 				logger.Info("Service unavailable", e);
 			}
 			catch (ServiceUnavailableException e)
 			{
-				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.ServiceUnavailable);
+				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.ServiceUnavailable);
 				logger.Info("Service unavailable", e);
 			}
 			catch (WammerStationException e)
 			{
-				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.BadRequest);
 				logger.Info("Http handler error", e);
 			}
 			catch (FormatException e)
 			{
-				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.BadRequest);
+				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.BadRequest);
 				logger.Info("Request format is incorrect", e);
 			}
 			catch (WebException webex)
 			{
 				var ex = new WammerCloudException("Request to cloud failed", webex);
-				HttpHelper.RespondFailure(context.Response, webex, (int)HttpStatusCode.InternalServerError);
+				HttpHelper.RespondFailure(response, webex, (int)HttpStatusCode.InternalServerError);
 				logger.Info("Connecting to cloud error", ex);
 			}
 			catch (Exception e)
 			{
-				HttpHelper.RespondFailure(context.Response, e, (int)HttpStatusCode.InternalServerError);
+				HttpHelper.RespondFailure(response, e, (int)HttpStatusCode.InternalServerError);
 				logger.Warn("Internal server error", e);
 			}
 		}

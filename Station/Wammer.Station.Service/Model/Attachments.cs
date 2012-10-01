@@ -244,17 +244,18 @@ namespace Wammer.Model
 		public int ExifImageWidth { get; set; }
 		public string DateTimeDigitized { get; set; }
 		public string DateTimeOriginal { get; set; }
+		public List<int> ExposureTime { get; set; }
 		public int SensingMethod { get; set; }
 		public List<int> FNumber { get; set; }
 		public List<int> ApertureValue { get; set; }
 		public List<int> FocalLength { get; set; }
+		public int WhiteBalance { get; set; }
 		public string ComponentsConfiguration { get; set; }
 		public int ExifOffset { get; set; }
 		public int ExifImageHeight { get; set; }
 		public int ISOSpeedRatings { get; set; }
 		public string Model { get; set; }
 		public string Software { get; set; }
-		public List<int> ExposureTime { get; set; }
 		public string FlashPixVersion { get; set; }
 		public int YCbCrPositioning { get; set; }
 		public string ExifVersion { get; set; }
