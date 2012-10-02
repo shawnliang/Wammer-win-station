@@ -174,14 +174,12 @@ namespace Waveface
 
             DoubleBufferedX(dataGridView, true);
 
-			//dataGridView.MouseWheel += (s, e) =>
-			//{
-			//    if (m_postBS.Count <= 0)
-			//        return;
-
-			//    SetDateText();
-			//};
+			dataGridView.DataError += new DataGridViewDataErrorEventHandler(dataGridView_DataError);
         }
+
+		void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+		{
+		}
 
         public void DoubleBufferedX(DataGridView dgv, bool setting)
         {
