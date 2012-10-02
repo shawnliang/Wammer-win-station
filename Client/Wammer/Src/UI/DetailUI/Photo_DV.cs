@@ -1058,7 +1058,14 @@ namespace Waveface.DetailUI
 			if (selected != null)
 			{
 				var imageMeta = selected.GetValue("image_meta", null).AsBsonDocument;
+
+				if (imageMeta == null)
+					return;
+
 				var exif = imageMeta.GetValue("exif", null).AsBsonDocument;
+
+				if (exif == null)
+					return;
 
 				var exifItems = new List<KeyValuePair<string, string>>();
 				foreach (var item in exif)
