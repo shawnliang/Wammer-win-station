@@ -29,6 +29,7 @@ namespace Wammer.Station.Timeline
 	{
 		private static readonly IPerfCounter downloadCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
 		private static readonly ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
+		private static readonly AttachmentUpload.AttachmentUploadStorage resStorage = new AttachmentUpload.AttachmentUploadStorage(new AttachmentUpload.AttachmentUploadStorageDB());
 		private ResourceDownloadEventArgs evtargs;
 
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, TaskPriority pri)
@@ -75,16 +76,24 @@ namespace Wammer.Station.Timeline
 				switch (imagemeta)
 				{
 					case ImageMeta.Origin:
-						savedFileName = attachment.object_id + Path.GetExtension(attachment.file_name);
-						fs.SaveFile(savedFileName, rawdata);
-						int width = 0;
-						int height = 0;
-						using (var img = Image.FromStream(fs.Load(savedFileName)))
-						{
-							width = img.Width;
-							height = img.Height;
-						}
+
+						var data = new Wammer.Station.AttachmentUpload.UploadData
+						{ 
+							raw_data = rawdata,
+							file_name = args.attachment.file_name,
+							imageMeta = ImageMeta.Origin,
+							object_id = args.attachment.object_id,
+							group_id = args.attachment.group_id,
+							type = AttachmentType.image,
+							file_create_time =  TimeHelper.ParseCloudTimeString(attachment.file_create_time)
+						};
+
+						var takenTimeStr = extractExifTakenTime(ref rawdata);
+
+						savedFileName = resStorage.Save(data, takenTimeStr).RelativePath;
 						File.Delete(filepath);
+						var size = ImageHelper.GetImageSize(rawdata);
+						
 
 						MD5 md5 = MD5.Create();
 						byte[] hash = md5.ComputeHash(rawdata.Array);
@@ -103,8 +112,8 @@ namespace Wammer.Station.Timeline
 								).Set("mime_type", "application/octet-stream"
 								).Set("saved_file_name", savedFileName
 								).Set("md5", md5buff.ToString()
-								).Set("image_meta.width", width
-								).Set("image_meta.height", height
+								).Set("image_meta.width", size.Width
+								).Set("image_meta.height", size.Height
 								).Set("file_size", rawdata.Count
 								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
 							UpdateFlags.Upsert
@@ -117,7 +126,7 @@ namespace Wammer.Station.Timeline
 
 					case ImageMeta.Small:
 						savedFileName = attachment.object_id + "_small.dat";
-						fs.SaveFile(savedFileName, rawdata);
+						savedFileName = FileStorage.SaveToCacheFolder(savedFileName, rawdata);
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
@@ -147,7 +156,7 @@ namespace Wammer.Station.Timeline
 
 					case ImageMeta.Medium:
 						savedFileName = attachment.object_id + "_medium.dat";
-						fs.SaveFile(savedFileName, rawdata);
+						savedFileName = FileStorage.SaveToCacheFolder(savedFileName, rawdata);
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
@@ -177,7 +186,7 @@ namespace Wammer.Station.Timeline
 
 					case ImageMeta.Large:
 						savedFileName = attachment.object_id + "_large.dat";
-						fs.SaveFile(savedFileName, rawdata);
+						savedFileName = FileStorage.SaveToCacheFolder(savedFileName, rawdata);
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
@@ -207,7 +216,7 @@ namespace Wammer.Station.Timeline
 
 					case ImageMeta.Square:
 						savedFileName = attachment.object_id + "_square.dat";
-						fs.SaveFile(savedFileName, rawdata);
+						savedFileName = FileStorage.SaveToCacheFolder(savedFileName, rawdata);
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
@@ -244,6 +253,26 @@ namespace Wammer.Station.Timeline
 			catch (Exception ex)
 			{
 				logger.Warn("Unable to save attachment, ignore it.", ex);
+			}
+		}
+
+		private static string extractExifTakenTime(ref ArraySegment<byte> rawdata)
+		{
+			try
+			{
+				var exif = ExifLibrary.ExifFile.Read(rawdata.Array);
+
+				DateTime? takenTime = null;
+
+				if (exif.Properties.ContainsKey(ExifLibrary.ExifTag.DateTimeOriginal))
+					takenTime = (DateTime)exif.Properties[ExifLibrary.ExifTag.DateTimeOriginal].Value;
+
+				var takenTimeStr = takenTime.HasValue ? takenTime.Value.ToCloudTimeString() : null;
+				return takenTimeStr;
+			}
+			catch
+			{
+				return null;
 			}
 		}
 

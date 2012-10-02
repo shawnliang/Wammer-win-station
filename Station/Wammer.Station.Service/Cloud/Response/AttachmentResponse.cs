@@ -126,6 +126,9 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public string device_id { get; set; }
 
+		[BsonIgnoreIfNull]
+		public string file_create_time { get; set; }
+
 		#region Nested type: ImageMeta
 		[Serializable]
 		public class ImageMeta

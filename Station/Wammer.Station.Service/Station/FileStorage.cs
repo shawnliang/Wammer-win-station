@@ -48,24 +48,6 @@ namespace Wammer.Station
 				Directory.CreateDirectory(basePath);
 		}
 
-		public void SaveFile(string filename, ArraySegment<byte> data)
-		{
-			createDirsInFileName(filename);
-
-			string filePath = Path.Combine(basePath, filename);
-			string tempFile = Path.Combine(basePath, Guid.NewGuid().ToString());
-
-			using (FileStream stream = File.Open(tempFile, FileMode.Create))
-			{
-				stream.Write(data.Array, data.Offset, data.Count);
-			}
-
-			if (File.Exists(filePath))
-				File.Delete(filePath);
-
-			File.Move(tempFile, filePath);
-		}
-
 		/// <summary>
 		/// Save data to cache folder
 		/// </summary>
