@@ -41,7 +41,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Attachment savedAttachment = null;
 			
 			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
-			storage.Setup(x => x.Save(uploadData)).Returns(new AttachmentSaveResult("",@"2001\10\20\filename.jpg")).Verifiable();
+			storage.Setup(x => x.Save(uploadData, It.IsAny<string>())).Returns(new AttachmentSaveResult("", @"2001\10\20\filename.jpg")).Verifiable();
 
 			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
 			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
@@ -104,7 +104,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Attachment savedAttachment = null;
 			
 			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
-			storage.Setup(x => x.Save(uploadData)).Returns(new AttachmentSaveResult("",@"2001\10\20\filename.jpg")).Verifiable();
+			storage.Setup(x => x.Save(uploadData, It.IsAny<string>())).Returns(new AttachmentSaveResult("", @"2001\10\20\filename.jpg")).Verifiable();
 
 			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
 			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
@@ -156,7 +156,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Attachment savedAttachment = null;
 
 			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
-			storage.Setup(x => x.Save(uploadData)).Returns(new AttachmentSaveResult("",@"2001\10\20\filename.jpg")).Verifiable();
+			storage.Setup(x => x.Save(uploadData, It.IsAny<string>())).Returns(new AttachmentSaveResult("", @"2001\10\20\filename.jpg")).Verifiable();
 
 			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
 			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(

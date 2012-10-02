@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Wammer.Station.AttachmentUpload;
+using Wammer.Utility;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -49,11 +50,111 @@ namespace UT_WammerStation.AttachmentUpload
 					raw_data = raw_data,
 					file_name = "file1.jpg",
 					object_id = "obj1",
-				});
+					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
+				}, "");
 
-			Assert.AreEqual("obj1.jpg", result.RelativePath);
+			Assert.AreEqual(@"2000\01\02\file1.jpg", result.RelativePath);
 			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
-			Assert.IsTrue(result.FullPath.EndsWith(@"user1\obj1.jpg"));
+			Assert.IsTrue(result.FullPath.EndsWith(@"user1\2000\01\02\file1.jpg"));
+
+			using (var r = new StreamReader(result.FullPath))
+			{
+				Assert.AreEqual(TEXT, r.ReadToEnd());
+			}
+		}
+
+
+		[TestMethod]
+		public void SaveOriginalAttachmentToResourceFolder_useTakenTime()
+		{
+			Mock<IAttachmentUploadStorageDB> db = new Mock<IAttachmentUploadStorageDB>(MockBehavior.Strict);
+			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user);
+
+			AttachmentUploadStorage storage = new AttachmentUploadStorage(db.Object);
+			var result = storage.Save(
+				new UploadData
+				{
+					group_id = "group1",
+					imageMeta = Wammer.Model.ImageMeta.Origin,
+					raw_data = raw_data,
+					file_name = "file1.jpg",
+					object_id = "obj1",
+					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
+				},
+				new DateTime(1999, 9, 7, 23, 30, 40, DateTimeKind.Utc).ToCloudTimeString());
+
+			Assert.AreEqual(@"1999\09\08\file1.jpg", result.RelativePath);
+			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
+			Assert.IsTrue(result.FullPath.EndsWith(@"user1\1999\09\08\file1.jpg"));
+
+			using (var r = new StreamReader(result.FullPath))
+			{
+				Assert.AreEqual(TEXT, r.ReadToEnd());
+			}
+		}
+
+
+		[TestMethod]
+		public void SaveOriginalAttachmentToResourceFolder_sameFileName()
+		{
+			// prepare env
+			var store = new Wammer.Station.FileStorage(user);
+			store.SaveFile(@"1999\09\08\file1.jpg", raw_data);
+			store.SaveFile(@"1999\09\08\file1 (1).jpg", raw_data);
+			store.SaveFile(@"1999\09\08\file1 (2).jpg", raw_data);
+
+
+
+			Mock<IAttachmentUploadStorageDB> db = new Mock<IAttachmentUploadStorageDB>(MockBehavior.Strict);
+			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user);
+
+			AttachmentUploadStorage storage = new AttachmentUploadStorage(db.Object);
+			var result = storage.Save(
+				new UploadData
+				{
+					group_id = "group1",
+					imageMeta = Wammer.Model.ImageMeta.Origin,
+					raw_data = raw_data,
+					file_name = "file1.jpg",
+					object_id = "obj1",
+					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
+				},
+				new DateTime(1999, 9, 7, 23, 30, 40, DateTimeKind.Utc).ToCloudTimeString());
+
+			Assert.AreEqual(@"1999\09\08\file1 (3).jpg", result.RelativePath);
+			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
+			Assert.IsTrue(result.FullPath.EndsWith(@"user1\1999\09\08\file1 (3).jpg"));
+
+			using (var r = new StreamReader(result.FullPath))
+			{
+				Assert.AreEqual(TEXT, r.ReadToEnd());
+			}
+		}
+
+		[TestMethod]
+		public void SaveOriginalAttachmentToResourceFolder_importTime()
+		{
+			Mock<IAttachmentUploadStorageDB> db = new Mock<IAttachmentUploadStorageDB>(MockBehavior.Strict);
+			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user);
+
+			AttachmentUploadStorage storage = new AttachmentUploadStorage(db.Object);
+			var result = storage.Save(
+				new UploadData
+				{
+					group_id = "group1",
+					imageMeta = Wammer.Model.ImageMeta.Origin,
+					raw_data = raw_data,
+					file_name = "file1.jpg",
+					object_id = "obj1",
+					file_create_time = null
+				},
+				null);
+
+			var date = DateTime.Now.ToString(@"yyyy\\MM\\dd");
+
+			Assert.AreEqual(date + @"\file1.jpg", result.RelativePath);
+			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
+			Assert.IsTrue(result.FullPath.EndsWith(@"user1\" + date + @"\file1.jpg"));
 
 			using (var r = new StreamReader(result.FullPath))
 			{
@@ -76,11 +177,12 @@ namespace UT_WammerStation.AttachmentUpload
 					raw_data = raw_data,
 					file_name = "file1",
 					object_id = "obj1",
-				});
+					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
+				}, "");
 
-			Assert.AreEqual("obj1", result.RelativePath);
+			Assert.AreEqual(@"2000\01\02\file1", result.RelativePath);
 			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
-			Assert.IsTrue(result.FullPath.EndsWith(@"user1\obj1"));
+			Assert.IsTrue(result.FullPath.EndsWith(@"user1\2000\01\02\file1"));
 
 			using (var r = new StreamReader(result.FullPath))
 			{
@@ -103,11 +205,12 @@ namespace UT_WammerStation.AttachmentUpload
 					raw_data = raw_data,
 					file_name = "file1.jpg",
 					object_id = "obj1",
-				});
+					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
+				}, "");
 
-			Assert.AreEqual("obj1_medium.dat", result.RelativePath);
-			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
-			Assert.IsTrue(result.FullPath.EndsWith(@"user1\obj1_medium.dat"));
+			Assert.AreEqual(@"cache\obj1_medium.dat", result.RelativePath);
+			Assert.AreEqual("", result.StorageBasePath);
+			Assert.AreEqual(@"cache\obj1_medium.dat", result.FullPath);
 
 			using (var r = new StreamReader(result.FullPath))
 			{

@@ -39,7 +39,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Attachment savedAttachment = null;
 
 			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
-			storage.Setup(x => x.Save(uploadData)).Returns(new AttachmentSaveResult("",@"2001\10\20\filename.jpg")).Verifiable();
+			storage.Setup(x => x.Save(uploadData, It.IsAny<string>())).Returns(new AttachmentSaveResult("", @"2001\10\20\filename.jpg")).Verifiable();
 
 			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>(MockBehavior.Strict);
 			//db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();

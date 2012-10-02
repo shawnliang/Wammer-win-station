@@ -52,6 +52,8 @@ namespace Wammer.Station
 
 		public void SaveFile(string filename, ArraySegment<byte> data)
 		{
+			createDirsInFileName(filename);
+
 			string filePath = Path.Combine(basePath, filename);
 			string tempFile = Path.Combine(basePath, Guid.NewGuid().ToString());
 
@@ -64,6 +66,73 @@ namespace Wammer.Station
 				File.Delete(filePath);
 
 			File.Move(tempFile, filePath);
+		}
+
+		/// <summary>
+		/// Tries to save file as the given filename. If there is already a file exist, 
+		/// append the file name with (1)/(2)/...
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="data"></param>
+		/// <returns>actuall filename</returns>
+		public string TrySaveFile(string filename, ArraySegment<byte> data)
+		{
+			createDirsInFileName(filename);
+
+			string filePath = Path.Combine(basePath, filename);
+			string tempFile = Path.Combine(basePath, Guid.NewGuid().ToString());
+
+			using (FileStream stream = File.Open(tempFile, FileMode.Create))
+			{
+				stream.Write(data.Array, data.Offset, data.Count);
+			}
+
+			int num = 1;
+			var dir = Path.GetDirectoryName(filePath);
+			var filenameNoExt = Path.GetFileNameWithoutExtension(filePath);
+			var ext = Path.GetExtension(filePath);
+
+			bool success = false;
+
+			while (!success)
+			{
+				try
+				{
+					File.Move(tempFile, filePath);
+					success = true;
+				}
+				catch (IOException)
+				{
+					filePath = Path.Combine(dir, filenameNoExt) + " (" + num + ")" + ext;
+					++num;
+				}
+			}
+
+			return filePath.Substring(basePath.Length + 1); // + 1 for "\"
+		}
+
+		private void createDirsInFileName(string filename)
+		{
+			var dirName = Path.GetDirectoryName(filename);
+
+			if (!string.IsNullOrEmpty(dirName))
+			{
+				var dirs = dirName.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+
+				string dir = this.basePath;
+				var index = 0;
+
+				do
+				{
+					dir = Path.Combine(dir, dirs[index]);
+
+					if (!Directory.Exists(dir))
+						Directory.CreateDirectory(dir);
+
+					++index;
+
+				} while (index < dirs.Length);
+			}
 		}
 
 		public static string GetTempFile(Driver user)
