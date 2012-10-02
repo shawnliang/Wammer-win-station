@@ -22,6 +22,9 @@ namespace Wammer.Station
 		static FileStorage()
 		{
 			defaultResFolder = Path.Combine(Environment.CurrentDirectory, "resource");
+
+			if (!Directory.Exists("cache"))
+				Directory.CreateDirectory("cache");
 		}
 
 		public FileStorage(Driver driver)
@@ -45,11 +48,6 @@ namespace Wammer.Station
 				Directory.CreateDirectory(basePath);
 		}
 
-		public void SaveAttachment(Attachment attachment)
-		{
-			SaveFile(attachment.saved_file_name, attachment.RawData);
-		}
-
 		public void SaveFile(string filename, ArraySegment<byte> data)
 		{
 			createDirsInFileName(filename);
@@ -66,6 +64,30 @@ namespace Wammer.Station
 				File.Delete(filePath);
 
 			File.Move(tempFile, filePath);
+		}
+
+		/// <summary>
+		/// Save data to cache folder
+		/// </summary>
+		/// <param name="filename">save file name</param>
+		/// <param name="data">raw data</param>
+		/// <returns>relative path to station's current folder</returns>
+		public static string SaveToCacheFolder(string filename, ArraySegment<byte> data)
+		{
+			string filePath = Path.Combine("cache", filename);
+			string tempFile = Path.Combine("cache", Guid.NewGuid().ToString());
+
+			using (FileStream stream = File.Open(tempFile, FileMode.Create))
+			{
+				stream.Write(data.Array, data.Offset, data.Count);
+			}
+
+			if (File.Exists(filePath))
+				File.Delete(filePath);
+
+			File.Move(tempFile, filePath);
+			
+			return filePath;
 		}
 
 		/// <summary>
