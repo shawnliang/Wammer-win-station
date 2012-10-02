@@ -99,9 +99,9 @@ namespace UT_WammerStation.AttachmentUpload
 		{
 			// prepare env
 			var store = new Wammer.Station.FileStorage(user);
-			store.SaveFile(@"1999\09\08\file1.jpg", raw_data);
-			store.SaveFile(@"1999\09\08\file1 (1).jpg", raw_data);
-			store.SaveFile(@"1999\09\08\file1 (2).jpg", raw_data);
+			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
+			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
+			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
 
 
 
