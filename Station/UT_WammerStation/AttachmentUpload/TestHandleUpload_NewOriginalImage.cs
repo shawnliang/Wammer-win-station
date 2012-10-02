@@ -98,26 +98,26 @@ namespace UT_WammerStation.AttachmentUpload
 				Assert.AreEqual(uploadData.raw_data.Array[i], savedFile[i]);
 		}
 
-		[TestMethod]
-		public void UploadNewOriginImg_ResponseIsReturned()
-		{
-			Attachment savedAttachment = null;
+		//[TestMethod]
+		//public void UploadNewOriginImg_ResponseIsReturned()
+		//{
+		//    Attachment savedAttachment = null;
 
-			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
-			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
-				(Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
-			db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
-			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
+		//    Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
+		//    db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
+		//        (Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
+		//    db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
+		//    db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
 
-			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
+		//    AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
 
-			ObjectUploadResponse res = handler.Process(uploadData);
-			Assert.AreEqual(0, res.api_ret_code);
-			Assert.AreEqual("Success", res.api_ret_message);
-			Assert.AreEqual(savedAttachment.object_id, res.object_id);
-			Assert.AreEqual(200, res.status);
-			Assert.IsNotNull(res.timestamp);
-		}
+		//    ObjectUploadResponse res = handler.Process(uploadData);
+		//    Assert.AreEqual(0, res.api_ret_code);
+		//    Assert.AreEqual("Success", res.api_ret_message);
+		//    Assert.AreEqual(savedAttachment.object_id, res.object_id);
+		//    Assert.AreEqual(200, res.status);
+		//    Assert.IsNotNull(res.timestamp);
+		//}
 
 		[TestMethod]
 		public void UploadNewOriginImg_MimeTypeDefaultsToOctectStream()

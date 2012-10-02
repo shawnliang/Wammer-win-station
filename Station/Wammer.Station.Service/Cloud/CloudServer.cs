@@ -174,13 +174,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				long elapsed_ms = Environment.TickCount - beginTime;
-				var ex = new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
-
-				if (ex.WammerError == (int)GeneralApiError.NotSupportClient)
-					CloudServer.VersionNotCompatible = true;
-
-				throw ex;
+				throw GetWammerCloudException(beginTime, e);
 			}
 			catch (Exception e)
 			{
@@ -362,11 +356,7 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				long elapsed_ms = Environment.TickCount - beginTime;
-				var ex = new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
-				if (ex.WammerError == (int)GeneralApiError.NotSupportClient)
-					CloudServer.VersionNotCompatible = true;
-				throw ex;
+				throw GetWammerCloudException(beginTime, e);
 			}
 			catch (Exception e)
 			{
@@ -458,14 +448,19 @@ namespace Wammer.Cloud
 			}
 			catch (WebException e)
 			{
-				long elapsed_ms = Environment.TickCount - beginTime;
-				var ex = new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
-
-				if (ex.WammerError == (int)GeneralApiError.NotSupportClient)
-					CloudServer.VersionNotCompatible = true;
-
-				throw ex;
+				throw GetWammerCloudException(beginTime, e);
 			}
+		}
+
+		private static WammerCloudException GetWammerCloudException(long beginTime, WebException e)
+		{
+			long elapsed_ms = Environment.TickCount - beginTime;
+			var ex = new WammerCloudException("Wammer cloud error (elapsed ms = " + elapsed_ms + ")", e);
+
+			if (ex.WammerError == (int)GeneralApiError.NotSupportClient)
+				CloudServer.VersionNotCompatible = true;
+
+			return ex;
 		}
 
 		public static T ConvertFromJson<T>(string json)

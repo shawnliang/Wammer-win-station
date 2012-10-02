@@ -161,6 +161,8 @@ namespace Wammer.Utility
 
 		public static Size GetImageSize(ArraySegment<byte> imageRawData)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				using (var m = new MemoryStream(imageRawData.Array, imageRawData.Offset, imageRawData.Count))

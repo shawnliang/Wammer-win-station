@@ -2,6 +2,10 @@
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
 using System.IO;
+using System.Drawing;
+using Wammer.Utility;
+using System.Diagnostics;
+using Wammer.Cloud;
 
 namespace Wammer.Station.APIHandler
 {
@@ -12,6 +16,7 @@ namespace Wammer.Station.APIHandler
 
 		public AttachmentUploadHandler()
 		{
+			DebugInfo.ShowMethod();
 			imp = new AttachmentUploadHandlerImp(new AttachmentUploadHandlerDB());
 		}
 
@@ -36,15 +41,19 @@ namespace Wammer.Station.APIHandler
 
 		public override void HandleRequest()
 		{
+			DebugInfo.ShowMethod();
+
 			CheckParameter("session_token", "apikey", "group_id", "type");
 
 			UploadData data = GetUploadData();
-
-			RespondSuccess(imp.Process(data));
+			imp.Process(data);
+			RespondSuccess(ObjectUploadResponse.CreateSuccess(data.object_id));
 		}
 
 		private UploadData GetUploadData()
 		{
+			DebugInfo.ShowMethod();
+
 			var data = new UploadData();
 
 			if (Files.Count == 0)
@@ -62,7 +71,18 @@ namespace Wammer.Station.APIHandler
 			data.api_key = Parameters["apikey"];
 			data.session_token = Parameters["session_token"];
 			data.post_id = Parameters["post_id"];
-			data.memo = Parameters["memo"];
+			data.file_path = Parameters["file_path"];
+			data.exif = Parameters["exif"];
+
+			try
+			{
+				if (!string.IsNullOrEmpty(Parameters["import_time"]))
+					data.import_time = TimeHelper.ParseCloudTimeString(Parameters["import_time"]);
+			}
+			catch (Exception e)
+			{
+				throw new FormatException("import_time format error", e);
+			}
 
 			try
 			{
@@ -100,6 +120,8 @@ namespace Wammer.Station.APIHandler
 
 		public override object Clone()
 		{
+			DebugInfo.ShowMethod();
+
 			return MemberwiseClone();
 		}
 

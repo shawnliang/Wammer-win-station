@@ -139,6 +139,7 @@
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
+    <Compile Include="Station\DebugInfo.cs" />
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />

@@ -7,6 +7,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Utility;
+using Wammer.Cloud;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -43,9 +44,10 @@ namespace Wammer.Station.AttachmentUpload
 		public void UpstreamImageNow(byte[] imageRaw, string group_id, string object_id, string file_name, string mime_type,
 		                             ImageMeta meta, string apikey, string session_token)
 		{
-			Attachment.UploadImage(new ArraySegment<byte>(imageRaw), group_id, object_id, file_name, mime_type, meta, apikey,
-								   session_token,
-								   1024, UpstreamProgressChanged);
+			using (var s = new MemoryStream(imageRaw))
+			{
+				AttachmentApi.Upload(s, group_id, object_id, file_name, mime_type, meta, AttachmentType.image, apikey, session_token, 1024, UpstreamProgressChanged);
+			}
 		}
 
 		public void UpdateThumbnailInfoToDB(string object_id, ImageMeta thumbnailType, ThumbnailInfo Info)
@@ -81,7 +83,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			using (FileStream f = fileStorage.Load(filename))
 			{
-				Attachment.Upload(f, user.groups[0].group_id, object_id, origFileName, mime_type, meta, type, apikey,
+				AttachmentApi.Upload(f, user.groups[0].group_id, object_id, origFileName, mime_type, meta, type, apikey,
 								  session, 1024, UpstreamProgressChanged);
 			}
 		}

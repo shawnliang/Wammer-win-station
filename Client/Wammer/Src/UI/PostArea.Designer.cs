@@ -36,17 +36,32 @@ namespace Waveface
         /// </summary>
         private void InitializeComponent()
         {
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostArea));
 			this.panelTimeBar = new System.Windows.Forms.Panel();
+			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.postList = new Waveface.PostsList();
+			this.panelTimeBar.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panelTimeBar
 			// 
+			this.panelTimeBar.Controls.Add(this.comboBox1);
 			resources.ApplyResources(this.panelTimeBar, "panelTimeBar");
 			this.panelTimeBar.Name = "panelTimeBar";
 			this.panelTimeBar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTimeBar_Paint);
+			// 
+			// comboBox1
+			// 
+			resources.ApplyResources(this.comboBox1, "comboBox1");
+			this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox1.FormattingEnabled = true;
+			this.comboBox1.Items.AddRange(new object[] {
+            resources.GetString("comboBox1.Items"),
+            resources.GetString("comboBox1.Items1"),
+            resources.GetString("comboBox1.Items2"),
+            resources.GetString("comboBox1.Items3"),
+            resources.GetString("comboBox1.Items4")});
+			this.comboBox1.Name = "comboBox1";
 			// 
 			// postList
 			// 
@@ -65,6 +80,8 @@ namespace Waveface
 			resources.ApplyResources(this, "$this");
 			this.MinimumSize = new System.Drawing.Size(336, 2);
 			this.Name = "PostArea";
+			this.Load += new System.EventHandler(this.PostArea_Load);
+			this.panelTimeBar.ResumeLayout(false);
 			this.ResumeLayout(false);
 
         }
@@ -73,5 +90,6 @@ namespace Waveface
 
 		private PostsList postList;
         private System.Windows.Forms.Panel panelTimeBar;
+		private System.Windows.Forms.ComboBox comboBox1;
     }
 }

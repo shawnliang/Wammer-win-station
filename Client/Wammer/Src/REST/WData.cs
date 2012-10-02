@@ -3,6 +3,8 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 
 #endregion
 
@@ -30,6 +32,10 @@ namespace Waveface.API.V2
         public string timestamp { get; set; }
         public string content { get; set; }
         public string type { get; set; }
+
+		public List<string> style { get; set; }
+
+
         public string status { get; set; }
 
         public bool hidden { get; set; }
@@ -71,32 +77,104 @@ namespace Waveface.API.V2
 
     public class Attachment
     {
+		[BsonId]
+		public string object_id { get; set; }
+		[BsonIgnoreIfNull]
         public string group_id { get; set; }
+		[BsonIgnoreIfNull]
         public string description { get; set; }
+		[BsonIgnoreIfNull]
         public string title { get; set; }
+		[BsonIgnoreIfNull]
         public string url { get; set; }
+		[BsonIgnoreIfNull]
         public string file_name { get; set; }
+		[BsonIgnoreIfNull]
         public string image { get; set; }
-        public string object_id { get; set; }
+		[BsonIgnoreIfNull]
         public string creator_id { get; set; }
+		[BsonIgnoreIfNull]
         public string modify_time { get; set; }
+		[BsonIgnoreIfNull]
         public string code_name { get; set; }
+		[BsonIgnoreIfNull]
         public string file_size { get; set; }
+		[BsonIgnoreIfNull]
         public string type { get; set; }
+		[BsonIgnoreIfNull]
         public string device_id { get; set; }
+		[BsonIgnoreIfNull]
         public string mime_type { get; set; }
-        public string md5 { get; set; }
 
-        public ImageMeta image_meta { get; set; }
+		[BsonIgnoreIfNull]
+		public bool body_on_cloud { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string md5 { get; set; }
+
+		[BsonIgnoreIfNull]
+		public ImageMeta image_meta { get; set; }
     }
 
     public class ImageMeta
     {
+		[BsonIgnoreIfNull]
+		public exif exif { get; set; }
         public ImageMetaItem small { get; set; }
         public ImageMetaItem medium { get; set; }
         public ImageMetaItem large { get; set; }
         public ImageMetaItem square { get; set; }
     }
+
+
+
+	[DataContract]
+	public class GPSInfo
+	{
+		[DataMember(Name = "1")]
+		public string GPSLatitudeRef { get; set; }
+
+		[DataMember(Name = "2")]
+		public List<List<int>> GPSLatitude { get; set; }
+
+		[DataMember(Name = "3")]
+		public string GPSLongitudeRef { get; set; }
+
+		[DataMember(Name = "4")]
+		public List<List<int>> GPSLongitude { get; set; }
+	}
+
+	public class exif
+	{
+		public List<int> YResolution { get; set; }
+		public int ResolutionUnit { get; set; }
+		public string Make { get; set; }
+		public int Flash { get; set; }
+		public string DateTime { get; set; }
+		public int MeteringMode { get; set; }
+		public List<int> XResolution { get; set; }
+		public int ExposureProgram { get; set; }
+		public int ColorSpace { get; set; }
+		public int ExifImageWidth { get; set; }
+		public string DateTimeDigitized { get; set; }
+		public string DateTimeOriginal { get; set; }
+		public List<int> ExposureTime { get; set; }
+		public int SensingMethod { get; set; }
+		public List<int> FNumber { get; set; }
+		public List<int> ApertureValue { get; set; }
+		public List<int> FocalLength { get; set; }
+		public int WhiteBalance { get; set; }
+		public string ComponentsConfiguration { get; set; }
+		public int ExifOffset { get; set; }
+		public int ExifImageHeight { get; set; }
+		public int ISOSpeedRatings { get; set; }
+		public string Model { get; set; }
+		public string Software { get; set; }
+		public string FlashPixVersion { get; set; }
+		public int YCbCrPositioning { get; set; }
+		public string ExifVersion { get; set; }
+		public GPSInfo GPSInfo { get; set; }
+	}
 
     public class ImageMetaItem
     {

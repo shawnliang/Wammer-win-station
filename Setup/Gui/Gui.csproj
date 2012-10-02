@@ -226,6 +226,12 @@
     <None Include="Resources\configure512.png" />
     <None Include="Resources\configure.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
+      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
+      <Name>CommonLibs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

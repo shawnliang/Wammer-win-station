@@ -157,6 +157,10 @@
   <data name="displayToolStripMenuItem.Text" xml:space="preserve">
     <value>Display Type</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="displayToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 70</value>
   </data>
@@ -188,7 +192,6 @@
   <data name="dataGridView.Size" type="System.Drawing.Size, System.Drawing">
     <value>385, 274</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="dataGridView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>

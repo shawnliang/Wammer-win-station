@@ -122,19 +122,28 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="miSetCoverImage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="miSetCoverImage.Text" xml:space="preserve">
     <value>設為封面</value>
   </data>
   <data name="miOpen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
+    <value>160, 22</value>
   </data>
   <data name="miOpen.Text" xml:space="preserve">
     <value>開啟</value>
   </data>
+  <data name="miDuplicate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="propertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="propertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>屬性</value>
+  </data>
   <data name="contextMenuStripImageList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 48</value>
+    <value>161, 92</value>
   </data>
   <data name="imageListView.DefaultImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

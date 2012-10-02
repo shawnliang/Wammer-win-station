@@ -9,6 +9,8 @@ using Wammer.Station;
 using Wammer.Station.JSONClass;
 using Wammer.Utility;
 using System.Diagnostics;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace Wammer.Cloud
 {
@@ -233,6 +235,71 @@ namespace Wammer.Cloud
 			                 	};
 
 			return CloudServer.requestPath<AttachmentInfo>("attachments/get", parameters, false);
+		}
+
+		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
+												  string objectId, string fileName, string contentType,
+												  ImageMeta meta, AttachmentType type, string apiKey,
+												  string token, int bufferSize = 1024,
+												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
+												  string post_id = null, string file_path = null, exif exif = null, DateTime? import_time = null)
+		{
+			try
+			{
+				if (token == null)
+					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
+
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id, file_path, exif, import_time);
+				HttpWebResponse _webResponse = Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
+					CloudServer.BaseUrl + "attachments/upload",
+					"Mozilla 4.0+",
+					pars,
+					fileName,
+					contentType,
+					dataStream, bufferSize, progressChangedCallBack);
+
+				Debug.Assert(_webResponse != null, "_webResponse != null");
+				using (var reader = new StreamReader(_webResponse.GetResponseStream()))
+				{
+					return fastJSON.JSON.Instance.ToObject<ObjectUploadResponse>(reader.ReadToEnd());
+				}
+			}
+			catch (WebException e)
+			{
+				throw new WammerCloudException("Wammer cloud error", e);
+			}
+		}
+
+		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta,
+			AttachmentType type, string apiKey, string token, string post_id = null, string file_path = null, exif exif = null, DateTime? import_time = null)
+		{
+			var pars = new Dictionary<string, object>();
+			
+			pars["type"] = type.ToString();
+			
+			if (meta != ImageMeta.None)
+				pars["image_meta"] = meta.ToString().ToLower();
+
+			pars["session_token"] = token;
+			pars["apikey"] = apiKey;
+
+			if (objectId != null)
+				pars["object_id"] = objectId;
+
+			pars["group_id"] = groupId;
+
+			if (!string.IsNullOrEmpty(post_id))
+				pars["post_id"] = post_id;
+
+			if (!string.IsNullOrEmpty(file_path))
+				pars["file_path"] = file_path;
+
+			if (import_time.HasValue)
+				pars["import_time"] = import_time.Value.ToCloudTimeString();
+
+			if (exif != null)
+				pars["exif"] = JsonConvert.SerializeObject(exif, Formatting.Indented);
+			return pars;
 		}
 	}
 

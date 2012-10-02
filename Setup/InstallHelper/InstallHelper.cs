@@ -524,16 +524,16 @@ namespace Wammer.Station
 				StartService(svcName);
 				Logger.Info("DB is started");
 
-				int retry = 180;
-				while (!IsMongoDBReady() && 0 < retry--)
+				int retry = 60;
+				while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319) && 0 < retry--)
 				{
-					System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2.0));
 					Logger.Info("Testing MongoDB again...");
+					System.Threading.Thread.Sleep(3000);
 					StartService(svcName);
 				}
 
-				if (!IsMongoDBReady())
-					throw new System.TimeoutException("MongoDB is not ready in 360 seconds");
+				if (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
+					throw new System.TimeoutException("MongoDB is not ready after 20 retries");
 
 				Logger.Info("MongoDB is ready");
 				return ActionResult.Success;
@@ -623,20 +623,6 @@ namespace Wammer.Station
 			}
 		}
 
-		private static bool IsMongoDBReady()
-		{
-			try
-			{
-				// use mongo db to test if it is ready
-				MongoServer mongo = MongoServer.Create("mongodb://127.0.0.1:10319/?connectTimeoutMS=10000");
-				mongo.GetDatabaseNames();
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
 
 		private static void StartService(string svcName)
 		{

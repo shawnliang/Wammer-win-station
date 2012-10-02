@@ -10,6 +10,7 @@ using Wammer.Utility;
 using ExifLibrary;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -49,7 +50,9 @@ namespace Wammer.Station.AttachmentUpload
 		public string api_key { get; set; }
 		public string session_token { get; set; }
 		public string post_id { get; set; }
-		public string memo { get; set; }
+		public string file_path { get; set; }
+		public DateTime? import_time { get; set; }
+		public string exif { get; set; }
 	}
 
 	public class AttachmentEventArgs : EventArgs
@@ -83,18 +86,42 @@ namespace Wammer.Station.AttachmentUpload
 
 		public AttachmentUploadHandlerImp(IAttachmentUploadHandlerDB db)
 		{
+			DebugInfo.ShowMethod();
+
 			this.db = db;
 		}
 
 		public event EventHandler<AttachmentEventArgs> AttachmentProcessed;
 
-		public ObjectUploadResponse Process(UploadData uploadData)
+		public void Process(UploadData uploadData)
 		{
+			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
+			Process(uploadData, imageSize);
+		}
+
+		public void Process(UploadData uploadData, Size imageSize)
+		{
+			DebugInfo.ShowMethod();
 			if (uploadData == null)
 				throw new ArgumentNullException("uploadData");
 
 			if (uploadData.object_id == null)
 				uploadData.object_id = Guid.NewGuid().ToString();
+
+			//Attachment already exists => return
+			var metaStr = uploadData.imageMeta.GetCustomAttribute<DescriptionAttribute>().Description;
+
+			var doc =
+				AttachmentCollection.Instance.FindOne(uploadData.imageMeta == ImageMeta.Origin
+														? Query.And(Query.EQ("_id", uploadData.object_id), Query.Exists("saved_file_name", true))
+														: Query.And(Query.EQ("_id", uploadData.object_id),
+																	Query.Exists("image_meta." + metaStr, true)));
+			if (doc != null)
+				return;
+
+			var storage = GetUserStorage(uploadData);
+			var filename = GetSavedFileName(uploadData);
+			storage.SaveFile(filename, uploadData.raw_data);
 
 			var dbDoc = new Attachment
 							{
@@ -105,27 +132,24 @@ namespace Wammer.Station.AttachmentUpload
 								description = uploadData.description,
 								modify_time = DateTime.UtcNow,
 								post_id = uploadData.post_id,
-								memo = uploadData.memo,
+								file_path = uploadData.file_path,
+								import_time = uploadData.import_time,
 								image_meta = new ImageProperty()
 							};
 
-			Size imageSize = ImageHelper.GetImageSize(uploadData.raw_data);
-			var storage = GetUserStorage(uploadData);
+			dbDoc.image_meta.exif = parseExif(uploadData);
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
 				dbDoc.mime_type = uploadData.mime_type;
-				dbDoc.saved_file_name = GetSavedFileName(uploadData);
+				dbDoc.saved_file_name = filename;
 				dbDoc.file_size = uploadData.raw_data.Count;
 				dbDoc.url = GetViewApiUrl(uploadData);
 				dbDoc.md5 = ComputeMD5(uploadData.raw_data);
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
 
-				storage.SaveFile(dbDoc.saved_file_name, uploadData.raw_data);
-
 				var photoFile = Path.Combine(storage.basePath, dbDoc.saved_file_name);
-
 
 				extractExif(dbDoc, photoFile);
 			}
@@ -136,14 +160,13 @@ namespace Wammer.Station.AttachmentUpload
 									file_size = uploadData.raw_data.Count,
 									md5 = ComputeMD5(uploadData.raw_data),
 									mime_type = uploadData.mime_type,
-									saved_file_name = GetSavedFileName(uploadData),
+									saved_file_name = filename,
 									url = GetViewApiUrl(uploadData),
 									width = imageSize.Width,
 									height = imageSize.Height
 								};
 
 				dbDoc.image_meta.SetThumbnailInfo(uploadData.imageMeta, thumb);
-				storage.SaveFile(thumb.saved_file_name, uploadData.raw_data);
 			}
 
 			UpsertResult dbResult = db.InsertOrMergeToExistingDoc(dbDoc);
@@ -160,12 +183,28 @@ namespace Wammer.Station.AttachmentUpload
 					uploadData.group_id
 				)
 			);
+		}
 
-			return ObjectUploadResponse.CreateSuccess(uploadData.object_id);
+		private exif parseExif(UploadData uploadData)
+		{
+			if (string.IsNullOrEmpty(uploadData.exif))
+				return null;
+
+			try
+			{
+				return JsonConvert.DeserializeObject<exif>(uploadData.exif);
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Unable to parse exif: " + uploadData.exif, e);
+				return null;
+			}
 		}
 
 		private static void extractExif(Attachment dbDoc, string photoFile)
 		{
+			DebugInfo.ShowMethod();
+
 			try
 			{
 				ExifFile exifFile = ExifFile.Read(photoFile);
@@ -177,21 +216,54 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					switch (item.Tag)
 					{
+						case ExifTag.DateTimeOriginal:
+							exif.DateTimeOriginal = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.DateTimeDigitized:
+							exif.DateTimeDigitized = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.DateTime:
+							exif.DateTime = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
+							break;
+						case ExifTag.Model:
+							exif.Model = item.Value.ToString();
+							break;
+						case ExifTag.Make:
+							exif.Make = item.Value.ToString();
+							break;
+						case ExifTag.ExposureTime:
+							exif.ExposureTime = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.FNumber:
+							exif.FNumber = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.ApertureValue:
+							exif.ApertureValue = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.FocalLength:
+							exif.FocalLength = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+							break;
+						case ExifTag.Flash:
+							exif.Flash = (int)((Flash)item.Value);
+							break;
+						case ExifTag.ISOSpeedRatings:
+							exif.ISOSpeedRatings = (int)((ExifLibrary.ExifUShort)(item)).Value;
+							break;
+						case ExifTag.ColorSpace:
+							exif.ColorSpace = (int)((ColorSpace)item.Value);
+							break;
+						case ExifTag.WhiteBalance:
+							exif.WhiteBalance = (int)((WhiteBalance)item.Value);
+							break;
+
 						case ExifTag.YResolution:
 							exif.YResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
 							break;
 						case ExifTag.ResolutionUnit:
 							exif.ResolutionUnit = (int)((ResolutionUnit)item.Value);
 							break;
-						case ExifTag.Make:
-							exif.Make = item.Value.ToString();
-							break;
-						case ExifTag.Flash:
-							exif.Flash = (int)((Flash)item.Value);
-							break;
-						case ExifTag.DateTime:
-							exif.DateTime = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
+
+
 						case ExifTag.MeteringMode:
 							exif.MeteringMode = (int)((MeteringMode)item.Value);
 							break;
@@ -201,29 +273,8 @@ namespace Wammer.Station.AttachmentUpload
 						case ExifTag.ExposureProgram:
 							exif.ExposureProgram = (int)((ExposureMode)item.Value);
 							break;
-						case ExifTag.ColorSpace:
-							exif.ColorSpace = (int)((ColorSpace)item.Value);
-							break;
-						case ExifTag.DateTimeDigitized:
-							exif.DateTimeDigitized = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
-						case ExifTag.DateTimeOriginal:
-							exif.DateTimeOriginal = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
 						case ExifTag.SensingMethod:
 							exif.SensingMethod = (int)item.Value;
-							break;
-						case ExifTag.FNumber:
-							exif.FNumber = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.FocalLength:
-							exif.FocalLength = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.ISOSpeedRatings:
-							exif.ISOSpeedRatings = (int)((ExifLibrary.ExifUShort)(item)).Value;
-							break;
-						case ExifTag.Model:
-							exif.Model = item.Value.ToString();
 							break;
 						case ExifTag.Software:
 							exif.Software = item.Value.ToString();
@@ -278,6 +329,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private FileStorage GetUserStorage(UploadData uploadData)
 		{
+			DebugInfo.ShowMethod();
+
 			Driver user = db.GetUserByGroupId(uploadData.group_id);
 			if (user == null)
 				throw new WammerStationException("User is not associated with this station", (int)StationLocalApiError.InvalidDriver);
@@ -288,6 +341,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private void OnAttachmentProcessed(AttachmentEventArgs evt)
 		{
+			DebugInfo.ShowMethod();
+
 			EventHandler<AttachmentEventArgs> handler = AttachmentProcessed;
 
 			if (handler != null)
@@ -298,6 +353,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string GetViewApiUrl(UploadData data)
 		{
+			DebugInfo.ShowMethod();
+
 			var buf = new StringBuilder();
 			buf.Append("/v2/attachments/view/?object_id=").
 				Append(data.object_id);
@@ -314,6 +371,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string GetSavedFileName(UploadData data)
 		{
+			DebugInfo.ShowMethod();
+
 			var buf = new StringBuilder();
 			buf.Append(data.object_id);
 
@@ -334,6 +393,8 @@ namespace Wammer.Station.AttachmentUpload
 
 		private static string ComputeMD5(ArraySegment<byte> rawData)
 		{
+			DebugInfo.ShowMethod();
+
 			using (MD5 md5 = MD5.Create())
 			{
 				byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
