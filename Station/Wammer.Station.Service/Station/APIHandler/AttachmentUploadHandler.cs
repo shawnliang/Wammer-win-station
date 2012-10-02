@@ -89,6 +89,7 @@ namespace Wammer.Station.APIHandler
 			data.session_token = Parameters["session_token"];
 			data.post_id = Parameters["post_id"];
 			data.file_path = Parameters["file_path"];
+			data.exif = Parameters["exif"];
 
 			data.import_time = getCloudTimeFromParameters("import_time");
 			data.file_create_time = getCloudTimeFromParameters("file_create_time");
