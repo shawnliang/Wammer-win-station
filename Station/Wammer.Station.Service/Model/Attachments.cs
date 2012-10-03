@@ -232,33 +232,88 @@ namespace Wammer.Model
 
 	public class exif
 	{
+		[BsonIgnoreIfNull]
 		public List<int> YResolution { get; set; }
-		public int ResolutionUnit { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? ResolutionUnit { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string Make { get; set; }
-		public int Flash { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? Flash { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string DateTime { get; set; }
-		public int MeteringMode { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? MeteringMode { get; set; }
+
+		[BsonIgnoreIfNull]
 		public List<int> XResolution { get; set; }
-		public int ExposureProgram { get; set; }
-		public int ColorSpace { get; set; }
-		public int ExifImageWidth { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? ExposureProgram { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? ColorSpace { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? ExifImageWidth { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string DateTimeDigitized { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string DateTimeOriginal { get; set; }
+
+		[BsonIgnoreIfNull]
 		public List<int> ExposureTime { get; set; }
-		public int SensingMethod { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? SensingMethod { get; set; }
+
+		[BsonIgnoreIfNull]
 		public List<int> FNumber { get; set; }
+
+		[BsonIgnoreIfNull]
 		public List<int> ApertureValue { get; set; }
+
+		[BsonIgnoreIfNull]
 		public List<int> FocalLength { get; set; }
-		public int WhiteBalance { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? WhiteBalance { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string ComponentsConfiguration { get; set; }
-		public int ExifOffset { get; set; }
-		public int ExifImageHeight { get; set; }
-		public int ISOSpeedRatings { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? ExifOffset { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? ExifImageHeight { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? ISOSpeedRatings { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string Model { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string Software { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string FlashPixVersion { get; set; }
-		public int YCbCrPositioning { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? YCbCrPositioning { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string ExifVersion { get; set; }
+
+		[BsonIgnoreIfNull]
 		public GPSInfo GPSInfo { get; set; }
 	}
 
