@@ -72,6 +72,11 @@ namespace Wammer.Station
 			return filePath;
 		}
 
+		public static FileStream LoadFromCacheFolder(string filename)
+		{
+			return File.OpenRead(filename);
+		}
+
 		/// <summary>
 		/// Tries to save file as the given filename. If there is already a file exist, 
 		/// append the file name with (1)/(2)/...

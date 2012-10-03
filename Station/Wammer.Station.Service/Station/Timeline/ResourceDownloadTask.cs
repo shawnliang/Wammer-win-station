@@ -88,7 +88,7 @@ namespace Wammer.Station.Timeline
 							file_create_time =  TimeHelper.ParseCloudTimeString(attachment.file_create_time)
 						};
 
-						var takenTimeStr = extractExifTakenTime(ref rawdata);
+						var takenTimeStr = extractExifTakenTime(rawdata);
 
 						savedFileName = resStorage.Save(data, takenTimeStr).RelativePath;
 						File.Delete(filepath);
@@ -256,7 +256,7 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		private static string extractExifTakenTime(ref ArraySegment<byte> rawdata)
+		private static string extractExifTakenTime(ArraySegment<byte> rawdata)
 		{
 			try
 			{

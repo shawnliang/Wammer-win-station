@@ -141,6 +141,9 @@
     <Compile Include="Station\AttachmentUpload\ExifExtractor.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
+    <Compile Include="Station\AttachmentView\AttachmentViewHandlerDB.cs" />
+    <Compile Include="Station\AttachmentView\AttachmentViewHandlerImp.cs" />
+    <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
     <Compile Include="Station\DebugInfo.cs" />
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
@@ -351,6 +354,7 @@
       <Name>CommonLibs</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
