@@ -1,6 +1,8 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using Wammer.Model;
 using System;
+using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace Wammer.Cloud
 {
@@ -130,6 +132,9 @@ namespace Wammer.Cloud
 		[Serializable]
 		public class ImageMeta
 		{
+			[BsonIgnoreIfNull]
+			public exif exif { get; set; }
+
 			[BsonIgnoreIfNull]
 			public ImageMetaDetail large { get; set; }
 

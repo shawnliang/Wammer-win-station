@@ -105,6 +105,7 @@ namespace Wammer.Station.Timeline
 								).Set("md5", md5buff.ToString()
 								).Set("image_meta.width", width
 								).Set("image_meta.height", height
+								).Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument())
 								).Set("file_size", rawdata.Count
 								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
 							UpdateFlags.Upsert
@@ -140,6 +141,7 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
+																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
 																	.Set("image_meta.small", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 							);
@@ -170,6 +172,7 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
+																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
 																	.Set("image_meta.medium", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 							);
@@ -200,6 +203,7 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
+																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
 																	.Set("image_meta.large", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 							);
@@ -230,6 +234,7 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
+																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
 																	.Set("image_meta.square", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
 							);
