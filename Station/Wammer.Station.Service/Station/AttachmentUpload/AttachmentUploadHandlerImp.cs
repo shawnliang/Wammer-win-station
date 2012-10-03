@@ -168,7 +168,13 @@ namespace Wammer.Station.AttachmentUpload
 			if (doc != null)
 				return;
 
-			var exif = getImageExif(uploadData);
+
+			exif exif = null;
+			if (!string.IsNullOrEmpty(uploadData.exif))
+				exif = parseExifParameter(uploadData);
+			else
+				exif = extractExifFromOriginImage(uploadData);
+
 			var saveReult = storage.Save(uploadData, (exif != null) ? exif.DateTimeOriginal : null);
 			var dbDoc = new Attachment
 							{
@@ -183,8 +189,6 @@ namespace Wammer.Station.AttachmentUpload
 								import_time = uploadData.import_time,
 								image_meta = new ImageProperty()
 							};
-
-			dbDoc.image_meta.exif = parseExif(uploadData);
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
@@ -229,23 +233,19 @@ namespace Wammer.Station.AttachmentUpload
 			);
 		}
 
-		private exif parseExif(UploadData uploadData)
+		private exif parseExifParameter(UploadData uploadData)
 		{
-			if (string.IsNullOrEmpty(uploadData.exif))
-				return null;
-
 			try
 			{
 				return JsonConvert.DeserializeObject<exif>(uploadData.exif);
 			}
 			catch (Exception e)
 			{
-				this.LogWarnMsg("Unable to parse exif: " + uploadData.exif, e);
-				return null;
+				throw new FormatException("parameter 'exif' format error", e);
 			}
 		}
 
-		private exif getImageExif(UploadData uploadData)
+		private exif extractExifFromOriginImage(UploadData uploadData)
 		{
 			if (uploadData.imageMeta == ImageMeta.Origin)
 				return exifExtractor.extract(uploadData.raw_data);
