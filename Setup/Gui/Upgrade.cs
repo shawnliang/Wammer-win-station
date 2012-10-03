@@ -130,7 +130,7 @@ namespace Gui
 			{
 				string appRoot = MsiConnection.Instance.GetPath("INSTALLLOCATION");
 				string dumpFolder = Path.Combine(appRoot, @"MongoDB\Backup");
-				string dbPath = Path.Combine(appRoot, @"MongoDB\Data");
+				string dbPath = Path.Combine(appRoot, @"MongoDB\Data\DB");
 
 				if (Directory.Exists(dumpFolder))
 				{
@@ -139,10 +139,11 @@ namespace Gui
 				}
 
 				logger.Info("dumping mongo db....");
+
 				Process p = new Process();
 				ProcessStartInfo info = new ProcessStartInfo(
 					"mongodump.exe",
-					string.Format("--dbpath \"{1}\" --forceTableScan --out \"{0}\" --db wammer", dumpFolder, dbPath));
+					string.Format("--dbpath \"{1}\" --forceTableScan --out \"{0}\" --db wammer --journal", dumpFolder, dbPath));
 
 				info.CreateNoWindow = true;
 				info.WindowStyle = ProcessWindowStyle.Hidden;
@@ -154,6 +155,7 @@ namespace Gui
 					throw new DataBackupException("mongodump.exe returns failure: " + p.ExitCode);
 
 				logger.Info("dump completed");
+
 
 				// delete station collection to prevent previous version's uninstaller unregistering station. 
 				StartMongoDB();
