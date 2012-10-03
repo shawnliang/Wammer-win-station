@@ -115,6 +115,7 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
@@ -260,6 +261,12 @@
     </Compile>
     <Compile Include="Src\Dialog\AutoImportDialog.Designer.cs">
       <DependentUpon>AutoImportDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\PropertyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\PropertyDialog.Designer.cs">
+      <DependentUpon>PropertyDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Enum\ContentProviderType.cs" />
     <Compile Include="Src\Enum\ContentType.cs" />
@@ -687,6 +694,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\AutoImportDialog.zh-TW.resx">
       <DependentUpon>AutoImportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\PropertyDialog.resx">
+      <DependentUpon>PropertyDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\LoginForm.zh-TW.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
