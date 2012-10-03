@@ -54,10 +54,16 @@ namespace Wammer.Station
 		/// <param name="filename">save file name</param>
 		/// <param name="data">raw data</param>
 		/// <returns>relative path to station's current folder</returns>
-		public static string SaveToCacheFolder(string filename, ArraySegment<byte> data)
+		public static string SaveToCacheFolder(string user_id, string filename, ArraySegment<byte> data)
 		{
-			string filePath = Path.Combine("cache", filename);
-			string tempFile = Path.Combine("cache", Guid.NewGuid().ToString());
+			var userCache = Path.Combine("cache", user_id);
+
+			if (!Directory.Exists(userCache))
+				Directory.CreateDirectory(userCache);
+
+
+			string filePath = Path.Combine(userCache, filename);
+			string tempFile = Path.Combine(userCache, Guid.NewGuid().ToString());
 
 			using (FileStream stream = File.Open(tempFile, FileMode.Create))
 			{

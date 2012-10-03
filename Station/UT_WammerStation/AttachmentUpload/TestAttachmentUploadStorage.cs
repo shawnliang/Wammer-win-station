@@ -32,7 +32,7 @@ namespace UT_WammerStation.AttachmentUpload
 			if (!System.IO.Directory.Exists("user1"))
 				System.IO.Directory.CreateDirectory("user1");
 
-			user = new Wammer.Model.Driver { folder = "user1" };
+			user = new Wammer.Model.Driver { folder = "user1", user_id = "uuuu" };
 		}
 
 		[TestMethod]
@@ -191,7 +191,7 @@ namespace UT_WammerStation.AttachmentUpload
 		}
 
 		[TestMethod]
-		public void SaveMediumAttachmentToResourceFolder()
+		public void SaveMediumAttachmentToCacheFolder()
 		{
 			Mock<IAttachmentUploadStorageDB> db = new Mock<IAttachmentUploadStorageDB>(MockBehavior.Strict);
 			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user);
@@ -208,9 +208,9 @@ namespace UT_WammerStation.AttachmentUpload
 					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
 				}, "");
 
-			Assert.AreEqual(@"cache\obj1_medium.dat", result.RelativePath);
+			Assert.AreEqual(@"cache\uuuu\obj1_medium.dat", result.RelativePath);
 			Assert.AreEqual("", result.StorageBasePath);
-			Assert.AreEqual(@"cache\obj1_medium.dat", result.FullPath);
+			Assert.AreEqual(@"cache\uuuu\obj1_medium.dat", result.FullPath);
 
 			using (var r = new StreamReader(result.FullPath))
 			{

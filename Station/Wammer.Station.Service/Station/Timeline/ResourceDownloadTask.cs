@@ -126,7 +126,7 @@ namespace Wammer.Station.Timeline
 
 					case ImageMeta.Small:
 						savedFileName = attachment.object_id + "_small.dat";
-						savedFileName = FileStorage.SaveToCacheFolder(savedFileName, rawdata);
+						savedFileName = FileStorage.SaveToCacheFolder(driver.user_id, savedFileName, rawdata);
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
@@ -156,7 +156,7 @@ namespace Wammer.Station.Timeline
 
 					case ImageMeta.Medium:
 						savedFileName = attachment.object_id + "_medium.dat";
-						savedFileName = FileStorage.SaveToCacheFolder(savedFileName, rawdata);
+						savedFileName = FileStorage.SaveToCacheFolder(driver.user_id, savedFileName, rawdata);
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
@@ -186,7 +186,7 @@ namespace Wammer.Station.Timeline
 
 					case ImageMeta.Large:
 						savedFileName = attachment.object_id + "_large.dat";
-						savedFileName = FileStorage.SaveToCacheFolder(savedFileName, rawdata);
+						savedFileName = FileStorage.SaveToCacheFolder(driver.user_id, savedFileName, rawdata);
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo
@@ -216,7 +216,7 @@ namespace Wammer.Station.Timeline
 
 					case ImageMeta.Square:
 						savedFileName = attachment.object_id + "_square.dat";
-						savedFileName = FileStorage.SaveToCacheFolder(savedFileName, rawdata);
+						savedFileName = FileStorage.SaveToCacheFolder(driver.user_id, savedFileName, rawdata);
 						File.Delete(filepath);
 
 						thumbnail = new ThumbnailInfo

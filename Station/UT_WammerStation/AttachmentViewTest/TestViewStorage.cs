@@ -16,14 +16,14 @@ namespace UT_WammerStation.AttachmentViewTest
 	[TestClass]
 	public class TestViewStorage
 	{
-		private Driver user = new Driver { folder = "user1" };
+		private Driver user = new Driver { folder = "user1", user_id = "uuuu" };
 		private string mediumPath;
 
 		[TestInitialize]
 		public void setUp()
 		{
 			var bytes = new ArraySegment<byte>(Encoding.UTF8.GetBytes("1234567890"));
-			mediumPath = FileStorage.SaveToCacheFolder("obj1.dat", bytes);
+			mediumPath = FileStorage.SaveToCacheFolder(user.user_id, "obj1.dat", bytes);
 
 			var storage = new FileStorage(user);
 			storage.TrySaveFile("file1.jpg", bytes);

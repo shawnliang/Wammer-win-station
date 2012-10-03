@@ -33,7 +33,7 @@ namespace Wammer.Station.AttachmentUpload
 			{
 				var filename = data.object_id + "_" + data.imageMeta.GetCustomAttribute<DescriptionAttribute>().Description + ".dat";
 
-				var savedPath = FileStorage.SaveToCacheFolder(filename, data.raw_data);
+				var savedPath = FileStorage.SaveToCacheFolder(user.user_id, filename, data.raw_data);
 				return new AttachmentSaveResult("", savedPath);
 			}
 			else
