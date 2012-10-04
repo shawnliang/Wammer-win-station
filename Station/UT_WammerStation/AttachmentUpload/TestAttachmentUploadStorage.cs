@@ -33,6 +33,10 @@ namespace UT_WammerStation.AttachmentUpload
 				System.IO.Directory.CreateDirectory("user1");
 
 			user = new Wammer.Model.Driver { folder = "user1", user_id = "uuuu" };
+
+			var userRes = Path.Combine(Wammer.Station.FileStorage.ResourceFolder, "user1");
+			if (Directory.Exists(userRes))
+				Directory.Delete(userRes, true);
 		}
 
 		[TestMethod]
@@ -65,7 +69,7 @@ namespace UT_WammerStation.AttachmentUpload
 
 
 		[TestMethod]
-		public void SaveOriginalAttachmentToResourceFolder_useTakenTime()
+		public void SaveOriginalAttachmentToResourceFolder_useTakenTime_IS8601()
 		{
 			Mock<IAttachmentUploadStorageDB> db = new Mock<IAttachmentUploadStorageDB>(MockBehavior.Strict);
 			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user);
@@ -93,6 +97,33 @@ namespace UT_WammerStation.AttachmentUpload
 			}
 		}
 
+		[TestMethod]
+		public void SaveOriginalAttachmentToResourceFolder_useTakenTime_GeneralFormat()
+		{
+			Mock<IAttachmentUploadStorageDB> db = new Mock<IAttachmentUploadStorageDB>(MockBehavior.Strict);
+			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user);
+
+			AttachmentUploadStorage storage = new AttachmentUploadStorage(db.Object);
+			var result = storage.Save(
+				new UploadData
+				{
+					group_id = "group1",
+					imageMeta = Wammer.Model.ImageMeta.Origin,
+					raw_data = raw_data,
+					file_name = "file1.jpg",
+					object_id = "obj1",
+					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
+				}, "1999:09:08 10:10:10");
+
+			Assert.AreEqual(@"1999\09\08\file1.jpg", result.RelativePath);
+			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
+			Assert.IsTrue(result.FullPath.EndsWith(@"user1\1999\09\08\file1.jpg"));
+
+			using (var r = new StreamReader(result.FullPath))
+			{
+				Assert.AreEqual(TEXT, r.ReadToEnd());
+			}
+		}
 
 		[TestMethod]
 		public void SaveOriginalAttachmentToResourceFolder_sameFileName()

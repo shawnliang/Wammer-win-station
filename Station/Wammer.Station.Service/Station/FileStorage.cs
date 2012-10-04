@@ -164,6 +164,15 @@ namespace Wammer.Station
 			return File.OpenRead(filePath);
 		}
 
+		public FileStream Load(string filename, ImageMeta meta)
+		{
+			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
+				return Load(filename);
+			else
+				return FileStorage.LoadFromCacheFolder(filename);
+		}
+
+
 		public IAsyncResult BeginSave(string filename, byte[] data, AsyncCallback callback,
 		                              object userObject)
 		{

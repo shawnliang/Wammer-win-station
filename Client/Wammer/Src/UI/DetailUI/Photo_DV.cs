@@ -440,7 +440,7 @@ namespace Waveface.DetailUI
 
 			foreach (var object_id in Post.attachment_id_array)
 			{
-				var mediumPath = Main.Current.RT.REST.attachments_getThumbnailFilePath(object_id, "medium");
+				var mediumPath = RT_REST.attachments_getThumbnailFilePath(object_id, "medium");
 				_filePathMediums.Add(mediumPath);
 			}
 
@@ -857,7 +857,6 @@ namespace Waveface.DetailUI
 			DebugInfo.ShowMethod();
 
 			string _fileName = string.Empty;
-			bool _OriginFileExist;
 
 			FolderBrowserDialog _dialog = new FolderBrowserDialog();
 
@@ -878,17 +877,10 @@ namespace Waveface.DetailUI
 					var attachmentId = Post.attachment_id_array[i];
 					_fileName = queryFileName(attachmentId, Path.GetExtension(imageListView.Items[i].FileName));
 					_fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
-					_OriginFileExist = false;
 
 					var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(attachmentId);
+					var _OriginFileExist = Main.Current.IsPrimaryStation && File.Exists(origFilePath);
 
-					if (Main.Current.IsPrimaryStation)
-					{
-						if (!string.IsNullOrEmpty(origFilePath) && File.Exists(origFilePath))
-						{
-							_OriginFileExist = true;
-						}
-					}
 
 					try
 					{

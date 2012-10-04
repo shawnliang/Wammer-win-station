@@ -342,7 +342,6 @@ namespace Wammer.Model
 			file_size = rhs.file_size;
 			modify_time = rhs.modify_time;
 			image_meta = rhs.image_meta;
-			RawData = rhs.RawData;
 			group_id = rhs.group_id;
 			saved_file_name = rhs.saved_file_name;
 			Orientation = rhs.Orientation;
@@ -401,46 +400,6 @@ namespace Wammer.Model
 
 		[BsonIgnoreIfNull]
 		public DateTime? import_time { get; set; }
-
-		[BsonIgnore]
-		[XmlIgnore]
-		public ArraySegment<byte> RawData
-		{
-			get
-			{
-				lock (rawDataMutex)
-				{
-					if (rawData.Array == null && saved_file_name != null)
-					{
-						var driver = DriverCollection.Instance.FindOne();
-						var storage = new FileStorage(driver);
-						var buffer = new byte[file_size];
-						storage.Load(saved_file_name).Read(buffer, 0, buffer.Length);
-						rawData = new ArraySegment<byte>(buffer);
-					}
-					return rawData;
-				}
-			}
-			set
-			{
-				lock (rawDataMutex)
-				{
-					rawData = value;
-					if (rawData.Array != null)
-					{
-						using (MD5 md5 = MD5.Create())
-						{
-							byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
-							var buff = new StringBuilder();
-							for (int i = 0; i < hash.Length; i++)
-								buff.Append(hash[i].ToString("x2"));
-
-							this.md5 = buff.ToString();
-						}
-					}
-				}
-			}
-		}
 
 		#region IAttachmentInfo Members
 

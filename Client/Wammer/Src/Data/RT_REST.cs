@@ -75,7 +75,7 @@ namespace Waveface
 					WService.HostIP, object_id, HttpUtility.UrlEncode(WService.APIKEY), HttpUtility.UrlEncode(SessionToken), type);
         }
 
-        private string attachments_getSavedFileName(string object_id, string type)
+        private static string attachments_getSavedFileName(string object_id, string type)
         {
             if (type == "origin")
                 throw new InvalidOperationException("origin is not supported");
@@ -83,19 +83,23 @@ namespace Waveface
                 return string.Format("{0}_{1}.dat", object_id, type);
         }
 
-        public string attachments_getThumbnailFilePath(string object_id, string type)
+        public static string attachments_getThumbnailFilePath(string object_id, string type)
         {
-            return Path.Combine(Main.GCONST.ImageCachePath, attachments_getSavedFileName(object_id, type));
+            return Path.Combine(Main.GCONST.UserThumbnailFolder, attachments_getSavedFileName(object_id, type));
         }
 
+		/// <summary>
+		/// Gets original file save path. If original file is not available, empty string is returned
+		/// </summary>
+		/// <param name="object_id"></param>
+		/// <returns></returns>
         public string attachments_getOriginFilePath(string object_id)
         {
-            var orig_file_name = AttachmentCollection.QueryFileName(object_id);
-            if (string.IsNullOrEmpty(orig_file_name))
-                return string.Empty;
+            var orig_file_name = AttachmentCollection.QuerySavedFileName(object_id);
+			if (string.IsNullOrEmpty(orig_file_name))
+				return string.Empty;
 
-            var extension = Path.GetExtension(orig_file_name);
-            return Path.Combine(Main.GCONST.ImageCachePath, object_id + extension);
+			return Path.Combine(Main.GCONST.UserResourceFolder, orig_file_name);
         }
 
         #endregion

@@ -1603,7 +1603,7 @@ namespace Waveface
 							var coverId = post.getCoverImageId();
 
 							string _url = Current.RT.REST.attachments_getImageURL(coverId, "small");
-							string _localPic = Current.RT.REST.attachments_getThumbnailFilePath(coverId, "small");
+							string _localPic = RT_REST.attachments_getThumbnailFilePath(coverId, "small");
 
 							PreloadThumbnail(_url, _localPic);
 

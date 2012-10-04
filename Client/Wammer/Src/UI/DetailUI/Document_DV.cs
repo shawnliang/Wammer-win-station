@@ -309,28 +309,31 @@ namespace Waveface.DetailUI
 
         private void downloadFile(Attachment attachment)
         {
-            string _file = Path.Combine(Main.GCONST.ImageCachePath, attachment.object_id + attachment.file_name); //HttpUtility.UrlDecode(attachment.file_name)
+			//
+			// TODO: revise this when supporting DOC
 
-            m_currentAttachment = attachment;
+			//string _file = Path.Combine(Main.GCONST.ImageCachePath, attachment.object_id + attachment.file_name); //HttpUtility.UrlDecode(attachment.file_name)
 
-            if (File.Exists(_file))
-            {
-                if (new FileInfo(_file).Length == long.Parse(attachment.file_size))
-                {
-                    setPreview();                
+			//m_currentAttachment = attachment;
 
-                    return;
-                }
-            }
+			//if (File.Exists(_file))
+			//{
+			//    if (new FileInfo(_file).Length == long.Parse(attachment.file_size))
+			//    {
+			//        setPreview();                
 
-            progressBar.Visible = true;
-            buttonSave.Enabled = false;
-            buttonOpen.Enabled = false;
+			//        return;
+			//    }
+			//}
 
-            WebClient _webClient = new WebClient();
-            _webClient.DownloadFileCompleted += Completed;
-            _webClient.DownloadProgressChanged += ProgressChanged;
-            _webClient.DownloadFileAsync(new Uri(Main.Current.RT.REST.attachments_getRedirectURL(attachment.url, attachment.object_id, false)), _file);
+			//progressBar.Visible = true;
+			//buttonSave.Enabled = false;
+			//buttonOpen.Enabled = false;
+
+			//WebClient _webClient = new WebClient();
+			//_webClient.DownloadFileCompleted += Completed;
+			//_webClient.DownloadProgressChanged += ProgressChanged;
+			//_webClient.DownloadFileAsync(new Uri(Main.Current.RT.REST.attachments_getRedirectURL(attachment.url, attachment.object_id, false)), _file);
         }
 
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -345,34 +348,37 @@ namespace Waveface.DetailUI
 
         private void setPreview()
         {
-            Application.DoEvents();
+			//
+			// TODO: revise this when supporting DOC
 
-            progressBar.Visible = false;
-            buttonSave.Enabled = true;
-            buttonOpen.Enabled = true;
+			//Application.DoEvents();
 
-            if (!OsUtility.IsWinXP())
-            {
-                try
-                {
-                    Cursor = Cursors.WaitCursor;
+			//progressBar.Visible = false;
+			//buttonSave.Enabled = true;
+			//buttonOpen.Enabled = true;
 
-                    string _file = Path.Combine(Main.GCONST.ImageCachePath , m_currentAttachment.object_id + m_currentAttachment.file_name); //HttpUtility.UrlDecode(m_currentAttachment.file_name)
-                    string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+			//if (!OsUtility.IsWinXP())
+			//{
+			//    try
+			//    {
+			//        Cursor = Cursors.WaitCursor;
 
-                    File.Copy(_file, _destFile);
+			//        string _file = Path.Combine(Main.GCONST.ImageCachePath , m_currentAttachment.object_id + m_currentAttachment.file_name); //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+			//        string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + "_" + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
 
-                    previewHandlerHost.Open(_destFile);
-                }
-                catch
-                { }
-                finally
-                {
-                    Cursor = Cursors.Default;
-                }
-            }
+			//        File.Copy(_file, _destFile);
 
-            Application.DoEvents();
+			//        previewHandlerHost.Open(_destFile);
+			//    }
+			//    catch
+			//    { }
+			//    finally
+			//    {
+			//        Cursor = Cursors.Default;
+			//    }
+			//}
+
+			//Application.DoEvents();
         }
 
         private void DetailView_Resize(object sender, EventArgs e)
@@ -390,40 +396,47 @@ namespace Waveface.DetailUI
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            saveFileDialog.FileName = HttpUtility.UrlDecode(m_currentAttachment.file_name);
-            DialogResult _dr = saveFileDialog.ShowDialog();
+			//
+			// TODO: revise this when supporting DOC
 
-            if (_dr == DialogResult.OK)
-            {
-                try
-                {
-                    string _file = Path.Combine(Main.GCONST.ImageCachePath, m_currentAttachment.object_id + m_currentAttachment.file_name); //HttpUtility.UrlDecode(m_currentAttachment.file_name)
-                    string _destFile = saveFileDialog.FileName;
+			//saveFileDialog.FileName = HttpUtility.UrlDecode(m_currentAttachment.file_name);
+			//DialogResult _dr = saveFileDialog.ShowDialog();
 
-                    File.Copy(_file, _destFile);
+			//if (_dr == DialogResult.OK)
+			//{
+			//    try
+			//    {
+			//        string _file = Path.Combine(Main.GCONST.ImageCachePath, m_currentAttachment.object_id + m_currentAttachment.file_name); //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+			//        string _destFile = saveFileDialog.FileName;
 
-                    MessageBox.Show("File Save Successful!");
-                }
-                catch
-                {
-                    MessageBox.Show("File Save Error!");
-                }
-            }
+			//        File.Copy(_file, _destFile);
+
+			//        MessageBox.Show("File Save Successful!");
+			//    }
+			//    catch
+			//    {
+			//        MessageBox.Show("File Save Error!");
+			//    }
+			//}
         }
 
         private void buttonOpen_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string _file = Path.Combine(Main.GCONST.ImageCachePath , m_currentAttachment.object_id + m_currentAttachment.file_name); // HttpUtility.UrlDecode(m_currentAttachment.file_name)
-                string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+			//
+			// TODO: revise this when supporting DOC
 
-                File.Copy(_file, _destFile);
 
-                Process.Start(_destFile);
-            }
-            catch
-            {}
+			//try
+			//{
+			//    string _file = Path.Combine(Main.GCONST.ImageCachePath , m_currentAttachment.object_id + m_currentAttachment.file_name); // HttpUtility.UrlDecode(m_currentAttachment.file_name)
+			//    string _destFile = Main.GCONST.TempPath + DateTime.Now.ToString("yyyyMMddHHmmssff") + m_currentAttachment.file_name; //HttpUtility.UrlDecode(m_currentAttachment.file_name)
+
+			//    File.Copy(_file, _destFile);
+
+			//    Process.Start(_destFile);
+			//}
+			//catch
+			//{}
         }
 
         public ImageButton GetMoreFonction1()

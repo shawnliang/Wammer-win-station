@@ -51,7 +51,7 @@ namespace Wammer.Station.AttachmentUpload
 			DateTime fileTime;
 
 			if (!string.IsNullOrEmpty(takenTime))
-				fileTime = TimeHelper.ParseCloudTimeString(takenTime).ToLocalTime();
+				fileTime = TimeHelper.ParseGeneralDateTime(takenTime).ToLocalTime();
 			else if (data.file_create_time.HasValue)
 				fileTime = data.file_create_time.Value.ToLocalTime();
 			else
