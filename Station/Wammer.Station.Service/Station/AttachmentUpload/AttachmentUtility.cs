@@ -33,7 +33,7 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			var fileStorage = new FileStorage(user);
 
-			using (FileStream f = fileStorage.Load(imageFilename, thumbnailType))
+			using (FileStream f = fileStorage.Load(imageFilename, ImageMeta.Origin))
 			using (var image = new Bitmap(f))
 			{
 				return ImagePostProcessing.MakeThumbnail(image, thumbnailType, ExifOrientations.Unknown, object_id, user,
