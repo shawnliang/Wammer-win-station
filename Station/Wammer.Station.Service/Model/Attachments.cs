@@ -230,6 +230,13 @@ namespace Wammer.Model
 		public List<List<int>> GPSLongitude { get; set; }
 	}
 
+	public class Gps
+	{
+		public double longitude { get; set; }
+		public double latitude { get; set; }
+	}
+
+
 	public class exif
 	{
 		[BsonIgnoreIfNull]
@@ -315,6 +322,9 @@ namespace Wammer.Model
 
 		[BsonIgnoreIfNull]
 		public GPSInfo GPSInfo { get; set; }
+
+		[BsonIgnoreIfNull]
+		public Gps gps { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]
