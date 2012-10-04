@@ -259,9 +259,9 @@ namespace Wammer.Station.AttachmentUpload
 						case ExifTag.YResolution:
 							exif.YResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
 							break;
-						case ExifTag.ResolutionUnit:
-							exif.ResolutionUnit = (int)((ResolutionUnit)item.Value);
-							break;
+						//case ExifTag.ResolutionUnit:
+						//    exif.ResolutionUnit = (int)((ResolutionUnit)item.Value);
+						//    break;
 
 
 						case ExifTag.MeteringMode:

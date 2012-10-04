@@ -235,8 +235,8 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public List<int> YResolution { get; set; }
 
-		[BsonIgnoreIfNull]
-		public int? ResolutionUnit { get; set; }
+		//[BsonIgnoreIfNull]
+		//public int? ResolutionUnit { get; set; }
 
 		[BsonIgnoreIfNull]
 		public string Make { get; set; }
@@ -329,25 +329,6 @@ namespace Wammer.Model
 			Orientation = ExifOrientations.Unknown;
 		}
 
-		public Attachment(Attachment rhs)
-		{
-			object_id = rhs.object_id;
-			file_name = rhs.file_name;
-			mime_type = rhs.mime_type;
-			title = rhs.title;
-			description = rhs.description;
-			type = rhs.type;
-			url = rhs.url;
-			image = rhs.image;
-			file_size = rhs.file_size;
-			modify_time = rhs.modify_time;
-			image_meta = rhs.image_meta;
-			RawData = rhs.RawData;
-			group_id = rhs.group_id;
-			saved_file_name = rhs.saved_file_name;
-			Orientation = rhs.Orientation;
-			post_id = rhs.post_id;
-		}
 
 		[BsonId]
 		public string object_id { get; set; }
