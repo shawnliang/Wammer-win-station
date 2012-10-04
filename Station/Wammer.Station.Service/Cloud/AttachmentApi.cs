@@ -83,7 +83,7 @@ namespace Wammer.Cloud
 			CloudServer.requestDownload("attachments/view", parameters, evtargs.filepath);
 		}
 
-		public static AttachmentView GetImageMetadata(string objectId, string session_token, string apikey,
+		public static AttachmentRedirectInfo GetImageMetadata(string objectId, string session_token, string apikey,
 														   ImageMeta meta, string station_id)
 		{
 			var parameters = new Dictionary<object, object>
@@ -98,10 +98,10 @@ namespace Wammer.Cloud
 			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 				parameters.Add("image_meta", meta.ToString().ToLower());
 
-			return CloudServer.requestPath<AttachmentView>("attachments/view", parameters, true, false);
+			return CloudServer.requestPath<AttachmentRedirectInfo>("attachments/view", parameters, true, false);
 		}
 
-		public static DownloadResult DownloadObject(string url, AttachmentView metaData = null)
+		public static DownloadResult DownloadObject(string url, AttachmentInfo metaData = null)
 		{
 			using (var agent = new DefaultWebClient())
 			{
@@ -250,9 +250,15 @@ namespace Wammer.Cloud
 		}
 	}
 
+	public class AttachmentRedirectInfo : AttachmentInfo
+	{
+		public string redirect_to { get; set; }
+	}
+
+
 	public class DownloadResult
 	{
-		public DownloadResult(byte[] Image, AttachmentView metadata, string contentType)
+		public DownloadResult(byte[] Image, AttachmentInfo metadata, string contentType)
 		{
 			this.Image = Image;
 			Metadata = metadata;
@@ -260,9 +266,10 @@ namespace Wammer.Cloud
 		}
 
 		public byte[] Image { get; private set; }
-		public AttachmentView Metadata { get; private set; }
+		public AttachmentInfo Metadata { get; private set; }
 		public string ContentType { get; private set; }
 	}
+
 	public class AttachmentQueueResponse
 	{
 		public int total_results { get; set; }

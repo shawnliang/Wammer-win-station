@@ -167,7 +167,7 @@ namespace Wammer.Station
 	internal class JpegImageSaveStrategy : CommonImageSaveStrategy
 	{
 		public JpegImageSaveStrategy()
-			: base(ImageFormat.Jpeg, "jpg", "image/jpeg")
+			: base(ImageFormat.Jpeg, "dat", "image/jpeg")
 		{
 			var parameters = new EncoderParameters(1);
 			parameters.Param[0] = new EncoderParameter(Encoder.Quality, (long)85);

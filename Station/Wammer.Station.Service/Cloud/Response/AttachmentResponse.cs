@@ -50,6 +50,7 @@ namespace Wammer.Cloud
 	}
 
 	[Serializable]
+	[BsonIgnoreExtraElements]
 	public class AttachmentInfo
 	{
 		public AttachmentInfo()
@@ -74,6 +75,23 @@ namespace Wammer.Cloud
 					image_meta.small = new ImageMetaDetail(attachment.image_meta.small);
 				if (attachment.image_meta.square != null)
 					image_meta.square = new ImageMetaDetail(attachment.image_meta.square);
+			}
+		}
+
+		public ImageMetaDetail GetThumbnail(Wammer.Model.ImageMeta meta)
+		{
+			switch(meta)
+			{
+				case Wammer.Model.ImageMeta.Small:
+					return image_meta.large;
+				case Model.ImageMeta.Medium:
+					return image_meta.medium;
+				case Model.ImageMeta.Large:
+					return image_meta.large;
+				case Model.ImageMeta.Square:
+					return image_meta.square;
+				default:
+					throw new ArgumentOutOfRangeException("meta is not allowed: " + meta);
 			}
 		}
 
@@ -131,12 +149,20 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public string file_create_time { get; set; }
 
+		[BsonIgnoreIfNull]
+		public string md5 { get; set; }
+
 		#region Nested type: ImageMeta
 		[Serializable]
+		[BsonIgnoreExtraElements]
 		public class ImageMeta
 		{
 			[BsonIgnoreIfNull]
 			public exif exif { get; set; }
+
+			public int width { get; set; }
+
+			public int height { get; set; }
 
 			[BsonIgnoreIfNull]
 			public ImageMetaDetail large { get; set; }
@@ -155,6 +181,7 @@ namespace Wammer.Cloud
 
 		#region Nested type: ImageMetaDetail
 		[Serializable]
+		[BsonIgnoreExtraElements]
 		public class ImageMetaDetail
 		{
 			public ImageMetaDetail()
@@ -189,15 +216,15 @@ namespace Wammer.Cloud
 			[BsonIgnoreIfNull]
 			public long file_size { get; set; }
 
-   /// <summary>
-   /// Gets or sets mime_type
-   /// </summary>   
+			/// <summary>
+			/// Gets or sets mime_type
+			/// </summary>
 			[BsonIgnoreIfNull]
 			public string mime_type { get; set; }
 
-   /// <summary>
-   /// Gets or sets md5
-   /// </summary>   
+			/// <summary>
+			/// Gets or sets md5
+			/// </summary>
 			[BsonIgnoreIfNull]
 			public string md5 { get; set; }
 		}

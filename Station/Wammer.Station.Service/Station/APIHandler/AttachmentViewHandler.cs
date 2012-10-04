@@ -8,6 +8,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using Wammer.Station.Timeline;
 
 namespace Wammer.Station
 {
@@ -17,8 +18,6 @@ namespace Wammer.Station
 		private readonly string station_id;
 		private volatile int allowForwardToCloud = 1;
 		private readonly AttachmentView.AttachmentViewHandlerImp impl = new AttachmentView.AttachmentViewHandlerImp();
-		private AttachmentUpload.AttachmentUploadStorage storage = new AttachmentUpload.AttachmentUploadStorage(new AttachmentUpload.AttachmentUploadStorageDB());
-
 
 		public AttachmentViewHandler(string stationId)
 		{
@@ -112,9 +111,9 @@ namespace Wammer.Station
 
 				var downloadResult = AttachmentApi.DownloadObject(metaData.redirect_to, metaData);
 
-				var saveResult = SaveAttachmentToDisk(meta, metaData, downloadResult);
+				var saveResult = ResourceDownloadTask.SaveAttachmentToDisk(meta, metaData, downloadResult.Image);
 
-				this.LogDebugMsg("Save attachement file to " + saveResult.RelativePath);
+				this.LogDebugMsg("Attachement is saved to " + saveResult.RelativePath);
 
 				SetAttachementToDB(meta, downloadResult, saveResult.RelativePath);
 
@@ -144,128 +143,15 @@ namespace Wammer.Station
 			}
 		}
 
-		private AttachmentUpload.AttachmentSaveResult SaveAttachmentToDisk(ImageMeta meta, JSONClass.AttachmentView metaData, DownloadResult result)
-		{
-			var param = new AttachmentUpload.UploadData
-			{
-				object_id = Parameters["object_id"],
-				group_id = metaData.group_id,
-				file_name = metaData.file_name,
-				imageMeta = meta,
-				raw_data = new ArraySegment<byte>(result.Image),
-				file_create_time = string.IsNullOrEmpty(metaData.file_create_time) ? (DateTime?)null : TimeHelper.ParseCloudTimeString(metaData.file_create_time)
-			};
-
-			AttachmentUpload.AttachmentSaveResult saveResult;
-			if (meta == ImageMeta.Origin)
-			{
-				string takenTime = extractTakenTimeFromImageExif(result);
-				saveResult = storage.Save(param, takenTime);
-			}
-			else
-			{
-				saveResult = storage.Save(param, null);
-			}
-			return saveResult;
-		}
-
-		private static string extractTakenTimeFromImageExif(DownloadResult result)
-		{
-			try
-			{
-				var exif = ExifLibrary.ExifFile.Read(result.Image);
-				string takenTime = null;
-				if (exif.Properties.ContainsKey(ExifLibrary.ExifTag.DateTimeOriginal))
-					takenTime = ((DateTime)(exif.Properties[ExifLibrary.ExifTag.DateTimeOriginal].Value)).ToCloudTimeString();
-				return takenTime;
-			}
-			catch
-			{
-				return null;
-			}
-		}
-
 		private void SetAttachementToDB(ImageMeta meta, DownloadResult downloadResult, string fileName)
 		{
-			this.LogDebugMsg("Save attachement data to db");
-			if (meta == ImageMeta.Origin)
-			{
-				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-				                                                                               	.Set("file_name",
-				                                                                               	     downloadResult.Metadata.
-				                                                                               	     	file_name)
-				                                                                               	.Set("mime_type",
-				                                                                               	     downloadResult.ContentType)
-				                                                                               	.Set("url",
-				                                                                               	     "/v2/attachments/view/?object_id=" +
-				                                                                               	     Parameters["object_id"])
-				                                                                               	.Set("file_size",
-				                                                                               	     downloadResult.Image.Length)
-				                                                                               	.Set("modify_time", DateTime.UtcNow)
-				                                                                               	.Set("image_meta.width",
-				                                                                               	     downloadResult.Metadata.
-				                                                                               	     	image_meta.width)
-				                                                                               	.Set("image_meta.height",
-				                                                                               	     downloadResult.Metadata.
-				                                                                               	     	image_meta.height)
-				                                                                               	.Set("md5",
-				                                                                               	     downloadResult.Metadata.md5)
-				                                                                               	.Set("type",
-				                                                                               	     (int)
-				                                                                               	     (AttachmentType)
-				                                                                               	     Enum.Parse(
-				                                                                               	     	typeof (AttachmentType),
-				                                                                               	     	downloadResult.Metadata.type,
-				                                                                               	     	true))
-				                                                                               	.Set("group_id",
-				                                                                               	     downloadResult.Metadata.
-				                                                                               	     	group_id)
-				                                                                               	.Set("saved_file_name", fileName),
-				                                     UpdateFlags.Upsert);
-			}
-			else
-			{
-				string metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
-				AttachmentCollection.Instance.Update(Query.EQ("_id", Parameters["object_id"]), Update
-				                                                                               	.Set("group_id",
-				                                                                               	     downloadResult.Metadata.
-				                                                                               	     	group_id)
-				                                                                               	.Set("file_name",
-				                                                                               	     downloadResult.Metadata.
-				                                                                               	     	file_name)
-				                                                                               	.Set("type",
-				                                                                               	     (int)
-				                                                                               	     (AttachmentType)
-				                                                                               	     Enum.Parse(
-				                                                                               	     	typeof (AttachmentType),
-				                                                                               	     	downloadResult.Metadata.type,
-				                                                                               	     	true))
-				                                                                               	.Set("image_meta." + metaStr,
-				                                                                               	     new ThumbnailInfo
-				                                                                               	     	{
-				                                                                               	     		mime_type =
-				                                                                               	     			downloadResult.ContentType,
-				                                                                               	     		modify_time = DateTime.UtcNow,
-				                                                                               	     		url =
-				                                                                               	     			"/v2/attachments/view/?object_id=" +
-				                                                                               	     			Parameters["object_id"] +
-				                                                                               	     			"&image_meta=" + metaStr,
-				                                                                               	     		file_size =
-				                                                                               	     			downloadResult.Image.Length,
-				                                                                               	     		width =
-				                                                                               	     			downloadResult.Metadata.
-				                                                                               	     			image_meta.GetThumbnail(meta)
-				                                                                               	     			.width,
-				                                                                               	     		height =
-				                                                                               	     			downloadResult.Metadata.
-				                                                                               	     			image_meta.GetThumbnail(meta)
-				                                                                               	     			.height,
-				                                                                               	     		saved_file_name = fileName
-				                                                                               	     	}.ToBsonDocument()),
-				                                     UpdateFlags.Upsert);
-			}
-		}
 
+			var attachmentAttributes = downloadResult.Metadata;
+			var mimeType = downloadResult.ContentType;
+			var length = downloadResult.Image.Length;
+
+			ResourceDownloadTask.SaveToAttachmentDB(meta, fileName, attachmentAttributes, mimeType, length);
+		}
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
 		{
