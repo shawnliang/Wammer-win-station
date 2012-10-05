@@ -128,6 +128,13 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public string device_id { get; set; }
 
+		[BsonIgnoreIfNull]
+		public string file_path { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string import_time { get; set; }
+
+
 		#region Nested type: ImageMeta
 		[Serializable]
 		public class ImageMeta
@@ -197,6 +204,8 @@ namespace Wammer.Cloud
    /// </summary>   
 			[BsonIgnoreIfNull]
 			public string md5 { get; set; }
+
+
 		}
 
 		#endregion

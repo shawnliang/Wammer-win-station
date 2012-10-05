@@ -798,7 +798,7 @@ namespace Waveface
 						StartPosition = FormStartPosition.CenterParent
 					};
 					dialog.ShowDialog(this);
-					return;
+					//return;
 				}
 
 

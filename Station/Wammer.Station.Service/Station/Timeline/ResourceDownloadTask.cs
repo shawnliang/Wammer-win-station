@@ -13,6 +13,7 @@ using Wammer.Station.Retry;
 using Wammer.Utility;
 using System.Diagnostics;
 using Wammer.PerfMonitor;
+using System.Globalization;
 
 namespace Wammer.Station.Timeline
 {
@@ -57,6 +58,24 @@ namespace Wammer.Station.Timeline
 
 			return alreadyExist;
 		}
+
+		public static DateTime? ISO8601ToDateTime(string dt)
+		{
+			if (string.IsNullOrEmpty(dt))
+				return null;
+				
+			DateTime _dt;
+
+			DateTime.TryParseExact(
+				dt,
+				@"yyyy-MM-dd\THH:mm:ss\Z",
+				CultureInfo.InvariantCulture,
+				DateTimeStyles.AssumeUniversal,
+				out _dt);
+
+			return _dt;
+		}
+
 
 		private static void DownloadComplete(ResourceDownloadEventArgs args, Driver driver)
 		{
@@ -105,6 +124,8 @@ namespace Wammer.Station.Timeline
 								).Set("md5", md5buff.ToString()
 								).Set("image_meta.width", width
 								).Set("image_meta.height", height
+								).Set("import_time", ISO8601ToDateTime(attachment.import_time)
+								).Set("file_path", attachment.file_path
 								).Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument())
 								).Set("file_size", rawdata.Count
 								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
@@ -141,6 +162,8 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
+																	.Set("import_time", ISO8601ToDateTime(attachment.import_time))
+																	.Set("file_path", attachment.file_path)
 																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
 																	.Set("image_meta.small", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
@@ -172,6 +195,8 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
+																	.Set("import_time", ISO8601ToDateTime(attachment.import_time))
+																	.Set("file_path", attachment.file_path)
 																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
 																	.Set("image_meta.medium", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
@@ -203,6 +228,8 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
+																	.Set("import_time", ISO8601ToDateTime(attachment.import_time))
+																	.Set("file_path", attachment.file_path)
 																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
 																	.Set("image_meta.large", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
@@ -234,6 +261,8 @@ namespace Wammer.Station.Timeline
 																		 (int)
 																		 (AttachmentType)
 																		 Enum.Parse(typeof(AttachmentType), attachment.type))
+																	.Set("import_time", ISO8601ToDateTime(attachment.import_time))
+																	.Set("file_path", attachment.file_path)
 																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
 																	.Set("image_meta.square", thumbnail.ToBsonDocument()),
 							UpdateFlags.Upsert
