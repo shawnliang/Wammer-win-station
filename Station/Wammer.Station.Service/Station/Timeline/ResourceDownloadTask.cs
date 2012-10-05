@@ -91,6 +91,9 @@ namespace Wammer.Station.Timeline
 
 				var fs = new FileStorage(driver);
 
+				if (attachment.image_meta.exif != null)
+					attachment.image_meta.exif.gps = attachment.image_meta.gps;
+
 				switch (imagemeta)
 				{
 					case ImageMeta.Origin:
