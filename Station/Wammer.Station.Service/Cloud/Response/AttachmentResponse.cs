@@ -152,6 +152,13 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public string md5 { get; set; }
 
+		[BsonIgnoreIfNull]
+		public string file_path { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string import_time { get; set; }
+
+
 		#region Nested type: ImageMeta
 		[Serializable]
 		[BsonIgnoreExtraElements]
@@ -227,6 +234,8 @@ namespace Wammer.Cloud
 			/// </summary>
 			[BsonIgnoreIfNull]
 			public string md5 { get; set; }
+
+
 		}
 
 		#endregion

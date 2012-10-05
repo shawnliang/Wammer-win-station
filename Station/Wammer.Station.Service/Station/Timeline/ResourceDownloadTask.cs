@@ -118,6 +118,18 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
+		private static DateTime? ConvertISO8601ToDateTime(string dt)
+		{
+			try
+			{
+				return TimeHelper.ParseCloudTimeString(dt);
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
 		public static void SaveToAttachmentDB(ImageMeta meta, string saveFileName, AttachmentInfo attachmentAttributes, string mimeType, long length)
 		{
 			if (meta == ImageMeta.Origin)
@@ -135,6 +147,9 @@ namespace Wammer.Station.Timeline
 						.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
 						.Set("group_id", attachmentAttributes.group_id)
 						.Set("saved_file_name", saveFileName)
+						.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time))
+						.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time))
+						.Set("file_path", attachmentAttributes.file_path)
 						.Set("image_meta.exif", (attachmentAttributes.image_meta.exif == null) ? null : attachmentAttributes.image_meta.exif.ToBsonDocument()),
 						UpdateFlags.Upsert);
 			}
@@ -158,6 +173,9 @@ namespace Wammer.Station.Timeline
 						.Set("group_id", attachmentAttributes.group_id)
 						.Set("file_name", attachmentAttributes.file_name)
 						.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
+						.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time))
+						.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time))
+						.Set("file_path", attachmentAttributes.file_path)
 						.Set("image_meta." + metaStr, thumbnail.ToBsonDocument()),
 						UpdateFlags.Upsert);
 			}

@@ -1054,18 +1054,45 @@ namespace Waveface.DetailUI
 				if (imageMeta == null)
 					return;
 
-				var exif = imageMeta.GetValue("exif", null).AsBsonDocument;
+				var exif = imageMeta.GetValue("exif", null);
 
 				if (exif == null)
 					return;
 
 				var exifItems = new List<KeyValuePair<string, string>>();
-				foreach (var item in exif)
+				foreach (var item in exif.AsBsonDocument)
 				{
 					if (item.Value is BsonNull)
 						continue;
+
+					if (item.Name == "GPSInfo")
+						continue;
+
+					if (item.Name == "gps")
+					{
+						foreach (var subItem in item.Value.AsBsonDocument)
+						{
+							exifItems.Add(new KeyValuePair<string, string>(subItem.Name, subItem.Value.ToString()));
+						}
+						continue;
+					}
+
 					exifItems.Add(new KeyValuePair<string, string>(item.Name, item.Value.ToString()));
 				}
+
+
+				//var gps = exif.GetValue("gps", null);
+
+				//if (gps != null)
+				//{
+				//    foreach (var item in gps.AsBsonDocument)
+				//    {
+				//        if (item.Value is BsonNull)
+				//            continue;
+				//        exifItems.Add(new KeyValuePair<string, string>(item.Name, item.Value.ToString()));
+				//    }
+				//}
+
 
 				using (var dialog = new PropertyDialog(exifItems))
 				{

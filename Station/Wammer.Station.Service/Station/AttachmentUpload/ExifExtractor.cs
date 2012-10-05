@@ -69,9 +69,9 @@ namespace Wammer.Station.AttachmentUpload
 							case ExifTag.YResolution:
 								exif.YResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
 								break;
-							case ExifTag.ResolutionUnit:
-								exif.ResolutionUnit = (int)((ResolutionUnit)item.Value);
-								break;
+							//case ExifTag.ResolutionUnit:
+							//    exif.ResolutionUnit = (int)((ResolutionUnit)item.Value);
+							//    break;
 
 
 							case ExifTag.MeteringMode:
@@ -98,6 +98,16 @@ namespace Wammer.Station.AttachmentUpload
 							case ExifTag.ExifVersion:
 								exif.ExifVersion = exifFile.Properties[ExifTag.ExifVersion].Value.ToString();
 								break;
+							//case ExifTag.GPSLongitude:
+							//    if (exif.gps == null)
+							//        exif.gps = new Gps();
+							//    exif.gps.longitude = (double)item.Value;
+							//    break;
+							//case ExifTag.GPSLatitude:
+							//    if (exif.gps == null)
+							//        exif.gps = new Gps();
+							//    exif.gps.latitude = (double)item.Value;
+							//    break;
 						}
 					}
 
@@ -128,8 +138,23 @@ namespace Wammer.Station.AttachmentUpload
 						gpsInfo.GPSLongitude.Add(new List<int>() { (int)gpsLongitude.Seconds.Numerator, (int)gpsLongitude.Seconds.Denominator });
 
 						exif.GPSInfo = gpsInfo;
-					}
 
+						if (exif.gps == null)
+							exif.gps = new Gps();
+
+						var Nmult = gpsLatitudeRef.Equals("North", StringComparison.CurrentCultureIgnoreCase) ? 1 : -1;
+						var Ndeg = (int)gpsLatitude.Degrees.Numerator / (int)gpsLatitude.Degrees.Denominator;
+						var Nmin = (int)gpsLatitude.Minutes.Numerator / (int)gpsLatitude.Minutes.Denominator;
+						var Nsec = (int)gpsLatitude.Seconds.Numerator / (int)gpsLatitude.Seconds.Denominator;
+						exif.gps.latitude = Nmult * (Ndeg + (Nmin + Nsec / 60.0) / 60.0);
+
+						var Wmult = gpsLatitudeRef.Equals("East", StringComparison.CurrentCultureIgnoreCase) ? 1 : -1;
+						var Wdeg = (int)gpsLongitude.Degrees.Numerator / (int)gpsLongitude.Degrees.Denominator;
+						var Wmin = (int)gpsLongitude.Minutes.Numerator / (int)gpsLongitude.Minutes.Denominator;
+						var Wsec = (int)gpsLongitude.Seconds.Numerator / (int)gpsLongitude.Seconds.Denominator;
+						exif.gps.longitude = Wmult * (Wdeg + (Wmin + Wsec / 60.0) / 60.0);
+					}
+					
 					return exif;
 				}
 			}
