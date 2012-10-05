@@ -153,6 +153,12 @@ namespace Wammer.Cloud
 
 			[BsonIgnoreIfNull]
 			public ImageMetaDetail square { get; set; }
+
+			/// <summary>
+			/// Cloud extract gps from exif info and put here.
+			/// </summary>
+			[BsonIgnoreIfNull]
+			public Gps gps { get; set; }
 		}
 
 		#endregion
