@@ -147,6 +147,9 @@
   <data name="DISCARD_EDIT_POST" xml:space="preserve">
     <value>您確定要放棄編輯本貼文嗎?</value>
   </data>
+  <data name="DUPLICATE_PHOTO" xml:space="preserve">
+    <value>有 {0} 張重複的圖片</value>
+  </data>
   <data name="EDIT" xml:space="preserve">
     <value>編輯</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
     <value>沒有網路連線</value>
+  </data>
+  <data name="NO_DUP_PHOTO" xml:space="preserve">
+    <value>沒有重複的圖片</value>
   </data>
   <data name="NO_WEB_PREVIEW" xml:space="preserve">
     <value>無法取得網站預覽</value>
