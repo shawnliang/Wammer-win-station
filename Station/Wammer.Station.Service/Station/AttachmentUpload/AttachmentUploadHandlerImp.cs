@@ -199,6 +199,7 @@ namespace Wammer.Station.AttachmentUpload
 				dbDoc.md5 = ComputeMD5(uploadData.raw_data);
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
+				dbDoc.file_create_time = uploadData.file_create_time;
 				dbDoc.image_meta.exif = exif;
 			}
 			else
