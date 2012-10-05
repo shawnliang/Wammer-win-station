@@ -83,7 +83,7 @@ namespace Wammer.Cloud
 			switch(meta)
 			{
 				case Wammer.Model.ImageMeta.Small:
-					return image_meta.large;
+					return image_meta.small;
 				case Model.ImageMeta.Medium:
 					return image_meta.medium;
 				case Model.ImageMeta.Large:
