@@ -180,7 +180,8 @@ namespace Wammer.Station.Timeline
 						.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time))
 						.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time))
 						.Set("file_path", attachmentAttributes.file_path)
-						.Set("image_meta." + metaStr, thumbnail.ToBsonDocument()),
+						.Set("image_meta." + metaStr, thumbnail.ToBsonDocument())
+						.Set("image_meta.exif", (attachmentAttributes.image_meta.exif == null) ? null : attachmentAttributes.image_meta.exif.ToBsonDocument()),
 						UpdateFlags.Upsert);
 			}
 		}
