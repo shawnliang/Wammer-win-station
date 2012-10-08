@@ -19,6 +19,7 @@ using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.GZip;
 using System.Runtime.InteropServices;
 using MongoDB.Driver.Builders;
+using Wammer.Utility;
 
 
 namespace Wammer.Station
@@ -722,6 +723,138 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				Logger.Warn("MigrateUserTracks failed", e);
+			}
+
+			return ActionResult.Success;
+		}
+		
+
+		[CustomAction]
+		public static ActionResult MigrateOriginalPhotoLocation(Session session)
+		{
+			try
+			{
+				ProductInfo product = ProductInfoCollection.Instance.FindOne();
+				if (product != null && product.PlaceAttachmentsByDate)
+					return ActionResult.Success;
+
+
+				// copy all caches from {res}\user_{guid}\*.dat to {installlocation}\cache\{guid}
+
+				var oldResBase = FileStorage.ResourceFolder;
+				var newCacheBase = Path.Combine(session["INSTALLLOCATION"], "cache");
+
+				if (!Directory.Exists(newCacheBase))
+					Directory.CreateDirectory(newCacheBase);
+
+				foreach (var user in DriverCollection.Instance.FindAll())
+				{
+					var oldUserResFolder = Path.Combine(oldResBase, "user_" + user.user_id);
+					var newUserCacheFolder = Path.Combine(newCacheBase, user.user_id);
+
+					if (!Directory.Exists(newUserCacheFolder))
+						Directory.CreateDirectory(newUserCacheFolder);
+
+					var datFiles = Directory.GetFiles(oldUserResFolder, "*.dat");
+					
+					Array.ForEach(datFiles, (datFile) => {
+						var name = Path.GetFileName(datFile);
+						
+						File.Copy(datFile, Path.Combine(newUserCacheFolder, name), true);
+					});
+				}
+
+
+
+				// copy all resources to resource folder by date
+				
+				/// key => object id,   value => new save file name
+				var newPaths = new Dictionary<string, string>();
+				foreach (var user in DriverCollection.Instance.FindAll())
+				{
+					var userResFolder = Path.Combine(oldResBase, "user_" + user.user_id);
+					var allFiles = Directory.GetFiles(userResFolder, "*.*");
+					
+					foreach (var file in allFiles)
+					{
+						if (file.EndsWith(".dat"))
+							continue;
+
+						var object_id = Path.GetFileNameWithoutExtension(file);
+						
+						var dbDoc = AttachmentCollection.Instance.FindOneById(object_id);
+						if (dbDoc == null)
+							continue;
+
+						var rawData = File.ReadAllBytes(file);
+						var fileInfo = new FileInfo(file);
+						var properties = new AttachmentInfo
+						{
+							object_id = object_id,
+							group_id = dbDoc.group_id,
+							file_name = dbDoc.file_name,
+							file_create_time = fileInfo.CreationTime.ToCloudTimeString()
+						};
+
+						var saveResult = Wammer.Station.Timeline.ResourceDownloadTask.SaveAttachmentToDisk(ImageMeta.Origin, properties, rawData);
+						newPaths.Add(object_id, saveResult.RelativePath);
+					}
+				}
+
+
+				// update db saved_file_path
+				foreach (var user in DriverCollection.Instance.FindAll())
+				{
+					var group_id = user.groups[0].group_id;
+
+					foreach (var dbDoc in AttachmentCollection.Instance.Find(Query.EQ("group_id", group_id)))
+					{
+						if (newPaths.ContainsKey(dbDoc.object_id))
+							dbDoc.saved_file_name = newPaths[dbDoc.object_id];
+
+						if (dbDoc.image_meta != null)
+						{
+							if (dbDoc.image_meta.small != null && !string.IsNullOrEmpty(dbDoc.image_meta.small.saved_file_name))
+								dbDoc.image_meta.small.saved_file_name = string.Format(@"cache\{0}\{1}_small.dat", user.user_id, dbDoc.object_id);
+
+							if (dbDoc.image_meta.medium != null && !string.IsNullOrEmpty(dbDoc.image_meta.medium.saved_file_name))
+								dbDoc.image_meta.medium.saved_file_name = string.Format(@"cache\{0}\{1}_medium.dat", user.user_id, dbDoc.object_id);
+
+							if (dbDoc.image_meta.large != null && !string.IsNullOrEmpty(dbDoc.image_meta.large.saved_file_name))
+								dbDoc.image_meta.large.saved_file_name = string.Format(@"cache\{0}\{1}_large.dat", user.user_id, dbDoc.object_id);
+
+							if (dbDoc.image_meta.square != null && !string.IsNullOrEmpty(dbDoc.image_meta.square.saved_file_name))
+								dbDoc.image_meta.square.saved_file_name = string.Format(@"cache\{0}\{1}_square.dat", user.user_id, dbDoc.object_id);
+						}
+
+						AttachmentCollection.Instance.Save(dbDoc);
+					}
+				}
+
+
+				// delete old resources
+				foreach (var user in DriverCollection.Instance.FindAll())
+				{
+					var userResFolder = Path.Combine(oldResBase, "user_" + user.user_id);
+					var allFiles = Directory.GetFiles(userResFolder, "*.*");
+
+					Array.ForEach(allFiles, (filepath) => {
+						try
+						{
+							File.Delete(filepath);
+						}
+						catch (Exception e)
+						{
+							Logger.Warn("Unable to delete file: " + filepath, e);
+						}
+					});
+				}
+
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("MigrateOriginalPhotoLocation failed", e);
+				throw;
 			}
 
 			return ActionResult.Success;
