@@ -800,7 +800,7 @@ namespace Waveface.DetailUI
 			var selected = getSelectedAttachmentDoc();
 
 			detectDuplication(selected);
-			miLocateOnDisk.Visible = (selected != null && !string.IsNullOrEmpty(selected["saved_file_name"].AsString));
+			miLocateOnDisk.Visible = (selected != null &&  selected.Contains("saved_file_name") && !string.IsNullOrEmpty(selected["saved_file_name"].AsString));
 		}
 
 		private void detectDuplication(BsonDocument selected)
