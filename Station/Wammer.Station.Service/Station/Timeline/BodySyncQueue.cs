@@ -118,21 +118,6 @@ namespace Wammer.Station.Timeline
 
 		#endregion
 
-		//public event EventHandler Enqueued;
-
-//        private void OnEnqueued(EventArgs arg)
-//        {
-//#if DEBUG
-//            ++TotalTaskCount;
-//#endif
-
-//            var handler = Enqueued;
-//            if (handler != null)
-//            {
-//                handler(this, arg);
-//            }
-//        }
-
 		public void RemoveAllByUserId(string user_id)
 		{
 			lock (keys)
@@ -166,16 +151,6 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-//        private void OnTaskDropped()
-//        {
-//#if DEBUG
-//            ++TotalDroppedTaskCount;
-//#endif
-
-//            var handler = TaskDropped;
-//            if (handler != null)
-//                handler(this, EventArgs.Empty);
-//        }
 	}
 
 

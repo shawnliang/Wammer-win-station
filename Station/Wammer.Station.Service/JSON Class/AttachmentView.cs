@@ -12,6 +12,7 @@ namespace Wammer.Station.JSONClass
 		public string group_id { get; set; }
 		public string redirect_to { get; set; }
 		public ImageProperty image_meta { get; set; }
+		public string file_create_time { get; set; }
 	}
 
 	public class ImageProperty

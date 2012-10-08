@@ -58,7 +58,7 @@ namespace Wammer.Station.AttachmentUpload
 
 				var fileStorage = new FileStorage(user);
 
-				using (FileStream f = fileStorage.Load(info.saved_file_name))
+				using (var f = fileStorage.Load(info.saved_file_name, meta))
 				{
 					AttachmentApi.Upload(f, attachment.group_id, object_id, attachment.file_name,
 									  info.mime_type, meta, attachment.type, CloudServer.APIKey,

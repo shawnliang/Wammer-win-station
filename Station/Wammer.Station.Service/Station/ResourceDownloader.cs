@@ -47,13 +47,20 @@ namespace Wammer.Station
 			Debug.Assert(!string.IsNullOrEmpty(driver.user_id));
 			Debug.Assert(!string.IsNullOrEmpty(attachment.object_id));
 
-			var fs = new FileStorage(driver);
+			
+			string tmpFolder;
+
+			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
+				tmpFolder = new FileStorage(driver).basePath;
+			else
+				tmpFolder = Path.Combine("cache", driver.user_id);
+
 			var evtargs = new ResourceDownloadEventArgs
 							{
 								user_id = driver.user_id,
 								attachment = attachment,
 								imagemeta = meta,
-								filepath = Path.Combine(fs.basePath, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
+								filepath = Path.Combine(tmpFolder, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
 							};
 
 			EnqueueDownstreamTask(meta, evtargs);

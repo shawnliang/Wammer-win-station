@@ -441,7 +441,7 @@ namespace Waveface
             foreach (var object_id in post.attachment_id_array)
             {
                 string _urlM = Main.Current.RT.REST.attachments_getImageURL(object_id, "medium");
-                string _localFileM = Main.Current.RT.REST.attachments_getThumbnailFilePath(object_id, "medium");
+				string _localFileM = RT_REST.attachments_getThumbnailFilePath(object_id, "medium");
 
                 _filePathMediums.Add(_localFileM);
                 _urlMediums.Add(_urlM);

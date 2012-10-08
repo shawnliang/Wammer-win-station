@@ -52,21 +52,6 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
-		public void TestAttachment_RawDataIsNotSerialized()
-		{
-			Attachment a = new Attachment
-			{
-				RawData = new ArraySegment<byte>(new byte[100]),
-				title = "123"
-			};
-
-			string json = a.ToFastJSON();
-
-			Attachment result = fastJSON.JSON.Instance.ToObject<Attachment>(json);
-			Assert.IsNull(result.RawData.Array);
-		}
-
-		[TestMethod]
 		public void testJsonArray()
 		{
 			MyClass2 obj = new MyClass2 { Array = new List<MyClass3>() };

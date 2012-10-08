@@ -20,7 +20,7 @@ namespace Waveface
 
 			foreach (var object_id in post.attachment_id_array)
 			{
-				var mediumThumbnailPath = Path.Combine(Main.GCONST.ImageCachePath, object_id + "_medium.dat");
+				var mediumThumbnailPath = RT_REST.attachments_getThumbnailFilePath(object_id, "medium");
 				
 				files.Add(object_id, mediumThumbnailPath);
 

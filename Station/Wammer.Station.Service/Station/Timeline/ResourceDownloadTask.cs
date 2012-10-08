@@ -13,7 +13,7 @@ using Wammer.Station.Retry;
 using Wammer.Utility;
 using System.Diagnostics;
 using Wammer.PerfMonitor;
-using System.Globalization;
+using System.ComponentModel;
 
 namespace Wammer.Station.Timeline
 {
@@ -30,7 +30,9 @@ namespace Wammer.Station.Timeline
 	{
 		private static readonly IPerfCounter downloadCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
 		private static readonly ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
+		private static readonly AttachmentUpload.AttachmentUploadStorage resStorage = new AttachmentUpload.AttachmentUploadStorage(new AttachmentUpload.AttachmentUploadStorageDB());
 		private ResourceDownloadEventArgs evtargs;
+		private static AttachmentUpload.AttachmentUploadStorage storage = new AttachmentUpload.AttachmentUploadStorage(new AttachmentUpload.AttachmentUploadStorageDB());
 
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, TaskPriority pri)
 			: base(pri)
@@ -59,228 +61,148 @@ namespace Wammer.Station.Timeline
 			return alreadyExist;
 		}
 
-		public static DateTime? ISO8601ToDateTime(string dt)
-		{
-			if (string.IsNullOrEmpty(dt))
-				return null;
-				
-			DateTime _dt;
-
-			DateTime.TryParseExact(
-				dt,
-				@"yyyy-MM-dd\THH:mm:ss\Z",
-				CultureInfo.InvariantCulture,
-				DateTimeStyles.AssumeUniversal,
-				out _dt);
-
-			return _dt;
-		}
-
-
 		private static void DownloadComplete(ResourceDownloadEventArgs args, Driver driver)
 		{
 			try
 			{
-				AttachmentInfo attachment = args.attachment;
-				ImageMeta imagemeta = args.imagemeta;
-				string filepath = args.filepath;
+				var rawData = File.ReadAllBytes(args.filepath);
+				var saveResult = SaveAttachmentToDisk(args.imagemeta, args.attachment, rawData);
 
-				ThumbnailInfo thumbnail;
-				string savedFileName;
-				var rawdata = new ArraySegment<byte>(File.ReadAllBytes(filepath));
+				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, "application/octet-stream", rawData.Length);
 
-				var fs = new FileStorage(driver);
-
-				if (attachment.image_meta.exif != null)
-					attachment.image_meta.exif.gps = attachment.image_meta.gps;
-
-				switch (imagemeta)
-				{
-					case ImageMeta.Origin:
-						savedFileName = attachment.object_id + Path.GetExtension(attachment.file_name);
-						fs.SaveFile(savedFileName, rawdata);
-						int width = 0;
-						int height = 0;
-						using (var img = Image.FromStream(fs.Load(savedFileName)))
-						{
-							width = img.Width;
-							height = img.Height;
-						}
-						File.Delete(filepath);
-
-						MD5 md5 = MD5.Create();
-						byte[] hash = md5.ComputeHash(rawdata.Array);
-						var md5buff = new StringBuilder();
-						for (var i = 0; i < hash.Length; i++)
-							md5buff.Append(hash[i].ToString("x2"));
-
-						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id),
-							Update.Set("group_id", attachment.group_id
-								).Set("file_name", attachment.file_name
-								).Set("title", attachment.title
-								).Set("description", attachment.description
-								).Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachment.type)
-								).Set("url", "/v2/attachments/view?object_id=" + attachment.object_id
-								).Set("mime_type", "application/octet-stream"
-								).Set("saved_file_name", savedFileName
-								).Set("md5", md5buff.ToString()
-								).Set("image_meta.width", width
-								).Set("image_meta.height", height
-								).Set("import_time", ISO8601ToDateTime(attachment.import_time)
-								).Set("file_path", attachment.file_path
-								).Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument())
-								).Set("file_size", rawdata.Count
-								).Set("modify_time", TimeHelper.ConvertToDateTime(attachment.modify_time)),
-							UpdateFlags.Upsert
-							);
-
-						TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(attachment.object_id, driver.session_token), TaskPriority.Low,
-								  true);
-
-						break;
-
-					case ImageMeta.Small:
-						savedFileName = attachment.object_id + "_small.dat";
-						fs.SaveFile(savedFileName, rawdata);
-						File.Delete(filepath);
-
-						thumbnail = new ThumbnailInfo
-						{
-							url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=small",
-							width = attachment.image_meta.small.width,
-							height = attachment.image_meta.small.height,
-							mime_type = attachment.image_meta.small.mime_type,
-							modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.small.modify_time),
-							file_size = attachment.image_meta.small.file_size,
-							file_name = attachment.image_meta.small.file_name,
-							md5 = attachment.image_meta.small.md5,
-							saved_file_name = savedFileName
-						};
-						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id), Update
-																	.Set("group_id", attachment.group_id)
-																	.Set("file_name", attachment.file_name)
-																	.Set("type",
-																		 (int)
-																		 (AttachmentType)
-																		 Enum.Parse(typeof(AttachmentType), attachment.type))
-																	.Set("import_time", ISO8601ToDateTime(attachment.import_time))
-																	.Set("file_path", attachment.file_path)
-																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
-																	.Set("image_meta.small", thumbnail.ToBsonDocument()),
-							UpdateFlags.Upsert
-							);
-						break;
-
-					case ImageMeta.Medium:
-						savedFileName = attachment.object_id + "_medium.dat";
-						fs.SaveFile(savedFileName, rawdata);
-						File.Delete(filepath);
-
-						thumbnail = new ThumbnailInfo
-						{
-							url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=medium",
-							width = attachment.image_meta.medium.width,
-							height = attachment.image_meta.medium.height,
-							mime_type = attachment.image_meta.medium.mime_type,
-							modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.medium.modify_time),
-							file_size = attachment.image_meta.medium.file_size,
-							file_name = attachment.image_meta.medium.file_name,
-							md5 = attachment.image_meta.medium.md5,
-							saved_file_name = savedFileName
-						};
-						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id), Update
-																	.Set("group_id", attachment.group_id)
-																	.Set("file_name", attachment.file_name)
-																	.Set("type",
-																		 (int)
-																		 (AttachmentType)
-																		 Enum.Parse(typeof(AttachmentType), attachment.type))
-																	.Set("import_time", ISO8601ToDateTime(attachment.import_time))
-																	.Set("file_path", attachment.file_path)
-																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
-																	.Set("image_meta.medium", thumbnail.ToBsonDocument()),
-							UpdateFlags.Upsert
-							);
-						break;
-
-					case ImageMeta.Large:
-						savedFileName = attachment.object_id + "_large.dat";
-						fs.SaveFile(savedFileName, rawdata);
-						File.Delete(filepath);
-
-						thumbnail = new ThumbnailInfo
-						{
-							url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=large",
-							width = attachment.image_meta.large.width,
-							height = attachment.image_meta.large.height,
-							mime_type = attachment.image_meta.large.mime_type,
-							modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.large.modify_time),
-							file_size = attachment.image_meta.large.file_size,
-							file_name = attachment.image_meta.large.file_name,
-							md5 = attachment.image_meta.large.md5,
-							saved_file_name = savedFileName
-						};
-						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id), Update
-																	.Set("group_id", attachment.group_id)
-																	.Set("file_name", attachment.file_name)
-																	.Set("type",
-																		 (int)
-																		 (AttachmentType)
-																		 Enum.Parse(typeof(AttachmentType), attachment.type))
-																	.Set("import_time", ISO8601ToDateTime(attachment.import_time))
-																	.Set("file_path", attachment.file_path)
-																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
-																	.Set("image_meta.large", thumbnail.ToBsonDocument()),
-							UpdateFlags.Upsert
-							);
-						break;
-
-					case ImageMeta.Square:
-						savedFileName = attachment.object_id + "_square.dat";
-						fs.SaveFile(savedFileName, rawdata);
-						File.Delete(filepath);
-
-						thumbnail = new ThumbnailInfo
-						{
-							url = "/v2/attachments/view?object_id=" + attachment.object_id + "&image_meta=square",
-							width = attachment.image_meta.square.width,
-							height = attachment.image_meta.square.height,
-							mime_type = attachment.image_meta.square.mime_type,
-							modify_time = TimeHelper.ConvertToDateTime(attachment.image_meta.square.modify_time),
-							file_size = attachment.image_meta.square.file_size,
-							file_name = attachment.image_meta.square.file_name,
-							md5 = attachment.image_meta.square.md5,
-							saved_file_name = savedFileName
-						};
-						AttachmentCollection.Instance.Update(
-							Query.EQ("_id", attachment.object_id), Update
-																	.Set("group_id", attachment.group_id)
-																	.Set("file_name", attachment.file_name)
-																	.Set("type",
-																		 (int)
-																		 (AttachmentType)
-																		 Enum.Parse(typeof(AttachmentType), attachment.type))
-																	.Set("import_time", ISO8601ToDateTime(attachment.import_time))
-																	.Set("file_path", attachment.file_path)
-																	.Set("image_meta.exif", (attachment.image_meta == null ? null : attachment.image_meta.exif.ToBsonDocument()))
-																	.Set("image_meta.square", thumbnail.ToBsonDocument()),
-							UpdateFlags.Upsert
-							);
-						break;
-
-					default:
-						logger.WarnFormat("Unknown image meta type {0}", imagemeta);
-						break;
-				}
-
+				if (args.imagemeta == ImageMeta.Origin)
+					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(args.attachment.object_id, driver.session_token), TaskPriority.Low, true);
 			}
 			catch (Exception ex)
 			{
 				logger.Warn("Unable to save attachment, ignore it.", ex);
+			}
+		}
+
+		public static AttachmentUpload.AttachmentSaveResult SaveAttachmentToDisk(ImageMeta meta, AttachmentInfo metaData, byte[] image)
+		{
+			var param = new AttachmentUpload.UploadData
+			{
+				object_id = metaData.object_id,
+				group_id = metaData.group_id,
+				file_name = metaData.file_name,
+				imageMeta = meta,
+				raw_data = new ArraySegment<byte>(image),
+				file_create_time = string.IsNullOrEmpty(metaData.file_create_time) ? (DateTime?)null : TimeHelper.ParseCloudTimeString(metaData.file_create_time)
+			};
+
+			if (meta == ImageMeta.Origin)
+			{
+				string takenTime = extractTakenTimeFromImageExif(image);
+				return storage.Save(param, takenTime);
+			}
+			else
+			{
+				return  storage.Save(param, null);
+			}
+		}
+
+		private static string extractTakenTimeFromImageExif(byte[] image)
+		{
+			try
+			{
+				var exif = ExifLibrary.ExifFile.Read(image);
+				string takenTime = null;
+				if (exif.Properties.ContainsKey(ExifLibrary.ExifTag.DateTimeOriginal))
+					takenTime = ((DateTime)(exif.Properties[ExifLibrary.ExifTag.DateTimeOriginal].Value)).ToCloudTimeString();
+				return takenTime;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		private static DateTime? ConvertISO8601ToDateTime(string dt)
+		{
+			try
+			{
+				return TimeHelper.ParseCloudTimeString(dt);
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public static void SaveToAttachmentDB(ImageMeta meta, string saveFileName, AttachmentInfo attachmentAttributes, string mimeType, long length)
+		{
+			// gps info is moved out of exif structure in cloud response but station still keeps gps info inside exif in station db.
+			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
+				attachmentAttributes.image_meta.exif.gps = attachmentAttributes.image_meta.gps;
+
+			if (meta == ImageMeta.Origin)
+			{
+				AttachmentCollection.Instance.Update(Query.EQ("_id", attachmentAttributes.object_id),
+					Update
+						.Set("file_name", attachmentAttributes.file_name)
+						.Set("mime_type", mimeType)
+						.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
+						.Set("file_size", length)
+						.Set("modify_time", DateTime.UtcNow)
+						.Set("image_meta.width", attachmentAttributes.image_meta.width)
+						.Set("image_meta.height", attachmentAttributes.image_meta.height)
+						.Set("md5", attachmentAttributes.md5)
+						.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
+						.Set("group_id", attachmentAttributes.group_id)
+						.Set("saved_file_name", saveFileName)
+						.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time))
+						.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time))
+						.Set("file_path", attachmentAttributes.file_path)
+						.Set("image_meta.exif", (attachmentAttributes.image_meta.exif == null) ? null : attachmentAttributes.image_meta.exif.ToBsonDocument()),
+						UpdateFlags.Upsert);
+			}
+			else
+			{
+				string metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
+
+				var thumbnail = new ThumbnailInfo
+				{
+					mime_type = mimeType,
+					modify_time = DateTime.UtcNow,
+					url = "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id + "&image_meta=" + metaStr,
+					file_size = length,
+					width = attachmentAttributes.GetThumbnail(meta).width,
+					height = attachmentAttributes.GetThumbnail(meta).height,
+					saved_file_name = saveFileName
+				};
+
+				AttachmentCollection.Instance.Update(Query.EQ("_id", attachmentAttributes.object_id),
+					Update
+						.Set("group_id", attachmentAttributes.group_id)
+						.Set("file_name", attachmentAttributes.file_name)
+						.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
+						.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time))
+						.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time))
+						.Set("file_path", attachmentAttributes.file_path)
+						.Set("image_meta." + metaStr, thumbnail.ToBsonDocument())
+						.Set("image_meta.exif", (attachmentAttributes.image_meta.exif == null) ? null : attachmentAttributes.image_meta.exif.ToBsonDocument()),
+						UpdateFlags.Upsert);
+			}
+		}
+
+		private static string extractExifTakenTime(ArraySegment<byte> rawdata)
+		{
+			try
+			{
+				var exif = ExifLibrary.ExifFile.Read(rawdata.Array);
+
+				DateTime? takenTime = null;
+
+				if (exif.Properties.ContainsKey(ExifLibrary.ExifTag.DateTimeOriginal))
+					takenTime = (DateTime)exif.Properties[ExifLibrary.ExifTag.DateTimeOriginal].Value;
+
+				var takenTimeStr = takenTime.HasValue ? takenTime.Value.ToCloudTimeString() : null;
+				return takenTimeStr;
+			}
+			catch
+			{
+				return null;
 			}
 		}
 

@@ -22,6 +22,9 @@ namespace Wammer.Station
 		static FileStorage()
 		{
 			defaultResFolder = Path.Combine(Environment.CurrentDirectory, "resource");
+
+			if (!Directory.Exists("cache"))
+				Directory.CreateDirectory("cache");
 		}
 
 		public FileStorage(Driver driver)
@@ -45,15 +48,22 @@ namespace Wammer.Station
 				Directory.CreateDirectory(basePath);
 		}
 
-		public void SaveAttachment(Attachment attachment)
+		/// <summary>
+		/// Save data to cache folder
+		/// </summary>
+		/// <param name="filename">save file name</param>
+		/// <param name="data">raw data</param>
+		/// <returns>relative path to station's current folder</returns>
+		public static string SaveToCacheFolder(string user_id, string filename, ArraySegment<byte> data)
 		{
-			SaveFile(attachment.saved_file_name, attachment.RawData);
-		}
+			var userCache = Path.Combine("cache", user_id);
 
-		public void SaveFile(string filename, ArraySegment<byte> data)
-		{
-			string filePath = Path.Combine(basePath, filename);
-			string tempFile = Path.Combine(basePath, Guid.NewGuid().ToString());
+			if (!Directory.Exists(userCache))
+				Directory.CreateDirectory(userCache);
+
+
+			string filePath = Path.Combine(userCache, filename);
+			string tempFile = Path.Combine(userCache, Guid.NewGuid().ToString());
 
 			using (FileStream stream = File.Open(tempFile, FileMode.Create))
 			{
@@ -64,6 +74,80 @@ namespace Wammer.Station
 				File.Delete(filePath);
 
 			File.Move(tempFile, filePath);
+			
+			return filePath;
+		}
+
+		public static FileStream LoadFromCacheFolder(string filename)
+		{
+			return File.OpenRead(filename);
+		}
+
+		/// <summary>
+		/// Tries to save file as the given filename. If there is already a file exist, 
+		/// append the file name with (1)/(2)/...
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="data"></param>
+		/// <returns>actuall filename</returns>
+		public string TrySaveFile(string filename, ArraySegment<byte> data)
+		{
+			createDirsInFileName(filename);
+
+			string filePath = Path.Combine(basePath, filename);
+			string tempFile = Path.Combine(basePath, Guid.NewGuid().ToString());
+
+			using (FileStream stream = File.Open(tempFile, FileMode.Create))
+			{
+				stream.Write(data.Array, data.Offset, data.Count);
+			}
+
+			int num = 1;
+			var dir = Path.GetDirectoryName(filePath);
+			var filenameNoExt = Path.GetFileNameWithoutExtension(filePath);
+			var ext = Path.GetExtension(filePath);
+
+			bool success = false;
+
+			while (!success)
+			{
+				try
+				{
+					File.Move(tempFile, filePath);
+					success = true;
+				}
+				catch (IOException)
+				{
+					filePath = Path.Combine(dir, filenameNoExt) + " (" + num + ")" + ext;
+					++num;
+				}
+			}
+
+			return filePath.Substring(basePath.Length + 1); // + 1 for "\"
+		}
+
+		private void createDirsInFileName(string filename)
+		{
+			var dirName = Path.GetDirectoryName(filename);
+
+			if (!string.IsNullOrEmpty(dirName))
+			{
+				var dirs = dirName.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+
+				string dir = this.basePath;
+				var index = 0;
+
+				do
+				{
+					dir = Path.Combine(dir, dirs[index]);
+
+					if (!Directory.Exists(dir))
+						Directory.CreateDirectory(dir);
+
+					++index;
+
+				} while (index < dirs.Length);
+			}
 		}
 
 		public static string GetTempFile(Driver user)
@@ -79,6 +163,15 @@ namespace Wammer.Station
 			string filePath = Path.Combine(basePath, filename);
 			return File.OpenRead(filePath);
 		}
+
+		public FileStream Load(string filename, ImageMeta meta)
+		{
+			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
+				return Load(filename);
+			else
+				return FileStorage.LoadFromCacheFolder(filename);
+		}
+
 
 		public IAsyncResult BeginSave(string filename, byte[] data, AsyncCallback callback,
 		                              object userObject)

@@ -908,7 +908,7 @@ namespace Waveface
 				return m_PhotoPool[object_id];
 			}
 
-			string localPicPath = Main.Current.RT.REST.attachments_getThumbnailFilePath(object_id, "small");
+			string localPicPath = RT_REST.attachments_getThumbnailFilePath(object_id, "small");
 
 			if (File.Exists(localPicPath))
 			{

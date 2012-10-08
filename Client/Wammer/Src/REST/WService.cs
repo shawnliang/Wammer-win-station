@@ -1426,11 +1426,14 @@ namespace Waveface.API.V2
 				if (post_id != string.Empty)
 					_dic.Add("post_id", post_id);
 
+				var fileInfo = new FileInfo(fileName);
+				_dic.Add("file_create_time", DateTimeHelp.ToUniversalTime_ToISO8601(fileInfo.CreationTime));
+
 				_dic.Add("file", _data);
 
 				string _userAgent = "Windows";
 
-				string _fileName = new FileInfo(fileName).Name;
+				string _fileName = fileInfo.Name;
 
 				HttpWebResponse _webResponse = MultipartFormDataPostHelper.MultipartFormDataPost(_url, _userAgent, _dic,
 																								 _fileName, _mimeType);

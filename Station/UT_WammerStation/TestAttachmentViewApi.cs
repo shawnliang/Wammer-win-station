@@ -52,32 +52,5 @@ namespace UT_WammerStation
 			server8080.Stop();
 			server80.Stop();
 		}
-
-		[TestMethod]
-		public void TestGetAttachmentAndMetadata()
-		{
-			DownloadResult result = AttachmentApi.DownloadImageWithMetadata("objectid", "session_token", "api_key", ImageMeta.Origin, "stationId");
-
-			// verify that these paramenters are sent to cloud
-			Assert.AreEqual("objectid", FakeCloudRemoteHandler.SavedParams["object_id"]);
-			Assert.AreEqual("session_token", FakeCloudRemoteHandler.SavedParams["session_token"]);
-			Assert.AreEqual(null, FakeCloudRemoteHandler.SavedParams["image_meta"]);
-			Assert.AreEqual("stationId", FakeCloudRemoteHandler.SavedParams["station_id"]);
-			Assert.AreEqual("api_key", FakeCloudRemoteHandler.SavedParams["apikey"]);
-			Assert.AreEqual("true", FakeCloudRemoteHandler.SavedParams["return_meta"]);
-
-			// verify that metadata is retrieved
-			Wammer.Station.JSONClass.AttachmentView actualMetadata = 
-				fastJSON.JSON.Instance.ToObject<Wammer.Station.JSONClass.AttachmentView>(FakeCloudRemoteHandler.jsonString);
-			Assert.AreEqual(result.Metadata.creator_id, actualMetadata.creator_id);
-			Assert.AreEqual(result.Metadata.file_name, actualMetadata.file_name);
-			Assert.AreEqual(result.Metadata.md5, actualMetadata.md5);
-			Assert.AreEqual(result.Metadata.group_id, actualMetadata.group_id);
-			Assert.AreEqual(result.Metadata.redirect_to, actualMetadata.redirect_to);
-			
-
-			// verify that image is received
-			Assert.AreEqual("123456", Encoding.UTF8.GetString(result.Image));
-		}
 	}
 }

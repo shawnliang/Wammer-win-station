@@ -26,6 +26,8 @@ namespace Waveface.DetailUI
 	{
 		private Color BG_COLOR = Color.FromArgb(255, 255, 255);
 
+		private static MongoDB.Driver.MongoCollection<BsonDocument> attachmentCollection = StationDB.GetCollection("attachments");
+
 		#region Fields
 
 		public static string PostID;
@@ -45,9 +47,6 @@ namespace Waveface.DetailUI
 
 		private ContextMenuStrip contextMenuStripTop;
 		private ToolStripMenuItem miCopyTop;
-
-		//private int m_loadingPhotosCount;
-
 		private WebBrowserContextMenuHandler m_topBrowserContextMenuHandler;
 
 		private List<string> m_clickableURLs;
@@ -60,6 +59,7 @@ namespace Waveface.DetailUI
 		private ImageListViewItem m_selectedItem;
 		private ToolStripMenuItem miDuplicate;
 		private ToolStripMenuItem propertyToolStripMenuItem;
+		private ToolStripMenuItem miLocateOnDisk;
 
 		private DragDrop_Clipboard_Helper m_dragDropClipboardHelper;
 		#endregion
@@ -165,6 +165,7 @@ namespace Waveface.DetailUI
 			this.miOpen = new System.Windows.Forms.ToolStripMenuItem();
 			this.miDuplicate = new System.Windows.Forms.ToolStripMenuItem();
 			this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.miLocateOnDisk = new System.Windows.Forms.ToolStripMenuItem();
 			this.panelPictureInfo = new System.Windows.Forms.Panel();
 			this.labelPictureInfo = new System.Windows.Forms.Label();
 			this.webBrowserTop = new System.Windows.Forms.WebBrowser();
@@ -180,9 +181,9 @@ namespace Waveface.DetailUI
 			// 
 			// panelMain
 			// 
-			resources.ApplyResources(this.panelMain, "panelMain");
 			this.panelMain.BackColor = System.Drawing.Color.White;
 			this.panelMain.Controls.Add(this.panelRight);
+			resources.ApplyResources(this.panelMain, "panelMain");
 			this.panelMain.Name = "panelMain";
 			// 
 			// panelRight
@@ -197,18 +198,17 @@ namespace Waveface.DetailUI
 			// 
 			// btnSaveAllPhotos
 			// 
-			resources.ApplyResources(this.btnSaveAllPhotos, "btnSaveAllPhotos");
 			this.btnSaveAllPhotos.CenterAlignImage = false;
 			this.btnSaveAllPhotos.Image = global::Waveface.Properties.Resources.FB_saveall;
 			this.btnSaveAllPhotos.ImageDisable = global::Waveface.Properties.Resources.FB_saveall_hl;
 			this.btnSaveAllPhotos.ImageFront = null;
 			this.btnSaveAllPhotos.ImageHover = global::Waveface.Properties.Resources.FB_saveall_hl;
+			resources.ApplyResources(this.btnSaveAllPhotos, "btnSaveAllPhotos");
 			this.btnSaveAllPhotos.Name = "btnSaveAllPhotos";
 			this.btnSaveAllPhotos.TextShadow = true;
 			// 
 			// imageListView
 			// 
-			resources.ApplyResources(this.imageListView, "imageListView");
 			this.imageListView.AllowDrop = true;
 			this.imageListView.AllowDuplicateFileNames = true;
 			this.imageListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -216,6 +216,7 @@ namespace Waveface.DetailUI
 			this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.imageListView.ContextMenuStrip = this.contextMenuStripImageList;
 			this.imageListView.DefaultImage = ((System.Drawing.Image)(resources.GetObject("imageListView.DefaultImage")));
+			resources.ApplyResources(this.imageListView, "imageListView");
 			this.imageListView.ErrorImage = ((System.Drawing.Image)(resources.GetObject("imageListView.ErrorImage")));
 			this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
 			this.imageListView.Name = "imageListView";
@@ -232,45 +233,52 @@ namespace Waveface.DetailUI
 			// 
 			// contextMenuStripImageList
 			// 
-			resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
 			this.contextMenuStripImageList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSetCoverImage,
             this.miOpen,
+            this.miLocateOnDisk,
             this.miDuplicate,
             this.propertyToolStripMenuItem});
 			this.contextMenuStripImageList.Name = "contextMenuStripImageList";
+			resources.ApplyResources(this.contextMenuStripImageList, "contextMenuStripImageList");
 			this.contextMenuStripImageList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripImageList_Opening);
 			// 
 			// miSetCoverImage
 			// 
-			resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
 			this.miSetCoverImage.Image = global::Waveface.Properties.Resources.FB_cover;
 			this.miSetCoverImage.Name = "miSetCoverImage";
+			resources.ApplyResources(this.miSetCoverImage, "miSetCoverImage");
 			this.miSetCoverImage.Click += new System.EventHandler(this.miSetCoverImage_Click);
 			// 
 			// miOpen
 			// 
-			resources.ApplyResources(this.miOpen, "miOpen");
 			this.miOpen.Image = global::Waveface.Properties.Resources.FB_openin;
 			this.miOpen.Name = "miOpen";
+			resources.ApplyResources(this.miOpen, "miOpen");
 			this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
 			// 
 			// miDuplicate
 			// 
-			resources.ApplyResources(this.miDuplicate, "miDuplicate");
 			this.miDuplicate.Name = "miDuplicate";
+			resources.ApplyResources(this.miDuplicate, "miDuplicate");
 			// 
 			// propertyToolStripMenuItem
 			// 
-			resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
 			this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
+			resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
 			this.propertyToolStripMenuItem.Click += new System.EventHandler(this.propertyToolStripMenuItem_Click);
+			// 
+			// miLocateOnDisk
+			// 
+			this.miLocateOnDisk.Name = "miLocateOnDisk";
+			resources.ApplyResources(this.miLocateOnDisk, "miLocateOnDisk");
+			this.miLocateOnDisk.Click += new System.EventHandler(this.miLocateOnDisk_Click);
 			// 
 			// panelPictureInfo
 			// 
-			resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
 			this.panelPictureInfo.BackColor = System.Drawing.Color.White;
 			this.panelPictureInfo.Controls.Add(this.labelPictureInfo);
+			resources.ApplyResources(this.panelPictureInfo, "panelPictureInfo");
 			this.panelPictureInfo.Name = "panelPictureInfo";
 			// 
 			// labelPictureInfo
@@ -281,8 +289,8 @@ namespace Waveface.DetailUI
 			// 
 			// webBrowserTop
 			// 
-			resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
 			this.webBrowserTop.AllowWebBrowserDrop = false;
+			resources.ApplyResources(this.webBrowserTop, "webBrowserTop");
 			this.webBrowserTop.Name = "webBrowserTop";
 			this.webBrowserTop.ScrollBarsEnabled = false;
 			this.webBrowserTop.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserTop_DocumentCompleted);
@@ -294,21 +302,21 @@ namespace Waveface.DetailUI
 			// 
 			// contextMenuStripTop
 			// 
-			resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
 			this.contextMenuStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopyTop});
 			this.contextMenuStripTop.Name = "contextMenuStripTop";
+			resources.ApplyResources(this.contextMenuStripTop, "contextMenuStripTop");
 			// 
 			// miCopyTop
 			// 
-			resources.ApplyResources(this.miCopyTop, "miCopyTop");
 			this.miCopyTop.Name = "miCopyTop";
+			resources.ApplyResources(this.miCopyTop, "miCopyTop");
 			// 
 			// Photo_DV
 			// 
-			resources.ApplyResources(this, "$this");
 			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.panelMain);
+			resources.ApplyResources(this, "$this");
 			this.Name = "Photo_DV";
 			this.Resize += new System.EventHandler(this.DetailView_Resize);
 			this.panelMain.ResumeLayout(false);
@@ -375,7 +383,7 @@ namespace Waveface.DetailUI
 
 			StringBuilder sb = new StringBuilder(256);
 
-			sb.Append("<body bgcolor=\"rgb(255, 255, 255)\"><font face='�L�n������, Helvetica, Arial, Verdana, sans-serif'><p>");
+			sb.Append("<body bgcolor=\"rgb(255, 255, 255)\"><font face='微軟正黑體, Helvetica, Arial, Verdana, sans-serif'><p>");
 
 			string content = HttpUtility.HtmlEncode(Post.content);
 			content = content.Replace(Environment.NewLine, "<BR>");
@@ -440,7 +448,7 @@ namespace Waveface.DetailUI
 
 			foreach (var object_id in Post.attachment_id_array)
 			{
-				var mediumPath = Main.Current.RT.REST.attachments_getThumbnailFilePath(object_id, "medium");
+				var mediumPath = RT_REST.attachments_getThumbnailFilePath(object_id, "medium");
 				_filePathMediums.Add(mediumPath);
 			}
 
@@ -785,36 +793,38 @@ namespace Waveface.DetailUI
 			DebugInfo.ShowMethod();
 
 			this.miSetCoverImage.Enabled = m_canEdit;
-			detectDuplication();
-		}
 
-		private void detectDuplication()
-		{
 			if (m_selectedItem == null)
 				return;
-			var index = Int32.Parse(((DetailViewImageListViewItemTag)m_selectedItem.Tag).Index);
-			var object_id = Post.attachment_id_array[index];
-			var attachmentCollection = StationDB.GetCollection("attachments");
-			var selected = attachmentCollection.FindOne(Query.EQ("_id", object_id));
 
+			var selected = getSelectedAttachmentDoc();
+
+			detectDuplication(selected);
+			miLocateOnDisk.Visible = (selected != null &&  selected.Contains("saved_file_name") && !string.IsNullOrEmpty(selected["saved_file_name"].AsString));
+		}
+
+		private void detectDuplication(BsonDocument selected)
+		{
 			if (selected != null)
 			{
 				var selectedMD5 = selected.GetValue("md5", string.Empty).AsString;
 
 				if (!string.IsNullOrEmpty(selectedMD5))
 				{
-					var total = attachmentCollection.Find(Query.EQ("md5", selectedMD5));
+					var total = attachmentCollection.Find(
+						Query.And(Query.EQ("md5", selectedMD5), Query.EQ("group_id", Main.Current.RT.CurrentGroupID)));
 					var totalCount = total.Count();
 
 					if (totalCount > 1)
 					{
-						miDuplicate.Text = "Duplicated photo(s): " + (totalCount - 1);
+						
+						miDuplicate.Text = string.Format(Properties.Resources.DUPLICATE_PHOTO, (totalCount - 1));
 						return;
 					}
 				}
 			}
 
-			miDuplicate.Text = "Duplicated photo(s): not found";
+			miDuplicate.Text = Properties.Resources.NO_DUP_PHOTO;
 		}
 
 		private void imageListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -857,7 +867,6 @@ namespace Waveface.DetailUI
 			DebugInfo.ShowMethod();
 
 			string _fileName = string.Empty;
-			bool _OriginFileExist;
 
 			FolderBrowserDialog _dialog = new FolderBrowserDialog();
 
@@ -878,17 +887,10 @@ namespace Waveface.DetailUI
 					var attachmentId = Post.attachment_id_array[i];
 					_fileName = queryFileName(attachmentId, Path.GetExtension(imageListView.Items[i].FileName));
 					_fileName = FileUtility.saveFileWithoutOverwrite(_fileName, _folder);
-					_OriginFileExist = false;
 
 					var origFilePath = Main.Current.RT.REST.attachments_getOriginFilePath(attachmentId);
+					var _OriginFileExist = Main.Current.IsPrimaryStation && File.Exists(origFilePath);
 
-					if (Main.Current.IsPrimaryStation)
-					{
-						if (!string.IsNullOrEmpty(origFilePath) && File.Exists(origFilePath))
-						{
-							_OriginFileExist = true;
-						}
-					}
 
 					try
 					{
@@ -1045,15 +1047,7 @@ namespace Waveface.DetailUI
 
 		private void propertyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (m_selectedItem == null)
-				return;
-
-			DebugInfo.ShowMethod();
-
-			var index = Int32.Parse(((DetailViewImageListViewItemTag)m_selectedItem.Tag).Index);
-			var object_id = Post.attachment_id_array[index];
-			var attachmentCollection = StationDB.GetCollection("attachments");
-			var selected = attachmentCollection.FindOne(Query.EQ("_id", object_id));
+			var selected = getSelectedAttachmentDoc();
 
 			if (selected != null)
 			{
@@ -1107,6 +1101,41 @@ namespace Waveface.DetailUI
 					dialog.StartPosition = FormStartPosition.CenterParent;
 					dialog.ShowDialog();
 				}
+			}
+		}
+
+		private string getSelectedObjectId()
+		{
+			if (m_selectedItem == null)
+				return null;
+
+			DebugInfo.ShowMethod();
+
+			var index = Int32.Parse(((DetailViewImageListViewItemTag)m_selectedItem.Tag).Index);
+			return Post.attachment_id_array[index];
+		}
+
+
+		private BsonDocument getSelectedAttachmentDoc()
+		{
+			var object_id = getSelectedObjectId();
+
+			if (object_id == null)
+				return null;
+
+			var selected = attachmentCollection.FindOneById(object_id);
+
+			return selected;
+		}
+
+		private void miLocateOnDisk_Click(object sender, EventArgs e)
+		{
+			var object_id = getSelectedObjectId();
+			
+			if (object_id!=null)
+			{
+				var file_path = Main.Current.RT.REST.attachments_getOriginFilePath(object_id);
+				Process.Start("explorer.exe", "/select, \"" + file_path + "\"");
 			}
 		}
 
