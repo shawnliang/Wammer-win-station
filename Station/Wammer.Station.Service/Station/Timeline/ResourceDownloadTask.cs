@@ -132,6 +132,10 @@ namespace Wammer.Station.Timeline
 
 		public static void SaveToAttachmentDB(ImageMeta meta, string saveFileName, AttachmentInfo attachmentAttributes, string mimeType, long length)
 		{
+			// gps info is moved out of exif structure in cloud response but station still keeps gps info inside exif in station db.
+			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
+				attachmentAttributes.image_meta.exif.gps = attachmentAttributes.image_meta.gps;
+
 			if (meta == ImageMeta.Origin)
 			{
 				AttachmentCollection.Instance.Update(Query.EQ("_id", attachmentAttributes.object_id),
