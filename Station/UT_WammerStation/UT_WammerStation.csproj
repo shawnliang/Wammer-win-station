@@ -93,11 +93,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttachmentUpload\TestAttachmentUploadHandlerDB.cs" />
+    <Compile Include="AttachmentUpload\TestAttachmentUploadStorage.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_NewOriginalImage.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />
     <Compile Include="AttachmentUpload\TestImagePostProcessWithPostId.cs" />
     <Compile Include="AttachmentUpload\TestImagePostProcess.cs" />
+    <Compile Include="AttachmentViewTest\TestAttachmentView.cs" />
+    <Compile Include="AttachmentViewTest\TestViewStorage.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
     <Compile Include="LocalUserTrack\TestLocalUTMgr.cs" />

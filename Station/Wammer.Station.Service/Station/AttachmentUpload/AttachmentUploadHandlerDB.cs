@@ -23,12 +23,6 @@ namespace Wammer.Station.AttachmentUpload
 			return result.UpdatedExisting ? UpsertResult.Update : UpsertResult.Insert;
 		}
 
-		public Driver GetUserByGroupId(string groupId)
-		{
-			return DriverCollection.Instance.FindDriverByGroupId(groupId);
-		}
-
-
 		public LoginedSession FindSession(string sessionToken, string apiKey)
 		{
 			LoginedSession session = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));

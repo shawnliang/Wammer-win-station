@@ -48,6 +48,8 @@
     <CustomAction Id='MigrateThumbnailsExtension' BinaryKey='InstallHelperDll' DllEntry='MigrateThumbnailsExtension' />
     <!-- MigrateUserTracks -->
     <CustomAction Id='MigrateUserTracks' BinaryKey='InstallHelperDll' DllEntry='MigrateUserTracks' />
+    <!-- MigrateOriginalPhotoLocation -->
+    <CustomAction Id='MigrateOriginalPhotoLocation' BinaryKey='InstallHelperDll' DllEntry='MigrateOriginalPhotoLocation' />
     <!-- WriteProductInfo -->
     <CustomAction Id='WriteProductInfo' BinaryKey='InstallHelperDll' DllEntry='WriteProductInfo' />
     
@@ -88,7 +90,10 @@
       <Custom Action="MigrateUserTracks" After="MigrateThumbnailsExtension">
         (&amp;MainFeature = 3)
       </Custom>
-      <Custom Action="StartWavefaceService" After="MigrateUserTracks">
+      <Custom Action="MigrateOriginalPhotoLocation" After="MigrateUserTracks">
+        (&amp;MainFeature = 3)
+      </Custom>
+      <Custom Action="StartWavefaceService" After="MigrateOriginalPhotoLocation">
         (&amp;MainFeature = 3)
       </Custom>
       <Custom Action="WriteProductInfo" After="StartWavefaceService">
@@ -106,6 +111,7 @@
       <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
       <ProgressText Action="MigrateThumbnailsExtension">!(loc.Migrating)</ProgressText>
       <ProgressText Action="MigrateUserTracks">!(loc.Migrating)</ProgressText>
+      <ProgressText Action="MigrateOriginalPhotoLocation">!(loc.Migrating)</ProgressText>
       <ProgressText Action="WriteProductInfo">!(loc.WriteProductInfo)</ProgressText>
     </UI>
     <!-- Program Menu-->

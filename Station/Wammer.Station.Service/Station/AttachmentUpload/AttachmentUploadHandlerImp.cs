@@ -23,8 +23,41 @@ namespace Wammer.Station.AttachmentUpload
 	public interface IAttachmentUploadHandlerDB
 	{
 		UpsertResult InsertOrMergeToExistingDoc(Attachment doc);
-		Driver GetUserByGroupId(string groupId);
 		LoginedSession FindSession(string sessionToken, string apiKey);
+	}
+
+	public class AttachmentSaveResult
+	{
+		public AttachmentSaveResult(string storagePath, string relativePath)
+		{
+			this.StorageBasePath = storagePath;
+			this.RelativePath = relativePath;
+		}
+
+		/// <summary>
+		/// Storage base path
+		/// </summary>
+		public string StorageBasePath { get; private set; }
+		
+		/// <summary>
+		/// Attachment saved path which is a relative path to StorageBasePath
+		/// </summary>
+		public string RelativePath { get; private set; }
+		
+		public string FullPath
+		{
+			get { return Path.Combine(StorageBasePath, RelativePath); }
+		}
+	}
+
+	public interface IAttachmentUploadStorage
+	{
+		/// <summary>
+		/// Saves attachment to proper location
+		/// </summary>
+		/// <param name="data">attachment data</param>
+		/// <returns>relative save path to user resource filder (if attachment is original) or to user cache folder (if attachment is a thumbnail)</returns>
+		AttachmentSaveResult Save(UploadData data, string takenTime);
 	}
 
 	public class UploadData
@@ -52,6 +85,7 @@ namespace Wammer.Station.AttachmentUpload
 		public string post_id { get; set; }
 		public string file_path { get; set; }
 		public DateTime? import_time { get; set; }
+		public DateTime? file_create_time { get; set; }
 		public string exif { get; set; }
 	}
 
@@ -80,15 +114,30 @@ namespace Wammer.Station.AttachmentUpload
 		public string GroupId { get; private set; }
 	}
 
+	public interface IExifExtractor
+	{
+		/// <summary>
+		/// Extracts exif information from image file
+		/// </summary>
+		/// <param name="imageData"></param>
+		/// <returns>exif data; null is returned if no exif is embeded or error</returns>
+		exif extract(ArraySegment<byte> imageData);
+	}
+
+
 	public class AttachmentUploadHandlerImp
 	{
 		private readonly IAttachmentUploadHandlerDB db;
+		private readonly IAttachmentUploadStorage storage;
+		public IExifExtractor exifExtractor { get; set; }
 
-		public AttachmentUploadHandlerImp(IAttachmentUploadHandlerDB db)
+		public AttachmentUploadHandlerImp(IAttachmentUploadHandlerDB db, IAttachmentUploadStorage storage)
 		{
 			DebugInfo.ShowMethod();
 
 			this.db = db;
+			this.storage = storage;
+			this.exifExtractor = new ExifExtractor();
 		}
 
 		public event EventHandler<AttachmentEventArgs> AttachmentProcessed;
@@ -119,10 +168,14 @@ namespace Wammer.Station.AttachmentUpload
 			if (doc != null)
 				return;
 
-			var storage = GetUserStorage(uploadData);
-			var filename = GetSavedFileName(uploadData);
-			storage.SaveFile(filename, uploadData.raw_data);
 
+			exif exif = null;
+			if (!string.IsNullOrEmpty(uploadData.exif))
+				exif = parseExifParameter(uploadData);
+			else
+				exif = extractExifFromOriginImage(uploadData);
+
+			var saveReult = storage.Save(uploadData, (exif != null) ? exif.DateTimeOriginal : null);
 			var dbDoc = new Attachment
 							{
 								object_id = uploadData.object_id,
@@ -137,21 +190,17 @@ namespace Wammer.Station.AttachmentUpload
 								image_meta = new ImageProperty()
 							};
 
-			dbDoc.image_meta.exif = parseExif(uploadData);
-
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
 			{
 				dbDoc.mime_type = uploadData.mime_type;
-				dbDoc.saved_file_name = filename;
+				dbDoc.saved_file_name = saveReult.RelativePath;
 				dbDoc.file_size = uploadData.raw_data.Count;
 				dbDoc.url = GetViewApiUrl(uploadData);
 				dbDoc.md5 = ComputeMD5(uploadData.raw_data);
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
-
-				var photoFile = Path.Combine(storage.basePath, dbDoc.saved_file_name);
-
-				extractExif(dbDoc, photoFile);
+				dbDoc.file_create_time = uploadData.file_create_time;
+				dbDoc.image_meta.exif = exif;
 			}
 			else
 			{
@@ -160,7 +209,7 @@ namespace Wammer.Station.AttachmentUpload
 									file_size = uploadData.raw_data.Count,
 									md5 = ComputeMD5(uploadData.raw_data),
 									mime_type = uploadData.mime_type,
-									saved_file_name = filename,
+									saved_file_name = saveReult.RelativePath,
 									url = GetViewApiUrl(uploadData),
 									width = imageSize.Width,
 									height = imageSize.Height
@@ -185,183 +234,24 @@ namespace Wammer.Station.AttachmentUpload
 			);
 		}
 
-		private exif parseExif(UploadData uploadData)
+		private exif parseExifParameter(UploadData uploadData)
 		{
-			if (string.IsNullOrEmpty(uploadData.exif))
-				return null;
-
 			try
 			{
 				return JsonConvert.DeserializeObject<exif>(uploadData.exif);
 			}
 			catch (Exception e)
 			{
-				this.LogWarnMsg("Unable to parse exif: " + uploadData.exif, e);
+				throw new FormatException("parameter 'exif' format error", e);
+			}
+		}
+
+		private exif extractExifFromOriginImage(UploadData uploadData)
+		{
+			if (uploadData.imageMeta == ImageMeta.Origin)
+				return exifExtractor.extract(uploadData.raw_data);
+			else
 				return null;
-			}
-		}
-
-		private static void extractExif(Attachment dbDoc, string photoFile)
-		{
-			DebugInfo.ShowMethod();
-
-			try
-			{
-				ExifFile exifFile = ExifFile.Read(photoFile);
-
-				var exif = new exif();
-
-				// Read metadata
-				foreach (ExifProperty item in exifFile.Properties.Values)
-				{
-					switch (item.Tag)
-					{
-						case ExifTag.DateTimeOriginal:
-							exif.DateTimeOriginal = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
-						case ExifTag.DateTimeDigitized:
-							exif.DateTimeDigitized = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
-						case ExifTag.DateTime:
-							exif.DateTime = ((DateTime)item.Value).ToString("yyyy:MM:dd HH:mm:ss");
-							break;
-						case ExifTag.Model:
-							exif.Model = item.Value.ToString();
-							break;
-						case ExifTag.Make:
-							exif.Make = item.Value.ToString();
-							break;
-						case ExifTag.ExposureTime:
-							exif.ExposureTime = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.FNumber:
-							exif.FNumber = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.ApertureValue:
-							exif.ApertureValue = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.FocalLength:
-							exif.FocalLength = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.Flash:
-							exif.Flash = (int)((Flash)item.Value);
-							break;
-						case ExifTag.ISOSpeedRatings:
-							exif.ISOSpeedRatings = (int)((ExifLibrary.ExifUShort)(item)).Value;
-							break;
-						case ExifTag.ColorSpace:
-							exif.ColorSpace = (int)((ColorSpace)item.Value);
-							break;
-						case ExifTag.WhiteBalance:
-							exif.WhiteBalance = (int)((WhiteBalance)item.Value);
-							break;
-
-						case ExifTag.YResolution:
-							exif.YResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						//case ExifTag.ResolutionUnit:
-						//    exif.ResolutionUnit = (int)((ResolutionUnit)item.Value);
-						//    break;
-
-
-						case ExifTag.MeteringMode:
-							exif.MeteringMode = (int)((MeteringMode)item.Value);
-							break;
-						case ExifTag.XResolution:
-							exif.XResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
-							break;
-						case ExifTag.ExposureProgram:
-							exif.ExposureProgram = (int)((ExposureMode)item.Value);
-							break;
-						case ExifTag.SensingMethod:
-							exif.SensingMethod = (int)item.Value;
-							break;
-						case ExifTag.Software:
-							exif.Software = item.Value.ToString();
-							break;
-						case ExifTag.FlashpixVersion:
-							exif.FlashPixVersion = item.Value.ToString();
-							break;
-						case ExifTag.YCbCrPositioning:
-							exif.YCbCrPositioning = (int)((YCbCrPositioning)item.Value);
-							break;
-						case ExifTag.ExifVersion:
-							exif.ExifVersion = exifFile.Properties[ExifTag.ExifVersion].Value.ToString();
-							break;
-						//case ExifTag.GPSLongitude:
-						//    if (exif.gps == null)
-						//        exif.gps = new Gps();
-						//    exif.gps.longitude = (double)item.Value;
-						//    break;
-						//case ExifTag.GPSLatitude:
-						//    if (exif.gps == null)
-						//        exif.gps = new Gps();
-						//    exif.gps.latitude = (double)item.Value;
-						//    break;
-					}
-				}
-
-				if (exifFile.Properties.ContainsKey(ExifTag.GPSLatitudeRef) &&
-					exifFile.Properties.ContainsKey(ExifTag.GPSLatitude) &&
-					exifFile.Properties.ContainsKey(ExifTag.GPSLongitudeRef) &&
-					exifFile.Properties.ContainsKey(ExifTag.GPSLongitude))
-				{
-					var gpsLatitudeRef = exifFile.Properties[ExifTag.GPSLatitudeRef].Value.ToString();
-					var gpsLatitude = exifFile.Properties[ExifTag.GPSLatitude] as GPSLatitudeLongitude;
-					var gpsLongitudeRef = exifFile.Properties[ExifTag.GPSLongitudeRef].Value.ToString();
-					var gpsLongitude = exifFile.Properties[ExifTag.GPSLongitude] as GPSLatitudeLongitude;
-
-					var gpsInfo = new GPSInfo()
-					{
-						GPSLatitudeRef = gpsLatitudeRef[0].ToString(),
-						GPSLongitudeRef = gpsLongitudeRef[0].ToString()
-					};
-
-					gpsInfo.GPSLatitude = new List<List<int>>();
-					gpsInfo.GPSLatitude.Add(new List<int>() { (int)gpsLatitude.Degrees.Numerator, (int)gpsLatitude.Degrees.Denominator });
-					gpsInfo.GPSLatitude.Add(new List<int>() { (int)gpsLatitude.Minutes.Numerator, (int)gpsLatitude.Minutes.Denominator });
-					gpsInfo.GPSLatitude.Add(new List<int>() { (int)gpsLatitude.Seconds.Numerator, (int)gpsLatitude.Seconds.Denominator });
-
-					gpsInfo.GPSLongitude = new List<List<int>>();
-					gpsInfo.GPSLongitude.Add(new List<int>() { (int)gpsLongitude.Degrees.Numerator, (int)gpsLongitude.Degrees.Denominator });
-					gpsInfo.GPSLongitude.Add(new List<int>() { (int)gpsLongitude.Minutes.Numerator, (int)gpsLongitude.Minutes.Denominator });
-					gpsInfo.GPSLongitude.Add(new List<int>() { (int)gpsLongitude.Seconds.Numerator, (int)gpsLongitude.Seconds.Denominator });
-
-					exif.GPSInfo = gpsInfo;
-
-					if (exif.gps == null)
-						exif.gps = new Gps();
-
-					var Nmult = gpsLatitudeRef.Equals("North", StringComparison.CurrentCultureIgnoreCase) ? 1 : -1;
-					var Ndeg = (int)gpsLatitude.Degrees.Numerator / (int)gpsLatitude.Degrees.Denominator;
-					var Nmin = (int)gpsLatitude.Minutes.Numerator / (int)gpsLatitude.Minutes.Denominator;
-					var Nsec = (int)gpsLatitude.Seconds.Numerator / (int)gpsLatitude.Seconds.Denominator;
-					exif.gps.latitude = Nmult * (Ndeg + (Nmin + Nsec / 60.0) / 60.0);
-
-					var Wmult = gpsLatitudeRef.Equals("East", StringComparison.CurrentCultureIgnoreCase) ? 1 : -1;
-					var Wdeg = (int)gpsLongitude.Degrees.Numerator / (int)gpsLongitude.Degrees.Denominator;
-					var Wmin = (int)gpsLongitude.Minutes.Numerator / (int)gpsLongitude.Minutes.Denominator;
-					var Wsec = (int)gpsLongitude.Seconds.Numerator / (int)gpsLongitude.Seconds.Denominator;
-					exif.gps.longitude = Wmult * (Wdeg + (Wmin + Wsec / 60.0) / 60.0);
-				}
-
-				dbDoc.image_meta.exif = exif;
-			}
-			catch
-			{
-			}
-		}
-
-		private FileStorage GetUserStorage(UploadData uploadData)
-		{
-			DebugInfo.ShowMethod();
-
-			Driver user = db.GetUserByGroupId(uploadData.group_id);
-			if (user == null)
-				throw new WammerStationException("User is not associated with this station", (int)StationLocalApiError.InvalidDriver);
-
-			var storage = new FileStorage(user);
-			return storage;
 		}
 
 		private void OnAttachmentProcessed(AttachmentEventArgs evt)

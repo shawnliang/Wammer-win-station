@@ -33,7 +33,7 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			var fileStorage = new FileStorage(user);
 
-			using (FileStream f = fileStorage.Load(imageFilename))
+			using (FileStream f = fileStorage.Load(imageFilename, ImageMeta.Origin))
 			using (var image = new Bitmap(f))
 			{
 				return ImagePostProcessing.MakeThumbnail(image, thumbnailType, ExifOrientations.Unknown, object_id, user,
@@ -81,7 +81,7 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			var fileStorage = new FileStorage(user);
 
-			using (FileStream f = fileStorage.Load(filename))
+			using (FileStream f = fileStorage.Load(filename, meta))
 			{
 				AttachmentApi.Upload(f, user.groups[0].group_id, object_id, origFileName, mime_type, meta, type, apikey,
 								  session, 1024, UpstreamProgressChanged);

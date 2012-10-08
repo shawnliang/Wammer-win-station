@@ -38,15 +38,19 @@ namespace UT_WammerStation.AttachmentUpload
 		{
 			Attachment savedAttachment = null;
 
-			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
-			db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
+			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
+			storage.Setup(x => x.Save(uploadData, It.IsAny<string>())).Returns(new AttachmentSaveResult("", @"2001\10\20\filename.jpg")).Verifiable();
+
+			Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>(MockBehavior.Strict);
+			//db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
 			db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback((Attachment a) => { savedAttachment = a; }).Returns(UpsertResult.Update).Verifiable();
 			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
-			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
+			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object, storage.Object);
 
 			handler.Process(uploadData);
 
 			db.VerifyAll();
+			storage.VerifyAll();
 			//Assert.AreEqual(savedAttachment.object_id, res.object_id);
 
 			Assert.AreEqual(uploadData.file_name, savedAttachment.file_name);
@@ -56,10 +60,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual(uploadData.group_id, savedAttachment.group_id);
 			Assert.AreEqual(uploadData.type, savedAttachment.type);
 
-			Assert.AreEqual(uploadData.object_id + ".jpg", savedAttachment.saved_file_name);
-
-			FileStorage storage = new FileStorage(new Driver { folder = "" });
-			Assert.IsTrue(File.Exists(Path.Combine(storage.basePath,savedAttachment.saved_file_name)));
+			Assert.AreEqual(@"2001\10\20\filename.jpg", savedAttachment.saved_file_name);
 		}
 	}
 }

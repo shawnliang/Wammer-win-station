@@ -16,8 +16,8 @@ namespace Wammer.Station.APIHandler
 
 		public AttachmentUploadHandler()
 		{
+			imp = new AttachmentUploadHandlerImp(new AttachmentUploadHandlerDB(), new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
 			DebugInfo.ShowMethod();
-			imp = new AttachmentUploadHandlerImp(new AttachmentUploadHandlerDB());
 		}
 
 		public event EventHandler<AttachmentEventArgs> AttachmentProcessed
@@ -50,6 +50,23 @@ namespace Wammer.Station.APIHandler
 			RespondSuccess(ObjectUploadResponse.CreateSuccess(data.object_id));
 		}
 
+		private DateTime? getCloudTimeFromParameters(string field)
+		{
+			try
+			{
+				var value = Parameters[field];
+
+				if (!string.IsNullOrEmpty(value))
+					return TimeHelper.ParseCloudTimeString(value);
+				else
+					return null;
+			}
+			catch (Exception e)
+			{
+				throw new FormatException(field + " format error", e);
+			}
+		}
+
 		private UploadData GetUploadData()
 		{
 			DebugInfo.ShowMethod();
@@ -74,15 +91,8 @@ namespace Wammer.Station.APIHandler
 			data.file_path = Parameters["file_path"];
 			data.exif = Parameters["exif"];
 
-			try
-			{
-				if (!string.IsNullOrEmpty(Parameters["import_time"]))
-					data.import_time = TimeHelper.ParseCloudTimeString(Parameters["import_time"]);
-			}
-			catch (Exception e)
-			{
-				throw new FormatException("import_time format error", e);
-			}
+			data.import_time = getCloudTimeFromParameters("import_time");
+			data.file_create_time = getCloudTimeFromParameters("file_create_time");
 
 			try
 			{

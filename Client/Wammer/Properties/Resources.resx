@@ -751,11 +751,16 @@ Please restart the program to initialize Stream Station.</value>
   <data name="WEB_PREVIEW_COME_FROM" xml:space="preserve">
     <value>Web link preview for</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="import-photos_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\import-photos_normal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="import-photos_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\import-photos_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DUPLICATE_PHOTO" xml:space="preserve">
+    <value>{0} duplicated photo(s) found</value>
+  </data>
+  <data name="NO_DUP_PHOTO" xml:space="preserve">
+    <value>No duplicated photo found</value>
   </data>
 </root>

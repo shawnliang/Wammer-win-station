@@ -83,7 +83,7 @@ namespace Wammer.Cloud
 			CloudServer.requestDownload("attachments/view", parameters, evtargs.filepath);
 		}
 
-		public static AttachmentView GetImageMetadata(string objectId, string session_token, string apikey,
+		public static AttachmentRedirectInfo GetImageMetadata(string objectId, string session_token, string apikey,
 														   ImageMeta meta, string station_id)
 		{
 			var parameters = new Dictionary<object, object>
@@ -98,70 +98,17 @@ namespace Wammer.Cloud
 			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 				parameters.Add("image_meta", meta.ToString().ToLower());
 
-			return CloudServer.requestPath<AttachmentView>("attachments/view", parameters, true, false);
+			return CloudServer.requestPath<AttachmentRedirectInfo>("attachments/view", parameters, true, false);
 		}
 
-		public static void SaveImageFromMetaData(AttachmentView metadata,string file,ref string contentType,
-															   Action<object, ProgressChangedEventArgs>
-																progressChangedCallBack)
+		public static DownloadResult DownloadObject(string url, AttachmentInfo metaData = null)
 		{
-			var resDir = Path.GetDirectoryName(file);
-			var tempFile = Path.Combine(resDir, Guid.NewGuid().ToString());
-
-			try
-			{
-				using (var agent = new DefaultWebClient())
-				{
-					agent.DownloadFile(metadata.redirect_to, tempFile, true, progressChangedCallBack);
-					contentType = agent.ResponseHeaders["Content-type"];
-					File.Move(tempFile, file);
-				}
-			}
-			catch (IOException)
-			{
-				// File.Move() failed because destination already exists. Consider this case successful.
-			}
-			finally
-			{
-				removeTempFile(tempFile);
-			}
-		}
-
-		private static void removeTempFile(string tempFile)
-		{
-			try
-			{
-				if (File.Exists(tempFile))
-					File.Delete(tempFile);
-			}
-			catch
-			{
-			}
-		}
-
-		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey,
-		                                                       ImageMeta meta, string station_id)
-		{
-			return DownloadImageWithMetadata(objectId, session_token, apikey, meta, station_id, null);
-		}
-
-
-		public static DownloadResult DownloadImageWithMetadata(string objectId, string session_token, string apikey,
-															   ImageMeta meta, string station_id,
-															   Action<object, ProgressChangedEventArgs>
-																progressChangedCallBack)
-		{
-			var metadata = GetImageMetadata(objectId, session_token, apikey, meta, station_id);
-
-			logger.Info("Attachement redirect to: " + metadata.redirect_to);
 			using (var agent = new DefaultWebClient())
 			{
-				using (var to = new MemoryStream())
-				using (var from = agent.OpenRead(metadata.redirect_to))
-				{
-					from.WriteTo(to, 1024, progressChangedCallBack);
-					return new DownloadResult(to.ToArray(), metadata, agent.ResponseHeaders["Content-type"]);
-				}
+				var data = agent.DownloadData(url);
+				var contentType = agent.ResponseHeaders["Content-type"];
+
+				return new DownloadResult(data, metaData, contentType);
 			}
 		}
 
@@ -303,9 +250,15 @@ namespace Wammer.Cloud
 		}
 	}
 
+	public class AttachmentRedirectInfo : AttachmentInfo
+	{
+		public string redirect_to { get; set; }
+	}
+
+
 	public class DownloadResult
 	{
-		public DownloadResult(byte[] Image, AttachmentView metadata, string contentType)
+		public DownloadResult(byte[] Image, AttachmentInfo metadata, string contentType)
 		{
 			this.Image = Image;
 			Metadata = metadata;
@@ -313,9 +266,10 @@ namespace Wammer.Cloud
 		}
 
 		public byte[] Image { get; private set; }
-		public AttachmentView Metadata { get; private set; }
+		public AttachmentInfo Metadata { get; private set; }
 		public string ContentType { get; private set; }
 	}
+
 	public class AttachmentQueueResponse
 	{
 		public int total_results { get; set; }

@@ -17,12 +17,17 @@ namespace Wammer.Model
 		[BsonDefaultValue(false)]
 		public bool UsingChangeLogsInsteadOfUserTracks { get; set; }
 
+		[BsonIgnoreIfNull]
+		[BsonDefaultValue(false)]
+		public bool PlaceAttachmentsByDate { get; set; }
+
 		public static ProductInfo GetCurrentVersion()
 		{
 			return new ProductInfo
 			{
 				ThumbnailExtensionIsDat = true,
-				UsingChangeLogsInsteadOfUserTracks = true
+				UsingChangeLogsInsteadOfUserTracks = true,
+				PlaceAttachmentsByDate = true
 			};
 		}
 	}

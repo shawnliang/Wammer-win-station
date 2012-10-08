@@ -7,6 +7,7 @@ using Wammer.Model;
 using Wammer.Utility;
 using log4net;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Wammer.Station
 {
@@ -105,39 +106,13 @@ namespace Wammer.Station
 		SavedResult Save(Image img, string attchId, ImageMeta meta, Driver driver);
 	}
 
-	internal class JpegImageSaveStrategy : ImageSaveStrategy
-	{
-		#region ImageSaveStrategy Members
-
-		public SavedResult Save(Image img, string attchId, ImageMeta meta, Driver driver)
-		{
-			using (var m = new MemoryStream())
-			{
-				var encodeParams = new EncoderParameters(1);
-				encodeParams.Param[0] = new EncoderParameter(Encoder.Quality, (long) 85);
-				img.Save(m, ImageHelper.JpegCodec, encodeParams);
-
-				var savedResult = new SavedResult
-				                  	{
-				                  		SavedRawData = m.ToArray(),
-				                  		FileName = string.Format("{0}_{1}.dat", attchId, meta.ToString().ToLower()),
-				                  		MimeType = "image/jpeg"
-				                  	};
-
-				new FileStorage(driver).SaveFile(savedResult.FileName, new ArraySegment<byte>(savedResult.SavedRawData));
-
-				return savedResult;
-			}
-		}
-
-		#endregion
-	}
-
 	internal abstract class CommonImageSaveStrategy : ImageSaveStrategy
 	{
 		private readonly ImageFormat format;
 		private readonly string mimeType;
 		private readonly string suffix;
+
+		protected EncoderParameters encoderParameters { get; set; }
 
 		protected CommonImageSaveStrategy(ImageFormat format, string suffix, string mimeType)
 		{
@@ -152,18 +127,21 @@ namespace Wammer.Station
 		{
 			using (var m = new MemoryStream())
 			{
-				img.Save(m, format);
+				if (format == ImageFormat.Jpeg)
+					img.Save(m, ImageHelper.JpegCodec, encoderParameters);
+				else
+					img.Save(m, format);
 
-				var savedResult = new SavedResult
-				                  	{
-				                  		SavedRawData = m.ToArray(),
-				                  		FileName = string.Format("{0}_{1}.{2}", attchId, meta.ToString().ToLower(), suffix),
-				                  		MimeType = mimeType
-				                  	};
+				var rawData = m.ToArray();
+				var saveFileName = string.Format("{0}_{1}.{2}", attchId, meta.GetCustomAttribute<DescriptionAttribute>().Description, suffix);
+				saveFileName = FileStorage.SaveToCacheFolder(driver.user_id, saveFileName, new ArraySegment<byte>(rawData));
 
-				new FileStorage(driver).SaveFile(savedResult.FileName, new ArraySegment<byte>(savedResult.SavedRawData));
-
-				return savedResult;
+				return new SavedResult
+				{
+					SavedRawData = rawData,
+					MimeType = mimeType,
+					FileName = saveFileName
+				};
 			}
 		}
 
@@ -185,6 +163,19 @@ namespace Wammer.Station
 		{
 		}
 	}
+
+	internal class JpegImageSaveStrategy : CommonImageSaveStrategy
+	{
+		public JpegImageSaveStrategy()
+			: base(ImageFormat.Jpeg, "dat", "image/jpeg")
+		{
+			var parameters = new EncoderParameters(1);
+			parameters.Param[0] = new EncoderParameter(Encoder.Quality, (long)85);
+			this.encoderParameters = parameters;
+		}
+
+	}
+
 
 	public class ThumbnailUpstreamedEventArgs : EventArgs
 	{

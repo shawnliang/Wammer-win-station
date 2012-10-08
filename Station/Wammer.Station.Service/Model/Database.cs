@@ -103,6 +103,11 @@ namespace Wammer.Model
 			return collection.FindOne();
 		}
 
+		public T FindOneById(BsonValue id)
+		{
+			return collection.FindOneById(id);
+		}
+
 		public K FindOneAs<K>(IMongoQuery query)
 		{
 			return collection.FindOneAs<K>(query);

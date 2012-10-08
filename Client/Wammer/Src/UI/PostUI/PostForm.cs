@@ -186,15 +186,18 @@ namespace Waveface
 
                         foreach (KeyValuePair<string, string> _imgPair in m_oldImageFiles)
                         {
-                            var file = _imgPair.Value;
-                            if (!File.Exists(file))
+							
+                            var mediumFile = _imgPair.Value;
+
+							if (File.Exists(mediumFile))
                             {
-                                var originalFile = m_fileNameMapping[file];
-                                var extension = Path.GetExtension(originalFile);
-                                var objectID = file.Substring(0, file.LastIndexOf("_"));
-                                file = Path.Combine(Path.GetDirectoryName(file), objectID + extension);
+								_pics.Add(mediumFile);
+							}
+							else
+							{
+								var objectID = _imgPair.Key;
+								_pics.Add(Main.Current.RT.REST.attachments_getOriginFilePath(objectID));
                             }
-                            _pics.Add(file);
                         }
                     }
 
