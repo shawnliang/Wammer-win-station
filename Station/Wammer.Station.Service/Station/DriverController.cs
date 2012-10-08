@@ -267,6 +267,7 @@ namespace Wammer.Station
 			{
 				var retryTimes = 0;
 				var basePath = (new FileStorage(existingDriver)).basePath;
+
 				while (retryTimes++ < 3)
 				{
 					if (Directory.Exists(basePath))
@@ -279,6 +280,23 @@ namespace Wammer.Station
 						catch
 						{
 						}
+					}
+				}
+
+				retryTimes = 0;
+				while (retryTimes++ < 3)
+				{
+					var userCacheFolder = Path.Combine("cache", userID);
+
+					try
+					{
+						if (Directory.Exists(userCacheFolder))
+							Directory.Delete(userCacheFolder, true);
+
+						break;
+					}
+					catch
+					{
 					}
 				}
 			}
