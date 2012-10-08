@@ -236,7 +236,8 @@ namespace Wammer.Model
 		public double latitude { get; set; }
 	}
 
-
+	[Serializable]
+	[BsonIgnoreExtraElements]
 	public class exif
 	{
 		[BsonIgnoreIfNull]
