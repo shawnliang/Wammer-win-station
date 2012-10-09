@@ -187,7 +187,7 @@ namespace Wammer.Station.AttachmentUpload
 								post_id = uploadData.post_id,
 								file_path = uploadData.file_path,
 								import_time = uploadData.import_time,
-								image_meta = new ImageProperty()
+								image_meta = new ImageProperty { exif = exif }
 							};
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
@@ -200,7 +200,6 @@ namespace Wammer.Station.AttachmentUpload
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
 				dbDoc.file_create_time = uploadData.file_create_time;
-				dbDoc.image_meta.exif = exif;
 			}
 			else
 			{
