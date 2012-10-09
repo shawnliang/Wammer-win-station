@@ -390,8 +390,12 @@ namespace StationSystemTray
 					dialog.TopMost = this.TopMost;
 					dialog.BackColor = this.BackColor;
 					dialog.ShowInTaskbar = false;
+
 					if (dialog.ShowDialog() == DialogResult.Yes)
+					{
+						_closeClientProgram();
 						RemoveAccount(dgvAccountList.Rows[e.RowIndex].Tag.ToString(), dgvAccountList.Rows[e.RowIndex].Cells[0].Value.ToString(), dialog.RemoveAllDatas);
+					}
 				}
 			}
 		}

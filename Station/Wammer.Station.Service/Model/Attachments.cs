@@ -215,6 +215,7 @@ namespace Wammer.Model
 	}
 
 	[DataContract]
+	[Serializable]
 	public class GPSInfo
 	{
 		[DataMember(Name = "1")]
@@ -230,13 +231,15 @@ namespace Wammer.Model
 		public List<List<int>> GPSLongitude { get; set; }
 	}
 
+	[Serializable]
 	public class Gps
 	{
 		public double longitude { get; set; }
 		public double latitude { get; set; }
 	}
 
-
+	[Serializable]
+	[BsonIgnoreExtraElements]
 	public class exif
 	{
 		[BsonIgnoreIfNull]

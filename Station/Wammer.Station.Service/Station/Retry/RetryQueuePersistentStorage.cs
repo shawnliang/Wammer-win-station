@@ -41,19 +41,23 @@ namespace Wammer.Station.Retry
 
 		public void Add(DateTime key, IRetryTask task)
 		{
-			if (!task.GetType().IsSerializable)
-				throw new ArgumentException(task +
-				                            " is not serializable. Not adding [Serializable] attribute in front of the class?");
-
-			var formatter = new BinaryFormatter();
-			using (var m = new MemoryStream())
+			try
 			{
-				formatter.Serialize(m, task);
-				RetryQueueCollection.Instance.Save(new GenericData
-				                                   	{
-				                                   		Id = key.ToUniversalTime().Ticks.ToString(),
-				                                   		Data = m.ToArray()
-				                                   	});
+				var formatter = new BinaryFormatter();
+				using (var m = new MemoryStream())
+				{
+					formatter.Serialize(m, task);
+					RetryQueueCollection.Instance.Save(new GenericData
+														{
+															Id = key.ToUniversalTime().Ticks.ToString(),
+															Data = m.ToArray()
+														});
+				}
+			}
+			catch (System.Runtime.Serialization.SerializationException e)
+			{
+				System.Diagnostics.Debug.Assert(false, e.Message);
+				throw;
 			}
 		}
 
