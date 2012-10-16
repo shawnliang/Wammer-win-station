@@ -31,8 +31,9 @@ namespace Wammer.Station.AttachmentUpload
 					return exif;
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				this.LogWarnMsg("Cannot extract exif information", e);
 				return null;
 			}
 		}

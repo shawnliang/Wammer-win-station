@@ -241,6 +241,7 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			catch (Exception e)
 			{
+				System.Diagnostics.Debug.Assert(false, "exif format is not correct: " + e.Message);
 				throw new FormatException("parameter 'exif' format error", e);
 			}
 		}

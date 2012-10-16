@@ -234,14 +234,37 @@ namespace Wammer.Station
 				RunProgram(Path.Combine(session["INSTALLLOCATION"], @"MongoDB\mongorestore.exe"),
 					"--port 10319 \"" + dumpFolder + "\"");
 
-				string dumpBackup = Path.Combine(Path.GetDirectoryName(dumpFolder), "Backup.old");
-				if (Directory.Exists(dumpBackup))
-					Directory.Delete(dumpBackup, true);
-
-				Directory.Move(dumpFolder, dumpBackup);
+				moveDumpFolder(dumpFolder);
 			}
 			else
 				Logger.Warn(dumpFolder + " does not exist. Skip restoring");
+		}
+
+		private static void moveDumpFolder(string dumpFolder)
+		{
+			int retry = 0;
+
+			while (retry++ < 5)
+			{
+				try
+				{
+					string dumpBackup = Path.Combine(Path.GetDirectoryName(dumpFolder), "Backup.old");
+					if (Directory.Exists(dumpBackup))
+						Directory.Delete(dumpBackup, true);
+
+					Directory.Move(dumpFolder, dumpBackup);
+
+					break;
+				}
+				catch (Exception e)
+				{
+					Logger.Warn("Failed to move dump folder, retry?", e);
+					System.Threading.Thread.Sleep(500);
+				}
+			}
+
+			if (Directory.Exists(dumpFolder))
+				Directory.Delete(dumpFolder, true);
 		}
 
 		private static void RestoreStationId()

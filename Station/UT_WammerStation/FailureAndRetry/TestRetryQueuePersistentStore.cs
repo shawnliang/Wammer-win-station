@@ -133,14 +133,5 @@ namespace UT_WammerStation.FailureAndRetry
 			Assert.AreEqual(k2, items.First().NextRunTime.ToUniversalTime());
 			Assert.AreEqual(t2.Tag, (items.First().Task as Task).Tag);
 		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
-		public void TaskMustBeSerializable()
-		{
-			new RetryQueuePersistentStorage().Add(
-				DateTime.Now,
-				new BadTask());
-		}
 	}
 }
