@@ -66,6 +66,12 @@
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\ApplicationSettings.cs" />
+    <Compile Include="Src\Control\BuildPersonalCloudUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\BuildPersonalCloudUserControl.Designer.cs">
+      <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     <Compile Include="Src\Class\SimpleUIController.cs" />
     <Compile Include="Src\Class\StateMachine.cs" />
     <Compile Include="Src\Class\Win32Helper.cs" />
+    <EmbeddedResource Include="Src\Control\BuildPersonalCloudUserControl.resx">
+      <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
     </EmbeddedResource>
