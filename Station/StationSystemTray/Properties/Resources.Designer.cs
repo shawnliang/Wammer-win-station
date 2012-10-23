@@ -87,6 +87,20 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap button_appstore {
+            get {
+                object obj = ResourceManager.GetObject("button_appstore", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap button_googleplay {
+            get {
+                object obj = ResourceManager.GetObject("button_googleplay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Unable to deassociate user with Stream Station. Please try again..
         /// </summary>
@@ -592,6 +606,20 @@ namespace StationSystemTray.Properties {
         public static string StationServiceDown {
             get {
                 return ResourceManager.GetString("StationServiceDown", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_appstore_qr {
+            get {
+                object obj = ResourceManager.GetObject("stream_appstore_qr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap stream_googleplay_qr {
+            get {
+                object obj = ResourceManager.GetObject("stream_googleplay_qr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

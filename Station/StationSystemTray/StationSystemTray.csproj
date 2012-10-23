@@ -100,6 +100,12 @@
     <Compile Include="Src\Dialog\ContactUsDialog.Designer.cs">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Dialog\InstallAppDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\InstallAppDialog.Designer.cs">
+      <DependentUpon>InstallAppDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Dialog\ProcessingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\InstallAppDialog.resx">
+      <DependentUpon>InstallAppDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
@@ -224,6 +233,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\button.googleplay.png" />
+    <None Include="Resources\button.appstore.png" />
+    <None Include="Resources\stream_googleplay_qr.png" />
+    <None Include="Resources\stream_appstore_qr.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />

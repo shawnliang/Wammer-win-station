@@ -47,6 +47,7 @@
 			this.googlePlayBtn.Size = new System.Drawing.Size(180, 180);
 			this.googlePlayBtn.TabIndex = 0;
 			this.googlePlayBtn.UseVisualStyleBackColor = true;
+			this.googlePlayBtn.Click += new System.EventHandler(this.googlePlayBtn_Click);
 			// 
 			// appStoreBtn
 			// 
@@ -57,6 +58,7 @@
 			this.appStoreBtn.Size = new System.Drawing.Size(180, 180);
 			this.appStoreBtn.TabIndex = 1;
 			this.appStoreBtn.UseVisualStyleBackColor = true;
+			this.appStoreBtn.Click += new System.EventHandler(this.appStoreBtn_Click);
 			// 
 			// chromeStoreBtn
 			// 
