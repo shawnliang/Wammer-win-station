@@ -35,6 +35,8 @@
 			this.firefoxBtn = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
+			this.androidDeviceLabel = new System.Windows.Forms.Label();
+			this.iOSDeviceLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// googlePlayBtn
@@ -64,6 +66,7 @@
 			this.chromeStoreBtn.Size = new System.Drawing.Size(126, 84);
 			this.chromeStoreBtn.TabIndex = 2;
 			this.chromeStoreBtn.UseVisualStyleBackColor = true;
+			this.chromeStoreBtn.Click += new System.EventHandler(this.chromeStoreBtn_Click);
 			// 
 			// firefoxBtn
 			// 
@@ -73,6 +76,7 @@
 			this.firefoxBtn.Size = new System.Drawing.Size(126, 84);
 			this.firefoxBtn.TabIndex = 3;
 			this.firefoxBtn.UseVisualStyleBackColor = true;
+			this.firefoxBtn.Click += new System.EventHandler(this.firefoxBtn_Click);
 			// 
 			// label1
 			// 
@@ -92,10 +96,36 @@
 			this.label2.TabIndex = 5;
 			this.label2.Text = resources.GetString("label2.Text");
 			// 
+			// androidDeviceLabel
+			// 
+			this.androidDeviceLabel.Font = new System.Drawing.Font("Arial", 9F);
+			this.androidDeviceLabel.Image = ((System.Drawing.Image)(resources.GetObject("androidDeviceLabel.Image")));
+			this.androidDeviceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.androidDeviceLabel.Location = new System.Drawing.Point(35, 293);
+			this.androidDeviceLabel.Name = "androidDeviceLabel";
+			this.androidDeviceLabel.Size = new System.Drawing.Size(180, 23);
+			this.androidDeviceLabel.TabIndex = 6;
+			this.androidDeviceLabel.Text = "Shawn\'s S3 connected";
+			this.androidDeviceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// iOSDeviceLabel
+			// 
+			this.iOSDeviceLabel.Font = new System.Drawing.Font("Arial", 9F);
+			this.iOSDeviceLabel.Image = ((System.Drawing.Image)(resources.GetObject("iOSDeviceLabel.Image")));
+			this.iOSDeviceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.iOSDeviceLabel.Location = new System.Drawing.Point(221, 293);
+			this.iOSDeviceLabel.Name = "iOSDeviceLabel";
+			this.iOSDeviceLabel.Size = new System.Drawing.Size(180, 23);
+			this.iOSDeviceLabel.TabIndex = 7;
+			this.iOSDeviceLabel.Text = "Rex\' iPhone connected";
+			this.iOSDeviceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// BuildPersonalCloudUserControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.iOSDeviceLabel);
+			this.Controls.Add(this.androidDeviceLabel);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.firefoxBtn);
@@ -103,7 +133,7 @@
 			this.Controls.Add(this.appStoreBtn);
 			this.Controls.Add(this.googlePlayBtn);
 			this.Name = "BuildPersonalCloudUserControl";
-			this.Size = new System.Drawing.Size(615, 359);
+			this.Size = new System.Drawing.Size(615, 362);
 			this.ResumeLayout(false);
 
 		}
@@ -116,5 +146,7 @@
 		private System.Windows.Forms.Button firefoxBtn;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label androidDeviceLabel;
+		private System.Windows.Forms.Label iOSDeviceLabel;
 	}
 }
