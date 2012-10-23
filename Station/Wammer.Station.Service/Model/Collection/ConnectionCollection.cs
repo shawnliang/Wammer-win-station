@@ -30,7 +30,7 @@ namespace Wammer.Model
 		/// Initializes a new instance of the <see cref="ConnectionCollection"/> class.
 		/// </summary>
 		private ConnectionCollection()
-			: base("LoginedSession")
+			: base("ConnectedDevices")
 		{
 		}
 

@@ -14,7 +14,7 @@ namespace StationSystemTray
 	public partial class FirstUseWizardDialog : Form
 	{
 		#region Private Fields
-		private InstallAppMonitor installAppMonitor = new InstallAppMonitor();
+		private InstallAppMonitor m_installAppMonitor;
 		#endregion
 
 		#region Private Property
@@ -23,15 +23,16 @@ namespace StationSystemTray
 
 
 		#region Constructor
-		public FirstUseWizardDialog()
+		public FirstUseWizardDialog(string user_id)
 		{
 			InitializeComponent();
 
 			m_OriginalTitle = this.Text;
+			m_installAppMonitor = new InstallAppMonitor(user_id);
 
 			var buildPersonalCloud = new BuildPersonalCloudUserControl();
-			buildPersonalCloud.OnAppInstall += installAppMonitor.OnAppInstall;
-			buildPersonalCloud.OnAppInstallCanceled += installAppMonitor.OnAppInstallCanceled;
+			buildPersonalCloud.OnAppInstall += m_installAppMonitor.OnAppInstall;
+			buildPersonalCloud.OnAppInstallCanceled += m_installAppMonitor.OnAppInstallCanceled;
 
 			wizardControl1.SetWizardPages(new Control[]
 			{

@@ -27,12 +27,12 @@ namespace StationSystemTray
 		[STAThread]
 		private static void Main(string[] args)
 		{
-#if DEBUG
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new FirstUseWizardDialog());
-			return;
-#endif
+//#if DEBUG
+//            Application.EnableVisualStyles();
+//            Application.SetCompatibleTextRenderingDefault(false);
+//            Application.Run(new FirstUseWizardDialog());
+//            return;
+//#endif
 
 			Waveface.Common.TaskbarHelper.SetAppId("WavefaceStreamApp");
 

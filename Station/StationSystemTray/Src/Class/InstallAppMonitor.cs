@@ -29,6 +29,7 @@ namespace StationSystemTray.Src.Class
 		{
 			initialConnectionCount = getCurConnectionCount();
 			timer.Start();
+			timer.Tag = (BuildPersonalCloudUserControl)sender;
 		}
 
 		private long getCurConnectionCount()
@@ -48,7 +49,7 @@ namespace StationSystemTray.Src.Class
 
 			if (curCount != initialConnectionCount)
 			{
-				var buildCloud = (BuildPersonalCloudUserControl)sender;
+				var buildCloud = (BuildPersonalCloudUserControl)timer.Tag;
 				buildCloud.CloseInstallDialog();
 			}
 			else
