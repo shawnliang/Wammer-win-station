@@ -52,6 +52,9 @@
     <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="StationSystemTray, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <ExecutableExtension>.exe</ExecutableExtension>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -94,6 +97,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Class\CustomWindow.cs" />
+    <Compile Include="Src\Control\WizardControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Src\Dialog\ContactUsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +111,12 @@
     </Compile>
     <Compile Include="Src\Dialog\InstallAppDialog.Designer.cs">
       <DependentUpon>InstallAppDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\FirstUseWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\FirstUseWizardDialog.Designer.cs">
+      <DependentUpon>FirstUseWizardDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\ProcessingDialog.cs">
       <SubType>Form</SubType>
@@ -156,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\InstallAppDialog.resx">
       <DependentUpon>InstallAppDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\FirstUseWizardDialog.resx">
+      <DependentUpon>FirstUseWizardDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
