@@ -46,14 +46,18 @@
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\..\packages\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\packages\Windows7APICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="StationSystemTray, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <ExecutableExtension>.exe</ExecutableExtension>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -67,13 +71,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
+    <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\ApplicationSettings.cs" />
+    <Compile Include="Src\Class\MFTScanner.cs" />
+    <Compile Include="Src\Class\RecentlyFileHelper.cs" />
     <Compile Include="Src\Control\BuildPersonalCloudUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Src\Control\BuildPersonalCloudUserControl.Designer.cs">
       <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\CongratulationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\CongratulationControl.Designer.cs">
+      <DependentUpon>CongratulationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ServiceImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceImportControl.Designer.cs">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Control\CueTextBox.cs">
       <SubType>Component</SubType>
@@ -87,10 +107,19 @@
     <Compile Include="Src\Control\GroupBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Src\Control\FileImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\FileImportControl.Designer.cs">
+      <DependentUpon>FileImportControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\LoginButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Control\LoginInputPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\SwitchControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Control\TabControlEx.cs">
@@ -151,8 +180,17 @@
     <EmbeddedResource Include="Src\Control\BuildPersonalCloudUserControl.resx">
       <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\CongratulationControl.resx">
+      <DependentUpon>CongratulationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\FileImportControl.resx">
+      <DependentUpon>FileImportControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
@@ -214,6 +252,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -239,6 +278,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\cloud-connected-devices.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />

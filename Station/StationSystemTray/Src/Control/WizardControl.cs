@@ -84,13 +84,26 @@ namespace StationSystemTray
 				return m_TabControl.TabPages.Count;
 			}
 		}
+
+		/// <summary>
+		/// Gets the current page.
+		/// </summary>
+		/// <value>The current page.</value>
+		public Control CurrentPage 
+		{
+			get
+			{
+				var selectedTab = m_TabControl.SelectedTab;
+				return (selectedTab == null || selectedTab.Controls.Count == 0) ? null : selectedTab.Controls[0];
+			}
+		}
 		#endregion
 
 
 		#region Event
-		event EventHandler WizardPagesChanging;
-		event EventHandler WizardPagesChanged;
-		event EventHandler PageChanged;
+		public event EventHandler WizardPagesChanging;
+		public event EventHandler WizardPagesChanged;
+		public event EventHandler PageChanged;
 		#endregion
 
 
