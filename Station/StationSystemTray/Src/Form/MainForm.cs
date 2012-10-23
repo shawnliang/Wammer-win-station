@@ -1645,8 +1645,19 @@ namespace StationSystemTray
 
 		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
 		{
-			if (LaunchWavefaceClient(loginSetting))
-				Hide();
+			Hide();
+
+			var session = LoginToStation(loginSetting);
+
+			var wizard = new FirstUseWizardDialog(session.user.user_id);
+
+			wizard.FormClosed += (s, e) =>
+			{
+				//LaunchWavefaceClient(loginSetting);
+				LaunchClient(session.session_token);
+			};
+
+			wizard.Show();
 		}
 
 		private void LoginAndLaunchClient(string sessionToken, string userID)
@@ -1656,8 +1667,16 @@ namespace StationSystemTray
 
 			userloginContainer.SaveCurLoginedSession(sessionToken);
 
-			LaunchClient(sessionToken);
 			Hide();
+
+			var wizard = new FirstUseWizardDialog(userID);
+
+			wizard.FormClosed += (s, e) =>
+			{
+				LaunchClient(sessionToken);
+			};
+
+			wizard.Show();
 		}
 
 		private void btnOK2_Click(object sender, EventArgs e)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +13,7 @@ using Wammer.Station;
 using Microsoft.WindowsAPICodePack.Shell;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using StationSystemTray.Src.Class;
 
 namespace StationSystemTray
 {
@@ -30,6 +31,7 @@ namespace StationSystemTray
 		private HashSet<String> _interestedPaths;
 		private string _picasaDBStoragePath;
 		private string _albumPathPMPFileName;
+		private InstallAppMonitor m_installAppMonitor;
 		#endregion
 
 
@@ -64,7 +66,7 @@ namespace StationSystemTray
 		/// Gets or sets the m_ original title.
 		/// </summary>
 		/// <value>The m_ original title.</value>
-		private string m_OriginalTitle { get; set; }
+		private string m_OriginalTitle { get; set; } 
 
 		/// <summary>
 		/// Gets the m_ interested paths.
@@ -87,22 +89,24 @@ namespace StationSystemTray
 
 
 		#region Constructor
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FirstUseWizardDialog"/> class.
-		/// </summary>
-		public FirstUseWizardDialog()
+		public FirstUseWizardDialog(string user_id)
 		{
 			InitializeComponent();
 
 			m_InterestedExtensions = new HashSet<String> { ".jpg", ".jpeg", ".bmp", ".png" };
 
 			m_OriginalTitle = this.Text;
+			m_installAppMonitor = new InstallAppMonitor(user_id);
 
 			wizardControl1.PageChanged += new EventHandler(wizardControl1_PageChanged);
 			wizardControl1.WizardPagesChanged += new EventHandler(wizardControl1_WizardPagesChanged);
+			var buildPersonalCloud = new BuildPersonalCloudUserControl();
+			buildPersonalCloud.OnAppInstall += m_installAppMonitor.OnAppInstall;
+			buildPersonalCloud.OnAppInstallCanceled += m_installAppMonitor.OnAppInstallCanceled;
 
 			wizardControl1.SetWizardPages(new Control[]
 			{
+				buildPersonalCloud,
 				new BuildPersonalCloudUserControl(),
 				new FileImportControl(),
 				new ServiceImportControl(),
@@ -110,7 +114,7 @@ namespace StationSystemTray
 			});
 
 			backgroundWorker1.RunWorkerAsync();
-		}
+		} 
 		#endregion
 
 
@@ -437,7 +441,7 @@ namespace StationSystemTray
 		private void button2_Click(object sender, EventArgs e)
 		{
 			wizardControl1.PreviousPage();
-		}
+		} 
 
 		/// <summary>
 		/// Handles the PageChanged event of the wizardControl1 control.

@@ -77,6 +77,7 @@
     <Compile Include="Src\Class\ApplicationSettings.cs" />
     <Compile Include="Src\Class\MFTScanner.cs" />
     <Compile Include="Src\Class\RecentlyFileHelper.cs" />
+    <Compile Include="Src\Class\InstallAppMonitor.cs" />
     <Compile Include="Src\Control\BuildPersonalCloudUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -119,9 +120,6 @@
     <Compile Include="Src\Control\LoginInputPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Src\Control\SwitchControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Src\Control\TabControlEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -134,6 +132,12 @@
     </Compile>
     <Compile Include="Src\Dialog\ContactUsDialog.Designer.cs">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\InstallAppDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\InstallAppDialog.Designer.cs">
+      <DependentUpon>InstallAppDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\FirstUseWizardDialog.cs">
       <SubType>Form</SubType>
@@ -197,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\InstallAppDialog.resx">
+      <DependentUpon>InstallAppDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\FirstUseWizardDialog.resx">
       <DependentUpon>FirstUseWizardDialog.cs</DependentUpon>
@@ -279,6 +286,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\cloud-connected-devices.png" />
+    <None Include="Resources\button.googleplay.png" />
+    <None Include="Resources\button.appstore.png" />
+    <None Include="Resources\stream_googleplay_qr.png" />
+    <None Include="Resources\stream_appstore_qr.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
