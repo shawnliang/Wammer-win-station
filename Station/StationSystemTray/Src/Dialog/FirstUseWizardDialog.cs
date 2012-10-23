@@ -7,13 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using StationSystemTray.Src.Control;
+using StationSystemTray.Src.Class;
 
 namespace StationSystemTray
 {
 	public partial class FirstUseWizardDialog : Form
 	{
+		#region Private Fields
+		private InstallAppMonitor installAppMonitor = new InstallAppMonitor();
+		#endregion
+
 		#region Private Property
-		private string m_OriginalTitle { get; set; } 
+		private string m_OriginalTitle { get; set; }
 		#endregion
 
 
@@ -24,9 +29,13 @@ namespace StationSystemTray
 
 			m_OriginalTitle = this.Text;
 
+			var buildPersonalCloud = new BuildPersonalCloudUserControl();
+			buildPersonalCloud.OnAppInstall += installAppMonitor.OnAppInstall;
+			buildPersonalCloud.OnAppInstallCanceled += installAppMonitor.OnAppInstallCanceled;
+
 			wizardControl1.SetWizardPages(new Control[]
 			{
-				new BuildPersonalCloudUserControl()
+				buildPersonalCloud
 			});
 		} 
 		#endregion

@@ -21,6 +21,8 @@ namespace StationSystemTray.Src.Control
 
 		private InstallAppDialog installDialog;
 
+		public event EventHandler OnAppInstall;
+		public event EventHandler OnAppInstallCanceled;
 
 		public BuildPersonalCloudUserControl()
 		{
@@ -35,6 +37,7 @@ namespace StationSystemTray.Src.Control
 			{
 				if (installDialog != null)
 				{
+					installDialog.DialogResult = DialogResult.Yes;
 					installDialog.Close();
 				}
 			}
@@ -62,9 +65,30 @@ namespace StationSystemTray.Src.Control
 
 		private void showInstallDialog(Bitmap storePic, Bitmap qrCodePic, string url)
 		{
+			RaiseOnAppInstall();
+
 			installDialog = new InstallAppDialog(storePic, qrCodePic, url);
-			installDialog.ShowDialog();
+			var result = installDialog.ShowDialog();
 			installDialog = null;
+
+			if (result != DialogResult.Yes)
+			{
+				RaiseOnAppInstallCanceled();
+			}
+		}
+
+		private void RaiseOnAppInstall()
+		{
+			EventHandler handler = OnAppInstall;
+			if (handler != null)
+				handler(this, EventArgs.Empty);
+		}
+
+		private void RaiseOnAppInstallCanceled()
+		{
+			EventHandler handler = OnAppInstallCanceled;
+			if (handler != null)
+				handler(this, EventArgs.Empty);
 		}
 	}
 }
