@@ -53,7 +53,7 @@ namespace StationSystemTray
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("[TBD]" + ex.Message, "[TBD] Unable to " +
+				MessageBox.Show(ex.Message, "[TBD] Unable to " +
 					(e.TurnedOn ? "connect with " : "disconnect with ") + service.Name);
 
 				e.Cancel = true;
