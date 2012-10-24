@@ -21,7 +21,7 @@ namespace StationSystemTray
 
 		private void ServiceImportControl_Load(object sender, EventArgs e)
 		{
-			svcItem.ServiceEnabled = service.Enable;
+			svcItem.ServiceEnabled = service.Enabled;
 			svcItem.ServiceIcon = service.Icon;
 			svcItem.ServiceName = service.Name;
 			svcItem.OnChange += svcItem_OnChange;
@@ -31,7 +31,25 @@ namespace StationSystemTray
 		{
 			try
 			{
-				service.Enable = e.TurnedOn;
+				service.Enabled = e.TurnedOn;
+
+				// detect if connect operation is cancelled by user
+				var serviceOn = service.Enabled;
+
+				if (e.TurnedOn && !serviceOn)
+				{
+					e.Cancel = true;
+				}
+
+				// detect if disconnection is successful
+				if (!e.TurnedOn && serviceOn)
+				{
+					e.Cancel = true;
+				}
+			}
+			catch (OperationCanceledException)
+			{
+				e.Cancel = true;
 			}
 			catch (Exception ex)
 			{

@@ -259,6 +259,15 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Facebook account does not match the one used to create your Stream account. Please try again with another account..
+        /// </summary>
+        public static string FB_CONNECT_FAILED {
+            get {
+                return ResourceManager.GetString("FB_CONNECT_FAILED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect with Facebook - Stream.
         /// </summary>
         public static string FB_CONNECT_PAGE_TITLE {
@@ -289,6 +298,13 @@ namespace StationSystemTray.Properties {
         public static string FORGOT_PASSWORD_PAGE_TITLE1 {
             get {
                 return ResourceManager.GetString("FORGOT_PASSWORD_PAGE_TITLE1", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Icon Icon {
+            get {
+                object obj = ResourceManager.GetObject("Icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

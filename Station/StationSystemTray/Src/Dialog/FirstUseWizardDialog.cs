@@ -89,7 +89,7 @@ namespace StationSystemTray
 
 
 		#region Constructor
-		public FirstUseWizardDialog(string user_id)
+		public FirstUseWizardDialog(string user_id, string session_token, string api_key)
 		{
 			InitializeComponent();
 
@@ -108,7 +108,7 @@ namespace StationSystemTray
 			{
 				buildPersonalCloud,
 				new FileImportControl(),
-				new ServiceImportControl(new FacebookConnectableService()),
+				new ServiceImportControl(new FacebookConnectableService(user_id, session_token, api_key)),
 				new CongratulationControl()
 			});
 

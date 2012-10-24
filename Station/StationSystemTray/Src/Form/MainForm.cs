@@ -1649,7 +1649,7 @@ namespace StationSystemTray
 
 			var session = LoginToStation(loginSetting);
 
-			var wizard = new FirstUseWizardDialog(session.user.user_id);
+			var wizard = new FirstUseWizardDialog(session.user.user_id, session.session_token, session.apikey.apikey);
 
 			wizard.FormClosed += (s, e) =>
 			{
@@ -1669,7 +1669,7 @@ namespace StationSystemTray
 
 			Hide();
 
-			var wizard = new FirstUseWizardDialog(userID);
+			var wizard = new FirstUseWizardDialog(userID, sessionToken, CLIENT_API_KEY);
 
 			wizard.FormClosed += (s, e) =>
 			{
@@ -1927,6 +1927,8 @@ namespace StationSystemTray
 		public string locale { get; set; }
 
 		public string show_tutorial { get; set; }
+
+		public string session_token { get; set; }
 	}
 
 	#region PauseServiceUIController
