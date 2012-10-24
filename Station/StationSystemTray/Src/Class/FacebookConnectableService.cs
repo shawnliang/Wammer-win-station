@@ -7,6 +7,9 @@ namespace StationSystemTray.Src.Class
 {
 	class FacebookConnectableService : IConnectableService
 	{
+
+		private bool enabled;
+
 		public string Name
 		{
 			get { return "Facebook"; }
@@ -16,11 +19,11 @@ namespace StationSystemTray.Src.Class
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return enabled;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				enabled = value;
 			}
 		}
 

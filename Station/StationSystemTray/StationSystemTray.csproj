@@ -72,6 +72,12 @@
   <ItemGroup>
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
+    <Compile Include="Src\Control\ServiceImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceImportControl.Designer.cs">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\ServiceItemControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,12 +102,6 @@
     </Compile>
     <Compile Include="Src\Control\CongratulationControl.Designer.cs">
       <DependentUpon>CongratulationControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Src\Control\ServiceImportControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Src\Control\ServiceImportControl.Designer.cs">
-      <DependentUpon>ServiceImportControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Control\CueTextBox.cs">
       <SubType>Component</SubType>
@@ -176,6 +176,7 @@
     <Compile Include="Src\Form\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Interface\IConnectableService.cs" />
     <Compile Include="Src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\Dialog\CleanResourceDialog.cs">
@@ -194,14 +195,14 @@
     <EmbeddedResource Include="Src\Control\CongratulationControl.resx">
       <DependentUpon>CongratulationControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
-      <DependentUpon>ServiceImportControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FileImportControl.resx">
       <DependentUpon>FileImportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ServiceItemControl.resx">
       <DependentUpon>ServiceItemControl.cs</DependentUpon>

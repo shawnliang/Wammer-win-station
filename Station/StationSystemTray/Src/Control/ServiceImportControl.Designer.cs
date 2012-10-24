@@ -28,37 +28,50 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.lblWelcome = new System.Windows.Forms.Label();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServiceImportControl));
+			this.svcItem = new StationSystemTray.Src.Control.ServiceItemControl();
+			this.lbTitle = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// lblWelcome
+			// svcItem
 			// 
-			this.lblWelcome.AutoSize = true;
-			this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 15.75F);
-			this.lblWelcome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.lblWelcome.Location = new System.Drawing.Point(20, 21);
-			this.lblWelcome.Name = "lblWelcome";
-			this.lblWelcome.Size = new System.Drawing.Size(268, 30);
-			this.lblWelcome.TabIndex = 3;
-			this.lblWelcome.Text = "Connect with other services";
+			this.svcItem.Location = new System.Drawing.Point(45, 154);
+			this.svcItem.Name = "svcItem";
+			this.svcItem.ServiceEnabled = false;
+			this.svcItem.ServiceIcon = null;
+			this.svcItem.ServiceName = "service name";
+			this.svcItem.Size = new System.Drawing.Size(474, 95);
+			this.svcItem.TabIndex = 0;
+			// 
+			// lbTitle
+			// 
+			this.lbTitle.AutoSize = true;
+			this.lbTitle.Font = new System.Drawing.Font("Arial", 19.5F);
+			this.lbTitle.Location = new System.Drawing.Point(21, 31);
+			this.lbTitle.Name = "lbTitle";
+			this.lbTitle.Size = new System.Drawing.Size(268, 31);
+			this.lbTitle.TabIndex = 1;
+			this.lbTitle.Text = "Connect with Services";
 			// 
 			// label2
 			// 
-			this.label2.Font = new System.Drawing.Font("Segoe UI", 10F);
-			this.label2.Location = new System.Drawing.Point(69, 91);
+			this.label2.Font = new System.Drawing.Font("Arial", 10F);
+			this.label2.Location = new System.Drawing.Point(42, 80);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(536, 62);
-			this.label2.TabIndex = 6;
-			this.label2.Text = "Lorem ipsum sapien ultrices varius nec tempus gravida, etiam tempor id fusce maec" +
-    "enas torquent, porttitor aliquam morbi taciti tellus suspendisse.";
+			this.label2.Size = new System.Drawing.Size(477, 57);
+			this.label2.TabIndex = 2;
+			this.label2.Text = resources.GetString("label2.Text");
 			// 
 			// ServiceImportControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.lbTitle);
+			this.Controls.Add(this.svcItem);
 			this.Name = "ServiceImportControl";
-			this.Size = new System.Drawing.Size(612, 393);
+			this.Size = new System.Drawing.Size(552, 343);
 			this.Load += new System.EventHandler(this.ServiceImportControl_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -67,11 +80,8 @@
 
 		#endregion
 
-		private System.Windows.Forms.Label lblWelcome;
+		private Src.Control.ServiceItemControl svcItem;
+		private System.Windows.Forms.Label lbTitle;
 		private System.Windows.Forms.Label label2;
-		private Src.Control.ServiceItemControl serviceItemControl1;
-
-
-
 	}
 }

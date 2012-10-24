@@ -108,7 +108,7 @@ namespace StationSystemTray
 			{
 				buildPersonalCloud,
 				new FileImportControl(),
-				new ServiceImportControl(null),
+				new ServiceImportControl(new FacebookConnectableService()),
 				new CongratulationControl()
 			});
 
