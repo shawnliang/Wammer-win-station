@@ -107,7 +107,6 @@ namespace StationSystemTray
 			wizardControl1.SetWizardPages(new Control[]
 			{
 				buildPersonalCloud,
-				new BuildPersonalCloudUserControl(),
 				new FileImportControl(),
 				new ServiceImportControl(),
 				new CongratulationControl()
@@ -213,7 +212,7 @@ namespace StationSystemTray
 				return;
 
 			var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "").ToString();
-			if (path.StartsWith(systemResourcePath, StringComparison.CurrentCultureIgnoreCase))
+			if (systemResourcePath.Length != 0 && path.StartsWith(systemResourcePath, StringComparison.CurrentCultureIgnoreCase))
 				return;
 
 			string[] unInterestedFolders = new string[] 
@@ -490,6 +489,7 @@ namespace StationSystemTray
 			}
 
 			var recentlyPaths = (from file in RecentlyFileHelper.GetRecentlyFiles()
+								 where file.Length > 0
 								   select Path.GetDirectoryName(file));
 
 			recentlyPaths = recentlyPaths.Distinct();

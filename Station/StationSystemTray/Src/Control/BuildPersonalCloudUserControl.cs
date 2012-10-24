@@ -20,6 +20,8 @@ namespace StationSystemTray.Src.Control
 		private const string APPSTORE_URL = @"https://itunes.apple.com/us/app/waveface-stream/id487141623?mt=8";
 
 		private InstallAppDialog installDialog;
+		private int colorIndex = 0;
+
 
 		public event EventHandler OnAppInstall;
 		public event EventHandler OnAppInstallCanceled;
@@ -41,6 +43,22 @@ namespace StationSystemTray.Src.Control
 					installDialog.Close();
 				}
 			}
+		}
+
+		public void ShowDeviceConnected(string device)
+		{
+			Color[] colors = { Color.Black, Color.DarkBlue, Color.DarkCyan, Color.DarkGoldenrod };
+
+			
+
+			tickedLabel.Visible = true;
+			connectedLabel.Text = device + " connected";
+			connectedLabel.ForeColor = colors[colorIndex++];
+
+			if (colorIndex >= colors.Length)
+				colorIndex = 0;
+
+			connectedLabel.Visible = true;
 		}
 
 		private void firefoxBtn_Click(object sender, EventArgs e)
