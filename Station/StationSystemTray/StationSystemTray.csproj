@@ -71,6 +71,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\FacebookConnectableService.cs" />
+    <Compile Include="Src\Control\ServiceItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceItemControl.Designer.cs">
+      <DependentUpon>ServiceItemControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
     <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
@@ -196,6 +203,9 @@
     <EmbeddedResource Include="Src\Control\FileImportControl.resx">
       <DependentUpon>FileImportControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceItemControl.resx">
+      <DependentUpon>ServiceItemControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -290,6 +300,7 @@
     <None Include="Resources\button.appstore.png" />
     <None Include="Resources\stream_googleplay_qr.png" />
     <None Include="Resources\stream_appstore_qr.png" />
+    <None Include="Resources\f_logo.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
