@@ -293,8 +293,6 @@ namespace StationSystemTray
 
 			userloginContainer = new UserLoginSettingContainer(settings);
 
-			UpdateTrayMenu();
-
 			iconInit = Icon.FromHandle(Resources.stream_tray_init.GetHicon());
 			iconRunning = Icon.FromHandle(Resources.stream_tray_working.GetHicon());
 			iconPaused = Icon.FromHandle(Resources.stream_tray_pause.GetHicon());
@@ -1080,7 +1078,7 @@ namespace StationSystemTray
 
 			if (exitCode == -2) // client logout
 			{
-				Logout();
+				Unlink();
 			}
 			else if (exitCode == -3) // client unlink
 			{
@@ -1291,21 +1289,12 @@ namespace StationSystemTray
 			}
 		}
 
-		private void menuSignIn_Click(object sender, EventArgs e)
-		{
-			if (m_SettingDialog != null)
-			{
-				m_SettingDialog.Close();
-			}
-			Logout();
-		}
-
-		private void Logout()
+		private void Unlink()
 		{
 			DebugInfo.ShowMethod();
 			var lastLoginUser = userloginContainer.GetLastUserLogin();
-			if (menuSignIn.Text == Resources.LogoutMenuItem)
-			{
+			//if (menuSignIn.Text == Resources.LogoutMenuItem)
+			//{
 				var lastLogin = userloginContainer.GetCurLoginedSession();
 
 				if (lastLogin != null)
@@ -1317,28 +1306,16 @@ namespace StationSystemTray
 					if (loginedSession != null)
 						LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
 				}
-			}
+			//}
 
 			GotoTabPage(tabSignIn, lastLoginUser);
 			userloginContainer.CleartCurLoginedSession();
+
+			QuitStream();
 		}
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-			UpdateTrayMenu();
-		}
-
-		private void UpdateTrayMenu()
-		{
-			var lastLogin = userloginContainer.GetCurLoginedSession();
-			LoginedSession loginedSession = null;
-
-			if (lastLogin != null)
-				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
-
-			var isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
-
-			menuSignIn.Text = isUserLogined ? Resources.LogoutMenuItem : Resources.LoginMenuItem;
 		}
 
 		private void cmbEmail_TextChanged(object sender, EventArgs e)
@@ -1752,7 +1729,7 @@ namespace StationSystemTray
 					if (loginedUser != null && loginedUser.user.email == ex.EMail)
 					{
 						m_SettingDialog.Close();
-						Logout();
+						Unlink();
 						return;
 					}
 				};

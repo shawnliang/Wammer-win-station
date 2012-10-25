@@ -134,12 +134,16 @@ namespace StationSystemTray
 
 		private void RefreshAccountList()
 		{
+			dgvAccountList.Rows.Clear();
+
 			var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", m_CurrentUserSession));
+			if (loginedUser == null)
+				return;
+
 			var users = from item in DriverCollection.Instance.FindAll()
-						where item != null && item.user != null
+						where item != null && item.user != null && item.user.user_id == loginedUser.user.user_id
 						select new { ID = item.user_id, EMail = item.user.email };
 
-			dgvAccountList.Rows.Clear();
 			foreach (var user in users)
 			{
 				var rowIndex = dgvAccountList.Rows.Add(new object[] { user.EMail, (GetStorageUsage(user.ID) / 1024 / 1024).ToString() + " MB", Resources.REMOVE_ACCOUNT_BUTTON_TITLE });
