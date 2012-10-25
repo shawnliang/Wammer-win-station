@@ -14,6 +14,9 @@ using Microsoft.WindowsAPICodePack.Shell;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using StationSystemTray.Src.Class;
+using System.Windows.Media.Imaging;
+using Wammer.Model;
+using MongoDB.Driver.Builders;
 
 namespace StationSystemTray
 {
@@ -32,10 +35,20 @@ namespace StationSystemTray
 		private string _picasaDBStoragePath;
 		private string _albumPathPMPFileName;
 		private InstallAppMonitor m_installAppMonitor;
+		private Dictionary<string, int> m_InterestedFileCountInPhotos = new Dictionary<string, int>();
+		private SynchronizationContext _syncContext;
 		#endregion
 
 
 		#region Private Property
+		private SynchronizationContext m_SyncContext
+		{
+			get
+			{
+				return _syncContext;
+			}
+		}
+
 		/// <summary>
 		/// Gets the m_ picasa DB storage path.
 		/// </summary>
@@ -84,14 +97,20 @@ namespace StationSystemTray
 		/// Gets or sets the m_ interested extensions.
 		/// </summary>
 		/// <value>The m_ interested extensions.</value>
-		public HashSet<String> m_InterestedExtensions { get; set; }
+		private HashSet<String> m_InterestedExtensions { get; set; }
+
+		private string m_SessionToken { get; set; }
 		#endregion
 
 
 		#region Constructor
-		public FirstUseWizardDialog(string user_id)
+		public FirstUseWizardDialog(string user_id, string sessionToken)
 		{
 			InitializeComponent();
+
+			_syncContext = SynchronizationContext.Current;
+
+			m_SessionToken = sessionToken;
 
 			m_InterestedExtensions = new HashSet<String> { ".jpg", ".jpeg", ".bmp", ".png" };
 
@@ -100,6 +119,7 @@ namespace StationSystemTray
 
 			wizardControl1.PageChanged += new EventHandler(wizardControl1_PageChanged);
 			wizardControl1.WizardPagesChanged += new EventHandler(wizardControl1_WizardPagesChanged);
+
 			var buildPersonalCloud = new BuildPersonalCloudUserControl();
 			buildPersonalCloud.OnAppInstall += m_installAppMonitor.OnAppInstall;
 			buildPersonalCloud.OnAppInstallCanceled += m_installAppMonitor.OnAppInstallCanceled;
@@ -107,7 +127,6 @@ namespace StationSystemTray
 			wizardControl1.SetWizardPages(new Control[]
 			{
 				buildPersonalCloud,
-				new BuildPersonalCloudUserControl(),
 				new FileImportControl(),
 				new ServiceImportControl(),
 				new CongratulationControl()
@@ -153,6 +172,7 @@ namespace StationSystemTray
 			var paths = new HashSet<string>();
 			var scanner = new MFTScanner();
 
+
 			scanner.FindAllFiles(searchPath, (filePath, fileSize) =>
 			{
 				var extension = Path.GetExtension(filePath).ToLower();
@@ -165,13 +185,23 @@ namespace StationSystemTray
 						paths.Add(path);
 					}
 					files.Add(filePath);
+
+					var pathRoot = Path.GetPathRoot(path);
+					while (!path.Equals(pathRoot, StringComparison.CurrentCultureIgnoreCase))
+					{
+						if (!m_InterestedFileCountInPhotos.ContainsKey(path))
+						{
+							m_InterestedFileCountInPhotos[path] = 0;
+							continue;
+						}
+
+						m_InterestedFileCountInPhotos[path] += 1;
+						path = Path.GetDirectoryName(path);
+					}
 				}
 			}, null, null);
 
-			foreach (var path in paths)
-			{
-				AddInterestedPath(path);
-			}
+			AddInterestedPath(paths);
 		}
 
 		private long GetFolderSize(string folder)
@@ -209,23 +239,51 @@ namespace StationSystemTray
 				return;
 
 			var size = GetFolderSize(path);
-			if (size < 1024)
+			if (size < 100 * 1024 * 1024)
 				return;
 
 			var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "").ToString();
-			if (path.StartsWith(systemResourcePath, StringComparison.CurrentCultureIgnoreCase))
+			if (systemResourcePath.Length != 0 && path.StartsWith(systemResourcePath, StringComparison.CurrentCultureIgnoreCase))
+				return;
+
+			var pathRoot = Path.GetPathRoot(path);
+
+			HashSet<String> interruptPath = new HashSet<String>()
+			{
+				pathRoot,
+				Environment.GetEnvironmentVariable("USERPROFILE")
+			};
+
+			if (m_InterestedFileCountInPhotos.ContainsKey(path))
+			{
+				var interestedFileCount = m_InterestedFileCountInPhotos[path];
+				var previousPath = path;
+				var tempPath = path;
+				while (!interruptPath.Contains(tempPath))
+				{
+					if (tempPath != path && interestedFileCount == m_InterestedFileCountInPhotos[tempPath])
+					{
+						break;
+					}
+					interestedFileCount = m_InterestedFileCountInPhotos[tempPath];
+					previousPath = tempPath;
+					tempPath = Path.GetDirectoryName(tempPath);
+				}
+
+				path = previousPath;
+			}
+
+			if (path == pathRoot)
 				return;
 
 			string[] unInterestedFolders = new string[] 
 			{
 				Environment.GetEnvironmentVariable("windir"),
+				Environment.GetEnvironmentVariable("ProgramData"),
 				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-				Environment.GetFolderPath(Environment.SpecialFolder.History),
-				Environment.GetFolderPath(Environment.SpecialFolder.InternetCache),
-				Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles),
+				Environment.GetEnvironmentVariable("ProgramW6432"),
 				@"c:\$Recycle.bin"
 			};
 
@@ -240,7 +298,6 @@ namespace StationSystemTray
 				if (path.StartsWith(interestedPath, StringComparison.CurrentCultureIgnoreCase))
 					return;
 			}
-
 			m_InterestedPaths.Add(path);
 		}
 
@@ -404,6 +461,64 @@ namespace StationSystemTray
 			}
 			return sb.ToString();
 		}
+
+
+		/// <summary>
+		/// Sends the sync context.
+		/// </summary>
+		/// <param name="target">The target.</param>
+		private void SendSyncContext(Action target)
+		{
+			m_SyncContext.Send((obj) => target(), null);
+		}
+
+		/// <summary>
+		/// Sends the sync context.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="target">The target.</param>
+		/// <param name="o">The o.</param>
+		private void SendSyncContext<T>(Action<T> target, Object o)
+		{
+			m_SyncContext.Send((obj) => target((T)obj), o);
+		}
+
+		/// <summary>
+		/// Imports the selected paths.
+		/// </summary>
+		private void ImportSelectedPaths()
+		{
+			var dialog = new ProcessingDialog();
+			var postID = Guid.NewGuid().ToString();
+			var importControl = wizardControl1.CurrentPage as FileImportControl;
+			var selectedPaths = importControl.GetSelectedPaths();
+			MethodInvoker mi = new MethodInvoker(() =>
+			{
+				var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", m_SessionToken));
+				var groupID = loginedSession.groups.First().group_id;
+				StationAPI.Import(m_SessionToken, groupID, string.Format("[{0}]", string.Join(",", selectedPaths.ToArray())));
+			});
+		
+		
+			AutoResetEvent autoEvent = new AutoResetEvent(false);
+			mi.BeginInvoke((result) =>
+			{
+				autoEvent.WaitOne();
+				SendSyncContext(() =>
+				{
+					mi.EndInvoke(result);
+					dialog.Dispose();
+					dialog = null;
+				});
+			}, null);
+
+			dialog.ProcessMessage = "Data importing";
+			dialog.ProgressStyle = ProgressBarStyle.Marquee;
+			dialog.StartPosition = FormStartPosition.CenterParent;
+
+			autoEvent.Set();
+			dialog.ShowDialog(this);
+		}
 		#endregion
 
 
@@ -429,6 +544,11 @@ namespace StationSystemTray
 			{
 				Close();
 				return;
+			}
+
+			if (wizardControl1.CurrentPage is FileImportControl)
+			{
+				ImportSelectedPaths();
 			}
 			wizardControl1.NextPage();
 		}
@@ -485,12 +605,16 @@ namespace StationSystemTray
 				foreach (ShellFolder folder in library)
 				{
 					var folderPath = folder.ParsingName;
+
+					if (folderPath.Length == 0)
+						continue;
+
 					interestedPaths.Add(folderPath);
 				}
 			}
 
 			var recentlyPaths = (from file in RecentlyFileHelper.GetRecentlyFiles()
-								   select Path.GetDirectoryName(file));
+								 select Path.GetDirectoryName(file));
 
 			recentlyPaths = recentlyPaths.Distinct();
 			interestedPaths.AddRange(recentlyPaths.Distinct());

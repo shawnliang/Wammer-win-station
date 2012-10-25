@@ -1649,7 +1649,7 @@ namespace StationSystemTray
 
 			var session = LoginToStation(loginSetting);
 
-			var wizard = new FirstUseWizardDialog(session.user.user_id);
+			var wizard = new FirstUseWizardDialog(session.user.user_id, session.session_token);
 
 			wizard.FormClosed += (s, e) =>
 			{
@@ -1669,7 +1669,7 @@ namespace StationSystemTray
 
 			Hide();
 
-			var wizard = new FirstUseWizardDialog(userID);
+			var wizard = new FirstUseWizardDialog(userID, sessionToken);
 
 			wizard.FormClosed += (s, e) =>
 			{

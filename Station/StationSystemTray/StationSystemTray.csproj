@@ -59,6 +59,7 @@
     <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -71,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\Class\DebugInfo.cs" />
-    <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
+    <Compile Include="Src\Class\StationAPI.cs" />
     <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\ApplicationSettings.cs" />

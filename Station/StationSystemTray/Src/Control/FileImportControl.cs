@@ -38,23 +38,55 @@ namespace StationSystemTray
 		/// <param name="paths">The paths.</param>
 		public void AddInterestedPaths(IEnumerable<String> paths)
 		{
-			clbInterestedFolders.Items.AddRange(paths.OfType<Object>().ToArray());
+			clbInterestedFolders.Items.AddRange(paths.OfType<object>().ToArray());
 		}
 
 		/// <summary>
-		/// Handles the SelectedIndexChanged event of the clbInterestedFolders control.
+		/// Gets the selected paths.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<String> GetSelectedPaths()
+		{
+			return from path in clbInterestedFolders.CheckedItems.OfType<object>()
+				   select path.ToString();
+		}
+		#endregion
+
+
+		#region Event Process
+		/// <summary>
+		/// Handles the Click event of the button1 control.
 		/// </summary>
 		/// <param name="sender">The source of the event.</param>
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void clbInterestedFolders_SelectedIndexChanged(object sender, EventArgs e)
+		private void button1_Click(object sender, EventArgs e)
 		{
-			//if(clbInterestedFolders.SelectedItem == null)
-			//    return;
+			if (folderBrowserDialog1.ShowDialog() != DialogResult.OK)
+				return;
 
-			//var path = clbInterestedFolders.SelectedItem.ToString();
-			//var files = (new DirectoryInfo(path)).EnumerateFiles("*.*");
+			var selectedPath = folderBrowserDialog1.SelectedPath;
+			var linq = from item in clbInterestedFolders.CheckedItems.OfType<object>()
+					   let path = item.ToString()
+					   where path.Equals(selectedPath, StringComparison.CurrentCultureIgnoreCase)
+					   select path;
 
-			//listView1.Items.
+			if (linq.Any())
+				return;
+
+			clbInterestedFolders.Items.Add(selectedPath);
+		}
+
+		/// <summary>
+		/// Handles the Click event of the button2 control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+		private void button2_Click(object sender, EventArgs e)
+		{
+			for (int idx = 0; idx < clbInterestedFolders.Items.Count; ++idx)
+			{
+				clbInterestedFolders.SetItemChecked(idx, true);
+			}
 		}
 		#endregion
 	}

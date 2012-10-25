@@ -30,7 +30,7 @@ namespace StationSystemTray
 //#if DEBUG
 //            Application.EnableVisualStyles();
 //            Application.SetCompatibleTextRenderingDefault(false);
-//            Application.Run(new FirstUseWizardDialog());
+//            Application.Run(new FirstUseWizardDialog("123"));
 //            return;
 //#endif
 
