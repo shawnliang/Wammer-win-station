@@ -29,16 +29,22 @@ namespace Wammer.Station.AttachmentUpload
 		}
 
 		public ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user,
-		                                       string origin_filename)
+											   string origin_filename, ImageMeta from)
 		{
 			var fileStorage = new FileStorage(user);
 
-			using (FileStream f = fileStorage.Load(imageFilename, ImageMeta.Origin))
+			using (FileStream f = fileStorage.Load(imageFilename, from))
 			using (var image = new Bitmap(f))
 			{
 				return ImagePostProcessing.MakeThumbnail(image, thumbnailType, ExifOrientations.Unknown, object_id, user,
-				                                         origin_filename);
+														 origin_filename);
 			}
+		}
+
+		public ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user,
+		                                       string origin_filename)
+		{
+			return GenerateThumbnail(imageFilename, thumbnailType, object_id, user, origin_filename, ImageMeta.Origin);
 		}
 
 		public void UpstreamImageNow(byte[] imageRaw, string group_id, string object_id, string file_name, string mime_type,

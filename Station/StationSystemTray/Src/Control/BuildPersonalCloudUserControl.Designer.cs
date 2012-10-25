@@ -35,8 +35,8 @@
 			this.firefoxBtn = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.androidDeviceLabel = new System.Windows.Forms.Label();
-			this.iOSDeviceLabel = new System.Windows.Forms.Label();
+			this.tickedLabel = new System.Windows.Forms.Label();
+			this.connectedLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// googlePlayBtn
@@ -98,36 +98,35 @@
 			this.label2.TabIndex = 5;
 			this.label2.Text = resources.GetString("label2.Text");
 			// 
-			// androidDeviceLabel
+			// tickedLabel
 			// 
-			this.androidDeviceLabel.Font = new System.Drawing.Font("Arial", 9F);
-			this.androidDeviceLabel.Image = ((System.Drawing.Image)(resources.GetObject("androidDeviceLabel.Image")));
-			this.androidDeviceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.androidDeviceLabel.Location = new System.Drawing.Point(35, 293);
-			this.androidDeviceLabel.Name = "androidDeviceLabel";
-			this.androidDeviceLabel.Size = new System.Drawing.Size(180, 23);
-			this.androidDeviceLabel.TabIndex = 6;
-			this.androidDeviceLabel.Text = "Shawn\'s S3 connected";
-			this.androidDeviceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.tickedLabel.Font = new System.Drawing.Font("Arial", 9F);
+			this.tickedLabel.Image = ((System.Drawing.Image)(resources.GetObject("tickedLabel.Image")));
+			this.tickedLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.tickedLabel.Location = new System.Drawing.Point(32, 319);
+			this.tickedLabel.Name = "tickedLabel";
+			this.tickedLabel.Size = new System.Drawing.Size(27, 23);
+			this.tickedLabel.TabIndex = 6;
+			this.tickedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.tickedLabel.Visible = false;
 			// 
-			// iOSDeviceLabel
+			// connectedLabel
 			// 
-			this.iOSDeviceLabel.Font = new System.Drawing.Font("Arial", 9F);
-			this.iOSDeviceLabel.Image = ((System.Drawing.Image)(resources.GetObject("iOSDeviceLabel.Image")));
-			this.iOSDeviceLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.iOSDeviceLabel.Location = new System.Drawing.Point(221, 293);
-			this.iOSDeviceLabel.Name = "iOSDeviceLabel";
-			this.iOSDeviceLabel.Size = new System.Drawing.Size(180, 23);
-			this.iOSDeviceLabel.TabIndex = 7;
-			this.iOSDeviceLabel.Text = "Rex\' iPhone connected";
-			this.iOSDeviceLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.connectedLabel.AutoSize = true;
+			this.connectedLabel.Font = new System.Drawing.Font("Arial", 9F);
+			this.connectedLabel.Location = new System.Drawing.Point(56, 322);
+			this.connectedLabel.Name = "connectedLabel";
+			this.connectedLabel.Size = new System.Drawing.Size(100, 15);
+			this.connectedLabel.TabIndex = 7;
+			this.connectedLabel.Text = "xxxx is connected";
+			this.connectedLabel.Visible = false;
 			// 
 			// BuildPersonalCloudUserControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.iOSDeviceLabel);
-			this.Controls.Add(this.androidDeviceLabel);
+			this.Controls.Add(this.connectedLabel);
+			this.Controls.Add(this.tickedLabel);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.firefoxBtn);
@@ -137,6 +136,7 @@
 			this.Name = "BuildPersonalCloudUserControl";
 			this.Size = new System.Drawing.Size(615, 362);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -148,7 +148,7 @@
 		private System.Windows.Forms.Button firefoxBtn;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label androidDeviceLabel;
-		private System.Windows.Forms.Label iOSDeviceLabel;
+		private System.Windows.Forms.Label tickedLabel;
+		private System.Windows.Forms.Label connectedLabel;
 	}
 }

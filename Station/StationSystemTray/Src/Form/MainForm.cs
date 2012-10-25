@@ -1927,6 +1927,8 @@ namespace StationSystemTray
 		public string locale { get; set; }
 
 		public string show_tutorial { get; set; }
+
+		public string session_token { get; set; }
 	}
 
 	#region PauseServiceUIController

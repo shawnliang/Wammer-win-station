@@ -128,7 +128,7 @@ namespace StationSystemTray
 			{
 				buildPersonalCloud,
 				new FileImportControl(),
-				new ServiceImportControl(),
+				new ServiceImportControl(new FacebookConnectableService(user_id,sessionToken,StationAPI.API_KEY)),
 				new CongratulationControl()
 			});
 
@@ -197,12 +197,12 @@ namespace StationSystemTray
 
 						m_InterestedFileCountInPhotos[path] += 1;
 						path = Path.GetDirectoryName(path);
-					}
+				}
 				}
 			}, null, null);
 
 			AddInterestedPath(paths);
-		}
+			}
 
 		private long GetFolderSize(string folder)
 		{
@@ -614,7 +614,7 @@ namespace StationSystemTray
 			}
 
 			var recentlyPaths = (from file in RecentlyFileHelper.GetRecentlyFiles()
-								 select Path.GetDirectoryName(file));
+								   select Path.GetDirectoryName(file));
 
 			recentlyPaths = recentlyPaths.Distinct();
 			interestedPaths.AddRange(recentlyPaths.Distinct());

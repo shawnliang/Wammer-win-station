@@ -34,11 +34,17 @@ namespace StationSystemTray.Src.Class
 
 		private long getCurConnectionCount()
 		{
-			var connections = string.IsNullOrEmpty(user_id) ?
-						 ConnectionCollection.Instance.FindAll() :
-						 ConnectionCollection.Instance.Find(Query.EQ("user.user_id", user_id));
+			var connections = getConnectedClients();
 
 			return connections.Count();
+		}
+
+		private MongoDB.Driver.MongoCursor<LoginedSession> getConnectedClients()
+		{
+			var connections = string.IsNullOrEmpty(user_id) ?
+								  ConnectionCollection.Instance.FindAll() :
+								  ConnectionCollection.Instance.Find(Query.EQ("user.user_id", user_id));
+			return connections;
 		}
 
 		private void timer_Tick(object sender, EventArgs e)
@@ -50,6 +56,11 @@ namespace StationSystemTray.Src.Class
 			if (curCount != initialConnectionCount)
 			{
 				var buildCloud = (BuildPersonalCloudUserControl)timer.Tag;
+
+				var clients = getConnectedClients();
+				var devices = string.Join("/", clients.Select(x => x.device.device_name).ToArray());
+
+				buildCloud.ShowDeviceConnected(devices);
 				buildCloud.CloseInstallDialog();
 			}
 			else

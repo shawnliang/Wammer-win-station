@@ -61,7 +61,7 @@ namespace Wammer.Station.AttachmentUpload
 					(thumbnail_type == ImageMeta.Small || thumbnail_type == ImageMeta.Square))
 
 				thumbnail = imgProc.GenerateThumbnail(attachment.image_meta.medium.saved_file_name, thumbnail_type,
-														object_id, user, attachment.file_name);
+														object_id, user, attachment.file_name, ImageMeta.Medium);
 			else
 			{
 				this.LogWarnMsg("No file is available to make thumbnail: " + attachment.object_id);

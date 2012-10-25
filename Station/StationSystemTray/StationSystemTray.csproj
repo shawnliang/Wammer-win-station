@@ -60,6 +60,10 @@
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Client\Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -73,6 +77,19 @@
   <ItemGroup>
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\StationAPI.cs" />
+    <Compile Include="Src\Class\FacebookConnectableService.cs" />
+    <Compile Include="Src\Control\ServiceImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceImportControl.Designer.cs">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ServiceItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceItemControl.Designer.cs">
+      <DependentUpon>ServiceItemControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\ApplicationSettings.cs" />
@@ -90,12 +107,6 @@
     </Compile>
     <Compile Include="Src\Control\CongratulationControl.Designer.cs">
       <DependentUpon>CongratulationControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Src\Control\ServiceImportControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Src\Control\ServiceImportControl.Designer.cs">
-      <DependentUpon>ServiceImportControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Control\CueTextBox.cs">
       <SubType>Component</SubType>
@@ -170,6 +181,7 @@
     <Compile Include="Src\Form\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Interface\IConnectableService.cs" />
     <Compile Include="Src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\Dialog\CleanResourceDialog.cs">
@@ -188,14 +200,17 @@
     <EmbeddedResource Include="Src\Control\CongratulationControl.resx">
       <DependentUpon>CongratulationControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
-      <DependentUpon>ServiceImportControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FileImportControl.resx">
       <DependentUpon>FileImportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceItemControl.resx">
+      <DependentUpon>ServiceItemControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
@@ -291,6 +306,7 @@
     <None Include="Resources\button.appstore.png" />
     <None Include="Resources\stream_googleplay_qr.png" />
     <None Include="Resources\stream_appstore_qr.png" />
+    <None Include="Resources\f_logo.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
