@@ -21,7 +21,8 @@ public class RecentlyFileHelper
 	{
 		var recentFolder = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 		return from file in (new DirectoryInfo(recentFolder)).EnumerateFiles("*.lnk")
-			   where file.Length != 0
-			   select GetShortcutTargetFile(file);
+			   let targetFile = GetShortcutTargetFile(file)
+			   where targetFile.Length != 0
+			   select GetShortcutTargetFile(targetFile);
 	}
 }
