@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace StationSystemTray
 {
-	public partial class ServiceImportControl : UserControl
+	public partial class ServiceImportControl : AbstractStepPageControl
 	{
 		private IConnectableService service;
 

@@ -33,7 +33,6 @@ namespace StationSystemTray
 			this.button1 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.wizardControl1 = new StationSystemTray.WizardControl();
-			this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -66,10 +65,6 @@ namespace StationSystemTray
 			this.wizardControl1.TabIndex = 3;
 			this.wizardControl1.Text = "wizardControl1";
 			// 
-			// backgroundWorker1
-			// 
-			this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-			// 
 			// FirstUseWizardDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -94,6 +89,5 @@ namespace StationSystemTray
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
 		private WizardControl wizardControl1;
-		private System.ComponentModel.BackgroundWorker backgroundWorker1;
 	}
 }

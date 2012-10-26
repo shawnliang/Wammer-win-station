@@ -7,21 +7,97 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 
 namespace StationSystemTray
 {
-	public partial class FileImportControl : UserControl
+	public partial class FileImportControl : AbstractStepPageControl
 	{
+		private IPhotoSearch photoSearch;
+		private SynchronizationContext mainSyncCtx;
+
 		#region Constructor
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileImportControl"/> class.
 		/// </summary>
-		public FileImportControl()
+		public FileImportControl(IPhotoSearch search, SynchronizationContext mainSyncCtx)
 		{
 			InitializeComponent();
+			this.photoSearch = search;
+			this.mainSyncCtx = mainSyncCtx;
 		} 
 		#endregion
 
+
+		/// <summary>
+		/// Processes the file import step.
+		/// </summary>
+		public override void OnEnteringStep()
+		{
+			base.OnEnteringStep();
+			
+			ClearInterestedPaths();
+			AddInterestedPaths(photoSearch.InterestedPaths);
+		}
+
+		public override void OnLeavingStep()
+		{
+			base.OnLeavingStep();
+
+			ImportSelectedPaths();
+		}
+
+
+		/// <summary>
+		/// Sends the sync context.
+		/// </summary>
+		/// <param name="target">The target.</param>
+		private void SendSyncContext(Action target)
+		{
+			mainSyncCtx.Send((obj) => target(), null);
+		}
+
+		/// <summary>
+		/// Sends the sync context.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="target">The target.</param>
+		/// <param name="o">The o.</param>
+		private void SendSyncContext<T>(Action<T> target, Object o)
+		{
+			mainSyncCtx.Send((obj) => target((T)obj), o);
+		}
+
+
+		/// <summary>
+		/// Imports the selected paths.
+		/// </summary>
+		private void ImportSelectedPaths()
+		{
+			var dialog = new ProcessingDialog();
+			var postID = Guid.NewGuid().ToString();
+			var selectedPaths = GetSelectedPaths();
+			MethodInvoker mi = new MethodInvoker(() => { photoSearch.ImportToStation(selectedPaths); });
+
+			AutoResetEvent autoEvent = new AutoResetEvent(false);
+			mi.BeginInvoke((result) =>
+			{
+				autoEvent.WaitOne();
+				SendSyncContext(() =>
+				{
+					mi.EndInvoke(result);
+					dialog.Dispose();
+					dialog = null;
+				});
+			}, null);
+
+			dialog.ProcessMessage = "Data importing";
+			dialog.ProgressStyle = ProgressBarStyle.Marquee;
+			dialog.StartPosition = FormStartPosition.CenterParent;
+
+			autoEvent.Set();
+			dialog.ShowDialog(this);
+		}
 
 		#region Public Method
 		/// <summary>
@@ -89,5 +165,12 @@ namespace StationSystemTray
 			}
 		}
 		#endregion
+	}
+
+
+	public interface IPhotoSearch
+	{
+		IEnumerable<string> InterestedPaths { get; }
+		void ImportToStation(IEnumerable<string> paths);
 	}
 }

@@ -12,7 +12,7 @@ using StationSystemTray.Properties;
 
 namespace StationSystemTray.Src.Control
 {
-	public partial class BuildPersonalCloudUserControl : UserControl
+	public partial class BuildPersonalCloudUserControl : AbstractStepPageControl
 	{
 		private const string FIREFOX_URL = @"https://addons.mozilla.org/zh-TW/firefox/addon/waveface-stream/";
 		private const string CHROME_URL = @"https://chrome.google.com/webstore/detail/stream-visited-links-a-be/fneddinlohhbafadpaoidhgklemkknff";

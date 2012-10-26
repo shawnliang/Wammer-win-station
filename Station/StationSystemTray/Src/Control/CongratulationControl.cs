@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace StationSystemTray
 {
-	public partial class CongratulationControl : UserControl
+	public partial class CongratulationControl : AbstractStepPageControl
 	{
 		public CongratulationControl()
 		{

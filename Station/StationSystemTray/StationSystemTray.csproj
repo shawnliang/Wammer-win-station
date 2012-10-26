@@ -75,11 +75,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Src\Class\AbstractStepPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\PhotoSearch.cs" />
     <Compile Include="Src\Class\StationAPI.cs" />
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
     <Compile Include="Src\Control\ServiceImportControl.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Control\ServiceImportControl.Designer.cs">
       <DependentUpon>ServiceImportControl.cs</DependentUpon>
@@ -97,7 +101,7 @@
     <Compile Include="Src\Class\RecentlyFileHelper.cs" />
     <Compile Include="Src\Class\InstallAppMonitor.cs" />
     <Compile Include="Src\Control\BuildPersonalCloudUserControl.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Control\BuildPersonalCloudUserControl.Designer.cs">
       <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>

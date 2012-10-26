@@ -13,7 +13,7 @@ namespace StationSystemTray
 	{
 		#region Var
 		private TabControlEx _tabControl;
-		private IEnumerable<Control> _wizardPages;
+		private IEnumerable<AbstractStepPageControl> _wizardPages;
 		#endregion
 
 
@@ -41,7 +41,7 @@ namespace StationSystemTray
 		/// Gets or sets the wizard pages.
 		/// </summary>
 		/// <value>The wizard pages.</value>
-		public IEnumerable<Control> WizardPages
+		public IEnumerable<AbstractStepPageControl> WizardPages
 		{
 			get
 			{
@@ -89,12 +89,12 @@ namespace StationSystemTray
 		/// Gets the current page.
 		/// </summary>
 		/// <value>The current page.</value>
-		public Control CurrentPage 
+		public AbstractStepPageControl CurrentPage 
 		{
 			get
 			{
 				var selectedTab = m_TabControl.SelectedTab;
-				return (selectedTab == null || selectedTab.Controls.Count == 0) ? null : selectedTab.Controls[0];
+				return (selectedTab == null || selectedTab.Controls.Count == 0) ? null : (AbstractStepPageControl)selectedTab.Controls[0];
 			}
 		}
 		#endregion
@@ -122,7 +122,7 @@ namespace StationSystemTray
 		/// Initializes a new instance of the <see cref="WizardControl"/> class.
 		/// </summary>
 		/// <param name="wizardPages">The wizard pages.</param>
-		public WizardControl(IEnumerable<Control> wizardPages)
+		public WizardControl(IEnumerable<AbstractStepPageControl> wizardPages)
 			: this()
 		{
 			SetWizardPages(wizardPages);
@@ -143,7 +143,7 @@ namespace StationSystemTray
 		/// Inits the wizard pages.
 		/// </summary>
 		/// <param name="wizardPages">The wizard pages.</param>
-		private void InitWizardPages(IEnumerable<Control> wizardPages)
+		private void InitWizardPages(IEnumerable<AbstractStepPageControl> wizardPages)
 		{
 			var tabPages = new List<TabPage>();
 			foreach (var wizardPage in wizardPages)
@@ -202,7 +202,7 @@ namespace StationSystemTray
 		/// Sets the wizard pages.
 		/// </summary>
 		/// <param name="wizardPages">The wizard pages.</param>
-		public void SetWizardPages(IEnumerable<Control> wizardPages)
+		public void SetWizardPages(IEnumerable<AbstractStepPageControl> wizardPages)
 		{
 			this.WizardPages = wizardPages;
 		}
@@ -233,6 +233,8 @@ namespace StationSystemTray
 				return;
 
 			this.PageIndex = pageIndex - 1;
+
+			CurrentPage.OnEnteringStep();
 		}
 
 		/// <summary>
@@ -244,7 +246,9 @@ namespace StationSystemTray
 			if (pageIndex >= this.PageCount)
 				return;
 
-			this.PageIndex = pageIndex + 1; 
+			CurrentPage.OnLeavingStep();
+			this.PageIndex = pageIndex + 1;
+			CurrentPage.OnEnteringStep();
 		}
 		#endregion
 
