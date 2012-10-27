@@ -83,7 +83,7 @@
     <Compile Include="Src\Class\StationAPI.cs" />
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
     <Compile Include="Src\Control\ServiceImportControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Src\Control\ServiceImportControl.Designer.cs">
       <DependentUpon>ServiceImportControl.cs</DependentUpon>
@@ -94,6 +94,12 @@
     <Compile Include="Src\Control\ServiceItemControl.Designer.cs">
       <DependentUpon>ServiceItemControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Dialog\FirstUseWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\FirstUseWizardDialog.Designer.cs">
+      <DependentUpon>FirstUseWizardDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\ApplicationSettings.cs" />
@@ -101,7 +107,7 @@
     <Compile Include="Src\Class\RecentlyFileHelper.cs" />
     <Compile Include="Src\Class\InstallAppMonitor.cs" />
     <Compile Include="Src\Control\BuildPersonalCloudUserControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Src\Control\BuildPersonalCloudUserControl.Designer.cs">
       <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
@@ -155,11 +161,11 @@
     <Compile Include="Src\Dialog\InstallAppDialog.Designer.cs">
       <DependentUpon>InstallAppDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Dialog\FirstUseWizardDialog.cs">
+    <Compile Include="Src\Dialog\StepByStepWizardDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Src\Dialog\FirstUseWizardDialog.Designer.cs">
-      <DependentUpon>FirstUseWizardDialog.cs</DependentUpon>
+    <Compile Include="Src\Dialog\StepByStepWizardDialog.Designer.cs">
+      <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\ProcessingDialog.cs">
       <SubType>Form</SubType>
@@ -225,8 +231,8 @@
     <EmbeddedResource Include="Src\Dialog\InstallAppDialog.resx">
       <DependentUpon>InstallAppDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\FirstUseWizardDialog.resx">
-      <DependentUpon>FirstUseWizardDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Src\Dialog\StepByStepWizardDialog.resx">
+      <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
