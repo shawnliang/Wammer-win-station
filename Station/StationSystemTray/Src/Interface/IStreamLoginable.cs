@@ -9,5 +9,6 @@ namespace StationSystemTray
 	{
 		UserSession LoginWithFacebook();
 		UserSession Login(string email, string password);
+		void ForgotPassword();
 	}
 }

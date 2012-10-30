@@ -16,6 +16,7 @@ using Wammer.Station.Management;
 using System.IO;
 using Wammer.Cloud;
 using MongoDB.Driver.Builders;
+using System.Diagnostics;
 
 namespace StationSystemTray
 {
@@ -189,6 +190,25 @@ namespace StationSystemTray
 			catch (WammerCloudException e)
 			{
 				throw StationController.ExtractApiRetMsg(e);
+			}
+		}
+
+
+		public void ForgotPassword()
+		{
+			switch (CloudServer.Type)
+			{
+				case CloudType.Production:
+					Process.Start(@"https://waveface.com/password/forgot");
+					return;
+				case CloudType.Development:
+					Process.Start(@"https://devweb.waveface.com/password/forgot");
+					return;
+				case CloudType.Staging:
+					Process.Start(@"http://staging.waveface.com/password/forgot");
+					return;
+				default:
+					throw new NotImplementedException();
 			}
 		}
 	}

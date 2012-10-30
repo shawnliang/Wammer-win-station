@@ -118,5 +118,16 @@ namespace StationSystemTray
 				return false;
 			}
 		}
+
+		private void forgotPwdLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			try
+			{
+				login.ForgotPassword();
+			}
+			catch
+			{
+			}
+		}
 	}
 }
