@@ -1880,7 +1880,10 @@ namespace StationSystemTray
 			var parameters = wizard.Parameters;
 			var session_token = (string)wizard.Parameters.Get("session_token");
 
-			LaunchClient(session_token);
+			if (string.IsNullOrEmpty(session_token))
+				Show();
+			else
+				LaunchClient(session_token);
 		}
 	}
 
