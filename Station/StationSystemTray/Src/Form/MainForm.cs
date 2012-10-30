@@ -1287,7 +1287,6 @@ namespace StationSystemTray
 			try
 			{
 				LogoutFB();
-				userloginContainer.CleartCurLoginedSession();
 				appSetting.CurrentSession = null;
 				appSetting.Save();
 				StationController.UserLogout(apiKey, sessionToken);
@@ -1305,24 +1304,13 @@ namespace StationSystemTray
 		private void Unlink()
 		{
 			DebugInfo.ShowMethod();
-			var lastLoginUser = userloginContainer.GetLastUserLogin();
-			//if (menuSignIn.Text == Resources.LogoutMenuItem)
-			//{
-				var lastLogin = userloginContainer.GetCurLoginedSession();
 
-				if (lastLogin != null)
-				{
-					CloseTimelineProgram();
+			CloseTimelineProgram();
 
-					var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", appSetting.CurrentSession));
 
-					if (loginedSession != null)
-						LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
-				}
-			//}
-
-			GotoTabPage(tabSignIn, lastLoginUser);
-			userloginContainer.CleartCurLoginedSession();
+			if (loginedSession != null)
+				LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
 
 			QuitStream();
 		}
@@ -1735,13 +1723,9 @@ namespace StationSystemTray
 			{
 				EventHandler<AccountEventArgs> removeAccountAction = (senderEx, ex) =>
 				{
-					userloginContainer.RemoveUserLogin(ex.EMail);
-					RefreshUserList();
-
-					var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", userloginContainer.GetCurLoginedSession()));
+					var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", appSetting.CurrentSession));
 					if (loginedUser != null && loginedUser.user.email == ex.EMail)
 					{
-						m_SettingDialog.Close();
 						Unlink();
 						return;
 					}
