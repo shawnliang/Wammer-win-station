@@ -120,9 +120,6 @@
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>zh-TW</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -9767,11 +9764,29 @@
   <data name="&gt;&gt;menuServiceAction.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;menuSignIn.Name" xml:space="preserve">
-    <value>menuSignIn</value>
+  <data name="&gt;&gt;newUserButton.Name" xml:space="preserve">
+    <value>newUserButton</value>
   </data>
-  <data name="&gt;&gt;menuSignIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;newUserButton.Parent" xml:space="preserve">
+    <value>tabNewOrOldUser</value>
+  </data>
+  <data name="&gt;&gt;newUserButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;newUserButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;oldUserButton.Name" xml:space="preserve">
+    <value>oldUserButton</value>
+  </data>
+  <data name="&gt;&gt;oldUserButton.Parent" xml:space="preserve">
+    <value>tabNewOrOldUser</value>
+  </data>
+  <data name="&gt;&gt;oldUserButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;oldUserButton.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
     <value>pictureBox1</value>
@@ -9826,6 +9841,18 @@
   </data>
   <data name="&gt;&gt;tabMainStationSetup.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;tabNewOrOldUser.Name" xml:space="preserve">
+    <value>tabNewOrOldUser</value>
+  </data>
+  <data name="&gt;&gt;tabNewOrOldUser.Parent" xml:space="preserve">
+    <value>tabControl</value>
+  </data>
+  <data name="&gt;&gt;tabNewOrOldUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabNewOrOldUser.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;tabSecondStationSetup.Name" xml:space="preserve">
     <value>tabSecondStationSetup</value>
@@ -10272,11 +10299,41 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   <data name="menuServiceAction.Text" xml:space="preserve">
     <value>Pause Service</value>
   </data>
-  <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+  <data name="newUserButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 14.25pt</value>
   </data>
-  <data name="menuSignIn.Text" xml:space="preserve">
-    <value>Login</value>
+  <data name="newUserButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="newUserButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>55, 142</value>
+  </data>
+  <data name="newUserButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>373, 57</value>
+  </data>
+  <data name="newUserButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="newUserButton.Text" xml:space="preserve">
+    <value>I am new to Stream</value>
+  </data>
+  <data name="oldUserButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 14.25pt</value>
+  </data>
+  <data name="oldUserButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="oldUserButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>55, 218</value>
+  </data>
+  <data name="oldUserButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>373, 57</value>
+  </data>
+  <data name="oldUserButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="oldUserButton.Text" xml:space="preserve">
+    <value>I already have a Stream Personal Cloud</value>
   </data>
   <data name="pictureBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -10478,6 +10535,15 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   <data name="tabMainStationSetup.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
+  <data name="tabNewOrOldUser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tabNewOrOldUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 451</value>
+  </data>
+  <data name="tabNewOrOldUser.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
   <data name="tabSecondStationSetup.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -10530,7 +10596,7 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
     <value>True</value>
   </data>
   <data name="TrayMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 154</value>
+    <value>146, 132</value>
   </data>
   <data name="tsmiOpenStream.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 22</value>

@@ -12,34 +12,36 @@ namespace StationSystemTray.Src.Class
 {
 	class InstallAppMonitor
 	{
-		private string user_id;
 		private long initialConnectionCount;
 		private Timer timer = new Timer();
 		
 
-		public InstallAppMonitor(string user_id = null)
+		public InstallAppMonitor()
 		{
-			this.user_id = user_id;
 			this.timer.Interval = 1000; // ms
 			this.timer.Tick += new EventHandler(timer_Tick);
 			this.timer.Enabled = false;
 		}
 
-		public void OnAppInstall(object sender, EventArgs arg)
+		public void OnAppInstall(object sender, AppInstalEventArgs arg)
 		{
-			initialConnectionCount = getCurConnectionCount();
+			initialConnectionCount = getCurConnectionCount(arg.user_id);
 			timer.Start();
-			timer.Tag = (BuildPersonalCloudUserControl)sender;
+			timer.Tag = new TimerParam()
+			{
+				build_control = (BuildPersonalCloudUserControl)sender,
+				user_id = arg.user_id
+			};
 		}
 
-		private long getCurConnectionCount()
+		private long getCurConnectionCount(string user_id)
 		{
-			var connections = getConnectedClients();
+			var connections = getConnectedClients(user_id);
 
 			return connections.Count();
 		}
 
-		private MongoDB.Driver.MongoCursor<LoginedSession> getConnectedClients()
+		private MongoDB.Driver.MongoCursor<LoginedSession> getConnectedClients(string user_id)
 		{
 			var connections = string.IsNullOrEmpty(user_id) ?
 								  ConnectionCollection.Instance.FindAll() :
@@ -50,26 +52,32 @@ namespace StationSystemTray.Src.Class
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			timer.Stop();
+			
+			var parameters = (TimerParam)timer.Tag;
 
-			var curCount = getCurConnectionCount();
+			var curCount = getCurConnectionCount(parameters.user_id);
 
 			if (curCount != initialConnectionCount)
 			{
-				var buildCloud = (BuildPersonalCloudUserControl)timer.Tag;
-
-				var clients = getConnectedClients();
+				var clients = getConnectedClients(parameters.user_id);
 				var devices = string.Join("/", clients.Select(x => x.device.device_name).ToArray());
 
-				buildCloud.ShowDeviceConnected(devices);
-				buildCloud.CloseInstallDialog();
+				parameters.build_control.ShowDeviceConnected(devices);
+				parameters.build_control.CloseInstallDialog();
 			}
 			else
 				timer.Enabled = true;
 		}
 
-		public void OnAppInstallCanceled(object sender, EventArgs arg)
+		public void OnAppInstallCanceled(object sender, AppInstalEventArgs arg)
 		{
 			timer.Stop();
 		}
+	}
+
+	class TimerParam
+	{
+		public string user_id { get; set; }
+		public BuildPersonalCloudUserControl build_control { get; set; }
 	}
 }

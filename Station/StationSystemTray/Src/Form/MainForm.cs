@@ -27,6 +27,7 @@ using Wammer.Utility;
 using Timer = System.Windows.Forms.Timer;
 using StationSystemTray.Dialog;
 using Waveface.Common;
+using StationSystemTray.Src.Dialog;
 
 namespace StationSystemTray
 {
@@ -340,7 +341,8 @@ namespace StationSystemTray
 			}
 			else
 			{
-				GotoTimeline(userloginContainer.GetLastUserLogin());
+				//GotoTimeline(userloginContainer.GetLastUserLogin());
+				GotoTabPage(tabNewOrOldUser);
 			}
 		}
 
@@ -1622,38 +1624,38 @@ namespace StationSystemTray
 
 		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
 		{
-			Hide();
+			//Hide();
 
-			var session = LoginToStation(loginSetting);
+			//var session = LoginToStation(loginSetting);
 
-			var wizard = new FirstUseWizardDialog(session.user.user_id, session.session_token);
+			//var wizard = new FirstUseWizardDialog(session.user.user_id, session.session_token);
 
-			wizard.FormClosed += (s, e) =>
-			{
-				//LaunchWavefaceClient(loginSetting);
-				LaunchClient(session.session_token);
-			};
+			//wizard.FormClosed += (s, e) =>
+			//{
+			//    //LaunchWavefaceClient(loginSetting);
+			//    LaunchClient(session.session_token);
+			//};
 
-			wizard.Show();
+			//wizard.Show();
 		}
 
 		private void LoginAndLaunchClient(string sessionToken, string userID)
 		{
-			//Login user
-			StationController.UserLogin(CLIENT_API_KEY, userID, sessionToken);
+			////Login user
+			//StationController.UserLogin(CLIENT_API_KEY, userID, sessionToken);
 
-			userloginContainer.SaveCurLoginedSession(sessionToken);
+			//userloginContainer.SaveCurLoginedSession(sessionToken);
 
-			Hide();
+			//Hide();
 
-			var wizard = new FirstUseWizardDialog(userID, sessionToken);
+			//var wizard = new FirstUseWizardDialog(userID, sessionToken);
 
-			wizard.FormClosed += (s, e) =>
-			{
-				LaunchClient(sessionToken);
-			};
+			//wizard.FormClosed += (s, e) =>
+			//{
+			//    LaunchClient(sessionToken);
+			//};
 
-			wizard.Show();
+			//wizard.Show();
 		}
 
 		private void btnOK2_Click(object sender, EventArgs e)
@@ -1852,6 +1854,33 @@ namespace StationSystemTray
 			}
 			else
 				_contactUsDialog.Activate();
+		}
+
+		private void newUserButton_Click(object sender, EventArgs e)
+		{
+			Hide();
+
+			var wizard = new NewUserWizardDialog();
+			wizard.FormClosed += wizard_FormClosed;
+			wizard.Show();
+		}
+
+		private void oldUserButton_Click(object sender, EventArgs e)
+		{
+			Hide();
+
+			var wizard = new OldUserWizardDialog();
+			wizard.FormClosed += wizard_FormClosed;
+			wizard.Show();
+		}
+
+		void wizard_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			var wizard = (StepByStepWizardDialog)sender;
+			var parameters = wizard.Parameters;
+			var session_token = (string)wizard.Parameters.Get("session_token");
+
+			LaunchClient(session_token);
 		}
 	}
 

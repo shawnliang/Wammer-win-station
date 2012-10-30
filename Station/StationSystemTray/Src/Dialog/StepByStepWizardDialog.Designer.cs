@@ -37,7 +37,8 @@ namespace StationSystemTray
 			// 
 			// nextButton
 			// 
-			this.nextButton.Location = new System.Drawing.Point(535, 369);
+			this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.nextButton.Location = new System.Drawing.Point(465, 350);
 			this.nextButton.Name = "nextButton";
 			this.nextButton.Size = new System.Drawing.Size(75, 23);
 			this.nextButton.TabIndex = 1;
@@ -47,7 +48,8 @@ namespace StationSystemTray
 			// 
 			// prevButton
 			// 
-			this.prevButton.Location = new System.Drawing.Point(454, 369);
+			this.prevButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.prevButton.Location = new System.Drawing.Point(384, 350);
 			this.prevButton.Name = "prevButton";
 			this.prevButton.Size = new System.Drawing.Size(75, 23);
 			this.prevButton.TabIndex = 2;
@@ -57,18 +59,20 @@ namespace StationSystemTray
 			// 
 			// wizardControl
 			// 
-			this.wizardControl.Dock = System.Windows.Forms.DockStyle.Top;
+			this.wizardControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.wizardControl.Location = new System.Drawing.Point(0, 0);
 			this.wizardControl.Name = "wizardControl";
 			this.wizardControl.PageIndex = 0;
-			this.wizardControl.Size = new System.Drawing.Size(614, 363);
+			this.wizardControl.Size = new System.Drawing.Size(540, 347);
 			this.wizardControl.TabIndex = 3;
 			// 
 			// StepByStepWizardDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(614, 401);
+			this.ClientSize = new System.Drawing.Size(541, 379);
 			this.Controls.Add(this.wizardControl);
 			this.Controls.Add(this.prevButton);
 			this.Controls.Add(this.nextButton);
@@ -77,6 +81,7 @@ namespace StationSystemTray
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "StepByStepWizardDialog";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Stream";
 			this.Load += new System.EventHandler(this.FirstUseWizardDialog_Load);
 			this.ResumeLayout(false);
@@ -85,8 +90,8 @@ namespace StationSystemTray
 
 		#endregion
 
-		private System.Windows.Forms.Button nextButton;
-		private System.Windows.Forms.Button prevButton;
 		protected WizardControl wizardControl;
+		protected System.Windows.Forms.Button nextButton;
+		protected System.Windows.Forms.Button prevButton;
 	}
 }

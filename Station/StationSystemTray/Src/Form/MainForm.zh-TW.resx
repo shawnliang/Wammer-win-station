@@ -9749,6 +9749,15 @@
   <data name="settingToolStripMenuItem.Text" xml:space="preserve">
     <value>設定</value>
   </data>
+  <data name="tabNewOrOldUser.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabNewOrOldUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 451</value>
+  </data>
+  <data name="tabNewOrOldUser.Text" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
   <data name="tbxEMail.CueText" xml:space="preserve">
     <value>電子郵件</value>
   </data>

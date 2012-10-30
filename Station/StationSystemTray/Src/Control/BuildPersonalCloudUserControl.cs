@@ -12,7 +12,7 @@ using StationSystemTray.Properties;
 
 namespace StationSystemTray.Src.Control
 {
-	public partial class BuildPersonalCloudUserControl : AbstractStepPageControl
+	public partial class BuildPersonalCloudUserControl : StepPageControl
 	{
 		private const string FIREFOX_URL = @"https://addons.mozilla.org/zh-TW/firefox/addon/waveface-stream/";
 		private const string CHROME_URL = @"https://chrome.google.com/webstore/detail/stream-visited-links-a-be/fneddinlohhbafadpaoidhgklemkknff";
@@ -21,10 +21,11 @@ namespace StationSystemTray.Src.Control
 
 		private InstallAppDialog installDialog;
 		private int colorIndex = 0;
+		private string user_id;
 
+		public event EventHandler<AppInstalEventArgs> OnAppInstall;
+		public event EventHandler<AppInstalEventArgs> OnAppInstallCanceled;
 
-		public event EventHandler OnAppInstall;
-		public event EventHandler OnAppInstallCanceled;
 
 		public BuildPersonalCloudUserControl()
 		{
@@ -97,16 +98,36 @@ namespace StationSystemTray.Src.Control
 
 		private void RaiseOnAppInstall()
 		{
-			EventHandler handler = OnAppInstall;
+			EventHandler<AppInstalEventArgs> handler = OnAppInstall;
 			if (handler != null)
-				handler(this, EventArgs.Empty);
+				handler(this, new AppInstalEventArgs(user_id));
 		}
 
 		private void RaiseOnAppInstallCanceled()
 		{
-			EventHandler handler = OnAppInstallCanceled;
+			EventHandler<AppInstalEventArgs> handler = OnAppInstallCanceled;
 			if (handler != null)
-				handler(this, EventArgs.Empty);
+				handler(this, new AppInstalEventArgs(user_id));
+		}
+
+		public override void OnEnteringStep(WizardParameters parameters)
+		{
+			var user_id = parameters.Get("user_id");
+			if (user_id == null)
+				throw new ArgumentException("missing required parameter: user_id");
+
+			this.user_id = (string)user_id;
+		}
+	}
+
+
+	public class AppInstalEventArgs : EventArgs
+	{
+		public string user_id { get; private set; }
+
+		public AppInstalEventArgs(string user_id)
+		{
+			this.user_id = user_id;
 		}
 	}
 }

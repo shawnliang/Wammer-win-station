@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace StationSystemTray
+namespace StationSystemTray.Src.Control
 {
-	public partial class CongratulationControl : StepPageControl
+	public partial class IntroControl : StepPageControl
 	{
-		public CongratulationControl()
+		public IntroControl()
 		{
 			InitializeComponent();
 		}

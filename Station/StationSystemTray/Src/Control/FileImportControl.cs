@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace StationSystemTray
 {
-	public partial class FileImportControl : AbstractStepPageControl
+	public partial class FileImportControl : StepPageControl
 	{
 		private IPhotoSearch photoSearch;
 		private SynchronizationContext mainSyncCtx;
@@ -32,19 +32,19 @@ namespace StationSystemTray
 		/// <summary>
 		/// Processes the file import step.
 		/// </summary>
-		public override void OnEnteringStep()
+		public override void OnEnteringStep(WizardParameters parameters)
 		{
-			base.OnEnteringStep();
+			base.OnEnteringStep(parameters);
 			
 			ClearInterestedPaths();
 			AddInterestedPaths(photoSearch.InterestedPaths);
 		}
 
-		public override void OnLeavingStep()
+		public override void OnLeavingStep(WizardParameters parameters)
 		{
-			base.OnLeavingStep();
+			base.OnLeavingStep(parameters);
 
-			ImportSelectedPaths();
+			ImportSelectedPaths((string)parameters.Get("session_token"));
 		}
 
 
@@ -72,12 +72,12 @@ namespace StationSystemTray
 		/// <summary>
 		/// Imports the selected paths.
 		/// </summary>
-		private void ImportSelectedPaths()
+		private void ImportSelectedPaths(string session_token)
 		{
 			var dialog = new ProcessingDialog();
 			var postID = Guid.NewGuid().ToString();
 			var selectedPaths = GetSelectedPaths();
-			MethodInvoker mi = new MethodInvoker(() => { photoSearch.ImportToStation(selectedPaths); });
+			MethodInvoker mi = new MethodInvoker(() => { photoSearch.ImportToStation(selectedPaths, session_token); });
 
 			AutoResetEvent autoEvent = new AutoResetEvent(false);
 			mi.BeginInvoke((result) =>
@@ -171,6 +171,6 @@ namespace StationSystemTray
 	public interface IPhotoSearch
 	{
 		IEnumerable<string> InterestedPaths { get; }
-		void ImportToStation(IEnumerable<string> paths);
+		void ImportToStation(IEnumerable<string> paths, string session_token);
 	}
 }

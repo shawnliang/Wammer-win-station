@@ -19,43 +19,22 @@ namespace StationSystemTray.Src.Class
 		private const string DEV_WEB_BASE_PAGE_URL = @"https://devweb.waveface.com";
 		private const string CALLBACK_URL_PATH = @"/client/callback";
 		private const string FB_LOGIN_GUID = @"6CF7FA1E-80F7-48A3-922F-F3B2841C7A0D";
-		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 		private const string CALLBACK_MATCH_PATTERN_FORMAT = @"(/" + FB_LOGIN_GUID + "/{0}?.*)";
 		private const string FB_TURN_ON_URL_PATH = @"/sns/facebook/connect";
-
-		private string user_id;
-		private string session_token;
-		private string api_key;
-
-		public FacebookConnectableService(string user_id, string session_token, string api_key)
-		{
-			this.user_id = user_id;
-			this.session_token = session_token;
-			this.api_key = api_key;
-		}
 
 		public string Name
 		{
 			get { return "Facebook"; }
 		}
 
-		public bool Enabled
+		public bool IsEnabled(string user_id, string session_token, string api_key)
 		{
-			get
-			{
-				var loginInfo = Wammer.Cloud.User.GetLoginInfo(user_id, api_key, session_token);
-				
-				return loginInfo.user.sns != null && 
-					loginInfo.user.sns.Any(x => x.type.Equals("facebook"));
-			}
-			set
-			{
-				if (value)
-					connect();
-				else
-					disconnect();
-			}
+			var loginInfo = Wammer.Cloud.User.GetLoginInfo(user_id, api_key, session_token);
+
+			return loginInfo.user.sns != null &&
+				loginInfo.user.sns.Any(x => x.type.Equals("facebook"));
 		}
+
 
 		public System.Drawing.Image Icon
 		{
@@ -63,7 +42,7 @@ namespace StationSystemTray.Src.Class
 		}
 
 
-		private void connect()
+		public void Connect(string session_token, string api_key)
 		{
 			var baseurl = (CloudServer.Type == CloudType.Production) ? WEB_BASE_URL :
 				(CloudServer.Type == CloudType.Development) ? DEV_WEB_BASE_PAGE_URL : STAGING_BASE_URL;
@@ -76,13 +55,13 @@ namespace StationSystemTray.Src.Class
 				device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
 				device_name = Environment.MachineName,
 				device = "windows",
-				api_key = CLIENT_API_KEY,
+				api_key = api_key,
 				xurl =
 					string.Format(
 						"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s",
 						fbLoginUrl),
 				locale = Thread.CurrentThread.CurrentCulture.ToString(),
-				session_token = this.session_token
+				session_token = session_token
 			};
 
 			var browser = new WebBrowser
@@ -140,7 +119,7 @@ namespace StationSystemTray.Src.Class
 				throw new OperationCanceledException();
 		}
 
-		private void disconnect()
+		public void Disconnect(string session_token, string api_key)
 		{
 			Wammer.Cloud.User.DisconnectWithSns(session_token, api_key, "facebook");
 		}

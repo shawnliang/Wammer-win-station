@@ -27,8 +27,6 @@ namespace StationSystemTray
 		private BackgroundWorker backgroundWorker1;
 
 
-		private string m_SessionToken { get; set; }
-
 		/// <summary>
 		/// Gets the m_ picasa DB storage path.
 		/// </summary>
@@ -80,10 +78,9 @@ namespace StationSystemTray
 		private HashSet<String> m_InterestedExtensions { get; set; }
 
 
-		public PhotoSearch(string sessionToken)
+		public PhotoSearch()
 		{
 			m_InterestedExtensions = new HashSet<String> { ".jpg", ".jpeg", ".bmp", ".png" };
-			m_SessionToken = sessionToken;
 		}
 
 
@@ -442,11 +439,11 @@ namespace StationSystemTray
 			return sb.ToString();
 		}
 
-		public void ImportToStation(IEnumerable<string> paths)
+		public void ImportToStation(IEnumerable<string> paths, string session_token)
 		{
-			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", m_SessionToken));
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", session_token));
 			var groupID = loginedSession.groups.First().group_id;
-			StationAPI.Import(m_SessionToken, groupID, string.Format("[{0}]", string.Join(",", paths.ToArray())));
+			StationAPI.Import(session_token, groupID, string.Format("[{0}]", string.Join(",", paths.ToArray())));
 		}
 	}
 }

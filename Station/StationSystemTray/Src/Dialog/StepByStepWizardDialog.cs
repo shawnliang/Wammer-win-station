@@ -31,6 +31,14 @@ namespace StationSystemTray
 		private string m_OriginalTitle { get; set; }
 		#endregion
 
+		#region Public Property
+		public WizardParameters Parameters
+		{
+			get { return wizardControl.Parameters; }
+		}
+
+		#endregion
+
 		#region Constructor
 		public StepByStepWizardDialog()
 		{
@@ -41,7 +49,6 @@ namespace StationSystemTray
 			wizardControl.WizardPagesChanged += new EventHandler(wizardControl1_WizardPagesChanged);
 		}
 		#endregion
-
 
 		#region Private Method
 		/// <summary>
@@ -58,12 +65,21 @@ namespace StationSystemTray
 		private void UpdateButton()
 		{
 			var pageIndex = wizardControl.PageIndex;
-			prevButton.Enabled = (pageIndex > 1);
+
+			var prevPageIndex = pageIndex - 1;
+
+			prevButton.Enabled = (pageIndex > 1) && 
+				!wizardControl.GetPage(prevPageIndex - 1).RunOnce; 
+				// Question: why (prevPageIndex - 1) ??
+				// Answer: pageIndex and prevPageIndex are 1-based index but 
+				//         GetPage(index) uses 0-based.
+
+			prevButton.Visible = nextButton.Visible = wizardControl.CurrentPage.HasPrevAndBack;
+
 			nextButton.Text = (pageIndex < wizardControl.PageCount) ? "Next" : "Done";
 		}
 		
 		#endregion
-
 
 		#region Event Process
 		/// <summary>
