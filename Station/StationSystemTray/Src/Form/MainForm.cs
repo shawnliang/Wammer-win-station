@@ -260,7 +260,7 @@ namespace StationSystemTray
 			{
 				case 0x401:
 					logger.Debug("Timeline trigger by new stream");
-					GotoTimeline(userloginContainer.GetLastUserLogin());
+					GotoTimeline();
 					break;
 				case 0x402:
 					logger.Debug("Closed by another application");
@@ -350,8 +350,7 @@ namespace StationSystemTray
 			}
 			else
 			{
-				//GotoTimeline(userloginContainer.GetLastUserLogin());
-				GotoTabPage(tabNewOrOldUser);
+				GotoTimeline();
 			}
 		}
 
@@ -379,7 +378,7 @@ namespace StationSystemTray
 			}
 		}
 
-		private void GotoTimeline(UserLoginSetting userlogin)
+		private void GotoTimeline()
 		{
 			if (clientProcess != null && !clientProcess.HasExited)
 			{
@@ -394,10 +393,9 @@ namespace StationSystemTray
 				return;
 			}
 
-			string lastLogin = userloginContainer.GetCurLoginedSession();
-			if (!string.IsNullOrEmpty(lastLogin))
+			if (!string.IsNullOrEmpty(appSetting.CurrentSession))
 			{
-				LaunchClient(lastLogin);
+				LaunchClient(appSetting.CurrentSession);
 				WindowState = FormWindowState.Minimized;
 				ShowInTaskbar = false;
 				Hide();
@@ -410,29 +408,8 @@ namespace StationSystemTray
 				return;
 			}
 
-			LoginedSession loginedSession = null;
+			GotoTabPage(tabNewOrOldUser, null);
 
-			if (userlogin != null)
-				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("user.email", userlogin.Email));
-
-			if (loginedSession != null /*|| (userlogin != null && userlogin.RememberPassword)*/)
-			{
-				userloginContainer.SaveCurLoginedUser(userlogin);
-
-				if (LaunchWavefaceClient(userlogin))
-				{
-					// if the function is called by OnLoad, Hide() won't hide the mainform
-					// so we have to play some tricks here
-					WindowState = FormWindowState.Minimized;
-					ShowInTaskbar = false;
-
-					Hide();
-				}
-			}
-			else
-			{
-				GotoTabPage(tabSignIn, userlogin);
-			}
 		}
 
 		private void PauseServiceUICallback(object sender, SimpleEventArgs evt)
@@ -585,8 +562,9 @@ namespace StationSystemTray
 		private void trayIcon_DoubleClicked(object sender, EventArgs e)
 		{
 			DebugInfo.ShowMethod();
-			GotoTimeline(userloginContainer.GetLastUserLogin());
+			GotoTimeline();
 		}
+
 		[DllImport("wininet")]
 		public static extern bool InternetGetConnectedState(
 			ref uint lpdwFlags,
@@ -1476,7 +1454,7 @@ namespace StationSystemTray
 
 		private void tsmiOpenStream_Click(object sender, EventArgs e)
 		{
-			GotoTimeline(userloginContainer.GetLastUserLogin());
+			GotoTimeline();
 		}
 
 		private void TrayMenu_Opening(object sender, CancelEventArgs e)
@@ -1762,7 +1740,7 @@ namespace StationSystemTray
 			}
 
 			if (isLoginPageOpened)
-				GotoTimeline(userloginContainer.GetLastUserLogin());
+				GotoTimeline();
 		}
 
 		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
