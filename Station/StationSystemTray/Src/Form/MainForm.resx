@@ -9528,7 +9528,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Login - Stream</value>
+    <value>Stream</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>
@@ -9536,215 +9536,11 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Name" xml:space="preserve">
-    <value>btnOK2</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;button1.Name" xml:space="preserve">
-    <value>button1</value>
-  </data>
-  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
-    <value>loginInputPanel1</value>
-  </data>
-  <data name="&gt;&gt;button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;checkStationTimer.Name" xml:space="preserve">
     <value>checkStationTimer</value>
   </data>
   <data name="&gt;&gt;checkStationTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Name" xml:space="preserve">
-    <value>chkRememberPassword</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkRememberPassword.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Name" xml:space="preserve">
-    <value>cmbEmail</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Parent" xml:space="preserve">
-    <value>loginInputPanel1</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cmbEmail.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;devVersionTag.Name" xml:space="preserve">
-    <value>devVersionTag</value>
-  </data>
-  <data name="&gt;&gt;devVersionTag.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;devVersionTag.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;devVersionTag.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;fbLoginButton1.Name" xml:space="preserve">
-    <value>fbLoginButton1</value>
-  </data>
-  <data name="&gt;&gt;fbLoginButton1.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;fbLoginButton1.Type" xml:space="preserve">
-    <value>StationSystemTray.FBLoginButton, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;fbLoginButton1.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Name" xml:space="preserve">
-    <value>lblMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblMainStationSetup.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Name" xml:space="preserve">
-    <value>lblSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSecondStationSetup.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lblSignUp.Name" xml:space="preserve">
-    <value>lblSignUp</value>
-  </data>
-  <data name="&gt;&gt;lblSignUp.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;lblSignUp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSignUp.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
-    <value>lblWelcome</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Parent" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Name" xml:space="preserve">
-    <value>lblWelcome2</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Parent" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblWelcome2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
-    <value>linkLabel1</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;loginButton1.Name" xml:space="preserve">
-    <value>loginButton1</value>
-  </data>
-  <data name="&gt;&gt;loginButton1.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;loginButton1.Type" xml:space="preserve">
-    <value>StationSystemTray.LoginButton, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;loginButton1.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;loginInputPanel1.Name" xml:space="preserve">
-    <value>loginInputPanel1</value>
-  </data>
-  <data name="&gt;&gt;loginInputPanel1.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;loginInputPanel1.Type" xml:space="preserve">
-    <value>StationSystemTray.LoginInputPanel, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;loginInputPanel1.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="&gt;&gt;menuItemContactUs.Name" xml:space="preserve">
     <value>menuItemContactUs</value>
@@ -9767,8 +9563,17 @@
   <data name="&gt;&gt;newUserButton.Name" xml:space="preserve">
     <value>newUserButton</value>
   </data>
+  <data name="&gt;&gt;newUserButton.Name" xml:space="preserve">
+    <value>newUserButton</value>
+  </data>
   <data name="&gt;&gt;newUserButton.Parent" xml:space="preserve">
     <value>tabNewOrOldUser</value>
+  </data>
+  <data name="&gt;&gt;newUserButton.Parent" xml:space="preserve">
+    <value>tabNewOrOldUser</value>
+  </data>
+  <data name="&gt;&gt;newUserButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;newUserButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -9776,8 +9581,17 @@
   <data name="&gt;&gt;newUserButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="&gt;&gt;newUserButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="&gt;&gt;oldUserButton.Name" xml:space="preserve">
     <value>oldUserButton</value>
+  </data>
+  <data name="&gt;&gt;oldUserButton.Name" xml:space="preserve">
+    <value>oldUserButton</value>
+  </data>
+  <data name="&gt;&gt;oldUserButton.Parent" xml:space="preserve">
+    <value>tabNewOrOldUser</value>
   </data>
   <data name="&gt;&gt;oldUserButton.Parent" xml:space="preserve">
     <value>tabNewOrOldUser</value>
@@ -9785,32 +9599,14 @@
   <data name="&gt;&gt;oldUserButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;oldUserButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;oldUserButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
-    <value>pictureBox1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.Name" xml:space="preserve">
-    <value>pictureBox2</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.Parent" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;oldUserButton.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;settingToolStripMenuItem.Name" xml:space="preserve">
     <value>settingToolStripMenuItem</value>
@@ -9830,17 +9626,8 @@
   <data name="&gt;&gt;tabControl.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;tabMainStationSetup.Name" xml:space="preserve">
-    <value>tabMainStationSetup</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabMainStationSetup.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;tabNewOrOldUser.Name" xml:space="preserve">
+    <value>tabNewOrOldUser</value>
   </data>
   <data name="&gt;&gt;tabNewOrOldUser.Name" xml:space="preserve">
     <value>tabNewOrOldUser</value>
@@ -9848,47 +9635,20 @@
   <data name="&gt;&gt;tabNewOrOldUser.Parent" xml:space="preserve">
     <value>tabControl</value>
   </data>
+  <data name="&gt;&gt;tabNewOrOldUser.Parent" xml:space="preserve">
+    <value>tabControl</value>
+  </data>
+  <data name="&gt;&gt;tabNewOrOldUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;tabNewOrOldUser.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tabNewOrOldUser.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;tabSecondStationSetup.Name" xml:space="preserve">
-    <value>tabSecondStationSetup</value>
-  </data>
-  <data name="&gt;&gt;tabSecondStationSetup.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabSecondStationSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabSecondStationSetup.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;tabSignIn.Name" xml:space="preserve">
-    <value>tabSignIn</value>
-  </data>
-  <data name="&gt;&gt;tabSignIn.Parent" xml:space="preserve">
-    <value>tabControl</value>
-  </data>
-  <data name="&gt;&gt;tabSignIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabSignIn.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;tbxEMail.Name" xml:space="preserve">
-    <value>tbxEMail</value>
-  </data>
-  <data name="&gt;&gt;tbxEMail.Parent" xml:space="preserve">
-    <value>loginInputPanel1</value>
-  </data>
-  <data name="&gt;&gt;tbxEMail.Type" xml:space="preserve">
-    <value>StationSystemTray.CueTextBox, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;tbxEMail.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;tabNewOrOldUser.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
     <value>toolStripMenuItem1</value>
@@ -9925,361 +9685,6 @@
   </data>
   <data name="&gt;&gt;tsmiOpenStream.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Name" xml:space="preserve">
-    <value>txtPassword</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Parent" xml:space="preserve">
-    <value>loginInputPanel1</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.Type" xml:space="preserve">
-    <value>StationSystemTray.CueTextBox, StationSystemTray, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;txtPassword.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnOK.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>387, 414</value>
-  </data>
-  <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 30</value>
-  </data>
-  <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnOK.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="btnOK2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnOK2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnOK2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>387, 414</value>
-  </data>
-  <data name="btnOK2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 30</value>
-  </data>
-  <data name="btnOK2.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="btnOK2.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="button1.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>338, 6</value>
-  </data>
-  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>21, 42</value>
-  </data>
-  <data name="button1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>▼</value>
-  </data>
-  <data name="chkRememberPassword.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkRememberPassword.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="chkRememberPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chkRememberPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 337</value>
-  </data>
-  <data name="chkRememberPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 21</value>
-  </data>
-  <data name="chkRememberPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="chkRememberPassword.Text" xml:space="preserve">
-    <value>Remember password</value>
-  </data>
-  <data name="cmbEmail.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="cmbEmail.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 15pt</value>
-  </data>
-  <data name="cmbEmail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 16</value>
-  </data>
-  <data name="cmbEmail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 31</value>
-  </data>
-  <data name="cmbEmail.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="cmbEmail.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="devVersionTag.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="devVersionTag.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 18pt</value>
-  </data>
-  <data name="devVersionTag.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="devVersionTag.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 13</value>
-  </data>
-  <data name="devVersionTag.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 66</value>
-  </data>
-  <data name="devVersionTag.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="devVersionTag.Text" xml:space="preserve">
-    <value>Development
-Version</value>
-  </data>
-  <data name="devVersionTag.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="fbLoginButton1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="fbLoginButton1.DisplayText" xml:space="preserve">
-    <value>Connect with Facebook</value>
-  </data>
-  <data name="fbLoginButton1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 14.25pt, style=Bold</value>
-  </data>
-  <data name="fbLoginButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 88</value>
-  </data>
-  <data name="fbLoginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>6, 5, 6, 5</value>
-  </data>
-  <data name="fbLoginButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>382, 49</value>
-  </data>
-  <data name="fbLoginButton1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 183</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>382, 1</value>
-  </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 10.5pt</value>
-  </data>
-  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 142</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>382, 23</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Connect with facebook and auto import your facebook feed.</value>
-  </data>
-  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="lblMainStationSetup.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="lblMainStationSetup.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="lblMainStationSetup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 57</value>
-  </data>
-  <data name="lblMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>454, 354</value>
-  </data>
-  <data name="lblMainStationSetup.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblMainStationSetup.Text" xml:space="preserve">
-    <value>This computer will be set up as your Station PC. All the photos you upload from your phone and tablet devices will be sent to this computer ({0}) automatically via Wi-Fi from the cloud.
-
-Please click 'Start' to enter Stream. Once inside you can click on 'Account Info' for more options.</value>
-  </data>
-  <data name="lblSecondStationSetup.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="lblSecondStationSetup.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="lblSecondStationSetup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblSecondStationSetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 57</value>
-  </data>
-  <data name="lblSecondStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>454, 354</value>
-  </data>
-  <data name="lblSecondStationSetup.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="lblSecondStationSetup.Text" xml:space="preserve">
-    <value>Hi! Thank you for using Waveface Stream Windows.
-
-This computer will be setup as a part of your Waveface personal cloud, and enhance the performance of this computer and nearby devices. All the photos you uploaded from Stream apps will still be sent to your Station: {0} through the Waveface Cloud.
-
-Now please click on "Start" to enter your Stream. You can enter "Account Info" in the main program for further options.</value>
-  </data>
-  <data name="lblSignUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="lblSignUp.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 10.5pt</value>
-  </data>
-  <data name="lblSignUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblSignUp.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
-    <value>27, 15</value>
-  </data>
-  <data name="lblSignUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 415</value>
-  </data>
-  <data name="lblSignUp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>448, 27</value>
-  </data>
-  <data name="lblSignUp.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="lblSignUp.Text" xml:space="preserve">
-    <value>Don't have an account yet? Create one now!</value>
-  </data>
-  <data name="lblSignUp.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
-  </data>
-  <data name="lblWelcome.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblWelcome.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 15.75pt</value>
-  </data>
-  <data name="lblWelcome.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblWelcome.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 9</value>
-  </data>
-  <data name="lblWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 30</value>
-  </data>
-  <data name="lblWelcome.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblWelcome.Text" xml:space="preserve">
-    <value>Welcome to Waveface Stream</value>
-  </data>
-  <data name="lblWelcome2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblWelcome2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 15.75pt</value>
-  </data>
-  <data name="lblWelcome2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblWelcome2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 9</value>
-  </data>
-  <data name="lblWelcome2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 30</value>
-  </data>
-  <data name="lblWelcome2.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="lblWelcome2.Text" xml:space="preserve">
-    <value>Welcome to Waveface Stream</value>
-  </data>
-  <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="linkLabel1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 10.5pt</value>
-  </data>
-  <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 362</value>
-  </data>
-  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 16</value>
-  </data>
-  <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Forgot password?</value>
-  </data>
-  <data name="loginButton1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 12.75pt, style=Bold</value>
-  </data>
-  <data name="loginButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="loginButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>318, 337</value>
-  </data>
-  <data name="loginButton1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="loginButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 40</value>
-  </data>
-  <data name="loginButton1.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="loginButton1.Text" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="loginInputPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 218</value>
-  </data>
-  <data name="loginInputPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>382, 103</value>
-  </data>
-  <data name="loginInputPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
   </data>
   <data name="menuItemContactUs.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 22</value>
@@ -10335,179 +9740,6 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   <data name="oldUserButton.Text" xml:space="preserve">
     <value>I already have a Stream Personal Cloud</value>
   </data>
-  <data name="pictureBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="pictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-</value>
-  </data>
-  <data name="pictureBox1.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="pictureBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 12</value>
-  </data>
-  <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>382, 65</value>
-  </data>
-  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAD6WlUWHRYTUw6Y29tLmFkb2Jl
-        LnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQi
-        Pz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENv
-        cmUgNS4wLWMwNjEgNjQuMTQwOTQ5LCAyMDEwLzEyLzA3LTEwOjU3OjAxICAgICAgICAiPiA8cmRmOlJE
-        RiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8
-        cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20v
-        eGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6
-        eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8v
-        bnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFk
-        b2JlIFBob3Rvc2hvcCBDUzUuMSBNYWNpbnRvc2giIHhtcDpDcmVhdGVEYXRlPSIyMDEyLTA0LTMwVDA3
-        OjA3OjQ2KzA4OjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAxMi0wNS0xMFQwNzozMjozOCswODowMCIgeG1w
-        Ok1ldGFkYXRhRGF0ZT0iMjAxMi0wNS0xMFQwNzozMjozOCswODowMCIgZGM6Zm9ybWF0PSJpbWFnZS9w
-        bmciIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NzUxQjBGN0M4Q0JGMTFFMTg3MTA5QjY0RTAyNzhG
-        ODQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NzUxQjBGN0Q4Q0JGMTFFMTg3MTA5QjY0RTAyNzhG
-        ODQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1OENEMTMwQjhD
-        QkUxMUUxODcxMDlCNjRFMDI3OEY4NCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1OENEMTMwQzhD
-        QkUxMUUxODcxMDlCNjRFMDI3OEY4NCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6
-        eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PmddsnwAAAMxSURBVEhLtVZbSBRRGLYrZBcrHyIqCrrZ
-        BaELVJYURb32HEX1ECQpra6uuzszbJkmwq6Zl3XXgizqIeuhJZAgIZEKlsQsTeniurVtaWURbRcqY/u+
-        YWaZHWZ3UfDh48yZc/7/+//zX85JO3rSljbRmHACOpCKZDI2TQPSgQwgUwPO+Z/rk5KdRiISCk2nYp/V
-        tfOJ4Ha/ED09Qanp5xupKYoxgnl3t9BQd7PUuQ375ij7DcmMSKbQQmdx+Yoewd3yWmr6R8WJgPW/MKK5
-        wly2TPGM3sfp1ZOQYNYlS9XWl6InkEy5fg2e9XtKKjdAfiYQR6QloavpZ81la0EwOBYCde9z0dNXWuhY
-        Dj0ztHHSkjAGCx8LDb7xEKgynUL9VehZoCSErF8loXsZly1V+1PFIJUBSIrftcUVu5RkkBNBJWEaLvbb
-        66/rlYTKm6PDLW0y+K2uv7/gi751Xoty5JpW7oG99iJPBZiqJWG+r+kXG4PazVT6beRzNBKJyOA3FXMP
-        51/6BmKjVq5XcD+DvlVKbGKezMWPzYOSV64DFR98HbISWhuuuyF/f2rvjJFwzj1c08oh0z5CHzON9RMj
-        yTxuEnboj0q1VP2vWq/1xChGAcn7C8q3APPiSDDJHRC937VC4yVBKo9AXw4wX0+S0ys2ho2Oa+hKq+Fx
-        0QgjT9BuXhl5wma36a6tplUf+K+BUNLAG5Hctla3KDGZrc+urErzmULk+ahekIEn9CmsDzjlEI8/jqLT
-        eVC+Up9drJNFwL5223l/qoJLto7TuAc9e4zqhJXJI8suMInHngru4fEQoSWF8kzCEehZB/Co4iqelS/3
-        LmaZVHRKQPseE1GX0BC2FjlKlKwy7F0kkbswsBTYnW8STW22mq6g5E16n6CAR+9Yz/lRZwWQY89aosQi
-        doHp7xM2St4HJMoFDiOILp+1+iG66xAqWe4IqIMfj4T6d7esrvuwvhL7DikekICGJrxPtB2ZG3l02cBe
-        4CCQD5QCdsACnAAOAAzyeoBHxHsk5c2oEsXueAgx67KAjQDv8+3KyN60WjGGPSrhgyLVa4Vk6muFitgm
-        +GLhyDk9ZjtP+lr5D4fyOXHzbo1YAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="pictureBox2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pictureBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>225, 171</value>
-  </data>
-  <data name="pictureBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>25, 25</value>
-  </data>
-  <data name="pictureBox2.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>AutoSize</value>
-  </data>
-  <data name="pictureBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
   <data name="settingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 22</value>
   </data>
@@ -10526,15 +9758,6 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   <data name="tabControl.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="tabMainStationSetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tabMainStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 451</value>
-  </data>
-  <data name="tabMainStationSetup.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
   <data name="tabNewOrOldUser.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -10543,42 +9766,6 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   </data>
   <data name="tabNewOrOldUser.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
-  </data>
-  <data name="tabSecondStationSetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tabSecondStationSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 451</value>
-  </data>
-  <data name="tabSecondStationSetup.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tabSignIn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tabSignIn.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 451</value>
-  </data>
-  <data name="tabSignIn.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tbxEMail.CueText" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="tbxEMail.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 15pt</value>
-  </data>
-  <data name="tbxEMail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 16</value>
-  </data>
-  <data name="tbxEMail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 23</value>
-  </data>
-  <data name="tbxEMail.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 6</value>
@@ -10606,23 +9793,5 @@ Now please click on "Start" to enter your Stream. You can enter "Account Info" i
   </data>
   <data name="tsmiOpenStream.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="txtPassword.CueText" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="txtPassword.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 15pt</value>
-  </data>
-  <data name="txtPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 65</value>
-  </data>
-  <data name="txtPassword.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
-    <value>*</value>
-  </data>
-  <data name="txtPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>338, 23</value>
-  </data>
-  <data name="txtPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
 </root>

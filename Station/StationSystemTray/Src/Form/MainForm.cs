@@ -190,8 +190,6 @@ namespace StationSystemTray
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
-
-			tbxEMail.DataBindings.Add("Text", cmbEmail, "Text");
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -297,8 +295,8 @@ namespace StationSystemTray
 
 			using (Graphics g = this.CreateGraphics())
 			{
-				if (g.DpiX == 120)
-					label2.Font = new Font("Arial", 8);
+				//if (g.DpiX == 120)
+				//    label2.Font = new Font("Arial", 8);
 			}
 
 			userloginContainer = new UserLoginSettingContainer(settings);
@@ -311,9 +309,6 @@ namespace StationSystemTray
 			iconSyncing2 = Icon.FromHandle(Resources.stream_tray_syncing2.GetHicon());
 			iconErrorStopped = Icon.FromHandle(Resources.stream_tray_init.GetHicon());
 			TrayIcon.Icon = iconInit;
-
-			lblMainStationSetupText = lblMainStationSetup.Text;
-			lblSecondStationSetupText = lblSecondStationSetup.Text;
 
 			uictrlStationStatus = new StationStatusUIController(this);
 			uictrlStationStatus.UICallback += StationStatusUICallback;
@@ -335,8 +330,6 @@ namespace StationSystemTray
 			menuQuit.Text = Resources.QuitWFService;
 			tsmiOpenStream.Text = Resources.OpenStream;
 
-			RefreshUserList();
-
 			checkStationTimer.Enabled = true;
 			checkStationTimer.Start();
 
@@ -353,31 +346,6 @@ namespace StationSystemTray
 				GotoTimeline();
 			}
 		}
-
-		private void RefreshUserList()
-		{
-			cmbEmail.Items.Clear();
-			try
-			{
-				var userlogins = new List<UserLoginSetting>();
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
-				{
-					UserLoginSetting userlogin = userloginContainer.GetUserLogin(driver.email);
-					if (userlogin != null)
-					{
-						cmbEmail.Items.Add(userlogin.Email);
-						//var menu = new ToolStripMenuItem(userlogin.Email, null, menuSwitchUser_Click);
-						//menu.Name = userlogin.Email;
-						userlogins.Add(userlogin);
-					}
-				}
-			}
-			catch (Exception)
-			{
-			}
-		}
-
 		private void GotoTimeline()
 		{
 			if (clientProcess != null && !clientProcess.HasExited)
@@ -572,43 +540,12 @@ namespace StationSystemTray
 			);
 		private void NetworkChanged(object sender, NetworkAvailabilityEventArgs e)
 		{
-			//try
-			//{
 
 			if (!e.IsAvailable)
 			{
 				TrayIcon.ShowBalloonTip(1000, "Stream", Resources.NETWORK_UNAVAILABLE, ToolTipIcon.None);
 				SendSyncStatusToClient();
 			}
-
-				////�s�u��Flag
-				//uint flags = 0x0;
-
-				//bool rtvl;
-
-				////���o�����q���ثe���s�u���A
-				//rtvl = InternetGetConnectedState(ref flags, 0);
-
-				//if (!rtvl)
-				//{
-				//    TrayIcon.ShowBalloonTip(1000, "Stream", Resources.NETWORK_UNAVAILABLE, ToolTipIcon.None);
-				//    SendSyncStatusToClient();
-				//}
-
-				//var p = new Ping();
-				//if (p.Send("waveface.com", 500).Status != IPStatus.Success)
-				//    throw new WebException();
-
-				//using (var agent = new DefaultWebClient())
-				//{
-				//    agent.DownloadData("http://www.google.com");
-				//}
-			//}
-			//catch
-			//{
-			//    TrayIcon.ShowBalloonTip(1000, "Stream", Resources.NETWORK_UNAVAILABLE, ToolTipIcon.None);
-			//    SendSyncStatusToClient();
-			//}
 			checkStationTimer_Tick(sender, e);
 		}
 
@@ -658,7 +595,6 @@ namespace StationSystemTray
 				TrayIconText = runningText;
 
 				SendSyncStatusToClient();
-				//TrayIcon.ShowBalloonTip(1000, "Stream", runningText, ToolTipIcon.None);
 			}
 		}
 
@@ -796,44 +732,6 @@ namespace StationSystemTray
 				Show();
 			}
 			Activate();
-
-			if (tabpage == tabSignIn)
-			{
-				if (userlogin == null)
-				{
-					cmbEmail.Text = string.Empty;
-					txtPassword.Text = string.Empty;
-					chkRememberPassword.Checked = false;
-				}
-				else
-				{
-					cmbEmail.Text = userlogin.Email;
-					txtPassword.Text = userlogin.RememberPassword ? SecurityHelper.DecryptPassword(userlogin.Password) : string.Empty;
-					chkRememberPassword.Checked = userlogin.RememberPassword;
-				}
-
-				if (string.IsNullOrEmpty(cmbEmail.Text))
-				{
-					cmbEmail.Select();
-				}
-				else if (string.IsNullOrEmpty(txtPassword.Text))
-				{
-					txtPassword.Select();
-				}
-
-				AcceptButton = loginButton1;
-			}
-			else if (tabpage == tabMainStationSetup)
-			{
-				//btnOK.Tag = userlogin;
-				btnOK.Select();
-				AcceptButton = btnOK;
-			}
-			else if (tabpage == tabSecondStationSetup)
-			{
-				btnOK2.Select();
-				AcceptButton = btnOK2;
-			}
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -850,92 +748,6 @@ namespace StationSystemTray
 
 		private void btnSignIn_Click(object sender, EventArgs e)
 		{
-			if ((cmbEmail.Text == string.Empty) || (txtPassword.Text == string.Empty))
-			{
-				MessageBox.Show(Resources.FillAllFields, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			if (!TestEmailFormat(cmbEmail.Text))
-			{
-				MessageBox.Show(Resources.InvalidEmail, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			try
-			{
-				Cursor = Cursors.WaitCursor;
-				UserLoginSetting userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
-
-				if (userlogin == null)
-				{
-					AddUserResponse res = StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text,
-																	StationRegistry.StationId, Environment.MachineName);
-
-					userlogin = new UserLoginSetting
-									{
-										Email = cmbEmail.Text.ToLower(),
-										Password = SecurityHelper.EncryptPassword(txtPassword.Text),
-										RememberPassword = chkRememberPassword.Checked
-									};
-					userloginContainer.SaveCurLoginedUser(userlogin);
-					RefreshUserList();
-
-					m_LoginAction = () => LoginAndLaunchClient(userlogin);
-
-					UserStation station = GetPrimaryStation(res.Stations);
-					lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-															 (station == null) ? "None" : station.computer_name);
-					lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-															   (station == null) ? "None" : station.computer_name);
-
-					GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup, userlogin);
-				}
-				else
-				{
-					// In case the user is in AppData but not in Station DB (usually in testing environment)
-					bool userAlreadyInDB = DriverCollection.Instance.FindOne(Query.EQ("email", cmbEmail.Text.ToLower())) != null;
-					if (!userAlreadyInDB)
-						StationController.AddUser(cmbEmail.Text.ToLower(), txtPassword.Text, StationRegistry.StationId,
-												  Environment.MachineName);
-
-					userlogin.Password = SecurityHelper.EncryptPassword(txtPassword.Text);
-					userlogin.RememberPassword = chkRememberPassword.Checked;
-					userloginContainer.SaveCurLoginedUser(userlogin);
-					RefreshUserList();
-
-					m_LoginAction = () => LoginAndLaunchClient(userlogin);
-
-					m_LoginAction();
-				}
-			}
-			catch (AuthenticationException)
-			{
-				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-				txtPassword.Text = string.Empty;
-				txtPassword.Focus();
-			}
-			catch (StationServiceDownException)
-			{
-				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (ConnectToCloudException)
-			{
-				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (VersionNotSupportedException)
-			{
-				handleVersionNotSupported();
-			}
-			catch (Exception)
-			{
-				MessageBox.Show(Resources.UnknownSigninError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			finally
-			{
-				Cursor = Cursors.Default;
-			}
 		}
 
 		private UserStation GetPrimaryStation(IEnumerable<UserStation> stations)
@@ -943,55 +755,6 @@ namespace StationSystemTray
 			return (from station in stations
 					where station.type == "primary"
 					select station).FirstOrDefault();
-		}
-
-		private bool LaunchWavefaceClient(UserLoginSetting userlogin)
-		{
-			Cursor.Current = Cursors.WaitCursor;
-
-			try
-			{
-				LoginedSession sessionData = LoginToStation(userlogin);
-
-				string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-											   "WavefaceWindowsClient.exe");
-
-				clientProcess = Process.Start(execPath, "\"" + sessionData.session_token + "\"");
-				if (clientProcess != null)
-				{
-					clientProcess.EnableRaisingEvents = true;
-
-					clientProcess.Exited -= clientProcess_Exited;
-					clientProcess.Exited += clientProcess_Exited;
-				}
-
-				return true;
-			}
-			catch (AuthenticationException)
-			{
-				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				GotoTabPage(tabSignIn, userlogin);
-			}
-			catch (ConnectToCloudException)
-			{
-				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				GotoTabPage(tabSignIn, userlogin);
-			}
-			catch (VersionNotSupportedException)
-			{
-				handleVersionNotSupported();
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show(Resources.LogInError + Environment.NewLine + e.Message, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				GotoTabPage(tabSignIn, userlogin);
-			}
-			finally
-			{
-				Cursor.Current = Cursors.Default;
-			}
-
-			return false;
 		}
 
 		private static void handleVersionNotSupported()
@@ -1065,34 +828,10 @@ namespace StationSystemTray
 			clientProcess.Exited -= clientProcess_Exited;
 			clientProcess = null;
 
-			if (exitCode == -2) // client logout
+			if (exitCode == -2) 
 			{
+				// client logout, which actually means "unlink"
 				Unlink();
-			}
-			else if (exitCode == -3) // client unlink
-			{
-				UserLoginSetting userlogin = userloginContainer.GetLastUserLogin();
-
-				bool isCleanResource = false;
-				var cleanform = new CleanResourceDialog(userlogin.Email);
-				DialogResult cleanResult = cleanform.ShowDialog();
-				if (cleanResult == DialogResult.Yes)
-				{
-					isCleanResource = true;
-				}
-
-				ListDriverResponse res = StationController.ListUser();
-				foreach (Driver driver in res.drivers)
-				{
-					if (driver.email == userlogin.Email)
-					{
-						StationController.RemoveOwner(driver.user_id, isCleanResource);
-						userloginContainer.RemoveUserLogin(driver.email);
-						RefreshUserList();
-						break;
-					}
-				}
-				GotoTabPage(tabSignIn);
 			}
 		}
 
@@ -1111,148 +850,6 @@ namespace StationSystemTray
 
 		private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			try
-			{
-				Hide();
-
-				string signUpUrl = string.Format("{0}/{1}/SignUp", m_CallbackUrl, FB_LOGIN_GUID);
-				var postData = new FBPostData
-								{
-									device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
-									device_name = Environment.MachineName,
-									device = "windows",
-									api_key = CLIENT_API_KEY,
-									xurl =
-										string.Format(
-											"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&account_type=%(account_type)s&email=%(email)s&password=%(password)s&is_new_user=%(is_new_user)s",
-											signUpUrl),
-									locale = Thread.CurrentThread.CurrentCulture.ToString(),
-									show_tutorial = "false"
-								};
-
-
-				var dialog = new SignUpDialog()
-								{
-									Text = Resources.SIGNUP_PAGE_TITLE,
-					StartPosition = FormStartPosition.CenterParent
-								};
-				var browser = dialog.Browser;
-				var signupOK = false;
-				browser.Navigated += (s, ex) =>
-										{
-											var url = browser.Url;
-
-											if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
-															  RegexOptions.IgnoreCase))
-											{
-												var parameters = HttpUtility.ParseQueryString(url.Query);
-
-												var isNewUser = parameters["is_new_user"];
-
-												if (isNewUser.Equals("true",StringComparison.CurrentCultureIgnoreCase))
-													dialog.ShowTutorial();
-												else
-												dialog.DialogResult = DialogResult.OK;
-
-												signupOK = true;
-											}
-										};
-
-				browser.Navigate(m_SignUpUrl,
-								 string.Empty,
-								 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
-								 "Content-Type: application/json");
-
-				dialog.ShowDialog(this);
-				if (signupOK)
-				{
-					var url = browser.Url;
-					var parameters = HttpUtility.ParseQueryString(url.Query);
-					var apiRetCode = parameters["api_ret_code"];
-
-					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
-					{
-						if (!IsDisposed)
-							Show();
-						return;
-					}
-
-					var sessionToken = parameters["session_token"];
-					var userID = parameters["user_id"];
-					var email = parameters["email"];
-					var password = parameters["password"];
-					var accountType = parameters["account_type"];
-
-					if (accountType.Equals("native", StringComparison.CurrentCultureIgnoreCase))
-					{
-						cmbEmail.Text = email;
-						txtPassword.Text = password;
-
-						if (!IsDisposed)
-							Show();
-						return;
-					}
-
-					m_LoginAction = () => LoginAndLaunchClient(sessionToken, userID);
-
-					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-					if (driver == null)
-					{
-						AddUserResponse res = StationController.AddUser(userID, sessionToken);
-
-						UserStation station = GetPrimaryStation(res.Stations);
-						lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-																 (station == null) ? "None" : station.computer_name);
-						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-																   (station == null) ? "None" : station.computer_name);
-
-						//Show welcome msg
-						GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
-
-						if (!IsDisposed)
-							Show();
-						return;
-					}
-
-					m_LoginAction();
-					return;
-				}
-
-				if (!IsDisposed)
-					Show();
-			}
-			catch (AuthenticationException)
-			{
-				if (!IsDisposed)
-					Show();
-
-				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-				txtPassword.Text = string.Empty;
-				txtPassword.Focus();
-			}
-			catch (StationServiceDownException)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (ConnectToCloudException)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (VersionNotSupportedException)
-			{
-				handleVersionNotSupported();
-			}
-			catch (Exception)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
 		}
 
 		private void LogoutFB()
@@ -1295,21 +892,6 @@ namespace StationSystemTray
 
 		private void TrayMenu_VisibleChanged(object sender, EventArgs e)
 		{
-		}
-
-		private void cmbEmail_TextChanged(object sender, EventArgs e)
-		{
-			var userlogin = userloginContainer.GetUserLogin(cmbEmail.Text);
-			if (userlogin != null)
-			{
-				txtPassword.Text = userlogin.RememberPassword ? SecurityHelper.DecryptPassword(userlogin.Password) : string.Empty;
-				chkRememberPassword.Checked = userlogin.RememberPassword;
-			}
-			else
-			{
-				txtPassword.Text = string.Empty;
-				chkRememberPassword.Checked = false;
-			}
 		}
 
 		private void GetSpeedAndUnit(float value,ref float speed,ref string unit)
@@ -1472,167 +1054,14 @@ namespace StationSystemTray
 
 		private void fbLoginButton1_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				Hide();
-				string fbLoginUrl = string.Format("{0}/{1}/FBLogin", m_CallbackUrl, FB_LOGIN_GUID);
-				var postData = new FBPostData
-								{
-									device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
-									device_name = Environment.MachineName,
-									device = "windows",
-									api_key = CLIENT_API_KEY,
-									xurl =
-										string.Format(
-											"{0}?api_ret_code=%(api_ret_code)d&api_ret_message=%(api_ret_message)s&session_token=%(session_token)s&user_id=%(user_id)s&is_new_user=%(is_new_user)s",
-											fbLoginUrl),
-									locale = Thread.CurrentThread.CurrentCulture.ToString(),
-									show_tutorial = "false"
-								};
-
-				var dialog = new SignUpDialog() 
-								{
-					Text = Resources.FB_CONNECT_PAGE_TITLE,
-					StartPosition = FormStartPosition.CenterParent
-								};
-				var browser = dialog.Browser;
-				var signupOK = false;
-
-				browser.Navigated += (s, ex) =>
-										{
-											Uri url = browser.Url;
-											if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "FBLogin"),
-															  RegexOptions.IgnoreCase))
-											{
-												var parameters = HttpUtility.ParseQueryString(url.Query);
-
-												var isNewUser = parameters["is_new_user"];
-
-												if (isNewUser.Equals("true", StringComparison.CurrentCultureIgnoreCase))
-													dialog.ShowTutorial();
-												else
-												dialog.DialogResult = DialogResult.OK;
-
-												signupOK = true;
-											}
-										};
-
-				browser.Navigate(m_FBLoginUrl,
-								 string.Empty,
-								 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
-								 "Content-Type: application/json");
-
-				dialog.ShowDialog(this);
-				if (signupOK)
-				{
-					string url = browser.Url.Query;
-					NameValueCollection parameters = HttpUtility.ParseQueryString(url);
-					string apiRetCode = parameters["api_ret_code"];
-
-					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
-					{
-						if (!IsDisposed)
-							Show();
-						return;
-					}
-
-					string sessionToken = parameters["session_token"];
-					string userID = parameters["user_id"];
-
-					m_LoginAction = () => LoginAndLaunchClient(sessionToken, userID);
-
-					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-					if (driver == null)
-					{
-						AddUserResponse res = StationController.AddUser(userID, sessionToken);
-
-						UserStation station = GetPrimaryStation(res.Stations);
-						lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-																 (station == null) ? "None" : station.computer_name);
-						lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-																   (station == null) ? "None" : station.computer_name);
-
-						//Show welcome msg
-						GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
-
-						if (!IsDisposed)
-							Show();
-						return;
-					}
-
-					m_LoginAction();
-					return;
-				}
-				if (!IsDisposed)
-					Show();
-			}			
-			catch (AuthenticationException)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-				txtPassword.Text = string.Empty;
-				txtPassword.Focus();
-			}
-			catch (StationServiceDownException)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (ConnectToCloudException)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			catch (VersionNotSupportedException)
-			{
-				handleVersionNotSupported();
-			}
-			catch (Exception)
-			{
-				if (!IsDisposed)
-					Show();
-				MessageBox.Show(Resources.UnknownSigninError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
 		}
 
 		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
 		{
-			//Hide();
-
-			//var session = LoginToStation(loginSetting);
-
-			//var wizard = new FirstUseWizardDialog(session.user.user_id, session.session_token);
-
-			//wizard.FormClosed += (s, e) =>
-			//{
-			//    //LaunchWavefaceClient(loginSetting);
-			//    LaunchClient(session.session_token);
-			//};
-
-			//wizard.Show();
 		}
 
 		private void LoginAndLaunchClient(string sessionToken, string userID)
 		{
-			////Login user
-			//StationController.UserLogin(CLIENT_API_KEY, userID, sessionToken);
-
-			//userloginContainer.SaveCurLoginedSession(sessionToken);
-
-			//Hide();
-
-			//var wizard = new FirstUseWizardDialog(userID, sessionToken);
-
-			//wizard.FormClosed += (s, e) =>
-			//{
-			//    LaunchClient(sessionToken);
-			//};
-
-			//wizard.Show();
 		}
 
 		private void btnOK2_Click(object sender, EventArgs e)
@@ -1669,15 +1098,6 @@ namespace StationSystemTray
 
 		#endregion Protected Method
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			cmbEmail.DroppedDown = true;
-		}
-
-		private void label1_Paint(object sender, PaintEventArgs e)
-		{
-			ControlPaint.DrawBorder(e.Graphics, label1.DisplayRectangle, ColorTranslator.FromHtml("#868686"), ButtonBorderStyle.Solid);
-		}
 
 		private SettingDialog m_SettingDialog;
 		private void settingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1809,9 +1229,6 @@ namespace StationSystemTray
 		private void MainForm_Shown(object sender, EventArgs e)
 		{
 			var server = (string)StationRegistry.GetValue("cloudBaseURL", null);
-
-			bool isProductionVersion = server != null && server.Contains("api.waveface.com");
-			devVersionTag.Visible = !isProductionVersion;
 		}
 
 		private void menuItemContactUs_Click(object sender, EventArgs e)
