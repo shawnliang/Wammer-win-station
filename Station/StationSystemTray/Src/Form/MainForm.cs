@@ -154,6 +154,7 @@ namespace StationSystemTray
 
 		private string lblMainStationSetupText;
 		private string lblSecondStationSetupText;
+		private ApplicationSetting appSetting;
 		private PauseServiceUIController uictrlPauseService;
 		private ResumeServiceUIController uictrlResumeService;
 		private StationStatusUIController uictrlStationStatus;
@@ -173,6 +174,14 @@ namespace StationSystemTray
 			Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 			this.initMinimized = initMinimized;
+			
+			this.appSetting = new ApplicationSetting();
+			if (!appSetting.isUpgraded)
+			{
+				appSetting.Upgrade();
+				appSetting.isUpgraded = true;
+				appSetting.Save();
+			}
 
 			m_MessageReceiver.WndProc += new EventHandler<MessageEventArgs>(m_MessageReceiver_WndProc);
 
@@ -1279,6 +1288,8 @@ namespace StationSystemTray
 			{
 				LogoutFB();
 				userloginContainer.CleartCurLoginedSession();
+				appSetting.CurrentSession = null;
+				appSetting.Save();
 				StationController.UserLogout(apiKey, sessionToken);
 			}
 			catch (StationServiceDownException)
@@ -1720,7 +1731,7 @@ namespace StationSystemTray
 				return;
 			}
 
-			using (m_SettingDialog = new SettingDialog(userloginContainer.GetCurLoginedSession(), this.CloseTimelineProgram))
+			using (m_SettingDialog = new SettingDialog(appSetting.CurrentSession, this.CloseTimelineProgram))
 			{
 				EventHandler<AccountEventArgs> removeAccountAction = (senderEx, ex) =>
 				{
@@ -1881,9 +1892,17 @@ namespace StationSystemTray
 			var session_token = (string)wizard.Parameters.Get("session_token");
 
 			if (string.IsNullOrEmpty(session_token))
+			{
 				Show();
+			}
 			else
+			{
 				LaunchClient(session_token);
+
+				appSetting.CurrentSession = session_token;
+				appSetting.Save();
+			}
+				
 		}
 	}
 
