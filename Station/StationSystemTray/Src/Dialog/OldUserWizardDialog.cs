@@ -16,8 +16,11 @@ namespace StationSystemTray.Src.Dialog
 			{
 				new LoginControl(new StreamLogin()),
 				new FileImportControl(m_photoSearch, SynchronizationContext.Current),				
+				new ImportFromPotableMediaControl(new PortableMediaService()),
 				new CongratulationControl()
 			});
+
+			m_photoSearch.StartSearchAsync();
 		}
 
 		private void InitializeComponent()

@@ -1177,7 +1177,6 @@ namespace StationSystemTray
 				appSetting.CurrentSession = session_token;
 				appSetting.Save();
 			}
-				
 		}
 	}
 

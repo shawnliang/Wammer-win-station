@@ -76,10 +76,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\ApplicationSetting.cs" />
+    <Compile Include="Src\Class\EventArgs\PortableDeviceImportEventArgs.cs" />
+    <Compile Include="Src\Class\PortableDevice.cs" />
+    <Compile Include="Src\Class\PortableMediaService.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
     <Compile Include="Src\Class\StreamSignup.cs" />
     <Compile Include="Src\Class\UserSession.cs" />
     <Compile Include="Src\Class\WizardParameters.cs" />
+    <Compile Include="Src\Control\ImportFromPotableMediaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ImportFromPotableMediaControl.Designer.cs">
+      <DependentUpon>ImportFromPotableMediaControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\StepPageControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -218,6 +227,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Interface\IConnectableService.cs" />
+    <Compile Include="Src\Interface\IPortableMediaService.cs" />
     <Compile Include="Src\Interface\IStreamLoginable.cs" />
     <Compile Include="Src\Interface\IStreamSignUp.cs" />
     <Compile Include="Src\Program.cs" />
@@ -243,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FileImportControl.resx">
       <DependentUpon>FileImportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ImportFromPotableMediaControl.resx">
+      <DependentUpon>ImportFromPotableMediaControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\IntroControl.resx">
       <DependentUpon>IntroControl.cs</DependentUpon>
