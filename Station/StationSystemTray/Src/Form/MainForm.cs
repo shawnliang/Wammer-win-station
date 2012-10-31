@@ -746,28 +746,11 @@ namespace StationSystemTray
 			logger.Info("application is closed by code");
 		}
 
-		private void btnSignIn_Click(object sender, EventArgs e)
-		{
-		}
-
 		private UserStation GetPrimaryStation(IEnumerable<UserStation> stations)
 		{
 			return (from station in stations
 					where station.type == "primary"
 					select station).FirstOrDefault();
-		}
-
-		private static void handleVersionNotSupported()
-		{
-			var result = MessageBox.Show(Resources.NeedToUpgrade, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
-			if (result == System.Windows.Forms.DialogResult.OK)
-			{
-				AutoUpdate update = new AutoUpdate(true);
-				if (update.IsUpdateRequired())
-					update.ShowUpdateNeededUI();
-				else
-					MessageBox.Show(Resources.ALREAD_UPDATED, Resources.APP_NAME);
-			}
 		}
 
 		private void LaunchClient(string sessionToken)
@@ -1052,30 +1035,6 @@ namespace StationSystemTray
 			tsmiOpenStream.Visible = isUserLogined;
 		}
 
-		private void fbLoginButton1_Click(object sender, EventArgs e)
-		{
-		}
-
-		private void LoginAndLaunchClient(UserLoginSetting loginSetting)
-		{
-		}
-
-		private void LoginAndLaunchClient(string sessionToken, string userID)
-		{
-		}
-
-		private void btnOK2_Click(object sender, EventArgs e)
-		{
-			if (m_LoginAction == null)
-				return;
-
-			m_LoginAction();
-		}
-
-		private void tabSignIn_Click(object sender, EventArgs e)
-		{
-		}
-
 		#region Protected Method
 
 		/// <summary>
@@ -1161,69 +1120,6 @@ namespace StationSystemTray
 
 			if (isLoginPageOpened)
 				GotoTimeline();
-		}
-
-		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Process.Start(@"https://devweb.waveface.com/password/forgot");
-		//    try
-		//    {
-		//        Hide();
-
-		//        var browser = new WebBrowser
-		//        {
-		//            WebBrowserShortcutsEnabled = false,
-		//            IsWebBrowserContextMenuEnabled = false,
-		//            Dock = DockStyle.Fill
-		//        };
-
-		//        var dialog = new Form
-		//        {
-		//            Width = 750,
-		//            Height = 600,
-		//            Text = Resources.SIGNUP_PAGE_TITLE,
-		//            StartPosition = FormStartPosition.CenterParent,
-		//            Icon = Icon
-		//        };
-		//        dialog.Controls.Add(browser);
-
-		//        browser.Navigate(@"https://devweb.waveface.com/password/forgot");
-
-		//        if (dialog.ShowDialog() == DialogResult.OK)
-		//        {
-		//        }
-
-		//        if (!IsDisposed)
-		//            Show();
-		//    }
-		//    catch (AuthenticationException)
-		//    {
-		//        if (!IsDisposed)
-		//            Show();
-
-		//        MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-		//        txtPassword.Text = string.Empty;
-		//        txtPassword.Focus();
-		//    }
-		//    catch (StationServiceDownException)
-		//    {
-		//        if (!IsDisposed)
-		//            Show();
-		//        MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		//    }
-		//    catch (ConnectToCloudException)
-		//    {
-		//        if (!IsDisposed)
-		//            Show();
-		//        MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		//    }
-		//    catch (Exception)
-		//    {
-		//        if (!IsDisposed)
-		//            Show();
-		//        MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		//    }
 		}
 
 		private void MainForm_Shown(object sender, EventArgs e)
