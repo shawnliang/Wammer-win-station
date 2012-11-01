@@ -43,6 +43,9 @@
     <Reference Include="AppLimit.NetSparkle">
       <HintPath>..\3rd_party\NetSparkle-1.0.83\AppLimit.NetSparkle.dll</HintPath>
     </Reference>
+    <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\3rd_party\fastJSON\fastJSON.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>
@@ -72,11 +75,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="websocket-sharp, Version=1.0.2.27418, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <HintPath>..\3rd_party\websocket-sharp\websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\ApplicationSetting.cs" />
-    <Compile Include="Src\Class\EventArgs\PortableDeviceImportEventArgs.cs" />
+    <Compile Include="Src\Class\EventArgs\FileImportEventArgs.cs" />
     <Compile Include="Src\Class\PortableDevice.cs" />
     <Compile Include="Src\Class\PortableMediaService.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />

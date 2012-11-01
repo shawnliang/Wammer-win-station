@@ -20,6 +20,10 @@ namespace Wammer.Station
 		const String PATHS_MATCH_PATTERN = @"(?<" + PATH_MATCH_GROUP + @">[^\[\],]*)";
 		#endregion
 
+		#region Events
+		public event EventHandler<FileImportedEventArgs> FileImported;
+		public event EventHandler<ImportDoneEventArgs> ImportDone;
+		#endregion
 
 		#region Private Property
 		/// <summary>
@@ -70,6 +74,14 @@ namespace Wammer.Station
 					  where path.Length > 0
 					  select path;
 		}
+
+		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths)
+		{
+			m_APIKey = apiKey;
+			m_SessionToken = sessionToken;
+			m_GroupID = groupID;
+			m_Paths = paths.Where((file) => file.Length > 0);
+		}
 		#endregion
 
 
@@ -99,69 +111,126 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
-			var importTime = DateTime.Now;
-			var postID = Guid.NewGuid().ToString();
-			var objectIDs = new List<string>();
-			var import_time = DateTime.UtcNow;
-			var interestedExtensions = new HashSet<String>() { ".jpg", ".jpeg", ".png", ".bmp" };
-			var files = from path in m_Paths
-						where path.Length > 0 && Directory.Exists(path)
-						from file in (new DirectoryInfo(path)).EnumerateFiles("*.*")
-						let extension = Path.GetExtension(file).ToLower()
-						where interestedExtensions.Contains(extension)
-						select file;
+			Exception error = null;
 
-			foreach (var file in files)
+			try
 			{
-				if ((new FileInfo(file)).Length > 20 * 1024 * 1024)
-					continue;
+				var importTime = DateTime.Now;
+				var postID = Guid.NewGuid().ToString();
+				var objectIDs = new List<string>();
+				var import_time = DateTime.UtcNow;
+				var interestedExtensions = new HashSet<String>() { ".jpg", ".jpeg", ".png", ".bmp" };
 
-				var objectID = Guid.NewGuid().ToString();
+				var files = new List<string>();
 
-				objectIDs.Add(objectID);
-
-				var imp = new AttachmentUploadHandlerImp(
-					new AttachmentUploadHandlerDB(),
-					new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
-				
-				var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
-
-				imp.AttachmentProcessed += postProcess.OnProcessed;
-
-
-				var uploadData = new UploadData() 
+				foreach (var path in m_Paths)
 				{
-					object_id = objectID,
-					raw_data = new ArraySegment<byte>(File.ReadAllBytes(file)),
-					file_name = Path.GetFileName(file),
-					mime_type = GetMIMEType(file),
-					group_id = m_GroupID,
-					api_key = m_APIKey,
-					session_token = m_SessionToken,
-					post_id = postID,
-					file_path = file,
-					import_time = importTime,
-					file_create_time = File.GetCreationTime(file),
-					type = AttachmentType.image,
-					imageMeta = ImageMeta.Origin
-				};
-				imp.Process(uploadData);
-			}
+					if (Directory.Exists(path))
+					{
+						var filesInDir = (new DirectoryInfo(path)).EnumerateFiles("*.*");
+						var interestedFiles = filesInDir.Where((file) => interestedExtensions.Contains(Path.GetExtension(file).ToLower()));
+						files.AddRange(interestedFiles.ToArray());
+					}
+					else if (File.Exists(path) && interestedExtensions.Contains(Path.GetExtension(path).ToLower()))
+					{
+						files.Add(path);
+					}
+				}
+				
+				foreach (var file in files)
+				{
+					if ((new FileInfo(file)).Length > 20 * 1024 * 1024)
+						continue;
 
-			var parameters = new NameValueCollection()
+					var objectID = Guid.NewGuid().ToString();
+
+					objectIDs.Add(objectID);
+
+					var imp = new AttachmentUploadHandlerImp(
+						new AttachmentUploadHandlerDB(),
+						new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
+
+					var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
+
+					imp.AttachmentProcessed += postProcess.OnProcessed;
+
+
+					var uploadData = new UploadData()
+					{
+						object_id = objectID,
+						raw_data = new ArraySegment<byte>(File.ReadAllBytes(file)),
+						file_name = Path.GetFileName(file),
+						mime_type = GetMIMEType(file),
+						group_id = m_GroupID,
+						api_key = m_APIKey,
+						session_token = m_SessionToken,
+						post_id = postID,
+						file_path = file,
+						import_time = importTime,
+						file_create_time = File.GetCreationTime(file),
+						type = AttachmentType.image,
+						imageMeta = ImageMeta.Origin
+					};
+					imp.Process(uploadData);
+					raiseFileImportedEvent(file);
+				}
+
+				var parameters = new NameValueCollection()
+				{
+					{CloudServer.PARAM_SESSION_TOKEN, m_SessionToken},
+					{CloudServer.PARAM_API_KEY, m_APIKey},
+					{CloudServer.PARAM_POST_ID, postID},
+					{CloudServer.PARAM_TIMESTAMP, importTime.ToCloudTimeString()},
+					{CloudServer.PARAM_GROUP_ID, m_GroupID},
+					{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, string.Format("[{0}]",string.Join(",",objectIDs.ToArray()))},
+					{CloudServer.PARAM_CONTENT, string.Format("Import {0} files", objectIDs.Count)},
+					{CloudServer.PARAM_COVER_ATTACH, objectIDs.FirstOrDefault()},
+					{CloudServer.PARAM_IMPORT, "true"},
+				};
+				PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
+			}
+			catch (Exception e)
 			{
-				{CloudServer.PARAM_SESSION_TOKEN, m_SessionToken},
-				{CloudServer.PARAM_API_KEY, m_APIKey},
-				{CloudServer.PARAM_POST_ID, postID},
-				{CloudServer.PARAM_TIMESTAMP, importTime.ToCloudTimeString()},
-				{CloudServer.PARAM_GROUP_ID, m_GroupID},
-				{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, string.Format("[{0}]",string.Join(",",objectIDs.ToArray()))},
-				{CloudServer.PARAM_CONTENT, string.Format("Import {0} files", objectIDs.Count)},
-				{CloudServer.PARAM_COVER_ATTACH, objectIDs.FirstOrDefault()},
-				{CloudServer.PARAM_IMPORT, "true"},
-			};
-			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
+				this.LogWarnMsg("Import not completed", e);
+				error = e;
+			}
+			finally
+			{
+				raiseImportDoneEvent(error);
+			}
 		} 
 		#endregion
+
+		#region Private Method
+		private void raiseFileImportedEvent(string file)
+		{
+			var handler = FileImported;
+			if (handler != null)
+				handler(this, new FileImportedEventArgs(file));
+		}
+
+		private void raiseImportDoneEvent(Exception e)
+		{
+			var handler = ImportDone;
+			if (handler != null)
+				handler(this, new ImportDoneEventArgs { Error = e });
+		}
+		#endregion
+	}
+
+
+	public class FileImportedEventArgs : EventArgs
+	{
+		public string FilePath { get; private set; }
+
+		public FileImportedEventArgs(string file)
+		{
+			FilePath = file;
+		}
+	}
+
+	public class ImportDoneEventArgs : EventArgs
+	{
+		public Exception Error { get; set; }
 	}
 }

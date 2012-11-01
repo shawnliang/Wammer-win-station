@@ -13,13 +13,45 @@ namespace StationSystemTray
 	{
 		private IPortableMediaService service;
 		private volatile bool canceled;
+		private string user_id;
+		private string session_token;
+		private int import_count;
 
 		public ImportFromPotableMediaControl(IPortableMediaService service)
 		{
 			InitializeComponent();
 			this.service = service;
-
+			this.service.ImportDone += new EventHandler<ImportDoneEventArgs>(service_ImportDone);
+			this.service.FileImported += new EventHandler<FileImportEventArgs>(service_FileImported);
 			progressBar.Value = 0;
+		}
+
+		void service_FileImported(object sender, FileImportEventArgs e)
+		{
+			import_count++;
+
+			progressBar.Invoke(new MethodInvoker(() => {
+				progressText.Text = string.Format("{0}/{1} {2} processed", import_count, progressBar.Maximum, e.FilePath);
+				progressBar.PerformStep();
+			}));
+		}
+
+		void service_ImportDone(object sender, ImportDoneEventArgs e)
+		{
+			string doneMsg;
+
+			if (e.Error != null)
+				doneMsg = string.Format("{0} files imported. An error occurred: {1}", import_count, e.Error);
+			else
+				doneMsg = string.Format("{0} files are imported successfully", import_count);
+
+			progressBar.Invoke(new MethodInvoker(() =>
+			{
+				progressText.Text = doneMsg;
+				progressBar.Value = progressBar.Maximum;
+			}));
+
+			importButton.Enabled = true;
 		}
 
 		private void ImportFromPotableMediaControl_Load(object sender, EventArgs e)
@@ -46,6 +78,7 @@ namespace StationSystemTray
 			progressBar.Value = 0;
 			progressText.Text = "Scanning photos...";
 			canceled = false;
+			import_count = 0;
 			importButton.Enabled = false;
 
 			backgroundWorker.RunWorkerAsync(device);
@@ -56,40 +89,13 @@ namespace StationSystemTray
 			var device = e.Argument as PortableDevice;
 			var files = service.GetFileList(device.DrivePath);
 
-			var total = files.Count();
 			progressBar.Invoke(new MethodInvoker(() => 
 			{
-				progressBar.Maximum = total;
+				progressBar.Maximum = files.Count();
 			}));
 
 
-			int processedCount = 0;
-
-			foreach (var file in files)
-			{
-				if (canceled)
-					break;
-
-				processedCount++;
-
-				progressText.Invoke(new MethodInvoker(() =>
-				{
-					progressText.Text = string.Format("{0}/{1} Importing {2}...", processedCount, total, file);
-				}));
-
-				service.Import(file);
-				
-
-				progressBar.Invoke(new MethodInvoker(() => {
-					progressBar.PerformStep();
-				}));
-			}
-
-			progressBar.Invoke(new MethodInvoker(() =>
-			{
-				progressText.Text = total + " files imported";
-				progressBar.Value = progressBar.Maximum;
-			}));
+			service.ImportAsync(files, user_id, session_token, StationAPI.API_KEY);
 
 		}
 
@@ -98,9 +104,8 @@ namespace StationSystemTray
 			if (e.Error != null)
 			{
 				MessageBox.Show(e.Error.Message);
+				importButton.Enabled = true;
 			}
-
-			importButton.Enabled = true;
 		}
 
 		private void deviceCombobox_DropDown(object sender, EventArgs e)
@@ -119,6 +124,12 @@ namespace StationSystemTray
 
 				progressBar.Visible = progressText.Visible = false;
 			}
+		}
+
+		public override void OnEnteringStep(WizardParameters parameters)
+		{
+			session_token = (string)parameters.Get("session_token");
+			user_id = (string)parameters.Get("user_id");
 		}
 	}
 }

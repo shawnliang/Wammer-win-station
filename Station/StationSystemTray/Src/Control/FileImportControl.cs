@@ -74,9 +74,14 @@ namespace StationSystemTray
 		/// </summary>
 		private void ImportSelectedPaths(string session_token)
 		{
+			var selectedPaths = GetSelectedPaths();
+
+			if (selectedPaths.Count() == 0)
+				return;
+
 			var dialog = new ProcessingDialog();
 			var postID = Guid.NewGuid().ToString();
-			var selectedPaths = GetSelectedPaths();
+			
 			MethodInvoker mi = new MethodInvoker(() => { photoSearch.ImportToStation(selectedPaths, session_token); });
 
 			AutoResetEvent autoEvent = new AutoResetEvent(false);
