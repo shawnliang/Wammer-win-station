@@ -263,9 +263,11 @@ namespace StationSystemTray
 			if (pageIndex >= this.PageCount)
 				return;
 
+			Cursor.Current = Cursors.WaitCursor;
 			CurrentPage.OnLeavingStep(m_parameters);
 			this.PageIndex = pageIndex + 1;
 			CurrentPage.OnEnteringStep(m_parameters);
+			Cursor.Current = Cursors.Default;
 		}
 		#endregion
 
