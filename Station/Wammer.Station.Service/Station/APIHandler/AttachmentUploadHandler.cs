@@ -91,6 +91,9 @@ namespace Wammer.Station.APIHandler
 			data.file_path = Parameters["file_path"];
 			data.exif = Parameters["exif"];
 
+			if (!string.IsNullOrEmpty(Parameters["timezone"]))
+				data.timezone = Convert.ToInt32(Parameters["timezone"]);
+
 			data.import_time = getCloudTimeFromParameters("import_time");
 			data.file_create_time = getCloudTimeFromParameters("file_create_time");
 
