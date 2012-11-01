@@ -33,21 +33,21 @@
 			// wizardControl
 			// 
 			this.wizardControl.Location = new System.Drawing.Point(-3, -2);
-			this.wizardControl.Size = new System.Drawing.Size(570, 391);
+			this.wizardControl.Size = new System.Drawing.Size(646, 434);
 			// 
 			// nextButton
 			// 
-			this.nextButton.Location = new System.Drawing.Point(477, 395);
+			this.nextButton.Location = new System.Drawing.Point(553, 438);
 			// 
 			// prevButton
 			// 
-			this.prevButton.Location = new System.Drawing.Point(396, 395);
+			this.prevButton.Location = new System.Drawing.Point(472, 438);
 			// 
 			// NewUserWizardDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(564, 430);
+			this.ClientSize = new System.Drawing.Size(640, 473);
 			this.Name = "NewUserWizardDialog";
 			this.Text = "Stream (0 of 0)";
 			this.ResumeLayout(false);

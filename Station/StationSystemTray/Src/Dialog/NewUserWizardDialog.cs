@@ -29,7 +29,7 @@ namespace StationSystemTray.Src.Dialog
 				new ServiceImportControl(new FacebookConnectableService()),
 				new FileImportControl(m_photoSearch, SynchronizationContext.Current),
 				new ImportFromPotableMediaControl(new PortableMediaService()),
-				new CongratulationControl()
+				new PersonalCloudStatusControl(new PersonalCloudStatusService())
 			});
 
 			m_photoSearch.StartSearchAsync();

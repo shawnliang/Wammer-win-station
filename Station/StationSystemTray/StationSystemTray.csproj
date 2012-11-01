@@ -83,8 +83,11 @@
   <ItemGroup>
     <Compile Include="Src\ApplicationSetting.cs" />
     <Compile Include="Src\Class\EventArgs\FileImportEventArgs.cs" />
+    <Compile Include="Src\Class\PersonalCloudStatus.cs" />
+    <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
     <Compile Include="Src\Class\PortableDevice.cs" />
     <Compile Include="Src\Class\PortableMediaService.cs" />
+    <Compile Include="Src\Class\StreamDevice.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
     <Compile Include="Src\Class\StreamSignup.cs" />
     <Compile Include="Src\Class\UserSession.cs" />
@@ -94,6 +97,12 @@
     </Compile>
     <Compile Include="Src\Control\ImportFromPotableMediaControl.Designer.cs">
       <DependentUpon>ImportFromPotableMediaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\PersonalCloudStatusControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\PersonalCloudStatusControl.Designer.cs">
+      <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Control\StepPageControl.cs">
       <SubType>UserControl</SubType>
@@ -233,6 +242,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Interface\IConnectableService.cs" />
+    <Compile Include="Src\Interface\IPersonalCloudStatusService.cs" />
     <Compile Include="Src\Interface\IPortableMediaService.cs" />
     <Compile Include="Src\Interface\IStreamLoginable.cs" />
     <Compile Include="Src\Interface\IStreamSignUp.cs" />
@@ -268,6 +278,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\LoginControl.resx">
       <DependentUpon>LoginControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\PersonalCloudStatusControl.resx">
+      <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
       <DependentUpon>ServiceImportControl.cs</DependentUpon>

@@ -12,12 +12,14 @@ namespace StationSystemTray.Src.Dialog
 
 		public OldUserWizardDialog()
 		{
+			InitializeComponent();
+
 			wizardControl.SetWizardPages(new StepPageControl[]
 			{
 				new LoginControl(new StreamLogin()),
 				new FileImportControl(m_photoSearch, SynchronizationContext.Current),				
 				new ImportFromPotableMediaControl(new PortableMediaService()),
-				new CongratulationControl()
+				new PersonalCloudStatusControl(new PersonalCloudStatusService())
 			});
 
 			m_photoSearch.StartSearchAsync();
@@ -29,20 +31,20 @@ namespace StationSystemTray.Src.Dialog
 			// 
 			// wizardControl
 			// 
-			this.wizardControl.Size = new System.Drawing.Size(589, 350);
+			this.wizardControl.Size = new System.Drawing.Size(660, 454);
 			// 
 			// nextButton
 			// 
-			this.nextButton.Location = new System.Drawing.Point(498, 358);
+			this.nextButton.Location = new System.Drawing.Point(569, 462);
 			// 
 			// prevButton
 			// 
-			this.prevButton.Location = new System.Drawing.Point(417, 358);
+			this.prevButton.Location = new System.Drawing.Point(488, 462);
 			// 
 			// OldUserWizardDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.ClientSize = new System.Drawing.Size(585, 393);
+			this.ClientSize = new System.Drawing.Size(656, 497);
 			this.Name = "OldUserWizardDialog";
 			this.Text = "Stream (0 of 0)";
 			this.ResumeLayout(false);

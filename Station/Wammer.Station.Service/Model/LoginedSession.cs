@@ -54,6 +54,8 @@ namespace Wammer.Model
 		public string device_name { get; set; }
 		[BsonIgnoreIfNull]
 		public string device_id { get; set; }
+		[BsonIgnoreIfNull]
+		public string device_type { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]
