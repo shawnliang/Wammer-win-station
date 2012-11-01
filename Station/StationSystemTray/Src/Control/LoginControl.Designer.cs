@@ -47,7 +47,7 @@
 			this.pictureBox2.BackColor = System.Drawing.SystemColors.Control;
 			this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
 			this.pictureBox2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.pictureBox2.Location = new System.Drawing.Point(206, 103);
+			this.pictureBox2.Location = new System.Drawing.Point(229, 103);
 			this.pictureBox2.Name = "pictureBox2";
 			this.pictureBox2.Size = new System.Drawing.Size(26, 25);
 			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -63,7 +63,7 @@
 			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label1.Location = new System.Drawing.Point(50, 115);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(338, 1);
+			this.label1.Size = new System.Drawing.Size(383, 1);
 			this.label1.TabIndex = 11;
 			// 
 			// loginButton1
@@ -71,7 +71,7 @@
 			this.loginButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.loginButton1.Font = new System.Drawing.Font("Arial", 12.75F, System.Drawing.FontStyle.Bold);
 			this.loginButton1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.loginButton1.Location = new System.Drawing.Point(278, 290);
+			this.loginButton1.Location = new System.Drawing.Point(323, 290);
 			this.loginButton1.Margin = new System.Windows.Forms.Padding(0);
 			this.loginButton1.MaximumSize = new System.Drawing.Size(110, 40);
 			this.loginButton1.Name = "loginButton1";
@@ -88,28 +88,33 @@
 			this.loginInputPanel1.Controls.Add(this.tbxEMail);
 			this.loginInputPanel1.Location = new System.Drawing.Point(50, 162);
 			this.loginInputPanel1.Name = "loginInputPanel1";
-			this.loginInputPanel1.Size = new System.Drawing.Size(338, 103);
+			this.loginInputPanel1.Size = new System.Drawing.Size(383, 103);
 			this.loginInputPanel1.TabIndex = 13;
 			// 
 			// txtPassword
 			// 
+			this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.txtPassword.CueText = "Password";
 			this.txtPassword.Font = new System.Drawing.Font("Arial", 15F);
 			this.txtPassword.Location = new System.Drawing.Point(22, 65);
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.PasswordChar = '*';
-			this.txtPassword.Size = new System.Drawing.Size(338, 23);
+			this.txtPassword.Size = new System.Drawing.Size(326, 23);
 			this.txtPassword.TabIndex = 2;
+			this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPassword_KeyPress);
 			// 
 			// tbxEMail
 			// 
+			this.tbxEMail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tbxEMail.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.tbxEMail.CueText = "Email";
 			this.tbxEMail.Font = new System.Drawing.Font("Arial", 15F);
 			this.tbxEMail.Location = new System.Drawing.Point(22, 19);
 			this.tbxEMail.Name = "tbxEMail";
-			this.tbxEMail.Size = new System.Drawing.Size(338, 23);
+			this.tbxEMail.Size = new System.Drawing.Size(326, 23);
 			this.tbxEMail.TabIndex = 0;
 			// 
 			// fbLoginButton1
@@ -122,7 +127,7 @@
 			this.fbLoginButton1.Location = new System.Drawing.Point(50, 39);
 			this.fbLoginButton1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
 			this.fbLoginButton1.Name = "fbLoginButton1";
-			this.fbLoginButton1.Size = new System.Drawing.Size(338, 49);
+			this.fbLoginButton1.Size = new System.Drawing.Size(383, 49);
 			this.fbLoginButton1.TabIndex = 1;
 			this.fbLoginButton1.Click += new System.EventHandler(this.fbLoginButton1_Click);
 			// 
@@ -149,7 +154,7 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.fbLoginButton1);
 			this.Name = "LoginControl";
-			this.Size = new System.Drawing.Size(449, 365);
+			this.Size = new System.Drawing.Size(494, 388);
 			this.Load += new System.EventHandler(this.LoginControl_Load);
 			this.SizeChanged += new System.EventHandler(this.LoginControl_SizeChanged);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

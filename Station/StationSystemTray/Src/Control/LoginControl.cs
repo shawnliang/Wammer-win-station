@@ -47,6 +47,7 @@ namespace StationSystemTray
 
 		private void loginAndHandleError(Func<UserSession> func)
 		{
+			Cursor.Current = Cursors.WaitCursor;
 			try
 			{
 				session = func();
@@ -84,6 +85,10 @@ namespace StationSystemTray
 			catch (Exception)
 			{
 				MessageBox.Show(Resources.UnknownSigninError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+			finally
+			{
+				Cursor.Current = Cursors.Default;
 			}
 		}
 
@@ -127,6 +132,14 @@ namespace StationSystemTray
 			}
 			catch
 			{
+			}
+		}
+
+		private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == '\r')
+			{
+				loginButton1_Click(this, e);
 			}
 		}
 	}
