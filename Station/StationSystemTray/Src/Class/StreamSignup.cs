@@ -70,10 +70,7 @@ namespace StationSystemTray
 
 					var isNewUser = parameters["is_new_user"];
 
-					if (isNewUser.Equals("true", StringComparison.CurrentCultureIgnoreCase))
-						dialog.ShowTutorial();
-					else
-						dialog.DialogResult = DialogResult.OK;
+					dialog.DialogResult = DialogResult.OK;
 
 					signupOK = true;
 				}
@@ -88,77 +85,87 @@ namespace StationSystemTray
 			dialog.ShowDialog();
 			if (signupOK)
 			{
-				var url = browser.Url;
-				var parameters = HttpUtility.ParseQueryString(url.Query);
-				var apiRetCode = parameters["api_ret_code"];
 
-				if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+				Cursor.Current = Cursors.WaitCursor;
+
+				try
 				{
-					throw new Exception("sign up error: " + apiRetCode);
-				}
+					var url = browser.Url;
+					var parameters = HttpUtility.ParseQueryString(url.Query);
+					var apiRetCode = parameters["api_ret_code"];
 
-				var sessionToken = parameters["session_token"];
-				var userID = parameters["user_id"];
-				var email = parameters["email"];
-				var password = parameters["password"];
-				var accountType = parameters["account_type"];
-
-				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-				if (driver == null)
-				{
-					if (string.Compare(accountType, "native", true) == 0)
+					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
 					{
-						AddUserResponse res = StationController.AddUser(email, password, StationRegistry.GetValue("stationId", string.Empty).ToString(), Environment.MachineName);
-						var session = LoginToStation(email, password);
+						throw new Exception("sign up error: " + apiRetCode);
+					}
 
-						return new SignUpData
+					var sessionToken = parameters["session_token"];
+					var userID = parameters["user_id"];
+					var email = parameters["email"];
+					var password = parameters["password"];
+					var accountType = parameters["account_type"];
+
+					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+					if (driver == null)
+					{
+						if (string.Compare(accountType, "native", true) == 0)
 						{
-							account_type = accountType,
-							email = email,
-							user_id = userID,
-							password = password,
-							session_token = session.session_token
-						};
+							AddUserResponse res = StationController.AddUser(email, password, StationRegistry.GetValue("stationId", string.Empty).ToString(), Environment.MachineName);
+							var session = LoginToStation(email, password);
+
+							return new SignUpData
+							{
+								account_type = accountType,
+								email = email,
+								user_id = userID,
+								password = password,
+								session_token = session.session_token
+							};
+						}
+						else
+						{
+							AddUserResponse res = StationController.AddUser(userID, sessionToken);
+
+							return new SignUpData
+							{
+								account_type = accountType,
+								email = email,
+								user_id = userID,
+								session_token = sessionToken
+							};
+						}
 					}
 					else
 					{
-						AddUserResponse res = StationController.AddUser(userID, sessionToken);
-
-						return new SignUpData
+						if (string.Compare(accountType, "native", true) == 0)
 						{
-							account_type = accountType,
-							email = email,
-							user_id = userID,
-							session_token = sessionToken
-						};
+							var session = LoginToStation(email, password);
+
+							return new SignUpData
+							{
+								account_type = accountType,
+								email = email,
+								user_id = userID,
+								password = password,
+								session_token = session.session_token
+							};
+						}
+						else
+						{
+							return new SignUpData
+							{
+								account_type = accountType,
+								email = email,
+								user_id = userID,
+								session_token = sessionToken
+							};
+						}
+
 					}
 				}
-				else
+				finally
 				{
-					if (string.Compare(accountType, "native", true) == 0)
-					{
-						var session = LoginToStation(email, password);
-
-						return new SignUpData
-						{
-							account_type = accountType,
-							email = email,
-							user_id = userID,
-							password = password,
-							session_token = session.session_token
-						};
-					}
-					else
-					{
-						return new SignUpData
-						{
-							account_type = accountType,
-							email = email,
-							user_id = userID,
-							session_token = sessionToken
-						};
-					}
-
+					Cursor.Current = Cursors.Default;
 				}
 			}
 			else

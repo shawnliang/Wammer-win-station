@@ -71,10 +71,7 @@ namespace StationSystemTray
 
 						var isNewUser = parameters["is_new_user"];
 
-						if (isNewUser.Equals("true", StringComparison.CurrentCultureIgnoreCase))
-							dialog.ShowTutorial();
-						else
-							dialog.DialogResult = DialogResult.OK;
+						dialog.DialogResult = DialogResult.OK;
 
 						signupOK = true;
 					}
