@@ -7,6 +7,7 @@ using MongoDB.Driver.Builders;
 using WebSocketSharp;
 using Wammer.Station.Notify;
 using Wammer.Utility;
+using Wammer.Station;
 
 namespace StationSystemTray
 {
@@ -18,8 +19,11 @@ namespace StationSystemTray
 
 			return session.user.devices.Select((x) =>
 			{
-				var device = ConnectionCollection.Instance.FindOne(Query.EQ("device.device_id", x.device_id));
-				return new StreamDevice(x.device_name, device != null, x.device_type);
+				var connection = ConnectionCollection.Instance.FindOne(Query.EQ("device.device_id", x.device_id));
+
+				bool isConnected = (x.device_id == StationRegistry.GetValue("stationId", "") as string) ? true : connection != null;
+
+				return new StreamDevice(x.device_name, isConnected, x.device_type);
 			});
 		}
 
