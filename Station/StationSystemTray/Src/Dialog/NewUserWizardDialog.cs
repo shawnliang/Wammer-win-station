@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using StationSystemTray.Src.Class;
 using StationSystemTray.Src.Control;
 using System.Threading;
+using StationSystemTray.Properties;
 
 namespace StationSystemTray.Src.Dialog
 {
@@ -22,9 +23,11 @@ namespace StationSystemTray.Src.Dialog
 		{
 			InitializeComponent();
 
+			Image[] tutorial = new Image[] { Resources.P1, Resources.P2, Resources.P3 };
+
 			wizardControl.SetWizardPages(new StepPageControl[]
 			{
-				new IntroControl(),
+				new IntroControl(tutorial),
 				new SignUpControl(new StreamSignup()),
 				new ServiceImportControl(new FacebookConnectableService()),
 				new FileImportControl(m_photoSearch, SynchronizationContext.Current),

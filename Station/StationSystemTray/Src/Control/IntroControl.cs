@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace StationSystemTray.Src.Control
+namespace StationSystemTray
 {
 	public partial class IntroControl : StepPageControl
 	{
-		public IntroControl()
+		public IntroControl(IEnumerable<Image> images)
 		{
 			InitializeComponent();
+			this.tutorialNavigator1.TutorialPhotos = images;
 		}
 	}
 }

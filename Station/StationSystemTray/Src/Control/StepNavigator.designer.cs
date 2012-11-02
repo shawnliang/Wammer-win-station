@@ -1,6 +1,6 @@
 ﻿namespace StationSystemTray
 {
-	partial class IntroControl
+	partial class StepNavigator
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -28,33 +28,31 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IntroControl));
-			this.tutorialNavigator1 = new StationSystemTray.TutorialNavigator();
+			this.centralLayoutPanel1 = new CentralLayoutPanel();
 			this.SuspendLayout();
 			// 
-			// tutorialNavigator1
+			// centralLayoutPanel1
 			// 
-			this.tutorialNavigator1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tutorialNavigator1.EnableManualNavigate = true;
-			this.tutorialNavigator1.Location = new System.Drawing.Point(0, 0);
-			this.tutorialNavigator1.Name = "tutorialNavigator1";
-			this.tutorialNavigator1.Size = new System.Drawing.Size(596, 430);
-			this.tutorialNavigator1.TabIndex = 0;
+			this.centralLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.centralLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+			this.centralLayoutPanel1.Name = "centralLayoutPanel1";
+			this.centralLayoutPanel1.Size = new System.Drawing.Size(344, 50);
+			this.centralLayoutPanel1.TabIndex = 0;
+			this.centralLayoutPanel1.Text = "centralLayoutPanel1";
 			// 
-			// IntroControl
+			// StepNavigator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.tutorialNavigator1);
-			this.Name = "IntroControl";
-			this.Size = new System.Drawing.Size(596, 430);
+			this.Controls.Add(this.centralLayoutPanel1);
+			this.Name = "StepNavigator";
+			this.Size = new System.Drawing.Size(344, 50);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private TutorialNavigator tutorialNavigator1;
-
+		private CentralLayoutPanel centralLayoutPanel1;
 	}
 }

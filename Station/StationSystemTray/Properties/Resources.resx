@@ -117,6 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ALREAD_UPDATED" xml:space="preserve">
     <value>You currently have the latest version of Stream installed.</value>
@@ -274,6 +275,15 @@
   </data>
   <data name="or" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\or.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\P1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\P2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\P3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PauseWFService" xml:space="preserve">
     <value>Pause sync</value>

@@ -505,6 +505,27 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap P1 {
+            get {
+                object obj = ResourceManager.GetObject("P1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap P2 {
+            get {
+                object obj = ResourceManager.GetObject("P2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap P3 {
+            get {
+                object obj = ResourceManager.GetObject("P3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Pause sync.
         /// </summary>

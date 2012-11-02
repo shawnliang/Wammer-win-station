@@ -81,7 +81,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Src\ApplicationSetting.cs" />
+    <Compile Include="Src\Class\ApplicationSetting.cs" />
+    <Compile Include="Src\Control\CentralLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Src\Class\EventArgs\FileImportEventArgs.cs" />
     <Compile Include="Src\Class\PersonalCloudStatus.cs" />
     <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
@@ -246,6 +249,9 @@
     <Compile Include="Src\Interface\IPortableMediaService.cs" />
     <Compile Include="Src\Interface\IStreamLoginable.cs" />
     <Compile Include="Src\Interface\IStreamSignUp.cs" />
+    <Compile Include="Src\Control\PhotoGalleryViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\Dialog\CleanResourceDialog.cs">
@@ -258,6 +264,18 @@
     <Compile Include="Src\Class\SimpleUIController.cs" />
     <Compile Include="Src\Class\StateMachine.cs" />
     <Compile Include="Src\Class\Win32Helper.cs" />
+    <Compile Include="Src\Control\StepNavigator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\StepNavigator.designer.cs">
+      <DependentUpon>StepNavigator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\TutorialNavigator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\TutorialNavigator.designer.cs">
+      <DependentUpon>TutorialNavigator.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Src\Control\BuildPersonalCloudUserControl.resx">
       <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -275,6 +293,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\IntroControl.resx">
       <DependentUpon>IntroControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\LoginControl.resx">
       <DependentUpon>LoginControl.cs</DependentUpon>
@@ -357,6 +376,12 @@
     <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\StepNavigator.resx">
+      <DependentUpon>StepNavigator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\TutorialNavigator.resx">
+      <DependentUpon>TutorialNavigator.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
@@ -392,6 +417,9 @@
     <None Include="Resources\stream_googleplay_qr.png" />
     <None Include="Resources\stream_appstore_qr.png" />
     <None Include="Resources\f_logo.png" />
+    <None Include="Resources\P3.png" />
+    <None Include="Resources\P2.png" />
+    <None Include="Resources\P1.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
