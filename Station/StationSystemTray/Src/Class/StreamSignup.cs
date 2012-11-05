@@ -29,10 +29,10 @@ namespace StationSystemTray
 		private const string LOGIN_URL_PATH = @"/sns/facebook/signin";
 		private const string SIGNUP_URL_PATH = @"/signup";
 
-		public SignUpData ShowSignUpDialog()
+		public void ShowSignUpPage(WebBrowser browser)
 		{
 			var baseurl = (CloudServer.Type == CloudType.Production) ? WEB_BASE_URL :
-					(CloudServer.Type == CloudType.Development) ? DEV_WEB_BASE_PAGE_URL : STAGING_BASE_URL;
+								(CloudServer.Type == CloudType.Development) ? DEV_WEB_BASE_PAGE_URL : STAGING_BASE_URL;
 
 			var callbackUrl = Path.Combine(baseurl, CALLBACK_URL_PATH);
 
@@ -51,125 +51,105 @@ namespace StationSystemTray
 				show_tutorial = "false"
 			};
 
-
-			var dialog = new SignUpDialog()
-			{
-				Text = Resources.SIGNUP_PAGE_TITLE,
-				StartPosition = FormStartPosition.CenterParent
-			};
-			var browser = dialog.Browser;
-			var signupOK = false;
-			browser.Navigated += (s, ex) =>
-			{
-				var url = browser.Url;
-
-				if (Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
-								  RegexOptions.IgnoreCase))
-				{
-					var parameters = HttpUtility.ParseQueryString(url.Query);
-
-					var isNewUser = parameters["is_new_user"];
-
-					dialog.DialogResult = DialogResult.OK;
-
-					signupOK = true;
-				}
-			};
-
 			var navigateUrl = baseurl + SIGNUP_URL_PATH + string.Format("?l={0}", Thread.CurrentThread.CurrentCulture);
 			browser.Navigate(navigateUrl,
 							 string.Empty,
 							 Encoding.UTF8.GetBytes(postData.ToFastJSON()),
 							 "Content-Type: application/json");
+		}
 
-			dialog.ShowDialog();
-			if (signupOK)
+		public SignUpData TryParseSignUpDataFromUrl(Uri url)
+		{
+			if (!Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),
+							  RegexOptions.IgnoreCase))
+				return null;
+
+			var parameters = HttpUtility.ParseQueryString(url.Query);
+
+			var isNewUser = parameters["is_new_user"];
+			
+			Cursor.Current = Cursors.WaitCursor;
+
+			try
 			{
+				//var parameters = HttpUtility.ParseQueryString(url.Query);
+				var apiRetCode = parameters["api_ret_code"];
 
-				Cursor.Current = Cursors.WaitCursor;
-
-				try
+				if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
 				{
-					var url = browser.Url;
-					var parameters = HttpUtility.ParseQueryString(url.Query);
-					var apiRetCode = parameters["api_ret_code"];
+					throw new Exception("sign up error: " + apiRetCode);
+				}
 
-					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
+				var sessionToken = parameters["session_token"];
+				var userID = parameters["user_id"];
+				var email = parameters["email"];
+				var password = parameters["password"];
+				var accountType = parameters["account_type"];
+
+				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+				if (driver == null)
+				{
+					if (string.Compare(accountType, "native", true) == 0)
 					{
-						throw new Exception("sign up error: " + apiRetCode);
-					}
+						AddUserResponse res = StationController.AddUser(email, password, StationRegistry.GetValue("stationId", string.Empty).ToString(), Environment.MachineName);
+						var session = LoginToStation(email, password);
 
-					var sessionToken = parameters["session_token"];
-					var userID = parameters["user_id"];
-					var email = parameters["email"];
-					var password = parameters["password"];
-					var accountType = parameters["account_type"];
-
-					var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
-					if (driver == null)
-					{
-						if (string.Compare(accountType, "native", true) == 0)
+						return new SignUpData
 						{
-							AddUserResponse res = StationController.AddUser(email, password, StationRegistry.GetValue("stationId", string.Empty).ToString(), Environment.MachineName);
-							var session = LoginToStation(email, password);
-
-							return new SignUpData
-							{
-								account_type = accountType,
-								email = email,
-								user_id = userID,
-								password = password,
-								session_token = session.session_token
-							};
-						}
-						else
-						{
-							AddUserResponse res = StationController.AddUser(userID, sessionToken);
-
-							return new SignUpData
-							{
-								account_type = accountType,
-								email = email,
-								user_id = userID,
-								session_token = sessionToken
-							};
-						}
+							account_type = accountType,
+							email = email,
+							user_id = userID,
+							password = password,
+							session_token = session.session_token
+						};
 					}
 					else
 					{
-						if (string.Compare(accountType, "native", true) == 0)
-						{
-							var session = LoginToStation(email, password);
+						AddUserResponse res = StationController.AddUser(userID, sessionToken);
 
-							return new SignUpData
-							{
-								account_type = accountType,
-								email = email,
-								user_id = userID,
-								password = password,
-								session_token = session.session_token
-							};
-						}
-						else
+						return new SignUpData
 						{
-							return new SignUpData
-							{
-								account_type = accountType,
-								email = email,
-								user_id = userID,
-								session_token = sessionToken
-							};
-						}
-
+							account_type = accountType,
+							email = email,
+							user_id = userID,
+							session_token = sessionToken
+						};
 					}
 				}
-				finally
+				else
 				{
-					Cursor.Current = Cursors.Default;
+					if (string.Compare(accountType, "native", true) == 0)
+					{
+						var session = LoginToStation(email, password);
+
+						return new SignUpData
+						{
+							account_type = accountType,
+							email = email,
+							user_id = userID,
+							password = password,
+							session_token = session.session_token
+						};
+					}
+					else
+					{
+						return new SignUpData
+						{
+							account_type = accountType,
+							email = email,
+							user_id = userID,
+							session_token = sessionToken
+						};
+					}
+
 				}
 			}
-			else
-				throw new OperationCanceledException();
+			finally
+			{
+				Cursor.Current = Cursors.Default;
+			}
+			
+
 		}
 
 		private LoginedSession LoginToStation(string email, string password)
@@ -189,5 +169,6 @@ namespace StationSystemTray
 				throw StationController.ExtractApiRetMsg(e);
 			}
 		}
+		
 	}
 }

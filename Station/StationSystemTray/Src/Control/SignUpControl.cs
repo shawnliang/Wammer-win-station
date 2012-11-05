@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -9,6 +8,7 @@ using System.Windows.Forms;
 using Wammer.Station.Management;
 using StationSystemTray.Properties;
 using Waveface.Common;
+using System.Drawing;
 
 namespace StationSystemTray.Src.Control
 {
@@ -23,21 +23,17 @@ namespace StationSystemTray.Src.Control
 
 			this.signup = signup;
 			this.PageTitle = "Sign Up";
+			this.CustomSize = new Size(740, 590);
+			this.webBrowser1.Navigated += new WebBrowserNavigatedEventHandler(webBrowser1_Navigated);
 		}
 
-		public override void OnLeavingStep(WizardParameters parameters)
-		{
-			parameters.Set("user_id", signupData.user_id);
-			parameters.Set("session_token", signupData.session_token);
-		}
-
-		private void signupButton_Click(object sender, EventArgs e)
+		void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
 		{
 			try
 			{
-				signupData = signup.ShowSignUpDialog();
-
-				WizardControl.NextPage();
+				this.signupData = signup.TryParseSignUpDataFromUrl(e.Url);
+				if (this.signupData != null)
+					WizardControl.NextPage();
 			}
 			catch (OperationCanceledException)
 			{
@@ -66,6 +62,24 @@ namespace StationSystemTray.Src.Control
 					else
 						MessageBox.Show(Resources.ALREAD_UPDATED, Resources.APP_NAME);
 				}
+			}
+			catch (Exception)
+			{
+				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+		}
+
+		public override void OnLeavingStep(WizardParameters parameters)
+		{
+			parameters.Set("user_id", signupData.user_id);
+			parameters.Set("session_token", signupData.session_token);
+		}
+
+		public override void OnEnteringStep(WizardParameters parameters)
+		{
+			try
+			{
+				signup.ShowSignUpPage(webBrowser1);
 			}
 			catch (Exception)
 			{

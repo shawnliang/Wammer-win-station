@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace StationSystemTray
 {
 	public interface IStreamSignUp
 	{
-		SignUpData ShowSignUpDialog();
+		void ShowSignUpPage(WebBrowser browser);
+		SignUpData TryParseSignUpDataFromUrl(Uri uri);
 	}
 
 	public class SignUpData

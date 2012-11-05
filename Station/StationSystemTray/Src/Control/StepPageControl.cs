@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections.Specialized;
+using System.Drawing;
+
 
 namespace StationSystemTray
 {
@@ -12,6 +14,7 @@ namespace StationSystemTray
 		private string customLabelForNextStep;
 
 		public WizardControl WizardControl { get; set; }
+		public Size CustomSize { get; set; }
 
 		public virtual void OnEnteringStep(WizardParameters parameters)
 		{
@@ -21,6 +24,10 @@ namespace StationSystemTray
 		{
 		}
 
+		public virtual void OnStepEntered(WizardParameters parameters)
+		{
+
+		}
 
 		/// <summary>
 		/// If true, wizard will provice "next" and "prev" buttons on this page

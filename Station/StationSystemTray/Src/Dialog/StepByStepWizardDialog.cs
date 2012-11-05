@@ -29,6 +29,7 @@ namespace StationSystemTray
 		/// </summary>
 		/// <value>The m_ original title.</value>
 		private string m_OriginalTitle { get; set; }
+		private Size m_OriginalSize { get; set; }
 		#endregion
 
 		#region Public Property
@@ -97,6 +98,7 @@ namespace StationSystemTray
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void FirstUseWizardDialog_Load(object sender, EventArgs e)
 		{
+			m_OriginalSize = this.Size;
 			UpdateTitle();
 		}
 
@@ -135,6 +137,13 @@ namespace StationSystemTray
 		{
 			UpdateTitle();
 			UpdateButton();
+
+			var customSize = wizardControl.CurrentPage.CustomSize;
+
+			if (customSize.IsEmpty)
+				this.Size = m_OriginalSize;
+			else
+				this.Size = customSize;
 		}
 
 		/// <summary>
