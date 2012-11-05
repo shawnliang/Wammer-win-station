@@ -15,7 +15,7 @@ namespace StationSystemTray
 	{
 		private IPhotoSearch photoSearch;
 		private SynchronizationContext mainSyncCtx;
-
+		private CheckBox checkBox1;
 		#region Constructor
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileImportControl"/> class.
@@ -110,7 +110,7 @@ namespace StationSystemTray
 		/// </summary>
 		public void ClearInterestedPaths()
 		{
-			clbInterestedFolders.Items.Clear();
+			dataGridView1.Rows.Clear();
 		}
 
 		/// <summary>
@@ -119,7 +119,10 @@ namespace StationSystemTray
 		/// <param name="paths">The paths.</param>
 		public void AddInterestedPaths(IEnumerable<String> paths)
 		{
-			clbInterestedFolders.Items.AddRange(paths.OfType<object>().ToArray());
+			foreach (var path in paths)
+			{
+				dataGridView1.Rows.Add(true, path, "0");
+			}
 		}
 
 		/// <summary>
@@ -128,8 +131,13 @@ namespace StationSystemTray
 		/// <returns></returns>
 		public IEnumerable<String> GetSelectedPaths()
 		{
-			return from path in clbInterestedFolders.CheckedItems.OfType<object>()
-				   select path.ToString();
+			//return from path in clbInterestedFolders.CheckedItems.OfType<object>()
+			//       select path.ToString();
+
+			for(int i=0; i<dataGridView1.RowCount; i++)
+			{
+				yield return dataGridView1[1, i].Value as string;
+			}
 		}
 		#endregion
 
@@ -146,30 +154,59 @@ namespace StationSystemTray
 				return;
 
 			var selectedPath = folderBrowserDialog1.SelectedPath;
-			var linq = from item in clbInterestedFolders.CheckedItems.OfType<object>()
-					   let path = item.ToString()
-					   where path.Equals(selectedPath, StringComparison.CurrentCultureIgnoreCase)
-					   select path;
 
-			if (linq.Any())
-				return;
+			for (int i = 0; i < dataGridView1.RowCount; i++)
+			{
+				if (dataGridView1[1, i].Value.Equals(selectedPath))
+					return;
+			}
 
-			clbInterestedFolders.Items.Add(selectedPath);
+			dataGridView1.Rows.Add(true, selectedPath, "1");
 		}
 
-		/// <summary>
-		/// Handles the Click event of the button2 control.
-		/// </summary>
-		/// <param name="sender">The source of the event.</param>
-		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-		private void button2_Click(object sender, EventArgs e)
+		#endregion
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
-			for (int idx = 0; idx < clbInterestedFolders.Items.Count; ++idx)
+			for (int i = 0; i < dataGridView1.RowCount; i++)
 			{
-				clbInterestedFolders.SetItemChecked(idx, true);
+				dataGridView1[0, i].Value = checkBox1.Checked;
+			}
+
+			dataGridView1.EndEdit();
+		}
+		
+
+		private void FileImportControl_Load(object sender, EventArgs e)
+		{
+
+			var rect = dataGridView1.GetCellDisplayRectangle(0, -1, true);
+			checkBox1 = new CheckBox {
+				Size = new Size(14, 15),
+				Checked = true
+			};
+
+			var loc = rect.Location;
+			loc.X = loc.X + rect.Width / 2  - checkBox1.Width / 2;
+			loc.Y = loc.Y + rect.Height / 2 - checkBox1.Height / 2;
+
+			checkBox1.Location = loc;
+
+			checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+			dataGridView1.Controls.Add(checkBox1);
+		}
+
+		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.ColumnIndex == 0)
+			{
+				bool origValue = (bool)dataGridView1[e.ColumnIndex, e.RowIndex].Value;
+
+				dataGridView1[e.ColumnIndex, e.RowIndex].Value = !origValue;
+
+				dataGridView1.EndEdit();
 			}
 		}
-		#endregion
 	}
 
 
