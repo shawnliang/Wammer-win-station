@@ -22,6 +22,7 @@ namespace StationSystemTray.Src.Control
 			InitializeComponent();
 
 			this.signup = signup;
+			this.PageTitle = "Sign Up";
 		}
 
 		public override void OnLeavingStep(WizardParameters parameters)

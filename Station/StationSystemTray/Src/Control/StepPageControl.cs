@@ -43,5 +43,7 @@ namespace StationSystemTray
 			get { return customLabelForNextStep; }
 			set { customLabelForNextStep = value; }
 		}
+
+		public string PageTitle { get; set; }
 	}
 }

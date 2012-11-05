@@ -15,6 +15,7 @@ namespace StationSystemTray
 		{
 			InitializeComponent();
 			this.tutorialNavigator1.TutorialPhotos = images;
+			this.PageTitle = "Introduction to Stream";
 		}
 	}
 }

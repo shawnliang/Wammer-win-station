@@ -56,7 +56,8 @@ namespace StationSystemTray
 		/// </summary>
 		private void UpdateTitle()
 		{
-			this.Text = string.Format("{0} ({1} of {2})", m_OriginalTitle, wizardControl.PageIndex, wizardControl.PageCount);
+			//this.Text = string.Format("{0} ({1} of {2})", m_OriginalTitle, wizardControl.PageIndex, wizardControl.PageCount);
+			this.Text = wizardControl.CurrentPage.PageTitle ?? "Stream";
 		}
 
 		/// <summary>
