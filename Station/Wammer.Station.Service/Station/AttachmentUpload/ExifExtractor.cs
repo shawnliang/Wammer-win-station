@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Wammer.Model;
 using ExifLibrary;
+using System.Collections;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -84,6 +85,23 @@ namespace Wammer.Station.AttachmentUpload
 					var Wmin = (int)gpsLongitude.Minutes.Numerator / (int)gpsLongitude.Minutes.Denominator;
 					var Wsec = (int)gpsLongitude.Seconds.Numerator / (int)gpsLongitude.Seconds.Denominator;
 					exif.gps.longitude = Wmult * (Wdeg + (Wmin + Wsec / 60.0) / 60.0);
+
+					if (exifFile.Properties.ContainsKey(ExifTag.GPSDateStamp))
+					{
+						var gpsDate = (DateTime)exifFile.Properties[ExifTag.GPSDateStamp].Value;
+						exif.gps.GPSDateStamp = gpsDate.ToString("yyyy:MM:dd");
+					}
+
+					if (exifFile.Properties.ContainsKey(ExifTag.GPSTimeStamp))
+					{
+						var gpsTime = (GPSTimeStamp)exifFile.Properties[ExifTag.GPSTimeStamp];
+						exif.gps.GPSTimeStamp = new List<object[]>
+						{
+							new object[] { gpsTime.Hour.Numerator.ToString(), gpsTime.Hour.Denominator.ToString() },
+							new object[] { gpsTime.Minute.Numerator.ToString(), gpsTime.Minute.Denominator.ToString() },
+							new object[] { gpsTime.Second.Numerator.ToString(), gpsTime.Minute.Denominator.ToString() },
+						};
+					}
 				}
 			}
 			catch (Exception e)
