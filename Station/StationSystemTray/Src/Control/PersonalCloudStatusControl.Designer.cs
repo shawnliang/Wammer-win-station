@@ -32,6 +32,9 @@
 			this.title = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.deviceGridView = new System.Windows.Forms.DataGridView();
+			this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.typeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.photoCount = new System.Windows.Forms.Label();
@@ -41,9 +44,6 @@
 			this.label7 = new System.Windows.Forms.Label();
 			this.linkLabel2 = new System.Windows.Forms.LinkLabel();
 			this.label8 = new System.Windows.Forms.Label();
-			this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.typeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.statusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.deviceGridView)).BeginInit();
 			this.SuspendLayout();
@@ -91,6 +91,25 @@
 			this.deviceGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.deviceGridView.Size = new System.Drawing.Size(449, 135);
 			this.deviceGridView.TabIndex = 2;
+			// 
+			// nameColumn
+			// 
+			this.nameColumn.HeaderText = "Device";
+			this.nameColumn.Name = "nameColumn";
+			this.nameColumn.ReadOnly = true;
+			this.nameColumn.Width = 200;
+			// 
+			// typeColumn
+			// 
+			this.typeColumn.HeaderText = "Type";
+			this.typeColumn.Name = "typeColumn";
+			this.typeColumn.ReadOnly = true;
+			// 
+			// statusColumn
+			// 
+			this.statusColumn.HeaderText = "Status";
+			this.statusColumn.Name = "statusColumn";
+			this.statusColumn.ReadOnly = true;
 			// 
 			// label2
 			// 
@@ -197,25 +216,6 @@
 			this.label8.TabIndex = 11;
 			this.label8.Text = "devices.";
 			// 
-			// nameColumn
-			// 
-			this.nameColumn.HeaderText = "Device";
-			this.nameColumn.Name = "nameColumn";
-			this.nameColumn.ReadOnly = true;
-			this.nameColumn.Width = 200;
-			// 
-			// typeColumn
-			// 
-			this.typeColumn.HeaderText = "Type";
-			this.typeColumn.Name = "typeColumn";
-			this.typeColumn.ReadOnly = true;
-			// 
-			// statusColumn
-			// 
-			this.statusColumn.HeaderText = "Status";
-			this.statusColumn.Name = "statusColumn";
-			this.statusColumn.ReadOnly = true;
-			// 
 			// timer
 			// 
 			this.timer.Interval = 1000;
@@ -224,6 +224,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.linkLabel2);
 			this.Controls.Add(this.label7);

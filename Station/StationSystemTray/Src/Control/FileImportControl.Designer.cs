@@ -54,13 +54,13 @@
 			this.clbInterestedFolders.FormattingEnabled = true;
 			this.clbInterestedFolders.Location = new System.Drawing.Point(11, 55);
 			this.clbInterestedFolders.Name = "clbInterestedFolders";
-			this.clbInterestedFolders.Size = new System.Drawing.Size(656, 454);
+			this.clbInterestedFolders.Size = new System.Drawing.Size(476, 259);
 			this.clbInterestedFolders.TabIndex = 5;
 			// 
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(636, 26);
+			this.button1.Location = new System.Drawing.Point(456, 26);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(31, 23);
 			this.button1.TabIndex = 6;
@@ -75,7 +75,7 @@
 			// button2
 			// 
 			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.Location = new System.Drawing.Point(599, 26);
+			this.button2.Location = new System.Drawing.Point(419, 26);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(31, 23);
 			this.button2.TabIndex = 7;
@@ -87,12 +87,13 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.clbInterestedFolders);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "FileImportControl";
-			this.Size = new System.Drawing.Size(681, 522);
+			this.Size = new System.Drawing.Size(501, 329);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
