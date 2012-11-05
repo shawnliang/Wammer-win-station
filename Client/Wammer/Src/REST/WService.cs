@@ -1399,7 +1399,7 @@ namespace Waveface.API.V2
 				_dic.Add("session_token", session_token);
 				_dic.Add("group_id", group_id);
 				_dic.Add("title", title);
-
+				_dic.Add("timezone", (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes);
 				//_dic.Add("memo", HttpUtility.HtmlEncode(JsonConvert.SerializeObject(new AttachementMemo()
 				//{
 				//    SourceFile = fileName,
