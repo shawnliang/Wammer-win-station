@@ -24,10 +24,13 @@ namespace StationSystemTray.Src.Dialog
 			InitializeComponent();
 
 			Image[] tutorial = new Image[] { Resources.P1, Resources.P2, Resources.P3 };
+			var intro = new IntroControl(tutorial);
+			intro.CustomLabelForNextStep = "Sign Up";
+
 
 			wizardControl.SetWizardPages(new StepPageControl[]
 			{
-				new IntroControl(tutorial),
+				intro,
 				new SignUpControl(new StreamSignup()),
 				new ServiceImportControl(new FacebookConnectableService()),
 				new FileImportControl(m_photoSearch, SynchronizationContext.Current),

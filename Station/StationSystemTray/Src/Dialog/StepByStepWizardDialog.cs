@@ -76,7 +76,14 @@ namespace StationSystemTray
 
 			prevButton.Visible = nextButton.Visible = wizardControl.CurrentPage.HasPrevAndBack;
 
-			nextButton.Text = (pageIndex < wizardControl.PageCount) ? "Next" : "Done";
+			if (string.IsNullOrEmpty(wizardControl.CurrentPage.CustomLabelForNextStep))
+			{
+				nextButton.Text = (pageIndex < wizardControl.PageCount) ? "Next" : "Done";
+			}
+			else
+			{
+				nextButton.Text = wizardControl.CurrentPage.CustomLabelForNextStep;
+			}
 		}
 		
 		#endregion

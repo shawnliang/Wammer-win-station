@@ -9,6 +9,8 @@ namespace StationSystemTray
 {
 	public class StepPageControl : UserControl
 	{
+		private string customLabelForNextStep;
+
 		public WizardControl WizardControl { get; set; }
 
 		public virtual void OnEnteringStep(WizardParameters parameters)
@@ -34,6 +36,12 @@ namespace StationSystemTray
 		public virtual bool RunOnce
 		{
 			get { return false; }
+		}
+
+		public string CustomLabelForNextStep
+		{
+			get { return customLabelForNextStep; }
+			set { customLabelForNextStep = value; }
 		}
 	}
 }
