@@ -92,73 +92,26 @@ namespace StationSystemTray
 
 					if (!string.IsNullOrEmpty(apiRetCode) && int.Parse(apiRetCode) != 0)
 					{
-						//if (!IsDisposed)
-						//    Show();
-						//return;
 						throw new Exception("fb login error. api ret code = " + apiRetCode);
 					}
 
 					string sessionToken = parameters["session_token"];
 					string userID = parameters["user_id"];
 
-					//m_LoginAction = () => LoginAndLaunchClient(sessionToken, userID);
-
 					Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 					if (driver == null)
 					{
 						AddUserResponse res = StationController.AddUser(userID, sessionToken);
-
-						//UserStation station = GetPrimaryStation(res.Stations);
-						//lblMainStationSetup.Text = string.Format(lblMainStationSetupText,
-						//                                         (station == null) ? "None" : station.computer_name);
-						//lblSecondStationSetup.Text = string.Format(lblSecondStationSetupText,
-						//                                           (station == null) ? "None" : station.computer_name);
-
-						////Show welcome msg
-						//GotoTabPage(res.IsPrimaryStation ? tabMainStationSetup : tabSecondStationSetup);
-
-						//if (!IsDisposed)
-						//    Show();
-						//return;	
 					}
+
+					StationController.UserLogin(StationAPI.API_KEY, userID, sessionToken);
 
 					return new UserSession { session_token = sessionToken, user_id = userID };
 
-					//m_LoginAction();
-					//return;
+
 				}
 				else
 					throw new OperationCanceledException();
-				//if (!IsDisposed)
-				//    Show();
-			//}
-			//catch (AuthenticationException)
-			//{
-			//    MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			//}
-			//catch (StationServiceDownException)
-			//{
-			//    //if (!IsDisposed)
-			//    //    Show();
-			//    MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			//}
-			//catch (ConnectToCloudException)
-			//{
-			//    //if (!IsDisposed)
-			//    //    Show();
-			//    MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			//}
-			//catch (VersionNotSupportedException)
-			//{
-			//    throw new NotImplementedException();
-			//    //handleVersionNotSupported();
-			//}
-			//catch (Exception)
-			//{
-			//    //if (!IsDisposed)
-			//    //    Show();
-			//    MessageBox.Show(Resources.UnknownSigninError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			//}
 		}
 
 		public UserSession Login(string email, string password)
