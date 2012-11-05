@@ -28,26 +28,28 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IntroControl));
 			this.tutorialNavigator1 = new StationSystemTray.TutorialNavigator();
 			this.SuspendLayout();
 			// 
 			// tutorialNavigator1
 			// 
+			this.tutorialNavigator1.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tutorialNavigator1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tutorialNavigator1.EnableManualNavigate = true;
 			this.tutorialNavigator1.Location = new System.Drawing.Point(0, 0);
 			this.tutorialNavigator1.Name = "tutorialNavigator1";
-			this.tutorialNavigator1.Size = new System.Drawing.Size(596, 430);
+			this.tutorialNavigator1.Size = new System.Drawing.Size(414, 381);
 			this.tutorialNavigator1.TabIndex = 0;
+			this.tutorialNavigator1.TutorialPhotos = null;
 			// 
 			// IntroControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.ActiveBorder;
 			this.Controls.Add(this.tutorialNavigator1);
 			this.Name = "IntroControl";
-			this.Size = new System.Drawing.Size(596, 430);
+			this.Size = new System.Drawing.Size(414, 381);
 			this.ResumeLayout(false);
 
 		}

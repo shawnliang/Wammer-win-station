@@ -46,6 +46,8 @@ namespace StationSystemTray
 			this.tabNewOrOldUser = new System.Windows.Forms.TabPage();
 			this.oldUserButton = new System.Windows.Forms.Button();
 			this.newUserButton = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabNewOrOldUser.SuspendLayout();
@@ -135,7 +137,9 @@ namespace StationSystemTray
 			// 
 			// tabNewOrOldUser
 			// 
-			this.tabNewOrOldUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+			this.tabNewOrOldUser.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabNewOrOldUser.Controls.Add(this.label2);
+			this.tabNewOrOldUser.Controls.Add(this.label1);
 			this.tabNewOrOldUser.Controls.Add(this.oldUserButton);
 			this.tabNewOrOldUser.Controls.Add(this.newUserButton);
 			resources.ApplyResources(this.tabNewOrOldUser, "tabNewOrOldUser");
@@ -155,6 +159,18 @@ namespace StationSystemTray
 			this.newUserButton.UseVisualStyleBackColor = true;
 			this.newUserButton.Click += new System.EventHandler(this.newUserButton_Click);
 			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.ForeColor = System.Drawing.Color.DarkBlue;
+			this.label1.Name = "label1";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label2.Name = "label2";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -171,6 +187,7 @@ namespace StationSystemTray
 			this.TrayMenu.ResumeLayout(false);
 			this.tabControl.ResumeLayout(false);
 			this.tabNewOrOldUser.ResumeLayout(false);
+			this.tabNewOrOldUser.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -192,6 +209,8 @@ namespace StationSystemTray
 		private System.Windows.Forms.TabPage tabNewOrOldUser;
 		private System.Windows.Forms.Button oldUserButton;
 		private System.Windows.Forms.Button newUserButton;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
 	}
 }
 

@@ -32,22 +32,24 @@
 			// 
 			// wizardControl
 			// 
-			this.wizardControl.Location = new System.Drawing.Point(-3, -2);
-			this.wizardControl.Size = new System.Drawing.Size(646, 434);
+			this.wizardControl.Size = new System.Drawing.Size(555, 400);
 			// 
 			// nextButton
 			// 
-			this.nextButton.Location = new System.Drawing.Point(553, 438);
+			this.nextButton.Location = new System.Drawing.Point(432, 409);
+			this.nextButton.Size = new System.Drawing.Size(110, 32);
 			// 
 			// prevButton
 			// 
-			this.prevButton.Location = new System.Drawing.Point(472, 438);
+			this.prevButton.Location = new System.Drawing.Point(10, 409);
+			this.prevButton.Size = new System.Drawing.Size(110, 32);
 			// 
 			// NewUserWizardDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(640, 473);
+			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.ClientSize = new System.Drawing.Size(554, 453);
 			this.Name = "NewUserWizardDialog";
 			this.Text = "Stream (0 of 0)";
 			this.ResumeLayout(false);

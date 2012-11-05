@@ -80,6 +80,8 @@ namespace StationSystemTray
 		public TutorialNavigator()
 		{
 			InitializeComponent();
+
+			photoGalleryViewer1.PhotoIndexChanged += new EventHandler(photoGalleryViewer1_PhotoIndexChanged);
 		}
 
 		public TutorialNavigator(Image[] images)
@@ -109,6 +111,23 @@ namespace StationSystemTray
 		private void stepNavigator1_StepIndexChanged(object sender, EventArgs e)
 		{
 			photoGalleryViewer1.PhotoIndex = stepNavigator1.StepIndex;
+		}
+
+		void photoGalleryViewer1_PhotoIndexChanged(object sender, EventArgs e)
+		{
+			stepNavigator1.StepIndex = photoGalleryViewer1.PhotoIndex;
+		}
+		#endregion
+
+		#region Public Methods
+		public void Next()
+		{
+			photoGalleryViewer1.NextPhoto();
+		}
+
+		public void Prev()
+		{
+			photoGalleryViewer1.PreviousPhoto();
 		}
 		#endregion
 	}

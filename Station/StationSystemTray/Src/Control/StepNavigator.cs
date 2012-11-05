@@ -50,13 +50,20 @@ namespace StationSystemTray
 			{
 				return _stepIndex;
 			}
-			private set 
+			set 
 			{
 				if (_stepIndex == value)
 					return;
 
 				OnStepIndexChanging(EventArgs.Empty);
 				_stepIndex = value;
+
+				if (centralLayoutPanel1.Controls.Count > 0)
+				{
+					var curStepRadio = centralLayoutPanel1.Controls[_stepIndex - 1] as RadioButton;
+					curStepRadio.Checked = true;
+				}
+
 				OnStepIndexChanged(EventArgs.Empty);
 			}
 		}
@@ -124,7 +131,7 @@ namespace StationSystemTray
 			var stepControls = Enumerable.Range(1, StepCount).Select((index) => new RadioButton()
 			{
 				AutoSize = true,
-				Text = string.Empty,
+				Padding = new System.Windows.Forms.Padding(10, 0, 10, 0),
 				Tag = index
 			}).ToArray();
 
@@ -229,7 +236,10 @@ namespace StationSystemTray
 		{
 			var stepControl = sender as RadioButton;
 
-			StepIndex = (int)stepControl.Tag;
+			if (stepControl.Checked)
+			{
+				StepIndex = (int)stepControl.Tag;
+			}
 		}
 
 		/// <summary>

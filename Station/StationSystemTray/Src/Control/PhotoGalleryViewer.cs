@@ -12,7 +12,8 @@ namespace StationSystemTray
 		#region Var
 		private PictureBox _photoViewer;
 		private int _photoIndex;
-
+		private Label _prev;
+		private Label _next;
 		private IEnumerable<Image> _images = new List<Image>();
 		#endregion
 
@@ -29,7 +30,32 @@ namespace StationSystemTray
 				return _photoViewer ?? (_photoViewer = new PictureBox() 
 				{
 					SizeMode = PictureBoxSizeMode.Zoom,
-					Dock = DockStyle.Fill 
+					Dock = DockStyle.Fill
+				});
+			}
+		}
+
+		private Label m_Prev
+		{
+			get
+			{
+				return _prev ?? (_prev = new Label { 
+					Dock = DockStyle.Left,
+					Text = "<",
+					TextAlign = ContentAlignment.MiddleCenter,
+				});
+			}
+		}
+
+		private Label m_Next
+		{
+			get
+			{
+				return _next ?? (_next = new Label
+				{
+					Dock = DockStyle.Right,
+					Text = ">",
+					TextAlign = ContentAlignment.MiddleCenter,
 				});
 			}
 		}
@@ -84,6 +110,9 @@ namespace StationSystemTray
 			{
 				if (_photoIndex == value)
 					return;
+				
+				if (_images == null)
+					return;
 
 				OnPhotoIndexChanging(EventArgs.Empty);
 				_photoIndex = value;
@@ -115,7 +144,11 @@ namespace StationSystemTray
 		public PhotoGalleryViewer()
 		{
 			this.Controls.Add(m_PhotoViewer);
+			this.Controls.Add(m_Prev);
+			this.Controls.Add(m_Next);
 
+			m_Prev.Click += (s, e) => { PreviousPhoto(); };
+			m_Next.Click += (s, e) => { NextPhoto(); };
 			this.PhotosChanged += new EventHandler(PhotoGalleryViewer_PhotosChanged);
 			this.PhotoIndexChanged += new EventHandler(PhotoGalleryViewer_PhotoIndexChanged);
 		}
@@ -246,6 +279,9 @@ namespace StationSystemTray
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		void PhotoGalleryViewer_PhotoIndexChanged(object sender, EventArgs e)
 		{
+			if (Images == null)
+				return;
+
 			CurrentImage = Images.ElementAt(PhotoIndex - 1);
 			m_PhotoViewer.Image = CurrentImage;
 		}

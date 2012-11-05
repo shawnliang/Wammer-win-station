@@ -29,9 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.photoGalleryViewer1 = new PhotoGalleryViewer();
-			this.stepNavigator1 = new StepNavigator();
-			//((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.photoGalleryViewer1 = new StationSystemTray.PhotoGalleryViewer();
+			this.stepNavigator1 = new StationSystemTray.StepNavigator();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -48,21 +47,23 @@
 			// splitContainer1.Panel1
 			// 
 			this.splitContainer1.Panel1.Controls.Add(this.photoGalleryViewer1);
+			this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(0, 30, 0, 10);
 			// 
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.stepNavigator1);
-			this.splitContainer1.Size = new System.Drawing.Size(495, 397);
-			this.splitContainer1.SplitterDistance = 340;
+			this.splitContainer1.Size = new System.Drawing.Size(555, 400);
+			this.splitContainer1.SplitterDistance = 350;
 			this.splitContainer1.TabIndex = 0;
 			// 
 			// photoGalleryViewer1
 			// 
 			this.photoGalleryViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.photoGalleryViewer1.Location = new System.Drawing.Point(0, 0);
+			this.photoGalleryViewer1.Images = null;
+			this.photoGalleryViewer1.Location = new System.Drawing.Point(0, 30);
 			this.photoGalleryViewer1.Name = "photoGalleryViewer1";
 			this.photoGalleryViewer1.PhotoIndex = 0;
-			this.photoGalleryViewer1.Size = new System.Drawing.Size(495, 340);
+			this.photoGalleryViewer1.Size = new System.Drawing.Size(555, 310);
 			this.photoGalleryViewer1.TabIndex = 0;
 			this.photoGalleryViewer1.Text = "photoGalleryViewer1";
 			this.photoGalleryViewer1.PhotosChanged += new System.EventHandler(this.photoGalleryViewer1_PhotosChanged);
@@ -73,7 +74,8 @@
 			this.stepNavigator1.EnableManualNavigate = false;
 			this.stepNavigator1.Location = new System.Drawing.Point(0, 0);
 			this.stepNavigator1.Name = "stepNavigator1";
-			this.stepNavigator1.Size = new System.Drawing.Size(495, 53);
+			this.stepNavigator1.Size = new System.Drawing.Size(555, 46);
+			this.stepNavigator1.StepCount = 0;
 			this.stepNavigator1.TabIndex = 0;
 			this.stepNavigator1.StepIndexChanged += new System.EventHandler(this.stepNavigator1_StepIndexChanged);
 			// 
@@ -83,10 +85,9 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.splitContainer1);
 			this.Name = "TutorialNavigator";
-			this.Size = new System.Drawing.Size(495, 397);
+			this.Size = new System.Drawing.Size(555, 400);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
-			//((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
