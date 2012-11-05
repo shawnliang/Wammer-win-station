@@ -32,22 +32,9 @@ namespace StationSystemTray.Src.Control
 
 		public bool ServiceEnabled
 		{
-			get { return onOffSwitch.Value == 1; }
-			set { onOffSwitch.Value = value ? 1 : 0; }
+			get { return connectCheckbox.Checked; }
+			set { connectCheckbox.Checked = value; }
 		}
-
-		private void onOffSwitch_Scroll(object sender, EventArgs e)
-		{
-			if (ServiceEnabled)
-			{
-				raiseOnChangeEvent(true); // turn on
-			}
-			else
-			{
-				raiseOnChangeEvent(false); // turn off
-			}
-		}
-
 
 		private void raiseOnChangeEvent(bool turnOn)
 		{
@@ -60,8 +47,22 @@ namespace StationSystemTray.Src.Control
 
 				if (arg.Cancel)
 				{
-					onOffSwitch.Value = turnOn ? 0 : 1;
+					connectCheckbox.Checked = turnOn;
 				}
+			}
+		}
+
+		private void connectCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			if (ServiceEnabled)
+			{
+				raiseOnChangeEvent(true); // turn on
+				connectCheckbox.Text = "Connected";
+			}
+			else
+			{
+				raiseOnChangeEvent(false); // turn off
+				connectCheckbox.Text = "Connect";
 			}
 		}
 	}

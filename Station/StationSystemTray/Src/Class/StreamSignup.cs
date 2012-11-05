@@ -106,6 +106,7 @@ namespace StationSystemTray
 					else
 					{
 						AddUserResponse res = StationController.AddUser(userID, sessionToken);
+						StationController.UserLogin(StationAPI.API_KEY, userID, sessionToken);
 
 						return new SignUpData
 						{
@@ -133,6 +134,7 @@ namespace StationSystemTray
 					}
 					else
 					{
+						StationController.UserLogin(StationAPI.API_KEY, userID, sessionToken);
 						return new SignUpData
 						{
 							account_type = accountType,
