@@ -63,7 +63,7 @@ namespace Wammer.Station.AttachmentUpload
 					AttachmentApi.Upload(f, attachment.group_id, object_id, attachment.file_name,
 									  info.mime_type, meta, attachment.type, CloudServer.APIKey,
 									  user.session_token, 65535, UpstreamProgressChanged,
-									  attachment.post_id, attachment.file_path, attachment.image_meta.exif, attachment.import_time, attachment.timezone);
+									  attachment.post_id, attachment.file_path, attachment.image_meta.exif, attachment.import_time, attachment.timezone, attachment.file_create_time);
 
 					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
 				}
