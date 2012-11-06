@@ -158,6 +158,8 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public string import_time { get; set; }
 
+		[BsonIgnoreIfNull]
+		public DateTime event_time { get; set; }
 
 		#region Nested type: ImageMeta
 		[Serializable]

@@ -11,6 +11,7 @@ using ExifLibrary;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using MongoDB.Driver.Builders;
+using System.Globalization;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -87,6 +88,7 @@ namespace Wammer.Station.AttachmentUpload
 		public DateTime? import_time { get; set; }
 		public DateTime? file_create_time { get; set; }
 		public string exif { get; set; }
+		public int? timezone { get; set; }
 	}
 
 	public class AttachmentEventArgs : EventArgs
@@ -176,6 +178,9 @@ namespace Wammer.Station.AttachmentUpload
 				exif = extractExifFromOriginImage(uploadData);
 
 			var saveReult = storage.Save(uploadData, (exif != null) ? exif.DateTimeOriginal : null);
+
+			DateTime eventTime = guessEventTime(uploadData, exif);
+
 			var dbDoc = new Attachment
 							{
 								object_id = uploadData.object_id,
@@ -187,7 +192,9 @@ namespace Wammer.Station.AttachmentUpload
 								post_id = uploadData.post_id,
 								file_path = uploadData.file_path,
 								import_time = uploadData.import_time,
-								image_meta = new ImageProperty { exif = exif }
+								image_meta = new ImageProperty { exif = exif },
+								event_time = eventTime,
+								timezone = uploadData.timezone
 							};
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
@@ -231,6 +238,41 @@ namespace Wammer.Station.AttachmentUpload
 					uploadData.group_id
 				)
 			);
+		}
+
+		private static DateTime guessEventTime(UploadData uploadData, exif exif)
+		{
+			DateTime eventTime;
+			if (exif != null && exif.gps != null && !string.IsNullOrEmpty(exif.gps.GPSDateStamp) && exif.gps.GPSTimeStamp != null)
+			{
+				eventTime = DateTime.ParseExact(exif.gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+
+				var hour = getRationalValue(exif.gps.GPSTimeStamp[0]);
+				var min = getRationalValue(exif.gps.GPSTimeStamp[1]);
+				var sec = getRationalValue(exif.gps.GPSTimeStamp[2]);
+
+				eventTime = eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
+			}
+			else if (uploadData.timezone.HasValue && exif != null && !string.IsNullOrEmpty(exif.DateTime))
+			{
+				var exifTime = DateTime.ParseExact(exif.DateTimeOriginal, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+				eventTime = exifTime.AddMinutes(-uploadData.timezone.Value);
+			}
+			else if (uploadData.file_create_time.HasValue)
+			{
+				eventTime = uploadData.file_create_time.Value;
+			}
+			else
+			{
+				eventTime = DateTime.Now;
+			}
+			return eventTime;
+		}
+
+		private static uint getRationalValue(object[] rational)
+		{
+			var value = Convert.ToUInt32(rational[0]) / Convert.ToUInt32(rational[1]);
+			return value;
 		}
 
 		private exif parseExifParameter(UploadData uploadData)

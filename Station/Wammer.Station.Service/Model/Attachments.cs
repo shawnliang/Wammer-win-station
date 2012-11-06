@@ -16,6 +16,7 @@ using fastJSON;
 using MongoDB.Driver.Builders;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.Collections;
 
 namespace Wammer.Model
 {
@@ -216,6 +217,7 @@ namespace Wammer.Model
 
 	[DataContract]
 	[Serializable]
+	[BsonIgnoreExtraElements]
 	public class GPSInfo
 	{
 		[DataMember(Name = "1")]
@@ -232,10 +234,15 @@ namespace Wammer.Model
 	}
 
 	[Serializable]
+	[BsonIgnoreExtraElements]
 	public class Gps
 	{
 		public double longitude { get; set; }
 		public double latitude { get; set; }
+		[BsonIgnoreIfNull]
+		public string GPSDateStamp { get; set; }
+		[BsonIgnoreIfNull]
+		public List<object[]> GPSTimeStamp { get; set; }
 	}
 
 	[Serializable]
@@ -394,6 +401,12 @@ namespace Wammer.Model
 
 		[BsonIgnoreIfNull]
 		public DateTime? file_create_time { get; set; }
+
+		[BsonIgnoreIfNull]
+		public DateTime? event_time { get; set; }
+
+		[BsonIgnoreIfNull]
+		public int? timezone { get; set; }
 
 		#region IAttachmentInfo Members
 
