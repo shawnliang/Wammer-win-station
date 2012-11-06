@@ -36,6 +36,7 @@ namespace StationSystemTray
 		public WizardParameters Parameters
 		{
 			get { return wizardControl.Parameters; }
+			set { wizardControl.Parameters = value; }
 		}
 
 		#endregion
@@ -49,6 +50,12 @@ namespace StationSystemTray
 			wizardControl.PageChanged += new EventHandler(wizardControl1_PageChanged);
 			wizardControl.WizardPagesChanged += new EventHandler(wizardControl1_WizardPagesChanged);
 		}
+
+		public StepByStepWizardDialog(params StepPageControl[] controls)
+			: this()
+		{
+			wizardControl.SetWizardPages(controls);
+		}
 		#endregion
 
 		#region Private Method
@@ -59,7 +66,7 @@ namespace StationSystemTray
 		{
 			this.Text = "Stream";
 
-			if (wizardControl.CurrentPage != null && string.IsNullOrEmpty(wizardControl.CurrentPage.PageTitle))
+			if (wizardControl.CurrentPage != null && !string.IsNullOrEmpty(wizardControl.CurrentPage.PageTitle))
 				this.Text = wizardControl.CurrentPage.PageTitle;
 		}
 
@@ -72,13 +79,14 @@ namespace StationSystemTray
 
 			var prevPageIndex = pageIndex - 1;
 
-			prevButton.Enabled = (pageIndex > 1) && 
+			var canGoBack = (pageIndex > 1) && 
 				!wizardControl.GetPage(prevPageIndex - 1).RunOnce; 
 				// Question: why (prevPageIndex - 1) ??
 				// Answer: pageIndex and prevPageIndex are 1-based index but 
 				//         GetPage(index) uses 0-based.
 
-			prevButton.Visible = nextButton.Visible = wizardControl.CurrentPage.HasPrevAndBack;
+			nextButton.Visible = wizardControl.CurrentPage.HasPrevAndBack;
+			prevButton.Visible = canGoBack && wizardControl.CurrentPage.HasPrevAndBack;
 
 			if (string.IsNullOrEmpty(wizardControl.CurrentPage.CustomLabelForNextStep))
 			{
@@ -113,6 +121,7 @@ namespace StationSystemTray
 		{
 			if (wizardControl.PageIndex == wizardControl.PageCount)
 			{
+				wizardControl.CurrentPage.OnLeavingStep(wizardControl.Parameters);
 				Close();
 				return;
 			}

@@ -480,6 +480,13 @@ namespace StationSystemTray.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap normal_folder {
+            get {
+                object obj = ResourceManager.GetObject("normal_folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Inaccessible from internet.
         /// </summary>
@@ -797,6 +804,13 @@ namespace StationSystemTray.Properties {
         public static string UPLOAD_INDICATOR {
             get {
                 return ResourceManager.GetString("UPLOAD_INDICATOR", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap usbflashcardwithcardreader2 {
+            get {
+                object obj = ResourceManager.GetObject("usbflashcardwithcardreader2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

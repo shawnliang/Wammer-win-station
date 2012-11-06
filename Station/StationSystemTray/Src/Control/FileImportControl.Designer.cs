@@ -28,8 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblWelcome = new System.Windows.Forms.Label();
-			this.button1 = new System.Windows.Forms.Button();
+			this.addButton = new System.Windows.Forms.Button();
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.chkBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -41,24 +43,25 @@
 			// lblWelcome
 			// 
 			this.lblWelcome.AutoSize = true;
-			this.lblWelcome.Font = new System.Drawing.Font("Segoe UI", 15.75F);
+			this.lblWelcome.Font = new System.Drawing.Font("Arial", 12F);
 			this.lblWelcome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.lblWelcome.Location = new System.Drawing.Point(6, 9);
+			this.lblWelcome.Location = new System.Drawing.Point(27, 20);
 			this.lblWelcome.Name = "lblWelcome";
-			this.lblWelcome.Size = new System.Drawing.Size(165, 30);
+			this.lblWelcome.Size = new System.Drawing.Size(279, 18);
 			this.lblWelcome.TabIndex = 4;
-			this.lblWelcome.Text = "Import your files";
+			this.lblWelcome.Text = "Choose existing photo folders to import";
 			// 
-			// button1
+			// addButton
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(365, 26);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(31, 23);
-			this.button1.TabIndex = 6;
-			this.button1.Text = "＋";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.addButton.Font = new System.Drawing.Font("Arial", 9F);
+			this.addButton.Location = new System.Drawing.Point(45, 351);
+			this.addButton.Name = "addButton";
+			this.addButton.Size = new System.Drawing.Size(118, 26);
+			this.addButton.TabIndex = 6;
+			this.addButton.Text = "Add ...";
+			this.addButton.UseVisualStyleBackColor = true;
+			this.addButton.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// folderBrowserDialog1
 			// 
@@ -72,16 +75,32 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9F);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.chkBoxColumn,
             this.folderColumn,
             this.photoCountColumn});
-			this.dataGridView1.Location = new System.Drawing.Point(11, 60);
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 9F);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+			this.dataGridView1.Location = new System.Drawing.Point(45, 60);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowHeadersVisible = false;
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(385, 167);
+			this.dataGridView1.Size = new System.Drawing.Size(431, 285);
 			this.dataGridView1.TabIndex = 8;
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
@@ -94,13 +113,13 @@
 			// 
 			// folderColumn
 			// 
-			this.folderColumn.HeaderText = "Folder";
+			this.folderColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.folderColumn.HeaderText = "Location";
 			this.folderColumn.Name = "folderColumn";
-			this.folderColumn.Width = 200;
 			// 
 			// photoCountColumn
 			// 
-			this.photoCountColumn.HeaderText = "Photo Count";
+			this.photoCountColumn.HeaderText = "Photos";
 			this.photoCountColumn.Name = "photoCountColumn";
 			// 
 			// FileImportControl
@@ -109,10 +128,10 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.dataGridView1);
-			this.Controls.Add(this.button1);
+			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "FileImportControl";
-			this.Size = new System.Drawing.Size(410, 271);
+			this.Size = new System.Drawing.Size(521, 422);
 			this.Load += new System.EventHandler(this.FileImportControl_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
@@ -123,7 +142,7 @@
 		#endregion
 
 		private System.Windows.Forms.Label lblWelcome;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button addButton;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn chkBoxColumn;

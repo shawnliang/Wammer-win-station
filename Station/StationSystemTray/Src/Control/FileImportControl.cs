@@ -25,6 +25,7 @@ namespace StationSystemTray
 			InitializeComponent();
 			this.photoSearch = search;
 			this.mainSyncCtx = mainSyncCtx;
+			this.CustomLabelForNextStep = "Import";
 		} 
 		#endregion
 

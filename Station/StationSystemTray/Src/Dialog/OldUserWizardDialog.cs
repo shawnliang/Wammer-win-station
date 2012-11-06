@@ -18,8 +18,9 @@ namespace StationSystemTray.Src.Dialog
 			{
 				new LoginControl(new StreamLogin()),
 				new ChoosePlanControl(),
-				new FileImportControl(m_photoSearch, SynchronizationContext.Current),				
-				new ImportFromPotableMediaControl(new PortableMediaService()),
+				new ImportFolderAndMediaControl(m_photoSearch),
+				//new FileImportControl(m_photoSearch, SynchronizationContext.Current),				
+				//new ImportFromPotableMediaControl(new PortableMediaService()),
 				new PersonalCloudStatusControl(new PersonalCloudStatusService())
 			});
 

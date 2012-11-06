@@ -9,14 +9,13 @@ namespace StationSystemTray
 	/// <summary>
 	/// 
 	/// </summary>
-	public class WizardControl:Control
+	public class WizardControl : UserControl
 	{
 		#region Var
 		private TabControlEx _tabControl;
 		private IEnumerable<StepPageControl> _wizardPages;
 		private WizardParameters m_parameters = new WizardParameters();
 		#endregion
-
 
 		#region Private Property
 		/// <summary>
@@ -42,6 +41,7 @@ namespace StationSystemTray
 		public WizardParameters Parameters
 		{
 			get { return m_parameters; }
+			set { m_parameters = value; }
 		}
 
 		/// <summary>
@@ -132,6 +132,7 @@ namespace StationSystemTray
 		{
 			m_TabControl.SelectedIndexChanged += new EventHandler(m_TabControl_SelectedIndexChanged);
 			this.WizardPagesChanged += new EventHandler(WizardControl_WizardPagesChanged);
+			this.Load += new EventHandler(WizardControl_Load);
 			this.Controls.Add(m_TabControl);
 		}
 
@@ -271,7 +272,6 @@ namespace StationSystemTray
 		}
 		#endregion
 
-
 		#region Event Process
 		/// <summary>
 		/// Handles the WizardPagesChanged event of the WizardControl control.
@@ -292,6 +292,16 @@ namespace StationSystemTray
 		{
 			OnPageChanged(EventArgs.Empty);
 		}
+
+
+		void WizardControl_Load(object sender, EventArgs e)
+		{
+			if (CurrentPage != null)
+				CurrentPage.OnEnteringStep(m_parameters);
+		}
 		#endregion
+
+
+		
 	}
 }
