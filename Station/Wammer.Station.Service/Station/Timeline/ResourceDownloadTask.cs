@@ -145,6 +145,7 @@ namespace Wammer.Station.Timeline
 						.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
 						.Set("file_size", length)
 						.Set("modify_time", DateTime.UtcNow)
+						.Set("event_time", attachmentAttributes.event_time)
 						.Set("image_meta.width", attachmentAttributes.image_meta.width)
 						.Set("image_meta.height", attachmentAttributes.image_meta.height)
 						.Set("md5", attachmentAttributes.md5)
@@ -176,6 +177,7 @@ namespace Wammer.Station.Timeline
 					Update
 						.Set("group_id", attachmentAttributes.group_id)
 						.Set("file_name", attachmentAttributes.file_name)
+						.Set("event_time", attachmentAttributes.event_time)
 						.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
 						.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time))
 						.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time))
