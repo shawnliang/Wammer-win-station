@@ -193,7 +193,8 @@ namespace Wammer.Station.AttachmentUpload
 								file_path = uploadData.file_path,
 								import_time = uploadData.import_time,
 								image_meta = new ImageProperty { exif = exif },
-								event_time = eventTime
+								event_time = eventTime,
+								timezone = uploadData.timezone
 							};
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
