@@ -405,7 +405,8 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public DateTime? event_time { get; set; }
 
-		public int timezone { get; set; }
+		[BsonIgnoreIfNull]
+		public int? timezone { get; set; }
 
 		#region IAttachmentInfo Members
 
