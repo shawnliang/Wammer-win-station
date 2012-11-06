@@ -55,7 +55,7 @@
 			// 
 			this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.addButton.Font = new System.Drawing.Font("Arial", 9F);
-			this.addButton.Location = new System.Drawing.Point(45, 351);
+			this.addButton.Location = new System.Drawing.Point(45, 276);
 			this.addButton.Name = "addButton";
 			this.addButton.Size = new System.Drawing.Size(118, 26);
 			this.addButton.TabIndex = 6;
@@ -75,6 +75,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+			this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9F);
@@ -100,7 +101,7 @@
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowHeadersVisible = false;
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(431, 285);
+			this.dataGridView1.Size = new System.Drawing.Size(450, 210);
 			this.dataGridView1.TabIndex = 8;
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
@@ -131,7 +132,7 @@
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "FileImportControl";
-			this.Size = new System.Drawing.Size(521, 422);
+			this.Size = new System.Drawing.Size(540, 347);
 			this.Load += new System.EventHandler(this.FileImportControl_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);

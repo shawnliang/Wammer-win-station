@@ -41,7 +41,7 @@
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Bold);
-			this.label1.Location = new System.Drawing.Point(19, 22);
+			this.label1.Location = new System.Drawing.Point(36, 31);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(225, 18);
 			this.label1.TabIndex = 2;
@@ -49,39 +49,41 @@
 			// 
 			// importFromMediaButton
 			// 
+			this.importFromMediaButton.BackColor = System.Drawing.Color.PowderBlue;
 			this.importFromMediaButton.Font = new System.Drawing.Font("Arial", 10F);
 			this.importFromMediaButton.Image = ((System.Drawing.Image)(resources.GetObject("importFromMediaButton.Image")));
 			this.importFromMediaButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.importFromMediaButton.Location = new System.Drawing.Point(271, 76);
+			this.importFromMediaButton.Location = new System.Drawing.Point(394, 98);
 			this.importFromMediaButton.Name = "importFromMediaButton";
-			this.importFromMediaButton.Padding = new System.Windows.Forms.Padding(0, 15, 0, 0);
+			this.importFromMediaButton.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
 			this.importFromMediaButton.Size = new System.Drawing.Size(181, 174);
 			this.importFromMediaButton.TabIndex = 5;
 			this.importFromMediaButton.Text = "Import from Removable Media";
 			this.importFromMediaButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.importFromMediaButton.UseVisualStyleBackColor = true;
+			this.importFromMediaButton.UseVisualStyleBackColor = false;
 			this.importFromMediaButton.Click += new System.EventHandler(this.importFromMediaButton_Click);
 			// 
 			// importFromDiskButton
 			// 
+			this.importFromDiskButton.BackColor = System.Drawing.Color.PowderBlue;
 			this.importFromDiskButton.Font = new System.Drawing.Font("Arial", 10F);
 			this.importFromDiskButton.Image = ((System.Drawing.Image)(resources.GetObject("importFromDiskButton.Image")));
 			this.importFromDiskButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.importFromDiskButton.Location = new System.Drawing.Point(46, 76);
+			this.importFromDiskButton.Location = new System.Drawing.Point(80, 98);
 			this.importFromDiskButton.Name = "importFromDiskButton";
 			this.importFromDiskButton.Padding = new System.Windows.Forms.Padding(0, 15, 0, 0);
 			this.importFromDiskButton.Size = new System.Drawing.Size(181, 174);
 			this.importFromDiskButton.TabIndex = 4;
 			this.importFromDiskButton.Text = "Import from folders";
 			this.importFromDiskButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.importFromDiskButton.UseVisualStyleBackColor = true;
+			this.importFromDiskButton.UseVisualStyleBackColor = false;
 			this.importFromDiskButton.Click += new System.EventHandler(this.importFromDiskButton_Click);
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Arial", 9F);
-			this.label2.Location = new System.Drawing.Point(19, 289);
+			this.label2.Location = new System.Drawing.Point(77, 335);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(275, 15);
 			this.label2.TabIndex = 6;
@@ -90,17 +92,17 @@
 			// txtStoreLocation
 			// 
 			this.txtStoreLocation.Font = new System.Drawing.Font("Arial", 9F);
-			this.txtStoreLocation.Location = new System.Drawing.Point(22, 317);
+			this.txtStoreLocation.Location = new System.Drawing.Point(80, 363);
 			this.txtStoreLocation.Name = "txtStoreLocation";
-			this.txtStoreLocation.Size = new System.Drawing.Size(272, 21);
+			this.txtStoreLocation.Size = new System.Drawing.Size(352, 21);
 			this.txtStoreLocation.TabIndex = 7;
 			// 
 			// changeButton
 			// 
 			this.changeButton.Font = new System.Drawing.Font("Arial", 9F);
-			this.changeButton.Location = new System.Drawing.Point(314, 311);
+			this.changeButton.Location = new System.Drawing.Point(438, 360);
 			this.changeButton.Name = "changeButton";
-			this.changeButton.Size = new System.Drawing.Size(105, 32);
+			this.changeButton.Size = new System.Drawing.Size(137, 26);
 			this.changeButton.TabIndex = 8;
 			this.changeButton.Text = "Change";
 			this.changeButton.UseVisualStyleBackColor = true;
@@ -117,7 +119,7 @@
 			this.Controls.Add(this.importFromDiskButton);
 			this.Controls.Add(this.label1);
 			this.Name = "ImportFolderAndMediaControl";
-			this.Size = new System.Drawing.Size(501, 363);
+			this.Size = new System.Drawing.Size(660, 450);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

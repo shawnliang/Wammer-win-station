@@ -28,7 +28,11 @@ namespace StationSystemTray
 
 		private void importFromDiskButton_Click(object sender, EventArgs e)
 		{
-			var fileImport = new FileImportControl(photoSearch, SynchronizationContext.Current);
+			var fileImport = new FileImportControl(photoSearch, SynchronizationContext.Current)
+			{
+				CustomLabelForNextStep = "Import"
+			};
+
 			var dialog = new StepByStepWizardDialog(fileImport)
 			{
 				Size = new Size(562, 481),
@@ -40,7 +44,11 @@ namespace StationSystemTray
 
 		private void importFromMediaButton_Click(object sender, EventArgs e)
 		{
-			var mediaImport = new ImportFromPotableMediaControl(new PortableMediaService());
+			var mediaImport = new ImportFromPotableMediaControl(new PortableMediaService())
+			{
+				CustomLabelForNextStep = "Import"
+			};
+
 			var dialog = new StepByStepWizardDialog(mediaImport)
 			{
 				Size = new Size(562, 481),
