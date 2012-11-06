@@ -17,6 +17,7 @@ namespace StationSystemTray.Src.Dialog
 			wizardControl.SetWizardPages(new StepPageControl[]
 			{
 				new LoginControl(new StreamLogin()),
+				new ChoosePlanControl(),
 				new FileImportControl(m_photoSearch, SynchronizationContext.Current),				
 				new ImportFromPotableMediaControl(new PortableMediaService()),
 				new PersonalCloudStatusControl(new PersonalCloudStatusService())

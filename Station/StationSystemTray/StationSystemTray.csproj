@@ -95,6 +95,12 @@
     <Compile Include="Src\Class\StreamSignup.cs" />
     <Compile Include="Src\Class\UserSession.cs" />
     <Compile Include="Src\Class\WizardParameters.cs" />
+    <Compile Include="Src\Control\ChoosePlanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ChoosePlanControl.Designer.cs">
+      <DependentUpon>ChoosePlanControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\ImportFromPotableMediaControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -278,6 +284,9 @@
     </Compile>
     <EmbeddedResource Include="Src\Control\BuildPersonalCloudUserControl.resx">
       <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ChoosePlanControl.resx">
+      <DependentUpon>ChoosePlanControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\CongratulationControl.resx">
       <DependentUpon>CongratulationControl.cs</DependentUpon>
