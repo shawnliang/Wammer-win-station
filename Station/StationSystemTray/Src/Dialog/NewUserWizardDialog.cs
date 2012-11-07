@@ -34,8 +34,7 @@ namespace StationSystemTray.Src.Dialog
 				new SignUpControl(new StreamSignup()),
 				new ServiceImportControl(new FacebookConnectableService()),
 				new ChoosePlanControl(),
-				//new FileImportControl(m_photoSearch, SynchronizationContext.Current),
-				//new ImportFromPotableMediaControl(new PortableMediaService()),
+				new ImportFolderAndMediaControl(m_photoSearch),
 				new PersonalCloudStatusControl(new PersonalCloudStatusService())
 			});
 

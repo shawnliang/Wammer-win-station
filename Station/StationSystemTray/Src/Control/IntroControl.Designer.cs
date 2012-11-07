@@ -38,7 +38,7 @@
 			this.tutorialNavigator1.EnableManualNavigate = true;
 			this.tutorialNavigator1.Location = new System.Drawing.Point(0, 0);
 			this.tutorialNavigator1.Name = "tutorialNavigator1";
-			this.tutorialNavigator1.Size = new System.Drawing.Size(414, 381);
+			this.tutorialNavigator1.Size = new System.Drawing.Size(555, 400);
 			this.tutorialNavigator1.TabIndex = 0;
 			this.tutorialNavigator1.TutorialPhotos = null;
 			// 
@@ -49,7 +49,7 @@
 			this.BackColor = System.Drawing.SystemColors.ActiveBorder;
 			this.Controls.Add(this.tutorialNavigator1);
 			this.Name = "IntroControl";
-			this.Size = new System.Drawing.Size(414, 381);
+			this.Size = new System.Drawing.Size(555, 400);
 			this.ResumeLayout(false);
 
 		}

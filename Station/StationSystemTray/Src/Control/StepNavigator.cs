@@ -131,7 +131,7 @@ namespace StationSystemTray
 			var stepControls = Enumerable.Range(1, StepCount).Select((index) => new RadioButton()
 			{
 				AutoSize = true,
-				Padding = new System.Windows.Forms.Padding(10, 0, 10, 0),
+				Padding = new System.Windows.Forms.Padding(5, 0, 5, 0),
 				Tag = index
 			}).ToArray();
 

@@ -46,7 +46,7 @@ namespace StationSystemTray
 		{
 			var mediaImport = new ImportFromPotableMediaControl(new PortableMediaService())
 			{
-				CustomLabelForNextStep = "Import"
+				CustomLabelForNextStep = "Done"
 			};
 
 			var dialog = new StepByStepWizardDialog(mediaImport)

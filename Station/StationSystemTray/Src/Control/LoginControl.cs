@@ -142,5 +142,25 @@ namespace StationSystemTray
 				loginButton1_Click(this, e);
 			}
 		}
+
+		private void loginInputPanel1_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void pictureBox2_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void label1_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void fbLoginButton1_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

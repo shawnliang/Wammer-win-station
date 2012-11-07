@@ -14,6 +14,7 @@ namespace StationSystemTray
 		public event EventHandler<FileImportEventArgs> FileImported;
 		public event EventHandler<ImportDoneEventArgs> ImportDone;
 
+		private volatile bool doneNotified;
 		private WebSocket socket;
 
 		public PortableMediaService()
@@ -58,9 +59,17 @@ namespace StationSystemTray
 
 		private void raiseImportDoneEvent(string error)
 		{
-			var handler = ImportDone;
-			if (handler != null)
-				handler(this, new ImportDoneEventArgs { Error = error });
+			lock (socket)
+			{
+				if (doneNotified)
+					return;
+
+				var handler = ImportDone;
+				if (handler != null)
+					handler(this, new ImportDoneEventArgs { Error = error });
+
+				doneNotified = true;
+			}
 		}
 
 		public IEnumerable<PortableDevice> GetPortableDevices()
@@ -91,6 +100,8 @@ namespace StationSystemTray
 				socket.Close();
 
 			socket.Connect();
+
+			doneNotified = false;
 
 			var connect = new GenericCommand
 			{

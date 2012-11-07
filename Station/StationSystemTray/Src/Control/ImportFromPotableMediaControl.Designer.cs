@@ -61,7 +61,7 @@
 			this.deviceCombobox.FormattingEnabled = true;
 			this.deviceCombobox.Location = new System.Drawing.Point(48, 73);
 			this.deviceCombobox.Name = "deviceCombobox";
-			this.deviceCombobox.Size = new System.Drawing.Size(323, 23);
+			this.deviceCombobox.Size = new System.Drawing.Size(338, 23);
 			this.deviceCombobox.TabIndex = 1;
 			this.deviceCombobox.DropDown += new System.EventHandler(this.deviceCombobox_DropDown);
 			// 
@@ -69,7 +69,7 @@
 			// 
 			this.importButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.importButton.Font = new System.Drawing.Font("Arial", 9F);
-			this.importButton.Location = new System.Drawing.Point(386, 73);
+			this.importButton.Location = new System.Drawing.Point(401, 73);
 			this.importButton.Name = "importButton";
 			this.importButton.Size = new System.Drawing.Size(112, 23);
 			this.importButton.TabIndex = 2;
@@ -83,7 +83,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.progressBar.Location = new System.Drawing.Point(48, 122);
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(450, 23);
+			this.progressBar.Size = new System.Drawing.Size(465, 23);
 			this.progressBar.Step = 1;
 			this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.progressBar.TabIndex = 3;
@@ -93,9 +93,10 @@
 			// progressText
 			// 
 			this.progressText.AutoSize = true;
+			this.progressText.Font = new System.Drawing.Font("Arial", 9F);
 			this.progressText.Location = new System.Drawing.Point(48, 103);
 			this.progressText.Name = "progressText";
-			this.progressText.Size = new System.Drawing.Size(68, 13);
+			this.progressText.Size = new System.Drawing.Size(79, 15);
 			this.progressText.TabIndex = 4;
 			this.progressText.Text = "Processing...";
 			this.progressText.Visible = false;
@@ -130,11 +131,11 @@
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nameColumn,
             this.photoColumn});
-			this.dataGridView1.Location = new System.Drawing.Point(51, 185);
+			this.dataGridView1.Location = new System.Drawing.Point(48, 195);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.ReadOnly = true;
 			this.dataGridView1.RowHeadersVisible = false;
-			this.dataGridView1.Size = new System.Drawing.Size(447, 125);
+			this.dataGridView1.Size = new System.Drawing.Size(462, 170);
 			this.dataGridView1.TabIndex = 6;
 			// 
 			// nameColumn
@@ -143,17 +144,19 @@
 			this.nameColumn.HeaderText = "Name";
 			this.nameColumn.MinimumWidth = 50;
 			this.nameColumn.Name = "nameColumn";
+			this.nameColumn.ReadOnly = true;
 			// 
 			// photoColumn
 			// 
 			this.photoColumn.HeaderText = "Photo";
 			this.photoColumn.Name = "photoColumn";
+			this.photoColumn.ReadOnly = true;
 			// 
 			// ImportFromPotableMediaControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.progressText);
@@ -162,7 +165,7 @@
 			this.Controls.Add(this.deviceCombobox);
 			this.Controls.Add(this.label1);
 			this.Name = "ImportFromPotableMediaControl";
-			this.Size = new System.Drawing.Size(540, 347);
+			this.Size = new System.Drawing.Size(555, 400);
 			this.Load += new System.EventHandler(this.ImportFromPotableMediaControl_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);

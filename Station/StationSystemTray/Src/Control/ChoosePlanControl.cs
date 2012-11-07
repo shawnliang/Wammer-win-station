@@ -16,7 +16,15 @@ namespace StationSystemTray
 		{
 			InitializeComponent();
 			PageTitle = "Upgrade";
-			CustomSize = new Size(710, 400);
+			CustomSize = new Size(710, 437);
+		}
+
+		public override bool RunOnce
+		{
+			get
+			{
+				return true;
+			}
 		}
 	}
 }

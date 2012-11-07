@@ -25,7 +25,7 @@ namespace StationSystemTray
 			this.service.FileImported += new EventHandler<FileImportEventArgs>(service_FileImported);
 			progressBar.Value = 0;
 
-			this.PageTitle = "Import from portable media";
+			this.PageTitle = "Import from media";
 		}
 
 		void service_FileImported(object sender, FileImportEventArgs e)
@@ -51,12 +51,9 @@ namespace StationSystemTray
 			{
 				progressText.Text = doneMsg;
 				progressBar.Value = progressBar.Maximum;
+				dataGridView1.Rows.Add(deviceCombobox.SelectedItem, import_count);
+				importButton.Enabled = true;
 			}));
-
-			importButton.Enabled = true;
-
-
-			dataGridView1.Rows.Add(deviceCombobox.SelectedItem, import_count);
 		}
 
 		private void ImportFromPotableMediaControl_Load(object sender, EventArgs e)
