@@ -31,11 +31,11 @@
 			this.doneButton = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.pictureBox2 = new System.Windows.Forms.PictureBox();
+			this.appStoreButton = new System.Windows.Forms.PictureBox();
+			this.googlePlayButton = new System.Windows.Forms.PictureBox();
 			this.pictureBox3 = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.appStoreButton)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.googlePlayButton)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -55,7 +55,7 @@
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(12, 29);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(263, 19);
 			this.label1.TabIndex = 3;
@@ -66,31 +66,35 @@
 			this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.richTextBox1.Cursor = System.Windows.Forms.Cursors.Default;
-			this.richTextBox1.Location = new System.Drawing.Point(35, 68);
+			this.richTextBox1.Location = new System.Drawing.Point(35, 41);
 			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(458, 138);
+			this.richTextBox1.Size = new System.Drawing.Size(473, 165);
 			this.richTextBox1.TabIndex = 4;
 			this.richTextBox1.Text = "";
 			// 
-			// pictureBox1
+			// appStoreButton
 			// 
-			this.pictureBox1.Image = global::StationSystemTray.Properties.Resources.button_appstore;
-			this.pictureBox1.Location = new System.Drawing.Point(60, 233);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(172, 60);
-			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this.pictureBox1.TabIndex = 5;
-			this.pictureBox1.TabStop = false;
+			this.appStoreButton.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.appStoreButton.Image = global::StationSystemTray.Properties.Resources.button_appstore;
+			this.appStoreButton.Location = new System.Drawing.Point(60, 233);
+			this.appStoreButton.Name = "appStoreButton";
+			this.appStoreButton.Size = new System.Drawing.Size(172, 60);
+			this.appStoreButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this.appStoreButton.TabIndex = 5;
+			this.appStoreButton.TabStop = false;
+			this.appStoreButton.Click += new System.EventHandler(this.appStoreButton_Click);
 			// 
-			// pictureBox2
+			// googlePlayButton
 			// 
-			this.pictureBox2.Image = global::StationSystemTray.Properties.Resources.button_googleplay;
-			this.pictureBox2.Location = new System.Drawing.Point(60, 312);
-			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(172, 60);
-			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this.pictureBox2.TabIndex = 6;
-			this.pictureBox2.TabStop = false;
+			this.googlePlayButton.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.googlePlayButton.Image = global::StationSystemTray.Properties.Resources.button_googleplay;
+			this.googlePlayButton.Location = new System.Drawing.Point(60, 312);
+			this.googlePlayButton.Name = "googlePlayButton";
+			this.googlePlayButton.Size = new System.Drawing.Size(172, 60);
+			this.googlePlayButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this.googlePlayButton.TabIndex = 6;
+			this.googlePlayButton.TabStop = false;
+			this.googlePlayButton.Click += new System.EventHandler(this.googlePlayButton_Click);
 			// 
 			// pictureBox3
 			// 
@@ -109,16 +113,18 @@
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.ClientSize = new System.Drawing.Size(544, 443);
 			this.Controls.Add(this.pictureBox3);
-			this.Controls.Add(this.pictureBox2);
-			this.Controls.Add(this.pictureBox1);
+			this.Controls.Add(this.googlePlayButton);
+			this.Controls.Add(this.appStoreButton);
 			this.Controls.Add(this.richTextBox1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.doneButton);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "AddDeviceDialog";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Add a device";
 			this.Load += new System.EventHandler(this.AddDeviceDialog_Load);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.appStoreButton)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.googlePlayButton)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -130,8 +136,8 @@
 		protected System.Windows.Forms.Button doneButton;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.RichTextBox richTextBox1;
-		private System.Windows.Forms.PictureBox pictureBox1;
-		private System.Windows.Forms.PictureBox pictureBox2;
+		private System.Windows.Forms.PictureBox appStoreButton;
+		private System.Windows.Forms.PictureBox googlePlayButton;
 		private System.Windows.Forms.PictureBox pictureBox3;
 	}
 }
