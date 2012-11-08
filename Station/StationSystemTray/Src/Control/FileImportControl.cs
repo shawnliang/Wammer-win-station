@@ -137,7 +137,8 @@ namespace StationSystemTray
 
 			for(int i=0; i<dataGridView1.RowCount; i++)
 			{
-				yield return dataGridView1[1, i].Value as string;
+				if ((bool)dataGridView1[0, i].Value)
+					yield return dataGridView1[1, i].Value as string;
 			}
 		}
 		#endregion
