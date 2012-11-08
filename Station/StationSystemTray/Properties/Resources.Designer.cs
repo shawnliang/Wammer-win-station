@@ -61,6 +61,20 @@ namespace StationSystemTray.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+        ///{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+        ///\fi-360\li720\sl276\slmult1\b\f0\fs22 Download\b0  the app on your iOS/Android device.\par
+        ///\b{\pntext\f0 2.\tab}Login\b0  to Stream\par
+        ///{\pntext\f0 3.\tab}Connect to the same WiFi network as your PC. Your stream ap will enter \b Hyper Mode \b0 automatically\par
+        ///\pard\li360\sl240\ [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string addDeviceInstruction {
+            get {
+                return ResourceManager.GetString("addDeviceInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You currently have the latest version of Stream installed..
         /// </summary>
         public static string ALREAD_UPDATED {
@@ -480,13 +494,6 @@ namespace StationSystemTray.Properties {
             }
         }
         
-        public static System.Drawing.Bitmap normal_folder {
-            get {
-                object obj = ResourceManager.GetObject("normal_folder", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to Inaccessible from internet.
         /// </summary>
@@ -564,6 +571,13 @@ namespace StationSystemTray.Properties {
         public static string PREVIOUS_BUTTON_TEXT {
             get {
                 return ResourceManager.GetString("PREVIOUS_BUTTON_TEXT", resourceCulture);
+            }
+        }
+        
+        public static System.Drawing.Bitmap qr_waveface_site {
+            get {
+                object obj = ResourceManager.GetObject("qr_waveface_site", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -664,20 +678,6 @@ namespace StationSystemTray.Properties {
         public static string StationServiceDown {
             get {
                 return ResourceManager.GetString("StationServiceDown", resourceCulture);
-            }
-        }
-        
-        public static System.Drawing.Bitmap stream_appstore_qr {
-            get {
-                object obj = ResourceManager.GetObject("stream_appstore_qr", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        public static System.Drawing.Bitmap stream_googleplay_qr {
-            get {
-                object obj = ResourceManager.GetObject("stream_googleplay_qr", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -804,13 +804,6 @@ namespace StationSystemTray.Properties {
         public static string UPLOAD_INDICATOR {
             get {
                 return ResourceManager.GetString("UPLOAD_INDICATOR", resourceCulture);
-            }
-        }
-        
-        public static System.Drawing.Bitmap usbflashcardwithcardreader2 {
-            get {
-                object obj = ResourceManager.GetObject("usbflashcardwithcardreader2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

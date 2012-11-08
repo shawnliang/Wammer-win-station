@@ -74,12 +74,12 @@ namespace StationSystemTray.Src.Control
 
 		private void googlePlayBtn_Click(object sender, EventArgs e)
 		{
-			showInstallDialog(Resources.button_googleplay, Resources.stream_googleplay_qr, GOOGLE_PLAY_URL);
+			//showInstallDialog(Resources.button_googleplay, Resources.stream_googleplay_qr, GOOGLE_PLAY_URL);
 		}
 
 		private void appStoreBtn_Click(object sender, EventArgs e)
 		{
-			showInstallDialog(Resources.button_appstore, Resources.stream_appstore_qr, APPSTORE_URL);
+			//showInstallDialog(Resources.button_appstore, Resources.stream_appstore_qr, APPSTORE_URL);
 		}
 
 		private void showInstallDialog(Bitmap storePic, Bitmap qrCodePic, string url)

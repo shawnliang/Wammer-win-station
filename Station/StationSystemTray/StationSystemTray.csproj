@@ -155,6 +155,12 @@
     <Compile Include="Src\Control\SignUpControl.Designer.cs">
       <DependentUpon>SignUpControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Dialog\AddDeviceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\AddDeviceDialog.Designer.cs">
+      <DependentUpon>AddDeviceDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Dialog\NewUserWizardDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -318,6 +324,9 @@
     <EmbeddedResource Include="Src\Control\SignUpControl.resx">
       <DependentUpon>SignUpControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AddDeviceDialog.resx">
+      <DependentUpon>AddDeviceDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -421,6 +430,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\cloud-connected-devices.png" />
+    <None Include="Resources\addDeviceInstruction.rtf" />
     <None Include="Resources\button.googleplay.png" />
     <None Include="Resources\button.appstore.png" />
     <None Include="Resources\stream_googleplay_qr.png" />
@@ -431,6 +441,7 @@
     <None Include="Resources\P1.png" />
     <None Include="Resources\usbflashcardwithcardreader2.png" />
     <None Include="Resources\normal_folder.png" />
+    <None Include="Resources\qr_waveface_site.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
