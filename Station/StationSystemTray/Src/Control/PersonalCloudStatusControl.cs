@@ -48,7 +48,7 @@ namespace StationSystemTray
 			try
 			{
 				var nodes = service.GetNodes(user_id, session_token, StationAPI.API_KEY);
-
+				nodes = nodes.ToList();
 				this.Invoke(new MethodInvoker(() =>
 				{
 					foreach (var node in nodes)
@@ -86,6 +86,42 @@ namespace StationSystemTray
 
 							
 						}
+					}
+
+
+					int phoneCount = nodes.Count((x) => x.Type == NodeType.Phone);
+
+					if (phoneCount == 0)
+					{
+						if (!listView1.Items.ContainsKey("no phone"))
+						{
+							var defaultItem = listView1.Items.Add("no phone", "You have no linked phone.", 0);
+							defaultItem.Group = listView1.Groups["phone"];
+							defaultItem.ForeColor = Color.DimGray;
+						}
+
+					}
+					else
+					{
+						if (listView1.Items.ContainsKey("no phone"))
+							listView1.Items.RemoveByKey("no phone");
+					}
+
+					int tabletCount = nodes.Count((x) => x.Type == NodeType.Tablet);
+
+					if (tabletCount == 0)
+					{
+						if (!listView1.Items.ContainsKey("no tablet"))
+						{
+							var defaultItem = listView1.Items.Add("no tablet", "You have no linked tablet.", 0);
+							defaultItem.Group = listView1.Groups["tablet"];
+							defaultItem.ForeColor = Color.DimGray;
+						}
+					}
+					else
+					{
+						if (listView1.Items.ContainsKey("no tablet"))
+							listView1.Items.RemoveByKey("no tablet");
 					}
 
 				}));

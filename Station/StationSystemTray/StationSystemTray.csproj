@@ -176,12 +176,6 @@
     <Compile Include="Src\Control\BuildPersonalCloudUserControl.Designer.cs">
       <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Control\CongratulationControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Src\Control\CongratulationControl.Designer.cs">
-      <DependentUpon>CongratulationControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Src\Control\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -292,9 +286,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ChoosePlanControl.resx">
       <DependentUpon>ChoosePlanControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Control\CongratulationControl.resx">
-      <DependentUpon>CongratulationControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>

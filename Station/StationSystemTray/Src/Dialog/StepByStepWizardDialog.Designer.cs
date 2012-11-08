@@ -38,6 +38,7 @@ namespace StationSystemTray
 			// nextButton
 			// 
 			this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.nextButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.nextButton.Location = new System.Drawing.Point(432, 409);
 			this.nextButton.Name = "nextButton";
 			this.nextButton.Size = new System.Drawing.Size(110, 32);
@@ -49,6 +50,7 @@ namespace StationSystemTray
 			// prevButton
 			// 
 			this.prevButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.prevButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.prevButton.Location = new System.Drawing.Point(10, 409);
 			this.prevButton.Name = "prevButton";
 			this.prevButton.Size = new System.Drawing.Size(110, 32);

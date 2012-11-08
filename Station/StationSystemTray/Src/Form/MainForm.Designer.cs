@@ -44,10 +44,10 @@ namespace StationSystemTray
 			this.checkStationTimer = new System.Windows.Forms.Timer(this.components);
 			this.tabControl = new StationSystemTray.TabControlEx();
 			this.tabNewOrOldUser = new System.Windows.Forms.TabPage();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.oldUserButton = new System.Windows.Forms.Button();
 			this.newUserButton = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.TrayMenu.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabNewOrOldUser.SuspendLayout();
@@ -145,6 +145,18 @@ namespace StationSystemTray
 			resources.ApplyResources(this.tabNewOrOldUser, "tabNewOrOldUser");
 			this.tabNewOrOldUser.Name = "tabNewOrOldUser";
 			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
+			this.label2.Name = "label2";
+			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.ForeColor = System.Drawing.Color.DarkBlue;
+			this.label1.Name = "label1";
+			// 
 			// oldUserButton
 			// 
 			resources.ApplyResources(this.oldUserButton, "oldUserButton");
@@ -158,18 +170,6 @@ namespace StationSystemTray
 			this.newUserButton.Name = "newUserButton";
 			this.newUserButton.UseVisualStyleBackColor = true;
 			this.newUserButton.Click += new System.EventHandler(this.newUserButton_Click);
-			// 
-			// label1
-			// 
-			resources.ApplyResources(this.label1, "label1");
-			this.label1.ForeColor = System.Drawing.Color.DarkBlue;
-			this.label1.Name = "label1";
-			// 
-			// label2
-			// 
-			resources.ApplyResources(this.label2, "label2");
-			this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-			this.label2.Name = "label2";
 			// 
 			// MainForm
 			// 

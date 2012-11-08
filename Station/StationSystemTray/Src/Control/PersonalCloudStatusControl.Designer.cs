@@ -28,9 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Station", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Tablet", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Phone", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Station", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Tablet", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Phone", System.Windows.Forms.HorizontalAlignment.Left);
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -42,17 +42,17 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Arial", 11F);
+			this.label1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(14, 14);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(258, 17);
+			this.label1.Size = new System.Drawing.Size(240, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Your Personal Cloud has been created";
 			// 
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.button1.Font = new System.Drawing.Font("Arial", 9F);
+			this.button1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.button1.Location = new System.Drawing.Point(32, 325);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(240, 27);
@@ -64,11 +64,11 @@
 			// 
 			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabel1.AutoSize = true;
-			this.linkLabel1.Font = new System.Drawing.Font("Arial", 10F);
+			this.linkLabel1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 10);
 			this.linkLabel1.Location = new System.Drawing.Point(32, 367);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(267, 20);
+			this.linkLabel1.Size = new System.Drawing.Size(238, 21);
 			this.linkLabel1.TabIndex = 3;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "Learn more about our apps and extensions";
@@ -83,16 +83,16 @@
             this.nameColumn,
             this.profileCol});
 			this.listView1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			listViewGroup4.Header = "Station";
-			listViewGroup4.Name = "station";
-			listViewGroup5.Header = "Tablet";
-			listViewGroup5.Name = "tablet";
-			listViewGroup6.Header = "Phone";
-			listViewGroup6.Name = "phone";
+			listViewGroup1.Header = "Station";
+			listViewGroup1.Name = "station";
+			listViewGroup2.Header = "Tablet";
+			listViewGroup2.Name = "tablet";
+			listViewGroup3.Header = "Phone";
+			listViewGroup3.Name = "phone";
 			this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
 			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.listView1.Location = new System.Drawing.Point(32, 51);
 			this.listView1.Name = "listView1";

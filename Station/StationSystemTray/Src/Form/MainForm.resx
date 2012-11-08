@@ -139,7 +139,7 @@
     <value>556, 453</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
+    <value>Calibri, 9pt</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -9732,7 +9732,7 @@
     <value>Pause Service</value>
   </data>
   <data name="newUserButton.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 10pt</value>
+    <value>Calibri, 9.75pt</value>
   </data>
   <data name="newUserButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -9750,7 +9750,7 @@
     <value>I'm new here!</value>
   </data>
   <data name="oldUserButton.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 10pt</value>
+    <value>Calibri, 9.75pt</value>
   </data>
   <data name="oldUserButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -9765,7 +9765,7 @@
     <value>1</value>
   </data>
   <data name="oldUserButton.Text" xml:space="preserve">
-    <value>Login &amp;&amp; link this PC</value>
+    <value>I already have a Stream Personal Cloud</value>
   </data>
   <data name="settingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 22</value>

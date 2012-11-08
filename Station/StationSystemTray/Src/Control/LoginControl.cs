@@ -98,16 +98,6 @@ namespace StationSystemTray
 			parameters.Set("session_token", session.session_token);
 		}
 
-		private void LoginControl_Load(object sender, EventArgs e)
-		{
-
-		}
-
-		private void LoginControl_SizeChanged(object sender, EventArgs e)
-		{
-			pictureBox2.Left = label1.Left + label1.Width / 2 - pictureBox2.Width / 2;
-		}
-
 		public override bool RunOnce
 		{
 			get
@@ -143,24 +133,5 @@ namespace StationSystemTray
 			}
 		}
 
-		private void loginInputPanel1_Paint(object sender, PaintEventArgs e)
-		{
-
-		}
-
-		private void pictureBox2_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void label1_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void fbLoginButton1_Load(object sender, EventArgs e)
-		{
-
-		}
 	}
 }

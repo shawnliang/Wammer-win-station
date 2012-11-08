@@ -37,17 +37,17 @@
 			// serviceName
 			// 
 			this.serviceName.AutoSize = true;
-			this.serviceName.Font = new System.Drawing.Font("Segoe UI", 15.75F);
+			this.serviceName.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.serviceName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.serviceName.Location = new System.Drawing.Point(69, 24);
+			this.serviceName.Location = new System.Drawing.Point(99, 30);
 			this.serviceName.Name = "serviceName";
-			this.serviceName.Size = new System.Drawing.Size(134, 30);
+			this.serviceName.Size = new System.Drawing.Size(111, 23);
 			this.serviceName.TabIndex = 9;
 			this.serviceName.Text = "service name";
 			// 
 			// serviceIcon
 			// 
-			this.serviceIcon.Location = new System.Drawing.Point(3, 10);
+			this.serviceIcon.Location = new System.Drawing.Point(33, 12);
 			this.serviceIcon.Name = "serviceIcon";
 			this.serviceIcon.Size = new System.Drawing.Size(60, 60);
 			this.serviceIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -59,10 +59,10 @@
 			this.connectCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
 			this.connectCheckbox.Checked = true;
 			this.connectCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.connectCheckbox.Font = new System.Drawing.Font("Segoe UI", 10F);
-			this.connectCheckbox.Location = new System.Drawing.Point(324, 24);
+			this.connectCheckbox.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.connectCheckbox.Location = new System.Drawing.Point(294, 28);
 			this.connectCheckbox.Name = "connectCheckbox";
-			this.connectCheckbox.Size = new System.Drawing.Size(147, 36);
+			this.connectCheckbox.Size = new System.Drawing.Size(147, 30);
 			this.connectCheckbox.TabIndex = 11;
 			this.connectCheckbox.Text = "Connect";
 			this.connectCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -77,7 +77,7 @@
 			this.Controls.Add(this.serviceName);
 			this.Controls.Add(this.serviceIcon);
 			this.Name = "ServiceItemControl";
-			this.Size = new System.Drawing.Size(474, 75);
+			this.Size = new System.Drawing.Size(465, 85);
 			((System.ComponentModel.ISupportInitialize)(this.serviceIcon)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
