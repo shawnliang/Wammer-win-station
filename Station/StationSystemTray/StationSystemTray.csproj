@@ -86,11 +86,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Class\EventArgs\FileImportEventArgs.cs" />
-    <Compile Include="Src\Class\PersonalCloudStatus.cs" />
     <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
     <Compile Include="Src\Class\PortableDevice.cs" />
     <Compile Include="Src\Class\PortableMediaService.cs" />
-    <Compile Include="Src\Class\StreamDevice.cs" />
+    <Compile Include="Src\Class\PersonalCloudNode.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
     <Compile Include="Src\Class\StreamSignup.cs" />
     <Compile Include="Src\Class\UserSession.cs" />
@@ -257,7 +256,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Interface\IConnectableService.cs" />
-    <Compile Include="Src\Interface\IPersonalCloudStatusService.cs" />
+    <Compile Include="Src\Interface\IPersonalCloudStatus.cs" />
     <Compile Include="Src\Interface\IPortableMediaService.cs" />
     <Compile Include="Src\Interface\IStreamLoginable.cs" />
     <Compile Include="Src\Interface\IStreamSignUp.cs" />

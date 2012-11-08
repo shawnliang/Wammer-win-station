@@ -19,7 +19,8 @@ namespace StationSystemTray.Src.Dialog
 				new LoginControl(new StreamLogin()),
 				new ChoosePlanControl(),
 				new ImportFolderAndMediaControl(m_photoSearch),
-				new PersonalCloudStatusControl(new PersonalCloudStatusService())
+				//new PersonalCloudStatusControl(new PersonalCloudStatusService())
+				new PersonalCloudStatusControl2(new PersonalCloudStatusService())
 			});
 
 			m_photoSearch.StartSearchAsync();
@@ -29,19 +30,9 @@ namespace StationSystemTray.Src.Dialog
 		{
 			this.SuspendLayout();
 			// 
-			// wizardControl
-			// 
-			this.wizardControl.Size = new System.Drawing.Size(555, 400);
-			// 
-			// nextButton
-			// 
-			this.nextButton.Location = new System.Drawing.Point(432, 409);
-			this.nextButton.Size = new System.Drawing.Size(110, 32);
-			// 
 			// prevButton
 			// 
-			this.prevButton.Location = new System.Drawing.Point(10, 409);
-			this.prevButton.Size = new System.Drawing.Size(110, 32);
+			this.prevButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			// 
 			// OldUserWizardDialog
 			// 

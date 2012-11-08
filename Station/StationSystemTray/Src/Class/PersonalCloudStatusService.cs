@@ -11,36 +11,84 @@ using Wammer.Station;
 
 namespace StationSystemTray
 {
-	class PersonalCloudStatusService : IPersonalCloudStatusService
+	class PersonalCloudStatusService : IPersonalCloudStatus
 	{
-		public IEnumerable<StreamDevice> GetDeviceList(string user_id, string apikey, string session_token)
+		public IEnumerable<PersonalCloudNode> GetNodes(string user_id, string session_token, string apikey)
 		{
+			yield return new PersonalCloudNode()
+			{
+				Name = "Stream Cloud",
+				Id = Guid.Empty.ToString(),
+				Profile = "Connected",
+				Type = NodeType.Station 
+			};
+
 			var session = Wammer.Cloud.User.GetLoginInfo(user_id, apikey, session_token);
 
-			return session.user.devices.Select((x) =>
+			foreach(var x in session.user.devices)
 			{
 				var connection = ConnectionCollection.Instance.FindOne(Query.EQ("device.device_id", x.device_id));
-
 				bool isConnected = (x.device_id == StationRegistry.GetValue("stationId", "") as string) ? true : connection != null;
 
-				return new StreamDevice(x.device_name, isConnected, x.device_type);
-			});
-		}
+				var item = new PersonalCloudNode
+				{
+					Name = x.device_name,
+					Id = x.device_id
+				};
 
-		public PersonalCloudStatus GetStatus(string user_id)
-		{
-			var user = DriverCollection.Instance.FindOneById(user_id);
-			var group_id = user.groups[0].group_id;
+				switch (x.device_type)
+				{
+					case "Android Tablet":
+					case "iPad":
+						item.Type = NodeType.Tablet;
+						break;
 
-			var photos = AttachmentCollection.Instance.Find(Query.EQ("group_id", group_id));
-			var events = PostCollection.Instance.Find(
-				Query.And(
-					Query.EQ("group_id", group_id),
-					Query.EQ("hidden", "false"), 
-					Query.EQ("import", false))
-			);
+					case "Android":
+					case "iPhone":
+					case "Windows Phone":
+						item.Type = NodeType.Phone;
+						break;
 
-			return new PersonalCloudStatus((int)photos.Count(), (int)events.Count());
+					default:
+						item.Type = NodeType.Station;
+						break;
+				}
+
+
+				if (item.Type == NodeType.Station)
+				{
+					if (item.Name.Equals(Environment.MachineName))
+					{
+						item.Profile = "Connected";
+
+						var upload = Wammer.PerfMonitor.PerfCounter.GetCounter(Wammer.PerfMonitor.PerfCounter.UP_REMAINED_COUNT, false).NextValue();
+						var download = Wammer.PerfMonitor.PerfCounter.GetCounter(Wammer.PerfMonitor.PerfCounter.DW_REMAINED_COUNT, false).NextValue();
+
+						if (upload == 0 && download == 0)
+							item.Profile = "Synced at " + x.last_visit;
+						else
+							item.Profile = "Syncing: " + (upload + download) + " files";
+					}
+					else
+					{
+						item.Profile = "Last seen: " + x.last_visit;
+					}
+				}
+				else
+				{
+					if (isConnected)
+					{
+						item.Profile = "Connected (Local Hyper Mode)";
+					}
+					else
+					{
+						item.Profile = "Last seen: " + x.last_visit;
+					}
+				}
+				yield return item;
+
+			};
+
 		}
 	}
 }

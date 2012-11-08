@@ -9,75 +9,135 @@ using System.Windows.Forms;
 
 namespace StationSystemTray
 {
-	public partial class PersonalCloudStatusControl : StepPageControl
+	public partial class PersonalCloudStatusControl2 : StepPageControl
 	{
-		private IPersonalCloudStatusService service;
+		private IPersonalCloudStatus service;
 		private string user_id;
 		private string session_token;
+		private Timer timer;
+		private object cs = new object();
 
-		public PersonalCloudStatusControl(IPersonalCloudStatusService service)
+		public PersonalCloudStatusControl2(IPersonalCloudStatus service)
 		{
 			InitializeComponent();
+			CustomSize = new Size(710, 437);
 			this.service = service;
-
-			timer.Tick += new EventHandler(timer_Tick);
-		}
-
-		void timer_Tick(object sender, EventArgs e)
-		{
-			timer.Stop();
-			try
-			{
-				var status = service.GetStatus(user_id);
-				var devices = service.GetDeviceList(user_id, StationAPI.API_KEY, session_token);
-				refreshData(status, devices);
-			}
-			catch (Exception ex)
-			{
-			}
-			finally
-			{
-				timer.Start();
-			}
+			this.CustomLabelForNextStep = "Start Stream!";
 		}
 
 		public override void OnEnteringStep(WizardParameters parameters)
 		{
-			user_id = (string)parameters.Get("user_id");
-			session_token = (string)parameters.Get("session_token");
+			user_id = parameters.Get("user_id") as string;
+			session_token = parameters.Get("session_token") as string;
 
-			var status = service.GetStatus(user_id);
-			var devices = service.GetDeviceList(user_id, StationAPI.API_KEY, session_token);
-			refreshData(status, devices);
+			listView1.Items.Clear();
+			updateStatus();
 
+			timer = new Timer();
+			timer.Interval = 2000;
+			timer.Tick += timer1_Tick;
 			timer.Start();
 		}
 
 		public override void OnLeavingStep(WizardParameters parameters)
 		{
-			timer.Stop();
 		}
 
-		private void refreshData(PersonalCloudStatus status, IEnumerable<StreamDevice> devices)
+		private void updateStatus()
 		{
-			if (InvokeRequired)
-				Invoke(new MethodInvoker(() => {
-					refreshData(status, devices);
-				}));
-
-			photoCount.Text = status.PhotoCount.ToString();
-			eventCount.Text = status.EventCount.ToString();
-			deviceGridView.Rows.Clear();
-			foreach (var device in devices)
+			try
 			{
-				deviceGridView.Rows.Add(
-					new object[]
+				var nodes = service.GetNodes(user_id, session_token, StationAPI.API_KEY);
+
+				this.Invoke(new MethodInvoker(() =>
+				{
+					foreach (var node in nodes)
 					{
-						device.Name,
-						device.Type,
-						device.Online? "connected" : "not connected"
-					});
+
+						if (listView1.Items.ContainsKey(node.Id))
+						{
+							var item = listView1.Items[node.Id];
+							if (!item.Text.Equals(node.Name))
+								item.Text = node.Name;
+
+							var sub1 = item.SubItems["profile"];
+							if (!sub1.Text.Equals(node.Profile))
+								sub1.Text = node.Profile;
+						}
+						else
+						{
+							listView1.Items.Add(node.Id, node.Name, 0);
+
+							var item = listView1.Items[node.Id];
+
+							item.SubItems.Add(
+								new ListViewItem.ListViewSubItem
+								{
+									Name = "profile",
+									Text = node.Profile
+								});
+
+							if (node.Type == NodeType.Station)
+								item.Group = listView1.Groups["station"];
+							else if (node.Type == NodeType.Tablet)
+								item.Group = listView1.Groups["tablet"];
+							else if (node.Type == NodeType.Phone)
+								item.Group = listView1.Groups["phone"];
+
+							
+						}
+					}
+
+				}));
 			}
+			catch (Exception ex)
+			{
+
+				// HACK - The best place to stop timer is at OnLeavingStep()
+				//        but there is a bug causing last step's OnLeavingStep() not called
+				//        so tempararily place the code here.
+				if (timer != null)
+				{
+					timer.Stop();
+					timer.Dispose();
+					timer = null;
+				}
+			}
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			try
+			{
+				lock (cs)
+				{
+					updateStatus();
+				}
+			}
+			catch
+			{
+			}
+		}
+
+		private static void SetDoubleBuffered(System.Windows.Forms.Control c)
+		{
+			//Taxes: Remote Desktop Connection and painting
+			//http://blogs.msdn.com/oldnewthing/archive/2006/01/03/508694.aspx
+			if (System.Windows.Forms.SystemInformation.TerminalServerSession)
+				return;
+
+			System.Reflection.PropertyInfo aProp =
+				  typeof(System.Windows.Forms.Control).GetProperty(
+						"DoubleBuffered",
+						System.Reflection.BindingFlags.NonPublic |
+						System.Reflection.BindingFlags.Instance);
+
+			aProp.SetValue(c, true, null);
+		}
+
+		private void PersonalCloudStatusControl2_Load(object sender, EventArgs e)
+		{
+			SetDoubleBuffered(listView1);
 		}
 	}
 }

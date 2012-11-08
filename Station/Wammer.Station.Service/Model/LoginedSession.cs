@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace Wammer.Model
 {
@@ -56,6 +57,11 @@ namespace Wammer.Model
 		public string device_id { get; set; }
 		[BsonIgnoreIfNull]
 		public string device_type { get; set; }
+		
+		// HACK - don't serialize this field to mongo db because 
+		//        WavefaceWindowsClient cannot deserialize mongo time (ISODate("....."))
+		[BsonIgnore] 
+		public DateTime last_visit { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]

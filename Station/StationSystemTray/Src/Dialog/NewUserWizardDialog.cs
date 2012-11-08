@@ -35,7 +35,7 @@ namespace StationSystemTray.Src.Dialog
 				new ServiceImportControl(new FacebookConnectableService()),
 				new ChoosePlanControl(),
 				new ImportFolderAndMediaControl(m_photoSearch),
-				new PersonalCloudStatusControl(new PersonalCloudStatusService())
+				new PersonalCloudStatusControl2(new PersonalCloudStatusService())
 			});
 
 			m_photoSearch.StartSearchAsync();

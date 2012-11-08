@@ -660,7 +660,6 @@ namespace Waveface
 					s_logger.Warn("Cannot found the specified logined data from DB");
 
 				string _json = _doc.ToJson();
-
 				MR_auth_login _login = JsonConvert.DeserializeObject<MR_auth_login>(_json);
 
 				if (_login == null)

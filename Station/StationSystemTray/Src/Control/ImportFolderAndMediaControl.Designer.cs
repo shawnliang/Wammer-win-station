@@ -60,7 +60,7 @@
 			this.importFromMediaButton.TabIndex = 5;
 			this.importFromMediaButton.Text = "Import Removable Media";
 			this.importFromMediaButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.importFromMediaButton.UseVisualStyleBackColor = false;
+			this.importFromMediaButton.UseVisualStyleBackColor = true;
 			this.importFromMediaButton.Click += new System.EventHandler(this.importFromMediaButton_Click);
 			// 
 			// importFromDiskButton
@@ -75,7 +75,7 @@
 			this.importFromDiskButton.TabIndex = 4;
 			this.importFromDiskButton.Text = "Import Photo Folders";
 			this.importFromDiskButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-			this.importFromDiskButton.UseVisualStyleBackColor = false;
+			this.importFromDiskButton.UseVisualStyleBackColor = true;
 			this.importFromDiskButton.Click += new System.EventHandler(this.importFromDiskButton_Click);
 			// 
 			// label2
