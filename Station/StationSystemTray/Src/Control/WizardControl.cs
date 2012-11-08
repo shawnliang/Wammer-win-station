@@ -266,8 +266,11 @@ namespace StationSystemTray
 
 			Cursor.Current = Cursors.WaitCursor;
 			CurrentPage.OnLeavingStep(m_parameters);
+
+			var nextPage = (StepPageControl)m_TabControl.TabPages[pageIndex + 1 - 1].Controls[0];
+			nextPage.OnEnteringStep(m_parameters);
+
 			this.PageIndex = pageIndex + 1;
-			CurrentPage.OnEnteringStep(m_parameters);
 			Cursor.Current = Cursors.Default;
 		}
 		#endregion
