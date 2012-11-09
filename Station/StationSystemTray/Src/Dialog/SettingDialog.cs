@@ -31,6 +31,7 @@ namespace StationSystemTray
 		private BackgroundWorker _updateBackgroundWorker;
 		private SynchronizationContext _syncContext = SynchronizationContext.Current;
 		private ProcessingDialog _processingDialog;
+		private AutoResetEvent startRemoveEvt = new AutoResetEvent(false);
 		#endregion
 
 
@@ -104,7 +105,6 @@ namespace StationSystemTray
 
 
 		#region Event
-		public event EventHandler<AccountEventArgs> AccountRemoving;
 		public event EventHandler<AccountEventArgs> AccountRemoved;
 		#endregion
 
@@ -134,12 +134,16 @@ namespace StationSystemTray
 
 		private void RefreshAccountList()
 		{
+			dgvAccountList.Rows.Clear();
+
 			var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", m_CurrentUserSession));
+			if (loginedUser == null)
+				return;
+
 			var users = from item in DriverCollection.Instance.FindAll()
-						where item != null && item.user != null
+						where item != null && item.user != null && item.user.user_id == loginedUser.user.user_id
 						select new { ID = item.user_id, EMail = item.user.email };
 
-			dgvAccountList.Rows.Clear();
 			foreach (var user in users)
 			{
 				var rowIndex = dgvAccountList.Rows.Add(new object[] { user.EMail, (GetStorageUsage(user.ID) / 1024 / 1024).ToString() + " MB", Resources.REMOVE_ACCOUNT_BUTTON_TITLE });
@@ -173,70 +177,75 @@ namespace StationSystemTray
 			m_SyncContext.Send((obj) => target((T)obj), o);
 		}
 
+
+		class RemoveParam
+		{
+			public string user_id { get; set; }
+			public string email { get; set; }
+			public bool removeData { get; set; }
+		}
+
 		private void RemoveAccount(string userID, string email, Boolean removeAllDatas)
 		{
-			MethodInvoker mi = new MethodInvoker(() =>
-			{
-				StationController.RemoveOwner(userID, removeAllDatas);
-			});
+			BackgroundWorker removeAccountBgWorker = new BackgroundWorker();
+			removeAccountBgWorker.DoWork += new DoWorkEventHandler(removeAccountBgWorker_DoWork);
+			removeAccountBgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(removeAccountBgWorker_RunWorkerCompleted);
+			removeAccountBgWorker.RunWorkerAsync(new RemoveParam { user_id = userID, email = email, removeData = removeAllDatas });
 
-			AutoResetEvent autoEvent = new AutoResetEvent(false);
-			mi.BeginInvoke((result) =>
-			{
-				autoEvent.WaitOne();
-				SendSyncContext(() =>
-				{
-					try
-					{
-						mi.EndInvoke(result);
-					}
-					catch (AuthenticationException)
-					{
-						MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					}
-					catch (StationServiceDownException)
-					{
-						MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					}
-					catch (ConnectToCloudException)
-					{
-						MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					}
-					catch (Exception)
-					{
-						MessageBox.Show(Resources.UNKNOW_REMOVEACCOUNT_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					}
-					OnAccountRemoved(new AccountEventArgs(email));
-					RefreshAccountList();
-
-					m_ProcessingDialog = null;
-				});
-			}, null);
-
-			OnAccountRemoving(new AccountEventArgs(email));
 			m_ProcessingDialog.ProcessMessage = Resources.REMOVE_ACCOUNT_MESSAGE;
 			m_ProcessingDialog.ProgressStyle = ProgressBarStyle.Marquee;
 			m_ProcessingDialog.StartPosition = FormStartPosition.CenterParent;
 
-			autoEvent.Set();
+			startRemoveEvt.Set();
 			m_ProcessingDialog.ShowDialog(this);
 		}
+
+		void removeAccountBgWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			var param = e.Argument as RemoveParam;
+			e.Result = param;
+
+			
+			startRemoveEvt.WaitOne();
+			StationController.RemoveOwner(param.user_id, param.removeData);	
+		}
+
+		void removeAccountBgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Error != null)
+			{
+				if (e.Error is AuthenticationException)
+				{
+					MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				else if (e.Error is StationServiceDownException)
+				{
+					MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				else if (e.Error is ConnectToCloudException)
+				{
+					MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				else
+				{
+					MessageBox.Show(Resources.UNKNOW_REMOVEACCOUNT_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+			}
+
+			var param = e.Result as RemoveParam;
+			if (param != null && !string.IsNullOrEmpty(param.email))
+				OnAccountRemoved(new AccountEventArgs((e.Result as RemoveParam).email));
+
+
+			RefreshAccountList();
+			m_ProcessingDialog = null;
+		}
+
+		
 		#endregion
 
 
 		#region Protected Method
-		/// <summary>
-		/// Raises the <see cref="E:AccountRemoving"/> event.
-		/// </summary>
-		/// <param name="e">The <see cref="StationSystemTray.AccountEventArgs"/> instance containing the event data.</param>
-		protected void OnAccountRemoving(AccountEventArgs e)
-		{
-			if (AccountRemoving == null)
-				return;
-
-			AccountRemoving(this, e);
-		}
-
 		/// <summary>
 		/// Raises the <see cref="E:AccountRemoved"/> event.
 		/// </summary>

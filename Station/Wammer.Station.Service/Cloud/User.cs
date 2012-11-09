@@ -115,5 +115,18 @@ namespace Wammer.Cloud
 
 			return CloudServer.requestPath<FindMyStationResponse>("users/findMyStation", parameters);
 		}
+
+		public static void DisconnectWithSns(string session, string apikey, string sns)
+		{
+			var parameters = new Dictionary<object, object> 
+			{ 
+				{ CloudServer.PARAM_API_KEY, apikey }, 
+				{ CloudServer.PARAM_SESSION_TOKEN, session },
+				{ CloudServer.PARAM_SNS, sns },
+				{ CloudServer.PARAM_PURGE_ALL, "no"}
+			};
+
+			CloudServer.requestPath<CloudResponse>("users/SNSDisconnect", parameters);
+		}
 	}
 }

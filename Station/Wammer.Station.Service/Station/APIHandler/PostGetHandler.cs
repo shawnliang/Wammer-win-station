@@ -57,23 +57,23 @@ namespace Wammer.Station
 			if (limit < 0)
 			{
 				posts = PostCollection.Instance
-					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.LTE("timestamp", datum)))
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.EQ("import", false), Query.LTE("timestamp", datum)))
 					.SetLimit(Math.Abs(limit))
 					.SetSortOrder(SortBy.Descending("timestamp"));
 
 				totalCount = PostCollection.Instance
-					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.LTE("timestamp", datum)))
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.EQ("import", false), Query.LTE("timestamp", datum)))
 					.Count();
 			}
 			else
 			{
 				posts = PostCollection.Instance
-					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.GTE("timestamp", datum)))
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.EQ("import", false), Query.GTE("timestamp", datum)))
 					.SetLimit(Math.Abs(limit))
 					.SetSortOrder(SortBy.Ascending("timestamp"));
 
 				totalCount = PostCollection.Instance
-					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.GTE("timestamp", datum)))
+					.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.EQ("import", false), Query.GTE("timestamp", datum)))
 					.Count();
 			}
 

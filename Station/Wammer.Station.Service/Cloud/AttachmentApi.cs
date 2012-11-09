@@ -184,6 +184,18 @@ namespace Wammer.Cloud
 			return CloudServer.requestPath<AttachmentInfo>("attachments/get", parameters, false);
 		}
 
+		public static void UploadMetadata(string session_token, string apikey, string metadata)
+		{
+			var parameters = new Dictionary<object, object>
+			                 	{
+			                 		{CloudServer.PARAM_METADATA, metadata},
+			                 		{CloudServer.PARAM_SESSION_TOKEN, session_token},
+			                 		{CloudServer.PARAM_API_KEY, apikey}
+			                 	};
+
+			CloudServer.requestPath<CloudResponse>("attachments/upload_metadata", parameters, false);
+		}
+
 		public static ObjectUploadResponse Upload(Stream dataStream, string groupId,
 												  string objectId, string fileName, string contentType,
 												  ImageMeta meta, AttachmentType type, string apiKey,

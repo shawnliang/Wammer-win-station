@@ -53,7 +53,7 @@ namespace Waveface
 
         #region Group
 
-        public string CurrentGroupID { get; set; }
+		public string CurrentGroupID { get; set; }
 
         //public Dictionary<string, MR_groups_get> GroupGetReturnSets { get; set; }
 

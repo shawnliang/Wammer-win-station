@@ -82,6 +82,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Src\Env.cs" />
+    <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
     <Compile Include="Src\Extension\StreamExtension.cs" />
     <Compile Include="Src\MongoDbHelper.cs" />
     <Compile Include="Src\TaskbarHelper.cs" />

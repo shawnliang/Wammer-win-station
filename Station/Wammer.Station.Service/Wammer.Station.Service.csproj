@@ -129,11 +129,13 @@
     <Compile Include="Cloud\Response\ChangeLogResponse.cs" />
     <Compile Include="Enum\APIHandlerType.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
+    <Compile Include="Model\Collection\ConnectionCollection.cs" />
     <Compile Include="Model\GenericData.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="PerfMonitor\NullPerfCounter.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
     <Compile Include="Station\AbstractTaskEnDequeueNotifier.cs" />
+    <Compile Include="Station\APIHandler\ImportAPIHandler.cs" />
     <Compile Include="Station\APIHandler\PostFetchByFilterHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
@@ -146,10 +148,12 @@
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
     <Compile Include="Station\DebugInfo.cs" />
     <Compile Include="Station\DriverController.cs" />
+    <Compile Include="Station\ImportTask.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
+    <Compile Include="Station\Notify\ConnectionUpdator.cs" />
     <Compile Include="Station\Notify\PostUpsertNotifierDB.cs" />
     <Compile Include="Station\Notify\INotifyChannel.cs" />
     <Compile Include="Station\Notify\INotifyChannels.cs" />

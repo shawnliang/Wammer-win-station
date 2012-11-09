@@ -39,12 +39,43 @@ namespace Wammer.Station.Notify
 		public string message { get; set; }
 	}
 
+	#region station only web socket msgs
+	public class ImportMsg
+	{
+		public List<string> files { get; set; }
+		public string session_token { get; set; }
+		public string group_id { get; set; }
+		public string apikey { get; set; }
+	}
+
+	public class FileImportedMsg
+	{
+		public string file { get; set; }
+	}
+
+	public class ImportDoneMsg
+	{
+		public string Error { get; set; }
+	}
+	#endregion
+
+	
+
+
 	public class GenericCommand
 	{
 		public ErrorMsg error { get; set; }
 		public ConnectMsg connect { get; set; }
 		public SubscribeMSg subscribe { get; set; }
 		public NotifyMsg notify { get; set; }
+
+
+		#region Station only web socket msgs
+		public ImportMsg import { get; set; }
+		public FileImportedMsg file_imported { get; set; }
+		public ImportDoneMsg import_done { get; set; }
+		#endregion
+		
 	}
 
 	public enum ErrorCode
