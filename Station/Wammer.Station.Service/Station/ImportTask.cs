@@ -10,6 +10,7 @@ using Wammer.Model;
 using Wammer.Cloud;
 using Microsoft.Win32;
 using System.Collections.Specialized;
+using Newtonsoft.Json;
 
 namespace Wammer.Station
 {
@@ -136,13 +137,16 @@ namespace Wammer.Station
 						files.Add(path);
 					}
 				}
-				
-				foreach (var file in files)
+
+				// upload meta data first to accelerate event generation on cloud
+				var fileIds = uploadMetadata(files);
+
+				foreach (var fileId in fileIds)
 				{
-					if ((new FileInfo(file)).Length > 20 * 1024 * 1024)
+					if ((new FileInfo(fileId.file)).Length > 20 * 1024 * 1024)
 						continue;
 
-					var objectID = Guid.NewGuid().ToString();
+					var objectID = fileId.object_id;
 
 					objectIDs.Add(objectID);
 
@@ -158,21 +162,21 @@ namespace Wammer.Station
 					var uploadData = new UploadData()
 					{
 						object_id = objectID,
-						raw_data = new ArraySegment<byte>(File.ReadAllBytes(file)),
-						file_name = Path.GetFileName(file),
-						mime_type = GetMIMEType(file),
+						raw_data = new ArraySegment<byte>(File.ReadAllBytes(fileId.file)),
+						file_name = Path.GetFileName(fileId.file),
+						mime_type = GetMIMEType(fileId.file),
 						group_id = m_GroupID,
 						api_key = m_APIKey,
 						session_token = m_SessionToken,
 						post_id = postID,
-						file_path = file,
+						file_path = fileId.file,
 						import_time = importTime,
-						file_create_time = File.GetCreationTime(file),
+						file_create_time = File.GetCreationTime(fileId.file),
 						type = AttachmentType.image,
 						imageMeta = ImageMeta.Origin
 					};
 					imp.Process(uploadData);
-					raiseFileImportedEvent(file);
+					raiseFileImportedEvent(fileId.file);
 				}
 
 				var parameters = new NameValueCollection()
@@ -202,6 +206,64 @@ namespace Wammer.Station
 		#endregion
 
 		#region Private Method
+		private IEnumerable<FileId> uploadMetadata(List<string> files)
+		{
+			List<FileId> fileIds = new List<FileId>();
+			int batchSize = 50;
+			List<object> batch = new List<object>();
+			var timezoneDiff = (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes;
+			var exifExtractor = new ExifExtractor();
+
+			foreach (var file in files)
+			{
+				var id = Guid.NewGuid().ToString();
+				fileIds.Add(new FileId { file = file, object_id = id });
+
+				var meta = new
+				{
+					object_id = id,
+					type = "image",
+					file_path = file,
+					file_name = Path.GetFileName(file),
+					file_create_time = File.GetCreationTime(file).ToCloudTimeString(),
+					timezone = timezoneDiff,
+					exif = exifExtractor.extract(file)
+				};
+
+				batch.Add(meta);
+
+				if (batch.Count == batchSize)
+				{
+					uploadBatchMetadata(batch);
+					batch.Clear();
+				}
+			}
+
+			if (batch.Count > 0)
+				uploadBatchMetadata(batch);
+
+			return fileIds;
+		}
+
+		private void uploadBatchMetadata(List<object> batch)
+		{
+			try
+			{
+#if DEBUG
+				var formatting = Formatting.Indented;
+#else
+				var formatting = Formatting.None;
+#endif
+				var serializeSetting = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+				var batchMetadata = JsonConvert.SerializeObject(batch, formatting, serializeSetting);
+				AttachmentApi.UploadMetadata(m_SessionToken, m_APIKey, batchMetadata);
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("metadata upload failed", e);
+			}
+		}
+
 		private void raiseFileImportedEvent(string file)
 		{
 			var handler = FileImported;
@@ -232,5 +294,11 @@ namespace Wammer.Station
 	public class ImportDoneEventArgs : EventArgs
 	{
 		public Exception Error { get; set; }
+	}
+
+	class FileId
+	{
+		public string file { get; set; }
+		public string object_id { get; set; }
 	}
 }

@@ -18,18 +18,7 @@ namespace Wammer.Station.AttachmentUpload
 			{
 				using (var m = new MemoryStream(rawImage.Array, rawImage.Offset, rawImage.Count))
 				{
-					ExifFile exifFile = ExifFile.Read(m);
-
-					var exif = new exif();
-
-					foreach (ExifProperty item in exifFile.Properties.Values)
-					{
-						extractProperty(exif, item);
-					}
-
-					extractGPSInfo(exifFile, exif);
-					
-					return exif;
+					return extract(m);
 				}
 			}
 			catch (Exception e)
@@ -37,6 +26,39 @@ namespace Wammer.Station.AttachmentUpload
 				this.LogWarnMsg("Cannot extract exif information", e);
 				return null;
 			}
+		}
+
+		public exif extract(string file)
+		{
+			DebugInfo.ShowMethod();
+			try
+			{
+				using (var m = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+				{
+					return extract(m);
+				}
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Cannot extract exif information: " + file, e);
+				return null;
+			}
+		}
+
+		private exif extract(Stream m)
+		{
+			ExifFile exifFile = ExifFile.Read(m);
+
+			var exif = new exif();
+
+			foreach (ExifProperty item in exifFile.Properties.Values)
+			{
+				extractProperty(exif, item);
+			}
+
+			extractGPSInfo(exifFile, exif);
+
+			return exif;
 		}
 
 		private void extractGPSInfo(ExifFile exifFile, Model.exif exif)

@@ -53,6 +53,7 @@ namespace Wammer.Cloud
 		public const string PARAM_DATUM = "datum";
 		public const string PARAM_SNS = "sns";
 		public const string PARAM_PURGE_ALL = "purge_all";
+		public const string PARAM_METADATA = "metadata";
 		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
 		                                                    	{
 		                                                    		{"0ffd0a63-65ef-512b-94c7-ab3b33117363", "Station"},

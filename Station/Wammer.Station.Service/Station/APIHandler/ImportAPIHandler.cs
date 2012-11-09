@@ -20,8 +20,8 @@ namespace Wammer.Station
 			const string PATHS_KEY = "paths";
 			CheckParameter(PATHS_KEY, CloudServer.PARAM_GROUP_ID);
 
-			var apiKey = Parameters[CloudServer.APIKey];
-			var sessionToken = Parameters[CloudServer.SessionToken];
+			var apiKey = Parameters[CloudServer.PARAM_API_KEY];
+			var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
 			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			var paths = Parameters[PATHS_KEY];
 
