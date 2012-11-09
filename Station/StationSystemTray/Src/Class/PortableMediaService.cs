@@ -14,62 +14,10 @@ namespace StationSystemTray
 		public event EventHandler<FileImportEventArgs> FileImported;
 		public event EventHandler<ImportDoneEventArgs> ImportDone;
 
-		private volatile bool doneNotified;
-		private WebSocket socket;
+		private Wammer.Station.Management.ImportTranscation import;
 
 		public PortableMediaService()
 		{
-			socket = new WebSocket("ws://127.0.0.1:9983/");
-			socket.OnClose += new EventHandler<CloseEventArgs>(socket_OnClose);
-			socket.OnMessage += new EventHandler<WebSocketSharp.MessageEventArgs>(socket_OnMessage);
-			socket.OnError += new EventHandler<WebSocketSharp.ErrorEventArgs>(socket_OnError);
-		}
-
-		void socket_OnError(object sender, WebSocketSharp.ErrorEventArgs e)
-		{
-			raiseImportDoneEvent(e.Message);
-		}
-
-		void socket_OnMessage(object sender, WebSocketSharp.MessageEventArgs e)
-		{
-			var notify = fastJSON.JSON.Instance.ToObject<GenericCommand>(e.Data);
-
-			if (notify.file_imported != null)
-			{
-				raiseFileImportedEvent(notify.file_imported.file);
-			}
-
-			if (notify.import_done != null)
-			{
-				raiseImportDoneEvent(notify.import_done.Error);
-			}
-		}
-
-		void socket_OnClose(object sender, CloseEventArgs e)
-		{
-			raiseImportDoneEvent(null);
-		}
-
-		private void raiseFileImportedEvent(string file)
-		{
-			var handler = FileImported;
-			if (handler != null)
-				handler(this, new FileImportEventArgs { FilePath = file });
-		}
-
-		private void raiseImportDoneEvent(string error)
-		{
-			lock (socket)
-			{
-				if (doneNotified)
-					return;
-
-				var handler = ImportDone;
-				if (handler != null)
-					handler(this, new ImportDoneEventArgs { Error = error });
-
-				doneNotified = true;
-			}
 		}
 
 		public IEnumerable<PortableDevice> GetPortableDevices()
@@ -106,41 +54,25 @@ namespace StationSystemTray
 
 		public void ImportAsync(IEnumerable<string> files, string user_id, string session_token, string apikey)
 		{
-			if (socket.IsConnected)
-				socket.Close();
+			import = new Wammer.Station.Management.ImportTranscation(user_id, session_token, apikey, files);
+			import.FileImported += new EventHandler<Wammer.Station.Management.FileImportEventArgs>(import_FileImported);
+			import.TransactionFinished += new EventHandler<Wammer.Station.Management.TransactionFinishedEventArgs>(import_TransactionFinished);
 
-			socket.Connect();
+			import.ImportFileAsync();
+		}
 
-			doneNotified = false;
+		void import_TransactionFinished(object sender, Wammer.Station.Management.TransactionFinishedEventArgs e)
+		{
+			var handler = this.ImportDone;
+			if (handler != null)
+				handler(this, new ImportDoneEventArgs { Error = e.Error });
+		}
 
-			var connect = new GenericCommand
-			{
-				connect = new ConnectMsg
-				{
-					apikey = apikey,
-					session_token = session_token,
-					user_id = user_id
-				}
-			};
-
-			socket.Send(connect.ToFastJSON());
-
-
-			var session = Wammer.Model.LoginedSessionCollection.Instance.FindOneById(session_token);
-			var group_id = session.groups[0].group_id;
-
-			var import = new GenericCommand
-			{
-				import = new ImportMsg
-				{
-					files = files.ToList(),
-					apikey = StationAPI.API_KEY,
-					session_token = session_token,
-					group_id = group_id,
-				}
-			};
-
-			socket.Send(import.ToFastJSON());
+		void import_FileImported(object sender, Wammer.Station.Management.FileImportEventArgs e)
+		{
+			var handler = this.FileImported;
+			if (handler != null)
+				handler(this, new FileImportEventArgs { FilePath = e.FilePath });
 		}
 	}
 }
