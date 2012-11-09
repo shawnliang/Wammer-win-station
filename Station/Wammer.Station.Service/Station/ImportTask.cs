@@ -122,19 +122,19 @@ namespace Wammer.Station
 				var files = findInterestedFiles();
 				var metaList = extractMetadata(files);
 
-				int startIndex = 0;
+				int nProcessed = 0;
 				do
 				{
-					var batch = metaList.TakeWhile((meta, index) => { return index < startIndex + 30; });
+					var batch = metaList.Skip(nProcessed).Take(50);
 
 					uploadBatchMetadata(batch);
 
 					foreach(var meta in batch)
 						saveToStream(importTime, postID, meta);
 
-					startIndex += batch.Count();
+					nProcessed += batch.Count();
 
-				} while (startIndex < metaList.Count);
+				} while (nProcessed < metaList.Count);
 
 
 				var objectIDs = metaList.Select(x => x.object_id);
