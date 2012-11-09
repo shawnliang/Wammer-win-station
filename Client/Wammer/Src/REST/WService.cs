@@ -10,7 +10,7 @@ using NLog;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using Waveface.Libs.StationDB;
-
+using System.Linq;
 #endregion
 
 namespace Waveface.API.V2
@@ -35,7 +35,7 @@ namespace Waveface.API.V2
 			set { }
 		}
 #else
-        public static string StationIP { get; set; }
+		public static string StationIP { get; set; }
 #endif
 
 		public static string CloudIP
@@ -2000,6 +2000,20 @@ namespace Waveface.API.V2
 			}
 		}
 
+		public static void ImportFiles(string group_id, string session_token, IEnumerable<string> files)
+		{
+			session_token = HttpUtility.UrlEncode(session_token);
+			group_id = HttpUtility.UrlEncode(group_id);
+
+			var postData = "session_token=" + session_token +
+							"&apikey=" + APIKEY +
+							"&group_id=" + group_id +
+							"&paths=[" + string.Join(",", files.ToArray()) + "]";
+
+			var post = new WebPostHelper();
+			if (!post.doPost("http://127.0.0.1:9989/v2/station/Import", postData, null))
+				throw new WebException("import file not success");
+		}
 		#endregion
 
 		#region cloudstorage
