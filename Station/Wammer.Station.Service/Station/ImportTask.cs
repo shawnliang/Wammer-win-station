@@ -118,80 +118,28 @@ namespace Wammer.Station
 			{
 				var importTime = DateTime.Now;
 				var postID = Guid.NewGuid().ToString();
-				var objectIDs = new List<string>();
-				var import_time = DateTime.UtcNow;
-				var interestedExtensions = new HashSet<String>() { ".jpg", ".jpeg", ".png", ".bmp" };
 
-				var files = new List<string>();
+				var files = findInterestedFiles();
+				var metaList = extractMetadata(files);
 
-				foreach (var path in m_Paths)
+				int startIndex = 0;
+				do
 				{
-					if (Directory.Exists(path))
-					{
-						var filesInDir = (new DirectoryInfo(path)).EnumerateFiles("*.*");
-						var interestedFiles = filesInDir.Where((file) => interestedExtensions.Contains(Path.GetExtension(file).ToLower()));
-						files.AddRange(interestedFiles.ToArray());
-					}
-					else if (File.Exists(path) && interestedExtensions.Contains(Path.GetExtension(path).ToLower()))
-					{
-						files.Add(path);
-					}
-				}
+					var batch = metaList.TakeWhile((meta, index) => { return index < startIndex + 50; });
 
-				// upload meta data first to accelerate event generation on cloud
-				var fileIds = uploadMetadata(files);
+					uploadBatchMetadata(batch);
 
-				foreach (var fileId in fileIds)
-				{
-					if ((new FileInfo(fileId.file)).Length > 20 * 1024 * 1024)
-						continue;
+					foreach(var meta in batch)
+						saveToStream(importTime, postID, meta);
 
-					var objectID = fileId.object_id;
+					startIndex += batch.Count();
 
-					objectIDs.Add(objectID);
-
-					var imp = new AttachmentUploadHandlerImp(
-						new AttachmentUploadHandlerDB(),
-						new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
-
-					var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
-
-					imp.AttachmentProcessed += postProcess.OnProcessed;
+				} while (startIndex < metaList.Count);
 
 
-					var uploadData = new UploadData()
-					{
-						object_id = objectID,
-						raw_data = new ArraySegment<byte>(File.ReadAllBytes(fileId.file)),
-						file_name = Path.GetFileName(fileId.file),
-						mime_type = GetMIMEType(fileId.file),
-						group_id = m_GroupID,
-						api_key = m_APIKey,
-						session_token = m_SessionToken,
-						post_id = postID,
-						file_path = fileId.file,
-						import_time = importTime,
-						file_create_time = File.GetCreationTime(fileId.file),
-						type = AttachmentType.image,
-						imageMeta = ImageMeta.Origin
-					};
-					imp.Process(uploadData);
-					raiseFileImportedEvent(fileId.file);
-				}
+				var objectIDs = metaList.Select(x => x.object_id);
 
-				var parameters = new NameValueCollection()
-				{
-					{CloudServer.PARAM_SESSION_TOKEN, m_SessionToken},
-					{CloudServer.PARAM_API_KEY, m_APIKey},
-					{CloudServer.PARAM_POST_ID, postID},
-					{CloudServer.PARAM_TIMESTAMP, importTime.ToCloudTimeString()},
-					{CloudServer.PARAM_GROUP_ID, m_GroupID},
-					{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, string.Format("[{0}]",string.Join(",",objectIDs.ToArray()))},
-					{CloudServer.PARAM_CONTENT, string.Format("Import {0} files", objectIDs.Count)},
-					{CloudServer.PARAM_COVER_ATTACH, objectIDs.FirstOrDefault()},
-					{CloudServer.PARAM_IMPORT, "true"},
-				};
-				PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
+				createPostContainer(importTime, postID, objectIDs);
 			}
 			catch (Exception e)
 			{
@@ -202,50 +150,111 @@ namespace Wammer.Station
 			{
 				raiseImportDoneEvent(error);
 			}
-		} 
+		}
 		#endregion
 
 		#region Private Method
-		private IEnumerable<FileId> uploadMetadata(List<string> files)
+		private void createPostContainer(DateTime importTime, string postID, IEnumerable<string> objectIDs)
 		{
-			List<FileId> fileIds = new List<FileId>();
-			int batchSize = 50;
-			List<object> batch = new List<object>();
+			var parameters = new NameValueCollection()
+				{
+					{CloudServer.PARAM_SESSION_TOKEN, m_SessionToken},
+					{CloudServer.PARAM_API_KEY, m_APIKey},
+					{CloudServer.PARAM_POST_ID, postID},
+					{CloudServer.PARAM_TIMESTAMP, importTime.ToCloudTimeString()},
+					{CloudServer.PARAM_GROUP_ID, m_GroupID},
+					{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, string.Format("[{0}]",string.Join(",", objectIDs.Select((x)=> "\""+x+"\"").ToArray()))},
+					{CloudServer.PARAM_CONTENT, string.Format("Import {0} files", objectIDs.Count())},
+					{CloudServer.PARAM_COVER_ATTACH, objectIDs.FirstOrDefault()},
+					{CloudServer.PARAM_IMPORT, "true"},
+				};
+			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
+		}
+
+		private List<string> findInterestedFiles()
+		{
+			var interestedExtensions = new HashSet<String>() { ".jpg", ".jpeg", ".png", ".bmp" };
+
+			var files = new List<string>();
+
+			foreach (var path in m_Paths)
+			{
+				if (Directory.Exists(path))
+				{
+					var filesInDir = (new DirectoryInfo(path)).EnumerateFiles("*.*");
+					var interestedFiles = filesInDir.Where((file) => interestedExtensions.Contains(Path.GetExtension(file).ToLower()));
+					files.AddRange(interestedFiles.ToArray());
+				}
+				else if (File.Exists(path) && interestedExtensions.Contains(Path.GetExtension(path).ToLower()))
+				{
+					files.Add(path);
+				}
+			}
+
+			return files.Where((x) => new FileInfo(x).Length < 20 * 1024 * 1024).ToList();
+		}
+
+		private void saveToStream(DateTime importTime, string postID, FileMetadata file_meta)
+		{
+			var imp = new AttachmentUploadHandlerImp(
+				new AttachmentUploadHandlerDB(),
+				new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
+
+			var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
+
+			imp.AttachmentProcessed += postProcess.OnProcessed;
+
+
+			var uploadData = new UploadData()
+			{
+				object_id = file_meta.object_id,
+				raw_data = new ArraySegment<byte>(File.ReadAllBytes(file_meta.file_path)),
+				file_name = Path.GetFileName(file_meta.file_path),
+				mime_type = GetMIMEType(file_meta.file_path),
+				group_id = m_GroupID,
+				api_key = m_APIKey,
+				session_token = m_SessionToken,
+				post_id = postID,
+				file_path = file_meta.file_path,
+				import_time = importTime,
+				file_create_time = file_meta.file_create_time,
+				type = AttachmentType.image,
+				imageMeta = ImageMeta.Origin
+			};
+			imp.Process(uploadData);
+			raiseFileImportedEvent(file_meta.file_path);
+		} 
+
+		private List<FileMetadata> extractMetadata(List<string> files)
+		{
+			var metaList = new List<FileMetadata>();
 			var timezoneDiff = (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes;
 			var exifExtractor = new ExifExtractor();
 
 			foreach (var file in files)
 			{
 				var id = Guid.NewGuid().ToString();
-				fileIds.Add(new FileId { file = file, object_id = id });
 
-				var meta = new
+				var meta = new FileMetadata
 				{
 					object_id = id,
 					type = "image",
 					file_path = file,
 					file_name = Path.GetFileName(file),
-					file_create_time = File.GetCreationTime(file).ToCloudTimeString(),
+					file_create_time = File.GetCreationTime(file),
 					timezone = timezoneDiff,
 					exif = exifExtractor.extract(file)
 				};
 
-				batch.Add(meta);
-
-				if (batch.Count == batchSize)
-				{
-					uploadBatchMetadata(batch);
-					batch.Clear();
-				}
+				metaList.Add(meta);
 			}
 
-			if (batch.Count > 0)
-				uploadBatchMetadata(batch);
+			metaList.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
 
-			return fileIds;
+			return metaList;
 		}
 
-		private void uploadBatchMetadata(List<object> batch)
+		private void uploadBatchMetadata(IEnumerable<FileMetadata> batch)
 		{
 			try
 			{
@@ -296,9 +305,23 @@ namespace Wammer.Station
 		public Exception Error { get; set; }
 	}
 
-	class FileId
+	class FileMetadata
 	{
-		public string file { get; set; }
 		public string object_id { get; set; }
+		public string type { get; set; }
+		public string file_path { get; set; }
+		public string file_name { get; set; }
+		public DateTime file_create_time { get; set; }
+		public int timezone { get; set; }
+		public exif exif { get; set; }
+
+		public DateTime EventTime
+		{
+			get 
+			{
+				return (exif != null && exif.DateTimeOriginal != null) ? 
+					TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal) : file_create_time;
+			}
+		}
 	}
 }
