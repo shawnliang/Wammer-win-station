@@ -125,7 +125,7 @@ namespace Wammer.Station
 				int startIndex = 0;
 				do
 				{
-					var batch = metaList.TakeWhile((meta, index) => { return index < startIndex + 50; });
+					var batch = metaList.TakeWhile((meta, index) => { return index < startIndex + 30; });
 
 					uploadBatchMetadata(batch);
 

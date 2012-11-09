@@ -31,6 +31,13 @@ namespace Wammer.Station.AttachmentUpload
 		public exif extract(string file)
 		{
 			DebugInfo.ShowMethod();
+
+			var extension = Path.GetExtension(file);
+
+			if (!extension.Equals(".jpg", StringComparison.InvariantCultureIgnoreCase) && 
+				!extension.Equals(".jpeg", StringComparison.InvariantCultureIgnoreCase))
+				return null;
+
 			try
 			{
 				using (var m = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
