@@ -50,7 +50,7 @@ namespace Wammer.Station
 			}
 
 			MongoCursor<PostInfo> posts = PostCollection.Instance
-				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false")))
+				.Find(Query.And(Query.EQ("group_id", groupId), Query.EQ("hidden", "false"), Query.EQ("import", false)))
 				.SetLimit(limit)
 				.SetSortOrder(SortBy.Descending("timestamp"));
 

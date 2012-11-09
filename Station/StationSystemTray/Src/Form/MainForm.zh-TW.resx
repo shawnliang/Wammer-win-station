@@ -9582,6 +9582,9 @@
   <data name="loginButton1.Text" xml:space="preserve">
     <value>登入</value>
   </data>
+  <data name="menuItemContactUs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
   <data name="menuItemContactUs.Text" xml:space="preserve">
     <value>聯絡我們</value>
   </data>
@@ -9596,12 +9599,6 @@
   </data>
   <data name="menuServiceAction.Text" xml:space="preserve">
     <value>暫停服務</value>
-  </data>
-  <data name="menuSignIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="menuSignIn.Text" xml:space="preserve">
-    <value>登入</value>
   </data>
   <data name="pictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -9751,6 +9748,15 @@
   </data>
   <data name="settingToolStripMenuItem.Text" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="tabNewOrOldUser.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabNewOrOldUser.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 451</value>
+  </data>
+  <data name="tabNewOrOldUser.Text" xml:space="preserve">
+    <value>tabPage1</value>
   </data>
   <data name="tbxEMail.CueText" xml:space="preserve">
     <value>電子郵件</value>

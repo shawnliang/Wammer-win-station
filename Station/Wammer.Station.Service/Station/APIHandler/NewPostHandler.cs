@@ -107,7 +107,7 @@ namespace Wammer.Station
 							type = type,
 							cover_attach = cover_attach,
 							favorite = "1".Equals(favorite) ? 1 : 0,
-							isImported = isImported == "true"
+							import = isImported == "true"
 						};
 
 			PostCollection.Instance.Save(post);

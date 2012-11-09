@@ -43,14 +43,29 @@
     <Reference Include="AppLimit.NetSparkle">
       <HintPath>..\3rd_party\NetSparkle-1.0.83\AppLimit.NetSparkle.dll</HintPath>
     </Reference>
+    <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\3rd_party\fastJSON\fastJSON.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\..\packages\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\packages\Windows7APICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Client\Libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,12 +75,113 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="websocket-sharp, Version=1.0.2.27418, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <HintPath>..\3rd_party\websocket-sharp\websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Src\Class\ApplicationSetting.cs" />
+    <Compile Include="Src\Control\CentralLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Class\EventArgs\FileImportEventArgs.cs" />
+    <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
+    <Compile Include="Src\Class\PortableDevice.cs" />
+    <Compile Include="Src\Class\PortableMediaService.cs" />
+    <Compile Include="Src\Class\PersonalCloudNode.cs" />
+    <Compile Include="Src\Class\StreamLogin.cs" />
+    <Compile Include="Src\Class\StreamSignup.cs" />
+    <Compile Include="Src\Class\UserSession.cs" />
+    <Compile Include="Src\Class\WizardParameters.cs" />
+    <Compile Include="Src\Control\ChoosePlanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ChoosePlanControl.Designer.cs">
+      <DependentUpon>ChoosePlanControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ImportFolderAndMediaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ImportFolderAndMediaControl.Designer.cs">
+      <DependentUpon>ImportFolderAndMediaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ImportFromPotableMediaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ImportFromPotableMediaControl.Designer.cs">
+      <DependentUpon>ImportFromPotableMediaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\PersonalCloudStatusControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\PersonalCloudStatusControl.Designer.cs">
+      <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\StepPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\PhotoSearch.cs" />
+    <Compile Include="Src\Class\StationAPI.cs" />
+    <Compile Include="Src\Class\FacebookConnectableService.cs" />
+    <Compile Include="Src\Control\IntroControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\IntroControl.Designer.cs">
+      <DependentUpon>IntroControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\LoginControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\LoginControl.Designer.cs">
+      <DependentUpon>LoginControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ServiceImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceImportControl.Designer.cs">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ServiceItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceItemControl.Designer.cs">
+      <DependentUpon>ServiceItemControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\SignUpControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\SignUpControl.Designer.cs">
+      <DependentUpon>SignUpControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\AddDeviceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\AddDeviceDialog.Designer.cs">
+      <DependentUpon>AddDeviceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\NewUserWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\NewUserWizardDialog.Designer.cs">
+      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\OldUserWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Class\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\ApplicationSettings.cs" />
+    <Compile Include="Src\Class\MFTScanner.cs" />
+    <Compile Include="Src\Class\RecentlyFileHelper.cs" />
+    <Compile Include="Src\Class\InstallAppMonitor.cs" />
+    <Compile Include="Src\Control\BuildPersonalCloudUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\BuildPersonalCloudUserControl.Designer.cs">
+      <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -78,6 +194,12 @@
     <Compile Include="Src\Control\GroupBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Src\Control\FileImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\FileImportControl.Designer.cs">
+      <DependentUpon>FileImportControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\LoginButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -88,11 +210,26 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Class\CustomWindow.cs" />
+    <Compile Include="Src\Control\WizardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Src\Dialog\ContactUsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Src\Dialog\ContactUsDialog.Designer.cs">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\InstallAppDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\InstallAppDialog.Designer.cs">
+      <DependentUpon>InstallAppDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\StepByStepWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\StepByStepWizardDialog.Designer.cs">
+      <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\ProcessingDialog.cs">
       <SubType>Form</SubType>
@@ -118,6 +255,14 @@
     <Compile Include="Src\Form\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Interface\IConnectableService.cs" />
+    <Compile Include="Src\Interface\IPersonalCloudStatus.cs" />
+    <Compile Include="Src\Interface\IPortableMediaService.cs" />
+    <Compile Include="Src\Interface\IStreamLoginable.cs" />
+    <Compile Include="Src\Interface\IStreamSignUp.cs" />
+    <Compile Include="Src\Control\PhotoGalleryViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\Dialog\CleanResourceDialog.cs">
@@ -130,14 +275,75 @@
     <Compile Include="Src\Class\SimpleUIController.cs" />
     <Compile Include="Src\Class\StateMachine.cs" />
     <Compile Include="Src\Class\Win32Helper.cs" />
+    <Compile Include="Src\Control\StepNavigator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\StepNavigator.designer.cs">
+      <DependentUpon>StepNavigator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\TutorialNavigator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\TutorialNavigator.designer.cs">
+      <DependentUpon>TutorialNavigator.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Src\Control\BuildPersonalCloudUserControl.resx">
+      <DependentUpon>BuildPersonalCloudUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ChoosePlanControl.resx">
+      <DependentUpon>ChoosePlanControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
       <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\FileImportControl.resx">
+      <DependentUpon>FileImportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ImportFolderAndMediaControl.resx">
+      <DependentUpon>ImportFolderAndMediaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ImportFromPotableMediaControl.resx">
+      <DependentUpon>ImportFromPotableMediaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\IntroControl.resx">
+      <DependentUpon>IntroControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\LoginControl.resx">
+      <DependentUpon>LoginControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\PersonalCloudStatusControl.resx">
+      <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceItemControl.resx">
+      <DependentUpon>ServiceItemControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\SignUpControl.resx">
+      <DependentUpon>SignUpControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AddDeviceDialog.resx">
+      <DependentUpon>AddDeviceDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\InstallAppDialog.resx">
+      <DependentUpon>InstallAppDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\NewUserWizardDialog.resx">
+      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\OldUserWizardDialog.resx">
+      <DependentUpon>OldUserWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\StepByStepWizardDialog.resx">
+      <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
@@ -187,9 +393,17 @@
     <EmbeddedResource Include="Properties\Resources.zh-TW.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\StepNavigator.resx">
+      <DependentUpon>StepNavigator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\TutorialNavigator.resx">
+      <DependentUpon>TutorialNavigator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -215,6 +429,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\cloud-connected-devices.png" />
+    <None Include="Resources\addDeviceInstruction.rtf" />
+    <None Include="Resources\button.googleplay.png" />
+    <None Include="Resources\button.appstore.png" />
+    <None Include="Resources\stream_googleplay_qr.png" />
+    <None Include="Resources\stream_appstore_qr.png" />
+    <None Include="Resources\f_logo.png" />
+    <None Include="Resources\P3.png" />
+    <None Include="Resources\P2.png" />
+    <None Include="Resources\P1.png" />
+    <None Include="Resources\usbflashcardwithcardreader2.png" />
+    <None Include="Resources\normal_folder.png" />
+    <None Include="Resources\qr_waveface_site.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />

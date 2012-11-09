@@ -39,9 +39,9 @@ namespace StationSystemTray
 		static extern IntPtr CreateWindowExW(
 		   UInt32 dwExStyle,
 		   [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPWStr)]
-       string lpClassName,
+	   string lpClassName,
 		   [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPWStr)]
-       string lpWindowName,
+	   string lpWindowName,
 		   UInt32 dwStyle,
 		   Int32 x,
 		   Int32 y,

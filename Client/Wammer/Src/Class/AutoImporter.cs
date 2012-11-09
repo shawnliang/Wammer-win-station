@@ -67,8 +67,7 @@ namespace Waveface
 			var postID = string.Empty;
 			var processedPaths = new HashSet<string>();
 
-			var uploadItems = new List<UploadItem>();
-			DateTime import_time = DateTime.UtcNow;
+			var filesToImport = new List<string>();
 
 			foreach (var content in importContents)
 			{
@@ -89,78 +88,17 @@ namespace Waveface
 					if (frame == null || frame.Height < 256 || frame.Width < 256)
 						continue;
 
-					var objectID = Guid.NewGuid().ToString();
-
-					if (processPath != contentPath)
-					{
-						if (processPath.Length > 0 && uploadItems.Count > 0)
-						{
-							CreatePost(postID, uploadItems, processPath, importDate);
-							processedPaths.Add(processPath);
-						}
-
-						processPath = contentPath;
-						postID = Guid.NewGuid().ToString();
-					}
-
-					var uploadItem = new UploadItem()
-					{
-						file_path = content.FilePath,
-						object_id = objectID,
-						post_id = postID,
-						import_time = import_time
-					};
-
-					Main.Current.Uploader.Add(uploadItem);
-					uploadItems.Add(uploadItem);
+					filesToImport.Add(content.FilePath);
 				}
 				catch (Exception)
 				{
 				}
 			}
 
-			if (processPath.Length > 0 && uploadItems.Count > 0)
-				CreatePost(postID, uploadItems, processPath, importDate);
-
-			//Main.Current.Uploader.Add(pendingUploadItems);
+			WService.ImportFiles(Main.Current.RT.Login.groups[0].group_id, Main.Current.RT.REST.SessionToken, filesToImport);
 		}
 
-		/// <summary>
-		/// Creates the post.
-		/// </summary>
-		/// <param name="postID">The post ID.</param>
-		/// <param name="uploadItems">The upload items.</param>
-		/// <param name="contentPath">The content path.</param>
-		private static void CreatePost(string postID, List<UploadItem> uploadItems, string contentPath, string memo = null)
-		{
-			var objectIDs = uploadItems.Select(item => item.object_id).ToArray();
-			var post = Main.Current.RT.REST.Posts_New(
-				postID,
-				StringUtility.RichTextBox_ReplaceNewline(StringUtility.LimitByteLength(contentPath.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault(), 80000)),
-				"[" + string.Join(",", objectIDs.Select(id => "\"" + id + "\"").ToArray()) + "]",
-				"",
-				"image",
-				objectIDs.FirstOrDefault(),
-				true,
-				memo);
-
-
-			var sources = new Dictionary<string, string>();
-			foreach (var item in uploadItems)
-			{
-				sources.Add(item.object_id,
-					item.file_path);
-			}
-
-
-			Main.Current.ReloadAllData(
-				new PhotoPostInfo
-				{
-					post_id = postID,
-					sources = sources
-				});
-			uploadItems.Clear();
-		}
+		
 		#endregion
 
 

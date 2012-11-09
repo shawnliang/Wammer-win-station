@@ -51,6 +51,9 @@ namespace Wammer.Cloud
 		public const string PARAM_COUNT = "count";
 		public const string PARAM_TARGET = "target";
 		public const string PARAM_DATUM = "datum";
+		public const string PARAM_SNS = "sns";
+		public const string PARAM_PURGE_ALL = "purge_all";
+		public const string PARAM_METADATA = "metadata";
 		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
 		                                                    	{
 		                                                    		{"0ffd0a63-65ef-512b-94c7-ab3b33117363", "Station"},
@@ -79,6 +82,19 @@ namespace Wammer.Cloud
 		{
 			get { return baseUrl ?? (baseUrl = (string) StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL)); }
 			set { baseUrl = value; }
+		}
+
+		public static CloudType Type
+		{
+			get 
+			{
+				if (BaseUrl.Contains("develop.waveface.com"))
+					return CloudType.Development;
+				else if (BaseUrl.Contains("staging.waveface.com"))
+					return CloudType.Staging;
+				else
+					return CloudType.Production;
+			}
 		}
 
 		/// <summary>
@@ -512,5 +528,13 @@ namespace Wammer.Cloud
 			}
 			return false;
 		}
+	}
+
+
+	public enum CloudType
+	{
+		Production,
+		Staging,
+		Development
 	}
 }

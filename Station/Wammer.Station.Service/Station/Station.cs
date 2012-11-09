@@ -47,6 +47,7 @@ namespace Wammer.Station
 
 		private Notify.WebSocketNotifyChannels wsChannelServer = new Notify.WebSocketNotifyChannels(9983);
 		private Notify.PostUpsertNotifier postUpsertNotifier;
+		private Notify.ConnectionUpdator connectionUpdator = new Wammer.Station.Notify.ConnectionUpdator();
 		#endregion
 
 
@@ -179,6 +180,9 @@ namespace Wammer.Station
 			NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 			SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
+
+			
+
 			postUpsertNotifier = new Notify.PostUpsertNotifier(wsChannelServer, new Notify.PostUpsertNotifierDB());
 
 			wsChannelServer.ChannelAdded += (s, e) =>
@@ -200,6 +204,10 @@ namespace Wammer.Station
 					this.LogWarnMsg("Unable to notify device to check changelogs after connection is established. User: " + e.Channel.UserId, ex);
 				}
 			};
+
+			wsChannelServer.ChannelAdded += connectionUpdator.OnClientConnected;
+			wsChannelServer.ChannelRemoved += connectionUpdator.OnClientDisconnected;
+
 			wsChannelServer.Start();
 			m_PostUploadRunner.PostUpserted += postUpsertNotifier.OnPostUpserted;
 		}

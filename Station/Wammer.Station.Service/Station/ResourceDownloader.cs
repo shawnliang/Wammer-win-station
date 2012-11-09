@@ -53,7 +53,11 @@ namespace Wammer.Station
 			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
 				tmpFolder = new FileStorage(driver).basePath;
 			else
+			{
 				tmpFolder = Path.Combine("cache", driver.user_id);
+				if (!Directory.Exists(tmpFolder))
+					Directory.CreateDirectory(tmpFolder);
+			}
 
 			var evtargs = new ResourceDownloadEventArgs
 							{
