@@ -143,6 +143,7 @@
     <Compile Include="Station\AttachmentUpload\ExifExtractor.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
+    <Compile Include="Station\AttachmentUpload\UploadMetadataTask.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerDB.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerImp.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />

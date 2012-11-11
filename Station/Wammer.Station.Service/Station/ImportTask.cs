@@ -122,23 +122,14 @@ namespace Wammer.Station
 				var files = findInterestedFiles();
 				var metaList = extractMetadata(files);
 
-				int nProcessed = 0;
-				do
+				batchUploadMetadataAsync(metaList);
+
+				foreach (var meta in metaList)
 				{
-					var batch = metaList.Skip(nProcessed).Take(50);
-
-					uploadBatchMetadata(batch);
-
-					foreach(var meta in batch)
-						saveToStream(importTime, postID, meta);
-
-					nProcessed += batch.Count();
-
-				} while (nProcessed < metaList.Count);
-
+					saveToStream(importTime, postID, meta);
+				}
 
 				var objectIDs = metaList.Select(x => x.object_id);
-
 				createPostContainer(importTime, postID, objectIDs);
 			}
 			catch (Exception e)
@@ -253,19 +244,30 @@ namespace Wammer.Station
 
 			return metaList;
 		}
+		
+		private void batchUploadMetadataAsync(List<FileMetadata> metaList)
+		{
+			int nProcessed = 0;
+			do
+			{
+				var batch = metaList.Skip(nProcessed).Take(50);
 
-		private void uploadBatchMetadata(IEnumerable<FileMetadata> batch)
+				enqueueUploadMetadataTask(batch);
+
+				nProcessed += batch.Count();
+
+			} while (nProcessed < metaList.Count);
+		}
+
+		private void enqueueUploadMetadataTask(IEnumerable<FileMetadata> batch)
 		{
 			try
 			{
-#if DEBUG
-				var formatting = Formatting.Indented;
-#else
-				var formatting = Formatting.None;
-#endif
 				var serializeSetting = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-				var batchMetadata = JsonConvert.SerializeObject(batch, formatting, serializeSetting);
-				AttachmentApi.UploadMetadata(m_SessionToken, m_APIKey, batchMetadata);
+				var batchMetadata = JsonConvert.SerializeObject(batch, Formatting.None, serializeSetting);
+
+				var task = new UploadMetadataTask(m_GroupID, batchMetadata);
+				AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 			}
 			catch (Exception e)
 			{
