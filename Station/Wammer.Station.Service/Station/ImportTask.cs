@@ -22,6 +22,7 @@ namespace Wammer.Station
 		#endregion
 
 		#region Events
+		public event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
 		public event EventHandler<FileImportedEventArgs> FileImported;
 		public event EventHandler<ImportDoneEventArgs> ImportDone;
 		#endregion
@@ -266,7 +267,8 @@ namespace Wammer.Station
 				var serializeSetting = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
 				var batchMetadata = JsonConvert.SerializeObject(batch, Formatting.None, serializeSetting);
 
-				var task = new UploadMetadataTask(m_GroupID, batchMetadata);
+				var task = new UploadMetadataTask(m_GroupID, batchMetadata, batchMetadata.Count());
+				task.Uploaded += new EventHandler<MetadataUploadEventArgs>(metadataUploaded);
 				AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 			}
 			catch (Exception e)
@@ -274,6 +276,14 @@ namespace Wammer.Station
 				this.LogWarnMsg("metadata upload failed", e);
 			}
 		}
+
+		void metadataUploaded(object sender, MetadataUploadEventArgs e)
+		{
+			var handler = MetadataUploaded;
+			if (handler != null)
+				handler(sender, e);
+		}
+
 
 		private void raiseFileImportedEvent(string file)
 		{

@@ -21,7 +21,10 @@ namespace Wammer.Station.Management
 
 		public event EventHandler<FileImportEventArgs> FileImported;
 		public event EventHandler<TransactionFinishedEventArgs> TransactionFinished;
-		
+
+		public event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
+		public event EventHandler<Wammer.Station.FileImportedEventArgs> FileImported2;
+		public event EventHandler<Wammer.Station.MetadataUploadEventArgs> MetadataUploaded;
 
 		public ImportTranscation(string user_id, string session_token, string apikey, IEnumerable<string> paths)
 		{
@@ -54,11 +57,30 @@ namespace Wammer.Station.Management
 			{
 				raiseTransactionFinished(notify.import_done.Error);
 			}
+
+			if (notify.metadata_uploaded != null)
+			{
+				raiseMetadataUploadedEvent(notify.metadata_uploaded.count);
+			}
 		}
 
 		void socket_OnClose(object sender, CloseEventArgs e)
 		{
 			raiseTransactionFinished(null);
+		}
+
+
+		private void raiseMetadataUploadedEvent(int count)
+		{
+			try
+			{
+				var handler = MetadataUploaded;
+				if (handler != null)
+					handler(this, new MetadataUploadEventArgs(count));
+			}
+			catch
+			{
+			}
 		}
 
 		private void raiseFileImportedEvent(string file)
@@ -68,6 +90,10 @@ namespace Wammer.Station.Management
 				var handler = FileImported;
 				if (handler != null)
 					handler(this, new FileImportEventArgs { FilePath = file });
+
+				var handler2 = FileImported2;
+				if (handler2 != null)
+					handler2(this, new FileImportedEventArgs(file));
 			}
 			catch
 			{
@@ -86,6 +112,11 @@ namespace Wammer.Station.Management
 					var handler = TransactionFinished;
 					if (handler != null)
 						handler(this, new TransactionFinishedEventArgs { Error = error });
+
+
+					var handler2 = ImportDone;
+					if (handler2 != null)
+						handler2(this, new ImportDoneEventArgs { Error = new Exception(error) });
 
 					doneNotified = true;
 				}

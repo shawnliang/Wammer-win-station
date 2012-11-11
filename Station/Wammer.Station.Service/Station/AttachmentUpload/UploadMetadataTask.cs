@@ -8,16 +8,21 @@ using Wammer.Cloud;
 namespace Wammer.Station.AttachmentUpload
 {
 	[Serializable]
-	class UploadMetadataTask : DelayedRetryTask
+	public class UploadMetadataTask : DelayedRetryTask
 	{
-		private string group_id;
-		private string metadata;
+		public string group_id { get; set; }
+		public string metadata { get; set; }
+		public int metaCount { get; set; }
 
-		public UploadMetadataTask(string group_id, string metadata)
+		[field:NonSerialized]
+		public event EventHandler<MetadataUploadEventArgs> Uploaded;
+
+		public UploadMetadataTask(string group_id, string metadata, int metaCount)
 			:base(TaskPriority.High)
 		{
 			this.group_id = group_id;
 			this.metadata = metadata;
+			this.metaCount = metaCount;
 		}
 
 		protected override void Run()
@@ -31,6 +36,15 @@ namespace Wammer.Station.AttachmentUpload
 				throw new Exception("Retry later because user session expired: " + user.email);
 
 			AttachmentApi.UploadMetadata(user.session_token, CloudServer.APIKey, metadata);
+
+			OnUploaded();
+		}
+
+		private void OnUploaded()
+		{
+			var handler = Uploaded;
+			if (handler != null)
+				handler(this, new MetadataUploadEventArgs(metaCount));
 		}
 
 		public override void ScheduleToRun()

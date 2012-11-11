@@ -48,6 +48,11 @@ namespace Wammer.Station.Notify
 		public string apikey { get; set; }
 	}
 
+	public class MetadataUploadedMsg
+	{
+		public int count { get; set; }
+	}
+
 	public class FileImportedMsg
 	{
 		public string file { get; set; }
@@ -74,6 +79,7 @@ namespace Wammer.Station.Notify
 		public ImportMsg import { get; set; }
 		public FileImportedMsg file_imported { get; set; }
 		public ImportDoneMsg import_done { get; set; }
+		public MetadataUploadedMsg metadata_uploaded { get; set; }
 		#endregion
 		
 	}

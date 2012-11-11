@@ -161,6 +161,12 @@
     <Compile Include="Src\Dialog\AddDeviceDialog.Designer.cs">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Dialog\HidableProgressingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\HidableProgressingDialog.Designer.cs">
+      <DependentUpon>HidableProgressingDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Dialog\NewUserWizardDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -332,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\HidableProgressingDialog.resx">
+      <DependentUpon>HidableProgressingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\InstallAppDialog.resx">
       <DependentUpon>InstallAppDialog.cs</DependentUpon>

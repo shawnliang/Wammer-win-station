@@ -14,6 +14,24 @@ namespace UT_WammerStation
 	public class TestSerializable
 	{
 		[TestMethod]
+		public void UploadMetadataTaskIsSerializable()
+		{
+			BinaryFormatter f = new BinaryFormatter();
+
+			var t = new UploadMetadataTask("a", "b", 1);
+
+			MemoryStream m = new MemoryStream();
+			f.Serialize(m, t);
+
+			m.Position = 0;
+			UploadMetadataTask deserializedTask = f.Deserialize(m) as UploadMetadataTask;
+
+			Assert.AreEqual(t.group_id, deserializedTask.group_id);
+			Assert.AreEqual(t.metadata, deserializedTask.metadata);
+			Assert.AreEqual(t.metaCount, deserializedTask.metaCount);
+		}
+
+		[TestMethod]
 		public void UpstreamTaskIsSerialiable()
 		{
 			BinaryFormatter f = new BinaryFormatter();

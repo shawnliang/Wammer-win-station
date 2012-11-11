@@ -58,7 +58,6 @@ namespace Wammer.Station.Notify
 						}
 						catch (Exception ex)
 						{
-
 						}
 					};
 
@@ -77,7 +76,24 @@ namespace Wammer.Station.Notify
 						}
 						catch (Exception ex)
 						{
+						}
+					};
 
+					task.MetadataUploaded += (s, args) => {
+						try
+						{
+							var notify = new GenericCommand
+							{
+								metadata_uploaded = new MetadataUploadedMsg
+								{
+									count = args.Count
+								}
+							};
+
+							Send(notify.ToFastJSON());
+						}
+						catch (Exception ex)
+						{
 						}
 					};
 					TaskQueue.Enqueue(task, TaskPriority.VeryLow);

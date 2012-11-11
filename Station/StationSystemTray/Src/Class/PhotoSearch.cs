@@ -439,11 +439,47 @@ namespace StationSystemTray
 			return sb.ToString();
 		}
 
-		public void ImportToStation(IEnumerable<string> paths, string session_token)
+		public void ImportToStationAsync(IEnumerable<string> paths, string session_token)
 		{
 			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", session_token));
 			var groupID = loginedSession.groups.First().group_id;
-			StationAPI.Import(session_token, groupID, string.Format("[{0}]", string.Join(",", paths.ToArray())));
+			//StationAPI.Import(session_token, groupID, string.Format("[{0}]", string.Join(",", paths.ToArray())));
+
+			var transaction = new Wammer.Station.Management.ImportTranscation(
+				loginedSession.user.user_id, session_token, StationAPI.API_KEY, paths);
+
+			transaction.ImportDone += new EventHandler<Wammer.Station.ImportDoneEventArgs>(transaction_ImportDone);
+			transaction.FileImported2 += new EventHandler<FileImportedEventArgs>(transaction_FileImported2);
+			transaction.MetadataUploaded += new EventHandler<MetadataUploadEventArgs>(transaction_MetadataUploaded);
+
+			transaction.ImportFileAsync();
 		}
+
+		void transaction_MetadataUploaded(object sender, MetadataUploadEventArgs e)
+		{
+			var handler = MetadataUploaded;
+			if (handler != null)
+				handler(this, e);
+		}
+
+		void transaction_FileImported2(object sender, FileImportedEventArgs e)
+		{
+			var handler = FileImported;
+			if (handler != null)
+				handler(this, e);
+		}
+
+		void transaction_ImportDone(object sender, Wammer.Station.ImportDoneEventArgs e)
+		{
+			var handler = ImportDone;
+			if (handler != null)
+				handler(this, e);
+		}
+
+		public event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
+
+		public event EventHandler<FileImportedEventArgs> FileImported;
+
+		public event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
 	}
 }
