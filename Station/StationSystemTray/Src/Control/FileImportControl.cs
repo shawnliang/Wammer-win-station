@@ -81,7 +81,7 @@ namespace StationSystemTray
 			photoSearch.ImportDone -= photoSearch_ImportDone;
 			photoSearch.ImportDone += photoSearch_ImportDone;
 
-			m_ProcessingDialog.ProcessMessage = "Preparing to import photos...";
+			m_ProcessingDialog.ProcessMessage = "Indexing to photos...";
 			m_ProcessingDialog.ActionAfterShown = () => {
 				photoSearch.ImportToStationAsync(selectedPaths, session_token);
 			};
