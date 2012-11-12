@@ -869,6 +869,11 @@ namespace StationSystemTray
 
 			if (loginedSession != null)
 				LogOut(loginedSession.session_token, loginedSession.apikey.apikey);
+			else
+			{
+				appSetting.CurrentSession = null;
+				appSetting.Save();
+			}
 
 			QuitStream();
 		}
