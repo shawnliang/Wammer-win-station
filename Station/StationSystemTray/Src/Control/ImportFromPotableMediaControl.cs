@@ -21,14 +21,14 @@ namespace StationSystemTray
 		{
 			InitializeComponent();
 			this.service = service;
-			this.service.ImportDone += new EventHandler<ImportDoneEventArgs>(service_ImportDone);
-			this.service.FileImported += new EventHandler<FileImportEventArgs>(service_FileImported);
+			this.service.ImportDone += new EventHandler<Wammer.Station.ImportDoneEventArgs>(service_ImportDone);
+			this.service.FileImported += new EventHandler<Wammer.Station.FileImportedEventArgs>(service_FileImported);
 			progressBar.Value = 0;
 
 			this.PageTitle = "Import from media";
 		}
 
-		void service_FileImported(object sender, FileImportEventArgs e)
+		void service_FileImported(object sender, Wammer.Station.FileImportedEventArgs e)
 		{
 			import_count++;
 
@@ -38,7 +38,7 @@ namespace StationSystemTray
 			}));
 		}
 
-		void service_ImportDone(object sender, ImportDoneEventArgs e)
+		void service_ImportDone(object sender, Wammer.Station.ImportDoneEventArgs e)
 		{
 			string doneMsg;
 

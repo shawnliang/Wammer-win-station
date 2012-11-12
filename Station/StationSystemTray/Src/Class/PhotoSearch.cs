@@ -449,7 +449,7 @@ namespace StationSystemTray
 				loginedSession.user.user_id, session_token, StationAPI.API_KEY, paths);
 
 			transaction.ImportDone += new EventHandler<Wammer.Station.ImportDoneEventArgs>(transaction_ImportDone);
-			transaction.FileImported2 += new EventHandler<FileImportedEventArgs>(transaction_FileImported2);
+			transaction.FileImported += new EventHandler<FileImportedEventArgs>(transaction_FileImported2);
 			transaction.MetadataUploaded += new EventHandler<MetadataUploadEventArgs>(transaction_MetadataUploaded);
 
 			transaction.ImportFileAsync();

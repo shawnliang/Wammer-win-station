@@ -7,8 +7,8 @@ namespace StationSystemTray
 {
 	public interface IPortableMediaService
 	{
-		event EventHandler<FileImportEventArgs> FileImported;
-		event EventHandler<ImportDoneEventArgs> ImportDone;
+		event EventHandler<Wammer.Station.FileImportedEventArgs> FileImported;
+		event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
 
 		IEnumerable<PortableDevice> GetPortableDevices();
 		IEnumerable<string> GetFileList(string path);

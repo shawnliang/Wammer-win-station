@@ -19,11 +19,8 @@ namespace Wammer.Station.Management
 
 		private bool doneNotified;
 
-		public event EventHandler<FileImportEventArgs> FileImported;
-		public event EventHandler<TransactionFinishedEventArgs> TransactionFinished;
-
 		public event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
-		public event EventHandler<Wammer.Station.FileImportedEventArgs> FileImported2;
+		public event EventHandler<Wammer.Station.FileImportedEventArgs> FileImported;
 		public event EventHandler<Wammer.Station.MetadataUploadEventArgs> MetadataUploaded;
 
 		public ImportTranscation(string user_id, string session_token, string apikey, IEnumerable<string> paths)
@@ -87,11 +84,7 @@ namespace Wammer.Station.Management
 		{
 			try
 			{
-				var handler = FileImported;
-				if (handler != null)
-					handler(this, new FileImportEventArgs { FilePath = file });
-
-				var handler2 = FileImported2;
+				var handler2 = FileImported;
 				if (handler2 != null)
 					handler2(this, new FileImportedEventArgs(file));
 			}
@@ -109,14 +102,9 @@ namespace Wammer.Station.Management
 					if (doneNotified)
 						return;
 
-					var handler = TransactionFinished;
-					if (handler != null)
-						handler(this, new TransactionFinishedEventArgs { Error = error });
-
-
 					var handler2 = ImportDone;
 					if (handler2 != null)
-						handler2(this, new ImportDoneEventArgs { Error = new Exception(error) });
+						handler2(this, new ImportDoneEventArgs { Error = (error == null) ? null : new Exception(error) });
 
 					doneNotified = true;
 				}
@@ -160,16 +148,5 @@ namespace Wammer.Station.Management
 
 			socket.Send(import.ToFastJSON());
 		}
-	}
-
-
-	public class FileImportEventArgs : EventArgs
-	{
-		public string FilePath { get; set; }
-	}
-
-	public class TransactionFinishedEventArgs : EventArgs
-	{
-		public string Error { get; set; }
 	}
 }
