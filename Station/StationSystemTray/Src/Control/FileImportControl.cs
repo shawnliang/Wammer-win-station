@@ -81,7 +81,7 @@ namespace StationSystemTray
 			photoSearch.ImportDone -= photoSearch_ImportDone;
 			photoSearch.ImportDone += photoSearch_ImportDone;
 
-			m_ProcessingDialog.ProcessMessage = "Preparing to import photos...";
+			m_ProcessingDialog.ProcessMessage = "Indexing photos...";
 			m_ProcessingDialog.ActionAfterShown = () => {
 				photoSearch.ImportToStationAsync(selectedPaths, session_token);
 			};
@@ -143,7 +143,12 @@ namespace StationSystemTray
 				}
 				else
 				{
-					m_ProcessingDialog.ProcessMessage = e.FilePath + " imported";
+					var path = e.FilePath;
+					if (path.Length > 50)
+					{
+						path = path.Substring(0, 22) + "....." + path.Substring(path.Length - 22);
+					}
+					m_ProcessingDialog.ProcessMessage = path + " imported";
 				}
 			}
 			catch

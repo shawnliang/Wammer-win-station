@@ -188,33 +188,40 @@ namespace Wammer.Station
 
 		private void saveToStream(DateTime importTime, string postID, FileMetadata file_meta)
 		{
-			var imp = new AttachmentUploadHandlerImp(
-				new AttachmentUploadHandlerDB(),
-				new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
-
-			var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
-
-			imp.AttachmentProcessed += postProcess.OnProcessed;
-
-
-			var uploadData = new UploadData()
+			try
 			{
-				object_id = file_meta.object_id,
-				raw_data = new ArraySegment<byte>(File.ReadAllBytes(file_meta.file_path)),
-				file_name = Path.GetFileName(file_meta.file_path),
-				mime_type = GetMIMEType(file_meta.file_path),
-				group_id = m_GroupID,
-				api_key = m_APIKey,
-				session_token = m_SessionToken,
-				post_id = postID,
-				file_path = file_meta.file_path,
-				import_time = importTime,
-				file_create_time = file_meta.file_create_time,
-				type = AttachmentType.image,
-				imageMeta = ImageMeta.Origin
-			};
-			imp.Process(uploadData);
-			raiseFileImportedEvent(file_meta.file_path);
+				var imp = new AttachmentUploadHandlerImp(
+					new AttachmentUploadHandlerDB(),
+					new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
+
+				var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
+
+				imp.AttachmentProcessed += postProcess.OnProcessed;
+
+
+				var uploadData = new UploadData()
+				{
+					object_id = file_meta.object_id,
+					raw_data = new ArraySegment<byte>(File.ReadAllBytes(file_meta.file_path)),
+					file_name = Path.GetFileName(file_meta.file_path),
+					mime_type = GetMIMEType(file_meta.file_path),
+					group_id = m_GroupID,
+					api_key = m_APIKey,
+					session_token = m_SessionToken,
+					post_id = postID,
+					file_path = file_meta.file_path,
+					import_time = importTime,
+					file_create_time = file_meta.file_create_time,
+					type = AttachmentType.image,
+					imageMeta = ImageMeta.Origin
+				};
+				imp.Process(uploadData);
+				raiseFileImportedEvent(file_meta.file_path);
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Unable to import file: " + file_meta.file_path, e);
+			}
 		} 
 
 		private List<FileMetadata> extractMetadata(List<string> files)
