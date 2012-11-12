@@ -51,7 +51,7 @@
 			this.ControlBox = false;
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.progressBar1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ProcessingDialog";
@@ -61,8 +61,9 @@
 
 		#endregion
 
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ProgressBar progressBar1;
+		protected System.Windows.Forms.Label label1;
+		protected System.Windows.Forms.ProgressBar progressBar1;
+
 
 	}
 }

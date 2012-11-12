@@ -143,6 +143,7 @@
     <Compile Include="Station\AttachmentUpload\ExifExtractor.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
+    <Compile Include="Station\AttachmentUpload\UploadMetadataTask.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerDB.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerImp.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Station\ImportTask.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />
+    <Compile Include="Station\MetadataUploadEventArgs.cs" />
     <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
     <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
     <Compile Include="Station\Notify\ConnectionUpdator.cs" />

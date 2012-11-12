@@ -11,8 +11,9 @@ namespace StationSystemTray
 {
 	class PortableMediaService : IPortableMediaService
 	{
-		public event EventHandler<FileImportEventArgs> FileImported;
-		public event EventHandler<ImportDoneEventArgs> ImportDone;
+		public event EventHandler<Wammer.Station.FileImportedEventArgs> FileImported;
+
+		public event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
 
 		private Wammer.Station.Management.ImportTranscation import;
 
@@ -55,24 +56,25 @@ namespace StationSystemTray
 		public void ImportAsync(IEnumerable<string> files, string user_id, string session_token, string apikey)
 		{
 			import = new Wammer.Station.Management.ImportTranscation(user_id, session_token, apikey, files);
-			import.FileImported += new EventHandler<Wammer.Station.Management.FileImportEventArgs>(import_FileImported);
-			import.TransactionFinished += new EventHandler<Wammer.Station.Management.TransactionFinishedEventArgs>(import_TransactionFinished);
-
+			import.FileImported += import_FileImported;
+			import.ImportDone += import_ImportDone;
 			import.ImportFileAsync();
 		}
 
-		void import_TransactionFinished(object sender, Wammer.Station.Management.TransactionFinishedEventArgs e)
+		void import_ImportDone(object sender, Wammer.Station.ImportDoneEventArgs e)
 		{
 			var handler = this.ImportDone;
 			if (handler != null)
-				handler(this, new ImportDoneEventArgs { Error = e.Error });
+				handler(this, new Wammer.Station.ImportDoneEventArgs { Error = e.Error });
 		}
 
-		void import_FileImported(object sender, Wammer.Station.Management.FileImportEventArgs e)
+		void import_FileImported(object sender, Wammer.Station.FileImportedEventArgs e)
 		{
 			var handler = this.FileImported;
 			if (handler != null)
-				handler(this, new FileImportEventArgs { FilePath = e.FilePath });
+				handler(this, new Wammer.Station.FileImportedEventArgs(e.FilePath));
 		}
+
+
 	}
 }

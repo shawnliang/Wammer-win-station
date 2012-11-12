@@ -16,6 +16,9 @@ namespace StationSystemTray
 		private IPhotoSearch photoSearch;
 		private SynchronizationContext mainSyncCtx;
 		private CheckBox checkBox1;
+		private HidableProgressingDialog _processDialog;
+
+
 		#region Constructor
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileImportControl"/> class.
@@ -28,6 +31,19 @@ namespace StationSystemTray
 			this.PageTitle = "Import from folders";
 		} 
 		#endregion
+
+		private HidableProgressingDialog m_ProcessingDialog
+		{
+			get
+			{
+				return _processDialog ?? (_processDialog = new HidableProgressingDialog
+				{
+					ProgressStyle = ProgressBarStyle.Marquee,
+					StartPosition = FormStartPosition.CenterParent,
+					Hidable = false
+				});
+			}
+		}
 
 
 		/// <summary>
@@ -48,28 +64,6 @@ namespace StationSystemTray
 			ImportSelectedPaths((string)parameters.Get("session_token"));
 		}
 
-
-		/// <summary>
-		/// Sends the sync context.
-		/// </summary>
-		/// <param name="target">The target.</param>
-		private void SendSyncContext(Action target)
-		{
-			mainSyncCtx.Send((obj) => target(), null);
-		}
-
-		/// <summary>
-		/// Sends the sync context.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="target">The target.</param>
-		/// <param name="o">The o.</param>
-		private void SendSyncContext<T>(Action<T> target, Object o)
-		{
-			mainSyncCtx.Send((obj) => target((T)obj), o);
-		}
-
-
 		/// <summary>
 		/// Imports the selected paths.
 		/// </summary>
@@ -80,29 +74,81 @@ namespace StationSystemTray
 			if (selectedPaths.Count() == 0)
 				return;
 
-			var dialog = new ProcessingDialog();
-			var postID = Guid.NewGuid().ToString();
-			
-			MethodInvoker mi = new MethodInvoker(() => { photoSearch.ImportToStation(selectedPaths, session_token); });
+			photoSearch.FileImported -= photoSearch_FileImported;
+			photoSearch.FileImported += photoSearch_FileImported;
+			photoSearch.MetadataUploaded -= photoSearch_MetadataUploaded;
+			photoSearch.MetadataUploaded += photoSearch_MetadataUploaded; 
+			photoSearch.ImportDone -= photoSearch_ImportDone;
+			photoSearch.ImportDone += photoSearch_ImportDone;
 
-			AutoResetEvent autoEvent = new AutoResetEvent(false);
-			mi.BeginInvoke((result) =>
+			m_ProcessingDialog.ProcessMessage = "Preparing to import photos...";
+			m_ProcessingDialog.ActionAfterShown = () => {
+				photoSearch.ImportToStationAsync(selectedPaths, session_token);
+			};
+			m_ProcessingDialog.ShowDialog(this);
+		}
+
+		void photoSearch_ImportDone(object sender, Wammer.Station.ImportDoneEventArgs e)
+		{
+			try
 			{
-				autoEvent.WaitOne();
-				SendSyncContext(() =>
+				if (m_ProcessingDialog.InvokeRequired)
 				{
-					mi.EndInvoke(result);
-					dialog.Dispose();
-					dialog = null;
-				});
-			}, null);
+					m_ProcessingDialog.Invoke(new MethodInvoker(() =>
+					{
+						photoSearch_ImportDone(sender, e);
+					}));
+				}
+				else
+				{
+					m_ProcessingDialog.DialogResult = DialogResult.OK;
+				}
+			}
+			catch
+			{
+			}
+		}
 
-			dialog.ProcessMessage = "Data importing";
-			dialog.ProgressStyle = ProgressBarStyle.Marquee;
-			dialog.StartPosition = FormStartPosition.CenterParent;
+		void photoSearch_MetadataUploaded(object sender, Wammer.Station.MetadataUploadEventArgs e)
+		{
+			try
+			{
+				if (m_ProcessingDialog.InvokeRequired)
+				{
+					m_ProcessingDialog.Invoke(new MethodInvoker(() =>
+					{
+						photoSearch_MetadataUploaded(sender, e);
+					}));
+				}
+				else
+				{
+					m_ProcessingDialog.Hidable = true;
+				}
+			}
+			catch
+			{
+			}
+		}
 
-			autoEvent.Set();
-			dialog.ShowDialog(this);
+		void photoSearch_FileImported(object sender, Wammer.Station.FileImportedEventArgs e)
+		{
+			try
+			{
+				if (m_ProcessingDialog.InvokeRequired)
+				{
+					m_ProcessingDialog.Invoke(new MethodInvoker(() =>
+					{
+						photoSearch_FileImported(sender, e);
+					}));
+				}
+				else
+				{
+					m_ProcessingDialog.ProcessMessage = e.FilePath + " imported";
+				}
+			}
+			catch
+			{
+			}
 		}
 
 		#region Public Method
@@ -214,7 +260,12 @@ namespace StationSystemTray
 
 	public interface IPhotoSearch
 	{
+		event EventHandler<Wammer.Station.MetadataUploadEventArgs> MetadataUploaded;
+		event EventHandler<Wammer.Station.FileImportedEventArgs> FileImported;
+		event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
+
+
 		IEnumerable<string> InterestedPaths { get; }
-		void ImportToStation(IEnumerable<string> paths, string session_token);
+		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
 	}
 }
