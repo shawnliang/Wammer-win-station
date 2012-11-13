@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace Wammer.Station.AttachmentUpload
 {
-	class ExifExtractor : IExifExtractor
+	public class ExifExtractor : IExifExtractor
 	{
 		public exif extract(ArraySegment<byte> rawImage)
 		{

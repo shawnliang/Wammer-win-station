@@ -161,6 +161,12 @@
           <RegistryValue Type="string" Name="Culture" Value="!(loc.CULTURE)" KeyPath="yes"/>
          </RegistryKey>
       </Component>
+
+      <Component Id="InstallPath">
+        <RegistryKey Root="HKLM" Key="Software\Wammer\WinStation">
+          <RegistryValue Type="string" Name="Culture" Value="[INSTALLLOCATION]" KeyPath="yes"/>
+        </RegistryKey>
+      </Component>
     </DirectoryRef>
     
     
@@ -402,6 +408,7 @@
       <ComponentGroupRef Id='Wammer.Station.Service'/>
       <ComponentRef Id='pmd'/>
       <ComponentRef Id="CultureSetting"/>
+      <ComponentRef Id="InstallPath"/>
       <ComponentRef Id="LaunchAtStartUp"/>
     </Feature>
     

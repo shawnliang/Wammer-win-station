@@ -169,11 +169,11 @@ namespace StationSystemTray
 		/// Adds the interested paths.
 		/// </summary>
 		/// <param name="paths">The paths.</param>
-		public void AddInterestedPaths(IEnumerable<String> paths)
+		public void AddInterestedPaths(IEnumerable<PathAndPhotoCount> paths)
 		{
 			foreach (var path in paths)
 			{
-				dataGridView1.Rows.Add(true, path, "0");
+				dataGridView1.Rows.Add(true, path.path, path.photoCount);
 			}
 		}
 
@@ -269,8 +269,20 @@ namespace StationSystemTray
 		event EventHandler<Wammer.Station.FileImportedEventArgs> FileImported;
 		event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
 
-
-		IEnumerable<string> InterestedPaths { get; }
+		IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
 		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
+	}
+
+	public class PathAndPhotoCount
+	{
+		public string path { get; set; }
+		public int photoCount { get; set; }
+
+
+		public PathAndPhotoCount(string path, int count)
+		{
+			this.path = path;
+			this.photoCount = count;
+		}
 	}
 }
