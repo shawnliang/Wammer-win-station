@@ -128,7 +128,7 @@ namespace StationSystemTray
 		{
 			get
 			{
-				return _messageReceiver ?? (_messageReceiver = new CustomWindow("SystemTrayMessageReceiver", "SystemTrayMessageReceiver"));
+                return _messageReceiver ?? (_messageReceiver = new CustomWindow(GlobalSettings.Instance.MessageReceiverName, GlobalSettings.Instance.MessageReceiverName));
 			}
 		}
 
@@ -276,7 +276,7 @@ namespace StationSystemTray
 
 		private void SendSyncStatusToClient()
 		{
-			var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+			var handle = Win32Helper.FindWindow(GlobalSettings.Instance.ClientMessageReceiverName, null);
 			if (handle != IntPtr.Zero)
 			{
 				int ret;
@@ -348,18 +348,27 @@ namespace StationSystemTray
 		}
 		private void GotoTimeline()
 		{
-			if (clientProcess != null && !clientProcess.HasExited)
-			{
-				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+            //if (clientProcess != null && !clientProcess.HasExited)
+            //{
+            //    var handle = Win32Helper.FindWindow(GlobalSettings.Instance.ClientMessageReceiverName, null);
 
-				if (handle == IntPtr.Zero)
-					return;
+            //    if (handle == IntPtr.Zero)
+            //        return;
 
-				int ret;
-				SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+            //    int ret;
+            //    SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
 
-				return;
-			}
+            //    return;
+            //}
+
+                var handle = Win32Helper.FindWindow(GlobalSettings.Instance.ClientMessageReceiverName, null);
+
+                if (handle != IntPtr.Zero)
+                {
+                    int ret;
+                    SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+                    return;
+                }
 
 			if (!string.IsNullOrEmpty(appSetting.CurrentSession))
 			{
@@ -630,7 +639,7 @@ namespace StationSystemTray
 			}
 			else
 			{
-				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
+                var handle = Win32Helper.FindWindow(GlobalSettings.Instance.ClientMessageReceiverName, null);
 
 				if (handle != IntPtr.Zero)
 				{
@@ -758,6 +767,15 @@ namespace StationSystemTray
 #if DEBUG
 			if (m_SettingDialog != null)
 				m_SettingDialog.Close();
+
+            var handle = Win32Helper.FindWindow(GlobalSettings.Instance.ClientMessageReceiverName, null);
+
+            if (handle != IntPtr.Zero)
+            {
+                int ret;
+                SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+                return;
+            }
 
 			Cursor.Current = Cursors.WaitCursor;
 			string execPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
@@ -1042,7 +1060,9 @@ namespace StationSystemTray
 			if (lastLogin != null)
 				loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", lastLogin));
 
-			bool isUserLogined = (loginedSession != null || (clientProcess != null && !clientProcess.HasExited));
+            var handle = Win32Helper.FindWindow(GlobalSettings.Instance.ClientMessageReceiverName, null);
+
+            bool isUserLogined = (loginedSession != null || handle != null);
 
 			tsmiOpenStream.Visible = isUserLogined;
 		}
@@ -1117,20 +1137,33 @@ namespace StationSystemTray
 				this.Hide();
 				m_SettingDialog.ShowDialog();
 			}
-			if (clientProcess != null && !clientProcess.HasExited)
-			{
-				var handle = Win32Helper.FindWindow("WindowsClientMessageReceiver", null);
 
-				if (handle == IntPtr.Zero)
-					return;
 
-				int ret;
-				SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+            //if (clientProcess != null && !clientProcess.HasExited)
+            //{
+            //    var handle = Win32Helper.FindWindow(GlobalSettings.Instance.ClientMessageReceiverName, null);
 
-				return;
-			}
+            //    if (handle == IntPtr.Zero)
+            //        return;
 
-			if (isLoginPageOpened)
+            //    int ret;
+            //    SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+
+            //    return;
+            //}
+
+            var handle = Win32Helper.FindWindow(GlobalSettings.Instance.ClientMessageReceiverName, null);
+
+            if (handle != IntPtr.Zero)
+            {
+
+                int ret;
+                SendMessageTimeout(handle, 0x401, IntPtr.Zero, IntPtr.Zero, 2, 500, out ret);
+
+                return;
+            }
+
+            if (isLoginPageOpened)
 				GotoTimeline();
 		}
 
