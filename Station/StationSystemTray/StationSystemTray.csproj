@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\Class\ApplicationSetting.cs" />
+    <Compile Include="Src\Class\GlobalSettings.cs" />
     <Compile Include="Src\Control\CentralLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
