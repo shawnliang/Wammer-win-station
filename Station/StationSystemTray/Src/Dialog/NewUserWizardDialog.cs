@@ -24,18 +24,15 @@ namespace StationSystemTray.Src.Dialog
 			InitializeComponent();
 
 			Image[] tutorial = new Image[] { Resources.P1, Resources.P2, Resources.P3 };
-			var intro = new IntroControl(tutorial);
-			intro.CustomLabelForNextStep = "Sign Up";
-
 
 			wizardControl.SetWizardPages(new StepPageControl[]
 			{
-				intro,
+				new IntroControl(tutorial),
+				new ChoosePlanControl() { CustomLabelForNextStep = "Sign Up" },
 				new SignUpControl(new StreamSignup()),
 				new ServiceImportControl(new FacebookConnectableService()),
-				new ChoosePlanControl(),
 				new ImportFolderAndMediaControl(m_photoSearch),
-				new PersonalCloudStatusControl2(new PersonalCloudStatusService())
+				new PersonalCloudStatusControl(new PersonalCloudStatusService())
 			});
 
 			m_photoSearch.StartSearchAsync();
