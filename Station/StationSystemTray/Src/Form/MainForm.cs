@@ -755,7 +755,8 @@ namespace StationSystemTray
 
 		private void LaunchClient(string sessionToken)
 		{
-			if(m_SettingDialog != null)
+#if DEBUG
+			if (m_SettingDialog != null)
 				m_SettingDialog.Close();
 
 			Cursor.Current = Cursors.WaitCursor;
@@ -770,6 +771,12 @@ namespace StationSystemTray
 				clientProcess.Exited -= clientProcess_Exited;
 				clientProcess.Exited += clientProcess_Exited;
 			}
+			
+#else
+			var dialog = new NoUIDialog(sessionToken);
+			dialog.Show(this);
+#endif
+
 		}
 
 		private LoginedSession LoginToStation(UserLoginSetting userlogin)
