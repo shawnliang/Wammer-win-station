@@ -34,7 +34,16 @@ namespace StationSystemTray
 //            return;
 //#endif
 
-			Waveface.Common.TaskbarHelper.SetAppId("WavefaceStreamApp");
+            if (args.Length == 4)
+            {
+                var setting = GlobalSettings.Instance;
+                setting.APPID = args[0];
+                setting.MutexTrayName = args[1];
+                setting.MessageReceiverName = args[2];
+                setting.ClientMessageReceiverName = args[3];
+            }
+
+			Waveface.Common.TaskbarHelper.SetAppId(GlobalSettings.Instance.APPID);
 
 			Environment.CurrentDirectory = Path.GetDirectoryName(
 			Assembly.GetExecutingAssembly().Location);
@@ -44,7 +53,7 @@ namespace StationSystemTray
 			bool isFirstCreated;
 
 			//Create a new mutex using specific mutex name
-			m_Mutex = new Mutex(true, "StationSystemTray", out isFirstCreated);
+			m_Mutex = new Mutex(true, GlobalSettings.Instance.MutexTrayName, out isFirstCreated);
 
 			ApplyInstalledCulture();
 
@@ -55,7 +64,7 @@ namespace StationSystemTray
 
 				if (processes.Any(process => process.Id != currentProcess.Id))
 				{
-					var handle = Win32Helper.FindWindow("SystemTrayMessageReceiver", null);
+					var handle = Win32Helper.FindWindow(GlobalSettings.Instance.MessageReceiverName, null);
 
 					if (handle == IntPtr.Zero)
 						return;
