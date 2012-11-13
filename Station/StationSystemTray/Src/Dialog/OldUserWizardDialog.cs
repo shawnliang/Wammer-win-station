@@ -17,10 +17,8 @@ namespace StationSystemTray.Src.Dialog
 			wizardControl.SetWizardPages(new StepPageControl[]
 			{
 				new LoginControl(new StreamLogin()),
-				new ChoosePlanControl(),
 				new ImportFolderAndMediaControl(m_photoSearch),
-				//new PersonalCloudStatusControl(new PersonalCloudStatusService())
-				new PersonalCloudStatusControl2(new PersonalCloudStatusService())
+				new PersonalCloudStatusControl(new PersonalCloudStatusService())
 			});
 
 			m_photoSearch.StartSearchAsync();

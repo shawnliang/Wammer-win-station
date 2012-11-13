@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace StationSystemTray
 {
-	public partial class PersonalCloudStatusControl2 : StepPageControl
+	public partial class PersonalCloudStatusControl : StepPageControl
 	{
 		private IPersonalCloudStatus service;
 		private string user_id;
@@ -17,7 +17,7 @@ namespace StationSystemTray
 		private Timer timer;
 		private object cs = new object();
 
-		public PersonalCloudStatusControl2(IPersonalCloudStatus service)
+		public PersonalCloudStatusControl(IPersonalCloudStatus service)
 		{
 			InitializeComponent();
 			CustomSize = new Size(710, 437);

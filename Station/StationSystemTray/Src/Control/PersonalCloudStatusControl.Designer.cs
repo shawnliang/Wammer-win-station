@@ -1,6 +1,6 @@
 ﻿namespace StationSystemTray
 {
-	partial class PersonalCloudStatusControl2
+	partial class PersonalCloudStatusControl
 	{
 		/// <summary> 
 		/// Required designer variable.
