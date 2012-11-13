@@ -139,15 +139,32 @@ namespace StationSystemTray
 			}
 		}
 
+		private static bool HasDateTimeInExif(string file)
+		{
+			try
+			{
+				var exifExtract = new Wammer.Station.AttachmentUpload.ExifExtractor();
+				var exif = exifExtract.extract(file);
+
+				return exif != null &&
+					(!string.IsNullOrEmpty(exif.DateTimeOriginal) || string.IsNullOrEmpty(exif.DateTimeOriginal));
+			}
+			catch
+			{
+				return false;
+			}
+		}
 
 		private static int JpgFileCount(string path)
 		{
 			var jpg = Directory.GetFiles(path, "*.jpg");
-			if (jpg != null && jpg.Any())
+			if (jpg != null && jpg.Any(HasDateTimeInExif))
+			{
 				return jpg.Length;
+			}
 
 			var jpeg = Directory.GetFiles(path, "*.jpeg");
-			if (jpeg != null && jpeg.Any())
+			if (jpeg != null && jpeg.Any(HasDateTimeInExif))
 				return jpg.Length;
 
 			return 0;
