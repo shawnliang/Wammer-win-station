@@ -172,6 +172,12 @@
     <Compile Include="Src\Dialog\NewUserWizardDialog.Designer.cs">
       <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Dialog\NoUIDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\NoUIDialog.Designer.cs">
+      <DependentUpon>NoUIDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Dialog\OldUserWizardDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -344,6 +350,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\NewUserWizardDialog.resx">
       <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\NoUIDialog.resx">
+      <DependentUpon>NoUIDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\OldUserWizardDialog.resx">
       <DependentUpon>OldUserWizardDialog.cs</DependentUpon>
