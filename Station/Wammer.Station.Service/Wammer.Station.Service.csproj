@@ -188,7 +188,6 @@
     <Compile Include="Cloud\UserTracksApi.cs" />
     <Compile Include="Cloud\Response\UserTracksResponse.cs" />
     <Compile Include="Cloud\WammerCloudException.cs" />
-    <Compile Include="Extension\EnumExtension.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Event\TaskQueueEventArgs.cs" />
     <Compile Include="Interface\IPostUploadSupportable.cs" />

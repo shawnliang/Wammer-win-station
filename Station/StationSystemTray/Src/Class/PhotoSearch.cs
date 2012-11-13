@@ -20,7 +20,8 @@ namespace StationSystemTray
 		const string PICASA_DB_RELATIVED_STORAGE_PATH = @"Google\Picasa2\db3";
 		const string ALBUM_PATH_PMP_FILENAME = "albumdata_filename.pmp";
 
-		private HashSet<String> _interestedPaths;
+		private HashSet<string> ignorePath = new HashSet<string>();
+		private HashSet<PathAndPhotoCount> _interestedPaths;
 		private string _picasaDBStoragePath;
 		private string _albumPathPMPFileName;
 		private Dictionary<string, int> m_InterestedFileCountInPhotos = new Dictionary<string, int>();
@@ -54,7 +55,7 @@ namespace StationSystemTray
 		}
 
 
-		public IEnumerable<string> InterestedPaths
+		public IEnumerable<PathAndPhotoCount> InterestedPaths
 		{
 			get { return m_InterestedPaths; }
 		}
@@ -63,11 +64,11 @@ namespace StationSystemTray
 		/// Gets the m_ interested paths.
 		/// </summary>
 		/// <value>The m_ interested paths.</value>
-		private HashSet<String> m_InterestedPaths
+		private HashSet<PathAndPhotoCount> m_InterestedPaths
 		{
 			get
 			{
-				return _interestedPaths ?? (_interestedPaths = new HashSet<String>());
+				return _interestedPaths ?? (_interestedPaths = new HashSet<PathAndPhotoCount>());
 			}
 		}
 
@@ -81,6 +82,10 @@ namespace StationSystemTray
 		public PhotoSearch()
 		{
 			m_InterestedExtensions = new HashSet<String> { ".jpg", ".jpeg", ".bmp", ".png" };
+			ignorePath.Add(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+			ignorePath.Add(Environment.GetFolderPath(Environment.SpecialFolder.System));
+			ignorePath.Add(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
+			ignorePath.Add(Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles));
 		}
 
 
@@ -100,43 +105,52 @@ namespace StationSystemTray
 		{
 			Thread.CurrentThread.Priority = ThreadPriority.Lowest;
 
-
-			var interestedPaths = new List<string>();
-			using (ShellLibrary library = ShellLibrary.Load("Pictures", false))
-			{
-				foreach (ShellFolder folder in library)
-				{
-					var folderPath = folder.ParsingName;
-
-					if (folderPath.Length == 0)
-						continue;
-
-					interestedPaths.Add(folderPath);
-				}
-			}
-
-			var recentlyPaths = (from file in RecentlyFileHelper.GetRecentlyFiles()
-								 select Path.GetDirectoryName(file));
-
-			recentlyPaths = recentlyPaths.Distinct();
-			interestedPaths.AddRange(recentlyPaths.Distinct());
-
-
-			if (Directory.Exists(m_PicasaDBStoragePath) &&
-				File.Exists(m_AlbumPathPMPFileName) &&
-				IsValidPicasaFormat(m_AlbumPathPMPFileName))
-			{
-				interestedPaths.AddRange(ReadAllStringField(m_AlbumPathPMPFileName));
-			}
-
-			AddInterestedPath(interestedPaths);
-
-
-			foreach (var drive in DriveInfo.GetDrives())
+			var drives = DriveInfo.GetDrives();
+			foreach (var drive in drives)
 			{
 				if (drive.DriveType == DriveType.Fixed)
-					MonitorPath(drive.Name);
+					Search(drive.Name);
 			}
+		}
+
+		private void Search(string path)
+		{
+			try
+			{
+				if (ignorePath.Contains(path))
+					return;
+
+				var jpgCount = JpgFileCount(path);
+				if (jpgCount > 0)
+				{
+					AddInterestedPath(path, jpgCount);
+				}
+
+				var files = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
+
+				foreach (var file in files)
+				{
+					Search(file);
+				}
+
+			}
+			catch (Exception e)
+			{
+			}
+		}
+
+
+		private static int JpgFileCount(string path)
+		{
+			var jpg = Directory.GetFiles(path, "*.jpg");
+			if (jpg != null && jpg.Any())
+				return jpg.Length;
+
+			var jpeg = Directory.GetFiles(path, "*.jpeg");
+			if (jpeg != null && jpeg.Any())
+				return jpg.Length;
+
+			return 0;
 		}
 
 		/// <summary>
@@ -212,44 +226,6 @@ namespace StationSystemTray
 			}
 		}
 
-		private void MonitorPath(string searchPath)
-		{
-			var files = new HashSet<string>();
-			var paths = new HashSet<string>();
-			var scanner = new MFTScanner();
-
-
-			scanner.FindAllFiles(searchPath, (filePath, fileSize) =>
-			{
-				var extension = Path.GetExtension(filePath).ToLower();
-
-				if (m_InterestedExtensions.Contains(extension))
-				{
-					var path = Path.GetDirectoryName(filePath);
-					if (!paths.Contains(path))
-					{
-						paths.Add(path);
-					}
-					files.Add(filePath);
-
-					var pathRoot = Path.GetPathRoot(path);
-					while (!path.Equals(pathRoot, StringComparison.CurrentCultureIgnoreCase))
-					{
-						if (!m_InterestedFileCountInPhotos.ContainsKey(path))
-						{
-							m_InterestedFileCountInPhotos[path] = 0;
-							continue;
-						}
-
-						m_InterestedFileCountInPhotos[path] += 1;
-						path = Path.GetDirectoryName(path);
-					}
-				}
-			}, null, null);
-
-			AddInterestedPath(paths);
-		}
-
 		private long GetFolderSize(string folder)
 		{
 			try
@@ -267,7 +243,7 @@ namespace StationSystemTray
 			}
 		}
 
-		private void AddInterestedPath(String path)
+		private void AddInterestedPath(String path, int photoCount)
 		{
 			if (string.IsNullOrEmpty(path))
 				return;
@@ -281,11 +257,7 @@ namespace StationSystemTray
 			if ((new DirectoryInfo(path)).Attributes.HasFlag(FileAttributes.Hidden))
 				return;
 
-			if (m_InterestedPaths.Contains(path))
-				return;
-
-			var size = GetFolderSize(path);
-			if (size < 100 * 1024 * 1024)
+			if (m_InterestedPaths.Contains(new PathAndPhotoCount(path, photoCount)))
 				return;
 
 			var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "").ToString();
@@ -341,18 +313,10 @@ namespace StationSystemTray
 
 			foreach (var interestedPath in m_InterestedPaths)
 			{
-				if (path.StartsWith(interestedPath, StringComparison.CurrentCultureIgnoreCase))
+				if (path.StartsWith(interestedPath.path, StringComparison.CurrentCultureIgnoreCase))
 					return;
 			}
-			m_InterestedPaths.Add(path);
-		}
-
-		private void AddInterestedPath(IEnumerable<String> paths)
-		{
-			foreach (var path in paths.OrderBy(item => item.Length))
-			{
-				AddInterestedPath(path);
-			}
+			m_InterestedPaths.Add(new PathAndPhotoCount(path, photoCount));
 		}
 
 		/// <summary>

@@ -57,6 +57,7 @@
     <Reference Include="AppLimit.NetSparkle">
       <HintPath>..\..\Station\3rd_party\NetSparkle-1.0.83\AppLimit.NetSparkle.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -81,6 +82,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Src\EnumExtension.cs" />
     <Compile Include="Src\Env.cs" />
     <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
     <Compile Include="Src\Extension\StreamExtension.cs" />
