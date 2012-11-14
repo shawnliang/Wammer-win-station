@@ -23,21 +23,14 @@ namespace Wammer.PerfMonitor
 		private readonly IPerfCounter UpstreamRateCounter;
 		private readonly IPerfCounter attachmentUploadCounter;
 
-		public void OnProcessSucceeded(object sender, Wammer.Station.HttpHandlerEventArgs evt)
+		private static UploadDownloadMonitor instance;
+
+		static UploadDownloadMonitor()
 		{
-			try
-			{
-				avgTime.IncrementBy(evt.DurationInTicks);
-				avgTimeBase.Increment();
-				attachmentUploadCounter.Increment();
-			}
-			catch (Exception e)
-			{
-				this.LogWarnMsg("Unable to write performance data: " + PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD, e);
-			}
+			instance = new UploadDownloadMonitor();
 		}
 
-		public UploadDownloadMonitor()
+		private UploadDownloadMonitor()
 		{
 			avgTime = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD);
 			avgTimeBase = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE);
@@ -51,6 +44,24 @@ namespace Wammer.PerfMonitor
 			attachmentUploadCounter = PerfCounter.GetCounter(PerfCounter.ATTACHMENT_UPLOAD_COUNT);
 		}
 
+		public static UploadDownloadMonitor Instance
+		{
+			get { return instance; }
+		}
+
+		public void OnAttachmentProcessed(object sender, Wammer.Station.HttpHandlerEventArgs evt)
+		{
+			try
+			{
+				avgTime.IncrementBy(evt.DurationInTicks);
+				avgTimeBase.Increment();
+				attachmentUploadCounter.Increment();
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Unable to write performance data: " + PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD, e);
+			}
+		}
 
 		public void OnTaskEnqueued(object sender, Wammer.Station.TaskEventArgs arg)
 		{

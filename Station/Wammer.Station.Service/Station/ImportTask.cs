@@ -11,6 +11,7 @@ using Wammer.Cloud;
 using Microsoft.Win32;
 using System.Collections.Specialized;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Wammer.Station
 {
@@ -190,6 +191,8 @@ namespace Wammer.Station
 		{
 			try
 			{
+				long begin = Stopwatch.GetTimestamp();
+
 				var imp = new AttachmentUploadHandlerImp(
 					new AttachmentUploadHandlerDB(),
 					new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
@@ -216,6 +219,13 @@ namespace Wammer.Station
 					imageMeta = ImageMeta.Origin
 				};
 				imp.Process(uploadData);
+				
+				long end = Stopwatch.GetTimestamp();
+				long duration = end - begin;
+				if (duration < 0)
+					duration += long.MaxValue;
+
+				Wammer.PerfMonitor.UploadDownloadMonitor.Instance.OnAttachmentProcessed(this, new HttpHandlerEventArgs(duration));
 				raiseFileImportedEvent(file_meta.file_path);
 			}
 			catch (Exception e)
