@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{990AE10D-E77A-4742-BCAA-A52A9B7D1AF9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Waveface.Stream.Model</RootNamespace>
+    <AssemblyName>Waveface.Stream.Model</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\fastJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Lib\Newtonsoft.Json.4.5.10\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Src\Class\AddUserResponse.cs" />
+    <Compile Include="Src\Class\AttachmentInfo.cs" />
+    <Compile Include="Src\Class\Attachments.cs" />
+    <Compile Include="Src\Class\CloudResponse.cs" />
+    <Compile Include="Src\Class\CloudServer.cs" />
+    <Compile Include="Src\Class\Collection.cs" />
+    <Compile Include="Src\Class\Comment.cs" />
+    <Compile Include="Src\Class\ConnectionCollection.cs" />
+    <Compile Include="Src\Class\ConnectMsg.cs" />
+    <Compile Include="Src\Class\Database.cs" />
+    <Compile Include="Src\Class\DefaultWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Class\Device.cs" />
+    <Compile Include="Src\Class\Drivers.cs" />
+    <Compile Include="Src\Class\ErrorMsg.cs" />
+    <Compile Include="Src\Class\FBPostData.cs" />
+    <Compile Include="Src\Class\FileImportedMsg.cs" />
+    <Compile Include="Src\Class\FileStorage.cs" />
+    <Compile Include="Src\Class\FileStorageAsyncResult.cs" />
+    <Compile Include="Src\Class\FileStorageHelper.cs" />
+    <Compile Include="Src\Class\GenericCommand.cs" />
+    <Compile Include="Src\Class\ImportDoneMsg.cs" />
+    <Compile Include="Src\Class\ImportMsg.cs" />
+    <Compile Include="Src\Class\LoginedSession.cs" />
+    <Compile Include="Src\Class\LoginedSessionCollection.cs" />
+    <Compile Include="Src\Class\MetadataUploadedMsg.cs" />
+    <Compile Include="Src\Class\NotifyMsg.cs" />
+    <Compile Include="Src\Class\NullPerfCounter.cs" />
+    <Compile Include="Src\Class\PerfCounter.cs" />
+    <Compile Include="Src\Class\PostInfo.cs" />
+    <Compile Include="Src\Class\Posts.cs" />
+    <Compile Include="Src\Class\Preview.cs" />
+    <Compile Include="Src\Class\StationRegistry.cs" />
+    <Compile Include="Src\Class\SubscribeMSg.cs" />
+    <Compile Include="Src\Class\TimeHelper.cs" />
+    <Compile Include="Src\Class\UserGroup.cs" />
+    <Compile Include="Src\Class\UserInfo.cs" />
+    <Compile Include="Src\Class\UserStation.cs" />
+    <Compile Include="Src\Enum\CloudType.cs" />
+    <Compile Include="Src\Enum\ExifOrientations.cs" />
+    <Compile Include="Src\Enum\GeneralApiError.cs" />
+    <Compile Include="Src\Event\FileImportedEventArgs.cs" />
+    <Compile Include="Src\Event\ImportDoneEventArgs.cs" />
+    <Compile Include="Src\Event\MetadataUploadEventArgs.cs" />
+    <Compile Include="Src\Exception\AuthenticationException.cs" />
+    <Compile Include="Src\Exception\ConnectToCloudException.cs" />
+    <Compile Include="Src\Exception\StationServiceDownException.cs" />
+    <Compile Include="Src\Exception\VersionNotSupportedException.cs" />
+    <Compile Include="Src\Exception\WammerCloudException.cs" />
+    <Compile Include="Src\Extension\StreamExtension.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

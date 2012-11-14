@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MOVING_RESOURCE_FOLDER" xml:space="preserve">
+    <value>Moving...</value>
+  </data>
+  <data name="CollectingLogs" xml:space="preserve">
+    <value>CollectingLogs</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="fb_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fb_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="software_update_available" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\software-update-available.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_setting" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FBT_setting.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MovingResourceFolder" xml:space="preserve">
+    <value>Moving...</value>
+  </data>
+  <data name="LogInError" xml:space="preserve">
+    <value>Login error. Please try again.</value>
+  </data>
+  <data name="INDICATOR_PATTERN" xml:space="preserve">
+    <value>{0}{1}{2} {3} photos, {4:0.##} {5}</value>
+  </data>
+  <data name="NEXT_BUTTON_TEXT" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Invalid email address</value>
+  </data>
+  <data name="FB_CONNECT_PAGE_TITLE" xml:space="preserve">
+    <value>Connect with Facebook - Stream</value>
+  </data>
+  <data name="STATION_SERVICE_DOWN" xml:space="preserve">
+    <value>Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service.</value>
+  </data>
+  <data name="CHECK_FOR_UPDATE" xml:space="preserve">
+    <value>Check for Updates</value>
+  </data>
+  <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
+    <value>Unknown signup error occur!</value>
+  </data>
+  <data name="dragNdrop-area" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dragNdrop-area.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NEED_UPGRADE" xml:space="preserve">
+    <value>This version is out of date. Click ‘OK’ to download and install the latest version.</value>
+  </data>
+  <data name="import-photos_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\import-photos_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SERVICE_RUNNING" xml:space="preserve">
+    <value>Synced</value>
+  </data>
+  <data name="SERVICE_STARTING" xml:space="preserve">
+    <value>Starting Stream...</value>
+  </data>
+  <data name="stream_tray_syncing2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_syncing2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CONNECT_CLOUD_ERROR" xml:space="preserve">
+    <value>Unable to connect to Stream server</value>
+  </data>
+  <data name="UPLOAD_INDICATOR" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="windows_en_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\windows_en_1.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="import-photos_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\import-photos_normal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SERVICE_SYNCING" xml:space="preserve">
+    <value>Syncing...</value>
+  </data>
+  <data name="DOWNLOAD_INDICATOR" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="SERVICE_RESUMING" xml:space="preserve">
+    <value>Resuming sync...</value>
+  </data>
+  <data name="windows_zh_tw_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\windows_zh-tw_1.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="windows_zh_tw_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\windows_zh-tw_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UNKNOW_SIGNIN_ERROR" xml:space="preserve">
+    <value>Unknown signin error occur!</value>
+  </data>
+  <data name="SERVICE_STOP" xml:space="preserve">
+    <value>Sync paused</value>
+  </data>
+  <data name="SERVICE_RESUME" xml:space="preserve">
+    <value>Resume sync</value>
+  </data>
+  <data name="AUTH_ERROR" xml:space="preserve">
+    <value>Invalid email or password. Please try again.</value>
+  </data>
+  <data name="OPEN_STREAM" xml:space="preserve">
+    <value>Open Stream</value>
+  </data>
+  <data name="CLOSE_BUTTON_TEXT" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SERVICE_START_FAIL" xml:space="preserve">
+    <value>Unable to connect to Stream server</value>
+  </data>
+  <data name="stream_tray_syncing1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_syncing1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MoveFolderUnsuccess" xml:space="preserve">
+    <value>Unable to move</value>
+  </data>
+  <data name="newpost_btn_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\newpost_btn_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MOVE_FOLDER_UNSUCCESS" xml:space="preserve">
+    <value>Unable to move</value>
+  </data>
+  <data name="FBT_setting_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FBT_setting_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_tray_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_init.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UpdateAvailable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UpdateAvailable.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_tray_warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_warn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="input_box_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\input_box-2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="windows_en_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\windows_en_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="REMOVE_ACCOUNT_BUTTON_TITLE" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="DEFAULT_FONT" xml:space="preserve">
+    <value>Arial</value>
+  </data>
+  <data name="ALREAD_UPDATED" xml:space="preserve">
+    <value>You currently have the latest version of Stream installed.</value>
+  </data>
+  <data name="login_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\login_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LogoutMenuItem" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="UNKNOW_REMOVEACCOUNT_ERROR" xml:space="preserve">
+    <value>Unknown error occur when remove account!</value>
+  </data>
+  <data name="newpost_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\newpost_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SERVICE_PAUSE" xml:space="preserve">
+    <value>Pause sync</value>
+  </data>
+  <data name="desktop_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\desktop_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SERVICE_PAUSING" xml:space="preserve">
+    <value>Pausing sync...</value>
+  </data>
+  <data name="SIGNUP_PAGE_TITLE" xml:space="preserve">
+    <value>Signup - Stream</value>
+  </data>
+  <data name="titlebar_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\titlebar_1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FillAllFields" xml:space="preserve">
+    <value>Please fill in all the fields!</value>
+  </data>
+  <data name="login_btn_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\login_btn_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PREVIOUS_BUTTON_TEXT" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="ConnectCloudError" xml:space="preserve">
+    <value>Unable to connect to Stream server</value>
+  </data>
+  <data name="CleanResourceMsg" xml:space="preserve">
+    <value>Are you sure you want to remove user account {0} from this computer?</value>
+  </data>
+  <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
+    <value>No Internet connection</value>
+  </data>
+  <data name="SERVICE_QUIT" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="stream_tray_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CHECKING_UPDATE" xml:space="preserve">
+    <value>Checking...</value>
+  </data>
+  <data name="REMOVE_ACCOUNT_MESSAGE" xml:space="preserve">
+    <value>Remove Account...</value>
+  </data>
+  <data name="stream_tray_working" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_tray_working.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FB_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="APP_NAME" xml:space="preserve">
+    <value>Stream</value>
+  </data>
+  <data name="AuthError" xml:space="preserve">
+    <value>Invalid email or password. Please try again.</value>
+  </data>
+  <data name="fb_btn_press" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fb_btn_press.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SERVICE_DOWN" xml:space="preserve">
+    <value>Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service.</value>
+  </data>
+  <data name="streamfotocollector_icon_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\streamfotocollector_icon_128.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LoginMenuItem" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="FBT_account" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FBT_account.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FBT_account_hl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FBT_account_hl.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_CONNECT_FAILED" xml:space="preserve">
+    <value>The Facebook account does not match the one used to create your Stream account. Please try again with another account.</value>
+  </data>
+  <data name="FB_IMPORT_CLAST_SYNC_PATTERN" xml:space="preserve">
+    <value>Last synced with Facebook: {0}</value>
+  </data>
+  <data name="FB_IMPRORT_PROGRESSING" xml:space="preserve">
+    <value>We’re currently importing your Facebook posts. You can chart the progress by refreshing your browser.</value>
+  </data>
+  <data name="FB_TOKEN_EXPIRED" xml:space="preserve">
+    <value>Facebook token expired</value>
+  </data>
+  <data name="FIELD_MUST_HAVE_DATA_PATTERN" xml:space="preserve">
+    <value>{0} field must have data</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NETWORK_EXCEPTION" xml:space="preserve">
+    <value>Internet connection error</value>
+  </data>
+  <data name="RECONNECT_MESSAGE" xml:space="preserve">
+    <value>Your Facebook connection has been disabled. Do you want to reconnect with Facebook.</value>
+  </data>
+  <data name="TURNED_OFF" xml:space="preserve">
+    <value>Turned Off</value>
+  </data>
+  <data name="TURNED_ON" xml:space="preserve">
+    <value>Turned On</value>
+  </data>
+  <data name="TURN_OFF" xml:space="preserve">
+    <value>Turn Off</value>
+  </data>
+  <data name="TURN_ON" xml:space="preserve">
+    <value>Turn On</value>
+  </data>
+  <data name="UNEXPECTED_EXCEPTION" xml:space="preserve">
+    <value>An unexpected error occurred with our server. Please try again later. If the problem still occurs, please contact our support team at support@waveface.com</value>
+  </data>
+  <data name="addDeviceInstruction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\addDeviceInstruction.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
+  </data>
+  <data name="button_appstore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button.appstore.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_googleplay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button.googleplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PersonalCloud" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cloud-connected-devices.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\P1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\P2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\P3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="qr_waveface_site" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\qr_waveface_site.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StationServiceDown" xml:space="preserve">
+    <value>Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service.</value>
+  </data>
+  <data name="stream_appstore_qr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_appstore_qr.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stream_googleplay_qr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_googleplay_qr.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UNKNOW_SIGNUP_ERROR1" xml:space="preserve">
+    <value>Unknown signup error occur!</value>
+  </data>
+  <data name="f_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\f_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icon.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NeedToUpgrade" xml:space="preserve">
+    <value>This version is out of date. Click ‘OK’ to download and install the latest version.</value>
+  </data>
+  <data name="UnknownSigninError" xml:space="preserve">
+    <value>Unknown signin error occur!</value>
+  </data>
+</root>

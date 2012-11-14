@@ -1,0 +1,838 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C1A28328-3DEC-4867-BB04-8AF251D8FC0B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Waveface.Stream.WindowsClient</RootNamespace>
+    <AssemblyName>WindowsClient</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>C:\Users\larry\Dropbox\Suitcase\NewClientWindow\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://shawnliang-pc:9191/NewClientWindow/</InstallUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>index.html</WebPage>
+    <ApplicationRevision>69</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>true</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>F8B8DEADE14D0AB66ABFB9D135542B089A730F01</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>WebClient_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AppLimit.NetSparkle, Version=1.0.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\NetSparkle-1.0.83\AppLimit.NetSparkle.dll</HintPath>
+    </Reference>
+    <Reference Include="ExifLibrary">
+      <HintPath>..\..\Lib\ExifLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\fastJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\..\Lib\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\Lib\Windows7APICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MonthCalendarControl, Version=1.0.4533.21145, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MonthCalendarControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="websocket-sharp, Version=1.0.2.27418, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>..\..\Lib\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Class\AutoImportContentProvider.cs" />
+    <Compile Include="Src\Class\AutoImporter.cs" />
+    <Compile Include="Src\Class\AutoUpdate.cs" />
+    <Compile Include="Src\Class\Content.cs" />
+    <Compile Include="Src\Class\ContentBase.cs" />
+    <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
+    <Compile Include="Src\Class\ContentProvider\LibrariesContentProvider.cs" />
+    <Compile Include="Src\Class\ContentProvider\PicasaContentProvider.cs" />
+    <Compile Include="Src\Class\CustomWindow.cs" />
+    <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\ExifExtractor.cs" />
+    <Compile Include="Src\Class\FacebookConnectableService.cs" />
+    <Compile Include="Src\Class\FastJSONHelper.cs" />
+    <Compile Include="Src\Class\ImportTranscation.cs" />
+    <Compile Include="Src\Class\PersonalCloudNode.cs" />
+    <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
+    <Compile Include="Src\Class\StreamLogin.cs" />
+    <Compile Include="Src\Class\StreamSignup.cs" />
+    <Compile Include="Src\Control\CentralLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\IntroControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\IntroControl.designer.cs">
+      <DependentUpon>IntroControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Class\NetworkChecker.cs" />
+    <Compile Include="Src\Class\PhotoSearch.cs" />
+    <Compile Include="Src\Class\PortableDevice.cs" />
+    <Compile Include="Src\Class\PortableMediaService.cs" />
+    <Compile Include="Src\Control\PersonalCloudStatusControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\PersonalCloudStatusControl.designer.cs">
+      <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\PhotoGalleryViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceImportControl.designer.cs">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ServiceItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ServiceItemControl.designer.cs">
+      <DependentUpon>ServiceItemControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\SignUpControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\SignUpControl.designer.cs">
+      <DependentUpon>SignUpControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Class\UserInfo.cs" />
+    <Compile Include="Src\Class\UserSession.cs" />
+    <Compile Include="Src\Class\WizardParameters.cs" />
+    <Compile Include="Src\Control\ChoosePlanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ChoosePlanControl.designer.cs">
+      <DependentUpon>ChoosePlanControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\FBLoginButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\FBLoginButton.Designer.cs">
+      <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\FileImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\FileImportControl.designer.cs">
+      <DependentUpon>FileImportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ImportFolderAndMediaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ImportFolderAndMediaControl.designer.cs">
+      <DependentUpon>ImportFolderAndMediaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\ImportFromPotableMediaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ImportFromPotableMediaControl.designer.cs">
+      <DependentUpon>ImportFromPotableMediaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\LoginButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\LoginControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\LoginControl.designer.cs">
+      <DependentUpon>LoginControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\LoginInputBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\LoginInputBox.Designer.cs">
+      <DependentUpon>LoginInputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\LogMessageListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\StepNavigator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\StepNavigator.designer.cs">
+      <DependentUpon>StepNavigator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\StepPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\TutorialNavigator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\TutorialNavigator.designer.cs">
+      <DependentUpon>TutorialNavigator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\WizardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\AccountInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\AccountInfoForm.designer.cs">
+      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\AddDeviceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\AddDeviceDialog.designer.cs">
+      <DependentUpon>AddDeviceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\AutoImportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\AutoImportDialog.designer.cs">
+      <DependentUpon>AutoImportDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\HidableProgressingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\HidableProgressingDialog.designer.cs">
+      <DependentUpon>HidableProgressingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\NewUserWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\NewUserWizardDialog.designer.cs">
+      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\OldUserWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\StepByStepWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\StepByStepWizardDialog.designer.cs">
+      <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Enum\ContentProviderType.cs" />
+    <Compile Include="Src\Enum\ContentType.cs" />
+    <Compile Include="Src\EventArgs\AccountEventArgs.cs" />
+    <Compile Include="Src\Class\Win32Helper.cs" />
+    <Compile Include="Src\Control\CueTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\ImageButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\LoginInputPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\TabControlEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\TitlePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\CleanResourceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\CleanResourceDialog.Designer.cs">
+      <DependentUpon>CleanResourceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\ContactUsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\ContactUsDialog.Designer.cs">
+      <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\LoginDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\LoginDialog.Designer.cs">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\ProcessingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\ProcessingDialog.Designer.cs">
+      <DependentUpon>ProcessingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\SettingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\SettingDialog.Designer.cs">
+      <DependentUpon>SettingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\SignUpDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\SignUpDialog.Designer.cs">
+      <DependentUpon>SignUpDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
+    <Compile Include="Src\Extension\EnumExtension.cs" />
+    <Compile Include="Src\Extension\ErrorProviderExtension.cs" />
+    <Compile Include="Src\Extension\NotifyIconExtension.cs" />
+    <Compile Include="Src\Extension\ToolStripItemCollectionExtension.cs" />
+    <Compile Include="Src\Form\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Form\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Interface\IConnectableService.cs" />
+    <Compile Include="Src\Interface\IContent.cs" />
+    <Compile Include="Src\Interface\IContentProvider.cs" />
+    <Compile Include="Src\Interface\IDockableModule.cs" />
+    <Compile Include="Src\Interface\IExifExtractor.cs" />
+    <Compile Include="Src\Interface\IPersonalCloudStatus.cs" />
+    <Compile Include="Src\Interface\IPortableMediaService.cs" />
+    <Compile Include="Src\Interface\IStreamLoginable.cs" />
+    <Compile Include="Src\Interface\IStreamSignUp.cs" />
+    <Compile Include="Src\Program.cs" />
+    <Compile Include="Src\Class\StationDB.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Resources\addDeviceInstruction.rtf" />
+    <None Include="Web\stylesheets\font\fontawesome-webfont.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Web\stylesheets\font\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Web\stylesheets\font\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\IntroControl.resx">
+      <DependentUpon>IntroControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\PersonalCloudStatusControl.resx">
+      <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceItemControl.resx">
+      <DependentUpon>ServiceItemControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\SignUpControl.resx">
+      <DependentUpon>SignUpControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ChoosePlanControl.resx">
+      <DependentUpon>ChoosePlanControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\FBLoginButton.resx">
+      <DependentUpon>FBLoginButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\FileImportControl.resx">
+      <DependentUpon>FileImportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ImageButton.resx">
+      <DependentUpon>ImageButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ImportFolderAndMediaControl.resx">
+      <DependentUpon>ImportFolderAndMediaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ImportFromPotableMediaControl.resx">
+      <DependentUpon>ImportFromPotableMediaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\LoginControl.resx">
+      <DependentUpon>LoginControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\LoginInputBox.resx">
+      <DependentUpon>LoginInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\StepNavigator.resx">
+      <DependentUpon>StepNavigator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\TitlePanel.resx">
+      <DependentUpon>TitlePanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\TutorialNavigator.resx">
+      <DependentUpon>TutorialNavigator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AccountInfoForm.resx">
+      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AccountInfoForm.zh-TW.resx">
+      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AddDeviceDialog.resx">
+      <DependentUpon>AddDeviceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AutoImportDialog.resx">
+      <DependentUpon>AutoImportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\AutoImportDialog.zh-TW.resx">
+      <DependentUpon>AutoImportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\CleanResourceDialog.resx">
+      <DependentUpon>CleanResourceDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\CleanResourceDialog.zh-TW.resx">
+      <DependentUpon>CleanResourceDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\ContactUsDialog.resx">
+      <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
+      <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\HidableProgressingDialog.resx">
+      <DependentUpon>HidableProgressingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\LoginDialog.resx">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\LoginDialog.zh-TW.resx">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\NewUserWizardDialog.resx">
+      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\OldUserWizardDialog.resx">
+      <DependentUpon>OldUserWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
+      <DependentUpon>ProcessingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\ProcessingDialog.zh-TW.resx">
+      <DependentUpon>ProcessingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\SettingDialog.resx">
+      <DependentUpon>SettingDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\SettingDialog.zh-TW.resx">
+      <DependentUpon>SettingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\SignUpDialog.resx">
+      <DependentUpon>SignUpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\SignUpDialog.zh-TW.resx">
+      <DependentUpon>SignUpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\StepByStepWizardDialog.resx">
+      <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Form\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+    <Content Include="Resources\button.appstore.png" />
+    <Content Include="Resources\button.googleplay.png" />
+    <Content Include="Resources\cloud-connected-devices.png" />
+    <Content Include="Resources\desktop_logo.png" />
+    <Content Include="Resources\dragNdrop-area.png" />
+    <Content Include="Resources\FBT_account.png" />
+    <Content Include="Resources\FBT_account_hl.png" />
+    <Content Include="Resources\FBT_setting.png" />
+    <Content Include="Resources\FBT_setting_hl.png" />
+    <Content Include="Resources\fb_btn.png" />
+    <Content Include="Resources\fb_btn_press.png" />
+    <Content Include="Resources\FB_Logo.png" />
+    <Content Include="Resources\f_logo.png" />
+    <Content Include="Resources\import-photos_normal.png" />
+    <Content Include="Resources\import-photos_press.png" />
+    <Content Include="Resources\input_box-2.png" />
+    <Content Include="Resources\login_btn.png" />
+    <Content Include="Resources\login_btn_press.png" />
+    <Content Include="Resources\newpost_btn.png" />
+    <Content Include="Resources\newpost_btn_hl.png" />
+    <Content Include="Resources\P1.png" />
+    <Content Include="Resources\P2.png" />
+    <Content Include="Resources\P3.png" />
+    <Content Include="Resources\qr_waveface_site.png" />
+    <Content Include="Resources\software-update-available.png" />
+    <Content Include="Resources\streamfotocollector_icon_128.png" />
+    <Content Include="Resources\stream_appstore_qr.png" />
+    <Content Include="Resources\stream_googleplay_qr.png" />
+    <Content Include="Resources\stream_tray_init.png" />
+    <Content Include="Resources\stream_tray_pause.png" />
+    <Content Include="Resources\stream_tray_syncing1.png" />
+    <Content Include="Resources\stream_tray_syncing2.png" />
+    <Content Include="Resources\stream_tray_warn.png" />
+    <Content Include="Resources\stream_tray_working.png" />
+    <Content Include="Resources\titlebar_1.png" />
+    <Content Include="Resources\UpdateAvailable.ico" />
+    <Content Include="Resources\usbflashcardwithcardreader2.png" />
+    <Content Include="Resources\windows_en_1.jpg" />
+    <Content Include="Resources\windows_en_2.jpg" />
+    <Content Include="Resources\windows_zh-tw_1.jpg" />
+    <Content Include="Resources\windows_zh-tw_2.jpg" />
+    <Content Include="Web\images\colorbox\border.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\controls.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\ie6\borderBottomCenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\ie6\borderBottomLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\ie6\borderBottomRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\ie6\borderMiddleLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\ie6\borderMiddleRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\ie6\borderTopCenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\ie6\borderTopLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\ie6\borderTopRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\loading.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\loading_background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\images\colorbox\overlay.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\all.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\collection.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\collections\attachments.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\collections\events.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\common.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\com\connector.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\com\env\base.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\com\env\local.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\com\env\windows.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\com\event.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\com\logger.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\com\store.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\com\wfwsocket.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\config.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\backbone\amplify.store.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\backbone\backbone.amplify.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\backbone\backbone.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\backbone\localstorage.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\bootstrap\bootstrap.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\bootstrap\bootstrap.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\jquery\fullcalendar.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\jquery\jquery.colorbox.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\jquery\jquery.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\lodash\lodash.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\lodash\lodash.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\moment.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\mustache.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\require\require.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\lib\require\text.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\main.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\models\attachment.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\models\event.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\app.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\attachment.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\calendar.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\eventDetail.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\events.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\event_detail.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\event_nav.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\event_sum.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\menu.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\myDay.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\javascripts\views\photos.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\stylesheets\font\fontawesome-webfont.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\stylesheets\screen.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\app.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\attachment.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\daily.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\event.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\events.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\event_calendar.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\event_detail.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\event_nav.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\event_sum.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\menu.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\myDay.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\photos.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Waveface.Stream.ClientFramework\Waveface.Stream.ClientFramework.csproj">
+      <Project>{6C951229-0A01-47B7-89B5-9317B025415B}</Project>
+      <Name>Waveface.Stream.ClientFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
+      <Project>{990AE10D-E77A-4742-BCAA-A52A9B7D1AF9}</Project>
+      <Name>Waveface.Stream.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MSHTML">
+      <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
