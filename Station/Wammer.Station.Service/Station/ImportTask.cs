@@ -244,13 +244,16 @@ namespace Wammer.Station
 			{
 				var id = Guid.NewGuid().ToString();
 
+				var ctime = File.GetCreationTimeUtc(file);
+				ctime = new DateTime(ctime.Year, ctime.Month, ctime.Day, ctime.Hour, ctime.Minute, ctime.Second, ctime.Kind);
+
 				var meta = new FileMetadata
 				{
 					object_id = id,
 					type = "image",
 					file_path = file,
 					file_name = Path.GetFileName(file),
-					file_create_time = File.GetCreationTime(file),
+					file_create_time = ctime,
 					timezone = timezoneDiff,
 					exif = exifExtractor.extract(file)
 				};
