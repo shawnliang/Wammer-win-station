@@ -25,12 +25,11 @@ namespace StationSystemTray
 		private Dictionary<string, int> m_InterestedFileCountInPhotos = new Dictionary<string, int>();
 		private BackgroundWorker backgroundWorker1;
 
+		public delegate void pathFoundDelegate(string path, int photoCount);
+
 		public event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
-
 		public event EventHandler<FileImportedEventArgs> FileImported;
-
 		public event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
-
 
 		public PhotoSearch()
 		{
@@ -73,11 +72,17 @@ namespace StationSystemTray
 			foreach (var drive in drives)
 			{
 				if (drive.DriveType == DriveType.Fixed)
-					Search(drive.Name);
+					Search(drive.Name, (path, count) => AddInterestedPath(path, count));
 			}
 		}
 
-		private void Search(string path)
+		/// <summary>
+		/// Searches valid photos with jpg/jpeg extension from a path
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="folderFound">custom action when a path containing photo is found</param>
+		/// <returns>photo count under path and its subdirectories</returns>
+		public void Search(string path, PhotoFolderFound folderFound = null)
 		{
 			try
 			{
@@ -85,20 +90,19 @@ namespace StationSystemTray
 					return;
 
 				var jpgCount = JpgFileCount(path);
-				if (jpgCount > 0)
+				if (jpgCount > 0 && folderFound != null)
 				{
-					AddInterestedPath(path, jpgCount);
+					folderFound(path, jpgCount);
 				}
 
 				var files = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
 
 				foreach (var file in files)
 				{
-					Search(file);
+					Search(file, folderFound);
 				}
-
 			}
-			catch (Exception e)
+			catch
 			{
 			}
 		}
