@@ -30,7 +30,6 @@ namespace Wammer.Station.Service
 		private HttpServer managementServer;
 		private AttachmentViewHandler viewHandler;
 		private PingHandler funcPingHandler = new PingHandler();
-		private UploadDownloadMonitor uploadDownloadMonitor = new UploadDownloadMonitor();
 		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
 		private MongoDBMonitor mongoMonitor;
 
@@ -84,20 +83,20 @@ namespace Wammer.Station.Service
 
 				// retry queue
 				Retry.RetryQueueHelper.Instance.LoadSavedTasks(item => {
-					uploadDownloadMonitor.OnTaskEnqueued(Retry.RetryQueueHelper.Instance, new TaskEventArgs(item.Task));
+					UploadDownloadMonitor.Instance.OnTaskEnqueued(Retry.RetryQueueHelper.Instance, new TaskEventArgs(item.Task));
 				});
-				Retry.RetryQueueHelper.Instance.TaskEnqueued += uploadDownloadMonitor.OnTaskEnqueued;
-				Retry.RetryQueueHelper.Instance.TaskDequeued += uploadDownloadMonitor.OnTaskDequeued;
+				Retry.RetryQueueHelper.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
+				Retry.RetryQueueHelper.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
 
 				// upload queue
-				AttachmentUploadQueueHelper.Instance.TaskEnqueued += uploadDownloadMonitor.OnTaskEnqueued;
-				AttachmentUploadQueueHelper.Instance.TaskDequeued += uploadDownloadMonitor.OnTaskDequeued;
+				AttachmentUploadQueueHelper.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
+				AttachmentUploadQueueHelper.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
 				AttachmentUploadQueueHelper.Instance.Init(); // TaskEnqueued and TaskDequeued event handler should be set in prior to Init() is called
 															 // so that performance counter value will be correct.
 
 				// download queue
-				BodySyncQueue.Instance.TaskEnqueued += uploadDownloadMonitor.OnTaskEnqueued;
-				BodySyncQueue.Instance.TaskDequeued += uploadDownloadMonitor.OnTaskDequeued;
+				BodySyncQueue.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
+				BodySyncQueue.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
 
 				ConfigThreadPool();
 
@@ -128,7 +127,7 @@ namespace Wammer.Station.Service
 
 				attachmentHandler.AttachmentProcessed += new AttachmentProcessedHandler(new AttachmentUtility()).OnProcessed;
 				attachmentHandler.AttachmentProcessed += localUserTrackMgr.OnAttachmentReceived;
-				attachmentHandler.ProcessSucceeded += uploadDownloadMonitor.OnProcessSucceeded;
+				attachmentHandler.ProcessSucceeded += UploadDownloadMonitor.Instance.OnAttachmentProcessed;
 
 				MakeThumbnailTask.ThumbnailGenerated += localUserTrackMgr.OnThumbnailGenerated;
 				UpstreamTask.AttachmentUpstreamed += localUserTrackMgr.OnAttachmentUpstreamed;

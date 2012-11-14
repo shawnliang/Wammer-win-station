@@ -214,7 +214,11 @@ namespace StationSystemTray
 					return;
 			}
 
-			dataGridView1.Rows.Add(true, selectedPath, "1");
+			Cursor.Current = Cursors.WaitCursor;
+			photoSearch.Search(selectedPath, (path, count) => {
+				dataGridView1.Rows.Add(true, path, count); 
+			});
+			Cursor.Current = Cursors.Default;
 		}
 
 		#endregion
@@ -271,7 +275,10 @@ namespace StationSystemTray
 
 		IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
 		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
+		void Search(string path, PhotoFolderFound folderFound);
 	}
+
+	public delegate void PhotoFolderFound(string path, int count);
 
 	public class PathAndPhotoCount
 	{

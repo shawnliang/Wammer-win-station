@@ -109,7 +109,7 @@ namespace Wammer.Station.AttachmentUpload
 					var Nsec = (int)gpsLatitude.Seconds.Numerator / (int)gpsLatitude.Seconds.Denominator;
 					exif.gps.latitude = Nmult * (Ndeg + (Nmin + Nsec / 60.0) / 60.0);
 
-					var Wmult = gpsLatitudeRef.Equals("East", StringComparison.CurrentCultureIgnoreCase) ? 1 : -1;
+					var Wmult = gpsLongitudeRef.Equals("East", StringComparison.CurrentCultureIgnoreCase) ? 1 : -1;
 					var Wdeg = (int)gpsLongitude.Degrees.Numerator / (int)gpsLongitude.Degrees.Denominator;
 					var Wmin = (int)gpsLongitude.Minutes.Numerator / (int)gpsLongitude.Minutes.Denominator;
 					var Wsec = (int)gpsLongitude.Seconds.Numerator / (int)gpsLongitude.Seconds.Denominator;
