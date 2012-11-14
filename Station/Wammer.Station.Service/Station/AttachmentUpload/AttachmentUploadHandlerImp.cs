@@ -255,7 +255,7 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			else if (uploadData.timezone.HasValue && exif != null && !string.IsNullOrEmpty(exif.DateTime))
 			{
-				var exifTime = DateTime.ParseExact(exif.DateTimeOriginal, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+				var exifTime = DateTime.ParseExact(exif.DateTime, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
 				eventTime = exifTime.AddMinutes(-uploadData.timezone.Value);
 			}
 			else if (uploadData.file_create_time.HasValue)
