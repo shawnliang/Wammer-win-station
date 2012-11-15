@@ -32,19 +32,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\Station\3rd_party\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\..\Lib\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\Station\3rd_party\log4net-1.2.11\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\Lib\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.WindowsInstaller, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ce35f76fcda82bad, processorArchitecture=MSIL">
       <HintPath>..\..\Station\3rd_party\Wix3.6\Microsoft.Deployment.WindowsInstaller.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
-      <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
+      <HintPath>..\..\..\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver">
-      <HintPath>..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
+      <HintPath>..\..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -84,7 +84,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(Wix36Dir)\SDK\MakeSfxCA.exe" "$(TargetDir)\InstallHelperPkg.dll" "$(Wix36Dir)\SDK\x86\sfxca.dll" "$(TargetPath)" "$(SolutionDir)\Station\3rd_party\Wix3.6\Microsoft.Deployment.WindowsInstaller.dll" "$(TargetPath).config" "$(TargetDir)\Station.Service.exe" "$(TargetDir)\fastJSON.dll" "$(TargetDir)\log4net.dll" "$(TargetDir)\MongoDB.Bson.dll" "$(TargetDir)\MongoDB.Driver.dll" "$(TargetDir)\ICSharpCode.SharpZipLib.dll" "$(TargetDir)\CommonLibs.dll" "$(TargetDir)\ExifLibrary.dll"
+    <PostBuildEvent>"$(Wix36Dir)\SDK\MakeSfxCA.exe" "$(TargetDir)\InstallHelperPkg.dll" "$(Wix36Dir)\SDK\x86\sfxca.dll" "$(TargetPath)" "$(SolutionDir)\..\Lib\Wix3.6\Microsoft.Deployment.WindowsInstaller.dll" "$(TargetPath).config" "$(TargetDir)\Station.Service.exe" "$(TargetDir)\fastJSON.dll" "$(TargetDir)\log4net.dll" "$(TargetDir)\MongoDB.Bson.dll" "$(TargetDir)\MongoDB.Driver.dll" "$(TargetDir)\ICSharpCode.SharpZipLib.dll" "$(TargetDir)\CommonLibs.dll" "$(TargetDir)\ExifLibrary.dll"
 if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

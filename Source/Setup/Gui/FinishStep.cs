@@ -38,7 +38,7 @@ namespace Gui
 		private static void LaunchWaveface()
 		{
 			string installDir = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-			string filePath = Path.Combine(installDir, "StationSystemTray.exe");
+			string filePath = Path.Combine(installDir, "WindowsClient.exe");
 
 			UACHelper.CreateProcessAsStandardUser(filePath, "");
 		}

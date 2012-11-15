@@ -104,19 +104,19 @@
     </IncludeInCabExtracted>
   </ItemGroup>
   <ItemGroup>
-    <IncludeInCab Include="..\..\Station\3rd_party\mongodb-win32-i386-2.0.1\bin\mongodump.exe">
+    <IncludeInCab Include="..\..\..\Lib\mongodb-win32-i386-2.0.1\bin\mongodump.exe">
       <Link>mongodump.exe</Link>
     </IncludeInCab>
-    <IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Bson.dll">
+    <IncludeInCab Include="..\..\..\Lib\mongo-driver\MongoDB.Bson.dll">
       <Link>MongoDB.Bson.dll</Link>
     </IncludeInCab>
-    <IncludeInCab Include="..\..\Station\3rd_party\mongo-driver\MongoDB.Driver.dll">
+    <IncludeInCab Include="..\..\..\Lib\mongo-driver\MongoDB.Driver.dll">
       <Link>MongoDB.Driver.dll</Link>
     </IncludeInCab>
-	<IncludeInCab Include="..\..\Station\3rd_party\log4net-1.2.11\log4net.dll">
+	<IncludeInCab Include="..\..\..\Lib\log4net-1.2.11\log4net.dll">
       <Link>log4net.dll</Link>
     </IncludeInCab>
-	<IncludeInCab Include="..\..\Common\Localizer\bin\CommonLibs.dll">
+	<IncludeInCab Include="..\..\..\Bin\Debug\CommonLibs.dll">
       <Link>CommonLibs.dll</Link>
     </IncludeInCab>
   </ItemGroup>
