@@ -86,23 +86,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExifLibrary">
-      <HintPath>..\3rd_party\ExifLibrary.dll</HintPath>
+      <HintPath>..\..\Lib\ExifLibrary.dll</HintPath>
     </Reference>
     <Reference Include="fastJSON">
-      <HintPath>..\3rd_party\fastJSON\fastJSON.dll</HintPath>
+      <HintPath>..\..\Lib\fastJSON.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\Lib\log4net-1.2.11\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
-      <HintPath>..\3rd_party\mongo-driver\MongoDB.Bson.dll</HintPath>
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver">
-      <HintPath>..\3rd_party\mongo-driver\MongoDB.Driver.dll</HintPath>
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Client\Libs\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Lib\Newtonsoft.Json.4.5.10\lib\net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -119,7 +118,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="websocket-sharp">
-      <HintPath>..\3rd_party\websocket-sharp\websocket-sharp.dll</HintPath>
+      <HintPath>..\..\Lib\websocket-sharp\websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
