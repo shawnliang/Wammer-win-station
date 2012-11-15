@@ -347,6 +347,7 @@ namespace Wammer.Station
 		public int timezone { get; set; }
 		public exif exif { get; set; }
 
+		[JsonIgnore]
 		public DateTime EventTime
 		{
 			get 
