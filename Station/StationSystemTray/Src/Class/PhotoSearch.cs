@@ -16,17 +16,7 @@ namespace StationSystemTray
 {
 	class PhotoSearch : IPhotoSearch
 	{
-		private string[] unInterestedFolders = new string[] 
-		{
-			Environment.GetEnvironmentVariable("windir"),
-			Environment.GetEnvironmentVariable("ProgramData"),
-			Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-			Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-			Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-			Environment.GetEnvironmentVariable("ProgramW6432"),
-			@"c:\$Recycle.bin"
-		};
-
+		private List<string> ignorePaths= new List<string>();		
 		private HashSet<PathAndPhotoCount> _interestedPaths;
 		private Dictionary<string, int> m_InterestedFileCountInPhotos = new Dictionary<string, int>();
 		private BackgroundWorker backgroundWorker1;
@@ -39,6 +29,17 @@ namespace StationSystemTray
 
 		public PhotoSearch()
 		{
+			var paths = new string[] {
+				Environment.GetEnvironmentVariable("windir"),
+				Environment.GetEnvironmentVariable("ProgramData"),
+				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				Environment.GetEnvironmentVariable("ProgramW6432"),
+				@"c:\$Recycle.bin"
+			};
+
+			ignorePaths.AddRange(paths.Where(x => !string.IsNullOrEmpty(x)));
 		}
 
 
@@ -209,7 +210,7 @@ namespace StationSystemTray
 		private bool isUnderIgnorePath(String path)
 		{
 			bool underEx = false;
-			foreach (var unInterestedFolder in unInterestedFolders)
+			foreach (var unInterestedFolder in ignorePaths)
 			{
 				if (path.StartsWith(unInterestedFolder, StringComparison.CurrentCultureIgnoreCase))
 				{
