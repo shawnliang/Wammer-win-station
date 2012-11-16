@@ -52,6 +52,8 @@ namespace Wammer.Station
 		/// </summary>
 		/// <value>The m_ API key.</value>
 		private String m_APIKey { get; set; }
+
+		private List<string> m_IgnorePath { get; set; }
 		#endregion
 
 
@@ -64,6 +66,7 @@ namespace Wammer.Station
 		/// <param name="groupID">The group ID.</param>
 		/// <param name="paths">The paths.</param>
 		public ImportTask(string apiKey, string sessionToken, string groupID, string paths)
+			: this()
 		{
 			var ms = Regex.Matches(paths, PATHS_MATCH_PATTERN);
 			if (ms.Count == 0)
@@ -79,11 +82,29 @@ namespace Wammer.Station
 		}
 
 		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths)
+			: this()
 		{
 			m_APIKey = apiKey;
 			m_SessionToken = sessionToken;
 			m_GroupID = groupID;
 			m_Paths = paths.Where((file) => file.Length > 0);
+		}
+
+		private ImportTask()
+		{
+			string[] unInterestedFolders = new string[]
+			{
+				Environment.GetEnvironmentVariable("windir"),
+				Environment.GetEnvironmentVariable("ProgramData"),
+				Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
+				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				@"c:\$Recycle.bin"
+			};
+
+			m_IgnorePath = new List<string>();
+			m_IgnorePath.AddRange(unInterestedFolders.Where(x => !string.IsNullOrEmpty(x)));
 		}
 		#endregion
 
@@ -181,17 +202,6 @@ namespace Wammer.Station
 
 		private void findInterestedFiles(Action<string> fileAction)
 		{
-			string[] unInterestedFolders = new string[] 
-			{
-				Environment.GetEnvironmentVariable("windir"),
-				Environment.GetEnvironmentVariable("ProgramData"),
-				Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
-				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				@"c:\$Recycle.bin"
-			};
-
 			var processedDir = new HashSet<string>();
 
 			foreach (var path in m_Paths)
@@ -209,7 +219,7 @@ namespace Wammer.Station
 							if (processedDir.Contains(folder))
 								return false;
 
-							foreach (var skipdir in unInterestedFolders)
+							foreach (var skipdir in m_IgnorePath)
 								if (folder.StartsWith(skipdir, StringComparison.InvariantCultureIgnoreCase))
 									return false;
 
