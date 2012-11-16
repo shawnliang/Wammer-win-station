@@ -11,7 +11,6 @@ namespace StationSystemTray
 		event EventHandler<Wammer.Station.ImportDoneEventArgs> ImportDone;
 
 		IEnumerable<PortableDevice> GetPortableDevices();
-		IEnumerable<string> GetFileList(string path);
 		void ImportAsync(IEnumerable<string> files, string user_id, string session_token, string apikey);
 	}
 }
