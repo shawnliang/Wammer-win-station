@@ -8,6 +8,7 @@ using Wammer.Station.Timeline;
 using System.IO;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Wammer.Station
 {
@@ -44,30 +45,8 @@ namespace Wammer.Station
 
 		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
 		{
-			Debug.Assert(!string.IsNullOrEmpty(driver.user_id));
-			Debug.Assert(!string.IsNullOrEmpty(attachment.object_id));
-
-			
-			string tmpFolder;
-
-			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
-				tmpFolder = new FileStorage(driver).basePath;
-			else
-			{
-				tmpFolder = Path.Combine("cache", driver.user_id);
-				if (!Directory.Exists(tmpFolder))
-					Directory.CreateDirectory(tmpFolder);
-			}
-
-			var evtargs = new ResourceDownloadEventArgs
-							{
-								user_id = driver.user_id,
-								attachment = attachment,
-								imagemeta = meta,
-								filepath = Path.Combine(tmpFolder, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
-							};
-
-			EnqueueDownstreamTask(meta, evtargs);
+			var task = createDownloadTask(driver, meta, attachment);
+			bodySyncQueue.Enqueue(task, task.Priority);
 		}
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
@@ -93,73 +72,30 @@ namespace Wammer.Station
 			return fileName;
 		}
 
-		private void EnqueueDownstreamTask(ImageMeta meta, ResourceDownloadEventArgs evtargs)
-		{
-			TaskPriority pri;
-			if (meta == ImageMeta.Medium || meta == ImageMeta.Small)
-				pri = TaskPriority.High;
-			else if (meta == ImageMeta.Large || meta == ImageMeta.Square)
-				pri = TaskPriority.Medium;
-			else
-				pri = TaskPriority.Low;
-
-			bodySyncQueue.Enqueue(new ResourceDownloadTask(evtargs, pri), pri);
-		}
-
 		private void DownloadMissedResource(Driver driver, IEnumerable<PostInfo> posts)
 		{
-			Debug.Assert(driver != null);
-
 			// driver might be removed before running download tasks
 			if (driver == null)
 				return;
 
-			foreach (PostInfo post in posts)
+
+			// find missed attachment ids
+			var attachmentsToDownload = new HashSet<string>();
+			foreach (var post in posts)
 			{
-				if (string.Compare(post.hidden, "true", true) == 0)
+				if (post.attachment_id_array == null)
 					continue;
 
-				foreach (AttachmentInfo attachment in post.attachments)
+				foreach (var att_id in post.attachment_id_array)
 				{
-					Debug.Assert(!string.IsNullOrEmpty(attachment.object_id));
-
-					if (string.IsNullOrEmpty(attachment.object_id))
-						continue;
-
-					// original
-					if (!string.IsNullOrEmpty(attachment.url) && driver.isPrimaryStation)
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Origin);
-					}
-
-					var imageMeta = attachment.image_meta;
-					if (imageMeta == null)
-						continue;
-
-					// small
-					if (imageMeta.small != null)
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
-					}
-
-					// medium
-					if (imageMeta.medium != null)
-					{
-						EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
-					}
-
-					// large
-					//if (imageMeta.large != null)
-					//{
-					//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
-					//}
-
-					// square
-					//if (imageMeta.square != null)
-					//{
-					//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
-					//}
+					if (AttachmentCollection.Instance.FindOneById(att_id) == null)
+						attachmentsToDownload.Add(att_id);
 				}
+			}
+
+			foreach (var attId in attachmentsToDownload)
+			{
+				TaskQueue.Enqueue(new QueryIfDownstreamNeededTask(driver.user_id, attId), TaskPriority.Low);
 			}
 		}
 
@@ -178,6 +114,9 @@ namespace Wammer.Station
 
 				foreach (var post in posts)
 				{
+					if (post.attachments == null)
+						continue;
+
 					foreach (var attachment in post.attachments)
 					{
 						var savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
@@ -206,20 +145,6 @@ namespace Wammer.Station
 						{
 							EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
 						}
-
-						// temp skil large thumbnails because no client uses this at this moment.
-						//if (imageMeta.large != null &&
-						//    (savedImageMeta == null || savedImageMeta.large == null))
-						//{
-						//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Large);
-						//}
-
-						// square
-						//if (imageMeta.square != null &&
-						//    (savedImageMeta == null || savedImageMeta.square == null))
-						//{
-						//    EnqueueDownstreamTask(attachment, driver, ImageMeta.Square);
-						//}
 					}
 				}
 			}
@@ -233,6 +158,39 @@ namespace Wammer.Station
 				this.LogDebugMsg("Resume unfinished downstream tasks done. Totoal seconds spent: " + duration.TotalSeconds.ToString());
 			}
 		}
+
+		public static ResourceDownloadTask createDownloadTask(Driver driver, ImageMeta meta, AttachmentInfo attachment)
+		{
+			string tmpFolder;
+
+			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
+				tmpFolder = new FileStorage(driver).basePath;
+			else
+			{
+				tmpFolder = Path.Combine("cache", driver.user_id);
+				if (!Directory.Exists(tmpFolder))
+					Directory.CreateDirectory(tmpFolder);
+			}
+
+			var evtargs = new ResourceDownloadEventArgs
+			{
+				user_id = driver.user_id,
+				attachment = attachment,
+				imagemeta = meta,
+				filepath = Path.Combine(tmpFolder, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
+			};
+
+			TaskPriority pri;
+			if (meta == ImageMeta.Medium || meta == ImageMeta.Small)
+				pri = TaskPriority.High;
+			else if (meta == ImageMeta.Large || meta == ImageMeta.Square)
+				pri = TaskPriority.Medium;
+			else
+				pri = TaskPriority.Low;
+
+			return new ResourceDownloadTask(evtargs, pri);
+		}
+
 
 		private void DownloadOriginalAttachmentsFromCloud()
 		{
@@ -271,4 +229,97 @@ namespace Wammer.Station
 			}
 		}
 	}
+
+	[Serializable]
+	internal class QueryIfDownstreamNeededTask: Retry.DelayedRetryTask
+	{
+		private string object_id;
+		private string user_id;
+
+	
+		public QueryIfDownstreamNeededTask(string user_id, string object_id)
+			: base(TaskPriority.Low)
+		{
+			this.object_id = object_id;
+			this.user_id = user_id;
+		}
+
+		protected override void Run()
+		{
+			try
+			{
+				var user = DriverCollection.Instance.FindOneById(user_id);
+				if (user == null)
+					return;
+
+				var cloudDoc = AttachmentApi.GetInfo(object_id, user.session_token);
+				var localDoc = AttachmentCollection.Instance.FindOneById(object_id);
+
+				if (cloudHasMedium(cloudDoc) && localHasNoMedium(localDoc))
+				{
+					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Medium, cloudDoc);
+					BodySyncQueue.Instance.Enqueue(task, task.Priority);
+				}
+
+				if (cloudHasSmall(cloudDoc) && localHasNoSmall(localDoc))
+				{
+					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Small, cloudDoc);
+					BodySyncQueue.Instance.Enqueue(task, task.Priority);
+				}
+
+				if (cloudHasOrigin(cloudDoc) && localHasNoOrigin(localDoc))
+				{
+					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
+					BodySyncQueue.Instance.Enqueue(task, task.Priority);
+				}
+			}
+			catch (WammerCloudException e)
+			{
+				if (e.WammerError == (int)AttachmentApiError.AttachmentNotExist)
+					return;
+				else
+					throw;
+			}
+		}
+
+		private static bool localHasNoMedium(Attachment localDoc)
+		{
+			return localDoc == null || localDoc.image_meta == null || localDoc.image_meta.medium == null ||
+					string.IsNullOrEmpty(localDoc.image_meta.medium.saved_file_name);
+		}
+
+		private static bool localHasNoSmall(Attachment localDoc)
+		{
+			return localDoc == null || localDoc.image_meta == null || localDoc.image_meta.small == null ||
+					string.IsNullOrEmpty(localDoc.image_meta.small.saved_file_name);
+		}
+
+		private static bool localHasNoOrigin(Attachment localDoc)
+		{
+			return localDoc == null || string.IsNullOrEmpty(localDoc.saved_file_name);
+		}
+
+		private static bool cloudHasOrigin(AttachmentInfo attachment)
+		{
+			return !string.IsNullOrEmpty(attachment.url);
+		}
+
+		private static bool cloudHasSmall(AttachmentInfo attachment)
+		{
+			return attachment.image_meta != null && attachment.image_meta.small != null &&
+								!string.IsNullOrEmpty(attachment.image_meta.small.url);
+		}
+
+		private static bool cloudHasMedium(AttachmentInfo attachment)
+		{
+			return attachment.image_meta != null && attachment.image_meta.medium != null &&
+								!string.IsNullOrEmpty(attachment.image_meta.medium.url);
+		}
+
+		public override void ScheduleToRun()
+		{
+			TaskQueue.Enqueue(this, this.Priority);
+		}
+	}
+
 }

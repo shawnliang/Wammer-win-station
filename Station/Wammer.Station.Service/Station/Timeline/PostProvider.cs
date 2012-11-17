@@ -13,7 +13,7 @@ namespace Wammer.Station.Timeline
 		public PostResponse GetLastestPosts(Driver user, int limit)
 		{
 			var api = new PostApi(user);
-			return api.PostGetLatest(limit);
+			return api.PostFetchByFilter(new FilterEntity { limit = -limit, timestamp = DateTime.Now.ToCloudTimeString() });
 		}
 
 		public PostResponse GetPostsBefore(Driver user, DateTime before, int limit)

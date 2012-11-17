@@ -127,7 +127,8 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
 				{CloudServer.PARAM_FILTER_ENTITY, filter.ToFastJSON()},
 				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+				{CloudServer.PARAM_COMPONENT_OPTIONS, "[\"comment\",\"preview\",\"soul\",\"content\"]"}
 			};
 
 			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
@@ -141,7 +142,8 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 				{CloudServer.PARAM_DATUM, seq_num},
-				{CloudServer.PARAM_LIMIT, limit}
+				{CloudServer.PARAM_LIMIT, limit},
+				{CloudServer.PARAM_COMPONENT_OPTIONS, "[\"comment\",\"preview\",\"soul\",\"content\"]"}
 			};
 
 			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchBySeq", parameters, false);
@@ -157,7 +159,8 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
 			                 		{CloudServer.PARAM_POST_ID_LIST, GetPostIdList(postIds)},
 			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+									{CloudServer.PARAM_COMPONENT_OPTIONS, "[\"comment\",\"preview\",\"soul\",\"content\"]"}
 			                 	};
 
 			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
@@ -170,7 +173,8 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_LIMIT, limit},
 			                 		{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
 			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
-			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
+			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
+									{CloudServer.PARAM_COMPONENT_OPTIONS, "[\"comment\",\"preview\",\"soul\",\"content\"]"}
 			                 	};
 
 			return CloudServer.requestPath<PostGetLatestResponse>("posts/getLatest", parameters, false);
