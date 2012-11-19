@@ -6,6 +6,7 @@ using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using System.Net;
 
 namespace Wammer.Station.APIHandler
 {
@@ -43,8 +44,25 @@ namespace Wammer.Station.APIHandler
 			else
 			{
 				var sinceParam = Parameters["since_seq_num"];
-				result = ChangeLogsApi.GetChangeHistory(Parameters["session_token"], Parameters["apikey"],
-					Parameters["group_id"], sinceParam == null? -1 : Convert.ToInt32(sinceParam), include_entities);
+
+				try
+				{
+					result = ChangeLogsApi.GetChangeHistory(Parameters["session_token"], Parameters["apikey"],
+						Parameters["group_id"], sinceParam == null ? -1 : Convert.ToInt32(sinceParam), include_entities);
+				}
+				catch (WammerCloudException e)
+				{
+					if (e.HttpError == System.Net.WebExceptionStatus.ProtocolError)
+					{
+						var webEx = e.InnerException as WebException;
+						var status = (webEx.Response as HttpWebResponse).StatusCode;
+
+						RespondError(status, e.response, "application/json");
+						return;
+					}
+					else
+						throw;
+				}
 			}
 
 			var localUserTracks = localUserTrackMgr.getUserTracksBySession(Parameters["group_id"], Parameters["session_token"]);

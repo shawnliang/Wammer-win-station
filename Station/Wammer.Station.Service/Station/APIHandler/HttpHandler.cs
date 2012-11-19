@@ -376,6 +376,16 @@ namespace Wammer.Station
 		{
 			HttpHelper.RespondFailure(Response, new CloudResponse(400, error_code, description));
 		}
+
+		protected void RespondError(HttpStatusCode status, string response, string content_type)
+		{
+			Response.StatusCode = (int)status;
+			Response.ContentType = content_type;
+			using (var w = new StreamWriter(Response.OutputStream))
+			{
+				w.Write(response);
+			}
+		}
 	}
 
 
