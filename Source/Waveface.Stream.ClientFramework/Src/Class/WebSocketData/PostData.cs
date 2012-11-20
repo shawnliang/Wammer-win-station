@@ -34,5 +34,14 @@ namespace Waveface.Stream.ClientFramework
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<AttachmentData> summary_attachments { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public PostGpsData gps { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<PeopleData> people { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<String> tags { get; set; }
     }
 }

@@ -189,7 +189,7 @@ namespace Wammer.Cloud
 			/// Cloud extract gps from exif info and put here.
 			/// </summary>
 			[BsonIgnoreIfNull]
-			public Gps gps { get; set; }
+			public Model.Gps gps { get; set; }
 		}
 
 		#endregion

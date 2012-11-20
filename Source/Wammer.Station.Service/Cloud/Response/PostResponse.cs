@@ -240,6 +240,42 @@ namespace Wammer.Cloud
 		public string device_id { get; set; }
 	}
 
+    [BsonIgnoreExtraElements]
+    public class Gps
+    {
+        [BsonIgnoreIfNull]
+        public float latitude { get; set; }
+
+        [BsonIgnoreIfNull]
+        public int zoom_level { get; set; }
+
+        [BsonIgnoreIfNull]
+        public string name { get; set; }
+
+        [BsonIgnoreIfNull]
+        public float longitude { get; set; }
+    }
+
+    [BsonIgnoreExtraElements]
+    public class Person
+    {
+        [BsonIgnoreIfNull]
+        public string name { get; set; }
+
+        [BsonIgnoreIfNull]
+        public string avatar { get; set; }
+    }
+
+    [BsonIgnoreExtraElements]
+    public class ExtraParameter
+    {
+        [BsonIgnoreIfNull]
+        public string name { get; set; }
+
+        [BsonIgnoreIfNull]
+        public List<string> values { get; set; }
+    }
+
 	[BsonIgnoreExtraElements]
 	public class PostInfo
 	{
@@ -279,16 +315,28 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public Boolean import { get; set; }
 
-		[BsonIgnoreIfNull]
-		public DateTime timestamp { get; set; }
+        [BsonIgnoreIfNull]
+        public DateTime timestamp { get; set; }
 
-		[BsonId]
-		public string post_id { get; set; }
+        [BsonId]
+        public string post_id { get; set; }
 
-		[BsonIgnoreIfNull]
-		public string code_name { get; set; }
+        [BsonIgnoreIfNull]
+        public List<Person> people { get; set; }
 
-		[BsonIgnoreIfNull]
+        [BsonIgnoreIfNull]
+        public List<ExtraParameter> extra_parameters { get; set; }
+
+        [BsonIgnoreIfNull]
+        public Gps gps { get; set; }
+
+        [BsonIgnoreIfNull]
+        public List<string> tags { get; set; }
+
+        [BsonIgnoreIfNull]
+        public string code_name { get; set; }
+
+        [BsonIgnoreIfNull]
 		public List<string> attachment_id_array { get; set; }
 
 		[BsonIgnoreIfNull]

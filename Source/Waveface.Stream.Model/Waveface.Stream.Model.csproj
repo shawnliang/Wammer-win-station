@@ -84,12 +84,14 @@
     <Compile Include="Src\Class\Device.cs" />
     <Compile Include="Src\Class\Drivers.cs" />
     <Compile Include="Src\Class\ErrorMsg.cs" />
+    <Compile Include="Src\Class\ExtraParameter.cs" />
     <Compile Include="Src\Class\FBPostData.cs" />
     <Compile Include="Src\Class\FileImportedMsg.cs" />
     <Compile Include="Src\Class\FileStorage.cs" />
     <Compile Include="Src\Class\FileStorageAsyncResult.cs" />
     <Compile Include="Src\Class\FileStorageHelper.cs" />
     <Compile Include="Src\Class\GenericCommand.cs" />
+    <Compile Include="Src\Class\PostGps.cs" />
     <Compile Include="Src\Class\ImportDoneMsg.cs" />
     <Compile Include="Src\Class\ImportMsg.cs" />
     <Compile Include="Src\Class\LoginedSession.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Src\Class\NotifyMsg.cs" />
     <Compile Include="Src\Class\NullPerfCounter.cs" />
     <Compile Include="Src\Class\PerfCounter.cs" />
+    <Compile Include="Src\Class\Person.cs" />
     <Compile Include="Src\Class\PostInfo.cs" />
     <Compile Include="Src\Class\Posts.cs" />
     <Compile Include="Src\Class\Preview.cs" />
@@ -130,7 +133,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

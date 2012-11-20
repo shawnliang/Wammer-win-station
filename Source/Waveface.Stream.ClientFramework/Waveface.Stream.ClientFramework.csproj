@@ -86,6 +86,9 @@
     <Compile Include="Src\Class\WebSocketData\CalendarEntry.cs" />
     <Compile Include="Src\Class\WebSocketData\DeviceData.cs" />
     <Compile Include="Src\Class\WebSocketData\ImageMetaData.cs" />
+    <Compile Include="Src\Class\WebSocketData\PeopleData.cs" />
+    <Compile Include="Src\Class\WebSocketData\PostExtraData.cs" />
+    <Compile Include="Src\Class\WebSocketData\PostGpsData.cs" />
     <Compile Include="Src\Class\WebSocketData\ThumbnailData.cs" />
     <Compile Include="Src\Class\Lazy.cs" />
     <Compile Include="Src\Class\WebSocketData\PostData.cs" />
@@ -106,9 +109,6 @@
     <Compile Include="Src\Extension\ObjectExtension.cs" />
     <Compile Include="Src\Interface\IWebSocketCommand.cs" />
     <Compile Include="Src\Interface\IWebSocketCommandExecuter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">

@@ -90,6 +90,12 @@ namespace Waveface.Stream.ClientFramework
                 .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.post_id))
                 .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time));
 
+            Mapper.CreateMap<PostGps, PostGpsData>();
+
+            Mapper.CreateMap<Person, PeopleData>();
+
+            Mapper.CreateMap<ExtraParameter, PostExtraData>();
+
             Mapper.CreateMap<Attachment, AttachmentData>()
                 .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.object_id))
                 .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time.HasValue ? src.event_time.Value.ToUTCISO8601ShortString() : null))
