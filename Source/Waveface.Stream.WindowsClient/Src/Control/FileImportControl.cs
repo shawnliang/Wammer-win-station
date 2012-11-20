@@ -263,16 +263,18 @@ namespace Waveface.Stream.WindowsClient
 		}
 	}
 
+    public interface IPhotoSearch
+    {
+        event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
+        event EventHandler<FileImportedEventArgs> FileImported;
+        event EventHandler<ImportDoneEventArgs> ImportDone;
 
-	public interface IPhotoSearch
-	{
-		event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
-		event EventHandler<FileImportedEventArgs> FileImported;
-		event EventHandler<ImportDoneEventArgs> ImportDone;
+        IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
+        void ImportToStationAsync(IEnumerable<string> paths, string session_token);
+        void Search(string path, PhotoFolderFound folderFound);
+    }
 
-		IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
-		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
-	}
+    public delegate void PhotoFolderFound(string path, int count);
 
 	public class PathAndPhotoCount
 	{

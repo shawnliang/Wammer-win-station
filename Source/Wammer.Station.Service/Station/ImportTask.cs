@@ -52,6 +52,8 @@ namespace Wammer.Station
 		/// </summary>
 		/// <value>The m_ API key.</value>
 		private String m_APIKey { get; set; }
+
+		private List<string> m_IgnorePath { get; set; }
 		#endregion
 
 
@@ -64,6 +66,7 @@ namespace Wammer.Station
 		/// <param name="groupID">The group ID.</param>
 		/// <param name="paths">The paths.</param>
 		public ImportTask(string apiKey, string sessionToken, string groupID, string paths)
+			: this()
 		{
 			var ms = Regex.Matches(paths, PATHS_MATCH_PATTERN);
 			if (ms.Count == 0)
@@ -79,11 +82,29 @@ namespace Wammer.Station
 		}
 
 		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths)
+			: this()
 		{
 			m_APIKey = apiKey;
 			m_SessionToken = sessionToken;
 			m_GroupID = groupID;
 			m_Paths = paths.Where((file) => file.Length > 0);
+		}
+
+		private ImportTask()
+		{
+			string[] unInterestedFolders = new string[]
+			{
+				Environment.GetEnvironmentVariable("windir"),
+				Environment.GetEnvironmentVariable("ProgramData"),
+				Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
+				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				@"c:\$Recycle.bin"
+			};
+
+			m_IgnorePath = new List<string>();
+			m_IgnorePath.AddRange(unInterestedFolders.Where(x => !string.IsNullOrEmpty(x)));
 		}
 		#endregion
 
@@ -119,20 +140,22 @@ namespace Wammer.Station
 			try
 			{
 				var importTime = DateTime.Now;
-				var postID = Guid.NewGuid().ToString();
 
-				var files = findInterestedFiles();
-				var metaList = extractMetadata(files);
+				var batchPaths = new List<string>();
 
-				batchUploadMetadataAsync(metaList);
-
-				foreach (var meta in metaList)
+				findInterestedFiles((file) =>
 				{
-					saveToStream(importTime, postID, meta);
-				}
+					batchPaths.Add(file);
 
-				var objectIDs = metaList.Select(x => x.object_id);
-				createPostContainer(importTime, postID, objectIDs);
+					if (batchPaths.Count == 50)
+					{
+						submitBatch(importTime, batchPaths);
+						batchPaths.Clear();
+					}
+				});
+
+				if (batchPaths.Count > 0)
+					submitBatch(importTime, batchPaths);
 			}
 			catch (Exception e)
 			{
@@ -143,6 +166,19 @@ namespace Wammer.Station
 			{
 				raiseImportDoneEvent(error);
 			}
+		}
+
+		private void submitBatch(DateTime importTime, List<string> batchPaths)
+		{
+			var metaList = extractMetadata(batchPaths);
+			batchUploadMetadataAsync(metaList);
+
+			var post_id = Guid.NewGuid().ToString();
+			foreach (var meta in metaList)
+				saveToStream(importTime, post_id, meta);
+
+			var objectIDs = metaList.Select(x => x.object_id);
+			createPostContainer(importTime, post_id, objectIDs);
 		}
 		#endregion
 
@@ -164,27 +200,44 @@ namespace Wammer.Station
 			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
 		}
 
-		private List<string> findInterestedFiles()
+		private void findInterestedFiles(Action<string> fileAction)
 		{
-			var interestedExtensions = new HashSet<String>() { ".jpg", ".jpeg", ".png", ".bmp" };
-
-			var files = new List<string>();
+			var processedDir = new HashSet<string>();
 
 			foreach (var path in m_Paths)
 			{
 				if (Directory.Exists(path))
 				{
-					var filesInDir = (new DirectoryInfo(path)).EnumerateFiles("*.*");
-					var interestedFiles = filesInDir.Where((file) => interestedExtensions.Contains(Path.GetExtension(file).ToLower()));
-					files.AddRange(interestedFiles.ToArray());
+					var dir = new DirectoryInfo(path);
+					dir.SearchFiles(new string[] { "*.jpg", "*.jpeg" },
+						// file callback
+						(file) => { fileAction(file); return true; },
+
+						// dir callback
+						(folder) =>
+						{
+							if (processedDir.Contains(folder))
+								return false;
+
+							foreach (var skipdir in m_IgnorePath)
+								if (folder.StartsWith(skipdir, StringComparison.InvariantCultureIgnoreCase))
+									return false;
+
+							processedDir.Add(folder);
+
+							return true;
+						});
 				}
-				else if (File.Exists(path) && interestedExtensions.Contains(Path.GetExtension(path).ToLower()))
+				else if (File.Exists(path))
 				{
-					files.Add(path);
+					var ext = Path.GetExtension(path);
+					if (ext.Equals(".jpg", StringComparison.InvariantCultureIgnoreCase) ||
+						ext.Equals(".jpeg", StringComparison.InvariantCultureIgnoreCase))
+					{
+						fileAction(path);
+					}
 				}
 			}
-
-			return files.Where((x) => new FileInfo(x).Length < 20 * 1024 * 1024).ToList();
 		}
 
 		private void saveToStream(DateTime importTime, string postID, FileMetadata file_meta)

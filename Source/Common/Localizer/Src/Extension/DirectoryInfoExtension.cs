@@ -8,6 +8,8 @@ using System.Reflection;
 
 public static class DirectoryInfoExtension
 {
+	public delegate bool PathCallback(string path);
+
 	#region PInvoke
 	[DllImport("kernel32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto, SetLastError = true)]
 	private static extern IntPtr FindFirstFile(string pFileName, ref  WIN32_FIND_DATA pFindFileData);
@@ -18,7 +20,6 @@ public static class DirectoryInfoExtension
 	[DllImport("kernel32.dll", SetLastError = true)]
 	private static extern bool FindClose(IntPtr hndFindFile);
 	#endregion
-
 
 	#region Struct
 	[Serializable, StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto), BestFitMapping(false)]
@@ -76,10 +77,59 @@ public static class DirectoryInfoExtension
 		}
 		FindClose(hFind);
 	}
+
+	private static void searchFiles(string path, string[] patterns, PathCallback fileCB, PathCallback folderCB)
+	{
+		if (folderCB != null && !folderCB(path))
+			return;
+
+		foreach (var pattern in patterns)
+		{
+			var files = Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly);
+
+			if (files == null)
+				continue;
+
+			foreach (var file in files)
+			{
+				if (!fileCB(file))
+					return;
+			}
+		}
+
+
+		var subdirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
+
+		if (subdirs == null)
+			return;
+
+		foreach (var subdir in subdirs)
+		{
+			try
+			{
+				searchFiles(subdir, patterns, fileCB, folderCB);
+			}
+			catch
+			{
+			}
+		}
+	}
+
 	#endregion
 
 
 	#region Public Method
+	public static void SearchFiles(this DirectoryInfo dir, string[] patterns, PathCallback fileCB, PathCallback folderCB = null)
+	{
+		if (fileCB == null)
+			throw new ArgumentNullException("fileCB");
+		if (patterns == null)
+			throw new ArgumentNullException("patterns");
+
+		searchFiles(dir.FullName, patterns, fileCB, folderCB);
+	}
+
+
 	/// <summary>
 	/// Enumerates the files.
 	/// </summary>
