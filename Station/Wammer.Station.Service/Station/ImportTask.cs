@@ -141,21 +141,39 @@ namespace Wammer.Station
 			{
 				var importTime = DateTime.Now;
 
-				var batchPaths = new List<string>();
-
+				var allFiles = new List<ObjectIdAndPath>();
 				findInterestedFiles((file) =>
 				{
-					batchPaths.Add(file);
-
-					if (batchPaths.Count == 50)
-					{
-						submitBatch(importTime, batchPaths);
-						batchPaths.Clear();
-					}
+					var att = new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() };
+					allFiles.Add(att);
 				});
 
-				if (batchPaths.Count > 0)
-					submitBatch(importTime, batchPaths);
+
+				allFiles.Sort((x, y) => { return y.file_path.CompareTo(x.file_path); });
+
+				System.Threading.ThreadPool.QueueUserWorkItem((nothing) =>
+				{
+					int nProcessed = 0;
+					do
+					{
+						var batch = allFiles.Skip(nProcessed).Take(50);
+						var batchMeta = extractMetadata(batch);
+						enqueueUploadMetadataTask(batchMeta);
+
+						nProcessed += batch.Count();
+
+					} while (nProcessed < allFiles.Count);
+				});
+
+
+				int nProc = 0;
+				do{
+					var batch = allFiles.Skip(nProc).Take(50);
+					submitBatch(importTime, batch);
+					nProc += batch.Count();
+
+				} while (nProc < allFiles.Count);
+				
 			}
 			catch (Exception e)
 			{
@@ -168,16 +186,13 @@ namespace Wammer.Station
 			}
 		}
 
-		private void submitBatch(DateTime importTime, List<string> batchPaths)
+		private void submitBatch(DateTime importTime, IEnumerable<ObjectIdAndPath> batch)
 		{
-			var metaList = extractMetadata(batchPaths);
-			batchUploadMetadataAsync(metaList);
-
 			var post_id = Guid.NewGuid().ToString();
-			foreach (var meta in metaList)
-				saveToStream(importTime, post_id, meta);
+			foreach (var file in batch)
+				saveToStream(importTime, post_id, file);
 
-			var objectIDs = metaList.Select(x => x.object_id);
+			var objectIDs = batch.Select(x => x.object_id);
 			createPostContainer(importTime, post_id, objectIDs);
 		}
 		#endregion
@@ -240,7 +255,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private void saveToStream(DateTime importTime, string postID, FileMetadata file_meta)
+		private void saveToStream(DateTime importTime, string postID, ObjectIdAndPath file)
 		{
 			try
 			{
@@ -257,17 +272,17 @@ namespace Wammer.Station
 
 				var uploadData = new UploadData()
 				{
-					object_id = file_meta.object_id,
-					raw_data = new ArraySegment<byte>(File.ReadAllBytes(file_meta.file_path)),
-					file_name = Path.GetFileName(file_meta.file_path),
-					mime_type = GetMIMEType(file_meta.file_path),
+					object_id = file.object_id,
+					raw_data = new ArraySegment<byte>(File.ReadAllBytes(file.file_path)),
+					file_name = Path.GetFileName(file.file_path),
+					mime_type = GetMIMEType(file.file_path),
 					group_id = m_GroupID,
 					api_key = m_APIKey,
 					session_token = m_SessionToken,
 					post_id = postID,
-					file_path = file_meta.file_path,
+					file_path = file.file_path,
 					import_time = importTime,
-					file_create_time = file_meta.file_create_time,
+					file_create_time = file.CreateTime,
 					type = AttachmentType.image,
 					imageMeta = ImageMeta.Origin
 				};
@@ -279,60 +294,36 @@ namespace Wammer.Station
 					duration += long.MaxValue;
 
 				Wammer.PerfMonitor.UploadDownloadMonitor.Instance.OnAttachmentProcessed(this, new HttpHandlerEventArgs(duration));
-				raiseFileImportedEvent(file_meta.file_path);
+				raiseFileImportedEvent(file.file_path);
 			}
 			catch (Exception e)
 			{
-				this.LogWarnMsg("Unable to import file: " + file_meta.file_path, e);
+				this.LogWarnMsg("Unable to import file: " + file.file_path, e);
 			}
 		} 
 
-		private List<FileMetadata> extractMetadata(List<string> files)
+		private IEnumerable<FileMetadata> extractMetadata(IEnumerable<ObjectIdAndPath> files)
 		{
-			var metaList = new List<FileMetadata>();
 			var timezoneDiff = (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes;
 			var exifExtractor = new ExifExtractor();
 
 			foreach (var file in files)
 			{
-				var id = Guid.NewGuid().ToString();
-
-				var ctime = File.GetCreationTimeUtc(file);
-				ctime = new DateTime(ctime.Year, ctime.Month, ctime.Day, ctime.Hour, ctime.Minute, ctime.Second, ctime.Kind);
-
 				var meta = new FileMetadata
 				{
-					object_id = id,
+					object_id = file.object_id,
 					type = "image",
-					file_path = file,
-					file_name = Path.GetFileName(file),
-					file_create_time = ctime,
+					file_path = file.file_path,
+					file_name = Path.GetFileName(file.file_path),
+					file_create_time = file.CreateTime,
 					timezone = timezoneDiff,
-					exif = exifExtractor.extract(file)
+					exif = exifExtractor.extract(file.file_path)
 				};
 
-				metaList.Add(meta);
+				yield return meta;
 			}
-
-			metaList.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
-
-			return metaList;
 		}
 		
-		private void batchUploadMetadataAsync(List<FileMetadata> metaList)
-		{
-			int nProcessed = 0;
-			do
-			{
-				var batch = metaList.Skip(nProcessed).Take(50);
-
-				enqueueUploadMetadataTask(batch);
-
-				nProcessed += batch.Count();
-
-			} while (nProcessed < metaList.Count);
-		}
-
 		private void enqueueUploadMetadataTask(IEnumerable<FileMetadata> batch)
 		{
 			try
@@ -407,6 +398,29 @@ namespace Wammer.Station
 			{
 				return (exif != null && exif.DateTimeOriginal != null) ? 
 					TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal) : file_create_time;
+			}
+		}
+	}
+
+	internal class ObjectIdAndPath
+	{
+		public string object_id { get; set; }
+		public string file_path { get; set; }
+
+		private DateTime? createTime;
+
+		public DateTime CreateTime
+		{
+			get
+			{
+				if (createTime.HasValue)
+					return createTime.Value;
+				else
+				{
+					var t = File.GetCreationTime(file_path);
+					createTime = new DateTime(t.Year, t.Month, t.Day, t.Hour, t.Minute, t.Second, t.Kind);
+					return createTime.Value;
+				}
 			}
 		}
 	}
