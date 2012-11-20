@@ -1,6 +1,6 @@
 (function() {
 
-  define(['common', 'eventbundler', 'views/app'], function(Common, EventBundler, AppView) {
+  define(['common', 'eventbundler', 'router', 'views/app'], function(Common, EventBundler, Router, AppView) {
     /*
         Registry wfwsocket to global window
     */
@@ -25,7 +25,7 @@
       WfWSocket.statSandbox = false;
 
       WfWSocket.init = function() {
-        new EventBundler(['GetSessionToken', 'WebSocketOpen'], null);
+        new EventBundler('WebSocketOpen');
         WfWSocket.connection = new WebSocket("ws://" + WfWSocket.URI + ":" + WfWSocket.PORT + "/");
         WfWSocket.connection.onopen = function() {
           return WfWSocket.handleOpen(Common.Env);
@@ -35,8 +35,7 @@
       };
 
       WfWSocket.handleOpen = function(env) {
-        EventBundler.trigger('WebSocketOpen', env);
-        return new AppView();
+        return EventBundler.trigger('WebSocketOpen', env);
       };
 
       /*
@@ -66,14 +65,21 @@
             triggerStr.push(":" + data.memo.page);
           }
           triggerStr = triggerStr.join("");
-          Logger.log("Event trigger : " + triggerStr);
           if (WfWSocket.statTrigger && !WfWSocket.statSandbox) {
-            return EventBundler.trigger(triggerStr, data);
+            EventBundler.trigger(triggerStr, data);
           }
         } else {
           if (WfWSocket.statTrigger && !WfWSocket.statSandbox) {
-            return EventBundler.trigger(data.command, data);
+            EventBundler.trigger(data.command, data);
           }
+        }
+        /*
+                     Initialize Main View (AppView) when got the UserInfo
+        */
+
+        if (data.command === "getUserInfo") {
+          new AppView;
+          return Backbone.history.start();
         }
       };
 
@@ -117,7 +123,7 @@
     */
 
     WfWSocket.noconflic = function() {
-      root.wfwocket = previousConnector;
+      root.wfwsocket = previousConnector;
       return this;
     };
     wfwsocket = root.wfwsocket = WfWSocket;

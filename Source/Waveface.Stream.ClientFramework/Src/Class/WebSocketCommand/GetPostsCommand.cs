@@ -35,137 +35,6 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 
-        #region Constructor
-        public GetPostsCommand()
-        {
-            Mapper.CreateMap<PostInfo, PostData>()
-                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.post_id))
-                .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time));
-
-            Mapper.CreateMap<AttachmentInfo, AttachmentData>()
-                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.object_id))
-                .ForMember(dest => dest.url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.object_id, ImageMeta.Origin)));
-
-            Mapper.CreateMap<AttachmentInfo.ImageMeta, ImageMetaData>()
-                .ForMember(dest => dest.width, opt => opt.MapFrom(src => 
-                    {
-                        var attachment = GetOriginalAttachment(src);
-                        return (attachment == null || attachment.image_meta == null) ? 0 : attachment.image_meta.width;
-                    }))
-                .ForMember(dest => dest.height, opt => opt.MapFrom(src => 
-                    {
-                        var attachment = GetOriginalAttachment(src);
-                        return (attachment == null || attachment.image_meta == null) ? 0 : attachment.image_meta.height;
-                    }));
-
-            Mapper.CreateMap<AttachmentInfo.ImageMetaDetail, ThumbnailData>()
-                .ForMember(dest => dest.url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url)));
-
-        }
-        #endregion
-
-
-        #region Private Method
-        private Attachment GetOriginalAttachment(AttachmentInfo.ImageMeta meta)
-        {
-            AttachmentInfo.ImageMetaDetail imageMeta = null;
-
-            if (meta.small != null)
-                imageMeta = meta.small;
-            else if (meta.medium != null)
-                imageMeta = meta.medium;
-            else if (meta.large != null)
-                imageMeta = meta.large;
-
-            if (imageMeta == null)
-                return null;
-
-
-            var m = Regex.Match(imageMeta.url, OBJCCT_MATCH_PATTERN);
-
-            if (!m.Success)
-                return null;
-
-            var attachmentID = m.Groups[OBJECT_GROUP_ID].Value;
-
-            return AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
-        }
-
-        private string GetAttachmentFilePath(string url)
-        {
-            if (url == null)
-                return null;
-
-            var m = Regex.Match(url, OBJCCT_MATCH_PATTERN);
-
-            if (!m.Success)
-                return null;
-
-            var attachmentID = m.Groups[OBJECT_GROUP_ID].Value;
-
-            var imageMetaType = ImageMeta.None;
-
-            if (url.Contains("small"))
-                imageMetaType = ImageMeta.Small;
-            else if (url.Contains("medium"))
-                imageMetaType = ImageMeta.Medium;
-            else if (url.Contains("large"))
-                imageMetaType = ImageMeta.Large;
-            else
-                imageMetaType = ImageMeta.Origin;
-
-            return GetAttachmentFilePath(attachmentID, imageMetaType);
-        }
-
-        private string GetAttachmentFilePath(string attachmentID,ImageMeta meta)
-        {
-            if (meta == ImageMeta.None)
-                return null;
-
-            var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
-
-            if (attachment == null)
-                return null;
-
-            var savedFileName = string.Empty;
-
-            switch (meta)
-            {
-                case ImageMeta.Small:
-                    savedFileName = attachment.image_meta.small.saved_file_name;
-                    break;
-                case ImageMeta.Medium:
-                    savedFileName = attachment.image_meta.medium.saved_file_name;
-                    break;
-                case ImageMeta.Large:
-                    savedFileName = attachment.image_meta.large.saved_file_name;
-                    break;
-                case ImageMeta.Origin:
-                    savedFileName = attachment.saved_file_name;
-                    break;
-            }
-
-            if (string.IsNullOrEmpty(savedFileName))
-                return null;
-
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
-
-            if (loginedSession == null)
-                return null;
-
-            var groupID = loginedSession.groups.FirstOrDefault().group_id;
-
-            Driver user = DriverCollection.Instance.FindDriverByGroupId(groupID);
-            if (user == null)
-                return null;
-
-            var fileStorage = new FileStorage(user);
-            return (new Uri(fileStorage.GetFullFilePath(savedFileName, meta))).ToString();
-        }
-        #endregion
-
-
-
         #region Public Method
         /// <summary>
 		/// Executes the specified parameters.
@@ -173,15 +42,16 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="parameters">The parameters.</param>
 		public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
 		{
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
+            var sessionToken = StreamClient.Instance.LoginedUsers.FirstOrDefault().SessionToken;
+            var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession == null)
 				return null;
 
 			var userID = loginedSession.user.user_id;
 
-			var sinceDate = parameters.ContainsKey("since_date") ? TimeHelper.ISO8601ToDateTime(parameters["since_date"].ToString()) : default(DateTime?);
-			var untilDate = parameters.ContainsKey("until_date") ? TimeHelper.ISO8601ToDateTime(parameters["until_date"].ToString()) : default(DateTime?);
+            var sinceDate = parameters.ContainsKey("since_date") ? DateTime.Parse(parameters["since_date"].ToString()) : default(DateTime?);
+            var untilDate = parameters.ContainsKey("until_date") ? DateTime.Parse(parameters["until_date"].ToString()) : default(DateTime?);
             var pageNo = parameters.ContainsKey("page_no") ? int.Parse(parameters["page_no"].ToString()) : 1;
             var pageSize = parameters.ContainsKey("page_size") ? int.Parse(parameters["page_size"].ToString()) : 10;
 			var skipCount = (pageNo == 1) ? 0 : (pageNo - 1) * pageSize;
@@ -213,11 +83,17 @@ namespace Waveface.Stream.ClientFramework
             }
 
 
+            //if ((type & 1024) == 1024)
+            //{
+                queryParam = Query.And(queryParam, Query.EQ("code_name", "StreamEvent"));
+            //}
+
+
             if (sinceDate != null)
-                queryParam = Query.And(queryParam, Query.GTE("event_time", sinceDate));
+                queryParam = Query.And(queryParam, Query.GTE("event_time", sinceDate.Value.ToUTCISO8601ShortString()));
 
             if (untilDate != null)
-                queryParam = Query.And(queryParam, Query.GTE("event_time", untilDate));
+                queryParam = Query.And(queryParam, Query.LT("event_time", untilDate.Value.ToUTCISO8601ShortString()));
 
 
 			var filteredPosts = PostCollection.Instance.Find(queryParam)
@@ -239,22 +115,25 @@ namespace Waveface.Stream.ClientFramework
             {
                 if (summaryAttachmentLimit > 0)
                 {
-                    var attachments =  post.attachments;
+                    var attachmentIDs = post.attachment_id_array;
                     var summaryAttachmentDatas = new List<AttachmentData>(summaryAttachmentLimit);
-                    var coverAttachment = (string.IsNullOrEmpty(post.cover_attach)) ?attachments.FirstOrDefault() : attachments.Where((item) => item.object_id == post.cover_attach).FirstOrDefault();
-                    var coverAttachmentData = Mapper.Map<AttachmentInfo, AttachmentData>(coverAttachment);
+
+                    var coverAttachmentID = (string.IsNullOrEmpty(post.cover_attach)) ? attachmentIDs.FirstOrDefault() : post.cover_attach;
+                    var coverAttachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", coverAttachmentID));
+                    var coverAttachmentData = Mapper.Map<Attachment, AttachmentData>(coverAttachment);
 
                     summaryAttachmentDatas.Add(coverAttachmentData);
 
-                    foreach (var attachment in attachments)
+                    foreach (var attachmentID in attachmentIDs)
                     {
                         if (summaryAttachmentDatas.Count >= summaryAttachmentLimit)
                             break;
 
-                        if (attachment == coverAttachment)
+                        if (attachmentID == coverAttachmentID)
                             continue;
 
-                        var attachmentData = Mapper.Map<AttachmentInfo, AttachmentData>(attachment);
+                        var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
+                        var attachmentData = Mapper.Map<Attachment, AttachmentData>(attachment);
                         summaryAttachmentDatas.Add(attachmentData);
                     }
 

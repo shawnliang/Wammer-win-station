@@ -5,6 +5,8 @@ using System.Text;
 using WebSocketSharp;
 using Wammer.Station.Notify;
 using Wammer.Utility;
+using Wammer.Model;
+using MongoDB.Bson;
 
 namespace Wammer.Station.Management
 {
@@ -132,7 +134,7 @@ namespace Wammer.Station.Management
 
 			socket.Send(connect.ToFastJSON());
 
-			var user = Model.DriverCollection.Instance.FindOneById(user_id);
+			var user = DriverCollection.Instance.FindOneById(user_id);
 			var group_id = user.groups[0].group_id;
 
 			var import = new GenericCommand

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
+using Waveface.Stream.ClientFramework;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -22,24 +23,11 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 		#region Var
-		private SynchronizationContext _syncContext = SynchronizationContext.Current;
 		private string _picasaDBStoragePath;
 		private string _albumPathPMPFileName;
 		#endregion
 
 		#region Private Property
-		/// <summary>
-		/// Gets the m_ sync context.
-		/// </summary>
-		/// <value>The m_ sync context.</value>
-		private SynchronizationContext m_SyncContext
-		{
-			get
-			{
-				return _syncContext;
-			}
-		}
-
 		/// <summary>
 		/// Gets the m_ picasa DB storage path.
 		/// </summary>
@@ -79,29 +67,6 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 
-		#region Private Method
-		/// <summary>
-		/// Sends the sync context.
-		/// </summary>
-		/// <param name="target">The target.</param>
-		private void SendSyncContext(Action target)
-		{
-			m_SyncContext.Send((obj) => target(), null);
-		}
-
-		/// <summary>
-		/// Sends the sync context.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="target">The target.</param>
-		/// <param name="o">The o.</param>
-		private void SendSyncContext<T>(Action<T> target, Object o)
-		{
-			m_SyncContext.Send((obj) => target((T)obj), o);
-		}
-		#endregion
-
-
 		#region Event Process
 		/// <summary>
 		/// Handles the Click event of the btnImport control.
@@ -122,7 +87,7 @@ namespace Waveface.Stream.WindowsClient
 			progressBar1.Visible = true;
 			mi.BeginInvoke((result) =>
 			{
-				SendSyncContext(() =>
+                SynchronizationContextHelper.SendMainSyncContext(() =>
 				{
 					this.DialogResult = DialogResult.OK;
 					progressBar1.Visible = false;
@@ -147,7 +112,7 @@ namespace Waveface.Stream.WindowsClient
 			progressBar1.Visible = true;
 			mi.BeginInvoke((result) =>
 			{
-				SendSyncContext(() =>
+                SynchronizationContextHelper.SendMainSyncContext(() =>
 				{
 					this.DialogResult = DialogResult.OK;
 					progressBar1.Visible = false;
@@ -169,7 +134,7 @@ namespace Waveface.Stream.WindowsClient
 			progressBar1.Visible = true;
 			mi.BeginInvoke((result) =>
 			{
-				SendSyncContext(() =>
+				SynchronizationContextHelper.SendMainSyncContext(() =>
 				{
 					this.DialogResult = DialogResult.OK;
 					progressBar1.Visible = false;

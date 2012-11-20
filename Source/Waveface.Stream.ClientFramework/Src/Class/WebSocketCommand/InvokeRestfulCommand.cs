@@ -7,9 +7,11 @@ using System.Windows.Forms;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
+    [Obfuscation]
 	public class InvokeRestfulCommand : WebSocketCommandBase
 	{
 		#region Public Property

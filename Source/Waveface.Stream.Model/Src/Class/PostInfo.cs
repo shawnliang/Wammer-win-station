@@ -9,8 +9,8 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class PostInfo
 	{
-		[BsonIgnoreIfNull]
-		public List<AttachmentInfo> attachments { get; set; }
+        //[BsonIgnoreIfNull]
+        //public List<AttachmentInfo> attachments { get; set; }
 
 		[BsonIgnoreIfNull]
 		public int attachment_count { get; set; }

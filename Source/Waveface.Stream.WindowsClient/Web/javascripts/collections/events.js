@@ -27,13 +27,23 @@
           _this = this;
         posts = data.posts;
         return _.each(posts, function(post) {
-          post.id = post.object_id;
           return _this.add(post);
         });
       };
 
       EventCollection.prototype.callPosts = function() {
         return wfwsocket.sendMessage('getPosts');
+      };
+
+      EventCollection.prototype.filterByDate = function(date) {
+        if (!date) {
+          return this;
+        }
+        return _(this.filter(function(model) {
+          var modelDate;
+          modelDate = moment(model.get('timestamp')).format('YYYY-MM-DD');
+          return modelDate === date;
+        }));
       };
 
       return EventCollection;

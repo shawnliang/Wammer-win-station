@@ -15,7 +15,6 @@ namespace Waveface.Stream.WindowsClient
 	public partial class FileImportControl : StepPageControl
 	{
 		private IPhotoSearch photoSearch;
-		private SynchronizationContext mainSyncCtx;
 		private CheckBox checkBox1;
 		private HidableProgressingDialog _processDialog;
 
@@ -24,11 +23,10 @@ namespace Waveface.Stream.WindowsClient
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileImportControl"/> class.
 		/// </summary>
-		public FileImportControl(IPhotoSearch search, SynchronizationContext mainSyncCtx)
+		public FileImportControl(IPhotoSearch search)
 		{
 			InitializeComponent();
 			this.photoSearch = search;
-			this.mainSyncCtx = mainSyncCtx;
 			this.PageTitle = "Import from folders";
 		} 
 		#endregion
@@ -263,18 +261,16 @@ namespace Waveface.Stream.WindowsClient
 		}
 	}
 
-    public interface IPhotoSearch
-    {
-        event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
-        event EventHandler<FileImportedEventArgs> FileImported;
-        event EventHandler<ImportDoneEventArgs> ImportDone;
 
-        IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
-        void ImportToStationAsync(IEnumerable<string> paths, string session_token);
-        void Search(string path, PhotoFolderFound folderFound);
-    }
+	public interface IPhotoSearch
+	{
+		event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
+		event EventHandler<FileImportedEventArgs> FileImported;
+		event EventHandler<ImportDoneEventArgs> ImportDone;
 
-    public delegate void PhotoFolderFound(string path, int count);
+		IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
+		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
+	}
 
 	public class PathAndPhotoCount
 	{

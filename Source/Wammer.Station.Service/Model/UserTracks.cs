@@ -64,7 +64,7 @@ namespace Wammer.Model
 						Set("sync_range.chlog_min_seq", int.MaxValue).
 						Set("sync_range.chlog_max_seq", int.MaxValue);
 
-					DriverCollection.Instance.Update(Query.Exists("sync_range", true), update);
+					DriverCollection.Instance.Update(Query.Exists("sync_range"), update);
 				}
 			}
 			catch

@@ -94,11 +94,6 @@ namespace Waveface.Stream.WindowsClient
                 this.SessionToken = session_token;
 
                 DialogResult = System.Windows.Forms.DialogResult.OK;
-
-                //LaunchClient(session_token);
-
-                //appSetting.CurrentSession = session_token;
-                //appSetting.Save();
             }
         }
 

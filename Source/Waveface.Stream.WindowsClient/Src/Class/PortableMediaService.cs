@@ -34,6 +34,21 @@ namespace Waveface.Stream.WindowsClient
 			
 		}
 
+		public IEnumerable<string> GetFileList(string path)
+		{
+			var jpgs = Directory.GetFiles(path, "*.jpg", SearchOption.AllDirectories);
+			foreach (var file in jpgs)
+				yield return file;
+
+			var jpegs = Directory.GetFiles(path, "*.jpeg", SearchOption.AllDirectories);
+			foreach (var file in jpegs)
+				yield return file;
+
+			var pngs = Directory.GetFiles(path, "*.png", SearchOption.AllDirectories);
+			foreach (var file in pngs)
+				yield return file;
+		}
+
 		public void ImportAsync(IEnumerable<string> files, string user_id, string session_token, string apikey)
 		{
 			import = new ImportTranscation(user_id, session_token, apikey, files);

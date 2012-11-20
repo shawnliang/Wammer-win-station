@@ -5,12 +5,14 @@ using System.Text;
 using WebSocketSharp.Server;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
 	/// <summary>
 	/// 
 	/// </summary>
+    [Obfuscation]
 	public abstract class WebSocketCommandBase : IWebSocketCommand
 	{
 		#region Var

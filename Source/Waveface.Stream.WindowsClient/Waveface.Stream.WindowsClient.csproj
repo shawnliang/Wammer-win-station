@@ -169,6 +169,15 @@
     <Compile Include="Src\Control\CentralLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Src\Control\DebugComponent\LogMessageComponent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\DebugComponent\LogMessageComponent.Designer.cs">
+      <DependentUpon>LogMessageComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\IEBrowserControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Src\Control\IntroControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -380,9 +389,11 @@
     <Compile Include="Src\Form\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Interface\IBrowserControl.cs" />
     <Compile Include="Src\Interface\IConnectableService.cs" />
     <Compile Include="Src\Interface\IContent.cs" />
     <Compile Include="Src\Interface\IContentProvider.cs" />
+    <Compile Include="Src\Interface\IDebugComponent.cs" />
     <Compile Include="Src\Interface\IDockableModule.cs" />
     <Compile Include="Src\Interface\IExifExtractor.cs" />
     <Compile Include="Src\Interface\IPersonalCloudStatus.cs" />
@@ -409,6 +420,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\DebugComponent\LogMessageComponent.resx">
+      <DependentUpon>LogMessageComponent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\IntroControl.resx">
       <DependentUpon>IntroControl.cs</DependentUpon>

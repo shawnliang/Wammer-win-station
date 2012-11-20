@@ -9,9 +9,9 @@
             It's a Global event dispatch
     */
 
-    var Bundler, EventBundler, FetchPostByFilter, GetAttachments, GetPosts, GetSessionToken, WebSocketOpen, that;
+    var Bundler, EventBundler, self;
     window.dispatch = _.extend(Backbone.Events);
-    that = this;
+    self = {};
     EventBundler = (function() {
 
       EventBundler.dispatch = window.dispatch;
@@ -39,13 +39,11 @@
           args = false;
         }
         if (!Array.isArray(events)) {
-          Logger.log("event bind:" + events);
-          eventInstance = new that.bundleClass[events](args);
+          eventInstance = new self[events](args);
           return;
         }
         _.each(events, function(event) {
-          Logger.log("event bind:" + event + "(" + args + ")");
-          return eventInstance = new that.bundleClass[event](args);
+          return eventInstance = new self[event](args);
         });
         return true;
       };
@@ -62,13 +60,22 @@
       }
 
       Bundler.prototype.bind = function() {
+        this.clear();
         return Bundler.dispatch.on(this.eventName, this.callback);
+      };
+
+      Bundler.prototype.clear = function(event) {
+        var eventName;
+        eventName = event || this.eventName;
+        Logger.log("Clear Dispatch: " + eventName);
+        Bundler.dispatch.off(eventName);
+        return Logger.log("Event Binded: " + eventName);
       };
 
       return Bundler;
 
     })();
-    WebSocketOpen = (function(_super) {
+    self.WebSocketOpen = (function(_super) {
 
       __extends(WebSocketOpen, _super);
 
@@ -79,13 +86,14 @@
       WebSocketOpen.prototype.eventName = 'WebSocketOpen';
 
       WebSocketOpen.prototype.callback = function(data) {
-        return Logger.log("" + (new Date()) + " Web Socket Connection is open in " + (data.getUri()) + " from " + (data.getName()));
+        Logger.log("" + (new Date()) + " Web Socket Connection is open in " + (data.getUri()) + " from " + (data.getName()));
+        return wfwsocket.sendMessage("getUserInfo");
       };
 
       return WebSocketOpen;
 
     })(Bundler);
-    GetSessionToken = (function(_super) {
+    self.GetSessionToken = (function(_super) {
 
       __extends(GetSessionToken, _super);
 
@@ -105,7 +113,27 @@
       return GetSessionToken;
 
     })(Bundler);
-    FetchPostByFilter = (function(_super) {
+    self.GetUserInfo = (function(_super) {
+
+      __extends(GetUserInfo, _super);
+
+      function GetUserInfo() {
+        return GetUserInfo.__super__.constructor.apply(this, arguments);
+      }
+
+      GetUserInfo.prototype.eventName = 'getUserInfo';
+
+      GetUserInfo.prototype.callback = function(data) {
+        var nc_user_info;
+        nc_user_info = new LocalStorage('nc_user_info');
+        nc_user_info.data = data.response;
+        return nc_user_info.save();
+      };
+
+      return GetUserInfo;
+
+    })(Bundler);
+    self.FetchPostByFilter = (function(_super) {
 
       __extends(FetchPostByFilter, _super);
 
@@ -122,7 +150,7 @@
       return FetchPostByFilter;
 
     })(Bundler);
-    GetPosts = (function(_super) {
+    self.GetPosts = (function(_super) {
 
       __extends(GetPosts, _super);
 
@@ -145,7 +173,7 @@
       return GetPosts;
 
     })(Bundler);
-    GetAttachments = (function(_super) {
+    self.GetAttachments = (function(_super) {
 
       __extends(GetAttachments, _super);
 
@@ -168,7 +196,10 @@
       }
 
       GetAttachments.prototype.bind = function(attachmentTarget) {
-        Bundler.dispatch.on("" + this.eventName + ":" + attachmentTarget, this.callback);
+        var eventName;
+        eventName = "" + this.eventName + ":" + attachmentTarget;
+        this.clear(eventName);
+        Bundler.dispatch.on(eventName, this.callback);
         return Logger.log("Bundler event : " + this.eventName + ":" + attachmentTarget + ", callback:" + this.callback);
       };
 
@@ -179,13 +210,6 @@
       return GetAttachments;
 
     })(Bundler);
-    that.bundleClass = {
-      "GetSessionToken": GetSessionToken,
-      "GetPosts": GetPosts,
-      "WebSocketOpen": WebSocketOpen,
-      "FetchPostByFilter": FetchPostByFilter,
-      "GetAttachments": GetAttachments
-    };
     /*
             Return this file's main class
     */

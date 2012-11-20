@@ -64,9 +64,12 @@ namespace Waveface.Stream.Model
 			return _dt;
 		}
 
-		public static string ToCloudTimeString(this DateTime datetime)
-		{
-			return datetime.ToUniversalTime().ToString(CLOUD_TIME_FORMAT);
-		}
+        public static DateTime? ToDateTimeFromUTCISO8601(string dateTimeString)
+        {
+            DateTime dt;
+            var sucessed = DateTime.TryParseExact(dateTimeString, new string[] { @"yyyy-MM-dd\THH:mm:ss\Z", "s", "o" }, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out dt);
+
+            return sucessed ? new DateTime?(dt) : null;
+        }
 	}
 }

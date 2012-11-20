@@ -8,12 +8,14 @@ using System.Globalization;
 using System.Web;
 using System.Net;
 using System.Collections.Specialized;
+using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
 	/// <summary>
 	/// 
 	/// </summary>
+    [Obfuscation]
 	public static class StationAPI
 	{
 		#region Const
@@ -66,6 +68,8 @@ namespace Waveface.Stream.ClientFramework
 		#region Public Static Method
         public static string SuspendSync()
         {
+            DebugInfo.ShowMethod();
+
             var uri = @"http://127.0.0.1:9989/v2/station/suspendSync";
 
             return Post(uri, new NameValueCollection(){
@@ -75,6 +79,8 @@ namespace Waveface.Stream.ClientFramework
 
         public static string ResumeSync()
         {
+            DebugInfo.ShowMethod();
+
             var uri = @"http://127.0.0.1:9989/v2/station/resumeSync";
 
             return Post(uri, new NameValueCollection(){
@@ -170,6 +176,8 @@ namespace Waveface.Stream.ClientFramework
 
         public static string AddUser(string email, string password, string deviceId, string deviceName)
         {
+            DebugInfo.ShowMethod();
+
             var uri = @"http://127.0.0.1:9989/v2/station/drivers/add";
 
             return Post(uri, new NameValueCollection(){
@@ -182,6 +190,8 @@ namespace Waveface.Stream.ClientFramework
 
         public static string AddUser(string userID, string sessionToken)
         {
+            DebugInfo.ShowMethod();
+
             var uri = @"http://127.0.0.1:9989/v2/station/drivers/add";
 
             return Post(uri, new NameValueCollection(){
@@ -192,6 +202,8 @@ namespace Waveface.Stream.ClientFramework
 
         public static string RemoveUser(string userId, Boolean removeResource = true)
         {
+            DebugInfo.ShowMethod();
+
             var uri = @"http://127.0.0.1:9989/v2/station/drivers/remove";
 
             return Post(uri, new NameValueCollection(){
@@ -204,6 +216,8 @@ namespace Waveface.Stream.ClientFramework
         public static string Login(string email, string password,
                                        string deviceId, string deviceName)
         {
+            DebugInfo.ShowMethod();
+
             var uri = @"http://127.0.0.1:9981/v2/auth/login";
 
             return Post(uri, new NameValueCollection(){
@@ -217,6 +231,8 @@ namespace Waveface.Stream.ClientFramework
 
         public static string Login(string userID, string sessionToken)
         {
+            DebugInfo.ShowMethod();
+
             var uri = @"http://127.0.0.1:9981/v2/auth/login";
 
             return Post(uri, new NameValueCollection(){

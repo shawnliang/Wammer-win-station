@@ -58,7 +58,10 @@ namespace Waveface.Stream.ClientFramework
                 if (memo != null)
                     executedValue.Add(new JProperty("memo", memo));
 
-                Send(JsonConvert.SerializeObject(executedValue, Formatting.Indented));
+                var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+                Trace.WriteLine(string.Format("Response to {0}: {1}", this.ID , responseMessage));
+                Send(responseMessage);
             }
             catch (Exception ex)
             {

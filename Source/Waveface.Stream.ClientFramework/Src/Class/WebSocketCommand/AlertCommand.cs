@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using WebSocketSharp.Server;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
+    [Obfuscation]
 	public class AlertCommand : WebSocketCommandBase
 	{
 		#region Public Property
@@ -28,7 +30,11 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="parameters">The parameters.</param>
         public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
 		{
-			MessageBox.Show(parameters["message"].ToString());
+            SynchronizationContextHelper.SendMainSyncContext(() =>
+                {
+                    MessageBox.Show(parameters["message"].ToString());
+                }
+             );
             return null;
 		}
 		#endregion

@@ -5,9 +5,11 @@ using System.Text;
 using WebSocketSharp.Server;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
+    [Obfuscation]
 	public class LogCommand : WebSocketCommandBase
 	{
 		#region Public Property

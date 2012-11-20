@@ -4,7 +4,7 @@
 
   define(['underscore', 'backbone', 'mustache', 'text!templates/event_calendar.html', 'lib/jquery/fullcalendar'], function(_, Backbone, M, Template) {
     var CalendarView;
-    return CalendarView = (function(_super) {
+    CalendarView = (function(_super) {
 
       __extends(CalendarView, _super);
 
@@ -12,7 +12,7 @@
         return CalendarView.__super__.constructor.apply(this, arguments);
       }
 
-      CalendarView.prototype.className = 'event-calendar';
+      CalendarView.prototype.id = 'event-calendar';
 
       CalendarView.prototype.render = function() {
         this.renderMain();
@@ -21,7 +21,7 @@
       };
 
       CalendarView.prototype.renderMain = function() {
-        this.$('#main').html(M.render(Template));
+        this.$el.html(M.render(Template));
         return this;
       };
 
@@ -41,6 +41,7 @@
       return CalendarView;
 
     })(Backbone.View);
+    return new CalendarView;
   });
 
 }).call(this);

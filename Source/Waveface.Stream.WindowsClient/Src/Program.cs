@@ -49,6 +49,7 @@ namespace Waveface.Stream.WindowsClient
        private static Icon iconSyncing2 = Icon.FromHandle(Resources.stream_tray_syncing2.GetHicon());
        private static Icon iconPaused = Icon.FromHandle(Resources.stream_tray_pause.GetHicon());
        private static Icon iconWarning = Icon.FromHandle(Resources.stream_tray_warn.GetHicon());
+       private static Icon iconWorking = Icon.FromHandle(Resources.stream_tray_working.GetHicon());
 		#endregion
 
 
@@ -285,7 +286,7 @@ namespace Waveface.Stream.WindowsClient
                 }
                 else
                 {
-                    m_NotifyIcon.Icon = iconWarning;
+                    m_NotifyIcon.Icon = iconWorking;
                 }
 
                 m_NotifyIcon.SetNotifyIconText(iconText);
@@ -389,15 +390,15 @@ namespace Waveface.Stream.WindowsClient
             m_ContextMenuStrip.Items.Add("ResumeService", "Resume Service", m_ContextMenuStrip_Resume_Click);
             m_ContextMenuStrip.Items.Add("PauseService", "Pause Service", m_ContextMenuStrip_Pause_Click);
 			m_ContextMenuStrip.Items.Add("-");
-            m_ContextMenuStrip.Items.Add("Open Stream", m_ContextMenuStrip_Open_Click);
-            m_ContextMenuStrip.Items.Add("Login", m_ContextMenuStrip_Login_Click);
+            m_ContextMenuStrip.Items.Add("OpenStream", "Open Stream", m_ContextMenuStrip_Open_Click);
+            m_ContextMenuStrip.Items.Add("Login", "Login", m_ContextMenuStrip_Login_Click);
 			m_ContextMenuStrip.Items.Add("-");
             m_ContextMenuStrip.Items.Add("Settings", m_ContextMenuStrip_Setting_Click);
 			m_ContextMenuStrip.Items.Add("-");
             m_ContextMenuStrip.Items.Add("Contact us", m_ContextMenuStrip_ContactUs_Click);
 			m_ContextMenuStrip.Items.Add("Quit", m_ContextMenuStrip_Quit_Click);
 
-            UpdateServiceMenuItemStatus();
+          
 		}
 
         private static void RunningService()
@@ -406,14 +407,27 @@ namespace Waveface.Stream.WindowsClient
 
             StationAPI.ResumeSync();
             m_IsServiceRunning = true;
+        }
 
-            UpdateServiceMenuItemStatus();
+        private static void PauseService()
+        {
+            DebugInfo.ShowMethod();
+
+            StationAPI.SuspendSync();
+            m_IsServiceRunning = false;
         }
 
         private static void UpdateServiceMenuItemStatus()
         {
             m_ContextMenuStrip.Items["ResumeService"].Visible = !m_IsServiceRunning;
             m_ContextMenuStrip.Items["PauseService"].Visible = m_IsServiceRunning;
+        }
+
+        private static void UpdateLoginMenuItemStatus()
+        {
+            var sessionToken = StreamClient.Instance.LoginedUsers.FirstOrDefault().SessionToken;
+            m_ContextMenuStrip.Items["Login"].Visible = string.IsNullOrEmpty(sessionToken);
+            m_ContextMenuStrip.Items["OpenStream"].Visible = !string.IsNullOrEmpty(sessionToken);
         }
 		#endregion
 
@@ -431,15 +445,6 @@ namespace Waveface.Stream.WindowsClient
             PauseService();
         }
 
-        private static void PauseService()
-        {
-            DebugInfo.ShowMethod();
-
-            StationAPI.SuspendSync();
-            m_IsServiceRunning = false;
-
-            UpdateServiceMenuItemStatus();
-        }
 
         private static void m_ContextMenuStrip_Open_Click(object sender, EventArgs e)
         {
@@ -509,10 +514,11 @@ namespace Waveface.Stream.WindowsClient
 		{
 			DebugInfo.ShowMethod();
 
-			if (m_ContextMenuStrip.Items.Count > 0)
-				return;
+            if (m_ContextMenuStrip.Items.Count == 0)
+                InitContextMenuStripItems();
 
-			InitContextMenuStripItems();
+            UpdateServiceMenuItemStatus();
+            UpdateLoginMenuItemStatus();
 		}
 
         static void m_NotifyIcon_DoubleClick(object sender, EventArgs e)

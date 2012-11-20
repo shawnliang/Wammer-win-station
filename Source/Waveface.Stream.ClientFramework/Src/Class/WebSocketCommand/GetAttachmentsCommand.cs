@@ -11,9 +11,11 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using MongoDB.Bson;
 using AutoMapper;
+using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
+    [Obfuscation]
     public class GetAttachmentsCommand : WebSocketCommandBase
 	{
 		#region Public Property
@@ -28,57 +30,6 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 
-        #region Constructor
-        public GetAttachmentsCommand()
-        {
-            Mapper.CreateMap<Attachment, AttachmentData>()
-                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.object_id))
-                .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time.HasValue ? TimeHelper.ToCloudTimeString(src.event_time.Value) : null))
-                .ForMember(dest => dest.url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
-
-            Mapper.CreateMap<ImageProperty, ImageMetaData>();
-
-            Mapper.CreateMap<ThumbnailInfo, ThumbnailData>()
-                .ForMember(dest => dest.url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
-
-        }
-        #endregion
-
-
-        #region Private Method
-        private string GetAttachmentFilePath(string url, string savedFileName)
-        {
-            if (string.IsNullOrEmpty(savedFileName))
-                return null;
-
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
-
-            if (loginedSession == null)
-                return null;
-
-            var groupID = loginedSession.groups.FirstOrDefault().group_id;
-
-            Driver user = DriverCollection.Instance.FindDriverByGroupId(groupID);
-            if (user == null)
-                return null;
-
-            var imageMetaType = ImageMeta.None;
-
-            if (url.Contains("small"))
-                imageMetaType = ImageMeta.Small;
-            else if (url.Contains("medium"))
-                imageMetaType = ImageMeta.Medium;
-            else if (url.Contains("large"))
-                imageMetaType = ImageMeta.Large;
-            else
-                imageMetaType = ImageMeta.Origin;
-
-            var fileStorage = new FileStorage(user);
-            return (new Uri(fileStorage.GetFullFilePath(savedFileName, imageMetaType))).ToString();
-        }
-        #endregion
-
-
         #region Public Method
         /// <summary>
 		/// Executes the specified parameters.
@@ -86,7 +37,8 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="parameters">The parameters.</param>
         public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
 		{
-			var loginedSession = LoginedSessionCollection.Instance.FindOne();
+            var sessionToken = StreamClient.Instance.LoginedUsers.FirstOrDefault().SessionToken;
+            var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession == null)
 				return null;
@@ -94,8 +46,8 @@ namespace Waveface.Stream.ClientFramework
 			var userID = loginedSession.user.user_id;
             var groupID = loginedSession.groups.FirstOrDefault().group_id;
 
-			var sinceDate = parameters.ContainsKey("since_date") ? TimeHelper.ISO8601ToDateTime(parameters["since_date"].ToString()) : default(DateTime?);
-			var untilDate = parameters.ContainsKey("until_date") ? TimeHelper.ISO8601ToDateTime(parameters["until_date"].ToString()) : default(DateTime?);
+            var sinceDate = parameters.ContainsKey("since_date") ? DateTime.Parse(parameters["since_date"].ToString()) : default(DateTime?);
+            var untilDate = parameters.ContainsKey("until_date") ? DateTime.Parse(parameters["until_date"].ToString()) : default(DateTime?);
 			var pageNo = parameters.ContainsKey("page_no") ? int.Parse(parameters["page_no"].ToString()) : 1;
 			var pageSize = parameters.ContainsKey("page_size") ? int.Parse(parameters["page_size"].ToString()) : 10;
 			var skipCount = (pageNo == 1) ? 0 : (pageNo - 1) * pageSize;
@@ -127,11 +79,11 @@ namespace Waveface.Stream.ClientFramework
                 queryParam = Query.And(queryParam, Query.In("mime_type", new BsonArray(new string[] { "image/png", "image/jpeg" })));
             }
 
-			if (sinceDate != null)
+            if (sinceDate != null)
                 queryParam = Query.And(queryParam, Query.GTE("event_time", sinceDate));
 
-			if (untilDate != null)
-                queryParam = Query.And(queryParam, Query.GTE("event_time", untilDate));
+            if (untilDate != null)
+                queryParam = Query.And(queryParam, Query.LT("event_time", untilDate));
 
 			var filteredAttachments = AttachmentCollection.Instance.Find(queryParam)
 				.SetSkip(skipCount)

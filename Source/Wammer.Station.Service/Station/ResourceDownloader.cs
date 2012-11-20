@@ -109,7 +109,7 @@ namespace Wammer.Station
 
 				var posts = PostCollection.Instance.Find(
 					Query.And(
-						Query.Exists("attachments", true),
+						Query.Exists("attachments"),
 						Query.EQ("hidden", "false")));
 
 				foreach (var post in posts)

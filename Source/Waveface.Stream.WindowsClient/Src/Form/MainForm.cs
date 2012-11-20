@@ -14,12 +14,10 @@ using System.Drawing;
 
 namespace Waveface.Stream.WindowsClient
 {
-	[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-	[ComVisible(true)]
 	public partial class MainForm : Form
 	{
         #region Var
-        private WebBrowser _browser;
+        private IBrowserControl _browser;
         #endregion
 
         #region Static Var
@@ -27,15 +25,19 @@ namespace Waveface.Stream.WindowsClient
         #endregion
 
         #region Private Property
-        private WebBrowser m_Browser
+        /// <summary>
+        /// Gets the m_ browser.
+        /// </summary>
+        /// <value>
+        /// The m_ browser.
+        /// </value>
+        private IBrowserControl m_Browser
         {
             get
             {
-                return _browser ?? (_browser = new WebBrowser() 
+                return _browser ?? (_browser = new IEBrowserControl()
                 {
-                    IsWebBrowserContextMenuEnabled = false,
-                    WebBrowserShortcutsEnabled = false,
-                    AllowWebBrowserDrop=false
+                    Dock = DockStyle.Fill
                 });
             }
         }
@@ -55,49 +57,37 @@ namespace Waveface.Stream.WindowsClient
 
 
         #region Constructor
+        /// <summary>
+        /// Prevents a default instance of the <see cref="MainForm" /> class from being created.
+        /// </summary>
         private MainForm()
         {
             InitializeComponent();
 
 
-            var form = new DockContent();
-            m_Browser.ObjectForScripting = this;
-
-            m_Browser.DocumentCompleted += (s, e) =>
-            {
-                var head = m_Browser.Document.GetElementsByTagName("head")[0];
-                var script = m_Browser.Document.CreateElement("script");
-                var element = (IHTMLScriptElement)script.DomElement;
-                element.text = @"if(navigator.userAgent.match(""MSIE 10.0"")){if(XMLHttpRequest !== undefined ) XMLHttpRequest = undefined;} // Hack the ie 10";
-                head.AppendChild(script);
-
-                m_Browser.Document.Window.Error += (w, we) =>
-                {
-                    we.Handled = true;
-
-                    Trace.WriteLine(string.Format(
-                           "Error: {0}\nline: {1}\nurl: {2}",
-                           we.LineNumber,
-                           we.Description,
-                           we.Url));
-                };
-            };
-
-
-            m_Browser.Dock = DockStyle.Fill;
-            form.TabText = "Client Web Page";
-            form.Controls.Add(m_Browser);
-            form.Show(this.dockPanel1);
-
-            form = new DockContent();
-            form.TabText = "Log Message";
-            form.Controls.Add(new LogMessageListBox() { Dock = DockStyle.Fill });
-            form.Show(this.dockPanel1, DockState.DockBottom);
-        } 
+            AddDockableContent("Client Web Page", m_Browser as Control);
+            AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
+        }
         #endregion
 
 
         #region Private Method
+        /// <summary>
+        /// Adds the content of the dockable.
+        /// </summary>
+        /// <param name="tabText">The tab text.</param>
+        /// <param name="control">The control.</param>
+        private void AddDockableContent(string tabText, Control control, DockState dockState = DockState.Document)
+        {
+            var dockContent = new DockContent()
+            {
+                TabText = tabText
+            };
+
+            dockContent.Controls.Add(control);
+            dockContent.Show(this.dockPanel1, dockState);
+        } 
+
         private void TriggerAutoImport(Boolean alwaysQuery = true)
         {
             var loginedSession = LoginedSessionCollection.Instance.FindOne();

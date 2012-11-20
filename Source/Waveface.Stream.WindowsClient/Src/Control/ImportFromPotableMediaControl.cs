@@ -6,7 +6,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Waveface.Stream.WindowsClient;
 using Waveface.Stream.Model;
 using Waveface.Stream.ClientFramework;
 
@@ -26,6 +25,8 @@ namespace Waveface.Stream.WindowsClient
 			this.service = service;
 			this.service.ImportDone += new EventHandler<ImportDoneEventArgs>(service_ImportDone);
 			this.service.FileImported += new EventHandler<FileImportedEventArgs>(service_FileImported);
+			progressBar.Value = 0;
+
 			this.PageTitle = "Import from media";
 		}
 
@@ -34,7 +35,8 @@ namespace Waveface.Stream.WindowsClient
 			import_count++;
 
 			progressBar.Invoke(new MethodInvoker(() => {
-				progressText.Text = string.Format("{0}: {1} processed", import_count, e.FilePath);
+				progressText.Text = string.Format("{0}/{1} {2} processed", import_count, progressBar.Maximum, e.FilePath);
+				progressBar.PerformStep();
 			}));
 		}
 
@@ -50,7 +52,7 @@ namespace Waveface.Stream.WindowsClient
 			progressBar.Invoke(new MethodInvoker(() =>
 			{
 				progressText.Text = doneMsg;
-				progressBar.Hide();
+				progressBar.Value = progressBar.Maximum;
 				dataGridView1.Rows.Add(deviceCombobox.SelectedItem, import_count);
 				importButton.Enabled = true;
 			}));
@@ -90,7 +92,16 @@ namespace Waveface.Stream.WindowsClient
 		private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			var device = e.Argument as PortableDevice;
-			service.ImportAsync(new string[] { device.DrivePath }, user_id, session_token, StationAPI.API_KEY);
+			var files = service.GetFileList(device.DrivePath);
+
+			progressBar.Invoke(new MethodInvoker(() => 
+			{
+				progressBar.Maximum = files.Count();
+			}));
+
+
+			service.ImportAsync(files, user_id, session_token, StationAPI.API_KEY);
+
 		}
 
 		private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

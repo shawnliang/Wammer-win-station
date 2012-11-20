@@ -12,6 +12,23 @@
         return AttachmentModel.__super__.constructor.apply(this, arguments);
       }
 
+      AttachmentModel.prototype.initialize = function() {
+        return this.setOrientation();
+      };
+
+      AttachmentModel.prototype.setOrientation = function() {
+        var image_meta;
+        image_meta = this.get('image_meta');
+        if (!image_meta) {
+          return false;
+        }
+        if (image_meta.height > image_meta.width) {
+          return this.set('orientation', 'potrait');
+        } else {
+          return this.set('orientation', 'landscape');
+        }
+      };
+
       return AttachmentModel;
 
     })(Backbone.Model);

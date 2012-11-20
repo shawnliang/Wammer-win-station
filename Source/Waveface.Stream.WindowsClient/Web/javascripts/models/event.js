@@ -21,7 +21,7 @@
 
       EventModel.prototype.setDate = function() {
         var event_time;
-        event_time = this.get('event_time');
+        event_time = this.get('timestamp');
         if (!event_time) {
           return false;
         }
@@ -33,7 +33,7 @@
       };
 
       EventModel.prototype.setCover = function() {
-        return this.set('cover', _(this.get('cover_attach')).first());
+        return this.set('cover', _(this.get('summary_attachments')).first());
       };
 
       return EventModel;

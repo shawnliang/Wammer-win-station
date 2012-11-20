@@ -150,18 +150,9 @@ namespace Waveface.Stream.WindowsClient
 
         private LoginedSession LoginToStation(string email, string password)
 		{
-            //try
-            //{
-				return JsonConvert.DeserializeObject<LoginedSession>(StationAPI.Login(
+				return JsonConvert.DeserializeObject<LoginedSession>(StreamClient.Instance.Login(
 					email,
-					password,
-					(string)StationRegistry.GetValue("stationId", string.Empty),
-					Environment.MachineName));
-            //}
-            //catch (WammerCloudException e)
-            //{
-            //    throw StationController.ExtractApiRetMsg(e);
-            //}
+					password));
 		}
 		
 	}

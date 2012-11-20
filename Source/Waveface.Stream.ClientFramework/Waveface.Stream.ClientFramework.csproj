@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Release\</OutputPath>
+    <OutputPath>..\..\Bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,21 +41,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper">
-      <HintPath>..\..\Lib\AutoMapper.NET35.1.1.0.118\lib\net35\AutoMapper.dll</HintPath>
+      <HintPath>..\packages\AutoMapper.NET35.1.1.0.118\lib\net35\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Bson, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+    <Reference Include="MongoDB.Bson, Version=1.6.1.4678, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>
+      <HintPath>..\..\..\Wammer-win-station\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver, Version=1.3.0.4309, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+    <Reference Include="MongoDB.Driver, Version=1.6.1.4678, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
+      <HintPath>..\..\..\Wammer-win-station\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Lib\Newtonsoft.Json.4.5.10\lib\net35\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition">
+    <Reference Include="System.ComponentModel.Composition, Version=2010.2.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
@@ -69,15 +70,20 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="websocket-sharp">
+    <Reference Include="websocket-sharp, Version=1.0.2.27418, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\websocket-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\LoginedUser.cs" />
     <Compile Include="Src\Class\StationAPI.cs" />
+    <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
     <Compile Include="Src\Class\WebSocketData\AttachmentData.cs" />
+    <Compile Include="Src\Class\WebSocketData\CalendarEntry.cs" />
     <Compile Include="Src\Class\WebSocketData\DeviceData.cs" />
     <Compile Include="Src\Class\WebSocketData\ImageMetaData.cs" />
     <Compile Include="Src\Class\WebSocketData\ThumbnailData.cs" />
@@ -96,8 +102,13 @@
     <Compile Include="Src\Class\WebSocketCommand\GetPostsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\LogCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\InvokeRestfulCommand.cs" />
+    <Compile Include="Src\Event\LoginedEventArgs.cs" />
+    <Compile Include="Src\Extension\ObjectExtension.cs" />
     <Compile Include="Src\Interface\IWebSocketCommand.cs" />
     <Compile Include="Src\Interface\IWebSocketCommandExecuter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
@@ -105,9 +116,7 @@
       <Name>Waveface.Stream.Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Src\Event\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -39,7 +39,6 @@ namespace Waveface.Stream.ClientFramework
         #endregion
 
         #region Var
-        private SynchronizationContext _syncContext = SynchronizationContext.Current;
         private Func<T> _func;
         private bool _isValueCreated;
         //private InitMethodDelegate _InitDelegate;
@@ -164,19 +163,6 @@ namespace Waveface.Stream.ClientFramework
         ///// <value>The m_ async result.</value>
         //private IAsyncResult m_AsyncResult { get; set; }
 
-        /// <summary>
-        /// Gets the m_ sync context.
-        /// </summary>
-        /// <value>The m_ sync context.</value>
-        private SynchronizationContext m_SyncContext
-        {
-            get
-            {
-                if (_syncContext == null)
-                    _syncContext = new SynchronizationContext();
-                return _syncContext;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the m_ func.
@@ -436,7 +422,7 @@ namespace Waveface.Stream.ClientFramework
         /// <param name="o">The o.</param>
         private void PostSyncContext<T>(Action<T> target, Object o)
         {
-            m_SyncContext.Post((obj) => target((T)obj), o);
+            SynchronizationContextHelper.PostMainSyncContext<T>((obj) => target((T)obj), o);
         }
 
         /// <summary>

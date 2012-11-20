@@ -164,9 +164,9 @@ namespace Wammer.Station.AttachmentUpload
 
 			var doc =
 				AttachmentCollection.Instance.FindOne(uploadData.imageMeta == ImageMeta.Origin
-														? Query.And(Query.EQ("_id", uploadData.object_id), Query.Exists("saved_file_name", true))
+														? Query.And(Query.EQ("_id", uploadData.object_id), Query.Exists("saved_file_name"))
 														: Query.And(Query.EQ("_id", uploadData.object_id),
-																	Query.Exists("image_meta." + metaStr, true)));
+																	Query.Exists("image_meta." + metaStr)));
 			if (doc != null)
 				return;
 

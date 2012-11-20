@@ -1,7 +1,7 @@
 (function() {
 
   require(['config'], function(main) {
-    return require(['bootstrap', 'logger', 'wfwsocket'], function(Bootstrap) {});
+    return require(['backbone', 'bootstrap', 'logger', 'router', 'wfwsocket'], function(Backbone) {});
   });
 
 }).call(this);

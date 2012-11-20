@@ -7,9 +7,12 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Waveface.Stream.Model;
 using AutoMapper;
+using MongoDB.Driver.Builders;
+using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
+    [Obfuscation]
 	public class GetUserInfoCommand : WebSocketCommandBase
 	{
 		#region Public Property
@@ -44,7 +47,8 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="parameters">The parameters.</param>
         public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
 		{
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
+            var sessionToken = StreamClient.Instance.LoginedUsers.FirstOrDefault().SessionToken;
+            var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
             if (loginedSession == null)
                 return null;

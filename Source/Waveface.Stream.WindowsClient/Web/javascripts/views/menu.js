@@ -2,60 +2,47 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['backbone', 'mustache', 'text!templates/menu.html'], function(Backbone, M, Template) {
-    var EventView;
-    return EventView = (function(_super) {
+  define(['backbone', 'mustache', 'text!templates/menu.html', 'com/user'], function(Backbone, M, Template, User) {
+    var MenuView;
+    MenuView = (function(_super) {
 
-      __extends(EventView, _super);
+      __extends(MenuView, _super);
 
-      function EventView() {
-        return EventView.__super__.constructor.apply(this, arguments);
+      function MenuView() {
+        return MenuView.__super__.constructor.apply(this, arguments);
       }
 
-      EventView.prototype.events = {
-        'click .nav-to-events': 'menuEvents',
-        'click .nav-to-photos': 'menuPhotos',
-        'click .nav-to-calendar': 'menuCalendar'
-      };
-
-      EventView.prototype.initialize = function() {
-        dispatch.on('menuEvents', this.menuEvents, this);
-        dispatch.on('menuPhotos', this.menuPhotos, this);
-        return dispatch.on('menuCalendar', this.menuCalendar, this);
-      };
-
-      EventView.prototype.render = function() {
-        this.$el.html(M.render(Template, {}));
+      MenuView.prototype.render = function() {
+        Router.on('route:actionEvents', this.menuEvents, this);
+        Router.on('route:actionPhotos', this.menuPhotos, this);
+        Router.on('route:actionCalendar', this.menuCalendar, this);
+        this.$el.html(M.render(Template, {
+          username: User.get("nickname")
+        }));
         return this;
       };
 
-      EventView.prototype.highlight = function(e, className) {
-        if (e != null) {
-          e.preventDefault();
-        }
+      MenuView.prototype.menuEvents = function(e) {
+        return this.highlight('.nav-to-events');
+      };
+
+      MenuView.prototype.menuPhotos = function(e) {
+        return this.highlight('.nav-to-photos');
+      };
+
+      MenuView.prototype.menuCalendar = function(e) {
+        return this.highlight('.nav-to-calendar');
+      };
+
+      MenuView.prototype.highlight = function(className) {
         this.$('li').removeClass('active');
         return this.$(className).addClass('active');
       };
 
-      EventView.prototype.menuEvents = function(e) {
-        this.highlight(e, '.nav-to-events');
-        return dispatch.trigger('viewEvents');
-      };
-
-      EventView.prototype.menuPhotos = function(e) {
-        this.highlight(e, '.nav-to-photos');
-        dispatch.trigger('callAttachments');
-        return dispatch.trigger('viewPhotos');
-      };
-
-      EventView.prototype.menuCalendar = function(e) {
-        this.highlight(e, '.nav-to-calendar');
-        return dispatch.trigger('viewCalendar');
-      };
-
-      return EventView;
+      return MenuView;
 
     })(Backbone.View);
+    return new MenuView;
   });
 
 }).call(this);

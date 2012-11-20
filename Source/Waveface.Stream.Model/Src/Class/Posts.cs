@@ -44,12 +44,12 @@ namespace Waveface.Stream.Model
 			}
 		}
 
-		public void UpdateAttachments(PostInfo post)
-		{
-			Update(
-				Query.EQ("_id", post.post_id),
-				MongoDB.Driver.Builders.Update.Set("attachments", new BsonArray(post.attachments.Select(x => x.ToBsonDocument())))
-			);
-		}
+        //public void UpdateAttachments(PostInfo post)
+        //{
+        //    Update(
+        //        Query.EQ("_id", post.post_id),
+        //        MongoDB.Driver.Builders.Update.Set("attachments", new BsonArray(post.attachments.Select(x => x.ToBsonDocument())))
+        //    );
+        //}
 	}
 }

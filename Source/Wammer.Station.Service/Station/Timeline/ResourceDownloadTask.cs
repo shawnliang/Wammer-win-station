@@ -50,13 +50,13 @@ namespace Wammer.Station.Timeline
 				alreadyExist = AttachmentCollection.Instance.FindOne(
 					Query.And(
 						Query.EQ("_id", evtargs.attachment.object_id),
-						Query.Exists("saved_file_name", true))) != null;
+						Query.Exists("saved_file_name"))) != null;
 			else
 				// thumbnails here
 				alreadyExist = AttachmentCollection.Instance.FindOne(
 					Query.And(
 						Query.EQ("_id", evtargs.attachment.object_id),
-						Query.Exists("image_meta." + evtargs.imagemeta.ToString().ToLower() + ".saved_file_name", true))) != null;
+						Query.Exists("image_meta." + evtargs.imagemeta.ToString().ToLower() + ".saved_file_name"))) != null;
 
 			return alreadyExist;
 		}

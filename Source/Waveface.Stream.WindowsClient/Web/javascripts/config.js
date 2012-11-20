@@ -17,6 +17,10 @@
       },
       'lib/jquery/fullcalendar': ["jquery"],
       'lib/jquery/jquery.colorbox': ["jquery"],
+      'lib/galleria/galleria-1.2.8': {
+        deps: ["jquery"],
+        exports: "Galleria"
+      },
       logger: {
         deps: ["underscore", "jquery"]
       }

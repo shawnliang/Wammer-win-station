@@ -28,7 +28,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void importFromDiskButton_Click(object sender, EventArgs e)
 		{
-			var fileImport = new FileImportControl(photoSearch, SynchronizationContext.Current)
+			var fileImport = new FileImportControl(photoSearch)
 			{
 				CustomLabelForNextStep = "Import"
 			};
