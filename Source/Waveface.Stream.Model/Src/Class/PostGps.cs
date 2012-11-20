@@ -10,15 +10,15 @@ namespace Waveface.Stream.Model
     public class PostGps
     {
         [BsonIgnoreIfNull]
-        public float latitude { get; set; }
+        public float? latitude { get; set; }
 
         [BsonIgnoreIfNull]
-        public int zoom_level { get; set; }
+        public int? zoom_level { get; set; }
 
         [BsonIgnoreIfNull]
         public string name { get; set; }
 
         [BsonIgnoreIfNull]
-        public float longitude { get; set; }
+        public float? longitude { get; set; }
     }
 }

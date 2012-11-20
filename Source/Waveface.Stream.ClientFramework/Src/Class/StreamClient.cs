@@ -6,6 +6,7 @@ using System.Linq;
 using Waveface.Stream.Model;
 using System.Collections.Generic;
 using AutoMapper;
+using MongoDB.Bson.Serialization;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -88,7 +89,8 @@ namespace Waveface.Stream.ClientFramework
         {
             Mapper.CreateMap<PostInfo, PostData>()
                 .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.post_id))
-                .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time));
+                .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time))
+                .ForMember(dest => dest.ExtraParams, opt => opt.MapFrom(src => src.extra_parameters));
 
             Mapper.CreateMap<PostGps, PostGpsData>();
 

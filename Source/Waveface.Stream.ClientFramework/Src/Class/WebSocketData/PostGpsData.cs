@@ -11,10 +11,13 @@ namespace Waveface.Stream.ClientFramework
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public String name { get; set; }
 
-        public float latitude { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public float? latitude { get; set; }
 
-        public float longitude { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public float? longitude { get; set; }
 
-        public int zoom_level { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? zoom_level { get; set; }
     }
 }
