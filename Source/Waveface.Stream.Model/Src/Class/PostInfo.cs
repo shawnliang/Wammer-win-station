@@ -75,8 +75,8 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public string cover_attach { get; set; }
 
-        //[BsonIgnoreIfNull]
-        //public int seq_num { get; set; }
+        [BsonIgnoreIfNull]
+        public int seq_num { get; set; }
 
 
         [BsonIgnoreIfNull]
