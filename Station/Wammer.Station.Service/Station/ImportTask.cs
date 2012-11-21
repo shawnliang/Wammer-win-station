@@ -285,7 +285,8 @@ namespace Wammer.Station
 					import_time = importTime,
 					file_create_time = file.CreateTime,
 					type = AttachmentType.image,
-					imageMeta = ImageMeta.Origin
+					imageMeta = ImageMeta.Origin,
+					fromLocal = true
 				};
 				imp.Process(uploadData);
 				
