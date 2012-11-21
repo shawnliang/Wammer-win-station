@@ -32,12 +32,16 @@ namespace Wammer.Station
 				if (user == null)
 					return;
 
-				if (e.meta == ImageMeta.Origin && user.isPrimaryStation)
+				var localAtt = AttachmentCollection.Instance.FindOneById(e.object_id);
+
+				if (e.meta == ImageMeta.Origin && user.isPrimaryStation &&
+					localHasNoOrigin(localAtt))
 				{
 					var info = AttachmentApi.GetInfo(e.object_id, user.session_token);
 					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
 				}
-				else if (e.meta == ImageMeta.Medium)
+				else if (e.meta == ImageMeta.Medium &&
+					localHasNoMedium(localAtt))
 				{
 					var info = AttachmentApi.GetInfo(e.object_id, user.session_token);
 					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Medium);
@@ -48,6 +52,17 @@ namespace Wammer.Station
 			{
 				this.LogWarnMsg("Unable to enqueue body download task", ex);
 			}
+		}
+
+		private static bool localHasNoMedium(Attachment localAtt)
+		{
+			return localAtt == null || localAtt.image_meta == null || localAtt.image_meta.medium == null ||
+					string.IsNullOrEmpty(localAtt.image_meta.medium.saved_file_name);
+		}
+
+		private static bool localHasNoOrigin(Attachment localAtt)
+		{
+			return localAtt == null || string.IsNullOrEmpty(localAtt.saved_file_name);
 		}
 
 		protected override void ExecuteOnTimedUp(object state)

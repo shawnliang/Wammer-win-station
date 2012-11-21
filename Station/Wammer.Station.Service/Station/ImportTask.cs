@@ -135,6 +135,7 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
+			this.LogInfoMsg("Importing from " + m_Paths.ToString());
 			Exception error = null;
 
 			try
