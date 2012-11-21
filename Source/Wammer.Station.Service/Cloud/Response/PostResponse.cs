@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -240,20 +240,20 @@ namespace Wammer.Cloud
 		public string device_id { get; set; }
 	}
 
-    [BsonIgnoreExtraElements]
-    public class Gps
+	[BsonIgnoreExtraElements]
+    public class PostGps
     {
         [BsonIgnoreIfNull]
-        public float? latitude { get; set; }
+        public float latitude { get; set; }
 
         [BsonIgnoreIfNull]
-        public int? zoom_level { get; set; }
+        public int zoom_level { get; set; }
 
         [BsonIgnoreIfNull]
         public string name { get; set; }
 
         [BsonIgnoreIfNull]
-        public float? longitude { get; set; }
+        public float longitude { get; set; }
     }
 
     [BsonIgnoreExtraElements]
@@ -315,28 +315,16 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public Boolean import { get; set; }
 
-        [BsonIgnoreIfNull]
-        public DateTime timestamp { get; set; }
+		[BsonIgnoreIfNull]
+		public DateTime timestamp { get; set; }
 
-        [BsonId]
-        public string post_id { get; set; }
+		[BsonId]
+		public string post_id { get; set; }
 
-        [BsonIgnoreIfNull]
-        public List<Person> people { get; set; }
+		[BsonIgnoreIfNull]
+		public string code_name { get; set; }
 
-        [BsonIgnoreIfNull]
-        public List<ExtraParameter> extra_parameters { get; set; }
-
-        [BsonIgnoreIfNull]
-        public Gps gps { get; set; }
-
-        [BsonIgnoreIfNull]
-        public List<string> tags { get; set; }
-
-        [BsonIgnoreIfNull]
-        public string code_name { get; set; }
-
-        [BsonIgnoreIfNull]
+		[BsonIgnoreIfNull]
 		public List<string> attachment_id_array { get; set; }
 
 		[BsonIgnoreIfNull]
@@ -359,5 +347,18 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public int seq_num { get; set; }
+
+        [BsonIgnoreIfNull]
+        public List<Person> people { get; set; }
+
+        [BsonIgnoreIfNull]
+        public List<ExtraParameter> extra_parameters { get; set; }
+
+        [BsonIgnoreIfNull]
+        public PostGps gps { get; set; }
+
+        [BsonIgnoreIfNull]
+        public List<string> tags { get; set; }
+
 	}
 }

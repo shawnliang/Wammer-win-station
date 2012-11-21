@@ -104,15 +104,15 @@ namespace Wammer.Station.AttachmentUpload
 						exif.gps = new Gps();
 
 					var Nmult = gpsLatitudeRef.Equals("North", StringComparison.CurrentCultureIgnoreCase) ? 1 : -1;
-					var Ndeg = (int)gpsLatitude.Degrees.Numerator / (int)gpsLatitude.Degrees.Denominator;
-					var Nmin = (int)gpsLatitude.Minutes.Numerator / (int)gpsLatitude.Minutes.Denominator;
-					var Nsec = (int)gpsLatitude.Seconds.Numerator / (int)gpsLatitude.Seconds.Denominator;
+					var Ndeg = (double)gpsLatitude.Degrees.Numerator / (double)gpsLatitude.Degrees.Denominator;
+					var Nmin = (double)gpsLatitude.Minutes.Numerator / (double)gpsLatitude.Minutes.Denominator;
+					var Nsec = (double)gpsLatitude.Seconds.Numerator / (double)gpsLatitude.Seconds.Denominator;
 					exif.gps.latitude = Nmult * (Ndeg + (Nmin + Nsec / 60.0) / 60.0);
 
 					var Wmult = gpsLongitudeRef.Equals("East", StringComparison.CurrentCultureIgnoreCase) ? 1 : -1;
-					var Wdeg = (int)gpsLongitude.Degrees.Numerator / (int)gpsLongitude.Degrees.Denominator;
-					var Wmin = (int)gpsLongitude.Minutes.Numerator / (int)gpsLongitude.Minutes.Denominator;
-					var Wsec = (int)gpsLongitude.Seconds.Numerator / (int)gpsLongitude.Seconds.Denominator;
+					var Wdeg = (double)gpsLongitude.Degrees.Numerator / (double)gpsLongitude.Degrees.Denominator;
+					var Wmin = (double)gpsLongitude.Minutes.Numerator / (double)gpsLongitude.Minutes.Denominator;
+					var Wsec = (double)gpsLongitude.Seconds.Numerator / (double)gpsLongitude.Seconds.Denominator;
 					exif.gps.longitude = Wmult * (Wdeg + (Wmin + Wsec / 60.0) / 60.0);
 
 					if (exifFile.Properties.ContainsKey(ExifTag.GPSDateStamp))
