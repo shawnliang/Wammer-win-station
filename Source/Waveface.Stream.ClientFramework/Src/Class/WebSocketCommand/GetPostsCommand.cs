@@ -138,7 +138,7 @@ namespace Waveface.Stream.ClientFramework
                     }
 
                     if (summaryAttachmentDatas.Count > 0)
-                        postDatas[idx].summary_attachments = summaryAttachmentDatas;
+                        postDatas[idx].SummaryAttachments = summaryAttachmentDatas;
 
                     ++idx;
                 }

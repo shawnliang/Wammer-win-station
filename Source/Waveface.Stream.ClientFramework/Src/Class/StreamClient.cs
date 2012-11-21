@@ -88,8 +88,10 @@ namespace Waveface.Stream.ClientFramework
         static StreamClient()
         {
             Mapper.CreateMap<PostInfo, PostData>()
-                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.post_id))
-                .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time))
+                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.post_id))
+                .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time))
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.tags))
+                .ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array))
                 .ForMember(dest => dest.ExtraParams, opt => opt.MapFrom(src => src.extra_parameters));
 
             Mapper.CreateMap<PostGps, PostGpsData>();
