@@ -63,51 +63,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackupAndUninstallStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="BackupAndUninstallStep.cs" />
     <Compile Include="BackupAndUninstallStep.Designer.cs">
       <DependentUpon>BackupAndUninstallStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="FatalErrorStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="FatalErrorStep.cs" />
     <Compile Include="FatalErrorStep.Designer.cs">
       <DependentUpon>FatalErrorStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="FinishStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="FinishStep.cs" />
     <Compile Include="FinishStep.Designer.cs">
       <DependentUpon>FinishStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="InitializationStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="InitializationStep.cs" />
     <Compile Include="InitializationStep.Designer.cs">
       <DependentUpon>InitializationStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="InstallationLocationStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="InstallationLocationStep.cs" />
     <Compile Include="InstallationLocationStep.Designer.cs">
       <DependentUpon>InstallationLocationStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="InstallationModeStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="InstallationModeStep.cs" />
     <Compile Include="InstallationModeStep.Designer.cs">
       <DependentUpon>InstallationModeStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="InstallationStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="InstallationStep.cs" />
     <Compile Include="InstallationStep.Designer.cs">
       <DependentUpon>InstallationStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="LicenseStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="LicenseStep.cs" />
     <Compile Include="LicenseStep.Designer.cs">
       <DependentUpon>LicenseStep.cs</DependentUpon>
     </Compile>
@@ -118,17 +102,13 @@
       <DependentUpon>Resources.zh-TW.resx</DependentUpon>
     </Compile>
     <Compile Include="SetupProgram.cs" />
-    <Compile Include="SetupWizard.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="SetupWizard.cs" />
     <Compile Include="SetupWizard.Designer.cs">
       <DependentUpon>SetupWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="UACHelper.cs" />
     <Compile Include="Upgrade.cs" />
-    <Compile Include="WelcomeStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="WelcomeStep.cs" />
     <Compile Include="WelcomeStep.Designer.cs">
       <DependentUpon>WelcomeStep.cs</DependentUpon>
     </Compile>
