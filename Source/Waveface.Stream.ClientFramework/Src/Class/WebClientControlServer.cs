@@ -30,7 +30,7 @@ namespace Waveface.Stream.ClientFramework
 				if (_webSocketServer == null)
 				{
                     _webSocketServer = new WebSocketServer<WebClientControlService>(string.Format(WEB_SOCKET_SERVER_IP_PATTERN, Port));
-					_webSocketServer.OnError += new EventHandler<WebSocketSharp.ErrorEventArgs>(_webSocketServer_OnError);
+					_webSocketServer.OnError += new EventHandler<WebSocketSharp.ErrorEventArgs>(WebSocketServer_OnError);
 				}
 				return _webSocketServer;
 			}
@@ -44,10 +44,28 @@ namespace Waveface.Stream.ClientFramework
 		/// </summary>
 		/// <value>The port.</value>
 		public int Port { get; private set; }
+
+        /// <summary>
+        /// Gets the services.
+        /// </summary>
+        /// <value>
+        /// The services.
+        /// </value>
+        public IEnumerable<WebSocketService> Services
+        {
+            get 
+            {
+                return WebClientControlService.Services;
+            }
+        }
 		#endregion
 
 
 		#region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebClientControlServer" /> class.
+        /// </summary>
+        /// <param name="port">The port.</param>
         public WebClientControlServer(int port)
 		{
 			this.Port = port;
@@ -71,11 +89,31 @@ namespace Waveface.Stream.ClientFramework
 		{
 			m_WebSocketServer.Stop();
 		}
+
+        public void Send(String id, byte[] data)
+        {
+            WebClientControlService.Send(id, data);
+        }
+
+        /// <summary>
+        /// Sends the specified id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="data">The data.</param>
+        public void Send(String id, String data)
+        {
+            WebClientControlService.Send(id, data);
+        }
 		#endregion
 
 
 		#region Event Process
-		void _webSocketServer_OnError(object sender, WebSocketSharp.ErrorEventArgs e)
+        /// <summary>
+        /// Handles the OnError event of the WebSocketServer control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="WebSocketSharp.ErrorEventArgs" /> instance containing the event data.</param>
+		void WebSocketServer_OnError(object sender, WebSocketSharp.ErrorEventArgs e)
 		{
 			Trace.WriteLine(e.Message);
 		}

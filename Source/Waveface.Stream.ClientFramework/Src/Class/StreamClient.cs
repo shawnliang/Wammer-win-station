@@ -7,6 +7,10 @@ using Waveface.Stream.Model;
 using System.Collections.Generic;
 using AutoMapper;
 using MongoDB.Bson.Serialization;
+using System.Threading.Tasks;
+using System.Threading;
+using MongoDB.Driver.Builders;
+using Newtonsoft.Json;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -27,7 +31,7 @@ namespace Waveface.Stream.ClientFramework
 
 
         #region Var
-        private List<LoginedUser> _loginedUsers;
+        private WebClientControlServer _server;
         #endregion
 
 
@@ -48,26 +52,27 @@ namespace Waveface.Stream.ClientFramework
 
         #region Private Property
         /// <summary>
-        /// Gets the m_ logined users.
+        /// Gets the m_ server.
         /// </summary>
-        /// <value>
-        /// The m_ logined users.
-        /// </value>
-        private List<LoginedUser> m_LoginedUsers
+        /// <value>The m_ server.</value>
+        private WebClientControlServer m_Server
         {
-            get { return _loginedUsers ?? (_loginedUsers = new List<LoginedUser>()); }
+            get
+            {
+                return _server ?? (_server = new WebClientControlServer(1337));
+            }
         }
         #endregion
 
 
         #region Public Property
         /// <summary>
-        /// Gets the logined users.
+        /// Gets or sets the logined user.
         /// </summary>
         /// <value>
-        /// The logined users.
+        /// The logined user.
         /// </value>
-        public IEnumerable<LoginedUser> LoginedUsers { get { return m_LoginedUsers; } }
+        public LoginedUser LoginedUser { get; private set; }
 		#endregion
 
 
@@ -81,36 +86,20 @@ namespace Waveface.Stream.ClientFramework
         /// Occurs when [logined].
         /// </summary>
         public event EventHandler<LoginedEventArgs> Logined;
+
+        /// <summary>
+        /// Occurs when [post added].
+        /// </summary>
+        public event EventHandler PostAdded;
+
+        /// <summary>
+        /// Occurs when [attachment downloaded].
+        /// </summary>
+        public event EventHandler AttachmentDownloaded;
         #endregion
 
 
         #region Constructor
-        static StreamClient()
-        {
-            Mapper.CreateMap<PostInfo, PostData>()
-                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.post_id))
-                .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time))
-                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.tags))
-                .ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array))
-                .ForMember(dest => dest.ExtraParams, opt => opt.MapFrom(src => src.extra_parameters));
-
-            Mapper.CreateMap<PostGps, PostGpsData>();
-
-            Mapper.CreateMap<Person, PeopleData>();
-
-            Mapper.CreateMap<ExtraParameter, PostExtraData>();
-
-            Mapper.CreateMap<Attachment, AttachmentData>()
-                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.object_id))
-                .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time.HasValue ? src.event_time.Value.ToUTCISO8601ShortString() : null))
-                .ForMember(dest => dest.url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
-
-            Mapper.CreateMap<ImageProperty, ImageMetaData>();
-
-            Mapper.CreateMap<ThumbnailInfo, ThumbnailData>()
-                .ForMember(dest => dest.url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
-        } 
-
         /// <summary>
         /// Prevents a default instance of the <see cref="StreamClient" /> class from being created.
         /// </summary>
@@ -121,46 +110,6 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 
-        #region Private Static Method
-        /// <summary>
-        /// Gets the attachment file path.
-        /// </summary>
-        /// <param name="url">The URL.</param>
-        /// <param name="savedFileName">Name of the saved file.</param>
-        /// <returns></returns>
-        private static string GetAttachmentFilePath(string url, string savedFileName)
-        {
-            if (string.IsNullOrEmpty(savedFileName))
-                return null;
-
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
-
-            if (loginedSession == null)
-                return null;
-
-            var groupID = loginedSession.groups.FirstOrDefault().group_id;
-
-            Driver user = DriverCollection.Instance.FindDriverByGroupId(groupID);
-            if (user == null)
-                return null;
-
-            var imageMetaType = ImageMeta.None;
-
-            if (url.Contains("small"))
-                imageMetaType = ImageMeta.Small;
-            else if (url.Contains("medium"))
-                imageMetaType = ImageMeta.Medium;
-            else if (url.Contains("large"))
-                imageMetaType = ImageMeta.Large;
-            else
-                imageMetaType = ImageMeta.Origin;
-
-            var fileStorage = new FileStorage(user);
-            return (new Uri(fileStorage.GetFullFilePath(savedFileName, imageMetaType))).ToString();
-        }
-        #endregion
-
-
 
         #region Private Method
         /// <summary>
@@ -168,7 +117,61 @@ namespace Waveface.Stream.ClientFramework
         /// </summary>
         private void Init()
         {
+            SynchronizationContextHelper.SetMainSyncContext();
+
+            AutoMapperSetting.IniteMap();
+
             this.Logined += StreamClient_Logined;
+            this.PostAdded += StreamClient_PostAdded;
+            this.AttachmentDownloaded += StreamClient_AttachmentDownloaded;
+
+            m_Server.Start();
+
+            (new Task(() =>
+            {
+                long count = 0;
+                while (true)
+                {
+                    if (LoginedUser != null)
+                    {
+                        var postCount = PostCollection.Instance.Find(Query.EQ("creator_id", LoginedUser.UserID)).Count();
+
+                        if (postCount != count)
+                        {
+                            OnPostAdded(EventArgs.Empty);
+
+                            Trace.WriteLine("Post chang detected...");
+                            count = postCount;
+                        }
+                    }
+
+                    Thread.Sleep(2000);
+                    Application.DoEvents();
+                }
+            })).Start();
+
+            (new Task(() =>
+            {
+                long count = 0;
+                while (true)
+                {
+                    if (LoginedUser != null)
+                    {
+                        var attachmentCount = AttachmentCollection.Instance.Find(Query.EQ("group_id", LoginedUser.GroupID)).Count();
+
+                        if (attachmentCount != count)
+                        {
+                            OnAttachmentDownloaded(EventArgs.Empty);
+
+                            Trace.WriteLine("Attachment added detected...");
+                            count = attachmentCount;
+                        }
+                    }
+
+                    Thread.Sleep(2000);
+                    Application.DoEvents();
+                }
+            })).Start();
         }
         #endregion
 
@@ -191,6 +194,24 @@ namespace Waveface.Stream.ClientFramework
         {
             this.RaiseEvent<LoginedEventArgs>(Logined, e);
         }
+
+        /// <summary>
+        /// Raises the <see cref="E:PostAdded" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        protected void OnPostAdded(EventArgs e)
+        {
+            this.RaiseEvent(PostAdded, e);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:AttachmentDownloaded" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        protected void OnAttachmentDownloaded(EventArgs e)
+        {
+            this.RaiseEvent(AttachmentDownloaded, e);
+        }
         #endregion
 
 
@@ -203,8 +224,8 @@ namespace Waveface.Stream.ClientFramework
         /// <returns></returns>
 		public string Login(string email, string password)
 		{
-            if (m_LoginedUsers.Where(item => item.EMail.Equals(email, StringComparison.InvariantCulture)).Any())
-                return string.Empty;
+            if (LoginedUser != null && LoginedUser.EMail.Equals(email))
+                return null;
 
             var response = string.Empty;
 
@@ -242,7 +263,61 @@ namespace Waveface.Stream.ClientFramework
             if (response.Length == 0)
                 return;
 
-            m_LoginedUsers.Add(new LoginedUser(response));
+            LoginedUser = new LoginedUser(response);
+        }
+
+        /// <summary>
+        /// Handles the AttachmentDownloaded event of the StreamClient control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        void StreamClient_AttachmentDownloaded(object sender, EventArgs e)
+        {
+            if (LoginedUser == null)
+                return;
+
+            if (LoginedUser.SubscribedSystemEvent == SystemEventType.None || (LoginedUser.SubscribedSystemEvent != SystemEventType.All && !LoginedUser.SubscribedSystemEvent.HasFlag(SystemEventType.AttachmentDownloaded)))
+                return;
+
+            var executedValue = new JObject(
+                    new JProperty("command", "subscribeEvent"),
+                    new JProperty("response", JObject.FromObject(new Dictionary<String, Object>()
+                    {
+                        {"event_id", (int)SystemEventType.AttachmentDownloaded}
+                    }))
+                    );
+
+            var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+            m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
+        }
+
+        /// <summary>
+        /// Handles the PostAdded event of the StreamClient control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        void StreamClient_PostAdded(object sender, EventArgs e)
+        {
+            if (LoginedUser == null)
+                return;
+
+            if (LoginedUser.SubscribedSystemEvent == SystemEventType.None || (LoginedUser.SubscribedSystemEvent != SystemEventType.All && !LoginedUser.SubscribedSystemEvent.HasFlag(SystemEventType.PostAdded)))
+                return;
+
+            var executedValue = new JObject(
+                    new JProperty("command", "subscribeEvent"),
+                    new JProperty("response", JObject.FromObject(new Dictionary<String, Object>()
+                    {
+                        {"event_id", (int)SystemEventType.PostAdded}
+                    }))
+                    );
+
+            var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+            m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
         }
         #endregion
     }

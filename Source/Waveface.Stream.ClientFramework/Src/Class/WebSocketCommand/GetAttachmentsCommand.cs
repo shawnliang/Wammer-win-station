@@ -37,7 +37,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="parameters">The parameters.</param>
         public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
 		{
-            var sessionToken = StreamClient.Instance.LoginedUsers.FirstOrDefault().SessionToken;
+            var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
             var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession == null)

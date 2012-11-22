@@ -13,10 +13,32 @@ using System.Threading.Tasks;
 namespace Waveface.Stream.ClientFramework
 {
 	public class WebClientControlService : WebSocketService
-	{
-		#region Var
-		IWebSocketCommandExecuter _webSocketCommandExecuter;
+    {
+        #region Static Var
+        private static IDictionary<string, WebSocketService> _services;
+        #endregion
+
+
+        #region Var
+        IWebSocketCommandExecuter _webSocketCommandExecuter;
 		#endregion
+
+
+        #region Private Static Property
+        /// <summary>
+        /// Gets the services.
+        /// </summary>
+        /// <value>
+        /// The services.
+        /// </value>
+        private static IDictionary<string, WebSocketService> m_Services
+        {
+            get
+            {
+                return _services ?? (_services = new Dictionary<string, WebSocketService>());
+            }
+        }
+        #endregion
 
 
 		#region Private Property
@@ -34,26 +56,48 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 
-		#region Constructor
-		#endregion
+        #region Public Static Property
+        /// <summary>
+        /// Gets the services.
+        /// </summary>
+        /// <value>
+        /// The services.
+        /// </value>
+        public static IEnumerable<WebSocketService> Services
+        {
+            get
+            {
+                return m_Services.Values;
+            }
+        }
+        #endregion
+
+
+
+        #region Constructor
+        #endregion
 
 
         #region Private Method
+        /// <summary>
+        /// Executes the and response result.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="memo">The memo.</param>
         private void ExecuteAndResponseResult(string command, Dictionary<string, Object> parameters, object memo)
         {
             try
             {
                 var response = m_WebSocketCommandExecuter.Execute(command, parameters);
 
-                if (response == null)
+                if (response == null || response.Count == 0)
                     return;
 
                 var executedValue = new JObject(
-                    new JProperty("command", command)
+                    new JProperty("command", command),
+                    new JProperty("response", JObject.FromObject(response))
                     );
-
-                if (response != null && response.Count > 0)
-                    executedValue.Add(new JProperty("response", JObject.FromObject(response)));
 
                 if (memo != null)
                     executedValue.Add(new JProperty("memo", memo));
@@ -69,6 +113,10 @@ namespace Waveface.Stream.ClientFramework
             }
         }
 
+        /// <summary>
+        /// Parses the and execute command.
+        /// </summary>
+        /// <param name="json">The json.</param>
         private void ParseAndExecuteCommand(string json)
         {
             if (json.Length == 0)
@@ -104,6 +152,10 @@ namespace Waveface.Stream.ClientFramework
             }
         }
 
+        /// <summary>
+        /// Asyncs the parse and execute command.
+        /// </summary>
+        /// <param name="json">The json.</param>
         private void AsyncParseAndExecuteCommand(string json)
         {
             if (json.Length == 0)
@@ -126,6 +178,12 @@ namespace Waveface.Stream.ClientFramework
 		protected override void onOpen(object sender, EventArgs e)
 		{
 			Trace.WriteLine(String.Format("WebSocket server open connection {0}...", this.ID));
+
+            StreamClient.Instance.LoginedUser.WebSocketChannelID = this.ID;
+
+            if (!m_Services.ContainsKey(this.ID))
+                m_Services.Add(this.ID, this);
+
 			base.onOpen(sender, e);
 		}
 
@@ -152,6 +210,10 @@ namespace Waveface.Stream.ClientFramework
 		protected override void onClose(object sender, WebSocketSharp.CloseEventArgs e)
 		{
 			Trace.WriteLine(String.Format("WebSocket server connection {0} close: {1}", this.ID, e.Reason));
+
+            if (m_Services.ContainsKey(this.ID))
+                m_Services.Remove(this.ID);
+
 			base.onClose(sender, e);
 		}
 
@@ -168,7 +230,36 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 
-		#region Event Process
-		#endregion
-	}
+        #region Public Static Method
+        /// <summary>
+        /// Sends the specified id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="data">The data.</param>
+        public static void Send(String id, byte[] data)
+        {
+            if (!m_Services.ContainsKey(id))
+                return;
+
+            m_Services[id].Send(data);
+        }
+
+        /// <summary>
+        /// Sends the specified id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="data">The data.</param>
+        public static void Send(String id, String data)
+        {
+            if (!m_Services.ContainsKey(id))
+                return;
+
+            m_Services[id].Send(data);
+        }
+        #endregion
+
+
+        #region Event Process
+        #endregion
+    }
 }

@@ -31,7 +31,6 @@ namespace Waveface.Stream.WindowsClient
 		private static NotifyIcon _notifyIcon;
 		private static ContextMenuStrip _contextMenuStrip;
 		private static StreamClient _client;
-		private static WebClientControlServer _server;
         private static System.Windows.Forms.Timer _timer;
 
         private static Queue<float> _upRemainedCount = new Queue<float>();
@@ -92,18 +91,6 @@ namespace Waveface.Stream.WindowsClient
 			get
 			{
 				return _client ?? (_client = StreamClient.Instance);
-			}
-		}
-
-		/// <summary>
-		/// Gets the m_ server.
-		/// </summary>
-		/// <value>The m_ server.</value>
-		private static WebClientControlServer m_Server
-		{
-			get
-			{
-				return _server ?? (_server = new WebClientControlServer(1337));
 			}
 		}
 
@@ -170,8 +157,6 @@ namespace Waveface.Stream.WindowsClient
             m_Timer.Interval = 500;
             m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
             m_Timer.Start();
-
-            m_Server.Start();
 
             if (ShowLoginDialog() == DialogResult.OK)
             {
@@ -425,7 +410,7 @@ namespace Waveface.Stream.WindowsClient
 
         private static void UpdateLoginMenuItemStatus()
         {
-            var sessionToken = StreamClient.Instance.LoginedUsers.FirstOrDefault().SessionToken;
+            var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
             m_ContextMenuStrip.Items["Login"].Visible = string.IsNullOrEmpty(sessionToken);
             m_ContextMenuStrip.Items["OpenStream"].Visible = !string.IsNullOrEmpty(sessionToken);
         }

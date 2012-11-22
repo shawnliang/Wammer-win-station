@@ -40,9 +40,9 @@ namespace Waveface.Stream.ClientFramework
 		/// Executes the specified parameters.
 		/// </summary>
 		/// <param name="parameters">The parameters.</param>
-		public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
+        public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
 		{
-            var sessionToken = StreamClient.Instance.LoginedUsers.FirstOrDefault().SessionToken;
+            var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
             var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession == null)
@@ -111,14 +111,14 @@ namespace Waveface.Stream.ClientFramework
             var summaryAttachmentLimit = parameters.ContainsKey("sumary_limit") ? int.Parse(parameters["sumary_limit"].ToString()) : 1;
 
             var idx = 0;
-            foreach (var post in filteredPosts)
+            foreach (var postData in postDatas)
             {
                 if (summaryAttachmentLimit > 0)
                 {
-                    var attachmentIDs = post.attachment_id_array;
+                    var attachmentIDs = postData.AttachmentIDs;
                     var summaryAttachmentDatas = new List<AttachmentData>(summaryAttachmentLimit);
 
-                    var coverAttachmentID = (string.IsNullOrEmpty(post.cover_attach)) ? attachmentIDs.FirstOrDefault() : post.cover_attach;
+                    var coverAttachmentID = postData.CoverAttachmentID;
                     var coverAttachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", coverAttachmentID));
                     var coverAttachmentData = Mapper.Map<Attachment, AttachmentData>(coverAttachment);
 

@@ -74,7 +74,7 @@ namespace Waveface.Stream.ClientFramework.Test
             SubscribeEventCommand target = new SubscribeEventCommand();
             Dictionary<string, object> parameters = new Dictionary<string, object>() 
             {
-                {"event_id", 2}
+                {"event_id", (int)SystemEventType.PostAdded}
             };
 			target.Execute(parameters);
 		}

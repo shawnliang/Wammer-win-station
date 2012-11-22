@@ -11,6 +11,11 @@ namespace Waveface.Stream.ClientFramework
     /// </summary>
     public class PostData
     {
+        #region Var
+        private string _coverAttachmentID;
+        #endregion
+
+
         #region Public Property
         /// <summary>
         /// Gets or sets the ID.
@@ -18,7 +23,7 @@ namespace Waveface.Stream.ClientFramework
         /// <value>
         /// The ID.
         /// </value>
-        [JsonProperty("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string ID { get; set; }
 
         /// <summary>
@@ -54,7 +59,7 @@ namespace Waveface.Stream.ClientFramework
         /// <value>
         /// The type.
         /// </value>
-        [JsonProperty("type")]
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
         public string Type { get; set; }
 
         /// <summary>
@@ -63,7 +68,7 @@ namespace Waveface.Stream.ClientFramework
         /// <value>
         /// The time stamp.
         /// </value>
-        [JsonProperty("timestamp")]
+        [JsonProperty("timestamp", NullValueHandling = NullValueHandling.Ignore)]
         public string TimeStamp { get; set; }
 
         /// <summary>
@@ -100,7 +105,17 @@ namespace Waveface.Stream.ClientFramework
         /// The cover attachment ID.
         /// </value>
         [JsonProperty("cover_attach", NullValueHandling = NullValueHandling.Ignore)]
-        public string CoverAttachmentID { get; set; }
+        public string CoverAttachmentID 
+        {
+            get
+            {
+                return string.IsNullOrEmpty(_coverAttachmentID) ? AttachmentIDs .FirstOrDefault(): _coverAttachmentID;
+            }
+            set
+            {
+                _coverAttachmentID = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the summary attachments.
@@ -202,6 +217,69 @@ namespace Waveface.Stream.ClientFramework
         public bool ShouldSerializeAttachmentIDs()
         {
             return AttachmentIDs != null && AttachmentIDs.Count > 0;
+        }
+
+        /// <summary>
+        /// Shoulds the serialize cover attachment ID.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeCoverAttachmentID()
+        {
+            return CoverAttachmentID != null && CoverAttachmentID.Length > 0;
+        }
+
+        /// <summary>
+        /// Shoulds the content of the serialize.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeContent()
+        {
+            return Content != null && Content.Length > 0;
+        }
+
+        /// <summary>
+        /// Shoulds the type of the serialize.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeType()
+        {
+            return Type != null && Type.Length > 0;
+        }
+
+        /// <summary>
+        /// Shoulds the serialize time stamp.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeTimeStamp()
+        {
+            return TimeStamp != null && TimeStamp.Length > 0;
+        }
+
+        /// <summary>
+        /// Shoulds the serialize ID.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeID()
+        {
+            return ID != null && ID.Length > 0;
+        }
+
+        /// <summary>
+        /// Shoulds the serialize attachment count.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeAttachmentCount()
+        {
+            return AttachmentCount > 0;
+        }
+
+        /// <summary>
+        /// Shoulds the serialize comment count.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeCommentCount()
+        {
+            return CommentCount > 0;
         }
         #endregion
     }

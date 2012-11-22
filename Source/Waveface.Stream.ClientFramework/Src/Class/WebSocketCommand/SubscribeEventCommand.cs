@@ -32,12 +32,23 @@ namespace Waveface.Stream.ClientFramework
         public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
 		{
             var eventID = parameters.ContainsKey("event_id") ? int.Parse(parameters["event_id"].ToString()) : 0;
+            var systemEvent = (SystemEventType)eventID;
 
-            if (eventID == 0 || (eventID & 2) == 2)
+            if (systemEvent == SystemEventType.All)
             {
+                StreamClient.Instance.LoginedUser.SubscribedSystemEvent = SystemEventType.All;
+
                 return null;
             }
 
+            if (StreamClient.Instance.LoginedUser.SubscribedSystemEvent == SystemEventType.None)
+            {
+                StreamClient.Instance.LoginedUser.SubscribedSystemEvent = systemEvent;
+            }
+            else
+            {
+                StreamClient.Instance.LoginedUser.SubscribedSystemEvent |= systemEvent; 
+            }
             return null;
 		}
 		#endregion

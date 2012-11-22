@@ -17,6 +17,7 @@ namespace Waveface.Stream.ClientFramework
         private JToken _user;
         private String _email;
         private String _userID;
+        private String _groupID;
         private String _sessionToken;
         #endregion 
 
@@ -114,6 +115,35 @@ namespace Waveface.Stream.ClientFramework
             }
         }
 
+        /// <summary>
+        /// Gets the group ID.
+        /// </summary>
+        /// <value>
+        /// The group ID.
+        /// </value>
+        public String GroupID
+        {
+            get
+            {
+                return _groupID ?? (_groupID = m_JObject["groups"][0]["group_id"].ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the web socket channel ID.
+        /// </summary>
+        /// <value>
+        /// The web socket channel ID.
+        /// </value>
+        public String WebSocketChannelID { get; internal set; }
+
+        /// <summary>
+        /// Gets the subscribed system event.
+        /// </summary>
+        /// <value>
+        /// The subscribed system event.
+        /// </value>
+        public SystemEventType SubscribedSystemEvent { get; internal set; }
         #endregion
 
 
@@ -124,6 +154,8 @@ namespace Waveface.Stream.ClientFramework
         /// <param name="response">The response.</param>
         public LoginedUser(string response)
         {
+            SubscribedSystemEvent = SystemEventType.None;
+
             m_Response = response;
         }
         #endregion

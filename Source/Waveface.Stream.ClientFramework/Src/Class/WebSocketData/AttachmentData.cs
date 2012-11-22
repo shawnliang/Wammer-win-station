@@ -8,12 +8,16 @@ namespace Waveface.Stream.ClientFramework
 {
     public class AttachmentData
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public String id { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public String file_name { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public String url { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string timestamp { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
