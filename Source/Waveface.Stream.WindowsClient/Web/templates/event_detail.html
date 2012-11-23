@@ -1,7 +1,19 @@
 <header>
-    <div class="date">{{ date }}</div>
+    <div class="date">{{ time }}</div>
 
 </header>
-<div class="event-content">{{ content }}</div>
+<div id="map_canvas" style="width: 100%; height: 300px"></div>
+<div class="event-content">
+	{{#hasDescription}}<span class="description">{{ event_description }}</span> {{/hasDescription}}
+	{{#gps.name}} at <span class="location">{{ gps.name }}</span> {{/gps.name}}
+	{{#hasPeople}}with {{# people }}<span class="people">{{name}} </span>{{/ people }} {{/hasPeople}}
+</div>
+<div class="event-tags">
+	{{#tags}}
+		<span class="tag">{{.}}</span>
+	{{/tags}}
+</div>
 <div class="attachments">
 </div>
+<div class="more">Show more...</div>
+

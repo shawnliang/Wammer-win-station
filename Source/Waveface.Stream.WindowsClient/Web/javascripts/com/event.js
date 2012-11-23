@@ -127,36 +127,16 @@
         var nc_user_info;
         nc_user_info = new LocalStorage('nc_user_info');
         nc_user_info.data = data.response;
-        return nc_user_info.save();
+        nc_user_info.save();
+        return dispatch.trigger('user:info:save');
       };
 
       return GetUserInfo;
 
     })(Bundler);
-    self.FetchPostByFilter = (function(_super) {
-
-      __extends(FetchPostByFilter, _super);
-
-      function FetchPostByFilter() {
-        return FetchPostByFilter.__super__.constructor.apply(this, arguments);
-      }
-
-      FetchPostByFilter.prototype.eventName = '/v2/posts/fetchByFilter';
-
-      FetchPostByFilter.prototype.callback = function(data) {
-        return EventBundler.trigger('store:change:posts', data.response);
-      };
-
-      return FetchPostByFilter;
-
-    })(Bundler);
     self.GetPosts = (function(_super) {
 
       __extends(GetPosts, _super);
-
-      function GetPosts() {
-        return GetPosts.__super__.constructor.apply(this, arguments);
-      }
 
       /*
               @TODO 
@@ -166,8 +146,25 @@
 
       GetPosts.prototype.eventName = 'getPosts';
 
+      GetPosts.prototype.postTarge = false;
+
+      function GetPosts(postTarget) {
+        this.postTarget = postTarget;
+        this.callback = __bind(this.callback, this);
+
+        this.bind(this.postTarget);
+      }
+
+      GetPosts.prototype.bind = function(postTarget) {
+        var eventName;
+        eventName = "" + this.eventName + ":" + postTarget;
+        this.clear(eventName);
+        Bundler.dispatch.on(eventName, this.callback);
+        return Logger.log("Bundler event : " + this.eventName + ":" + postTarget + ", callback:" + this.callback);
+      };
+
       GetPosts.prototype.callback = function(data) {
-        return EventBundler.trigger('store:change:posts', data.response);
+        return Bundler.dispatch.trigger("store:change:posts:" + this.postTarget, data.response, data.memo.namespace);
       };
 
       return GetPosts;
@@ -204,7 +201,7 @@
       };
 
       GetAttachments.prototype.callback = function(data) {
-        return EventBundler.trigger("store:change:attachment:" + this.attachmentTarget, data.response);
+        return dispatch.trigger("store:change:attachment:" + this.attachmentTarget, data.response, data.memo.namespace);
       };
 
       return GetAttachments;

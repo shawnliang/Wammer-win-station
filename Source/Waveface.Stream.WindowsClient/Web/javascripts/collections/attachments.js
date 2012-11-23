@@ -22,17 +22,18 @@
         return dispatch.on("store:change:attachment:all", this.updateAttachment, this);
       };
 
-      AttachmentCollection.prototype.updateAttachment = function(data) {
+      AttachmentCollection.prototype.updateAttachment = function(data, ns) {
         var attachments,
           _this = this;
         attachments = data.attachments;
-        return _.each(attachments, function(attachment) {
+        _.each(attachments, function(attachment) {
           return _this.add(attachment);
         });
+        return dispatch.trigger("render:change:attachment:" + ns, data.attachments);
       };
 
       AttachmentCollection.prototype.callAttachments = function(post_id, pageSize, namespace, callback, context) {
-        var memo, params;
+        var memo, params, photosViewStore;
         if (post_id == null) {
           post_id = false;
         }
@@ -47,11 +48,16 @@
           type: 1024
         };
         new EventBundler('GetAttachments', namespace);
+        photosViewStore = new LocalStorage('nc_photos_view_data');
+        photosViewStore.reset();
         if (!!post_id) {
           params['post_id_array'] = post_id;
         }
         if (!!callback && !!context) {
-          dispatch.on("store:change:attachment:" + namespace, callback, context);
+          dispatch.off("store:change:attachment:" + namespace);
+          dispatch.off("render:change:attachment:" + namespace);
+          dispatch.on("render:change:attachment:" + namespace, callback, context);
+          dispatch.on("store:change:attachment:" + namespace, this.updateAttachment, this);
         }
         memo = {
           namespace: namespace

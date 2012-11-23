@@ -27,19 +27,6 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 
-        #region Constructor
-        public GetUserInfoCommand()
-        {
-            Mapper.CreateMap<LoginedSession, UserData>()
-                .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.user.email))
-                .ForMember(dest => dest.nickname, opt => opt.MapFrom(src => src.user.nickname))
-                .ForMember(dest => dest.devices, opt => opt.MapFrom(src => src.user.devices));
-
-            Mapper.CreateMap<Device, DeviceData>();
-        }
-        #endregion
-
-
         #region Public Method
         /// <summary>
 		/// Executes the specified parameters.
@@ -57,10 +44,10 @@ namespace Waveface.Stream.ClientFramework
 
             return new Dictionary<string, Object>() 
             {
-                {"nickname", userData.nickname},
-                {"email", userData.email},
-                {"session_token", userData.session_token},
-                {"devices", userData.devices},
+                {"nickname", userData.NickName},
+                {"email", userData.Email},
+                {"session_token", userData.SessionToken},
+                {"devices", userData.Devices},
             };
         }
 		#endregion

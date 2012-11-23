@@ -83,10 +83,15 @@
     <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
-    <Compile Include="Src\Class\WebSocketData\AttachmentData.cs" />
+    <Compile Include="Src\Class\WebSocketData\AttachmentGPSData.cs" />
+    <Compile Include="Src\Class\WebSocketData\ExifData.cs" />
+    <Compile Include="Src\Class\WebSocketData\GPSInfoData.cs" />
+    <Compile Include="Src\Class\WebSocketData\LargeSizeImageMetaData.cs" />
+    <Compile Include="Src\Class\WebSocketData\LargeSizeAttachmentData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizeAttachmentData.cs" />
     <Compile Include="Src\Class\WebSocketData\CalendarEntry.cs" />
     <Compile Include="Src\Class\WebSocketData\DeviceData.cs" />
-    <Compile Include="Src\Class\WebSocketData\ImageMetaData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizeImageMetaData.cs" />
     <Compile Include="Src\Class\WebSocketData\PeopleData.cs" />
     <Compile Include="Src\Class\WebSocketData\PostExtraData.cs" />
     <Compile Include="Src\Class\WebSocketData\PostGpsData.cs" />

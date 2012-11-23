@@ -94,8 +94,22 @@ namespace Waveface.Stream.ClientFramework
 			var totalCount = filteredAttachments.Count();
 			var pageCount = (int)Math.Ceiling((decimal)totalCount / pageSize);
 
-         
-            var attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<AttachmentData>>(filteredAttachments);
+
+            var dataSize = parameters.ContainsKey("data_size") ? int.Parse(parameters["data_size"].ToString()) : 1;
+
+            Object attachmentDatas;
+            if (dataSize == 2)
+            {
+                attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<LargeSizeAttachmentData>>(filteredAttachments);
+            }
+            else 
+            {
+                attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<MediumSizeAttachmentData>>(filteredAttachments);
+            }
+
+            //var attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<MediumSizeAttachmentData>>(filteredAttachments);
+            //var attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<LargeSizeAttachmentData>>(filteredAttachments);
+
 
             return new Dictionary<string, Object>() 
 			{

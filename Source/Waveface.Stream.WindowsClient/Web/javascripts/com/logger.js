@@ -3,7 +3,6 @@
   define(["common"], function(Common) {
     var Logger, root;
     root = window;
-    Logger = {};
     /*
             Logger will replace the console method , if the window.console is no exist ,
             if the Logger.sendToServer is true , it'll send log package through socket connection
@@ -85,8 +84,7 @@
       return Logger;
 
     })();
-    Logger = root.Logger = new Logger();
-    return Logger;
+    return root.Logger = new Logger();
   });
 
 }).call(this);

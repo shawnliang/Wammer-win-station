@@ -33,6 +33,9 @@ define(["underscore","backbone"],function(_, Backbone){
             delete this.data[model.id];
             this.save();
             return model
+        },reset: function(){
+            amplify.store(this.name, null)
+            this.data = {}
         }});
     Backbone.sync = function(method, model, options) {
         var resp;

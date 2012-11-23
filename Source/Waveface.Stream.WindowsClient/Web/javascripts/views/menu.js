@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['backbone', 'mustache', 'text!templates/menu.html', 'com/user'], function(Backbone, M, Template, User) {
+  define(['backbone', 'mustache', 'text!templates/menu.html', 'collections/events', 'com/user'], function(Backbone, M, Template, Events, User) {
     var MenuView;
     MenuView = (function(_super) {
 

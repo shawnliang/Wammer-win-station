@@ -15,6 +15,9 @@
       bootstrap: {
         deps: ["jquery"]
       },
+      mousetrap: {
+        exports: "Mousetrap"
+      },
       'lib/jquery/fullcalendar': ["jquery"],
       'lib/jquery/jquery.colorbox': ["jquery"],
       'lib/galleria/galleria-1.2.8': {
@@ -33,13 +36,16 @@
       bootstrap: "lib/bootstrap/bootstrap",
       mustache: "lib/mustache",
       moment: "lib/moment",
+      mousetrap: "lib/mousetrap",
       logger: "com/logger",
       eventbundler: "com/event",
       connector: "com/connector",
       templates: "../templates",
       amplifystore: "lib/backbone/amplify.store",
       localstorage: "lib/backbone/backbone.amplify",
-      wfwsocket: "com/wfwsocket"
+      wfwsocket: "com/wfwsocket",
+      googlemaps: "com/gmap",
+      async: "lib/require/async"
     }
   });
 

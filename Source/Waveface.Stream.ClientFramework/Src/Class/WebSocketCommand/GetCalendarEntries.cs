@@ -111,10 +111,10 @@ namespace Waveface.Stream.ClientFramework
                                 group post by new { groupByKey } into g
                                 select new CalendarEntry()
                                 {
-                                    since_date = g.Min(p => p.event_time),
-                                    until_date = g.Max(p => p.event_time),
-                                    post_count = g.Count(),
-                                    attachment_count = g.Sum(p => p.attachment_count)
+                                    SinceDate = g.Min(p => p.event_time),
+                                    UntilDate = g.Max(p => p.event_time),
+                                    PostCount = g.Count(),
+                                    AttachmentCount = g.Sum(p => p.attachment_count)
                                 });
 
 

@@ -16,6 +16,7 @@
         this.setDate();
         this.setAttachmentSize();
         this.setCover();
+        this.setSwitch();
         return this;
       };
 
@@ -25,7 +26,9 @@
         if (!event_time) {
           return false;
         }
-        return this.set('date', Moment(event_time).format('MM/DD HH:MM'));
+        this.set('date', Moment(event_time).format('M/D hh:mm a'));
+        this.set('time', Moment(event_time).format('ddd hh:mm a'));
+        return this.set('dateUri', Moment(event_time).format('YYYY-MM-DD'));
       };
 
       EventModel.prototype.setAttachmentSize = function() {
@@ -34,6 +37,18 @@
 
       EventModel.prototype.setCover = function() {
         return this.set('cover', _(this.get('summary_attachments')).first());
+      };
+
+      EventModel.prototype.setSwitch = function() {
+        this.set('hasDescription', !!this.get('event_description'));
+        this.set('hasPeople', !!this.get('people'));
+        if (!!this.get('gps')) {
+          this.set('hasLocation', !!this.get('gps').name);
+          return this.set('hasMap', !!this.get('gps').zoom_level);
+        } else {
+          this.set('hasLocation', false);
+          return this.set('hasMap', false);
+        }
       };
 
       return EventModel;

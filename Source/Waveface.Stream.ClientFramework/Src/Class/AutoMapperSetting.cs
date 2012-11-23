@@ -53,6 +53,9 @@ namespace Waveface.Stream.ClientFramework
 
 
         #region Public Static Method
+        /// <summary>
+        /// Inites the map.
+        /// </summary>
         public static void IniteMap()
         {
             Mapper.CreateMap<PostInfo, PostData>()
@@ -72,15 +75,40 @@ namespace Waveface.Stream.ClientFramework
 
             Mapper.CreateMap<ExtraParameter, PostExtraData>();
 
-            Mapper.CreateMap<Attachment, AttachmentData>()
-                .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.object_id))
-                .ForMember(dest => dest.timestamp, opt => opt.MapFrom(src => src.event_time.HasValue ? src.event_time.Value.ToUTCISO8601ShortString() : null))
-                .ForMember(dest => dest.url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
+            Mapper.CreateMap<Attachment, MediumSizeAttachmentData>()
+                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.object_id))
+                .ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
+                .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time.HasValue ? src.event_time.Value.ToUTCISO8601ShortString() : null))
+                .ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)))
+                .ForMember(dest => dest.ImageMeta, opt => opt.MapFrom(src => src.image_meta));
 
-            Mapper.CreateMap<ImageProperty, ImageMetaData>();
+            Mapper.CreateMap<Attachment, LargeSizeAttachmentData>()
+                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.object_id))
+                .ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
+                .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time.HasValue ? src.event_time.Value.ToUTCISO8601ShortString() : null))
+                .ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)))
+                .ForMember(dest => dest.ImageMeta, opt => opt.MapFrom(src => src.image_meta));
+
+            Mapper.CreateMap<ImageProperty, MediumSizeImageMetaData>();
+
+            Mapper.CreateMap<ImageProperty, LargeSizeImageMetaData>();
 
             Mapper.CreateMap<ThumbnailInfo, ThumbnailData>()
-                .ForMember(dest => dest.url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
+                .ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
+
+            Mapper.CreateMap<exif, ExifData>();
+
+            Mapper.CreateMap<GPSInfo,GPSInfoData>();
+
+            Mapper.CreateMap<Gps, AttachmentGPSData>();
+
+            Mapper.CreateMap<LoginedSession, UserData>()
+                .ForMember(dest => dest.SessionToken, opt => opt.MapFrom(src => src.session_token))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.user.email))
+                .ForMember(dest => dest.NickName, opt => opt.MapFrom(src => src.user.nickname))
+                .ForMember(dest => dest.Devices, opt => opt.MapFrom(src => src.user.devices));
+
+            Mapper.CreateMap<Device, DeviceData>();
         }
         #endregion
     }

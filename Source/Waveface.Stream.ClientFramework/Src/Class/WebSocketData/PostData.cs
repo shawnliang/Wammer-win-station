@@ -124,7 +124,7 @@ namespace Waveface.Stream.ClientFramework
         /// The summary attachments.
         /// </value>
         [JsonProperty("summary_attachments", NullValueHandling = NullValueHandling.Ignore)]
-        public List<AttachmentData> SummaryAttachments { get; set; }
+        public List<MediumSizeAttachmentData> SummaryAttachments { get; set; }
 
         /// <summary>
         /// Gets or sets the GPS.
