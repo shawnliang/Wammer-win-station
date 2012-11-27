@@ -54,6 +54,8 @@ namespace Wammer.Station
 		private String m_APIKey { get; set; }
 
 		private List<string> m_IgnorePath { get; set; }
+
+		private int timezoneDiff;
 		#endregion
 
 
@@ -105,6 +107,8 @@ namespace Wammer.Station
 
 			m_IgnorePath = new List<string>();
 			m_IgnorePath.AddRange(unInterestedFolders.Where(x => !string.IsNullOrEmpty(x)));
+
+			timezoneDiff = (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes;
 		}
 		#endregion
 
@@ -135,6 +139,7 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
+			this.LogInfoMsg("Importing from " + m_Paths.ToString());
 			Exception error = null;
 
 			try
@@ -284,7 +289,9 @@ namespace Wammer.Station
 					import_time = importTime,
 					file_create_time = file.CreateTime,
 					type = AttachmentType.image,
-					imageMeta = ImageMeta.Origin
+					imageMeta = ImageMeta.Origin,
+					fromLocal = true,
+					timezone = timezoneDiff
 				};
 				imp.Process(uploadData);
 				
@@ -304,7 +311,6 @@ namespace Wammer.Station
 
 		private IEnumerable<FileMetadata> extractMetadata(IEnumerable<ObjectIdAndPath> files)
 		{
-			var timezoneDiff = (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes;
 			var exifExtractor = new ExifExtractor();
 
 			foreach (var file in files)
@@ -331,7 +337,7 @@ namespace Wammer.Station
 				var serializeSetting = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
 				var batchMetadata = JsonConvert.SerializeObject(batch, Formatting.None, serializeSetting);
 
-				var task = new UploadMetadataTask(m_GroupID, batchMetadata, batchMetadata.Count());
+				var task = new UploadMetadataTask(m_GroupID, batchMetadata, batch.Count());
 				task.Uploaded += new EventHandler<MetadataUploadEventArgs>(metadataUploaded);
 				AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 			}

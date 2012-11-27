@@ -408,6 +408,11 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public int? timezone { get; set; }
 
+		/// <summary>
+		/// is the attachment is imported from this station?
+		/// </summary>
+		public bool fromLocal { get; set; }
+
 		#region IAttachmentInfo Members
 
 		[BsonIgnoreIfNull]

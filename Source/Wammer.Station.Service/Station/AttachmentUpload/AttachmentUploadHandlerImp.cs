@@ -89,6 +89,7 @@ namespace Wammer.Station.AttachmentUpload
 		public DateTime? file_create_time { get; set; }
 		public string exif { get; set; }
 		public int? timezone { get; set; }
+		public bool fromLocal { get; set; }
 	}
 
 	public class AttachmentEventArgs : EventArgs
@@ -194,7 +195,8 @@ namespace Wammer.Station.AttachmentUpload
 								import_time = uploadData.import_time,
 								image_meta = new ImageProperty { exif = exif },
 								event_time = eventTime,
-								timezone = uploadData.timezone
+								timezone = uploadData.timezone,
+								fromLocal = uploadData.fromLocal
 							};
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
