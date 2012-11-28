@@ -60,7 +60,7 @@ namespace Waveface.Stream.ClientFramework
             if (parameters.ContainsKey("post_id_array"))
             {
                 var postIDs = from postID in JArray.FromObject(parameters["post_id_array"]).Values()
-                              select postID;
+                              select postID.ToString();
                 queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(postIDs)));
             }
 
@@ -82,12 +82,8 @@ namespace Waveface.Stream.ClientFramework
                 queryParam = Query.And(queryParam, Query.EQ("type", "link"));
             }
 
-
-            //if ((type & 1024) == 1024)
-            //{
-                queryParam = Query.And(queryParam, Query.EQ("code_name", "StreamEvent"));
-            //}
-
+            queryParam = Query.And(queryParam, Query.EQ("code_name", "StreamEvent"));
+         
 
             if (sinceDate != null)
                 queryParam = Query.And(queryParam, Query.GTE("event_time", sinceDate.Value.ToUTCISO8601ShortString()));
@@ -105,45 +101,55 @@ namespace Waveface.Stream.ClientFramework
 			var totalCount = filteredPosts.Count();
             var pageCount = (int)Math.Ceiling((decimal)totalCount / pageSize);
 
-           
-            var postDatas = Mapper.Map<IEnumerable<PostInfo>, IEnumerable<PostData>>(filteredPosts).ToArray();
 
-            var summaryAttachmentLimit = parameters.ContainsKey("sumary_limit") ? int.Parse(parameters["sumary_limit"].ToString()) : 1;
+            var dataSize = parameters.ContainsKey("data_size") ? int.Parse(parameters["data_size"].ToString()) : 1;
 
-            var idx = 0;
-            foreach (var postData in postDatas)
+            Object postDatas;
+            if (dataSize == 0)
             {
-                if (summaryAttachmentLimit > 0)
+                postDatas = Mapper.Map<IEnumerable<PostInfo>, IEnumerable<SmallSizePostData>>(filteredPosts);
+            }
+            else
+            {
+                postDatas = Mapper.Map<IEnumerable<PostInfo>, IEnumerable<MediumSizePostData>>(filteredPosts).ToArray();
+
+                var summaryAttachmentLimit = parameters.ContainsKey("sumary_limit") ? int.Parse(parameters["sumary_limit"].ToString()) : 1;
+
+                var idx = 0;
+                foreach (var postData in (postDatas as IEnumerable<MediumSizePostData>))
                 {
-                    var attachmentIDs = postData.AttachmentIDs;
-                    var summaryAttachmentDatas = new List<MediumSizeAttachmentData>(summaryAttachmentLimit);
-
-                    var coverAttachmentID = postData.CoverAttachmentID;
-                    var coverAttachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", coverAttachmentID));
-                    var coverAttachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(coverAttachment);
-
-                    summaryAttachmentDatas.Add(coverAttachmentData);
-
-                    foreach (var attachmentID in attachmentIDs)
+                    if (summaryAttachmentLimit > 0)
                     {
-                        if (summaryAttachmentDatas.Count >= summaryAttachmentLimit)
-                            break;
+                        var attachmentIDs = postData.AttachmentIDs;
+                        var summaryAttachmentDatas = new List<MediumSizeAttachmentData>(summaryAttachmentLimit);
 
-                        if (attachmentID == coverAttachmentID)
-                            continue;
+                        var coverAttachmentID = postData.CoverAttachmentID;
+                        var coverAttachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", coverAttachmentID));
+                        var coverAttachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(coverAttachment);
 
-                        var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
-                        var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
-                        summaryAttachmentDatas.Add(attachmentData);
+                        summaryAttachmentDatas.Add(coverAttachmentData);
+
+                        foreach (var attachmentID in attachmentIDs)
+                        {
+                            if (summaryAttachmentDatas.Count >= summaryAttachmentLimit)
+                                break;
+
+                            if (attachmentID == coverAttachmentID)
+                                continue;
+
+                            var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
+                            var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
+                            summaryAttachmentDatas.Add(attachmentData);
+                        }
+
+                        if (summaryAttachmentDatas.Count > 0)
+                            postData.SummaryAttachments = summaryAttachmentDatas;
+
+                        ++idx;
                     }
-
-                    if (summaryAttachmentDatas.Count > 0)
-                        postDatas[idx].SummaryAttachments = summaryAttachmentDatas;
-
-                    ++idx;
                 }
             }
-
+           
             return new Dictionary<string, Object>() 
 			{
 				{"posts", postDatas},

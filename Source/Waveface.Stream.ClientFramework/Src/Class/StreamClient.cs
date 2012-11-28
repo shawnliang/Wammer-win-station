@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
+using MongoDB.Bson;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -90,7 +91,12 @@ namespace Waveface.Stream.ClientFramework
         /// <summary>
         /// Occurs when [post added].
         /// </summary>
-        public event EventHandler PostAdded;
+        public event EventHandler<PostsEventArgs> PostAdded;
+
+        /// <summary>
+        /// Occurs when [post updated].
+        /// </summary>
+        public event EventHandler<PostsEventArgs> PostUpdated;
 
         /// <summary>
         /// Occurs when [attachment downloaded].
@@ -123,6 +129,7 @@ namespace Waveface.Stream.ClientFramework
 
             this.Logined += StreamClient_Logined;
             this.PostAdded += StreamClient_PostAdded;
+            this.PostUpdated += StreamClient_PostUpdated;
             this.AttachmentDownloaded += StreamClient_AttachmentDownloaded;
 
             m_Server.Start();
@@ -130,48 +137,103 @@ namespace Waveface.Stream.ClientFramework
             (new Task(() =>
             {
                 long count = 0;
+                HashSet<string> postIDs = null ;
                 while (true)
                 {
-                    if (LoginedUser != null)
+                    try
                     {
-                        var postCount = PostCollection.Instance.Find(Query.EQ("creator_id", LoginedUser.UserID)).Count();
-
-                        if (postCount != count)
+                        if (LoginedUser != null)
                         {
-                            OnPostAdded(EventArgs.Empty);
+                            var posts = PostCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("code_name", "StreamEvent")));
+                            var postCount = posts.Count();
 
-                            Trace.WriteLine("Post chang detected...");
-                            count = postCount;
+                            if (postCount != count)
+                            {
+                                var firstInit = (postIDs == null || postIDs.Count == 0);
+
+                                var currentPostIDs = new HashSet<string>(posts.Select(post => post.post_id));
+
+                                var addedPostIDS = firstInit ? currentPostIDs : currentPostIDs.Except(postIDs);
+
+                                if (!firstInit && addedPostIDS.Count() > 0)
+                                {
+                                    Trace.WriteLine("Post added detected...");
+                                    OnPostAdded(new PostsEventArgs(addedPostIDS));
+                                }
+
+                                count = postCount;
+                                postIDs = currentPostIDs;
+                            }
                         }
+                    }
+                    catch (Exception)
+                    {
                     }
 
                     Thread.Sleep(2000);
                     Application.DoEvents();
                 }
             })).Start();
+
 
             (new Task(() =>
             {
-                long count = 0;
+                HashSet<string> postIDs = null;
                 while (true)
                 {
-                    if (LoginedUser != null)
+                    try
                     {
-                        var attachmentCount = AttachmentCollection.Instance.Find(Query.EQ("group_id", LoginedUser.GroupID)).Count();
-
-                        if (attachmentCount != count)
+                        if (LoginedUser != null)
                         {
-                            OnAttachmentDownloaded(EventArgs.Empty);
+                            var posts = PostCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("code_name", "StreamEvent")));
 
-                            Trace.WriteLine("Attachment added detected...");
-                            count = attachmentCount;
+                            var firstInit = (postIDs == null || postIDs.Count == 0);
+
+                            var currentPostIDs = new HashSet<string>(posts.Select(post => string.Format("{0}§{1}", post.post_id, post.attachment_id_array.Count)));
+
+                            var updatedPostIDS = firstInit ? currentPostIDs : postIDs.Except(currentPostIDs);
+
+                            if (!firstInit && updatedPostIDS.Count() > 0)
+                            {
+                                Trace.WriteLine("Post updated detected...");
+                                OnPostUpdated(new PostsEventArgs(updatedPostIDS));
+                            }
+
+                            postIDs = currentPostIDs;
                         }
+                    }
+                    catch (Exception)
+                    {
                     }
 
                     Thread.Sleep(2000);
                     Application.DoEvents();
                 }
             })).Start();
+
+
+            //(new Task(() =>
+            //{
+            //    long count = 0;
+            //    while (true)
+            //    {
+            //        if (LoginedUser != null)
+            //        {
+            //            var attachmentCount = AttachmentCollection.Instance.Find(Query.EQ("group_id", LoginedUser.GroupID)).Count();
+
+            //            if (attachmentCount != count)
+            //            {
+            //                OnAttachmentDownloaded(EventArgs.Empty);
+
+            //                Trace.WriteLine("Attachment added detected...");
+            //                count = attachmentCount;
+            //            }
+            //        }
+
+            //        Thread.Sleep(2000);
+            //        Application.DoEvents();
+            //    }
+            //})).Start();
         }
         #endregion
 
@@ -198,10 +260,19 @@ namespace Waveface.Stream.ClientFramework
         /// <summary>
         /// Raises the <see cref="E:PostAdded" /> event.
         /// </summary>
-        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        protected void OnPostAdded(EventArgs e)
+        /// <param name="e">The <see cref="PostsEventArgs" /> instance containing the event data.</param>
+        protected void OnPostAdded(PostsEventArgs e)
         {
             this.RaiseEvent(PostAdded, e);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:PostUpdated" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="PostsEventArgs" /> instance containing the event data.</param>
+        protected void OnPostUpdated(PostsEventArgs e)
+        {
+            this.RaiseEvent(PostUpdated, e);
         }
 
         /// <summary>
@@ -277,7 +348,7 @@ namespace Waveface.Stream.ClientFramework
             if (LoginedUser == null)
                 return;
 
-            if (LoginedUser.SubscribedSystemEvent == SystemEventType.None || (LoginedUser.SubscribedSystemEvent != SystemEventType.All && !LoginedUser.SubscribedSystemEvent.HasFlag(SystemEventType.AttachmentDownloaded)))
+            if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.AttachmentDownloaded))
                 return;
 
             var executedValue = new JObject(
@@ -297,22 +368,96 @@ namespace Waveface.Stream.ClientFramework
         /// Handles the PostAdded event of the StreamClient control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
-        void StreamClient_PostAdded(object sender, EventArgs e)
+        /// <param name="e">The <see cref="PostsEventArgs" /> instance containing the event data.</param>
+        void StreamClient_PostAdded(object sender, PostsEventArgs e)
         {
             if (LoginedUser == null)
                 return;
 
-            if (LoginedUser.SubscribedSystemEvent == SystemEventType.None || (LoginedUser.SubscribedSystemEvent != SystemEventType.All && !LoginedUser.SubscribedSystemEvent.HasFlag(SystemEventType.PostAdded)))
+            if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.PostAdded))
                 return;
+
+            var eventParams = LoginedUser.SubscribedEvents[SystemEventType.PostAdded];
+
+            var ids = e.IDs;
+
+            if (eventParams == null)
+                eventParams = new Dictionary<string, object>();
+
+            if (eventParams.ContainsKey("post_id_array"))
+                eventParams.Remove("post_id_array");
+
+            eventParams.Add("post_id_array", new JArray(ids.ToArray()));
+
+            if (eventParams.ContainsKey("page_size"))
+                eventParams.Remove("page_size");
+
+            eventParams.Add("page_size", ids.Count());
+
+            var response = WebSocketCommandExecuter.Instance.Execute("getPosts", eventParams);
+
+            var responseParams = new Dictionary<String, Object>(response)
+            {
+                {"event_id", (int)SystemEventType.PostAdded}
+            };
+
+            responseParams.Remove("page_no");
+            responseParams.Remove("page_size");
+            responseParams.Remove("page_count");
+            responseParams.Remove("total_count");
+
 
             var executedValue = new JObject(
                     new JProperty("command", "subscribeEvent"),
-                    new JProperty("response", JObject.FromObject(new Dictionary<String, Object>()
-                    {
-                        {"event_id", (int)SystemEventType.PostAdded}
-                    }))
+                    new JProperty("response", JObject.FromObject(responseParams))
+                    );
+
+            var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+            m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
+        }
+
+        void StreamClient_PostUpdated(object sender, PostsEventArgs e)
+        {
+            if (LoginedUser == null)
+                return;
+
+            if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.PostAdded))
+                return;
+
+            var eventParams = LoginedUser.SubscribedEvents[SystemEventType.PostAdded];
+
+            var ids = e.IDs.Select(id => id.Split('§')[0]);
+
+            if (eventParams == null)
+                eventParams = new Dictionary<string, object>();
+
+            if (eventParams.ContainsKey("post_id_array"))
+                eventParams.Remove("post_id_array");
+
+            eventParams.Add("post_id_array", new JArray(ids.ToArray()));
+
+            if (eventParams.ContainsKey("page_size"))
+                eventParams.Remove("page_size");
+
+            eventParams.Add("page_size", ids.Count());
+
+            var response = WebSocketCommandExecuter.Instance.Execute("getPosts", eventParams);
+
+            var responseParams = new Dictionary<String, Object>(response)
+            {
+                {"event_id", (int)SystemEventType.PostAdded}
+            };
+
+            responseParams.Remove("page_no");
+            responseParams.Remove("page_size");
+            responseParams.Remove("page_count");
+            responseParams.Remove("total_count");
+
+
+            var executedValue = new JObject(
+                    new JProperty("command", "subscribeEvent"),
+                    new JProperty("response", JObject.FromObject(responseParams))
                     );
 
             var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);

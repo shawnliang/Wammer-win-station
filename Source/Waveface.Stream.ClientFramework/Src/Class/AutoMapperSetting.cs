@@ -58,7 +58,11 @@ namespace Waveface.Stream.ClientFramework
         /// </summary>
         public static void IniteMap()
         {
-            Mapper.CreateMap<PostInfo, PostData>()
+            Mapper.CreateMap<PostInfo, SmallSizePostData>()
+                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.post_id))
+                .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time));
+
+            Mapper.CreateMap<PostInfo, MediumSizePostData>()
                 .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.post_id))
                 .ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time))
                 .ForMember(dest => dest.CodeName, opt => opt.MapFrom(src => src.code_name))
@@ -69,7 +73,8 @@ namespace Waveface.Stream.ClientFramework
                 .ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array))
                 .ForMember(dest => dest.ExtraParams, opt => opt.MapFrom(src => src.extra_parameters));
 
-            Mapper.CreateMap<PostGps, PostGpsData>();
+            Mapper.CreateMap<PostGps, PostGpsData>()
+                .ForMember(dest => dest.ZoomLevel, opt => opt.MapFrom(src => src.zoom_level));
 
             Mapper.CreateMap<Person, PeopleData>();
 

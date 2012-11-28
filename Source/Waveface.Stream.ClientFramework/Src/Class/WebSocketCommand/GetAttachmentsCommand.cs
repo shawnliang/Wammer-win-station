@@ -107,9 +107,6 @@ namespace Waveface.Stream.ClientFramework
                 attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<MediumSizeAttachmentData>>(filteredAttachments);
             }
 
-            //var attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<MediumSizeAttachmentData>>(filteredAttachments);
-            //var attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<LargeSizeAttachmentData>>(filteredAttachments);
-
 
             return new Dictionary<string, Object>() 
 			{

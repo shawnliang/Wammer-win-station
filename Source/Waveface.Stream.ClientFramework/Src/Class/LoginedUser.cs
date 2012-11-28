@@ -19,6 +19,7 @@ namespace Waveface.Stream.ClientFramework
         private String _userID;
         private String _groupID;
         private String _sessionToken;
+        private Dictionary<SystemEventType, Dictionary<string, object>> _subscribedEvents;
         #endregion 
 
 
@@ -143,7 +144,13 @@ namespace Waveface.Stream.ClientFramework
         /// <value>
         /// The subscribed system event.
         /// </value>
-        public SystemEventType SubscribedSystemEvent { get; internal set; }
+        public Dictionary<SystemEventType, Dictionary<string,object>> SubscribedEvents
+        {
+            get 
+            {
+                return _subscribedEvents ?? (_subscribedEvents = new Dictionary<SystemEventType, Dictionary<string, object>>());
+            }
+         }
         #endregion
 
 
@@ -154,8 +161,6 @@ namespace Waveface.Stream.ClientFramework
         /// <param name="response">The response.</param>
         public LoginedUser(string response)
         {
-            SubscribedSystemEvent = SystemEventType.None;
-
             m_Response = response;
         }
         #endregion

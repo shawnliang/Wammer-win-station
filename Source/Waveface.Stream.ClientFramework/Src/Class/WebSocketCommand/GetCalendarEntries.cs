@@ -91,10 +91,8 @@ namespace Waveface.Stream.ClientFramework
             }
 
 
-            //if ((type & 1024) == 1024)
-            //{
-                queryParam = Query.And(queryParam, Query.EQ("code_name", "StreamEvent"));
-            //}
+            queryParam = Query.And(queryParam, Query.EQ("code_name", "StreamEvent"));
+ 
 
 
             if (sinceDate != null)
@@ -114,7 +112,7 @@ namespace Waveface.Stream.ClientFramework
                                     SinceDate = g.Min(p => p.event_time),
                                     UntilDate = g.Max(p => p.event_time),
                                     PostCount = g.Count(),
-                                    AttachmentCount = g.Sum(p => p.attachment_count)
+                                    AttachmentCount = g.Sum(p => p.attachment_id_array.Count())
                                 });
 
 

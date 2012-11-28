@@ -28,10 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.logMessageListBox1 = new Waveface.Stream.WindowsClient.LogMessageListBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.logMessageListBox1 = new Waveface.Stream.WindowsClient.LogMessageListBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -44,8 +48,16 @@
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(36, 22);
+            this.toolStripLabel1.Text = "Clear";
+            this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
+            // 
             // logMessageListBox1
             // 
+            this.logMessageListBox1.ContextMenuStrip = this.contextMenuStrip1;
             this.logMessageListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logMessageListBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.logMessageListBox1.FormattingEnabled = true;
@@ -54,12 +66,19 @@
             this.logMessageListBox1.Size = new System.Drawing.Size(1154, 357);
             this.logMessageListBox1.TabIndex = 1;
             // 
-            // toolStripLabel1
+            // contextMenuStrip1
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(36, 22);
-            this.toolStripLabel1.Text = "Clear";
-            this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // LogMessageComponent
             // 
@@ -71,6 +90,7 @@
             this.Size = new System.Drawing.Size(1154, 382);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -81,5 +101,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private LogMessageListBox logMessageListBox1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
     }
 }

@@ -9,7 +9,7 @@ namespace Waveface.Stream.ClientFramework
     /// <summary>
     /// 
     /// </summary>
-    public class PostData
+    public class MediumSizePostData
     {
         #region Var
         private string _coverAttachmentID;

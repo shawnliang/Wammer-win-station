@@ -8,16 +8,16 @@ namespace Waveface.Stream.ClientFramework
 {
     public class PostGpsData
     {
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public String name { get; set; }
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        public String Name { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public float? latitude { get; set; }
+        [JsonProperty("latitude", NullValueHandling = NullValueHandling.Ignore)]
+        public float? Latitude { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public float? longitude { get; set; }
+        [JsonProperty("longitude", NullValueHandling = NullValueHandling.Ignore)]
+        public float? Longitude { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public int? zoom_level { get; set; }
+        [JsonProperty("zoom_level", NullValueHandling = NullValueHandling.Ignore)]
+        public int? ZoomLevel { get; set; }
     }
 }

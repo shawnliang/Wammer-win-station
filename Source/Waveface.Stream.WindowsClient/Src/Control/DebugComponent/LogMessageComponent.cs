@@ -20,5 +20,15 @@ namespace Waveface.Stream.WindowsClient
         {
             logMessageListBox1.Items.Clear();
         }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedItem = logMessageListBox1.SelectedItem;
+
+            if (selectedItem == null)
+                return;
+
+            Clipboard.SetText(selectedItem.ToString());
+        }
     }
 }

@@ -34,21 +34,25 @@ namespace Waveface.Stream.ClientFramework
             var eventID = parameters.ContainsKey("event_id") ? int.Parse(parameters["event_id"].ToString()) : 0;
             var systemEvent = (SystemEventType)eventID;
 
+            var subscribedEvents = StreamClient.Instance.LoginedUser.SubscribedEvents;
+
             if (systemEvent == SystemEventType.All)
             {
-                StreamClient.Instance.LoginedUser.SubscribedSystemEvent = SystemEventType.All;
+                foreach (SystemEventType systemEventType in Enum.GetValues(typeof(SystemEventType)))
+                {
+                    if (subscribedEvents.ContainsKey(systemEventType))
+                        subscribedEvents.Remove(systemEventType);
 
+                    subscribedEvents.Add(systemEventType, null);
+                }
                 return null;
             }
 
-            if (StreamClient.Instance.LoginedUser.SubscribedSystemEvent == SystemEventType.None)
-            {
-                StreamClient.Instance.LoginedUser.SubscribedSystemEvent = systemEvent;
-            }
-            else
-            {
-                StreamClient.Instance.LoginedUser.SubscribedSystemEvent |= systemEvent; 
-            }
+            if (subscribedEvents.ContainsKey(systemEvent))
+                subscribedEvents.Remove(systemEvent);
+
+            subscribedEvents.Add(systemEvent, parameters);
+
             return null;
 		}
 		#endregion

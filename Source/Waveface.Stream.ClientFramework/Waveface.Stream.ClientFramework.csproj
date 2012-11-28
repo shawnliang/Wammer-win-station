@@ -84,6 +84,7 @@
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
     <Compile Include="Src\Class\WebSocketData\AttachmentGPSData.cs" />
+    <Compile Include="Src\Class\WebSocketData\SmallSizePostData.cs" />
     <Compile Include="Src\Class\WebSocketData\ExifData.cs" />
     <Compile Include="Src\Class\WebSocketData\GPSInfoData.cs" />
     <Compile Include="Src\Class\WebSocketData\LargeSizeImageMetaData.cs" />
@@ -97,7 +98,7 @@
     <Compile Include="Src\Class\WebSocketData\PostGpsData.cs" />
     <Compile Include="Src\Class\WebSocketData\ThumbnailData.cs" />
     <Compile Include="Src\Class\Lazy.cs" />
-    <Compile Include="Src\Class\WebSocketData\PostData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizePostData.cs" />
     <Compile Include="Src\Class\StreamClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\Class\WebSocketData\UserData.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Src\Class\WebSocketCommand\LogCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\InvokeRestfulCommand.cs" />
     <Compile Include="Src\Enum\SystemEventType.cs" />
+    <Compile Include="Src\Event\PostsEventArgs.cs" />
     <Compile Include="Src\Event\LoginedEventArgs.cs" />
     <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Extension\ObjectExtension.cs" />
