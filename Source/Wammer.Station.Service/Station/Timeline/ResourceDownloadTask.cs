@@ -138,25 +138,20 @@ namespace Wammer.Station.Timeline
 
 			if (meta == ImageMeta.Origin)
 			{
+				var update = Update.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
+								.Set("mime_type", mimeType)
+								.Set("file_size", length)
+								.Set("modify_time", DateTime.UtcNow)
+								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
+								.Set("group_id", attachmentAttributes.group_id)
+								.Set("saved_file_name", saveFileName)
+								.Set("image_meta.width", attachmentAttributes.image_meta.width)
+								.Set("image_meta.height", attachmentAttributes.image_meta.height);
+
+				setOptionalAttributes(attachmentAttributes, update);
+
 				AttachmentCollection.Instance.Update(Query.EQ("_id", attachmentAttributes.object_id),
-					Update
-						.Set("file_name", attachmentAttributes.file_name)
-						.Set("mime_type", mimeType)
-						.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
-						.Set("file_size", length)
-						.Set("modify_time", DateTime.UtcNow)
-						.Set("event_time", attachmentAttributes.event_time)
-						.Set("image_meta.width", attachmentAttributes.image_meta.width)
-						.Set("image_meta.height", attachmentAttributes.image_meta.height)
-						.Set("md5", attachmentAttributes.md5)
-						.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
-						.Set("group_id", attachmentAttributes.group_id)
-						.Set("saved_file_name", saveFileName)
-						.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time))
-						.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time))
-						.Set("file_path", attachmentAttributes.file_path)
-						.Set("image_meta.exif", (attachmentAttributes.image_meta.exif == null) ? null : attachmentAttributes.image_meta.exif.ToBsonDocument()),
-						UpdateFlags.Upsert);
+					update, UpdateFlags.Upsert);
 			}
 			else
 			{
@@ -173,19 +168,39 @@ namespace Wammer.Station.Timeline
 					saved_file_name = saveFileName
 				};
 
+				var update = Update.Set("group_id", attachmentAttributes.group_id)
+								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
+								.Set("image_meta." + metaStr, thumbnail.ToBsonDocument());
+
+				setOptionalAttributes(attachmentAttributes, update);
+
 				AttachmentCollection.Instance.Update(Query.EQ("_id", attachmentAttributes.object_id),
-					Update
-						.Set("group_id", attachmentAttributes.group_id)
-						.Set("file_name", attachmentAttributes.file_name)
-						.Set("event_time", attachmentAttributes.event_time)
-						.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
-						.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time))
-						.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time))
-						.Set("file_path", attachmentAttributes.file_path)
-						.Set("image_meta." + metaStr, thumbnail.ToBsonDocument())
-						.Set("image_meta.exif", (attachmentAttributes.image_meta.exif == null) ? null : attachmentAttributes.image_meta.exif.ToBsonDocument()),
-						UpdateFlags.Upsert);
+						update,	UpdateFlags.Upsert);
 			}
+		}
+
+		private static void setOptionalAttributes(AttachmentInfo attachmentAttributes, UpdateBuilder update)
+		{
+			if (!string.IsNullOrEmpty(attachmentAttributes.file_name))
+				update.Set("file_name", attachmentAttributes.file_name);
+
+			if (attachmentAttributes.event_time > DateTime.MinValue)
+				update.Set("event_time", attachmentAttributes.event_time);
+
+			if (!string.IsNullOrEmpty(attachmentAttributes.md5))
+				update.Set("md5", attachmentAttributes.md5);
+
+			if (!string.IsNullOrEmpty(attachmentAttributes.file_create_time))
+				update.Set("file_create_time", ConvertISO8601ToDateTime(attachmentAttributes.file_create_time));
+
+			if (!string.IsNullOrEmpty(attachmentAttributes.import_time))
+				update.Set("import_time", ConvertISO8601ToDateTime(attachmentAttributes.import_time));
+
+			if (!string.IsNullOrEmpty(attachmentAttributes.file_path))
+				update.Set("file_path", attachmentAttributes.file_path);
+
+			if (attachmentAttributes.image_meta.exif != null)
+				update.Set("image_meta.exif", attachmentAttributes.image_meta.exif.ToBsonDocument());
 		}
 
 		private static string extractExifTakenTime(ArraySegment<byte> rawdata)

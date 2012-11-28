@@ -113,7 +113,7 @@ namespace Wammer.Station
 			string type = Parameters[CloudServer.PARAM_TYPE];
 			if (type != null && type != "link")
 			{
-				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("preview", null));
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Unset("preview"));
 				post.preview = null;
 				return;
 			}
@@ -165,7 +165,7 @@ namespace Wammer.Station
 			string type = Parameters[CloudServer.PARAM_TYPE];
 			if (type != null && type != "link")
 			{
-				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("soul", null));
+				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Unset("soul"));
 				post.soul = string.Empty;
 			}
 		}
@@ -241,8 +241,8 @@ namespace Wammer.Station
 			{
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update
 				                                                        	.Set("attachment_count", 0)
-				                                                        	.Set("attachment_id_array", null)
-				                                                        	.Set("attachments", null));
+				                                                        	.Unset("attachment_id_array")
+				                                                        	.Unset("attachments"));
 
 				post.attachment_id_array = null;
 				post.attachment_count = 0;
