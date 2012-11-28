@@ -235,7 +235,7 @@ namespace Wammer.Station
 	{
 		private string object_id;
 		private string user_id;
-
+		private AttachmentInfo cloudDoc;
 	
 		public QueryIfDownstreamNeededTask(string user_id, string object_id)
 			: base(TaskPriority.Low)
@@ -252,22 +252,26 @@ namespace Wammer.Station
 				if (user == null)
 					return;
 
-				var cloudDoc = AttachmentApi.GetInfo(object_id, user.session_token);
 				var localDoc = AttachmentCollection.Instance.FindOneById(object_id);
 
-				if (cloudHasMedium(cloudDoc) && localHasNoMedium(localDoc))
+				if (localDoc != null && localDoc.fromLocal)
+				{
+					return;
+				}
+
+				if (localHasNoMedium(localDoc) && cloudHasMedium(getCloudDoc(user)))
 				{
 					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Medium, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
 
-				if (cloudHasSmall(cloudDoc) && localHasNoSmall(localDoc))
+				if (localHasNoSmall(localDoc) && cloudHasSmall(getCloudDoc(user)))
 				{
 					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Small, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
 
-				if (cloudHasOrigin(cloudDoc) && localHasNoOrigin(localDoc))
+				if (localHasNoOrigin(localDoc) && cloudHasOrigin(getCloudDoc(user)))
 				{
 					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
@@ -280,6 +284,16 @@ namespace Wammer.Station
 				else
 					throw;
 			}
+		}
+
+		private AttachmentInfo getCloudDoc(Driver user)
+		{
+			if (cloudDoc == null)
+			{
+				cloudDoc = AttachmentApi.GetInfo(object_id, user.session_token);
+			}
+
+			return cloudDoc;
 		}
 
 		private static bool localHasNoMedium(Attachment localDoc)
