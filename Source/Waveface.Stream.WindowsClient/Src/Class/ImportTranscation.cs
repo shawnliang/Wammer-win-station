@@ -32,6 +32,7 @@ namespace Waveface.Stream.WindowsClient
 			this.session_token = session_token;
 			this.apikey = apikey;
 			this.paths = paths;
+			this.user_id = user_id;
 		}
 
 		void socket_OnError(object sender, ErrorEventArgs e)
