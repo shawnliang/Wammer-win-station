@@ -7,38 +7,62 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+
 
 namespace Waveface.Stream.WindowsClient
 {
 	public partial class ServiceImportControl : StepPageControl
 	{
-		private IConnectableService service;
 		private string session_token;
 		private string user_id;
+		private List<ServiceItemControl> itemControls = new List<ServiceItemControl>();
 
-		public ServiceImportControl(IConnectableService service)
+		[ImportMany(typeof(IConnectableService))]
+		private IEnumerable<IConnectableService> services { get; set; }
+
+		public ServiceImportControl()
 		{
 			InitializeComponent();
-			this.service = service;
 		}
 
 		private void ServiceImportControl_Load(object sender, EventArgs e)
 		{
-			svcItem.ServiceIcon = service.Icon;
-			svcItem.ServiceName = service.Name;
-			svcItem.OnChange += svcItem_OnChange;
+			var catalog = new AssemblyCatalog(this.GetType().Assembly);
+			var container = new CompositionContainer(catalog);
+			container.ComposeParts(this);
+
+
+			foreach (var service in services)
+			{
+				var svcItem = new ServiceItemControl();
+				svcItem.ServiceName = service.Name;
+				svcItem.ServiceIcon = service.Icon;
+				svcItem.OnChange += svcItem_OnChange;
+				svcItem.Tag = service;
+
+				itemControls.Add(svcItem);
+				svcPanel.Controls.Add(svcItem);
+			}
+
+			foreach (var svcItem in itemControls)
+			{
+				var service = (IConnectableService)svcItem.Tag;
+				svcItem.ServiceEnabled = service.IsEnabled(user_id, session_token, StationAPI.API_KEY);
+			}
 		}
 
 		public override void OnEnteringStep(WizardParameters parameters)
 		{
 			this.user_id = (string)parameters.Get("user_id");
 			this.session_token = (string)parameters.Get("session_token");
-
-			svcItem.ServiceEnabled = service.IsEnabled(user_id, session_token, StationAPI.API_KEY);
 		}
 
 		void svcItem_OnChange(object sender, ServiceConnectivityChangeEventArgs e)
 		{
+			var service = (IConnectableService)((ServiceItemControl)sender).Tag;
+
 			try
 			{
 				if (e.TurnedOn)
