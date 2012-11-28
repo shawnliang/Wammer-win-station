@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B57BA18E-AFAF-4CCE-A71C-A2B2D0BD27AA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UT_WammerStation</RootNamespace>
+    <AssemblyName>UT_WammerStation</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>True</IsCodedUITest>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="fastJSON">
+      <HintPath>..\..\Lib\fastJSON\fastJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\..\Lib\Moq.4.0.10827\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\Lib\sqlite\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\..\Lib\sqlite\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="websocket-sharp">
+      <HintPath>..\..\Lib\websocket-sharp\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttachmentUpload\TestAttachmentUploadHandlerDB.cs" />
+    <Compile Include="AttachmentUpload\TestAttachmentUploadStorage.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_NewOriginalImage.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
+    <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />
+    <Compile Include="AttachmentUpload\TestImagePostProcessWithPostId.cs" />
+    <Compile Include="AttachmentUpload\TestImagePostProcess.cs" />
+    <Compile Include="AttachmentViewTest\TestAttachmentView.cs" />
+    <Compile Include="AttachmentViewTest\TestViewStorage.cs" />
+    <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
+    <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
+    <Compile Include="LocalUserTrack\TestLocalUTMgr.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline_oldChangeLogs.cs" />
+    <Compile Include="TestHidePostHandler.cs" />
+    <Compile Include="TestMongoDB.cs" />
+    <Compile Include="TestNewPostCommandHandler.cs" />
+    <Compile Include="TestSerializable.cs" />
+    <Compile Include="TestUpdatePostHandler.cs" />
+    <Compile Include="TestPostUploadTaskQueue.cs" />
+    <Compile Include="TestNewPostHandler.cs" />
+    <Compile Include="TestUserLogin.cs" />
+    <Compile Include="EventTest.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />
+    <Compile Include="pullTimeLine\TestPullTimeline_forward.cs" />
+    <Compile Include="TestAttachmentViewApi.cs" />
+    <Compile Include="TestSQLitePersistentStorage.cs" />
+    <Compile Include="TestRemoveDriver.cs" />
+    <Compile Include="TestAddDriver.cs" />
+    <Compile Include="TestAddDriver_AddMoreUser.cs" />
+    <Compile Include="TestAttachmentGet.cs" />
+    <Compile Include="TestBsonHelper.cs" />
+    <Compile Include="FakeClient.cs" />
+    <Compile Include="FakeCloud.cs" />
+    <Compile Include="JsonFormatTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBypassHttpHandler.cs" />
+    <Compile Include="TestMQPersistence.cs" />
+    <Compile Include="TestGenerateMultipart.cs" />
+    <Compile Include="TestHttpServer.cs" />
+    <Compile Include="TestMQ.cs" />
+    <Compile Include="TestMultiPart.cs" />
+    <Compile Include="TestNetworkHelper.cs" />
+    <Compile Include="TestPersistentQueue.cs" />
+    <Compile Include="TestServiceHelper.cs" />
+    <Compile Include="TestStreamHelper.cs" />
+    <Compile Include="TestTimeHelper.cs" />
+    <Compile Include="TestUserSingOn.cs" />
+    <Compile Include="TestAttachmentView.cs" />
+    <Compile Include="TestUserTrackApiHandler.cs" />
+    <Compile Include="TestUserTrackCollection.cs" />
+    <Compile Include="TestMongoPersistentStorage.cs" />
+    <Compile Include="WebSocketChannel\TestPostUpsertNotifier.cs" />
+    <Compile Include="WebSocketChannel\TestWebSocketChannel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData\ContentDisposition.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ObjectUpload1_noObjId.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\ObjectUpload1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\Penguins.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\SimpleMultiPartContent.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\SimpleWithHeaders.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\SingeMultiPart.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestData\BinaryMultiPart.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
+      <Project>{87c11605-fdc7-444e-9c9d-4e1743182b6f}</Project>
+      <Name>Wammer.Station.Management</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">
+      <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
+      <Name>Wammer.Station.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

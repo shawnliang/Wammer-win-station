@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'
+     xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'>
+  <?define AppCode = "WavefaceStation" ?>
+  <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
+  <?define AppVersionMajor = "2" ?>
+  <?define AppVersionMinor = "1" ?>
+  <?define AppVersionPatch = "0" ?>
+  <?define AppVersionBuild = "0" ?>
+  <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
+  <?define AppManufacturer = "Waveface" ?>
+  <?define DefaultCulture = "en-US" ?>
+  <Product Id="$(var.AppProductCode)" Name="$(var.AppCode)" Language="!(loc.LANGUAGE)" 
+           Version="$(var.AppVersion)" Manufacturer="$(var.AppManufacturer)"
+           UpgradeCode="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
+    <Package Id="*" InstallerVersion="200" Compressed="yes"/>
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="no" />
+    <Property Id="INSTALLLEVEL" Value="100" />
+    <Property Id="ALLUSERS" Value="1" />
+    <Property Id="TEST" Value="NO" />
+
+    <!-- Upgrade -->
+    <MajorUpgrade DowngradeErrorMessage="A newer version of this product is found. Cannot proceed."
+                  Schedule="afterInstallInitialize"/>
+    <!-- Custom Actions -->
+    <!-- Signoff station when uninstallation -->
+    <CustomAction Id='SignoffStationAction' BinaryKey='InstallHelperDll' DllEntry='SignoffStation'/>
+    <!-- Clean station registry and DB -->
+    <CustomAction Id='CleanStationInfoAction' BinaryKey='InstallHelperDll' DllEntry='CleanStationInfo'/>
+    <!-- Clean app data -->
+    <CustomAction Id='CleanAppData' BinaryKey='InstallHelperDll' DllEntry='CleanAppData'/>
+    <!-- Kill running process -->
+    <CustomAction Id='KillClientProcess' BinaryKey='InstallHelperDll' DllEntry='KillClientProcess' />
+    <!-- Set Registry -->
+    <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry'/>
+    <!-- Start and Wait mongo db ready -->
+    <CustomAction Id='StartAndWaitMongoDbReady' BinaryKey='InstallHelperDll' DllEntry='StartAndWaitMongoDbReady' />
+    <!-- Start waveface service -->
+    <CustomAction Id='StartWavefaceService' BinaryKey='InstallHelperDll' DllEntry='StartWavefaceService' />
+    <!-- Add performance counters -->
+    <CustomAction Id='AddPerfCounters' BinaryKey='InstallHelperDll' DllEntry='AddPerfCounters' />
+    <!-- Remove performance counters -->
+    <CustomAction Id='RemovePerfCounters' BinaryKey='InstallHelperDll' DllEntry='RemovePerfCounters' />
+    <!-- Restore backup data -->
+    <CustomAction Id='RestoreBackupData' BinaryKey='InstallHelperDll' DllEntry='RestoreBackupData' />
+    <!-- MigrateThumbnailsExtension -->
+    <CustomAction Id='MigrateThumbnailsExtension' BinaryKey='InstallHelperDll' DllEntry='MigrateThumbnailsExtension' />
+    <!-- MigrateUserTracks -->
+    <CustomAction Id='MigrateUserTracks' BinaryKey='InstallHelperDll' DllEntry='MigrateUserTracks' />
+    <!-- MigrateOriginalPhotoLocation -->
+    <CustomAction Id='MigrateOriginalPhotoLocation' BinaryKey='InstallHelperDll' DllEntry='MigrateOriginalPhotoLocation' />
+    <!-- WriteProductInfo -->
+    <CustomAction Id='WriteProductInfo' BinaryKey='InstallHelperDll' DllEntry='WriteProductInfo' />
+    
+
+    <InstallExecuteSequence>
+      <!-- while uninstall -->
+      <Custom Action="KillClientProcess" Before="InstallValidate">
+        (&amp;ClientFeature = 2) AND (!ClientFeature = 3)
+      </Custom>
+      <Custom Action="SignoffStationAction" Before="CleanStationInfoAction">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="CleanAppData" Before="CleanStationInfoAction">
+        (&amp;ClientFeature = 2) AND (!ClientFeature = 3)
+      </Custom>
+      <Custom Action="CleanStationInfoAction" Before="RemovePerfCounters">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="RemovePerfCounters" Before="RemoveFiles">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <!-- while install -->
+      <Custom Action="SetRegistry" Before="InstallFiles">
+        ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
+      </Custom>
+      <Custom Action="AddPerfCounters" Before="StartServices">
+        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+      </Custom>
+      <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
+        (&amp;MainFeature = 3)
+      </Custom>
+      <Custom Action="RestoreBackupData" After="StartAndWaitMongoDbReady">
+        ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
+      </Custom>
+      <Custom Action="MigrateThumbnailsExtension" After="RestoreBackupData">
+        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+      </Custom>
+      <Custom Action="MigrateUserTracks" After="MigrateThumbnailsExtension">
+        (&amp;MainFeature = 3)
+      </Custom>
+      <Custom Action="MigrateOriginalPhotoLocation" After="MigrateUserTracks">
+        (&amp;MainFeature = 3)
+      </Custom>
+      <Custom Action="StartWavefaceService" After="MigrateOriginalPhotoLocation">
+        (&amp;MainFeature = 3)
+      </Custom>
+      <Custom Action="WriteProductInfo" After="StartWavefaceService">
+        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
+      </Custom>
+    </InstallExecuteSequence>
+
+    <UI>
+      <ProgressText Action="KillClientProcess">!(loc.KILL.PROCESS.DESC)</ProgressText>
+      <ProgressText Action="SignoffStationAction">!(loc.SIGNOFF.STATION.DESC)</ProgressText>
+      <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
+      <ProgressText Action="CleanAppData">!(loc.CLEAN.APP.DATA.DESC)</ProgressText>
+      <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
+      <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
+      <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
+      <ProgressText Action="MigrateThumbnailsExtension">!(loc.Migrating)</ProgressText>
+      <ProgressText Action="MigrateUserTracks">!(loc.Migrating)</ProgressText>
+      <ProgressText Action="MigrateOriginalPhotoLocation">!(loc.Migrating)</ProgressText>
+      <ProgressText Action="WriteProductInfo">!(loc.WriteProductInfo)</ProgressText>
+    </UI>
+    <!-- Program Menu-->
+    <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Directory Id="ProgramMenuDir" Name="!(loc.APPNAME)">
+
+          <!-- for station + client -->
+          <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
+            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
+            <RemoveFolder Id="ProgramMenuDirRF" On="uninstall" />
+            <Shortcut Id="ProgMenu.Shortcut.Waveface" Name="!(loc.APPNAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WindowsClient.exe">
+              <ShortcutProperty Key="System.AppUserModel.ID" Value="WavefaceStreamApp"></ShortcutProperty>
+            </Shortcut>
+            <Shortcut Id="Desktop.Shortcut.Waveface" Name="!(loc.APPNAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WindowsClient.exe" Directory="DesktopFolder">
+              <ShortcutProperty Key="System.AppUserModel.ID" Value="WavefaceStreamApp"></ShortcutProperty>
+            </Shortcut>
+            <Shortcut Id="UninstallerExeShortcut" Name="!(loc.SHORTCUT.UNINSTALLER.NAME)"
+                      WorkingDirectory="INSTALLDIR" Target="[UninstallDir]Uninstaller.exe" Arguments="!(loc.CULTURE)" />
+          </Component>
+         
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
+        <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
+          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]WindowsClient.exe' KeyPath='yes'/>
+        </RegistryKey>
+      </Component> 
+      
+      <Component Id="CultureSetting" Guid="{EDAC6735-B152-47FB-9DBA-ACAD3CCF9887}">
+        <RegistryKey Root="HKLM" Key="Software\Wammer\WinStation">
+          <RegistryValue Type="string" Name="Culture" Value="!(loc.CULTURE)" KeyPath="yes"/>
+         </RegistryKey>
+      </Component>
+
+      <Component Id="InstallPath">
+        <RegistryKey Root="HKLM" Key="Software\Wammer\WinStation">
+          <RegistryValue Type="string" Name="InstallPath" Value="[INSTALLLOCATION]" KeyPath="yes"/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+    <?include Component.wxi ?>
+    <?include Product.Uninstaller.wxi ?>
+
+    <!-- Directory Structure -->
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION" Name="$(var.AppCode)">
+          <Directory Id="log" Name="log">
+            <Component Id="log.folder" Guid="{7C0142E8-0AFD-4727-8672-C8275B0A9648}">
+              <CreateFolder/>
+            </Component>
+          </Directory>
+          <Directory Id="MongoDB" Name="MongoDB">
+            <Directory Id="Data" Name="Data">
+              <Component Id="MongoDB.Data" Guid="{295718C0-D799-465D-8F12-2B090EAA2028}">
+                <CreateFolder/>
+              </Component>
+              <Directory Id="DB" Name="DB">
+                <Component Id="MongoDB.Data.DB" Guid="{12BE1069-C314-4E57-951F-B6926556A533}">
+                  <CreateFolder/>
+                </Component>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+   
+    <!-- mongo db files -->
+    <DirectoryRef Id="MongoDB">
+      <Component Id="mongod.exe" Guid="{1163C7C1-0494-4DFD-890D-2611FDCD3C19}">
+        <File Id="mongod.exe" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\bin\mongod.exe" KeyPath="yes" Checksum="yes"/>
+        <ServiceInstall Arguments='--logpath "[INSTALLLOCATION]\log\MongoDB.log" --port 10319 --dbpath "[INSTALLLOCATION]\MongoDB\Data\DB" --journal --service --smallfiles --bind_ip 127.0.0.1 --logappend'
+                Description='!(loc.MONGO_SVC_DESC)' DisplayName='MongoDB for Waveface' 
+                ErrorControl='ignore' Name='MongoDbForWaveface' Start='auto' Type='ownProcess'>
+        </ServiceInstall>
+        <ServiceControl Name='MongoDbForWaveface' Id='mongoServiceControl' Start='install' Remove='uninstall' Stop='both' Wait='yes'/>
+      </Component>
+      <Component Id="mongos.exe" Guid="{996CFEA9-7286-44C8-82D3-68B9AEE1EAE5}">
+        <File Id="mongos.exe" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\bin\mongos.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="mongo.exe" Guid="{03376030-6756-4698-B1FF-AD92F18BABE5}">
+        <File Id="mongo.exe" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\bin\mongo.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Guid="*">
+        <File Id="mongorestore.exe" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\bin\mongorestore.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Guid="*">
+        <File Id="mongodump.exe" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\bin\mongodump.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DB">
+      <Component Guid="*">
+        <File Id="mongoPrealloc.tar.gz" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\mongoPrealloc.tar.gz" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <!-- Features -->
+    <Feature Id='MainFeature' Level='100' Display='collapse' Title='Waveface Station and client' Absent='allow' >
+      <ComponentRef Id="MongoDB.Data"/>
+      <ComponentRef Id="MongoDB.Data.DB"/>
+      <ComponentRef Id="log.folder"/>
+      <ComponentRef Id="mongod.exe"/>
+      <ComponentRef Id="mongos.exe"/>
+      <ComponentRef Id="mongo.exe"/>
+      <ComponentRef Id="mongorestore.exe"/>
+      <ComponentRef Id="mongodump.exe"/>
+      <ComponentRef Id="mongoPrealloc.tar.gz"/>
+      <ComponentRef Id="Station.Management.exe"/>
+      <ComponentGroupRef Id="AllStreamFiles"/>
+      <ComponentRef Id='pmd'/>
+      <ComponentRef Id="CultureSetting"/>
+      <ComponentRef Id="InstallPath"/>
+      <ComponentRef Id="LaunchAtStartUp"/>
+    </Feature>
+    
+    <Feature Id='ClientFeature' Level='100' Title='Waveface client only'>
+      <ComponentRef Id="CultureSetting"/>
+    </Feature>
+
+    <Binary Id='InstallHelperDll' SourceFile="$(var.InstallHelper.TargetDir)\InstallHelperPkg.dll"/>
+  </Product>
+</Wix>
