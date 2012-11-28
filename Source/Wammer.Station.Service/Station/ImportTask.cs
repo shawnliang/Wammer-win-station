@@ -334,7 +334,7 @@ namespace Wammer.Station
 		{
 			try
 			{
-				var serializeSetting = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+				var serializeSetting = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DateTimeZoneHandling = DateTimeZoneHandling.Utc };
 				var batchMetadata = JsonConvert.SerializeObject(batch, Formatting.None, serializeSetting);
 
 				var task = new UploadMetadataTask(m_GroupID, batchMetadata, batch.Count());
