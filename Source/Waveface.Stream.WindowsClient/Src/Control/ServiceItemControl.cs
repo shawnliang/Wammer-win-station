@@ -45,10 +45,7 @@ namespace Waveface.Stream.WindowsClient
 				var arg = new ServiceConnectivityChangeEventArgs { TurnedOn = turnOn };
 				handler(this, arg);
 
-				if (arg.Cancel)
-				{
-					connectCheckbox.Checked = turnOn;
-				}
+				connectCheckbox.Checked = (arg.Cancel) ? !turnOn : turnOn;
 			}
 		}
 
