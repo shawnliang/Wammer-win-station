@@ -45,17 +45,17 @@ namespace Waveface.Stream.Model
 		private static string GetStationPath()
 		{
             //var stationProcess = System.Diagnostics.Process.GetProcessesByName("Station.Service").FirstOrDefault();
-			var stationPath = string.Empty;
+			//var stationPath = string.Empty;
             //if (stationProcess != null)
             //{
             //    stationPath = Path.GetDirectoryName(stationProcess.MainModule.FileName);
             //}
             //else
             //{
-			stationPath = Path.Combine((string)StationRegistry.GetValue("InstallPath", ""), "WavefaceStation");
+			return (string)StationRegistry.GetValue("InstallPath", "");
             //}
 
-			return stationPath;
+			//return stationPath;
 		}
 
 		private static void CreateFolder(string basePath)
