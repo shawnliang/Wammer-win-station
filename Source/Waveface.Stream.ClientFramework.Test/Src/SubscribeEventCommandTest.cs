@@ -69,6 +69,7 @@ namespace Waveface.Stream.ClientFramework.Test
 		///A test for Execute
 		///</summary>
 		[TestMethod()]
+		[Ignore]
 		public void ExecuteTest()
 		{
             SubscribeEventCommand target = new SubscribeEventCommand();

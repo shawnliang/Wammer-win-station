@@ -305,7 +305,8 @@ namespace Wammer.Station
 			DriverCollection.Instance.Remove(Query.EQ("_id", userID));
 
 			//Remove login session if existed
-			LoginedSessionCollection.Instance.Remove(Query.EQ("_id", existingDriver.session_token));
+			if (!string.IsNullOrEmpty(existingDriver.session_token))
+				LoginedSessionCollection.Instance.Remove(Query.EQ("_id", existingDriver.session_token));
 
 			foreach (var post in PostCollection.Instance.Find(Query.EQ("creator_id", userID)))
 			{

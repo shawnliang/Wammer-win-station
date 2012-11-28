@@ -71,6 +71,7 @@ namespace Waveface.Stream.ClientFramework.Test
 		///A test for Execute
 		///</summary>
 		[TestMethod()]
+		[Ignore]
 		public void ExecuteTest()
 		{
             GetAttachmentsCommand target = new GetAttachmentsCommand(); // TODO: Initialize to an appropriate value
