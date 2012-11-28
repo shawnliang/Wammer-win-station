@@ -189,7 +189,7 @@ namespace Waveface.Stream.ClientFramework
         /// <returns></returns>
         public bool ShouldSerializeGps()
         {
-            return Gps != null && (Gps.name != null || (Gps.latitude != null && Gps.longitude != null));
+            return Gps != null && (Gps.Name != null || (Gps.Latitude != null && Gps.Longitude != null));
         }
 
         /// <summary>
