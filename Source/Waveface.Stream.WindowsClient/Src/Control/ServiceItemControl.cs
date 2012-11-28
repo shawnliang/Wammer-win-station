@@ -53,13 +53,13 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (ServiceEnabled)
 			{
-				raiseOnChangeEvent(true); // turn on
 				connectCheckbox.Text = "Connected";
+				raiseOnChangeEvent(true); // turn on
 			}
 			else
 			{
-				raiseOnChangeEvent(false); // turn off
 				connectCheckbox.Text = "Connect";
+				raiseOnChangeEvent(false); // turn off
 			}
 		}
 	}
