@@ -36,7 +36,7 @@ namespace Waveface.Stream.WindowsClient
                     WebBrowserShortcutsEnabled = false,
                     AllowWebBrowserDrop = false,
 
-#if DEBUG
+#if !DEBUG
                     ScriptErrorsSuppressed = true,
 #endif
           
