@@ -52,7 +52,7 @@ namespace Waveface.Stream.Model
             //}
             //else
             //{
-				stationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "WavefaceStation");
+			stationPath = Path.Combine((string)StationRegistry.GetValue("InstallPath", ""), "WavefaceStation");
             //}
 
 			return stationPath;
