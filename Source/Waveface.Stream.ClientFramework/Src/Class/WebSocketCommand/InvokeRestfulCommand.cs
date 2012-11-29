@@ -27,12 +27,15 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Public Method
-		/// <summary>
-		/// Executes the specified parameters.
-		/// </summary>
-		/// <param name="parameters">The parameters.</param>
-        public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
+        /// <summary>
+        /// Executes the specified parameters.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+            var parameters = data.Parameters;
+
 			const string RESTFUL_API_KEY = "restful_api";
 			var restfulAPI = parameters[RESTFUL_API_KEY];
 			var restfulUrl = string.Format(@"http://127.0.0.1:9981/v2/{0}", restfulAPI);

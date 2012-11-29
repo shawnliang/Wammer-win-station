@@ -23,12 +23,17 @@ namespace Waveface.Stream.WindowsClient
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var selectedItem = logMessageListBox1.SelectedItem;
+            var selectedItems = logMessageListBox1.SelectedItems;
 
-            if (selectedItem == null)
+            if (selectedItems == null || selectedItems.Count == 0)
                 return;
 
-            Clipboard.SetText(selectedItem.ToString());
+            Clipboard.SetText(string.Join(Environment.NewLine, selectedItems.OfType<String>().ToArray()));
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            logMessageListBox1.SelectAll();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Waveface.Stream.ClientFramework
         private String _userID;
         private String _groupID;
         private String _sessionToken;
-        private Dictionary<SystemEventType, Dictionary<string, object>> _subscribedEvents;
+        private Dictionary<SystemEventType, WebSocketCommandData> _subscribedEvents;
         #endregion 
 
 
@@ -144,11 +144,11 @@ namespace Waveface.Stream.ClientFramework
         /// <value>
         /// The subscribed system event.
         /// </value>
-        public Dictionary<SystemEventType, Dictionary<string,object>> SubscribedEvents
+        public Dictionary<SystemEventType, WebSocketCommandData> SubscribedEvents
         {
             get 
             {
-                return _subscribedEvents ?? (_subscribedEvents = new Dictionary<SystemEventType, Dictionary<string, object>>());
+                return _subscribedEvents ?? (_subscribedEvents = new Dictionary<SystemEventType, WebSocketCommandData>());
             }
          }
         #endregion

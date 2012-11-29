@@ -66,7 +66,9 @@ namespace Waveface.Stream.WindowsClient
 
 
             AddDockableContent("Client Web Page", m_Browser as Control);
+
             AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
+            AddDockableContent("Mock Data Generator", new DataGenerateComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
         }
         #endregion
 

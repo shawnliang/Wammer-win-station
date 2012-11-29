@@ -37,11 +37,14 @@ namespace Waveface.Stream.ClientFramework
 
         #region Public Method
         /// <summary>
-		/// Executes the specified parameters.
-		/// </summary>
-		/// <param name="parameters">The parameters.</param>
-        public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
+        /// Executes the specified parameters.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+            var parameters = data.Parameters;
+
             var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
             var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
@@ -59,7 +62,7 @@ namespace Waveface.Stream.ClientFramework
 
             if (parameters.ContainsKey("post_id_array"))
             {
-                var postIDs = from postID in JArray.FromObject(parameters["post_id_array"]).Values()
+                var postIDs = from postID in (parameters["post_id_array"] as JArray).Values()
                               select postID.ToString();
                 queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(postIDs)));
             }

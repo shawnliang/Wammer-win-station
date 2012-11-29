@@ -80,6 +80,7 @@
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\LoginedUser.cs" />
     <Compile Include="Src\Class\StationAPI.cs" />
+    <Compile Include="Src\Class\WebSocketCommandData.cs" />
     <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
@@ -113,8 +114,10 @@
     <Compile Include="Src\Class\WebSocketCommand\LogCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\InvokeRestfulCommand.cs" />
     <Compile Include="Src\Enum\SystemEventType.cs" />
+    <Compile Include="Src\Event\AttachmentsEventArgs.cs" />
     <Compile Include="Src\Event\PostsEventArgs.cs" />
     <Compile Include="Src\Event\LoginedEventArgs.cs" />
+    <Compile Include="Src\Extension\ListBoxExtension.cs" />
     <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Extension\ObjectExtension.cs" />
     <Compile Include="Src\Interface\IWebSocketCommand.cs" />

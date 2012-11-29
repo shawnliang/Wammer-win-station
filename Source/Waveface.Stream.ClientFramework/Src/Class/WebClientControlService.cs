@@ -82,14 +82,15 @@ namespace Waveface.Stream.ClientFramework
         /// <summary>
         /// Executes the and response result.
         /// </summary>
-        /// <param name="command">The command.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="memo">The memo.</param>
-        private void ExecuteAndResponseResult(string command, Dictionary<string, Object> parameters, object memo)
+        /// <param name="data">The data.</param>
+        private void ExecuteAndResponseResult(WebSocketCommandData data)
         {
             try
             {
-                var response = m_WebSocketCommandExecuter.Execute(command, parameters);
+                var command = data.CommandName;
+                var memo = data.Memo;
+
+                var response = m_WebSocketCommandExecuter.Execute(data);
 
                 if (response == null || response.Count == 0)
                     return;
@@ -144,7 +145,7 @@ namespace Waveface.Stream.ClientFramework
                     }
                 }
 
-                ExecuteAndResponseResult(command, parameters, jObject["memo"]);
+                ExecuteAndResponseResult(new WebSocketCommandData(command, parameters, jObject["memo"]));
             }
             catch (Exception)
             {

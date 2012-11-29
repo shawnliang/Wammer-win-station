@@ -228,15 +228,16 @@ namespace Waveface.Stream.Model
     [BsonIgnoreExtraElements]
     public class Gps
     {
-        public double longitude { get; set; }
-        public double latitude { get; set; }
+        public double? longitude { get; set; }
+        public double? latitude { get; set; }
         [BsonIgnoreIfNull]
         public string GPSDateStamp { get; set; }
         [BsonIgnoreIfNull]
         public List<object[]> GPSTimeStamp { get; set; }
     }
 
-
+    [Serializable]
+    [BsonIgnoreExtraElements]
 	public class exif
 	{
 		[BsonIgnoreIfNull]
