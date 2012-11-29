@@ -71,6 +71,7 @@ namespace Waveface.Stream.ClientFramework.Test
 		///A test for Execute
 		///</summary>
 		[TestMethod()]
+		[Ignore]
 		public void ExecuteTest()
 		{
 			GetPostsCommand target = new GetPostsCommand(); // TODO: Initialize to an appropriate value

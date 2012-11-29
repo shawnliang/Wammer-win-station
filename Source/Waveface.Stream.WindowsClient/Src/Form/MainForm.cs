@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Windows.Forms;
@@ -11,6 +11,7 @@ using MongoDB.Driver.Builders;
 using Waveface.Stream.Model;
 using System.IO;
 using System.Drawing;
+using System.Reflection;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -180,7 +181,8 @@ namespace Waveface.Stream.WindowsClient
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var file = Path.Combine(Directory.GetCurrentDirectory(), @"Web\index.html");
+			var fileDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			var file = Path.Combine(fileDir, @"Web\index.html");
             Navigate(file);
         }
 	}

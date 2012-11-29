@@ -22,7 +22,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				intro,
 				new SignUpControl(new StreamSignup()),
-				new ServiceImportControl(new FacebookConnectableService()),
+				new ServiceImportControl(),
 				new ChoosePlanControl(),
 				new ImportFolderAndMediaControl(m_photoSearch),
 				new PersonalCloudStatusControl2(new PersonalCloudStatusService())

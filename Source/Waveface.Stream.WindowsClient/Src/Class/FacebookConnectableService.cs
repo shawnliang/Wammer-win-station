@@ -8,9 +8,11 @@ using System.Windows.Forms;
 using Waveface.Stream.Model;
 using System.Linq;
 using Waveface.Stream.ClientFramework;
+using System.ComponentModel.Composition;
 
 namespace Waveface.Stream.WindowsClient
 {
+	[Export(typeof(IConnectableService))]
 	class FacebookConnectableService : IConnectableService
 	{
 		private const string WEB_BASE_URL = @"https://waveface.com";
@@ -28,7 +30,7 @@ namespace Waveface.Stream.WindowsClient
 
 		public bool IsEnabled(string user_id, string session_token, string api_key)
 		{
-            var loginInfo = JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(session_token, user_id));
+			var loginInfo = JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(session_token, user_id));
 
 			return loginInfo.user.sns != null &&
 				loginInfo.user.sns.Any(x => x.type.Equals("facebook"));
@@ -74,7 +76,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				Width = 750,
 				Height = 600,
-				Text = Properties.Resources.FB_CONNECT_PAGE_TITLE,
+				Text = string.Format(Properties.Resources.FB_CONNECT_PAGE_TITLE, Name),
 				StartPosition = FormStartPosition.CenterParent,
 				Icon = Properties.Resources.Icon
 			};
