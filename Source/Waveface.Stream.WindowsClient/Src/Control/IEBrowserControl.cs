@@ -36,7 +36,7 @@ namespace Waveface.Stream.WindowsClient
                     WebBrowserShortcutsEnabled = false,
                     AllowWebBrowserDrop = false,
 
-#if DEBUG
+#if !DEBUG
                     ScriptErrorsSuppressed = true,
 #endif
           
@@ -70,6 +70,14 @@ namespace Waveface.Stream.WindowsClient
             var element = (IHTMLScriptElement)script.DomElement;
             element.text = @"if(navigator.userAgent.match(""MSIE 10.0"")){if(XMLHttpRequest !== undefined ) XMLHttpRequest = undefined;} // Hack the ie 10";
             head.AppendChild(script);
+
+#if DEBUG
+            var htmlTag = m_Browser.Document.GetElementsByTagName("html")[0];
+            htmlTag.SetAttribute("debug", "true");
+            script = m_Browser.Document.CreateElement("script");
+            script.SetAttribute("src", @"https://getfirebug.com/firebug-lite.js");
+            head.AppendChild(script);
+#endif
         } 
         #endregion
 

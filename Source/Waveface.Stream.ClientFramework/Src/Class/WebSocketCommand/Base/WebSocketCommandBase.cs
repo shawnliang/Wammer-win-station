@@ -74,7 +74,32 @@ namespace Waveface.Stream.ClientFramework
 		/// Executes the specified parameters.
 		/// </summary>
 		/// <param name="parameters">The parameters.</param>
-        public abstract Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null);
+        public abstract Dictionary<string, Object> Execute(WebSocketCommandData data);
+
+        /// <summary>
+        /// Executes the specified command name.
+        /// </summary>
+        /// <param name="commandName">Name of the command.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="memo">The memo.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null)
+        {
+            return Execute(new WebSocketCommandData(commandName, parameters, memo));
+        }
+
+        /// <summary>
+        /// Executes the specified parameters.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="memo">The memo.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public Dictionary<string, object> Execute(Dictionary<string, object> parameters = null, object memo = null)
+        {
+            return Execute(this.Name, parameters, memo);
+        }
 		#endregion
-	}
+    }
 }

@@ -32,11 +32,14 @@ namespace Waveface.Stream.ClientFramework
 
         #region Public Method
         /// <summary>
-		/// Executes the specified parameters.
-		/// </summary>
-		/// <param name="parameters">The parameters.</param>
-        public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
+        /// Executes the specified parameters.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+            var parameters = data.Parameters;
+
             var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
             var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
@@ -57,7 +60,7 @@ namespace Waveface.Stream.ClientFramework
             
             if (parameters.ContainsKey("post_id_array"))
             {
-                var attachmentIDs = from postID in JArray.FromObject(parameters["post_id_array"]).Values()
+                var attachmentIDs = from postID in (parameters["post_id_array"] as JArray).Values()
                                     let post = PostCollection.Instance.FindOne(Query.EQ("_id", postID.ToString()))
                                     where post != null
                                     from attachmentID in post.attachment_id_array
@@ -67,7 +70,7 @@ namespace Waveface.Stream.ClientFramework
 
             if (parameters.ContainsKey("attachment_id_array"))
             {
-                var attachmentIDs = from attachmentID in JArray.FromObject(parameters["attachment_id_array"]).Values()
+                var attachmentIDs = from attachmentID in (parameters["attachment_id_array"] as JArray).Values()
                                     select attachmentID;
                 queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(attachmentIDs)));
             }

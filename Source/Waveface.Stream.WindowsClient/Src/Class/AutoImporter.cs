@@ -88,9 +88,8 @@ namespace Waveface.Stream.WindowsClient
                 catch (Exception)
                 {
                 }
-
-                StationAPI.Import(loginedSession.session_token, loginedSession.groups.First().group_id, filesToImport);
             }
+            StationAPI.Import(loginedSession.session_token, loginedSession.groups.First().group_id, filesToImport);
 		}
 		#endregion
 
