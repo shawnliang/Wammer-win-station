@@ -13,10 +13,10 @@ using System.ComponentModel.Composition;
 namespace Waveface.Stream.WindowsClient
 {
 	[Export(typeof(IConnectableService))]
-	class FacebookConnectableService : WebRedirectConnectableService
+	class GoogleConnectableService : WebRedirectConnectableService
 	{
-		public FacebookConnectableService()
-			:base("facebook", "Facebook")
+		public GoogleConnectableService()
+			:base("google", "Google")
 		{
 		}
 	}
