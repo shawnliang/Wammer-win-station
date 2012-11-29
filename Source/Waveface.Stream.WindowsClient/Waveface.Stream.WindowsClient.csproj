@@ -168,11 +168,13 @@
     <Compile Include="Src\Class\ExifExtractor.cs" />
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
     <Compile Include="Src\Class\FastJSONHelper.cs" />
+    <Compile Include="Src\Class\GoogleConnectableService.cs" />
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\PersonalCloudNode.cs" />
     <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
     <Compile Include="Src\Class\StreamSignup.cs" />
+    <Compile Include="Src\Class\WebRedirectConnectableService.cs" />
     <Compile Include="Src\Control\CentralLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
