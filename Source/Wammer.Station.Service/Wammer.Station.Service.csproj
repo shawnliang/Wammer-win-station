@@ -127,6 +127,7 @@
   <ItemGroup>
     <Compile Include="Attribute\APIHandlerInfoAttribute.cs" />
     <Compile Include="Cloud\ChangeLogsApi.cs" />
+    <Compile Include="Cloud\CollectionApi.cs" />
     <Compile Include="Cloud\Response\ChangeLogResponse.cs" />
     <Compile Include="Enum\APIHandlerType.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerDB.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerImp.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
+    <Compile Include="Station\CreatePhotoFolderCollectionTask.cs" />
     <Compile Include="Station\DebugInfo.cs" />
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\ImportTask.cs" />

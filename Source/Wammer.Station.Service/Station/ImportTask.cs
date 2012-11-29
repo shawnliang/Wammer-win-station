@@ -147,10 +147,22 @@ namespace Wammer.Station
 				var importTime = DateTime.Now;
 
 				var allFiles = new List<ObjectIdAndPath>();
+				var folderCollections = new Dictionary<string, FolderCollection>();
+
 				findInterestedFiles((file) =>
 				{
 					var att = new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() };
 					allFiles.Add(att);
+
+					var folderPath = Path.GetDirectoryName(file);
+					if (folderCollections.ContainsKey(folderPath))
+					{
+						folderCollections[folderPath].Objects.Add(att.object_id);
+					}
+					else
+					{
+						folderCollections.Add(folderPath, new FolderCollection(folderPath, att.object_id));
+					}
 				});
 
 
@@ -178,6 +190,8 @@ namespace Wammer.Station
 					nProc += batch.Count();
 
 				} while (nProc < allFiles.Count);
+
+				TaskQueue.Enqueue(new CreatePhotoFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.Medium);
 				
 			}
 			catch (Exception e)
@@ -428,6 +442,37 @@ namespace Wammer.Station
 					return createTime.Value;
 				}
 			}
+		}
+	}
+
+	[Serializable]
+	public class FolderCollection
+	{
+		public string FolderPath { get; private set; }
+		public string FolderName { get; private set; }
+		public List<string> Objects { get; private set; }
+
+		public FolderCollection(string folderPath)
+		{
+			FolderPath = folderPath;
+			FolderName = Path.GetFileName(folderPath);
+			Objects = new List<string>();
+		}
+
+		public FolderCollection(string folderPath, string object_id)
+			:this(folderPath)
+		{
+			Objects.Add(object_id);
+		}
+
+		public override int GetHashCode()
+		{
+			return FolderPath.GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			return FolderPath.Equals(obj);
 		}
 	}
 }
