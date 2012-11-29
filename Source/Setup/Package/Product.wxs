@@ -158,6 +158,12 @@
           <RegistryValue Type="string" Name="InstallPath" Value="[INSTALLLOCATION]" KeyPath="yes"/>
         </RegistryKey>
       </Component>
+
+      <Component Id="IE10Emulation">
+        <RegistryKey Root="HKLM" Key="Software\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION">
+          <RegistryValue Type="integer" Name="WindowsClient.exe" Value="10000" KeyPath="yes"/>
+        </RegistryKey>
+      </Component>
     </DirectoryRef>
 
     <?include Component.wxi ?>
@@ -167,6 +173,9 @@
     <DirectoryRef Id="TARGETDIR">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="$(var.AppCode)">
+          <Component Id="WebFiles.zip" Guid="*">
+            <File Id="WebFile.zip" Source="..\WebFiles.zip" KeyPath="yes" Checksum="yes"/>
+          </Component>
           <Directory Id="log" Name="log">
             <Component Id="log.folder" Guid="{7C0142E8-0AFD-4727-8672-C8275B0A9648}">
               <CreateFolder/>
@@ -234,6 +243,8 @@
       <ComponentRef Id="CultureSetting"/>
       <ComponentRef Id="InstallPath"/>
       <ComponentRef Id="LaunchAtStartUp"/>
+      <ComponentRef Id="IE10Emulation"/>
+      <ComponentRef Id="WebFiles.zip"/>
     </Feature>
     
     <Feature Id='ClientFeature' Level='100' Title='Waveface client only'>
