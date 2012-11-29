@@ -108,4 +108,7 @@
   <PropertyGroup>
     <PostBuildEvent />
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>"$(SolutionDir)..\Tools\packWeb.bat" "$(SolutionDir)..\" "$(ProjectDir)$(OutDir)"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

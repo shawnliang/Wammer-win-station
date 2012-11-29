@@ -17,6 +17,7 @@ using System.ServiceProcess;
 using Wammer.Station.Service;
 using ICSharpCode.SharpZipLib.Tar;
 using ICSharpCode.SharpZipLib.GZip;
+using ICSharpCode.SharpZipLib.Zip;
 using System.Runtime.InteropServices;
 using MongoDB.Driver.Builders;
 using Wammer.Utility;
@@ -723,8 +724,57 @@ namespace Wammer.Station
 
 			ProductInfoCollection.Instance.Save(newProduct);
 
+
+			string installDir = session["INSTALLLOCATION"];
+			using (var zip = new ZipFile(Path.Combine(installDir, "WebFiles.zip")))
+			{
+				foreach(ZipEntry entry in zip)
+				{
+					if (entry.IsFile)
+						extractFile(zip.GetInputStream(entry), entry, installDir);
+				}
+			}
+
 			return ActionResult.Success;
 		}
+
+		private static void extractFile(Stream inputStream, ZipEntry theEntry, string targetDir)
+		{
+			// try and sort out the correct place to save this entry
+			string entryFileName;
+
+			if (Path.IsPathRooted(theEntry.Name))
+			{
+				string workName = Path.GetPathRoot(theEntry.Name);
+				workName = theEntry.Name.Substring(workName.Length);
+				entryFileName = Path.Combine(Path.GetDirectoryName(workName), Path.GetFileName(theEntry.Name));
+			}
+			else
+			{
+				entryFileName = theEntry.Name;
+			}
+
+			string targetName = Path.Combine(targetDir, entryFileName);
+			string fullPath = Path.GetDirectoryName(Path.GetFullPath(targetName));
+
+			// Could be an option or parameter to allow failure or try creation
+			if (!Directory.Exists(fullPath))
+			{
+				Directory.CreateDirectory(fullPath);
+			}
+
+
+			if (entryFileName.Length > 0)
+			{				
+				using (FileStream outputStream = File.Create(targetName))
+				{
+					StreamHelper.Copy(inputStream, outputStream);
+				}
+
+				File.SetLastWriteTime(targetName, theEntry.DateTime);
+			}
+		}
+
 
 		[CustomAction]
 		public static ActionResult MigrateUserTracks(Session session)
