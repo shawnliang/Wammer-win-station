@@ -106,9 +106,9 @@
 	-->
   <Import Condition="" Project="$(SharpSetupTargetsPath)\SharpSetup.WixTranslation.targets" />
   <PropertyGroup>
-    <PostBuildEvent />
+    <PreBuildEvent>"$(SolutionDir)..\Tools\packWeb.bat"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)..\Tools\packWeb.bat" "$(SolutionDir)..\" "$(ProjectDir)$(OutDir)"</PreBuildEvent>
+    <PostBuildEvent>if exist ..\WebFiles.zip del ..\WebFiles.zip</PostBuildEvent>
   </PropertyGroup>
 </Project>
