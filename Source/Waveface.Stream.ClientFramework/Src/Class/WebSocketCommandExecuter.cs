@@ -79,23 +79,37 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Public Method
-		/// <summary>
-		/// Executes the specified command name.
-		/// </summary>
-		/// <param name="commandName">Name of the command.</param>
-		/// <param name="parameters">The parameters.</param>
-        public Dictionary<string, Object> Execute(string commandName, Dictionary<string, object> parameters = null)
+        /// <summary>
+        /// Executes the specified data.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public Dictionary<string, object> Execute(WebSocketCommandData data)
         {
             var webSocketCommandPool = m_WebSocketCommandPool.Value;
 
             if (webSocketCommandPool == null)
                 return null;
 
+            var commandName = data.CommandName;
+
             if (!webSocketCommandPool.ContainsKey(commandName))
                 return null; //TODO: Throw unsupport command exception
 
-            return webSocketCommandPool[commandName].Execute(parameters);
+            return webSocketCommandPool[commandName].Execute(data);
         }
-		#endregion
-	}
+
+        /// <summary>
+        /// Executes the specified command name.
+        /// </summary>
+        /// <param name="commandName">Name of the command.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="memo"></param>
+        /// <returns></returns>
+        public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null)
+        {
+            return Execute(new WebSocketCommandData(commandName, parameters,memo));
+        }
+        #endregion
+    }
 }

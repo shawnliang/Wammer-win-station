@@ -25,12 +25,15 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Public Method
-		/// <summary>
-		/// Executes the specified parameters.
-		/// </summary>
-		/// <param name="parameters">The parameters.</param>
-        public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
+        /// <summary>
+        /// Executes the specified parameters.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+            var parameters = data.Parameters;
+
 			Trace.WriteLine(string.Format("[{0}] {1}", parameters["type"], parameters["data"]));
             return null;
 		}

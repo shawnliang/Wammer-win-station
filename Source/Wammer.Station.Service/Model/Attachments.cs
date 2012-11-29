@@ -237,8 +237,9 @@ namespace Wammer.Model
 	[BsonIgnoreExtraElements]
 	public class Gps
 	{
-		public double longitude { get; set; }
-		public double latitude { get; set; }
+		public double? longitude { get; set; }
+		public double? latitude { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string GPSDateStamp { get; set; }
 		[BsonIgnoreIfNull]

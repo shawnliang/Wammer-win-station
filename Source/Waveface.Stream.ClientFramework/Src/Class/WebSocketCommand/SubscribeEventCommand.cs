@@ -25,12 +25,15 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Public Method
-		/// <summary>
-		/// Executes the specified parameters.
-		/// </summary>
-		/// <param name="parameters">The parameters.</param>
-        public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
+        /// <summary>
+        /// Executes the specified parameters.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+            var parameters = data.Parameters;
+
             var eventID = parameters.ContainsKey("event_id") ? int.Parse(parameters["event_id"].ToString()) : 0;
             var systemEvent = (SystemEventType)eventID;
 
@@ -38,12 +41,13 @@ namespace Waveface.Stream.ClientFramework
 
             if (systemEvent == SystemEventType.All)
             {
+                data.Parameters.Clear();
                 foreach (SystemEventType systemEventType in Enum.GetValues(typeof(SystemEventType)))
                 {
                     if (subscribedEvents.ContainsKey(systemEventType))
                         subscribedEvents.Remove(systemEventType);
 
-                    subscribedEvents.Add(systemEventType, null);
+                    subscribedEvents.Add(systemEventType, data);
                 }
                 return null;
             }
@@ -51,7 +55,7 @@ namespace Waveface.Stream.ClientFramework
             if (subscribedEvents.ContainsKey(systemEvent))
                 subscribedEvents.Remove(systemEvent);
 
-            subscribedEvents.Add(systemEvent, parameters);
+            subscribedEvents.Add(systemEvent, data);
 
             return null;
 		}
