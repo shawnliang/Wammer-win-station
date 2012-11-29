@@ -29,11 +29,14 @@ namespace Waveface.Stream.ClientFramework
 
         #region Public Method
         /// <summary>
-		/// Executes the specified parameters.
-		/// </summary>
-		/// <param name="parameters">The parameters.</param>
-        public override Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null)
+        /// Executes the specified parameters.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+            var parameters = data.Parameters;
+
             var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
             var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 

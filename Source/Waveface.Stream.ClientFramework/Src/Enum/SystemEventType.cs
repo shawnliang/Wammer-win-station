@@ -8,8 +8,9 @@ namespace Waveface.Stream.ClientFramework
     public enum SystemEventType
     {
         All = 0,
-        AttachmentDownloaded = 1,
-        PostAdded = 2,
-        PostUpdated = 3
+        PostAdded = 1,
+        PostUpdated = 2,
+
+        AttachmentDownloaded = 10
     }
 }

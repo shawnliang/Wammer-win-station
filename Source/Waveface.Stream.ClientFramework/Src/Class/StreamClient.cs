@@ -101,7 +101,7 @@ namespace Waveface.Stream.ClientFramework
         /// <summary>
         /// Occurs when [attachment downloaded].
         /// </summary>
-        public event EventHandler AttachmentDownloaded;
+        public event EventHandler<AttachmentsEventArgs> AttachmentDownloaded;
         #endregion
 
 
@@ -212,28 +212,46 @@ namespace Waveface.Stream.ClientFramework
             })).Start();
 
 
-            //(new Task(() =>
-            //{
-            //    long count = 0;
-            //    while (true)
-            //    {
-            //        if (LoginedUser != null)
-            //        {
-            //            var attachmentCount = AttachmentCollection.Instance.Find(Query.EQ("group_id", LoginedUser.GroupID)).Count();
+            (new Task(() =>
+            {
+                long count = 0;
+                HashSet<string> attachmentIDs = null;
+                while (true)
+                {
+                    try
+                    {
+                        if (LoginedUser != null)
+                        {
+                            var attachments = AttachmentCollection.Instance.Find(Query.EQ("group_id", LoginedUser.GroupID));
+                            var attachmentCount = attachments.Count();
 
-            //            if (attachmentCount != count)
-            //            {
-            //                OnAttachmentDownloaded(EventArgs.Empty);
+                            if (attachmentCount != count)
+                            {
+                                var firstInit = (attachmentIDs == null || attachmentIDs.Count == 0);
 
-            //                Trace.WriteLine("Attachment added detected...");
-            //                count = attachmentCount;
-            //            }
-            //        }
+                                var currentAttachmentIDs = new HashSet<string>(attachments.Select(attachment => attachment.object_id));
 
-            //        Thread.Sleep(2000);
-            //        Application.DoEvents();
-            //    }
-            //})).Start();
+                                var addedAttachmentIDS = firstInit ? currentAttachmentIDs : currentAttachmentIDs.Except(attachmentIDs);
+
+                                if (!firstInit && addedAttachmentIDS.Count() > 0)
+                                {
+                                    Trace.WriteLine("Attachment added detected...");
+                                    OnAttachmentDownloaded(new AttachmentsEventArgs(addedAttachmentIDS));
+                                }
+
+                                count = attachmentCount;
+                                attachmentIDs = currentAttachmentIDs;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    Thread.Sleep(2000);
+                    Application.DoEvents();
+                }
+            })).Start();
         }
         #endregion
 
@@ -278,8 +296,8 @@ namespace Waveface.Stream.ClientFramework
         /// <summary>
         /// Raises the <see cref="E:AttachmentDownloaded" /> event.
         /// </summary>
-        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        protected void OnAttachmentDownloaded(EventArgs e)
+        /// <param name="e">The <see cref="AttachmentsEventArgs" /> instance containing the event data.</param>
+        protected void OnAttachmentDownloaded(AttachmentsEventArgs e)
         {
             this.RaiseEvent(AttachmentDownloaded, e);
         }
@@ -341,9 +359,8 @@ namespace Waveface.Stream.ClientFramework
         /// Handles the AttachmentDownloaded event of the StreamClient control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
-        void StreamClient_AttachmentDownloaded(object sender, EventArgs e)
+        /// <param name="e">The <see cref="AttachmentsEventArgs" /> instance containing the event data.</param>
+        void StreamClient_AttachmentDownloaded(object sender, AttachmentsEventArgs e)
         {
             if (LoginedUser == null)
                 return;
@@ -351,13 +368,46 @@ namespace Waveface.Stream.ClientFramework
             if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.AttachmentDownloaded))
                 return;
 
+            var commandData = LoginedUser.SubscribedEvents[SystemEventType.AttachmentDownloaded];
+
+
+            var eventParams = commandData.Parameters;
+            var ids = e.IDs;
+
+            if (eventParams == null)
+                eventParams = new Dictionary<string, object>();
+
+            if (eventParams.ContainsKey("attachment_id_array"))
+                eventParams.Remove("attachment_id_array");
+
+            eventParams.Add("attachment_id_array", new JArray(ids.ToArray()));
+
+            if (eventParams.ContainsKey("page_size"))
+                eventParams.Remove("page_size");
+
+            eventParams.Add("page_size", ids.Count());
+
+            var response = WebSocketCommandExecuter.Instance.Execute("getAttachments", eventParams);
+
+            var responseParams = new Dictionary<String, Object>(response)
+            {
+                {"event_id", (int)SystemEventType.AttachmentDownloaded}
+            };
+
+            responseParams.Remove("page_no");
+            responseParams.Remove("page_size");
+            responseParams.Remove("page_count");
+            responseParams.Remove("total_count");
+
+
             var executedValue = new JObject(
                     new JProperty("command", "subscribeEvent"),
-                    new JProperty("response", JObject.FromObject(new Dictionary<String, Object>()
-                    {
-                        {"event_id", (int)SystemEventType.AttachmentDownloaded}
-                    }))
+                    new JProperty("response", JObject.FromObject(responseParams))
                     );
+
+            var memo = commandData.Memo;
+            if (memo != null)
+                executedValue.Add(new JProperty("memo", memo));
 
             var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
 
@@ -377,8 +427,10 @@ namespace Waveface.Stream.ClientFramework
             if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.PostAdded))
                 return;
 
-            var eventParams = LoginedUser.SubscribedEvents[SystemEventType.PostAdded];
+            var commandData = LoginedUser.SubscribedEvents[SystemEventType.PostAdded];
 
+
+            var eventParams = commandData.Parameters;
             var ids = e.IDs;
 
             if (eventParams == null)
@@ -412,6 +464,10 @@ namespace Waveface.Stream.ClientFramework
                     new JProperty("response", JObject.FromObject(responseParams))
                     );
 
+            var memo = commandData.Memo;
+            if (memo != null)
+                executedValue.Add(new JProperty("memo", memo));
+
             var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
 
             m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
@@ -422,10 +478,13 @@ namespace Waveface.Stream.ClientFramework
             if (LoginedUser == null)
                 return;
 
-            if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.PostAdded))
+            if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.PostUpdated))
                 return;
 
-            var eventParams = LoginedUser.SubscribedEvents[SystemEventType.PostAdded];
+            var commandData = LoginedUser.SubscribedEvents[SystemEventType.PostUpdated];
+
+
+            var eventParams = commandData.Parameters;
 
             var ids = e.IDs.Select(id => id.Split('§')[0]);
 
@@ -446,7 +505,7 @@ namespace Waveface.Stream.ClientFramework
 
             var responseParams = new Dictionary<String, Object>(response)
             {
-                {"event_id", (int)SystemEventType.PostAdded}
+                {"event_id", (int)SystemEventType.PostUpdated}
             };
 
             responseParams.Remove("page_no");
@@ -459,6 +518,10 @@ namespace Waveface.Stream.ClientFramework
                     new JProperty("command", "subscribeEvent"),
                     new JProperty("response", JObject.FromObject(responseParams))
                     );
+
+            var memo = commandData.Memo;
+            if (memo != null)
+                executedValue.Add(new JProperty("memo", memo));
 
             var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
 

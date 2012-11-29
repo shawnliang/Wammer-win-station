@@ -50,6 +50,21 @@ namespace UT_WammerStation
 		}
 
 		[TestMethod]
+		public void CreatePhotoCollectionTaskIsSerializable()
+		{
+			BinaryFormatter f = new BinaryFormatter();
+
+			var p = new Dictionary<string, Wammer.Station.FolderCollection>{ {"123", new Wammer.Station.FolderCollection("1","2")}};
+			var t = new Wammer.Station.CreatePhotoFolderCollectionTask(p);
+
+			MemoryStream m = new MemoryStream();
+			f.Serialize(m, t);
+
+			m.Position = 0;
+			UpstreamTask deserializedTask = f.Deserialize(m) as UpstreamTask;
+		}
+
+		[TestMethod]
 		public void PostponedTaskIsSerialiable()
 		{
 			BinaryFormatter f = new BinaryFormatter();
