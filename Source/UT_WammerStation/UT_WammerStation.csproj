@@ -170,7 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
-      <Project>{87c11605-fdc7-444e-9c9d-4e1743182b6f}</Project>
+      <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
       <Name>Wammer.Station.Management</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">

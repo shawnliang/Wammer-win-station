@@ -85,7 +85,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(Wix36Dir)\SDK\MakeSfxCA.exe" "$(TargetDir)\InstallHelperPkg.dll" "$(Wix36Dir)\SDK\x86\sfxca.dll" "$(TargetPath)" "$(SolutionDir)\..\Lib\Wix3.6\Microsoft.Deployment.WindowsInstaller.dll" "$(TargetPath).config" "$(TargetDir)\Station.Service.exe" "$(TargetDir)\fastJSON.dll" "$(TargetDir)\log4net.dll" "$(TargetDir)\MongoDB.Bson.dll" "$(TargetDir)\MongoDB.Driver.dll" "$(TargetDir)\ICSharpCode.SharpZipLib.dll" "$(TargetDir)\CommonLibs.dll" "$(TargetDir)\ExifLibrary.dll"
-if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
+if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)..\Tools\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
