@@ -109,7 +109,7 @@ namespace Waveface.Stream.ClientFramework
         {
             get
             {
-                return string.IsNullOrEmpty(_coverAttachmentID) ? AttachmentIDs .FirstOrDefault(): _coverAttachmentID;
+				return string.IsNullOrEmpty(_coverAttachmentID) && (AttachmentIDs != null) ? AttachmentIDs.FirstOrDefault() : _coverAttachmentID;
             }
             set
             {
