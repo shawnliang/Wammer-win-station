@@ -118,8 +118,6 @@ namespace Waveface.Stream.WindowsClient
 				return _updator ?? (_updator = new AutoUpdate(false));
 			}
 		}
-
-		private string m_CurrentUserSession { get; set; }
 		#endregion
 
 
@@ -151,7 +149,6 @@ namespace Waveface.Stream.WindowsClient
 
 		private void RefreshAccountList()
 		{
-            var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", m_CurrentUserSession));
             var users = from item in DriverCollection.Instance.FindAll()
                         where item != null && item.user != null
                         select new { ID = item.user_id, EMail = item.user.email };

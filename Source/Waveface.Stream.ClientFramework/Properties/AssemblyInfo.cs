@@ -11,7 +11,7 @@ using System;
 [assembly: AssemblyTitle("Waveface.Stream.ClientFramework")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Waveface")]
 [assembly: AssemblyProduct("Waveface.Stream.ClientFramework")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
