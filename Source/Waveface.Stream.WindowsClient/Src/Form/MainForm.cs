@@ -19,6 +19,7 @@ namespace Waveface.Stream.WindowsClient
 	{
         #region Var
         private IBrowserControl _browser;
+		private DockPanel _dockPanel;
         #endregion
 
         #region Static Var
@@ -42,6 +43,24 @@ namespace Waveface.Stream.WindowsClient
                 });
             }
         }
+
+		/// <summary>
+		/// Gets the m_ dock panel.
+		/// </summary>
+		/// <value>
+		/// The m_ dock panel.
+		/// </value>
+		private DockPanel m_DockPanel 
+		{
+			get 
+			{
+				return _dockPanel ?? (_dockPanel = new DockPanel() 
+				{
+					DocumentStyle = DocumentStyle.DockingSdi,
+					Dock = DockStyle.Fill
+				});
+			}
+		}
         #endregion
 
 
@@ -65,14 +84,25 @@ namespace Waveface.Stream.WindowsClient
         {
             InitializeComponent();
 
+			try
+			{
+				SuspendLayout();
 #if DEBUG
-            AddDockableContent("Client Web Page", m_Browser as Control);
+				this.Controls.Add(m_DockPanel);
+				AddDockableContent("Client Web Page", m_Browser as Control);
 
-            AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
-            AddDockableContent("Mock Data Generator", new DataGenerateComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
+				AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
+				AddDockableContent("Mock Data Generator", new DataGenerateComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
 #else
 			this.Controls.Add(m_Browser as Control);
 #endif
+
+				titlePanel1.SendToBack();
+			}
+			finally
+			{
+				ResumeLayout();
+			}
 		}
         #endregion
 
@@ -91,7 +121,7 @@ namespace Waveface.Stream.WindowsClient
             };
 
             dockContent.Controls.Add(control);
-            dockContent.Show(this.dockPanel1, dockState);
+			dockContent.Show(m_DockPanel, dockState);
         } 
 
         private void TriggerAutoImport(Boolean alwaysQuery = true)
