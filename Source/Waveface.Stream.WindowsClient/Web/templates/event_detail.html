@@ -1,6 +1,10 @@
 <header>
     <div class="date">{{ time }}</div>
-
+    <div class="event-tags">
+    	{{#tags}}
+    		<span class="tag">{{.}}</span>
+    	{{/tags}}
+    </div>
 </header>
 <div id="map_canvas" style="width: 100%; height: 300px"></div>
 <div class="event-content">
@@ -8,11 +12,7 @@
 	{{#gps.name}} at <span class="location">{{ gps.name }}</span> {{/gps.name}}
 	{{#hasPeople}}with {{# people }}<span class="people">{{name}} </span>{{/ people }} {{/hasPeople}}
 </div>
-<div class="event-tags">
-	{{#tags}}
-		<span class="tag">{{.}}</span>
-	{{/tags}}
-</div>
+
 <div class="attachments">
 </div>
 <div class="more">Show more...</div>
