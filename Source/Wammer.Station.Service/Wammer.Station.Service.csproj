@@ -89,7 +89,7 @@
       <HintPath>..\..\Lib\ExifLibrary.dll</HintPath>
     </Reference>
     <Reference Include="fastJSON">
-      <HintPath>..\..\Lib\fastJSON.dll</HintPath>
+      <HintPath>..\..\Lib\fastJSON\fastJSON.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\Lib\log4net-1.2.11\log4net.dll</HintPath>
