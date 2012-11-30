@@ -411,9 +411,9 @@ namespace Waveface.Stream.WindowsClient
 
 		private static void UpdateLoginMenuItemStatus()
 		{
-			var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
-			m_ContextMenuStrip.Items["Login"].Visible = string.IsNullOrEmpty(sessionToken);
-			m_ContextMenuStrip.Items["OpenStream"].Visible = !string.IsNullOrEmpty(sessionToken);
+			var isLogined = (StreamClient.Instance.LoginedUser != null && !string.IsNullOrEmpty(StreamClient.Instance.LoginedUser.SessionToken));
+			m_ContextMenuStrip.Items["Login"].Visible = !isLogined;
+			m_ContextMenuStrip.Items["OpenStream"].Visible = isLogined;
 		}
 		#endregion
 
