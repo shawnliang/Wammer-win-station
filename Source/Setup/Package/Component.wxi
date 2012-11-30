@@ -3,64 +3,43 @@
 
       <DirectoryRef Id="INSTALLLOCATION">
         <Component Id="AppLimit.NetSparkle.dll" Guid="*">
-          <File Id="AppLimit.NetSparkle.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\AppLimit.NetSparkle.dll" />
-        </Component>
-        <Component Id="AppLimit.NetSparkle.pdb" Guid="*">
-          <File Id="AppLimit.NetSparkle.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\AppLimit.NetSparkle.pdb" />
+          <File Id="AppLimit.NetSparkle.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\AppLimit.NetSparkle.dll" />
         </Component>
         <Component Id="AutoMapper.dll" Guid="*">
-          <File Id="AutoMapper.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\AutoMapper.dll" />
+          <File Id="AutoMapper.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\AutoMapper.dll" />
         </Component>
         <Component Id="CommonLibs.dll" Guid="*">
-          <File Id="CommonLibs.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\CommonLibs.dll" />
-        </Component>
-        <Component Id="CommonLibs.pdb" Guid="*">
-          <File Id="CommonLibs.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\CommonLibs.pdb" />
+          <File Id="CommonLibs.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\CommonLibs.dll" />
         </Component>
         <Component Id="ExifLibrary.dll" Guid="*">
-          <File Id="ExifLibrary.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\ExifLibrary.dll" />
+          <File Id="ExifLibrary.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\ExifLibrary.dll" />
         </Component>
         <Component Id="fastJSON.dll" Guid="*">
-          <File Id="fastJSON.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\fastJSON.dll" />
+          <File Id="fastJSON.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\fastJSON.dll" />
         </Component>
         <Component Id="log4net.dll" Guid="*">
-          <File Id="log4net.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\log4net.dll" />
+          <File Id="log4net.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\log4net.dll" />
         </Component>
         <Component Id="Microsoft.WindowsAPICodePack.dll" Guid="*">
-          <File Id="Microsoft.WindowsAPICodePack.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Microsoft.WindowsAPICodePack.dll" />
-        </Component>
-        <Component Id="Microsoft.WindowsAPICodePack.pdb" Guid="*">
-          <File Id="Microsoft.WindowsAPICodePack.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Microsoft.WindowsAPICodePack.pdb" />
+          <File Id="Microsoft.WindowsAPICodePack.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Microsoft.WindowsAPICodePack.dll" />
         </Component>
         <Component Id="Microsoft.WindowsAPICodePack.Shell.dll" Guid="*">
-          <File Id="Microsoft.WindowsAPICodePack.Shell.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll" />
-        </Component>
-        <Component Id="Microsoft.WindowsAPICodePack.Shell.pdb" Guid="*">
-          <File Id="Microsoft.WindowsAPICodePack.Shell.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Microsoft.WindowsAPICodePack.Shell.pdb" />
+          <File Id="Microsoft.WindowsAPICodePack.Shell.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Microsoft.WindowsAPICodePack.Shell.dll" />
         </Component>
         <Component Id="MongoDB.Bson.dll" Guid="*">
-          <File Id="MongoDB.Bson.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\MongoDB.Bson.dll" />
-        </Component>
-        <Component Id="MongoDB.Bson.pdb" Guid="*">
-          <File Id="MongoDB.Bson.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\MongoDB.Bson.pdb" />
+          <File Id="MongoDB.Bson.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\MongoDB.Bson.dll" />
         </Component>
         <Component Id="MongoDB.Driver.dll" Guid="*">
-          <File Id="MongoDB.Driver.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\MongoDB.Driver.dll" />
-        </Component>
-        <Component Id="MongoDB.Driver.pdb" Guid="*">
-          <File Id="MongoDB.Driver.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\MongoDB.Driver.pdb" />
+          <File Id="MongoDB.Driver.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\MongoDB.Driver.dll" />
         </Component>
         <Component Id="MonthCalendarControl.dll" Guid="*">
-          <File Id="MonthCalendarControl.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\MonthCalendarControl.dll" />
+          <File Id="MonthCalendarControl.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\MonthCalendarControl.dll" />
         </Component>
         <Component Id="Newtonsoft.Json.dll" Guid="*">
-          <File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Newtonsoft.Json.dll" />
+          <File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Newtonsoft.Json.dll" />
         </Component>
         <Component Id="Station.Management.exe" Guid="*">
-          <File Id="Station.Management.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Station.Management.exe" />
-        </Component>
-        <Component Id="Station.Management.pdb" Guid="*">
-          <File Id="Station.Management.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Station.Management.pdb" />
+          <File Id="Station.Management.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Management.exe" />
         </Component>
         <Component Id="Station.Service.exe" Guid="*">
           <fire:FirewallException Id="WFFWX1" Name="Waveface Station Service REST" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
@@ -72,132 +51,85 @@
           <ServiceControl Name='WavefaceStation' Id='WavefaceStationSvcControl' Remove='uninstall' Stop='both' Wait='yes'/>
 
 
-          <File Id="Station.Service.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Station.Service.exe" />
+          <File Id="Station.Service.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Service.exe" />
         </Component>
         <Component Id="Station.Service.exe.config" Guid="*">
-          <File Id="Station.Service.exe.config" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Station.Service.exe.config" />
-        </Component>
-        <Component Id="Station.Service.pdb" Guid="*">
-          <File Id="Station.Service.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Station.Service.pdb" />
+          <File Id="Station.Service.exe.config" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Service.exe.config" />
         </Component>
         <Component Id="System.ComponentModel.Composition.dll" Guid="*">
-          <File Id="System.ComponentModel.Composition.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\System.ComponentModel.Composition.dll" />
-        </Component>
-        <Component Id="System.ComponentModel.Composition.pdb" Guid="*">
-          <File Id="System.ComponentModel.Composition.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\System.ComponentModel.Composition.pdb" />
+          <File Id="System.ComponentModel.Composition.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.ComponentModel.Composition.dll" />
         </Component>
         <Component Id="System.Data.SQLite.dll" Guid="*">
-          <File Id="System.Data.SQLite.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\System.Data.SQLite.dll" />
-        </Component>
-        <Component Id="System.Data.SQLite.pdb" Guid="*">
-          <File Id="System.Data.SQLite.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\System.Data.SQLite.pdb" />
+          <File Id="System.Data.SQLite.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.Data.SQLite.dll" />
         </Component>
         <Component Id="System.Threading.dll" Guid="*">
-          <File Id="System.Threading.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\System.Threading.dll" />
+          <File Id="System.Threading.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.Threading.dll" />
         </Component>
         <Component Id="Waveface.Stream.ClientFramework.dll" Guid="*">
-          <File Id="Waveface.Stream.ClientFramework.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Waveface.Stream.ClientFramework.dll" />
-        </Component>
-        <Component Id="Waveface.Stream.ClientFramework.pdb" Guid="*">
-          <File Id="Waveface.Stream.ClientFramework.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Waveface.Stream.ClientFramework.pdb" />
-        </Component>
-        <Component Id="Waveface.Stream.ClientFramework.Test.dll" Guid="*">
-          <File Id="Waveface.Stream.ClientFramework.Test.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Waveface.Stream.ClientFramework.Test.dll" />
-        </Component>
-        <Component Id="Waveface.Stream.ClientFramework.Test.dll.config" Guid="*">
-          <File Id="Waveface.Stream.ClientFramework.Test.dll.config" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Waveface.Stream.ClientFramework.Test.dll.config" />
-        </Component>
-        <Component Id="Waveface.Stream.ClientFramework.Test.pdb" Guid="*">
-          <File Id="Waveface.Stream.ClientFramework.Test.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Waveface.Stream.ClientFramework.Test.pdb" />
+          <File Id="Waveface.Stream.ClientFramework.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.ClientFramework.dll" />
         </Component>
         <Component Id="Waveface.Stream.Model.dll" Guid="*">
-          <File Id="Waveface.Stream.Model.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Waveface.Stream.Model.dll" />
-        </Component>
-        <Component Id="Waveface.Stream.Model.pdb" Guid="*">
-          <File Id="Waveface.Stream.Model.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\Waveface.Stream.Model.pdb" />
+          <File Id="Waveface.Stream.Model.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Model.dll" />
         </Component>
         <Component Id="websocket_sharp.dll" Guid="*">
-          <File Id="websocket_sharp.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\websocket-sharp.dll" />
-        </Component>
-        <Component Id="websocket_sharp.pdb" Guid="*">
-          <File Id="websocket_sharp.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\websocket-sharp.pdb" />
+          <File Id="websocket_sharp.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\websocket-sharp.dll" />
         </Component>
         <Component Id="WeifenLuo.WinFormsUI.Docking.dll" Guid="*">
-          <File Id="WeifenLuo.WinFormsUI.Docking.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\WeifenLuo.WinFormsUI.Docking.dll" />
+          <File Id="WeifenLuo.WinFormsUI.Docking.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WeifenLuo.WinFormsUI.Docking.dll" />
         </Component>
         <Component Id="WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" Guid="*">
-          <File Id="WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" />
+          <File Id="WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" />
         </Component>
         <Component Id="WindowsClient.application" Guid="*">
-          <File Id="WindowsClient.application" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\WindowsClient.application" />
+          <File Id="WindowsClient.application" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.application" />
         </Component>
         <Component Id="WindowsClient.exe" Guid="*">
-          <File Id="WindowsClient.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\WindowsClient.exe" />
+          <File Id="WindowsClient.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe" />
         </Component>
         <Component Id="WindowsClient.exe.config" Guid="*">
-          <File Id="WindowsClient.exe.config" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\WindowsClient.exe.config" />
+          <File Id="WindowsClient.exe.config" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe.config" />
         </Component>
         <Component Id="WindowsClient.exe.manifest" Guid="*">
-          <File Id="WindowsClient.exe.manifest" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\WindowsClient.exe.manifest" />
-        </Component>
-        <Component Id="WindowsClient.pdb" Guid="*">
-          <File Id="WindowsClient.pdb" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\WindowsClient.pdb" />
+          <File Id="WindowsClient.exe.manifest" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe.manifest" />
         </Component>
         <Directory Id="zh_TW" Name="zh-TW">
           <Component Id="AppLimit.NetSparkle.resources.dll" Guid="*">
-            <File Id="AppLimit.NetSparkle.resources.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\zh-TW\AppLimit.NetSparkle.resources.dll" />
+            <File Id="AppLimit.NetSparkle.resources.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\zh-TW\AppLimit.NetSparkle.resources.dll" />
           </Component>
           <Component Id="WindowsClient.resources.dll" Guid="*">
-            <File Id="WindowsClient.resources.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\Debug\zh-TW\WindowsClient.resources.dll" />
+            <File Id="WindowsClient.resources.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\zh-TW\WindowsClient.resources.dll" />
           </Component>
         </Directory>
       </DirectoryRef>
 
       <ComponentGroup Id="AllStreamFiles">
         <ComponentRef Id="AppLimit.NetSparkle.dll" />
-        <ComponentRef Id="AppLimit.NetSparkle.pdb" />
         <ComponentRef Id="AutoMapper.dll" />
         <ComponentRef Id="CommonLibs.dll" />
-        <ComponentRef Id="CommonLibs.pdb" />
         <ComponentRef Id="ExifLibrary.dll" />
         <ComponentRef Id="fastJSON.dll" />
         <ComponentRef Id="log4net.dll" />
         <ComponentRef Id="Microsoft.WindowsAPICodePack.dll" />
-        <ComponentRef Id="Microsoft.WindowsAPICodePack.pdb" />
         <ComponentRef Id="Microsoft.WindowsAPICodePack.Shell.dll" />
-        <ComponentRef Id="Microsoft.WindowsAPICodePack.Shell.pdb" />
         <ComponentRef Id="MongoDB.Bson.dll" />
-        <ComponentRef Id="MongoDB.Bson.pdb" />
         <ComponentRef Id="MongoDB.Driver.dll" />
-        <ComponentRef Id="MongoDB.Driver.pdb" />
         <ComponentRef Id="MonthCalendarControl.dll" />
         <ComponentRef Id="Newtonsoft.Json.dll" />
         <ComponentRef Id="Station.Management.exe" />
-        <ComponentRef Id="Station.Management.pdb" />
         <ComponentRef Id="Station.Service.exe" />
         <ComponentRef Id="Station.Service.exe.config" />
-        <ComponentRef Id="Station.Service.pdb" />
         <ComponentRef Id="System.ComponentModel.Composition.dll" />
-        <ComponentRef Id="System.ComponentModel.Composition.pdb" />
         <ComponentRef Id="System.Data.SQLite.dll" />
-        <ComponentRef Id="System.Data.SQLite.pdb" />
         <ComponentRef Id="System.Threading.dll" />
         <ComponentRef Id="Waveface.Stream.ClientFramework.dll" />
-        <ComponentRef Id="Waveface.Stream.ClientFramework.pdb" />
-        <ComponentRef Id="Waveface.Stream.ClientFramework.Test.dll" />
-        <ComponentRef Id="Waveface.Stream.ClientFramework.Test.dll.config" />
-        <ComponentRef Id="Waveface.Stream.ClientFramework.Test.pdb" />
         <ComponentRef Id="Waveface.Stream.Model.dll" />
-        <ComponentRef Id="Waveface.Stream.Model.pdb" />
         <ComponentRef Id="websocket_sharp.dll" />
-        <ComponentRef Id="websocket_sharp.pdb" />
         <ComponentRef Id="WeifenLuo.WinFormsUI.Docking.dll" />
         <ComponentRef Id="WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" />
         <ComponentRef Id="WindowsClient.application" />
         <ComponentRef Id="WindowsClient.exe" />
         <ComponentRef Id="WindowsClient.exe.config" />
         <ComponentRef Id="WindowsClient.exe.manifest" />
-        <ComponentRef Id="WindowsClient.pdb" />
         <ComponentRef Id="AppLimit.NetSparkle.resources.dll" />
         <ComponentRef Id="WindowsClient.resources.dll" />
       </ComponentGroup>
