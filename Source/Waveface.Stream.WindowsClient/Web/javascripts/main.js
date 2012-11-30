@@ -1,16 +1,1 @@
-(function() {
-
-  require(['config'], function(main) {
-    return require(['router', 'wfwsocket', 'views/app', 'logger'], function(Router, Socket, AppView, Logger) {
-      var root;
-      root = this;
-      root.Logger = Logger;
-      root.Router = new Router;
-      return Socket.init(function() {
-        new AppView();
-        return Backbone.history.start();
-      });
-    });
-  });
-
-}).call(this);
+(function(){require(["config"],function(e){return require(["router","wfwsocket","views/layouts/app","logger","collections/attachments"],function(e,t,n,r,i){var s;return s=this,s.Logger=r,s.Router=new e,t.init(function(){return new n,Backbone.history.start(),i.callAttachments()})})})}).call(this);
