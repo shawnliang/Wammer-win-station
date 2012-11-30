@@ -15,6 +15,7 @@ namespace Waveface.Stream.WindowsClient
 	public partial class FileImportControl : StepPageControl
 	{
 		private IPhotoSearch photoSearch;
+		private SynchronizationContext mainSyncCtx;
 		private CheckBox checkBox1;
 		private HidableProgressingDialog _processDialog;
 
@@ -23,12 +24,13 @@ namespace Waveface.Stream.WindowsClient
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileImportControl"/> class.
 		/// </summary>
-		public FileImportControl(IPhotoSearch search)
+		public FileImportControl(IPhotoSearch search, SynchronizationContext mainSyncCtx)
 		{
 			InitializeComponent();
 			this.photoSearch = search;
+			this.mainSyncCtx = mainSyncCtx;
 			this.PageTitle = "Import from folders";
-		} 
+		}
 		#endregion
 
 		private HidableProgressingDialog m_ProcessingDialog
@@ -51,7 +53,7 @@ namespace Waveface.Stream.WindowsClient
 		public override void OnEnteringStep(WizardParameters parameters)
 		{
 			base.OnEnteringStep(parameters);
-			
+
 			ClearInterestedPaths();
 			AddInterestedPaths(photoSearch.InterestedPaths);
 		}
@@ -76,12 +78,13 @@ namespace Waveface.Stream.WindowsClient
 			photoSearch.FileImported -= photoSearch_FileImported;
 			photoSearch.FileImported += photoSearch_FileImported;
 			photoSearch.MetadataUploaded -= photoSearch_MetadataUploaded;
-			photoSearch.MetadataUploaded += photoSearch_MetadataUploaded; 
+			photoSearch.MetadataUploaded += photoSearch_MetadataUploaded;
 			photoSearch.ImportDone -= photoSearch_ImportDone;
 			photoSearch.ImportDone += photoSearch_ImportDone;
 
 			m_ProcessingDialog.ProcessMessage = "Indexing photos...";
-			m_ProcessingDialog.ActionAfterShown = () => {
+			m_ProcessingDialog.ActionAfterShown = () =>
+			{
 				photoSearch.ImportToStationAsync(selectedPaths, session_token);
 			};
 			m_ProcessingDialog.ShowDialog(this);
@@ -185,7 +188,7 @@ namespace Waveface.Stream.WindowsClient
 			//return from path in clbInterestedFolders.CheckedItems.OfType<object>()
 			//       select path.ToString();
 
-			for(int i=0; i<dataGridView1.RowCount; i++)
+			for (int i = 0; i < dataGridView1.RowCount; i++)
 			{
 				if ((bool)dataGridView1[0, i].Value)
 					yield return dataGridView1[1, i].Value as string;
@@ -213,7 +216,12 @@ namespace Waveface.Stream.WindowsClient
 					return;
 			}
 
-			dataGridView1.Rows.Add(true, selectedPath, "1");
+			Cursor.Current = Cursors.WaitCursor;
+			photoSearch.Search(selectedPath, (path, count) =>
+			{
+				dataGridView1.Rows.Add(true, path, count);
+			});
+			Cursor.Current = Cursors.Default;
 		}
 
 		#endregion
@@ -227,19 +235,20 @@ namespace Waveface.Stream.WindowsClient
 
 			dataGridView1.EndEdit();
 		}
-		
+
 
 		private void FileImportControl_Load(object sender, EventArgs e)
 		{
 
 			var rect = dataGridView1.GetCellDisplayRectangle(0, -1, true);
-			checkBox1 = new CheckBox {
+			checkBox1 = new CheckBox
+			{
 				Size = new Size(14, 15),
 				Checked = true
 			};
 
 			var loc = rect.Location;
-			loc.X = loc.X + rect.Width / 2  - checkBox1.Width / 2;
+			loc.X = loc.X + rect.Width / 2 - checkBox1.Width / 2;
 			loc.Y = loc.Y + rect.Height / 2 - checkBox1.Height / 2;
 
 			checkBox1.Location = loc;
@@ -270,7 +279,10 @@ namespace Waveface.Stream.WindowsClient
 
 		IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
 		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
+		void Search(string path, PhotoFolderFound folderFound);
 	}
+
+	public delegate void PhotoFolderFound(string path, int count);
 
 	public class PathAndPhotoCount
 	{
