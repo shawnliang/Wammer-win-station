@@ -32,6 +32,7 @@ namespace Waveface.Stream.WindowsClient
 		private static ContextMenuStrip _contextMenuStrip;
 		private static StreamClient _client;
 		private static System.Windows.Forms.Timer _timer;
+		private static RecentDocumentWatcher recentDocWatcher = new RecentDocumentWatcher();
 
 		private static Queue<float> _upRemainedCount = new Queue<float>();
 		private static Queue<float> _downRemainedCount = new Queue<float>();
@@ -160,10 +161,17 @@ namespace Waveface.Stream.WindowsClient
 
 			if (ShowLoginDialog() == DialogResult.OK)
 			{
+				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
+				recentDocWatcher.Start();
 				ShowMainWindow();
 			}
 
 			Application.Run();
+		}
+
+		static void recentDocWatcher_FileTouched(object sender, FileTouchEventArgs e)
+		{
+			MessageBox.Show(e.File);
 		}
 
 
