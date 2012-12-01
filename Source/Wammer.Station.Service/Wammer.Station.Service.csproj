@@ -138,6 +138,7 @@
     <Compile Include="Queue\MongoPersistentStorage.cs" />
     <Compile Include="Station\AbstractTaskEnDequeueNotifier.cs" />
     <Compile Include="Station\APIHandler\ImportAPIHandler.cs" />
+    <Compile Include="Station\APIHandler\MonitorAddHandler.cs" />
     <Compile Include="Station\APIHandler\PostFetchByFilterHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
     <Compile Include="Station\CreatePhotoFolderCollectionTask.cs" />
     <Compile Include="Station\DebugInfo.cs" />
+    <Compile Include="Station\Doc\MonitorAddHandlerImp.cs" />
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\ImportTask.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
