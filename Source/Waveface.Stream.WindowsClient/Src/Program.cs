@@ -171,7 +171,14 @@ namespace Waveface.Stream.WindowsClient
 
 		static void recentDocWatcher_FileTouched(object sender, FileTouchEventArgs e)
 		{
-			MessageBox.Show(e.File);
+			try
+			{
+				StationAPI.AddMonitorFile(e.File, LoginDialog.Instance.UserId, LoginDialog.Instance.SessionToken);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("[TBD] Unable to tell station to monitor this file: " + e.File + "\r\n" + ex.Message);
+			}
 		}
 
 
