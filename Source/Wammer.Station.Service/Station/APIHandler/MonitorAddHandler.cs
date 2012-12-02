@@ -8,7 +8,8 @@ namespace Wammer.Station.APIHandler
 	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/monitor/add")]
 	public class MonitorAddHandler : HttpHandler
 	{
-		private Wammer.Station.Doc.MonitorAddHandlerImp imp = new Doc.MonitorAddHandlerImp();
+		private Doc.MonitorAddHandlerImp imp = 
+			new Doc.MonitorAddHandlerImp(new Doc.MonitorAddHandlerDB(), new Doc.MonitorAddHandlerUtility());
 
 		#region Public Method
 		/// <summary>

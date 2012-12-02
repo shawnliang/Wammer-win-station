@@ -92,6 +92,7 @@
     <Compile Include="AttachmentUpload\TestImagePostProcess.cs" />
     <Compile Include="AttachmentViewTest\TestAttachmentView.cs" />
     <Compile Include="AttachmentViewTest\TestViewStorage.cs" />
+    <Compile Include="Doc\MonitorAddHandlerTest.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
     <Compile Include="LocalUserTrack\TestLocalUTMgr.cs" />

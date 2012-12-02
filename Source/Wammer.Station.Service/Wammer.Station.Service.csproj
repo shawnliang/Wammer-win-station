@@ -130,9 +130,11 @@
     <Compile Include="Cloud\CollectionApi.cs" />
     <Compile Include="Cloud\Response\ChangeLogResponse.cs" />
     <Compile Include="Enum\APIHandlerType.cs" />
+    <Compile Include="Model\Collection\MonitorItemCollection.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\Collection\ConnectionCollection.cs" />
     <Compile Include="Model\GenericData.cs" />
+    <Compile Include="Model\MonitorItem.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="PerfMonitor\NullPerfCounter.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
@@ -152,7 +154,9 @@
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
     <Compile Include="Station\CreatePhotoFolderCollectionTask.cs" />
     <Compile Include="Station\DebugInfo.cs" />
+    <Compile Include="Station\Doc\MonitorAddHandlerDB.cs" />
     <Compile Include="Station\Doc\MonitorAddHandlerImp.cs" />
+    <Compile Include="Station\Doc\MonitorAddHandlerUtility.cs" />
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\ImportTask.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
