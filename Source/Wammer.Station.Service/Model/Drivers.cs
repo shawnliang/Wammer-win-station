@@ -141,6 +141,15 @@ namespace Wammer.Model
 
 			return Instance.FindOne(Query.ElemMatch("groups", Query.EQ("group_id", group_id)));
 		}
+
+		public string GetGroupIdByUser(string user_id)
+		{
+			var driver = Instance.FindOneById(user_id);
+			if (driver == null)
+				return null;
+
+			return driver.groups[0].group_id;
+		}
 	}
 
 	[BsonIgnoreExtraElements]

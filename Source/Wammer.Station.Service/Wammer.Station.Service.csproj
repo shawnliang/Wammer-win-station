@@ -297,6 +297,7 @@
     <Compile Include="Utility\FastJSONHelper.cs" />
     <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
+    <Compile Include="Utility\MD5Helper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
     <Compile Include="Station\TaskEnDeQueuable.cs" />
     <Compile Include="Utility\PermissionHelper.cs" />

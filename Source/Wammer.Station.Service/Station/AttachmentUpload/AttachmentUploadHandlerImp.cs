@@ -205,7 +205,7 @@ namespace Wammer.Station.AttachmentUpload
 				dbDoc.saved_file_name = saveReult.RelativePath;
 				dbDoc.file_size = uploadData.raw_data.Count;
 				dbDoc.url = GetViewApiUrl(uploadData);
-				dbDoc.md5 = ComputeMD5(uploadData.raw_data);
+				dbDoc.md5 = MD5Helper.ComputeMD5(uploadData.raw_data.Array, uploadData.raw_data.Offset, uploadData.raw_data.Count);
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
 				dbDoc.file_create_time = uploadData.file_create_time;
@@ -215,7 +215,7 @@ namespace Wammer.Station.AttachmentUpload
 				var thumb = new ThumbnailInfo
 								{
 									file_size = uploadData.raw_data.Count,
-									md5 = ComputeMD5(uploadData.raw_data),
+									md5 = MD5Helper.ComputeMD5(uploadData.raw_data.Array, uploadData.raw_data.Offset, uploadData.raw_data.Count),
 									mime_type = uploadData.mime_type,
 									saved_file_name = saveReult.RelativePath,
 									url = GetViewApiUrl(uploadData),
@@ -348,21 +348,6 @@ namespace Wammer.Station.AttachmentUpload
 			}
 
 			return buf.ToString();
-		}
-
-		private static string ComputeMD5(ArraySegment<byte> rawData)
-		{
-			DebugInfo.ShowMethod();
-
-			using (MD5 md5 = MD5.Create())
-			{
-				byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
-				var buff = new StringBuilder();
-				for (int i = 0; i < hash.Length; i++)
-					buff.Append(hash[i].ToString("x2"));
-
-				return buff.ToString();
-			}
 		}
 	}
 }
