@@ -14,7 +14,10 @@ namespace Wammer.Station
 
 			// For backward compatibility, reply "success" even if remote does not provide user_id
 			if (string.IsNullOrEmpty(user_id))
+			{
 				RespondSuccess();
+				return;
+			}
 
 			var user = Model.DriverCollection.Instance.FindOne(Query.EQ("_id", user_id));
 
