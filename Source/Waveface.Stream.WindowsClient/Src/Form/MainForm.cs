@@ -12,6 +12,7 @@ using Waveface.Stream.Model;
 using System.IO;
 using System.Drawing;
 using System.Reflection;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
