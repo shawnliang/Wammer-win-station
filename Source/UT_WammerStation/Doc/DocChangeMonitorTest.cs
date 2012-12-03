@@ -32,7 +32,7 @@ namespace UT_WammerStation.Doc
 			var now = DateTime.Now;
 			util.Setup(x => x.GetFileWriteTime("p1")).Returns(now);
 			util.Setup(x => x.GetFileWriteTime("p2")).Returns(DateTime.Now.AddDays(-10.0));
-			util.Setup(x => x.ProcessChangedDoc("p1", now)).Verifiable();
+			util.Setup(x => x.ProcessChangedDoc(retItems[0], now)).Verifiable();
 			db.Setup(x => x.UpdateMonitorItem(
 				It.Is<MonitorItem>(item => 
 					item.last_modify_time == now &&
@@ -89,7 +89,7 @@ namespace UT_WammerStation.Doc
 			var now = DateTime.Now;
 			util.Setup(x => x.GetFileWriteTime("p1")).Returns(now);
 			util.Setup(x => x.GetFileWriteTime("p2")).Returns(DateTime.Now.AddDays(-10.0));
-			util.Setup(x => x.ProcessChangedDoc("p1", now)).Throws(new WammerCloudException()).Verifiable();
+			util.Setup(x => x.ProcessChangedDoc(retItems[0], now)).Throws(new WammerCloudException()).Verifiable();
 			
 
 			monitor.ProcessChangedDocs();

@@ -30,7 +30,7 @@ namespace Wammer.Station.Doc
 					if (fileWriteTime > target.last_modify_time)
 					{
 
-						util.ProcessChangedDoc(target.path, fileWriteTime);
+						util.ProcessChangedDoc(target, fileWriteTime);
 						target.last_modify_time = fileWriteTime;
 						db.UpdateMonitorItem(target);
 
@@ -58,6 +58,6 @@ namespace Wammer.Station.Doc
 	public interface IDocumentChangeMonitorUtil
 	{
 		DateTime GetFileWriteTime(string path);
-		void ProcessChangedDoc(string path, DateTime fileModifyTime);
+		void ProcessChangedDoc(MonitorItem target, DateTime fileModifyTime);
 	}
 }

@@ -45,7 +45,9 @@ namespace Wammer.Station.Doc
 
 		public void UpdateDocOpenTimeAsync(string object_id, DateTime openTime)
 		{
-			throw new NotImplementedException();
+			// To keep various versions of a document, 
+			// treat a modified document as another attachment.
+			// So station won't update document open time any more
 		}
 	}
 }

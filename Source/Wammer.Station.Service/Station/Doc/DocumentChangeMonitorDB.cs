@@ -9,12 +9,12 @@ namespace Wammer.Station.Doc
 	{
 		public IEnumerable<Model.MonitorItem> FindAllMonitorItems()
 		{
-			throw new NotImplementedException();
+			return Model.MonitorItemCollection.Instance.FindAll();
 		}
 
 		public void UpdateMonitorItem(Model.MonitorItem item)
 		{
-			throw new NotImplementedException();
+			Model.MonitorItemCollection.Instance.Save(item);
 		}
 	}
 }

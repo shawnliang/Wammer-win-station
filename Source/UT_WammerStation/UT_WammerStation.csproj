@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -92,7 +93,9 @@
     <Compile Include="AttachmentUpload\TestImagePostProcess.cs" />
     <Compile Include="AttachmentViewTest\TestAttachmentView.cs" />
     <Compile Include="AttachmentViewTest\TestViewStorage.cs" />
+    <Compile Include="Doc\CopyDocToStreamTest.cs" />
     <Compile Include="Doc\DocChangeMonitorTest.cs" />
+    <Compile Include="Doc\GeneratePptPreviewTest.cs" />
     <Compile Include="Doc\MonitorAddHandlerTest.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
@@ -164,6 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="TestData\BinaryMultiPart.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\pdf.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\ppt.pptx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
