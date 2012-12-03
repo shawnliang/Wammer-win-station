@@ -8,22 +8,18 @@ namespace Wammer.Station.Doc
 {
 	class MonitorAddHandlerDB : IMonitorAddHandlerDB
 	{
-		public Model.Attachment FindAttachmentByFilePath(string path, string user_id)
+		public Model.Attachment FindLatestVersion(string path, string user_id)
 		{
 			var group_id = Model.DriverCollection.Instance.GetGroupIdByUser(user_id);
 			if (string.IsNullOrEmpty(group_id))
 				throw new WammerStationException("user does not exist: " + user_id, -1);
 
-			return Model.AttachmentCollection.Instance.FindOne(
+			return Model.AttachmentCollection.Instance.Find(
 				Query.And(
 					Query.EQ("file_path", path),
-					Query.EQ("group_id", group_id)
-				));
-		}
-
-		public void SaveAttachmentDB(Model.Attachment attDoc)
-		{
-			Model.AttachmentCollection.Instance.Save(attDoc);
+					Query.EQ("group_id", group_id),
+					Query.EQ("device_id", StationRegistry.StationId)
+				)).SetSortOrder(SortBy.Descending("file_modify_time")).SetLimit(1).FirstOrDefault();
 		}
 
 		public Model.MonitorItem FindMonitorItem(string id)

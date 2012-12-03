@@ -28,9 +28,9 @@ namespace UT_WammerStation.Doc
 		{
 			var file = @"c:\a\file.ppt";
 			var docAtt = new Attachment { object_id = Guid.NewGuid().ToString(), file_path = file };
-			Mock<IMonitorAddHandlerDB> db = new Mock<IMonitorAddHandlerDB>();
-			db.Setup(x => x.FindAttachmentByFilePath(file, "user1")).Returns(null as Wammer.Model.Attachment).Verifiable();
-			db.Setup(x => x.SaveAttachmentDB(docAtt)).Verifiable();
+
+			Mock<IMonitorAddHandlerDB> db = new Mock<IMonitorAddHandlerDB>(MockBehavior.Strict);
+			db.Setup(x => x.FindLatestVersion(file, "user1")).Returns(null as Wammer.Model.Attachment).Verifiable();
 			db.Setup(x => x.SaveMonitorItemDB(
 				It.Is<MonitorItem>(item =>
 					item.user_id == "user1" &&
@@ -40,7 +40,6 @@ namespace UT_WammerStation.Doc
 				))).Verifiable();
 
 			Mock<IMonitorAddHandlerUtility> util = new Mock<IMonitorAddHandlerUtility>();
-			util.Setup(x => x.GenerateDocAttachment(file, "user1")).Returns(docAtt).Verifiable();
 
 			var imp = new MonitorAddHandlerImp(db.Object, util.Object);
 			imp.Process("apikey", "session", "user1", file);
@@ -56,7 +55,7 @@ namespace UT_WammerStation.Doc
 			var docAtt = new Attachment { object_id = Guid.NewGuid().ToString(), file_path = file };
 			var monitorItem = new MonitorItem(file, "user1") { last_modify_time = DateTime.Now };
 			Mock<IMonitorAddHandlerDB> db = new Mock<IMonitorAddHandlerDB>();
-			db.Setup(x => x.FindAttachmentByFilePath(file, "user1")).Returns(docAtt).Verifiable();
+			db.Setup(x => x.FindLatestVersion(file, "user1")).Returns(docAtt).Verifiable();
 			db.Setup(x => x.FindMonitorItem(monitorItem.id)).Returns(monitorItem).Verifiable();
 
 			Mock<IMonitorAddHandlerUtility> util = new Mock<IMonitorAddHandlerUtility>();
@@ -77,7 +76,7 @@ namespace UT_WammerStation.Doc
 			var monitorItem = new MonitorItem(file, "user1");
 
 			Mock<IMonitorAddHandlerDB> db = new Mock<IMonitorAddHandlerDB>();
-			db.Setup(x => x.FindAttachmentByFilePath(file, "user1")).Returns(docAtt).Verifiable();
+			db.Setup(x => x.FindLatestVersion(file, "user1")).Returns(docAtt).Verifiable();
 			db.Setup(x => x.FindMonitorItem(monitorItem.id)).Returns(null as MonitorItem).Verifiable();
 			db.Setup(x => x.SaveMonitorItemDB(It.Is<MonitorItem>(
 				y => 

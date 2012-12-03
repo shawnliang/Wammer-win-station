@@ -58,9 +58,19 @@ namespace Wammer.Station.Doc
 			zip.CreateZip(previewZipFile, previewFolder, false, "*.jpg");
 
 			// write to db
+			string mimeType = "application/octet-stream";
+			if (Path.GetExtension(target.path).Equals(".ppt", StringComparison.InvariantCultureIgnoreCase))
+				mimeType = "application/vnd.ms-powerpoint";
+			else if (Path.GetExtension(target.path).Equals(".pptx", StringComparison.InvariantCultureIgnoreCase))
+				mimeType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+			else if (Path.GetExtension(target.path).Equals(".pdf", StringComparison.InvariantCultureIgnoreCase))
+				mimeType = "application/pdf";
+
+
 			Attachment db = new Attachment
 			{
 				creator_id = user.user_id,
+				device_id = StationRegistry.StationId,
 				file_create_time = File.GetCreationTime(target.path),
 				file_modify_time = File.GetLastWriteTime(target.path),
 				file_name = Path.GetFileName(target.path),
@@ -69,7 +79,7 @@ namespace Wammer.Station.Doc
 				fromLocal = true,
 				group_id = user.groups[0].group_id,
 				md5 = MD5Helper.ComputeMD5(File.ReadAllBytes(target.path)),
-				mime_type = "application/octet-stream",
+				mime_type = mimeType,
 				modify_time = DateTime.Now,
 				object_id = object_id,
 				saved_file_name = saved_file_name,

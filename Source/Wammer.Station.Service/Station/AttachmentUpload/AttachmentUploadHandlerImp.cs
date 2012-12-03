@@ -196,7 +196,8 @@ namespace Wammer.Station.AttachmentUpload
 								image_meta = new ImageProperty { exif = exif },
 								event_time = eventTime,
 								timezone = uploadData.timezone,
-								fromLocal = uploadData.fromLocal
+								fromLocal = uploadData.fromLocal,
+								device_id = StationRegistry.StationId
 							};
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)

@@ -410,6 +410,10 @@ namespace Wammer.Model
 		public int? timezone { get; set; }
 
 		public DateTime file_modify_time { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string device_id { get; set; }
+
 		/// <summary>
 		/// is the attachment is imported from this station?
 		/// </summary>

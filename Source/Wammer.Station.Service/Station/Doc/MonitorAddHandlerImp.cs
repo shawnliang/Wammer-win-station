@@ -24,11 +24,9 @@ namespace Wammer.Station.Doc
 
 		public void Process(string apikey, string session_token, string user_id, string file)
 		{		
-			var attDoc = db.FindAttachmentByFilePath(file, user_id);
+			var attDoc = db.FindLatestVersion(file, user_id);
 			if (attDoc == null)
 			{
-				attDoc = util.GenerateDocAttachment(file, user_id);
-				db.SaveAttachmentDB(attDoc);
 				db.SaveMonitorItemDB(new MonitorItem(file, user_id));
 			}
 			else
@@ -48,15 +46,13 @@ namespace Wammer.Station.Doc
 
 	public interface IMonitorAddHandlerDB
 	{
-		Attachment FindAttachmentByFilePath(string path, string user_id);
-		void SaveAttachmentDB(Model.Attachment attDoc);
+		Attachment FindLatestVersion(string path, string user_id);
 		MonitorItem FindMonitorItem(string id);
 		void SaveMonitorItemDB(Model.MonitorItem item);
 	}
 
 	public interface IMonitorAddHandlerUtility
 	{
-		Attachment GenerateDocAttachment(string docPath, string user_id);
 		void UpdateDocOpenTimeAsync(string object_id, DateTime openTime);
 	}
 }
