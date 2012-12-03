@@ -150,7 +150,8 @@ namespace Waveface.Stream.WindowsClient
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
 
-			if (ShowLoginDialog() == DialogResult.OK)
+
+			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
 				ShowMainWindow();
 			}

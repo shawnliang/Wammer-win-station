@@ -12,6 +12,7 @@ using System.Threading;
 using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
 using MongoDB.Bson;
+using System.IO;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -74,6 +75,20 @@ namespace Waveface.Stream.ClientFramework
         /// The logined user.
         /// </value>
         public LoginedUser LoginedUser { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the is logined.
+		/// </summary>
+		/// <value>
+		/// The is logined.
+		/// </value>
+		public Boolean IsLogined
+		{
+			get
+			{
+				return LoginedUser != null;
+			}
+		}
 		#endregion
 
 
@@ -113,6 +128,11 @@ namespace Waveface.Stream.ClientFramework
 		{
             Init();
 		}
+
+		~StreamClient()
+		{
+			Datx.Insert<LoginedUser>(LoginedUser, "Stream.datx", "Logined.xml", "waveface");
+		}
 		#endregion
 
 
@@ -131,6 +151,9 @@ namespace Waveface.Stream.ClientFramework
             this.PostAdded += StreamClient_PostAdded;
             this.PostUpdated += StreamClient_PostUpdated;
             this.AttachmentDownloaded += StreamClient_AttachmentDownloaded;
+
+			if (File.Exists("Logined.datx"))
+				LoginedUser = Datx.Read<LoginedUser>("Stream.datx", "Logined.xml", "waveface");
 
             m_Server.Start();
 

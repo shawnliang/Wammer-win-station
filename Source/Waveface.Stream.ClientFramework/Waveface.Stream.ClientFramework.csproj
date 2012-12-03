@@ -124,6 +124,14 @@
     <Compile Include="Src\Interface\IWebSocketCommandExecuter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Waveface.Stream.Compression\Waveface.Stream.Compression.csproj">
+      <Project>{d8ebeb43-6e6d-4b23-a2b9-ba390c962171}</Project>
+      <Name>Waveface.Stream.Compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Datx\Waveface.Stream.Datx.csproj">
+      <Project>{b1d9fc7c-ba18-4247-9401-47eaec7e31e5}</Project>
+      <Name>Waveface.Stream.Datx</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
       <Project>{990AE10D-E77A-4742-BCAA-A52A9B7D1AF9}</Project>
       <Name>Waveface.Stream.Model</Name>

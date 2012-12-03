@@ -75,6 +75,7 @@ namespace Waveface.Stream.WindowsClient
             Hide();
 
             var wizard = new NewUserWizardDialog();
+			wizard.StartPosition = FormStartPosition.CenterParent;
             wizard.FormClosed += wizard_FormClosed;
             wizard.ShowDialog();
         }
@@ -102,6 +103,7 @@ namespace Waveface.Stream.WindowsClient
             Hide();
 
             var wizard = new OldUserWizardDialog();
+			wizard.StartPosition = FormStartPosition.CenterParent;
             wizard.FormClosed += wizard_FormClosed;
             wizard.ShowDialog();
         }
