@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using log4net;
 using Wammer.Station.Timeline;
+using Wammer.Station.Doc;
 
 namespace Wammer.Station
 {
@@ -31,13 +32,14 @@ namespace Wammer.Station
 			var statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
 			statusChecker.IsPrimaryChanged += resourceSyncer.OnIsPrimaryChanged;
 			var taskRetryTimer = new TaskRetryTimer();
+			var docMonitor = new CheckDocumentChangeTimer();
 
-			timers = new List<IStationTimer>
-			         	{
-			         		resourceSyncer,
-			         		statusChecker,
-			         		taskRetryTimer
-			         	};
+			timers = new List<IStationTimer> {
+				resourceSyncer,
+				statusChecker,
+				taskRetryTimer,
+				docMonitor
+			};
 		}
 
 		public void Start()
