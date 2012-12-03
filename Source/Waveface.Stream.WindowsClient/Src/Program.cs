@@ -280,6 +280,9 @@ namespace Waveface.Stream.WindowsClient
 			{
 				var dialog = MainForm.Instance;
 
+				dialog.FormClosed -= dialog_FormClosed;
+				dialog.FormClosed += dialog_FormClosed;
+
 				var fileDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 				var file = Path.Combine(fileDir, @"Web\index.html");
 
@@ -478,6 +481,8 @@ namespace Waveface.Stream.WindowsClient
 		{
 			DebugInfo.ShowMethod();
 
+			Settings.Default.Save();
+
 			m_ContextMenuStrip.Dispose();
 			m_NotifyIcon.Dispose();
 		}
@@ -502,6 +507,12 @@ namespace Waveface.Stream.WindowsClient
 		static void m_NotifyIcon_DoubleClick(object sender, EventArgs e)
 		{
 			ShowMainWindow();
+		}
+
+		static void dialog_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Settings.Default.CLIENT_WINDOW_STATE = MainForm.Instance.WindowState;
+			Settings.Default.Save();
 		}
 		#endregion
 	}
