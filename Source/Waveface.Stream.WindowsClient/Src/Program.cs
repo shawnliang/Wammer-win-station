@@ -140,14 +140,6 @@ namespace Waveface.Stream.WindowsClient
 
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
-			try
-			{
-				var appName = Process.GetCurrentProcess().MainModule.ModuleName;
-				Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION", appName, 10000, RegistryValueKind.DWord);
-			}
-			catch (Exception)
-			{
-			}
 
 			InitNotifyIcon();
 
