@@ -71,7 +71,7 @@ namespace Waveface.Stream.WindowsClient
         { 
             get
             {
-                return _instance ?? (_instance = new MainForm());
+				return (_instance == null || _instance.IsDisposed) ? (_instance = new MainForm()) : _instance;
             }
         }
         #endregion
@@ -174,11 +174,17 @@ namespace Waveface.Stream.WindowsClient
 
         private void accountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dialog = new AccountInfoForm())
-            {
-                dialog.StartPosition = FormStartPosition.CenterParent;
-                dialog.ShowDialog(this);
-            }
+			try
+			{
+				var dialog = AccountInfoForm.Instance;
+
+				dialog.StartPosition = FormStartPosition.CenterParent;
+				dialog.Activate();
+				dialog.ShowDialog(this);
+			}
+			catch (Exception)
+			{
+			}
         }
 
         private void imageButton1_Click(object sender, EventArgs e)

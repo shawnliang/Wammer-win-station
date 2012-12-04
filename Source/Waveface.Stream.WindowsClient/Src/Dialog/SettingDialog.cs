@@ -48,7 +48,7 @@ namespace Waveface.Stream.WindowsClient
         { 
             get
             {
-                return _instance ?? (_instance = new SettingDialog());
+				return (_instance == null || _instance.IsDisposed) ? (_instance = new SettingDialog()) : _instance;
             }
         }
         #endregion

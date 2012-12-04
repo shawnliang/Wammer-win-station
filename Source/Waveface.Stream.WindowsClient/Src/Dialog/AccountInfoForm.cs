@@ -18,12 +18,6 @@ namespace Waveface.Stream.WindowsClient
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     public partial class AccountInfoForm : Form
 	{
-		[DllImport("user32.dll")]
-		static extern bool ShowCaret(IntPtr hWnd);
-
-		[DllImport("user32.dll")]
-		static extern bool HideCaret(IntPtr hWnd);
-
 		#region Const
 		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
 
@@ -39,11 +33,29 @@ namespace Waveface.Stream.WindowsClient
         public const string DEF_BASE_URL = "https://develop.waveface.com/v2/";
 		#endregion
 
+
+		#region Static Var
+        private static AccountInfoForm _instance;
+        #endregion
+
+
 		#region Var
 		private string _callbackUrl;
 		private string _baseUrl;
 		private string _fbTurnOnUrl;
 		#endregion
+
+
+		#region Public Static Property
+		public static AccountInfoForm Instance
+		{
+			get
+			{
+				return (_instance == null || _instance.IsDisposed) ? (_instance = new AccountInfoForm()) : _instance;
+			}
+		}
+		#endregion
+
 
 		#region Private Property
 		public Action FBImportOK { get; set; }
@@ -88,11 +100,13 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 
+
+
 		#region Constructor
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AccountInfo"/> class.
 		/// </summary>
-		public AccountInfoForm()
+		private AccountInfoForm()
 		{
 			InitializeComponent();
 
@@ -290,7 +304,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void btnLogout_Click(object sender, EventArgs e)
 		{
-			Environment.Exit(-2);
+			StreamClient.Instance.Logout();
 		}
 
 		public class FBPostData

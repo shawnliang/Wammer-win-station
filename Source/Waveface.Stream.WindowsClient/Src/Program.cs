@@ -140,6 +140,8 @@ namespace Waveface.Stream.WindowsClient
 
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
+			StreamClient.Instance.Logouted += Instance_Logouted;
+
 
 			InitNotifyIcon();
 
@@ -158,7 +160,6 @@ namespace Waveface.Stream.WindowsClient
 
 			Application.Run();
 		}
-
 
 
 		private static void GetSpeedAndUnit(float value, ref float speed, ref string unit)
@@ -514,6 +515,19 @@ namespace Waveface.Stream.WindowsClient
 		{
 			Settings.Default.CLIENT_WINDOW_STATE = MainForm.Instance.WindowState;
 			Settings.Default.Save();
+		}
+
+
+		static void Instance_Logouted(object sender, EventArgs e)
+		{
+			SettingDialog.Instance.Dispose();
+			AccountInfoForm.Instance.Dispose();
+			MainForm.Instance.Dispose();
+
+			if (ShowLoginDialog() == DialogResult.OK)
+			{
+				ShowMainWindow();
+			}
 		}
 		#endregion
 	}
