@@ -205,11 +205,13 @@
 			this.Controls.Add(this.menuStrip1);
 			this.DataBindings.Add(new System.Windows.Forms.Binding("WindowState", global::Waveface.Stream.WindowsClient.Properties.Settings.Default, "CLIENT_WINDOW_STATE", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
 			this.Text = "Stream";
 			this.WindowState = global::Waveface.Stream.WindowsClient.Properties.Settings.Default.CLIENT_WINDOW_STATE;
 			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);

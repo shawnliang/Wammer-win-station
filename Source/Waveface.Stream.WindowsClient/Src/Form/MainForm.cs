@@ -13,6 +13,7 @@ using System.IO;
 using System.Drawing;
 using System.Reflection;
 using Waveface.Stream.WindowsClient.Properties;
+using System.Linq;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -21,6 +22,8 @@ namespace Waveface.Stream.WindowsClient
         #region Var
         private IBrowserControl _browser;
 		private DockPanel _dockPanel;
+		private KonamiSequence _konamiSequence;
+		private Boolean _isDebugMode;
         #endregion
 
         #region Static Var
@@ -62,6 +65,43 @@ namespace Waveface.Stream.WindowsClient
 				});
 			}
 		}
+
+		/// <summary>
+		/// Gets the m_ konami sequence.
+		/// </summary>
+		/// <value>
+		/// The m_ konami sequence.
+		/// </value>
+		private KonamiSequence m_KonamiSequence
+		{
+			get
+			{
+				return _konamiSequence ?? (_konamiSequence = new KonamiSequence());
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the m_ is debug mode.
+		/// </summary>
+		/// <value>
+		/// The m_ is debug mode.
+		/// </value>
+		private Boolean m_IsDebugMode
+		{
+			get
+			{
+				return _isDebugMode;
+			}
+			set
+			{
+				if (_isDebugMode == value)
+					return;
+
+				OnDebugModeChanging(EventArgs.Empty);
+				_isDebugMode = value;
+				OnDebugModeChanged(EventArgs.Empty);
+			}
+		}
         #endregion
 
 
@@ -77,28 +117,54 @@ namespace Waveface.Stream.WindowsClient
         #endregion
 
 
-        #region Constructor
-        /// <summary>
+		#region Event
+		private event EventHandler DebugModeChanging;
+		private event EventHandler DebugModeChanged;
+		#endregion
+
+
+		#region Constructor
+		/// <summary>
         /// Prevents a default instance of the <see cref="MainForm" /> class from being created.
         /// </summary>
         private MainForm()
         {
             InitializeComponent();
 
+			this.DebugModeChanged += MainForm_DebugStateChanged;
+
 			try
 			{
 				SuspendLayout();
-#if DEBUG
+
 				this.Controls.Add(m_DockPanel);
+
 				AddDockableContent("Client Web Page", m_Browser as Control);
-
-				AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
-				AddDockableContent("Mock Data Generator", new DataGenerateComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
-#else
-			this.Controls.Add(m_Browser as Control);
-#endif
-
+				
 				titlePanel1.SendToBack();
+			}
+			finally
+			{
+				ResumeLayout();
+			}
+		}
+
+		void MainForm_DebugStateChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				SuspendLayout();
+
+				m_Browser.IsDebugMode = m_IsDebugMode;
+
+				foreach (var dw in m_DockPanel.Contents.Where(item => !item.DockHandler.TabText.Equals("Client Web Page")))
+					dw.DockHandler.IsHidden = !m_IsDebugMode;
+
+				if (m_DockPanel.Contents.Count == 1)
+				{
+					AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
+					AddDockableContent("Mock Data Generator", new DataGenerateComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
+				}
 			}
 			finally
 			{
@@ -151,7 +217,19 @@ namespace Waveface.Stream.WindowsClient
         #endregion
 
 
-        public void Navigate(string url)
+		#region Protected Method
+		protected void OnDebugModeChanging(EventArgs e)
+		{
+			this.RaiseEvent(DebugModeChanging, e);
+		}
+
+		protected void OnDebugModeChanged(EventArgs e)
+		{
+			this.RaiseEvent(DebugModeChanged, e);
+		}
+		#endregion
+
+		public void Navigate(string url)
         {
             m_Browser.Navigate(url);
         }
@@ -219,5 +297,11 @@ namespace Waveface.Stream.WindowsClient
 			var file = Path.Combine(fileDir, @"Web\index.html");
             Navigate(file);
         }
+
+		private void MainForm_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (m_KonamiSequence.IsCompletedBy(e.KeyCode))
+				m_IsDebugMode = !m_IsDebugMode;
+		}
 	}
 }

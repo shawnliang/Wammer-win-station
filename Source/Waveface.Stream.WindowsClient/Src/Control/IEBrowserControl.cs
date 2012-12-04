@@ -1,4 +1,5 @@
 ﻿using mshtml;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
@@ -15,6 +16,7 @@ namespace Waveface.Stream.WindowsClient
     {
         #region Var
         private WebBrowser _browser;
+		private Boolean _isDebugMode;
         #endregion
 
         #region Private Property
@@ -35,16 +37,42 @@ namespace Waveface.Stream.WindowsClient
                     IsWebBrowserContextMenuEnabled = false,
                     WebBrowserShortcutsEnabled = false,
                     AllowWebBrowserDrop = false,
-
-#if !DEBUG
                     ScriptErrorsSuppressed = true,
-#endif
           
                     ObjectForScripting = this
                 });
             }
         }
         #endregion
+
+
+		#region Public Property
+		public Boolean IsDebugMode
+		{
+			get
+			{
+				return _isDebugMode;
+			}
+			set
+			{
+				if (_isDebugMode == value)
+					return;
+
+				OnDebugModeChanging(EventArgs.Empty);
+				_isDebugMode = value;
+				OnDebugModeChanged(EventArgs.Empty);
+			}
+		}
+		#endregion
+
+
+
+		#region Event
+		private event EventHandler DebugModeChanging;
+		private event EventHandler DebugModeChanged;
+		#endregion
+
+
 
         #region Constructor
         /// <summary>
@@ -54,8 +82,9 @@ namespace Waveface.Stream.WindowsClient
         {
             this.Controls.Add(m_Browser);
 
+			this.DebugModeChanged += IEBrowserControl_DebugModeChanged;
             m_Browser.DocumentCompleted += m_Browser_DocumentCompleted;
-        } 
+        }
         #endregion
 
 
@@ -71,19 +100,33 @@ namespace Waveface.Stream.WindowsClient
             element.text = @"if(navigator.userAgent.match(""MSIE 10.0"")){if(XMLHttpRequest !== undefined ) XMLHttpRequest = undefined;} // Hack the ie 10";
             head.AppendChild(script);
 
-#if DEBUG
-            var htmlTag = m_Browser.Document.GetElementsByTagName("html")[0];
-            htmlTag.SetAttribute("debug", "true");
-            script = m_Browser.Document.CreateElement("script");
-            script.SetAttribute("src", @"https://getfirebug.com/firebug-lite.js");
-            head.AppendChild(script);
-#endif
+			if (IsDebugMode)
+			{
+				var htmlTag = m_Browser.Document.GetElementsByTagName("html")[0];
+				htmlTag.SetAttribute("debug", "true");
+				script = m_Browser.Document.CreateElement("script");
+				script.SetAttribute("src", @"https://getfirebug.com/firebug-lite.js");
+				head.AppendChild(script);
+			}
         } 
         #endregion
 
 
-        #region Public Method
-        /// <summary>
+		#region Protected Method
+		protected void OnDebugModeChanging(EventArgs e)
+		{
+			this.RaiseEvent(DebugModeChanging, e);
+		}
+
+		protected void OnDebugModeChanged(EventArgs e)
+		{
+			this.RaiseEvent(DebugModeChanged, e);
+		}
+		#endregion
+
+
+		#region Public Method
+		/// <summary>
         /// Navigates the specified URI.
         /// </summary>
         /// <param name="uri">The URI.</param>
@@ -115,6 +158,20 @@ namespace Waveface.Stream.WindowsClient
                        we.Url));
             };
         }
-        #endregion
-    }
+
+		/// <summary>
+		/// Handles the DebugModeChanged event of the IEBrowserControl control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		/// <exception cref="System.NotImplementedException"></exception>
+		void IEBrowserControl_DebugModeChanged(object sender, EventArgs e)
+		{
+			m_Browser.IsWebBrowserContextMenuEnabled = IsDebugMode;
+			m_Browser.WebBrowserShortcutsEnabled = IsDebugMode;
+			m_Browser.AllowWebBrowserDrop = IsDebugMode;
+			m_Browser.ScriptErrorsSuppressed = !IsDebugMode;
+		}
+		#endregion
+	}
 }
