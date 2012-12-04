@@ -1,75 +1,37 @@
-﻿
-using MongoDB.Driver;
-using MongoDB.Bson;
+﻿using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+
 namespace Waveface.Stream.Model
 {
-	public class Collection<T>
+	[BsonIgnoreExtraElements]
+	public class Collection
 	{
-		protected MongoCollection<T> collection { get; set; }
+		[BsonIgnoreIfNull]
+		public string name { get; set; }
 
-		protected Collection(string collectionName)
-		{
-			collection = Database.Wammer.GetCollection<T>(collectionName);
-		}
+		[BsonIgnoreIfNull]
+		public int seq_num { get; set; }
 
-		public T FindOne(IMongoQuery query)
-		{
-			return collection.FindOne(query);
-		}
+		[BsonIgnoreIfNull]
+		public List<String> attachment_id_array { get; set; }
 
-		public T FindOne()
-		{
-			return collection.FindOne();
-		}
+		[BsonIgnoreIfNull]
+		public string creator_id { get; set; }
 
-		public T FindOneById(BsonValue id)
-		{
-			return collection.FindOneById(id);
-		}
+		[BsonIgnoreIfNull]
+		public string create_time { get; set; }
 
-		public K FindOneAs<K>(IMongoQuery query)
-		{
-			return collection.FindOneAs<K>(query);
-		}
+		[BsonIgnoreIfNull]
+		public string modify_time { get; set; }
 
-		public void Save(T doc)
-		{
-			collection.Save(doc);
-		}
+		[BsonId]
+		public string collection_id { get; set; }
 
-		public void Save(BsonDocument doc)
-		{
-			collection.Save(doc);
-		}
+		[BsonIgnoreIfNull]
+		public bool hidden { get; set; }
 
-		public void RemoveAll()
-		{
-			collection.RemoveAll();
-		}
-
-		public SafeModeResult Remove(IMongoQuery query)
-		{
-			return collection.Remove(query);
-		}
-
-		public MongoCursor<T> FindAll()
-		{
-			return collection.FindAll();
-		}
-
-		public MongoCursor<T> Find(IMongoQuery query)
-		{
-			return collection.Find(query);
-		}
-
-		public void Update(IMongoQuery query, IMongoUpdate update)
-		{
-			collection.Update(query, update);
-		}
-
-		public SafeModeResult Update(IMongoQuery query, IMongoUpdate update, UpdateFlags updateFlags)
-		{
-			return collection.Update(query, update, updateFlags);
-		}
+		[BsonIgnoreIfNull]
+		public bool smart { get; set; }
 	}
 }

@@ -82,9 +82,11 @@
     <Compile Include="Src\Class\StationAPI.cs" />
     <Compile Include="Src\Class\WebSocketCommandData.cs" />
     <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\GetCollectionsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
     <Compile Include="Src\Class\WebSocketData\AttachmentGPSData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizeCollcetionData.cs" />
     <Compile Include="Src\Class\WebSocketData\SmallSizePostData.cs" />
     <Compile Include="Src\Class\WebSocketData\ExifData.cs" />
     <Compile Include="Src\Class\WebSocketData\GPSInfoData.cs" />
