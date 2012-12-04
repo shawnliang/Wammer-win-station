@@ -51,6 +51,8 @@ namespace Wammer.Station.Doc
 				previewPaths = GeneratePowerPointPreviews(saved_file_name, previewFolder);
 			else if (ext.Equals(".pdf"))
 				previewPaths = GeneratePdfPreviews(saved_file_name, previewFolder);
+			else
+				throw new InvalidDataException("Unknow file type: " + target.path);
 
 			// pack previews to "Stream_Doc_Priviews.zip"
 			var zip = new FastZip();
@@ -83,7 +85,11 @@ namespace Wammer.Station.Doc
 				modify_time = DateTime.Now,
 				object_id = object_id,
 				saved_file_name = saved_file_name,
-				type = AttachmentType.doc
+				type = AttachmentType.doc,
+				doc_meta = new DocProperty
+				{
+					preview_files = previewPaths.ToList() 
+				}
 			};
 			Model.AttachmentCollection.Instance.Save(db);
 

@@ -20,6 +20,14 @@ using System.Collections;
 
 namespace Wammer.Model
 {
+	[BsonIgnoreExtraElements]
+	public class DocProperty
+	{
+		[BsonIgnoreIfDefault]
+		[BsonIgnoreIfNull]
+		public List<string> preview_files { get; set; }
+	}
+
 	[Serializable]
 	public enum ImageMeta
 	{
@@ -414,6 +422,8 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public string device_id { get; set; }
 
+		[BsonIgnoreIfNull]
+		public DocProperty doc_meta { get; set; }
 		/// <summary>
 		/// is the attachment is imported from this station?
 		/// </summary>

@@ -96,6 +96,7 @@
     <Compile Include="Doc\CopyDocToStreamTest.cs" />
     <Compile Include="Doc\DocChangeMonitorTest.cs" />
     <Compile Include="Doc\GeneratePptPreviewTest.cs" />
+    <Compile Include="Doc\GetPreviewTest.cs" />
     <Compile Include="Doc\MonitorAddHandlerTest.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
