@@ -3,7 +3,7 @@
 	/// <summary>
 	/// 
 	/// </summary>
-	public class LoginedSessionCollection : Collection<LoginedSession>
+	public class LoginedSessionCollection : DBCollection<LoginedSession>
 	{
 		#region Static Var
 

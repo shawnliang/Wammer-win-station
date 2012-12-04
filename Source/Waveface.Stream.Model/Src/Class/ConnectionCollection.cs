@@ -8,7 +8,7 @@ namespace Waveface.Stream.Model
     /// <summary>
     /// 
     /// </summary>
-    public class ConnectionCollection : Collection<LoginedSession>
+	public class ConnectionCollection : DBCollection<Collection>
     {
         #region Static Var
 

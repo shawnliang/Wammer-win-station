@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Waveface.Stream.Model
 {
-	public class PostCollection : Collection<PostInfo>
+	public class PostCollection : DBCollection<PostInfo>
 	{
 		#region Var
 		private static PostCollection _instance;
