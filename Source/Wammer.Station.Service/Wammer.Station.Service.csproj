@@ -85,6 +85,10 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=1.1.0.188, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\AutoMapper.NET35.1.1.0.118\lib\net35\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="ExifLibrary">
       <HintPath>..\..\Lib\ExifLibrary.dll</HintPath>
     </Reference>
@@ -116,6 +120,10 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\System.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -129,9 +137,12 @@
     <Compile Include="Cloud\ChangeLogsApi.cs" />
     <Compile Include="Cloud\CollectionApi.cs" />
     <Compile Include="Cloud\Response\ChangeLogResponse.cs" />
+    <Compile Include="Cloud\Response\CollectionsResponse.cs" />
     <Compile Include="Enum\APIHandlerType.cs" />
+    <Compile Include="Model\Collection\CollectionCollection.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\Collection\ConnectionCollection.cs" />
+    <Compile Include="Model\Collection.cs" />
     <Compile Include="Model\GenericData.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="PerfMonitor\NullPerfCounter.cs" />
@@ -149,6 +160,7 @@
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerDB.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerImp.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
+    <Compile Include="Station\AutoMapperSetting.cs" />
     <Compile Include="Station\CreatePhotoFolderCollectionTask.cs" />
     <Compile Include="Station\DebugInfo.cs" />
     <Compile Include="Station\DriverController.cs" />
