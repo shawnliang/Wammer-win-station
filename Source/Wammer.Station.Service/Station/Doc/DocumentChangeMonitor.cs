@@ -45,7 +45,11 @@ namespace Wammer.Station.Doc
 
 		public void RemoveUnchangedMonitorItems(DateTime since)
 		{
-			Model.MonitorItemCollection.Instance.Remove(Query.LT("last_modify_time", since));
+			Model.MonitorItemCollection.Instance.Remove(
+				Query.And(
+					Query.LT("last_modify_time", since),
+					Query.GT("last_modify_time", DateTime.MinValue)
+				));
 		}
 	}
 
