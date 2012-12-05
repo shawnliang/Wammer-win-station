@@ -13,6 +13,7 @@ using NetOffice.PowerPointApi.Enums;
 using NetOffice.OfficeApi.Enums;
 using ICSharpCode.SharpZipLib.Zip;
 using Wammer.Cloud;
+using System.Reflection;
 
 
 namespace Wammer.Station.Doc
@@ -35,6 +36,7 @@ namespace Wammer.Station.Doc
 			// copy to res folder
 			var storage = new FileStorage(user);
 			var saved_file_name = storage.CopyToStorage(target.path);
+			var full_saved_file_name = Path.Combine(storage.basePath, saved_file_name);
 
 			// create preview folder
 			if (!Directory.Exists("cache"))
@@ -43,22 +45,25 @@ namespace Wammer.Station.Doc
 			var previewFolder = Path.Combine("cache", object_id);
 			if (!Directory.Exists(previewFolder))
 				Directory.CreateDirectory(previewFolder);
+			var fullPreviewFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), previewFolder);
 
 			// generate previews
 			var ext = Path.GetExtension(target.path).ToLower();
 			IEnumerable<string> previewPaths;
 			if (ext.Equals(".ppt") || ext.Equals(".pptx"))
-				previewPaths = GeneratePowerPointPreviews(saved_file_name, previewFolder);
+				previewPaths = GeneratePowerPointPreviews(full_saved_file_name, fullPreviewFolder);
 			else if (ext.Equals(".pdf"))
-				previewPaths = GeneratePdfPreviews(saved_file_name, previewFolder);
+				previewPaths = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder);
 			else
 				throw new InvalidDataException("Unknow file type: " + target.path);
 
 			// pack previews to "Stream_Doc_Priviews.zip"
 			var zip = new FastZip();
 			var previewZipFile = Path.Combine("cache", object_id + ".zip");
-			zip.CreateZip(previewZipFile, previewFolder, false, "*.jpg");
+			zip.UseZip64 = UseZip64.Off;
+			zip.CreateZip(previewZipFile, previewFolder, false, null);
 
+			
 			// write to db
 			string mimeType = "application/octet-stream";
 			if (Path.GetExtension(target.path).Equals(".ppt", StringComparison.InvariantCultureIgnoreCase))
@@ -88,7 +93,10 @@ namespace Wammer.Station.Doc
 				type = AttachmentType.doc,
 				doc_meta = new DocProperty
 				{
-					preview_files = previewPaths.ToList() 
+					file_name = Path.GetFileName(target.path),
+					preview_files = previewPaths.ToList(),
+					access_time = File.GetLastAccessTime(target.path),
+					modify_time = File.GetLastWriteTime(target.path),
 				}
 			};
 			Model.AttachmentCollection.Instance.Save(db);
@@ -96,9 +104,9 @@ namespace Wammer.Station.Doc
 			// upload previews to cloud
 			using (var zipStream = File.OpenRead(previewZipFile))
 			{
-				AttachmentApi.Upload(zipStream, db.group_id, db.object_id, db.file_name, db.mime_type, ImageMeta.None,
+				AttachmentApi.Upload(zipStream, db.group_id, db.object_id, "Stream_Doc_Previews.zip", db.mime_type, ImageMeta.None,
 					 AttachmentType.doc, CloudServer.APIKey, user.session_token, 1024, null,
-					 null, db.file_path, null, null, null, db.file_create_time);
+					 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
 			}
 
 
@@ -108,8 +116,10 @@ namespace Wammer.Station.Doc
 			{
 				{ CloudServer.PARAM_ATTACHMENT_ID_ARRAY, "[\"" + object_id + "\"]" },
 				{ CloudServer.PARAM_TYPE, "doc" },
-				{ CloudServer.APIKey, CloudServer.APIKey },
-				{ CloudServer.SessionToken, user.session_token},
+				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
+				{ CloudServer.PARAM_SESSION_TOKEN, user.session_token},
+				{ CloudServer.PARAM_GROUP_ID, user.groups[0].group_id},
+				{ CloudServer.PARAM_IMPORT, "true"}
 			});
 
 		}
@@ -138,24 +148,26 @@ namespace Wammer.Station.Doc
 				prep.SaveAs(previewFolder, PpSaveAsFileType.ppSaveAsJPG);
 			}
 
-			//return Directory.GetFiles(previewFolder, "*.*").OrderBy(x => x);
 			return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
 		}
 
 		private static IEnumerable<string> renameToDefinedPreviewName(IEnumerable<string> previews)
 		{
+			List<string> rets = new List<string>();
+
 			int index = 1;
 			foreach (var file in previews.OrderBy(x => x))
 			{
-				var newName = "preview-" + index.ToString("d10") + ".jpg";
+				var newName = index.ToString("d8") + ".jpg";
 				var dir = Path.GetDirectoryName(file);
 				var newPath = Path.Combine(dir, newName);
 
 				File.Move(file, newPath);
-				yield return newPath;
-
+				rets.Add(newPath);
 				index++;
 			}
+
+			return rets;
 		}
 	}
 }
