@@ -82,6 +82,7 @@
     <Compile Include="Src\Class\StationAPI.cs" />
     <Compile Include="Src\Class\WebSocketCommandData.cs" />
     <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\CreateCollectionCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCollectionsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />

@@ -9,6 +9,7 @@ using System.Web;
 using System.Net;
 using System.Collections.Specialized;
 using System.Reflection;
+using Waveface.Stream.Model;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -241,6 +242,70 @@ namespace Waveface.Stream.ClientFramework
 						{ "session_token", sessionToken}
 					});
         }
+
+		public static string CreateCollection(string sessionToken, string name, IEnumerable<string> attachmentIDs,  string id = null, DateTime? timeStamp= null)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/collections/create";
+
+			var id_list = "[" + String.Join(",", attachmentIDs.Select((x) => "\"" + x + "\"").ToArray()) + "]";
+
+			var parameters = new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken},
+						{ "name", name},
+						{ "object_id_list", id_list}
+					};
+
+			if(!string.IsNullOrEmpty(id))
+				parameters.Add("collection_id", id);
+
+			if(timeStamp != null)
+				parameters.Add("create_time", timeStamp.Value.ToUTCISO8601ShortString());
+
+			return Post(uri, parameters);
+		}
+
+
+		public static string HideCollection(string sessionToken, string id, DateTime? timeStamp = null)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/collections/hide";
+
+			if (timeStamp == null)
+				timeStamp = DateTime.Now;
+
+			var parameters = new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken},
+						{ "collection_id", id},
+						{"modify_time", timeStamp.Value.ToUTCISO8601ShortString()}
+					};
+
+			return Post(uri, parameters);
+		}
+
+
+		public static string UnHideCollection(string sessionToken, string id, DateTime? timeStamp = null)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/collections/unhide";
+
+			if (timeStamp == null)
+				timeStamp = DateTime.Now;
+
+			var parameters = new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken},
+						{ "collection_id", id},
+						{"modify_time", timeStamp.Value.ToUTCISO8601ShortString()}
+					};
+
+			return Post(uri, parameters);
+		}
 		#endregion
 	}
 }
