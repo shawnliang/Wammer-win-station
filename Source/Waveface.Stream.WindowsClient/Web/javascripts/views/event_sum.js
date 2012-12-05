@@ -1,1 +1,39 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","backbone","mustache","text!templates/event_sum.html"],function(e,n,r,i){var s;return s=function(e){function n(){return n.__super__.constructor.apply(this,arguments)}return t(n,e),n.prototype.className="event",n.prototype.initialize=function(){},n.prototype.events=function(){return{click:"setSelected"}},n.prototype.render=function(){return this.$el.html(r.render(i,this.model.toJSON())),this},n.prototype.setSelected=function(){return this.trigger("eventSelect",this.model)},n}(n.View)})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'backbone', 'mustache', 'text!templates/event_sum.html'], function(_, Backbone, M, template) {
+    var EventView;
+    return EventView = (function(_super) {
+
+      __extends(EventView, _super);
+
+      function EventView() {
+        return EventView.__super__.constructor.apply(this, arguments);
+      }
+
+      EventView.prototype.className = 'event';
+
+      EventView.prototype.initialize = function() {};
+
+      EventView.prototype.events = function() {
+        return {
+          'click': 'setSelected'
+        };
+      };
+
+      EventView.prototype.render = function() {
+        this.$el.html(M.render(template, this.model.toJSON()));
+        return this;
+      };
+
+      EventView.prototype.setSelected = function() {
+        return this.trigger('eventSelect', this.model);
+      };
+
+      return EventView;
+
+    })(Backbone.View);
+  });
+
+}).call(this);

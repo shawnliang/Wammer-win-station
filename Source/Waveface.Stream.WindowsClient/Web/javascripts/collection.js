@@ -1,1 +1,13 @@
-(function(){require(["config"],function(e){return require(["jquery","connector","common","bootstrap"],function(e,t,n){return e("#send_data").on("click",function(){return t.send(JSON.stringify({getSessionToken:{}}))})})})}).call(this);
+(function() {
+
+  require(["config"], function(main) {
+    return require(["jquery", "connector", "common", "bootstrap"], function($, Connector, Common) {
+      return $("#send_data").on("click", function() {
+        return Connector.send(JSON.stringify({
+          "getSessionToken": {}
+        }));
+      });
+    });
+  });
+
+}).call(this);

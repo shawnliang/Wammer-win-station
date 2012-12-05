@@ -1,1 +1,131 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","views/layouts/day_view","mustache","views/partials/attachment","views/gallery","collections/attachments","text!templates/photos.html"],function(e,n,r,i,s,o,u){var a;return a=function(n){function o(){return o.__super__.constructor.apply(this,arguments)}return t(o,n),o.prototype.id="photos",o.prototype.initialize=function(){},o.prototype.render=function(t){var n,i=this;return dispatch.on("render:change:attachment:all",this.render,this),this.mode="photo",this.date=t,this.setDates(),n={currentDate:this.currentDate,nextDate:this.nextDate,previousDate:this.previousDate},this.$el.html(r.render(u,n)),this.collection.filterByDate(t).each(function(e){return i.addOne(e)}),this.delegateEvents(e.extend(this.events,{"click .attachment":this.initGallery})),this.setHeaderStyle(),this.setKey(),this},o.prototype.addOne=function(e){var t,n;return t=Math.floor(($("#main").width()-80)*.125),n=new i({model:e,width:t,height:t}),this.$(".grid").append(n.render().el)},o.prototype.loadMore=function(){return this.collection.loadMore()},o.prototype.initGallery=function(e){var t;return this.collection?(t=this.collection.filterByDate(this.date).map(function(e){return{thumb:e.get("image_meta").small.url,image:e.get("image_meta").medium.url}}),s.render(t,e)):!1},o.prototype.setKey=function(){var e=this;return Mousetrap.reset(),Mousetrap.bind("right",function(){return e.nextPage(),!1}),Mousetrap.bind("left",function(){return e.previousPage(),!1}),Mousetrap.bind("c",function(){return e.calendarSwitch(),!1})},o.prototype.calendarSwitch=function(){var t,n,r=this;if(this.mode==="calendar")return this.render(this.date);if(this.mode==="photo")return n=this.collection.map(function(e){return{start:e.get("dateUri"),title:"Photo"}}),n=e.uniq(n,!1,function(e){return e.start}),t={events:n,year:this.currentYear,month:this.currentMonth,header:!1,eventClick:function(e){return Router.navigate("photos/"+moment(e.start).format("YYYY-MM-DD"),{trigger:!0})},viewDisplay:function(e){return r.updateHeaderDate(e.title)}},this.renderCalendar(t)},o}(n),new a({collection:o})})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'views/layouts/day_view', 'mustache', 'views/partials/attachment', 'views/gallery', 'collections/attachments', 'text!templates/photos.html'], function(_, DayView, M, AttachmentView, GalleryView, Attachments, Template) {
+    var PhotosView;
+    PhotosView = (function(_super) {
+
+      __extends(PhotosView, _super);
+
+      function PhotosView() {
+        return PhotosView.__super__.constructor.apply(this, arguments);
+      }
+
+      PhotosView.prototype.id = 'photos';
+
+      PhotosView.prototype.initialize = function() {};
+
+      PhotosView.prototype.render = function(date) {
+        var data,
+          _this = this;
+        dispatch.on("render:change:attachment:all", this.render, this);
+        this.mode = 'photo';
+        this.date = date;
+        this.setDates();
+        data = {
+          currentDate: this.currentDate,
+          nextDate: this.nextDate,
+          previousDate: this.previousDate
+        };
+        this.$el.html(M.render(Template, data));
+        this.collection.filterByDate(date).each(function(model) {
+          return _this.addOne(model);
+        });
+        this.delegateEvents(_.extend(this.events, {
+          'click .attachment': this.initGallery
+        }));
+        this.setHeaderStyle();
+        this.setKey();
+        return this;
+      };
+
+      PhotosView.prototype.addOne = function(model) {
+        var photoWidth, view;
+        photoWidth = Math.floor(($('#main').width() - 80) * 0.125);
+        view = new AttachmentView({
+          model: model,
+          width: photoWidth,
+          height: photoWidth
+        });
+        return this.$(".photos").append(view.render().el);
+      };
+
+      PhotosView.prototype.loadMore = function() {
+        return this.collection.loadMore();
+      };
+
+      PhotosView.prototype.initGallery = function(e) {
+        var data;
+        if (!!this.collection) {
+          data = this.collection.filterByDate(this.date).map(function(model) {
+            return {
+              thumb: model.get('image_meta').small.url,
+              image: model.get('image_meta').medium.url
+            };
+          });
+          return GalleryView.render(data, e);
+        } else {
+          return false;
+        }
+      };
+
+      PhotosView.prototype.setKey = function() {
+        var _this = this;
+        Mousetrap.reset();
+        Mousetrap.bind('right', function() {
+          _this.nextPage();
+          return false;
+        });
+        Mousetrap.bind('left', function() {
+          _this.previousPage();
+          return false;
+        });
+        return Mousetrap.bind('c', function() {
+          _this.calendarSwitch();
+          return false;
+        });
+      };
+
+      PhotosView.prototype.calendarSwitch = function() {
+        var calendarOptions, photoDays,
+          _this = this;
+        if (this.mode === 'calendar') {
+          return this.render(this.date);
+        } else if (this.mode === 'photo') {
+          photoDays = this.collection.map(function(model) {
+            return {
+              start: model.get('dateUri'),
+              title: 'Photo'
+            };
+          });
+          photoDays = _.uniq(photoDays, false, function(day) {
+            return day.start;
+          });
+          calendarOptions = {
+            events: photoDays,
+            year: this.currentYear,
+            month: this.currentMonth,
+            header: false,
+            eventClick: function(EventObj) {
+              return Router.navigate('photos/' + moment(EventObj.start).format('YYYY-MM-DD'), {
+                trigger: true
+              });
+            },
+            viewDisplay: function(view) {
+              return _this.updateHeaderDate(view.title);
+            }
+          };
+          return this.renderCalendar(calendarOptions);
+        }
+      };
+
+      return PhotosView;
+
+    })(DayView);
+    return new PhotosView({
+      collection: Attachments
+    });
+  });
+
+}).call(this);
