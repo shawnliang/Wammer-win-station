@@ -80,9 +80,9 @@
         <Component Id="WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" Guid="*">
           <File Id="WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" />
         </Component>
-        <Component Id="WindowsClient.application" Guid="*">
+        <!--<Component Id="WindowsClient.application" Guid="*">
           <File Id="WindowsClient.application" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.application" />
-        </Component>
+        </Component>-->
         <Component Id="WindowsClient.exe" Guid="*">
           <File Id="WindowsClient.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe" />
         </Component>
@@ -92,6 +92,19 @@
         <Component Id="WindowsClient.exe.manifest" Guid="*">
           <File Id="WindowsClient.exe.manifest" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe.manifest" />
         </Component>
+        <Component Id="ICSharpCode.SharpZipLib.dll" Guid="*">
+          <File Id="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\ICSharpCode.SharpZipLib.dll" />
+        </Component>
+        <Component Id="Waveface.Stream.Compression.dll" Guid="*">
+          <File Id="Waveface.Stream.Compression.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Compression.dll" />
+        </Component>
+        <Component Id="Waveface.Stream.Datx.dll" Guid="*">
+          <File Id="Waveface.Stream.Datx.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Datx.dll" />
+        </Component>
+        <Component Id="Waveface.Stream.Serializer.dll" Guid="*">
+          <File Id="Waveface.Stream.Serializer.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Serializer.dll" />
+        </Component>
+        
         <Directory Id="zh_TW" Name="zh-TW">
           <Component Id="AppLimit.NetSparkle.resources.dll" Guid="*">
             <File Id="AppLimit.NetSparkle.resources.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\zh-TW\AppLimit.NetSparkle.resources.dll" />
@@ -126,12 +139,16 @@
         <ComponentRef Id="websocket_sharp.dll" />
         <ComponentRef Id="WeifenLuo.WinFormsUI.Docking.dll" />
         <ComponentRef Id="WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" />
-        <ComponentRef Id="WindowsClient.application" />
+        <!--<ComponentRef Id="WindowsClient.application" />-->
         <ComponentRef Id="WindowsClient.exe" />
         <ComponentRef Id="WindowsClient.exe.config" />
         <ComponentRef Id="WindowsClient.exe.manifest" />
         <ComponentRef Id="AppLimit.NetSparkle.resources.dll" />
         <ComponentRef Id="WindowsClient.resources.dll" />
+        <ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
+        <ComponentRef Id="Waveface.Stream.Compression.dll" />
+        <ComponentRef Id="Waveface.Stream.Datx.dll" />
+        <ComponentRef Id="Waveface.Stream.Serializer.dll" />
       </ComponentGroup>
 
 </Include>
