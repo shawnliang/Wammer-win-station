@@ -28,16 +28,16 @@ namespace UT_WammerStation.Doc
 		}
 
 		[TestMethod]
-		[Ignore]
+		//[Ignore]
 		public void GeneratePptPreviews()
 		{
 			var previews = DocumentChangeMonitorUtil.GeneratePowerPointPreviews(@"ppt.pptx", "preview").ToList();
 			Assert.AreEqual(4, previews.Count);
 
-			Assert.AreEqual(@"preview\preview-0000000001.jpg", previews[0]);
-			Assert.AreEqual(@"preview\preview-0000000002.jpg", previews[1]);
-			Assert.AreEqual(@"preview\preview-0000000003.jpg", previews[2]);
-			Assert.AreEqual(@"preview\preview-0000000004.jpg", previews[3]);
+			Assert.AreEqual(@"preview\00000001.jpg", previews[0]);
+			Assert.AreEqual(@"preview\00000002.jpg", previews[1]);
+			Assert.AreEqual(@"preview\00000003.jpg", previews[2]);
+			Assert.AreEqual(@"preview\00000004.jpg", previews[3]);
 		}
 
 		[TestMethod]
@@ -46,10 +46,10 @@ namespace UT_WammerStation.Doc
 			var previews = DocumentChangeMonitorUtil.GeneratePdfPreviews(@"pdf.pdf", "preview").ToList();
 			Assert.AreEqual(4, previews.Count);
 
-			Assert.AreEqual(@"preview\preview-0000000001.jpg", previews[0]);
-			Assert.AreEqual(@"preview\preview-0000000002.jpg", previews[1]);
-			Assert.AreEqual(@"preview\preview-0000000003.jpg", previews[2]);
-			Assert.AreEqual(@"preview\preview-0000000004.jpg", previews[3]);
+			Assert.AreEqual(@"preview\00000001.jpg", previews[0]);
+			Assert.AreEqual(@"preview\00000002.jpg", previews[1]);
+			Assert.AreEqual(@"preview\00000003.jpg", previews[2]);
+			Assert.AreEqual(@"preview\00000004.jpg", previews[3]);
 		}
 	}
 }

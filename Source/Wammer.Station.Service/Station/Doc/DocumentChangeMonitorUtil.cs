@@ -57,6 +57,9 @@ namespace Wammer.Station.Doc
 			else
 				throw new InvalidDataException("Unknow file type: " + target.path);
 
+
+			previewPaths = previewPaths.Select(x => x.Substring(x.IndexOf(previewFolder)));
+
 			// pack previews to "Stream_Doc_Priviews.zip"
 			var zip = new FastZip();
 			var previewZipFile = Path.Combine("cache", object_id + ".zip");
@@ -95,7 +98,7 @@ namespace Wammer.Station.Doc
 				{
 					file_name = Path.GetFileName(target.path),
 					preview_files = previewPaths.ToList(),
-					access_time = File.GetLastAccessTime(target.path),
+					access_time = DateTime.Now,
 					modify_time = File.GetLastWriteTime(target.path),
 				}
 			};
@@ -142,10 +145,19 @@ namespace Wammer.Station.Doc
 
 		public static IEnumerable<string> GeneratePowerPointPreviews(string pptFile, string previewFolder)
 		{
+			var file = pptFile;
+			var folder = previewFolder;
+
+			if (!Path.IsPathRooted(pptFile))
+				file = Path.Combine(Environment.CurrentDirectory, pptFile);
+
+			if (!Path.IsPathRooted(previewFolder))
+				folder = Path.Combine(Environment.CurrentDirectory, previewFolder);
+
 			using (PowerPoint.Application powerApplication = new PowerPoint.Application())
 			{
-				NetOffice.PowerPointApi.Presentation prep = powerApplication.Presentations.Open(pptFile, 0, 0, MsoTriState.msoFalse);
-				prep.SaveAs(previewFolder, PpSaveAsFileType.ppSaveAsJPG);
+				NetOffice.PowerPointApi.Presentation prep = powerApplication.Presentations.Open(file, 0, 0, MsoTriState.msoFalse);
+				prep.SaveAs(folder, PpSaveAsFileType.ppSaveAsJPG);
 			}
 
 			return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
