@@ -485,7 +485,7 @@ namespace Waveface.Stream.Model
 		}
 	}
 
-	public class AttachmentCollection : Collection<Attachment>
+	public class AttachmentCollection : DBCollection<Attachment>
 	{
 		#region Var
 		private static AttachmentCollection _instance;
