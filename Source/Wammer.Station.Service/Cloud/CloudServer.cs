@@ -57,6 +57,9 @@ namespace Wammer.Cloud
 		public const string PARAM_METADATA = "metadata";
 		public const string PARAM_COMPONENT_OPTIONS = "component_options";
 		public const string PARAM_NAME = "name";
+		public const string PARAM_COLLECTION_ID = "collection_id";
+		public const string PARAM_MODIFY_TIME = "modify_time";
+		public const string PARAM_COLLECTION_ID_LIST = "collection_id_list";
 
 		public static Dictionary<string, string> CodeName = new Dictionary<string, string>
 		                                                    	{
