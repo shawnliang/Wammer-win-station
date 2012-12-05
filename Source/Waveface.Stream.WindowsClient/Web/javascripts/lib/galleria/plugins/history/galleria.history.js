@@ -6,4 +6,142 @@
  * https://raw.github.com/aino/galleria/master/LICENSE
  *
  */
-(function(e,t){Galleria.requires(1.25,"The History Plugin requires Galleria version 1.2.5 or later."),Galleria.History=function(){var n=[],r=!1,i=t.location,s=t.document,o=Galleria.IE,u="onhashchange"in t&&(s.mode===undefined||s.mode>7),a,f=function(e){return a&&!u&&Galleria.IE?e=e||a.location:e=i,parseInt(e.hash.substr(2),10)},l=f(i),c=[],h=function(){e.each(c,function(e,n){n.call(t,f())})},p=function(){e.each(n,function(e,t){t()}),r=!0},d=function(e){return"/"+e};return u&&o<8&&(u=!1),u?p():e(function(){var n=t.setInterval(function(){var e=f();!isNaN(e)&&e!=l&&(l=e,i.hash=d(e),h())},50);o?e('<iframe tabindex="-1" title="empty">').hide().attr("src","about:blank").one("load",function(){a=this.contentWindow,p()}).insertAfter(s.body):p()}),{change:function(e){c.push(e),u&&(t.onhashchange=h)},set:function(e){if(isNaN(e))return;!u&&o&&this.ready(function(){var t=a.document;t.open(),t.close(),a.location.hash=d(e)}),i.hash=d(e)},ready:function(e){r?e():n.push(e)}}}()})(jQuery,this);
+
+
+(function( $, window ) {
+
+/*global jQuery, Galleria, window */
+
+Galleria.requires(1.25, 'The History Plugin requires Galleria version 1.2.5 or later.');
+
+Galleria.History = (function() {
+
+    var onloads = [],
+
+        init = false,
+
+        loc = window.location,
+
+        doc = window.document,
+
+        ie = Galleria.IE,
+
+        support = 'onhashchange' in window && ( doc.mode === undefined || doc.mode > 7 ),
+
+        iframe,
+
+        get = function( winloc ) {
+            if( iframe && !support && Galleria.IE ) {
+                winloc = winloc || iframe.location;
+            }  else {
+                winloc = loc;
+            }
+            return parseInt( winloc.hash.substr(2), 10 );
+        },
+
+        saved = get( loc ),
+
+        callbacks = [],
+
+        onchange = function() {
+            $.each( callbacks, function( i, fn ) {
+                fn.call( window, get() );
+            });
+        },
+
+        ready = function() {
+            $.each( onloads, function(i, fn) {
+                fn();
+            });
+
+            init = true;
+        },
+
+        setHash = function( val ) {
+            return '/' + val;
+        };
+
+    // always remove support if IE < 8
+    if ( support && ie < 8 ) {
+        support = false;
+    }
+
+    if ( !support ) {
+
+        $(function() {
+
+            var interval = window.setInterval(function() {
+
+                var hash = get();
+
+                if ( !isNaN( hash ) && hash != saved ) {
+                    saved = hash;
+                    loc.hash = setHash( hash );
+                    onchange();
+                }
+
+            }, 50);
+
+            if ( ie ) {
+
+                $('<iframe tabindex="-1" title="empty">').hide().attr( 'src', 'about:blank' ).one('load', function() {
+
+                    iframe = this.contentWindow;
+
+                    ready();
+
+                }).insertAfter(doc.body);
+
+            } else {
+                ready();
+            }
+        });
+    } else {
+        ready();
+    }
+
+    return {
+
+        change: function( fn ) {
+
+            callbacks.push( fn );
+
+            if( support ) {
+                window.onhashchange = onchange;
+            }
+        },
+
+        set: function( val ) {
+
+            if ( isNaN( val ) ) {
+                return;
+            }
+
+            if ( !support && ie ) {
+
+                this.ready(function() {
+
+                    var idoc = iframe.document;
+                    idoc.open();
+                    idoc.close();
+
+                    iframe.location.hash = setHash( val );
+
+                });
+            }
+
+            loc.hash = setHash( val );
+        },
+
+        ready: function(fn) {
+            if (!init) {
+                onloads.push(fn);
+            } else {
+                fn();
+            }
+        }
+    };
+}());
+
+}( jQuery, this ));
+

@@ -1,1 +1,28 @@
-(function(){define(["eventbundler","backbone"],function(e,t){var n;return n=function(){function e(){}return e.sendMessage=function(e,t){return wfwsocket.sendMessage(e,t)},e.end=function(){return Logger.log("Connector end")},e}.call(this),n})}).call(this);
+(function() {
+
+  define(['eventbundler', 'backbone'], function(EventBundler, Backbone) {
+    var Connector;
+    Connector = (function() {
+
+      function Connector() {}
+
+      /*
+                  Setting connector enviroment in connector initialize.
+      */
+
+
+      Connector.sendMessage = function(command, data) {
+        return wfwsocket.sendMessage(command, data);
+      };
+
+      Connector.end = function() {
+        return Logger.log('Connector end');
+      };
+
+      return Connector;
+
+    }).call(this);
+    return Connector;
+  });
+
+}).call(this);
