@@ -168,7 +168,7 @@ namespace Wammer.Station.Doc
 			List<string> rets = new List<string>();
 
 			int index = 1;
-			foreach (var file in previews.OrderBy(x => x))
+			foreach (var file in previews.OrderBy(x => File.GetCreationTime(x)))
 			{
 				var newName = index.ToString("d8") + ".jpg";
 				var dir = Path.GetDirectoryName(file);
