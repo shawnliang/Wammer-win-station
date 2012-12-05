@@ -27,9 +27,8 @@ namespace Wammer.Station.Doc
 				try
 				{
 					var fileWriteTime = util.GetFileWriteTime(target.path);
-					if (fileWriteTime > target.last_modify_time)
+					if (fileWriteTime - target.last_modify_time.ToLocalTime() > TimeSpan.FromSeconds(1.0))
 					{
-
 						util.ProcessChangedDoc(target, fileWriteTime);
 						target.last_modify_time = fileWriteTime;
 						db.UpdateMonitorItem(target);
@@ -48,6 +47,7 @@ namespace Wammer.Station.Doc
 			Model.MonitorItemCollection.Instance.Remove(
 				Query.And(
 					Query.LT("last_modify_time", since),
+					Query.LT("start_monitor_time", since),
 					Query.GT("last_modify_time", DateTime.MinValue)
 				));
 		}

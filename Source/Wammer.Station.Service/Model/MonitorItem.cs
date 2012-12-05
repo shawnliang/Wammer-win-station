@@ -17,6 +17,8 @@ namespace Wammer.Model
 		public string user_id {get;set;}
 		[BsonIgnoreIfNull]
 		public DateTime last_modify_time { get; set; }
+		[BsonIgnoreIfNull]
+		public DateTime start_monitor_time { get; set; }
 
 		public MonitorItem()
 		{
@@ -27,6 +29,7 @@ namespace Wammer.Model
 			this.path = path;
 			this.user_id = user_id;
 			this.id = path + "/" + user_id;
+			this.start_monitor_time = DateTime.Now;
 		}
 	}
 }
