@@ -87,41 +87,41 @@ namespace Waveface.Stream.ClientFramework
             var dataSize = parameters.ContainsKey("data_size") ? int.Parse(parameters["data_size"].ToString()) : 1;
 
             Object collectionDatas;
-			//if (dataSize == 0)
-			//{
-			//	//postDatas = Mapper.Map<IEnumerable<PostInfo>, IEnumerable<SmallSizePostData>>(filteredCollections);
-			//}
-			//else
-			//{
-                collectionDatas = Mapper.Map<IEnumerable<Collection>, IEnumerable<MediumSizeCollcetionData>>(filteredCollections).ToArray();
+			if (dataSize == 0)
+			{
+				collectionDatas = Mapper.Map<IEnumerable<Collection>, IEnumerable<SmallSizeCollcetionData>>(filteredCollections);
+			}
+			else
+			{
+				collectionDatas = Mapper.Map<IEnumerable<Collection>, IEnumerable<MediumSizeCollcetionData>>(filteredCollections).ToArray();
 
-                var summaryAttachmentLimit = parameters.ContainsKey("sumary_limit") ? int.Parse(parameters["sumary_limit"].ToString()) : 1;
+				var summaryAttachmentLimit = parameters.ContainsKey("sumary_limit") ? int.Parse(parameters["sumary_limit"].ToString()) : 1;
 
-                var idx = 0;
+				var idx = 0;
 				foreach (var collectionData in (collectionDatas as IEnumerable<MediumSizeCollcetionData>))
-                {
-                    if (summaryAttachmentLimit > 0)
-                    {
-                        var attachmentIDs = collectionData.AttachmentIDs;
-                        var summaryAttachmentDatas = new List<MediumSizeAttachmentData>(summaryAttachmentLimit);
+				{
+					if (summaryAttachmentLimit > 0)
+					{
+						var attachmentIDs = collectionData.AttachmentIDs;
+						var summaryAttachmentDatas = new List<MediumSizeAttachmentData>(summaryAttachmentLimit);
 
-                        foreach (var attachmentID in attachmentIDs)
-                        {
-                            if (summaryAttachmentDatas.Count >= summaryAttachmentLimit)
-                                break;
+						foreach (var attachmentID in attachmentIDs)
+						{
+							if (summaryAttachmentDatas.Count >= summaryAttachmentLimit)
+								break;
 
-                            var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
-                            var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
-                            summaryAttachmentDatas.Add(attachmentData);
-                        }
+							var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
+							var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
+							summaryAttachmentDatas.Add(attachmentData);
+						}
 
-                        if (summaryAttachmentDatas.Count > 0)
-                            collectionData.SummaryAttachments = summaryAttachmentDatas;
+						if (summaryAttachmentDatas.Count > 0)
+							collectionData.SummaryAttachments = summaryAttachmentDatas;
 
-                        ++idx;
-                    }
-                }
-			//}
+						++idx;
+					}
+				}
+			}
            
             return new Dictionary<string, Object>() 
 			{
