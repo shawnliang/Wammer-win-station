@@ -167,7 +167,6 @@
     <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
     <Compile Include="Src\Class\ContentProvider\LibrariesContentProvider.cs" />
     <Compile Include="Src\Class\ContentProvider\PicasaContentProvider.cs" />
-    <Compile Include="Src\Class\CustomWindow.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\ExifExtractor.cs" />
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
