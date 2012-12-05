@@ -168,7 +168,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				StationAPI.AddMonitorFile(e.File, LoginDialog.Instance.UserId, LoginDialog.Instance.SessionToken);
+				StationAPI.AddMonitorFile(e.File, StreamClient.Instance.LoginedUser.UserID, StreamClient.Instance.LoginedUser.SessionToken);
 			}
 			catch (Exception ex)
 			{
