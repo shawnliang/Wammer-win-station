@@ -257,6 +257,17 @@ namespace Waveface.Stream.ClientFramework
 			Post(uri, parameters);
 		}
 
+		public static string Logout(string sessionToken)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/auth/logout";
+
+			return Post(uri, new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken}
+					});
+		}
 		#endregion
 	}
 }

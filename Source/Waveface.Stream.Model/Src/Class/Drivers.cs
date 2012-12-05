@@ -114,7 +114,7 @@ namespace Waveface.Stream.Model
 		#endregion
 	}
 
-	public class DriverCollection : Collection<Driver>
+	public class DriverCollection : DBCollection<Driver>
 	{
 		#region Var
 		private static DriverCollection _instance;

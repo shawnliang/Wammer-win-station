@@ -12,6 +12,8 @@ using System.Threading;
 using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
 using MongoDB.Bson;
+using System.IO;
+using System.Security;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -23,6 +25,12 @@ namespace Waveface.Stream.ClientFramework
 		#region Private Const
 		private const string APP_NAME = "Stream";
 		private const string STATION_ID_KEY = "stationId";
+
+		private const string STREAM_RELATIVED_FOLDER = @"Waveface\Stream\";
+		private const string DATA_RELATIVED_FOLDER = STREAM_RELATIVED_FOLDER + @"Data\";
+		private const string STREAM_DATX_FILE_NAME = @"Stream.datx";
+
+		private const string RELATIVED_LOGINED_SESSION_XML_FILE = @"LoginedSession.xml";
 		#endregion
 
 
@@ -33,6 +41,8 @@ namespace Waveface.Stream.ClientFramework
 
         #region Var
         private WebClientControlServer _server;
+		private String _dataPath;
+		private String _streamDatxFile;
         #endregion
 
 
@@ -63,6 +73,22 @@ namespace Waveface.Stream.ClientFramework
                 return _server ?? (_server = new WebClientControlServer(1337));
             }
         }
+
+		private string m_DataPath
+		{
+			get
+			{
+				return _dataPath ?? (_dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATA_RELATIVED_FOLDER));
+			}
+		}
+
+		private string m_StreamDatxFile
+		{
+			get
+			{
+				return _streamDatxFile ?? (_streamDatxFile = Path.Combine(m_DataPath,STREAM_DATX_FILE_NAME));
+			}
+		}
         #endregion
 
 
@@ -74,6 +100,20 @@ namespace Waveface.Stream.ClientFramework
         /// The logined user.
         /// </value>
         public LoginedUser LoginedUser { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the is logined.
+		/// </summary>
+		/// <value>
+		/// The is logined.
+		/// </value>
+		public Boolean IsLogined
+		{
+			get
+			{
+				return LoginedUser != null;
+			}
+		}
 		#endregion
 
 
@@ -87,6 +127,16 @@ namespace Waveface.Stream.ClientFramework
         /// Occurs when [logined].
         /// </summary>
         public event EventHandler<LoginedEventArgs> Logined;
+
+		/// <summary>
+		/// Occurs when [logouting].
+		/// </summary>
+		public event EventHandler Logouting;
+
+		/// <summary>
+		/// Occurs when [logouted].
+		/// </summary>
+		public event EventHandler Logouted;
 
         /// <summary>
         /// Occurs when [post added].
@@ -128,9 +178,16 @@ namespace Waveface.Stream.ClientFramework
             AutoMapperSetting.IniteMap();
 
             this.Logined += StreamClient_Logined;
+			this.Logouted += StreamClient_Logouted;
             this.PostAdded += StreamClient_PostAdded;
             this.PostUpdated += StreamClient_PostUpdated;
             this.AttachmentDownloaded += StreamClient_AttachmentDownloaded;
+
+			if (File.Exists(m_StreamDatxFile) && Datx.IsFileExist(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE))
+			{
+				var sessionToken = Datx.Read<String>(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE, GetStreamDatxPassword());
+				Login(sessionToken);
+			}
 
             m_Server.Start();
 
@@ -253,6 +310,73 @@ namespace Waveface.Stream.ClientFramework
                 }
             })).Start();
         }
+
+		private SecureString GetStreamDatxPassword()
+		{
+			//Waveface Stream 98D3B9C7-A57B-4A01-ADB8-329CD0F7E669
+
+			byte[] buffer = new byte[52];
+			buffer[0] = 0x57;
+			buffer[1] = 0x61;
+			buffer[2] = 0x76;
+			buffer[3] = 0x65;
+			buffer[4] = 0x66;
+			buffer[5] = 0x61;
+			buffer[6] = 0x63;
+			buffer[7] = 0x65;
+			buffer[8] = 0x20;
+			buffer[9] = 0x53;
+			buffer[10] = 0x74;
+			buffer[11] = 0x72;
+			buffer[12] = 0x65;
+			buffer[13] = 0x61;
+			buffer[14] = 0x6d;
+			buffer[15] = 0x20;
+			buffer[16] = 0x39;
+			buffer[17] = 0x38;
+			buffer[18] = 0x44;
+			buffer[19] = 0x33;
+			buffer[20] = 0x42;
+			buffer[21] = 0x39;
+			buffer[22] = 0x43;
+			buffer[23] = 0x37;
+			buffer[24] = 0x2d;
+			buffer[25] = 0x41;
+			buffer[26] = 0x35;
+			buffer[27] = 0x37;
+			buffer[28] = 0x42;
+			buffer[29] = 0x2d;
+			buffer[30] = 0x34;
+			buffer[31] = 0x41;
+			buffer[32] = 0x30;
+			buffer[33] = 0x31;
+			buffer[34] = 0x2d;
+			buffer[35] = 0x41;
+			buffer[36] = 0x44;
+			buffer[37] = 0x42;
+			buffer[38] = 0x38;
+			buffer[39] = 0x2d;
+			buffer[40] = 0x33;
+			buffer[41] = 0x32;
+			buffer[42] = 0x39;
+			buffer[43] = 0x43;
+			buffer[44] = 0x44;
+			buffer[45] = 0x30;
+			buffer[46] = 0x46;
+			buffer[47] = 0x37;
+			buffer[48] = 0x45;
+			buffer[49] = 0x36;
+			buffer[50] = 0x36;
+			buffer[51] = 0x39;
+
+			SecureString ret = new SecureString();
+			foreach (byte b in buffer)
+				ret.AppendChar(Convert.ToChar(b));
+			ret.MakeReadOnly();
+
+			return ret;
+		}
+
         #endregion
 
 
@@ -274,6 +398,24 @@ namespace Waveface.Stream.ClientFramework
         {
             this.RaiseEvent<LoginedEventArgs>(Logined, e);
         }
+
+		/// <summary>
+		/// Raises the <see cref="E:Logouting" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		protected void OnLogouting(EventArgs e)
+		{
+			this.RaiseEvent(Logouting, e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:Logouted" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		protected void OnLogouted(EventArgs e)
+		{
+			this.RaiseEvent(Logouted, e);
+		}
 
         /// <summary>
         /// Raises the <see cref="E:PostAdded" /> event.
@@ -334,7 +476,58 @@ namespace Waveface.Stream.ClientFramework
             {
                 OnLogined(new LoginedEventArgs(response));
             }
-		} 
+		}
+
+		/// <summary>
+		/// Logins the specified session token.
+		/// </summary>
+		/// <param name="sessionToken">The session token.</param>
+		/// <returns></returns>
+		public string Login(string sessionToken)
+		{
+			if (LoginedUser != null)
+				return null;
+
+			var response = string.Empty;
+
+			try
+			{
+				OnLogining(EventArgs.Empty);
+
+				var loginedUser =  LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+
+				if(loginedUser == null)
+					return null;
+
+				var userID = loginedUser.user.user_id;
+
+				response = StationAPI.Login(
+					userID,
+					sessionToken);
+
+				return response;
+			}
+			finally
+			{
+				OnLogined(new LoginedEventArgs(response));
+			}
+		}
+
+		public void Logout()
+		{
+			if (LoginedUser == null)
+				return;
+
+			try
+			{
+				OnLogouting(EventArgs.Empty);
+				StationAPI.Logout(LoginedUser.SessionToken);
+			}
+			finally
+			{
+				OnLogouted(EventArgs.Empty);
+			}
+		}
 		#endregion
 
 
@@ -353,7 +546,15 @@ namespace Waveface.Stream.ClientFramework
                 return;
 
             LoginedUser = new LoginedUser(response);
+
+			Datx.Insert<String>(LoginedUser.SessionToken, m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE, GetStreamDatxPassword());
         }
+
+		void StreamClient_Logouted(object sender, EventArgs e)
+		{
+			LoginedUser = null;
+			Datx.RemoveFile(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE);
+		}
 
         /// <summary>
         /// Handles the AttachmentDownloaded event of the StreamClient control.
