@@ -23,7 +23,10 @@ namespace Wammer.Station.Doc
 		}
 
 		public void Process(string apikey, string session_token, string user_id, string file)
-		{		
+		{
+			if (IsFileInStreamFolder(file))
+				return;
+
 			var attDoc = db.FindLatestVersion(file, user_id);
 			if (attDoc == null)
 			{
@@ -41,6 +44,11 @@ namespace Wammer.Station.Doc
 					db.SaveMonitorItemDB(item);
 				}
 			}
+		}
+
+		private static bool IsFileInStreamFolder(string file)
+		{
+			return file.ToLower().Contains(FileStorage.ResourceFolder.ToLower());
 		}
 	}
 
