@@ -11,6 +11,9 @@ namespace Waveface.Stream.ClientFramework
         PostAdded = 1,
         PostUpdated = 2,
 
-        AttachmentDownloaded = 10
+        AttachmentDownloaded = 10,
+
+		CollectionAdded = 20,
+		CollectionUpdated = 21
     }
 }
