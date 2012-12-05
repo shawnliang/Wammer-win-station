@@ -38,6 +38,7 @@ namespace Waveface.Stream.WindowsClient
                     WebBrowserShortcutsEnabled = false,
                     AllowWebBrowserDrop = false,
                     ScriptErrorsSuppressed = true,
+					
           
                     ObjectForScripting = this
                 });
