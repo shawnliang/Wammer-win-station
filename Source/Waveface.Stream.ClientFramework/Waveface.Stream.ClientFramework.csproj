@@ -86,6 +86,7 @@
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
     <Compile Include="Src\Class\WebSocketData\AttachmentGPSData.cs" />
+    <Compile Include="Src\Class\WebSocketData\SmallSizeCollcetionData.cs" />
     <Compile Include="Src\Class\WebSocketData\MediumSizeCollcetionData.cs" />
     <Compile Include="Src\Class\WebSocketData\SmallSizePostData.cs" />
     <Compile Include="Src\Class\WebSocketData\ExifData.cs" />
