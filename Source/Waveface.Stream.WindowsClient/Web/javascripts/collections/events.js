@@ -2,9 +2,10 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'backbone', 'models/event', 'localstorage', 'eventbundler'], function(_, Backbone, Event, LocalStorage, EventBundler) {
-    var EventCollection, POST_ADDED;
-    POST_ADDED = 1;
+  define(['underscore', 'backbone', 'models/event', 'localstorage', 'eventbundler', 'com/subscriber'], function(_, Backbone, Event, LocalStorage, EventBundler, Subscriber) {
+    var EventCollection, POST_ADDED, POST_UPDATE;
+    POST_ADDED = Subscriber.POST_ADDED;
+    POST_UPDATE = Subscriber.POST_UPDATE;
     EventCollection = (function(_super) {
 
       __extends(EventCollection, _super);
@@ -24,6 +25,7 @@
       EventCollection.prototype.initialize = function() {
         dispatch.on("store:change:posts:all", this.updatePost, this);
         dispatch.on("subscribe:change:" + POST_ADDED + ":new:event", this.updatePost, this);
+        dispatch.on("subscribe:change:" + POST_UPDATE + ":update:event", this.updatePost, this);
         return dispatch.on("more:posts", this.loadMore, this);
       };
 
@@ -49,6 +51,8 @@
           return _this.add(post);
         });
         this.dateGroup = _.uniq(this.dateGroup);
+        this.dateGroup.sort();
+        this.dateGroup.reverse();
         eventViewState = new LocalStorage('nc_view_state:events');
         if (eventViewState.data.date != null) {
           if (eventViewState.data.id != null) {
@@ -99,18 +103,21 @@
         return wfwsocket.sendMessage('getPosts', params, memo);
       };
 
-      EventCollection.prototype.subscribe = function(namespace, callback, context) {
+      EventCollection.prototype.subscribe = function(namespace, callback, context, event_id) {
         var memo, params;
         if (namespace == null) {
           namespace = "new:event";
         }
+        if (event_id == null) {
+          event_id = Subscriber.POST_ADDED;
+        }
         new EventBundler("SubscribeEvent", namespace);
         params = {
-          event_id: POST_ADDED
+          event_id: event_id
         };
         memo = {
           namespace: namespace,
-          event_id: POST_ADDED
+          event_id: event_id
         };
         return wfwsocket.sendMessage("subscribeEvent", params, memo);
       };
