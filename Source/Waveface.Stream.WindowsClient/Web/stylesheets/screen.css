@@ -7268,7 +7268,7 @@ table.fc-border-separate {
     line-height: 20px;
     border-bottom: 1px solid #ccc;
     *zoom: 1; }
-    /* line 38, ../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
     .event-detail .event-content:after {
       content: "";
       display: table;
@@ -7340,7 +7340,7 @@ table.fc-border-separate {
   .event-detail .attachments {
     margin: 20px -1px;
     *zoom: 1; }
-    /* line 38, ../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
     .event-detail .attachments:after {
       content: "";
       display: table;
@@ -7370,7 +7370,7 @@ table.fc-border-separate {
   #photos .photos {
     *zoom: 1;
     margin: 0 -1px 20px; }
-    /* line 38, ../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
     #photos .photos:after {
       content: "";
       display: table;
@@ -7428,7 +7428,7 @@ table.fc-border-separate {
   .collection-detail .attachments {
     margin: 20px -1px;
     *zoom: 1; }
-    /* line 38, ../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
     .collection-detail .attachments:after {
       content: "";
       display: table;

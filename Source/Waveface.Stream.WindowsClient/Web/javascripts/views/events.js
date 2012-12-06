@@ -2,9 +2,9 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'views/layouts/day_view', 'mustache', 'mousetrap', 'views/event_sum', 'views/event_detail', 'collections/events', 'models/event', 'text!templates/events.html', 'localstorage'], function(_, DayView, M, Mousetrap, EventSumView, EventDetailView, Events, EventModel, Template, Storage) {
+  define(['underscore', 'views/layouts/day_view', 'mustache', 'mousetrap', 'views/event_sum', 'views/event_detail', 'collections/events', 'models/event', 'text!templates/events.html', 'localstorage', 'com/subscriber'], function(_, DayView, M, Mousetrap, EventSumView, EventDetailView, Events, EventModel, Template, Storage, Subscriber) {
     var EventsView, POST_ADDED;
-    POST_ADDED = 1;
+    POST_ADDED = Subscriber.POST_ADDED;
     EventsView = (function(_super) {
 
       __extends(EventsView, _super);
@@ -83,6 +83,8 @@
             event = new EventModel(post);
             if (event.get("dateUri") === _this.date) {
               return _this.addOne(event, 1, true);
+            } else {
+              return _this.render(_this.date, _this.currentEvent.get("id"));
             }
           });
         }
