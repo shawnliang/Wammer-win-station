@@ -39,6 +39,45 @@ namespace Wammer.Station.AttachmentView
 
 		public ViewResult GetAttachmentStream(NameValueCollection Parameters)
 		{
+			if ("preview".Equals(Parameters["target"]))
+				return getDocPreview(Parameters);
+			else
+				return getImageStream(Parameters);
+		}
+
+		private ViewResult getDocPreview(NameValueCollection Parameters)
+		{
+			var object_id = Parameters["object_id"];
+			if (string.IsNullOrEmpty(object_id))
+				throw new FormatException("missing parameter: object_id");
+
+			var attDoc = DB.GetAttachment(object_id);
+			if (attDoc == null)
+				throw new WammerStationException("object_id not found", -1);
+
+			if (attDoc.type != AttachmentType.doc)
+				throw new WammerStationException("This type of attachment has no review: " + attDoc.type.ToString(), -1);
+
+			var pageNum = Parameters["page"];
+			if (string.IsNullOrEmpty(pageNum))
+				throw new FormatException("missing parameter: page");
+
+
+			var page = int.Parse(pageNum);
+			var pageIndex = page -1;
+			if (pageIndex < 0 || attDoc.doc_meta.preview_files.Count <= pageIndex)
+				throw new WammerStationException("page is out of range", -1);
+
+			var filename = attDoc.doc_meta.preview_files[pageIndex];
+			return new ViewResult
+			{
+				MimeType = "image/jpeg",
+				Stream = File.OpenRead(filename)
+			};
+		}
+
+		private ViewResult getImageStream(NameValueCollection Parameters)
+		{
 			var object_id = Parameters["object_id"];
 
 			if (string.IsNullOrEmpty(object_id))

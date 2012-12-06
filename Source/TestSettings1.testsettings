@@ -3,6 +3,7 @@
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
     <DeploymentItem filename="UT_WammerStation\TestData\" />
+    <DeploymentItem filename="C:\Users\shawnliang\workspace\Wammer-win-station\Lib\gsdll32.dll" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>

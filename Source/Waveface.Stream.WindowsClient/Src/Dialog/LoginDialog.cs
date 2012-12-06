@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using Waveface.Stream.WindowsClient.Properties;
 
@@ -29,6 +29,7 @@ namespace Waveface.Stream.WindowsClient
         //}
 
         public String SessionToken { get; private set; }
+		public String UserId { get; private set; }
 		#endregion
 
                 
@@ -93,6 +94,7 @@ namespace Waveface.Stream.WindowsClient
             else
             {
                 this.SessionToken = session_token;
+				this.UserId = (string)wizard.Parameters.Get("user_id");
 
                 DialogResult = System.Windows.Forms.DialogResult.OK;
             }

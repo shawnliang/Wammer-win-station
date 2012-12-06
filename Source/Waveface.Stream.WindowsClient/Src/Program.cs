@@ -32,6 +32,7 @@ namespace Waveface.Stream.WindowsClient
 		private static ContextMenuStrip _contextMenuStrip;
 		private static StreamClient _client;
 		private static System.Windows.Forms.Timer _timer;
+		private static RecentDocumentWatcher recentDocWatcher = new RecentDocumentWatcher();
 
 		private static Queue<float> _upRemainedCount = new Queue<float>();
 		private static Queue<float> _downRemainedCount = new Queue<float>();
@@ -155,10 +156,24 @@ namespace Waveface.Stream.WindowsClient
 
 			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
+				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
+				recentDocWatcher.Start();
 				ShowMainWindow();
 			}
 
 			Application.Run();
+		}
+
+		static void recentDocWatcher_FileTouched(object sender, FileTouchEventArgs e)
+		{
+			try
+			{
+				StationAPI.AddMonitorFile(e.File, StreamClient.Instance.LoginedUser.UserID, StreamClient.Instance.LoginedUser.SessionToken);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("[TBD] Unable to tell station to monitor this file: " + e.File + "\r\n" + ex.Message);
+			}
 		}
 
 

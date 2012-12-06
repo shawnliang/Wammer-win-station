@@ -239,6 +239,20 @@ namespace Wammer.Station
 				StationRegistry.SetValue("ResourceFolder", value);
 			}
 		}
+
+		public string CopyToStorage(string file_path)
+		{
+			DateTime fileTime = File.GetLastWriteTime(file_path);
+
+			var savePath = string.Format(@"{0}\{1}\{2}\{3}",
+				fileTime.Year.ToString("d4"), fileTime.Month.ToString("d2"), fileTime.Day.ToString("d2"),
+				Path.GetFileName(file_path));
+
+			savePath = TrySaveFile(savePath, new ArraySegment<byte>(File.ReadAllBytes(file_path)));
+			File.SetLastWriteTime(Path.Combine(basePath, savePath), fileTime);
+
+			return savePath;
+		}
 	}
 
 
