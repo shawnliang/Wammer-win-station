@@ -29,9 +29,15 @@ namespace Wammer.Model
 		public string collection_id { get; set; }
 
 		[BsonIgnoreIfNull]
+		public String cover { get; set; }
+
+		[BsonIgnoreIfNull]
 		public bool hidden { get; set; }
 
 		[BsonIgnoreIfNull]
 		public bool smart { get; set; }
+
+		[BsonIgnoreIfNull]
+		public bool manual { get; set; }
 	}
 }
