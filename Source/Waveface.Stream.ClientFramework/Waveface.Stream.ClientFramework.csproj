@@ -82,9 +82,15 @@
     <Compile Include="Src\Class\StationAPI.cs" />
     <Compile Include="Src\Class\WebSocketCommandData.cs" />
     <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\UnSubscribeEventCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\UpdateCollectionCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\CreateCollectionCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\GetCollectionsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
     <Compile Include="Src\Class\WebSocketData\AttachmentGPSData.cs" />
+    <Compile Include="Src\Class\WebSocketData\SmallSizeCollcetionData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizeCollcetionData.cs" />
     <Compile Include="Src\Class\WebSocketData\SmallSizePostData.cs" />
     <Compile Include="Src\Class\WebSocketData\ExifData.cs" />
     <Compile Include="Src\Class\WebSocketData\GPSInfoData.cs" />
@@ -115,6 +121,7 @@
     <Compile Include="Src\Class\WebSocketCommand\InvokeRestfulCommand.cs" />
     <Compile Include="Src\Enum\SystemEventType.cs" />
     <Compile Include="Src\Event\AttachmentsEventArgs.cs" />
+    <Compile Include="Src\Event\CollectionsEventArgs.cs" />
     <Compile Include="Src\Event\PostsEventArgs.cs" />
     <Compile Include="Src\Event\LoginedEventArgs.cs" />
     <Compile Include="Src\Extension\ListBoxExtension.cs" />
@@ -124,6 +131,14 @@
     <Compile Include="Src\Interface\IWebSocketCommandExecuter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Waveface.Stream.Compression\Waveface.Stream.Compression.csproj">
+      <Project>{d8ebeb43-6e6d-4b23-a2b9-ba390c962171}</Project>
+      <Name>Waveface.Stream.Compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Datx\Waveface.Stream.Datx.csproj">
+      <Project>{b1d9fc7c-ba18-4247-9401-47eaec7e31e5}</Project>
+      <Name>Waveface.Stream.Datx</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
       <Project>{990AE10D-E77A-4742-BCAA-A52A9B7D1AF9}</Project>
       <Name>Waveface.Stream.Model</Name>

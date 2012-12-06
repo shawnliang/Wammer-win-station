@@ -85,11 +85,18 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=1.1.0.188, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\AutoMapper.NET35.1.1.0.118\lib\net35\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="ExifLibrary">
       <HintPath>..\..\Lib\ExifLibrary.dll</HintPath>
     </Reference>
     <Reference Include="fastJSON">
       <HintPath>..\..\Lib\fastJSON\fastJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\Lib\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\Lib\log4net-1.2.11\log4net.dll</HintPath>
@@ -102,8 +109,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="NetOffice">
+      <HintPath>..\..\Lib\netOffice\NetOffice.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Lib\Newtonsoft.Json.4.5.10\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OfficeApi">
+      <HintPath>..\..\Lib\netOffice\OfficeApi.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PowerPointApi">
+      <HintPath>..\..\Lib\netOffice\PowerPointApi.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -116,9 +134,17 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\System.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="VBIDEApi, Version=1.5.1.2, Culture=neutral, PublicKeyToken=6040f8ab492f76a1, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\Lib\netOffice\VBIDEApi.dll</HintPath>
+    </Reference>
     <Reference Include="websocket-sharp">
       <HintPath>..\..\Lib\websocket-sharp\websocket-sharp.dll</HintPath>
     </Reference>
@@ -129,15 +155,21 @@
     <Compile Include="Cloud\ChangeLogsApi.cs" />
     <Compile Include="Cloud\CollectionApi.cs" />
     <Compile Include="Cloud\Response\ChangeLogResponse.cs" />
+    <Compile Include="Cloud\Response\CollectionsResponse.cs" />
     <Compile Include="Enum\APIHandlerType.cs" />
+    <Compile Include="Model\Collection\MonitorItemCollection.cs" />
+    <Compile Include="Model\Collection\CollectionCollection.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\Collection\ConnectionCollection.cs" />
+    <Compile Include="Model\Collection.cs" />
     <Compile Include="Model\GenericData.cs" />
+    <Compile Include="Model\MonitorItem.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="PerfMonitor\NullPerfCounter.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
     <Compile Include="Station\AbstractTaskEnDequeueNotifier.cs" />
     <Compile Include="Station\APIHandler\ImportAPIHandler.cs" />
+    <Compile Include="Station\APIHandler\MonitorAddHandler.cs" />
     <Compile Include="Station\APIHandler\PostFetchByFilterHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
@@ -149,8 +181,16 @@
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerDB.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewHandlerImp.cs" />
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
+    <Compile Include="Station\AutoMapperSetting.cs" />
     <Compile Include="Station\CreatePhotoFolderCollectionTask.cs" />
     <Compile Include="Station\DebugInfo.cs" />
+    <Compile Include="Station\Doc\CheckDocumentChangeTimer.cs" />
+    <Compile Include="Station\Doc\DocumentChangeMonitor.cs" />
+    <Compile Include="Station\Doc\DocumentChangeMonitorDB.cs" />
+    <Compile Include="Station\Doc\DocumentChangeMonitorUtil.cs" />
+    <Compile Include="Station\Doc\MonitorAddHandlerDB.cs" />
+    <Compile Include="Station\Doc\MonitorAddHandlerImp.cs" />
+    <Compile Include="Station\Doc\MonitorAddHandlerUtility.cs" />
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\ImportTask.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
@@ -284,6 +324,7 @@
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BackOff.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
+    <Compile Include="Utility\PDFConvert.cs" />
     <Compile Include="Utility\DefaultWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -291,6 +332,7 @@
     <Compile Include="Utility\FastJSONHelper.cs" />
     <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
+    <Compile Include="Utility\MD5Helper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
     <Compile Include="Station\TaskEnDeQueuable.cs" />
     <Compile Include="Utility\PermissionHelper.cs" />
@@ -362,7 +404,11 @@
       <Name>CommonLibs</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="..\..\lib\gsdll32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)..\Tools\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>

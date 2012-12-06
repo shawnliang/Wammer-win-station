@@ -32,6 +32,7 @@ namespace Waveface.Stream.WindowsClient
 		private static ContextMenuStrip _contextMenuStrip;
 		private static StreamClient _client;
 		private static System.Windows.Forms.Timer _timer;
+		private static RecentDocumentWatcher recentDocWatcher = new RecentDocumentWatcher();
 
 		private static Queue<float> _upRemainedCount = new Queue<float>();
 		private static Queue<float> _downRemainedCount = new Queue<float>();
@@ -140,14 +141,8 @@ namespace Waveface.Stream.WindowsClient
 
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
-			try
-			{
-				var appName = Process.GetCurrentProcess().MainModule.ModuleName;
-				Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION", appName, 10000, RegistryValueKind.DWord);
-			}
-			catch (Exception)
-			{
-			}
+			StreamClient.Instance.Logouted += Instance_Logouted;
+
 
 			InitNotifyIcon();
 
@@ -158,14 +153,28 @@ namespace Waveface.Stream.WindowsClient
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
 
-			if (ShowLoginDialog() == DialogResult.OK)
+
+			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
+				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
+				recentDocWatcher.Start();
 				ShowMainWindow();
 			}
 
 			Application.Run();
 		}
 
+		static void recentDocWatcher_FileTouched(object sender, FileTouchEventArgs e)
+		{
+			try
+			{
+				StationAPI.AddMonitorFile(e.File, StreamClient.Instance.LoginedUser.UserID, StreamClient.Instance.LoginedUser.SessionToken);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("[TBD] Unable to tell station to monitor this file: " + e.File + "\r\n" + ex.Message);
+			}
+		}
 
 
 		private static void GetSpeedAndUnit(float value, ref float speed, ref string unit)
@@ -287,6 +296,9 @@ namespace Waveface.Stream.WindowsClient
 			try
 			{
 				var dialog = MainForm.Instance;
+
+				dialog.FormClosed -= dialog_FormClosed;
+				dialog.FormClosed += dialog_FormClosed;
 
 				var fileDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 				var file = Path.Combine(fileDir, @"Web\index.html");
@@ -486,6 +498,8 @@ namespace Waveface.Stream.WindowsClient
 		{
 			DebugInfo.ShowMethod();
 
+			Settings.Default.Save();
+
 			m_ContextMenuStrip.Dispose();
 			m_NotifyIcon.Dispose();
 		}
@@ -510,6 +524,25 @@ namespace Waveface.Stream.WindowsClient
 		static void m_NotifyIcon_DoubleClick(object sender, EventArgs e)
 		{
 			ShowMainWindow();
+		}
+
+		static void dialog_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Settings.Default.CLIENT_WINDOW_STATE = MainForm.Instance.WindowState;
+			Settings.Default.Save();
+		}
+
+
+		static void Instance_Logouted(object sender, EventArgs e)
+		{
+			SettingDialog.Instance.Dispose();
+			AccountInfoForm.Instance.Dispose();
+			MainForm.Instance.Dispose();
+
+			if (ShowLoginDialog() == DialogResult.OK)
+			{
+				ShowMainWindow();
+			}
 		}
 		#endregion
 	}

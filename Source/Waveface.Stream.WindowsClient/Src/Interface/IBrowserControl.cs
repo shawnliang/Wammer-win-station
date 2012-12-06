@@ -9,9 +9,13 @@ namespace Waveface.Stream.WindowsClient
     /// 
     /// </summary>
     public interface IBrowserControl
-    {
-        #region Method
-        void Navigate(string uri);
+	{
+		#region Property
+		Boolean IsDebugMode { get; set; }
+		#endregion
+
+		#region Method
+		void Navigate(string uri);
         #endregion
     }
 }

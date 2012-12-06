@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Waveface.Stream.ClientFramework
 {
     /// <summary>
     /// 
     /// </summary>
-    public class LoginedUser
+	public class LoginedUser : IXmlSerializable
     {
         #region Var
         private String _response;
@@ -155,6 +156,11 @@ namespace Waveface.Stream.ClientFramework
 
 
         #region Constructor
+		public LoginedUser()
+		{
+
+		}
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginedUser" /> class.
         /// </summary>
@@ -164,5 +170,56 @@ namespace Waveface.Stream.ClientFramework
             m_Response = response;
         }
         #endregion
-    }
+
+
+
+		#region Implement IXmlSerializable
+
+		public System.Xml.Schema.XmlSchema GetSchema()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ReadXml(System.Xml.XmlReader reader)
+		{
+			string startElementName = reader.Name;
+			string currentElementName;
+
+			this.SubscribedEvents.Clear();
+			do
+			{
+				currentElementName = reader.Name;
+				if (currentElementName == startElementName && (reader.MoveToContent() == System.Xml.XmlNodeType.EndElement || reader.IsEmptyElement))
+				{
+					reader.Read();
+					break;
+				}
+
+				switch (currentElementName)
+				{
+					case "Response":
+						m_Response = reader.ReadElementString();
+						break;
+
+					default:
+						reader.Read();
+						break;
+
+				}
+			} while (true);
+		}
+
+		public void WriteXml(System.Xml.XmlWriter writer)
+		{
+			writer.WriteElementString("Response", m_Response);
+			//foreach (var subscribedEvent in SubscribedEvents)
+			//{
+			//	writer.WriteStartElement("SubscribedEvent");
+			//	writer.WriteAttributeString("Key", subscribedEvent.Key);
+			//	writer.WriteEndElement();
+			//}
+		}
+
+		#endregion
+	}
 }

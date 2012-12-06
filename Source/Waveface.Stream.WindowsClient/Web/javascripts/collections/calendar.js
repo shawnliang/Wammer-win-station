@@ -1,1 +1,1 @@
-throw Error("ExecJS::ProgramError: TypeError: Cannot call method 'push' of undefined\n  (in c:/Users/Aaron/Projects/Waveface/New-Client-Web/source/javascripts/collections/calendar.coffee)");
+throw Error("ExecJS::ProgramError: TypeError: Cannot call method 'push' of undefined\n  (in c:/Users/Aaron/Projects/Waveface/New-Client-Web/source/javascripts/collections/calendar.coffee)")

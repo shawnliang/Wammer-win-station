@@ -1,1 +1,43 @@
-(function(){define(["localstorage","eventbundler"],function(e){var t;return t=function(){function t(){dispatch.on("user:info:save",this.fetchData,this)}return t.prototype.userData=!1,t.prototype.storageKey="nc_user_info",t.prototype.get=function(e){return this.userData||this.fetchData(),this.userData[e]},t.prototype.fetchData=function(t){var n;return n=new e(this.storageKey),t?(n.data=this.userData=t.response,n.save()):this.userData=n.data,this.userData},t}(),new t})}).call(this);
+(function() {
+
+  define(['localstorage', 'eventbundler'], function(Storage) {
+    var User;
+    User = (function() {
+
+      User.prototype.userData = false;
+
+      User.prototype.storageKey = "nc_user_info";
+
+      function User() {
+        dispatch.on('user:info:save', this.fetchData, this);
+      }
+
+      User.prototype.get = function(_property) {
+        if (!this.userData) {
+          this.fetchData();
+        }
+        return this.userData[_property];
+      };
+
+      User.prototype.fetchData = function(data) {
+        var storage;
+        storage = new Storage(this.storageKey);
+        if (!!data) {
+          storage.data = this.userData = data.response;
+          storage.save();
+        } else {
+          this.userData = storage.data;
+        }
+        return this.userData;
+      };
+
+      return User;
+
+    })();
+    /*
+    */
+
+    return new User;
+  });
+
+}).call(this);

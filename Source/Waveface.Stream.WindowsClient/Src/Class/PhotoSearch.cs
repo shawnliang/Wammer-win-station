@@ -1,13 +1,15 @@
-﻿using MongoDB.Driver.Builders;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
+using System.Text;
+using System.IO;
+using System.ComponentModel;
+using System.Threading;
+using Microsoft.WindowsAPICodePack.Shell;
+using MongoDB.Driver.Builders;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
+using Waveface.Stream.WindowsClient;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Model;
 
@@ -15,11 +17,7 @@ namespace Waveface.Stream.WindowsClient
 {
 	class PhotoSearch : IPhotoSearch
 	{
-
-		const string PICASA_DB_RELATIVED_STORAGE_PATH = @"Google\Picasa2\db3";
-		const string ALBUM_PATH_PMP_FILENAME = "albumdata_filename.pmp";
-
-		private HashSet<string> ignorePath = new HashSet<string>();
+		private List<string> ignorePaths = new List<string>();
 		private HashSet<PathAndPhotoCount> _interestedPaths;
 		private Dictionary<string, int> m_InterestedFileCountInPhotos = new Dictionary<string, int>();
 		private BackgroundWorker backgroundWorker1;
@@ -32,10 +30,17 @@ namespace Waveface.Stream.WindowsClient
 
 		public PhotoSearch()
 		{
-			ignorePath.Add(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
-			ignorePath.Add(Environment.GetFolderPath(Environment.SpecialFolder.System));
-			ignorePath.Add(Environment.GetFolderPath(Environment.SpecialFolder.InternetCache));
-			ignorePath.Add(Environment.GetFolderPath(Environment.SpecialFolder.CommonProgramFiles));
+			var paths = new string[] {
+				Environment.GetEnvironmentVariable("windir"),
+				Environment.GetEnvironmentVariable("ProgramData"),
+				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+				Environment.GetEnvironmentVariable("ProgramW6432"),
+				@"c:\$Recycle.bin"
+			};
+
+			ignorePaths.AddRange(paths.Where(x => !string.IsNullOrEmpty(x)));
 		}
 
 
@@ -85,7 +90,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				if (ignorePath.Contains(path))
+				if (isUnderIgnorePath(path))
 					return;
 
 				var jpgCount = JpgFileCount(path);
@@ -94,11 +99,11 @@ namespace Waveface.Stream.WindowsClient
 					folderFound(path, jpgCount);
 				}
 
-				var files = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
+				var subdirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
 
-				foreach (var file in files)
+				foreach (var subdir in subdirs)
 				{
-					Search(file, folderFound);
+					Search(subdir, folderFound);
 				}
 			}
 			catch
@@ -192,22 +197,8 @@ namespace Waveface.Stream.WindowsClient
 			if (path == pathRoot)
 				return;
 
-			string[] unInterestedFolders = new string[] 
-			{
-				Environment.GetEnvironmentVariable("windir"),
-				Environment.GetEnvironmentVariable("ProgramData"),
-				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				Environment.GetEnvironmentVariable("ProgramW6432"),
-				@"c:\$Recycle.bin"
-			};
-
-			foreach (var unInterestedFolder in unInterestedFolders)
-			{
-				if (path.StartsWith(unInterestedFolder, StringComparison.CurrentCultureIgnoreCase))
-					return;
-			}
+			if (isUnderIgnorePath(path))
+				return;
 
 			foreach (var interestedPath in m_InterestedPaths)
 			{
@@ -215,6 +206,20 @@ namespace Waveface.Stream.WindowsClient
 					return;
 			}
 			m_InterestedPaths.Add(new PathAndPhotoCount(path, photoCount));
+		}
+
+		private bool isUnderIgnorePath(String path)
+		{
+			bool underEx = false;
+			foreach (var unInterestedFolder in ignorePaths)
+			{
+				if (path.StartsWith(unInterestedFolder, StringComparison.CurrentCultureIgnoreCase))
+				{
+					underEx = true;
+					break;
+				}
+			}
+			return underEx;
 		}
 
 		public void ImportToStationAsync(IEnumerable<string> paths, string session_token)

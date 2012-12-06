@@ -201,6 +201,9 @@ namespace Wammer.Station.Timeline
 
 			if (attachmentAttributes.image_meta.exif != null)
 				update.Set("image_meta.exif", attachmentAttributes.image_meta.exif.ToBsonDocument());
+
+			if (!string.IsNullOrEmpty(attachmentAttributes.device_id))
+				update.Set("device_id", attachmentAttributes.device_id);
 		}
 
 		private static string extractExifTakenTime(ArraySegment<byte> rawdata)

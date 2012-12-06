@@ -9,6 +9,7 @@ using System.Web;
 using System.Net;
 using System.Collections.Specialized;
 using System.Reflection;
+using Waveface.Stream.Model;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -241,6 +242,138 @@ namespace Waveface.Stream.ClientFramework
 						{ "session_token", sessionToken}
 					});
         }
+
+		public static void AddMonitorFile(string file, string user_id, string sesion_token)
+		{
+			var uri = @"http://127.0.0.1:9989/v2/station/monitor/add";
+
+			var parameters = new NameValueCollection()
+				{
+					{"apikey", API_KEY},
+					{"session_token", sesion_token},
+					{"user_id", user_id},
+					{"file", file}
+				};
+
+			Post(uri, parameters);
+		}
+
+		public static string Logout(string sessionToken)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/auth/logout";
+
+			return Post(uri, new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken}
+					});
+		}
+		public static string CreateCollection(string sessionToken, string name, IEnumerable<string> attachmentIDs, string id = null, string coverAttachID = null, bool? isManualCreated = null, DateTime? timeStamp = null)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/collections/create";
+
+			if (timeStamp == null)
+				timeStamp = DateTime.Now;
+
+			var id_list = "[" + String.Join(",", attachmentIDs.Select((x) => "\"" + x + "\"").ToArray()) + "]";
+
+			var parameters = new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken},
+						{ "name", name},
+						{ "object_id_list", id_list},
+						{ "create_time", timeStamp.Value.ToUTCISO8601ShortString()}
+					};
+
+			if (!string.IsNullOrEmpty(id))
+				parameters.Add("collection_id", id);
+
+			if (!string.IsNullOrEmpty(coverAttachID))
+				parameters.Add("cover", coverAttachID);
+
+			if (isManualCreated.HasValue)
+				parameters.Add("manual", isManualCreated.Value.ToString());
+
+			return Post(uri, parameters);
+		}
+
+
+		public static string HideCollection(string sessionToken, string id, DateTime? timeStamp = null)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/collections/hide";
+
+			if (timeStamp == null)
+				timeStamp = DateTime.Now;
+
+			var parameters = new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken},
+						{ "collection_id", id},
+						{ "modify_time", timeStamp.Value.ToUTCISO8601ShortString()}
+					};
+
+			return Post(uri, parameters);
+		}
+
+
+		public static string UnHideCollection(string sessionToken, string id, DateTime? timeStamp = null)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/collections/unhide";
+
+			if (timeStamp == null)
+				timeStamp = DateTime.Now;
+
+			var parameters = new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken},
+						{ "collection_id", id},
+						{ "modify_time", timeStamp.Value.ToUTCISO8601ShortString()}
+					};
+
+			return Post(uri, parameters);
+		}
+
+		public static string UpdateCollection(string sessionToken, string id, string name = null, IEnumerable<string> attachmentIDs = null, string coverAttachID = null, bool? hidden = null, DateTime? timeStamp = null)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = @"http://127.0.0.1:9981/v2/collections/update";
+
+			if (timeStamp == null)
+				timeStamp = DateTime.Now;
+
+			var parameters = new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken},
+						{ "collection_id", id},
+						{ "modify_time", timeStamp.Value.ToUTCISO8601ShortString()}
+					};
+
+			if (!string.IsNullOrEmpty(name))
+				parameters.Add("name", name);
+
+			if (attachmentIDs != null && attachmentIDs.Any())
+			{
+				var id_list = "[" + String.Join(",", attachmentIDs.Select((x) => "\"" + x + "\"").ToArray()) + "]";
+				parameters.Add("object_id_list", id_list);
+			}
+
+			if (!string.IsNullOrEmpty(coverAttachID))
+				parameters.Add("cover", coverAttachID);
+
+			if (hidden.HasValue)
+				parameters.Add("hidden", hidden.Value.ToString());
+
+			return Post(uri, parameters);
+		}
+
 		#endregion
 	}
 }

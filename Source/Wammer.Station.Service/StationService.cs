@@ -15,6 +15,10 @@ using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
 using Wammer.Utility;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using MongoDB.Driver.Builders;
+using AutoMapper;
 
 namespace Wammer.Station.Service
 {
@@ -40,6 +44,8 @@ namespace Wammer.Station.Service
 			ServiceName = SERVICE_NAME;
 			HttpWebRequest.DefaultMaximumErrorResponseLength = 10 * 1024; // in KB => 10 * 1024 * K => 10 MB
 			ServicePointManager.DefaultConnectionLimit = 200;
+
+			AutoMapperSetting.IniteMap();
 		}
 
 		~StationService()
@@ -149,6 +155,42 @@ namespace Wammer.Station.Service
 				logger.Info("Start management server");
 				managementServer.Start();
 
+
+				(new Task(() =>
+				{
+					while (true)
+					{
+						foreach (var user in DriverCollection.Instance.FindAll())
+						{
+							try
+							{
+								if (string.IsNullOrEmpty(user.session_token))
+									continue;
+								var collectionsResponse = CollectionApi.GetAllCollections(user.session_token, CloudServer.APIKey);
+
+
+								foreach (var responseCollection in collectionsResponse.collections)
+								{
+									var collection = CollectionCollection.Instance.FindOne(Query.EQ("_id", responseCollection.collection_id));
+
+									var needSaveToDB = ((collection == null) || (!responseCollection.modify_time.Equals(collection.modify_time, StringComparison.CurrentCultureIgnoreCase)));
+
+									if (needSaveToDB)
+									{
+										collection = Mapper.Map<Cloud.Collection, Model.Collection>(responseCollection);
+										CollectionCollection.Instance.Save(collection);
+									}
+								}
+							}
+							catch
+							{
+							}
+						}
+
+						Thread.Sleep(10000);
+						Application.DoEvents();
+					}
+				})).Start();
 
 				logger.Warn("Stream station is started");
 			}
@@ -404,13 +446,13 @@ namespace Wammer.Station.Service
 	internal class MongoDBMonitor
 	{
 		private object cs = new object();
-		private Timer timer;
+		private System.Threading.Timer timer;
 		private bool isReady;
 		private Action onReady;
 
 		public MongoDBMonitor(Action onReady)
 		{
-			timer = new Timer(Do, this, 1000, 2000);
+			timer = new System.Threading.Timer(Do, this, 1000, 2000);
 			this.onReady = onReady;
 		}
 

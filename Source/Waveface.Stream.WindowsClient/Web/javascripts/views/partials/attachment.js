@@ -1,1 +1,44 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","backbone","mustache","text!templates/partials/attachment.html"],function(e,n,r,i){var s;return s=function(e){function n(){return n.__super__.constructor.apply(this,arguments)}return t(n,e),n.prototype.className="attachment",n.prototype.render=function(){return!this.model||(this.$el.html(r.render(i,this.model.toJSON())),this.setOrientation()),this.options.height&&this.$el.css({height:this.options.height}),this.options.width&&this.$el.css({width:this.options.width}),this},n.prototype.setOrientation=function(){return this.$el.addClass(this.model.get("orientation"))},n}(n.View)})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'backbone', 'mustache', 'text!templates/partials/attachment.html'], function(_, Backbone, M, Template) {
+    var EventView;
+    return EventView = (function(_super) {
+
+      __extends(EventView, _super);
+
+      function EventView() {
+        return EventView.__super__.constructor.apply(this, arguments);
+      }
+
+      EventView.prototype.className = 'attachment';
+
+      EventView.prototype.render = function() {
+        if (!!this.model) {
+          this.$el.html(M.render(Template, this.model.toJSON()));
+          this.setOrientation();
+        }
+        if (this.options.height) {
+          this.$el.css({
+            height: this.options.height
+          });
+        }
+        if (this.options.width) {
+          this.$el.css({
+            width: this.options.width
+          });
+        }
+        return this;
+      };
+
+      EventView.prototype.setOrientation = function() {
+        return this.$el.addClass(this.model.get('orientation'));
+      };
+
+      return EventView;
+
+    })(Backbone.View);
+  });
+
+}).call(this);

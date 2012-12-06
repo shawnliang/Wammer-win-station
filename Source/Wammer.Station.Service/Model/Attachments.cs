@@ -20,6 +20,28 @@ using System.Collections;
 
 namespace Wammer.Model
 {
+	[BsonIgnoreExtraElements]
+	public class DocProperty
+	{
+		[XmlIgnore]
+		[BsonIgnoreIfDefault]
+		[BsonIgnoreIfNull]
+		public List<string> preview_files { get; set; }
+		[BsonIgnoreIfDefault]
+		[BsonIgnoreIfNull]
+		public DateTime access_time { get; set; }
+		[BsonIgnoreIfDefault]
+		[BsonIgnoreIfNull]
+		public DateTime modify_time { get; set; }
+		[BsonIgnoreIfNull]
+		public string title { get; set; }
+		[BsonIgnoreIfNull]
+		public string author { get; set; }
+
+		[BsonIgnore]
+		public string file_name { get; set; }
+	}
+
 	[Serializable]
 	public enum ImageMeta
 	{
@@ -409,6 +431,13 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public int? timezone { get; set; }
 
+		public DateTime file_modify_time { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string device_id { get; set; }
+
+		[BsonIgnoreIfNull]
+		public DocProperty doc_meta { get; set; }
 		/// <summary>
 		/// is the attachment is imported from this station?
 		/// </summary>

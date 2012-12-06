@@ -1,1 +1,163 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","backbone","models/attachment","localstorage","eventbundler"],function(e,n,r,i,s){var o;return o=function(n){function o(){return o.__super__.constructor.apply(this,arguments)}return t(o,n),o.prototype.model=r,o.prototype.schemaName="attachments",o.prototype.dateGroup=[],o.prototype.localStorage=new i("attachments"),o.prototype.initialize=function(){return dispatch.on("store:change:attachment:all",this.updateAttachment,this),dispatch.on("more:attach:bylength",this.loadByLength,this)},o.prototype.updateAttachment=function(t,n){var r,i,s=this;r=t.attachments,i=!1;if(r.length<=0)return!1;e.each(r,function(e,t){var n;return n=moment(e.timestamp).format("YYYY-MM-DD"),t===0&&(i=n),s.dateGroup.push(n),s.add(e)}),this.dateGroup=e.uniq(this.dateGroup);if(n!=="all")return dispatch.trigger("render:change:attachment:"+n,r)},o.prototype.callAttachments=function(e,t,n,r,i){var o,u;return e==null&&(e=!1),t==null&&(t=200),n==null&&(n="all"),u={page_size:t,type:1024},new s("GetAttachments",n),!e||(u.post_id_array=e),!!r&&!!i&&(dispatch.off("store:change:attachment:"+n),dispatch.off("render:change:attachment:"+n),dispatch.on("render:change:attachment:"+n,r,i),dispatch.on("store:change:attachment:"+n,this.updateAttachment,this)),o={namespace:n},wfwsocket.sendMessage("getAttachments",u,o)},o.prototype.filterByDate=function(t){return t?e(this.filter(function(e){var n;return n=e.get("dateUri"),n===t})):this},o.prototype.nextDate=function(t){var n;return n=e.indexOf(this.dateGroup,t),this.dateGroup[n-1]},o.prototype.previousDate=function(t){var n;return n=e.indexOf(this.dateGroup,t),this.dateGroup[n+3]||dispatch.trigger("more:attach:bylength"),this.dateGroup[n+1]},o.prototype.loadMore=function(e,t){var n,r,s,o;return e==null&&(e=100),t==null&&(t=2),s=new i("nc_photos_view_data"),o=s.data,!o.pageSize||!o.pageNo?o=s.data={pageSize:e,pageNo:t}:(e=o.pageSize,t=o.pageNo+=1,s.data=o),s.save(),r={page_size:e,page_no:t},n={namespace:"all"},wfwsocket.sendMessage("getAttachments",r,n)},o}(n.Collection),{loadByLength:function(e){var t,n,r,i;return e==null&&(e=200),t=this.length,r=parseInt(t/e),i={page_size:e,page_no:r+1},n={namespace:"all"},wfwsocket.sendMessage("getAttachments",i,n)}},new o})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'backbone', 'models/attachment', 'localstorage', 'eventbundler', 'com/subscriber'], function(_, Backbone, Attachment, LocalStorage, EventBundler, Subscriber) {
+    var AttachmentCollection;
+    AttachmentCollection = (function(_super) {
+
+      __extends(AttachmentCollection, _super);
+
+      function AttachmentCollection() {
+        return AttachmentCollection.__super__.constructor.apply(this, arguments);
+      }
+
+      AttachmentCollection.prototype.model = Attachment;
+
+      AttachmentCollection.prototype.schemaName = 'attachments';
+
+      AttachmentCollection.prototype.dateGroup = [];
+
+      AttachmentCollection.prototype.localStorage = new LocalStorage('attachments');
+
+      AttachmentCollection.prototype.initialize = function() {
+        dispatch.on("store:change:attachment:all", this.updateAttachment, this);
+        return dispatch.on("more:attach:bylength", this.loadByLength, this);
+      };
+
+      AttachmentCollection.prototype.updateAttachment = function(data, ns) {
+        var attachments, lastDate,
+          _this = this;
+        attachments = data.attachments;
+        lastDate = false;
+        if (attachments.length <= 0) {
+          return false;
+        }
+        _.each(attachments, function(attachment, index) {
+          var attachDate;
+          attachDate = moment(attachment.timestamp).format('YYYY-MM-DD');
+          if (index === 0) {
+            lastDate = attachDate;
+          }
+          _this.dateGroup.push(attachDate);
+          return _this.add(attachment);
+        });
+        this.dateGroup = _.uniq(this.dateGroup);
+        if (ns !== "all") {
+          return dispatch.trigger("render:change:attachment:" + ns, attachments);
+        }
+      };
+
+      AttachmentCollection.prototype.callAttachments = function(post_id, pageSize, namespace, callback, context) {
+        var memo, params;
+        if (post_id == null) {
+          post_id = false;
+        }
+        if (pageSize == null) {
+          pageSize = 200;
+        }
+        if (namespace == null) {
+          namespace = "all";
+        }
+        params = {
+          page_size: pageSize,
+          type: 1024
+        };
+        new EventBundler('GetAttachments', namespace);
+        if (!!post_id) {
+          params['post_id_array'] = post_id;
+        }
+        if (!!callback && !!context) {
+          dispatch.off("store:change:attachment:" + namespace);
+          dispatch.off("render:change:attachment:" + namespace);
+          dispatch.on("render:change:attachment:" + namespace, callback, context);
+          dispatch.on("store:change:attachment:" + namespace, this.updateAttachment, this);
+        }
+        memo = {
+          namespace: namespace
+        };
+        return wfwsocket.sendMessage('getAttachments', params, memo);
+      };
+
+      AttachmentCollection.prototype.filterByDate = function(date) {
+        if (!date) {
+          return this;
+        }
+        return _(this.filter(function(model) {
+          var photoDate;
+          photoDate = model.get('dateUri');
+          return photoDate === date;
+        }));
+      };
+
+      AttachmentCollection.prototype.nextDate = function(date) {
+        var dateIndex;
+        dateIndex = _.indexOf(this.dateGroup, date);
+        return this.dateGroup[dateIndex - 1];
+      };
+
+      AttachmentCollection.prototype.previousDate = function(date) {
+        var dateIndex;
+        dateIndex = _.indexOf(this.dateGroup, date);
+        if (!this.dateGroup[dateIndex + 3]) {
+          dispatch.trigger("more:attach:bylength");
+        }
+        return this.dateGroup[dateIndex + 1];
+      };
+
+      AttachmentCollection.prototype.loadMore = function(pageSize, pageNo) {
+        var memo, params, photosViewStore, viewInfo;
+        if (pageSize == null) {
+          pageSize = 100;
+        }
+        if (pageNo == null) {
+          pageNo = 2;
+        }
+        photosViewStore = new LocalStorage('nc_photos_view_data');
+        viewInfo = photosViewStore.data;
+        if (!!viewInfo.pageSize && !!viewInfo.pageNo) {
+          pageSize = viewInfo.pageSize;
+          pageNo = viewInfo.pageNo += 1;
+          photosViewStore.data = viewInfo;
+        } else {
+          viewInfo = photosViewStore.data = {
+            pageSize: pageSize,
+            pageNo: pageNo
+          };
+        }
+        photosViewStore.save();
+        params = {
+          page_size: pageSize,
+          page_no: pageNo
+        };
+        memo = {
+          namespace: 'all'
+        };
+        return wfwsocket.sendMessage('getAttachments', params, memo);
+      };
+
+      return AttachmentCollection;
+
+    })(Backbone.Collection);
+    ({
+      loadByLength: function(pageSize) {
+        var localAttachsNum, memo, pageNow, params;
+        if (pageSize == null) {
+          pageSize = 200;
+        }
+        localAttachsNum = this.length;
+        pageNow = parseInt(localAttachsNum / pageSize);
+        params = {
+          page_size: pageSize,
+          page_no: pageNow + 1
+        };
+        memo = {
+          namespace: 'all'
+        };
+        return wfwsocket.sendMessage('getAttachments', params, memo);
+      }
+    });
+    return new AttachmentCollection();
+  });
+
+}).call(this);

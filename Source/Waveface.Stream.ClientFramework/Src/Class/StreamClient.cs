@@ -12,6 +12,8 @@ using System.Threading;
 using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
 using MongoDB.Bson;
+using System.IO;
+using System.Security;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -23,6 +25,12 @@ namespace Waveface.Stream.ClientFramework
 		#region Private Const
 		private const string APP_NAME = "Stream";
 		private const string STATION_ID_KEY = "stationId";
+
+		private const string STREAM_RELATIVED_FOLDER = @"Waveface\Stream\";
+		private const string DATA_RELATIVED_FOLDER = STREAM_RELATIVED_FOLDER + @"Data\";
+		private const string STREAM_DATX_FILE_NAME = @"Stream.datx";
+
+		private const string RELATIVED_LOGINED_SESSION_XML_FILE = @"LoginedSession.xml";
 		#endregion
 
 
@@ -33,6 +41,8 @@ namespace Waveface.Stream.ClientFramework
 
         #region Var
         private WebClientControlServer _server;
+		private String _dataPath;
+		private String _streamDatxFile;
         #endregion
 
 
@@ -63,6 +73,22 @@ namespace Waveface.Stream.ClientFramework
                 return _server ?? (_server = new WebClientControlServer(1337));
             }
         }
+
+		private string m_DataPath
+		{
+			get
+			{
+				return _dataPath ?? (_dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATA_RELATIVED_FOLDER));
+			}
+		}
+
+		private string m_StreamDatxFile
+		{
+			get
+			{
+				return _streamDatxFile ?? (_streamDatxFile = Path.Combine(m_DataPath,STREAM_DATX_FILE_NAME));
+			}
+		}
         #endregion
 
 
@@ -74,6 +100,20 @@ namespace Waveface.Stream.ClientFramework
         /// The logined user.
         /// </value>
         public LoginedUser LoginedUser { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the is logined.
+		/// </summary>
+		/// <value>
+		/// The is logined.
+		/// </value>
+		public Boolean IsLogined
+		{
+			get
+			{
+				return LoginedUser != null;
+			}
+		}
 		#endregion
 
 
@@ -87,6 +127,16 @@ namespace Waveface.Stream.ClientFramework
         /// Occurs when [logined].
         /// </summary>
         public event EventHandler<LoginedEventArgs> Logined;
+
+		/// <summary>
+		/// Occurs when [logouting].
+		/// </summary>
+		public event EventHandler Logouting;
+
+		/// <summary>
+		/// Occurs when [logouted].
+		/// </summary>
+		public event EventHandler Logouted;
 
         /// <summary>
         /// Occurs when [post added].
@@ -102,6 +152,16 @@ namespace Waveface.Stream.ClientFramework
         /// Occurs when [attachment downloaded].
         /// </summary>
         public event EventHandler<AttachmentsEventArgs> AttachmentDownloaded;
+
+		/// <summary>
+		/// Occurs when [collection added].
+		/// </summary>
+		public event EventHandler<CollectionsEventArgs> CollectionAdded;
+
+		/// <summary>
+		/// Occurs when [collection updated].
+		/// </summary>
+		public event EventHandler<CollectionsEventArgs> CollectionUpdated;
         #endregion
 
 
@@ -128,9 +188,18 @@ namespace Waveface.Stream.ClientFramework
             AutoMapperSetting.IniteMap();
 
             this.Logined += StreamClient_Logined;
+			this.Logouted += StreamClient_Logouted;
             this.PostAdded += StreamClient_PostAdded;
             this.PostUpdated += StreamClient_PostUpdated;
             this.AttachmentDownloaded += StreamClient_AttachmentDownloaded;
+			this.CollectionAdded += StreamClient_CollectionAdded;
+			this.CollectionUpdated += StreamClient_CollectionUpdated;
+
+			if (File.Exists(m_StreamDatxFile) && Datx.IsFileExist(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE))
+			{
+				var sessionToken = Datx.Read<String>(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE, GetStreamDatxPassword());
+				Login(sessionToken);
+			}
 
             m_Server.Start();
 
@@ -252,7 +321,152 @@ namespace Waveface.Stream.ClientFramework
                     Application.DoEvents();
                 }
             })).Start();
+
+			(new Task(() =>
+			{
+				long count = 0;
+				HashSet<string> collectionIDs = null;
+				while (true)
+				{
+					try
+					{
+						if (LoginedUser != null)
+						{
+							var collections = CollectionCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("hidden", false)));
+							var collectionCount = collections.Count();
+
+							if (collectionCount != count)
+							{
+								var firstInit = (collectionIDs == null || collectionIDs.Count == 0);
+
+								var currentCollectionIDs = new HashSet<string>(collections.Select(collection => collection.collection_id));
+
+								var addedCollectionIDS = firstInit ? currentCollectionIDs : currentCollectionIDs.Except(collectionIDs);
+
+								if (!firstInit && addedCollectionIDS.Count() > 0)
+								{
+									Trace.WriteLine("Collection added detected...");
+									OnCollectionAdded(new CollectionsEventArgs(addedCollectionIDS));
+								}
+
+								count = collectionCount;
+								collectionIDs = currentCollectionIDs;
+							}
+						}
+					}
+					catch (Exception)
+					{
+					}
+
+					Thread.Sleep(2000);
+					Application.DoEvents();
+				}
+			})).Start();
+
+
+			(new Task(() =>
+			{
+				HashSet<string> collectionIDs = null;
+				while (true)
+				{
+					try
+					{
+						if (LoginedUser != null)
+						{
+							var collections = CollectionCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("hidden", false)));
+
+							var firstInit = (collectionIDs == null || collectionIDs.Count == 0);
+
+							var currentCollectionIDs = new HashSet<string>(collections.Select(collection => string.Format("{0}§{1}", collection.collection_id, collection.attachment_id_array.Count)));
+
+							var updatedCollectionIDS = firstInit ? currentCollectionIDs : collectionIDs.Except(currentCollectionIDs);
+
+							if (!firstInit && updatedCollectionIDS.Count() > 0)
+							{
+								Trace.WriteLine("Collection updated detected...");
+								OnCollectionUpdated(new CollectionsEventArgs(updatedCollectionIDS));
+							}
+
+							collectionIDs = currentCollectionIDs;
+						}
+					}
+					catch (Exception)
+					{
+					}
+
+					Thread.Sleep(2000);
+					Application.DoEvents();
+				}
+			})).Start();
+
         }
+
+		private SecureString GetStreamDatxPassword()
+		{
+			//Waveface Stream 98D3B9C7-A57B-4A01-ADB8-329CD0F7E669
+
+			byte[] buffer = new byte[52];
+			buffer[0] = 0x57;
+			buffer[1] = 0x61;
+			buffer[2] = 0x76;
+			buffer[3] = 0x65;
+			buffer[4] = 0x66;
+			buffer[5] = 0x61;
+			buffer[6] = 0x63;
+			buffer[7] = 0x65;
+			buffer[8] = 0x20;
+			buffer[9] = 0x53;
+			buffer[10] = 0x74;
+			buffer[11] = 0x72;
+			buffer[12] = 0x65;
+			buffer[13] = 0x61;
+			buffer[14] = 0x6d;
+			buffer[15] = 0x20;
+			buffer[16] = 0x39;
+			buffer[17] = 0x38;
+			buffer[18] = 0x44;
+			buffer[19] = 0x33;
+			buffer[20] = 0x42;
+			buffer[21] = 0x39;
+			buffer[22] = 0x43;
+			buffer[23] = 0x37;
+			buffer[24] = 0x2d;
+			buffer[25] = 0x41;
+			buffer[26] = 0x35;
+			buffer[27] = 0x37;
+			buffer[28] = 0x42;
+			buffer[29] = 0x2d;
+			buffer[30] = 0x34;
+			buffer[31] = 0x41;
+			buffer[32] = 0x30;
+			buffer[33] = 0x31;
+			buffer[34] = 0x2d;
+			buffer[35] = 0x41;
+			buffer[36] = 0x44;
+			buffer[37] = 0x42;
+			buffer[38] = 0x38;
+			buffer[39] = 0x2d;
+			buffer[40] = 0x33;
+			buffer[41] = 0x32;
+			buffer[42] = 0x39;
+			buffer[43] = 0x43;
+			buffer[44] = 0x44;
+			buffer[45] = 0x30;
+			buffer[46] = 0x46;
+			buffer[47] = 0x37;
+			buffer[48] = 0x45;
+			buffer[49] = 0x36;
+			buffer[50] = 0x36;
+			buffer[51] = 0x39;
+
+			SecureString ret = new SecureString();
+			foreach (byte b in buffer)
+				ret.AppendChar(Convert.ToChar(b));
+			ret.MakeReadOnly();
+
+			return ret;
+		}
+
         #endregion
 
 
@@ -274,6 +488,24 @@ namespace Waveface.Stream.ClientFramework
         {
             this.RaiseEvent<LoginedEventArgs>(Logined, e);
         }
+
+		/// <summary>
+		/// Raises the <see cref="E:Logouting" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		protected void OnLogouting(EventArgs e)
+		{
+			this.RaiseEvent(Logouting, e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:Logouted" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		protected void OnLogouted(EventArgs e)
+		{
+			this.RaiseEvent(Logouted, e);
+		}
 
         /// <summary>
         /// Raises the <see cref="E:PostAdded" /> event.
@@ -301,6 +533,24 @@ namespace Waveface.Stream.ClientFramework
         {
             this.RaiseEvent(AttachmentDownloaded, e);
         }
+
+		/// <summary>
+		/// Raises the <see cref="E:CollectionAdded" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="CollectionsEventArgs" /> instance containing the event data.</param>
+		protected void OnCollectionAdded(CollectionsEventArgs e)
+		{
+			this.RaiseEvent(CollectionAdded, e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:CollectionUpdated" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="CollectionsEventArgs" /> instance containing the event data.</param>
+		protected void OnCollectionUpdated(CollectionsEventArgs e)
+		{
+			this.RaiseEvent(CollectionUpdated, e);
+		}
         #endregion
 
 
@@ -334,7 +584,58 @@ namespace Waveface.Stream.ClientFramework
             {
                 OnLogined(new LoginedEventArgs(response));
             }
-		} 
+		}
+
+		/// <summary>
+		/// Logins the specified session token.
+		/// </summary>
+		/// <param name="sessionToken">The session token.</param>
+		/// <returns></returns>
+		public string Login(string sessionToken)
+		{
+			if (LoginedUser != null)
+				return null;
+
+			var response = string.Empty;
+
+			try
+			{
+				OnLogining(EventArgs.Empty);
+
+				var loginedUser =  LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
+
+				if(loginedUser == null)
+					return null;
+
+				var userID = loginedUser.user.user_id;
+
+				response = StationAPI.Login(
+					userID,
+					sessionToken);
+
+				return response;
+			}
+			finally
+			{
+				OnLogined(new LoginedEventArgs(response));
+			}
+		}
+
+		public void Logout()
+		{
+			if (LoginedUser == null)
+				return;
+
+			try
+			{
+				OnLogouting(EventArgs.Empty);
+				StationAPI.Logout(LoginedUser.SessionToken);
+			}
+			finally
+			{
+				OnLogouted(EventArgs.Empty);
+			}
+		}
 		#endregion
 
 
@@ -353,7 +654,15 @@ namespace Waveface.Stream.ClientFramework
                 return;
 
             LoginedUser = new LoginedUser(response);
+
+			Datx.Insert<String>(LoginedUser.SessionToken, m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE, GetStreamDatxPassword());
         }
+
+		void StreamClient_Logouted(object sender, EventArgs e)
+		{
+			LoginedUser = null;
+			Datx.RemoveFile(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE);
+		}
 
         /// <summary>
         /// Handles the AttachmentDownloaded event of the StreamClient control.
@@ -527,6 +836,115 @@ namespace Waveface.Stream.ClientFramework
 
             m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
         }
+
+		void StreamClient_CollectionAdded(object sender, CollectionsEventArgs e)
+		{
+			if (LoginedUser == null)
+				return;
+
+			if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.CollectionAdded))
+				return;
+
+			var commandData = LoginedUser.SubscribedEvents[SystemEventType.CollectionAdded];
+
+
+			var eventParams = commandData.Parameters;
+			var ids = e.IDs;
+
+			if (eventParams == null)
+				eventParams = new Dictionary<string, object>();
+
+			if (eventParams.ContainsKey("collection_id_array"))
+				eventParams.Remove("collection_id_array");
+
+			eventParams.Add("collection_id_array", new JArray(ids.ToArray()));
+
+			if (eventParams.ContainsKey("page_size"))
+				eventParams.Remove("page_size");
+
+			eventParams.Add("page_size", ids.Count());
+
+			var response = WebSocketCommandExecuter.Instance.Execute("getCollections", eventParams);
+
+			var responseParams = new Dictionary<String, Object>(response)
+            {
+                {"event_id", (int)SystemEventType.CollectionAdded}
+            };
+
+			responseParams.Remove("page_no");
+			responseParams.Remove("page_size");
+			responseParams.Remove("page_count");
+			responseParams.Remove("total_count");
+
+
+			var executedValue = new JObject(
+					new JProperty("command", "subscribeEvent"),
+					new JProperty("response", JObject.FromObject(responseParams))
+					);
+
+			var memo = commandData.Memo;
+			if (memo != null)
+				executedValue.Add(new JProperty("memo", memo));
+
+			var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+			m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
+		}
+
+
+		void StreamClient_CollectionUpdated(object sender, CollectionsEventArgs e)
+		{
+			if (LoginedUser == null)
+				return;
+
+			if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.CollectionAdded))
+				return;
+
+			var commandData = LoginedUser.SubscribedEvents[SystemEventType.CollectionAdded];
+
+
+			var eventParams = commandData.Parameters;
+			var ids = e.IDs.Select(id => id.Split('§')[0]);
+
+			if (eventParams == null)
+				eventParams = new Dictionary<string, object>();
+
+			if (eventParams.ContainsKey("collection_id_array"))
+				eventParams.Remove("collection_id_array");
+
+			eventParams.Add("collection_id_array", new JArray(ids.ToArray()));
+
+			if (eventParams.ContainsKey("page_size"))
+				eventParams.Remove("page_size");
+
+			eventParams.Add("page_size", ids.Count());
+
+			var response = WebSocketCommandExecuter.Instance.Execute("getCollections", eventParams);
+
+			var responseParams = new Dictionary<String, Object>(response)
+            {
+                {"event_id", (int)SystemEventType.CollectionAdded}
+            };
+
+			responseParams.Remove("page_no");
+			responseParams.Remove("page_size");
+			responseParams.Remove("page_count");
+			responseParams.Remove("total_count");
+
+
+			var executedValue = new JObject(
+					new JProperty("command", "subscribeEvent"),
+					new JProperty("response", JObject.FromObject(responseParams))
+					);
+
+			var memo = commandData.Memo;
+			if (memo != null)
+				executedValue.Add(new JProperty("memo", memo));
+
+			var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+			m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
+		}
         #endregion
     }
 }

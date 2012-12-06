@@ -72,10 +72,12 @@
     <Compile Include="Src\Class\CloudResponse.cs" />
     <Compile Include="Src\Class\CloudServer.cs" />
     <Compile Include="Src\Class\Collection.cs" />
+    <Compile Include="Src\Class\CollectionCollection.cs" />
     <Compile Include="Src\Class\Comment.cs" />
     <Compile Include="Src\Class\ConnectionCollection.cs" />
     <Compile Include="Src\Class\ConnectMsg.cs" />
     <Compile Include="Src\Class\Database.cs" />
+    <Compile Include="Src\Class\DBCollection.cs" />
     <Compile Include="Src\Class\DefaultWebClient.cs">
       <SubType>Component</SubType>
     </Compile>

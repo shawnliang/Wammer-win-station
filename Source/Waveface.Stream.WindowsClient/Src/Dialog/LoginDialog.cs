@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using Waveface.Stream.WindowsClient.Properties;
 
@@ -29,6 +29,7 @@ namespace Waveface.Stream.WindowsClient
         //}
 
         public String SessionToken { get; private set; }
+		public String UserId { get; private set; }
 		#endregion
 
                 
@@ -38,7 +39,7 @@ namespace Waveface.Stream.WindowsClient
         { 
             get
             {
-                return _instance ?? (_instance = new LoginDialog());
+				return (_instance == null || _instance.IsDisposed) ? (_instance = new LoginDialog()) : _instance;
             }
         }
         #endregion
@@ -75,6 +76,7 @@ namespace Waveface.Stream.WindowsClient
             Hide();
 
             var wizard = new NewUserWizardDialog();
+			wizard.StartPosition = FormStartPosition.CenterParent;
             wizard.FormClosed += wizard_FormClosed;
             wizard.ShowDialog();
         }
@@ -92,6 +94,7 @@ namespace Waveface.Stream.WindowsClient
             else
             {
                 this.SessionToken = session_token;
+				this.UserId = (string)wizard.Parameters.Get("user_id");
 
                 DialogResult = System.Windows.Forms.DialogResult.OK;
             }
@@ -102,6 +105,7 @@ namespace Waveface.Stream.WindowsClient
             Hide();
 
             var wizard = new OldUserWizardDialog();
+			wizard.StartPosition = FormStartPosition.CenterParent;
             wizard.FormClosed += wizard_FormClosed;
             wizard.ShowDialog();
         }

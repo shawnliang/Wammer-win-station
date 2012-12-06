@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Net;
 using Newtonsoft.Json;
 
+
 namespace Wammer.Cloud
 {
 	public class AttachmentApi
@@ -201,14 +202,14 @@ namespace Wammer.Cloud
 												  ImageMeta meta, AttachmentType type, string apiKey,
 												  string token, int bufferSize = 1024,
 												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
-												  string post_id = null, string file_path = null, exif exif = null, DateTime? import_time = null, int? timezone = null, DateTime? file_create_time = null)
+												  string post_id = null, string file_path = null, exif exif = null, DateTime? import_time = null, int? timezone = null, DateTime? file_create_time = null, DocProperty doc_meta = null)
 		{
 			try
 			{
 				if (token == null)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
-				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id, file_path, exif, import_time, timezone, file_create_time);
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id, file_path, exif, import_time, timezone, file_create_time, doc_meta);
 				HttpWebResponse _webResponse = Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
 					CloudServer.BaseUrl + "attachments/upload",
 					"Mozilla 4.0+",
@@ -231,7 +232,7 @@ namespace Wammer.Cloud
 
 		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta,
 			AttachmentType type, string apiKey, string token, string post_id = null, string file_path = null, exif exif = null, DateTime? import_time = null, int? timezone = null,
-			DateTime? file_create_time = null)
+			DateTime? file_create_time = null, DocProperty doc_meta = null)
 		{
 			var pars = new Dictionary<string, object>();
 			
@@ -265,6 +266,10 @@ namespace Wammer.Cloud
 
 			if (file_create_time.HasValue && file_create_time.Value > DateTime.MinValue)
 				pars["file_create_time"] = file_create_time.Value.ToCloudTimeString();
+
+			if (doc_meta != null)
+				pars["doc_meta"] = doc_meta.ToFastJSON();
+
 			return pars;
 		}
 	}
