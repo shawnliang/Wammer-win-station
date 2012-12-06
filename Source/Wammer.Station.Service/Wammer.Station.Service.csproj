@@ -406,7 +406,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>Copy $(SolutionDir)..\Lib\gsdll32.dll $(TargetDir) /Y
+    <PostBuildEvent>Copy "$(SolutionDir)..\Lib\gsdll32.dll" "$(TargetDir)" /Y
 if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)..\Tools\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
