@@ -50,22 +50,15 @@ namespace Waveface.Stream.ClientFramework
 			var id = parameters.ContainsKey("id") ? parameters["id"].ToString() : string.Empty;
 			var name = parameters["name"].ToString();
 
+			var coverAttachID = parameters.ContainsKey("cover_attach") ? parameters["cover_attach"].ToString() : string.Empty;
+
 			var attachmentIDs = parameters.ContainsKey("attachment_id_array")? (from attachmentID in (parameters["attachment_id_array"] as JArray).Values()
 																			   select attachmentID.ToString()): null;
 
 			var visibility = parameters.ContainsKey("visibility") ? int.Parse(parameters["visibility"].ToString()) : 1;
 			var timestamp = parameters.ContainsKey("timestamp") ? DateTime.Parse(parameters["timestamp"].ToString()) : default(DateTime?);
 
-			StationAPI.UpdateCollection(sessionToken, id, name, attachmentIDs, timestamp);
-
-			if (visibility == 0)
-			{
-				StationAPI.HideCollection(sessionToken, id, timestamp);
-			}
-			else
-			{
-				StationAPI.UnHideCollection(sessionToken, id, timestamp);
-			}
+			StationAPI.UpdateCollection(sessionToken, id, name, attachmentIDs, coverAttachID, visibility == 0, timestamp);
 
 			return null;
 		}

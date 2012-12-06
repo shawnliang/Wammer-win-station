@@ -26,6 +26,9 @@ namespace Wammer.Cloud
 			if (attIds == null)
 				throw new ArgumentNullException("attIds");
 
+			if (create_time.HasValue)
+				create_time = DateTime.Now;
+
 			var id_list = "[" + String.Join(",", attIds.Select((x) => "\"" + x + "\"").ToArray()) + "]";
 
 			Dictionary<object, object> parameters = new Dictionary<object, object>{
@@ -33,6 +36,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_SESSION_TOKEN, session },
 				{ CloudServer.PARAM_NAME, name },
 				{ CloudServer.PARAM_OBJECT_ID_LIST, id_list },
+				{ "create_time", create_time.Value.ToCloudTimeString()}
 			};
 
 			if (!string.IsNullOrEmpty(collectionId))
@@ -43,9 +47,6 @@ namespace Wammer.Cloud
 
 			if (manual.HasValue)
 				parameters.Add("manual", manual.Value.ToString());
-
-			if (create_time.HasValue)
-				parameters.Add("create_time", create_time.Value.ToCloudTimeString());
 
 			CloudServer.requestPath<CloudResponse>("collections/create", parameters);
 		}
@@ -60,7 +61,7 @@ namespace Wammer.Cloud
 		/// <param name="modifyTime">The modify time.</param>
 		/// <param name="name">The name.</param>
 		/// <exception cref="System.ArgumentNullException">name</exception>
-		public static void UpdateCollection(string session, string apikey, string collectionID, IEnumerable<string> attIds, DateTime? modifyTime = null, string name = null)
+		public static void UpdateCollection(string session, string apikey, string collectionID, IEnumerable<string> attIds = null, string cover = null, bool? hidden = null, DateTime? modifyTime = null, string name = null)
 		{
 			if (string.IsNullOrEmpty(collectionID))
 				throw new ArgumentNullException("collectionID");
@@ -68,18 +69,27 @@ namespace Wammer.Cloud
 			if (attIds == null)
 				throw new ArgumentNullException("attIds");
 
-			var id_list = "[" + String.Join(",", attIds.Select((x) => "\"" + x + "\"").ToArray()) + "]";
+			if (modifyTime.HasValue)
+				modifyTime = DateTime.Now;
 
 			Dictionary<object, object> parameters = new Dictionary<object, object>{
 				{ CloudServer.PARAM_API_KEY, apikey },
 				{ CloudServer.PARAM_SESSION_TOKEN, session },
 				{ CloudServer.PARAM_COLLECTION_ID, collectionID },
-				{ CloudServer.PARAM_OBJECT_ID_LIST, id_list },
+				{ CloudServer.PARAM_MODIFY_TIME, modifyTime.Value.ToCloudTimeString()}
 			};
 
-			if (modifyTime.HasValue)
-				parameters.Add(CloudServer.PARAM_MODIFY_TIME, modifyTime.Value.ToCloudTimeString());
+			if (attIds != null && attIds.Any())
+			{
+				var id_list = "[" + String.Join(",", attIds.Select((x) => "\"" + x + "\"").ToArray()) + "]";
+				parameters.Add(CloudServer.PARAM_OBJECT_ID_LIST, id_list);
+			}
 
+			if (!string.IsNullOrEmpty(cover))
+				parameters.Add("cover", cover);
+
+			if (hidden.HasValue)
+				parameters.Add("hidden", hidden.Value.ToString());
 
 			if (!string.IsNullOrEmpty(name))
 				parameters.Add(CloudServer.PARAM_NAME, name);
@@ -100,8 +110,8 @@ namespace Wammer.Cloud
 			if (string.IsNullOrEmpty(collectionID))
 				throw new ArgumentNullException("collectionID");
 
-			if (!modifyTime.HasValue)
-				throw new ArgumentNullException("modifyTime");
+			if (modifyTime.HasValue)
+				modifyTime = DateTime.Now;
 
 			Dictionary<object, object> parameters = new Dictionary<object, object>{
 				{ CloudServer.PARAM_API_KEY, apikey },
@@ -126,8 +136,8 @@ namespace Wammer.Cloud
 			if (string.IsNullOrEmpty(collectionID))
 				throw new ArgumentNullException("collectionID");
 
-			if (!modifyTime.HasValue)
-				throw new ArgumentNullException("modifyTime");
+			if (modifyTime.HasValue)
+				modifyTime = DateTime.Now;
 
 			Dictionary<object, object> parameters = new Dictionary<object, object>{
 				{ CloudServer.PARAM_API_KEY, apikey },
