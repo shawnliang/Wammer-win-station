@@ -23,7 +23,9 @@ namespace Wammer.Cloud
 		public string create_time { get; set; }
 		public string modify_time { get; set; }
 		public string collection_id { get; set; }
+		public String cover { get; set; }
 		public bool hidden { get; set; }
 		public bool smart { get; set; }
+		public bool manual { get; set; }
 	}
 }
