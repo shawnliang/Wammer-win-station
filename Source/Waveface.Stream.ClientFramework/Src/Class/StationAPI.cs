@@ -340,7 +340,7 @@ namespace Waveface.Stream.ClientFramework
 			return Post(uri, parameters);
 		}
 
-		public static string UpdateCollection(string sessionToken, string id, string name = null, IEnumerable<string> attachmentIDs = null, DateTime? timeStamp = null)
+		public static string UpdateCollection(string sessionToken, string id, string name = null, IEnumerable<string> attachmentIDs = null, string coverAttachID = null, bool? hidden = null, DateTime? timeStamp = null)
 		{
 			DebugInfo.ShowMethod();
 
@@ -364,6 +364,12 @@ namespace Waveface.Stream.ClientFramework
 				var id_list = "[" + String.Join(",", attachmentIDs.Select((x) => "\"" + x + "\"").ToArray()) + "]";
 				parameters.Add("object_id_list", id_list);
 			}
+
+			if (!string.IsNullOrEmpty(coverAttachID))
+				parameters.Add("cover", coverAttachID);
+
+			if (hidden.HasValue)
+				parameters.Add("hidden", hidden.Value.ToString());
 
 			return Post(uri, parameters);
 		}
