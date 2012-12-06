@@ -82,10 +82,14 @@
     <Compile Include="Src\Class\StationAPI.cs" />
     <Compile Include="Src\Class\WebSocketCommandData.cs" />
     <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\UnSubscribeEventCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\UpdateCollectionCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\CreateCollectionCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCollectionsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
     <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
     <Compile Include="Src\Class\WebSocketData\AttachmentGPSData.cs" />
+    <Compile Include="Src\Class\WebSocketData\SmallSizeCollcetionData.cs" />
     <Compile Include="Src\Class\WebSocketData\MediumSizeCollcetionData.cs" />
     <Compile Include="Src\Class\WebSocketData\SmallSizePostData.cs" />
     <Compile Include="Src\Class\WebSocketData\ExifData.cs" />
@@ -117,6 +121,7 @@
     <Compile Include="Src\Class\WebSocketCommand\InvokeRestfulCommand.cs" />
     <Compile Include="Src\Enum\SystemEventType.cs" />
     <Compile Include="Src\Event\AttachmentsEventArgs.cs" />
+    <Compile Include="Src\Event\CollectionsEventArgs.cs" />
     <Compile Include="Src\Event\PostsEventArgs.cs" />
     <Compile Include="Src\Event\LoginedEventArgs.cs" />
     <Compile Include="Src\Extension\ListBoxExtension.cs" />

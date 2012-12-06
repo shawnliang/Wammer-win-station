@@ -152,6 +152,16 @@ namespace Waveface.Stream.ClientFramework
         /// Occurs when [attachment downloaded].
         /// </summary>
         public event EventHandler<AttachmentsEventArgs> AttachmentDownloaded;
+
+		/// <summary>
+		/// Occurs when [collection added].
+		/// </summary>
+		public event EventHandler<CollectionsEventArgs> CollectionAdded;
+
+		/// <summary>
+		/// Occurs when [collection updated].
+		/// </summary>
+		public event EventHandler<CollectionsEventArgs> CollectionUpdated;
         #endregion
 
 
@@ -182,6 +192,8 @@ namespace Waveface.Stream.ClientFramework
             this.PostAdded += StreamClient_PostAdded;
             this.PostUpdated += StreamClient_PostUpdated;
             this.AttachmentDownloaded += StreamClient_AttachmentDownloaded;
+			this.CollectionAdded += StreamClient_CollectionAdded;
+			this.CollectionUpdated += StreamClient_CollectionUpdated;
 
 			if (File.Exists(m_StreamDatxFile) && Datx.IsFileExist(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE))
 			{
@@ -309,6 +321,84 @@ namespace Waveface.Stream.ClientFramework
                     Application.DoEvents();
                 }
             })).Start();
+
+			(new Task(() =>
+			{
+				long count = 0;
+				HashSet<string> collectionIDs = null;
+				while (true)
+				{
+					try
+					{
+						if (LoginedUser != null)
+						{
+							var collections = CollectionCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("hidden", false)));
+							var collectionCount = collections.Count();
+
+							if (collectionCount != count)
+							{
+								var firstInit = (collectionIDs == null || collectionIDs.Count == 0);
+
+								var currentCollectionIDs = new HashSet<string>(collections.Select(collection => collection.collection_id));
+
+								var addedCollectionIDS = firstInit ? currentCollectionIDs : currentCollectionIDs.Except(collectionIDs);
+
+								if (!firstInit && addedCollectionIDS.Count() > 0)
+								{
+									Trace.WriteLine("Collection added detected...");
+									OnCollectionAdded(new CollectionsEventArgs(addedCollectionIDS));
+								}
+
+								count = collectionCount;
+								collectionIDs = currentCollectionIDs;
+							}
+						}
+					}
+					catch (Exception)
+					{
+					}
+
+					Thread.Sleep(2000);
+					Application.DoEvents();
+				}
+			})).Start();
+
+
+			(new Task(() =>
+			{
+				HashSet<string> collectionIDs = null;
+				while (true)
+				{
+					try
+					{
+						if (LoginedUser != null)
+						{
+							var collections = CollectionCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("hidden", false)));
+
+							var firstInit = (collectionIDs == null || collectionIDs.Count == 0);
+
+							var currentCollectionIDs = new HashSet<string>(collections.Select(collection => string.Format("{0}§{1}", collection.collection_id, collection.attachment_id_array.Count)));
+
+							var updatedCollectionIDS = firstInit ? currentCollectionIDs : collectionIDs.Except(currentCollectionIDs);
+
+							if (!firstInit && updatedCollectionIDS.Count() > 0)
+							{
+								Trace.WriteLine("Collection updated detected...");
+								OnCollectionUpdated(new CollectionsEventArgs(updatedCollectionIDS));
+							}
+
+							collectionIDs = currentCollectionIDs;
+						}
+					}
+					catch (Exception)
+					{
+					}
+
+					Thread.Sleep(2000);
+					Application.DoEvents();
+				}
+			})).Start();
+
         }
 
 		private SecureString GetStreamDatxPassword()
@@ -443,6 +533,24 @@ namespace Waveface.Stream.ClientFramework
         {
             this.RaiseEvent(AttachmentDownloaded, e);
         }
+
+		/// <summary>
+		/// Raises the <see cref="E:CollectionAdded" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="CollectionsEventArgs" /> instance containing the event data.</param>
+		protected void OnCollectionAdded(CollectionsEventArgs e)
+		{
+			this.RaiseEvent(CollectionAdded, e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:CollectionUpdated" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="CollectionsEventArgs" /> instance containing the event data.</param>
+		protected void OnCollectionUpdated(CollectionsEventArgs e)
+		{
+			this.RaiseEvent(CollectionUpdated, e);
+		}
         #endregion
 
 
@@ -728,6 +836,115 @@ namespace Waveface.Stream.ClientFramework
 
             m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
         }
+
+		void StreamClient_CollectionAdded(object sender, CollectionsEventArgs e)
+		{
+			if (LoginedUser == null)
+				return;
+
+			if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.CollectionAdded))
+				return;
+
+			var commandData = LoginedUser.SubscribedEvents[SystemEventType.CollectionAdded];
+
+
+			var eventParams = commandData.Parameters;
+			var ids = e.IDs;
+
+			if (eventParams == null)
+				eventParams = new Dictionary<string, object>();
+
+			if (eventParams.ContainsKey("collection_id_array"))
+				eventParams.Remove("collection_id_array");
+
+			eventParams.Add("collection_id_array", new JArray(ids.ToArray()));
+
+			if (eventParams.ContainsKey("page_size"))
+				eventParams.Remove("page_size");
+
+			eventParams.Add("page_size", ids.Count());
+
+			var response = WebSocketCommandExecuter.Instance.Execute("getCollections", eventParams);
+
+			var responseParams = new Dictionary<String, Object>(response)
+            {
+                {"event_id", (int)SystemEventType.CollectionAdded}
+            };
+
+			responseParams.Remove("page_no");
+			responseParams.Remove("page_size");
+			responseParams.Remove("page_count");
+			responseParams.Remove("total_count");
+
+
+			var executedValue = new JObject(
+					new JProperty("command", "subscribeEvent"),
+					new JProperty("response", JObject.FromObject(responseParams))
+					);
+
+			var memo = commandData.Memo;
+			if (memo != null)
+				executedValue.Add(new JProperty("memo", memo));
+
+			var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+			m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
+		}
+
+
+		void StreamClient_CollectionUpdated(object sender, CollectionsEventArgs e)
+		{
+			if (LoginedUser == null)
+				return;
+
+			if (!LoginedUser.SubscribedEvents.ContainsKey(SystemEventType.CollectionAdded))
+				return;
+
+			var commandData = LoginedUser.SubscribedEvents[SystemEventType.CollectionAdded];
+
+
+			var eventParams = commandData.Parameters;
+			var ids = e.IDs.Select(id => id.Split('§')[0]);
+
+			if (eventParams == null)
+				eventParams = new Dictionary<string, object>();
+
+			if (eventParams.ContainsKey("collection_id_array"))
+				eventParams.Remove("collection_id_array");
+
+			eventParams.Add("collection_id_array", new JArray(ids.ToArray()));
+
+			if (eventParams.ContainsKey("page_size"))
+				eventParams.Remove("page_size");
+
+			eventParams.Add("page_size", ids.Count());
+
+			var response = WebSocketCommandExecuter.Instance.Execute("getCollections", eventParams);
+
+			var responseParams = new Dictionary<String, Object>(response)
+            {
+                {"event_id", (int)SystemEventType.CollectionAdded}
+            };
+
+			responseParams.Remove("page_no");
+			responseParams.Remove("page_size");
+			responseParams.Remove("page_count");
+			responseParams.Remove("total_count");
+
+
+			var executedValue = new JObject(
+					new JProperty("command", "subscribeEvent"),
+					new JProperty("response", JObject.FromObject(responseParams))
+					);
+
+			var memo = commandData.Memo;
+			if (memo != null)
+				executedValue.Add(new JProperty("memo", memo));
+
+			var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+			m_Server.Send(LoginedUser.WebSocketChannelID, responseMessage);
+		}
         #endregion
     }
 }
