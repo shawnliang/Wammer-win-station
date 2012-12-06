@@ -16,7 +16,7 @@
 		/// Prevents a default instance of the <see cref="CollectionCollection" /> class from being created.
 		/// </summary>
 		private CollectionCollection()
-			: base("Collection")
+			: base("collections")
 		{
 		}
 

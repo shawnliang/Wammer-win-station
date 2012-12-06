@@ -10,9 +10,13 @@ namespace Waveface.Stream.ClientFramework
     /// 
     /// </summary>
 	public class MediumSizeCollcetionData
-    {
-        #region Public Property
-        /// <summary>
+	{
+		#region Private Property
+		private string _coverAttachmentID;
+		#endregion
+
+		#region Public Property
+		/// <summary>
         /// Gets or sets the ID.
         /// </summary>
         /// <value>
@@ -37,7 +41,13 @@ namespace Waveface.Stream.ClientFramework
         /// The attachment count.
         /// </value>
         [JsonProperty("attachment_count")]
-        public int AttachmentCount { get; set; }
+		public int AttachmentCount
+		{
+			get
+			{
+ 				return AttachmentIDs == null? 0: AttachmentIDs.Count();
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the attachment I ds.
@@ -56,6 +66,25 @@ namespace Waveface.Stream.ClientFramework
         /// </value>
         [JsonProperty("timestamp", NullValueHandling = NullValueHandling.Ignore)]
         public string TimeStamp { get; set; }
+
+		/// <summary>
+		/// Gets or sets the cover attachment ID.
+		/// </summary>
+		/// <value>
+		/// The cover attachment ID.
+		/// </value>
+		[JsonProperty("cover_attach", NullValueHandling = NullValueHandling.Ignore)]
+		public string CoverAttachmentID
+		{
+			get
+			{
+				return string.IsNullOrEmpty(_coverAttachmentID) && (AttachmentIDs != null) ? AttachmentIDs.FirstOrDefault() : _coverAttachmentID;
+			}
+			set
+			{
+				_coverAttachmentID = value;
+			}
+		}
 
         /// <summary>
         /// Gets or sets the summary attachments.

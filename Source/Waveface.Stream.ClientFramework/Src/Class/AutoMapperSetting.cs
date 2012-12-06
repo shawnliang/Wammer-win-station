@@ -122,7 +122,8 @@ namespace Waveface.Stream.ClientFramework
 			Mapper.CreateMap<Collection, MediumSizeCollcetionData>()
 				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.collection_id))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.create_time))
-				.ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array));
+				.ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array))
+				.ForMember(dest => dest.CoverAttachmentID, opt => opt.MapFrom(src => src.cover));
         }
         #endregion
     }
