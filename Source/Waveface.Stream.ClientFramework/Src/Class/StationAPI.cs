@@ -254,7 +254,7 @@ namespace Waveface.Stream.ClientFramework
 						{ "session_token", sessionToken}
 					});
 		}
-		public static string CreateCollection(string sessionToken, string name, IEnumerable<string> attachmentIDs, string id = null, DateTime? timeStamp = null)
+		public static string CreateCollection(string sessionToken, string name, IEnumerable<string> attachmentIDs, string id = null, string coverAttachID = null, bool? isManualCreated = null, DateTime? timeStamp = null)
 		{
 			DebugInfo.ShowMethod();
 
@@ -275,6 +275,12 @@ namespace Waveface.Stream.ClientFramework
 
 			if (!string.IsNullOrEmpty(id))
 				parameters.Add("collection_id", id);
+
+			if (!string.IsNullOrEmpty(coverAttachID))
+				parameters.Add("cover", coverAttachID);
+
+			if (isManualCreated.HasValue)
+				parameters.Add("manual", isManualCreated.Value.ToString());
 
 			return Post(uri, parameters);
 		}
