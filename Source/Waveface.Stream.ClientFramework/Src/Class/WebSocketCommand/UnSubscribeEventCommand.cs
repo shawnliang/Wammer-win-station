@@ -10,7 +10,7 @@ using System.Reflection;
 namespace Waveface.Stream.ClientFramework
 {
     [Obfuscation]
-    public class SubscribeEventCommand : WebSocketCommandBase
+    public class UnSubscribeEventCommand : WebSocketCommandBase
 	{
 		#region Public Property
 		/// <summary>
