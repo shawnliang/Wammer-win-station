@@ -1,8 +1,4 @@
-﻿using System;
-using MongoDB.Driver.Builders;
-using Wammer.Cloud;
-using Wammer.Model;
-
+﻿
 namespace Wammer.Station
 {
 	[APIHandlerInfo(APIHandlerType.FunctionAPI, "/auth/logout/")]
@@ -16,7 +12,7 @@ namespace Wammer.Station
 		public override void HandleRequest()
 		{
 			CheckParameter("session_token", "apikey");
-			
+
 			var apiKey = Parameters["apikey"];
 			var sessionToken = Parameters["session_token"];
 

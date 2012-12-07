@@ -72,14 +72,14 @@ namespace Waveface
 		/// <param name="formDataStream">The form data stream.</param>
 		/// <returns></returns>
 		private static byte[] FillPostParameters(Dictionary<string, object> postParameters, string boundary,
-		                                         Stream formDataStream)
+												 Stream formDataStream)
 		{
 			formDataStream.Write(m_Encoding.GetBytes("\r\n"), 0, 2);
 
 			foreach (var param in postParameters)
 			{
 				string postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}\r\n", boundary,
-				                                param.Key, param.Value);
+												param.Key, param.Value);
 				formDataStream.Write(postData, m_Encoding);
 			}
 
@@ -105,7 +105,7 @@ namespace Waveface
 		/// <param name="appendDataProcess">The append data process.</param>
 		/// <returns></returns>
 		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
-		                                           string mimeType, Action<Stream> appendDataProcess)
+												   string mimeType, Action<Stream> appendDataProcess)
 		{
 			using (Stream ms = new MemoryStream())
 			{
@@ -137,7 +137,7 @@ namespace Waveface
 		/// <param name="dataStream">The data stream.</param>
 		/// <returns></returns>
 		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
-		                                           string mimeType, Stream dataStream)
+												   string mimeType, Stream dataStream)
 		{
 			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, stream => stream.Write(dataStream));
 		}
@@ -154,18 +154,18 @@ namespace Waveface
 		/// <param name="fileData">The file data.</param>
 		/// <returns></returns>
 		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
-		                                           string mimeType, ArraySegment<byte> fileData)
+												   string mimeType, ArraySegment<byte> fileData)
 		{
 			return GetMultipartFormData(postParameters, boundary, fileName, mimeType,
-			                            stream => stream.Write(fileData.Array, fileData.Offset, fileData.Count));
+										stream => stream.Write(fileData.Array, fileData.Offset, fileData.Count));
 		}
 
 		#endregion
 
 		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent,
-		                                                    Dictionary<string, object> postParameters, string fileName,
-		                                                    string mimeType, Stream dataStream, int bufferSize = 1024,
-		                                                    Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+															Dictionary<string, object> postParameters, string fileName,
+															string mimeType, Stream dataStream, int bufferSize = 1024,
+															Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			byte[] formData = GetMultipartFormData(postParameters, FORM_DATA_BOUNDARY, fileName, mimeType, dataStream);
 
@@ -176,11 +176,11 @@ namespace Waveface
 		// postParameters with a value of type byte[] will be passed in the form as a file, and value of type string will be
 		// passed as a name/value pair.
 		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent,
-		                                                    Dictionary<string, object> postParameters, string fileName,
-		                                                    string mimeType, ArraySegment<byte> fileData,
-		                                                    int bufferSize = 1024,
-		                                                    Action<object, ProgressChangedEventArgs> progressChangedCallBack =
-		                                                    	null)
+															Dictionary<string, object> postParameters, string fileName,
+															string mimeType, ArraySegment<byte> fileData,
+															int bufferSize = 1024,
+															Action<object, ProgressChangedEventArgs> progressChangedCallBack =
+																null)
 		{
 			byte[] formData = GetMultipartFormData(postParameters, FORM_DATA_BOUNDARY, fileName, mimeType, fileData);
 
@@ -189,8 +189,8 @@ namespace Waveface
 
 
 		public static HttpWebResponse PostWammerImage(string postUrl, string userAgent,
-		                                              Dictionary<string, object> postParameters, string fileName,
-		                                              string mimeType, ArraySegment<byte> fileData)
+													  Dictionary<string, object> postParameters, string fileName,
+													  string mimeType, ArraySegment<byte> fileData)
 		{
 			byte[] formData = GetMultipartFormData(postParameters, FORM_DATA_BOUNDARY, fileName, mimeType, fileData);
 
@@ -199,8 +199,8 @@ namespace Waveface
 
 		// Post a form
 		private static HttpWebResponse PostForm(string postUrl, string userAgent, string contentType, byte[] formData,
-		                                        int bufferSize = 1024,
-		                                        Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
+												int bufferSize = 1024,
+												Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			var request = WebRequest.Create(postUrl) as HttpWebRequest;
 
@@ -250,7 +250,7 @@ namespace Waveface
 			try
 			{
 				// Open a connection
-				var _httpWebRequest = (HttpWebRequest) WebRequest.Create(url);
+				var _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
 				_httpWebRequest.AllowWriteStreamBuffering = true;
 
@@ -294,7 +294,7 @@ namespace Waveface
 			try
 			{
 				// Open a connection
-				var _httpWebRequest = (HttpWebRequest) WebRequest.Create(url);
+				var _httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
 				// You can also specify additional header values like the user agent or the referer: (Optional)
 				_httpWebRequest.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)";

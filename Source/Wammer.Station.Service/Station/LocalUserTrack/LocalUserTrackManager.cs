@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Model;
 using Wammer.Cloud;
+using Wammer.Model;
 
 namespace Wammer.Station.LocalUserTrack
 {
@@ -26,7 +24,7 @@ namespace Wammer.Station.LocalUserTrack
 				this.GetLogger().Warn("Unable to generate local user tracks", e);
 			}
 		}
-		
+
 		public void OnThumbnailGenerated(object sender, ThumbnailEventArgs args)
 		{
 			try

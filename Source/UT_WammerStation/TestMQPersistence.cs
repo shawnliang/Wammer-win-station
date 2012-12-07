@@ -1,16 +1,13 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Queue;
 
 namespace UT_WammerStation.TestData
 {
 	class Item
 	{
-		public string QName {get;set;}
-		public object Data {get;set;}
+		public string QName { get; set; }
+		public object Data { get; set; }
 
 		public Item(string qname, object data)
 		{
@@ -29,7 +26,7 @@ namespace UT_WammerStation.TestData
 
 		public WMSQueue TryLoadQueue(string queueName)
 		{
-			
+
 			WMSQueue q = new WMSQueue(queueName, this);
 			if (queueName == "perQueue")
 			{

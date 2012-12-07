@@ -1,6 +1,6 @@
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Cloud
 {
@@ -90,7 +90,7 @@ namespace Wammer.Cloud
 		}
 
 		public PostFetchByFilterResponse(string group_id, int get_count, int remaining_count,
-		                                 List<PostInfo> posts, List<UserInfo> users)
+										 List<PostInfo> posts, List<UserInfo> users)
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;
@@ -116,7 +116,7 @@ namespace Wammer.Cloud
 		}
 
 		public PostGetResponse(string group_id, int get_count, int remaining_count,
-		                       List<PostInfo> posts, List<UserInfo> users)
+							   List<PostInfo> posts, List<UserInfo> users)
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;
@@ -162,7 +162,7 @@ namespace Wammer.Cloud
 		}
 
 		public PostGetLatestResponse(string group_id, int get_count, int total_count,
-		                             List<PostInfo> posts, List<UserInfo> users)
+									 List<PostInfo> posts, List<UserInfo> users)
 		{
 			this.group_id = group_id;
 			this.get_count = get_count;
@@ -218,7 +218,7 @@ namespace Wammer.Cloud
 			public string type;
 		}
 		#endregion
-		
+
 	}
 
 	[BsonIgnoreExtraElements]
@@ -241,40 +241,40 @@ namespace Wammer.Cloud
 	}
 
 	[BsonIgnoreExtraElements]
-    public class PostGps
-    {
-        [BsonIgnoreIfNull]
-        public float latitude { get; set; }
+	public class PostGps
+	{
+		[BsonIgnoreIfNull]
+		public float latitude { get; set; }
 
-        [BsonIgnoreIfNull]
-        public int zoom_level { get; set; }
+		[BsonIgnoreIfNull]
+		public int zoom_level { get; set; }
 
-        [BsonIgnoreIfNull]
-        public string name { get; set; }
+		[BsonIgnoreIfNull]
+		public string name { get; set; }
 
-        [BsonIgnoreIfNull]
-        public float longitude { get; set; }
-    }
+		[BsonIgnoreIfNull]
+		public float longitude { get; set; }
+	}
 
-    [BsonIgnoreExtraElements]
-    public class Person
-    {
-        [BsonIgnoreIfNull]
-        public string name { get; set; }
+	[BsonIgnoreExtraElements]
+	public class Person
+	{
+		[BsonIgnoreIfNull]
+		public string name { get; set; }
 
-        [BsonIgnoreIfNull]
-        public string avatar { get; set; }
-    }
+		[BsonIgnoreIfNull]
+		public string avatar { get; set; }
+	}
 
-    [BsonIgnoreExtraElements]
-    public class ExtraParameter
-    {
-        [BsonIgnoreIfNull]
-        public string name { get; set; }
+	[BsonIgnoreExtraElements]
+	public class ExtraParameter
+	{
+		[BsonIgnoreIfNull]
+		public string name { get; set; }
 
-        [BsonIgnoreIfNull]
-        public List<string> values { get; set; }
-    }
+		[BsonIgnoreIfNull]
+		public List<string> values { get; set; }
+	}
 
 	[BsonIgnoreExtraElements]
 	public class PostInfo
@@ -348,17 +348,17 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public int seq_num { get; set; }
 
-        [BsonIgnoreIfNull]
-        public List<Person> people { get; set; }
+		[BsonIgnoreIfNull]
+		public List<Person> people { get; set; }
 
-        [BsonIgnoreIfNull]
-        public List<ExtraParameter> extra_parameters { get; set; }
+		[BsonIgnoreIfNull]
+		public List<ExtraParameter> extra_parameters { get; set; }
 
-        [BsonIgnoreIfNull]
-        public PostGps gps { get; set; }
+		[BsonIgnoreIfNull]
+		public PostGps gps { get; set; }
 
-        [BsonIgnoreIfNull]
-        public List<string> tags { get; set; }
+		[BsonIgnoreIfNull]
+		public List<string> tags { get; set; }
 
 	}
 }

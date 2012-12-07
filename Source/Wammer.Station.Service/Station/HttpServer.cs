@@ -1,9 +1,9 @@
-﻿using System;
+﻿using fastJSON;
+using log4net;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using fastJSON;
-using log4net;
 using Wammer.Cloud;
 
 namespace Wammer.Station
@@ -80,7 +80,7 @@ namespace Wammer.Station
 		{
 			try
 			{
-				ctx.Response.StatusCode = (int) HttpStatusCode.NotFound;
+				ctx.Response.StatusCode = (int)HttpStatusCode.NotFound;
 				ctx.Response.Close();
 			}
 			catch (Exception e)
@@ -324,7 +324,7 @@ namespace Wammer.Station
 
 		public HttpHandlingTask(IHttpHandler handler, HttpListenerContext context, long beginTime)
 		{
-			this.handler = (IHttpHandler) handler.Clone();
+			this.handler = (IHttpHandler)handler.Clone();
 			this.context = context;
 			this.beginTime = beginTime;
 		}

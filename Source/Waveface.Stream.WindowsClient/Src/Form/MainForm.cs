@@ -1,20 +1,14 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Security.Permissions;
-using System.Windows.Forms;
-using mshtml;
-using System.Diagnostics;
-using WeifenLuo.WinFormsUI.Docking;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Waveface.Stream.Model;
-using System.IO;
+using System;
 using System.Drawing;
-using System.Reflection;
-using Waveface.Stream.WindowsClient.Properties;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Model;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Waveface.Stream.WindowsClient
 {

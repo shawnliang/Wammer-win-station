@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Net;
-using System.IO;
+using System.Text;
 
 namespace UT_WammerStation
 {
@@ -21,7 +18,7 @@ namespace UT_WammerStation
 
 		public string ResponseAsText
 		{
-			get 
+			get
 			{
 				return Encoding.UTF8.GetString(RawData);
 			}

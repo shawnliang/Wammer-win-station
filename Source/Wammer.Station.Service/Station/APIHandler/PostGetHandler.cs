@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
@@ -31,7 +31,7 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int) PostApiError.PermissionDenied
+					(int)PostApiError.PermissionDenied
 					);
 			}
 
@@ -48,7 +48,7 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.InvalidParameterLimit.ToString(),
-					(int) PostApiError.InvalidParameterLimit
+					(int)PostApiError.InvalidParameterLimit
 					);
 			}
 

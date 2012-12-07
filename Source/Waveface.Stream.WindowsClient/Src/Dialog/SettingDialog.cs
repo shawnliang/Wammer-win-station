@@ -16,20 +16,20 @@ namespace Waveface.Stream.WindowsClient
 {
 	public partial class SettingDialog : Form
 	{
-        class RemoveParam
-        {
-            public string user_id { get; set; }
-            public string email { get; set; }
-            public bool removeData { get; set; }
-        }
+		class RemoveParam
+		{
+			public string user_id { get; set; }
+			public string email { get; set; }
+			public bool removeData { get; set; }
+		}
 
 		#region Const
 		private const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; // https://api.waveface.com/v2/
 		#endregion
 
-        #region Static Var
-        private static SettingDialog _instance;
-        #endregion
+		#region Static Var
+		private static SettingDialog _instance;
+		#endregion
 
 		#region Var
 		private bool _isMovingFolder;
@@ -37,21 +37,21 @@ namespace Waveface.Stream.WindowsClient
 		private BackgroundWorker _updateBackgroundWorker;
 		private SynchronizationContext _syncContext = SynchronizationContext.Current;
 		private ProcessingDialog _processingDialog;
-        private AutoResetEvent startRemoveEvt = new AutoResetEvent(false);
+		private AutoResetEvent startRemoveEvt = new AutoResetEvent(false);
 		#endregion
 
 
 
 
-        #region Public Static Property
-        public static SettingDialog Instance
-        { 
-            get
-            {
+		#region Public Static Property
+		public static SettingDialog Instance
+		{
+			get
+			{
 				return (_instance == null || _instance.IsDisposed) ? (_instance = new SettingDialog()) : _instance;
-            }
-        }
-        #endregion
+			}
+		}
+		#endregion
 
 
 		#region Private Property
@@ -136,30 +136,30 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Private Method
-        private long GetStorageUsage(string userID)
-        {
-            var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
+		private long GetStorageUsage(string userID)
+		{
+			var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 
-            if (driver == null)
-                return 0;
+			if (driver == null)
+				return 0;
 
-            var fs = new FileStorage(driver);
-            return fs.GetUsedSize();
-        }
+			var fs = new FileStorage(driver);
+			return fs.GetUsedSize();
+		}
 
 		private void RefreshAccountList()
 		{
-            var users = from item in DriverCollection.Instance.FindAll()
-                        where item != null && item.user != null
-                        select new { ID = item.user_id, EMail = item.user.email };
+			var users = from item in DriverCollection.Instance.FindAll()
+						where item != null && item.user != null
+						select new { ID = item.user_id, EMail = item.user.email };
 
-            dgvAccountList.Rows.Clear();
-            foreach (var user in users)
-            {
-                var rowIndex = dgvAccountList.Rows.Add(new object[] { user.EMail, (GetStorageUsage(user.ID) / 1024 / 1024).ToString() + " MB", Resources.REMOVE_ACCOUNT_BUTTON_TITLE });
+			dgvAccountList.Rows.Clear();
+			foreach (var user in users)
+			{
+				var rowIndex = dgvAccountList.Rows.Add(new object[] { user.EMail, (GetStorageUsage(user.ID) / 1024 / 1024).ToString() + " MB", Resources.REMOVE_ACCOUNT_BUTTON_TITLE });
 
-                dgvAccountList.Rows[rowIndex].Tag = user.ID;
-            }
+				dgvAccountList.Rows[rowIndex].Tag = user.ID;
+			}
 		}
 
 		private void RefreshCurrentResourceFolder()
@@ -189,53 +189,53 @@ namespace Waveface.Stream.WindowsClient
 
 		private void RemoveAccount(string userID, string email, Boolean removeAllDatas)
 		{
-            BackgroundWorker removeAccountBgWorker = new BackgroundWorker();
-            removeAccountBgWorker.DoWork += new DoWorkEventHandler(removeAccountBgWorker_DoWork);
-            removeAccountBgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(removeAccountBgWorker_RunWorkerCompleted);
-            removeAccountBgWorker.RunWorkerAsync(new RemoveParam { user_id = userID, email = email, removeData = removeAllDatas });
+			BackgroundWorker removeAccountBgWorker = new BackgroundWorker();
+			removeAccountBgWorker.DoWork += new DoWorkEventHandler(removeAccountBgWorker_DoWork);
+			removeAccountBgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(removeAccountBgWorker_RunWorkerCompleted);
+			removeAccountBgWorker.RunWorkerAsync(new RemoveParam { user_id = userID, email = email, removeData = removeAllDatas });
 
-            m_ProcessingDialog.ProcessMessage = Resources.REMOVE_ACCOUNT_MESSAGE;
-            m_ProcessingDialog.ProgressStyle = ProgressBarStyle.Marquee;
-            m_ProcessingDialog.StartPosition = FormStartPosition.CenterParent;
+			m_ProcessingDialog.ProcessMessage = Resources.REMOVE_ACCOUNT_MESSAGE;
+			m_ProcessingDialog.ProgressStyle = ProgressBarStyle.Marquee;
+			m_ProcessingDialog.StartPosition = FormStartPosition.CenterParent;
 
-            startRemoveEvt.Set();
-            m_ProcessingDialog.ShowDialog(this);
+			startRemoveEvt.Set();
+			m_ProcessingDialog.ShowDialog(this);
 		}
 
 
-        void removeAccountBgWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            var param = e.Argument as RemoveParam;
-            e.Result = param;
+		void removeAccountBgWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			var param = e.Argument as RemoveParam;
+			e.Result = param;
 
 
-            startRemoveEvt.WaitOne();
-            var response = StationAPI.RemoveUser(param.user_id, param.removeData);
-        }
+			startRemoveEvt.WaitOne();
+			var response = StationAPI.RemoveUser(param.user_id, param.removeData);
+		}
 
-        void removeAccountBgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                if (e.Error is AuthenticationException)
-                {
-                    MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else if (e.Error is StationServiceDownException)
-                {
-                    MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else if (e.Error is ConnectToCloudException)
-                {
-                    MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    MessageBox.Show(Resources.UNKNOW_REMOVEACCOUNT_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
+		void removeAccountBgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			if (e.Error != null)
+			{
+				if (e.Error is AuthenticationException)
+				{
+					MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				else if (e.Error is StationServiceDownException)
+				{
+					MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				else if (e.Error is ConnectToCloudException)
+				{
+					MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+				else
+				{
+					MessageBox.Show(Resources.UNKNOW_REMOVEACCOUNT_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
+			}
 
-            var param = e.Result as RemoveParam;
+			var param = e.Result as RemoveParam;
 			if (param != null && !string.IsNullOrEmpty(param.email))
 			{
 				if (StreamClient.Instance.IsLogined && param.email.Equals(StreamClient.Instance.LoginedUser.EMail, StringComparison.CurrentCultureIgnoreCase))
@@ -244,9 +244,9 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 
-            RefreshAccountList();
-            m_ProcessingDialog = null;
-        }
+			RefreshAccountList();
+			m_ProcessingDialog = null;
+		}
 		#endregion
 
 

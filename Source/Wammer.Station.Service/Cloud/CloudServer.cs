@@ -1,16 +1,14 @@
+using fastJSON;
+using log4net;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
 using Wammer.PerfMonitor;
 using Wammer.Station;
 using Wammer.Utility;
-using fastJSON;
-using log4net;
 
 namespace Wammer.Cloud
 {
@@ -87,13 +85,13 @@ namespace Wammer.Cloud
 		/// </summary>
 		public static string BaseUrl
 		{
-			get { return baseUrl ?? (baseUrl = (string) StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL)); }
+			get { return baseUrl ?? (baseUrl = (string)StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL)); }
 			set { baseUrl = value; }
 		}
 
 		public static CloudType Type
 		{
-			get 
+			get
 			{
 				if (BaseUrl.Contains("develop.waveface.com"))
 					return CloudType.Development;
@@ -167,7 +165,7 @@ namespace Wammer.Cloud
 		public static bool VersionNotCompatible { get; set; }
 
 		public static void requestDownload(string path, Dictionary<object, object> parameters,
-		                                   string filepath)
+										   string filepath)
 		{
 			var buf = new StringBuilder();
 
@@ -221,7 +219,7 @@ namespace Wammer.Cloud
 		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
 		/// <returns>Response value</returns>
 		public static string requestPath(string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true,Boolean autoRedirectRequest = true)
+										 bool checkOffline = true, Boolean autoRedirectRequest = true)
 		{
 			return requestPath(BaseUrl, path, parms, checkOffline, autoRedirectRequest);
 		}
@@ -237,14 +235,14 @@ namespace Wammer.Cloud
 		/// <param name="timeout">The timeout.</param>
 		/// <returns></returns>
 		public static string requestPath(string baseUrl, string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true, Boolean autoRedirectRequest = true, int timeout = -1)
+										 bool checkOffline = true, Boolean autoRedirectRequest = true, int timeout = -1)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
 					throw new WammerCloudException("Station is in offline mode",
-					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+												   new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -274,14 +272,14 @@ namespace Wammer.Cloud
 		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(string path, Dictionary<object, object> parms,
-		                               bool checkOffline = true, Boolean autoRedirectRequest = true)
+									   bool checkOffline = true, Boolean autoRedirectRequest = true)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
 					throw new WammerCloudException("Station is in offline mode",
-					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+												   new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -297,15 +295,15 @@ namespace Wammer.Cloud
 				throw;
 			}
 		}
-		
-		public static T request<T>(string url, Dictionary<object, object> param, bool isGet,bool checkOffline = true,int timeout = -1)
+
+		public static T request<T>(string url, Dictionary<object, object> param, bool isGet, bool checkOffline = true, int timeout = -1)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
 					throw new WammerCloudException("Station is in offline mode",
-					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+												   new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -364,8 +362,8 @@ namespace Wammer.Cloud
 					if (isGet)
 					{
 						rawResponse = string.IsNullOrEmpty(parameters)
-						              	? agent.DownloadData(url)
-						              	: agent.DownloadData(url + "?" + parameters);
+										? agent.DownloadData(url)
+										: agent.DownloadData(url + "?" + parameters);
 					}
 					else
 					{
@@ -392,7 +390,7 @@ namespace Wammer.Cloud
 			{
 				if (cres.status != 200 || cres.api_ret_code != 0)
 					throw new WammerCloudException("Wammer cloud error", response,
-					                               cres.api_ret_code);
+												   cres.api_ret_code);
 			}
 
 
@@ -429,7 +427,7 @@ namespace Wammer.Cloud
 				if (isOffline)
 				{
 					throw new WammerCloudException("Station is in offline mode",
-					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+												   new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -503,7 +501,7 @@ namespace Wammer.Cloud
 			{
 				if (cres.status != 200 || cres.api_ret_code != 0)
 					throw new WammerCloudException("Wammer cloud error", json,
-					                               cres.api_ret_code);
+												   cres.api_ret_code);
 			}
 
 			return resObj;
@@ -512,7 +510,7 @@ namespace Wammer.Cloud
 		public static bool IsNetworkError(WammerCloudException e)
 		{
 			return (e.InnerException != null && e.InnerException is WebException &&
-			        e.HttpError != WebExceptionStatus.ProtocolError);
+					e.HttpError != WebExceptionStatus.ProtocolError);
 		}
 
 		public static bool IsSessionError(WammerCloudException e)

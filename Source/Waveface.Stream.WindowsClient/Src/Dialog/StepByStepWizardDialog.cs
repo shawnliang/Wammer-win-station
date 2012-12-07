@@ -63,11 +63,11 @@ namespace Waveface.Stream.WindowsClient
 
 			var prevPageIndex = pageIndex - 1;
 
-			var canGoBack = (pageIndex > 1) && 
-				!wizardControl.GetPage(prevPageIndex - 1).RunOnce; 
-				// Question: why (prevPageIndex - 1) ??
-				// Answer: pageIndex and prevPageIndex are 1-based index but 
-				//         GetPage(index) uses 0-based.
+			var canGoBack = (pageIndex > 1) &&
+				!wizardControl.GetPage(prevPageIndex - 1).RunOnce;
+			// Question: why (prevPageIndex - 1) ??
+			// Answer: pageIndex and prevPageIndex are 1-based index but 
+			//         GetPage(index) uses 0-based.
 
 			nextButton.Visible = wizardControl.CurrentPage.HasPrevAndBack;
 			prevButton.Visible = canGoBack && wizardControl.CurrentPage.HasPrevAndBack;
@@ -81,7 +81,7 @@ namespace Waveface.Stream.WindowsClient
 				nextButton.Text = wizardControl.CurrentPage.CustomLabelForNextStep;
 			}
 		}
-		
+
 		#endregion
 
 		#region Event Process
@@ -121,7 +121,7 @@ namespace Waveface.Stream.WindowsClient
 		private void prevButton_Click(object sender, EventArgs e)
 		{
 			wizardControl.PreviousPage();
-		} 
+		}
 
 		/// <summary>
 		/// Handles the PageChanged event of the wizardControl1 control.
@@ -151,7 +151,7 @@ namespace Waveface.Stream.WindowsClient
 			UpdateButton();
 		}
 
-		
+
 		#endregion
 	}
 }

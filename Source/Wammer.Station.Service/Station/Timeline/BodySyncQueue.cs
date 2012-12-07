@@ -27,7 +27,7 @@ namespace Wammer.Station.Timeline
 		private readonly Queue<IResourceDownloadTask> mediumPriorityQueue = new Queue<IResourceDownloadTask>();
 		private readonly Queue<IResourceDownloadTask> highPriorityQueue = new Queue<IResourceDownloadTask>();
 
-		
+
 		//public event EventHandler TaskDropped;
 
 		#region Constructor
@@ -62,7 +62,7 @@ namespace Wammer.Station.Timeline
 				else
 					dequeued = lowPriorityQueue.Dequeue();
 
-	
+
 				if (dequeued == null)
 					return null;
 				keys.Remove(dequeued.Name);
@@ -154,7 +154,7 @@ namespace Wammer.Station.Timeline
 	}
 
 
-	internal class DummyResourceDownloadTask: IResourceDownloadTask
+	internal class DummyResourceDownloadTask : IResourceDownloadTask
 	{
 		private readonly string name = Guid.NewGuid().ToString();
 

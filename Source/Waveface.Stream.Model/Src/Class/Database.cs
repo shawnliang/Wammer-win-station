@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Bson;
+using System;
 
 namespace Waveface.Stream.Model
 {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Data.SQLite;
 using System.IO;
 using System.Text;
-using log4net;
 
 namespace Wammer.Utility
 {
@@ -11,7 +11,7 @@ namespace Wammer.Utility
 		private const string hostDb = @"Dropbox\host.db";
 		private const string configDb = @"Dropbox\config.db";
 		private const string syncFolder = @"Stream";
-		private static readonly ILog logger = LogManager.GetLogger(typeof (DropboxHelper));
+		private static readonly ILog logger = LogManager.GetLogger(typeof(DropboxHelper));
 
 		public static bool IsInstalled()
 		{

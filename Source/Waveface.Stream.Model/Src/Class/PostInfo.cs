@@ -1,16 +1,14 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Waveface.Stream.Model
 {
 	[BsonIgnoreExtraElements]
 	public class PostInfo
 	{
-        //[BsonIgnoreIfNull]
-        //public List<AttachmentInfo> attachments { get; set; }
+		//[BsonIgnoreIfNull]
+		//public List<AttachmentInfo> attachments { get; set; }
 
 		[BsonIgnoreIfNull]
 		public int attachment_count { get; set; }
@@ -75,20 +73,20 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public string cover_attach { get; set; }
 
-        [BsonIgnoreIfNull]
-        public int seq_num { get; set; }
+		[BsonIgnoreIfNull]
+		public int seq_num { get; set; }
 
 
-        [BsonIgnoreIfNull]
-        public List<Person> people { get; set; }
+		[BsonIgnoreIfNull]
+		public List<Person> people { get; set; }
 
-        [BsonIgnoreIfNull]
-        public List<ExtraParameter> extra_parameters { get; set; }
+		[BsonIgnoreIfNull]
+		public List<ExtraParameter> extra_parameters { get; set; }
 
-        [BsonIgnoreIfNull]
-        public PostGps gps { get; set; }
+		[BsonIgnoreIfNull]
+		public PostGps gps { get; set; }
 
-        [BsonIgnoreIfNull]
-        public List<string> tags { get; set; }
+		[BsonIgnoreIfNull]
+		public List<string> tags { get; set; }
 	}
 }

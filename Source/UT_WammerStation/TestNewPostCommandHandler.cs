@@ -23,7 +23,7 @@ namespace UT_WammerStation
 		#region Var
 		static MongoServer mongodb;
 		HttpServer server;
-		HttpHandler handler; 
+		HttpHandler handler;
 		#endregion
 
 		#region Private Method
@@ -63,7 +63,7 @@ namespace UT_WammerStation
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost/v2/";			
+			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").Insert(
 				new Driver
@@ -79,9 +79,9 @@ namespace UT_WammerStation
 				new LoginedSession()
 				{
 					session_token = "exist session token",
-					device = new Device() { device_id = "unit test device id", device_name = "unit test device"},
-					apikey = new Apikey() { name = "window"}
-				});	
+					device = new Device() { device_id = "unit test device id", device_name = "unit test device" },
+					apikey = new Apikey() { name = "window" }
+				});
 		}
 
 		[TestCleanup]
@@ -108,7 +108,7 @@ namespace UT_WammerStation
 					}}
 				};
 
-			PostCollection.Instance.Save(existedPost);	
+			PostCollection.Instance.Save(existedPost);
 			var response = CloudServer.request<NewPostCommentResponse>(API_URL,
 				new Dictionary<object, object>{ 
 				{CloudServer.PARAM_API_KEY, "!@##%$&"},
@@ -131,7 +131,7 @@ namespace UT_WammerStation
 			Assert.AreEqual("secondary unit test post comment", comment.content);
 		}
 
-	
+
 		[TestMethod]
 		[ExpectedException(typeof(WammerCloudException))]
 		public void NewPostComment_WithoutAPIKey_ThrowWammerCloudException()

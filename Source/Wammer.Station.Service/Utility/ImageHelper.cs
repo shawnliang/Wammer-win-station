@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Diagnostics;
 using System.Windows.Media.Imaging;
 
 namespace Wammer.Utility
@@ -38,8 +36,8 @@ namespace Wammer.Utility
 
 		public static Image ScaleBasedOnLongSide(Bitmap original, int sideLength)
 		{
-			float ratio1 = sideLength/(float) original.Width;
-			float ratio2 = sideLength/(float) original.Height;
+			float ratio1 = sideLength / (float)original.Width;
+			float ratio2 = sideLength / (float)original.Height;
 			float ratio = (original.Width > original.Height) ? ratio1 : ratio2;
 
 
@@ -48,8 +46,8 @@ namespace Wammer.Utility
 
 		public static Image ScaleBasedOnShortSide(Bitmap original, int sideLength)
 		{
-			float ratio1 = sideLength/(float) original.Width;
-			float ratio2 = sideLength/(float) original.Height;
+			float ratio1 = sideLength / (float)original.Width;
+			float ratio2 = sideLength / (float)original.Height;
 			float ratio = (original.Width < original.Height) ? ratio1 : ratio2;
 
 			return Scale(original, ratio);
@@ -60,8 +58,8 @@ namespace Wammer.Utility
 			if (ratio >= 1)
 				return original;
 
-			var scaledWidth = (int) (original.Width*ratio);
-			var scaledHeight = (int) (original.Height*ratio);
+			var scaledWidth = (int)(original.Width * ratio);
+			var scaledHeight = (int)(original.Height * ratio);
 			return new Bitmap(original, new Size(scaledWidth, scaledHeight));
 		}
 
@@ -118,7 +116,7 @@ namespace Wammer.Utility
 			if (orientation_index < 0) return ExifOrientations.Unknown;
 
 			// Return the orientation value.
-			return (ExifOrientations) img.GetPropertyItem(OrientationId).Value[0];
+			return (ExifOrientations)img.GetPropertyItem(OrientationId).Value[0];
 		}
 
 		public static void CorrectOrientation(ExifOrientations orientation, Image pic)

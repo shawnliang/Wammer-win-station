@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
@@ -26,7 +26,7 @@ namespace Wammer.Station
 		/// <returns>
 		/// 	<c>true</c> if [is this primary station] [the specified stations]; otherwise, <c>false</c>.
 		/// </returns>
-		private bool IsThisPrimaryStation(string stationId,IEnumerable<UserStation> stations)
+		private bool IsThisPrimaryStation(string stationId, IEnumerable<UserStation> stations)
 		{
 			if (stations == null)
 				return false;
@@ -101,7 +101,7 @@ namespace Wammer.Station
 
 			//Remove residual driver
 			DriverCollection.Instance.Remove(Query.EQ("email", user.email));
-			
+
 			var driver = new Driver
 							{
 								user_id = user.user_id,
@@ -109,7 +109,7 @@ namespace Wammer.Station
 								groups = res.groups,
 								folder = Path.Combine(resourceBasePath, "user_" + user.user_id),
 								session_token = res.session_token,
-								isPrimaryStation = IsThisPrimaryStation(stationId,res.stations),
+								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
 								ref_count = 1,
 								user = user,
 								stations = res.stations
@@ -158,7 +158,7 @@ namespace Wammer.Station
 				var user = User.LogIn(email, password, deviceID, deviceName);
 
 				if (user == null)
-					throw new WammerStationException("Logined user not found", (int) StationLocalApiError.AuthFailed);
+					throw new WammerStationException("Logined user not found", (int)StationLocalApiError.AuthFailed);
 
 				if (user.Id == existingDriver.user_id)
 				{
@@ -166,11 +166,11 @@ namespace Wammer.Station
 					DriverCollection.Instance.Save(existingDriver);
 
 					return new AddUserResponse
-					       	{
-					       		UserId = existingDriver.user_id,
-					       		IsPrimaryStation = existingDriver.isPrimaryStation,
-					       		Stations = existingDriver.stations
-					       	};
+							{
+								UserId = existingDriver.user_id,
+								IsPrimaryStation = existingDriver.isPrimaryStation,
+								Stations = existingDriver.stations
+							};
 				}
 
 				//Remove the user from db, and stop service this user
@@ -185,7 +185,7 @@ namespace Wammer.Station
 			}
 
 			var res = StationApi.SignUpByEmailPassword(stationId, email, password, deviceID,
-			                                           deviceName, StatusChecker.GetDetail());
+													   deviceName, StatusChecker.GetDetail());
 			StationCollection.Instance.Update(
 				Query.EQ("_id", stationId),
 				Update.Set("SessionToken", res.session_token)
@@ -195,17 +195,17 @@ namespace Wammer.Station
 				);
 
 			var driver = new Driver
-			             	{
-			             		user_id = res.user.user_id,
-			             		email = email,
-			             		folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
-			             		groups = res.groups,
-			             		session_token = res.session_token,
-			             		isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
-			             		ref_count = 1,
-			             		user = res.user,
-			             		stations = res.stations
-			             	};
+							{
+								user_id = res.user.user_id,
+								email = email,
+								folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
+								groups = res.groups,
+								session_token = res.session_token,
+								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
+								ref_count = 1,
+								user = res.user,
+								stations = res.stations
+							};
 
 			CreateUserFolder(driver);
 
@@ -218,11 +218,11 @@ namespace Wammer.Station
 			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeSaveArgs.UserData));
 
 			return new AddUserResponse
-			       	{
-			       		UserId = driver.user_id,
-			       		IsPrimaryStation = driver.isPrimaryStation,
-			       		Stations = driver.stations
-			       	};
+					{
+						UserId = driver.user_id,
+						IsPrimaryStation = driver.isPrimaryStation,
+						Stations = driver.stations
+					};
 
 		}
 

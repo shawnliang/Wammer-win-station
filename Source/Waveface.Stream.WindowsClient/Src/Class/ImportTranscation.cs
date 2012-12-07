@@ -25,7 +25,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			this.socket = new WebSocket("ws://127.0.0.1:9983");
 
-            socket.OnMessage += new EventHandler<WebSocketSharp.MessageEventArgs>(socket_OnMessage);
+			socket.OnMessage += new EventHandler<WebSocketSharp.MessageEventArgs>(socket_OnMessage);
 			socket.OnError += new EventHandler<ErrorEventArgs>(socket_OnError);
 			socket.OnClose += new EventHandler<CloseEventArgs>(socket_OnClose);
 

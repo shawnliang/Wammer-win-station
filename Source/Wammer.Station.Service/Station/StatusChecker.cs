@@ -1,9 +1,9 @@
-﻿using System;
+﻿using log4net;
+using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using log4net;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
@@ -24,7 +24,7 @@ namespace Wammer.Station
 	{
 		//private Timer timer;
 		//private long timerPeriod;
-		private static readonly ILog logger = LogManager.GetLogger(typeof (StatusChecker));
+		private static readonly ILog logger = LogManager.GetLogger(typeof(StatusChecker));
 
 		public EventHandler<IsPrimaryChangedEvtArgs> IsPrimaryChanged;
 		private bool logon; // logOn is needed for every time service start
@@ -39,14 +39,14 @@ namespace Wammer.Station
 			var baseurl = NetworkHelper.GetBaseURL();
 
 			var status = new StationDetail
-			             	{
-			             		location = baseurl,
+							{
+								location = baseurl,
 								ws_location = "ws://" + new Uri(baseurl).Host + ":9983",
-			             		diskusage = new List<DiskUsage>(),
-			             		upnp = new UPnPInfo { status = false },
-			             		computer_name = Environment.MachineName,
-			             		version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
-			             	};
+								diskusage = new List<DiskUsage>(),
+								upnp = new UPnPInfo { status = false },
+								computer_name = Environment.MachineName,
+								version = Assembly.GetExecutingAssembly().GetName().Version.ToString()
+							};
 
 			var drivers = DriverCollection.Instance.FindAll();
 
@@ -57,11 +57,11 @@ namespace Wammer.Station
 				{
 					//TODO: storage.GetAvailSize() 這段有誤...
 					status.diskusage.Add(new DiskUsage
-					                     	{
-					                     		group_id = group.group_id,
-					                     		used = storage.GetUsedSize(),
-					                     		avail = storage.GetAvailSize() 
-					                     	});
+											{
+												group_id = group.group_id,
+												used = storage.GetUsedSize(),
+												avail = storage.GetAvailSize()
+											});
 				}
 			}
 

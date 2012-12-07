@@ -21,7 +21,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the m_ content provider.
 		/// </summary>
 		/// <value>The m_ content provider.</value>
-		public AutoImportContentProvider m_ContentProvider 
+		public AutoImportContentProvider m_ContentProvider
 		{
 			get
 			{
@@ -67,33 +67,33 @@ namespace Waveface.Stream.WindowsClient
 			if (loginedSession == null)
 				return;
 
-            var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "");
+			var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "");
 
-            var filesToImport = new List<string>();
+			var filesToImport = new List<string>();
 
-            foreach (var content in importContents)
-            {
-                try
-                {
-                    var contentPath = content.Path;
-                    if (content.Path == systemResourcePath)
-                        continue;
+			foreach (var content in importContents)
+			{
+				try
+				{
+					var contentPath = content.Path;
+					if (content.Path == systemResourcePath)
+						continue;
 
-                    var contentLength = (new FileInfo(content.FilePath)).Length;
-                    if (contentLength < 20 * 1024)
-                        continue;
+					var contentLength = (new FileInfo(content.FilePath)).Length;
+					if (contentLength < 20 * 1024)
+						continue;
 
-                    var frame = GetBitmapFrame(content.FilePath);
-                    if (frame == null || frame.Height < 256 || frame.Width < 256)
-                        continue;
+					var frame = GetBitmapFrame(content.FilePath);
+					if (frame == null || frame.Height < 256 || frame.Width < 256)
+						continue;
 
-                    filesToImport.Add(content.FilePath);
-                }
-                catch (Exception)
-                {
-                }
-            }
-            StationAPI.Import(loginedSession.session_token, loginedSession.groups.First().group_id, filesToImport);
+					filesToImport.Add(content.FilePath);
+				}
+				catch (Exception)
+				{
+				}
+			}
+			StationAPI.Import(loginedSession.session_token, loginedSession.groups.First().group_id, filesToImport);
 		}
 		#endregion
 

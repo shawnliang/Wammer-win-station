@@ -1,7 +1,6 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.ComponentModel;
-using System.IO;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
@@ -39,7 +38,7 @@ namespace Wammer.Station.AttachmentUpload
 
 				if (meta == ImageMeta.Medium && attachment.body_on_cloud)
 					return;	// Body is already uploaded to cloud. No need to upload medium again.
-							// This happens only on secondary station..
+				// This happens only on secondary station..
 
 				Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
 				if (user == null)

@@ -1,23 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Driver.Builders;
+using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using System.Windows.Forms;
-using Waveface.Stream.Model;
-using System.Linq;
 using Waveface.Stream.ClientFramework;
-using MongoDB.Driver.Builders;
+using Waveface.Stream.Model;
 
 namespace Waveface.Stream.WindowsClient
 {
-    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    public partial class AccountInfoForm : Form
+	[PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+	public partial class AccountInfoForm : Form
 	{
 		#region Const
 		private const string CLIENT_API_KEY = @"a23f9491-ba70-5075-b625-b8fb5d9ecd90";
@@ -31,13 +30,13 @@ namespace Waveface.Stream.WindowsClient
 		private const string STAGING_BASE_URL = @"http://staging.waveface.com";
 		private const string DEV_WEB_BASE_PAGE_URL = @"https://devweb.waveface.com";
 		private const string FB_TURN_ON_URL_PATH = @"/sns/facebook/connect";
-        public const string DEF_BASE_URL = "https://develop.waveface.com/v2/";
+		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/";
 		#endregion
 
 
 		#region Static Var
-        private static AccountInfoForm _instance;
-        #endregion
+		private static AccountInfoForm _instance;
+		#endregion
 
 
 		#region Var
@@ -62,18 +61,18 @@ namespace Waveface.Stream.WindowsClient
 		public Action FBImportOK { get; set; }
 		public Action FBImportCancel { get; set; }
 
-        private static string m_CloudBaseURL
-        {
-            get { return (string)StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL); }
-        }
+		private static string m_CloudBaseURL
+		{
+			get { return (string)StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL); }
+		}
 
 		private string m_BaseUrl
 		{
 			get
 			{
 				return _baseUrl ??
-                       (_baseUrl = m_CloudBaseURL.Contains("develop.waveface.com") ? DEV_WEB_BASE_PAGE_URL :
-                       (m_CloudBaseURL.Contains("staging.waveface.com") ? STAGING_BASE_URL : WEB_BASE_URL));
+					   (_baseUrl = m_CloudBaseURL.Contains("develop.waveface.com") ? DEV_WEB_BASE_PAGE_URL :
+					   (m_CloudBaseURL.Contains("staging.waveface.com") ? STAGING_BASE_URL : WEB_BASE_URL));
 			}
 		}
 
@@ -119,8 +118,8 @@ namespace Waveface.Stream.WindowsClient
 			if (loginedSession == null)
 				return;
 
-            m_SessionToken = loginedSession.session_token;
-            m_UserID = loginedSession.user.user_id;
+			m_SessionToken = loginedSession.session_token;
+			m_UserID = loginedSession.user.user_id;
 
 			Reset();
 		}
@@ -145,7 +144,7 @@ namespace Waveface.Stream.WindowsClient
 			string fbLoginUrl = string.Format("{0}/{1}/FBConnect", m_CallbackUrl, FB_LOGIN_GUID);
 			var postData = new FBPostData
 			{
-                device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
+				device_id = StationRegistry.GetValue("stationId", string.Empty).ToString(),
 				device_name = Environment.MachineName,
 				device = "windows",
 				api_key = CLIENT_API_KEY,
@@ -264,9 +263,9 @@ namespace Waveface.Stream.WindowsClient
 						lblIsFacebookImportEnabled.Text = string.Format("{0} ({1})", (facebook.Enabled) ? Properties.Resources.TURNED_ON : Properties.Resources.TURNED_OFF, facebook.SnsID);
 
 						btnFacebookImport.Text = (facebook.Enabled) ? Properties.Resources.TURN_OFF : Properties.Resources.TURN_ON;
-						
+
 						lblFBImportTip.Text = (facebook.Enabled) ?
-                            ((string.Equals(facebook.Status2, "progress", StringComparison.CurrentCultureIgnoreCase)) ? Properties.Resources.FB_IMPRORT_PROGRESSING : string.Format(Properties.Resources.FB_IMPORT_CLAST_SYNC_PATTERN, TimeHelper.ISO8601ToDateTime(facebook.LastSync).ToString())) :
+							((string.Equals(facebook.Status2, "progress", StringComparison.CurrentCultureIgnoreCase)) ? Properties.Resources.FB_IMPRORT_PROGRESSING : string.Format(Properties.Resources.FB_IMPORT_CLAST_SYNC_PATTERN, TimeHelper.ISO8601ToDateTime(facebook.LastSync).ToString())) :
 							string.Empty;
 
 						if (isDialogInited && accessTokenExpired)
@@ -335,7 +334,7 @@ namespace Waveface.Stream.WindowsClient
 				MessageBox.Show(Properties.Resources.NETWORK_UNAVAILABLE);
 				return;
 			}
-			
+
 			if (btnFacebookImport.Text == Properties.Resources.TURN_OFF)
 			{
 				FBImportOK = () =>
@@ -359,7 +358,7 @@ namespace Waveface.Stream.WindowsClient
 
 				FBImportCancel = () =>
 				{
-                    StationAPI.SNSDisconnect(m_SessionToken, "facebook");
+					StationAPI.SNSDisconnect(m_SessionToken, "facebook");
 				};
 
 				Update();
@@ -403,13 +402,13 @@ namespace Waveface.Stream.WindowsClient
 				if (m_OriginalSubscribed != checkBox1.Checked)
 				{
 					needUpdate = true;
-                    StationAPI.UpdateUser(m_SessionToken, m_UserID, checkBox1.Checked);
+					StationAPI.UpdateUser(m_SessionToken, m_UserID, checkBox1.Checked);
 				}
 
 				if (m_OriginalName != tbxName.Text)
 				{
 					needUpdate = true;
-                    StationAPI.UpdateUser(m_SessionToken, m_UserID, tbxName.Text, null);
+					StationAPI.UpdateUser(m_SessionToken, m_UserID, tbxName.Text, null);
 				}
 
 				if (FBImportOK != null)
@@ -516,5 +515,5 @@ namespace Waveface.Stream.WindowsClient
 			if (this.DialogResult != DialogResult.OK)
 				button1.PerformClick();
 		}
-    }
+	}
 }

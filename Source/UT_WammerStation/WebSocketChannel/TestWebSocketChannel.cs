@@ -1,12 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WebSocketSharp;
-using Wammer.Station.Notify;
 using System.Threading;
+using Wammer.Station.Notify;
 using Wammer.Utility;
+using WebSocketSharp;
 
 namespace UT_WammerStation.WebSocketChannel
 {
@@ -55,7 +53,7 @@ namespace UT_WammerStation.WebSocketChannel
 			// connect 
 			client.Connect("session", "apikey", "user", 2000);
 
-			
+
 			// verify
 			Assert.IsTrue(added.WaitOne(3000));
 			var channels = wsServer.GetChannelsByUser("user");
@@ -88,7 +86,7 @@ namespace UT_WammerStation.WebSocketChannel
 			ManualResetEvent added = new ManualResetEvent(false);
 			INotifyChannel channel = null;
 			wsServer.ChannelAdded += (s, e) => { channel = e.Channel; added.Set(); };
-			
+
 			// connect
 			string notifyData = "";
 			ManualResetEvent notified = new ManualResetEvent(false);
@@ -133,7 +131,7 @@ namespace UT_WammerStation.WebSocketChannel
 		[TestMethod]
 		public void CloseWithStatusCodeAndReason()
 		{
-			
+
 			ManualResetEvent added = new ManualResetEvent(false);
 			ManualResetEvent closed = new ManualResetEvent(false);
 			WebSocketSharp.Frame.CloseStatusCode closeStatus = WebSocketSharp.Frame.CloseStatusCode.NO_STATUS_CODE;
@@ -144,7 +142,7 @@ namespace UT_WammerStation.WebSocketChannel
 			};
 
 			// connect
-			client.socket.OnClose += (s, e) => 
+			client.socket.OnClose += (s, e) =>
 			{
 				closeStatus = e.Code;
 				closeReason = e.Reason;
@@ -157,7 +155,7 @@ namespace UT_WammerStation.WebSocketChannel
 			var chs = wsServer.GetChannelsByUser("user");
 			Assert.AreEqual(1, chs.Count());
 			wsServer.CloseChannel(chs.First(), WebSocketSharp.Frame.CloseStatusCode.POLICY_VIOLATION, "test123");
-			
+
 			// verify
 			Assert.AreEqual(0, wsServer.GetChannelsByUser("user").Count());
 			Assert.IsTrue(closed.WaitOne(1000));
@@ -236,7 +234,7 @@ namespace UT_WammerStation.WebSocketChannel
 					session_token = session_token,
 					user_id = user_id
 				},
-				subscribe = new SubscribeMSg {  }
+				subscribe = new SubscribeMSg { }
 			};
 
 			socket.Send(cmd.ToFastJSON());
@@ -252,5 +250,5 @@ namespace UT_WammerStation.WebSocketChannel
 	}
 
 
-	
+
 }

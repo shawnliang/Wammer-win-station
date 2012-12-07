@@ -6,7 +6,7 @@ namespace Wammer.Station
 	internal class SuspendSyncHandler : HttpHandler
 	{
 		#region Event
-		public event EventHandler SyncSuspended; 
+		public event EventHandler SyncSuspended;
 		#endregion
 
 
@@ -30,7 +30,7 @@ namespace Wammer.Station
 			RespondSuccess();
 
 			OnSyncSuspended();
-		} 
+		}
 		#endregion
 	}
 }

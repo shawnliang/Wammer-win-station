@@ -1,20 +1,12 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
-using System.IO;
-using System.Web;
-using System.ServiceModel;
-using System.ServiceModel.Web;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
-using MongoDB.Driver.Builders;
-using Wammer.Cloud;
-using Wammer.Station;
-using Wammer.Model;
+using System;
+using System.Collections.Generic;
 using Wammer;
+using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.PerfMonitor;
+using Wammer.Station;
 
 namespace UT_WammerStation
 {
@@ -79,7 +71,7 @@ namespace UT_WammerStation
 				});
 
 			mongodb.GetDatabase("wammer").GetCollection("station").Insert(
-				new StationInfo() 
+				new StationInfo()
 				{
 					Id = "1234"
 				});

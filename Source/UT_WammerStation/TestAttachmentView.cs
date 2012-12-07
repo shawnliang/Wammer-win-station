@@ -1,18 +1,14 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Wammer.Station;
+using Wammer;
 using Wammer.Cloud;
 using Wammer.Model;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using Wammer;
 using Wammer.PerfMonitor;
+using Wammer.Station;
 
 namespace UT_WammerStation
 {
@@ -105,7 +101,7 @@ namespace UT_WammerStation
 			if (db.CollectionExists("attachments"))
 				db.Drop();
 
-			db.CreateCollection("attachments");	
+			db.CreateCollection("attachments");
 
 			db.GetCollection<Attachment>("attachments").Insert(new Attachment
 			{
@@ -215,7 +211,7 @@ namespace UT_WammerStation
 		}
 	}
 
-	class FakeCloudRemoteHandler: HttpHandler
+	class FakeCloudRemoteHandler : HttpHandler
 	{
 		public static System.Collections.Specialized.NameValueCollection SavedParams;
 

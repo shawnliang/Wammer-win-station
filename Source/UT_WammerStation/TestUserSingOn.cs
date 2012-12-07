@@ -1,10 +1,7 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
-using System.IO;
 using System.Web;
 using Wammer.Cloud;
 
@@ -33,7 +30,7 @@ namespace UT_WammerStation
 				Assert.AreEqual("user1", user.Name);
 				Assert.AreEqual("passwd1", user.Password);
 				Assert.AreEqual("uid", user.Id);
-				Assert.AreEqual("/v9999/auth/login", 
+				Assert.AreEqual("/v9999/auth/login",
 					fakeCloud.RequestedPath);
 				Assert.AreEqual("email=user1&password=passwd1&apikey=apiKey1&device_id=deviceId&device_name=deviceName",
 					fakeCloud.PostData);
@@ -114,11 +111,11 @@ namespace UT_WammerStation
 				Wammer.Cloud.StationApi api = new Wammer.Cloud.StationApi("sid1", "token1");
 				api.LogOn();
 				Assert.AreEqual("/v9999/stations/logOn",
-				                fakeCloud.RequestedPath);
+								fakeCloud.RequestedPath);
 				Assert.AreEqual("session_token=token1&station_id=sid1&apikey=apiKey1",
-				                fakeCloud.PostData);
+								fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
-				                fakeCloud.RequestedContentType);
+								fakeCloud.RequestedContentType);
 				Assert.AreEqual("newToken1", api.Token);
 			}
 		}
@@ -157,13 +154,13 @@ namespace UT_WammerStation
 				api.LogOn(param);
 
 				Assert.AreEqual("/v9999/stations/logOn",
-				                fakeCloud.RequestedPath);
+								fakeCloud.RequestedPath);
 				Assert.AreEqual(
 					"host_name=hostname1&ip_address=ip1&port=9999&" +
 					"session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
-				                fakeCloud.RequestedContentType);
+								fakeCloud.RequestedContentType);
 				Assert.AreEqual("newToken1", api.Token);
 
 				Assert.AreEqual("newToken1", api.Token);
@@ -202,13 +199,13 @@ namespace UT_WammerStation
 				api.LogOn(param);
 
 				Assert.AreEqual("/v9999/stations/logOn",
-				                fakeCloud.RequestedPath);
+								fakeCloud.RequestedPath);
 				Assert.AreEqual(
 					"key=" + HttpUtility.UrlEncode(@"<>+@/\|") +
 					"&session_token=token1&station_id=sid1&apikey=apiKey1",
 					fakeCloud.PostData);
 				Assert.AreEqual("application/x-www-form-urlencoded",
-				                fakeCloud.RequestedContentType);
+								fakeCloud.RequestedContentType);
 				Assert.AreEqual("newToken1", api.Token);
 
 				Assert.AreEqual("newToken1", api.Token);

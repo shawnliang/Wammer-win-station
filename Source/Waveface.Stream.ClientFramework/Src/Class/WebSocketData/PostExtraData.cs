@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Waveface.Stream.ClientFramework
 {
-    public class PostExtraData
-    {
-        public string name { get; set; }
+	public class PostExtraData
+	{
+		public string name { get; set; }
 
-        public List<string> values { get; set; }
-    }
+		public List<string> values { get; set; }
+	}
 }

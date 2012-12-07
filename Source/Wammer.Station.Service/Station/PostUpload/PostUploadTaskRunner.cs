@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
+using Wammer.Cloud;
 using Wammer.Station;
 using Wammer.Utility;
-using Wammer.Cloud;
-using System.Net;
 
 namespace Wammer.PostUpload
 {
@@ -43,7 +43,7 @@ namespace Wammer.PostUpload
 						queue.Undo(task);
 					}
 
-					if (e is WammerCloudException && 
+					if (e is WammerCloudException &&
 						e.InnerException is WebException &&
 						(e.InnerException as WebException).Status != WebExceptionStatus.ProtocolError)
 					{

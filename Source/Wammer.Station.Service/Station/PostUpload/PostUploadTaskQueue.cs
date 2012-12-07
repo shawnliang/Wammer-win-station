@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 
@@ -85,7 +85,7 @@ namespace Wammer.PostUpload
 					AddAvailableHeadTask();
 				}
 				PostUploadTasksCollection.Instance.Save(
-					new PostUploadTasks {post_id = task.PostId, tasks = queue});
+					new PostUploadTasks { post_id = task.PostId, tasks = queue });
 
 				monitor.PostUploadTaskEnqueued();
 			}

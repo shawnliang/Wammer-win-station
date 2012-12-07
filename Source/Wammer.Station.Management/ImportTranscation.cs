@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using WebSocketSharp;
+using Wammer.Model;
 using Wammer.Station.Notify;
 using Wammer.Utility;
-using Wammer.Model;
-using MongoDB.Bson;
+using WebSocketSharp;
 
 namespace Wammer.Station.Management
 {

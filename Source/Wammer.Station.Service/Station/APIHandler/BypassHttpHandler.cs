@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +8,6 @@ using System.Net;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
 using Wammer.Utility;
-using log4net;
 
 namespace Wammer.Station
 {
@@ -57,12 +57,12 @@ namespace Wammer.Station
 				if (HasNotAllowedPrefix(origReq.Url.AbsolutePath))
 				{
 					var json = new CloudResponse(403, -1,
-					                             "Station does not support this REST API; only Cloud does");
+												 "Station does not support this REST API; only Cloud does");
 					HttpHelper.RespondFailure(response, json);
 				}
 
 				Uri targetUri = GetTargetUri(origReq);
-				var newReq = (HttpWebRequest) WebRequest.Create(targetUri);
+				var newReq = (HttpWebRequest)WebRequest.Create(targetUri);
 
 				CopyRequestHeaders(origReq, newReq);
 				newReq.Headers.Add("VIA_WF_STATION", stationId);
@@ -70,7 +70,7 @@ namespace Wammer.Station
 				if (origReq.HasEntityBody)
 				{
 					newReq.BeginGetRequestStream(RequestStreamGotten,
-					                             new BypassContext(origReq, response, newReq));
+												 new BypassContext(origReq, response, newReq));
 				}
 				else
 				{
@@ -124,14 +124,14 @@ namespace Wammer.Station
 
 		private void RequestStreamGotten(IAsyncResult ar)
 		{
-			var ctx = (BypassContext) ar.AsyncState;
+			var ctx = (BypassContext)ar.AsyncState;
 
 			try
 			{
 				ctx.cloudRequestStream = ctx.cloudRequest.EndGetRequestStream(ar);
 
 				StreamHelper.BeginCopy(ctx.request.InputStream, ctx.cloudRequestStream,
-				                       RequestDone, ctx);
+									   RequestDone, ctx);
 			}
 			catch (Exception e)
 			{
@@ -142,7 +142,7 @@ namespace Wammer.Station
 
 		private void RequestDone(IAsyncResult ar)
 		{
-			var ctx = (BypassContext) ar.AsyncState;
+			var ctx = (BypassContext)ar.AsyncState;
 			try
 			{
 				StreamHelper.EndCopy(ar);
@@ -163,11 +163,11 @@ namespace Wammer.Station
 
 		private void ResponseGotten(IAsyncResult ar)
 		{
-			var ctx = (BypassContext) ar.AsyncState;
+			var ctx = (BypassContext)ar.AsyncState;
 
 			try
 			{
-				ctx.cloudResponse = (HttpWebResponse) ctx.cloudRequest.EndGetResponse(ar);
+				ctx.cloudResponse = (HttpWebResponse)ctx.cloudRequest.EndGetResponse(ar);
 
 				if (notifyRequestBypassed)
 					DupResponseData(ctx.cloudResponse, ctx.response);
@@ -188,7 +188,7 @@ namespace Wammer.Station
 
 		private static void RespondDone(IAsyncResult ar)
 		{
-			var ctx = (BypassResponseContext) ar.AsyncState;
+			var ctx = (BypassResponseContext)ar.AsyncState;
 
 			try
 			{
@@ -226,7 +226,7 @@ namespace Wammer.Station
 
 		private static void ReplyCloudError(HttpListenerResponse response, WebException e)
 		{
-			var errResponse = (HttpWebResponse) e.Response;
+			var errResponse = (HttpWebResponse)e.Response;
 			if (errResponse != null)
 			{
 				try
@@ -267,7 +267,7 @@ namespace Wammer.Station
 
 		private static void CopyResponseData(HttpWebResponse from, HttpListenerResponse to)
 		{
-			to.StatusCode = (int) from.StatusCode;
+			to.StatusCode = (int)from.StatusCode;
 			to.StatusDescription = from.StatusDescription;
 			to.ContentType = from.ContentType;
 
@@ -277,7 +277,7 @@ namespace Wammer.Station
 			}
 
 			StreamHelper.BeginCopy(from.GetResponseStream(), to.OutputStream, RespondDone,
-			                       new BypassResponseContext(to, from));
+								   new BypassResponseContext(to, from));
 		}
 
 		private bool HasNotAllowedPrefix(string reqPath)
@@ -306,7 +306,7 @@ namespace Wammer.Station
 
 		private Uri GetTargetUri(HttpListenerRequest request)
 		{
-			var url = new UriBuilder(request.Url) {Host = host, Port = port, Scheme = scheme};
+			var url = new UriBuilder(request.Url) { Host = host, Port = port, Scheme = scheme };
 			Uri targetUri = url.Uri;
 			return targetUri;
 		}

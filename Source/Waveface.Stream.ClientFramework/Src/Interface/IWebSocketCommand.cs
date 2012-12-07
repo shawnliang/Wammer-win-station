@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel.Composition;
 
 namespace Waveface.Stream.ClientFramework
@@ -15,9 +13,9 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Method
-        Dictionary<string, Object> Execute(WebSocketCommandData data);
-        Dictionary<string, Object> Execute(string commandName, Dictionary<string, Object> parameters = null, object memo = null);
-        Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null, object memo = null);
+		Dictionary<string, Object> Execute(WebSocketCommandData data);
+		Dictionary<string, Object> Execute(string commandName, Dictionary<string, Object> parameters = null, object memo = null);
+		Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null, object memo = null);
 		#endregion
 	}
 }

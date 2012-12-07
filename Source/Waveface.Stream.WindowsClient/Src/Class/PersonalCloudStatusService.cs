@@ -16,12 +16,12 @@ namespace Waveface.Stream.WindowsClient
 				Name = "Stream Cloud",
 				Id = Guid.Empty.ToString(),
 				Profile = "Connected",
-				Type = NodeType.Station 
+				Type = NodeType.Station
 			};
 
-            var session = JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(session_token, user_id));
+			var session = JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(session_token, user_id));
 
-			foreach(var x in session.user.devices)
+			foreach (var x in session.user.devices)
 			{
 				var connection = ConnectionCollection.Instance.FindOne(Query.EQ("device.device_id", x.device_id));
 				bool isConnected = (x.device_id == StationRegistry.GetValue("stationId", "") as string) ? true : connection != null;

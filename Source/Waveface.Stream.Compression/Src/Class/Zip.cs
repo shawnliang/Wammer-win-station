@@ -1,9 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //Author: Larry Nung
 //Date: 2008/4/15
@@ -12,7 +9,6 @@ using System.Diagnostics;
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 #region "Imports"
 using ICSharpCode.SharpZipLib.Zip;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Collections.Specialized;
 using System.Security;
@@ -1485,7 +1481,7 @@ public sealed class Zip
 			if (IsFileExist(zipFilePath, relativeFilePath))
 			{
 				zip = new ZipFile(zipFilePath);
-				
+
 				zip.BeginUpdate();
 				zip.Delete(zip[zip.FindEntry(relativeFilePath, true)]);
 				zip.CommitUpdate();

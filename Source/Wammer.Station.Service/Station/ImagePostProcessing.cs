@@ -1,22 +1,22 @@
+using log4net;
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using Wammer.Model;
 using Wammer.Utility;
-using log4net;
-using System.Diagnostics;
-using System.ComponentModel;
 
 namespace Wammer.Station
 {
 	public class ImagePostProcessing
 	{
-		private static readonly ILog logger = LogManager.GetLogger(typeof (ImagePostProcessing));
+		private static readonly ILog logger = LogManager.GetLogger(typeof(ImagePostProcessing));
 
 		public static ThumbnailInfo MakeThumbnail(Bitmap origin, ImageMeta meta, ExifOrientations orientation,
-		                                          string attachmentId, Driver driver, string origFileName)
+												  string attachmentId, Driver driver, string origFileName)
 		{
 #if DEBUG
 			var sw = Stopwatch.StartNew();
@@ -87,8 +87,8 @@ namespace Wammer.Station
 			if (tmpImage.Width == tmpImage.Height)
 				return tmpImage;
 
-			int height = (tmpImage.Height <= tmpImage.Width)? 0 : (int)(tmpImage.Height * 0.08);
-			int shortSize =  ImageHelper.ShortSizeLength(tmpImage);
+			int height = (tmpImage.Height <= tmpImage.Width) ? 0 : (int)(tmpImage.Height * 0.08);
+			int shortSize = ImageHelper.ShortSizeLength(tmpImage);
 			tmpImage = ImageHelper.Crop(tmpImage, 0, height, shortSize);
 			return tmpImage;
 		}

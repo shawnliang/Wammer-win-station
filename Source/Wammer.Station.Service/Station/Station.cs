@@ -1,19 +1,18 @@
+using Microsoft.Win32;
+using MongoDB.Driver.Builders;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Win32;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.PerfMonitor;
 using Wammer.PostUpload;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
-using System.Net.NetworkInformation;
 
 namespace Wammer.Station
 {
@@ -92,7 +91,7 @@ namespace Wammer.Station
 		private Object m_BodySyncRunnersLockObj
 		{
 			get
-			{ 
+			{
 				return _bodySyncRunnersLockObj ?? (_bodySyncRunnersLockObj = new Object());
 			}
 		}
@@ -181,7 +180,7 @@ namespace Wammer.Station
 			SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
 
-			
+
 
 			postUpsertNotifier = new Notify.PostUpsertNotifier(wsChannelServer, new Notify.PostUpsertNotifierDB());
 
@@ -294,7 +293,7 @@ namespace Wammer.Station
 			driver = DriverCollection.Instance.FindOne(Query.EQ("email", user.email));
 
 			if (driver == null)
-				throw new WammerStationException("Driver not existed", (int) StationLocalApiError.NotFound);
+				throw new WammerStationException("Driver not existed", (int)StationLocalApiError.NotFound);
 
 			m_DriverAgent.RemoveDriver(StationID, user.user_id);
 
@@ -318,7 +317,7 @@ namespace Wammer.Station
 			driver = DriverCollection.Instance.FindOne(Query.EQ("email", user.email));
 
 			if (driver == null)
-				throw new WammerStationException("Driver not existed", (int) StationLocalApiError.NotFound);
+				throw new WammerStationException("Driver not existed", (int)StationLocalApiError.NotFound);
 
 			m_DriverAgent.RemoveDriver(StationID, user.user_id);
 
@@ -443,7 +442,7 @@ namespace Wammer.Station
 			if (deviceName == null) throw new ArgumentNullException("deviceName");
 
 			var user = User.LogIn(email, password, apikey, deviceID, deviceName, 2500);
-			
+
 			Debug.Assert(user != null, "user != null");
 			var loginInfo = user.LoginedInfo;
 

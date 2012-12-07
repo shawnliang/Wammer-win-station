@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace Wammer.Model
 {
@@ -14,7 +11,7 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public string path { get; set; }
 		[BsonIgnoreIfNull]
-		public string user_id {get;set;}
+		public string user_id { get; set; }
 		[BsonIgnoreIfNull]
 		public DateTime last_modify_time { get; set; }
 		[BsonIgnoreIfNull]

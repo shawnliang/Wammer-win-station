@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Waveface.Stream.ClientFramework
 {
-    public enum SystemEventType
-    {
-        All = 0,
+	public enum SystemEventType
+	{
+		All = 0,
 		UserInfoUpdated = 1,
 
-        PostAdded = 10,
-        PostUpdated = 11,
+		PostAdded = 10,
+		PostUpdated = 11,
 
-        AttachmentDownloaded = 20,
+		AttachmentDownloaded = 20,
 
 		CollectionAdded = 30,
 		CollectionUpdated = 31
-    }
+	}
 }

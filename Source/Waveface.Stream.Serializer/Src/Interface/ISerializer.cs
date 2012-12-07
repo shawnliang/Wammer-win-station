@@ -1,5 +1,4 @@
-﻿using System.IO;
-
+﻿
 namespace Waveface.Stream.Serializer
 {
 	/// <summary>
@@ -16,7 +15,7 @@ namespace Waveface.Stream.Serializer
 		/// <param name="obj">The obj.</param>
 		/// <param name="file">The file.</param>
 		void Serialize<T>(T obj, string file);
-		
+
 		/// <summary>
 		/// Serializes the specified obj.
 		/// </summary>

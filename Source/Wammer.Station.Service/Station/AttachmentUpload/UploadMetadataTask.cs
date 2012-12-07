@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Station.Retry;
 using Wammer.Cloud;
+using Wammer.Station.Retry;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -14,11 +11,11 @@ namespace Wammer.Station.AttachmentUpload
 		public string metadata { get; set; }
 		public int metaCount { get; set; }
 
-		[field:NonSerialized]
+		[field: NonSerialized]
 		public event EventHandler<MetadataUploadEventArgs> Uploaded;
 
 		public UploadMetadataTask(string group_id, string metadata, int metaCount)
-			:base(TaskPriority.High)
+			: base(TaskPriority.High)
 		{
 			this.group_id = group_id;
 			this.metadata = metadata;

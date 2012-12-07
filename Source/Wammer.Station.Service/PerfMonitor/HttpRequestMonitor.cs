@@ -1,6 +1,6 @@
-﻿using System;
+﻿using log4net;
+using System;
 using Wammer.Station;
-using log4net;
 
 namespace Wammer.PerfMonitor
 {

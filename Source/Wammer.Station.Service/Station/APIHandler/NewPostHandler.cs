@@ -1,7 +1,7 @@
+using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
@@ -49,25 +49,25 @@ namespace Wammer.Station
 			if (type == "link")
 			{
 				TunnelToCloud();
-				Station.Instance.PostUpsertNotifier.OnPostUpserted(this, 
+				Station.Instance.PostUpsertNotifier.OnPostUpserted(this,
 					new Wammer.PostUpload.PostUpsertEventArgs(Parameters[CloudServer.PARAM_POST_ID], Parameters[CloudServer.PARAM_SESSION_TOKEN], driver.user_id));
 				return;
 			}
 
-			
+
 
 			var userGroup = driver.groups.FirstOrDefault(group => @group.group_id == groupID);
 
 			if (userGroup == null)
 				throw new WammerStationException(
-					"Group not found!", (int) StationLocalApiError.NotFound);
+					"Group not found!", (int)StationLocalApiError.NotFound);
 
 			var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
 			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
 
 			if (loginedSession == null)
 				throw new WammerStationException(
-					"Logined session not found!", (int) StationLocalApiError.NotFound);
+					"Logined session not found!", (int)StationLocalApiError.NotFound);
 
 			var attachmentIDs = Parameters[CloudServer.PARAM_ATTACHMENT_ID_ARRAY] == null
 											? new List<string>()

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Station;
-using Wammer.Model;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using Wammer.Model;
+using Wammer.Station;
 
 namespace UT_WammerStation.Doc
 {
@@ -25,7 +21,7 @@ namespace UT_WammerStation.Doc
 			if (Directory.Exists("user1"))
 				Directory.Delete("user1", true);
 		}
-		
+
 		[TestCleanup]
 		public void tearDown()
 		{
@@ -42,7 +38,7 @@ namespace UT_WammerStation.Doc
 			var expectPath = string.Format(@"{0}\{1}\{2}\123.doc", fileTime.Year.ToString("d4"), fileTime.Month.ToString("d2"), fileTime.Day.ToString("d2"));
 
 			Assert.AreEqual(expectPath, saved_path);
-			Assert.AreEqual(fileTime, File.GetLastWriteTime(Path.Combine(storage.basePath,saved_path)));
+			Assert.AreEqual(fileTime, File.GetLastWriteTime(Path.Combine(storage.basePath, saved_path)));
 		}
 	}
 

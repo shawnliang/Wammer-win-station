@@ -8,13 +8,13 @@ namespace Wammer.Station
 
 		public static string StationId
 		{
-			get { return (string) GetValue("stationId", string.Empty); }
+			get { return (string)GetValue("stationId", string.Empty); }
 		}
 
 		public static object GetValue(string valueName, object defaultValue)
 		{
 			object value = Registry.GetValue(KEY_PATH,
-			                                 valueName, defaultValue);
+											 valueName, defaultValue);
 			return value ?? defaultValue;
 		}
 

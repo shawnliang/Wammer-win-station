@@ -23,7 +23,7 @@ namespace UT_WammerStation
 		#region Var
 		static MongoServer mongodb;
 		HttpServer server;
-		HttpHandler handler; 
+		HttpHandler handler;
 		#endregion
 
 		#region Private Method
@@ -63,7 +63,7 @@ namespace UT_WammerStation
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost/v2/";			
+			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			mongodb.GetDatabase("wammer").GetCollection("drivers").Insert(
 				new Driver
@@ -79,8 +79,8 @@ namespace UT_WammerStation
 				new LoginedSession()
 				{
 					session_token = "exist session token",
-					apikey = new Apikey() { name = "window"}
-				});	
+					apikey = new Apikey() { name = "window" }
+				});
 		}
 
 		[TestCleanup]
@@ -102,7 +102,7 @@ namespace UT_WammerStation
 				{
 					post_id = "unitTestID",
 					content = "unit test original content"
-				});	
+				});
 			AttachmentCollection.Instance.Save(
 				new Attachment()
 				{
@@ -141,7 +141,7 @@ namespace UT_WammerStation
 					post_id = "001",
 					preview = new Preview()
 					{
-						 title = "unit test original preview"
+						title = "unit test original preview"
 					},
 					content = "unit test original content"
 				});
@@ -152,9 +152,9 @@ namespace UT_WammerStation
 					url = "http://unittest.com"
 				});
 
-			var previewJSON  =fastJSON.JSON.Instance.ToJSON(new Preview()
+			var previewJSON = fastJSON.JSON.Instance.ToJSON(new Preview()
 					{
-						 title = "unit test updated preview"
+						title = "unit test updated preview"
 					});
 
 			var response = CloudServer.request<UpdatePostResponse>(API_URL,

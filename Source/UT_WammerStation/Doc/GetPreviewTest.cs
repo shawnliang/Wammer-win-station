@@ -1,10 +1,8 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Model;
 using System.IO;
+using Wammer.Model;
 using Wammer.Station;
 
 namespace UT_WammerStation.Doc
@@ -35,7 +33,7 @@ namespace UT_WammerStation.Doc
 			createFile("file1", "1111");
 			createFile("file2", "2222");
 			createFile("file3", "3333");
-			
+
 		}
 
 		private void createFile(string filename, string data)

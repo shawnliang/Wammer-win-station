@@ -10,51 +10,50 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 #endregion
 
 
+//***************************************************************************
+//Author: Larry Nung
+//Date: 2008/6/25
+//Purpose: 
+//Memo: 
+//***************************************************************************
+/// <summary>
+/// 
+/// </summary>
+/// <remarks></remarks>
+internal sealed class DebugInfo
+{
+	#region Const
+	private const string METHOD_NAME_PATTERN = "{0}.{1}";
+	private const string SHOW_METHOD_PATTERN = "Execute Method: {0} ({1}) => {2}";
+	private const string BUG_EXPORT_DLG_TITLE = "Export Bug Report";
+	private const string BUG_FILE_EXT_FILE = "Bug";
+	private const string BUG_FILE_FILTER = "Bug Report File(*.Brf)|*.Brf";
+	private const string BUG_REPORT_TITLE = "Error occur";
+	private const string BUG_REPORT_MSG = @"Some error occur.
+												Please export bug report,and send to engineer.";
+	#endregion
+
+	#region Constructer
+
 	//***************************************************************************
 	//Author: Larry Nung
-	//Date: 2008/6/25
-	//Purpose: 
+	//Date: 2008/1/30
+	//Purpose: 建構子
 	//Memo: 
 	//***************************************************************************
 	/// <summary>
-	/// 
+	/// 建構子
 	/// </summary>
 	/// <remarks></remarks>
-internal sealed class DebugInfo
-{
-    #region Const
-    private const string METHOD_NAME_PATTERN = "{0}.{1}";
-    private const string SHOW_METHOD_PATTERN = "Execute Method: {0} ({1}) => {2}";
-    private const string BUG_EXPORT_DLG_TITLE = "Export Bug Report";
-    private const string BUG_FILE_EXT_FILE = "Bug";
-    private const string BUG_FILE_FILTER = "Bug Report File(*.Brf)|*.Brf";
-    private const string BUG_REPORT_TITLE = "Error occur";
-    private const string BUG_REPORT_MSG = @"Some error occur.
-												Please export bug report,and send to engineer.";
-    #endregion
 
-    #region Constructer
-
-    //***************************************************************************
-    //Author: Larry Nung
-    //Date: 2008/1/30
-    //Purpose: 建構子
-    //Memo: 
-    //***************************************************************************
-    /// <summary>
-    /// 建構子
-    /// </summary>
-    /// <remarks></remarks>
-
-    private DebugInfo()
-    {
-    }
-    #endregion
+	private DebugInfo()
+	{
+	}
+	#endregion
 
 
 	#region Private Method
@@ -282,61 +281,61 @@ internal sealed class DebugInfo
 	#endregion
 
 
-    #region Public Method
+	#region Public Method
 
-    //***************************************************************************
-    //Author: Larry Nung
-    //Date: 2008/1/30
-    //Purpose: 顯示目前執行的Method名稱(只有在Debug模式下會執行到此副程式)
-    //Memo: 
-    //***************************************************************************
-    /// <summary>
-    /// 顯示目前執行的Method名稱(只有在Debug模式下會執行到此副程式)
-    /// </summary>
-    /// <remarks></remarks>
-    [Conditional("DEBUG")]
-    public static void ShowMethod()
-    {
-        Debug.WriteLine(GetMethod(2));
-    }
+	//***************************************************************************
+	//Author: Larry Nung
+	//Date: 2008/1/30
+	//Purpose: 顯示目前執行的Method名稱(只有在Debug模式下會執行到此副程式)
+	//Memo: 
+	//***************************************************************************
+	/// <summary>
+	/// 顯示目前執行的Method名稱(只有在Debug模式下會執行到此副程式)
+	/// </summary>
+	/// <remarks></remarks>
+	[Conditional("DEBUG")]
+	public static void ShowMethod()
+	{
+		Debug.WriteLine(GetMethod(2));
+	}
 
-    public static string GetMethod()
-    {
-        return GetMethod(2);
-    }
+	public static string GetMethod()
+	{
+		return GetMethod(2);
+	}
 
-    public static string GetMethod(int frameNum)
-    {
-        string MethodName = null;
-        string FileName = null;
-        string LineNum = null;
+	public static string GetMethod(int frameNum)
+	{
+		string MethodName = null;
+		string FileName = null;
+		string LineNum = null;
 
-        StackTrace st = new StackTrace(true);
-        StackFrame sf = st.GetFrame(frameNum);
-        MethodBase mb = sf.GetMethod();
+		StackTrace st = new StackTrace(true);
+		StackFrame sf = st.GetFrame(frameNum);
+		MethodBase mb = sf.GetMethod();
 
-        MethodName = string.Format(METHOD_NAME_PATTERN, mb.ReflectedType.FullName, mb.Name);
-        FileName = System.IO.Path.GetFileName(sf.GetFileName());
-        LineNum = sf.GetFileLineNumber().ToString();
+		MethodName = string.Format(METHOD_NAME_PATTERN, mb.ReflectedType.FullName, mb.Name);
+		FileName = System.IO.Path.GetFileName(sf.GetFileName());
+		LineNum = sf.GetFileLineNumber().ToString();
 
-        return string.Format(SHOW_METHOD_PATTERN, FileName, LineNum, MethodName);
-    }
+		return string.Format(SHOW_METHOD_PATTERN, FileName, LineNum, MethodName);
+	}
 
 
-    //***************************************************************************
-    //Author: Larry Nung
-    //Date: 2008/1/30
-    //Purpose: 設定當錯誤發生..彈出BugReport
-    //Memo: 
-    //***************************************************************************
-    /// <summary>
-    /// 設定當錯誤發生..彈出BugReport
-    /// </summary>
-    /// <remarks></remarks>
-    public static void ShowBugReportOnError()
-    {
-        AppDomain.CurrentDomain.UnhandledException += OnThreadException;
-    }
+	//***************************************************************************
+	//Author: Larry Nung
+	//Date: 2008/1/30
+	//Purpose: 設定當錯誤發生..彈出BugReport
+	//Memo: 
+	//***************************************************************************
+	/// <summary>
+	/// 設定當錯誤發生..彈出BugReport
+	/// </summary>
+	/// <remarks></remarks>
+	public static void ShowBugReportOnError()
+	{
+		AppDomain.CurrentDomain.UnhandledException += OnThreadException;
+	}
 
 
 	/// <summary>
@@ -352,6 +351,6 @@ internal sealed class DebugInfo
 		sw.Stop();
 		Debug.WriteLine(String.Format("{0} elapsed {1} ms", actionDescription, sw.ElapsedMilliseconds.ToString()));
 	}
-    #endregion
+	#endregion
 
 }

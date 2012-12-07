@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Security.Cryptography.Xml;
 using System.Xml;
-using System.Security.Cryptography;
 
 namespace Waveface.Stream.Serializer
 {
@@ -10,7 +10,7 @@ namespace Waveface.Stream.Serializer
 		#region Private Static Var
 		private static RijndaelManaged _defaultCryptographyKey;
 		#endregion
-		
+
 
 		#region Private Static Property
 		/// <summary>
@@ -147,7 +147,7 @@ namespace Waveface.Stream.Serializer
 		}
 		#endregion
 
-		
+
 		#region Public Static Method
 		/// <summary>
 		/// Gets the cryptography key.
@@ -216,7 +216,7 @@ namespace Waveface.Stream.Serializer
 			eXml = new EncryptedXml();
 
 			encryptedElement = eXml.EncryptData(element, key, false);
-		
+
 			edElement = new EncryptedData();
 			edElement.Type = EncryptedXml.XmlEncElementUrl;
 

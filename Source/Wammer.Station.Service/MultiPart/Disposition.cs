@@ -7,7 +7,7 @@ namespace Wammer.MultiPart
 {
 	public class Disposition
 	{
-		private static readonly char[] SEPARATOR = new[] {';'};
+		private static readonly char[] SEPARATOR = new[] { ';' };
 		private readonly NameValueCollection parameters = new NameValueCollection();
 		private string value;
 
@@ -35,9 +35,9 @@ namespace Wammer.MultiPart
 			try
 			{
 				string[] segments = text.Split(SEPARATOR,
-				                               StringSplitOptions.RemoveEmptyEntries);
+											   StringSplitOptions.RemoveEmptyEntries);
 
-				var disp = new Disposition {value = segments[0].Trim()};
+				var disp = new Disposition { value = segments[0].Trim() };
 				for (int i = 1; i < segments.Length; i++)
 				{
 					string[] nameValue = segments[i].Split('=');

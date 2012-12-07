@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Threading;
 using System.IO;
+using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 
 namespace Waveface.Stream.WindowsClient
@@ -63,7 +56,7 @@ namespace Waveface.Stream.WindowsClient
 		public AutoImportDialog()
 		{
 			InitializeComponent();
-		} 
+		}
 		#endregion
 
 
@@ -87,7 +80,7 @@ namespace Waveface.Stream.WindowsClient
 			progressBar1.Visible = true;
 			mi.BeginInvoke((result) =>
 			{
-                SynchronizationContextHelper.SendMainSyncContext(() =>
+				SynchronizationContextHelper.SendMainSyncContext(() =>
 				{
 					this.DialogResult = DialogResult.OK;
 					progressBar1.Visible = false;
@@ -112,7 +105,7 @@ namespace Waveface.Stream.WindowsClient
 			progressBar1.Visible = true;
 			mi.BeginInvoke((result) =>
 			{
-                SynchronizationContextHelper.SendMainSyncContext(() =>
+				SynchronizationContextHelper.SendMainSyncContext(() =>
 				{
 					this.DialogResult = DialogResult.OK;
 					progressBar1.Visible = false;

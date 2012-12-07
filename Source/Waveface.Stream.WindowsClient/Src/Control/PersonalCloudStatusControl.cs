@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 
@@ -85,7 +81,7 @@ namespace Waveface.Stream.WindowsClient
 							else if (node.Type == NodeType.Phone)
 								item.Group = listView1.Groups["phone"];
 
-							
+
 						}
 					}
 

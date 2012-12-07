@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 
 namespace Waveface.Stream.WindowsClient
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class PicasaContentProvider: ContentProviderBase
+	public class PicasaContentProvider : ContentProviderBase
 	{
 		#region Const
 		const string PICASA_DB_RELATIVED_STORAGE_PATH = @"Google\Picasa2\db3";
@@ -32,7 +32,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get
 			{
-				return _picasaDBStoragePath ?? 
+				return _picasaDBStoragePath ??
 					(_picasaDBStoragePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), PICASA_DB_RELATIVED_STORAGE_PATH));
 			}
 		}
@@ -45,7 +45,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get
 			{
-				return _albumPathPMPFileName ?? 
+				return _albumPathPMPFileName ??
 					(_albumPathPMPFileName = Path.Combine(m_PicasaDBStoragePath, ALBUM_PATH_PMP_FILENAME));
 			}
 		}
@@ -247,11 +247,11 @@ namespace Waveface.Stream.WindowsClient
 				   where !string.IsNullOrEmpty(albumPath)
 				   from file in EnumerateFiles(albumPath)
 				   let extension = Path.GetExtension(file)
-				   where extension.Equals(".jpg", StringComparison.CurrentCultureIgnoreCase) || 
-				   extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase) || 
+				   where extension.Equals(".jpg", StringComparison.CurrentCultureIgnoreCase) ||
+				   extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase) ||
 				   extension.Equals(".bmp", StringComparison.CurrentCultureIgnoreCase)
 				   select (new Content(file, ContentType.Photo) as IContent);
-		} 
+		}
 		#endregion
 	}
 }

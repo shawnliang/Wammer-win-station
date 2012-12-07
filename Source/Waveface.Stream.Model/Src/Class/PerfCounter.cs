@@ -48,7 +48,7 @@ namespace Waveface.Stream.Model
 
 
 		#region Private Static Property
-		
+
 		/// <summary>
 		/// Gets the m_ counter pool.
 		/// </summary>
@@ -64,7 +64,7 @@ namespace Waveface.Stream.Model
 		/// <value>The m_ counter pool lock obj.</value>
 		private static Object m_CounterPoolLockObj
 		{
-			get 
+			get
 			{
 				return _counterPoolLockObj ?? (_counterPoolLockObj = new Object());
 			}
@@ -115,7 +115,7 @@ namespace Waveface.Stream.Model
 		private PerfCounter(PerformanceCounter counter)
 		{
 			m_Counter = counter;
-		} 
+		}
 		#endregion
 
 
@@ -144,7 +144,7 @@ namespace Waveface.Stream.Model
 			}
 			catch (Exception e)
 			{
-                //log4net.LogManager.GetLogger("PerfCounter").Error("Unable to create perf counter: " + counterName, e);
+				//log4net.LogManager.GetLogger("PerfCounter").Error("Unable to create perf counter: " + counterName, e);
 				return new NullPerfCounter();
 			}
 		}
@@ -202,7 +202,7 @@ namespace Waveface.Stream.Model
 			{
 				return m_Value;
 			}
-		} 
+		}
 		#endregion
 	}
 }

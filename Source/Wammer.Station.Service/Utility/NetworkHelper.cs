@@ -20,7 +20,7 @@ namespace Wammer.Utility
 		#endregion
 
 		#region Private Static Var
-		
+
 		private static IEnumerable<String> _localIPAddresses;
 
 		#endregion
@@ -111,13 +111,13 @@ namespace Wammer.Utility
 
 			// set local lambda function to get final ip address
 			Func<string, String> getBaseIPAddress = ip =>
-			                                        	{
-			                                        		m_BaseURL = string.Format(BASE_URL_PATTERN, ip);
-			                                        		return m_BaseURL;
-			                                        	};
+														{
+															m_BaseURL = string.Format(BASE_URL_PATTERN, ip);
+															return m_BaseURL;
+														};
 
 			// fix IP for testing
-			var staticIP = (string) StationRegistry.GetValue(STATIC_IP_KEY, string.Empty);
+			var staticIP = (string)StationRegistry.GetValue(STATIC_IP_KEY, string.Empty);
 			if (staticIP.Length > 0)
 			{
 				return getBaseIPAddress(staticIP);

@@ -1,20 +1,13 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Wammer.Station;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Driver;
+using System;
+using System.IO;
+using System.Net;
+using Wammer;
 using Wammer.Cloud;
 using Wammer.Model;
-using System.Net;
-using System.IO;
-using MongoDB.Driver;
-using MongoDB.Bson;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-using Wammer;
 using Wammer.PerfMonitor;
+using Wammer.Station;
 
 namespace UT_WammerStation
 {
@@ -26,7 +19,7 @@ namespace UT_WammerStation
 	{
 		static MongoServer mongodb;
 		static MongoDatabase wammerDb;
-		
+
 		Attachment doc;
 		string objectId1;
 
@@ -74,7 +67,7 @@ namespace UT_WammerStation
 		{
 			if (wammerDb.CollectionExists("attachments"))
 				wammerDb.DropCollection("attachments");
-			
+
 			server.Close();
 		}
 
@@ -83,7 +76,7 @@ namespace UT_WammerStation
 		{
 			WebClient agent = new WebClient();
 			string output = agent.DownloadString(
-				"http://localhost:8080/api/get?object_id="+ objectId1 +"&session_token=a&apikey=b");
+				"http://localhost:8080/api/get?object_id=" + objectId1 + "&session_token=a&apikey=b");
 
 			Assert.AreNotEqual("", output);
 

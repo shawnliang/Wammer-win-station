@@ -1,11 +1,9 @@
 ﻿using System;
+using System.IO;
+using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
-using System.IO;
-using System.Drawing;
 using Wammer.Utility;
-using System.Diagnostics;
-using Wammer.Cloud;
 
 namespace Wammer.Station.APIHandler
 {
@@ -99,8 +97,8 @@ namespace Wammer.Station.APIHandler
 
 			try
 			{
-				data.type = (AttachmentType) Enum.Parse(typeof (AttachmentType),
-				                                        Parameters["type"], true);
+				data.type = (AttachmentType)Enum.Parse(typeof(AttachmentType),
+														Parameters["type"], true);
 			}
 			catch (ArgumentException e)
 			{
@@ -112,19 +110,19 @@ namespace Wammer.Station.APIHandler
 			else if (string.IsNullOrEmpty(Parameters["image_meta"]))
 				data.imageMeta = ImageMeta.Origin;
 			else
-				data.imageMeta = (ImageMeta) Enum.Parse(typeof (ImageMeta), Parameters["image_meta"], true);
+				data.imageMeta = (ImageMeta)Enum.Parse(typeof(ImageMeta), Parameters["image_meta"], true);
 
 			if (data.raw_data.Array == null)
 				throw new FormatException("file is missing in file upload multipart data");
 
-			if (data.raw_data.Count > 20 * 1024 *1024)
+			if (data.raw_data.Count > 20 * 1024 * 1024)
 				throw new WammerStationException("file size is over 20MB", (int)StationLocalApiError.ImageTooLarge);
 
 			if (string.IsNullOrEmpty(data.file_name))
 				throw new FormatException("file_name is null or empty");
 
 			if (string.IsNullOrEmpty(Path.GetExtension(data.file_name)))
-				throw new WammerStationException("file_name must have an extension", (int)StationLocalApiError.InvalidImage);	
+				throw new WammerStationException("file_name must have an extension", (int)StationLocalApiError.InvalidImage);
 
 			return data;
 		}

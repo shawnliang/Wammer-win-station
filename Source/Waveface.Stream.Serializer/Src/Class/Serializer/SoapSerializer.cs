@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.Serialization.Formatters.Soap;
 
 namespace Waveface.Stream.Serializer
@@ -47,7 +46,7 @@ namespace Waveface.Stream.Serializer
 				throw new ArgumentException("UnReadable stream.");
 
 			var serializer = new SoapFormatter();
-			return (T) serializer.Deserialize(stream);
+			return (T)serializer.Deserialize(stream);
 		}
 
 		#endregion

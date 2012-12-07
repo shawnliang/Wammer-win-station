@@ -1,15 +1,10 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Threading;
-using Microsoft.WindowsAPICodePack.Shell;
-using MongoDB.Driver.Builders;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using Waveface.Stream.WindowsClient;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Model;
 

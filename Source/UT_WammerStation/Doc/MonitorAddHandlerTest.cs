@@ -1,11 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Wammer.Station.Doc;
+using System;
 using Wammer.Model;
+using Wammer.Station.Doc;
 
 namespace UT_WammerStation.Doc
 {
@@ -35,7 +32,7 @@ namespace UT_WammerStation.Doc
 				It.Is<MonitorItem>(item =>
 					item.user_id == "user1" &&
 						item.path == file &&
-						item.last_modify_time == DateTime.MinValue && 
+						item.last_modify_time == DateTime.MinValue &&
 						item.id == file + "/user1"
 				))).Verifiable();
 
@@ -79,8 +76,8 @@ namespace UT_WammerStation.Doc
 			db.Setup(x => x.FindLatestVersion(file, "user1")).Returns(docAtt).Verifiable();
 			db.Setup(x => x.FindMonitorItem(monitorItem.id)).Returns(null as MonitorItem).Verifiable();
 			db.Setup(x => x.SaveMonitorItemDB(It.Is<MonitorItem>(
-				y => 
-					y.user_id == "user1" && 
+				y =>
+					y.user_id == "user1" &&
 					y.path == file &&
 					y.last_modify_time == docAtt.file_modify_time))).Verifiable();
 

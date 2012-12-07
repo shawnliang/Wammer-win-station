@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using fastJSON;
+﻿using fastJSON;
+using System.Collections.Generic;
 using Wammer.Model;
 
 namespace Wammer.Cloud
@@ -42,7 +42,7 @@ namespace Wammer.Cloud
 		public static GetUserResponse GetInfo(string user_id, string apikey, string session_token)
 		{
 			return CloudServer.requestPath<GetUserResponse>("users/get",
-			                                                new Dictionary<object, object>
+															new Dictionary<object, object>
 			                                                	{
 			                                                		{"user_id", user_id},
 			                                                		{"apikey", apikey},
@@ -53,7 +53,7 @@ namespace Wammer.Cloud
 		public static LoginedSession GetLoginInfo(string user_id, string apikey, string session_token)
 		{
 			return CloudServer.requestPath<LoginedSession>("users/get",
-			                                               new Dictionary<object, object>
+														   new Dictionary<object, object>
 			                                               	{
 			                                               		{"user_id", user_id},
 			                                               		{"apikey", apikey},
@@ -74,14 +74,14 @@ namespace Wammer.Cloud
 		}
 
 		public static User LogIn(string baseURL, string username, string passwd, string apiKey,
-		                         string deviceId, string deviceName, int timeout = -1)
+								 string deviceId, string deviceName, int timeout = -1)
 		{
 			string json = LogInResponse(baseURL, username, passwd, apiKey, deviceId, deviceName, timeout);
 			return new User(username, passwd, json);
 		}
 
 		public static string LogInResponse(string serverBase, string username, string passwd, string apiKey,
-		                                   string deviceId, string deviceName, int timeout = -1)
+										   string deviceId, string deviceName, int timeout = -1)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
@@ -97,8 +97,7 @@ namespace Wammer.Cloud
 
 		public static void LogOut(string sessionToken, string apiKey)
 		{
-			var parameters = new Dictionary<object, object>
-			                 	{{CloudServer.PARAM_SESSION_TOKEN, sessionToken}, {CloudServer.PARAM_API_KEY, apiKey}};
+			var parameters = new Dictionary<object, object> { { CloudServer.PARAM_SESSION_TOKEN, sessionToken }, { CloudServer.PARAM_API_KEY, apiKey } };
 
 			CloudServer.requestPath("auth/logout", parameters);
 		}
@@ -110,8 +109,7 @@ namespace Wammer.Cloud
 
 		public static FindMyStationResponse FindMyStation(string sessionToken)
 		{
-			var parameters = new Dictionary<object, object>
-			                 	{{CloudServer.PARAM_API_KEY, CloudServer.APIKey}, {CloudServer.PARAM_SESSION_TOKEN, sessionToken}};
+			var parameters = new Dictionary<object, object> { { CloudServer.PARAM_API_KEY, CloudServer.APIKey }, { CloudServer.PARAM_SESSION_TOKEN, sessionToken } };
 
 			return CloudServer.requestPath<FindMyStationResponse>("users/findMyStation", parameters);
 		}

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public class PhotoGalleryViewer:Control
+	public class PhotoGalleryViewer : Control
 	{
 		#region Var
 		private PictureBox _photoViewer;
@@ -27,7 +26,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get
 			{
-				return _photoViewer ?? (_photoViewer = new PictureBox() 
+				return _photoViewer ?? (_photoViewer = new PictureBox()
 				{
 					SizeMode = PictureBoxSizeMode.Zoom,
 					Dock = DockStyle.Fill
@@ -39,7 +38,8 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get
 			{
-				return _prev ?? (_prev = new Label { 
+				return _prev ?? (_prev = new Label
+				{
 					Dock = DockStyle.Left,
 					Text = "<",
 					TextAlign = ContentAlignment.MiddleCenter,
@@ -71,9 +71,9 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get
 			{
-				return _images; 
+				return _images;
 			}
-			set 
+			set
 			{
 				if (_images == value)
 					return;
@@ -88,7 +88,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the photo count.
 		/// </summary>
 		/// <value>The photo count.</value>
-		public int PhotoCount 
+		public int PhotoCount
 		{
 			get
 			{
@@ -102,7 +102,7 @@ namespace Waveface.Stream.WindowsClient
 		/// <value>The index of the photo.</value>
 		public int PhotoIndex
 		{
-			get 
+			get
 			{
 				return _photoIndex;
 			}
@@ -110,7 +110,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				if (_photoIndex == value)
 					return;
-				
+
 				if (_images == null)
 					return;
 

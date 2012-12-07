@@ -56,7 +56,7 @@ namespace Waveface.Stream.WindowsClient
 			g.FillRectangle(brush, new Rectangle(left.Width, 0, Width - right.Width - left.Width, middle.Height));
 			g.DrawImage(left, 0, 0);
 			g.DrawImage(right, Width - right.Width, 0);
-			g.DrawImage(Resources.FB_Logo, 5, (Height - Resources.FB_Logo.Height)/2);
+			g.DrawImage(Resources.FB_Logo, 5, (Height - Resources.FB_Logo.Height) / 2);
 
 			var msgSize = g.MeasureString(DisplayText, Font);
 			var x = 5 + Resources.FB_Logo.Width + ((Width - (5 + Resources.FB_Logo.Width)) - msgSize.Width) / 2;

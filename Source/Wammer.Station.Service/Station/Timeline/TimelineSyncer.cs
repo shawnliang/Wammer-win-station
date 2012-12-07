@@ -90,20 +90,20 @@ namespace Wammer.Station.Timeline
 			try
 			{
 				var res = changelogs.GetChangeHistory(user, user.sync_range.next_seq_num);
-				 db.SaveUserTracks(new UserTracks(res));
+				db.SaveUserTracks(new UserTracks(res));
 
 				ProcChangedPosts(user, res);
 				ProcNewAttachments(res);
 
 				return res.post_list != null && res.post_list.Count > 0;
 			}
-			catch(WammerCloudException e)
+			catch (WammerCloudException e)
 			{
 				if (changeLogsNotAvailable(e))
 				{
 					int next_seq = RetrieveAllPostsBySeq(user, user.sync_range.next_seq_num);
 					//UpdateDBForUserTrackBackFilled(user, next_seq);
-					
+
 					var syncRange = user.sync_range.Clone();
 					syncRange.chlog_max_seq = syncRange.chlog_min_seq = int.MaxValue;
 					syncRange.next_seq_num = next_seq;
@@ -119,7 +119,7 @@ namespace Wammer.Station.Timeline
 
 		private static bool changeLogsNotAvailable(WammerCloudException e)
 		{
-			return	e.WammerError == (int)UserTrackApiError.SeqNumPurged ||
+			return e.WammerError == (int)UserTrackApiError.SeqNumPurged ||
 					e.WammerError == (int)UserTrackApiError.TooManyRecord;
 		}
 
@@ -174,7 +174,7 @@ namespace Wammer.Station.Timeline
 			foreach (UserTrackDetail track in res.changelog_list)
 			{
 				if (track.target_type == "attachment" &&
-				    track.actions != null)
+					track.actions != null)
 				{
 					if (track.actions.Any(action => action.target_type.Contains("origin")))
 					{
@@ -271,7 +271,7 @@ namespace Wammer.Station.Timeline
 
 
 			// Last user track response could contain unsynced posts.
-			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_list.Select(x=>x.post_id).ToList());
+			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_list.Select(x => x.post_id).ToList());
 			foreach (PostInfo post in newPosts)
 				db.SavePost(post);
 

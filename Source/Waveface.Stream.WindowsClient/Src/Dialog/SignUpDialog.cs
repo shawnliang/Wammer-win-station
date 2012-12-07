@@ -82,7 +82,7 @@ namespace Waveface.Stream.WindowsClient
 		public SignUpDialog()
 		{
 			InitializeComponent();
-		} 
+		}
 		#endregion
 
 
@@ -175,7 +175,7 @@ namespace Waveface.Stream.WindowsClient
 		private void button2_Click(object sender, EventArgs e)
 		{
 			CangeTutorial(m_Index - 1);
-		} 
+		}
 		#endregion
 	}
 }
