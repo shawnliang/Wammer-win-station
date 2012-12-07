@@ -236,8 +236,12 @@ namespace Waveface.Stream.WindowsClient
             }
 
             var param = e.Result as RemoveParam;
-            if (param != null && !string.IsNullOrEmpty(param.email))
-                OnAccountRemoved(new AccountEventArgs((e.Result as RemoveParam).email));
+			if (param != null && !string.IsNullOrEmpty(param.email))
+			{
+				if (StreamClient.Instance.IsLogined && param.email.Equals(StreamClient.Instance.LoginedUser.EMail, StringComparison.CurrentCultureIgnoreCase))
+					StreamClient.Instance.Logout();
+				OnAccountRemoved(new AccountEventArgs(param.email));
+			}
 
 
             RefreshAccountList();

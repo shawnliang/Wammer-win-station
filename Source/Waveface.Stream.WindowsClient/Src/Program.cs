@@ -523,7 +523,10 @@ namespace Waveface.Stream.WindowsClient
 
 		static void m_NotifyIcon_DoubleClick(object sender, EventArgs e)
 		{
-			ShowMainWindow();
+			if (StreamClient.Instance.IsLogined)
+				ShowMainWindow();
+			else
+				ShowLoginDialog();
 		}
 
 		static void dialog_FormClosed(object sender, FormClosedEventArgs e)

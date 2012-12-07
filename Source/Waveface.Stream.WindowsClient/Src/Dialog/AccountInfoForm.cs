@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using Waveface.Stream.Model;
 using System.Linq;
 using Waveface.Stream.ClientFramework;
+using MongoDB.Driver.Builders;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -110,10 +111,13 @@ namespace Waveface.Stream.WindowsClient
 		{
 			InitializeComponent();
 
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
+			if (!StreamClient.Instance.IsLogined)
+				return;
 
-            if (loginedSession == null)
-                return;
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", StreamClient.Instance.LoginedUser.SessionToken));
+
+			if (loginedSession == null)
+				return;
 
             m_SessionToken = loginedSession.session_token;
             m_UserID = loginedSession.user.user_id;
