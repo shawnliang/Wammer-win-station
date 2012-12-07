@@ -28,7 +28,7 @@ namespace UT_WammerStation.Doc
 		}
 
 		[TestMethod]
-		//[Ignore]
+		[Ignore]
 		public void GeneratePptPreviews()
 		{
 			var previews = DocumentChangeMonitorUtil.GeneratePowerPointPreviews(@"ppt.pptx", "preview").ToList();
