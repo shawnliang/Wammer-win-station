@@ -1,16 +1,14 @@
-﻿using Waveface.Stream.ClientFramework;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace Waveface.Stream.ClientFramework.Test
 {
-    
-    
-    /// <summary>
-    ///This is a test class for AlertCommandTest and is intended
-    ///to contain all AlertCommandTest Unit Tests
-    ///</summary>
+
+
+	/// <summary>
+	///This is a test class for AlertCommandTest and is intended
+	///to contain all AlertCommandTest Unit Tests
+	///</summary>
 	[TestClass()]
 	public class AlertCommandTest
 	{
@@ -73,10 +71,10 @@ namespace Waveface.Stream.ClientFramework.Test
 		public void ExecuteTest()
 		{
 			AlertCommand target = new AlertCommand();
-			Dictionary<string, object> parameters = new Dictionary<string,object>()
+			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
 				{"message","Session token expired"}
-			}; 
+			};
 			target.Execute(parameters);
 		}
 	}

@@ -16,7 +16,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			Height = m_Image.Height;
 			SizeChanged += LoginInputPanel_SizeChanged;
-		} 
+		}
 		#endregion
 
 

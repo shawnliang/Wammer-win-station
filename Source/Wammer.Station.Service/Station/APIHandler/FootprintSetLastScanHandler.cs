@@ -23,7 +23,7 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int) PostApiError.PermissionDenied
+					(int)PostApiError.PermissionDenied
 					);
 			}
 
@@ -31,12 +31,12 @@ namespace Wammer.Station
 				new FootprintSetLastScanResponse
 					{
 						last_scan = new LastScanInfo
-						            	{
-						            		timestamp = DateTime.UtcNow,
-						            		user_id = Session.user.user_id,
-						            		group_id = groupId,
-						            		post_id = postId
-						            	}
+										{
+											timestamp = DateTime.UtcNow,
+											user_id = Session.user.user_id,
+											group_id = groupId,
+											post_id = postId
+										}
 					}
 				);
 		}

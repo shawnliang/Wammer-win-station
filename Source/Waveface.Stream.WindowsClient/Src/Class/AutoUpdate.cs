@@ -1,6 +1,6 @@
-﻿using System;
-using AppLimit.NetSparkle;
+﻿using AppLimit.NetSparkle;
 using Microsoft.Win32;
+using System;
 using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
@@ -29,7 +29,7 @@ namespace Waveface.Stream.WindowsClient
 		public bool IsUpdateRequired()
 		{
 			var honorSkippedVersion = !forceUpgrade;
-			
+
 			return m_autoUpdator.IsUpdateRequired(m_autoUpdator.GetApplicationConfig(),
 				out versionInfo,
 				honorSkippedVersion);

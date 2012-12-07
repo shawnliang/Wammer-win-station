@@ -1,14 +1,11 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Wammer.Station.AttachmentView;
+using System;
 using System.Collections.Specialized;
-using Wammer.Model;
 using System.IO;
+using Wammer.Model;
 using Wammer.Station;
+using Wammer.Station.AttachmentView;
 
 namespace UT_WammerStation.AttachmentViewTest
 {
@@ -41,7 +38,7 @@ namespace UT_WammerStation.AttachmentViewTest
 		{
 			db.Setup(x => x.GetAttachment("obj1")).
 				Returns(new Attachment { object_id = "obj1", saved_file_name = @"2010\10\20\file1.jpg", group_id = "group1", mime_type = "mime" }).Verifiable();
-			db.Setup(x=>x.GetUserByGroupId("group1")).Returns(user).Verifiable();
+			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user).Verifiable();
 
 			storage.Setup(x => x.GetAttachmentStream(ImageMeta.Origin, user, @"2010\10\20\file1.jpg")).Returns(m).Verifiable();
 
@@ -123,7 +120,7 @@ namespace UT_WammerStation.AttachmentViewTest
 			db.Setup(x => x.GetAttachment(It.IsAny<string>())).Returns(new Attachment { group_id = "123" });
 			db.Setup(x => x.GetUserByGroupId("123")).Returns(user);
 
-			handler.GetAttachmentStream(new NameValueCollection { { "object_id", "obj1" }, {"image_meta", "medium"} });
+			handler.GetAttachmentStream(new NameValueCollection { { "object_id", "obj1" }, { "image_meta", "medium" } });
 		}
 
 		[TestMethod]

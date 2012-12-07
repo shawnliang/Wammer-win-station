@@ -1,19 +1,13 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using System.ServiceProcess;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
-using System.Runtime;
-using System.Diagnostics;
-using System.Reflection;
 using System.Net;
+using System.Runtime.InteropServices;
+using System.ServiceProcess;
+using Wammer.Cloud;
 using Wammer.Station.Service;
 using Wammer.Utility;
-using Wammer.Cloud;
-using System.Net.NetworkInformation;
-using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.Management
 {
@@ -343,7 +337,7 @@ namespace Wammer.Station.Management
 			{
 				if (!DropboxHelper.IsInstalled())
 					throw new DropboxNotInstalledException("Dropbox is not installed");
-					
+
 				CloudResponse res = CloudServer.request<CloudResponse>(
 					StationMgmtURL + "cloudstorage/dropbox/update",
 					new Dictionary<object, object> { { "quota", quota } },
@@ -481,7 +475,7 @@ namespace Wammer.Station.Management
 			//取得本機電腦目前的連線狀態
 			rtvl = InternetGetConnectedState(ref flags, 0);
 
-			if(!rtvl)
+			if (!rtvl)
 				throw new WebException();
 
 			//var p = new Ping();
@@ -568,7 +562,7 @@ namespace Wammer.Station.Management
 			catch (WammerCloudException e)
 			{
 				throw ExtractApiRetMsg(e);
-			}			
+			}
 		}
 
 		public static ListCloudStorageResponse ListCloudStorage()
@@ -779,7 +773,7 @@ namespace Wammer.Station.Management
 			ServiceHelper.ChangeStartMode(scvCtrl, ServiceStartMode.Automatic);
 		}
 
-		
+
 
 		private static void _MoveDefaultFolder(string newFolder)
 		{
@@ -890,7 +884,7 @@ namespace Wammer.Station.Management
 
 			try
 			{
-				
+
 				string moveDestination = "";
 
 				for (int i = 0; i < args.Length; i++)
@@ -934,39 +928,39 @@ namespace Wammer.Station.Management
 		}
 	}
 
-	public class AuthenticationException: Exception
+	public class AuthenticationException : Exception
 	{
 		public AuthenticationException(string msg)
-			:base(msg)
+			: base(msg)
 		{
 		}
 	}
 
-	public class StationAlreadyHasDriverException: Exception
+	public class StationAlreadyHasDriverException : Exception
 	{
 		public StationAlreadyHasDriverException(string msg)
-			:base(msg)
+			: base(msg)
 		{
 		}
 	}
 
-	public class StationServiceDownException: Exception
+	public class StationServiceDownException : Exception
 	{
 		public StationServiceDownException(string msg)
-			:base(msg)
+			: base(msg)
 		{
 		}
 	}
 
-	public class ConnectToCloudException: Exception
+	public class ConnectToCloudException : Exception
 	{
 		public ConnectToCloudException(string msg)
-			:base(msg)
+			: base(msg)
 		{
 		}
 	}
 
-	public class VersionNotSupportedException: Exception
+	public class VersionNotSupportedException : Exception
 	{
 		public VersionNotSupportedException(string msg)
 			: base(msg)
@@ -974,7 +968,7 @@ namespace Wammer.Station.Management
 		}
 	}
 
-	public class UserAlreadyHasStationException: Exception
+	public class UserAlreadyHasStationException : Exception
 	{
 		/// <summary>
 		/// Existing station's id
@@ -997,7 +991,7 @@ namespace Wammer.Station.Management
 		public string ComputerName { get; set; }
 
 		public UserAlreadyHasStationException()
-			:base()
+			: base()
 		{
 		}
 

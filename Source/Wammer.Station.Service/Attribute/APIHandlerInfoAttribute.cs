@@ -2,7 +2,7 @@
 
 namespace Wammer
 {
-	public class APIHandlerInfoAttribute:Attribute
+	public class APIHandlerInfoAttribute : Attribute
 	{
 		#region Property
 		/// <summary>

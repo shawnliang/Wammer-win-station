@@ -1,16 +1,14 @@
-﻿using Waveface.Stream.ClientFramework;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace Waveface.Stream.ClientFramework.Test
 {
-    
-    
-    /// <summary>
-    ///This is a test class for GetUserInfoCommand and is intended
-    ///to contain all GetUserInfoCommand Unit Tests
-    ///</summary>
+
+
+	/// <summary>
+	///This is a test class for GetUserInfoCommand and is intended
+	///to contain all GetUserInfoCommand Unit Tests
+	///</summary>
 	[TestClass()]
 	public class GetUserInfoCommandTest
 	{
@@ -72,8 +70,8 @@ namespace Waveface.Stream.ClientFramework.Test
 		[Ignore]
 		public void ExecuteTest()
 		{
-            GetUserInfoCommand target = new GetUserInfoCommand();
-			Dictionary<string, object> parameters = new Dictionary<string,object>();
+			GetUserInfoCommand target = new GetUserInfoCommand();
+			Dictionary<string, object> parameters = new Dictionary<string, object>();
 			target.Execute(parameters);
 		}
 	}

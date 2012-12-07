@@ -1,13 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Model;
-using System.IO;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.IO;
+using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
-using Wammer.Cloud;
-using Wammer.Station;
 
 namespace UT_WammerStation.AttachmentUpload
 {

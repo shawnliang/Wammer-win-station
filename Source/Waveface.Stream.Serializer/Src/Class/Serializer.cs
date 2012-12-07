@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 
 namespace Waveface.Stream.Serializer
 {
@@ -68,7 +67,7 @@ namespace Waveface.Stream.Serializer
 		/// <param name="type">The type.</param>
 		public static void Serialize<T>(T obj, string file, SerializerType type)
 		{
-			GetSerializer(type).Serialize(obj,file);
+			GetSerializer(type).Serialize(obj, file);
 		}
 
 		/// <summary>

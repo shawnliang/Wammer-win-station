@@ -96,13 +96,13 @@ namespace Wammer.Queue
 
 		public void Push(WMSQueue queue, object data)
 		{
-			var msg = new WMSMessage {Data = data};
+			var msg = new WMSMessage { Data = data };
 			queue.Push(msg, false);
 		}
 
 		public void Push(WMSQueue queue, object data, bool persistent)
 		{
-			var msg = new WMSMessage {Data = data};
+			var msg = new WMSMessage { Data = data };
 			queue.Push(msg, persistent);
 		}
 

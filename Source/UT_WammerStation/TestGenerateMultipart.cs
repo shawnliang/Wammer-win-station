@@ -1,11 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
-using System.Collections.Specialized;
-
+using System.Text;
 using Wammer.MultiPart;
 
 namespace UT_WammerStation
@@ -39,7 +35,7 @@ namespace UT_WammerStation
 
 			Parser parser = new Parser(serializer.Boundary);
 			Part[] parts = parser.Parse(m.ToArray());
-			
+
 			Assert.AreEqual(3, parts.Length);
 			Assert.AreEqual(Encoding.UTF8.GetString(part1), parts[0].Text);
 			Assert.AreEqual(Encoding.UTF8.GetString(part2), parts[1].Text);

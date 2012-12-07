@@ -1,24 +1,23 @@
+using AutoMapper;
+using fastJSON;
+using log4net;
+using log4net.Config;
+using MongoDB.Driver.Builders;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.ServiceProcess;
 using System.Threading;
-using fastJSON;
-using log4net;
-using log4net.Config;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
-using Wammer.Utility;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MongoDB.Driver.Builders;
-using AutoMapper;
 
 namespace Wammer.Station.Service
 {
@@ -88,7 +87,8 @@ namespace Wammer.Station.Service
 				TaskQueue.Init();
 
 				// retry queue
-				Retry.RetryQueueHelper.Instance.LoadSavedTasks(item => {
+				Retry.RetryQueueHelper.Instance.LoadSavedTasks(item =>
+				{
 					UploadDownloadMonitor.Instance.OnTaskEnqueued(Retry.RetryQueueHelper.Instance, new TaskEventArgs(item.Task));
 				});
 				Retry.RetryQueueHelper.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
@@ -98,7 +98,7 @@ namespace Wammer.Station.Service
 				AttachmentUploadQueueHelper.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
 				AttachmentUploadQueueHelper.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
 				AttachmentUploadQueueHelper.Instance.Init(); // TaskEnqueued and TaskDequeued event handler should be set in prior to Init() is called
-															 // so that performance counter value will be correct.
+				// so that performance counter value will be correct.
 
 				// download queue
 				BodySyncQueue.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
@@ -264,32 +264,32 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler("/", new DummyHandler());
 
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/upload/"),
-			                          attachmentHandler);
+									  attachmentHandler);
 
 			// TO BE REMOVED
 			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/get/"),
-			                          new ResouceDirGetHandler(""));
+									  new ResouceDirGetHandler(""));
 
 			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/set/"),
-			                          new ResouceDirSetHandler());
+									  new ResouceDirSetHandler());
 
 			functionServer.AddHandler(GetDefaultBathPath("/attachments/get/"),
-			                          new AttachmentGetHandler());
+									  new AttachmentGetHandler());
 
 			functionServer.AddHandler(GetDefaultBathPath("/availability/ping/"),
-			                          funcPingHandler);
+									  funcPingHandler);
 
 			functionServer.AddHandler(GetDefaultBathPath("/reachability/ping/"),
 									  funcPingHandler);
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/getLatest/"),
-			                          new HybridCloudHttpRouter(new PostGetLatestHandler()));
+									  new HybridCloudHttpRouter(new PostGetLatestHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/get/"),
-			                          new HybridCloudHttpRouter(new PostGetHandler()));
+									  new HybridCloudHttpRouter(new PostGetHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/getSingle/"),
-			                          new HybridCloudHttpRouter(new PostGetSingleHandler()));
+									  new HybridCloudHttpRouter(new PostGetSingleHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/posts/fetchByFilter/"),
 									  new HybridCloudHttpRouter(new PostFetchByFilterHandler()));
@@ -299,11 +299,11 @@ namespace Wammer.Station.Service
 			newPostHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
 			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"), newPostHandler);
 
-			
+
 			var updatePostHandler = new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance)));
 			updatePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostUpdated;
 			updatePostHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
-			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"),updatePostHandler);
+			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"), updatePostHandler);
 
 			var hidePostHandler = new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance)));
 			hidePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostHidden;
@@ -318,16 +318,16 @@ namespace Wammer.Station.Service
 
 
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/setLastScan/"),
-			                          new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
+									  new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/getLastScan/"),
-			                          new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
+									  new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
 
 			functionServer.AddHandler(GetDefaultBathPath("/changelogs/get/"), new UserTrackHandler(localUserTrackMgr));
 
 			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
-			                          loginHandler);
+									  loginHandler);
 
 			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
 									  new UserLogoutHandler());
@@ -412,7 +412,7 @@ namespace Wammer.Station.Service
 			{
 				ThreadPool.SetMinThreads(minWorker, minIO);
 				logger.WarnFormat("Min worker threads {0}, min IO completion threads {1}",
-				                  minWorker.ToString(), minIO.ToString());
+								  minWorker.ToString(), minIO.ToString());
 			}
 
 			int maxConcurrentTaskCount = int.Parse(StationRegistry.GetValue("MaxConcurrentTaskCount", "20").ToString());
@@ -437,7 +437,7 @@ namespace Wammer.Station.Service
 		public void SetBeginTimestamp(long beginTime)
 		{
 		}
-		
+
 		public void HandleRequest()
 		{
 		}

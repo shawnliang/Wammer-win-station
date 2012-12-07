@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
+﻿
 namespace Waveface.Stream.WindowsClient
 {
 	/// <summary>
@@ -22,9 +17,9 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		public string FileName 
+		public string FileName
 		{
-			get 
+			get
 			{
 				return _fileName ?? (_fileName = System.IO.Path.GetFileName(FilePath));
 			}
@@ -34,7 +29,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the file path.
 		/// </summary>
 		/// <value>The file path.</value>
-		public string FilePath 
+		public string FilePath
 		{
 			get
 			{

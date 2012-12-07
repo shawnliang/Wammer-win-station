@@ -1,4 +1,6 @@
-﻿using System;
+﻿using log4net;
+using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -6,12 +8,10 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.MultiPart;
 using Wammer.Utility;
-using log4net;
 
 namespace Wammer.Station
 {
@@ -108,9 +108,9 @@ namespace Wammer.Station
 
 		public object Clone()
 		{
-			var router = (HybridCloudHttpRouter) MemberwiseClone();
-			router.bypass = (BypassHttpHandler) bypass.Clone();
-			router.handler = (HttpHandler) handler.Clone();
+			var router = (HybridCloudHttpRouter)MemberwiseClone();
+			router.bypass = (BypassHttpHandler)bypass.Clone();
+			router.handler = (HttpHandler)handler.Clone();
 			return router;
 		}
 
@@ -130,7 +130,7 @@ namespace Wammer.Station
 				Debug.Assert(Request.Url != null, "Request.Url != null");
 
 				logger.Info("====== Request " + Request.Url.AbsolutePath +
-				             " from " + Request.RemoteEndPoint.Address + " ======");
+							 " from " + Request.RemoteEndPoint.Address + " ======");
 				foreach (var key in Parameters.AllKeys)
 				{
 					if (key == "password")
@@ -208,7 +208,7 @@ namespace Wammer.Station
 		{
 			if (string.Compare(Request.HttpMethod, "POST", true) == 0)
 			{
-				var initialSize = (int) Request.ContentLength64;
+				var initialSize = (int)Request.ContentLength64;
 				if (initialSize <= 0)
 					initialSize = 65535;
 
@@ -227,7 +227,7 @@ namespace Wammer.Station
 
 			if (disp == null)
 				throw new ArgumentException("incorrect use of this function: " +
-				                            "input part.ContentDisposition is null");
+											"input part.ContentDisposition is null");
 
 			if (disp.Value.Equals("form-data", StringComparison.CurrentCultureIgnoreCase))
 			{
@@ -236,7 +236,7 @@ namespace Wammer.Station
 				if (filename != null)
 				{
 					var file = new UploadedFile(filename, part.Bytes,
-					                            part.Headers["Content-Type"]);
+												part.Headers["Content-Type"]);
 					Files.Add(file);
 				}
 				else
@@ -250,7 +250,7 @@ namespace Wammer.Station
 		private static bool HasMultiPartFormData(HttpListenerRequest request)
 		{
 			return request.ContentType != null &&
-			       request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
+				   request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		private static string GetMultipartBoundary(string contentType)
@@ -275,7 +275,7 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				throw new FormatException("Error finding multipart boundary. Content-Type: " +
-				                          contentType, e);
+										  contentType, e);
 			}
 		}
 
@@ -285,7 +285,7 @@ namespace Wammer.Station
 
 			if (RawPostData != null &&
 				req.ContentType != null &&
-			    req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
+				req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
 			{
 				string postData = Encoding.UTF8.GetString(RawPostData);
 				return HttpUtility.ParseQueryString(postData);

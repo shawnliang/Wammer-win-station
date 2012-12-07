@@ -1,12 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
-using System.IO;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Specialized;
-
+using System.Net;
+using System.Text;
 using Wammer.Station;
 
 namespace UT_WammerStation
@@ -55,7 +51,7 @@ namespace UT_WammerStation
 
 	class MyHandler2 : HttpHandler
 	{
-		public static NameValueCollection SavedParameters; 
+		public static NameValueCollection SavedParameters;
 		public override object Clone()
 		{
 			return this.MemberwiseClone();

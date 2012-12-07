@@ -1,15 +1,12 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Wammer;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PostUpload;
-using MongoDB.Driver;
 
 namespace UT_WammerStation
 {
@@ -90,7 +87,7 @@ namespace UT_WammerStation
 			PostUploadTask task = queue.Dequeue();
 			Assert.IsTrue(task is NewPostTask);
 			queue.Done(task);
-			
+
 			doc = PostUploadTasksCollection.Instance.FindOne();
 			Assert.IsTrue(doc.tasks.ElementAt(0) is UpdatePostTask);
 

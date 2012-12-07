@@ -9,7 +9,7 @@ namespace Wammer.Station
 	/// 
 	/// </summary>
 	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/drivers/add/")]
-	public class AddDriverHandler: HttpHandler
+	public class AddDriverHandler : HttpHandler
 	{
 		#region Var
 		private DriverController _driverAgent;
@@ -32,7 +32,7 @@ namespace Wammer.Station
 				}
 				return _driverAgent;
 			}
-		} 
+		}
 		#endregion
 
 
@@ -45,7 +45,7 @@ namespace Wammer.Station
 		/// <summary>
 		/// Occurs when [before driver saved].
 		/// </summary>
-		public event EventHandler<BeforeDriverSavedEvtArgs> BeforeDriverSaved; 
+		public event EventHandler<BeforeDriverSavedEvtArgs> BeforeDriverSaved;
 		#endregion
 
 

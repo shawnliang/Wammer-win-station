@@ -1,17 +1,13 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
-using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using ExifLibrary;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using MongoDB.Driver.Builders;
-using System.Globalization;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -39,12 +35,12 @@ namespace Wammer.Station.AttachmentUpload
 		/// Storage base path
 		/// </summary>
 		public string StorageBasePath { get; private set; }
-		
+
 		/// <summary>
 		/// Attachment saved path which is a relative path to StorageBasePath
 		/// </summary>
 		public string RelativePath { get; private set; }
-		
+
 		public string FullPath
 		{
 			get { return Path.Combine(StorageBasePath, RelativePath); }

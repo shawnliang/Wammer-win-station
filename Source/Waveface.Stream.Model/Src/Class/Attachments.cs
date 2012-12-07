@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver.Builders;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Serialization;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver.Builders;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
 
 namespace Waveface.Stream.Model
 {
@@ -17,32 +17,38 @@ namespace Waveface.Stream.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		[Description("none")] None = 0,
+		[Description("none")]
+		None = 0,
 
 		/// <summary>
 		/// 128x128 pixels
 		/// </summary>
-		[Description("square")] Square = 128,
+		[Description("square")]
+		Square = 128,
 
 		/// <summary>
 		/// 120 pixels
 		/// </summary>
-		[Description("small")] Small = 512,
+		[Description("small")]
+		Small = 512,
 
 		/// <summary>
 		/// 720 pixels
 		/// </summary>
-		[Description("medium")] Medium = 1024,
+		[Description("medium")]
+		Medium = 1024,
 
 		/// <summary>
 		/// 1024 pixels
 		/// </summary>
-		[Description("large")] Large = 2048,
+		[Description("large")]
+		Large = 2048,
 
 		/// <summary>
 		/// Original image size
 		/// </summary>
-		[Description("origin")] Origin = 50*1024*1024
+		[Description("origin")]
+		Origin = 50 * 1024 * 1024
 	}
 
 	public enum AttachmentType
@@ -206,38 +212,38 @@ namespace Waveface.Stream.Model
 		}
 	}
 
-    [DataContract]
-    [Serializable]
-    [BsonIgnoreExtraElements]
-    public class GPSInfo
-    {
-        [DataMember(Name = "1")]
-        public string GPSLatitudeRef { get; set; }
+	[DataContract]
+	[Serializable]
+	[BsonIgnoreExtraElements]
+	public class GPSInfo
+	{
+		[DataMember(Name = "1")]
+		public string GPSLatitudeRef { get; set; }
 
-        [DataMember(Name = "2")]
-        public List<List<int>> GPSLatitude { get; set; }
+		[DataMember(Name = "2")]
+		public List<List<int>> GPSLatitude { get; set; }
 
-        [DataMember(Name = "3")]
-        public string GPSLongitudeRef { get; set; }
+		[DataMember(Name = "3")]
+		public string GPSLongitudeRef { get; set; }
 
-        [DataMember(Name = "4")]
-        public List<List<int>> GPSLongitude { get; set; }
-    }
+		[DataMember(Name = "4")]
+		public List<List<int>> GPSLongitude { get; set; }
+	}
 
-    [Serializable]
-    [BsonIgnoreExtraElements]
-    public class Gps
-    {
-        public double? longitude { get; set; }
-        public double? latitude { get; set; }
-        [BsonIgnoreIfNull]
-        public string GPSDateStamp { get; set; }
-        [BsonIgnoreIfNull]
-        public List<object[]> GPSTimeStamp { get; set; }
-    }
+	[Serializable]
+	[BsonIgnoreExtraElements]
+	public class Gps
+	{
+		public double? longitude { get; set; }
+		public double? latitude { get; set; }
+		[BsonIgnoreIfNull]
+		public string GPSDateStamp { get; set; }
+		[BsonIgnoreIfNull]
+		public List<object[]> GPSTimeStamp { get; set; }
+	}
 
-    [Serializable]
-    [BsonIgnoreExtraElements]
+	[Serializable]
+	[BsonIgnoreExtraElements]
 	public class exif
 	{
 		[BsonIgnoreIfNull]
@@ -331,7 +337,8 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class Attachment : IAttachmentInfo
 	{
-		[BsonIgnore] private readonly object rawDataMutex = new object();
+		[BsonIgnore]
+		private readonly object rawDataMutex = new object();
 		private ArraySegment<byte> rawData;
 
 		public Attachment()
@@ -394,16 +401,16 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public DateTime? import_time { get; set; }
 
-        [BsonIgnoreIfNull]
-        public DateTime? file_create_time { get; set; }
+		[BsonIgnoreIfNull]
+		public DateTime? file_create_time { get; set; }
 
-        [BsonIgnoreIfNull]
-        public DateTime? event_time { get; set; }
+		[BsonIgnoreIfNull]
+		public DateTime? event_time { get; set; }
 
 
 		[BsonIgnore]
 		[XmlIgnore]
-        [JsonIgnore]
+		[JsonIgnore]
 		public ArraySegment<byte> RawData
 		{
 			get

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Wammer.Station.AttachmentUpload;
-using Wammer.Model;
+using System;
 using System.IO;
-using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Station.AttachmentUpload;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -39,7 +35,7 @@ namespace UT_WammerStation.AttachmentUpload
 		public void UploadNewOriginImg_AttachmentInfoIsSavedToDB()
 		{
 			Attachment savedAttachment = null;
-			
+
 			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
 			storage.Setup(x => x.Save(uploadData, It.IsAny<string>())).Returns(new AttachmentSaveResult("", @"2001\10\20\filename.jpg")).Verifiable();
 
@@ -102,7 +98,7 @@ namespace UT_WammerStation.AttachmentUpload
 		public void UploadNewOriginImg_MimeTypeDefaultsToOctectStream()
 		{
 			Attachment savedAttachment = null;
-			
+
 			Mock<IAttachmentUploadStorage> storage = new Mock<IAttachmentUploadStorage>(MockBehavior.Strict);
 			storage.Setup(x => x.Save(uploadData, It.IsAny<string>())).Returns(new AttachmentSaveResult("", @"2001\10\20\filename.jpg")).Verifiable();
 
@@ -165,7 +161,7 @@ namespace UT_WammerStation.AttachmentUpload
 			db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
 
 			AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object, storage.Object);
-			
+
 			AttachmentEventArgs arg = null;
 			handler.AttachmentProcessed += ((sender, evtArg) => { arg = evtArg; });
 			handler.Process(uploadData);

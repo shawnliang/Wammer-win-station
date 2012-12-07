@@ -1,17 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.WindowsClient.Properties;
-using MongoDB.Driver.Builders;
-using Waveface.Stream.Model;
-using System.Diagnostics;
-using System.Reflection;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading;
-using Microsoft.Win32;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -45,11 +42,11 @@ namespace Waveface.Stream.WindowsClient
 		private static PerformanceCounter m_UpStreamRateCounter = new PerformanceCounter(CATEGORY_NAME, UPSTREAM_RATE, false);
 
 
-	   private static Icon iconSyncing1 = Icon.FromHandle(Resources.stream_tray_syncing1.GetHicon());
-	   private static Icon iconSyncing2 = Icon.FromHandle(Resources.stream_tray_syncing2.GetHicon());
-	   private static Icon iconPaused = Icon.FromHandle(Resources.stream_tray_pause.GetHicon());
-	   private static Icon iconWarning = Icon.FromHandle(Resources.stream_tray_warn.GetHicon());
-	   private static Icon iconWorking = Icon.FromHandle(Resources.stream_tray_working.GetHicon());
+		private static Icon iconSyncing1 = Icon.FromHandle(Resources.stream_tray_syncing1.GetHicon());
+		private static Icon iconSyncing2 = Icon.FromHandle(Resources.stream_tray_syncing2.GetHicon());
+		private static Icon iconPaused = Icon.FromHandle(Resources.stream_tray_pause.GetHicon());
+		private static Icon iconWarning = Icon.FromHandle(Resources.stream_tray_warn.GetHicon());
+		private static Icon iconWorking = Icon.FromHandle(Resources.stream_tray_working.GetHicon());
 		#endregion
 
 
@@ -273,7 +270,7 @@ namespace Waveface.Stream.WindowsClient
 
 						m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
 					}
-					else 
+					else
 					{
 						m_NotifyIcon.Icon = iconPaused;
 					}
@@ -396,7 +393,7 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items.Add("Contact us", m_ContextMenuStrip_ContactUs_Click);
 			m_ContextMenuStrip.Items.Add("Quit", m_ContextMenuStrip_Quit_Click);
 
-		  
+
 		}
 
 		private static void RunningService()
@@ -523,7 +520,10 @@ namespace Waveface.Stream.WindowsClient
 
 		static void m_NotifyIcon_DoubleClick(object sender, EventArgs e)
 		{
-			ShowMainWindow();
+			if (StreamClient.Instance.IsLogined)
+				ShowMainWindow();
+			else
+				ShowLoginDialog();
 		}
 
 		static void dialog_FormClosed(object sender, FormClosedEventArgs e)

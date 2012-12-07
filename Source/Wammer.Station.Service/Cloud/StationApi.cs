@@ -29,7 +29,7 @@ namespace Wammer.Cloud
 		}
 
 		public static StationSignUpResponse SignUpByEmailPassword(string stationId, string email,
-		                                                          string passwd, string deviceId, string deviceName, StationDetail detail)
+																  string passwd, string deviceId, string deviceName, StationDetail detail)
 		{
 			var param = new Dictionary<object, object>
 			            	{

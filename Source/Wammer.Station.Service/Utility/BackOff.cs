@@ -50,7 +50,7 @@ namespace Wammer.Utility
 		#endregion
 
 
-		#region Event 
+		#region Event
 		public event EventHandler LevelIncreasing;
 		public event EventHandler LevelIncreased;
 		#endregion

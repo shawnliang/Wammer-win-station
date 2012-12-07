@@ -1,20 +1,13 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
-using System.IO;
-using System.Web;
-using System.ServiceModel;
-using System.ServiceModel.Web;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using System;
+using System.Collections.Generic;
+using Wammer;
 using Wammer.Cloud;
-using Wammer.Station;
 using Wammer.Model;
 using Wammer.PerfMonitor;
-using Wammer;
+using Wammer.Station;
 
 namespace UT_WammerStation
 {
@@ -23,7 +16,7 @@ namespace UT_WammerStation
 	{
 		#region Const
 		const int SERVER_PORT = 8080;
-		const string REST_COMMAND_ADD = "http://localhost:8080/v2/station/drivers/add"; 
+		const string REST_COMMAND_ADD = "http://localhost:8080/v2/station/drivers/add";
 		#endregion
 
 		#region Var
@@ -33,13 +26,13 @@ namespace UT_WammerStation
 		#region Property
 		public HttpServer Server
 		{
-			get 
+			get
 			{
 				if (_server == null)
 					_server = new HttpServer(8080);
 				return _server;
 			}
-		} 
+		}
 		#endregion
 
 		static MongoServer mongodb;
@@ -168,7 +161,7 @@ namespace UT_WammerStation
 				Driver driver = mongodb.GetDatabase("wammer").
 					GetCollection<Driver>("drivers").FindOne(
 					Query.EQ("email", "user1@gmail.com"));
-				
+
 				Assert.IsNotNull(driver);
 				Assert.AreEqual("user1@gmail.com", driver.email);
 				Assert.AreEqual(@"user_uid1", driver.folder);

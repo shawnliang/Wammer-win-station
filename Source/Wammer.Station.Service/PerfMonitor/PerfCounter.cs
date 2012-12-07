@@ -48,7 +48,7 @@ namespace Wammer.PerfMonitor
 
 
 		#region Private Static Property
-		
+
 		/// <summary>
 		/// Gets the m_ counter pool.
 		/// </summary>
@@ -64,7 +64,7 @@ namespace Wammer.PerfMonitor
 		/// <value>The m_ counter pool lock obj.</value>
 		private static Object m_CounterPoolLockObj
 		{
-			get 
+			get
 			{
 				return _counterPoolLockObj ?? (_counterPoolLockObj = new Object());
 			}
@@ -115,7 +115,7 @@ namespace Wammer.PerfMonitor
 		private PerfCounter(PerformanceCounter counter)
 		{
 			m_Counter = counter;
-		} 
+		}
 		#endregion
 
 
@@ -202,7 +202,7 @@ namespace Wammer.PerfMonitor
 			{
 				return m_Value;
 			}
-		} 
+		}
 		#endregion
 	}
 }

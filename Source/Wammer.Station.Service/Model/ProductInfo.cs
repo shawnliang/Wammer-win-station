@@ -35,7 +35,7 @@ namespace Wammer.Model
 	public class ProductInfoCollection : Collection<ProductInfo>
 	{
 		#region Var
-		private static ProductInfoCollection _instance; 
+		private static ProductInfoCollection _instance;
 		#endregion
 
 		#region Property

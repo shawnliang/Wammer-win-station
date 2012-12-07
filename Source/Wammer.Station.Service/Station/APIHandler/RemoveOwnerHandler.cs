@@ -51,7 +51,7 @@ namespace Wammer.Station
 		}
 	}
 
-	public class DriverRemovedEventArgs: EventArgs
+	public class DriverRemovedEventArgs : EventArgs
 	{
 		public string UserId { get; private set; }
 

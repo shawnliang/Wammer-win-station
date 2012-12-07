@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using System.Linq;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
@@ -25,7 +25,7 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int) PostApiError.PermissionDenied
+					(int)PostApiError.PermissionDenied
 					);
 			}
 
@@ -37,19 +37,19 @@ namespace Wammer.Station
 			if (posts.Any())
 			{
 				lastScan = new LastScanInfo
-				           	{
-				           		timestamp = posts.First().timestamp,
-				           		user_id = Session.user.user_id,
-				           		group_id = groupId,
-				           		post_id = posts.First().post_id
-				           	};
+							{
+								timestamp = posts.First().timestamp,
+								user_id = Session.user.user_id,
+								group_id = groupId,
+								post_id = posts.First().post_id
+							};
 			}
 			else
 			{
 				lastScan = new LastScanInfo();
 			}
 
-			RespondSuccess(new FootprintSetLastScanResponse {last_scan = lastScan});
+			RespondSuccess(new FootprintSetLastScanResponse { last_scan = lastScan });
 		}
 
 		#endregion

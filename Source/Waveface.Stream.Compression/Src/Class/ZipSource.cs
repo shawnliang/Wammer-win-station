@@ -1,10 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+﻿//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //Author: Larry Nung
 //Date: 2008/6/9
 //File: 
@@ -32,7 +26,7 @@ internal class ZipSource : IStaticDataSource
 	private System.IO.Stream _sourceStream;
 	#endregion
 
-	
+
 	#region "Constructer"
 	//***************************************************************************
 	//Author: Larry Nung

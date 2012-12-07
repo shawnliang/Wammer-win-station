@@ -11,7 +11,7 @@ namespace Wammer.Station
 		{
 			var drivers = new List<Driver>(DriverCollection.Instance.FindAll());
 
-			RespondSuccess(new ListDriverResponse {drivers = drivers});
+			RespondSuccess(new ListDriverResponse { drivers = drivers });
 		}
 
 		public override object Clone()

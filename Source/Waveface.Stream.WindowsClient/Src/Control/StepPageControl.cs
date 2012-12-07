@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Specialized;
-using System.Drawing;
 
 
 namespace Waveface.Stream.WindowsClient

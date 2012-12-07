@@ -1,12 +1,11 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Station.Timeline;
-using Moq;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.Station.Timeline;
 
 namespace UT_WammerStation.pullTimeLine
 {
@@ -45,7 +44,7 @@ namespace UT_WammerStation.pullTimeLine
 				{
 					new UserTrackDetail{ seq_num = 1 }
 				},
-				post_list = new List<PostListItem>{ new PostListItem { post_id = "post1"}},
+				post_list = new List<PostListItem> { new PostListItem { post_id = "post1" } },
 				next_seq_num = 2,
 				remaining_count = 1,
 			};
@@ -68,9 +67,9 @@ namespace UT_WammerStation.pullTimeLine
 			api.Setup(x => x.GetChangeHistory(user, 2)).Returns(res2).Verifiable();
 
 			Mock<IPostProvider> postProvider = new Mock<IPostProvider>(MockBehavior.Strict);
-			postProvider.Setup(x => x.RetrievePosts(user, 
+			postProvider.Setup(x => x.RetrievePosts(user,
 				It.Is<List<string>>(list => list.Count == 1 && list.Contains("post2"))))
-				.Returns(new List<PostInfo>{ new PostInfo {post_id = "post2"} })
+				.Returns(new List<PostInfo> { new PostInfo { post_id = "post2" } })
 				.Verifiable();
 
 			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
@@ -165,13 +164,13 @@ namespace UT_WammerStation.pullTimeLine
 			postProvider.Setup(x => x.GetPostsBySeq(user, 1, It.Is<int>(limit => limit > 0)))
 				.Returns(new PostFetchByFilterResponse()
 				{
-					posts = new List<PostInfo> { new PostInfo {  post_id = "post1", seq_num = 100 } },
+					posts = new List<PostInfo> { new PostInfo { post_id = "post1", seq_num = 100 } },
 					get_count = 1,
 					group_id = user.groups[0].group_id,
 					remaining_count = 1
 				}).Verifiable();
 
-			postProvider.Setup(x => x.GetPostsBySeq(user, 101, It.Is<int>(limit => limit>0)))
+			postProvider.Setup(x => x.GetPostsBySeq(user, 101, It.Is<int>(limit => limit > 0)))
 				.Returns(new PostFetchByFilterResponse()
 				{
 					posts = new List<PostInfo> { new PostInfo { post_id = "post2", seq_num = 101 } },

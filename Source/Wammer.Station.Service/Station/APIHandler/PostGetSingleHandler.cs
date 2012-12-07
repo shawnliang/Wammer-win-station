@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
+using System.Collections.Generic;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using System.Linq;
-using MongoDB.Bson;
 
 namespace Wammer.Station
 {
@@ -27,7 +25,7 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.PermissionDenied.ToString(),
-					(int) PostApiError.PermissionDenied
+					(int)PostApiError.PermissionDenied
 					);
 			}
 
@@ -38,7 +36,7 @@ namespace Wammer.Station
 			{
 				throw new WammerStationException(
 					PostApiError.PostNotExist.ToString(),
-					(int) PostApiError.PostNotExist
+					(int)PostApiError.PostNotExist
 					);
 			}
 

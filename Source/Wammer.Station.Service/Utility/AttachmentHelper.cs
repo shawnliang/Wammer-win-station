@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Wammer.Cloud;
 using Wammer.Model;
-using MongoDB.Driver.Builders;
 
 namespace Wammer.Utility
 {
@@ -14,28 +14,28 @@ namespace Wammer.Utility
 		public static List<AttachmentInfo> GetAttachmentInfoList(IEnumerable<string> attachment_id_list, string code_name)
 		{
 			return (from attachmentID in attachment_id_list
-								  let attachment =
-									  AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
-								  where attachment != null
-								  select AttachmentHelper.GetAttachmentnfo(attachment, code_name)).ToList();
+					let attachment =
+						AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID))
+					where attachment != null
+					select AttachmentHelper.GetAttachmentnfo(attachment, code_name)).ToList();
 		}
 
 		private static AttachmentInfo GetAttachmentnfo(Attachment attachment, string codeName)
 		{
 			var attachmentInfo = new AttachmentInfo
-			                     	{
-			                     		group_id = attachment.group_id,
-			                     		file_name = attachment.file_name,
-			                     		object_id = attachment.object_id,
-			                     		creator_id = attachment.creator_id,
-			                     		modify_time = DateTime.Now.Ticks,
-			                     		code_name = codeName,
-			                     		type = attachment.type.ToString(),
-			                     		url = attachment.url,
-			                     		title = attachment.title,
-			                     		description = attachment.description,
-			                     		hidden = attachment.group_id
-			                     	};
+									{
+										group_id = attachment.group_id,
+										file_name = attachment.file_name,
+										object_id = attachment.object_id,
+										creator_id = attachment.creator_id,
+										modify_time = DateTime.Now.Ticks,
+										code_name = codeName,
+										type = attachment.type.ToString(),
+										url = attachment.url,
+										title = attachment.title,
+										description = attachment.description,
+										hidden = attachment.group_id
+									};
 
 			if (attachment.image_meta != null)
 			{
@@ -64,7 +64,7 @@ namespace Wammer.Utility
 		}
 
 		private static void SetAttachmentInfoImageMeta(ThumbnailInfo attachmentThumbnailInfo,
-		                                              AttachmentInfo.ImageMetaDetail attachmentInfoThumbnailInfo)
+													  AttachmentInfo.ImageMetaDetail attachmentInfoThumbnailInfo)
 		{
 			if (attachmentThumbnailInfo == null || attachmentInfoThumbnailInfo == null)
 				return;

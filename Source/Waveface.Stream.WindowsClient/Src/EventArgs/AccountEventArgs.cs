@@ -2,7 +2,7 @@
 
 namespace Waveface.Stream.WindowsClient
 {
-	public class AccountEventArgs:EventArgs
+	public class AccountEventArgs : EventArgs
 	{
 		public String EMail { get; private set; }
 

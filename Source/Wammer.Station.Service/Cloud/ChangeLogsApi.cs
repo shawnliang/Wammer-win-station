@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Wammer.Model;
-using Wammer.Station;
 
 namespace Wammer.Cloud
 {
@@ -12,7 +8,7 @@ namespace Wammer.Cloud
 		ChangeLogResponse GetChangeHistory(Driver user, int since_seq_num);
 	}
 
-	public class ChangeLogsApi: IChangeLogsApi
+	public class ChangeLogsApi : IChangeLogsApi
 	{
 		public ChangeLogResponse GetChangeHistory(Driver user, int since_seq_num)
 		{
@@ -20,7 +16,7 @@ namespace Wammer.Cloud
 		}
 
 		public static ChangeLogResponse GetChangeHistory(string session_token,
-		                                                 string apikey, string group_id, int since_seq_num, bool include_entities = true)
+														 string apikey, string group_id, int since_seq_num, bool include_entities = true)
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{

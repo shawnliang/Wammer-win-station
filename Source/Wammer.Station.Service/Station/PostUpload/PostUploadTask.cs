@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
-using Wammer.Cloud;
-using Wammer.Station;
-using Wammer.Model;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.Builders;
+using System;
+using System.Collections.Generic;
+using Wammer.Cloud;
+using Wammer.Model;
+using Wammer.Station;
 
 namespace Wammer.PostUpload
 {
@@ -14,7 +14,7 @@ namespace Wammer.PostUpload
 		InProgress
 	}
 
-	[BsonKnownTypes(typeof (NewPostTask), typeof (UpdatePostTask), typeof (NullPostUploadTask), typeof(CommentTask), typeof(HidePostTask), typeof(UnhidePostTask))]
+	[BsonKnownTypes(typeof(NewPostTask), typeof(UpdatePostTask), typeof(NullPostUploadTask), typeof(CommentTask), typeof(HidePostTask), typeof(UnhidePostTask))]
 	public abstract class PostUploadTask : ITask
 	{
 		public string PostId { get; set; }

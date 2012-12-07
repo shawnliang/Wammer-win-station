@@ -1,11 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using ExifLibrary;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using Wammer.Model;
-using ExifLibrary;
-using System.Collections;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -34,7 +31,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			var extension = Path.GetExtension(file);
 
-			if (!extension.Equals(".jpg", StringComparison.InvariantCultureIgnoreCase) && 
+			if (!extension.Equals(".jpg", StringComparison.InvariantCultureIgnoreCase) &&
 				!extension.Equals(".jpeg", StringComparison.InvariantCultureIgnoreCase))
 				return null;
 

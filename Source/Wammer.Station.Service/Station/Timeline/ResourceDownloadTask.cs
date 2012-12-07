@@ -1,19 +1,16 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using log4net;
+﻿using log4net;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
 using Wammer.Utility;
-using System.Diagnostics;
-using Wammer.PerfMonitor;
-using System.ComponentModel;
 
 namespace Wammer.Station.Timeline
 {
@@ -98,7 +95,7 @@ namespace Wammer.Station.Timeline
 			}
 			else
 			{
-				return  storage.Save(param, null);
+				return storage.Save(param, null);
 			}
 		}
 
@@ -175,7 +172,7 @@ namespace Wammer.Station.Timeline
 				setOptionalAttributes(attachmentAttributes, update);
 
 				AttachmentCollection.Instance.Update(Query.EQ("_id", attachmentAttributes.object_id),
-						update,	UpdateFlags.Upsert);
+						update, UpdateFlags.Upsert);
 			}
 		}
 

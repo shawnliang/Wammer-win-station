@@ -13,26 +13,31 @@
 		/// <summary>
 		/// 
 		/// </summary>
-		[RelativedType(typeof (BinarySerializer))] Binary,
+		[RelativedType(typeof(BinarySerializer))]
+		Binary,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		[RelativedType(typeof (XmlSerializer))] Xml,
+		[RelativedType(typeof(XmlSerializer))]
+		Xml,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		[RelativedType(typeof (SoapSerializer))] Soap,
+		[RelativedType(typeof(SoapSerializer))]
+		Soap,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		[RelativedType(typeof (JsonSerializer))] Json,
+		[RelativedType(typeof(JsonSerializer))]
+		Json,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		[RelativedType(typeof (DataContractSerializer))] DataContract
+		[RelativedType(typeof(DataContractSerializer))]
+		DataContract
 	}
 }

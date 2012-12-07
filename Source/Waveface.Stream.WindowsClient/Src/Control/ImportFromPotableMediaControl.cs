@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Waveface.Stream.Model;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Model;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -34,7 +30,8 @@ namespace Waveface.Stream.WindowsClient
 		{
 			import_count++;
 
-			progressBar.Invoke(new MethodInvoker(() => {
+			progressBar.Invoke(new MethodInvoker(() =>
+			{
 				progressText.Text = string.Format("{0}/{1} {2} processed", import_count, progressBar.Maximum, e.FilePath);
 				progressBar.PerformStep();
 			}));
@@ -94,7 +91,7 @@ namespace Waveface.Stream.WindowsClient
 			var device = e.Argument as PortableDevice;
 			var files = service.GetFileList(device.DrivePath);
 
-			progressBar.Invoke(new MethodInvoker(() => 
+			progressBar.Invoke(new MethodInvoker(() =>
 			{
 				progressBar.Maximum = files.Count();
 			}));

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Wammer.Cloud;
 
 namespace Wammer.Station.LocalUserTrack
@@ -43,7 +42,7 @@ namespace Wammer.Station.LocalUserTrack
 		//
 		// key: session_token
 		// value: used user tracks of a session
-		private Dictionary<string, HashSet<Item>> usedUserTracks = new Dictionary<string, HashSet<Item>>(); 
+		private Dictionary<string, HashSet<Item>> usedUserTracks = new Dictionary<string, HashSet<Item>>();
 
 		public IEnumerable<UserTrackDetail> GetUserTracksBySession(string group_id, string session_token)
 		{
@@ -124,7 +123,7 @@ namespace Wammer.Station.LocalUserTrack
 		}
 		#endregion
 
-		
+
 	}
 
 }

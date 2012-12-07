@@ -16,7 +16,7 @@ namespace Wammer.Utility
 
 		public static long ConvertToUnixTimeStamp(DateTime datetime)
 		{
-			return (long) (datetime - JAN_1_1970).TotalSeconds;
+			return (long)(datetime - JAN_1_1970).TotalSeconds;
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace Wammer.Utility
 		public static DateTime ParseCloudTimeString(string cloudTimeString)
 		{
 			DateTime dt = DateTime.ParseExact(cloudTimeString, CLOUD_TIME_FORMAT, CultureInfo.InvariantCulture,
-			                                  DateTimeStyles.AssumeUniversal);
+											  DateTimeStyles.AssumeUniversal);
 
 			return dt.ToUniversalTime();
 		}

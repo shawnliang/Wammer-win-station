@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Cloud
 {
@@ -34,7 +34,7 @@ namespace Wammer.Cloud
 		public string attachment_id { get; set; }
 		[BsonIgnoreIfNull]
 		public DateTime update_time { get; set; }
-		
+
 		/// <summary>
 		/// Always -1
 		/// </summary>

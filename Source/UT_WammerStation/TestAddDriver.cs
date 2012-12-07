@@ -175,8 +175,8 @@ namespace UT_WammerStation
 			{
 				api_ret_message = "success",
 				api_ret_code = 0,
-				status = 200, 
-				timestamp = DateTime.UtcNow, 
+				status = 200,
+				timestamp = DateTime.UtcNow,
 				session_token = "token3",
 				groups = new List<UserGroup>{
 					new UserGroup {

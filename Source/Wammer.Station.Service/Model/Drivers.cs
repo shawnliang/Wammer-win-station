@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.Builders;
+using System;
+using System.Collections.Generic;
 using Wammer.Cloud;
 
 namespace Wammer.Model
@@ -160,7 +160,7 @@ namespace Wammer.Model
 
 		[BsonIgnoreIfNull]
 		public DateTime? first_post_time { get; set; }
-		
+
 		[BsonIgnoreIfNull]
 		public int next_seq_num { get; set; }
 
@@ -178,7 +178,7 @@ namespace Wammer.Model
 
 		public SyncRange Clone()
 		{
-			return (SyncRange) MemberwiseClone();
+			return (SyncRange)MemberwiseClone();
 		}
 
 		public override bool Equals(object obj)

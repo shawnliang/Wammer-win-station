@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WebSocketSharp.Server;
-using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
-    [Obfuscation]
+	[Obfuscation]
 	public class LogCommand : WebSocketCommandBase
 	{
 		#region Public Property
@@ -25,17 +21,17 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Public Method
-        /// <summary>
-        /// Executes the specified parameters.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
+		/// <summary>
+		/// Executes the specified parameters.
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
-            var parameters = data.Parameters;
+			var parameters = data.Parameters;
 
 			Trace.WriteLine(string.Format("[{0}] {1}", parameters["type"], parameters["data"]));
-            return null;
+			return null;
 		}
 		#endregion
 	}

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Station.Notify;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Text;
 using Wammer.PostUpload;
+using Wammer.Station.Notify;
 using Wammer.Utility;
 
 namespace UT_WammerStation.WebSocketChannel

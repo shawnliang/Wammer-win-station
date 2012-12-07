@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 using Wammer.PostUpload;
 
 namespace Wammer.Model
@@ -15,7 +15,7 @@ namespace Wammer.Model
 	public class PostUploadTasksCollection : Collection<PostUploadTasks>
 	{
 		#region Var
-		private static PostUploadTasksCollection _instance; 
+		private static PostUploadTasksCollection _instance;
 		#endregion
 
 		#region Property

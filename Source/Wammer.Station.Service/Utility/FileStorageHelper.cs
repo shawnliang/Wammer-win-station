@@ -31,7 +31,7 @@ namespace Wammer.Utility
 		{
 			Type tp = Type.GetTypeFromProgID("Scripting.FileSystemObject");
 			object fso = Activator.CreateInstance(tp);
-			object fd = tp.InvokeMember("GetFolder", BindingFlags.InvokeMethod, null, fso, new object[] {d.FullName});
+			object fd = tp.InvokeMember("GetFolder", BindingFlags.InvokeMethod, null, fso, new object[] { d.FullName });
 			long ret = Convert.ToInt64(tp.InvokeMember("Size", BindingFlags.GetProperty, null, fd, null));
 			Marshal.ReleaseComObject(fso);
 			return ret;

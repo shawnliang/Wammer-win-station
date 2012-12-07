@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using WebSocketSharp.Server;
 using Wammer.Utility;
+using WebSocketSharp.Server;
 
 namespace Wammer.Station.Notify
 {
@@ -43,7 +42,8 @@ namespace Wammer.Station.Notify
 					var task = new ImportTask(import.apikey, import.session_token, import.group_id, import.files);
 
 
-					task.FileImported += (s, args) => {
+					task.FileImported += (s, args) =>
+					{
 						try
 						{
 							var notify = new GenericCommand
@@ -61,7 +61,8 @@ namespace Wammer.Station.Notify
 						}
 					};
 
-					task.ImportDone += (s, args) => {
+					task.ImportDone += (s, args) =>
+					{
 						try
 						{
 							var notify = new GenericCommand
@@ -79,7 +80,8 @@ namespace Wammer.Station.Notify
 						}
 					};
 
-					task.MetadataUploaded += (s, args) => {
+					task.MetadataUploaded += (s, args) =>
+					{
 						try
 						{
 							var notify = new GenericCommand
@@ -114,7 +116,7 @@ namespace Wammer.Station.Notify
 		protected override void onError(object sender, WebSocketSharp.ErrorEventArgs e)
 		{
 			base.onError(sender, e);
-			this.LogWarnMsg("Web socket channel error: " + e.Message + " from :" + channelInfo.ToString() );
+			this.LogWarnMsg("Web socket channel error: " + e.Message + " from :" + channelInfo.ToString());
 		}
 
 		protected override void onOpen(object sender, EventArgs e)

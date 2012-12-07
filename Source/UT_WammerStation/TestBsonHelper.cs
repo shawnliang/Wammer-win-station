@@ -1,15 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
-using MongoDB.Driver;
+using System.Collections.Generic;
 using Wammer.Utility;
 
-using MongoDB.Bson.Serialization.Conventions;
-using MongoDB.Bson.Serialization;
 
 namespace UT_WammerStation
 {
@@ -52,7 +45,7 @@ namespace UT_WammerStation
 			Assert.IsTrue(res["d"] == 3);
 			Assert.IsTrue(res["e"] == 4);
 			Assert.AreEqual(4, res.ElementCount);
-			
+
 		}
 
 		[TestMethod]
@@ -164,7 +157,7 @@ namespace UT_WammerStation
 			doc.DeepMerge(update);
 
 			string bb = update.ToString();
-			
+
 			Assert.AreEqual("this is title", doc["title"].AsString);
 			Assert.AreEqual("this is description", doc["description"].AsString);
 			Assert.AreEqual("http://localhost/", doc["image_meta"]
@@ -173,7 +166,7 @@ namespace UT_WammerStation
 			Assert.AreEqual("1234567890", doc["_id"].AsString);
 		}
 
-		
+
 		[TestMethod]
 		public void TestBsonListSerialization()
 		{

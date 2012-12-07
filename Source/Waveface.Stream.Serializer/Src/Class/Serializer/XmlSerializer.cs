@@ -50,7 +50,7 @@ namespace Waveface.Stream.Serializer
 		/// <remarks></remarks>
 		public static System.Xml.Serialization.XmlSerializer GetXmlSerializer<T>()
 		{
-			return GetXmlSerializer(typeof (T));
+			return GetXmlSerializer(typeof(T));
 		}
 
 		/// <summary>
@@ -72,11 +72,11 @@ namespace Waveface.Stream.Serializer
 						Assembly serializerAssembly = Assembly.LoadFile(serializerAssemblyFile);
 						Type serializerAssemblyObjType =
 							serializerAssembly.GetType(string.Format(SERIALIZER_DLL_NAMESPACE_PATTERN,
-							                                         objType.Name));
+																	 objType.Name));
 						m_Pool.Add(objType,
-						           serializerAssemblyObjType == null
-						           	? new System.Xml.Serialization.XmlSerializer(objType)
-						           	: (System.Xml.Serialization.XmlSerializer) Activator.CreateInstance(serializerAssemblyObjType));
+								   serializerAssemblyObjType == null
+									? new System.Xml.Serialization.XmlSerializer(objType)
+									: (System.Xml.Serialization.XmlSerializer)Activator.CreateInstance(serializerAssemblyObjType));
 					}
 					else
 					{
@@ -248,7 +248,7 @@ namespace Waveface.Stream.Serializer
 		/// <param name="password">The password.</param>
 		/// <param name="bufferSize">Size of the buffer.</param>
 		/// <returns></returns>
-		public T DeSerialize<T>(string file,string salt, string password, int bufferSize = BUFFER_SIZE)
+		public T DeSerialize<T>(string file, string salt, string password, int bufferSize = BUFFER_SIZE)
 		{
 			if (string.IsNullOrEmpty(salt)) throw new ArgumentNullException("salt");
 			if (string.IsNullOrEmpty(password)) throw new ArgumentNullException("password");
@@ -373,7 +373,7 @@ namespace Waveface.Stream.Serializer
 				throw new ArgumentException("UnReadable stream.");
 
 			System.Xml.Serialization.XmlSerializer serializer = GetXmlSerializer<T>();
-			return (T) serializer.Deserialize(stream);
+			return (T)serializer.Deserialize(stream);
 		}
 
 		#endregion

@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Waveface.Stream.ClientFramework;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Windows.Forms;
+using Waveface.Stream.ClientFramework;
 
 
 namespace Waveface.Stream.WindowsClient
@@ -95,6 +90,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		
+
 	}
 }

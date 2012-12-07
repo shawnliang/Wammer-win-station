@@ -4,22 +4,22 @@ using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient
 {
-    public class CueTextBox : TextBox
-    {
-        private string _cueText;
+	public class CueTextBox : TextBox
+	{
+		private string _cueText;
 
-        [Localizable(true)]
-        public string CueText
-        {
-            get
-            {
-            	return _cueText ?? string.Empty;
-            }
-        	set
-            {
-                _cueText = value;
-            }
-        }
+		[Localizable(true)]
+		public string CueText
+		{
+			get
+			{
+				return _cueText ?? string.Empty;
+			}
+			set
+			{
+				_cueText = value;
+			}
+		}
 
 		const int WM_PAINT = 0xF; //繪製的訊息
 
@@ -47,5 +47,5 @@ namespace Waveface.Stream.WindowsClient
 				TextRenderer.DrawText(Graphics.FromHwnd(Handle), CueText, this.Font, ClientRectangle, ColorTranslator.FromHtml("#c2c2c2"), BackColor, formatFlags); //畫出提示訊息
 			}
 		}
-    }
+	}
 }

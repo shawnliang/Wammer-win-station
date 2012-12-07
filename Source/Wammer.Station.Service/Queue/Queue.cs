@@ -67,7 +67,7 @@ namespace Wammer.Queue
 				WMSMessage msg = items.First.Value;
 				items.RemoveFirst();
 				popMsgs.Add(msg.Id,
-				            new UnackedMsg {Msg = msg, SessionId = s.Id});
+							new UnackedMsg { Msg = msg, SessionId = s.Id });
 				return msg;
 			}
 		}

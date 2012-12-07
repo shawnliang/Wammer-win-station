@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the m_ content provider.
 		/// </summary>
 		/// <value>The m_ content provider.</value>
-		public AutoImportContentProvider m_ContentProvider 
+		public AutoImportContentProvider m_ContentProvider
 		{
 			get
 			{
@@ -58,38 +59,41 @@ namespace Waveface.Stream.WindowsClient
 		{
 			DebugInfo.ShowMethod();
 
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
+			if (!StreamClient.Instance.IsLogined)
+				return;
 
-            if (loginedSession == null)
-                return;
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", StreamClient.Instance.LoginedUser.SessionToken));
 
-            var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "");
+			if (loginedSession == null)
+				return;
 
-            var filesToImport = new List<string>();
+			var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "");
 
-            foreach (var content in importContents)
-            {
-                try
-                {
-                    var contentPath = content.Path;
-                    if (content.Path == systemResourcePath)
-                        continue;
+			var filesToImport = new List<string>();
 
-                    var contentLength = (new FileInfo(content.FilePath)).Length;
-                    if (contentLength < 20 * 1024)
-                        continue;
+			foreach (var content in importContents)
+			{
+				try
+				{
+					var contentPath = content.Path;
+					if (content.Path == systemResourcePath)
+						continue;
 
-                    var frame = GetBitmapFrame(content.FilePath);
-                    if (frame == null || frame.Height < 256 || frame.Width < 256)
-                        continue;
+					var contentLength = (new FileInfo(content.FilePath)).Length;
+					if (contentLength < 20 * 1024)
+						continue;
 
-                    filesToImport.Add(content.FilePath);
-                }
-                catch (Exception)
-                {
-                }
-            }
-            StationAPI.Import(loginedSession.session_token, loginedSession.groups.First().group_id, filesToImport);
+					var frame = GetBitmapFrame(content.FilePath);
+					if (frame == null || frame.Height < 256 || frame.Width < 256)
+						continue;
+
+					filesToImport.Add(content.FilePath);
+				}
+				catch (Exception)
+				{
+				}
+			}
+			StationAPI.Import(loginedSession.session_token, loginedSession.groups.First().group_id, filesToImport);
 		}
 		#endregion
 

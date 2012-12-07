@@ -22,7 +22,7 @@ namespace UT_WammerStation
 		#region Var
 		static MongoServer mongodb;
 		HttpServer server;
-		HttpHandler handler; 
+		HttpHandler handler;
 		#endregion
 
 		#region Private Method
@@ -61,7 +61,7 @@ namespace UT_WammerStation
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost/v2/";			
+			CloudServer.BaseUrl = "http://localhost/v2/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").Insert(
 				new Driver
@@ -166,13 +166,13 @@ namespace UT_WammerStation
 					{"device_name", "deviceName"}});
 
 				Assert.AreEqual(200, response.status);
-				Assert.AreEqual("success",response.api_ret_message);
+				Assert.AreEqual("success", response.api_ret_message);
 
 				var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", "cV91P1HmYm5PqR9Z75DxAd0t.H5MOppJa3gpk26o6bjc3RDyAmOMNGMc4Xj8znaAMRvY"));
 
 				Assert.IsNotNull(loginedSession);
 			}
-		} 
+		}
 		#endregion
 	}
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using Shell32;
+using System.Reflection;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -18,7 +15,7 @@ namespace Waveface.Stream.WindowsClient
 			var recentDir = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 			watcher = new FileSystemWatcher(recentDir, "*.lnk");
 
-			watcher.NotifyFilter = NotifyFilters.LastWrite| NotifyFilters.CreationTime;
+			watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime;
 			watcher.Changed += watcher_Touched;
 			watcher.Created += watcher_Touched;
 		}
@@ -50,28 +47,24 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		private static string getShortcutTargetFile(string shortcutFilename)
+		public static string getShortcutTargetFile(string shortcutFilename)
 		{
-			string pathOnly = System.IO.Path.GetDirectoryName(shortcutFilename);
-			string filenameOnly = System.IO.Path.GetFileName(shortcutFilename);
+			var type = Type.GetTypeFromProgID("WScript.Shell");
 
-			Shell shell = new Shell();
-			Folder folder = shell.NameSpace(pathOnly);
-			FolderItem folderItem = folder.ParseName(filenameOnly);
-			if (folderItem != null)
-			{
-				Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)folderItem.GetLink;
-				return link.Path;
-			}
+			object instance = Activator.CreateInstance(type);
 
-			return string.Empty;
+			var result = type.InvokeMember("CreateShortCut", BindingFlags.InvokeMethod, null, instance, new object[] { shortcutFilename });
+
+			var targetFile = result.GetType().InvokeMember("TargetPath", BindingFlags.GetProperty, null, result, null) as string;
+			return targetFile;
 		}
+
 	}
 
-	class FileTouchEventArgs: EventArgs
+	class FileTouchEventArgs : EventArgs
 	{
 		public string File { get; private set; }
-		
+
 		public FileTouchEventArgs(string file)
 		{
 			File = file;

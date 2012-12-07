@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 using System.Collections.Specialized;
+using System.IO;
 using Wammer.Model;
 
 namespace Wammer.Station.AttachmentView
@@ -30,7 +27,7 @@ namespace Wammer.Station.AttachmentView
 	{
 		public IAttachmentViewHandlerDB DB { get; set; }
 		public IAttachmentViewStorage Storage { get; set; }
-		
+
 		public AttachmentViewHandlerImp()
 		{
 			DB = new AttachmentViewHandlerDB();
@@ -64,7 +61,7 @@ namespace Wammer.Station.AttachmentView
 
 
 			var page = int.Parse(pageNum);
-			var pageIndex = page -1;
+			var pageIndex = page - 1;
 			if (pageIndex < 0 || attDoc.doc_meta.preview_files.Count <= pageIndex)
 				throw new WammerStationException("page is out of range", -1);
 

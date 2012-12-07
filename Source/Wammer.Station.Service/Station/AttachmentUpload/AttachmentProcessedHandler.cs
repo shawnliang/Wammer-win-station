@@ -1,5 +1,5 @@
-﻿using Wammer.Model;
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
+using Wammer.Model;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -9,7 +9,7 @@ namespace Wammer.Station.AttachmentUpload
 		Driver FindUserByGroupIdInDB(string group_id);
 
 		ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user,
-		                                string origin_filename);
+										string origin_filename);
 
 		void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority);
 		void GenerateThumbnailAsyncAndUpstream(string object_id, ImageMeta thumbnailType, TaskPriority priority);
@@ -17,10 +17,10 @@ namespace Wammer.Station.AttachmentUpload
 		void UpdateThumbnailInfoToDB(string object_id, ImageMeta thumbnailType, ThumbnailInfo Info);
 
 		void UpstreamImageNow(byte[] imageRaw, string group_id, string object_id, string file_name, string mime_type,
-		                      ImageMeta meta, string apikey, string session_token);
+							  ImageMeta meta, string apikey, string session_token);
 
 		void UpstreamAttachmentNow(string filename, Driver user, string object_id, string file_name, string mime_type,
-		                           ImageMeta meta, AttachmentType type, string session, string apikey);
+								   ImageMeta meta, AttachmentType type, string session, string apikey);
 
 		void UpstreamAttachmentAsync(string object_id, ImageMeta meta, TaskPriority priority);
 	}

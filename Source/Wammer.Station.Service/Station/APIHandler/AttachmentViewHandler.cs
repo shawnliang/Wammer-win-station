@@ -1,14 +1,12 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.Utility;
 using Wammer.Station.Timeline;
+using Wammer.Utility;
 
 namespace Wammer.Station
 {
@@ -58,10 +56,10 @@ namespace Wammer.Station
 				StreamHelper.BeginCopy(result.Stream, Response.OutputStream, CopyComplete,
 									   new CopyState(result.Stream, Response, Parameters["object_id"]));
 			}
-			catch(FileNotFoundException e)
+			catch (FileNotFoundException e)
 			{
 				this.LogDebugMsg("Attachment is not found; Bypass to cloud: " + e.Message);
-				
+
 				var meta = Parameters["image_meta"];
 
 				if (string.IsNullOrEmpty(meta))
@@ -102,11 +100,11 @@ namespace Wammer.Station
 
 				if (driver == null)
 					throw new WammerStationException("driver does not exist: " + metaData.creator_id,
-					                                 (int) StationLocalApiError.InvalidDriver);
+													 (int)StationLocalApiError.InvalidDriver);
 
 				if (meta == ImageMeta.Origin && !driver.isPrimaryStation)
 					throw new WammerStationException("Access to original attachment from secondary station is not allowed.",
-					                                 (int) StationLocalApiError.AccessDenied);
+													 (int)StationLocalApiError.AccessDenied);
 
 
 				var downloadResult = AttachmentApi.DownloadObject(metaData.redirect_to, metaData);
@@ -125,7 +123,7 @@ namespace Wammer.Station
 				var m = new MemoryStream(downloadResult.Image);
 
 				StreamHelper.BeginCopy(m, Response.OutputStream, CopyComplete,
-				                       new CopyState(m, Response, Parameters["object_id"]));
+									   new CopyState(m, Response, Parameters["object_id"]));
 			}
 			catch (WebException e)
 			{
@@ -179,7 +177,7 @@ namespace Wammer.Station
 
 		private void CopyComplete(IAsyncResult ar)
 		{
-			var state = (CopyState) ar.AsyncState;
+			var state = (CopyState)ar.AsyncState;
 
 			try
 			{

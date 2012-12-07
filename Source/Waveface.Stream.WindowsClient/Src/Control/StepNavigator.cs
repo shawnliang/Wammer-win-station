@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient
@@ -50,7 +45,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				return _stepIndex;
 			}
-			set 
+			set
 			{
 				if (_stepIndex == value)
 					return;
@@ -263,7 +258,7 @@ namespace Waveface.Stream.WindowsClient
 		void StepNavigator_StepCountChanged(object sender, EventArgs e)
 		{
 			AdjustSteps();
-		} 
+		}
 		#endregion
 	}
 }

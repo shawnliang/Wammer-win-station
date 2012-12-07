@@ -1,9 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
+﻿using System;
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //Author: Larry Nung
 //Date: 2008/4/23

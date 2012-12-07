@@ -29,7 +29,7 @@ namespace Wammer.Utility
 
 		public static void EndCopy(IAsyncResult ar)
 		{
-			var result = (StreamCopyState) ar;
+			var result = (StreamCopyState)ar;
 
 			if (result.Error != null)
 				throw result.Error;
@@ -132,13 +132,13 @@ namespace Wammer.Utility
 		}
 	}
 
-	internal class StreamDupState: StreamCopyState
+	internal class StreamDupState : StreamCopyState
 	{
 		private MemoryStream mirroredData = new MemoryStream();
 
 		public StreamDupState(Stream from, Stream to, byte[] buffer, AsyncCallback completeCB, object state)
-			:base(from, to, buffer, completeCB, state)
-		{}
+			: base(from, to, buffer, completeCB, state)
+		{ }
 
 		public override void DataRead(IAsyncResult ar)
 		{

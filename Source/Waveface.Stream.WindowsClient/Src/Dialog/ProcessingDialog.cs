@@ -15,7 +15,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets or sets a value indicating whether [show process message].
 		/// </summary>
 		/// <value><c>true</c> if [show process message]; otherwise, <c>false</c>.</value>
-		public Boolean ShowProcessMessage 
+		public Boolean ShowProcessMessage
 		{
 			get
 			{
@@ -31,7 +31,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets or sets the process message.
 		/// </summary>
 		/// <value>The process message.</value>
-		public String ProcessMessage 
+		public String ProcessMessage
 		{
 			get
 			{
@@ -47,7 +47,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets or sets the progress value.
 		/// </summary>
 		/// <value>The progress value.</value>
-		public int ProgressValue 
+		public int ProgressValue
 		{
 			get
 			{
@@ -79,7 +79,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets or sets the progress max value.
 		/// </summary>
 		/// <value>The progress max value.</value>
-		public int ProgressMaxValue 
+		public int ProgressMaxValue
 		{
 			get
 			{
@@ -95,7 +95,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets or sets the progress style.
 		/// </summary>
 		/// <value>The progress style.</value>
-		public ProgressBarStyle ProgressStyle 
+		public ProgressBarStyle ProgressStyle
 		{
 			get
 			{
@@ -120,7 +120,7 @@ namespace Waveface.Stream.WindowsClient
 			label1.Text = string.Empty;
 			m_ProgressBarOriginalTop = progressBar1.Top;
 			m_OriginalFormHeight = this.Height;
-		} 
+		}
 		#endregion
 
 
@@ -137,7 +137,7 @@ namespace Waveface.Stream.WindowsClient
 
 			progressBar1.Top = (ShowProcessMessage) ? m_ProgressBarOriginalTop : label1.Top;
 			this.Height = (ShowProcessMessage) ? m_OriginalFormHeight : m_OriginalFormHeight - label1.Height;
-		} 
+		}
 		#endregion
 	}
 }

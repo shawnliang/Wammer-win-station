@@ -1,16 +1,15 @@
+using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Text;
-using log4net;
 using Wammer.Model;
 using Wammer.Station;
-using Wammer.Station.JSONClass;
 using Wammer.Utility;
-using System.Diagnostics;
-using System.Net;
-using Newtonsoft.Json;
 
 
 namespace Wammer.Cloud
@@ -165,7 +164,7 @@ namespace Wammer.Cloud
 					{ CloudServer.PARAM_TARGET, TMPQUEUE},
 					{ CloudServer.PARAM_COUNT, count}
 				};
-				
+
 				return CloudServer.requestPath<AttachmentQueueResponse>("attachments/get_queue", parameters, false);
 			}
 		}
@@ -235,9 +234,9 @@ namespace Wammer.Cloud
 			DateTime? file_create_time = null, DocProperty doc_meta = null)
 		{
 			var pars = new Dictionary<string, object>();
-			
+
 			pars["type"] = type.ToString();
-			
+
 			if (meta != ImageMeta.None)
 				pars["image_meta"] = meta.ToString().ToLower();
 
@@ -272,6 +271,26 @@ namespace Wammer.Cloud
 
 			return pars;
 		}
+
+		public static void updateDocMetadata(string session, string apikey, string object_id, DateTime accessTime)
+		{
+			var meta = new
+			{
+				object_id = object_id,
+				type = "doc",
+				access_time = accessTime.ToCloudTimeString()
+			};
+
+			var parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_METADATA, JsonConvert.SerializeObject(meta)},
+				{CloudServer.PARAM_SESSION_TOKEN, session},
+				{CloudServer.PARAM_API_KEY, apikey}
+			};
+
+			CloudServer.requestPath<CloudResponse>("attachments/update_metadata", parameters, false);
+		}
+
 	}
 
 	public class AttachmentRedirectInfo : AttachmentInfo

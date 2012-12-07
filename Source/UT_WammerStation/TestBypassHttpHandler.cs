@@ -1,18 +1,14 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Specialized;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System.IO;
 using System.Net;
-using Wammer.Station;
 using Wammer.Cloud;
+using Wammer.Station;
 
 namespace UT_WammerStation
 {
-	class ErrorHttpHandler:IHttpHandler
+	class ErrorHttpHandler : IHttpHandler
 	{
 		int status;
 		string msg;
@@ -56,7 +52,7 @@ namespace UT_WammerStation
 	}
 
 
-	class MyForwardedHandler: IHttpHandler
+	class MyForwardedHandler : IHttpHandler
 	{
 		public static CookieCollection recvCookies;
 		public static NameValueCollection recvQueryString;

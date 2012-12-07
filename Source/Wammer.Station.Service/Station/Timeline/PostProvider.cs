@@ -22,7 +22,7 @@ namespace Wammer.Station.Timeline
 				limit = -limit;
 
 			var api = new PostApi(user);
-			return api.PostFetchByFilter(new FilterEntity {limit = limit, timestamp = before.ToCloudTimeString()});
+			return api.PostFetchByFilter(new FilterEntity { limit = limit, timestamp = before.ToCloudTimeString() });
 		}
 
 		public List<PostInfo> RetrievePosts(Driver user, List<string> posts)
@@ -41,6 +41,6 @@ namespace Wammer.Station.Timeline
 		}
 
 		#endregion
-	
+
 	}
 }

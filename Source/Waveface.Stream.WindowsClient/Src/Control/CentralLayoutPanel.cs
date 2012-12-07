@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -21,7 +19,7 @@ namespace Waveface.Stream.WindowsClient
 			//this.Controls.Add(m_ControlPool);
 
 			AdjustContentPoolLocation();
-			
+
 			this.ControlAdded += new ControlEventHandler(CentralLayoutPanel_ControlAdded);
 			this.SizeChanged += new EventHandler(CentralLayoutPanel_SizeChanged);
 		}
@@ -53,7 +51,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				control.Dock = DockStyle.None;
 
-				control.Location = new Point(startLeft ,startTop);
+				control.Location = new Point(startLeft, startTop);
 
 				startLeft += control.PreferredSize.Width;
 			}

@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web;
+using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Model;
-using System.Threading;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Waveface.Stream.WindowsClient
 {
-	abstract class WebRedirectConnectableService: IConnectableService
+	abstract class WebRedirectConnectableService : IConnectableService
 	{
 		private const string WEB_BASE_URL = @"https://waveface.com";
 		private const string STAGING_BASE_URL = @"http://staging.waveface.com";
