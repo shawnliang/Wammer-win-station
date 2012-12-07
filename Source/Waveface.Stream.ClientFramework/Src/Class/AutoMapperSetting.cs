@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +25,13 @@ namespace Waveface.Stream.ClientFramework
             if (string.IsNullOrEmpty(savedFileName))
                 return null;
 
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
+			if (!StreamClient.Instance.IsLogined)
+				return null;
 
-            if (loginedSession == null)
-                return null;
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", StreamClient.Instance.LoginedUser.SessionToken));
+
+			if (loginedSession == null)
+				return null;
 
             var groupID = loginedSession.groups.FirstOrDefault().group_id;
 

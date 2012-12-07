@@ -14,39 +14,40 @@ using System.Drawing;
 using System.Reflection;
 using Waveface.Stream.WindowsClient.Properties;
 using System.Linq;
+using Waveface.Stream.ClientFramework;
 
 namespace Waveface.Stream.WindowsClient
 {
 	public partial class MainForm : Form
 	{
-        #region Var
-        private IBrowserControl _browser;
+		#region Var
+		private IBrowserControl _browser;
 		private DockPanel _dockPanel;
 		private KonamiSequence _konamiSequence;
 		private Boolean _isDebugMode;
-        #endregion
+		#endregion
 
-        #region Static Var
-        private static MainForm _instance;
-        #endregion
+		#region Static Var
+		private static MainForm _instance;
+		#endregion
 
-        #region Private Property
-        /// <summary>
-        /// Gets the m_ browser.
-        /// </summary>
-        /// <value>
-        /// The m_ browser.
-        /// </value>
-        private IBrowserControl m_Browser
-        {
-            get
-            {
-                return _browser ?? (_browser = new IEBrowserControl()
-                {
-                    Dock = DockStyle.Fill
-                });
-            }
-        }
+		#region Private Property
+		/// <summary>
+		/// Gets the m_ browser.
+		/// </summary>
+		/// <value>
+		/// The m_ browser.
+		/// </value>
+		private IBrowserControl m_Browser
+		{
+			get
+			{
+				return _browser ?? (_browser = new IEBrowserControl()
+				{
+					Dock = DockStyle.Fill
+				});
+			}
+		}
 
 		/// <summary>
 		/// Gets the m_ dock panel.
@@ -54,11 +55,11 @@ namespace Waveface.Stream.WindowsClient
 		/// <value>
 		/// The m_ dock panel.
 		/// </value>
-		private DockPanel m_DockPanel 
+		private DockPanel m_DockPanel
 		{
-			get 
+			get
 			{
-				return _dockPanel ?? (_dockPanel = new DockPanel() 
+				return _dockPanel ?? (_dockPanel = new DockPanel()
 				{
 					DocumentStyle = DocumentStyle.DockingSdi,
 					Dock = DockStyle.Fill
@@ -102,19 +103,19 @@ namespace Waveface.Stream.WindowsClient
 				OnDebugModeChanged(EventArgs.Empty);
 			}
 		}
-        #endregion
+		#endregion
 
 
 
-        #region Public Static Property
-        public static MainForm Instance
-        { 
-            get
-            {
+		#region Public Static Property
+		public static MainForm Instance
+		{
+			get
+			{
 				return (_instance == null || _instance.IsDisposed) ? (_instance = new MainForm()) : _instance;
-            }
-        }
-        #endregion
+			}
+		}
+		#endregion
 
 
 		#region Event
@@ -125,11 +126,11 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Constructor
 		/// <summary>
-        /// Prevents a default instance of the <see cref="MainForm" /> class from being created.
-        /// </summary>
-        private MainForm()
-        {
-            InitializeComponent();
+		/// Prevents a default instance of the <see cref="MainForm" /> class from being created.
+		/// </summary>
+		private MainForm()
+		{
+			InitializeComponent();
 
 			this.DebugModeChanged += MainForm_DebugStateChanged;
 
@@ -140,7 +141,7 @@ namespace Waveface.Stream.WindowsClient
 				this.Controls.Add(m_DockPanel);
 
 				AddDockableContent("Client Web Page", m_Browser as Control);
-				
+
 				titlePanel1.SendToBack();
 			}
 			finally
@@ -171,50 +172,53 @@ namespace Waveface.Stream.WindowsClient
 				ResumeLayout();
 			}
 		}
-        #endregion
+		#endregion
 
 
-        #region Private Method
-        /// <summary>
-        /// Adds the content of the dockable.
-        /// </summary>
-        /// <param name="tabText">The tab text.</param>
-        /// <param name="control">The control.</param>
-        private void AddDockableContent(string tabText, Control control, DockState dockState = DockState.Document)
-        {
-            var dockContent = new DockContent()
-            {
-                TabText = tabText
-            };
+		#region Private Method
+		/// <summary>
+		/// Adds the content of the dockable.
+		/// </summary>
+		/// <param name="tabText">The tab text.</param>
+		/// <param name="control">The control.</param>
+		private void AddDockableContent(string tabText, Control control, DockState dockState = DockState.Document)
+		{
+			var dockContent = new DockContent()
+			{
+				TabText = tabText
+			};
 
-            dockContent.Controls.Add(control);
+			dockContent.Controls.Add(control);
 			dockContent.Show(m_DockPanel, dockState);
-        } 
+		}
 
-        private void TriggerAutoImport(Boolean alwaysQuery = true)
-        {
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
+		private void TriggerAutoImport(Boolean alwaysQuery = true)
+		{
+			if (!StreamClient.Instance.IsLogined)
+				return;
 
-            if (loginedSession == null)
-                return;
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", StreamClient.Instance.LoginedUser.SessionToken));
 
-            var userID = loginedSession.user.user_id;
-            var driverCollection = StationDB.GetCollection("drivers");
-            BsonDocument driver = driverCollection.FindOne(Query.EQ("_id", userID));
-            Boolean isDataImportQueried = driver.Contains("isDataImportQueried") ? driver.GetElement("isDataImportQueried").Value.AsBoolean : false;
+			if (loginedSession == null)
+				return;
 
-            if (alwaysQuery || !isDataImportQueried)
-            {
-                driverCollection.Update(Query.EQ("_id", userID), MongoDB.Driver.Builders.Update.Set("isDataImportQueried", true));
+			var userID = loginedSession.user.user_id;
+			var driverCollection = StationDB.GetCollection("drivers");
+			BsonDocument driver = driverCollection.FindOne(Query.EQ("_id", userID));
+			Boolean isDataImportQueried = driver.Contains("isDataImportQueried") ? driver.GetElement("isDataImportQueried").Value.AsBoolean : false;
 
-                AutoImportDialog dialog = new AutoImportDialog()
-                {
-                    StartPosition = FormStartPosition.CenterParent
-                };
-                dialog.ShowDialog(this);
-            }
-        }
-        #endregion
+			if (alwaysQuery || !isDataImportQueried)
+			{
+				driverCollection.Update(Query.EQ("_id", userID), MongoDB.Driver.Builders.Update.Set("isDataImportQueried", true));
+
+				AutoImportDialog dialog = new AutoImportDialog()
+				{
+					StartPosition = FormStartPosition.CenterParent
+				};
+				dialog.ShowDialog(this);
+			}
+		}
+		#endregion
 
 
 		#region Protected Method
@@ -230,28 +234,28 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 		public void Navigate(string url)
-        {
-            m_Browser.Navigate(url);
-        }
+		{
+			m_Browser.Navigate(url);
+		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			this.Close();
 		}
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            this.Show();
-            TriggerAutoImport(false);
-        }
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+			this.Show();
+			TriggerAutoImport(false);
+		}
 
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+		private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
 
-        private void accountToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+		private void accountToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			try
 			{
 				var dialog = AccountInfoForm.Instance;
@@ -263,46 +267,46 @@ namespace Waveface.Stream.WindowsClient
 			catch (Exception)
 			{
 			}
-        }
+		}
 
-        private void imageButton1_Click(object sender, EventArgs e)
-        {
-            var location = PointToScreen(new Point(titlePanel1.Width - contextMenuStrip1.Width, titlePanel1.Bottom));
-            contextMenuStrip1.Show(location.X, location.Y);
-        }
+		private void imageButton1_Click(object sender, EventArgs e)
+		{
+			var location = PointToScreen(new Point(titlePanel1.Width - contextMenuStrip1.Width, titlePanel1.Bottom));
+			contextMenuStrip1.Show(location.X, location.Y);
+		}
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowSettingDialog();
-        }
+		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowSettingDialog();
+		}
 
-        private DialogResult ShowSettingDialog()
-        {
-            try
-            {
-                var dialog = SettingDialog.Instance;
+		private DialogResult ShowSettingDialog()
+		{
+			try
+			{
+				var dialog = SettingDialog.Instance;
 
-                dialog.StartPosition = FormStartPosition.CenterParent;
-                dialog.Activate();
-                return dialog.ShowDialog(this);
-            }
-            catch (Exception)
-            {
-                return DialogResult.None;
-            }
-        }
+				dialog.StartPosition = FormStartPosition.CenterParent;
+				dialog.Activate();
+				return dialog.ShowDialog(this);
+			}
+			catch (Exception)
+			{
+				return DialogResult.None;
+			}
+		}
 
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            TriggerAutoImport();
-        }
+		private void importToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			TriggerAutoImport();
+		}
 
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+		private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			var fileDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			var file = Path.Combine(fileDir, @"Web\index.html");
-            Navigate(file);
-        }
+			Navigate(file);
+		}
 
 		private void MainForm_KeyUp(object sender, KeyEventArgs e)
 		{
