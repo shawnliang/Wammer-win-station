@@ -70,8 +70,10 @@ namespace Waveface.Stream.WindowsClient
             if (post == null)
                 return;
 
-            Random r = new Random(Guid.NewGuid().GetHashCode());
-            post.attachment_id_array.Add(post.attachment_id_array.ElementAt(r.Next((int)(post.attachment_id_array.Count() - 1))));
+			var r = new Random(Guid.NewGuid().GetHashCode());
+			var attachments = AttachmentCollection.Instance.FindAll();
+			var attachmentID = AttachmentCollection.Instance.FindAll().SetSkip((int)(attachments.Count()) - 1).SetLimit(1).FirstOrDefault().object_id;
+            post.attachment_id_array.Add(attachmentID);
 
             PostCollection.Instance.Save(post);
         }
