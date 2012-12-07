@@ -34,7 +34,7 @@ namespace Wammer.Station.Doc
 				var item = new MonitorItem(file, user_id) { last_modify_time = attDoc.file_modify_time };
 				if (db.FindMonitorItem(item.id) != null)
 				{
-					util.UpdateDocOpenTimeAsync(attDoc.object_id, DateTime.Now);
+					util.UpdateDocOpenTimeAsync(session_token, apikey, attDoc.object_id, DateTime.Now);
 				}
 				else
 				{
@@ -58,6 +58,6 @@ namespace Wammer.Station.Doc
 
 	public interface IMonitorAddHandlerUtility
 	{
-		void UpdateDocOpenTimeAsync(string object_id, DateTime openTime);
+		void UpdateDocOpenTimeAsync(string session, string apikey, string object_id, DateTime openTime);
 	}
 }

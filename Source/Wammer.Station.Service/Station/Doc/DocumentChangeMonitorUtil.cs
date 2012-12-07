@@ -10,6 +10,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
 using PowerPoint = NetOffice.PowerPointApi;
+using MongoDB.Driver.Builders;
 
 
 namespace Wammer.Station.Doc
@@ -26,101 +27,122 @@ namespace Wammer.Station.Doc
 			var user = Model.DriverCollection.Instance.FindOneById(target.user_id);
 			if (user == null)
 				return;
-
+			
 			var object_id = Guid.NewGuid().ToString();
-
-			// copy to res folder
-			var storage = new FileStorage(user);
-			var saved_file_name = storage.CopyToStorage(target.path);
-			var full_saved_file_name = Path.Combine(storage.basePath, saved_file_name);
-
-			// create preview folder
-			if (!Directory.Exists("cache"))
-				Directory.CreateDirectory("cache");
-
 			var previewFolder = Path.Combine("cache", object_id);
-			if (!Directory.Exists(previewFolder))
-				Directory.CreateDirectory(previewFolder);
-			var fullPreviewFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), previewFolder);
+			string full_saved_file_name = "";
 
-			// generate previews
-			var ext = Path.GetExtension(target.path).ToLower();
-			IEnumerable<string> previewPaths;
-			if (ext.Equals(".ppt") || ext.Equals(".pptx"))
-				previewPaths = GeneratePowerPointPreviews(full_saved_file_name, fullPreviewFolder);
-			else if (ext.Equals(".pdf"))
-				previewPaths = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder);
-			else
-				throw new InvalidDataException("Unknow file type: " + target.path);
-
-
-			previewPaths = previewPaths.Select(x => x.Substring(x.IndexOf(previewFolder)));
-
-			// pack previews to "Stream_Doc_Priviews.zip"
-			var zip = new FastZip();
-			var previewZipFile = Path.Combine("cache", object_id + ".zip");
-			zip.UseZip64 = UseZip64.Off;
-			zip.CreateZip(previewZipFile, previewFolder, false, null);
-
-
-			// write to db
-			string mimeType = "application/octet-stream";
-			if (Path.GetExtension(target.path).Equals(".ppt", StringComparison.InvariantCultureIgnoreCase))
-				mimeType = "application/vnd.ms-powerpoint";
-			else if (Path.GetExtension(target.path).Equals(".pptx", StringComparison.InvariantCultureIgnoreCase))
-				mimeType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-			else if (Path.GetExtension(target.path).Equals(".pdf", StringComparison.InvariantCultureIgnoreCase))
-				mimeType = "application/pdf";
-
-
-			Attachment db = new Attachment
+			try
 			{
-				creator_id = user.user_id,
-				device_id = StationRegistry.StationId,
-				file_create_time = File.GetCreationTime(target.path),
-				file_modify_time = File.GetLastWriteTime(target.path),
-				file_name = Path.GetFileName(target.path),
-				file_path = target.path,
-				file_size = new FileInfo(target.path).Length,
-				fromLocal = true,
-				group_id = user.groups[0].group_id,
-				md5 = MD5Helper.ComputeMD5(File.ReadAllBytes(target.path)),
-				mime_type = mimeType,
-				modify_time = DateTime.Now,
-				object_id = object_id,
-				saved_file_name = saved_file_name,
-				type = AttachmentType.doc,
-				doc_meta = new DocProperty
+
+				// copy to res folder
+				var storage = new FileStorage(user);
+				var saved_file_name = storage.CopyToStorage(target.path);
+				full_saved_file_name = Path.Combine(storage.basePath, saved_file_name);
+
+				// create preview folder
+				if (!Directory.Exists("cache"))
+					Directory.CreateDirectory("cache");
+
+				if (!Directory.Exists(previewFolder))
+					Directory.CreateDirectory(previewFolder);
+				var fullPreviewFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), previewFolder);
+
+				// generate previews
+				var ext = Path.GetExtension(target.path).ToLower();
+				IEnumerable<string> previewPaths;
+				if (ext.Equals(".ppt") || ext.Equals(".pptx"))
+					previewPaths = GeneratePowerPointPreviews(full_saved_file_name, fullPreviewFolder);
+				else if (ext.Equals(".pdf"))
+					previewPaths = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder);
+				else
+					throw new InvalidDataException("Unknow file type: " + target.path);
+
+
+				previewPaths = previewPaths.Select(x => x.Substring(x.IndexOf(previewFolder)));
+
+				// pack previews to "Stream_Doc_Priviews.zip"
+				var zip = new FastZip();
+				var previewZipFile = Path.Combine("cache", object_id + ".zip");
+				zip.UseZip64 = UseZip64.Off;
+				zip.CreateZip(previewZipFile, previewFolder, false, null);
+
+
+				// write to db
+				string mimeType = "application/octet-stream";
+				if (Path.GetExtension(target.path).Equals(".ppt", StringComparison.InvariantCultureIgnoreCase))
+					mimeType = "application/vnd.ms-powerpoint";
+				else if (Path.GetExtension(target.path).Equals(".pptx", StringComparison.InvariantCultureIgnoreCase))
+					mimeType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+				else if (Path.GetExtension(target.path).Equals(".pdf", StringComparison.InvariantCultureIgnoreCase))
+					mimeType = "application/pdf";
+
+
+				Attachment db = new Attachment
 				{
+					creator_id = user.user_id,
+					device_id = StationRegistry.StationId,
+					file_create_time = File.GetCreationTime(target.path),
+					file_modify_time = File.GetLastWriteTime(target.path),
 					file_name = Path.GetFileName(target.path),
-					preview_files = previewPaths.ToList(),
-					access_time = DateTime.Now,
-					modify_time = File.GetLastWriteTime(target.path),
+					file_path = target.path,
+					file_size = new FileInfo(target.path).Length,
+					fromLocal = true,
+					group_id = user.groups[0].group_id,
+					md5 = MD5Helper.ComputeMD5(File.ReadAllBytes(target.path)),
+					mime_type = mimeType,
+					modify_time = DateTime.Now,
+					object_id = object_id,
+					saved_file_name = saved_file_name,
+					type = AttachmentType.doc,
+					doc_meta = new DocProperty
+					{
+						file_name = Path.GetFileName(target.path),
+						preview_files = previewPaths.ToList(),
+						access_time = new List<DateTime> { DateTime.Now },
+						modify_time = File.GetLastWriteTime(target.path),
+					}
+				};
+				Model.AttachmentCollection.Instance.Save(db);
+
+				// upload previews to cloud
+				using (var zipStream = File.OpenRead(previewZipFile))
+				{
+					AttachmentApi.Upload(zipStream, db.group_id, db.object_id, "Stream_Doc_Previews.zip", db.mime_type, ImageMeta.None,
+						 AttachmentType.doc, CloudServer.APIKey, user.session_token, 1024, null,
+						 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
 				}
-			};
-			Model.AttachmentCollection.Instance.Save(db);
 
-			// upload previews to cloud
-			using (var zipStream = File.OpenRead(previewZipFile))
-			{
-				AttachmentApi.Upload(zipStream, db.group_id, db.object_id, "Stream_Doc_Previews.zip", db.mime_type, ImageMeta.None,
-					 AttachmentType.doc, CloudServer.APIKey, user.session_token, 1024, null,
-					 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
+
+				// create post to cloud
+				var postApi = new PostApi(user);
+				postApi.NewPost(object_id, DateTime.Now, new Dictionary<string, string>
+				{
+					{ CloudServer.PARAM_ATTACHMENT_ID_ARRAY, "[\"" + object_id + "\"]" },
+					{ CloudServer.PARAM_TYPE, "doc" },
+					{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
+					{ CloudServer.PARAM_SESSION_TOKEN, user.session_token},
+					{ CloudServer.PARAM_GROUP_ID, user.groups[0].group_id},
+					{ CloudServer.PARAM_IMPORT, "true"}
+				});
 			}
-
-
-			// create post to cloud
-			var postApi = new PostApi(user);
-			postApi.NewPost(object_id, DateTime.Now, new Dictionary<string, string>
+			catch (Exception ex)
 			{
-				{ CloudServer.PARAM_ATTACHMENT_ID_ARRAY, "[\"" + object_id + "\"]" },
-				{ CloudServer.PARAM_TYPE, "doc" },
-				{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
-				{ CloudServer.PARAM_SESSION_TOKEN, user.session_token},
-				{ CloudServer.PARAM_GROUP_ID, user.groups[0].group_id},
-				{ CloudServer.PARAM_IMPORT, "true"}
-			});
 
+				if (Directory.Exists(previewFolder))
+					Directory.Delete(previewFolder, true);
+
+				if (File.Exists(full_saved_file_name))
+					File.Delete(full_saved_file_name);
+
+				AttachmentCollection.Instance.Remove(Query.EQ("_id", object_id));
+			}
+			finally
+			{
+				var previewZip = Path.Combine("cache", object_id + ".zip");
+				if (File.Exists(previewZip))
+					File.Delete(previewZip);
+			}
 		}
 
 		public static IEnumerable<string> GeneratePdfPreviews(string pdfFile, string previewFolder)
