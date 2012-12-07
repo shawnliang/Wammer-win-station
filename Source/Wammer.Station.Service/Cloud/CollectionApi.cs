@@ -25,7 +25,7 @@ namespace Wammer.Cloud
 			if (attIds == null)
 				throw new ArgumentNullException("attIds");
 
-			if (create_time.HasValue)
+			if (!create_time.HasValue)
 				create_time = DateTime.Now;
 
 			var id_list = "[" + String.Join(",", attIds.Select((x) => "\"" + x + "\"").ToArray()) + "]";
@@ -68,7 +68,7 @@ namespace Wammer.Cloud
 			if (attIds == null)
 				throw new ArgumentNullException("attIds");
 
-			if (modifyTime.HasValue)
+			if (!modifyTime.HasValue)
 				modifyTime = DateTime.Now;
 
 			Dictionary<object, object> parameters = new Dictionary<object, object>{
@@ -109,7 +109,7 @@ namespace Wammer.Cloud
 			if (string.IsNullOrEmpty(collectionID))
 				throw new ArgumentNullException("collectionID");
 
-			if (modifyTime.HasValue)
+			if (!modifyTime.HasValue)
 				modifyTime = DateTime.Now;
 
 			Dictionary<object, object> parameters = new Dictionary<object, object>{
@@ -135,7 +135,7 @@ namespace Wammer.Cloud
 			if (string.IsNullOrEmpty(collectionID))
 				throw new ArgumentNullException("collectionID");
 
-			if (modifyTime.HasValue)
+			if (!modifyTime.HasValue)
 				modifyTime = DateTime.Now;
 
 			Dictionary<object, object> parameters = new Dictionary<object, object>{
