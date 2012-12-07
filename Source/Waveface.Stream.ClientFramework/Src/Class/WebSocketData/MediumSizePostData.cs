@@ -33,7 +33,13 @@ namespace Waveface.Stream.ClientFramework
         /// The attachment count.
         /// </value>
         [JsonProperty("attachment_count")]
-        public int AttachmentCount { get; set; }
+        public int AttachmentCount
+		{
+			get
+			{
+				return AttachmentIDs == null ? 0 : AttachmentIDs.Count();
+			}
+		}
 
         /// <summary>
         /// Gets or sets the content.
