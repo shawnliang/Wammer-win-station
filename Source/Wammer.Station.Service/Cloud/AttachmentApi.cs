@@ -271,6 +271,26 @@ namespace Wammer.Cloud
 
 			return pars;
 		}
+
+		public static void updateDocMetadata(string session, string apikey, string object_id, DateTime accessTime)
+		{
+			var meta = new
+			{
+				object_id = object_id,
+				type = "doc",
+				access_time = accessTime.ToCloudTimeString()
+			};
+
+			var parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_METADATA, JsonConvert.SerializeObject(meta)},
+				{CloudServer.PARAM_SESSION_TOKEN, session},
+				{CloudServer.PARAM_API_KEY, apikey}
+			};
+
+			CloudServer.requestPath<CloudResponse>("attachments/update_metadata", parameters, false);
+		}
+
 	}
 
 	public class AttachmentRedirectInfo : AttachmentInfo
