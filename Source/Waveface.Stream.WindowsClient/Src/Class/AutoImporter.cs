@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,10 +59,13 @@ namespace Waveface.Stream.WindowsClient
 		{
 			DebugInfo.ShowMethod();
 
-            var loginedSession = LoginedSessionCollection.Instance.FindOne();
+			if (!StreamClient.Instance.IsLogined)
+				return;
 
-            if (loginedSession == null)
-                return;
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", StreamClient.Instance.LoginedUser.SessionToken));
+
+			if (loginedSession == null)
+				return;
 
             var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "");
 
