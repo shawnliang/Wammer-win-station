@@ -1,8 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using Wammer.Queue;
 
 namespace UT_WammerStation
@@ -29,7 +26,7 @@ namespace UT_WammerStation
 
 			WMSQueue q1 = s.TryLoadQueue("q1");
 			Assert.AreEqual(1, q1.Count);
-			WMSMessage m1 =q1.Pop(new WMSSession());
+			WMSMessage m1 = q1.Pop(new WMSSession());
 			Assert.IsNotNull(m1);
 			Assert.AreEqual(id1, m1.Id);
 			Assert.AreEqual("12345", m1.Data);

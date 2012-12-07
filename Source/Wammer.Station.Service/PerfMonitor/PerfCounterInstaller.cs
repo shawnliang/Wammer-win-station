@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Wammer.PerfMonitor
 {
@@ -19,7 +19,7 @@ namespace Wammer.PerfMonitor
 				{
 					p.StartInfo = new ProcessStartInfo("lodctr.exe", "/R")
 					{
-						WindowStyle = ProcessWindowStyle.Hidden, 
+						WindowStyle = ProcessWindowStyle.Hidden,
 						CreateNoWindow = true
 					};
 					p.Start();

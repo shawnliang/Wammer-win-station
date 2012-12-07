@@ -16,7 +16,7 @@ namespace Wammer.Station
 
 	public class FileStorage
 	{
-		public  string basePath;
+		public string basePath;
 		private static string defaultResFolder;
 
 		static FileStorage()
@@ -74,7 +74,7 @@ namespace Wammer.Station
 				File.Delete(filePath);
 
 			File.Move(tempFile, filePath);
-			
+
 			return filePath;
 		}
 
@@ -174,22 +174,22 @@ namespace Wammer.Station
 
 
 		public IAsyncResult BeginSave(string filename, byte[] data, AsyncCallback callback,
-		                              object userObject)
+									  object userObject)
 		{
 			string filePath = Path.Combine(basePath, filename);
 			string tempFile = filePath + @".tmp";
 
 			var fs = new FileStream(tempFile, FileMode.Create,
-			                        FileAccess.Write, FileShare.None, 4096, true);
+									FileAccess.Write, FileShare.None, 4096, true);
 
 			return new FileStorageAsyncResult(
 				fs.BeginWrite(data, 0, data.Length, callback, userObject),
-				fs) {TempFile = tempFile, TargetFile = filePath};
+				fs) { TempFile = tempFile, TargetFile = filePath };
 		}
 
 		public void EndSave(IAsyncResult async)
 		{
-			var fsAsync = (FileStorageAsyncResult) async;
+			var fsAsync = (FileStorageAsyncResult)async;
 			try
 			{
 				fsAsync.OutputStream.EndWrite(fsAsync.InnerObject);

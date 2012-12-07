@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Model;
-using log4net;
-using Wammer.Cloud;
+﻿using log4net;
 using MongoDB.Driver.Builders;
+using System;
+using System.Text;
+using Wammer.Cloud;
+using Wammer.Model;
 
 namespace Wammer.Station.PostUpload
 {
@@ -15,13 +13,14 @@ namespace Wammer.Station.PostUpload
 
 		public void OnPostCreated(object sender, BypassedEventArgs args)
 		{
-			try {
+			try
+			{
 				var responseText = Encoding.UTF8.GetString(args.BypassedResponse);
 				var responseObj = fastJSON.JSON.Instance.ToObject<NewPostResponse>(responseText);
 
 				PostCollection.Instance.Save(responseObj.post);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				logger.Warn("Unable to handle mobile device post event", e);
 			}

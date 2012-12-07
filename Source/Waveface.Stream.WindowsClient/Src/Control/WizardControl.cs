@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient
@@ -26,10 +24,10 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get
 			{
-				return _tabControl ?? (_tabControl = new TabControlEx() 
+				return _tabControl ?? (_tabControl = new TabControlEx()
 				{
 					HideTabs = true,
-					Dock = DockStyle.Fill 
+					Dock = DockStyle.Fill
 				});
 			}
 		}
@@ -78,7 +76,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets or sets the index of the page.
 		/// </summary>
 		/// <value>The index of the page.</value>
-		public int PageIndex 
+		public int PageIndex
 		{
 			get
 			{
@@ -94,9 +92,9 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the page count.
 		/// </summary>
 		/// <value>The page count.</value>
-		public int PageCount 
+		public int PageCount
 		{
-			get 
+			get
 			{
 				return m_TabControl.TabPages.Count;
 			}
@@ -106,7 +104,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the current page.
 		/// </summary>
 		/// <value>The current page.</value>
-		public StepPageControl CurrentPage 
+		public StepPageControl CurrentPage
 		{
 			get
 			{
@@ -305,6 +303,6 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 
-		
+
 	}
 }

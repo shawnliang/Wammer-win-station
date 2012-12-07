@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.Serialization.Json;
 
 namespace Waveface.Stream.Serializer
@@ -28,7 +27,7 @@ namespace Waveface.Stream.Serializer
 			if (!stream.CanWrite)
 				throw new ArgumentException("UnWritable stram.");
 
-			var serializer = new DataContractJsonSerializer(typeof (T));
+			var serializer = new DataContractJsonSerializer(typeof(T));
 			serializer.WriteObject(stream, obj);
 		}
 
@@ -46,8 +45,8 @@ namespace Waveface.Stream.Serializer
 			if (!stream.CanRead)
 				throw new ArgumentException("UnReadable stream.");
 
-			var serializer = new DataContractJsonSerializer(typeof (T));
-			return (T) serializer.ReadObject(stream);
+			var serializer = new DataContractJsonSerializer(typeof(T));
+			return (T)serializer.ReadObject(stream);
 		}
 
 		#endregion

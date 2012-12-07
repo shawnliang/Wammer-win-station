@@ -16,7 +16,7 @@ namespace Waveface.Stream.Model
 
 		public static long ConvertToUnixTimeStamp(DateTime datetime)
 		{
-			return (long) (datetime - JAN_1_1970).TotalSeconds;
+			return (long)(datetime - JAN_1_1970).TotalSeconds;
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace Waveface.Stream.Model
 		public static DateTime ParseCloudTimeString(string cloudTimeString)
 		{
 			DateTime dt = DateTime.ParseExact(cloudTimeString, CLOUD_TIME_FORMAT, CultureInfo.InvariantCulture,
-			                                  DateTimeStyles.AssumeUniversal);
+											  DateTimeStyles.AssumeUniversal);
 
 			return dt.ToUniversalTime();
 		}
@@ -64,12 +64,12 @@ namespace Waveface.Stream.Model
 			return _dt;
 		}
 
-        public static DateTime? ToDateTimeFromUTCISO8601(string dateTimeString)
-        {
-            DateTime dt;
-            var sucessed = DateTime.TryParseExact(dateTimeString, new string[] { @"yyyy-MM-dd\THH:mm:ss\Z", "s", "o" }, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out dt);
+		public static DateTime? ToDateTimeFromUTCISO8601(string dateTimeString)
+		{
+			DateTime dt;
+			var sucessed = DateTime.TryParseExact(dateTimeString, new string[] { @"yyyy-MM-dd\THH:mm:ss\Z", "s", "o" }, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out dt);
 
-            return sucessed ? new DateTime?(dt) : null;
-        }
+			return sucessed ? new DateTime?(dt) : null;
+		}
 	}
 }

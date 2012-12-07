@@ -1,15 +1,12 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace UT_WammerStation
 {
 	class clsA
 	{
 		public event EventHandler evt1;
-		
+
 		public void Do()
 		{
 			evt1(this, null);

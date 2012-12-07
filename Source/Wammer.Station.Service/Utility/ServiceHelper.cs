@@ -63,7 +63,7 @@ namespace Wammer.Utility
 
 		[DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
 		public static extern Boolean QueryServiceConfig(IntPtr hService, IntPtr intPtrQueryConfig, UInt32 cbBufSize,
-		                                                out UInt32 pcbBytesNeeded);
+														out UInt32 pcbBytesNeeded);
 
 		[DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		private static extern IntPtr OpenService(
@@ -81,7 +81,7 @@ namespace Wammer.Utility
 			bool result = ChangeServiceConfig(
 				serviceHandle,
 				SERVICE_NO_CHANGE,
-				(uint) mode,
+				(uint)mode,
 				SERVICE_NO_CHANGE,
 				null,
 				null,
@@ -108,7 +108,7 @@ namespace Wammer.Utility
 			var ptr = IntPtr.Zero;
 			try
 			{
-				ptr = Marshal.AllocHGlobal((int) bytesNeeded);
+				ptr = Marshal.AllocHGlobal((int)bytesNeeded);
 				var result = QueryServiceConfig(serviceHandle, ptr, bytesNeeded, out bytesNeeded);
 
 				if (result == false)
@@ -134,14 +134,23 @@ namespace Wammer.Utility
 	[StructLayout(LayoutKind.Sequential)]
 	public class QUERY_SERVICE_CONFIG
 	{
-		[MarshalAs(UnmanagedType.U4)] public UInt32 dwServiceType;
-		[MarshalAs(UnmanagedType.U4)] public UInt32 dwStartType;
-		[MarshalAs(UnmanagedType.U4)] public UInt32 dwErrorControl;
-		[MarshalAs(UnmanagedType.LPWStr)] public String lpBinaryPathName;
-		[MarshalAs(UnmanagedType.LPWStr)] public String lpLoadOrderGroup;
-		[MarshalAs(UnmanagedType.U4)] public UInt32 dwTagID;
-		[MarshalAs(UnmanagedType.LPWStr)] public String lpDependencies;
-		[MarshalAs(UnmanagedType.LPWStr)] public String lpServiceStartName;
-		[MarshalAs(UnmanagedType.LPWStr)] public String lpDisplayName;
+		[MarshalAs(UnmanagedType.U4)]
+		public UInt32 dwServiceType;
+		[MarshalAs(UnmanagedType.U4)]
+		public UInt32 dwStartType;
+		[MarshalAs(UnmanagedType.U4)]
+		public UInt32 dwErrorControl;
+		[MarshalAs(UnmanagedType.LPWStr)]
+		public String lpBinaryPathName;
+		[MarshalAs(UnmanagedType.LPWStr)]
+		public String lpLoadOrderGroup;
+		[MarshalAs(UnmanagedType.U4)]
+		public UInt32 dwTagID;
+		[MarshalAs(UnmanagedType.LPWStr)]
+		public String lpDependencies;
+		[MarshalAs(UnmanagedType.LPWStr)]
+		public String lpServiceStartName;
+		[MarshalAs(UnmanagedType.LPWStr)]
+		public String lpDisplayName;
 	}
 }

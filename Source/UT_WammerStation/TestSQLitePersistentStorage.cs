@@ -1,10 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.SQLite;
 using Wammer.Queue;
 
 namespace UT_WammerStation
@@ -64,7 +59,7 @@ namespace UT_WammerStation
 			if (File.Exists("file.db"))
 				File.Delete("file.db");
 
-			storage = new SQLitePersistentStorage("file.db");	
+			storage = new SQLitePersistentStorage("file.db");
 		}
 
 		[TestCleanup]
@@ -116,7 +111,7 @@ namespace UT_WammerStation
 			WMSBroker b2 = new WMSBroker(storage);
 			WMSSession s2 = b2.CreateSession();
 			WMSQueue q2 = b.GetQueue("qqq");
-			
+
 			Assert.AreEqual(5, q2.Count);
 			Assert.AreEqual("a", (string)s2.Pop(q2).Data);
 			Assert.AreEqual("b", (string)s2.Pop(q2).Data);
@@ -162,7 +157,7 @@ namespace UT_WammerStation
 			WMSSession s2 = b2.CreateSession();
 			WMSQueue q2 = b.GetQueue("qqq");
 			Assert.AreEqual(0, q2.Count);
-			
+
 		}
 	}
 }

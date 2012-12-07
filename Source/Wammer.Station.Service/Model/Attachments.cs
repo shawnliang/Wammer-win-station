@@ -1,22 +1,13 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Serialization;
-using MongoDB.Bson.Serialization.Attributes;
-using Wammer.Cloud;
-using Wammer.Station;
 using Wammer.Utility;
-using Waveface;
-using fastJSON;
-using MongoDB.Driver.Builders;
-using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using System.Collections;
 
 namespace Wammer.Model
 {
@@ -48,32 +39,38 @@ namespace Wammer.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		[Description("none")] None = 0,
+		[Description("none")]
+		None = 0,
 
 		/// <summary>
 		/// 128x128 pixels
 		/// </summary>
-		[Description("square")] Square = 128,
+		[Description("square")]
+		Square = 128,
 
 		/// <summary>
 		/// 120 pixels
 		/// </summary>
-		[Description("small")] Small = 512,
+		[Description("small")]
+		Small = 512,
 
 		/// <summary>
 		/// 720 pixels
 		/// </summary>
-		[Description("medium")] Medium = 1024,
+		[Description("medium")]
+		Medium = 1024,
 
 		/// <summary>
 		/// 1024 pixels
 		/// </summary>
-		[Description("large")] Large = 2048,
+		[Description("large")]
+		Large = 2048,
 
 		/// <summary>
 		/// Original image size
 		/// </summary>
-		[Description("origin")] Origin = 50*1024*1024
+		[Description("origin")]
+		Origin = 50 * 1024 * 1024
 	}
 
 	public enum AttachmentType

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Wammer.Station.Notify
 {
@@ -64,7 +61,7 @@ namespace Wammer.Station.Notify
 	}
 	#endregion
 
-	
+
 
 
 	public class GenericCommand
@@ -81,7 +78,7 @@ namespace Wammer.Station.Notify
 		public ImportDoneMsg import_done { get; set; }
 		public MetadataUploadedMsg metadata_uploaded { get; set; }
 		#endregion
-		
+
 	}
 
 	public enum ErrorCode

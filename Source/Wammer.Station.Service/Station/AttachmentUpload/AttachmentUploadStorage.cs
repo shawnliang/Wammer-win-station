@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Model;
 using System.ComponentModel;
 using System.IO;
+using Wammer.Model;
 using Wammer.Utility;
 
 namespace Wammer.Station.AttachmentUpload
@@ -14,7 +11,7 @@ namespace Wammer.Station.AttachmentUpload
 		Driver GetUserByGroupId(string groupId);
 	}
 
-	public class AttachmentUploadStorage: IAttachmentUploadStorage
+	public class AttachmentUploadStorage : IAttachmentUploadStorage
 	{
 		private readonly IAttachmentUploadStorageDB db;
 
@@ -27,7 +24,7 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			var user = db.GetUserByGroupId(data.group_id);
 			var storage = new FileStorage(user);
-			
+
 
 			if (data.imageMeta != ImageMeta.Origin && data.imageMeta != ImageMeta.None)
 			{
@@ -59,7 +56,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			var yyyyDir = fileTime.Year.ToString("d4");
 			string yyyyMMDir = Path.Combine(yyyyDir, fileTime.Month.ToString("d2"));
-			
+
 			return Path.Combine(yyyyMMDir, fileTime.Day.ToString("d2"));
 		}
 	}

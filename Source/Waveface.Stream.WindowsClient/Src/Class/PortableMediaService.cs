@@ -31,7 +31,7 @@ namespace Waveface.Stream.WindowsClient
 					};
 				}
 			}
-			
+
 		}
 
 		public IEnumerable<string> GetFileList(string path)

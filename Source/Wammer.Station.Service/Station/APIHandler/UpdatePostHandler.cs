@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using fastJSON;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using fastJSON;
-using System;
 
 namespace Wammer.Station
 {
@@ -82,7 +82,7 @@ namespace Wammer.Station
 						if (!Regex.IsMatch(content, URL_MATCH_PATTERN, RegexOptions.IgnoreCase))
 						{
 							throw new WammerStationException(
-								"content incorrect!", (int) StationLocalApiError.Error);
+								"content incorrect!", (int)StationLocalApiError.Error);
 						}
 					}
 				}
@@ -125,7 +125,7 @@ namespace Wammer.Station
 
 				if (previewObj == null)
 					throw new WammerStationException(
-						"preview format incorrect!", (int) StationLocalApiError.Error);
+						"preview format incorrect!", (int)StationLocalApiError.Error);
 
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update.Set("preview", previewObj.ToBsonDocument()));
 
@@ -206,7 +206,7 @@ namespace Wammer.Station
 			Driver driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
 				throw new WammerStationException(
-					"Driver not found!", (int) StationLocalApiError.InvalidDriver);
+					"Driver not found!", (int)StationLocalApiError.InvalidDriver);
 
 			var api = new PostApi(driver);
 			PostGetSingleResponse singlePostResponse = api.PostGetSingle(groupID, postID);
@@ -214,7 +214,7 @@ namespace Wammer.Station
 			PostInfo responsePost = singlePostResponse.post;
 			if (responsePost == null)
 				throw new WammerStationException(
-					"Post not found!", (int) StationLocalApiError.NotFound);
+					"Post not found!", (int)StationLocalApiError.NotFound);
 
 			PostCollection.Instance.Save(responsePost);
 		}
@@ -240,9 +240,9 @@ namespace Wammer.Station
 			if (type == "link" || type == "text")
 			{
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update
-				                                                        	.Set("attachment_count", 0)
-				                                                        	.Unset("attachment_id_array")
-				                                                        	.Unset("attachments"));
+																			.Set("attachment_count", 0)
+																			.Unset("attachment_id_array")
+																			.Unset("attachments"));
 
 				post.attachment_id_array = null;
 				post.attachment_count = 0;
@@ -256,10 +256,10 @@ namespace Wammer.Station
 				attachmentIDArray = attachmentIDArray.Trim('[', ']');
 
 			List<string> attachmentIDs = attachmentIDArray == null
-			                             	? new List<string>()
-			                             	: attachmentIDArray.Split(',')
-			                             	  	.Where(item => !string.IsNullOrEmpty(item))
-			                             	  	.Select(item => item.Trim('"')).ToList();
+											? new List<string>()
+											: attachmentIDArray.Split(',')
+												.Where(item => !string.IsNullOrEmpty(item))
+												.Select(item => item.Trim('"')).ToList();
 
 			if (attachmentIDs.Count > 0)
 			{
@@ -268,19 +268,19 @@ namespace Wammer.Station
 
 				if (loginedSession == null)
 					throw new WammerStationException(
-						"Logined session not found!", (int) StationLocalApiError.NotFound);
+						"Logined session not found!", (int)StationLocalApiError.NotFound);
 
 				string codeName = loginedSession.apikey.name;
 
 				List<AttachmentInfo> attachmentInfos = AttachmentHelper.GetAttachmentInfoList(attachmentIDs, codeName);
 
 				PostCollection.Instance.Update(Query.EQ("_id", postID), Update
-				                                                        	.Set("attachment_count", attachmentIDs.Count)
-				                                                        	.Set("attachment_id_array", new BsonArray(attachmentIDs))
-				                                                        	.Set("attachments",
-				                                                        	     new BsonArray(
-				                                                        	     	attachmentInfos.ConvertAll(
-				                                                        	     		item => item.ToBsonDocument()))));
+																			.Set("attachment_count", attachmentIDs.Count)
+																			.Set("attachment_id_array", new BsonArray(attachmentIDs))
+																			.Set("attachments",
+																				 new BsonArray(
+																					attachmentInfos.ConvertAll(
+																						item => item.ToBsonDocument()))));
 
 
 				post.attachment_id_array = attachmentIDs;
@@ -299,14 +299,14 @@ namespace Wammer.Station
 		public override void HandleRequest()
 		{
 			CheckParameter(CloudServer.PARAM_API_KEY,
-			               CloudServer.PARAM_SESSION_TOKEN,
-			               CloudServer.PARAM_GROUP_ID,
-			               CloudServer.PARAM_POST_ID,
-			               CloudServer.PARAM_LAST_UPDATE_TIME);
+						   CloudServer.PARAM_SESSION_TOKEN,
+						   CloudServer.PARAM_GROUP_ID,
+						   CloudServer.PARAM_POST_ID,
+						   CloudServer.PARAM_LAST_UPDATE_TIME);
 
 			if (Parameters.Count <= 5)
 				throw new WammerStationException(
-					"Without any optional parameter!", (int) StationLocalApiError.Error);
+					"Without any optional parameter!", (int)StationLocalApiError.Error);
 
 			string type = Parameters[CloudServer.PARAM_TYPE];
 			if (type == "link")
@@ -324,7 +324,7 @@ namespace Wammer.Station
 			PostInfo post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
 			if (post == null)
 				throw new WammerStationException(
-					"Post not found!", (int) StationLocalApiError.NotFound);
+					"Post not found!", (int)StationLocalApiError.NotFound);
 
 			var lastUpdateTime = post.update_time;
 
@@ -342,7 +342,7 @@ namespace Wammer.Station
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.UpdatePost, Parameters, post.update_time, lastUpdateTime);
 
-			var response = new UpdatePostResponse {post = post};
+			var response = new UpdatePostResponse { post = post };
 			RespondSuccess(response);
 		}
 

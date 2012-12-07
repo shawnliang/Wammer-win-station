@@ -1,12 +1,11 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using MongoDB.Driver.Builders;
+using System.Net;
 using Wammer.Cloud;
 using Wammer.Model;
-using Wammer.Utility;
-using System.Net;
 
 namespace Wammer.Station.APIHandler
 {
@@ -66,7 +65,7 @@ namespace Wammer.Station.APIHandler
 			}
 
 			var localUserTracks = localUserTrackMgr.getUserTracksBySession(Parameters["group_id"], Parameters["session_token"]);
-			
+
 			result.attachment_list = mergeAttachmentIdList(result.attachment_list, localUserTracks);
 
 			if (include_entities)
@@ -172,7 +171,7 @@ namespace Wammer.Station.APIHandler
 
 			if (user == null)
 				throw new WammerStationException("user of group " + group_id + " not found",
-				                                 (int) StationLocalApiError.InvalidDriver);
+												 (int)StationLocalApiError.InvalidDriver);
 
 			if (string.IsNullOrEmpty(user.session_token))
 				throw new SessionNotExistException("session not exist", (int)GeneralApiError.SessionNotExist);

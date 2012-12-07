@@ -76,7 +76,7 @@ namespace Wammer.MultiPart
 			{
 				var header = headers["content-transfer-encoding"];
 				if (header != null &&
-				    header.Equals("binary"))
+					header.Equals("binary"))
 					return null;
 				return text ?? (text = Encoding.UTF8.GetString(data.Array, data.Offset, data.Count));
 

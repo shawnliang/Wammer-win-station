@@ -7,7 +7,7 @@ namespace Wammer.Station
 	internal class TaskRetryTimer : NonReentrantTimer
 	{
 		public TaskRetryTimer()
-			: base(10*1000)
+			: base(10 * 1000)
 		{
 		}
 

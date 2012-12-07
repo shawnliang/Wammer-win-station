@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Wammer.Utility;
 using WebSocketSharp.Server;
-using Wammer.Utility;
 
 namespace Wammer.Station.Notify
 {

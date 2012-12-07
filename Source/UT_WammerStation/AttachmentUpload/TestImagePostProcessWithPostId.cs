@@ -1,11 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Station.AttachmentUpload;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
 using Wammer.Model;
+using Wammer.Station.AttachmentUpload;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -67,7 +64,7 @@ namespace UT_WammerStation.AttachmentUpload
 			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
 			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Medium, Wammer.Station.TaskPriority.VeryLow)).Verifiable();
 			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, Wammer.Station.TaskPriority.Medium));
-			
+
 			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);
 
 			procHandler.OnProcessed(this, new AttachmentEventArgs(

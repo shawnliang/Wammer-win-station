@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using WebSocketSharp.Server;
 
 namespace Wammer.Station.Notify
@@ -85,4 +84,3 @@ namespace Wammer.Station.Notify
 	}
 
 }
- 

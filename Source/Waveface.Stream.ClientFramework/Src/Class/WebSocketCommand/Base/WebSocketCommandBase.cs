@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using WebSocketSharp.Server;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
@@ -12,7 +8,7 @@ namespace Waveface.Stream.ClientFramework
 	/// <summary>
 	/// 
 	/// </summary>
-    [Obfuscation]
+	[Obfuscation]
 	public abstract class WebSocketCommandBase : IWebSocketCommand
 	{
 		#region Var
@@ -52,20 +48,20 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Protected Method
-        protected void CheckParameters(Dictionary<string, Object> parameters, params string[] parameterNames)
-        {
-            if (parameterNames == null)
-                throw new ArgumentNullException("parameterNames");
+		protected void CheckParameters(Dictionary<string, Object> parameters, params string[] parameterNames)
+		{
+			if (parameterNames == null)
+				throw new ArgumentNullException("parameterNames");
 
-            var nullParamNames = from paramName in parameterNames
-                                    where !parameters.ContainsKey(paramName)
-                                    select paramName;
+			var nullParamNames = from paramName in parameterNames
+								 where !parameters.ContainsKey(paramName)
+								 select paramName;
 
-            if (!nullParamNames.Any())
-                return;
+			if (!nullParamNames.Any())
+				return;
 
-            throw new FormatException(string.Format("Parameter {0} is null.", string.Join(",", nullParamNames.ToArray())));
-        }
+			throw new FormatException(string.Format("Parameter {0} is null.", string.Join(",", nullParamNames.ToArray())));
+		}
 		#endregion
 
 
@@ -74,32 +70,32 @@ namespace Waveface.Stream.ClientFramework
 		/// Executes the specified parameters.
 		/// </summary>
 		/// <param name="parameters">The parameters.</param>
-        public abstract Dictionary<string, Object> Execute(WebSocketCommandData data);
+		public abstract Dictionary<string, Object> Execute(WebSocketCommandData data);
 
-        /// <summary>
-        /// Executes the specified command name.
-        /// </summary>
-        /// <param name="commandName">Name of the command.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="memo">The memo.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null)
-        {
-            return Execute(new WebSocketCommandData(commandName, parameters, memo));
-        }
+		/// <summary>
+		/// Executes the specified command name.
+		/// </summary>
+		/// <param name="commandName">Name of the command.</param>
+		/// <param name="parameters">The parameters.</param>
+		/// <param name="memo">The memo.</param>
+		/// <returns></returns>
+		/// <exception cref="System.NotImplementedException"></exception>
+		public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null)
+		{
+			return Execute(new WebSocketCommandData(commandName, parameters, memo));
+		}
 
-        /// <summary>
-        /// Executes the specified parameters.
-        /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="memo">The memo.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public Dictionary<string, object> Execute(Dictionary<string, object> parameters = null, object memo = null)
-        {
-            return Execute(this.Name, parameters, memo);
-        }
+		/// <summary>
+		/// Executes the specified parameters.
+		/// </summary>
+		/// <param name="parameters">The parameters.</param>
+		/// <param name="memo">The memo.</param>
+		/// <returns></returns>
+		/// <exception cref="System.NotImplementedException"></exception>
+		public Dictionary<string, object> Execute(Dictionary<string, object> parameters = null, object memo = null)
+		{
+			return Execute(this.Name, parameters, memo);
+		}
 		#endregion
-    }
+	}
 }

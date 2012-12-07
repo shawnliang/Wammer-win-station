@@ -1,11 +1,10 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.Serialization.Formatters.Binary;
 using Wammer.Station.AttachmentUpload;
-using System.IO;
 using Wammer.Station.Retry;
 
 namespace UT_WammerStation
@@ -54,7 +53,7 @@ namespace UT_WammerStation
 		{
 			BinaryFormatter f = new BinaryFormatter();
 
-			var p = new Dictionary<string, Wammer.Station.FolderCollection>{ {"123", new Wammer.Station.FolderCollection("1","2")}};
+			var p = new Dictionary<string, Wammer.Station.FolderCollection> { { "123", new Wammer.Station.FolderCollection("1", "2") } };
 			var t = new Wammer.Station.CreatePhotoFolderCollectionTask(p, "aaa", "bbb");
 
 			MemoryStream m = new MemoryStream();
@@ -70,8 +69,8 @@ namespace UT_WammerStation
 			BinaryFormatter f = new BinaryFormatter();
 
 			PostponedTask t = new PostponedTask(
-				DateTime.Now, 
-				Wammer.Station.TaskPriority.High, 
+				DateTime.Now,
+				Wammer.Station.TaskPriority.High,
 				new UpstreamTask("123", Wammer.Model.ImageMeta.None, Wammer.Station.TaskPriority.High));
 
 			MemoryStream m = new MemoryStream();
@@ -84,10 +83,10 @@ namespace UT_WammerStation
 		}
 
 		[Serializable]
-		class FailedTask: DelayedRetryTask
+		class FailedTask : DelayedRetryTask
 		{
 			public FailedTask()
-				:base(Wammer.Station.TaskPriority.High)
+				: base(Wammer.Station.TaskPriority.High)
 			{
 
 			}

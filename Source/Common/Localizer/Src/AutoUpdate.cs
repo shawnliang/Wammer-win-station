@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AppLimit.NetSparkle;
+﻿using AppLimit.NetSparkle;
 using Microsoft.Win32;
+using System;
 using Waveface.Properties;
 
 namespace Waveface.Common
@@ -32,7 +29,7 @@ namespace Waveface.Common
 		public bool IsUpdateRequired()
 		{
 			var honorSkippedVersion = !forceUpgrade;
-			
+
 			return m_autoUpdator.IsUpdateRequired(m_autoUpdator.GetApplicationConfig(),
 				out versionInfo,
 				honorSkippedVersion);

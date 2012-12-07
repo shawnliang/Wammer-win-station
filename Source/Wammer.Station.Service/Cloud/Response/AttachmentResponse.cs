@@ -1,8 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using Wammer.Model;
 using System;
-using System.Runtime.Serialization;
-using System.Collections.Generic;
+using Wammer.Model;
 
 namespace Wammer.Cloud
 {
@@ -10,7 +8,7 @@ namespace Wammer.Cloud
 	{
 		// default constructor is for Json Serialization
 		public AttachmentResponse()
-			:base(200, 0 , "success")
+			: base(200, 0, "success")
 		{
 		}
 
@@ -80,7 +78,7 @@ namespace Wammer.Cloud
 
 		public ImageMetaDetail GetThumbnail(Wammer.Model.ImageMeta meta)
 		{
-			switch(meta)
+			switch (meta)
 			{
 				case Wammer.Model.ImageMeta.Small:
 					return image_meta.small;

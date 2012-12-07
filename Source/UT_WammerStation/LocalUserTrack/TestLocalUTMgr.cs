@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Station.LocalUserTrack;
 
 namespace UT_WammerStation.LocalUserTrack
@@ -73,7 +71,7 @@ namespace UT_WammerStation.LocalUserTrack
 			LocalUserTrackManager mgr = new LocalUserTrackManager();
 			mgr.AddUserTrack("g1", "o1", "p1");
 			mgr.AddUserTrack("g2", "o2", "p2");
-		
+
 
 			var tracks = mgr.getUserTracksBySession("g1", "session1");
 			Assert.AreEqual(1, tracks.Count());

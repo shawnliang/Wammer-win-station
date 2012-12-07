@@ -1,5 +1,5 @@
-﻿using System;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace Wammer.Model
 {
@@ -22,7 +22,7 @@ namespace Wammer.Model
 	public class StationCollection : Collection<StationInfo>
 	{
 		#region Var
-		private static StationCollection _instance; 
+		private static StationCollection _instance;
 		#endregion
 
 		#region Property

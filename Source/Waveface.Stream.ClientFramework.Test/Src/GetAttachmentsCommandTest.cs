@@ -1,20 +1,16 @@
-﻿using Waveface.Stream.ClientFramework;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Linq;
 
 namespace Waveface.Stream.ClientFramework.Test
 {
-    
-    
-    /// <summary>
-    ///This is a test class for GetAttachmentsCommandTest and is intended
-    ///to contain all GetAttachmentsCommandTest Unit Tests
-    ///</summary>
+
+
+	/// <summary>
+	///This is a test class for GetAttachmentsCommandTest and is intended
+	///to contain all GetAttachmentsCommandTest Unit Tests
+	///</summary>
 	[TestClass()]
-    public class GetAttachmentsCommandTest
+	public class GetAttachmentsCommandTest
 	{
 
 
@@ -74,8 +70,8 @@ namespace Waveface.Stream.ClientFramework.Test
 		[Ignore]
 		public void ExecuteTest()
 		{
-            GetAttachmentsCommand target = new GetAttachmentsCommand(); // TODO: Initialize to an appropriate value
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
+			GetAttachmentsCommand target = new GetAttachmentsCommand(); // TODO: Initialize to an appropriate value
+			Dictionary<string, object> parameters = new Dictionary<string, object>();
 
 			target.Execute(parameters);
 

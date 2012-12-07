@@ -67,20 +67,20 @@ namespace Waveface.Stream.Model
 		public static string SessionToken { get; set; }
 
 
-        //private static readonly ILog logger = LogManager.GetLogger("CloudServer");
+		//private static readonly ILog logger = LogManager.GetLogger("CloudServer");
 
 		/// <summary>
 		/// Gets or sets wammer cloud base url
 		/// </summary>
 		public static string BaseUrl
 		{
-			get { return baseUrl ?? (baseUrl = (string) StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL)); }
+			get { return baseUrl ?? (baseUrl = (string)StationRegistry.GetValue("cloudBaseURL", DEF_BASE_URL)); }
 			set { baseUrl = value; }
 		}
 
 		public static CloudType Type
 		{
-			get 
+			get
 			{
 				if (BaseUrl.Contains("develop.waveface.com"))
 					return CloudType.Development;
@@ -154,7 +154,7 @@ namespace Waveface.Stream.Model
 		public static bool VersionNotCompatible { get; set; }
 
 		public static void requestDownload(string path, Dictionary<object, object> parameters,
-		                                   string filepath)
+										   string filepath)
 		{
 			var buf = new StringBuilder();
 
@@ -176,7 +176,7 @@ namespace Waveface.Stream.Model
 				buf.Remove(buf.Length - 1, 1);
 				using (var agent = new DefaultWebClient())
 				{
-                    //logger.DebugFormat("DownloadFile({0}, {1}, true,...)", baseUrl + path + "?" + buf, filepath);
+					//logger.DebugFormat("DownloadFile({0}, {1}, true,...)", baseUrl + path + "?" + buf, filepath);
 					addVersionToHttpHeader(agent);
 					agent.DownloadFile(baseUrl + path + "?" + buf, filepath, true, (sender, e) => PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE).IncrementBy(
 											long.Parse(e.UserState.ToString())));
@@ -208,7 +208,7 @@ namespace Waveface.Stream.Model
 		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
 		/// <returns>Response value</returns>
 		public static string requestPath(string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true,Boolean autoRedirectRequest = true)
+										 bool checkOffline = true, Boolean autoRedirectRequest = true)
 		{
 			return requestPath(BaseUrl, path, parms, checkOffline, autoRedirectRequest);
 		}
@@ -224,14 +224,14 @@ namespace Waveface.Stream.Model
 		/// <param name="timeout">The timeout.</param>
 		/// <returns></returns>
 		public static string requestPath(string baseUrl, string path, Dictionary<object, object> parms,
-		                                 bool checkOffline = true, Boolean autoRedirectRequest = true, int timeout = -1)
+										 bool checkOffline = true, Boolean autoRedirectRequest = true, int timeout = -1)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
 					throw new WammerCloudException("Station is in offline mode",
-					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+												   new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -261,14 +261,14 @@ namespace Waveface.Stream.Model
 		/// <param name="autoRedirectRequest">if set to <c>true</c> [auto redirect request].</param>
 		/// <returns>Response value</returns>
 		public static T requestPath<T>(string path, Dictionary<object, object> parms,
-		                               bool checkOffline = true, Boolean autoRedirectRequest = true)
+									   bool checkOffline = true, Boolean autoRedirectRequest = true)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
 					throw new WammerCloudException("Station is in offline mode",
-					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+												   new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -284,15 +284,15 @@ namespace Waveface.Stream.Model
 				throw;
 			}
 		}
-		
-		public static T request<T>(string url, Dictionary<object, object> param, bool isGet,bool checkOffline = true,int timeout = -1)
+
+		public static T request<T>(string url, Dictionary<object, object> param, bool isGet, bool checkOffline = true, int timeout = -1)
 		{
 			if (checkOffline)
 			{
 				if (isOffline)
 				{
 					throw new WammerCloudException("Station is in offline mode",
-					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+												   new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -351,8 +351,8 @@ namespace Waveface.Stream.Model
 					if (isGet)
 					{
 						rawResponse = string.IsNullOrEmpty(parameters)
-						              	? agent.DownloadData(url)
-						              	: agent.DownloadData(url + "?" + parameters);
+										? agent.DownloadData(url)
+										: agent.DownloadData(url + "?" + parameters);
 					}
 					else
 					{
@@ -379,7 +379,7 @@ namespace Waveface.Stream.Model
 			{
 				if (cres.status != 200 || cres.api_ret_code != 0)
 					throw new WammerCloudException("Wammer cloud error", response,
-					                               cres.api_ret_code);
+												   cres.api_ret_code);
 			}
 
 
@@ -416,7 +416,7 @@ namespace Waveface.Stream.Model
 				if (isOffline)
 				{
 					throw new WammerCloudException("Station is in offline mode",
-					                               new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
+												   new WebException("Station is in offline mode", WebExceptionStatus.ConnectFailure));
 				}
 			}
 
@@ -490,7 +490,7 @@ namespace Waveface.Stream.Model
 			{
 				if (cres.status != 200 || cres.api_ret_code != 0)
 					throw new WammerCloudException("Wammer cloud error", json,
-					                               cres.api_ret_code);
+												   cres.api_ret_code);
 			}
 
 			return resObj;
@@ -499,7 +499,7 @@ namespace Waveface.Stream.Model
 		public static bool IsNetworkError(WammerCloudException e)
 		{
 			return (e.InnerException != null && e.InnerException is WebException &&
-			        e.HttpError != WebExceptionStatus.ProtocolError);
+					e.HttpError != WebExceptionStatus.ProtocolError);
 		}
 
 		public static bool IsSessionError(WammerCloudException e)

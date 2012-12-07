@@ -11,7 +11,7 @@ namespace Wammer.Station
 		private int retry_count;
 
 		public NotifyCloudOfBodySyncedTask(string object_id, string session_token)
-			:base(TaskPriority.Low)
+			: base(TaskPriority.Low)
 		{
 			if (object_id == null || session_token == null)
 				throw new ArgumentNullException();

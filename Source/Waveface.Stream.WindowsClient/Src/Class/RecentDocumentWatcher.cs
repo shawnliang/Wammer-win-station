@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Shell32;
+using System;
 using System.IO;
-using Shell32;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -18,7 +15,7 @@ namespace Waveface.Stream.WindowsClient
 			var recentDir = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 			watcher = new FileSystemWatcher(recentDir, "*.lnk");
 
-			watcher.NotifyFilter = NotifyFilters.LastWrite| NotifyFilters.CreationTime;
+			watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime;
 			watcher.Changed += watcher_Touched;
 			watcher.Created += watcher_Touched;
 		}
@@ -68,10 +65,10 @@ namespace Waveface.Stream.WindowsClient
 		}
 	}
 
-	class FileTouchEventArgs: EventArgs
+	class FileTouchEventArgs : EventArgs
 	{
 		public string File { get; private set; }
-		
+
 		public FileTouchEventArgs(string file)
 		{
 			File = file;

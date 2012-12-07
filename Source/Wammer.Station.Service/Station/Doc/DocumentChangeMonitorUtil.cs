@@ -1,19 +1,15 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Zip;
+using NetOffice.OfficeApi.Enums;
+using NetOffice.PowerPointApi.Enums;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text;
-
+using System.Linq;
+using System.Reflection;
+using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-
-using NetOffice;
 using PowerPoint = NetOffice.PowerPointApi;
-using NetOffice.PowerPointApi.Enums;
-using NetOffice.OfficeApi.Enums;
-using ICSharpCode.SharpZipLib.Zip;
-using Wammer.Cloud;
-using System.Reflection;
 
 
 namespace Wammer.Station.Doc
@@ -66,7 +62,7 @@ namespace Wammer.Station.Doc
 			zip.UseZip64 = UseZip64.Off;
 			zip.CreateZip(previewZipFile, previewFolder, false, null);
 
-			
+
 			// write to db
 			string mimeType = "application/octet-stream";
 			if (Path.GetExtension(target.path).Equals(".ppt", StringComparison.InvariantCultureIgnoreCase))

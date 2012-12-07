@@ -1,12 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Station;
-using Wammer.Model;
-using Wammer.Station.AttachmentView;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
+using System.Text;
+using Wammer.Model;
+using Wammer.Station;
+using Wammer.Station.AttachmentView;
 
 namespace UT_WammerStation.AttachmentViewTest
 {
@@ -33,9 +31,9 @@ namespace UT_WammerStation.AttachmentViewTest
 		public void GetOriginalStream()
 		{
 			var storage = new AttachmentViewStorage();
-			
+
 			using (var s = storage.GetAttachmentStream(ImageMeta.Origin, user, "file1.jpg"))
-			using(var r = new StreamReader(s))
+			using (var r = new StreamReader(s))
 			{
 				Assert.AreEqual("1234567890", r.ReadToEnd());
 			}

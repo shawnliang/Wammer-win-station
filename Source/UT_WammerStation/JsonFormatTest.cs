@@ -1,12 +1,7 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Cloud;
-using Wammer.Model;
-using System.Collections.Specialized;
-
 using Wammer.Utility;
 
 namespace UT_WammerStation

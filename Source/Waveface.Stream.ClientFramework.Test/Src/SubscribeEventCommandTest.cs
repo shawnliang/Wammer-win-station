@@ -1,18 +1,16 @@
-﻿using Waveface.Stream.ClientFramework;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace Waveface.Stream.ClientFramework.Test
 {
-    
-    
-    /// <summary>
-    ///This is a test class for SubscribeEventCommand and is intended
-    ///to contain all SubscribeEventCommand Unit Tests
-    ///</summary>
+
+
+	/// <summary>
+	///This is a test class for SubscribeEventCommand and is intended
+	///to contain all SubscribeEventCommand Unit Tests
+	///</summary>
 	[TestClass()]
-    public class SubscribeEventCommandTest
+	public class SubscribeEventCommandTest
 	{
 
 
@@ -72,8 +70,8 @@ namespace Waveface.Stream.ClientFramework.Test
 		[Ignore]
 		public void ExecuteTest()
 		{
-            SubscribeEventCommand target = new SubscribeEventCommand();
-            Dictionary<string, object> parameters = new Dictionary<string, object>() 
+			SubscribeEventCommand target = new SubscribeEventCommand();
+			Dictionary<string, object> parameters = new Dictionary<string, object>() 
             {
                 {"event_id", (int)SystemEventType.PostAdded}
             };

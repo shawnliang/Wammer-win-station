@@ -1,11 +1,10 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
-using Wammer.Cloud;
 using Wammer.Utility;
 
 namespace UT_WammerStation.pullTimeLine
@@ -140,7 +139,7 @@ namespace UT_WammerStation.pullTimeLine
 			DummyTimelineSyncerDB db = new DummyTimelineSyncerDB();
 			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfoProvider, db, new ChangeLogsApi());
 			timelineSyncer.PullBackward(user);
-			
+
 			// verify posts/getLatest cloud API is queried
 			Assert.AreEqual(user, postInfoProvider.GetLastestPosts_user);
 			Assert.IsNotNull(postInfoProvider.GetLastestPosts_agent);
@@ -193,7 +192,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
 
-			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3,3,4,5, DateTimeKind.Utc), post_id = "post1" };
+			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012, 2, 3, 3, 4, 5, DateTimeKind.Utc), post_id = "post1" };
 
 			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
 			{
@@ -256,7 +255,7 @@ namespace UT_WammerStation.pullTimeLine
 
 			PostInfo oldestPost = new PostInfo
 			{
-				timestamp = new DateTime(2012,2,3, 3, 4, 5, DateTimeKind.Utc),
+				timestamp = new DateTime(2012, 2, 3, 3, 4, 5, DateTimeKind.Utc),
 				post_id = "post1"
 			};
 
@@ -282,7 +281,7 @@ namespace UT_WammerStation.pullTimeLine
 
 			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfo.Object, db.Object, new ChangeLogsApi());
 			timelineSyncer.PullBackward(user);
-			
+
 			db.VerifyAll();
 			postInfo.VerifyAll();
 		}
@@ -292,7 +291,7 @@ namespace UT_WammerStation.pullTimeLine
 		{
 			DummyPostInfoProvider postInfoProvider = new DummyPostInfoProvider();
 
-			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012,2,3,3,4,5, DateTimeKind.Utc), post_id = "post1" };
+			PostInfo oldestPost = new PostInfo { timestamp = new DateTime(2012, 2, 3, 3, 4, 5, DateTimeKind.Utc), post_id = "post1" };
 
 			postInfoProvider.GetPostsBefore_return = new PostFetchByFilterResponse
 			{

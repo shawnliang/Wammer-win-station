@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Wammer.Station
 {
-	public class ThumbnailEventArgs:EventArgs
+	public class ThumbnailEventArgs : EventArgs
 	{
 		public string object_id { get; private set; }
 		public string post_id { get; private set; }
 		public string group_id { get; private set; }
 		public Wammer.Model.ImageMeta meta { get; private set; }
-		
+
 
 		public ThumbnailEventArgs(string object_id, string post_id, string group_id, Wammer.Model.ImageMeta meta)
 		{

@@ -1,18 +1,14 @@
-﻿using Waveface.Stream.ClientFramework;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Linq;
 
 namespace Waveface.Stream.ClientFramework.Test
 {
-    
-    
-    /// <summary>
-    ///This is a test class for GetPostsCommandTest and is intended
-    ///to contain all GetPostsCommandTest Unit Tests
-    ///</summary>
+
+
+	/// <summary>
+	///This is a test class for GetPostsCommandTest and is intended
+	///to contain all GetPostsCommandTest Unit Tests
+	///</summary>
 	[TestClass()]
 	public class GetPostsCommandTest
 	{
@@ -75,7 +71,7 @@ namespace Waveface.Stream.ClientFramework.Test
 		public void ExecuteTest()
 		{
 			GetPostsCommand target = new GetPostsCommand(); // TODO: Initialize to an appropriate value
-            Dictionary<string, object> parameters = new Dictionary<string, object>() 
+			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
 			};
 

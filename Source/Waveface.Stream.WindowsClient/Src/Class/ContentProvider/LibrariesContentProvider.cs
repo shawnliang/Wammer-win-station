@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Shell;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using Microsoft.WindowsAPICodePack.Shell;
+using System.Linq;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -43,17 +42,17 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Private Method
-        private bool IsWinVistaOrLater()
-        {
-            bool isWinVistaOrLater;
+		private bool IsWinVistaOrLater()
+		{
+			bool isWinVistaOrLater;
 
-            var os = Environment.OSVersion;
-            if (os.Platform == PlatformID.Win32NT && os.Version.Major == 6)
-                isWinVistaOrLater = true;
-            else
-                isWinVistaOrLater = false;
-            return isWinVistaOrLater;
-        }
+			var os = Environment.OSVersion;
+			if (os.Platform == PlatformID.Win32NT && os.Version.Major == 6)
+				isWinVistaOrLater = true;
+			else
+				isWinVistaOrLater = false;
+			return isWinVistaOrLater;
+		}
 
 		/// <summary>
 		/// Gets the librarys files.
@@ -66,7 +65,7 @@ namespace Waveface.Stream.WindowsClient
 				foreach (ShellFolder folder in library)
 				{
 					var folderPath = folder.ParsingName;
-					foreach(var file in EnumerateFiles(folderPath))
+					foreach (var file in EnumerateFiles(folderPath))
 						yield return file;
 				}
 			}
@@ -99,7 +98,7 @@ namespace Waveface.Stream.WindowsClient
 				   extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase) ||
 				   extension.Equals(".bmp", StringComparison.CurrentCultureIgnoreCase)
 				   select (new Content(file, ContentType.Photo) as IContent);
-		} 
+		}
 		#endregion
 
 	}

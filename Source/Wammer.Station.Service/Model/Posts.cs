@@ -1,7 +1,7 @@
-﻿using Wammer.Cloud;
+﻿using MongoDB.Bson;
 using MongoDB.Driver.Builders;
-using MongoDB.Bson;
 using System.Linq;
+using Wammer.Cloud;
 
 namespace Wammer.Model
 {
@@ -27,7 +27,7 @@ namespace Wammer.Model
 			get { return _instance; }
 		}
 		#endregion
-		
+
 		private PostCollection()
 			: base("posts")
 		{

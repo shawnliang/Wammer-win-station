@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using Wammer.Cloud;
 using MongoDB.Driver.Builders;
+using System.Collections.Generic;
+using System.Linq;
+using Wammer.Cloud;
 
 namespace Wammer.Model
 {
@@ -42,7 +41,7 @@ namespace Wammer.Model
 	public class UserTrackCollection : Collection<UserTracks>
 	{
 		#region Var
-		private static UserTrackCollection _instance; 
+		private static UserTrackCollection _instance;
 		#endregion
 
 

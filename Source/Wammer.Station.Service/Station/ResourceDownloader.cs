@@ -1,14 +1,11 @@
+using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
+using System.ComponentModel;
+using System.IO;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
-using System.IO;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Wammer.Station
 {
@@ -27,7 +24,7 @@ namespace Wammer.Station
 		public int failureCount { get; set; }
 	}
 
-	
+
 
 	internal class ResourceDownloader
 	{
@@ -231,12 +228,12 @@ namespace Wammer.Station
 	}
 
 	[Serializable]
-	internal class QueryIfDownstreamNeededTask: Retry.DelayedRetryTask
+	internal class QueryIfDownstreamNeededTask : Retry.DelayedRetryTask
 	{
 		private string object_id;
 		private string user_id;
 		private AttachmentInfo cloudDoc;
-	
+
 		public QueryIfDownstreamNeededTask(string user_id, string object_id)
 			: base(TaskPriority.Low)
 		{

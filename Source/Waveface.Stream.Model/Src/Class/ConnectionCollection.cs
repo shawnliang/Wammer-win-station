@@ -1,50 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Waveface.Stream.Model
 {
-    /// <summary>
-    /// 
-    /// </summary>
+	/// <summary>
+	/// 
+	/// </summary>
 	public class ConnectionCollection : DBCollection<Collection>
-    {
-        #region Static Var
+	{
+		#region Static Var
 
-        private static ConnectionCollection instance;
+		private static ConnectionCollection instance;
 
-        #endregion
+		#endregion
 
-        #region Constructor
+		#region Constructor
 
-        static ConnectionCollection()
-        {
-            instance = new ConnectionCollection();
-        }
+		static ConnectionCollection()
+		{
+			instance = new ConnectionCollection();
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectionCollection"/> class.
-        /// </summary>
-        private ConnectionCollection()
-            : base("ConnectedDevices")
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConnectionCollection"/> class.
+		/// </summary>
+		private ConnectionCollection()
+			: base("ConnectedDevices")
+		{
+		}
 
-        #endregion
+		#endregion
 
-        #region Public Static Method
+		#region Public Static Method
 
 
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>The instance.</value>
-        public static ConnectionCollection Instance
-        {
-            get { return instance; }
-        }
+		/// <summary>
+		/// Gets the instance.
+		/// </summary>
+		/// <value>The instance.</value>
+		public static ConnectionCollection Instance
+		{
+			get { return instance; }
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

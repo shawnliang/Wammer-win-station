@@ -30,7 +30,7 @@ namespace Wammer.Station.Timeline
 
 		public void SaveUserTracks(UserTracks userTracks)
 		{
-			if (userTracks.usertrack_list!=null && userTracks.usertrack_list.Count > 0)
+			if (userTracks.usertrack_list != null && userTracks.usertrack_list.Count > 0)
 				UserTrackCollection.Instance.Save(userTracks);
 		}
 

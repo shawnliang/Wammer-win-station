@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using MongoDB.Driver;
-using MongoDB.Driver.Builders;
 using Wammer.Model;
 
 namespace Wammer.Station.Retry

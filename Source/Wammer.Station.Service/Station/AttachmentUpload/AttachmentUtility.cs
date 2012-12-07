@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver.Builders;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using MongoDB.Bson;
-using MongoDB.Driver.Builders;
+using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Utility;
-using Wammer.Cloud;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -42,13 +42,13 @@ namespace Wammer.Station.AttachmentUpload
 		}
 
 		public ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user,
-		                                       string origin_filename)
+											   string origin_filename)
 		{
 			return GenerateThumbnail(imageFilename, thumbnailType, object_id, user, origin_filename, ImageMeta.Origin);
 		}
 
 		public void UpstreamImageNow(byte[] imageRaw, string group_id, string object_id, string file_name, string mime_type,
-		                             ImageMeta meta, string apikey, string session_token)
+									 ImageMeta meta, string apikey, string session_token)
 		{
 			using (var s = new MemoryStream(imageRaw))
 			{

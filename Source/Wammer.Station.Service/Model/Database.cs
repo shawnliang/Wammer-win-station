@@ -1,8 +1,8 @@
-using System;
+using log4net;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 using Wammer.Station;
-using log4net;
 
 namespace Wammer.Model
 {

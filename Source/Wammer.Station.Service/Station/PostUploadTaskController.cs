@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PostUpload;
@@ -38,73 +38,73 @@ namespace Wammer
 			{
 				case PostUploadActionType.NewPost:
 					PostUploadTaskQueue.Instance.Enqueue(new NewPostTask
-					                                     	{
-					                                     		PostId = postId,
-					                                     		UserId = userId,
-					                                     		Timestamp = timestamp,
-					                                     		Parameters = ConvertToDictionary(parameters),
-					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(apiKey)
-					                                     				? CloudServer.CodeName[apiKey]
-					                                     				: string.Empty,
+															{
+																PostId = postId,
+																UserId = userId,
+																Timestamp = timestamp,
+																Parameters = ConvertToDictionary(parameters),
+																CodeName =
+																	CloudServer.CodeName.ContainsKey(apiKey)
+																		? CloudServer.CodeName[apiKey]
+																		: string.Empty,
 																LastUpdateTime = lastUpdateTime
-					                                     	});
+															});
 					break;
 				case PostUploadActionType.UpdatePost:
 					PostUploadTaskQueue.Instance.Enqueue(new UpdatePostTask
-					                                     	{
-					                                     		PostId = postId,
-					                                     		UserId = userId,
-					                                     		Timestamp = timestamp,
-					                                     		Parameters = ConvertToDictionary(parameters),
-					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(apiKey)
-					                                     				? CloudServer.CodeName[apiKey]
-					                                     				: string.Empty,
+															{
+																PostId = postId,
+																UserId = userId,
+																Timestamp = timestamp,
+																Parameters = ConvertToDictionary(parameters),
+																CodeName =
+																	CloudServer.CodeName.ContainsKey(apiKey)
+																		? CloudServer.CodeName[apiKey]
+																		: string.Empty,
 																LastUpdateTime = lastUpdateTime
-					                                     	});
+															});
 					break;
 				case PostUploadActionType.Comment:
 					PostUploadTaskQueue.Instance.Enqueue(new CommentTask
-					                                     	{
-					                                     		PostId = postId,
-					                                     		UserId = userId,
-					                                     		Timestamp = timestamp,
-					                                     		Parameters = ConvertToDictionary(parameters),
-					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(apiKey)
-					                                     				? CloudServer.CodeName[apiKey]
-					                                     				: string.Empty,
+															{
+																PostId = postId,
+																UserId = userId,
+																Timestamp = timestamp,
+																Parameters = ConvertToDictionary(parameters),
+																CodeName =
+																	CloudServer.CodeName.ContainsKey(apiKey)
+																		? CloudServer.CodeName[apiKey]
+																		: string.Empty,
 																LastUpdateTime = lastUpdateTime
-					                                     	});
+															});
 					break;
 				case PostUploadActionType.Hide:
 					PostUploadTaskQueue.Instance.Enqueue(new HidePostTask
-					                                     	{
-					                                     		PostId = postId,
-					                                     		UserId = userId,
-					                                     		Timestamp = timestamp,
-					                                     		Parameters = ConvertToDictionary(parameters),
-					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(apiKey)
-					                                     				? CloudServer.CodeName[apiKey]
-					                                     				: string.Empty,
+															{
+																PostId = postId,
+																UserId = userId,
+																Timestamp = timestamp,
+																Parameters = ConvertToDictionary(parameters),
+																CodeName =
+																	CloudServer.CodeName.ContainsKey(apiKey)
+																		? CloudServer.CodeName[apiKey]
+																		: string.Empty,
 																LastUpdateTime = lastUpdateTime
-					                                     	});
+															});
 					break;
 				case PostUploadActionType.UnHide:
 					PostUploadTaskQueue.Instance.Enqueue(new UnhidePostTask
-					                                     	{
-					                                     		PostId = postId,
-					                                     		UserId = userId,
-					                                     		Timestamp = timestamp,
-					                                     		Parameters = ConvertToDictionary(parameters),
-					                                     		CodeName =
-					                                     			CloudServer.CodeName.ContainsKey(apiKey)
-					                                     				? CloudServer.CodeName[apiKey]
-					                                     				: string.Empty,
+															{
+																PostId = postId,
+																UserId = userId,
+																Timestamp = timestamp,
+																Parameters = ConvertToDictionary(parameters),
+																CodeName =
+																	CloudServer.CodeName.ContainsKey(apiKey)
+																		? CloudServer.CodeName[apiKey]
+																		: string.Empty,
 																LastUpdateTime = lastUpdateTime
-					                                     	});
+															});
 					break;
 				default:
 					this.LogWarnMsg("Post upload action type " + actionType.ToString() + " is not supported.");
@@ -122,7 +122,7 @@ namespace Wammer
 			if (driver == null)
 			{
 				throw new WammerStationException("Unable to find driver of group " + groupId,
-				                                 (int) StationLocalApiError.InvalidGroup);
+												 (int)StationLocalApiError.InvalidGroup);
 			}
 			return driver.user_id;
 		}

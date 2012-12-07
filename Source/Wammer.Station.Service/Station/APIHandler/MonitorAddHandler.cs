@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Wammer.Station.APIHandler
 {
 	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/monitor/add")]
 	public class MonitorAddHandler : HttpHandler
 	{
-		private Doc.MonitorAddHandlerImp imp = 
+		private Doc.MonitorAddHandlerImp imp =
 			new Doc.MonitorAddHandlerImp(new Doc.MonitorAddHandlerDB(), new Doc.MonitorAddHandlerUtility());
 
 		#region Public Method

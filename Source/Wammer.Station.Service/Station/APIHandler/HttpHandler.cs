@@ -1,3 +1,4 @@
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -13,7 +14,6 @@ using Wammer.Model;
 using Wammer.MultiPart;
 using Wammer.PerfMonitor;
 using Wammer.Utility;
-using log4net;
 
 namespace Wammer.Station
 {
@@ -64,8 +64,8 @@ namespace Wammer.Station
 				throw new ArgumentNullException("arguementNames");
 
 			var nullArgumentNames = from arguementName in arguementNames
-			                                        where Parameters[arguementName] == null
-			                                        select arguementName;
+									where Parameters[arguementName] == null
+									select arguementName;
 
 			if (!nullArgumentNames.Any())
 				return;
@@ -81,8 +81,8 @@ namespace Wammer.Station
 				Regex.Match(Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].
 					Value;
 			var forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key,
-			                                                                            key =>
-			                                                                            Parameters[key]);
+																						key =>
+																						Parameters[key]);
 
 			RespondSuccess(CloudServer.requestPath(apiPath, forwardParams, false));
 		}
@@ -95,8 +95,8 @@ namespace Wammer.Station
 				Regex.Match(Request.Url.LocalPath, API_PATH_MATCH_PATTERN, RegexOptions.IgnoreCase).Groups[API_PATH_GROUP_NAME].
 					Value;
 			var forwardParams = Parameters.AllKeys.ToDictionary<string, object, object>(key => key,
-			                                                                            key =>
-			                                                                            Parameters[key]);
+																						key =>
+																						Parameters[key]);
 
 			RespondSuccess(CloudServer.requestPath<T>(apiPath, forwardParams, false));
 		}
@@ -189,7 +189,7 @@ namespace Wammer.Station
 					return;
 
 				logger.Info("====== Request " + Request.Url.AbsolutePath +
-				             " from " + Request.RemoteEndPoint.Address + " ======");
+							 " from " + Request.RemoteEndPoint.Address + " ======");
 				foreach (string key in Parameters.AllKeys)
 				{
 					if (key == "password")
@@ -276,7 +276,7 @@ namespace Wammer.Station
 
 			if (disp == null)
 				throw new ArgumentException("incorrect use of this function: " +
-				                            "input part.ContentDisposition is null");
+											"input part.ContentDisposition is null");
 
 			if (disp.Value.Equals("form-data", StringComparison.CurrentCultureIgnoreCase))
 			{
@@ -285,7 +285,7 @@ namespace Wammer.Station
 				if (filename != null)
 				{
 					var file = new UploadedFile(filename, part.Bytes,
-					                            part.Headers["Content-Type"]);
+												part.Headers["Content-Type"]);
 					Files.Add(file);
 				}
 				else
@@ -299,7 +299,7 @@ namespace Wammer.Station
 		private static bool HasMultiPartFormData(HttpListenerRequest request)
 		{
 			return request.ContentType != null &&
-			       request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
+				   request.ContentType.StartsWith(MULTIPART_FORM, StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		private static string GetMultipartBoundary(string contentType)
@@ -324,20 +324,20 @@ namespace Wammer.Station
 			catch (Exception e)
 			{
 				throw new FormatException("Error finding multipart boundary. Content-Type: " +
-				                          contentType, e);
+										  contentType, e);
 			}
 		}
 
 		private NameValueCollection InitParameters(HttpListenerRequest req)
 		{
-			if (RawPostData != null && 
+			if (RawPostData != null &&
 				req.ContentType != null &&
-			    req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
+				req.ContentType.StartsWith(URL_ENCODED_FORM, StringComparison.CurrentCultureIgnoreCase))
 			{
 				var postData = Encoding.UTF8.GetString(RawPostData);
 				return HttpUtility.ParseQueryString(postData);
 			}
-			else if (req.HttpMethod.Equals("GET",StringComparison.CurrentCultureIgnoreCase))
+			else if (req.HttpMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase))
 			{
 				return HttpUtility.ParseQueryString(Request.Url.Query); //req.QueryString;
 			}

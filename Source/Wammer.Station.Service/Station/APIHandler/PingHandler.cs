@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver.Builders;
-using Wammer.Cloud;
 using System;
+using Wammer.Cloud;
 namespace Wammer.Station
 {
 	[APIHandlerInfo(APIHandlerType.FunctionAPI | APIHandlerType.ManagementAPI, "/availability/ping/")]

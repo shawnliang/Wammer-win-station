@@ -73,12 +73,12 @@ namespace Wammer.MultiPart
 
 			// cheat on looking close_boundary & following \r\n
 			if (data[next_startIdx] == '-' &&
-			    data[next_startIdx + 1] == '-')
+				data[next_startIdx + 1] == '-')
 			{
 				end = true;
 			}
 			else if (data[next_startIdx] == '\r' &&
-			         data[next_startIdx + 1] == '\n')
+					 data[next_startIdx + 1] == '\n')
 			{
 				next_startIdx += CRLF.Length;
 			}
@@ -96,7 +96,7 @@ namespace Wammer.MultiPart
 		private static void ParseHeaders(NameValueCollection collection, byte[] data, int from, int len)
 		{
 			string headerText = Encoding.UTF8.GetString(data, from, len);
-			var stringSeparators = new[] {"\r\n"};
+			var stringSeparators = new[] { "\r\n" };
 			string[] headers = headerText.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
 
 			foreach (string header in headers)

@@ -23,7 +23,7 @@ namespace UT_WammerStation
 		#region Var
 		static MongoServer mongodb;
 		HttpServer server;
-		HttpHandler handler; 
+		HttpHandler handler;
 		#endregion
 
 		#region Private Method
@@ -63,7 +63,7 @@ namespace UT_WammerStation
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost:8080/v2/";			
+			CloudServer.BaseUrl = "http://localhost:8080/v2/";
 
 			mongodb.GetDatabase("wammer").GetCollection("drivers").Insert(
 				new Driver
@@ -79,8 +79,8 @@ namespace UT_WammerStation
 				new LoginedSession()
 				{
 					session_token = "exist session token",
-					apikey = new Apikey() { name = "window"}
-				});	
+					apikey = new Apikey() { name = "window" }
+				});
 		}
 
 		[TestCleanup]

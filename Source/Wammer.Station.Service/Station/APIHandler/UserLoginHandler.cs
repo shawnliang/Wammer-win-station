@@ -1,6 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
+using System;
 using Wammer.Cloud;
 using Wammer.Model;
 
@@ -48,7 +47,7 @@ namespace Wammer.Station
 			else
 			{
 				CheckParameter(CloudServer.PARAM_EMAIL, CloudServer.PARAM_PASSWORD, CloudServer.PARAM_DEVICE_ID,
-				               CloudServer.PARAM_DEVICE_NAME);
+							   CloudServer.PARAM_DEVICE_NAME);
 
 				var email = Parameters[CloudServer.PARAM_EMAIL];
 				try

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Model
 {
@@ -47,7 +47,7 @@ namespace Wammer.Model
 	public class QueuedTaskCollection : Collection<QueuedTask>
 	{
 		#region Var
-		private static QueuedTaskCollection _instance; 
+		private static QueuedTaskCollection _instance;
 		#endregion
 
 		#region Property

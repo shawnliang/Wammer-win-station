@@ -1,11 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Wammer.Utility;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ServiceProcess;
+using Wammer.Utility;
 
 namespace UT_WammerStation
 {

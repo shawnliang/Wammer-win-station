@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WebSocketSharp.Server;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Waveface.Stream.ClientFramework
 {
-    [Obfuscation]
+	[Obfuscation]
 	public class AlertCommand : WebSocketCommandBase
 	{
 		#region Public Property
@@ -28,16 +25,16 @@ namespace Waveface.Stream.ClientFramework
 		/// Executes the specified parameters.
 		/// </summary>
 		/// <param name="parameters">The parameters.</param>
-        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
+		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
-            var parameters = data.Parameters;
+			var parameters = data.Parameters;
 
-            SynchronizationContextHelper.SendMainSyncContext(() =>
-                {
-                    MessageBox.Show(parameters["message"].ToString());
-                }
-             );
-            return null;
+			SynchronizationContextHelper.SendMainSyncContext(() =>
+				{
+					MessageBox.Show(parameters["message"].ToString());
+				}
+			 );
+			return null;
 		}
 		#endregion
 	}

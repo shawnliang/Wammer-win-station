@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Waveface.Stream.WindowsClient
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IBrowserControl
+	/// <summary>
+	/// 
+	/// </summary>
+	public interface IBrowserControl
 	{
 		#region Property
 		Boolean IsDebugMode { get; set; }
@@ -16,6 +13,6 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Method
 		void Navigate(string uri);
-        #endregion
-    }
+		#endregion
+	}
 }

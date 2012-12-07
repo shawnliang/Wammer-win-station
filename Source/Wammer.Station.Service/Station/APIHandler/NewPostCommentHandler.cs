@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Bson;
-using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
@@ -46,14 +46,14 @@ namespace Wammer.Station
 
 			if (loginedSession == null)
 				throw new WammerStationException(
-					"Logined session not found!", (int) StationLocalApiError.NotFound);
+					"Logined session not found!", (int)StationLocalApiError.NotFound);
 
 			string postID = Parameters[CloudServer.PARAM_POST_ID];
 
 			PostInfo post = PostCollection.Instance.FindOne(Query.EQ("_id", postID));
 			if (post == null)
 				throw new WammerStationException(
-					"Post not found!", (int) StationLocalApiError.NotFound);
+					"Post not found!", (int)StationLocalApiError.NotFound);
 
 			var lastUpdateTime = post.update_time;
 
@@ -61,13 +61,13 @@ namespace Wammer.Station
 			Driver driver = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (driver == null)
 				throw new WammerStationException(
-					"Driver not found!", (int) StationLocalApiError.InvalidDriver);
+					"Driver not found!", (int)StationLocalApiError.InvalidDriver);
 
 			var userGroup = driver.groups.FirstOrDefault(group => @group.group_id == groupID);
 
 			if (userGroup == null)
 				throw new WammerStationException(
-					"Group not found!", (int) StationLocalApiError.NotFound);
+					"Group not found!", (int)StationLocalApiError.NotFound);
 
 			if (post.comments == null)
 				post.comments = new List<Comment>();
@@ -77,12 +77,12 @@ namespace Wammer.Station
 			string creatorID = userGroup.creator_id;
 			string codeName = loginedSession.apikey.name;
 			var newPostComment = new Comment
-			                     	{
-			                     		content = newPostContent,
-			                     		timestamp = currentTimeStamp.ToCloudTimeString(),
-			                     		code_name = codeName,
-			                     		creator_id = creatorID
-			                     	};
+									{
+										content = newPostContent,
+										timestamp = currentTimeStamp.ToCloudTimeString(),
+										code_name = codeName,
+										creator_id = creatorID
+									};
 
 			if (loginedSession.device != null)
 				newPostComment.device_id = loginedSession.device.device_id;
@@ -91,20 +91,20 @@ namespace Wammer.Station
 			post.comments.Add(newPostComment);
 
 			PostCollection.Instance.Update(Query.EQ("_id", postID), Update
-			                                                        	.Set("comment_count", post.comment_count)
-			                                                        	.Set("comments",
-			                                                        	     new BsonArray(
-			                                                        	     	post.comments.ConvertAll(
-			                                                        	     		item => item.ToBsonDocument())))
+																		.Set("comment_count", post.comment_count)
+																		.Set("comments",
+																			 new BsonArray(
+																				post.comments.ConvertAll(
+																					item => item.ToBsonDocument())))
 																		.Set("update_time", currentTimeStamp));
 
 			if (m_PostUploader != null)
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Comment, Parameters, currentTimeStamp, lastUpdateTime);
 
 			var response = new NewPostCommentResponse
-			               	{
-			               		post = post
-			               	};
+							{
+								post = post
+							};
 
 			RespondSuccess(response);
 		}

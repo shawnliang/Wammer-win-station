@@ -1,21 +1,20 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using Wammer.Cloud;
+using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
-using Wammer.Model;
-using Wammer.Cloud;
-using Microsoft.Win32;
-using System.Collections.Specialized;
-using Newtonsoft.Json;
-using System.Diagnostics;
 
 namespace Wammer.Station
 {
-	public class ImportTask:ITask
+	public class ImportTask : ITask
 	{
 		#region Const
 		const String PATH_MATCH_GROUP = @"path";
@@ -184,7 +183,8 @@ namespace Wammer.Station
 
 
 				int nProc = 0;
-				do{
+				do
+				{
 					var batch = allFiles.Skip(nProc).Take(50);
 					submitBatch(importTime, batch);
 					nProc += batch.Count();
@@ -192,7 +192,7 @@ namespace Wammer.Station
 				} while (nProc < allFiles.Count);
 
 				TaskQueue.Enqueue(new CreatePhotoFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.Medium);
-				
+
 			}
 			catch (Exception e)
 			{
@@ -308,7 +308,7 @@ namespace Wammer.Station
 					timezone = timezoneDiff
 				};
 				imp.Process(uploadData);
-				
+
 				long end = Stopwatch.GetTimestamp();
 				long duration = end - begin;
 				if (duration < 0)
@@ -321,7 +321,7 @@ namespace Wammer.Station
 			{
 				this.LogWarnMsg("Unable to import file: " + file.file_path, e);
 			}
-		} 
+		}
 
 		private IEnumerable<FileMetadata> extractMetadata(IEnumerable<ObjectIdAndPath> files)
 		{
@@ -343,7 +343,7 @@ namespace Wammer.Station
 				yield return meta;
 			}
 		}
-		
+
 		private void enqueueUploadMetadataTask(IEnumerable<FileMetadata> batch)
 		{
 			try
@@ -414,9 +414,9 @@ namespace Wammer.Station
 		[JsonIgnore]
 		public DateTime EventTime
 		{
-			get 
+			get
 			{
-				return (exif != null && exif.DateTimeOriginal != null) ? 
+				return (exif != null && exif.DateTimeOriginal != null) ?
 					TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal) : file_create_time;
 			}
 		}
@@ -460,7 +460,7 @@ namespace Wammer.Station
 		}
 
 		public FolderCollection(string folderPath, string object_id)
-			:this(folderPath)
+			: this(folderPath)
 		{
 			Objects.Add(object_id);
 		}

@@ -6,7 +6,7 @@ public static class EnumExtension
 {
 	public static IEnumerable<T> GetCustomAttributes<T>(this Enum e)
 	{
-		return e.GetType().GetField(e.ToString()).GetCustomAttributes(typeof (T), false).Cast<T>();
+		return e.GetType().GetField(e.ToString()).GetCustomAttributes(typeof(T), false).Cast<T>();
 	}
 
 	public static T GetCustomAttribute<T>(this Enum e)

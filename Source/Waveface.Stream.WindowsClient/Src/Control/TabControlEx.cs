@@ -34,7 +34,8 @@ namespace Waveface.Stream.WindowsClient
 					return true;
 				return base.Multiline;
 			}
-			set {
+			set
+			{
 				base.Multiline = HideTabs || value;
 			}
 		}

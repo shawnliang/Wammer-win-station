@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
+using System;
 using Wammer.Cloud;
 using Wammer.Model;
-using System;
 
 namespace Wammer.Station
 {
@@ -52,9 +52,9 @@ namespace Wammer.Station
 				m_PostUploader.AddPostUploadAction(postID, PostUploadActionType.Hide, Parameters, post.update_time, lastUpdateTime);
 
 			RespondSuccess(new HidePostResponse
-			               	{
-			               		post_id = postID
-			               	});
+							{
+								post_id = postID
+							});
 		}
 
 		#endregion

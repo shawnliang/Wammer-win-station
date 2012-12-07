@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Wammer.Station.Retry;
 using Wammer.Cloud;
+using Wammer.Station.Retry;
 
 namespace Wammer.Station
 {
@@ -17,7 +16,7 @@ namespace Wammer.Station
 		private int retry = 0;
 
 		public CreatePhotoFolderCollectionTask(Dictionary<string, FolderCollection> collections, string session, string apikey)
-			:base(TaskPriority.Medium)
+			: base(TaskPriority.Medium)
 		{
 			this.collections = collections;
 			this.session = session;

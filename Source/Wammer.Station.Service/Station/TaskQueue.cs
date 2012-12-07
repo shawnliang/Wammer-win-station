@@ -1,9 +1,9 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using Wammer.PerfMonitor;
 using Wammer.Queue;
-using log4net;
 
 namespace Wammer.Station
 {
@@ -72,7 +72,7 @@ namespace Wammer.Station
 
 		private static readonly object lockObj = new object();
 
-	
+
 		public static void Init()
 		{
 			totalTaskCount = mqHighPriority.Count + mqMediumPriority.Count + mqLowPriority.Count + mqVeryLowPriority.Count;
@@ -96,7 +96,7 @@ namespace Wammer.Station
 			set
 			{
 				maxConcurrentTaskCount = value;
-				maxRunningNonHighTaskCount = maxConcurrentTaskCount/2;
+				maxRunningNonHighTaskCount = maxConcurrentTaskCount / 2;
 
 				if (maxRunningNonHighTaskCount == 0)
 					maxRunningNonHighTaskCount = 1;
@@ -238,7 +238,7 @@ namespace Wammer.Station
 			{
 				itemsInProgress.Increment();
 				dequeuedItem = Dequeue();
-				((ITask) dequeuedItem.Item.Data).Execute();
+				((ITask)dequeuedItem.Item.Data).Execute();
 			}
 			catch (Exception e)
 			{

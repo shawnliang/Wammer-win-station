@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Wammer.Model
 {
 	public class MonitorItemCollection : Collection<MonitorItem>
@@ -10,7 +6,7 @@ namespace Wammer.Model
 		private static MonitorItemCollection instance;
 
 		private MonitorItemCollection()
-			:base("monitor_items")
+			: base("monitor_items")
 		{
 
 		}

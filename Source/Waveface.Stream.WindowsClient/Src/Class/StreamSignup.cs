@@ -61,7 +61,7 @@ namespace Waveface.Stream.WindowsClient
 			var parameters = HttpUtility.ParseQueryString(url.Query);
 
 			var isNewUser = parameters["is_new_user"];
-			
+
 			Cursor.Current = Cursors.WaitCursor;
 
 			try
@@ -85,7 +85,7 @@ namespace Waveface.Stream.WindowsClient
 				{
 					if (string.Compare(accountType, "native", true) == 0)
 					{
-                        AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(email, password, StationRegistry.GetValue("stationId", string.Empty).ToString(), Environment.MachineName));
+						AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(email, password, StationRegistry.GetValue("stationId", string.Empty).ToString(), Environment.MachineName));
 						var session = LoginToStation(email, password);
 
 						return new SignUpData
@@ -99,8 +99,8 @@ namespace Waveface.Stream.WindowsClient
 					}
 					else
 					{
-                        AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken));
-                        StationAPI.Login(userID, sessionToken);
+						AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken));
+						StationAPI.Login(userID, sessionToken);
 
 						return new SignUpData
 						{
@@ -144,16 +144,16 @@ namespace Waveface.Stream.WindowsClient
 			{
 				Cursor.Current = Cursors.Default;
 			}
-			
+
 
 		}
 
-        private LoginedSession LoginToStation(string email, string password)
+		private LoginedSession LoginToStation(string email, string password)
 		{
-				return JsonConvert.DeserializeObject<LoginedSession>(StreamClient.Instance.Login(
-					email,
-					password));
+			return JsonConvert.DeserializeObject<LoginedSession>(StreamClient.Instance.Login(
+				email,
+				password));
 		}
-		
+
 	}
 }

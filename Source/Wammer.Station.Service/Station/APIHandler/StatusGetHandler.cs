@@ -1,6 +1,6 @@
-﻿using System;
+﻿using log4net;
+using System;
 using Wammer.Cloud;
-using log4net;
 
 namespace Wammer.Station
 {

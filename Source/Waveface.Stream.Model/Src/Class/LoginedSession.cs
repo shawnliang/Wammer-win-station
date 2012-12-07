@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace Waveface.Stream.Model
 {
@@ -47,14 +47,14 @@ namespace Waveface.Stream.Model
 		#endregion
 	}
 
-    [BsonIgnoreExtraElements]
+	[BsonIgnoreExtraElements]
 	public class Apikey
 	{
 		public string apikey { get; set; }
 		public string name { get; set; }
 	}
 
-    [BsonIgnoreExtraElements]
+	[BsonIgnoreExtraElements]
 	public class LoginedUserInfo
 	{
 		public string user_id { get; set; }
@@ -64,29 +64,29 @@ namespace Waveface.Stream.Model
 		public bool verified { get; set; }
 		public string nickname { get; set; }
 		public string email { get; set; }
-        [BsonIgnoreIfNull]
-        public List<SNS> sns { get; set; }
+		[BsonIgnoreIfNull]
+		public List<SNS> sns { get; set; }
 	}
 
-    [BsonIgnoreExtraElements]
-    public class SNS
-    {
-        [BsonIgnoreIfNull]
-        public bool enabled { get; set; }
-        [BsonIgnoreIfNull]
-        public string snsid { get; set; }
-        [BsonIgnoreIfNull]
-        public List<string> status { get; set; }
-        [BsonIgnoreIfNull]
-        public string type { get; set; }
-        [BsonIgnoreIfNull]
-        public string lastSync { get; set; }
-        [BsonIgnoreIfNull]
-        public string toDate { get; set; }
-    }
+	[BsonIgnoreExtraElements]
+	public class SNS
+	{
+		[BsonIgnoreIfNull]
+		public bool enabled { get; set; }
+		[BsonIgnoreIfNull]
+		public string snsid { get; set; }
+		[BsonIgnoreIfNull]
+		public List<string> status { get; set; }
+		[BsonIgnoreIfNull]
+		public string type { get; set; }
+		[BsonIgnoreIfNull]
+		public string lastSync { get; set; }
+		[BsonIgnoreIfNull]
+		public string toDate { get; set; }
+	}
 
 
-    [BsonIgnoreExtraElements]
+	[BsonIgnoreExtraElements]
 	public class Group
 	{
 		public string group_id { get; set; }
@@ -96,7 +96,7 @@ namespace Waveface.Stream.Model
 		public string name { get; set; }
 	}
 
-    [BsonIgnoreExtraElements]
+	[BsonIgnoreExtraElements]
 	public class Station
 	{
 		public string status { get; set; }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Station.AttachmentUpload;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
 using Wammer.Model;
-using Wammer.Cloud;
 using Wammer.Station;
+using Wammer.Station.AttachmentUpload;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -43,7 +39,7 @@ namespace UT_WammerStation.AttachmentUpload
 			user = new Driver
 			{
 				user_id = "user1",
-				groups = new List<Wammer.Cloud.UserGroup>{ new Wammer.Cloud.UserGroup{ group_id = "group1"} },
+				groups = new List<Wammer.Cloud.UserGroup> { new Wammer.Cloud.UserGroup { group_id = "group1" } },
 				folder = "",
 				isPrimaryStation = true
 			};

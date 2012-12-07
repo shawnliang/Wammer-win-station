@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Wammer.Station.AttachmentUpload;
 
 namespace Wammer.Station.Retry
 {
@@ -21,7 +20,7 @@ namespace Wammer.Station.Retry
 			{
 				retryTasks.Add(item.NextRunTime, item.Task);
 
-				if (itemLoadedCallback!=null)
+				if (itemLoadedCallback != null)
 					itemLoadedCallback(item);
 			}
 		}

@@ -36,7 +36,7 @@ namespace Wammer.Station
 			var api = new AttachmentApi(driver);
 
 			api.AttachmentSetLoc(
-				(int) AttachmentApi.Location.Dropbox,
+				(int)AttachmentApi.Location.Dropbox,
 				attachment.object_id,
 				Path.Combine(driver.folder, Path.GetFileName(SavedFilePath))
 				);

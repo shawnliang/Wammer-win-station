@@ -1,10 +1,9 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using MongoDB.Driver.Builders;
 using Wammer.Model;
-using Wammer.PerfMonitor;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -43,7 +42,7 @@ namespace Wammer.Station.AttachmentUpload
 
 				foreach (var t in highQueue)
 				{
-					OnTaskEnqueued(t.Task);	
+					OnTaskEnqueued(t.Task);
 				}
 				foreach (var t in mediumQueue)
 				{
@@ -149,7 +148,7 @@ namespace Wammer.Station.AttachmentUpload
 			QueuedTaskCollection.Instance.Save(
 				new QueuedTask
 					{
-						id = (Guid) task.Key,
+						id = (Guid)task.Key,
 						Data = task.Task,
 						queue = qname,
 					});
@@ -157,7 +156,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void Remove(DequeuedTask<ITask> task)
 		{
-			QueuedTaskCollection.Instance.Remove(Query.EQ("_id", (Guid) task.Key));
+			QueuedTaskCollection.Instance.Remove(Query.EQ("_id", (Guid)task.Key));
 		}
 
 		public Queue<DequeuedTask<ITask>> Load(string qname)
@@ -165,7 +164,7 @@ namespace Wammer.Station.AttachmentUpload
 			var queue = new Queue<DequeuedTask<ITask>>();
 			foreach (QueuedTask item in QueuedTaskCollection.Instance.Find(Query.EQ("queue", qname)))
 			{
-				queue.Enqueue(new DequeuedTask<ITask>((ITask) item.Data, item.id));
+				queue.Enqueue(new DequeuedTask<ITask>((ITask)item.Data, item.id));
 			}
 
 			return queue;

@@ -23,8 +23,8 @@ namespace Wammer.Station
 						api_ret_message = "success",
 						timestamp = DateTime.UtcNow,
 						path = Path.IsPathRooted(resourceBasePath)
-						       	? resourceBasePath
-						       	: Path.GetFullPath(resourceBasePath)
+								? resourceBasePath
+								: Path.GetFullPath(resourceBasePath)
 					});
 		}
 

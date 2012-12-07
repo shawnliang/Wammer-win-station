@@ -1,17 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WebSocketSharp.Server;
-using System.Windows.Forms;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using Newtonsoft.Json.Linq;
 using System.Reflection;
 
 namespace Waveface.Stream.ClientFramework
 {
-    [Obfuscation]
+	[Obfuscation]
 	public class InvokeRestfulCommand : WebSocketCommandBase
 	{
 		#region Public Property
@@ -27,14 +23,14 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Public Method
-        /// <summary>
-        /// Executes the specified parameters.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
+		/// <summary>
+		/// Executes the specified parameters.
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
-            var parameters = data.Parameters;
+			var parameters = data.Parameters;
 
 			const string RESTFUL_API_KEY = "restful_api";
 			var restfulAPI = parameters[RESTFUL_API_KEY];
@@ -46,7 +42,7 @@ namespace Waveface.Stream.ClientFramework
 				restfulParameters.Add(parameter.Key, parameter.Value.ToString());
 			}
 
-            var restfulResponse = StationAPI.Post(restfulUrl, restfulParameters);
+			var restfulResponse = StationAPI.Post(restfulUrl, restfulParameters);
 			Trace.WriteLine(string.Format("Received restful response: {0}", restfulResponse));
 			var jObject = JObject.Parse(restfulResponse);
 
@@ -56,12 +52,12 @@ namespace Waveface.Stream.ClientFramework
 			};
 
 
-			foreach(var property in jObject.Properties())
+			foreach (var property in jObject.Properties())
 			{
 				responseParameters.Add(property.Name, property.Value);
 			}
 
-            return responseParameters;
+			return responseParameters;
 		}
 		#endregion
 	}

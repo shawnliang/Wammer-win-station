@@ -1,14 +1,10 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
-using Wammer.Cloud;
-using System.Net;
-using Moq;
-using Wammer.Station;
 
 namespace UT_WammerStation.pullTimeLine
 {
@@ -38,10 +34,10 @@ namespace UT_WammerStation.pullTimeLine
 
 			syncer.PullForward(new Driver
 				{
-								 user_id = "user",
-								  sync_range = null,
-								  session_token = "token",
-								  groups = this.groups
+					user_id = "user",
+					sync_range = null,
+					session_token = "token",
+					groups = this.groups
 				});
 		}
 
@@ -68,28 +64,30 @@ namespace UT_WammerStation.pullTimeLine
 			Driver user = new Driver
 			{
 				user_id = "user",
-				sync_range = new SyncRange() { next_seq_num = 5, chlog_min_seq=1, chlog_max_seq=4 },
+				sync_range = new SyncRange() { next_seq_num = 5, chlog_min_seq = 1, chlog_max_seq = 4 },
 				session_token = "token",
 				groups = this.groups,
 				is_change_history_synced = true
 			};
 
 			Mock<IChangeLogsApi> api = new Mock<IChangeLogsApi>(MockBehavior.Strict);
-			api.Setup(x=>x.GetChangeHistory(user, user.sync_range.next_seq_num))
-				.Returns( new ChangeLogResponse {
-							group_id = user.groups[0].group_id,
-							next_seq_num = 1000,
-							post_list = new List<PostListItem> {
+			api.Setup(x => x.GetChangeHistory(user, user.sync_range.next_seq_num))
+				.Returns(new ChangeLogResponse
+				{
+					group_id = user.groups[0].group_id,
+					next_seq_num = 1000,
+					post_list = new List<PostListItem> {
 													new PostListItem{ post_id = "post1", seq_num = 999 },
 													new PostListItem{ post_id = "post2", seq_num = 997 },
 													new PostListItem{ post_id = "post3", seq_num = 998 },
 							},
-							changelog_list = new List<UserTrackDetail>{
+					changelog_list = new List<UserTrackDetail>{
 							 						new UserTrackDetail { seq_num = 997, target_id="post2"},
 													new UserTrackDetail { seq_num = 998, target_id="post3"},
 													new UserTrackDetail { seq_num = 999, target_id="post1"},
 							},
-							remaining_count = 0})
+					remaining_count = 0
+				})
 				.Verifiable();
 
 
@@ -117,7 +115,7 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 1000 && s.chlog_min_seq == 1 && s.chlog_max_seq == 999))).Verifiable();
 
 			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);
-			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);	
+			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
 			syncer.PullForward(user);
 
 			db.VerifyAll();
@@ -230,8 +228,8 @@ namespace UT_WammerStation.pullTimeLine
 			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3" && p.seq_num == 15))).Verifiable();
 			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21 && s.chlog_min_seq == int.MaxValue && s.chlog_max_seq == int.MaxValue))).Verifiable();
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
-			
-			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);	
+
+			TimelineSyncer syncer = new TimelineSyncer(postInfo.Object, db.Object, api.Object);
 			syncer.PullForward(user);
 		}
 
@@ -292,7 +290,7 @@ namespace UT_WammerStation.pullTimeLine
 			TimelineSyncer syncer = new TimelineSyncer(postInfo, db, api.Object);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
 
-			
+
 
 			Driver user = new Driver
 			{
@@ -377,7 +375,7 @@ namespace UT_WammerStation.pullTimeLine
 		}
 	}
 
-	class FakeUserTracksApi: IChangeLogsApi
+	class FakeUserTracksApi : IChangeLogsApi
 	{
 		public ChangeLogResponse GetChangeHistory(Wammer.Model.Driver user, int since)
 		{
@@ -392,7 +390,7 @@ namespace UT_WammerStation.pullTimeLine
 								new PostListItem { post_id = "post2"},
 								new PostListItem { post_id = "post3"}
 				},
-				next_seq_num = 1000                                                                                                                                              
+				next_seq_num = 1000
 			};
 		}
 	}

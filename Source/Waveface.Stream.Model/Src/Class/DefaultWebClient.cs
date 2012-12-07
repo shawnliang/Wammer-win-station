@@ -191,8 +191,8 @@ namespace Waveface.Stream.Model
 		/// <param name="progressChangedCallBack">The progress changed call back.</param>
 		public void DownloadFile(string address, string fileName, Boolean acceptResumeDownload, Action<object, ProgressChangedEventArgs>
 																progressChangedCallBack)
-		{			
-			if(acceptResumeDownload == false)
+		{
+			if (acceptResumeDownload == false)
 			{
 				DownloadFile(address, fileName);
 				return;
@@ -203,15 +203,15 @@ namespace Waveface.Stream.Model
 			using (var fileStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
 			{
 				var offset = fileStream.Length;
-				
-                //if (offset > 0)
-                //    logger.Info("Detect existed file, resume download \"" + fileName + "\"");
+
+				//if (offset > 0)
+				//    logger.Info("Detect existed file, resume download \"" + fileName + "\"");
 
 				if (offset > CHECK_BYTE_COUNT)
 					offset -= CHECK_BYTE_COUNT;
 
-				AddRange((int)offset);				
-								
+				AddRange((int)offset);
+
 				using (var from = OpenRead(address))
 				{
 					if (offset > 0)
@@ -247,8 +247,8 @@ namespace Waveface.Stream.Model
 
 		static DefaultWebClient()
 		{
-			DefaultTimeout = 20*1000;
-			DefaultReadWriteTimeout = 10*1000;
+			DefaultTimeout = 20 * 1000;
+			DefaultReadWriteTimeout = 10 * 1000;
 		}
 
 		public int Timeout

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Cloud;
 using Wammer.Model;
-
 using Wammer.Station.APIHandler;
-using Moq;
 
 namespace UT_WammerStation_TestUserTrackApiHandler
 {
@@ -191,7 +188,7 @@ namespace UT_WammerStation_TestUserTrackApiHandler
 					{
 						chlog_min_seq = 50,
 						chlog_max_seq = 100
-					}, 
+					},
 					session_token = "123"
 				});
 

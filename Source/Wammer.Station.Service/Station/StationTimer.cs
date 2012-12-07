@@ -1,9 +1,9 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-using log4net;
-using Wammer.Station.Timeline;
 using Wammer.Station.Doc;
+using Wammer.Station.Timeline;
 
 namespace Wammer.Station
 {
@@ -17,12 +17,12 @@ namespace Wammer.Station
 	internal class StationTimer
 	{
 #if DEBUG
-		private const long STATUS_CHECK_PERIOD = 30*1000; // run heartbeat frequently in debug mode
+		private const long STATUS_CHECK_PERIOD = 30 * 1000; // run heartbeat frequently in debug mode
 #else
 		private const long STATUS_CHECK_PERIOD = 60 * 1000; // TODO: remove hardcode
 #endif
 
-		private const long RESOURCE_SYNC_PEROID = 10*1000;
+		private const long RESOURCE_SYNC_PEROID = 10 * 1000;
 
 		private readonly List<IStationTimer> timers;
 
@@ -105,7 +105,7 @@ namespace Wammer.Station
 			}
 			catch (Exception e)
 			{
-				LogManager.GetLogger(typeof (NonReentrantTimer)).Warn(e);
+				LogManager.GetLogger(typeof(NonReentrantTimer)).Warn(e);
 			}
 			finally
 			{

@@ -1,9 +1,9 @@
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using log4net;
 
 public static class ObjectExtension
 {
@@ -63,11 +63,11 @@ public static class ObjectExtension
 			if (!p.CanWrite)
 				continue;
 			DefaultValueAttribute defaultValue =
-				(p.GetCustomAttributes(typeof (DefaultValueAttribute), false) as DefaultValueAttribute[]).FirstOrDefault();
+				(p.GetCustomAttributes(typeof(DefaultValueAttribute), false) as DefaultValueAttribute[]).FirstOrDefault();
 			p.SetValue(obj,
-			           (defaultValue == null)
-			           	? (p.PropertyType.IsValueType ? Activator.CreateInstance(p.PropertyType) : null)
-			           	: defaultValue.Value, null);
+					   (defaultValue == null)
+						? (p.PropertyType.IsValueType ? Activator.CreateInstance(p.PropertyType) : null)
+						: defaultValue.Value, null);
 		}
 	}
 
