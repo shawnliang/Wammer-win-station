@@ -132,6 +132,7 @@ namespace Waveface.Stream.WindowsClient
 			var contents = from file in (new DirectoryInfo(folder)).EnumerateFiles()
 						   let extension = Path.GetExtension(file)
 						   where extension.Equals(".jpg", StringComparison.CurrentCultureIgnoreCase) ||
+						   extension.Equals(".jpeg", StringComparison.CurrentCultureIgnoreCase) ||
 						   extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase) ||
 						   extension.Equals(".bmp", StringComparison.CurrentCultureIgnoreCase)
 						   select (new Content(file, ContentType.Photo) as IContent);
