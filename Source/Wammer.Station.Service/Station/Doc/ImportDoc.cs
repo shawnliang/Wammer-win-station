@@ -87,7 +87,7 @@ namespace Wammer.Station.Doc
 					{
 						file_name = Path.GetFileName(file_path),
 						preview_files = previewPaths.ToList(),
-						access_time = new List<DateTime> { DateTime.Now },
+						access_time = new List<DateTime> { accessTime },
 						modify_time = File.GetLastWriteTime(file_path),
 					}
 				};
