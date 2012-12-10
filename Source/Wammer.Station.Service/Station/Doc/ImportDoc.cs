@@ -18,7 +18,9 @@ namespace Wammer.Station.Doc
 	{
 		public static void Process(Driver user, string object_id, string file_path, DateTime accessTime)
 		{
-			var previewFolder = Path.Combine("cache", object_id);
+			var userCache = Path.Combine("cache", user.user_id);
+			var previewFolder = Path.Combine(userCache, object_id);
+
 			string full_saved_file_name = "";
 
 			try
@@ -32,8 +34,12 @@ namespace Wammer.Station.Doc
 				if (!Directory.Exists("cache"))
 					Directory.CreateDirectory("cache");
 
+				if (!Directory.Exists(userCache))
+					Directory.CreateDirectory(userCache);
+
 				if (!Directory.Exists(previewFolder))
 					Directory.CreateDirectory(previewFolder);
+
 				var fullPreviewFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), previewFolder);
 
 				// generate previews
