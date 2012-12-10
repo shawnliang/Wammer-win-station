@@ -7168,18 +7168,19 @@ table.fc-border-separate {
   width: 240px;
   height: 240px;
   padding: 1px; }
-  /* line 6, partials/_attachment.scss */
-  .attachment .frame {
-    width: 100%;
-    height: 100%;
-    background-color: #eee;
-    overflow: hidden; }
-  /* line 14, partials/_attachment.scss */
-  .attachment.potrait img {
+
+/* line 8, partials/_attachment.scss */
+.frame {
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  overflow: hidden; }
+  /* line 16, partials/_attachment.scss */
+  .frame.potrait img {
     width: 100%;
     max-height: none; }
-  /* line 20, partials/_attachment.scss */
-  .attachment.landscape img {
+  /* line 22, partials/_attachment.scss */
+  .frame.landscape img {
     height: 100%;
     max-width: none; }
 
@@ -7354,19 +7355,24 @@ table.fc-border-separate {
 /* line 1, _photos.scss */
 #photos {
   min-height: 100%;
-  padding: 0 0px 50px;
   overflow: hidden;
   *zoom: 1;
   position: relative; }
-  /* line 10, _photos.scss */
-  #photos .attachment {
-    float: left;
-    width: 12.5%; }
-  /* line 14, _photos.scss */
+  /* line 9, _photos.scss */
   #photos .photo-grid {
     margin: 20px;
     padding: 20px; }
-  /* line 20, _photos.scss */
+  /* line 17, _photos.scss */
+  #photos .attachment {
+    float: left;
+    width: 12.5%;
+    padding: 10px; }
+  /* line 23, _photos.scss */
+  #photos .frame {
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15); }
+  /* line 28, _photos.scss */
   #photos .photos {
     *zoom: 1;
     margin: 0 -1px 20px; }
@@ -7375,9 +7381,78 @@ table.fc-border-separate {
       content: "";
       display: table;
       clear: both; }
-  /* line 25, _photos.scss */
+  /* line 33, _photos.scss */
   #photos .more {
     margin: 10px 0 0; }
+
+/* line 42, _photos.scss */
+.photos-grid .col, .photo-grid-l-l-l .col, .photo-grid-l-p-p .col, .photo-grid-p-l-p .col, .photo-grid-p-p-l .col, .photo-grid-6s .col {
+  height: 100%;
+  float: left;
+  padding: 10px; }
+/* line 47, _photos.scss */
+.photos-grid .frame, .photo-grid-l-l-l .frame, .photo-grid-l-p-p .frame, .photo-grid-p-l-p .frame, .photo-grid-p-p-l .frame, .photo-grid-6s .frame {
+  background-color: #eee;
+  height: 100%; }
+
+/* line 53, _photos.scss */
+.photo-grid-l-l-l {
+  height: 300px; }
+  /* line 58, _photos.scss */
+  .photo-grid-l-l-l .col-1 {
+    width: 33.33%; }
+  /* line 61, _photos.scss */
+  .photo-grid-l-l-l .col-2 {
+    width: 33.33%; }
+  /* line 64, _photos.scss */
+  .photo-grid-l-l-l .col-3 {
+    width: 33.33%; }
+
+/* line 70, _photos.scss */
+.photo-grid-l-p-p {
+  height: 400px; }
+  /* line 75, _photos.scss */
+  .photo-grid-l-p-p .col-1 {
+    width: 50%; }
+  /* line 78, _photos.scss */
+  .photo-grid-l-p-p .col-2 {
+    width: 25%; }
+  /* line 81, _photos.scss */
+  .photo-grid-l-p-p .col-3 {
+    width: 25%; }
+
+/* line 87, _photos.scss */
+.photo-grid-p-l-p {
+  height: 400px; }
+  /* line 91, _photos.scss */
+  .photo-grid-p-l-p .col-1 {
+    width: 25%; }
+  /* line 94, _photos.scss */
+  .photo-grid-p-l-p .col-2 {
+    width: 50%; }
+  /* line 97, _photos.scss */
+  .photo-grid-p-l-p .col-3 {
+    width: 25%; }
+
+/* line 102, _photos.scss */
+.photo-grid-p-p-l {
+  height: 400px; }
+  /* line 106, _photos.scss */
+  .photo-grid-p-p-l .col-1 {
+    width: 25%; }
+  /* line 109, _photos.scss */
+  .photo-grid-p-p-l .col-2 {
+    width: 25%; }
+  /* line 112, _photos.scss */
+  .photo-grid-p-p-l .col-3 {
+    width: 50%; }
+
+/* line 117, _photos.scss */
+.photo-grid-6s {
+  height: 200px; }
+  /* line 121, _photos.scss */
+  .photo-grid-6s .col {
+    width: 16.666%; }
 
 /* line 1, _calendar.scss */
 #calendar {

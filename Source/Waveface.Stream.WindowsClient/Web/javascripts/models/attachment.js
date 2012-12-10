@@ -17,14 +17,19 @@
         return this.setDate();
       };
 
-      AttachmentModel.prototype.setOrientation = function() {
-        var image_height, image_meta, image_width, _ref;
+      AttachmentModel.prototype.setOrientation = function(baseRatio) {
+        var image_height, image_meta, image_width, ratio, _ref;
+        if (baseRatio == null) {
+          baseRatio = 1;
+        }
         image_meta = this.get('image_meta');
         if (!image_meta) {
           return false;
         }
         _ref = this.getImageSize(image_meta), image_height = _ref[0], image_width = _ref[1];
-        if (image_height > image_width) {
+        ratio = image_width / image_height;
+        this.set('ratio', ratio);
+        if (ratio < baseRatio) {
           return this.set('orientation', 'potrait');
         } else {
           return this.set('orientation', 'landscape');
