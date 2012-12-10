@@ -1,6 +1,6 @@
 ﻿namespace Waveface.Stream.WindowsClient
 {
-	partial class FileImportControl
+	partial class DocImportControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -36,7 +36,6 @@
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.chkBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.folderColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.photoCountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -47,9 +46,9 @@
 			this.lblWelcome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.lblWelcome.Location = new System.Drawing.Point(27, 20);
 			this.lblWelcome.Name = "lblWelcome";
-			this.lblWelcome.Size = new System.Drawing.Size(268, 18);
+			this.lblWelcome.Size = new System.Drawing.Size(304, 18);
 			this.lblWelcome.TabIndex = 4;
-			this.lblWelcome.Text = "Choose existing photo folders to import";
+			this.lblWelcome.Text = "Import your existing documents to AOStream";
 			// 
 			// addButton
 			// 
@@ -87,8 +86,7 @@
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.chkBoxColumn,
-            this.folderColumn,
-            this.photoCountColumn});
+            this.folderColumn});
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -118,12 +116,7 @@
 			this.folderColumn.HeaderText = "Location";
 			this.folderColumn.Name = "folderColumn";
 			// 
-			// photoCountColumn
-			// 
-			this.photoCountColumn.HeaderText = "Photos";
-			this.photoCountColumn.Name = "photoCountColumn";
-			// 
-			// FileImportControl
+			// DocImportControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -131,7 +124,7 @@
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
-			this.Name = "FileImportControl";
+			this.Name = "DocImportControl";
 			this.Size = new System.Drawing.Size(555, 400);
 			this.Load += new System.EventHandler(this.FileImportControl_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -148,7 +141,6 @@
 		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn chkBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn folderColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn photoCountColumn;
 
 
 

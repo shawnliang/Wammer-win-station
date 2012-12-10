@@ -1,4 +1,4 @@
-using log4net;
+﻿using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -282,14 +282,15 @@ namespace Wammer.Cloud
 			};
 
 			var parameters = new Dictionary<object, object>
-			                 	{
-			                 		{CloudServer.PARAM_METADATA, JsonConvert.SerializeObject(meta)},
-			                 		{CloudServer.PARAM_SESSION_TOKEN, session},
-			                 		{CloudServer.PARAM_API_KEY, apikey}
-			                 	};
+			{
+				{CloudServer.PARAM_METADATA, JsonConvert.SerializeObject(meta)},
+				{CloudServer.PARAM_SESSION_TOKEN, session},
+				{CloudServer.PARAM_API_KEY, apikey}
+			};
 
 			CloudServer.requestPath<CloudResponse>("attachments/update_metadata", parameters, false);
 		}
+
 	}
 
 	public class AttachmentRedirectInfo : AttachmentInfo

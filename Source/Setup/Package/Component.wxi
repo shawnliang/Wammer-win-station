@@ -90,9 +90,6 @@
         <Component Id="gsdll32.dll" Guid="*">
           <File Id="gsdll32.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\gsdll32.dll" />
         </Component>
-        <Component Id="Interop.Shell32.dll" Guid="*">
-          <File Id="Interop.Shell32.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Interop.Shell32.dll" />
-        </Component>
         
 
         <Component Id="WeifenLuo.WinFormsUI.Docking.dll" Guid="*">
@@ -171,7 +168,6 @@
         <ComponentRef Id="PowerPointApi.dll" />
         <ComponentRef Id="VBIDEApi.dll" />
         <ComponentRef Id="gsdll32.dll" />
-        <ComponentRef Id="Interop.Shell32.dll" />
       </ComponentGroup>
 
 </Include>

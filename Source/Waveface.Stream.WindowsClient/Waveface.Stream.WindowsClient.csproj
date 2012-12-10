@@ -183,6 +183,12 @@
     <Compile Include="Src\Control\CentralLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Src\Control\DocImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\DocImportControl.designer.cs">
+      <DependentUpon>DocImportControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\DebugComponent\DataGenerateComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -443,6 +449,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\DocImportControl.resx">
+      <DependentUpon>DocImportControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\DebugComponent\DataGenerateComponent.resx">
       <DependentUpon>DataGenerateComponent.cs</DependentUpon>
@@ -964,15 +973,6 @@
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Shell32">
-      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
