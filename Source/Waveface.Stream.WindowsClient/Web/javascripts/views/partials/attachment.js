@@ -33,7 +33,7 @@
       };
 
       EventView.prototype.setOrientation = function() {
-        return this.$el.addClass(this.model.get('orientation'));
+        return this.$('.frame').addClass(this.model.get('orientation'));
       };
 
       return EventView;

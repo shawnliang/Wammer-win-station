@@ -24,6 +24,8 @@
 
       WfWSocket.inSandbox = false;
 
+      WfWSocket.status = false;
+
       WfWSocket.init = function(onopen) {
         new EventBundler(['WebSocketOpen', 'GetUserInfo']);
         WfWSocket.connection = new WebSocket("ws://" + WfWSocket.URI + ":" + WfWSocket.PORT + "/");
@@ -99,7 +101,11 @@
       };
 
       WfWSocket.end = function() {
-        return Logger.log('Connector end');
+        Logger.log('Connector end');
+        return this.status = {
+          code: 0,
+          msg: "offline"
+        };
       };
 
       return WfWSocket;
