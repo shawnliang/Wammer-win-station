@@ -252,6 +252,16 @@ namespace Wammer.Station.AttachmentUpload
 
 				eventTime = eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
 			}
+			else if (uploadData.timezone.HasValue && exif != null && !string.IsNullOrEmpty(exif.DateTimeOriginal))
+			{
+				var exifTime = DateTime.ParseExact(exif.DateTimeOriginal, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+				eventTime = exifTime.AddMinutes(-uploadData.timezone.Value);
+			}
+			else if (uploadData.timezone.HasValue && exif != null && !string.IsNullOrEmpty(exif.DateTimeDigitized))
+			{
+				var exifTime = DateTime.ParseExact(exif.DateTimeDigitized, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+				eventTime = exifTime.AddMinutes(-uploadData.timezone.Value);
+			}
 			else if (uploadData.timezone.HasValue && exif != null && !string.IsNullOrEmpty(exif.DateTime))
 			{
 				var exifTime = DateTime.ParseExact(exif.DateTime, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);

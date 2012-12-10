@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -411,13 +412,41 @@ namespace Wammer.Station
 		public int timezone { get; set; }
 		public exif exif { get; set; }
 
+		private uint getRationalValue(object[] rational)
+		{
+			var value = Convert.ToUInt32(rational[0]) / Convert.ToUInt32(rational[1]);
+			return value;
+		}
+
 		[JsonIgnore]
 		public DateTime EventTime
 		{
 			get
 			{
-				return (exif != null && exif.DateTimeOriginal != null) ?
-					TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal) : file_create_time;
+				if (exif != null)
+				{
+					if (exif.gps != null && !string.IsNullOrEmpty(exif.gps.GPSDateStamp) && exif.gps.GPSTimeStamp != null)
+					{
+						var eventTime = DateTime.ParseExact(exif.gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+
+						var hour = getRationalValue(exif.gps.GPSTimeStamp[0]);
+						var min = getRationalValue(exif.gps.GPSTimeStamp[1]);
+						var sec = getRationalValue(exif.gps.GPSTimeStamp[2]);
+
+						return eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
+					}
+
+					if (exif.DateTimeOriginal != null)
+						return TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal);
+
+					if (exif.DateTimeDigitized != null)
+						return TimeHelper.ParseGeneralDateTime(exif.DateTimeDigitized);
+
+					if (exif.DateTime != null)
+						return TimeHelper.ParseGeneralDateTime(exif.DateTime);
+				}
+
+				return file_create_time;
 			}
 		}
 	}
