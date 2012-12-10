@@ -72,9 +72,21 @@ namespace Waveface.Stream.ClientFramework
 
 			var type = parameters.ContainsKey("type") ? int.Parse(parameters["type"].ToString()) : 0;
 
-			if ((type & 1) == 1)
+			if (type != 0)
 			{
-				queryParam = Query.And(queryParam, Query.In("mime_type", new BsonArray(new string[] { "image/png", "image/jpeg" })));
+				var queryTypes = new List<int>();
+
+				if ((type & 1) == 1)
+				{
+					queryTypes.Add((int)AttachmentType.image);
+				}
+
+				if ((type & 8) == 8)
+				{
+					queryTypes.Add((int)AttachmentType.doc);
+				}
+
+				queryParam = Query.And(queryParam, Query.In("type", new BsonArray(queryTypes)));
 			}
 
 			if (sinceDate != null)
