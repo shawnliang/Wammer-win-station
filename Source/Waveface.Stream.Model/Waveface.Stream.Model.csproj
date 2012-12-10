@@ -82,6 +82,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Class\Device.cs" />
+    <Compile Include="Src\Class\DocProperty.cs" />
     <Compile Include="Src\Class\Drivers.cs" />
     <Compile Include="Src\Class\ErrorMsg.cs" />
     <Compile Include="Src\Class\ExtraParameter.cs" />

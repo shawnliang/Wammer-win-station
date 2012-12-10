@@ -155,6 +155,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
 				recentDocWatcher.Start();
+
 				ShowMainWindow();
 			}
 

@@ -188,9 +188,20 @@ namespace Waveface.Stream.Model
 		public string GetFullFilePath(string filename, ImageMeta meta)
 		{
 			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
-				return Path.Combine(basePath, filename);
+				return GetResourceFilePath(filename);
 			else
-				return Path.Combine(GetStationPath(), filename);
+				return GetStationFilePath(filename);
+		}
+
+
+		public string GetResourceFilePath(string filename)
+		{
+			return Path.Combine(basePath, filename);
+		}
+
+		public string GetStationFilePath(string filename)
+		{
+			return Path.Combine(GetStationPath(), filename);
 		}
 
 
