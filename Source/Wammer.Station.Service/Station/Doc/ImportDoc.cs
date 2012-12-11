@@ -18,10 +18,8 @@ namespace Wammer.Station.Doc
 	{
 		public static void Process(Driver user, string object_id, string file_path, DateTime accessTime)
 		{
-			var userCache = Path.Combine("cache", user.user_id);
-			var previewFolder = Path.Combine(userCache, object_id);
-
 			string full_saved_file_name = "";
+			MakePreviewResult previewResult = null;
 
 			try
 			{
@@ -30,29 +28,7 @@ namespace Wammer.Station.Doc
 				var saved_file_name = storage.CopyToStorage(file_path);
 				full_saved_file_name = Path.Combine(storage.basePath, saved_file_name);
 
-				// create preview folder
-				if (!Directory.Exists("cache"))
-					Directory.CreateDirectory("cache");
-
-				if (!Directory.Exists(userCache))
-					Directory.CreateDirectory(userCache);
-
-				if (!Directory.Exists(previewFolder))
-					Directory.CreateDirectory(previewFolder);
-
-				var fullPreviewFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), previewFolder);
-
-				// generate previews
-				var ext = Path.GetExtension(file_path).ToLower();
-				IEnumerable<string> previewPaths;
-				if (ext.Equals(".ppt") || ext.Equals(".pptx"))
-					previewPaths = GeneratePowerPointPreviews(full_saved_file_name, fullPreviewFolder);
-				else if (ext.Equals(".pdf"))
-					previewPaths = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder, 1, 1);
-				else
-					throw new InvalidDataException("Unknow file type: " + file_path);
-
-				previewPaths = previewPaths.Select(x => x.Substring(x.IndexOf(previewFolder)));
+				previewResult = MakeDocPreview(object_id, full_saved_file_name, user.user_id);
 
 
 				// write to db
@@ -76,7 +52,7 @@ namespace Wammer.Station.Doc
 					doc_meta = new DocProperty
 					{
 						file_name = Path.GetFileName(file_path),
-						preview_files = previewPaths.ToList(),
+						preview_files = previewResult.files,
 						access_time = new List<DateTime> { accessTime },
 						modify_time = File.GetLastWriteTime(file_path),
 					}
@@ -84,13 +60,14 @@ namespace Wammer.Station.Doc
 				Model.AttachmentCollection.Instance.Save(db);
 
 				// upload previews to cloud
+				var ext = Path.GetExtension(file_path).ToLower();
 				if (ext.Equals(".ppt") || ext.Equals(".pptx"))
 				{
 					// pack previews to "Stream_Doc_Priviews.zip"
 					var zip = new FastZip();
 					var previewZipFile = Path.Combine("cache", object_id + ".zip");
 					zip.UseZip64 = UseZip64.Off;
-					zip.CreateZip(previewZipFile, previewFolder, false, null);
+					zip.CreateZip(previewZipFile, previewResult.previewFolder, false, null);
 
 					using (var zipStream = File.OpenRead(previewZipFile))
 					{
@@ -120,8 +97,8 @@ namespace Wammer.Station.Doc
 			}
 			catch (Exception ex)
 			{
-				if (Directory.Exists(previewFolder))
-					Directory.Delete(previewFolder, true);
+				if (Directory.Exists(previewResult.previewFolder))
+					Directory.Delete(previewResult.previewFolder, true);
 
 				if (File.Exists(full_saved_file_name))
 					File.Delete(full_saved_file_name);
@@ -138,7 +115,41 @@ namespace Wammer.Station.Doc
 			}
 		}
 
-		public static IEnumerable<string> GeneratePdfPreviews(string pdfFile, string previewFolder, int firstPageToConvert = -1, int lastPageToConvert = -1)
+		public static MakePreviewResult MakeDocPreview(string object_id, string full_saved_file_name, string user_id)
+		{
+			
+			var userCache = Path.Combine("cache", user_id);
+			var previewFolder = Path.Combine(userCache, object_id);
+
+			// create preview folder
+			if (!Directory.Exists("cache"))
+				Directory.CreateDirectory("cache");
+			
+			if (!Directory.Exists(userCache))
+				Directory.CreateDirectory(userCache);
+
+			if (!Directory.Exists(previewFolder))
+				Directory.CreateDirectory(previewFolder);
+
+			var fullPreviewFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), previewFolder);
+
+			// generate previews
+			var ext = Path.GetExtension(full_saved_file_name).ToLower();
+				
+			List<string> previewFiles;
+			if (ext.Equals(".ppt") || ext.Equals(".pptx"))
+				previewFiles = GeneratePowerPointPreviews(full_saved_file_name, fullPreviewFolder);
+			else if (ext.Equals(".pdf"))
+				previewFiles = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder, 1, 1);
+			else
+				throw new InvalidDataException("Unknow file type: " + full_saved_file_name);
+			
+			previewFiles = previewFiles.Select(x => x.Substring(x.IndexOf(previewFolder))).ToList();
+
+			return new MakePreviewResult { previewFolder = previewFolder, files = previewFiles };
+		}
+
+		public static List<string> GeneratePdfPreviews(string pdfFile, string previewFolder, int firstPageToConvert = -1, int lastPageToConvert = -1)
 		{
 			var converter = new PDFConvert();
 
@@ -153,7 +164,7 @@ namespace Wammer.Station.Doc
 			return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
 		}
 
-		public static IEnumerable<string> GeneratePowerPointPreviews(string pptFile, string previewFolder)
+		public static List<string> GeneratePowerPointPreviews(string pptFile, string previewFolder)
 		{
 			var file = pptFile;
 			var folder = previewFolder;
@@ -173,7 +184,7 @@ namespace Wammer.Station.Doc
 			return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
 		}
 
-		private static IEnumerable<string> renameToDefinedPreviewName(IEnumerable<string> previews)
+		private static List<string> renameToDefinedPreviewName(IEnumerable<string> previews)
 		{
 			List<string> rets = new List<string>();
 
@@ -191,5 +202,11 @@ namespace Wammer.Station.Doc
 
 			return rets;
 		}
+	}
+
+	public class MakePreviewResult
+	{
+		public string previewFolder { get; set; }
+		public List<string> files { get; set; }
 	}
 }
