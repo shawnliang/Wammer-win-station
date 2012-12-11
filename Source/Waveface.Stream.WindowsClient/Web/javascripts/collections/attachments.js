@@ -61,7 +61,7 @@
         }
         params = {
           page_size: pageSize,
-          type: 1024
+          type: 1
         };
         new EventBundler('GetAttachments', namespace);
         if (!!post_id) {
