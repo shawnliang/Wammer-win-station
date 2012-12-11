@@ -14,15 +14,18 @@
 
       GalleryView.prototype.initialize = function() {};
 
-      GalleryView.prototype.render = function(dataSource, e) {
+      GalleryView.prototype.render = function(dataSource, e, start) {
         var options,
           _this = this;
+        if (!(start != null)) {
+          start = $(e.currentTarget).index();
+        }
         this.history = Backbone.history.fragment;
         options = {
           dataSource: dataSource,
           debug: false,
           height: $('#main').height(),
-          show: $(e.currentTarget).index(),
+          show: start,
           extend: function(options) {
             this.addElement('close');
             this.appendChild('container', 'close');

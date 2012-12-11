@@ -60,6 +60,7 @@
           state.save();
         }
         Events.subscribe();
+        Events.subscribe("update:event", false, false, Subscriber.E_POS_UPD);
       };
 
       AppRouter.prototype.actionPhotos = function(date) {

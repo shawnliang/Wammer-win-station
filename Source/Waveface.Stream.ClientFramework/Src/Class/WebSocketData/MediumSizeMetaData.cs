@@ -1,11 +1,13 @@
 ﻿
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 namespace Waveface.Stream.ClientFramework
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MediumSizeImageMetaData
+	public class MediumSizeMetaData
 	{
 		#region Public Property
 		/// <summary>
@@ -52,6 +54,24 @@ namespace Waveface.Stream.ClientFramework
 		/// </value>
 		[JsonProperty("large", NullValueHandling = NullValueHandling.Ignore)]
 		public ThumbnailData Large { get; set; }
+
+		/// <summary>
+		/// Gets or sets the preview files.
+		/// </summary>
+		/// <value>
+		/// The preview files.
+		/// </value>
+		[JsonProperty("preview_files", NullValueHandling = NullValueHandling.Ignore)]
+		public IEnumerable<string> PreviewFiles { get; set; }
+
+		/// <summary>
+		/// Gets or sets the access times.
+		/// </summary>
+		/// <value>
+		/// The access times.
+		/// </value>
+		[JsonProperty("access_time", NullValueHandling = NullValueHandling.Ignore)]
+		public string AccessTimes { get; set; }
 		#endregion
 
 
@@ -73,6 +93,24 @@ namespace Waveface.Stream.ClientFramework
 		{
 			return Height > 0;
 		}
+
+		/// <summary>
+		/// Shoulds the serialize preview files.
+		/// </summary>
+		/// <returns></returns>
+		public bool ShouldSerializePreviewFiles()
+		{
+			return PreviewFiles != null && PreviewFiles.Any();
+		}
+
+		///// <summary>
+		///// Shoulds the serialize access times.
+		///// </summary>
+		///// <returns></returns>
+		//public bool ShouldSerializeAccessTimes()
+		//{
+		//	return AccessTimes != null && AccessTimes.Any();
+		//}
 		#endregion
 	}
 }
