@@ -28,6 +28,9 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+			if (!StreamClient.Instance.IsLogined)
+				return null;
+
 			var parameters = data.Parameters;
 
 			Trace.WriteLine(string.Format("[{0}] {1}", parameters["type"], parameters["data"]));

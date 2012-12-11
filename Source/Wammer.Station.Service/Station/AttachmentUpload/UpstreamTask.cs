@@ -61,13 +61,21 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					AttachmentApi.Upload(f, attachment.group_id, object_id, attachment.file_name,
 									  info.mime_type, meta, attachment.type, CloudServer.APIKey,
-									  user.session_token, 65535, UpstreamProgressChanged,
-									  attachment.post_id, attachment.file_path, attachment.image_meta.exif, attachment.import_time, attachment.timezone, attachment.file_create_time);
+									  user.session_token,
+									  65535,
+									  UpstreamProgressChanged,
+									  attachment.post_id,
+									  attachment.file_path,
+									  (attachment.image_meta == null) ? null : attachment.image_meta.exif,
+									  attachment.import_time,
+									  attachment.timezone,
+									  attachment.file_create_time,
+									  attachment.doc_meta);
 
 					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
 				}
 
-				if (meta == ImageMeta.Origin)
+				if (meta == ImageMeta.Origin || meta == ImageMeta.None)
 				{
 					AttachmentCollection.Instance.Update(Query.EQ("_id", object_id), Update.Set("body_on_cloud", true));
 				}

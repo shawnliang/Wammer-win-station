@@ -183,6 +183,12 @@
     <Compile Include="Src\Control\CentralLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Src\Control\DocImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\DocImportControl.designer.cs">
+      <DependentUpon>DocImportControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\DebugComponent\DataGenerateComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -443,6 +449,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\DocImportControl.resx">
+      <DependentUpon>DocImportControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\DebugComponent\DataGenerateComponent.resx">
       <DependentUpon>DataGenerateComponent.cs</DependentUpon>
@@ -927,6 +936,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\templates\photos.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\photos\grid_6S.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\photos\grid_l_l_l.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\photos\grid_l_p_p.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\photos\grid_p_l_p.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\templates\photos\grid_p_p_l.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

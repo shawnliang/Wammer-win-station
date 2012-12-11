@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -108,26 +109,6 @@ namespace Wammer.Station
 			m_IgnorePath.AddRange(unInterestedFolders.Where(x => !string.IsNullOrEmpty(x)));
 
 			timezoneDiff = (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes;
-		}
-		#endregion
-
-
-		#region Private Method
-		/// <summary>
-		/// Gets the type of the MIME.
-		/// </summary>
-		/// <param name="file">The file.</param>
-		/// <returns></returns>
-		private string GetMIMEType(string file)
-		{
-			var extension = Path.GetExtension(file);
-			using (RegistryKey registryKey = Registry.ClassesRoot.OpenSubKey(extension))
-			{
-				if (registryKey == null)
-					return null;
-				var value = registryKey.GetValue("Content Type");
-				return (value == null) ? "application/unknown" : value.ToString();
-			}
 		}
 		#endregion
 
@@ -294,7 +275,7 @@ namespace Wammer.Station
 					object_id = file.object_id,
 					raw_data = new ArraySegment<byte>(File.ReadAllBytes(file.file_path)),
 					file_name = Path.GetFileName(file.file_path),
-					mime_type = GetMIMEType(file.file_path),
+					mime_type = MimeTypeHelper.GetMIMEType(file.file_path),
 					group_id = m_GroupID,
 					api_key = m_APIKey,
 					session_token = m_SessionToken,
@@ -411,13 +392,41 @@ namespace Wammer.Station
 		public int timezone { get; set; }
 		public exif exif { get; set; }
 
+		private uint getRationalValue(object[] rational)
+		{
+			var value = Convert.ToUInt32(rational[0]) / Convert.ToUInt32(rational[1]);
+			return value;
+		}
+
 		[JsonIgnore]
 		public DateTime EventTime
 		{
 			get
 			{
-				return (exif != null && exif.DateTimeOriginal != null) ?
-					TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal) : file_create_time;
+				if (exif != null)
+				{
+					if (exif.gps != null && !string.IsNullOrEmpty(exif.gps.GPSDateStamp) && exif.gps.GPSTimeStamp != null)
+					{
+						var eventTime = DateTime.ParseExact(exif.gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+
+						var hour = getRationalValue(exif.gps.GPSTimeStamp[0]);
+						var min = getRationalValue(exif.gps.GPSTimeStamp[1]);
+						var sec = getRationalValue(exif.gps.GPSTimeStamp[2]);
+
+						return eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
+					}
+
+					if (exif.DateTimeOriginal != null)
+						return TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal);
+
+					if (exif.DateTimeDigitized != null)
+						return TimeHelper.ParseGeneralDateTime(exif.DateTimeDigitized);
+
+					if (exif.DateTime != null)
+						return TimeHelper.ParseGeneralDateTime(exif.DateTime);
+				}
+
+				return file_create_time;
 			}
 		}
 	}

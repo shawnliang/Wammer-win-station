@@ -23,6 +23,9 @@ namespace Waveface.Stream.ClientFramework
 			if (string.IsNullOrEmpty(savedFileName))
 				return null;
 
+			if (String.IsNullOrEmpty(url))
+				return null;
+
 			if (!StreamClient.Instance.IsLogined)
 				return null;
 
@@ -50,6 +53,62 @@ namespace Waveface.Stream.ClientFramework
 
 			var fileStorage = new FileStorage(user);
 			return (new Uri(fileStorage.GetFullFilePath(savedFileName, imageMetaType))).ToString();
+		}
+
+		/// <summary>
+		/// Gets the attachment file path.
+		/// </summary>
+		/// <param name="savedFileName">Name of the saved file.</param>
+		/// <returns></returns>
+		private static string GetStationFilePath(string savedFileName)
+		{
+			if (string.IsNullOrEmpty(savedFileName))
+				return null;
+
+			if (!StreamClient.Instance.IsLogined)
+				return null;
+
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", StreamClient.Instance.LoginedUser.SessionToken));
+
+			if (loginedSession == null)
+				return null;
+
+			var groupID = loginedSession.groups.FirstOrDefault().group_id;
+
+			Driver user = DriverCollection.Instance.FindDriverByGroupId(groupID);
+			if (user == null)
+				return null;
+
+			var fileStorage = new FileStorage(user);
+			return (new Uri(fileStorage.GetStationFilePath(savedFileName))).ToString();
+		}
+
+		/// <summary>
+		/// Gets the resource file path.
+		/// </summary>
+		/// <param name="savedFileName">Name of the saved file.</param>
+		/// <returns></returns>
+		private static string GetResourceFilePath(string savedFileName)
+		{
+			if (string.IsNullOrEmpty(savedFileName))
+				return null;
+
+			if (!StreamClient.Instance.IsLogined)
+				return null;
+
+			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", StreamClient.Instance.LoginedUser.SessionToken));
+
+			if (loginedSession == null)
+				return null;
+
+			var groupID = loginedSession.groups.FirstOrDefault().group_id;
+
+			Driver user = DriverCollection.Instance.FindDriverByGroupId(groupID);
+			if (user == null)
+				return null;
+
+			var fileStorage = new FileStorage(user);
+			return (new Uri(fileStorage.GetResourceFilePath(savedFileName))).ToString();
 		}
 		#endregion
 
@@ -86,19 +145,30 @@ namespace Waveface.Stream.ClientFramework
 				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.object_id))
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time.HasValue ? src.event_time.Value.ToUTCISO8601ShortString() : null))
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)))
-				.ForMember(dest => dest.ImageMeta, opt => opt.MapFrom(src => src.image_meta));
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.saved_file_name) : GetAttachmentFilePath(src.url, src.saved_file_name)))
+				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? (object)src.doc_meta : (object)src.image_meta));
 
 			Mapper.CreateMap<Attachment, LargeSizeAttachmentData>()
 				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.object_id))
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time.HasValue ? src.event_time.Value.ToUTCISO8601ShortString() : null))
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)))
-				.ForMember(dest => dest.ImageMeta, opt => opt.MapFrom(src => src.image_meta));
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.saved_file_name) : GetAttachmentFilePath(src.url, src.saved_file_name)))
+				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? (object)src.doc_meta : (object)src.image_meta));
 
-			Mapper.CreateMap<ImageProperty, MediumSizeImageMetaData>();
 
-			Mapper.CreateMap<ImageProperty, LargeSizeImageMetaData>();
+			Mapper.CreateMap<ImageProperty, MediumSizeMetaData>();
+
+			Mapper.CreateMap<ImageProperty, LargeSizeMetaData>();
+
+			Mapper.CreateMap<DocProperty, MediumSizeMetaData>()
+				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
+				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => src.preview_files.Select(file => GetStationFilePath(file))));
+
+
+			Mapper.CreateMap<DocProperty, LargeSizeMetaData>()
+				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
+				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => src.preview_files.Select(file => GetStationFilePath(file))));
+
 
 			Mapper.CreateMap<ThumbnailInfo, ThumbnailData>()
 				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
