@@ -159,6 +159,9 @@ namespace Wammer.Cloud
 		[BsonIgnoreIfNull]
 		public DateTime event_time { get; set; }
 
+		[BsonIgnoreIfNull]
+		public DocProperty doc_meta { get; set; }
+
 		#region Nested type: ImageMeta
 		[Serializable]
 		[BsonIgnoreExtraElements]

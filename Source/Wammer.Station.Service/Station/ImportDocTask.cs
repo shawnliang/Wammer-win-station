@@ -31,7 +31,7 @@ namespace Wammer.Station
 			{
 				if (Directory.Exists(path))
 				{
-					new DirectoryInfo(path).SearchFiles(new string[] { "*.ppt", "*.pptx", "*.pdf" },
+					new DirectoryInfo(path).SearchFiles(new string[] { "*.ppt", "*.pdf" },
 						(file) =>
 						{
 							var id = new ObjectIdAndPath
