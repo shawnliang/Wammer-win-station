@@ -33,16 +33,16 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
-			var parameters = data.Parameters;
-
-			var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
-			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
-
-			if (loginedSession == null)
+			if (!StreamClient.Instance.IsLogined)
 				return null;
 
-			var userID = loginedSession.user.user_id;
-			var groupID = loginedSession.groups.FirstOrDefault().group_id;
+			var parameters = data.Parameters;
+
+			var loginedUser =  StreamClient.Instance.LoginedUser;
+			var sessionToken = loginedUser.SessionToken;
+
+			var userID = loginedUser.UserID;
+			var groupID = loginedUser.GroupID;
 
 			var sinceDate = parameters.ContainsKey("since_date") ? DateTime.Parse(parameters["since_date"].ToString()) : default(DateTime?);
 			var untilDate = parameters.ContainsKey("until_date") ? DateTime.Parse(parameters["until_date"].ToString()) : default(DateTime?);
@@ -61,6 +61,16 @@ namespace Waveface.Stream.ClientFramework
 									from attachmentID in post.attachment_id_array
 									select attachmentID;
 				queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(attachmentIDs)));
+			}
+
+			if (parameters.ContainsKey("collection_id_array"))
+			{
+				var collectionIDs = from collectionID in (parameters["collection_id_array"] as JArray).Values()
+									let collection = CollectionCollection.Instance.FindOne(Query.EQ("_id", collectionID.ToString()))
+									where collection != null
+									from attachmentID in collection.attachment_id_array
+									select attachmentID;
+				queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(collectionIDs)));
 			}
 
 			if (parameters.ContainsKey("attachment_id_array"))
