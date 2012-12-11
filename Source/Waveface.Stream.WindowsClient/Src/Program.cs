@@ -158,10 +158,10 @@ namespace Waveface.Stream.WindowsClient
 
 				var parameters = new Dictionary<string, object>() 
 				{
-					{"type", 8}
+					{"attachment_id", "4d4a114e-13e2-420e-af7e-8e883ac15808"}
 				};
 
-				(new GetAttachmentsCommand()).Execute(parameters);
+				(new OpenAttachmentCommand()).Execute(parameters);
 
 				ShowMainWindow();
 			}
