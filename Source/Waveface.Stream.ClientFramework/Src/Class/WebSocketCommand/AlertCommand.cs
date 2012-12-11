@@ -27,6 +27,9 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="parameters">The parameters.</param>
 		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+			if (!StreamClient.Instance.IsLogined)
+				return null;
+
 			var parameters = data.Parameters;
 
 			SynchronizationContextHelper.SendMainSyncContext(() =>
