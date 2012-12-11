@@ -101,9 +101,12 @@ namespace Waveface.Stream.ClientFramework
 
 						var coverAttachmentID = collectionData.CoverAttachmentID;
 						var coverAttachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", coverAttachmentID));
-						var coverAttachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(coverAttachment);
 
-						summaryAttachmentDatas.Add(coverAttachmentData);
+						if (coverAttachment != null)
+						{
+							var coverAttachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(coverAttachment);
+							summaryAttachmentDatas.Add(coverAttachmentData);
+						}
 
 						foreach (var attachmentID in attachmentIDs)
 						{
@@ -114,6 +117,10 @@ namespace Waveface.Stream.ClientFramework
 								continue;
 
 							var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
+
+							if (attachment == null)
+								continue;
+
 							var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
 							summaryAttachmentDatas.Add(attachmentData);
 						}
