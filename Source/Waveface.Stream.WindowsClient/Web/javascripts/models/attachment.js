@@ -13,6 +13,7 @@
       }
 
       AttachmentModel.prototype.initialize = function() {
+        this.set("image_meta", this.get("meta_data"));
         this.setOrientation();
         return this.setDate();
       };
@@ -22,7 +23,7 @@
         if (baseRatio == null) {
           baseRatio = 1;
         }
-        image_meta = this.get('image_meta');
+        image_meta = this.get("image_meta");
         if (!image_meta) {
           return false;
         }

@@ -16,13 +16,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
-			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
-
-			if (loginedSession == null)
-				return;
-
-			var userID = loginedSession.user.user_id;
+			var userID = StreamClient.Instance.LoginedUser.UserID;
 
 			var posts = PostCollection.Instance.Find(Query.And(Query.EQ("creator_id", userID), Query.EQ("hidden", "false"), Query.EQ("code_name", "StreamEvent")));
 
@@ -48,13 +42,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
-			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
-
-			if (loginedSession == null)
-				return;
-
-			var userID = loginedSession.user.user_id;
+			var userID = StreamClient.Instance.LoginedUser.UserID;
 
 			var posts = PostCollection.Instance.Find(Query.And(Query.EQ("creator_id", userID), Query.EQ("hidden", "false"), Query.EQ("code_name", "StreamEvent")))
 						.SetLimit(1)
@@ -75,14 +63,8 @@ namespace Waveface.Stream.WindowsClient
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
-			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
-
-			if (loginedSession == null)
-				return;
-
-			var userID = loginedSession.user.user_id;
-			var groupID = loginedSession.groups.First().group_id;
+			var userID = StreamClient.Instance.LoginedUser.UserID;
+			var groupID = StreamClient.Instance.LoginedUser.GroupID;
 
 			var attachments = AttachmentCollection.Instance.Find(Query.EQ("group_id", groupID));
 
@@ -97,6 +79,49 @@ namespace Waveface.Stream.WindowsClient
 			attachment.event_time = DateTime.Now;
 
 			AttachmentCollection.Instance.Save(attachment);
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			var userID = StreamClient.Instance.LoginedUser.UserID;
+
+			var collections = CollectionCollection.Instance.Find(Query.And(Query.EQ("creator_id", userID), Query.EQ("hidden", false)));
+
+			var collectionCount = collections.Count();
+			if (collectionCount == 0)
+				return;
+
+			Random r = new Random(Guid.NewGuid().GetHashCode());
+			var collection = collections.ElementAt(r.Next((int)(collectionCount - 1)));
+
+			collection.collection_id = Guid.NewGuid().ToString();
+			collection.create_time = DateTime.Now.ToUTCISO8601ShortString();
+			collection.modify_time = collection.create_time;
+
+			collection.name = string.Format("Generate random collection at {0}", collection.create_time);
+
+			CollectionCollection.Instance.Save(collection);
+		}
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			var userID = StreamClient.Instance.LoginedUser.UserID;
+
+			var collections = CollectionCollection.Instance.Find(Query.And(Query.EQ("creator_id", userID), Query.EQ("hidden", false)))
+						.SetLimit(1)
+						.SetSortOrder(SortBy.Descending("create_time"));
+
+			var collection = collections.FirstOrDefault();
+
+			if (collection == null)
+				return;
+
+			var r = new Random(Guid.NewGuid().GetHashCode());
+			var attachments = AttachmentCollection.Instance.FindAll();
+			var attachmentID = AttachmentCollection.Instance.FindAll().SetSkip(r.Next((int)(attachments.Count()) - 1)).SetLimit(1).FirstOrDefault().object_id;
+			collection.attachment_id_array.Add(attachmentID);
+
+			CollectionCollection.Instance.Save(collection);
 		}
 	}
 }
