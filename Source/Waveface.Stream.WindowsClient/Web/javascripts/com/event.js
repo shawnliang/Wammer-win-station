@@ -87,6 +87,10 @@
 
       WebSocketOpen.prototype.callback = function(data) {
         Logger.log("" + (new Date()) + " Web Socket Connection is open in " + (data.getUri()) + " from " + (data.getName()));
+        wfwsocket.status = {
+          code: 1,
+          msg: "online"
+        };
         return wfwsocket.sendMessage("getUserInfo");
       };
 
@@ -193,6 +197,23 @@
       };
 
       return GetAttachments;
+
+    })(Bundler);
+    self.GetCollections = (function(_super) {
+
+      __extends(GetCollections, _super);
+
+      function GetCollections() {
+        return GetCollections.__super__.constructor.apply(this, arguments);
+      }
+
+      GetCollections.prototype.eventName = 'getCollections';
+
+      GetCollections.prototype.callback = function(data) {
+        return true;
+      };
+
+      return GetCollections;
 
     })(Bundler);
     self.SubscribeEvent = (function(_super) {

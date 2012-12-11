@@ -1,0 +1,15 @@
+<div
+	class="photo-grid-6s"
+	data-height="1"
+	data-frame_count="6"
+	data-frame_ratios="1 1 1 1 1 1"
+>
+	{{#photos}}
+	<div class="col col-1">
+		<div class="frame {{orientation}}"	>
+			<img src="{{image_meta.small.url}}">
+		</div>
+	</div>
+	{{/photos}}
+
+</div>

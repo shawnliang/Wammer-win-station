@@ -27,6 +27,9 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
+			if (!StreamClient.Instance.IsLogined)
+				return null;
+
 			var parameters = data.Parameters;
 
 			var eventID = parameters.ContainsKey("event_id") ? int.Parse(parameters["event_id"].ToString()) : 0;

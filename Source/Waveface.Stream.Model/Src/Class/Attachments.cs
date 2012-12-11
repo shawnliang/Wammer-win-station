@@ -407,6 +407,21 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public DateTime? event_time { get; set; }
 
+		[BsonIgnoreIfNull]
+		public int? timezone { get; set; }
+
+		public DateTime file_modify_time { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string device_id { get; set; }
+
+		[BsonIgnoreIfNull]
+		public DocProperty doc_meta { get; set; }
+
+		/// <summary>
+		/// is the attachment is imported from this station?
+		/// </summary>
+		public bool fromLocal { get; set; }
 
 		[BsonIgnore]
 		[XmlIgnore]

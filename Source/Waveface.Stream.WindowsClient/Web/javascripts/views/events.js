@@ -3,8 +3,9 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(['underscore', 'views/layouts/day_view', 'mustache', 'mousetrap', 'views/event_sum', 'views/event_detail', 'collections/events', 'models/event', 'text!templates/events.html', 'localstorage', 'com/subscriber'], function(_, DayView, M, Mousetrap, EventSumView, EventDetailView, Events, EventModel, Template, Storage, Subscriber) {
-    var EventsView, POST_ADDED;
+    var EventsView, POST_ADDED, POST_UPDATE;
     POST_ADDED = Subscriber.POST_ADDED;
+    POST_UPDATE = Subscriber.POST_UPDATE;
     EventsView = (function(_super) {
 
       __extends(EventsView, _super);
@@ -18,7 +19,8 @@
       EventsView.prototype.eventView = [];
 
       EventsView.prototype.initialize = function() {
-        return dispatch.on("subscribe:change:" + POST_ADDED + ":new:event", this.updateEventMenu, this);
+        dispatch.on("subscribe:change:" + POST_ADDED + ":new:event", this.updateEventMenu, this);
+        return dispatch.on("subscribe:change:" + POST_UPDATE + ":update:event", this.checkEventUpdate, this);
       };
 
       EventsView.prototype.render = function(date, id) {
@@ -131,6 +133,20 @@
         return Router.navigate("events/" + this.date + "/" + this.currentEvent.id);
       };
 
+      EventsView.prototype.checkEventUpdate = function(data) {
+        var respEvents,
+          _this = this;
+        if (!this.currentEvent) {
+          return false;
+        }
+        respEvents = data.posts;
+        return _.each(respEvents, function(event) {
+          if (_this.currentEvent.id === event.id) {
+            return _this.renderCurrentEvent();
+          }
+        });
+      };
+
       EventsView.prototype.nextEvent = function() {
         var nextModel;
         nextModel = this.collection.nextEvent(this.currentEvent.id);
@@ -162,7 +178,10 @@
           eventDays = this.collection.map(function(model) {
             return {
               start: model.get('dateUri'),
-              title: 'Events'
+              title: 'Events',
+              allDay: true,
+              backgroundColor: '#C85E52',
+              borderColor: '#C85E52'
             };
           });
           eventDays = _.uniq(eventDays, false, function(day) {
@@ -173,6 +192,7 @@
             year: this.currentYear,
             month: this.currentMonth,
             header: false,
+            height: $('#main').height() - 100,
             eventClick: function(EventObj) {
               return Router.navigate('events/' + moment(EventObj.start).format('YYYY-MM-DD'), {
                 trigger: true

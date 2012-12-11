@@ -31,7 +31,17 @@
       };
 
       EventModel.prototype.setCover = function() {
-        return this.set('cover', _(this.get('summary_attachments')).first());
+        var cover, summary_attachments;
+        summary_attachments = this.get("summary_attachments");
+        if (!(summary_attachments != null)) {
+          return false;
+        }
+        cover = _(summary_attachments).first();
+        if (!(cover != null)) {
+          return false;
+        }
+        cover.image_meta = cover.meta_data;
+        return this.set('cover', cover);
       };
 
       EventModel.prototype.setSwitch = function() {

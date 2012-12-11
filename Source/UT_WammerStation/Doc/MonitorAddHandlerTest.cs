@@ -56,7 +56,7 @@ namespace UT_WammerStation.Doc
 			db.Setup(x => x.FindMonitorItem(monitorItem.id)).Returns(monitorItem).Verifiable();
 
 			Mock<IMonitorAddHandlerUtility> util = new Mock<IMonitorAddHandlerUtility>();
-			util.Setup(x => x.UpdateDocOpenTimeAsync("session", "apikey", docAtt.object_id, It.IsAny<DateTime>())).Verifiable();
+			util.Setup(x => x.UpdateDocOpenTimeAsync("user1", docAtt.object_id, It.IsAny<DateTime>())).Verifiable();
 
 			var imp = new MonitorAddHandlerImp(db.Object, util.Object);
 			imp.Process("apikey", "session", "user1", file);

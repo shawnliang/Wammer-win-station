@@ -206,6 +206,7 @@ namespace Wammer.Station.Service
 			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/auth/"));
 			//cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/users/"));
 			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/groups/"));
+
 			cloudForwarder.AddExceptPrefix(GetDefaultBathPath("/stations/"));
 		}
 

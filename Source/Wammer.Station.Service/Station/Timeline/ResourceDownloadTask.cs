@@ -69,6 +69,9 @@ namespace Wammer.Station.Timeline
 
 				if (args.imagemeta == ImageMeta.Origin)
 					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(args.attachment.object_id, driver.session_token), TaskPriority.Low, true);
+
+				if (args.attachment.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
+					TaskQueue.Enqueue(new MakeDocPreviewsTask(args.attachment.object_id), TaskPriority.Medium);
 			}
 			catch (Exception ex)
 			{
@@ -141,9 +144,18 @@ namespace Wammer.Station.Timeline
 								.Set("modify_time", DateTime.UtcNow)
 								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
 								.Set("group_id", attachmentAttributes.group_id)
-								.Set("saved_file_name", saveFileName)
-								.Set("image_meta.width", attachmentAttributes.image_meta.width)
-								.Set("image_meta.height", attachmentAttributes.image_meta.height);
+								.Set("saved_file_name", saveFileName);
+
+				if (attachmentAttributes.image_meta != null)
+				{
+					update.Set("image_meta.width", attachmentAttributes.image_meta.width)
+						.Set("image_meta.height", attachmentAttributes.image_meta.height);
+				}
+
+				if (attachmentAttributes.doc_meta != null)
+				{
+					update.Set("doc_meta", attachmentAttributes.doc_meta.ToBsonDocument());
+				}
 
 				setOptionalAttributes(attachmentAttributes, update);
 
@@ -196,31 +208,11 @@ namespace Wammer.Station.Timeline
 			if (!string.IsNullOrEmpty(attachmentAttributes.file_path))
 				update.Set("file_path", attachmentAttributes.file_path);
 
-			if (attachmentAttributes.image_meta.exif != null)
+			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
 				update.Set("image_meta.exif", attachmentAttributes.image_meta.exif.ToBsonDocument());
 
 			if (!string.IsNullOrEmpty(attachmentAttributes.device_id))
 				update.Set("device_id", attachmentAttributes.device_id);
-		}
-
-		private static string extractExifTakenTime(ArraySegment<byte> rawdata)
-		{
-			try
-			{
-				var exif = ExifLibrary.ExifFile.Read(rawdata.Array);
-
-				DateTime? takenTime = null;
-
-				if (exif.Properties.ContainsKey(ExifLibrary.ExifTag.DateTimeOriginal))
-					takenTime = (DateTime)exif.Properties[ExifLibrary.ExifTag.DateTimeOriginal].Value;
-
-				var takenTimeStr = takenTime.HasValue ? takenTime.Value.ToCloudTimeString() : null;
-				return takenTimeStr;
-			}
-			catch
-			{
-				return null;
-			}
 		}
 
 		protected override void Run()

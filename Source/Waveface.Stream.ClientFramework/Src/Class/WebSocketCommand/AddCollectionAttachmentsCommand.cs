@@ -37,15 +37,15 @@ namespace Waveface.Stream.ClientFramework
         /// <returns></returns>
         public override Dictionary<string, Object> Execute(WebSocketCommandData data)
 		{
-            var parameters = data.Parameters;
-
-            var sessionToken = StreamClient.Instance.LoginedUser.SessionToken;
-            var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
-
-			if (loginedSession == null)
+			if (!StreamClient.Instance.IsLogined)
 				return null;
 
-			var userID = loginedSession.user.user_id;
+			var parameters = data.Parameters;
+
+			var loginedUser = StreamClient.Instance.LoginedUser;
+			var sessionToken = loginedUser.SessionToken;
+
+			var userID = loginedUser.UserID;
 
 			var id = parameters.ContainsKey("id") ? parameters["id"].ToString() : string.Empty;
 			var index = parameters.ContainsKey("index") ? int.Parse(parameters["index"].ToString()) : -1;

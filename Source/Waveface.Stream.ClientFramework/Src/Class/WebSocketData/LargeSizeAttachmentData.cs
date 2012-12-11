@@ -17,7 +17,7 @@ namespace Waveface.Stream.ClientFramework
 		[JsonProperty("timestamp", NullValueHandling = NullValueHandling.Ignore)]
 		public string TimeStamp { get; set; }
 
-		[JsonProperty("image_meta", NullValueHandling = NullValueHandling.Ignore)]
-		public LargeSizeImageMetaData ImageMeta { get; set; }
+		[JsonProperty("meta_data", NullValueHandling = NullValueHandling.Ignore)]
+		public LargeSizeMetaData MetaData { get; set; }
 	}
 }
