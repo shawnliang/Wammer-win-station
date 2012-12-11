@@ -28,7 +28,7 @@ namespace UT_WammerStation.Doc
 		[Ignore]
 		public void GeneratePptPreviews()
 		{
-			var previews = DocumentChangeMonitorUtil.GeneratePowerPointPreviews(@"ppt.pptx", "preview").ToList();
+			var previews = ImportDoc.GeneratePowerPointPreviews(@"ppt.pptx", "preview").ToList();
 			Assert.AreEqual(4, previews.Count);
 
 			Assert.AreEqual(@"preview\00000001.jpg", previews[0]);
@@ -40,7 +40,7 @@ namespace UT_WammerStation.Doc
 		[TestMethod]
 		public void GeneratePDFPreviews()
 		{
-			var previews = DocumentChangeMonitorUtil.GeneratePdfPreviews(@"pdf.pdf", "preview").ToList();
+			var previews = ImportDoc.GeneratePdfPreviews(@"pdf.pdf", "preview").ToList();
 			Assert.AreEqual(4, previews.Count);
 
 			Assert.AreEqual(@"preview\00000001.jpg", previews[0]);

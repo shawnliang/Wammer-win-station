@@ -25,6 +25,7 @@ namespace Waveface.Stream.WindowsClient
 				new ServiceImportControl(),
 				new ChoosePlanControl(),
 				new ImportFolderAndMediaControl(m_photoSearch),
+				new DocImportControl(),
 				new PersonalCloudStatusControl2(new PersonalCloudStatusService())
 			});
 

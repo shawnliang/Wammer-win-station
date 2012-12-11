@@ -93,7 +93,7 @@ namespace Waveface.Stream.WindowsClient
 				{
 				}
 			}
-			StationAPI.Import(loginedSession.session_token, loginedSession.groups.First().group_id, filesToImport);
+			StationAPI.ImportPhoto(loginedSession.session_token, loginedSession.groups.First().group_id, filesToImport);
 		}
 		#endregion
 

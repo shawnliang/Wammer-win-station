@@ -87,7 +87,7 @@ namespace Waveface.Stream.ClientFramework
 					});
 		}
 
-		public static string Import(string sessionToken, string groupID, IEnumerable<string> paths)
+		public static string ImportPhoto(string sessionToken, string groupID, IEnumerable<string> paths)
 		{
 			DebugInfo.ShowMethod();
 
@@ -99,6 +99,22 @@ namespace Waveface.Stream.ClientFramework
 					{"session_token", sessionToken},
 					{"group_id", groupID},
 					{"paths", string.Format("[{0}]", string.Join(",", paths.ToArray()))}
+				};
+
+			return Post(url, parameters);
+		}
+
+		public static string ImportDoc(string sessionToken, IEnumerable<string> paths)
+		{
+			DebugInfo.ShowMethod();
+
+			var url = @"http://127.0.0.1:9989/v2/station/ImportDoc";
+
+			var parameters = new NameValueCollection() 
+				{
+					{"apikey", API_KEY},
+					{"session_token", sessionToken},
+					{"paths", string.Join(",", paths.ToArray())}
 				};
 
 			return Post(url, parameters);
