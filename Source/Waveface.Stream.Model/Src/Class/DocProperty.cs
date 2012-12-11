@@ -16,7 +16,7 @@ namespace Waveface.Stream.Model
 		public List<string> preview_files { get; set; }
 		[BsonIgnoreIfDefault]
 		[BsonIgnoreIfNull]
-		public DateTime access_time { get; set; }
+		public List<DateTime> access_time { get; set; }
 		[BsonIgnoreIfDefault]
 		[BsonIgnoreIfNull]
 		public DateTime modify_time { get; set; }

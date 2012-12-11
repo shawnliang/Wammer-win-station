@@ -156,6 +156,13 @@ namespace Waveface.Stream.WindowsClient
 				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
 				recentDocWatcher.Start();
 
+				var parameters = new Dictionary<string, object>() 
+				{
+					{"type", 8}
+				};
+
+				(new GetAttachmentsCommand()).Execute(parameters);
+
 				ShowMainWindow();
 			}
 
