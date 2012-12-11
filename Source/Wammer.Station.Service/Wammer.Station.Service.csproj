@@ -327,6 +327,7 @@
     <Compile Include="Utility\AutoRunHelper.cs" />
     <Compile Include="Utility\BackOff.cs" />
     <Compile Include="Utility\BsonHelper.cs" />
+    <Compile Include="Utility\MimeTypeHelper.cs" />
     <Compile Include="Utility\PDFConvert.cs" />
     <Compile Include="Utility\DefaultWebClient.cs">
       <SubType>Component</SubType>

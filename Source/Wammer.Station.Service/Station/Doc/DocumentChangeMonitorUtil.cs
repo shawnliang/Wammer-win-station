@@ -17,8 +17,6 @@ namespace Wammer.Station.Doc
 				return;
 
 			ImportDoc.Process(user, Guid.NewGuid().ToString(), target.path, DateTime.Now);
-			}
-
-
+		}
 	}
 }
