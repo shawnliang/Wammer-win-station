@@ -65,12 +65,12 @@ namespace Waveface.Stream.ClientFramework
 
 			if (parameters.ContainsKey("collection_id_array"))
 			{
-				var collectionIDs = from collectionID in (parameters["collection_id_array"] as JArray).Values()
+				var attachmentIDs = from collectionID in (parameters["collection_id_array"] as JArray).Values()
 									let collection = CollectionCollection.Instance.FindOne(Query.EQ("_id", collectionID.ToString()))
 									where collection != null
 									from attachmentID in collection.attachment_id_array
 									select attachmentID;
-				queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(collectionIDs)));
+				queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(attachmentIDs)));
 			}
 
 			if (parameters.ContainsKey("attachment_id_array"))
