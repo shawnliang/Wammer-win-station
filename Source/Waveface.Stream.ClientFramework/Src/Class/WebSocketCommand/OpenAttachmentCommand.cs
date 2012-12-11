@@ -56,7 +56,7 @@ namespace Waveface.Stream.ClientFramework
 				{
 					var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
 
-					file = (new Uri(attachmentData.Url)).LocalPath;
+					file = attachmentData.Url;
 				}
 			}
 
