@@ -48,18 +48,11 @@ namespace Wammer.Station.Doc
 				if (ext.Equals(".ppt") || ext.Equals(".pptx"))
 					previewPaths = GeneratePowerPointPreviews(full_saved_file_name, fullPreviewFolder);
 				else if (ext.Equals(".pdf"))
-					previewPaths = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder);
+					previewPaths = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder, 1, 1);
 				else
 					throw new InvalidDataException("Unknow file type: " + file_path);
 
-
 				previewPaths = previewPaths.Select(x => x.Substring(x.IndexOf(previewFolder)));
-
-				// pack previews to "Stream_Doc_Priviews.zip"
-				var zip = new FastZip();
-				var previewZipFile = Path.Combine("cache", object_id + ".zip");
-				zip.UseZip64 = UseZip64.Off;
-				zip.CreateZip(previewZipFile, previewFolder, false, null);
 
 
 				// write to db
@@ -100,13 +93,30 @@ namespace Wammer.Station.Doc
 				Model.AttachmentCollection.Instance.Save(db);
 
 				// upload previews to cloud
-				using (var zipStream = File.OpenRead(previewZipFile))
+				if (ext.Equals(".ppt") || ext.Equals(".pptx"))
 				{
-					AttachmentApi.Upload(zipStream, db.group_id, db.object_id, "Stream_Doc_Previews.zip", db.mime_type, ImageMeta.None,
-						 AttachmentType.doc, CloudServer.APIKey, user.session_token, 1024, null,
-						 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
-				}
+					// pack previews to "Stream_Doc_Priviews.zip"
+					var zip = new FastZip();
+					var previewZipFile = Path.Combine("cache", object_id + ".zip");
+					zip.UseZip64 = UseZip64.Off;
+					zip.CreateZip(previewZipFile, previewFolder, false, null);
 
+					using (var zipStream = File.OpenRead(previewZipFile))
+					{
+						AttachmentApi.Upload(zipStream, db.group_id, db.object_id, "Stream_Doc_Previews.zip", db.mime_type, ImageMeta.None,
+							 AttachmentType.doc, CloudServer.APIKey, user.session_token, 32768, null,
+							 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
+					}
+				}
+				else if (ext.Equals(".pdf"))
+				{
+					using (var zipStream = File.OpenRead(full_saved_file_name))
+					{
+						AttachmentApi.Upload(zipStream, db.group_id, db.object_id, db.file_name, db.mime_type, ImageMeta.None,
+							 AttachmentType.doc, CloudServer.APIKey, user.session_token, 32768, null,
+							 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
+					}
+				}
 
 				// create post to cloud
 				var postApi = new PostApi(user);
@@ -122,7 +132,6 @@ namespace Wammer.Station.Doc
 			}
 			catch (Exception ex)
 			{
-
 				if (Directory.Exists(previewFolder))
 					Directory.Delete(previewFolder, true);
 
@@ -130,6 +139,8 @@ namespace Wammer.Station.Doc
 					File.Delete(full_saved_file_name);
 
 				AttachmentCollection.Instance.Remove(Query.EQ("_id", object_id));
+
+				throw;
 			}
 			finally
 			{
@@ -139,18 +150,17 @@ namespace Wammer.Station.Doc
 			}
 		}
 
-		public static IEnumerable<string> GeneratePdfPreviews(string pdfFile, string previewFolder)
+		public static IEnumerable<string> GeneratePdfPreviews(string pdfFile, string previewFolder, int firstPageToConvert = -1, int lastPageToConvert = -1)
 		{
 			var converter = new PDFConvert();
 
 			converter.OutputToMultipleFile = true;
-			converter.FirstPageToConvert = converter.LastPageToConvert = -1;
+			converter.FirstPageToConvert = firstPageToConvert;
+			converter.LastPageToConvert = lastPageToConvert;
 			converter.FitPage = false;
 			converter.JPEGQuality = 0;
 			converter.OutputFormat = "jpeg";
 			converter.Convert(pdfFile, Path.Combine(previewFolder, "pdf.jpg"));
-
-			//return Directory.GetFiles(previewFolder, "*.*").OrderBy(x => x);
 
 			return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
 		}
