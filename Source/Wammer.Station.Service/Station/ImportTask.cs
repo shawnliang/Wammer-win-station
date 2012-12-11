@@ -113,26 +113,6 @@ namespace Wammer.Station
 		#endregion
 
 
-		#region Private Method
-		/// <summary>
-		/// Gets the type of the MIME.
-		/// </summary>
-		/// <param name="file">The file.</param>
-		/// <returns></returns>
-		private string GetMIMEType(string file)
-		{
-			var extension = Path.GetExtension(file);
-			using (RegistryKey registryKey = Registry.ClassesRoot.OpenSubKey(extension))
-			{
-				if (registryKey == null)
-					return null;
-				var value = registryKey.GetValue("Content Type");
-				return (value == null) ? "application/unknown" : value.ToString();
-			}
-		}
-		#endregion
-
-
 		#region Public Method
 		/// <summary>
 		/// Executes this instance.
@@ -295,7 +275,7 @@ namespace Wammer.Station
 					object_id = file.object_id,
 					raw_data = new ArraySegment<byte>(File.ReadAllBytes(file.file_path)),
 					file_name = Path.GetFileName(file.file_path),
-					mime_type = GetMIMEType(file.file_path),
+					mime_type = MimeTypeHelper.GetMIMEType(file.file_path),
 					group_id = m_GroupID,
 					api_key = m_APIKey,
 					session_token = m_SessionToken,

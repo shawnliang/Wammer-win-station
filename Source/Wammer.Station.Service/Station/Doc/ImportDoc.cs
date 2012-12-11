@@ -56,15 +56,6 @@ namespace Wammer.Station.Doc
 
 
 				// write to db
-				string mimeType = "application/octet-stream";
-				if (Path.GetExtension(file_path).Equals(".ppt", StringComparison.InvariantCultureIgnoreCase))
-					mimeType = "application/vnd.ms-powerpoint";
-				else if (Path.GetExtension(file_path).Equals(".pptx", StringComparison.InvariantCultureIgnoreCase))
-					mimeType = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-				else if (Path.GetExtension(file_path).Equals(".pdf", StringComparison.InvariantCultureIgnoreCase))
-					mimeType = "application/pdf";
-
-
 				Attachment db = new Attachment
 				{
 					creator_id = user.user_id,
@@ -77,7 +68,7 @@ namespace Wammer.Station.Doc
 					fromLocal = true,
 					group_id = user.groups[0].group_id,
 					md5 = MD5Helper.ComputeMD5(File.ReadAllBytes(file_path)),
-					mime_type = mimeType,
+					mime_type = MimeTypeHelper.GetMIMEType(file_path),
 					modify_time = DateTime.Now,
 					object_id = object_id,
 					saved_file_name = saved_file_name,
@@ -108,15 +99,12 @@ namespace Wammer.Station.Doc
 							 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
 					}
 				}
-				else if (ext.Equals(".pdf"))
-				{
-					using (var zipStream = File.OpenRead(full_saved_file_name))
-					{
-						AttachmentApi.Upload(zipStream, db.group_id, db.object_id, db.file_name, db.mime_type, ImageMeta.None,
-							 AttachmentType.doc, CloudServer.APIKey, user.session_token, 32768, null,
-							 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
-					}
-				}
+
+				// upload orig doc to cloud
+				AttachmentUpload.AttachmentUploadQueueHelper.Instance.Enqueue(
+					new AttachmentUpload.UpstreamTask(object_id, ImageMeta.None, TaskPriority.VeryLow),
+					TaskPriority.VeryLow);
+
 
 				// create post to cloud
 				var postApi = new PostApi(user);
