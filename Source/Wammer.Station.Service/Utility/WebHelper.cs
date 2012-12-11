@@ -209,10 +209,6 @@ namespace Waveface
 				throw new NullReferenceException("request is not a http request");
 			}
 
-			// Add these, as we're doing a POST
-			// request.KeepAlive = false;
-			// request.Timeout = 10000;
-
 			request.Method = "POST";
 			request.ContentType = contentType;
 			request.UserAgent = userAgent;
@@ -222,8 +218,12 @@ namespace Waveface
 			request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
 			request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
-			// We need to count how many bytes we're sending. 
-			//request.ContentLength = formData.Length;
+			// Setting these 3 property to prevent "The request was aborted: The request was canceled"
+			// see http://stackoverflow.com/questions/2459241/httpwebrequest-the-request-was-aborted-the-request-was-canceled
+			request.Timeout = 10 * 60 * 1000;
+			request.ReadWriteTimeout = 10 * 60 * 1000;
+			request.ProtocolVersion = HttpVersion.Version10;
+
 			request.SendChunked = true;
 			using (Stream requestStream = request.GetRequestStream())
 			{
