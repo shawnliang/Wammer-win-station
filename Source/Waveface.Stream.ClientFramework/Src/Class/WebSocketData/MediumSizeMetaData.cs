@@ -71,7 +71,7 @@ namespace Waveface.Stream.ClientFramework
 		/// The access times.
 		/// </value>
 		[JsonProperty("access_time", NullValueHandling = NullValueHandling.Ignore)]
-		public string AccessTimes { get; set; }
+		public IEnumerable<string> AccessTimes { get; set; }
 		#endregion
 
 
@@ -103,14 +103,14 @@ namespace Waveface.Stream.ClientFramework
 			return PreviewFiles != null && PreviewFiles.Any();
 		}
 
-		///// <summary>
-		///// Shoulds the serialize access times.
-		///// </summary>
-		///// <returns></returns>
-		//public bool ShouldSerializeAccessTimes()
-		//{
-		//	return AccessTimes != null && AccessTimes.Any();
-		//}
+		/// <summary>
+		/// Shoulds the serialize access times.
+		/// </summary>
+		/// <returns></returns>
+		public bool ShouldSerializeAccessTimes()
+		{
+			return AccessTimes != null && AccessTimes.Any();
+		}
 		#endregion
 	}
 }
