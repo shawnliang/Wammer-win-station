@@ -164,7 +164,7 @@ namespace Wammer.Station.AttachmentUpload
 			var queue = new Queue<DequeuedTask<ITask>>();
 			foreach (QueuedTask item in QueuedTaskCollection.Instance.Find(Query.EQ("queue", qname)))
 			{
-				queue.Enqueue(new DequeuedTask<ITask>((ITask)item.Data, item.id));
+				queue.Enqueue(new DequeuedTask<ITask>(item.Data, item.id));
 			}
 
 			return queue;

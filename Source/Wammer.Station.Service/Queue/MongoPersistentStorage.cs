@@ -21,7 +21,7 @@ namespace Wammer.Queue
 		public void Save(WMSMessage msg)
 		{
 			QueuedTaskCollection.Instance.Save(
-				new QueuedTask { id = msg.Id, queue = msg.Queue.Name, Data = msg.Data });
+				new QueuedTask { id = msg.Id, queue = msg.Queue.Name, Data = (Wammer.Station.ITask)msg.Data });
 		}
 
 		public void Remove(WMSMessage msg)

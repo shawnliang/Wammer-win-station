@@ -1,9 +1,10 @@
 ﻿using System;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Wammer.Station.AttachmentUpload
 {
 	[Serializable]
-	internal class NullTask : ITask
+	public class NullTask : ITask
 	{
 		#region ITask Members
 
