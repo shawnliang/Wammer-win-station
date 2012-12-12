@@ -5,8 +5,11 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
+using Waveface.Stream.ClientFramework.Properties;
 using Waveface.Stream.Model;
 
 namespace Waveface.Stream.ClientFramework
@@ -39,32 +42,45 @@ namespace Waveface.Stream.ClientFramework
 
 			var parameters = data.Parameters;
 
-			var loginedUser =  StreamClient.Instance.LoginedUser;
-			var sessionToken = loginedUser.SessionToken;
-
-			var userID = loginedUser.UserID;
-			var groupID = loginedUser.GroupID;
-
 			var attachmentID = parameters.ContainsKey("attachment_id") ? parameters["attachment_id"].ToString() : string.Empty;
-			var file = parameters.ContainsKey("file") ? parameters["file"].ToString() : string.Empty;
 
-			if (attachmentID.Length != 0)
+			if (attachmentID.Length == 0)
+				return null;
+
+			var file = string.Empty;
+			var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
+
+			if (attachment != null)
 			{
-				var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
+				var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
 
-				if (attachment != null)
-				{
-					var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
-
-					file = attachmentData.Url;
-				}
+				file = attachmentData.Url;
 			}
 
+			Debug.Assert(!string.IsNullOrEmpty(file));
 			if (string.IsNullOrEmpty(file))
 				return null;
 
-			if (string.IsNullOrEmpty(FileHelper.GetAssociatedExeFile(file, false)))
+			Debug.Assert(File.Exists(file));
+			if (!File.Exists(file))
+			{
+				SynchronizationContextHelper.SendMainSyncContext(() =>
+				{
+					MessageBox.Show(Resources.FILE_NOT_EXISTS);
+				});
+
 				return null;
+			}
+
+			if (string.IsNullOrEmpty(FileHelper.GetAssociatedExeFile(file, false)))
+			{
+				SynchronizationContextHelper.SendMainSyncContext(() =>
+				{
+					MessageBox.Show(Resources.WITHOUT_ASSOCIATED_EXE_FILE);
+				});
+
+				return null;
+			}
 
 			Process.Start(file);
 			return null;
