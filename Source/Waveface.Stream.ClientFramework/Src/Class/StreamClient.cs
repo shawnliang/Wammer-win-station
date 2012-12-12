@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Waveface.Stream.Model;
+using System.Net;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -195,7 +196,7 @@ namespace Waveface.Stream.ClientFramework
 			if (File.Exists(m_StreamDatxFile) && Datx.IsFileExist(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE))
 			{
 				var sessionToken = Datx.Read<String>(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE, GetStreamDatxPassword());
-				Login(sessionToken);
+				RetryLogin(sessionToken, 5000);
 			}
 
 			m_Server.Start();
@@ -396,6 +397,26 @@ namespace Waveface.Stream.ClientFramework
 				}
 			})).Start();
 
+		}
+
+		private string RetryLogin(string sessionToken, int timeout)
+		{
+			DateTime until = DateTime.Now.AddMilliseconds(timeout);
+
+			do
+			{
+				try
+				{
+					return Login(sessionToken);
+				}
+				catch (WebException e)
+				{
+					bool tryAgain = (e.Status == WebExceptionStatus.ConnectFailure && DateTime.Now < until);
+					if (!tryAgain)
+						throw;
+				}
+
+			} while (true);
 		}
 
 		private SecureString GetStreamDatxPassword()
