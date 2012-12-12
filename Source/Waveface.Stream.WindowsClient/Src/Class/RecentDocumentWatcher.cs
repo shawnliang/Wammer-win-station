@@ -27,36 +27,56 @@ namespace Waveface.Stream.WindowsClient
 
 		void watcher_Touched(object sender, FileSystemEventArgs e)
 		{
-			if (e.ChangeType == WatcherChangeTypes.Changed || e.ChangeType == WatcherChangeTypes.Created)
+			try
 			{
-				var target = getShortcutTargetFile(e.FullPath);
-
-				if (string.IsNullOrEmpty(target) || !File.Exists(target))
-					return;
-
-				var ext = Path.GetExtension(target);
-
-				if (ext.Equals(".pdf", StringComparison.InvariantCultureIgnoreCase) ||
-					ext.Equals(".ppt", StringComparison.InvariantCultureIgnoreCase) ||
-					ext.Equals(".pptx", StringComparison.InvariantCultureIgnoreCase))
+				if (e.ChangeType == WatcherChangeTypes.Changed || e.ChangeType == WatcherChangeTypes.Created)
 				{
-					var handler = FileTouched;
-					if (handler != null)
-						handler(this, new FileTouchEventArgs(target));
+					var target = getShortcutTargetFile(e.FullPath);
+
+					if (string.IsNullOrEmpty(target) || !File.Exists(target))
+						return;
+
+					var ext = Path.GetExtension(target);
+
+					if (ext.Equals(".pdf", StringComparison.InvariantCultureIgnoreCase) ||
+						ext.Equals(".ppt", StringComparison.InvariantCultureIgnoreCase) ||
+						ext.Equals(".pptx", StringComparison.InvariantCultureIgnoreCase))
+					{
+						var handler = FileTouched;
+						if (handler != null)
+							handler(this, new FileTouchEventArgs(target));
+					}
 				}
+			}
+			catch (Exception ex)
+			{
+				System.Windows.Forms.MessageBox.Show(ex.ToString());
 			}
 		}
 
 		public static string getShortcutTargetFile(string shortcutFilename)
 		{
-			var type = Type.GetTypeFromProgID("WScript.Shell");
+			string pathOnly = System.IO.Path.GetDirectoryName(shortcutFilename);
+			string filenameOnly = System.IO.Path.GetFileName(shortcutFilename);
 
-			object instance = Activator.CreateInstance(type);
 
-			var result = type.InvokeMember("CreateShortCut", BindingFlags.InvokeMethod, null, instance, new object[] { shortcutFilename });
+			var t = Type.GetTypeFromCLSID(new Guid("13709620-C279-11CE-A49E-444553540000"));
+			var shell = Activator.CreateInstance(t);
 
-			var targetFile = result.GetType().InvokeMember("TargetPath", BindingFlags.GetProperty, null, result, null) as string;
-			return targetFile;
+			var folder = t.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, new object[] { pathOnly });
+			if (folder == null)
+				return null;
+
+			var folderItem = folder.GetType().InvokeMember("ParseName", System.Reflection.BindingFlags.InvokeMethod, null, folder, new object[] { filenameOnly });
+			if (folderItem == null)
+				return null;
+
+			var getLinkResult = folderItem.GetType().InvokeMember("GetLink", System.Reflection.BindingFlags.GetProperty, null, folderItem, null);
+			if (getLinkResult == null)
+				return null;
+
+			var path = getLinkResult.GetType().InvokeMember("Path", System.Reflection.BindingFlags.GetProperty, null, getLinkResult, null);
+			return (string)path;
 		}
 
 	}
