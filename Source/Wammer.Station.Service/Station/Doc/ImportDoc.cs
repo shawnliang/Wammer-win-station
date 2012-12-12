@@ -97,11 +97,17 @@ namespace Wammer.Station.Doc
 			}
 			catch (Exception ex)
 			{
-				if (Directory.Exists(previewResult.previewFolder))
-					Directory.Delete(previewResult.previewFolder, true);
+				if (previewResult != null)
+				{
+					if (Directory.Exists(previewResult.previewFolder))
+						Directory.Delete(previewResult.previewFolder, true);
+				}
 
-				if (File.Exists(full_saved_file_name))
-					File.Delete(full_saved_file_name);
+				if (!string.IsNullOrEmpty(full_saved_file_name))
+				{
+					if (File.Exists(full_saved_file_name))
+						File.Delete(full_saved_file_name);
+				}
 
 				AttachmentCollection.Instance.Remove(Query.EQ("_id", object_id));
 
