@@ -127,9 +127,6 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\Lib\sqlite\System.Data.SQLite.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
@@ -269,7 +266,6 @@
     <Compile Include="Station\APIHandler\UpdatePostHandler.cs" />
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Queue\QueueManager.cs" />
-    <Compile Include="Queue\SQLitePersistentStorage.cs" />
     <Compile Include="Station\APIHandler\AddDriverHandler.cs" />
     <Compile Include="Station\APIHandler\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />
@@ -333,7 +329,6 @@
     <Compile Include="Utility\DefaultWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Utility\DropboxHelper.cs" />
     <Compile Include="Utility\FastJSONHelper.cs" />
     <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
