@@ -136,6 +136,14 @@ namespace Waveface.Stream.WindowsClient
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			CommandLineHelper.ProcessCommandLineArgs(() => {}, new CommandLineCommand[] 
+			{
+				new CommandLineCommand("-RunMode",(parameters)=>
+				{
+					MainForm.Instance.IsDebugMode = parameters.FirstOrDefault().Equals("debug", StringComparison.CurrentCultureIgnoreCase);
+				})
+			});
+
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
 			StreamClient.Instance.Logouted += Instance_Logouted;
