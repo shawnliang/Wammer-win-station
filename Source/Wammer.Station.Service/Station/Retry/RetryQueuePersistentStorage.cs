@@ -17,48 +17,28 @@ namespace Wammer.Station.Retry
 		{
 			MongoCursor<GenericData> savedItems = RetryQueueCollection.Instance.FindAll();
 
-			var formatter = new BinaryFormatter();
+			return savedItems.Select(x => {
+				var item = new RetryQueueItem
+				{
+					Task = (IRetryTask)x.Data,
+					NextRunTime = new DateTime(Convert.ToInt64(x.Id), DateTimeKind.Utc)
+				};
 
-
-			return savedItems.Select(x =>
-										{
-											using (var m = new MemoryStream(x.Data))
-											{
-												var task = formatter.Deserialize(m) as IRetryTask;
-												var item = new RetryQueueItem
-														{
-															Task = task,
-															NextRunTime = new DateTime(Convert.ToInt64(x.Id), DateTimeKind.Utc)
-														};
-
-												// Fix bugs of old versions:
-												// Sync NextRetryTime to make sure this item can be removed from DB
-												item.Task.NextRetryTime = item.NextRunTime;
-												return item;
-											}
-										}).ToList();
+				// Fix bugs of old versions:
+				// Sync NextRetryTime to make sure this item can be removed from DB
+				item.Task.NextRetryTime = item.NextRunTime;
+				return item;
+			}).ToList();
 		}
 
 		public void Add(DateTime key, IRetryTask task)
 		{
-			try
-			{
-				var formatter = new BinaryFormatter();
-				using (var m = new MemoryStream())
+			RetryQueueCollection.Instance.Save(
+				new GenericData
 				{
-					formatter.Serialize(m, task);
-					RetryQueueCollection.Instance.Save(new GenericData
-														{
-															Id = key.ToUniversalTime().Ticks.ToString(),
-															Data = m.ToArray()
-														});
-				}
-			}
-			catch (System.Runtime.Serialization.SerializationException e)
-			{
-				System.Diagnostics.Debug.Assert(false, e.Message);
-				throw;
-			}
+					Id = key.ToUniversalTime().Ticks.ToString(),
+					Data = task
+				});
 		}
 
 		public bool Remove(DateTime key)

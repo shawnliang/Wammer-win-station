@@ -60,12 +60,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\Lib\sqlite\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\..\Lib\sqlite\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -114,7 +108,6 @@
     <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_forward.cs" />
     <Compile Include="TestAttachmentViewApi.cs" />
-    <Compile Include="TestSQLitePersistentStorage.cs" />
     <Compile Include="TestRemoveDriver.cs" />
     <Compile Include="TestAddDriver.cs" />
     <Compile Include="TestAddDriver_AddMoreUser.cs" />
@@ -181,10 +174,6 @@
     <Folder Include="Test References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wammer.Station.Management\Wammer.Station.Management.csproj">
-      <Project>{87C11605-FDC7-444E-9C9D-4E1743182B6F}</Project>
-      <Name>Wammer.Station.Management</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>

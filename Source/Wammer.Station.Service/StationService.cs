@@ -68,6 +68,19 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NullTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<MakeThumbnailAndUpstreamTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<MakeThumbnailTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<UploadMetadataTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<UpstreamTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<CreatePhotoFolderCollectionTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<ResourceDownloadTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<UpdateDriverDBTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<Wammer.Station.Doc.UpdateDocAccessTimeTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NotifyCloudOfBodySyncedTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NotifyCloudOfMultiBodySyncedTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<QueryIfDownstreamNeededTask>();
+
 			mongoMonitor = new MongoDBMonitor(RunStation);
 		}
 

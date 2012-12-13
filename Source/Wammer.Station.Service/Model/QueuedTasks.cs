@@ -15,33 +15,7 @@ namespace Wammer.Model
 		public string queue { get; set; }
 
 		[BsonIgnoreIfNull]
-		public byte[] bytes { get; set; }
-
-		[BsonIgnore]
-		public object Data
-		{
-			get
-			{
-				if (bytes == null)
-					return null;
-
-				var f = new BinaryFormatter();
-				using (var m = new MemoryStream(bytes))
-				{
-					return f.Deserialize(m);
-				}
-			}
-
-			set
-			{
-				using (var m = new MemoryStream())
-				{
-					var f = new BinaryFormatter();
-					f.Serialize(m, value);
-					bytes = m.ToArray();
-				}
-			}
-		}
+		public Wammer.Station.ITask Data { get; set; }
 	}
 
 	public class QueuedTaskCollection : Collection<QueuedTask>
