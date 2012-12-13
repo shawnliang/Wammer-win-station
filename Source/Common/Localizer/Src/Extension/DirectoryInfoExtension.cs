@@ -56,6 +56,7 @@ public static class DirectoryInfoExtension
 		if (hFind != INVALID_HANDLE_VALUE)
 		{
 			do
+
 			{
 				if (FindFileData.cFileName.Equals(@".") || FindFileData.cFileName.Equals(@".."))
 					continue;

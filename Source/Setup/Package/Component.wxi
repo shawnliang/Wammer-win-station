@@ -38,9 +38,6 @@
         <Component Id="Newtonsoft.Json.dll" Guid="*">
           <File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Newtonsoft.Json.dll" />
         </Component>
-        <Component Id="Station.Management.exe" Guid="*">
-          <File Id="Station.Management.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Management.exe" />
-        </Component>
         <Component Id="Station.Service.exe" Guid="*">
           <fire:FirewallException Id="WFFWX1" Name="Waveface Station Service REST" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
           <fire:FirewallException Id="WFFWX2" Name="Waveface Station Service SOCK" Port="9983" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
@@ -58,9 +55,6 @@
         </Component>
         <Component Id="System.ComponentModel.Composition.dll" Guid="*">
           <File Id="System.ComponentModel.Composition.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.ComponentModel.Composition.dll" />
-        </Component>
-        <Component Id="System.Data.SQLite.dll" Guid="*">
-          <File Id="System.Data.SQLite.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.Data.SQLite.dll" />
         </Component>
         <Component Id="System.Threading.dll" Guid="*">
           <File Id="System.Threading.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.Threading.dll" />
@@ -143,11 +137,9 @@
         <ComponentRef Id="MongoDB.Driver.dll" />
         <ComponentRef Id="MonthCalendarControl.dll" />
         <ComponentRef Id="Newtonsoft.Json.dll" />
-        <ComponentRef Id="Station.Management.exe" />
         <ComponentRef Id="Station.Service.exe" />
         <ComponentRef Id="Station.Service.exe.config" />
         <ComponentRef Id="System.ComponentModel.Composition.dll" />
-        <ComponentRef Id="System.Data.SQLite.dll" />
         <ComponentRef Id="System.Threading.dll" />
         <ComponentRef Id="Waveface.Stream.ClientFramework.dll" />
         <ComponentRef Id="Waveface.Stream.Model.dll" />
