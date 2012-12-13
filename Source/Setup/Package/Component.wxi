@@ -56,9 +56,6 @@
         <Component Id="System.ComponentModel.Composition.dll" Guid="*">
           <File Id="System.ComponentModel.Composition.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.ComponentModel.Composition.dll" />
         </Component>
-        <Component Id="System.Data.SQLite.dll" Guid="*">
-          <File Id="System.Data.SQLite.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.Data.SQLite.dll" />
-        </Component>
         <Component Id="System.Threading.dll" Guid="*">
           <File Id="System.Threading.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.Threading.dll" />
         </Component>
@@ -143,7 +140,6 @@
         <ComponentRef Id="Station.Service.exe" />
         <ComponentRef Id="Station.Service.exe.config" />
         <ComponentRef Id="System.ComponentModel.Composition.dll" />
-        <ComponentRef Id="System.Data.SQLite.dll" />
         <ComponentRef Id="System.Threading.dll" />
         <ComponentRef Id="Waveface.Stream.ClientFramework.dll" />
         <ComponentRef Id="Waveface.Stream.Model.dll" />
