@@ -164,12 +164,6 @@ namespace Waveface.Stream.WindowsClient
 				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
 				recentDocWatcher.Start();
 
-				var parameters = new Dictionary<string, object>() 
-				{
-					{"attachment_id_array",new Newtonsoft.Json.Linq.JArray(new string[]{"be503169-8607-4160-ace5-94bb895fd19f"})}
-				};
-				(new GetAttachmentsCommand()).Execute(parameters);
-
 				ShowMainWindow();
 			}
 
