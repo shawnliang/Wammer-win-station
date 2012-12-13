@@ -130,7 +130,7 @@
     <value>18, 82</value>
   </data>
   <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 18</value>
+    <value>209, 18</value>
   </data>
   <data name="checkBox1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -187,7 +187,7 @@
     <value>18, 46</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 14</value>
+    <value>45, 14</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -217,7 +217,7 @@
     <value>79, 17</value>
   </data>
   <data name="lblEmail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 14</value>
+    <value>73, 14</value>
   </data>
   <data name="lblEmail.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -247,7 +247,7 @@
     <value>22, 17</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 14</value>
+    <value>44, 14</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -298,7 +298,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblFBImportTip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 94</value>
+    <value>148, 70</value>
   </data>
   <data name="lblFBImportTip.Size" type="System.Drawing.Size, System.Drawing">
     <value>218, 47</value>
@@ -328,7 +328,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnFacebookImport.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 144</value>
+    <value>148, 120</value>
   </data>
   <data name="btnFacebookImport.Size" type="System.Drawing.Size, System.Drawing">
     <value>79, 23</value>
@@ -351,66 +351,6 @@
   <data name="&gt;&gt;btnFacebookImport.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="lblUploadedPhotoCount.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblUploadedPhotoCount.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblUploadedPhotoCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 44</value>
-  </data>
-  <data name="lblUploadedPhotoCount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 14</value>
-  </data>
-  <data name="lblUploadedPhotoCount.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lblUploadedPhotoCount.Text" xml:space="preserve">
-    <value>[Uploaded Photo Count]</value>
-  </data>
-  <data name="&gt;&gt;lblUploadedPhotoCount.Name" xml:space="preserve">
-    <value>lblUploadedPhotoCount</value>
-  </data>
-  <data name="&gt;&gt;lblUploadedPhotoCount.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblUploadedPhotoCount.Parent" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="&gt;&gt;lblUploadedPhotoCount.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 44</value>
-  </data>
-  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 14</value>
-  </data>
-  <data name="label12.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Photo Saved :</value>
-  </data>
-  <data name="&gt;&gt;label12.Name" xml:space="preserve">
-    <value>label12</value>
-  </data>
-  <data name="&gt;&gt;label12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
-    <value>tabPage2</value>
-  </data>
-  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="lblIsFacebookImportEnabled.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -418,10 +358,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblIsFacebookImportEnabled.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 71</value>
+    <value>148, 47</value>
   </data>
   <data name="lblIsFacebookImportEnabled.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 14</value>
+    <value>145, 14</value>
   </data>
   <data name="lblIsFacebookImportEnabled.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -439,7 +379,7 @@
     <value>tabPage2</value>
   </data>
   <data name="&gt;&gt;lblIsFacebookImportEnabled.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -448,10 +388,10 @@
     <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 71</value>
+    <value>25, 47</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 14</value>
+    <value>106, 14</value>
   </data>
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -469,7 +409,7 @@
     <value>tabPage2</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="lblSince.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -481,7 +421,7 @@
     <value>148, 17</value>
   </data>
   <data name="lblSince.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 14</value>
+    <value>112, 14</value>
   </data>
   <data name="lblSince.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -499,7 +439,7 @@
     <value>tabPage2</value>
   </data>
   <data name="&gt;&gt;lblSince.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -511,7 +451,7 @@
     <value>18, 17</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 14</value>
+    <value>110, 14</value>
   </data>
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -529,7 +469,7 @@
     <value>tabPage2</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 23</value>
