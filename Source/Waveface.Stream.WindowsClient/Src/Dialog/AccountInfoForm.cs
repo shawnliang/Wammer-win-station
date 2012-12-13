@@ -132,7 +132,6 @@ namespace Waveface.Stream.WindowsClient
 			lblEmail.Text = string.Empty;
 			lblIsFacebookImportEnabled.Text = string.Empty;
 			lblSince.Text = string.Empty;
-			lblUploadedPhotoCount.Text = string.Empty;
 			tbxName.Text = string.Empty;
 			lblFBImportTip.Text = string.Empty;
 			dataGridView1.Rows.Clear();
@@ -227,7 +226,7 @@ namespace Waveface.Stream.WindowsClient
 
 				lblSince.Text = userInfo.Since.ToString();
 
-				lblUploadedPhotoCount.Text = userInfo.UploadedPhotoCount.ToString();
+				//lblUploadedPhotoCount.Text = userInfo.UploadedPhotoCount.ToString();
 				tbxName.Text = userInfo.NickName;
 
 				checkBox1.Checked = userInfo.Subscribed;
