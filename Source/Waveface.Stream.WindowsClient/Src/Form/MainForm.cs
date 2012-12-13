@@ -74,14 +74,29 @@ namespace Waveface.Stream.WindowsClient
 				return _konamiSequence ?? (_konamiSequence = new KonamiSequence());
 			}
 		}
+		#endregion
 
+
+
+		#region Public Static Property
+		public static MainForm Instance
+		{
+			get
+			{
+				return (_instance == null || _instance.IsDisposed) ? (_instance = new MainForm()) : _instance;
+			}
+		}
+		#endregion
+
+
+		#region Public Property
 		/// <summary>
-		/// Gets or sets the m_ is debug mode.
+		/// Gets or sets the is debug mode.
 		/// </summary>
 		/// <value>
-		/// The m_ is debug mode.
+		/// The is debug mode.
 		/// </value>
-		private Boolean m_IsDebugMode
+		public Boolean IsDebugMode
 		{
 			get
 			{
@@ -95,18 +110,6 @@ namespace Waveface.Stream.WindowsClient
 				OnDebugModeChanging(EventArgs.Empty);
 				_isDebugMode = value;
 				OnDebugModeChanged(EventArgs.Empty);
-			}
-		}
-		#endregion
-
-
-
-		#region Public Static Property
-		public static MainForm Instance
-		{
-			get
-			{
-				return (_instance == null || _instance.IsDisposed) ? (_instance = new MainForm()) : _instance;
 			}
 		}
 		#endregion
@@ -150,10 +153,10 @@ namespace Waveface.Stream.WindowsClient
 			{
 				SuspendLayout();
 
-				m_Browser.IsDebugMode = m_IsDebugMode;
+				m_Browser.IsDebugMode = IsDebugMode;
 
 				foreach (var dw in m_DockPanel.Contents.Where(item => !item.DockHandler.TabText.Equals("Client Web Page")))
-					dw.DockHandler.IsHidden = !m_IsDebugMode;
+					dw.DockHandler.IsHidden = !IsDebugMode;
 
 				if (m_DockPanel.Contents.Count == 1)
 				{
@@ -305,7 +308,7 @@ namespace Waveface.Stream.WindowsClient
 		private void MainForm_KeyUp(object sender, KeyEventArgs e)
 		{
 			if (m_KonamiSequence.IsCompletedBy(e.KeyCode))
-				m_IsDebugMode = !m_IsDebugMode;
+				IsDebugMode = !IsDebugMode;
 		}
 	}
 }

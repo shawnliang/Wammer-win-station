@@ -162,6 +162,8 @@
     <Compile Include="Src\Class\AutoImportContentProvider.cs" />
     <Compile Include="Src\Class\AutoImporter.cs" />
     <Compile Include="Src\Class\AutoUpdate.cs" />
+    <Compile Include="Src\Class\CommandLineCommand.cs" />
+    <Compile Include="Src\Class\CommandLineHelper.cs" />
     <Compile Include="Src\Class\Content.cs" />
     <Compile Include="Src\Class\ContentBase.cs" />
     <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
