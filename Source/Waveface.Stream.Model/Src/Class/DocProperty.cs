@@ -25,6 +25,8 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public string author { get; set; }
 
+		public int preview_pages { get; set; }
+
 		[BsonIgnore]
 		public string file_name { get; set; }
 	}

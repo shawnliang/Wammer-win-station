@@ -178,11 +178,13 @@ namespace Waveface.Stream.ClientFramework
 
 			Mapper.CreateMap<DocProperty, MediumSizeMetaData>()
 				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
+				.ForMember(dest => dest.PageCount, opt => opt.MapFrom(src => src.preview_pages))
 				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => src.preview_files.Select(file => GetStationFilePath(file))));
 
 
 			Mapper.CreateMap<DocProperty, LargeSizeMetaData>()
 				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
+				.ForMember(dest => dest.PageCount, opt => opt.MapFrom(src => src.preview_pages))
 				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => src.preview_files.Select(file => GetStationFilePath(file))));
 
 
