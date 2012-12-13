@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Waveface.Stream.ClientFramework
 {
-	public class PostGpsData
+	public class PostCheckInData
 	{
 		#region Public Property
 		[JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
@@ -16,23 +14,16 @@ namespace Waveface.Stream.ClientFramework
 
 		[JsonProperty("longitude", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Longitude { get; set; }
-
-		[JsonProperty("zoom_level", NullValueHandling = NullValueHandling.Ignore)]
-		public int? ZoomLevel { get; set; }
-
-		[JsonProperty("region_tags", NullValueHandling = NullValueHandling.Ignore)]
-		public IEnumerable<String> RegionTags { get; set; } 
 		#endregion
-
 
 		#region Public Method
 		/// <summary>
-		/// Shoulds the serialize region tags.
+		/// Shoulds the serialize namel.
 		/// </summary>
 		/// <returns></returns>
-		public bool ShouldSerializeRegionTags()
+		public bool ShouldSerializeName()
 		{
-			return RegionTags != null && RegionTags.Any();
+			return !String.IsNullOrEmpty(Name);
 		}
 		#endregion
 	}

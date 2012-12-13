@@ -148,6 +148,8 @@ namespace Waveface.Stream.ClientFramework
 				.ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array))
 				.ForMember(dest => dest.ExtraParams, opt => opt.MapFrom(src => src.extra_parameters));
 
+			Mapper.CreateMap<PostCheckIn, PostCheckInData>();
+
 			Mapper.CreateMap<PostGps, PostGpsData>()
 				.ForMember(dest => dest.ZoomLevel, opt => opt.MapFrom(src => src.zoom_level));
 
@@ -179,13 +181,13 @@ namespace Waveface.Stream.ClientFramework
 			Mapper.CreateMap<DocProperty, MediumSizeMetaData>()
 				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
 				.ForMember(dest => dest.PageCount, opt => opt.MapFrom(src => src.preview_pages))
-				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => src.preview_files.Select(file => GetStationFilePath(file))));
+				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => (src.preview_files == null) ? null : src.preview_files.Select(file => GetStationFilePath(file))));
 
 
 			Mapper.CreateMap<DocProperty, LargeSizeMetaData>()
 				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
 				.ForMember(dest => dest.PageCount, opt => opt.MapFrom(src => src.preview_pages))
-				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => src.preview_files.Select(file => GetStationFilePath(file))));
+				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => (src.preview_files == null) ? null : src.preview_files.Select(file => GetStationFilePath(file))));
 
 
 			Mapper.CreateMap<ThumbnailInfo, ThumbnailData>()

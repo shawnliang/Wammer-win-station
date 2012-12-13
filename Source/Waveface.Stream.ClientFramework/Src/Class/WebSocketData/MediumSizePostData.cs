@@ -92,7 +92,7 @@ namespace Waveface.Stream.ClientFramework
 		/// The attachment I ds.
 		/// </value>
 		[JsonProperty("attachment_id_array", NullValueHandling = NullValueHandling.Ignore)]
-		public List<string> AttachmentIDs { get; set; }
+		public IEnumerable<string> AttachmentIDs { get; set; }
 
 		/// <summary>
 		/// Gets or sets the favorite.
@@ -132,6 +132,15 @@ namespace Waveface.Stream.ClientFramework
 		public List<MediumSizeAttachmentData> SummaryAttachments { get; set; }
 
 		/// <summary>
+		/// Gets or sets the check ins.
+		/// </summary>
+		/// <value>
+		/// The check ins.
+		/// </value>
+		[JsonProperty("checkins", NullValueHandling = NullValueHandling.Ignore)]
+		public IEnumerable<PostCheckInData> CheckIns { get; set; }
+
+		/// <summary>
 		/// Gets or sets the GPS.
 		/// </summary>
 		/// <value>
@@ -147,7 +156,7 @@ namespace Waveface.Stream.ClientFramework
 		/// The people.
 		/// </value>
 		[JsonProperty("people", NullValueHandling = NullValueHandling.Ignore)]
-		public List<PeopleData> People { get; set; }
+		public IEnumerable<PeopleData> People { get; set; }
 
 		/// <summary>
 		/// Gets or sets the extra params.
@@ -156,7 +165,7 @@ namespace Waveface.Stream.ClientFramework
 		/// The extra params.
 		/// </value>
 		[JsonProperty("extra_parameters", NullValueHandling = NullValueHandling.Ignore)]
-		public List<PostExtraData> ExtraParams { get; set; }
+		public IEnumerable<PostExtraData> ExtraParams { get; set; }
 
 		/// <summary>
 		/// Gets or sets the tags.
@@ -165,7 +174,7 @@ namespace Waveface.Stream.ClientFramework
 		/// The tags.
 		/// </value>
 		[JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
-		public List<String> Tags { get; set; }
+		public IEnumerable<String> Tags { get; set; }
 		#endregion
 
 
@@ -176,7 +185,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public bool ShouldSerializePeople()
 		{
-			return People != null && People.Count > 0;
+			return People != null && People.Any();
 		}
 
 		/// <summary>
@@ -185,7 +194,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public bool ShouldSerializeExtraParams()
 		{
-			return ExtraParams != null && ExtraParams.Count > 0;
+			return ExtraParams != null && ExtraParams.Any();
 		}
 
 		/// <summary>
@@ -212,7 +221,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public bool ShouldSerializeTags()
 		{
-			return Tags != null && Tags.Count > 0;
+			return Tags != null && Tags.Any();
 		}
 
 		/// <summary>
@@ -221,7 +230,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public bool ShouldSerializeAttachmentIDs()
 		{
-			return AttachmentIDs != null && AttachmentIDs.Count > 0;
+			return AttachmentIDs != null && AttachmentIDs.Any();
 		}
 
 		/// <summary>
@@ -230,7 +239,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public bool ShouldSerializeCoverAttachmentID()
 		{
-			return CoverAttachmentID != null && CoverAttachmentID.Length > 0;
+			return !String.IsNullOrEmpty(CoverAttachmentID);
 		}
 
 		/// <summary>
@@ -239,7 +248,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public bool ShouldSerializeContent()
 		{
-			return Content != null && Content.Length > 0;
+			return !String.IsNullOrEmpty(Content);
 		}
 
 		/// <summary>
@@ -257,7 +266,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public bool ShouldSerializeTimeStamp()
 		{
-			return TimeStamp != null && TimeStamp.Length > 0;
+			return !string.IsNullOrEmpty(TimeStamp);
 		}
 
 		/// <summary>
@@ -266,7 +275,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public bool ShouldSerializeID()
 		{
-			return ID != null && ID.Length > 0;
+			return !String.IsNullOrEmpty(ID);
 		}
 
 		/// <summary>
@@ -285,6 +294,15 @@ namespace Waveface.Stream.ClientFramework
 		public bool ShouldSerializeCommentCount()
 		{
 			return CommentCount > 0;
+		}
+
+		/// <summary>
+		/// Shoulds the serialize check ins.
+		/// </summary>
+		/// <returns></returns>
+		public bool ShouldSerializeCheckIns()
+		{
+			return CheckIns != null && CheckIns.Any();
 		}
 		#endregion
 	}
