@@ -50,35 +50,54 @@ namespace Waveface.Stream.ClientFramework
 			var pageSize = parameters.ContainsKey("page_size") ? int.Parse(parameters["page_size"].ToString()) : 10;
 			var skipCount = (pageNo == 1) ? 0 : (pageNo - 1) * pageSize;
 
-			var queryParam = Query.EQ("group_id", groupID);
+			var attachmentQueryParam = Query.EQ("group_id", groupID);
 
+			if (sinceDate != null)
+				attachmentQueryParam = Query.And(attachmentQueryParam, Query.GTE("event_time", sinceDate));
 
+			if (untilDate != null)
+				attachmentQueryParam = Query.And(attachmentQueryParam, Query.LT("event_time", untilDate));
+
+			var coverAttachmentIDs = new HashSet<string>();
+			var attachmentIDs = new HashSet<string>();
 			if (parameters.ContainsKey("post_id_array"))
 			{
-				var attachmentIDs = from postID in (parameters["post_id_array"] as JArray).Values()
-									let post = PostCollection.Instance.FindOne(Query.EQ("_id", postID.ToString()))
-									where post != null
-									from attachmentID in post.attachment_id_array
-									select attachmentID;
-				queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(attachmentIDs)));
+				var postIDs = (parameters["post_id_array"] as JArray).Values();
+				coverAttachmentIDs.UnionWith(from postID in postIDs
+											 let post = PostCollection.Instance.FindOneById(postID.ToString())
+											 where post != null
+											 select post.cover_attach);
+
+				attachmentIDs.UnionWith(from postID in postIDs
+										let post = PostCollection.Instance.FindOneById(postID.ToString())
+										where post != null
+										from attachmentID in post.attachment_id_array
+										select attachmentID);
 			}
 
 			if (parameters.ContainsKey("collection_id_array"))
 			{
-				var attachmentIDs = from collectionID in (parameters["collection_id_array"] as JArray).Values()
-									let collection = CollectionCollection.Instance.FindOne(Query.EQ("_id", collectionID.ToString()))
-									where collection != null
-									from attachmentID in collection.attachment_id_array
-									select attachmentID;
-				queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(attachmentIDs)));
+				var collectionIDs = (parameters["collection_id_array"] as JArray).Values();
+				coverAttachmentIDs.UnionWith(from collectionID in collectionIDs
+											 let collection = CollectionCollection.Instance.FindOneById(collectionID.ToString())
+											 where collection != null
+											 select collection.cover);
+
+				attachmentIDs.UnionWith(from collectionID in collectionIDs
+										let collection = CollectionCollection.Instance.FindOneById(collectionID.ToString())
+										where collection != null
+										from attachmentID in collection.attachment_id_array
+										select attachmentID);
 			}
 
 			if (parameters.ContainsKey("attachment_id_array"))
 			{
-				var attachmentIDs = from attachmentID in (parameters["attachment_id_array"] as JArray).Values()
-									select attachmentID.ToString();
-				queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(attachmentIDs)));
+				attachmentIDs.UnionWith(from attachmentID in (parameters["attachment_id_array"] as JArray).Values()
+										select attachmentID.ToString());
 			}
+
+			if (attachmentIDs.Any())
+				attachmentQueryParam = Query.And(attachmentQueryParam, Query.In("_id", new BsonArray(attachmentIDs)));
 
 			var type = parameters.ContainsKey("type") ? int.Parse(parameters["type"].ToString()) : 0;
 
@@ -96,35 +115,32 @@ namespace Waveface.Stream.ClientFramework
 					queryTypes.Add((int)AttachmentType.doc);
 				}
 
-				queryParam = Query.And(queryParam, Query.In("type", new BsonArray(queryTypes)));
+				attachmentQueryParam = Query.And(attachmentQueryParam, Query.In("type", new BsonArray(queryTypes)));
 			}
 
-			if (sinceDate != null)
-				queryParam = Query.And(queryParam, Query.GTE("event_time", sinceDate));
+			var attachments = AttachmentCollection.Instance.Find(attachmentQueryParam)
+				.SetSortOrder(SortBy.Descending("event_time")).AsEnumerable();
 
-			if (untilDate != null)
-				queryParam = Query.And(queryParam, Query.LT("event_time", untilDate));
-
-			var filteredAttachments = AttachmentCollection.Instance.Find(queryParam)
-				.SetSkip(skipCount)
-				.SetLimit(pageSize)
-				.SetSortOrder(SortBy.Descending("event_time"));
-
-
-			var totalCount = filteredAttachments.Count();
+			var totalCount = attachments.Count();
 			var pageCount = (int)Math.Ceiling((decimal)totalCount / pageSize);
 
+			var coverAttachments = attachments.Where((attachment) => coverAttachmentIDs.Contains(attachment.object_id));
+			var normalAttachments = attachments.Except(coverAttachments, new AttachmentCompare());
+
+			attachments = coverAttachments.Union(normalAttachments)
+				.Skip(skipCount)
+				.Take(pageSize);
 
 			var dataSize = parameters.ContainsKey("data_size") ? int.Parse(parameters["data_size"].ToString()) : 1;
 
-			Object attachmentDatas;
+			Object attachmentDatas = null;
 			if (dataSize == 2)
 			{
-				attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<LargeSizeAttachmentData>>(filteredAttachments);
+				attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<LargeSizeAttachmentData>>(attachments);
 			}
 			else
 			{
-				attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<MediumSizeAttachmentData>>(filteredAttachments);
+				attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<MediumSizeAttachmentData>>(attachments);
 			}
 
 
