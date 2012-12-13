@@ -1,6 +1,4 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
-using NetOffice.OfficeApi.Enums;
-using NetOffice.PowerPointApi.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +7,6 @@ using System.Reflection;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
-using PowerPoint = NetOffice.PowerPointApi;
 using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.Doc
@@ -145,7 +142,7 @@ namespace Wammer.Station.Doc
 				
 			List<string> previewFiles;
 			if (ext.Equals(".ppt") || ext.Equals(".pptx"))
-				previewFiles = GeneratePowerPointPreviews(full_saved_file_name, fullPreviewFolder);
+				previewFiles = PptConvert.ConvertPptToJpg(full_saved_file_name, fullPreviewFolder);
 			else if (ext.Equals(".pdf"))
 				previewFiles = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder, 1, 1);
 			else
@@ -167,26 +164,6 @@ namespace Wammer.Station.Doc
 			converter.JPEGQuality = 0;
 			converter.OutputFormat = "jpeg";
 			converter.Convert(pdfFile, Path.Combine(previewFolder, "pdf.jpg"));
-
-			return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
-		}
-
-		public static List<string> GeneratePowerPointPreviews(string pptFile, string previewFolder)
-		{
-			var file = pptFile;
-			var folder = previewFolder;
-
-			if (!Path.IsPathRooted(pptFile))
-				file = Path.Combine(Environment.CurrentDirectory, pptFile);
-
-			if (!Path.IsPathRooted(previewFolder))
-				folder = Path.Combine(Environment.CurrentDirectory, previewFolder);
-
-			using (PowerPoint.Application powerApplication = new PowerPoint.Application())
-			{
-				NetOffice.PowerPointApi.Presentation prep = powerApplication.Presentations.Open(file, 0, 0, MsoTriState.msoFalse);
-				prep.SaveAs(folder, PpSaveAsFileType.ppSaveAsJPG);
-			}
 
 			return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
 		}
