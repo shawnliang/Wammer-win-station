@@ -11,6 +11,9 @@ namespace Waveface.Stream.ClientFramework
 		[JsonProperty("file_name", NullValueHandling = NullValueHandling.Ignore)]
 		public String FileName { get; set; }
 
+		[JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+		public int Type { get; set; }
+
 		[JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
 		public String Url { get; set; }
 

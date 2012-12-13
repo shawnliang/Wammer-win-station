@@ -76,7 +76,7 @@ namespace Waveface.Stream.ClientFramework
 			if (parameters.ContainsKey("attachment_id_array"))
 			{
 				var attachmentIDs = from attachmentID in (parameters["attachment_id_array"] as JArray).Values()
-									select attachmentID;
+									select attachmentID.ToString();
 				queryParam = Query.And(queryParam, Query.In("_id", new BsonArray(attachmentIDs)));
 			}
 
