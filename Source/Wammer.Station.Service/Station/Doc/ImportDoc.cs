@@ -55,6 +55,7 @@ namespace Wammer.Station.Doc
 						preview_files = previewResult.files,
 						access_time = new List<DateTime> { accessTime },
 						modify_time = File.GetLastWriteTime(file_path),
+						preview_pages = previewResult.files.Count
 					}
 				};
 				Model.AttachmentCollection.Instance.Save(db);
