@@ -109,27 +109,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
     </Reference>
-    <Reference Include="NetOffice">
-      <HintPath>..\..\Lib\netOffice\NetOffice.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Lib\Newtonsoft.Json.4.5.10\lib\net35\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="OfficeApi">
-      <HintPath>..\..\Lib\netOffice\OfficeApi.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="PowerPointApi">
-      <HintPath>..\..\Lib\netOffice\PowerPointApi.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\Lib\sqlite\System.Data.SQLite.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
@@ -141,10 +127,6 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="VBIDEApi, Version=1.5.1.2, Culture=neutral, PublicKeyToken=6040f8ab492f76a1, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\Lib\netOffice\VBIDEApi.dll</HintPath>
-    </Reference>
     <Reference Include="websocket-sharp">
       <HintPath>..\..\Lib\websocket-sharp\websocket-sharp.dll</HintPath>
     </Reference>
@@ -193,6 +175,7 @@
     <Compile Include="Station\Doc\MonitorAddHandlerDB.cs" />
     <Compile Include="Station\Doc\MonitorAddHandlerImp.cs" />
     <Compile Include="Station\Doc\MonitorAddHandlerUtility.cs" />
+    <Compile Include="Station\Doc\PptConvert.cs" />
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\ImportDocTask.cs" />
     <Compile Include="Station\ImportTask.cs" />
@@ -269,7 +252,6 @@
     <Compile Include="Station\APIHandler\UpdatePostHandler.cs" />
     <Compile Include="Queue\Queue.cs" />
     <Compile Include="Queue\QueueManager.cs" />
-    <Compile Include="Queue\SQLitePersistentStorage.cs" />
     <Compile Include="Station\APIHandler\AddDriverHandler.cs" />
     <Compile Include="Station\APIHandler\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />
@@ -333,7 +315,6 @@
     <Compile Include="Utility\DefaultWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Utility\DropboxHelper.cs" />
     <Compile Include="Utility\FastJSONHelper.cs" />
     <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />

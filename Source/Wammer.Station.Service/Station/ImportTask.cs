@@ -205,6 +205,7 @@ namespace Wammer.Station
 					{CloudServer.PARAM_SESSION_TOKEN, m_SessionToken},
 					{CloudServer.PARAM_API_KEY, m_APIKey},
 					{CloudServer.PARAM_POST_ID, postID},
+					{CloudServer.PARAM_TYPE, "image"},
 					{CloudServer.PARAM_TIMESTAMP, importTime.ToCloudTimeString()},
 					{CloudServer.PARAM_GROUP_ID, m_GroupID},
 					{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, string.Format("[{0}]",string.Join(",", objectIDs.Select((x)=> "\""+x+"\"").ToArray()))},

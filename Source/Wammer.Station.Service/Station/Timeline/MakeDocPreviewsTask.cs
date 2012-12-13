@@ -41,12 +41,16 @@ namespace Wammer.Station.Timeline
 
 			AttachmentCollection.Instance.Update(
 				Query.EQ("_id", doc_id),
-				Update.Set("doc_meta.preview_files", new BsonArray(result.files))
-			);
+				Update.
+					Set("doc_meta.preview_files", new BsonArray(result.files)).
+					Set("doc_meta.preview_pages", result.files.Count)
+				);
 		}
 
 		public override void ScheduleToRun()
 		{
+			if (--retryCount > 0)
+				TaskQueue.Enqueue(this, this.Priority);
 		}
 	}
 }

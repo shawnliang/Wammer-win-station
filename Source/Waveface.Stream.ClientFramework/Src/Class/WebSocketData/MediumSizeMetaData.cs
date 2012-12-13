@@ -65,6 +65,15 @@ namespace Waveface.Stream.ClientFramework
 		public IEnumerable<string> PreviewFiles { get; set; }
 
 		/// <summary>
+		/// Gets or sets the page count.
+		/// </summary>
+		/// <value>
+		/// The page count.
+		/// </value>
+		[JsonProperty("page_count")]
+		public int PageCount { get; set; }
+
+		/// <summary>
 		/// Gets or sets the access times.
 		/// </summary>
 		/// <value>

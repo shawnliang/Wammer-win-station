@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountInfoForm));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -47,8 +48,6 @@
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.lblFBImportTip = new System.Windows.Forms.Label();
 			this.btnFacebookImport = new System.Windows.Forms.Button();
-			this.lblUploadedPhotoCount = new System.Windows.Forms.Label();
-			this.label12 = new System.Windows.Forms.Label();
 			this.lblIsFacebookImportEnabled = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
 			this.lblSince = new System.Windows.Forms.Label();
@@ -61,7 +60,7 @@
 			this.btnLogout = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.button3 = new System.Windows.Forms.Button();
-			this.errorProvider1 = new System.Windows.Forms.ErrorProvider();
+			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
@@ -126,8 +125,6 @@
 			// 
 			this.tabPage2.Controls.Add(this.lblFBImportTip);
 			this.tabPage2.Controls.Add(this.btnFacebookImport);
-			this.tabPage2.Controls.Add(this.lblUploadedPhotoCount);
-			this.tabPage2.Controls.Add(this.label12);
 			this.tabPage2.Controls.Add(this.lblIsFacebookImportEnabled);
 			this.tabPage2.Controls.Add(this.label10);
 			this.tabPage2.Controls.Add(this.lblSince);
@@ -150,16 +147,6 @@
 			this.btnFacebookImport.Name = "btnFacebookImport";
 			this.btnFacebookImport.UseVisualStyleBackColor = true;
 			this.btnFacebookImport.Click += new System.EventHandler(this.btnFacebookImport_Click);
-			// 
-			// lblUploadedPhotoCount
-			// 
-			resources.ApplyResources(this.lblUploadedPhotoCount, "lblUploadedPhotoCount");
-			this.lblUploadedPhotoCount.Name = "lblUploadedPhotoCount";
-			// 
-			// label12
-			// 
-			resources.ApplyResources(this.label12, "label12");
-			this.label12.Name = "label12";
 			// 
 			// lblIsFacebookImportEnabled
 			// 
@@ -338,8 +325,6 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.Button btnFacebookImport;
-		private System.Windows.Forms.Label lblUploadedPhotoCount;
-		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label lblIsFacebookImportEnabled;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label lblSince;

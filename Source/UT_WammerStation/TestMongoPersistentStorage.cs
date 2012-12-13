@@ -2,8 +2,27 @@
 using System;
 using Wammer.Queue;
 
-namespace UT_WammerStation
+namespace UT_WammerStation.MongoStorage
 {
+	
+	class Dummy : Wammer.Station.ITask
+	{
+		public string name { get; set; }
+
+		public Dummy()
+		{
+		}
+
+		public Dummy(string name)
+		{
+			this.name = name;
+		}
+
+		public void Execute()
+		{
+		}
+	}
+
 	[TestClass]
 	public class TestMongoPersistentStorage
 	{
@@ -19,9 +38,9 @@ namespace UT_WammerStation
 			MongoPersistentStorage s = new MongoPersistentStorage();
 
 			Guid id1 = Guid.NewGuid();
-			s.Save(new WMSMessage(id1, "12345") { Queue = new WMSQueue("q1", s) });
+			s.Save(new WMSMessage(id1, new Dummy("12345")) { Queue = new WMSQueue("q1", s) });
 			Guid id2 = Guid.NewGuid();
-			s.Save(new WMSMessage(id2, "abc") { Queue = new WMSQueue("q2", s) });
+			s.Save(new WMSMessage(id2, new Dummy("abc")) { Queue = new WMSQueue("q2", s) });
 
 
 			WMSQueue q1 = s.TryLoadQueue("q1");
@@ -29,14 +48,14 @@ namespace UT_WammerStation
 			WMSMessage m1 = q1.Pop(new WMSSession());
 			Assert.IsNotNull(m1);
 			Assert.AreEqual(id1, m1.Id);
-			Assert.AreEqual("12345", m1.Data);
+			Assert.AreEqual("12345", (m1.Data as Dummy).name);
 
 			WMSQueue q2 = s.TryLoadQueue("q2");
 			Assert.AreEqual(1, q2.Count);
 			WMSMessage m2 = q2.Pop(new WMSSession());
 			Assert.IsNotNull(m2);
 			Assert.AreEqual(id2, m2.Id);
-			Assert.AreEqual("abc", m2.Data);
+			Assert.AreEqual("abc", (m2.Data as Dummy).name);
 		}
 
 		[TestMethod]
@@ -45,9 +64,9 @@ namespace UT_WammerStation
 			MongoPersistentStorage s = new MongoPersistentStorage();
 
 			Guid id1 = Guid.NewGuid();
-			s.Save(new WMSMessage(id1, "12345") { Queue = new WMSQueue("q1", s) });
+			s.Save(new WMSMessage(id1, new Dummy("12345")) { Queue = new WMSQueue("q1", s) });
 			Guid id2 = Guid.NewGuid();
-			s.Save(new WMSMessage(id2, "abc") { Queue = new WMSQueue("q1", s) });
+			s.Save(new WMSMessage(id2, new Dummy("abc")) { Queue = new WMSQueue("q1", s) });
 
 
 			WMSQueue q1 = s.TryLoadQueue("q1");
@@ -55,12 +74,12 @@ namespace UT_WammerStation
 			WMSMessage m1 = q1.Pop(new WMSSession());
 			Assert.IsNotNull(m1);
 			Assert.AreEqual(id1, m1.Id);
-			Assert.AreEqual("12345", m1.Data);
+			Assert.AreEqual("12345", (m1.Data as Dummy).name);
 
 			WMSMessage m2 = q1.Pop(new WMSSession());
 			Assert.IsNotNull(m2);
 			Assert.AreEqual(id2, m2.Id);
-			Assert.AreEqual("abc", m2.Data);
+			Assert.AreEqual("abc", (m2.Data as Dummy).name);
 		}
 
 		[TestMethod]
@@ -69,9 +88,9 @@ namespace UT_WammerStation
 			MongoPersistentStorage s = new MongoPersistentStorage();
 
 			Guid id1 = Guid.NewGuid();
-			s.Save(new WMSMessage(id1, "12345") { Queue = new WMSQueue("q1", s) });
+			s.Save(new WMSMessage(id1, new Dummy("12345")) { Queue = new WMSQueue("q1", s) });
 			Guid id2 = Guid.NewGuid();
-			WMSMessage msg2 = new WMSMessage(id2, "abc") { Queue = new WMSQueue("q1", s) };
+			WMSMessage msg2 = new WMSMessage(id2, new Dummy("abc")) { Queue = new WMSQueue("q1", s) };
 			s.Save(msg2);
 
 
@@ -82,7 +101,7 @@ namespace UT_WammerStation
 			WMSMessage m1 = q1.Pop(new WMSSession());
 			Assert.IsNotNull(m1);
 			Assert.AreEqual(id1, m1.Id);
-			Assert.AreEqual("12345", m1.Data);
+			Assert.AreEqual("12345", (m1.Data as Dummy).name);
 
 		}
 	}

@@ -11,6 +11,7 @@ using Wammer.Utility;
 
 namespace Wammer.Model
 {
+	[Serializable]
 	[BsonIgnoreExtraElements]
 	public class DocProperty
 	{
@@ -29,7 +30,9 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public string author { get; set; }
 
-		[BsonIgnore]
+		public int preview_pages { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
 	}
 

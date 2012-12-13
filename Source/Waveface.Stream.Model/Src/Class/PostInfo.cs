@@ -1,17 +1,25 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Waveface.Stream.Model
 {
 	[BsonIgnoreExtraElements]
 	public class PostInfo
 	{
+		private string _cover_attach ;
 		//[BsonIgnoreIfNull]
 		//public List<AttachmentInfo> attachments { get; set; }
 
-		[BsonIgnoreIfNull]
-		public int attachment_count { get; set; }
+		[BsonIgnore]
+		public int attachment_count
+		{
+			get
+			{
+				return (attachment_id_array == null) ? 0 : attachment_id_array.Count;
+			}
+		}
 
 		[BsonIgnoreIfNull]
 		public string event_time { get; set; }
@@ -71,7 +79,17 @@ namespace Waveface.Stream.Model
 		public string creator_id { get; set; }
 
 		[BsonIgnoreIfNull]
-		public string cover_attach { get; set; }
+		public string cover_attach 
+		{
+			get 
+			{
+				return (string.IsNullOrEmpty(_cover_attach) && attachment_id_array != null) ? attachment_id_array.FirstOrDefault() : _cover_attach; 
+			}
+			set
+			{
+				_cover_attach = value;
+			}
+		}
 
 		[BsonIgnoreIfNull]
 		public int seq_num { get; set; }

@@ -99,13 +99,13 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		public long UploadedPhotoCount
-		{
-			get
-			{
-				return m_Response.storages.waveface.usage.image_objects;
-			}
-		}
+		//public long UploadedPhotoCount
+		//{
+		//	get
+		//	{
+		//		return m_Response.storages.waveface.usage.image_objects;
+		//	}
+		//}
 
 		public Boolean Subscribed
 		{

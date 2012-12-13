@@ -9,7 +9,6 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station;
-using Wammer.Station.Management;
 
 namespace UT_WammerStation
 {
@@ -110,97 +109,7 @@ namespace UT_WammerStation
 			}
 		}
 
-		[TestMethod]
-		public void TestAddADriver_usingStationController()
-		{
-			StationLogOnResponse res1 = new StationLogOnResponse
-			{
-				api_ret_message = "success",
-				api_ret_code = 0,
-				status = 200,
-				timestamp = DateTime.UtcNow,
-				session_token = "token3",
-				groups = new List<UserGroup>{
-					new UserGroup {
-						creator_id = "creator1",
-						description = "gdesc1",
-						group_id = "group_id1",
-						name = "group1"				
-					}
-				},
-				user = new UserInfo { user_id = "uid1" },
-				stations = new List<UserStation>()
-				{
-					new UserStation { 
-						station_id = Wammer.Station.Station.Instance.StationID,
-						type = "primary"
-					},
-				}
-			};
 
-			using (FakeCloud cloud = new FakeCloud(res1))
-			{
-				StationController.StationMgmtURL = "http://127.0.0.1:8080/v2/";
-
-				var result = StationController.AddUser("user1@gmail.com", "123456", "deviceId", "deviceName");
-				Assert.AreEqual("uid1", result.UserId);
-				Assert.IsTrue(result.IsPrimaryStation);
-
-				// verify db
-				Driver driver = mongodb.GetDatabase("wammer").
-					GetCollection<Driver>("drivers").FindOne(
-					Query.EQ("email", "user1@gmail.com"));
-
-				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"user_uid1", driver.folder);
-				Assert.AreEqual(res1.user.user_id, driver.user_id);
-				Assert.IsTrue(driver.isPrimaryStation);
-				Assert.AreEqual(1, driver.groups.Count);
-				Assert.AreEqual(res1.session_token, driver.session_token);
-				Assert.AreEqual(res1.groups[0].group_id, driver.groups[0].group_id);
-				Assert.AreEqual(res1.groups[0].name, driver.groups[0].name);
-				Assert.AreEqual(res1.groups[0].description, driver.groups[0].description);
-
-				//verify station
-				Wammer.Model.StationInfo s = Wammer.Model.StationCollection.Instance.FindOne();
-				Assert.IsNotNull(s);
-				Assert.AreEqual("token3", s.SessionToken);
-			}
-		}
-
-		[TestMethod]
-		public void TestAddADriver_secStation_usingStationController()
-		{
-			StationLogOnResponse res1 = new StationLogOnResponse
-			{
-				api_ret_message = "success",
-				api_ret_code = 0,
-				status = 200,
-				timestamp = DateTime.UtcNow,
-				session_token = "token3",
-				groups = new List<UserGroup>{
-					new UserGroup {
-						creator_id = "creator1",
-						description = "gdesc1",
-						group_id = "group_id1",
-						name = "group1"				
-					}
-				},
-				user = new UserInfo { user_id = "uid1" },
-				stations = new List<UserStation>()
-				{
-					new UserStation() { station_id = "aabbcc" },
-				}
-			};
-
-			using (FakeCloud cloud = new FakeCloud(res1))
-			{
-				StationController.StationMgmtURL = "http://127.0.0.1:8080/v2/";
-				var result = StationController.AddUser("user1@gmail.com", "123456", "deviceId", "deviceName");
-				Assert.AreEqual("uid1", result.UserId);
-				Assert.IsFalse(result.IsPrimaryStation);
-			}
-		}
 
 		[TestMethod]
 		public void TestAddADriver_SecondaryStation()

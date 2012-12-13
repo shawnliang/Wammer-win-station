@@ -68,6 +68,19 @@ namespace Wammer.Station.Service
 
 		protected override void OnStart(string[] args)
 		{
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NullTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<MakeThumbnailAndUpstreamTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<MakeThumbnailTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<UploadMetadataTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<UpstreamTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<CreatePhotoFolderCollectionTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<ResourceDownloadTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<UpdateDriverDBTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<Wammer.Station.Doc.UpdateDocAccessTimeTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NotifyCloudOfBodySyncedTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NotifyCloudOfMultiBodySyncedTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<QueryIfDownstreamNeededTask>();
+
 			mongoMonitor = new MongoDBMonitor(RunStation);
 		}
 
@@ -129,18 +142,13 @@ namespace Wammer.Station.Service
 
 
 				var attachmentHandler = new AttachmentUploadHandler();
-				var localUserTrackMgr = new Wammer.Station.LocalUserTrack.LocalUserTrackManager();
 
 				attachmentHandler.AttachmentProcessed += new AttachmentProcessedHandler(new AttachmentUtility()).OnProcessed;
-				attachmentHandler.AttachmentProcessed += localUserTrackMgr.OnAttachmentReceived;
 				attachmentHandler.ProcessSucceeded += UploadDownloadMonitor.Instance.OnAttachmentProcessed;
-
-				MakeThumbnailTask.ThumbnailGenerated += localUserTrackMgr.OnThumbnailGenerated;
-				UpstreamTask.AttachmentUpstreamed += localUserTrackMgr.OnAttachmentUpstreamed;
 
 				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl, Station.Instance.StationID);
 				InitCloudForwarder(cloudForwarder);
-				InitFunctionServerHandlers(attachmentHandler, cloudForwarder, localUserTrackMgr);
+				InitFunctionServerHandlers(attachmentHandler, cloudForwarder);
 
 
 				logger.Info("Start function server");
@@ -255,7 +263,7 @@ namespace Wammer.Station.Service
 			}
 		}
 
-		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, LocalUserTrack.LocalUserTrackManager localUserTrackMgr)
+		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder)
 		{
 			logger.Info("Add cloud forwarders to function server");
 			functionServer.AddDefaultHandler(cloudForwarder);
@@ -324,7 +332,8 @@ namespace Wammer.Station.Service
 			functionServer.AddHandler(GetDefaultBathPath("/footprints/getLastScan/"),
 									  new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
 
-			functionServer.AddHandler(GetDefaultBathPath("/changelogs/get/"), new UserTrackHandler(localUserTrackMgr));
+			functionServer.AddHandler(GetDefaultBathPath("/changelogs/get/"), 
+									  new HybridCloudHttpRouter(new UserTrackHandler()));
 
 			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),

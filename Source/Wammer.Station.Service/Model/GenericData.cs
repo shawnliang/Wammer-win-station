@@ -9,6 +9,6 @@ namespace Wammer.Model
 		public string Id { get; set; }
 
 		[BsonIgnoreIfNull]
-		public byte[] Data { get; set; }
+		public object Data { get; set; }
 	}
 }

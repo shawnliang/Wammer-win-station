@@ -237,7 +237,6 @@
       <ComponentRef Id="mongorestore.exe"/>
       <ComponentRef Id="mongodump.exe"/>
       <ComponentRef Id="mongoPrealloc.tar.gz"/>
-      <ComponentRef Id="Station.Management.exe"/>
       <ComponentGroupRef Id="AllStreamFiles"/>
       <ComponentRef Id='pmd'/>
       <ComponentRef Id="CultureSetting"/>
