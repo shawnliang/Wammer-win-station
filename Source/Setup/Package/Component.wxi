@@ -74,19 +74,6 @@
         <Component Id="websocket_sharp.dll" Guid="*">
           <File Id="websocket_sharp.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\websocket-sharp.dll" />
         </Component>
-
-        <Component Id="NetOffice.dll" Guid="*">
-          <File Id="NetOffice.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\NetOffice.dll" />
-        </Component>
-        <Component Id="OfficeApi.dll" Guid="*">
-          <File Id="OfficeApi.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\OfficeApi.dll" />
-        </Component>
-        <Component Id="PowerPointApi.dll" Guid="*">
-          <File Id="PowerPointApi.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\PowerPointApi.dll" />
-        </Component>
-        <Component Id="VBIDEApi.dll" Guid="*">
-          <File Id="VBIDEApi.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\VBIDEApi.dll" />
-        </Component>
         <Component Id="gsdll32.dll" Guid="*">
           <File Id="gsdll32.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\gsdll32.dll" />
         </Component>
@@ -163,10 +150,6 @@
         <ComponentRef Id="Waveface.Stream.Compression.dll" />
         <ComponentRef Id="Waveface.Stream.Datx.dll" />
         <ComponentRef Id="Waveface.Stream.Serializer.dll" />
-        <ComponentRef Id="NetOffice.dll" />
-        <ComponentRef Id="OfficeApi.dll" />
-        <ComponentRef Id="PowerPointApi.dll" />
-        <ComponentRef Id="VBIDEApi.dll" />
         <ComponentRef Id="gsdll32.dll" />
       </ComponentGroup>
 
