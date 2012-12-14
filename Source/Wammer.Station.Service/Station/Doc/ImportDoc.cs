@@ -34,7 +34,6 @@ namespace Wammer.Station.Doc
 					creator_id = user.user_id,
 					device_id = StationRegistry.StationId,
 					file_create_time = File.GetCreationTime(file_path),
-					file_modify_time = File.GetLastWriteTime(file_path),
 					file_name = Path.GetFileName(file_path),
 					file_path = file_path,
 					file_size = new FileInfo(file_path).Length,

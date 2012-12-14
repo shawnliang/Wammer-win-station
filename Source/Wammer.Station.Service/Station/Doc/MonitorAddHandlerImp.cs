@@ -31,15 +31,11 @@ namespace Wammer.Station.Doc
 			}
 			else
 			{
-				var item = new MonitorItem(file, user_id) { last_modify_time = attDoc.file_modify_time };
-				if (db.FindMonitorItem(item.id) != null)
-				{
-					util.UpdateDocOpenTimeAsync(user_id, attDoc.object_id, DateTime.Now);
-				}
-				else
-				{
+				util.UpdateDocOpenTimeAsync(user_id, attDoc.object_id, DateTime.Now);
+
+				var item = new MonitorItem(file, user_id) { last_modify_time = attDoc.doc_meta.modify_time };
+				if (db.FindMonitorItem(item.id) == null)
 					db.SaveMonitorItemDB(item);
-				}
 			}
 		}
 

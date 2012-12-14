@@ -431,8 +431,6 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public int? timezone { get; set; }
 
-		public DateTime file_modify_time { get; set; }
-
 		[BsonIgnoreIfNull]
 		public string device_id { get; set; }
 
