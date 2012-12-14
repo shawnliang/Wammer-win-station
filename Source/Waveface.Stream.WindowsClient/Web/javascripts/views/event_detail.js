@@ -73,12 +73,12 @@
 
       EventView.prototype.startGallery = function(e) {
         var data;
-        if (!!this.photos) {
+        if (this.photos != null) {
           data = _(this.photos).map(function(attachment) {
-            if ((attachment.image_meta.small.url != null) && (attachment.image_meta.medium.url != null)) {
+            if ((attachment.meta_data.small.url != null) && (attachment.meta_data.medium.url != null)) {
               return {
-                thumb: attachment['image_meta'].small.url,
-                image: attachment['image_meta'].medium.url
+                thumb: attachment['meta_data'].small.url,
+                image: attachment['meta_data'].medium.url
               };
             }
           });

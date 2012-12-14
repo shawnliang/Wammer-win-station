@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'views/layouts/day_view', 'mustache', 'views/partials/attachment', 'views/gallery', 'collections/attachments', 'text!templates/photos.html', 'text!templates/photos/grid_l_l_l.html', 'text!templates/photos/grid_l_p_p.html', 'text!templates/photos/grid_p_l_p.html', 'text!templates/photos/grid_p_p_l.html', 'text!templates/photos/grid_6S.html'], function(_, DayView, M, AttachmentView, GalleryView, Attachments, Template, GridLLLTemplate, GridLPPTemplate, GridPLPTemplate, GridPPLTemplate, Grid6STemplate) {
+  define(['underscore', 'views/layouts/day_view', 'mustache', 'views/partials/attachment', 'views/gallery', 'collections/attachments', 'text!templates/photos.html', 'text!templates/photos/grid_l_l_l.html', 'text!templates/photos/grid_l_p_p.html', 'text!templates/photos/grid_p_l_p.html', 'text!templates/photos/grid_p_p_l.html', 'text!templates/photos/grid_6S.html', 'bootstrap', 'jqueryui'], function(_, DayView, M, AttachmentView, GalleryView, Attachments, Template, GridLLLTemplate, GridLPPTemplate, GridPLPTemplate, GridPPLTemplate, Grid6STemplate) {
     var PhotosView;
     PhotosView = (function(_super) {
 
@@ -14,7 +14,9 @@
 
       PhotosView.prototype.id = 'photos';
 
-      PhotosView.prototype.initialize = function() {};
+      PhotosView.prototype.initialize = function() {
+        return this.selectedPhotoId = [];
+      };
 
       PhotosView.prototype.render = function(date) {
         var data, photoData;
@@ -31,8 +33,14 @@
         photoData = this.collection.filterByDate(date);
         this.renderPhotoGrid(photoData);
         this.delegateEvents(_.extend(this.events, {
-          'click .frame': this.initGallery
+          'dblclick .frame': this.initGallery,
+          'click .action-new-collection': this.newCollection,
+          'click .action-add-collection': this.addToCollection,
+          'click .action-delete-photo': this.deletePhoto,
+          'click .start-edit': this.startEdit,
+          'click .done-edit': this.doneEdit
         }));
+        this.initSelectable();
         this.setHeaderStyle();
         this.setKey();
         return this;
@@ -136,6 +144,60 @@
           return GalleryView.render(data, e, start);
         } else {
           return false;
+        }
+      };
+
+      PhotosView.prototype.startEdit = function() {
+        this.$('.start-edit-buttons').hide();
+        this.$('.edit-buttons').show();
+        return this.$selectable.selectable('enable');
+      };
+
+      PhotosView.prototype.doneEdit = function() {
+        this.$('.start-edit-buttons').show();
+        this.$('.edit-buttons').hide();
+        this.$selectable.selectable('disable');
+        return this.$selectable.find('.ui-selected').removeClass('ui-selected');
+      };
+
+      PhotosView.prototype.initSelectable = function() {
+        var _this = this;
+        return this.$selectable = this.$('.photo-grid').selectable({
+          appendTo: '#client',
+          filter: '.frame',
+          disabled: 'true',
+          selected: function(e, ui) {
+            return _this.selectedPhotoId.push(_this.$(ui.selected).data('id'));
+          },
+          unselected: function(e, ui) {
+            return _this.selectedPhotoId = _.without(_this.selectedPhotoId, _this.$(ui.unselected).data('id'));
+          },
+          start: function() {
+            return _this.$('.btn-group').removeClass('open').find('.btn').blur();
+          }
+        });
+      };
+
+      PhotosView.prototype.newCollection = function(e) {
+        e.preventDefault();
+        if (this.selectedPhotoId.length > 0) {
+          console.log(10000, 'CREATE NEW COLLECTION');
+          console.log(10001, 'ADD THESE TO THE NEW COLECTION!!!', this.selectedPhotoId);
+          return console.log(10002, 'GO TO THE COLLECTION PAGE');
+        }
+      };
+
+      PhotosView.prototype.addToCollection = function(e) {
+        e.preventDefault();
+        if (this.selectedPhotoId.length > 0) {
+          return console.log(10000, 'ADD THESE TO COLECTION!!!', this.selectedPhotoId);
+        }
+      };
+
+      PhotosView.prototype.deletePhoto = function(e) {
+        e.preventDefault();
+        if (this.selectedPhotoId.length > 0) {
+          return console.log(10000, 'DELETE THESE PHOTOS!!!', this.selectedPhotoId);
         }
       };
 
