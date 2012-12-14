@@ -296,6 +296,7 @@
     <Compile Include="Station\AbstrackTaskRunner.cs" />
     <Compile Include="Station\ThumbnailEventArgs.cs" />
     <Compile Include="Station\Timeline\BodySyncQueue.cs" />
+    <Compile Include="Station\Timeline\DownloadDocPreviewsTask.cs" />
     <Compile Include="Station\Timeline\MakeDocPreviewsTask.cs" />
     <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />
