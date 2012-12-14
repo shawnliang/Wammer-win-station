@@ -1,4 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
 
 namespace Waveface.Stream.Model
 {
@@ -16,5 +18,8 @@ namespace Waveface.Stream.Model
 
 		[BsonIgnoreIfNull]
 		public float? longitude { get; set; }
+
+		[BsonIgnoreIfNull]
+		public List<String> region_tags { get; set; }
 	}
 }

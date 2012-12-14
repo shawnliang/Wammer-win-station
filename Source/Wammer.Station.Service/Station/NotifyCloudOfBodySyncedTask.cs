@@ -6,12 +6,17 @@ namespace Wammer.Station
 	[Serializable]
 	internal class NotifyCloudOfBodySyncedTask : Retry.DelayedRetryTask
 	{
-		private readonly string object_id;
-		private readonly string session_token;
-		private int retry_count;
+		public string object_id { get; set; }
+		public string session_token { get; set; }
+		public int retry_count { get; set; }
+
+		public NotifyCloudOfBodySyncedTask()
+			: base(TaskPriority.Low)
+		{
+		}
 
 		public NotifyCloudOfBodySyncedTask(string object_id, string session_token)
-			: base(TaskPriority.Low)
+			: this()
 		{
 			if (object_id == null || session_token == null)
 				throw new ArgumentNullException();

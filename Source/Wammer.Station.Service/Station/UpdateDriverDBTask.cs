@@ -9,9 +9,14 @@ namespace Wammer.Station
 	[Serializable]
 	internal class UpdateDriverDBTask : DelayedRetryTask
 	{
-		private readonly UserLoginEventArgs args;
-		private readonly string station_id;
-		private int retry_count;
+		public UserLoginEventArgs args { get; set; }
+		public string station_id { get; set; }
+		public int retry_count { get; set; }
+
+		public UpdateDriverDBTask()
+			: base(TaskPriority.High)
+		{
+		}
 
 		public UpdateDriverDBTask(UserLoginEventArgs args, string station_id)
 			: base(TaskPriority.High)

@@ -13,6 +13,8 @@ namespace Wammer.Station.Doc
 {
 	public static class ImportDoc
 	{
+		private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ImportDoc));
+
 		public static void Process(Driver user, string object_id, string file_path, DateTime accessTime)
 		{
 			string full_saved_file_name = "";
@@ -34,7 +36,6 @@ namespace Wammer.Station.Doc
 					creator_id = user.user_id,
 					device_id = StationRegistry.StationId,
 					file_create_time = File.GetCreationTime(file_path),
-					file_modify_time = File.GetLastWriteTime(file_path),
 					file_name = Path.GetFileName(file_path),
 					file_path = file_path,
 					file_size = new FileInfo(file_path).Length,
@@ -49,31 +50,13 @@ namespace Wammer.Station.Doc
 					doc_meta = new DocProperty
 					{
 						file_name = Path.GetFileName(file_path),
-						preview_files = previewResult.files,
+						preview_files = previewResult.IsSuccess() ? previewResult.files : null,
 						access_time = new List<DateTime> { accessTime },
 						modify_time = File.GetLastWriteTime(file_path),
-						preview_pages = previewResult.files.Count
+						preview_pages = previewResult.IsSuccess() ? previewResult.files.Count : 0
 					}
 				};
 				Model.AttachmentCollection.Instance.Save(db);
-
-				// upload previews to cloud
-				var ext = Path.GetExtension(file_path).ToLower();
-				if (ext.Equals(".ppt") || ext.Equals(".pptx"))
-				{
-					// pack previews to "Stream_Doc_Priviews.zip"
-					var zip = new FastZip();
-					var previewZipFile = Path.Combine("cache", object_id + ".zip");
-					zip.UseZip64 = UseZip64.Off;
-					zip.CreateZip(previewZipFile, previewResult.previewFolder, false, null);
-
-					using (var zipStream = File.OpenRead(previewZipFile))
-					{
-						AttachmentApi.Upload(zipStream, db.group_id, db.object_id, "Stream_Doc_Previews.zip", db.mime_type, ImageMeta.None,
-							 AttachmentType.doc, CloudServer.APIKey, user.session_token, 32768, null,
-							 null, db.file_path, null, null, null, db.file_create_time, db.doc_meta);
-					}
-				}
 
 				// upload orig doc to cloud
 				AttachmentUpload.AttachmentUploadQueueHelper.Instance.Enqueue(
@@ -111,46 +94,58 @@ namespace Wammer.Station.Doc
 
 				throw;
 			}
-			finally
-			{
-				var previewZip = Path.Combine("cache", object_id + ".zip");
-				if (File.Exists(previewZip))
-					File.Delete(previewZip);
-			}
 		}
+
+		private static bool IsPowerPoint(string file_path)
+		{
+			bool IsPowerPoint = false;
+
+			var ext = Path.GetExtension(file_path).ToLower();
+			if (ext.Equals(".ppt") || ext.Equals(".pptx"))
+			{
+				IsPowerPoint = true;
+			}
+			return IsPowerPoint;
+		}
+
+		
 
 		public static MakePreviewResult MakeDocPreview(string object_id, string full_saved_file_name, string user_id)
 		{
-			
-			var userCache = Path.Combine("cache", user_id);
-			var previewFolder = Path.Combine(userCache, object_id);
+			try
+			{
+				var userCache = Path.Combine("cache", user_id);
+				var previewFolder = Path.Combine(userCache, object_id);
 
-			// create preview folder
-			if (!Directory.Exists("cache"))
-				Directory.CreateDirectory("cache");
-			
-			if (!Directory.Exists(userCache))
-				Directory.CreateDirectory(userCache);
+				// create preview folder
+				if (!Directory.Exists("cache"))
+					Directory.CreateDirectory("cache");
 
-			if (!Directory.Exists(previewFolder))
-				Directory.CreateDirectory(previewFolder);
+				if (!Directory.Exists(userCache))
+					Directory.CreateDirectory(userCache);
 
-			var fullPreviewFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), previewFolder);
+				if (!Directory.Exists(previewFolder))
+					Directory.CreateDirectory(previewFolder);
 
-			// generate previews
-			var ext = Path.GetExtension(full_saved_file_name).ToLower();
-				
-			List<string> previewFiles;
-			if (ext.Equals(".ppt") || ext.Equals(".pptx"))
-				previewFiles = PptConvert.ConvertPptToJpg(full_saved_file_name, fullPreviewFolder);
-			else if (ext.Equals(".pdf"))
-				previewFiles = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder, 1, 1);
-			else
-				throw new InvalidDataException("Unknow file type: " + full_saved_file_name);
-			
-			previewFiles = previewFiles.Select(x => x.Substring(x.IndexOf(previewFolder))).ToList();
+				var fullPreviewFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), previewFolder);
 
-			return new MakePreviewResult { previewFolder = previewFolder, files = previewFiles };
+				// generate previews
+				List<string> previewFiles;
+				if (IsPowerPoint(full_saved_file_name))
+					previewFiles = PptConvert.ConvertPptToJpg(full_saved_file_name, fullPreviewFolder);
+				else
+					previewFiles = GeneratePdfPreviews(full_saved_file_name, fullPreviewFolder, 1, 1);
+
+
+				previewFiles = previewFiles.Select(x => x.Substring(x.IndexOf(previewFolder))).ToList();
+
+				return new MakePreviewResult { previewFolder = previewFolder, files = previewFiles };
+			}
+			catch (Exception e)
+			{
+				logger.Warn("Unable to create preview for " + full_saved_file_name, e);
+				return new MakePreviewResult { files = new List<string>(), previewFolder = "" };
+			}
 		}
 
 		public static List<string> GeneratePdfPreviews(string pdfFile, string previewFolder, int firstPageToConvert = -1, int lastPageToConvert = -1)
@@ -192,5 +187,10 @@ namespace Wammer.Station.Doc
 	{
 		public string previewFolder { get; set; }
 		public List<string> files { get; set; }
+
+		public bool IsSuccess()
+		{
+			return files != null && files.Count > 0;
+		}
 	}
 }

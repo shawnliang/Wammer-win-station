@@ -76,7 +76,7 @@ namespace Wammer.Station
 				}
 			}
 
-			TaskQueue.Enqueue(new CreatePhotoFolderCollectionTask(folders, user.session_token, Cloud.CloudServer.APIKey), TaskPriority.Medium);
+			TaskQueue.Enqueue(new CreateFolderCollectionTask(folders, user.session_token, Cloud.CloudServer.APIKey), TaskPriority.Medium);
 		}
 	}
 }

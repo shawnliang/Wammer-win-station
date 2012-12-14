@@ -14,6 +14,11 @@ namespace Wammer.Station.AttachmentUpload
 		[field: NonSerialized]
 		public event EventHandler<MetadataUploadEventArgs> Uploaded;
 
+		public UploadMetadataTask()
+			:base(TaskPriority.High)
+		{
+		}
+
 		public UploadMetadataTask(string group_id, string metadata, int metaCount)
 			: base(TaskPriority.High)
 		{

@@ -9,13 +9,18 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	internal class MakeThumbnailTask : DelayedRetryTask
 	{
-		private readonly string object_id;
-		private readonly ImageMeta thumbnail_type;
-		private int retry_count;
+		public string object_id { get; set; }
+		public ImageMeta thumbnail_type { get; set; }
+		public int retry_count { get; set; }
+
 		private static IPerfCounter smallThumbnailCounter = PerfCounter.GetCounter(PerfCounter.SMALL_THUMBNAIL_GENERATE_COUNT);
 		private static IPerfCounter mediumThumbnailCounter = PerfCounter.GetCounter(PerfCounter.MEDIUM_THUMBNAIL_GENERATE_COUNT);
-
 		public static event EventHandler<ThumbnailEventArgs> ThumbnailGenerated;
+
+		public MakeThumbnailTask()
+			:base(TaskPriority.Medium)
+		{
+		}
 
 		public MakeThumbnailTask(string object_id, ImageMeta thumbnail_type, TaskPriority pri)
 			: base(pri)

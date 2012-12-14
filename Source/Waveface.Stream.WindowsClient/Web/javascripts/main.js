@@ -1,7 +1,7 @@
 (function() {
 
   require(['config'], function(main) {
-    return require(['router', 'wfwsocket', 'views/layouts/app', 'logger', 'collections/attachments'], function(Router, Socket, AppView, Logger, Attachments) {
+    return require(['router', 'wfwsocket', 'views/layouts/app', 'logger', 'collections/attachments', 'collections/documents'], function(Router, Socket, AppView, Logger, Attachments, Documents) {
       var root;
       root = this;
       root.Logger = Logger;
@@ -9,7 +9,8 @@
       return Socket.init(function() {
         new AppView();
         Backbone.history.start();
-        return Attachments.callAttachments();
+        Attachments.callAttachments();
+        return Documents.callAttachments();
       });
     });
   });

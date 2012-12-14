@@ -92,6 +92,7 @@
     <Compile Include="Src\Class\FileStorageAsyncResult.cs" />
     <Compile Include="Src\Class\FileStorageHelper.cs" />
     <Compile Include="Src\Class\GenericCommand.cs" />
+    <Compile Include="Src\Class\PostCheckIn.cs" />
     <Compile Include="Src\Class\PostGps.cs" />
     <Compile Include="Src\Class\ImportDoneMsg.cs" />
     <Compile Include="Src\Class\ImportMsg.cs" />

@@ -1,5 +1,5 @@
 /* line 4, screen.css.scss */
-* {
+header, footer, section, div {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
@@ -6999,6 +6999,172 @@ table.fc-border-separate {
   /* TODO: better selector */
   _overflow: hidden; }
 
+/* jQuery UI - v1.9.2 - 2012-12-11
+* http://jqueryui.com
+* Includes: jquery.ui.core.css, jquery.ui.resizable.css, jquery.ui.selectable.css
+* Copyright (c) 2012 jQuery Foundation and other contributors Licensed MIT */
+/* Layout helpers
+----------------------------------*/
+/* line 9, lib/_jquery-ui-1.9.2.custom.css */
+.ui-helper-hidden {
+  display: none; }
+
+/* line 10, lib/_jquery-ui-1.9.2.custom.css */
+.ui-helper-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+/* line 11, lib/_jquery-ui-1.9.2.custom.css */
+.ui-helper-reset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  line-height: 1.3;
+  text-decoration: none;
+  font-size: 100%;
+  list-style: none; }
+
+/* line 12, lib/_jquery-ui-1.9.2.custom.css */
+.ui-helper-clearfix:before, .ui-helper-clearfix:after {
+  content: "";
+  display: table; }
+
+/* line 13, lib/_jquery-ui-1.9.2.custom.css */
+.ui-helper-clearfix:after {
+  clear: both; }
+
+/* line 14, lib/_jquery-ui-1.9.2.custom.css */
+.ui-helper-clearfix {
+  zoom: 1; }
+
+/* line 15, lib/_jquery-ui-1.9.2.custom.css */
+.ui-helper-zfix {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  opacity: 0;
+  filter: Alpha(Opacity=0); }
+
+/* Interaction Cues
+----------------------------------*/
+/* line 20, lib/_jquery-ui-1.9.2.custom.css */
+.ui-state-disabled {
+  cursor: default !important; }
+
+/* Icons
+----------------------------------*/
+/* states and images */
+/* line 27, lib/_jquery-ui-1.9.2.custom.css */
+.ui-icon {
+  display: block;
+  text-indent: -99999px;
+  overflow: hidden;
+  background-repeat: no-repeat; }
+
+/* Misc visuals
+----------------------------------*/
+/* Overlays */
+/* line 34, lib/_jquery-ui-1.9.2.custom.css */
+.ui-widget-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+/* line 35, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable {
+  position: relative; }
+
+/* line 36, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-handle {
+  position: absolute;
+  font-size: 0.1px;
+  display: block; }
+
+/* line 37, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle {
+  display: none; }
+
+/* line 38, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-n {
+  cursor: n-resize;
+  height: 7px;
+  width: 100%;
+  top: -5px;
+  left: 0; }
+
+/* line 39, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-s {
+  cursor: s-resize;
+  height: 7px;
+  width: 100%;
+  bottom: -5px;
+  left: 0; }
+
+/* line 40, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-e {
+  cursor: e-resize;
+  width: 7px;
+  right: -5px;
+  top: 0;
+  height: 100%; }
+
+/* line 41, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-w {
+  cursor: w-resize;
+  width: 7px;
+  left: -5px;
+  top: 0;
+  height: 100%; }
+
+/* line 42, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-se {
+  cursor: se-resize;
+  width: 12px;
+  height: 12px;
+  right: 1px;
+  bottom: 1px; }
+
+/* line 43, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-sw {
+  cursor: sw-resize;
+  width: 9px;
+  height: 9px;
+  left: -5px;
+  bottom: -5px; }
+
+/* line 44, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-nw {
+  cursor: nw-resize;
+  width: 9px;
+  height: 9px;
+  left: -5px;
+  top: -5px; }
+
+/* line 45, lib/_jquery-ui-1.9.2.custom.css */
+.ui-resizable-ne {
+  cursor: ne-resize;
+  width: 9px;
+  height: 9px;
+  right: -5px;
+  top: -5px; }
+
+/* line 45, lib/_jquery-ui-1.9.2.custom.css */
+.ui-selectable-helper {
+  position: absolute;
+  z-index: 100;
+  border: 1px dotted black; }
+
 /* line 1, layouts/_app.scss */
 #brand {
   margin-left: 20px; }
@@ -7007,9 +7173,10 @@ table.fc-border-separate {
 #client {
   position: relative;
   height: 100%;
-  width: 100%; }
+  width: 100%;
+  overflow: hidden; }
 
-/* line 11, layouts/_app.scss */
+/* line 12, layouts/_app.scss */
 #main {
   position: absolute;
   top: 0;
@@ -7063,6 +7230,14 @@ table.fc-border-separate {
     color: #fff;
     background-color: #78aaca; }
   /* line 2, layouts/_menu.scss */
+  #menu .nav-to-docs a {
+    color: #83b1ce;
+    font-weight: bold; }
+  /* line 6, layouts/_menu.scss */
+  #menu .nav-to-docs.active a {
+    color: #fff;
+    background-color: #78aaca; }
+  /* line 2, layouts/_menu.scss */
   #menu .nav-to-calendar a {
     color: #86a640;
     font-weight: bold; }
@@ -7087,8 +7262,8 @@ table.fc-border-separate {
     color: #fff;
     background-color: #2e4877; }
 
-/* line 2, layouts/_ui.scss */
-.main-view > header, #events > header, #photos > header, #collections > header {
+/* line 4, layouts/_ui.scss */
+.main-view > header, #events > header, #photos > header, #documents > header, #calendar > header, #collections > header {
   color: #999;
   text-align: center;
   font-size: 24px;
@@ -7102,8 +7277,8 @@ table.fc-border-separate {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-/* line 18, layouts/_ui.scss */
-.main-view .content-fix, #events .content-fix, #photos .content-fix, #collections .content-fix {
+/* line 20, layouts/_ui.scss */
+.main-view .content-fix, #events .content-fix, #photos .content-fix, #documents .content-fix, #calendar .content-fix, #collections .content-fix {
   position: absolute;
   top: 60px;
   left: 0;
@@ -7111,35 +7286,35 @@ table.fc-border-separate {
   bottom: 0;
   overflow: auto; }
 
-/* line 32, layouts/_ui.scss */
-.day-view > header .date, #events > header .date, #photos > header .date {
+/* line 34, layouts/_ui.scss */
+.day-view > header .date, #events > header .date, #photos > header .date, #documents > header .date, #calendar > header .date {
   width: 250px;
   display: inline-block;
   font-size: 24px;
   cursor: default; }
-/* line 39, layouts/_ui.scss */
-.day-view > header .previousDate, #events > header .previousDate, #photos > header .previousDate, .day-view > header .nextDate, #events > header .nextDate, #photos > header .nextDate {
+/* line 41, layouts/_ui.scss */
+.day-view > header .previousDate, #events > header .previousDate, #photos > header .previousDate, #documents > header .previousDate, #calendar > header .previousDate, .day-view > header .nextDate, #events > header .nextDate, #photos > header .nextDate, #documents > header .nextDate, #calendar > header .nextDate {
   font-size: 16px;
   line-height: 60px;
   color: #999999;
   display: none;
   position: absolute; }
-  /* line 46, layouts/_ui.scss */
-  .day-view > header .previousDate:hover, #events > header .previousDate:hover, #photos > header .previousDate:hover, .day-view > header .nextDate:hover, #events > header .nextDate:hover, #photos > header .nextDate:hover {
+  /* line 48, layouts/_ui.scss */
+  .day-view > header .previousDate:hover, #events > header .previousDate:hover, #photos > header .previousDate:hover, #documents > header .previousDate:hover, #calendar > header .previousDate:hover, .day-view > header .nextDate:hover, #events > header .nextDate:hover, #photos > header .nextDate:hover, #documents > header .nextDate:hover, #calendar > header .nextDate:hover {
     cursor: pointer;
     color: #666; }
-/* line 52, layouts/_ui.scss */
-.day-view > header .previousDate, #events > header .previousDate, #photos > header .previousDate {
+/* line 54, layouts/_ui.scss */
+.day-view > header .previousDate, #events > header .previousDate, #photos > header .previousDate, #documents > header .previousDate, #calendar > header .previousDate {
   right: 50%;
   top: 0;
   margin-right: 200px; }
-/* line 57, layouts/_ui.scss */
-.day-view > header .nextDate, #events > header .nextDate, #photos > header .nextDate {
+/* line 59, layouts/_ui.scss */
+.day-view > header .nextDate, #events > header .nextDate, #photos > header .nextDate, #documents > header .nextDate, #calendar > header .nextDate {
   left: 50%;
   top: 0;
   margin-left: 200px; }
-/* line 63, layouts/_ui.scss */
-.day-view > header button, #events > header button, #photos > header button {
+/* line 65, layouts/_ui.scss */
+.day-view > header button, #events > header button, #photos > header button, #documents > header button, #calendar > header button {
   font-size: 24px;
   line-height: 24px;
   border: none;
@@ -7147,20 +7322,20 @@ table.fc-border-separate {
   padding: 0;
   color: #999999;
   vertical-align: -1px; }
-/* line 72, layouts/_ui.scss */
-.day-view > header button:active, #events > header button:active, #photos > header button:active {
+/* line 74, layouts/_ui.scss */
+.day-view > header button:active, #events > header button:active, #photos > header button:active, #documents > header button:active, #calendar > header button:active {
   color: #C75346; }
-/* line 75, layouts/_ui.scss */
-.day-view > header button:hover, #events > header button:hover, #photos > header button:hover {
+/* line 77, layouts/_ui.scss */
+.day-view > header button:hover, #events > header button:hover, #photos > header button:hover, #documents > header button:hover, #calendar > header button:hover {
   color: #666; }
-/* line 79, layouts/_ui.scss */
-.day-view > header button.disabled, #events > header button.disabled, #photos > header button.disabled {
+/* line 81, layouts/_ui.scss */
+.day-view > header button.disabled, #events > header button.disabled, #photos > header button.disabled, #documents > header button.disabled, #calendar > header button.disabled {
   color: #ddd; }
-/* line 83, layouts/_ui.scss */
-.day-view > header .icon, #events > header .icon, #photos > header .icon {
+/* line 85, layouts/_ui.scss */
+.day-view > header .icon, #events > header .icon, #photos > header .icon, #documents > header .icon, #calendar > header .icon {
   margin: 0 15px; }
-/* line 89, layouts/_ui.scss */
-.day-view > header:hover .previousDate, #events > header:hover .previousDate, #photos > header:hover .previousDate, .day-view > header:hover .nextDate, #events > header:hover .nextDate, #photos > header:hover .nextDate {
+/* line 91, layouts/_ui.scss */
+.day-view > header:hover .previousDate, #events > header:hover .previousDate, #photos > header:hover .previousDate, #documents > header:hover .previousDate, #calendar > header:hover .previousDate, .day-view > header:hover .nextDate, #events > header:hover .nextDate, #photos > header:hover .nextDate, #documents > header:hover .nextDate, #calendar > header:hover .nextDate {
   display: block; }
 
 /* line 1, partials/_attachment.scss */
@@ -7367,96 +7542,244 @@ table.fc-border-separate {
     float: left;
     width: 12.5%;
     padding: 10px; }
-  /* line 23, _photos.scss */
-  #photos .frame {
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15); }
-  /* line 28, _photos.scss */
-  #photos .photos {
-    *zoom: 1;
-    margin: 0 -1px 20px; }
-    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
-    #photos .photos:after {
-      content: "";
-      display: table;
-      clear: both; }
-  /* line 33, _photos.scss */
+  /* line 25, _photos.scss */
   #photos .more {
+    clear: both;
     margin: 10px 0 0; }
 
-/* line 42, _photos.scss */
+/* line 33, _photos.scss */
+.photo-control {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 10px 20px;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #eee;
+  border-top: 1px solid #ccc; }
+
+/* line 53, _photos.scss */
+.photos-grid .frame, .photo-grid-l-l-l .frame, .photo-grid-l-p-p .frame, .photo-grid-p-l-p .frame, .photo-grid-p-p-l .frame, .photo-grid-6s .frame {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15); }
+/* line 58, _photos.scss */
+.photos-grid .photos, .photo-grid-l-l-l .photos, .photo-grid-l-p-p .photos, .photo-grid-p-l-p .photos, .photo-grid-p-p-l .photos, .photo-grid-6s .photos {
+  *zoom: 1;
+  margin: 0 -1px 20px; }
+  /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+  .photos-grid .photos:after, .photo-grid-l-l-l .photos:after, .photo-grid-l-p-p .photos:after, .photo-grid-p-l-p .photos:after, .photo-grid-p-p-l .photos:after, .photo-grid-6s .photos:after {
+    content: "";
+    display: table;
+    clear: both; }
+/* line 63, _photos.scss */
 .photos-grid .col, .photo-grid-l-l-l .col, .photo-grid-l-p-p .col, .photo-grid-p-l-p .col, .photo-grid-p-p-l .col, .photo-grid-6s .col {
   height: 100%;
   float: left;
   padding: 10px; }
-/* line 47, _photos.scss */
+/* line 68, _photos.scss */
 .photos-grid .frame, .photo-grid-l-l-l .frame, .photo-grid-l-p-p .frame, .photo-grid-p-l-p .frame, .photo-grid-p-p-l .frame, .photo-grid-6s .frame {
   background-color: #eee;
   height: 100%; }
+/* line 72, _photos.scss */
+.photos-grid .ui-selected, .photo-grid-l-l-l .ui-selected, .photo-grid-l-p-p .ui-selected, .photo-grid-p-l-p .ui-selected, .photo-grid-p-p-l .ui-selected, .photo-grid-6s .ui-selected {
+  -webkit-box-shadow: 0 0 3px 3px #0b85d9;
+  box-shadow: 0 0 3px 3px #0b85d9; }
+/* line 76, _photos.scss */
+.photos-grid .ui-selecting, .photo-grid-l-l-l .ui-selecting, .photo-grid-l-p-p .ui-selecting, .photo-grid-p-l-p .ui-selecting, .photo-grid-p-p-l .ui-selecting, .photo-grid-6s .ui-selecting {
+  -webkit-box-shadow: 0 0 3px 3px #999;
+  box-shadow: 0 0 3px 3px #999; }
 
-/* line 53, _photos.scss */
+/* line 82, _photos.scss */
 .photo-grid-l-l-l {
   height: 300px; }
-  /* line 58, _photos.scss */
+  /* line 87, _photos.scss */
   .photo-grid-l-l-l .col-1 {
     width: 33.33%; }
-  /* line 61, _photos.scss */
+  /* line 90, _photos.scss */
   .photo-grid-l-l-l .col-2 {
     width: 33.33%; }
-  /* line 64, _photos.scss */
+  /* line 93, _photos.scss */
   .photo-grid-l-l-l .col-3 {
     width: 33.33%; }
 
-/* line 70, _photos.scss */
+/* line 99, _photos.scss */
 .photo-grid-l-p-p {
   height: 400px; }
-  /* line 75, _photos.scss */
+  /* line 104, _photos.scss */
   .photo-grid-l-p-p .col-1 {
     width: 50%; }
-  /* line 78, _photos.scss */
+  /* line 107, _photos.scss */
   .photo-grid-l-p-p .col-2 {
     width: 25%; }
-  /* line 81, _photos.scss */
+  /* line 110, _photos.scss */
   .photo-grid-l-p-p .col-3 {
     width: 25%; }
 
-/* line 87, _photos.scss */
+/* line 116, _photos.scss */
 .photo-grid-p-l-p {
   height: 400px; }
-  /* line 91, _photos.scss */
+  /* line 120, _photos.scss */
   .photo-grid-p-l-p .col-1 {
     width: 25%; }
-  /* line 94, _photos.scss */
+  /* line 123, _photos.scss */
   .photo-grid-p-l-p .col-2 {
     width: 50%; }
-  /* line 97, _photos.scss */
+  /* line 126, _photos.scss */
   .photo-grid-p-l-p .col-3 {
     width: 25%; }
 
-/* line 102, _photos.scss */
+/* line 131, _photos.scss */
 .photo-grid-p-p-l {
   height: 400px; }
-  /* line 106, _photos.scss */
+  /* line 135, _photos.scss */
   .photo-grid-p-p-l .col-1 {
     width: 25%; }
-  /* line 109, _photos.scss */
+  /* line 138, _photos.scss */
   .photo-grid-p-p-l .col-2 {
     width: 25%; }
-  /* line 112, _photos.scss */
+  /* line 141, _photos.scss */
   .photo-grid-p-p-l .col-3 {
     width: 50%; }
 
-/* line 117, _photos.scss */
+/* line 146, _photos.scss */
 .photo-grid-6s {
   height: 200px; }
-  /* line 121, _photos.scss */
+  /* line 150, _photos.scss */
   .photo-grid-6s .col {
     width: 16.666%; }
 
-/* line 1, _calendar.scss */
-#calendar {
-  padding: 20px; }
+/* line 1, _documents.scss */
+#documents {
+  overflow: hidden;
+  *zoom: 1;
+  min-height: 100%;
+  position: relative; }
+  /* line 9, _documents.scss */
+  #documents .doc-grid {
+    margin: 20px;
+    padding: 20px; }
+  /* line 14, _documents.scss */
+  #documents .document {
+    float: left;
+    padding: 20px; }
+  /* line 19, _documents.scss */
+  #documents .more {
+    clear: both;
+    margin: 20px 0 0; }
+
+/* line 25, _documents.scss */
+.paper {
+  border: 1px solid #666;
+  overflow: hidden;
+  box-shadow: 0 5px 15px 3px #ddd;
+  text-align: center;
+  background-color: #FFF; }
+  /* line 32, _documents.scss */
+  .paper img {
+    width: 100%; }
+  /* line 36, _documents.scss */
+  .paper:hover {
+    box-shadow: 0 5px 15px 3px #ccc;
+    position: relative;
+    top: -1px; }
+
+/* line 44, _documents.scss */
+.document .filename {
+  margin: 10px;
+  text-align: center;
+  color: #999; }
+
+/* line 7, _calendar.scss */
+#calendar-control {
+  padding: 20px 20px 0 80px;
+  font-size: 24px;
+  line-height: 1.5; }
+  /* line 12, _calendar.scss */
+  #calendar-control span {
+    cursor: pointer; }
+  /* line 15, _calendar.scss */
+  #calendar-control .events {
+    color: #C65D51; }
+  /* line 18, _calendar.scss */
+  #calendar-control .photos {
+    color: #6E93AA; }
+
+/* line 25, _calendar.scss */
+#calendar-d3 .month {
+  padding: 0 0 20px; }
+  /* line 29, _calendar.scss */
+  #calendar-d3 .month table {
+    width: 100%; }
+  /* line 33, _calendar.scss */
+  #calendar-d3 .month thead tr {
+    height: 10px; }
+  /* line 36, _calendar.scss */
+  #calendar-d3 .month thead th {
+    font-weight: normal;
+    color: #fff; }
+  /* line 41, _calendar.scss */
+  #calendar-d3 .month thead th:first-child {
+    width: 80px;
+    color: #000;
+    font-weight: bold; }
+  /* line 46, _calendar.scss */
+  #calendar-d3 .month thead th:last-child {
+    width: 80px; }
+  /* line 53, _calendar.scss */
+  #calendar-d3 .month tbody th, #calendar-d3 .month tbody td {
+    border: 1px solid #C3D2DB; }
+    /* line 56, _calendar.scss */
+    #calendar-d3 .month tbody th:first-child, #calendar-d3 .month tbody td:first-child {
+      border-left-style: none; }
+    /* line 59, _calendar.scss */
+    #calendar-d3 .month tbody th:last-child, #calendar-d3 .month tbody td:last-child {
+      border-right-style: none; }
+  /* line 65, _calendar.scss */
+  #calendar-d3 .month td {
+    text-align: left;
+    vertical-align: top;
+    font-size: 13px;
+    color: #ccc; }
+  /* line 71, _calendar.scss */
+  #calendar-d3 .month svg {
+    position: absolute;
+    left: 0%;
+    top: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%; }
+  /* line 79, _calendar.scss */
+  #calendar-d3 .month line {
+    shape-rendering: crispEdges;
+    opacity: 0.3; }
+  /* line 83, _calendar.scss */
+  #calendar-d3 .month .photo-rect, #calendar-d3 .month .event-rect {
+    opacity: 0.4;
+    pointer-events: fill; }
+    /* line 87, _calendar.scss */
+    #calendar-d3 .month .photo-rect:hover, #calendar-d3 .month .event-rect:hover {
+      opacity: 0.8; }
+  /* line 91, _calendar.scss */
+  #calendar-d3 .month .dateCell {
+    position: relative;
+    width: 100%;
+    height: 75px; }
+  /* line 98, _calendar.scss */
+  #calendar-d3 .month .photo-rect {
+    fill: #6E93AA; }
+  /* line 102, _calendar.scss */
+  #calendar-d3 .month .event-rect {
+    fill: #C85E52; }
+  /* line 107, _calendar.scss */
+  #calendar-d3 .month .holiday {
+    color: #900; }
 
 /* line 5, _collections.scss */
 .collection {

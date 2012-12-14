@@ -59,6 +59,8 @@ namespace Wammer.Station.AttachmentView
 			if (string.IsNullOrEmpty(pageNum))
 				throw new FormatException("missing parameter: page");
 
+			if (attDoc.doc_meta == null || attDoc.doc_meta.preview_files == null)
+				throw new WammerStationException("previews are not yet ready", -1);
 
 			var page = int.Parse(pageNum);
 			var pageIndex = page - 1;

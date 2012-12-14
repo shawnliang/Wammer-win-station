@@ -241,19 +241,36 @@ namespace Wammer.Cloud
 	}
 
 	[BsonIgnoreExtraElements]
+	public class PostCheckIn
+	{
+		[BsonIgnoreIfNull]
+		public string name { get; set; }
+
+		[BsonIgnoreIfNull]
+		public float? latitude { get; set; }
+
+		[BsonIgnoreIfNull]
+		public float? longitude { get; set; }
+	}
+
+
+	[BsonIgnoreExtraElements]
 	public class PostGps
 	{
 		[BsonIgnoreIfNull]
-		public float latitude { get; set; }
+		public float? latitude { get; set; }
 
 		[BsonIgnoreIfNull]
-		public int zoom_level { get; set; }
+		public int? zoom_level { get; set; }
 
 		[BsonIgnoreIfNull]
 		public string name { get; set; }
 
 		[BsonIgnoreIfNull]
-		public float longitude { get; set; }
+		public float? longitude { get; set; }
+
+		[BsonIgnoreIfNull]
+		public List<String> region_tags { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]
@@ -347,6 +364,9 @@ namespace Wammer.Cloud
 
 		[BsonIgnoreIfNull]
 		public int seq_num { get; set; }
+
+		[BsonIgnoreIfNull]
+		public List<PostCheckIn> checkins { get; set; }
 
 		[BsonIgnoreIfNull]
 		public List<Person> people { get; set; }

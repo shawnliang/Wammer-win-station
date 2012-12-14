@@ -16,15 +16,20 @@ namespace Wammer.Station.AttachmentUpload
 
 		public static event EventHandler<ThumbnailEventArgs> AttachmentUpstreamed;
 
+		public string object_id { get; set; }
+		public ImageMeta meta { get; set; }
+
+		public UpstreamTask()
+			: base(TaskPriority.Medium)
+		{
+		}
+
 		public UpstreamTask(string object_id, ImageMeta meta, TaskPriority pri)
 			: base(pri)
 		{
 			this.object_id = object_id;
 			this.meta = meta;
 		}
-
-		public string object_id { get; private set; }
-		public ImageMeta meta { get; private set; }
 
 		protected override void Run()
 		{

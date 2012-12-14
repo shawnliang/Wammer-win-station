@@ -8,6 +8,9 @@
       jquery: {
         exports: "$"
       },
+      jqueryui: {
+        deps: ["jquery"]
+      },
       backbone: {
         deps: ["underscore", "amplifystore", "jquery"],
         exports: "Backbone"
@@ -24,12 +27,16 @@
         deps: ["jquery"],
         exports: "Galleria"
       },
+      'lib/d3': {
+        exports: "d3"
+      },
       logger: {
         deps: ["underscore", "jquery"]
       }
     },
     paths: {
       jquery: "lib/jquery/jquery",
+      jqueryui: "lib/jquery/jquery-ui-1.9.2.custom",
       underscore: "lib/lodash/lodash",
       backbone: "lib/backbone/backbone",
       text: "lib/require/text",

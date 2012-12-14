@@ -8,7 +8,7 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class PostInfo
 	{
-		private string _cover_attach ;
+		private string _cover_attach;
 		//[BsonIgnoreIfNull]
 		//public List<AttachmentInfo> attachments { get; set; }
 
@@ -94,6 +94,8 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public int seq_num { get; set; }
 
+		[BsonIgnoreIfNull]
+		public List<PostCheckIn> checkins { get; set; }
 
 		[BsonIgnoreIfNull]
 		public List<Person> people { get; set; }
