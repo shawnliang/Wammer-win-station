@@ -172,7 +172,7 @@ namespace Wammer.Station
 
 				} while (nProc < allFiles.Count);
 
-				TaskQueue.Enqueue(new CreatePhotoFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.Medium);
+				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.Medium);
 
 			}
 			catch (Exception e)

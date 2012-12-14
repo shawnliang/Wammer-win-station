@@ -7,15 +7,20 @@ using Wammer.Station.Retry;
 namespace Wammer.Station
 {
 	[Serializable]
-	public class CreatePhotoFolderCollectionTask : DelayedRetryTask
+	public class CreateFolderCollectionTask : DelayedRetryTask
 	{
-		private Dictionary<string, FolderCollection> collections;
-		private string session;
-		private string apikey;
+		public Dictionary<string, FolderCollection> collections { get; set; }
+		public string session { get; set; }
+		public string apikey { get; set; }
+		public int retry { get; set; }
 
-		private int retry = 0;
+		public CreateFolderCollectionTask()
+			:base(TaskPriority.Medium)
+		{
+			collections = new Dictionary<string, FolderCollection>();
+		}
 
-		public CreatePhotoFolderCollectionTask(Dictionary<string, FolderCollection> collections, string session, string apikey)
+		public CreateFolderCollectionTask(Dictionary<string, FolderCollection> collections, string session, string apikey)
 			: base(TaskPriority.Medium)
 		{
 			this.collections = collections;

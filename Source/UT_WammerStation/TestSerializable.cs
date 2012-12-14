@@ -54,7 +54,7 @@ namespace UT_WammerStation
 			BinaryFormatter f = new BinaryFormatter();
 
 			var p = new Dictionary<string, Wammer.Station.FolderCollection> { { "123", new Wammer.Station.FolderCollection("1", "2") } };
-			var t = new Wammer.Station.CreatePhotoFolderCollectionTask(p, "aaa", "bbb");
+			var t = new Wammer.Station.CreateFolderCollectionTask(p, "aaa", "bbb");
 
 			MemoryStream m = new MemoryStream();
 			f.Serialize(m, t);

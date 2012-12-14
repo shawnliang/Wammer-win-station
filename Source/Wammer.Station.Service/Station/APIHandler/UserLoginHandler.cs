@@ -92,6 +92,10 @@ namespace Wammer.Station
 	[Serializable]
 	public class UserLoginEventArgs : EventArgs
 	{
+		public UserLoginEventArgs()
+		{
+		}
+
 		public UserLoginEventArgs(string email, string session_token, string apikey, string user_id)
 		{
 			this.email = email;
