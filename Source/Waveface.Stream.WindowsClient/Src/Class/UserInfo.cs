@@ -32,17 +32,27 @@ namespace Waveface.Stream.WindowsClient
 		#region Private Property
 		private DateTime m_UpdateTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the m_ session token.
-		/// </summary>
-		/// <value>The m_ session token.</value>
-		private string m_SessionToken { get; set; }
+		private string m_SessionToken 
+		{ 
+			get 
+			{
+				return StreamClient.Instance.LoginedUser.SessionToken;
+			}
+		}
 
 		/// <summary>
-		/// Gets or sets the m_ user ID.
+		/// Gets the m_ user ID.
 		/// </summary>
-		/// <value>The m_ user ID.</value>
-		private string m_UserID { get; set; }
+		/// <value>
+		/// The m_ user ID.
+		/// </value>
+		private string m_UserID 
+		{
+			get 
+			{
+				return StreamClient.Instance.LoginedUser.UserID;
+			}
+		}
 
 
 		/// <summary>
@@ -140,19 +150,6 @@ namespace Waveface.Stream.WindowsClient
 		}
 		#endregion
 
-
-		#region Constructor
-		private UserInfo()
-		{
-			var loginedSession = LoginedSessionCollection.Instance.FindOne();
-
-			if (loginedSession == null)
-				return;
-
-			m_SessionToken = loginedSession.session_token;
-			m_UserID = loginedSession.user.user_id;
-		}
-		#endregion
 
 
 		#region Private Method
