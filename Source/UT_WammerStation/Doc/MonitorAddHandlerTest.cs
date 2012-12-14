@@ -49,7 +49,7 @@ namespace UT_WammerStation.Doc
 		public void AddOldDocWhichIsAlreadyBeingMonitored()
 		{
 			var file = @"c:\a\file.ppt";
-			var docAtt = new Attachment { object_id = Guid.NewGuid().ToString(), file_path = file };
+			var docAtt = new Attachment { object_id = Guid.NewGuid().ToString(), file_path = file, doc_meta = new DocProperty { modify_time = DateTime.Now } };
 			var monitorItem = new MonitorItem(file, "user1") { last_modify_time = DateTime.Now };
 			Mock<IMonitorAddHandlerDB> db = new Mock<IMonitorAddHandlerDB>();
 			db.Setup(x => x.FindLatestVersion(file, "user1")).Returns(docAtt).Verifiable();
@@ -69,7 +69,7 @@ namespace UT_WammerStation.Doc
 		public void AddOldDocWhichIsNotMoniteredNow()
 		{
 			var file = @"c:\a\file.ppt";
-			var docAtt = new Attachment { object_id = Guid.NewGuid().ToString(), file_path = file, file_modify_time = DateTime.Now };
+			var docAtt = new Attachment { object_id = Guid.NewGuid().ToString(), file_path = file, doc_meta = new DocProperty { modify_time = DateTime.Now } };
 			var monitorItem = new MonitorItem(file, "user1");
 
 			Mock<IMonitorAddHandlerDB> db = new Mock<IMonitorAddHandlerDB>();
@@ -79,14 +79,16 @@ namespace UT_WammerStation.Doc
 				y =>
 					y.user_id == "user1" &&
 					y.path == file &&
-					y.last_modify_time == docAtt.file_modify_time))).Verifiable();
+					y.last_modify_time == docAtt.doc_meta.modify_time))).Verifiable();
 
 			Mock<IMonitorAddHandlerUtility> util = new Mock<IMonitorAddHandlerUtility>();
+			util.Setup(x => x.UpdateDocOpenTimeAsync("user1", docAtt.object_id, It.IsAny<DateTime>())).Verifiable();
 
 			var imp = new MonitorAddHandlerImp(db.Object, util.Object);
 			imp.Process("apikey", "session", "user1", file);
 
 			db.VerifyAll();
+			util.VerifyAll();
 		}
 	}
 }
