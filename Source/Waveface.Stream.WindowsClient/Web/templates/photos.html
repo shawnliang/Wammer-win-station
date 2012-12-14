@@ -7,8 +7,38 @@
 </header>
 
 <div class="content-fix">
+
+
 	<div class="photo-grid">
 		<div class="photos"></div>
 		<div class="more">Show more...</div>
 	</div>
+</div>
+<div class="photo-control btn-toolbar">
+
+	<div class="btn-group">
+	  <button class="btn"><i class="icon-th"></i></button>
+	  <button class="btn"><i class="icon-th-large"></i></button>
+	</div>
+	<div class="pull-right start-edit-buttons">
+		<button class="btn start-edit"><i class="icon-edit"></i> Edit</button>
+	</div>
+	<div class="pull-right edit-buttons hide">
+		<div class="btn-group dropup">
+			<button class="btn dropdown-toggle" data-toggle="dropdown">
+			Add to..
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href="#" class="action-new-collection">New Collection</a></li>
+				<li class="divider"></li>
+				<li><a href="#" class="action-add-collection">Family</a></li>
+				<li><a href="#" class="action-add-collection">Babby</a></li>
+			</ul>
+		</div>
+		<button class="btn btn-danger action-delete-photo"><i class="icon-trash"></i> Delete</button>
+		<button class="btn btn-success done-edit"><i class="icon-ok"></i> Done</button>
+
+	</div>
+
 </div>
