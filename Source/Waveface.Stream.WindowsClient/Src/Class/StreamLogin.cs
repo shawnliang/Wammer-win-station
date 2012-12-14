@@ -99,7 +99,7 @@ namespace Waveface.Stream.WindowsClient
 					AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken));
 				}
 
-				StationAPI.Login(userID, sessionToken);
+				StreamClient.Instance.LoginSNS(userID, sessionToken);
 
 				return new UserSession { session_token = sessionToken, user_id = userID };
 

@@ -484,7 +484,6 @@ namespace Waveface.Stream.ClientFramework
 
 			return ret;
 		}
-
 		#endregion
 
 
@@ -626,6 +625,35 @@ namespace Waveface.Stream.ClientFramework
 					return null;
 
 				var userID = loginedUser.user.user_id;
+
+				response = StationAPI.Login(
+					userID,
+					sessionToken);
+
+				return response;
+			}
+			finally
+			{
+				OnLogined(new LoginedEventArgs(response));
+			}
+		}
+
+		/// <summary>
+		/// Logins the SNS.
+		/// </summary>
+		/// <param name="userID">The user ID.</param>
+		/// <param name="sessionToken">The session token.</param>
+		/// <returns></returns>
+		public string LoginSNS(string userID, string sessionToken)
+		{
+			if (LoginedUser != null)
+				return null;
+
+			var response = string.Empty;
+
+			try
+			{
+				OnLogining(EventArgs.Empty);
 
 				response = StationAPI.Login(
 					userID,
