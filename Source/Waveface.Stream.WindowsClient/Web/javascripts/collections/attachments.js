@@ -25,7 +25,13 @@
       AttachmentCollection.prototype.localStorage = new LocalStorage('attachments');
 
       AttachmentCollection.prototype.initialize = function() {
-        return dispatch.on("store:change:" + this.schemaName + ":all", this.updateAttachment, this);
+        dispatch.on("store:change:" + this.schemaName + ":all", this.updateAttachment, this);
+        dispatch.on("more:" + this.schemaName + ":bylength", this.loadByLength, this);
+        return true;
+      };
+
+      AttachmentCollection.prototype.comparator = function(model) {
+        return -moment(model.get("timestamp")).unix();
       };
 
       AttachmentCollection.prototype.filterByDate = function(date) {
@@ -49,7 +55,7 @@
         var dateIndex;
         dateIndex = _.indexOf(this.dateGroup, date);
         if (!this.dateGroup[dateIndex + 3]) {
-          dispatch.trigger("more:attach:bylength");
+          dispatch.trigger("more:" + this.schemaName + ":bylength");
         }
         return this.dateGroup[dateIndex + 1];
       };
@@ -77,7 +83,8 @@
         photosViewStore.save();
         params = {
           page_size: pageSize,
-          page_no: pageNo
+          page_no: pageNo,
+          type: this.type
         };
         memo = {
           namespace: 'all'
@@ -85,27 +92,28 @@
         return wfwsocket.sendMessage('getAttachments', params, memo);
       };
 
-      return AttachmentCollection;
-
-    })(Backbone.Collection);
-    ({
-      loadByLength: function(pageSize) {
+      AttachmentCollection.prototype.loadByLength = function(pageSize) {
         var localAttachsNum, memo, pageNow, params;
         if (pageSize == null) {
-          pageSize = 200;
+          pageSize = 100;
         }
         localAttachsNum = this.length;
         pageNow = parseInt(localAttachsNum / pageSize);
         params = {
           page_size: pageSize,
-          page_no: pageNow + 1
+          page_no: pageNow + 1,
+          type: this.type
         };
         memo = {
-          namespace: 'all'
+          namespace: 'all',
+          type: this.schemaName
         };
         return wfwsocket.sendMessage('getAttachments', params, memo);
-      }
-    });
+      };
+
+      return AttachmentCollection;
+
+    })(Backbone.Collection);
     return new AttachmentCollection;
   });
 

@@ -51,26 +51,52 @@
       };
 
       AttachmentCaller.prototype.updateAttachment = function(data, ns) {
-        var attachments, lastDate,
+        var attachments,
           _this = this;
         attachments = data.attachments;
-        lastDate = false;
         if (attachments.length <= 0) {
           return false;
         }
         _.each(attachments, function(attachment, index) {
-          var attachDate;
-          attachDate = moment(attachment.timestamp).format('YYYY-MM-DD');
-          if (index === 0) {
-            lastDate = attachDate;
-          }
-          _this.dateGroup.push(attachDate);
+          _this.setDateGroup(attachment, index);
           return _this.add(attachment);
         });
         this.dateGroup = _.uniq(this.dateGroup);
         if (ns !== "all") {
           return dispatch.trigger("render:change:" + this.schemaName + ":" + ns, attachments);
         }
+      };
+
+      AttachmentCaller.prototype.setDateGroup = function(attachment, index) {
+        var attachDate;
+        attachDate = moment(attachment.timestamp).format('YYYY-MM-DD');
+        return this.dateGroup.push(attachDate);
+      };
+
+      AttachmentCaller.prototype.filterByDate = function(date) {
+        if (!date) {
+          return this;
+        }
+        return _(this.filter(function(model) {
+          var attachDate;
+          attachDate = model.get('dateUri');
+          return attachDate === date;
+        }));
+      };
+
+      AttachmentCaller.prototype.nextDate = function(date) {
+        var dateIndex;
+        dateIndex = _.indexOf(this.dateGroup, date);
+        return this.dateGroup[dateIndex - 1];
+      };
+
+      AttachmentCaller.prototype.previousDate = function(date) {
+        var dateIndex;
+        dateIndex = _.indexOf(this.dateGroup, date);
+        if (!this.dateGroup[dateIndex + 3]) {
+          dispatch.trigger("more:" + this.schemaName + ":bylength");
+        }
+        return this.dateGroup[dateIndex + 1];
       };
 
       return AttachmentCaller;

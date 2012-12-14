@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'backbone', 'collections/events', 'collections/attachments', 'collections/documents', 'collections/wfcollections', 'views/events', 'views/photos', 'views/calendar_d3', 'views/collections', 'localstorage', 'com/subscriber'], function(_, Backbone, Events, Attachments, Documents, WFCollection, EventsView, PhotosView, CalendarView, CollectionView, Storage, Subscriber) {
+  define(['underscore', 'backbone', 'collections/events', 'collections/attachments', 'collections/documents', 'views/events', 'views/photos', 'views/documents', 'views/calendar_d3', 'views/collections', 'localstorage', 'com/subscriber'], function(_, Backbone, Events, Attachments, Documents, EventsView, PhotosView, DocsView, CalendarView, CollectionView, Storage, Subscriber) {
     var AppRouter, root;
     root = this;
     return AppRouter = (function(_super) {
@@ -24,9 +24,9 @@
         'photos': 'actionPhotos',
         'photos/': 'actionPhotos',
         'photos/:date': 'actionPhotos',
-        'docs': 'actionDocs',
-        'docs/': 'actionDocs',
-        'docs/:date': 'actionDocs',
+        'documents': 'actionDocs',
+        'documents/': 'actionDocs',
+        'documents/:date': 'actionDocs',
         'calendar': 'actionCalendar',
         'collection': 'actionCollection'
       };
@@ -87,11 +87,23 @@
       };
 
       AppRouter.prototype.actionDocs = function(date) {
-        var viewState;
-        viewState = new Storage('nc_view_state:photos');
+        var last, viewState;
+        viewState = new Storage('nc_view_state:docs');
         if (Documents.length === 0) {
-          return Documents.callAttachments();
+          Documents.callAttachments();
         }
+        if (!date) {
+          if (viewState.data.date != null) {
+            date = viewState.data.date;
+          } else if ((last = Documents.first())) {
+            date = last.get('dateUri');
+          }
+        }
+        this.main.empty().append(DocsView.render(date).el);
+        viewState.data = {
+          date: date
+        };
+        return viewState.save();
       };
 
       AppRouter.prototype.actionCalendar = function() {
