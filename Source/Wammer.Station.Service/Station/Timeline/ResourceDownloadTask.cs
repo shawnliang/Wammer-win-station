@@ -28,8 +28,14 @@ namespace Wammer.Station.Timeline
 		private static readonly IPerfCounter downloadCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
 		private static readonly ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
 		private static readonly AttachmentUpload.AttachmentUploadStorage resStorage = new AttachmentUpload.AttachmentUploadStorage(new AttachmentUpload.AttachmentUploadStorageDB());
-		private ResourceDownloadEventArgs evtargs;
 		private static AttachmentUpload.AttachmentUploadStorage storage = new AttachmentUpload.AttachmentUploadStorage(new AttachmentUpload.AttachmentUploadStorageDB());
+
+		public ResourceDownloadEventArgs evtargs { get; set; }
+
+		public ResourceDownloadTask()
+			: base(TaskPriority.Medium)
+		{
+		}
 
 		public ResourceDownloadTask(ResourceDownloadEventArgs arg, TaskPriority pri)
 			: base(pri)

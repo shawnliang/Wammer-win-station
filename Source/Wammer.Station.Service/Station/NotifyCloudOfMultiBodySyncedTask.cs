@@ -9,12 +9,18 @@ namespace Wammer.Station
 	[Serializable]
 	class NotifyCloudOfMultiBodySyncedTask : Retry.DelayedRetryTask
 	{
-		private readonly List<String> object_ids;
-		private readonly string user_id;
-		private int retry_count;
+		public List<String> object_ids { get; set; }
+		public string user_id { get; set; }
+		public int retry_count { get; set; }
+
+		public NotifyCloudOfMultiBodySyncedTask()
+			: base(TaskPriority.Low)
+		{
+			object_ids = new List<string>();
+		}
 
 		public NotifyCloudOfMultiBodySyncedTask(List<string> object_ids, string user_id)
-			: base(TaskPriority.Low)
+			: this()
 		{
 			if (object_ids == null || object_ids.Count == 0 || string.IsNullOrEmpty(user_id))
 				throw new ArgumentNullException();

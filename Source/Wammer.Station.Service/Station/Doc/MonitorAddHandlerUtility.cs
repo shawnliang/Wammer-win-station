@@ -19,13 +19,19 @@ namespace Wammer.Station.Doc
 	[Serializable]
 	class UpdateDocAccessTimeTask : Retry.DelayedRetryTask
 	{
-		private string user_id;
-		private string doc_id;
-		private DateTime openTime;
-		private int retryCount = 50;
+		public string user_id { get; set; }
+		public string doc_id { get; set; }
+		public DateTime openTime { get; set; }
+		public int retryCount { get; set; }
+
+		public UpdateDocAccessTimeTask()
+			:base(TaskPriority.Medium)
+		{
+			retryCount = 50;
+		}
 
 		public UpdateDocAccessTimeTask(string user_id, string doc_id, DateTime openTime)
-			:base(TaskPriority.Medium)
+			:this()
 		{
 			this.user_id = user_id;
 			this.doc_id = doc_id;

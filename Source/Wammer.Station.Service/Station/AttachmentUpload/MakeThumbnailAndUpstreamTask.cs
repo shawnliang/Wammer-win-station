@@ -7,26 +7,27 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	internal class MakeThumbnailAndUpstreamTask : DelayedRetryTask
 	{
-		private readonly ImageMeta meta;
-		private readonly string object_id;
-		private readonly TaskPriority pri;
-		private readonly IAttachmentUtil util;
+		public ImageMeta meta { get; set; }
+		public string object_id { get; set; }
+		
+		public MakeThumbnailAndUpstreamTask()
+			:base(TaskPriority.Medium)
+		{
+		}
 
-		public MakeThumbnailAndUpstreamTask(string object_id, ImageMeta meta, TaskPriority pri, IAttachmentUtil util)
+		public MakeThumbnailAndUpstreamTask(string object_id, ImageMeta meta, TaskPriority pri)
 			: base(pri)
 		{
 			this.object_id = object_id;
 			this.meta = meta;
-			this.pri = pri;
-			this.util = util;
 		}
 
 		protected override void Run()
 		{
-			var makeThumbnail = new MakeThumbnailTask(object_id, meta, pri);
+			var makeThumbnail = new MakeThumbnailTask(object_id, meta, this.priority);
 			makeThumbnail.MakeThumbnail();
 
-			util.UpstreamAttachmentAsync(object_id, meta, TaskPriority.VeryLow);
+			new AttachmentUtility().UpstreamAttachmentAsync(object_id, meta, TaskPriority.VeryLow);
 		}
 
 		public override void ScheduleToRun()

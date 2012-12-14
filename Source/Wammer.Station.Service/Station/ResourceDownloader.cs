@@ -230,12 +230,17 @@ namespace Wammer.Station
 	[Serializable]
 	internal class QueryIfDownstreamNeededTask : Retry.DelayedRetryTask
 	{
-		private string object_id;
-		private string user_id;
-		private AttachmentInfo cloudDoc;
+		public string object_id { get; set; }
+		public string user_id { get; set; }
+		public AttachmentInfo cloudDoc { get; set; }
+
+		public QueryIfDownstreamNeededTask()
+			: base(TaskPriority.Low)
+		{
+		}
 
 		public QueryIfDownstreamNeededTask(string user_id, string object_id)
-			: base(TaskPriority.Low)
+			: this()
 		{
 			this.object_id = object_id;
 			this.user_id = user_id;
