@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Model;
+using System.Collections.Generic;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -15,15 +16,42 @@ namespace Waveface.Stream.WindowsClient
 		private string session_token;
 		private int import_count;
 
-		public ImportFromPotableMediaControl(IPortableMediaService service)
+		public ImportFromPotableMediaControl()
 		{
 			InitializeComponent();
-			this.service = service;
-			this.service.ImportDone += new EventHandler<ImportDoneEventArgs>(service_ImportDone);
-			this.service.FileImported += new EventHandler<FileImportedEventArgs>(service_FileImported);
 			progressBar.Value = 0;
-
+			this.Service = new NullPortableMediaService();
 			this.PageTitle = "Import from media";
+		}
+
+		public ImportFromPotableMediaControl(IPortableMediaService service)
+			:this()
+		{
+			this.Service = service;
+		}
+
+		public IPortableMediaService Service
+		{
+			get { return service; }
+			set 
+			{
+				this.service = value;
+				this.service.ImportDone += service_ImportDone;
+				this.service.FileImported += service_FileImported;
+			}
+		}
+
+		public void ImportDevice(string driveName)
+		{
+			foreach (PortableDevice dev in deviceCombobox.Items)
+			{
+				if (dev.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					deviceCombobox.SelectedItem = dev;
+					importDevice(dev);
+					return;
+				}
+			}
 		}
 
 		void service_FileImported(object sender, FileImportedEventArgs e)
@@ -71,6 +99,11 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var device = deviceCombobox.SelectedItem as PortableDevice;
 
+			importDevice(device);
+		}
+
+		private void importDevice(PortableDevice device)
+		{
 			if (device == null)
 				return;
 
@@ -132,6 +165,28 @@ namespace Waveface.Stream.WindowsClient
 		{
 			session_token = (string)parameters.Get("session_token");
 			user_id = (string)parameters.Get("user_id");
+		}
+	}
+
+	class NullPortableMediaService : IPortableMediaService
+	{
+
+		public event EventHandler<FileImportedEventArgs> FileImported;
+
+		public event EventHandler<ImportDoneEventArgs> ImportDone;
+
+		public System.Collections.Generic.IEnumerable<PortableDevice> GetPortableDevices()
+		{
+			return new List<PortableDevice>();
+		}
+
+		public System.Collections.Generic.IEnumerable<string> GetFileList(string path)
+		{
+			return new List<string>();
+		}
+
+		public void ImportAsync(System.Collections.Generic.IEnumerable<string> files, string user_id, string session_token, string apikey)
+		{
 		}
 	}
 }
