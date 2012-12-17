@@ -1000,6 +1000,10 @@
       <Project>{6C951229-0A01-47B7-89B5-9317B025415B}</Project>
       <Name>Waveface.Stream.ClientFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Core\Waveface.Stream.Core.csproj">
+      <Project>{2e32611c-38bb-4ff7-94e7-eeaf6d9c26df}</Project>
+      <Name>Waveface.Stream.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
       <Project>{990AE10D-E77A-4742-BCAA-A52A9B7D1AF9}</Project>
       <Name>Waveface.Stream.Model</Name>

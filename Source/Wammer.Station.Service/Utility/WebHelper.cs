@@ -72,7 +72,7 @@ namespace Waveface
 		/// <param name="formDataStream">The form data stream.</param>
 		/// <returns></returns>
 		private static byte[] FillPostParameters(Dictionary<string, object> postParameters, string boundary,
-												 Stream formDataStream)
+												 System.IO.Stream formDataStream)
 		{
 			formDataStream.Write(m_Encoding.GetBytes("\r\n"), 0, 2);
 
@@ -105,9 +105,9 @@ namespace Waveface
 		/// <param name="appendDataProcess">The append data process.</param>
 		/// <returns></returns>
 		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
-												   string mimeType, Action<Stream> appendDataProcess)
+												   string mimeType, Action<System.IO.Stream> appendDataProcess)
 		{
-			using (Stream ms = new MemoryStream())
+			using (var ms = new MemoryStream())
 			{
 				// Add just the first part of this param, since we will write the file data directly to the Stream
 				string _header =
@@ -137,7 +137,7 @@ namespace Waveface
 		/// <param name="dataStream">The data stream.</param>
 		/// <returns></returns>
 		private static byte[] GetMultipartFormData(Dictionary<string, object> postParameters, string boundary, string fileName,
-												   string mimeType, Stream dataStream)
+												   string mimeType, System.IO.Stream dataStream)
 		{
 			return GetMultipartFormData(postParameters, boundary, fileName, mimeType, stream => stream.Write(dataStream));
 		}
@@ -164,7 +164,7 @@ namespace Waveface
 
 		public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent,
 															Dictionary<string, object> postParameters, string fileName,
-															string mimeType, Stream dataStream, int bufferSize = 1024,
+															string mimeType, System.IO.Stream dataStream, int bufferSize = 1024,
 															Action<object, ProgressChangedEventArgs> progressChangedCallBack = null)
 		{
 			byte[] formData = GetMultipartFormData(postParameters, FORM_DATA_BOUNDARY, fileName, mimeType, dataStream);
@@ -225,7 +225,7 @@ namespace Waveface
 			request.ProtocolVersion = HttpVersion.Version10;
 
 			request.SendChunked = true;
-			using (Stream requestStream = request.GetRequestStream())
+			using (var requestStream = request.GetRequestStream())
 			{
 				requestStream.Write(formData, bufferSize, progressChangedCallBack);
 			}
@@ -307,7 +307,7 @@ namespace Waveface
 				WebResponse _webResponse = _httpWebRequest.GetResponse();
 
 				// Open data stream:
-				Stream _webStream = _webResponse.GetResponseStream();
+				var _webStream = _webResponse.GetResponseStream();
 
 				// Create reader object:
 				Debug.Assert(_webStream != null, "_webStream != null");

@@ -81,55 +81,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Src\Class\AttachmentCompare.cs" />
-    <Compile Include="Src\Class\AutoMapperSetting.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
-    <Compile Include="Src\Class\FileHelper.cs" />
+    <Compile Include="Src\Class\LoginController.cs" />
     <Compile Include="Src\Class\LoginedUser.cs" />
-    <Compile Include="Src\Class\StationAPI.cs" />
-    <Compile Include="Src\Class\WebSocketCommandData.cs" />
-    <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\AddCollectionAttachmentsCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\OpenAttachmentCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\UnSubscribeEventCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\UpdateCollectionCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\CreateCollectionCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\GetCollectionsCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
-    <Compile Include="Src\Class\WebSocketData\AttachmentGPSData.cs" />
-    <Compile Include="Src\Class\WebSocketData\PostCheckInData.cs" />
-    <Compile Include="Src\Class\WebSocketData\SmallSizeCollcetionData.cs" />
-    <Compile Include="Src\Class\WebSocketData\MediumSizeCollcetionData.cs" />
-    <Compile Include="Src\Class\WebSocketData\SmallSizePostData.cs" />
-    <Compile Include="Src\Class\WebSocketData\ExifData.cs" />
-    <Compile Include="Src\Class\WebSocketData\GPSInfoData.cs" />
-    <Compile Include="Src\Class\WebSocketData\LargeSizeMetaData.cs" />
-    <Compile Include="Src\Class\WebSocketData\LargeSizeAttachmentData.cs" />
-    <Compile Include="Src\Class\WebSocketData\MediumSizeAttachmentData.cs" />
-    <Compile Include="Src\Class\WebSocketData\CalendarEntry.cs" />
-    <Compile Include="Src\Class\WebSocketData\DeviceData.cs" />
-    <Compile Include="Src\Class\WebSocketData\MediumSizeMetaData.cs" />
-    <Compile Include="Src\Class\WebSocketData\PeopleData.cs" />
-    <Compile Include="Src\Class\WebSocketData\PostExtraData.cs" />
-    <Compile Include="Src\Class\WebSocketData\PostGpsData.cs" />
-    <Compile Include="Src\Class\WebSocketData\ThumbnailData.cs" />
-    <Compile Include="Src\Class\Lazy.cs" />
-    <Compile Include="Src\Class\WebSocketData\MediumSizePostData.cs" />
     <Compile Include="Src\Class\StreamClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Src\Class\WebSocketData\UserData.cs" />
     <Compile Include="Src\Class\WebClientControlServer.cs" />
     <Compile Include="Src\Class\WebClientControlService.cs" />
     <Compile Include="Src\Class\WebSocketCommandExecuter.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\Base\WebSocketCommandBase.cs" />
     <Compile Include="Src\Class\WebSocketCommand\AlertCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\GetUserInfoCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\GetAttachmentsCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\GetPostsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\LogCommand.cs" />
-    <Compile Include="Src\Class\WebSocketCommand\InvokeRestfulCommand.cs" />
-    <Compile Include="Src\Enum\SystemEventType.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\OpenAttachmentCommand.cs" />
     <Compile Include="Src\Event\AttachmentsEventArgs.cs" />
     <Compile Include="Src\Event\CollectionsEventArgs.cs" />
     <Compile Include="Src\Event\PostsEventArgs.cs" />
@@ -138,13 +100,15 @@
     <Compile Include="Src\Extension\ListBoxExtension.cs" />
     <Compile Include="Src\Extension\EnumExtension.cs" />
     <Compile Include="Src\Extension\ObjectExtension.cs" />
-    <Compile Include="Src\Interface\IWebSocketCommand.cs" />
-    <Compile Include="Src\Interface\IWebSocketCommandExecuter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Waveface.Stream.Compression\Waveface.Stream.Compression.csproj">
       <Project>{d8ebeb43-6e6d-4b23-a2b9-ba390c962171}</Project>
       <Name>Waveface.Stream.Compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Core\Waveface.Stream.Core.csproj">
+      <Project>{2e32611c-38bb-4ff7-94e7-eeaf6d9c26df}</Project>
+      <Name>Waveface.Stream.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Waveface.Stream.Datx\Waveface.Stream.Datx.csproj">
       <Project>{b1d9fc7c-ba18-4247-9401-47eaec7e31e5}</Project>
@@ -161,6 +125,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)..\Tools\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>

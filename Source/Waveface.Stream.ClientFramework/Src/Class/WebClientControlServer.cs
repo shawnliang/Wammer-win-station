@@ -11,6 +11,10 @@ namespace Waveface.Stream.ClientFramework
 		const string WEB_SOCKET_SERVER_IP_PATTERN = "ws://0.0.0.0:{0}";
 		#endregion
 
+		#region Static Var
+        private static WebClientControlServer _instance;
+        #endregion
+
 		#region Var
 		private WebSocketServer<WebClientControlService> _webSocketServer;
 		#endregion
@@ -31,6 +35,23 @@ namespace Waveface.Stream.ClientFramework
 					_webSocketServer.OnError += new EventHandler<WebSocketSharp.ErrorEventArgs>(WebSocketServer_OnError);
 				}
 				return _webSocketServer;
+			}
+		}
+		#endregion
+
+
+		#region Public Static Property
+		/// <summary>
+		/// Gets the instance.
+		/// </summary>
+		/// <value>
+		/// The instance.
+		/// </value>
+		public static WebClientControlServer Instance
+		{
+			get
+			{
+				return _instance ?? (_instance = new WebClientControlServer());
 			}
 		}
 		#endregion
@@ -60,13 +81,9 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Constructor
-		/// <summary>
-		/// Initializes a new instance of the <see cref="WebClientControlServer" /> class.
-		/// </summary>
-		/// <param name="port">The port.</param>
-		public WebClientControlServer(int port)
+		private WebClientControlServer()
 		{
-			this.Port = port;
+			this.Port = 1337;
 		}
 		#endregion
 

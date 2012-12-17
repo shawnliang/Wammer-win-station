@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework.Properties;
+using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 
 namespace Waveface.Stream.ClientFramework

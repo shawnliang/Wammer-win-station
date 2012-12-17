@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Waveface.Stream.Core;
+using WebSocketSharp;
 using WebSocketSharp.Server;
 
 
@@ -17,7 +19,8 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Var
-		IWebSocketCommandExecuter _webSocketCommandExecuter;
+		private IWebSocketCommandExecuter _webSocketCommandExecuter;
+		private WebSocket _socketClient;
 		#endregion
 
 
@@ -48,6 +51,47 @@ namespace Waveface.Stream.ClientFramework
 			get
 			{
 				return _webSocketCommandExecuter ?? (_webSocketCommandExecuter = WebSocketCommandExecuter.Instance);
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the m_ socket client.
+		/// </summary>
+		/// <value>The m_ socket client.</value>
+		private WebSocket m_SocketClient
+		{
+			get
+			{
+				lock (this)
+				{
+					if (_socketClient == null)
+					{
+						_socketClient = new WebSocket("ws://127.0.0.1:1338");
+						_socketClient.OnError += new EventHandler<ErrorEventArgs>(_socketClient_OnError);
+						_socketClient.OnMessage += new EventHandler<MessageEventArgs>(_socketClient_OnMessage);
+						_socketClient.OnClose += new EventHandler<CloseEventArgs>(_socketClient_OnClose);
+
+						_socketClient.Connect();
+					}
+					return _socketClient;
+				}
+			}
+			set
+			{
+				lock (this)
+				{
+					if (_socketClient != null)
+					{
+						try
+						{
+							_socketClient.Dispose();
+						}
+						catch (Exception)
+						{
+						}
+					}
+					_socketClient = value;
+				}
 			}
 		}
 		#endregion
@@ -84,8 +128,17 @@ namespace Waveface.Stream.ClientFramework
 		{
 			try
 			{
-				var command = data.CommandName;
+				var command = data.Command;
 				var memo = data.Memo;
+
+				if (!m_WebSocketCommandExecuter.HasCommand(command))
+				{
+					//bypass command
+					data.Parameters.Add("session_token", StreamClient.Instance.LoginedUser.SessionToken);
+					var json = JsonConvert.SerializeObject(data, Formatting.Indented);
+					m_SocketClient.Send(json);
+					return;
+				}
 
 				var response = m_WebSocketCommandExecuter.Execute(data);
 
@@ -177,7 +230,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			Trace.WriteLine(String.Format("WebSocket server open connection {0}...", this.ID));
 
-			StreamClient.Instance.LoginedUser.WebSocketChannelID = this.ID;
+			//StreamClient.Instance.LoginedUser.WebSocketChannelID = this.ID;
 
 			if (!m_Services.ContainsKey(this.ID))
 				m_Services.Add(this.ID, this);
@@ -258,6 +311,25 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Event Process
+		void _socketClient_OnClose(object sender, CloseEventArgs e)
+		{
+			m_SocketClient = null;
+		}
+
+		void _socketClient_OnMessage(object sender, MessageEventArgs e)
+		{
+			if (e.Type == WebSocketSharp.Frame.Opcode.TEXT)
+			{
+				var responseMessage = e.Data;
+				Trace.WriteLine(string.Format("Response to {0}: {1}", this.ID, responseMessage));
+				Send(responseMessage);
+			}
+		}
+
+		void _socketClient_OnError(object sender, ErrorEventArgs e)
+		{
+			m_SocketClient = null;
+		}
 		#endregion
 	}
 }

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Waveface.Stream.Model;
 using System.Net;
+using Waveface.Stream.Core;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -22,7 +23,6 @@ namespace Waveface.Stream.ClientFramework
 	{
 		#region Private Const
 		private const string APP_NAME = "Stream";
-		private const string STATION_ID_KEY = "stationId";
 
 		private const string STREAM_RELATIVED_FOLDER = @"Waveface\Stream\";
 		private const string DATA_RELATIVED_FOLDER = STREAM_RELATIVED_FOLDER + @"Data\";
@@ -68,7 +68,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return _server ?? (_server = new WebClientControlServer(1337));
+				return _server ?? (_server = WebClientControlServer.Instance);
 			}
 		}
 
@@ -92,12 +92,18 @@ namespace Waveface.Stream.ClientFramework
 
 		#region Public Property
 		/// <summary>
-		/// Gets or sets the logined user.
+		/// Gets the logined user.
 		/// </summary>
 		/// <value>
 		/// The logined user.
 		/// </value>
-		public LoginedUser LoginedUser { get; private set; }
+		public LoginedUser LoginedUser
+		{
+			get
+			{
+				return LoginController.Instance.LoginedUser;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the is logined.
@@ -109,7 +115,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return LoginedUser != null;
+				return LoginController.Instance.IsLogined;
 			}
 		}
 		#endregion
@@ -580,27 +586,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public string Login(string email, string password)
 		{
-			if (LoginedUser != null && LoginedUser.EMail.Equals(email))
-				return null;
-
-			var response = string.Empty;
-
-			try
-			{
-				OnLogining(EventArgs.Empty);
-
-				response = StationAPI.Login(
-					email,
-					password,
-					(string)StationRegistry.GetValue(STATION_ID_KEY, string.Empty),
-					Environment.MachineName);
-
-				return response;
-			}
-			finally
-			{
-				OnLogined(new LoginedEventArgs(response));
-			}
+			return LoginController.Instance.Login(email, password);
 		}
 
 		/// <summary>
@@ -610,32 +596,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public string Login(string sessionToken)
 		{
-			if (LoginedUser != null)
-				return null;
-
-			var response = string.Empty;
-
-			try
-			{
-				OnLogining(EventArgs.Empty);
-
-				var loginedUser = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", sessionToken));
-
-				if (loginedUser == null)
-					return null;
-
-				var userID = loginedUser.user.user_id;
-
-				response = StationAPI.Login(
-					userID,
-					sessionToken);
-
-				return response;
-			}
-			finally
-			{
-				OnLogined(new LoginedEventArgs(response));
-			}
+			return LoginController.Instance.Login(sessionToken);
 		}
 
 		/// <summary>
@@ -646,41 +607,12 @@ namespace Waveface.Stream.ClientFramework
 		/// <returns></returns>
 		public string LoginSNS(string userID, string sessionToken)
 		{
-			if (LoginedUser != null)
-				return null;
-
-			var response = string.Empty;
-
-			try
-			{
-				OnLogining(EventArgs.Empty);
-
-				response = StationAPI.Login(
-					userID,
-					sessionToken);
-
-				return response;
-			}
-			finally
-			{
-				OnLogined(new LoginedEventArgs(response));
-			}
+			return LoginController.Instance.LoginSNS(userID, sessionToken);
 		}
 
 		public void Logout()
 		{
-			if (LoginedUser == null)
-				return;
-
-			try
-			{
-				OnLogouting(EventArgs.Empty);
-				StationAPI.Logout(LoginedUser.SessionToken);
-			}
-			finally
-			{
-				OnLogouted(EventArgs.Empty);
-			}
+			LoginController.Instance.Logout();
 		}
 		#endregion
 
@@ -699,14 +631,11 @@ namespace Waveface.Stream.ClientFramework
 			if (response.Length == 0)
 				return;
 
-			LoginedUser = new LoginedUser(response);
-
 			Datx.Insert<String>(LoginedUser.SessionToken, m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE, GetStreamDatxPassword());
 		}
 
 		void StreamClient_Logouted(object sender, EventArgs e)
 		{
-			LoginedUser = null;
 			Datx.RemoveFile(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE);
 		}
 
