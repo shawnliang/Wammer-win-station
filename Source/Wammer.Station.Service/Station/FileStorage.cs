@@ -61,6 +61,7 @@ namespace Wammer.Station
 			if (!Directory.Exists(userCache))
 				Directory.CreateDirectory(userCache);
 
+			createDirsInFileName(userCache, filename);
 
 			string filePath = Path.Combine(userCache, filename);
 			string tempFile = Path.Combine(userCache, Guid.NewGuid().ToString());
@@ -92,7 +93,7 @@ namespace Wammer.Station
 		/// <returns>actuall filename</returns>
 		public string TrySaveFile(string filename, ArraySegment<byte> data)
 		{
-			createDirsInFileName(filename);
+			createDirsInFileName(basePath, filename);
 
 			string filePath = Path.Combine(basePath, filename);
 			string tempFile = Path.Combine(basePath, Guid.NewGuid().ToString());
@@ -126,7 +127,7 @@ namespace Wammer.Station
 			return filePath.Substring(basePath.Length + 1); // + 1 for "\"
 		}
 
-		private void createDirsInFileName(string filename)
+		private static void createDirsInFileName(string baseDir, string filename)
 		{
 			var dirName = Path.GetDirectoryName(filename);
 
@@ -134,15 +135,14 @@ namespace Wammer.Station
 			{
 				var dirs = dirName.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
 
-				string dir = this.basePath;
 				var index = 0;
 
 				do
 				{
-					dir = Path.Combine(dir, dirs[index]);
+					baseDir = Path.Combine(baseDir, dirs[index]);
 
-					if (!Directory.Exists(dir))
-						Directory.CreateDirectory(dir);
+					if (!Directory.Exists(baseDir))
+						Directory.CreateDirectory(baseDir);
 
 					++index;
 

@@ -431,8 +431,6 @@ namespace Wammer.Model
 		[BsonIgnoreIfNull]
 		public int? timezone { get; set; }
 
-		public DateTime file_modify_time { get; set; }
-
 		[BsonIgnoreIfNull]
 		public string device_id { get; set; }
 
@@ -476,6 +474,11 @@ namespace Wammer.Model
 				default:
 					throw new ArgumentException("not a valid thumbmail meta: " + meta);
 			}
+		}
+
+		public bool HasDocPreviews()
+		{
+			return doc_meta != null && doc_meta.preview_files != null && doc_meta.preview_files.Count > 0;
 		}
 
 		public IAttachmentInfo GetInfoByMeta(ImageMeta meta)

@@ -40,7 +40,7 @@
         }
         if (!Array.isArray(events)) {
           eventInstance = new self[events](args);
-          return;
+          return true;
         }
         _.each(events, function(event) {
           return eventInstance = new self[event](args);
@@ -193,7 +193,7 @@
       };
 
       GetAttachments.prototype.callback = function(data) {
-        return dispatch.trigger("store:change:attachment:" + this.attachmentTarget, data.response, data.memo.namespace);
+        return dispatch.trigger("store:change:" + data.memo.type + ":" + this.attachmentTarget, data.response, data.memo.namespace);
       };
 
       return GetAttachments;
@@ -214,6 +214,23 @@
       };
 
       return GetCollections;
+
+    })(Bundler);
+    self.GetDocuments = (function(_super) {
+
+      __extends(GetDocuments, _super);
+
+      function GetDocuments() {
+        return GetDocuments.__super__.constructor.apply(this, arguments);
+      }
+
+      GetDocuments.prototype.eventName = '';
+
+      GetDocuments.prototype.callback = function(data) {
+        return true;
+      };
+
+      return GetDocuments;
 
     })(Bundler);
     self.SubscribeEvent = (function(_super) {

@@ -211,31 +211,22 @@ namespace Wammer.Station
 				}
 			}
 		}
-
-		private bool CloudHasOriginAttachment(string object_id, Driver user)
-		{
-			try
-			{
-				var info = AttachmentApi.GetInfo(object_id, user.session_token);
-				return !string.IsNullOrEmpty(info.url);
-			}
-			catch
-			{
-				// Not able to get attachment info - just assume "YES"
-				return true;
-			}
-		}
 	}
 
 	[Serializable]
 	internal class QueryIfDownstreamNeededTask : Retry.DelayedRetryTask
 	{
-		private string object_id;
-		private string user_id;
-		private AttachmentInfo cloudDoc;
+		public string object_id { get; set; }
+		public string user_id { get; set; }
+		public AttachmentInfo cloudDoc { get; set; }
+
+		public QueryIfDownstreamNeededTask()
+			: base(TaskPriority.Low)
+		{
+		}
 
 		public QueryIfDownstreamNeededTask(string user_id, string object_id)
-			: base(TaskPriority.Low)
+			: this()
 		{
 			this.object_id = object_id;
 			this.user_id = user_id;
@@ -273,6 +264,13 @@ namespace Wammer.Station
 					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
+
+				if (!localHasNoOrigin(localDoc) && localDoc.type == AttachmentType.doc &&
+					localHasNoPreviews(localDoc))
+				{
+					var task = new DownloadDocPreviewsTask(object_id);
+					TaskQueue.Enqueue(task, task.Priority);
+				}
 			}
 			catch (WammerCloudException e)
 			{
@@ -281,6 +279,17 @@ namespace Wammer.Station
 				else
 					throw;
 			}
+		}
+
+		private static bool localHasNoPreviews(Attachment localDoc)
+		{
+			if (localDoc == null)
+				throw new ArgumentNullException("localDoc");
+
+			if (localDoc.type != AttachmentType.doc)
+				throw new ArgumentException("localDoc is not a doc attachment");
+
+			return localDoc.doc_meta == null || localDoc.doc_meta.preview_files == null || localDoc.doc_meta.preview_files.Count == 0;
 		}
 
 		private AttachmentInfo getCloudDoc(Driver user)

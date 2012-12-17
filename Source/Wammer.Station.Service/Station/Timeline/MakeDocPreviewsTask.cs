@@ -7,16 +7,23 @@ using System.Diagnostics;
 using System.IO;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
+using Wammer.Cloud;
 
 namespace Wammer.Station.Timeline
 {
 	class MakeDocPreviewsTask : Retry.DelayedRetryTask
 	{
-		private string doc_id;
-		private int retryCount = 50;
+		public string doc_id { get; set; }
+		public int retryCount { get; set; }
+
+		public MakeDocPreviewsTask()
+			:base(TaskPriority.Medium)
+		{
+			retryCount = 50;
+		}
 
 		public MakeDocPreviewsTask(string doc_id)
-			:base(TaskPriority.Medium)
+			:this()
 		{
 			this.doc_id = doc_id;
 		}
@@ -39,12 +46,19 @@ namespace Wammer.Station.Timeline
 
 			var result = Doc.ImportDoc.MakeDocPreview(doc_id, full_doc_path, user.user_id);
 
-			AttachmentCollection.Instance.Update(
-				Query.EQ("_id", doc_id),
-				Update.
-					Set("doc_meta.preview_files", new BsonArray(result.files)).
-					Set("doc_meta.preview_pages", result.files.Count)
-				);
+			if (result.IsSuccess())
+			{
+				AttachmentCollection.Instance.Update(
+					Query.EQ("_id", doc_id),
+					Update.
+						Set("doc_meta.preview_files", new BsonArray(result.files)).
+						Set("doc_meta.preview_pages", result.files.Count)
+					);
+			}
+			else
+			{
+				TaskQueue.Enqueue(new DownloadDocPreviewsTask(doc_id), TaskPriority.Low);
+			}
 		}
 
 		public override void ScheduleToRun()

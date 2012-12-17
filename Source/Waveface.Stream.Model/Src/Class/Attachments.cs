@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace Waveface.Stream.Model
 {
@@ -341,6 +342,8 @@ namespace Waveface.Stream.Model
 		private readonly object rawDataMutex = new object();
 		private ArraySegment<byte> rawData;
 
+		private DateTime? _eventTimes;
+
 		public Attachment()
 		{
 			rawData = new ArraySegment<byte>();
@@ -405,7 +408,25 @@ namespace Waveface.Stream.Model
 		public DateTime? file_create_time { get; set; }
 
 		[BsonIgnoreIfNull]
-		public DateTime? event_time { get; set; }
+		public DateTime? event_time 
+		{
+			get
+			{
+				if (_eventTimes == null)
+				{
+					if (type == AttachmentType.doc)
+					{
+						return doc_meta.access_time.LastOrDefault();
+					}
+				}
+
+				return _eventTimes;
+			}
+			set
+			{
+				_eventTimes = value;
+			}
+		}
 
 		[BsonIgnoreIfNull]
 		public int? timezone { get; set; }

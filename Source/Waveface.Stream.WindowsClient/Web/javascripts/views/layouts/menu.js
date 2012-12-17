@@ -19,6 +19,7 @@
       MenuView.prototype.render = function() {
         Router.on('route:actionEvents', this.menuEvents, this);
         Router.on('route:actionPhotos', this.menuPhotos, this);
+        Router.on('route:actionDocs', this.menuDocs, this);
         Router.on('route:actionCalendar', this.menuCalendar, this);
         Router.on('route:actionCollection', this.menuCollection, this);
         this.renderUserInfo();
@@ -31,6 +32,10 @@
 
       MenuView.prototype.menuPhotos = function(e) {
         return this.highlight('.nav-to-photos');
+      };
+
+      MenuView.prototype.menuDocs = function(e) {
+        return this.highlight('.nav-to-docs');
       };
 
       MenuView.prototype.menuCalendar = function(e) {

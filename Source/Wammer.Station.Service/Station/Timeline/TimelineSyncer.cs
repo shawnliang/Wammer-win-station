@@ -184,6 +184,10 @@ namespace Wammer.Station.Timeline
 					{
 						OnAttachmentAvailable(new AttachmentAvailableEventArgs(track.target_id, track.user_id, track.group_id, ImageMeta.Medium));
 					}
+					else if (track.actions.Any(action => action.target_type == "doc" && action.action == "add"))
+					{
+						OnAttachmentAvailable(new AttachmentAvailableEventArgs(track.target_id, track.user_id, track.group_id, ImageMeta.None));
+					}
 				}
 			}
 		}

@@ -34,8 +34,8 @@ namespace Wammer.Station
 
 				var localAtt = AttachmentCollection.Instance.FindOneById(e.object_id);
 
-				if (e.meta == ImageMeta.Origin && user.isPrimaryStation &&
-					localHasNoOrigin(localAtt))
+				if ((e.meta == ImageMeta.Origin || e.meta == ImageMeta.None) &&
+					user.isPrimaryStation && localHasNoOrigin(localAtt))
 				{
 					var info = AttachmentApi.GetInfo(e.object_id, user.session_token);
 					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Origin);
@@ -47,11 +47,23 @@ namespace Wammer.Station
 					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Medium);
 					downloader.EnqueueDownstreamTask(info, user, ImageMeta.Small);
 				}
+				else if (e.meta == ImageMeta.None && localHasNotPreviews(localAtt))
+				{
+					var task = new DownloadDocPreviewsTask(e.object_id);
+					TaskQueue.Enqueue(task, task.Priority);
+				}
 			}
 			catch (Exception ex)
 			{
 				this.LogWarnMsg("Unable to enqueue body download task", ex);
 			}
+		}
+
+		private static bool localHasNotPreviews(Attachment localAtt)
+		{
+			return localAtt == null || localAtt.doc_meta == null ||
+				localAtt.doc_meta.preview_files == null ||
+				localAtt.doc_meta.preview_files.Count == 0;
 		}
 
 		private static bool localHasNoMedium(Attachment localAtt)

@@ -172,6 +172,13 @@ namespace Waveface.Stream.WindowsClient
 				driveDetector.DeviceArrived += new DriveDetectorEventHandler(driveDetector_DeviceArrived);
 				driveDetector.DeviceRemoved += new DriveDetectorEventHandler(driveDetector_DeviceRemoved);
 				driveDetector.QueryRemove += new DriveDetectorEventHandler(driveDetector_QueryRemove);
+				var parameters = new Dictionary<string, object>() 
+				{
+					{"type", 8}
+				};
+
+				(new GetAttachmentsCommand()).Execute(parameters);
+
 				ShowMainWindow();
 			}
 
