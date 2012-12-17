@@ -476,6 +476,11 @@ namespace Wammer.Model
 			}
 		}
 
+		public bool HasDocPreviews()
+		{
+			return doc_meta != null && doc_meta.preview_files != null && doc_meta.preview_files.Count > 0;
+		}
+
 		public IAttachmentInfo GetInfoByMeta(ImageMeta meta)
 		{
 			if (meta == ImageMeta.None || meta == ImageMeta.Origin)
