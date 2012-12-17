@@ -67,6 +67,7 @@
 			this.deviceCombobox.Size = new System.Drawing.Size(338, 26);
 			this.deviceCombobox.TabIndex = 1;
 			this.deviceCombobox.DropDown += new System.EventHandler(this.deviceCombobox_DropDown);
+			this.deviceCombobox.SelectedIndexChanged += new System.EventHandler(this.deviceCombobox_SelectedIndexChanged);
 			// 
 			// importButton
 			// 
@@ -181,6 +182,7 @@
 			this.checkBox1.TabIndex = 7;
 			this.checkBox1.Text = "Always import this media when inserted";
 			this.checkBox1.UseVisualStyleBackColor = true;
+			this.checkBox1.Click += new System.EventHandler(this.checkBox1_Click);
 			// 
 			// ImportFromPotableMediaControl
 			// 

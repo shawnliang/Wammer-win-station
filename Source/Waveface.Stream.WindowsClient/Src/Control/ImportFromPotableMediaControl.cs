@@ -54,6 +54,18 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
+		public void SelectDevice(string driveName)
+		{
+			foreach (PortableDevice dev in deviceCombobox.Items)
+			{
+				if (dev.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					deviceCombobox.SelectedItem = dev;
+					return;
+				}
+			}
+		}
+
 		void service_FileImported(object sender, FileImportedEventArgs e)
 		{
 			import_count++;
@@ -166,9 +178,35 @@ namespace Waveface.Stream.WindowsClient
 			session_token = (string)parameters.Get("session_token");
 			user_id = (string)parameters.Get("user_id");
 		}
+
+		private void deviceCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (deviceCombobox.SelectedItem != null)
+			{
+				var device = (PortableDevice)deviceCombobox.SelectedItem;
+				checkBox1.Checked = service.GetAlwaysAutoImport(device.DrivePath);
+			}
+		}
+
+		private void checkBox1_Click(object sender, EventArgs e)
+		{
+			if (deviceCombobox.SelectedItem != null)
+			{
+				var device = (PortableDevice)deviceCombobox.SelectedItem;
+
+				try
+				{
+					service.SetAlwaysAutoImport(device.DrivePath, checkBox1.Checked);
+				}
+				catch (System.IO.IOException ioe)
+				{
+					MessageBox.Show(ioe.Message, "Unable to save");
+				}
+			}
+		}
 	}
 
-	class NullPortableMediaService : IPortableMediaService
+	internal class NullPortableMediaService : IPortableMediaService
 	{
 
 		public event EventHandler<FileImportedEventArgs> FileImported;
@@ -186,6 +224,15 @@ namespace Waveface.Stream.WindowsClient
 		}
 
 		public void ImportAsync(System.Collections.Generic.IEnumerable<string> files, string user_id, string session_token, string apikey)
+		{
+		}
+
+		public bool GetAlwaysAutoImport(string driveName)
+		{
+			return false;
+		}
+
+		public void SetAlwaysAutoImport(string driveName, bool autoImport)
 		{
 		}
 	}
