@@ -170,6 +170,9 @@
     <Compile Include="Src\Class\ContentProvider\LibrariesContentProvider.cs" />
     <Compile Include="Src\Class\ContentProvider\PicasaContentProvider.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\DriveDetector.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Src\Class\ExifExtractor.cs" />
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
     <Compile Include="Src\Class\FastJSONHelper.cs" />
@@ -350,6 +353,12 @@
     </Compile>
     <Compile Include="Src\Dialog\StepByStepWizardDialog.designer.cs">
       <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\UsbImportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\UsbImportDialog.Designer.cs">
+      <DependentUpon>UsbImportDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Enum\ContentProviderType.cs" />
     <Compile Include="Src\Enum\ContentType.cs" />
@@ -577,6 +586,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\StepByStepWizardDialog.resx">
       <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\UsbImportDialog.resx">
+      <DependentUpon>UsbImportDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Form\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

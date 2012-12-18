@@ -250,6 +250,7 @@ namespace Wammer.Station
 
 			savePath = TrySaveFile(savePath, new ArraySegment<byte>(File.ReadAllBytes(file_path)));
 			File.SetLastWriteTime(Path.Combine(basePath, savePath), fileTime);
+			File.SetAttributes(Path.Combine(basePath, savePath), FileAttributes.ReadOnly);
 
 			return savePath;
 		}
