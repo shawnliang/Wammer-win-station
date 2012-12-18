@@ -5,5 +5,8 @@
     <Setting Name="CLIENT_WINDOW_STATE" Type="System.Windows.Forms.FormWindowState" Scope="User">
       <Value Profile="(Default)">Maximized</Value>
     </Setting>
+    <Setting Name="AutoImportDevices" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

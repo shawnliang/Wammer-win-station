@@ -12,6 +12,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station
 {
@@ -146,7 +147,7 @@ namespace Wammer.Station
 				});
 
 
-				allFiles.Sort((x, y) => { return y.file_path.CompareTo(x.file_path); });
+				allFiles = filterDuplicateFiles(allFiles);
 
 				System.Threading.ThreadPool.QueueUserWorkItem((nothing) =>
 				{
@@ -184,6 +185,30 @@ namespace Wammer.Station
 			{
 				raiseImportDoneEvent(error);
 			}
+		}
+
+		private static List<ObjectIdAndPath> filterDuplicateFiles(List<ObjectIdAndPath> allFiles)
+		{
+			var notDupFiles = new List<ObjectIdAndPath>();
+			foreach (var item in allFiles)
+			{
+				var sameSizeFiles = AttachmentCollection.Instance.Find(Query.EQ("file_size", new FileInfo(item.file_path).Length));
+				bool hasDup = false;
+				foreach (var sameSizeFile in sameSizeFiles)
+				{
+					if (sameSizeFile.file_path.Equals(item.file_path, StringComparison.CurrentCultureIgnoreCase) ||
+						sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
+					{
+						hasDup = true;
+						break;
+					}
+				}
+
+				if (!hasDup)
+					notDupFiles.Add(item);
+			}
+
+			return notDupFiles;
 		}
 
 		private void submitBatch(DateTime importTime, IEnumerable<ObjectIdAndPath> batch)

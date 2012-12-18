@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.WindowsClient.Properties;
+using Dolinay;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -30,6 +31,9 @@ namespace Waveface.Stream.WindowsClient
 		private static StreamClient _client;
 		private static System.Windows.Forms.Timer _timer;
 		private static RecentDocumentWatcher recentDocWatcher = new RecentDocumentWatcher();
+		
+		private static DriveDetector driveDetector;
+		private static UsbImportDialog usbImportDialog;
 
 		private static Queue<float> _upRemainedCount = new Queue<float>();
 		private static Queue<float> _downRemainedCount = new Queue<float>();
@@ -164,6 +168,10 @@ namespace Waveface.Stream.WindowsClient
 				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
 				recentDocWatcher.Start();
 
+				driveDetector = new DriveDetector();
+				driveDetector.DeviceArrived += new DriveDetectorEventHandler(driveDetector_DeviceArrived);
+				driveDetector.DeviceRemoved += new DriveDetectorEventHandler(driveDetector_DeviceRemoved);
+				driveDetector.QueryRemove += new DriveDetectorEventHandler(driveDetector_QueryRemove);
 				var parameters = new Dictionary<string, object>() 
 				{
 					{"type", 8}
@@ -175,6 +183,33 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			Application.Run();
+		}
+
+		static void driveDetector_QueryRemove(object sender, DriveDetectorEventArgs e)
+		{
+		}
+
+		static void driveDetector_DeviceRemoved(object sender, DriveDetectorEventArgs e)
+		{
+		}
+
+		static void driveDetector_DeviceArrived(object sender, DriveDetectorEventArgs e)
+		{
+			SynchronizationContextHelper.SendMainSyncContext(() =>
+			{
+				if (usbImportDialog == null)
+				{
+					usbImportDialog = new UsbImportDialog(
+						e.Drive,
+						StreamClient.Instance.LoginedUser.UserID,
+						StreamClient.Instance.LoginedUser.SessionToken);
+					usbImportDialog.FormClosed += (s, arg) =>
+					{
+						usbImportDialog = null;
+					};
+					usbImportDialog.Show();
+				}
+			});
 		}
 
 		static void recentDocWatcher_FileTouched(object sender, FileTouchEventArgs e)
