@@ -14,7 +14,7 @@ namespace Waveface.Stream.Core
 	{
 		#region Private Const
 		private const string USER_ID_GROUP_KEY = @"USER_ID";
-		private const string USER_ID_MATCH_PATTERN = @"cache\\\\(?<" + USER_ID_GROUP_KEY + @">[^\\]+)";
+		private const string USER_ID_MATCH_PATTERN = @"cache\\(?<" + USER_ID_GROUP_KEY + @">[^\\]+)";
 		#endregion
 
 		#region Private Static Method

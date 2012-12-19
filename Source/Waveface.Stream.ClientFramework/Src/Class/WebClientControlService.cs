@@ -13,31 +13,9 @@ namespace Waveface.Stream.ClientFramework
 {
 	public class WebClientControlService : WebSocketService
 	{
-		#region Static Var
-		private static IDictionary<string, WebSocketService> _services;
-		#endregion
-
-
 		#region Var
 		private IWebSocketCommandExecuter _webSocketCommandExecuter;
 		private WebSocket _socketClient;
-		#endregion
-
-
-		#region Private Static Property
-		/// <summary>
-		/// Gets the services.
-		/// </summary>
-		/// <value>
-		/// The services.
-		/// </value>
-		private static IDictionary<string, WebSocketService> m_Services
-		{
-			get
-			{
-				return _services ?? (_services = new Dictionary<string, WebSocketService>());
-			}
-		}
 		#endregion
 
 
@@ -96,23 +74,10 @@ namespace Waveface.Stream.ClientFramework
 		}
 		#endregion
 
-
-		#region Public Static Property
-		/// <summary>
-		/// Gets the services.
-		/// </summary>
-		/// <value>
-		/// The services.
-		/// </value>
-		public static IEnumerable<WebSocketService> Services
-		{
-			get
-			{
-				return m_Services.Values;
-			}
-		}
+		#region Event
+		public static event EventHandler ServiceAdded;
+		public static event EventHandler ServiceRemoved;
 		#endregion
-
 
 
 		#region Constructor
@@ -221,6 +186,22 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Protected Method
+		protected virtual void OnServiceAdded(EventArgs e)
+		{
+			if (ServiceAdded == null)
+				return;
+
+			ServiceAdded(this, e);
+		}
+
+		protected virtual void OnServiceRemoved(EventArgs e)
+		{
+			if (ServiceRemoved == null)
+				return;
+
+			ServiceRemoved(this, e);
+		}
+
 		/// <summary>
 		/// Ons the open.
 		/// </summary>
@@ -230,10 +211,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			Trace.WriteLine(String.Format("WebSocket server open connection {0}...", this.ID));
 
-			//StreamClient.Instance.LoginedUser.WebSocketChannelID = this.ID;
-
-			if (!m_Services.ContainsKey(this.ID))
-				m_Services.Add(this.ID, this);
+			OnServiceAdded(EventArgs.Empty);
 
 			base.onOpen(sender, e);
 		}
@@ -262,8 +240,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			Trace.WriteLine(String.Format("WebSocket server connection {0} close: {1}", this.ID, e.Reason));
 
-			if (m_Services.ContainsKey(this.ID))
-				m_Services.Remove(this.ID);
+			OnServiceRemoved(EventArgs.Empty);
 
 			base.onClose(sender, e);
 		}
@@ -279,36 +256,6 @@ namespace Waveface.Stream.ClientFramework
 			base.onError(sender, e);
 		}
 		#endregion
-
-
-		#region Public Static Method
-		/// <summary>
-		/// Sends the specified id.
-		/// </summary>
-		/// <param name="id">The id.</param>
-		/// <param name="data">The data.</param>
-		public static void Send(String id, byte[] data)
-		{
-			if (!m_Services.ContainsKey(id))
-				return;
-
-			m_Services[id].Send(data);
-		}
-
-		/// <summary>
-		/// Sends the specified id.
-		/// </summary>
-		/// <param name="id">The id.</param>
-		/// <param name="data">The data.</param>
-		public static void Send(String id, String data)
-		{
-			if (!m_Services.ContainsKey(id))
-				return;
-
-			m_Services[id].Send(data);
-		}
-		#endregion
-
 
 		#region Event Process
 		void _socketClient_OnClose(object sender, CloseEventArgs e)

@@ -26,9 +26,11 @@ namespace Waveface.Stream.Core
 		/// </summary>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
+		public override Dictionary<string, Object> Execute(WebSocketCommandData data, Dictionary<string, Object> systemArgs = null)
 		{
 			var parameters = data.Parameters;
+
+			var channelID = (systemArgs != null && systemArgs.ContainsKey("ChannelID")) ? systemArgs["ChannelID"].ToString() : string.Empty;
 
 			var sessionToken = parameters.ContainsKey("session_token") ? parameters["session_token"].ToString() : string.Empty;
 
@@ -41,23 +43,9 @@ namespace Waveface.Stream.Core
 				return null;
 
 			var eventID = parameters.ContainsKey("event_id") ? int.Parse(parameters["event_id"].ToString()) : 0;
-			var systemEvent = (SystemEventType)eventID;
+			var eventType = (SystemEventType)eventID;
 
-			//var subscribedEvents = LoginController.Instance.LoginedUser.SubscribedEvents;
-
-			//if (systemEvent == SystemEventType.All)
-			//{
-			//	data.Parameters.Clear();
-			//	foreach (SystemEventType systemEventType in Enum.GetValues(typeof(SystemEventType)))
-			//	{
-			//		if (subscribedEvents.ContainsKey(systemEventType))
-			//			subscribedEvents.Remove(systemEventType);
-			//	}
-			//	return null;
-			//}
-
-			//if (subscribedEvents.ContainsKey(systemEvent))
-			//	subscribedEvents.Remove(systemEvent);
+			SystemEventSubscriber.Instance.UnSubscribe(channelID, eventType, data);
 
 			return null;
 		}

@@ -5,38 +5,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WebSocketSharp.Server;
+using System.Linq;
 
 
 namespace Waveface.Stream.Core
 {
 	public class WebClientControlService : WebSocketService
 	{
-		#region Static Var
-		private static IDictionary<string, WebSocketService> _services;
-		#endregion
-
-
 		#region Var
 		IWebSocketCommandExecuter _webSocketCommandExecuter;
+		private Dictionary<SystemEventType, WebSocketCommandData> _subscribedEvents;
 		#endregion
-
-
-		#region Private Static Property
-		/// <summary>
-		/// Gets the services.
-		/// </summary>
-		/// <value>
-		/// The services.
-		/// </value>
-		private static IDictionary<string, WebSocketService> m_Services
-		{
-			get
-			{
-				return _services ?? (_services = new Dictionary<string, WebSocketService>());
-			}
-		}
-		#endregion
-
 
 		#region Private Property
 		/// <summary>
@@ -53,25 +32,35 @@ namespace Waveface.Stream.Core
 		#endregion
 
 
-		#region Public Static Property
+		#region Public Property
 		/// <summary>
-		/// Gets the services.
+		/// Gets the subscribed system event.
 		/// </summary>
 		/// <value>
-		/// The services.
+		/// The subscribed system event.
 		/// </value>
-		public static IEnumerable<WebSocketService> Services
+		public Dictionary<SystemEventType, WebSocketCommandData> SubscribedEvents
 		{
 			get
 			{
-				return m_Services.Values;
+				return _subscribedEvents ?? (_subscribedEvents = new Dictionary<SystemEventType, WebSocketCommandData>());
 			}
 		}
 		#endregion
 
 
+		#region Event
+		public static event EventHandler ServiceAdded;
+		public static event EventHandler ServiceRemoved;
+		#endregion
+
 
 		#region Constructor
+		public WebClientControlService()
+		{
+			SystemEventSubscriber.Instance.EventSubscribed += WebClientControlService_EventSubscribed;
+			SystemEventSubscriber.Instance.EventUnSubscribed += WebClientControlService_EventUnSubscribed;
+		}
 		#endregion
 
 
@@ -87,7 +76,12 @@ namespace Waveface.Stream.Core
 				var command = data.Command;
 				var memo = data.Memo;
 
-				var response = m_WebSocketCommandExecuter.Execute(data);
+				var systemArgs = new Dictionary<string, object>() 
+				{
+					{"ChannelID", this.ID}
+				};
+
+				var response = m_WebSocketCommandExecuter.Execute(data, systemArgs);
 
 				if (response == null || response.Count == 0)
 					return;
@@ -164,10 +158,89 @@ namespace Waveface.Stream.Core
 				ParseAndExecuteCommand(json);
 			})).Start();
 		}
+
+		private void UpdateSystemEventBinding()
+		{
+			foreach (SystemEventType eventType in Enum.GetValues(typeof(SystemEventType)))
+			{
+				switch (eventType)
+				{
+					case SystemEventType.PostAdded:
+						SystemEventSubscriber.Instance.PostAdded -= Instance_PostAdded;
+						break;
+					case SystemEventType.PostUpdated:
+						SystemEventSubscriber.Instance.PostUpdated -= Instance_PostUpdated;
+						break;
+					case SystemEventType.AttachmentAdded:
+						SystemEventSubscriber.Instance.AttachmentAdded -= Instance_AttachmentAdded;
+						break;
+					case SystemEventType.AttachmentUpdated:
+						SystemEventSubscriber.Instance.AttachmentUpdated -= Instance_AttachmentUpdated;
+						break;
+					case SystemEventType.AttachmentArrived:
+						SystemEventSubscriber.Instance.AttachmentArrived -= Instance_AttachmentArrived;
+						break;
+					case SystemEventType.CollectionAdded:
+						SystemEventSubscriber.Instance.CollectionAdded -= Instance_CollectionAdded;
+						break;
+					case SystemEventType.CollectionUpdated:
+						SystemEventSubscriber.Instance.CollectionUpdated -= Instance_CollectionUpdated;
+						break;
+					default:
+						break;
+				}
+			}
+
+			foreach (var eventType in SubscribedEvents.Keys)
+			{
+				switch (eventType)
+				{
+					case SystemEventType.PostAdded:
+						SystemEventSubscriber.Instance.PostAdded += Instance_PostAdded;
+						break;
+					case SystemEventType.PostUpdated:
+						SystemEventSubscriber.Instance.PostUpdated += Instance_PostUpdated;
+						break;
+					case SystemEventType.AttachmentAdded:
+						SystemEventSubscriber.Instance.AttachmentAdded += Instance_AttachmentAdded;
+						break;
+					case SystemEventType.AttachmentUpdated:
+						SystemEventSubscriber.Instance.AttachmentUpdated += Instance_AttachmentUpdated;
+						break;
+					case SystemEventType.AttachmentArrived:
+						SystemEventSubscriber.Instance.AttachmentArrived += Instance_AttachmentArrived;
+						break;
+					case SystemEventType.CollectionAdded:
+						SystemEventSubscriber.Instance.CollectionAdded += Instance_CollectionAdded;
+						break;
+					case SystemEventType.CollectionUpdated:
+						SystemEventSubscriber.Instance.CollectionUpdated += Instance_CollectionUpdated;
+						break;
+					default:
+						break;
+				}
+			}
+		}
 		#endregion
 
 
 		#region Protected Method
+		protected virtual void OnServiceAdded(EventArgs e)
+		{
+			if (ServiceAdded == null)
+				return;
+
+			ServiceAdded(this, e);
+		}
+
+		protected virtual void OnServiceRemoved(EventArgs e)
+		{
+			if (ServiceRemoved == null)
+				return;
+
+			ServiceRemoved(this, e);
+		}
+
 		/// <summary>
 		/// Ons the open.
 		/// </summary>
@@ -177,10 +250,7 @@ namespace Waveface.Stream.Core
 		{
 			Trace.WriteLine(String.Format("WebSocket server open connection {0}...", this.ID));
 
-			//StreamClient.Instance.LoginedUser.WebSocketChannelID = this.ID;
-
-			if (!m_Services.ContainsKey(this.ID))
-				m_Services.Add(this.ID, this);
+			OnServiceAdded(EventArgs.Empty);
 
 			base.onOpen(sender, e);
 		}
@@ -209,8 +279,7 @@ namespace Waveface.Stream.Core
 		{
 			Trace.WriteLine(String.Format("WebSocket server connection {0} close: {1}", this.ID, e.Reason));
 
-			if (m_Services.ContainsKey(this.ID))
-				m_Services.Remove(this.ID);
+			OnServiceRemoved(EventArgs.Empty);
 
 			base.onClose(sender, e);
 		}
@@ -228,36 +297,168 @@ namespace Waveface.Stream.Core
 		#endregion
 
 
-		#region Public Static Method
-		/// <summary>
-		/// Sends the specified id.
-		/// </summary>
-		/// <param name="id">The id.</param>
-		/// <param name="data">The data.</param>
-		public static void Send(String id, byte[] data)
-		{
-			if (!m_Services.ContainsKey(id))
-				return;
-
-			m_Services[id].Send(data);
-		}
-
-		/// <summary>
-		/// Sends the specified id.
-		/// </summary>
-		/// <param name="id">The id.</param>
-		/// <param name="data">The data.</param>
-		public static void Send(String id, String data)
-		{
-			if (!m_Services.ContainsKey(id))
-				return;
-
-			m_Services[id].Send(data);
-		}
-		#endregion
-
-
 		#region Event Process
+		void WebClientControlService_EventUnSubscribed(object sender, SystemEventSubscribeEventArgs e)
+		{
+			if (!e.WebSocketChannelID.Equals(this.ID, StringComparison.CurrentCultureIgnoreCase))
+				return;
+
+			try
+			{
+				var subscribedEvents = SubscribedEvents;
+				var eventType = e.EventType;
+				var data = e.Data;
+
+				if (eventType == SystemEventType.All)
+				{
+					data.Parameters.Clear();
+					foreach (SystemEventType systemEventType in Enum.GetValues(typeof(SystemEventType)))
+					{
+						if (subscribedEvents.ContainsKey(systemEventType))
+							subscribedEvents.Remove(systemEventType);
+					}
+					return;
+				}
+
+				if (subscribedEvents.ContainsKey(eventType))
+					subscribedEvents.Remove(eventType);
+			}
+			finally
+			{
+				UpdateSystemEventBinding();
+			}
+		}
+
+		void WebClientControlService_EventSubscribed(object sender, SystemEventSubscribeEventArgs e)
+		{
+			if (!e.WebSocketChannelID.Equals(this.ID, StringComparison.CurrentCultureIgnoreCase))
+				return;
+
+			try
+			{
+				var subscribedEvents = SubscribedEvents;
+				var eventType = e.EventType;
+				var data = e.Data;
+
+				if (eventType == SystemEventType.All)
+				{
+					data.Parameters.Clear();
+					foreach (SystemEventType systemEventType in Enum.GetValues(typeof(SystemEventType)))
+					{
+						if (subscribedEvents.ContainsKey(systemEventType))
+							subscribedEvents.Remove(systemEventType);
+
+						subscribedEvents.Add(systemEventType, data);
+					}
+					return;
+				}
+
+				if (subscribedEvents.ContainsKey(eventType))
+					subscribedEvents.Remove(eventType);
+
+				subscribedEvents.Add(eventType, data);
+			}
+			finally
+			{
+				UpdateSystemEventBinding();
+			}
+		}
+
+
+		void Instance_CollectionUpdated(object sender, SystemEventEventArgs e)
+		{
+			var eventType = SystemEventType.CollectionUpdated;
+
+			ProcessEvent(eventType, "getCollections", (e.Data as IEnumerable<string>).ToArray());
+		}
+
+		void Instance_CollectionAdded(object sender, SystemEventEventArgs e)
+		{
+			var eventType = SystemEventType.CollectionAdded;
+
+			ProcessEvent(eventType, "getCollections", (e.Data as IEnumerable<string>).ToArray());
+		}
+
+		void Instance_AttachmentUpdated(object sender, SystemEventEventArgs e)
+		{
+			var eventType = SystemEventType.AttachmentAdded;
+
+			ProcessEvent(eventType, "getAttachments", (e.Data as IEnumerable<string>).ToArray());
+		}
+
+		void Instance_AttachmentAdded(object sender, SystemEventEventArgs e)
+		{
+			var eventType = SystemEventType.AttachmentUpdated;
+
+			ProcessEvent(eventType, "getAttachments", (e.Data as IEnumerable<string>).ToArray());
+		}
+
+		void Instance_AttachmentArrived(object sender, SystemEventEventArgs e)
+		{
+			var eventType = SystemEventType.AttachmentArrived;
+
+			ProcessEvent(eventType, "getAttachments", (e.Data as IEnumerable<string>).ToArray());
+		}
+
+		void Instance_PostUpdated(object sender, SystemEventEventArgs e)
+		{
+			var eventType = SystemEventType.PostUpdated;
+
+			ProcessEvent(eventType, "getPosts", (e.Data as IEnumerable<string>).ToArray());
+		}
+
+		void Instance_PostAdded(object sender, SystemEventEventArgs e)
+		{
+			var eventType = SystemEventType.PostAdded;
+
+			ProcessEvent(eventType, "getPosts", (e.Data as IEnumerable<string>).ToArray());
+		}
+
+
+		private void ProcessEvent(SystemEventType eventType, string command, params string[] ids)
+		{
+			var commandData = SubscribedEvents[eventType];
+			var parameters = commandData.Parameters;
+
+			if (parameters == null)
+				parameters = new Dictionary<string, object>();
+
+			if (parameters.ContainsKey("post_id_array"))
+				parameters.Remove("post_id_array");
+
+			parameters.Add("post_id_array", new JArray(ids));
+
+			if (parameters.ContainsKey("page_size"))
+				parameters.Remove("page_size");
+
+			parameters.Add("page_size", ids.Length);
+
+			var response = WebSocketCommandExecuter.Instance.Execute(command, parameters);
+
+			var responseParams = new Dictionary<String, Object>(response)
+				{
+					{"event_id", (int)eventType}
+				};
+
+			responseParams.Remove("page_no");
+			responseParams.Remove("page_size");
+			responseParams.Remove("page_count");
+			responseParams.Remove("total_count");
+
+
+			var executedValue = new JObject(
+					new JProperty("command", "subscribeEvent"),
+					new JProperty("response", JObject.FromObject(responseParams))
+					);
+
+			var memo = commandData.Memo;
+			if (memo != null)
+				executedValue.Add(new JProperty("memo", memo));
+
+			var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
+
+			Send(responseMessage);
+		}
 		#endregion
 	}
 }

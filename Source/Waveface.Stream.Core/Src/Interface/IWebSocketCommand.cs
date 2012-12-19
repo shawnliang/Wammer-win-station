@@ -13,9 +13,9 @@ namespace Waveface.Stream.Core
 
 
 		#region Method
-		Dictionary<string, Object> Execute(WebSocketCommandData data);
-		Dictionary<string, Object> Execute(string commandName, Dictionary<string, Object> parameters = null, object memo = null);
-		Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null, object memo = null);
+		Dictionary<string, Object> Execute(WebSocketCommandData data, Dictionary<string, Object> systemArgs = null);
+		Dictionary<string, Object> Execute(string commandName, Dictionary<string, Object> parameters = null, object memo = null, Dictionary<string, Object> systemArgs = null);
+		Dictionary<string, Object> Execute(Dictionary<string, Object> parameters = null, object memo = null, Dictionary<string, Object> systemArgs = null);
 		#endregion
 	}
 }

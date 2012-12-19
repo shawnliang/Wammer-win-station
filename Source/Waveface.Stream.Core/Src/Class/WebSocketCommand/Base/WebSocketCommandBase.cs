@@ -50,7 +50,7 @@ namespace Waveface.Stream.Core
 		/// Executes the specified parameters.
 		/// </summary>
 		/// <param name="parameters">The parameters.</param>
-		public abstract Dictionary<string, Object> Execute(WebSocketCommandData data);
+		public abstract Dictionary<string, Object> Execute(WebSocketCommandData data, Dictionary<string, Object> systemArgs = null);
 
 		/// <summary>
 		/// Executes the specified command name.
@@ -60,9 +60,9 @@ namespace Waveface.Stream.Core
 		/// <param name="memo">The memo.</param>
 		/// <returns></returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null)
+		public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null, Dictionary<string, Object> systemArgs = null)
 		{
-			return Execute(new WebSocketCommandData(commandName, parameters, memo));
+			return Execute(new WebSocketCommandData(commandName, parameters, memo), systemArgs);
 		}
 
 		/// <summary>
@@ -72,9 +72,9 @@ namespace Waveface.Stream.Core
 		/// <param name="memo">The memo.</param>
 		/// <returns></returns>
 		/// <exception cref="System.NotImplementedException"></exception>
-		public Dictionary<string, object> Execute(Dictionary<string, object> parameters = null, object memo = null)
+		public Dictionary<string, object> Execute(Dictionary<string, object> parameters = null, object memo = null, Dictionary<string, Object> systemArgs = null)
 		{
-			return Execute(this.Name, parameters, memo);
+			return Execute(this.Name, parameters, memo, systemArgs);
 		}
 		#endregion
 	}

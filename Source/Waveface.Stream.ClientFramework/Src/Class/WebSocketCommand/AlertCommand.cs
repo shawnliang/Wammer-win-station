@@ -26,7 +26,7 @@ namespace Waveface.Stream.ClientFramework
 		/// Executes the specified parameters.
 		/// </summary>
 		/// <param name="parameters">The parameters.</param>
-		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
+		public override Dictionary<string, Object> Execute(WebSocketCommandData data, Dictionary<string, Object> systemArgs = null)
 		{
 			if (!LoginController.Instance.IsLogined)
 				return null;

@@ -92,9 +92,6 @@
     <Compile Include="Src\Class\WebSocketCommand\AlertCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\LogCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\OpenAttachmentCommand.cs" />
-    <Compile Include="Src\Event\AttachmentsEventArgs.cs" />
-    <Compile Include="Src\Event\CollectionsEventArgs.cs" />
-    <Compile Include="Src\Event\PostsEventArgs.cs" />
     <Compile Include="Src\Event\LoginedEventArgs.cs" />
     <Compile Include="Src\Extension\FileInfoExtension.cs" />
     <Compile Include="Src\Extension\ListBoxExtension.cs" />

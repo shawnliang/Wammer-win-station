@@ -33,6 +33,25 @@ namespace Wammer.Model
 		{
 		}
 
+		public override MongoDB.Driver.SafeModeResult Save(PostInfo doc)
+		{
+			var postID = doc.post_id;
+			var post = FindOneById(postID);
+
+			var ret = base.Save(doc);
+
+			if (post == null)
+			{
+				Waveface.Stream.Core.SystemEventSubscriber.Instance.TriggerPostAddedEvent(postID);
+			}
+			else
+			{
+				Waveface.Stream.Core.SystemEventSubscriber.Instance.TriggerPostUpdatedEvent(postID);
+			}
+
+			return ret;
+		}
+
 		public void Update(PostInfo post)
 		{
 			lock (cs)

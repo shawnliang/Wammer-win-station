@@ -148,7 +148,13 @@ namespace Wammer.Station.Service
 				var attachmentHandler = new AttachmentUploadHandler();
 
 				attachmentHandler.AttachmentProcessed += new AttachmentProcessedHandler(new AttachmentUtility()).OnProcessed;
+				attachmentHandler.AttachmentProcessed += (s, e) =>
+				{
+					SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(e.AttachmentId);
+				};
+
 				attachmentHandler.ProcessSucceeded += UploadDownloadMonitor.Instance.OnAttachmentProcessed;
+
 
 				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl, Station.Instance.StationID);
 				InitCloudForwarder(cloudForwarder);

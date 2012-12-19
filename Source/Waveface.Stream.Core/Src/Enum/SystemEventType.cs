@@ -9,7 +9,10 @@ namespace Waveface.Stream.Core
 		PostAdded = 10,
 		PostUpdated = 11,
 
-		AttachmentDownloaded = 20,
+		AttachmentAdded = 20,
+		AttachmentUpdated = 21,
+
+		AttachmentArrived = 25,
 
 		CollectionAdded = 30,
 		CollectionUpdated = 31

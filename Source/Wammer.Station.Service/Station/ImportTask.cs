@@ -12,6 +12,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
+using Waveface.Stream.Core;
 
 namespace Wammer.Station
 {
@@ -290,6 +291,8 @@ namespace Wammer.Station
 					timezone = timezoneDiff
 				};
 				imp.Process(uploadData);
+
+				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(file.object_id);
 
 				long end = Stopwatch.GetTimestamp();
 				long duration = end - begin;

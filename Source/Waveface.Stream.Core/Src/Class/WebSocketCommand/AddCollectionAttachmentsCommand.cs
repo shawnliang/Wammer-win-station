@@ -35,7 +35,7 @@ namespace Waveface.Stream.Core
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public override Dictionary<string, Object> Execute(WebSocketCommandData data)
+		public override Dictionary<string, Object> Execute(WebSocketCommandData data, Dictionary<string, Object> systemArgs = null)
 		{
 			var parameters = data.Parameters;
 

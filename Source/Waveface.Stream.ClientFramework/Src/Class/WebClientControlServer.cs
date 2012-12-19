@@ -12,11 +12,28 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 		#region Static Var
-        private static WebClientControlServer _instance;
-        #endregion
+		private static WebClientControlServer _instance;
+		private static IDictionary<string, WebSocketService> _services;
+		#endregion
 
 		#region Var
 		private WebSocketServer<WebClientControlService> _webSocketServer;
+		#endregion
+
+		#region Private Static Property
+		/// <summary>
+		/// Gets the services.
+		/// </summary>
+		/// <value>
+		/// The services.
+		/// </value>
+		private static IDictionary<string, WebSocketService> m_Services
+		{
+			get
+			{
+				return _services ?? (_services = new Dictionary<string, WebSocketService>());
+			}
+		}
 		#endregion
 
 
@@ -64,6 +81,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <value>The port.</value>
 		public int Port { get; private set; }
 
+
 		/// <summary>
 		/// Gets the services.
 		/// </summary>
@@ -74,7 +92,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return WebClientControlService.Services;
+				return m_Services.Values;
 			}
 		}
 		#endregion
@@ -84,6 +102,9 @@ namespace Waveface.Stream.ClientFramework
 		private WebClientControlServer()
 		{
 			this.Port = 1337;
+
+			WebClientControlService.ServiceAdded += WebClientControlService_ServiceAdded;
+			WebClientControlService.ServiceRemoved += WebClientControlService_ServiceRemoved;
 		}
 		#endregion
 
@@ -107,7 +128,7 @@ namespace Waveface.Stream.ClientFramework
 
 		public void Send(String id, byte[] data)
 		{
-			WebClientControlService.Send(id, data);
+			m_Services[id].Send(data);
 		}
 
 		/// <summary>
@@ -117,7 +138,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="data">The data.</param>
 		public void Send(String id, String data)
 		{
-			WebClientControlService.Send(id, data);
+			m_Services[id].Send(data);
 		}
 		#endregion
 
@@ -131,6 +152,28 @@ namespace Waveface.Stream.ClientFramework
 		void WebSocketServer_OnError(object sender, WebSocketSharp.ErrorEventArgs e)
 		{
 			Trace.WriteLine(e.Message);
+		}
+
+		void WebClientControlService_ServiceRemoved(object sender, EventArgs e)
+		{
+			var service = sender as WebSocketService;
+			var serviceID = service.ID;
+
+			if (m_Services.ContainsKey(serviceID))
+				return;
+
+			m_Services.Add(serviceID, service);
+		}
+
+		void WebClientControlService_ServiceAdded(object sender, EventArgs e)
+		{
+			var service = sender as WebSocketService;
+			var serviceID = service.ID;
+
+			if (!m_Services.ContainsKey(serviceID))
+				return;
+
+			m_Services.Remove(serviceID);
 		}
 		#endregion
 	}

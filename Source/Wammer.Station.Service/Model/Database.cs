@@ -113,14 +113,14 @@ namespace Wammer.Model
 			return collection.FindOneAs<K>(query);
 		}
 
-		public void Save(T doc)
+		public virtual SafeModeResult Save(T doc)
 		{
-			collection.Save(doc);
+			return collection.Save(doc);
 		}
 
-		public void Save(BsonDocument doc)
+		public virtual SafeModeResult Save(BsonDocument doc)
 		{
-			collection.Save(doc);
+			return collection.Save(doc);
 		}
 
 		public void RemoveAll()
@@ -143,12 +143,8 @@ namespace Wammer.Model
 			return collection.Find(query);
 		}
 
-		public void Update(IMongoQuery query, IMongoUpdate update)
-		{
-			collection.Update(query, update);
-		}
 
-		public SafeModeResult Update(IMongoQuery query, IMongoUpdate update, UpdateFlags updateFlags)
+		public virtual SafeModeResult Update(IMongoQuery query, IMongoUpdate update, UpdateFlags updateFlags = UpdateFlags.None)
 		{
 			return collection.Update(query, update, updateFlags);
 		}

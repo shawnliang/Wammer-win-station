@@ -92,7 +92,7 @@ namespace Waveface.Stream.Core
 		/// </summary>
 		/// <param name="data">The data.</param>
 		/// <returns></returns>
-		public Dictionary<string, object> Execute(WebSocketCommandData data)
+		public Dictionary<string, object> Execute(WebSocketCommandData data, Dictionary<string, Object> systemArgs = null)
 		{
 			var webSocketCommandPool = m_WebSocketCommandPool;
 
@@ -104,7 +104,7 @@ namespace Waveface.Stream.Core
 			if (!HasCommand(commandName))
 				return null; //TODO: Throw unsupport command exception
 
-			return webSocketCommandPool[commandName].Execute(data);
+			return webSocketCommandPool[commandName].Execute(data, systemArgs);
 		}
 
 		/// <summary>
@@ -114,9 +114,9 @@ namespace Waveface.Stream.Core
 		/// <param name="parameters">The parameters.</param>
 		/// <param name="memo"></param>
 		/// <returns></returns>
-		public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null)
+		public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null, Dictionary<string, Object> systemArgs = null)
 		{
-			return Execute(new WebSocketCommandData(commandName, parameters, memo));
+			return Execute(new WebSocketCommandData(commandName, parameters, memo), systemArgs);
 		}
 		#endregion
 	}
