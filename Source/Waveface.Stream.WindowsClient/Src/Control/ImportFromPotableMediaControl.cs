@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
+using System.Collections.Generic;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -16,15 +17,54 @@ namespace Waveface.Stream.WindowsClient
 		private string session_token;
 		private int import_count;
 
-		public ImportFromPotableMediaControl(IPortableMediaService service)
+		public ImportFromPotableMediaControl()
 		{
 			InitializeComponent();
-			this.service = service;
-			this.service.ImportDone += new EventHandler<ImportDoneEventArgs>(service_ImportDone);
-			this.service.FileImported += new EventHandler<FileImportedEventArgs>(service_FileImported);
 			progressBar.Value = 0;
-
+			this.Service = new NullPortableMediaService();
 			this.PageTitle = "Import from media";
+		}
+
+		public ImportFromPotableMediaControl(IPortableMediaService service)
+			:this()
+		{
+			this.Service = service;
+		}
+
+		public IPortableMediaService Service
+		{
+			get { return service; }
+			set 
+			{
+				this.service = value;
+				this.service.ImportDone += service_ImportDone;
+				this.service.FileImported += service_FileImported;
+			}
+		}
+
+		public void ImportDevice(string driveName)
+		{
+			foreach (PortableDevice dev in deviceCombobox.Items)
+			{
+				if (dev.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					deviceCombobox.SelectedItem = dev;
+					importDevice(dev);
+					return;
+				}
+			}
+		}
+
+		public void SelectDevice(string driveName)
+		{
+			foreach (PortableDevice dev in deviceCombobox.Items)
+			{
+				if (dev.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase))
+				{
+					deviceCombobox.SelectedItem = dev;
+					return;
+				}
+			}
 		}
 
 		void service_FileImported(object sender, FileImportedEventArgs e)
@@ -72,6 +112,11 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var device = deviceCombobox.SelectedItem as PortableDevice;
 
+			importDevice(device);
+		}
+
+		private void importDevice(PortableDevice device)
+		{
 			if (device == null)
 				return;
 
@@ -133,6 +178,63 @@ namespace Waveface.Stream.WindowsClient
 		{
 			session_token = (string)parameters.Get("session_token");
 			user_id = (string)parameters.Get("user_id");
+		}
+
+		private void deviceCombobox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (deviceCombobox.SelectedItem != null)
+			{
+				var device = (PortableDevice)deviceCombobox.SelectedItem;
+				checkBox1.Checked = service.GetAlwaysAutoImport(device.DrivePath);
+			}
+		}
+
+		private void checkBox1_Click(object sender, EventArgs e)
+		{
+			if (deviceCombobox.SelectedItem != null)
+			{
+				var device = (PortableDevice)deviceCombobox.SelectedItem;
+
+				try
+				{
+					service.SetAlwaysAutoImport(device.DrivePath, checkBox1.Checked);
+				}
+				catch (System.IO.IOException ioe)
+				{
+					MessageBox.Show(ioe.Message, "Unable to save");
+				}
+			}
+		}
+	}
+
+	internal class NullPortableMediaService : IPortableMediaService
+	{
+
+		public event EventHandler<FileImportedEventArgs> FileImported;
+
+		public event EventHandler<ImportDoneEventArgs> ImportDone;
+
+		public System.Collections.Generic.IEnumerable<PortableDevice> GetPortableDevices()
+		{
+			return new List<PortableDevice>();
+		}
+
+		public System.Collections.Generic.IEnumerable<string> GetFileList(string path)
+		{
+			return new List<string>();
+		}
+
+		public void ImportAsync(System.Collections.Generic.IEnumerable<string> files, string user_id, string session_token, string apikey)
+		{
+		}
+
+		public bool GetAlwaysAutoImport(string driveName)
+		{
+			return false;
+		}
+
+		public void SetAlwaysAutoImport(string driveName, bool autoImport)
+		{
 		}
 	}
 }

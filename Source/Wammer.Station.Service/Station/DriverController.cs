@@ -311,7 +311,7 @@ namespace Wammer.Station
 			AttachmentCollection.Instance.Remove(Query.EQ("group_id", existingDriver.groups[0].group_id));
 			PostCollection.Instance.Remove(Query.EQ("creator_id", userID));
 			MonitorItemCollection.Instance.Remove(Query.EQ("user_id", userID));
-
+			UserTrackCollection.Instance.Remove(Query.EQ("group_id", existingDriver.groups[0].group_id));
 			CollectionCollection.Instance.Remove(Query.EQ("creator_id", userID));
 
 			//All driver removed => Remove station from db

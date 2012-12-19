@@ -32,6 +32,9 @@ namespace Wammer.Station.Timeline
 			if (att == null)
 				return;
 
+			if (att.HasDocPreviews())
+				return;
+
 			var user = DriverCollection.Instance.FindDriverByGroupId(att.group_id);
 			if (user == null)
 				return;

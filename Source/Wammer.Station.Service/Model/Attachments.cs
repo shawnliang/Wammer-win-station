@@ -81,7 +81,8 @@ namespace Wammer.Model
 	public enum AttachmentType
 	{
 		image,
-		doc
+		doc,
+		webthumb,
 	}
 
 	public interface IAttachmentInfo
@@ -237,6 +238,24 @@ namespace Wammer.Model
 		{
 			return height > 0;
 		}
+	}
+
+	[Serializable]
+	[BsonIgnoreExtraElements]
+	public class WebProperty
+	{
+		public List<WebAccess> accesses { get; set; }
+		public string favicon { get; set; }
+		public string title { get; set; }
+		public string url { get; set; }
+	}
+
+	[Serializable]
+	[BsonIgnoreExtraElements]
+	public class WebAccess
+	{
+		public string from { get; set; }
+		public DateTime time { get; set; }
 	}
 
 	[DataContract]
@@ -478,6 +497,11 @@ namespace Wammer.Model
 			}
 		}
 
+		public bool HasDocPreviews()
+		{
+			return doc_meta != null && doc_meta.preview_files != null && doc_meta.preview_files.Count > 0;
+		}
+
 		public IAttachmentInfo GetInfoByMeta(ImageMeta meta)
 		{
 			if (meta == ImageMeta.None || meta == ImageMeta.Origin)
@@ -498,6 +522,7 @@ namespace Wammer.Model
 			_instance = new AttachmentCollection();
 			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
 			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("md5"));
+			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("file_size"));
 		}
 
 		#region Property
