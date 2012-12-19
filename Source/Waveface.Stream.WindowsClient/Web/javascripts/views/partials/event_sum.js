@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['jquery', 'backbone', 'mustache', 'text!templates/event_menu.html'], function($, Backbone, M, Template) {
+  define(['underscore', 'backbone', 'mustache', 'text!templates/partials/event_sum.html'], function(_, Backbone, M, template) {
     var EventView;
     return EventView = (function(_super) {
 
@@ -12,26 +12,23 @@
         return EventView.__super__.constructor.apply(this, arguments);
       }
 
-      EventView.prototype.id = 'event-nav';
+      EventView.prototype.className = 'event';
 
-      EventView.prototype.events = {
-        'click .nav-date': 'navDate'
-      };
+      EventView.prototype.initialize = function() {};
 
-      EventView.prototype.initialize = function() {
-        return dispatch.on('navDate', this.navDate, this);
+      EventView.prototype.events = function() {
+        return {
+          'click': 'setSelected'
+        };
       };
 
       EventView.prototype.render = function() {
-        this.$el.html(M.render(Template, {}));
+        this.$el.html(M.render(template, this.model.toJSON()));
         return this;
       };
 
-      EventView.prototype.navDate = function(e) {
-        if (e != null) {
-          e.preventDefault();
-        }
-        return dispatch.trigger('viewEventDate');
+      EventView.prototype.setSelected = function() {
+        return this.trigger('eventSelect', this.model);
       };
 
       return EventView;

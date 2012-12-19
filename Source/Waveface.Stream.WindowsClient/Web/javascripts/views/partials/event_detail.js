@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'backbone', 'mustache', 'views/partials/attachment', 'views/gallery', 'collections/attachments', 'text!templates/event_detail.html', 'googlemaps'], function(_, Backbone, M, AttachmentView, GalleryView, Attachments, Template) {
+  define(['underscore', 'backbone', 'mustache', 'views/partials/attachment', 'views/gallery', 'collections/attachments', 'text!templates/partials/event_detail.html', 'googlemaps'], function(_, Backbone, M, AttachmentView, GalleryView, Attachments, Template) {
     var EventView;
     return EventView = (function(_super) {
 
