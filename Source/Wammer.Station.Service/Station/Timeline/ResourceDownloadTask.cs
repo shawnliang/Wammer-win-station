@@ -11,6 +11,7 @@ using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
 using Wammer.Utility;
+using Waveface.Stream.Core;
 
 namespace Wammer.Station.Timeline
 {
@@ -72,6 +73,8 @@ namespace Wammer.Station.Timeline
 				var saveResult = SaveAttachmentToDisk(args.imagemeta, args.attachment, rawData);
 
 				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, "application/octet-stream", rawData.Length);
+
+				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(args.attachment.object_id);
 
 				if (args.imagemeta == ImageMeta.Origin)
 					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(args.attachment.object_id, driver.session_token), TaskPriority.Low, true);

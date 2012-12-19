@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 
 namespace Waveface.Stream.WindowsClient

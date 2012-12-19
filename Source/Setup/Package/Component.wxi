@@ -100,6 +100,9 @@
         <Component Id="Waveface.Stream.Serializer.dll" Guid="*">
           <File Id="Waveface.Stream.Serializer.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Serializer.dll" />
         </Component>
+        <Component Id="Waveface.Stream.Core.dll" Guid="*">
+          <File Id="Waveface.Stream.Core.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Core.dll" />
+        </Component>
         
         <Directory Id="zh_TW" Name="zh-TW">
           <Component Id="AppLimit.NetSparkle.resources.dll" Guid="*">
@@ -141,6 +144,7 @@
         <ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
         <ComponentRef Id="Waveface.Stream.Compression.dll" />
         <ComponentRef Id="Waveface.Stream.Datx.dll" />
+        <ComponentRef Id="Waveface.Stream.Core.dll" />
         <ComponentRef Id="Waveface.Stream.Serializer.dll" />
         <ComponentRef Id="gsdll32.dll" />
       </ComponentGroup>

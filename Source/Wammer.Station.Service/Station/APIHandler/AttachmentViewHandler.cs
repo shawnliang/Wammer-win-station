@@ -7,6 +7,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
 using Wammer.Utility;
+using Waveface.Stream.Core;
 
 namespace Wammer.Station
 {
@@ -114,6 +115,8 @@ namespace Wammer.Station
 				this.LogDebugMsg("Attachement is saved to " + saveResult.RelativePath);
 
 				SetAttachementToDB(meta, downloadResult, saveResult.RelativePath);
+
+				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
 
 				if (meta == ImageMeta.Origin || meta == ImageMeta.None)
 					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(Parameters["object_id"], driver.session_token), TaskPriority.Low, true);
