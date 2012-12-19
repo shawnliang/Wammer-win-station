@@ -184,6 +184,7 @@
     <Compile Include="Src\Class\RecentDocumentWatcher.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
     <Compile Include="Src\Class\StreamSignup.cs" />
+    <Compile Include="Src\Class\TwitterConnectableService.cs" />
     <Compile Include="Src\Class\WebRedirectConnectableService.cs" />
     <Compile Include="Src\Control\CentralLayoutPanel.cs">
       <SubType>Component</SubType>
