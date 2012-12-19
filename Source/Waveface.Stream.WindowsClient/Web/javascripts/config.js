@@ -22,7 +22,6 @@
         exports: "Mousetrap"
       },
       'lib/jquery/fullcalendar': ["jquery"],
-      'lib/jquery/jquery.colorbox': ["jquery"],
       'lib/galleria/galleria-1.2.8': {
         deps: ["jquery"],
         exports: "Galleria"
@@ -52,7 +51,9 @@
       localstorage: "lib/backbone/backbone.amplify",
       wfwsocket: "com/wfwsocket",
       googlemaps: "com/gmap",
-      async: "lib/require/async"
+      async: "lib/require/async",
+      jasmine: "lib/jasmine/jasmine",
+      jasminehtml: "lib/jasmine/jasmine-html"
     }
   });
 

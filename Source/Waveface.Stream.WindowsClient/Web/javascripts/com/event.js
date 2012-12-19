@@ -91,6 +91,7 @@
           code: 1,
           msg: "online"
         };
+        Bundler.dispatch.trigger("socket:open");
         return wfwsocket.sendMessage("getUserInfo");
       };
 
