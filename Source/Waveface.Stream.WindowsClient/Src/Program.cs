@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -31,7 +31,7 @@ namespace Waveface.Stream.WindowsClient
 		private static StreamClient _client;
 		private static System.Windows.Forms.Timer _timer;
 		private static RecentDocumentWatcher recentDocWatcher = new RecentDocumentWatcher();
-		
+
 		private static DriveDetector driveDetector;
 		private static UsbImportDialog usbImportDialog;
 
@@ -172,12 +172,6 @@ namespace Waveface.Stream.WindowsClient
 				driveDetector.DeviceArrived += new DriveDetectorEventHandler(driveDetector_DeviceArrived);
 				driveDetector.DeviceRemoved += new DriveDetectorEventHandler(driveDetector_DeviceRemoved);
 				driveDetector.QueryRemove += new DriveDetectorEventHandler(driveDetector_QueryRemove);
-				var parameters = new Dictionary<string, object>() 
-				{
-					{"type", 8}
-				};
-
-				(new GetAttachmentsCommand()).Execute(parameters);
 
 				ShowMainWindow();
 			}

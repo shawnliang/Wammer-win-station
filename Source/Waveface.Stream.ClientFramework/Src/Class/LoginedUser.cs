@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Waveface.Stream.Core;
 
 namespace Waveface.Stream.ClientFramework
 {

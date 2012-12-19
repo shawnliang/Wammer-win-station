@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 using System.Collections.Generic;
 

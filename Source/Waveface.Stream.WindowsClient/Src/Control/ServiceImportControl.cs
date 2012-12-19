@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Core;
 
 
 namespace Waveface.Stream.WindowsClient

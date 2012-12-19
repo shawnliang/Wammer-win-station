@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2E32611C-38BB-4FF7-94E7-EEAF6D9C26DF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Waveface.Stream.Core</RootNamespace>
+    <AssemblyName>Waveface.Stream.Core</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\Lib\AutoMapper.NET35.1.1.0.118\lib\net35\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\Lib\mongo-driver\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition">
+      <HintPath>..\..\Lib\System.ComponentModel.Composition.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Threading">
+      <HintPath>..\..\Lib\System.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="websocket-sharp">
+      <HintPath>..\..\Lib\websocket-sharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Src\Class\AttachmentCompare.cs" />
+    <Compile Include="Src\Class\AutoMapperSetting.cs" />
+    <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\FileHelper.cs" />
+    <Compile Include="Src\Class\StationAPI.cs" />
+    <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
+    <Compile Include="Src\Class\WebClientControlServer.cs" />
+    <Compile Include="Src\Class\WebClientControlService.cs" />
+    <Compile Include="Src\Class\WebSocketCommandData.cs" />
+    <Compile Include="Src\Class\WebSocketCommandExecuter.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\AddCollectionAttachmentsCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\Base\WebSocketCommandBase.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\CreateCollectionCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\GetAttachmentsCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\GetCollectionsCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\GetPostsCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\GetUserInfoCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\InvokeRestfulCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\SubscribeEventCommand.cs" />
+    <Compile Include="Src\Class\SystemEventSubscriber.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\UnSubscribeEventCommand.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\UpdateCollectionCommand.cs" />
+    <Compile Include="Src\Class\WebSocketData\AttachmentGPSData.cs" />
+    <Compile Include="Src\Class\WebSocketData\CalendarEntry.cs" />
+    <Compile Include="Src\Class\WebSocketData\DeviceData.cs" />
+    <Compile Include="Src\Class\WebSocketData\ExifData.cs" />
+    <Compile Include="Src\Class\WebSocketData\GPSInfoData.cs" />
+    <Compile Include="Src\Class\WebSocketData\LargeSizeAttachmentData.cs" />
+    <Compile Include="Src\Class\WebSocketData\LargeSizeMetaData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizeAttachmentData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizeCollcetionData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizeMetaData.cs" />
+    <Compile Include="Src\Class\WebSocketData\MediumSizePostData.cs" />
+    <Compile Include="Src\Class\WebSocketData\PeopleData.cs" />
+    <Compile Include="Src\Class\WebSocketData\PostCheckInData.cs" />
+    <Compile Include="Src\Class\WebSocketData\PostExtraData.cs" />
+    <Compile Include="Src\Class\WebSocketData\PostGpsData.cs" />
+    <Compile Include="Src\Class\WebSocketData\SmallSizeCollcetionData.cs" />
+    <Compile Include="Src\Class\WebSocketData\SmallSizePostData.cs" />
+    <Compile Include="Src\Class\WebSocketData\ThumbnailData.cs" />
+    <Compile Include="Src\Class\WebSocketData\UserData.cs" />
+    <Compile Include="Src\Enum\SystemEventType.cs" />
+    <Compile Include="Src\Event\SystemEventSubscribeEventArgs.cs" />
+    <Compile Include="Src\Event\LoginedEventArgs.cs" />
+    <Compile Include="Src\Event\SystemEventEventArgs.cs" />
+    <Compile Include="Src\Interface\IWebSocketCommand.cs" />
+    <Compile Include="Src\Interface\IWebSocketCommandExecuter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
+      <Project>{990AE10D-E77A-4742-BCAA-A52A9B7D1AF9}</Project>
+      <Name>Waveface.Stream.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
