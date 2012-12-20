@@ -390,6 +390,10 @@
       <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
       <Name>CommonLibs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Core\Waveface.Stream.Core.csproj">
+      <Project>{2e32611c-38bb-4ff7-94e7-eeaf6d9c26df}</Project>
+      <Name>Waveface.Stream.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

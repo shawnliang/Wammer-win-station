@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 
 namespace Waveface.Stream.WindowsClient

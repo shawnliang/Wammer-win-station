@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Reflection;
+using System.ComponentModel.Composition.Primitives;
+using Waveface.Stream.Core;
 
 
 namespace Waveface.Stream.ClientFramework
@@ -28,7 +32,7 @@ namespace Waveface.Stream.ClientFramework
 		/// Gets or sets the m_ web socket pool.
 		/// </summary>
 		/// <value>The m_ web socket pool.</value>
-		public Lazy<Dictionary<string, IWebSocketCommand>> m_WebSocketCommandPool { get; set; }
+		private Dictionary<string, IWebSocketCommand> m_WebSocketCommandPool { get; set; }
 		#endregion
 
 
@@ -50,50 +54,58 @@ namespace Waveface.Stream.ClientFramework
 		/// </summary>
 		private WebSocketCommandExecuter()
 		{
-			m_WebSocketCommandPool = new Lazy<Dictionary<string, IWebSocketCommand>>(() =>
+			m_WebSocketCommandPool = new Dictionary<string, IWebSocketCommand>();
+
+			try
 			{
-				try
-				{
-					var catalog = new AssemblyCatalog(this.GetType().Assembly);
+				var catalog = new AssemblyCatalog(this.GetType().Assembly);
 
-					var container = new CompositionContainer(catalog);
-					container.ComposeParts(this);
+				var container = new CompositionContainer(catalog);
+				container.ComposeParts(this);
 
-					var webSocketPool = new Dictionary<string, IWebSocketCommand>();
-					foreach (var webSocketCommand in m_WebSocketCommands)
-					{
-						webSocketPool.Add(webSocketCommand.Name, webSocketCommand);
-					}
-					return webSocketPool;
-				}
-				catch (Exception)
+				foreach (var webSocketCommand in m_WebSocketCommands)
 				{
-					throw;
+					m_WebSocketCommandPool.Add(webSocketCommand.Name, webSocketCommand);
 				}
-			});
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 		#endregion
 
 
 		#region Public Method
 		/// <summary>
+		/// Determines whether the specified command name has command.
+		/// </summary>
+		/// <param name="commandName">Name of the command.</param>
+		/// <returns></returns>
+		/// <exception cref="System.NotImplementedException"></exception>
+		public bool HasCommand(string commandName)
+		{
+			return m_WebSocketCommandPool.ContainsKey(commandName);
+		}
+
+		/// <summary>
 		/// Executes the specified data.
 		/// </summary>
 		/// <param name="data">The data.</param>
 		/// <returns></returns>
-		public Dictionary<string, object> Execute(WebSocketCommandData data)
+		public Dictionary<string, object> Execute(WebSocketCommandData data, Dictionary<string, Object> systemArgs = null)
 		{
-			var webSocketCommandPool = m_WebSocketCommandPool.Value;
+			var webSocketCommandPool = m_WebSocketCommandPool;
 
 			if (webSocketCommandPool == null)
 				return null;
 
-			var commandName = data.CommandName;
+			var commandName = data.Command;
 
-			if (!webSocketCommandPool.ContainsKey(commandName))
+			if (!HasCommand(commandName))
 				return null; //TODO: Throw unsupport command exception
 
-			return webSocketCommandPool[commandName].Execute(data);
+			return webSocketCommandPool[commandName].Execute(data, systemArgs);
 		}
 
 		/// <summary>
@@ -103,9 +115,9 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="parameters">The parameters.</param>
 		/// <param name="memo"></param>
 		/// <returns></returns>
-		public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null)
+		public Dictionary<string, object> Execute(string commandName, Dictionary<string, object> parameters = null, object memo = null, Dictionary<string, Object> systemArgs = null)
 		{
-			return Execute(new WebSocketCommandData(commandName, parameters, memo));
+			return Execute(new WebSocketCommandData(commandName, parameters, memo), systemArgs);
 		}
 		#endregion
 	}

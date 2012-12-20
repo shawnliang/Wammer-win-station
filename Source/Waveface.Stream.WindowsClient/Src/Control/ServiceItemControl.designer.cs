@@ -37,11 +37,11 @@
 			// serviceName
 			// 
 			this.serviceName.AutoSize = true;
-			this.serviceName.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.serviceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
 			this.serviceName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.serviceName.Location = new System.Drawing.Point(99, 30);
 			this.serviceName.Name = "serviceName";
-			this.serviceName.Size = new System.Drawing.Size(111, 23);
+			this.serviceName.Size = new System.Drawing.Size(96, 18);
 			this.serviceName.TabIndex = 9;
 			this.serviceName.Text = "service name";
 			// 
@@ -59,7 +59,6 @@
 			this.connectCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
 			this.connectCheckbox.Checked = true;
 			this.connectCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.connectCheckbox.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.connectCheckbox.Location = new System.Drawing.Point(294, 28);
 			this.connectCheckbox.Name = "connectCheckbox";
 			this.connectCheckbox.Size = new System.Drawing.Size(147, 30);

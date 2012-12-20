@@ -18,6 +18,7 @@ using Wammer.PerfMonitor;
 using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
+using Waveface.Stream.Core;
 
 namespace Wammer.Station.Service
 {
@@ -147,7 +148,13 @@ namespace Wammer.Station.Service
 				var attachmentHandler = new AttachmentUploadHandler();
 
 				attachmentHandler.AttachmentProcessed += new AttachmentProcessedHandler(new AttachmentUtility()).OnProcessed;
+				attachmentHandler.AttachmentProcessed += (s, e) =>
+				{
+					SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(e.AttachmentId);
+				};
+
 				attachmentHandler.ProcessSucceeded += UploadDownloadMonitor.Instance.OnAttachmentProcessed;
+
 
 				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl, Station.Instance.StationID);
 				InitCloudForwarder(cloudForwarder);
@@ -204,6 +211,9 @@ namespace Wammer.Station.Service
 				})).Start();
 
 				logger.Warn("Stream station is started");
+
+				Waveface.Stream.Core.AutoMapperSetting.IniteMap();
+				WebClientControlServer.Instance.Start();
 			}
 			catch (Exception ex)
 			{

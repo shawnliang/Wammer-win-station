@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
@@ -79,7 +81,8 @@ namespace Wammer.Model
 	public enum AttachmentType
 	{
 		image,
-		doc
+		doc,
+		webthumb,
 	}
 
 	public interface IAttachmentInfo
@@ -235,6 +238,24 @@ namespace Wammer.Model
 		{
 			return height > 0;
 		}
+	}
+
+	[Serializable]
+	[BsonIgnoreExtraElements]
+	public class WebProperty
+	{
+		public List<WebAccess> accesses { get; set; }
+		public string favicon { get; set; }
+		public string title { get; set; }
+		public string url { get; set; }
+	}
+
+	[Serializable]
+	[BsonIgnoreExtraElements]
+	public class WebAccess
+	{
+		public string from { get; set; }
+		public DateTime time { get; set; }
 	}
 
 	[DataContract]
@@ -515,6 +536,46 @@ namespace Wammer.Model
 		private AttachmentCollection()
 			: base("attachments")
 		{
+		}
+
+		public override MongoDB.Driver.SafeModeResult Save(Attachment doc)
+		{
+			var attachmentID = doc.object_id;
+			var attachment = FindOneById(attachmentID);
+
+			var ret = base.Save(doc);
+
+			if (attachment == null)
+			{
+				Waveface.Stream.Core.SystemEventSubscriber.Instance.TriggerAttachmentAddedEvent(attachmentID);
+			}
+			else
+			{
+				Waveface.Stream.Core.SystemEventSubscriber.Instance.TriggerAttachmentUpdatedEvent(attachmentID);
+			}
+
+			return ret;
+		}
+
+		public override MongoDB.Driver.SafeModeResult Update(MongoDB.Driver.IMongoQuery query, MongoDB.Driver.IMongoUpdate update, MongoDB.Driver.UpdateFlags updateFlags = UpdateFlags.None)
+		{
+			var bs = query.ToBsonDocument();
+			var attachmentID = bs.Contains("_id") ? bs["_id"].ToString() : string.Empty;
+			var attachment = (attachmentID.Length > 0) ? FindOneById(attachmentID) : null;
+
+			var ret = base.Update(query, update, updateFlags);
+
+
+			if (attachment == null)
+			{
+				Waveface.Stream.Core.SystemEventSubscriber.Instance.TriggerAttachmentAddedEvent(attachmentID);
+			}
+			else
+			{
+				Waveface.Stream.Core.SystemEventSubscriber.Instance.TriggerAttachmentUpdatedEvent(attachmentID);
+			}
+
+			return ret;
 		}
 	}
 }

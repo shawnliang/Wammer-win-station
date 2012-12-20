@@ -1,0 +1,11 @@
+<header>
+    <div class="date pull-left">{{ time }}</div>
+    <div class="attachment-size  pull-right">
+    	{{#hasMap}}<i class="icon-map-marker"></i> &nbsp;{{/hasMap}}
+    	{{#hasPhoto}}<i class="icon-camera"></i> {{attachment_count}}{{/hasPhoto}}
+    </div>
+</header>
+<div class="cover">
+    <img src="{{cover.image_meta.small.url}}">
+</div>
+<div class="event-content">{{ event_description }}</div>

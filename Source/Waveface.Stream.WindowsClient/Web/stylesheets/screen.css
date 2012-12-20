@@ -1,16 +1,16 @@
-/* line 4, screen.css.scss */
+/* line 8, screen.css.scss */
 header, footer, section, div {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-/* line 10, screen.css.scss */
+/* line 14, screen.css.scss */
 html, body {
   width: 100%;
   height: 100%;
   min-width: 1000px; }
 
-/* line 16, screen.css.scss */
+/* line 20, screen.css.scss */
 body {
   background-color: #FFF5E4; }
 
@@ -6134,278 +6134,6 @@ ul.icons {
   content: "\f200"; }
 
 /*
-    ColorBox Core Style:
-    The following CSS is consistent between example themes and should not be altered.
-*/
-/* line 5, lib/_colorbox.css */
-#colorbox, #cboxOverlay, #cboxWrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  overflow: hidden; }
-
-/* line 6, lib/_colorbox.css */
-#cboxOverlay {
-  position: fixed;
-  width: 100%;
-  height: 100%; }
-
-/* line 7, lib/_colorbox.css */
-#cboxMiddleLeft, #cboxBottomLeft {
-  clear: left; }
-
-/* line 8, lib/_colorbox.css */
-#cboxContent {
-  position: relative; }
-
-/* line 9, lib/_colorbox.css */
-#cboxLoadedContent {
-  overflow: auto; }
-
-/* line 10, lib/_colorbox.css */
-#cboxTitle {
-  margin: 0; }
-
-/* line 11, lib/_colorbox.css */
-#cboxLoadingOverlay, #cboxLoadingGraphic {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; }
-
-/* line 12, lib/_colorbox.css */
-#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow {
-  cursor: pointer; }
-
-/* line 13, lib/_colorbox.css */
-.cboxPhoto {
-  float: left;
-  margin: auto;
-  border: 0;
-  display: block;
-  max-width: none; }
-
-/* line 14, lib/_colorbox.css */
-.cboxIframe {
-  width: 100%;
-  height: 100%;
-  display: block;
-  border: 0; }
-
-/* line 15, lib/_colorbox.css */
-#colorbox, #cboxContent, #cboxLoadedContent {
-  box-sizing: content-box; }
-
-/* 
-    User Style:
-    Change the following styles to modify the appearance of ColorBox.  They are
-    ordered & tabbed in a way that represents the nesting of the generated HTML.
-*/
-/* line 22, lib/_colorbox.css */
-#cboxOverlay {
-  background: url(../images/colorbox/overlay.png) repeat 0 0; }
-
-/* line 24, lib/_colorbox.css */
-#cboxTopLeft {
-  width: 21px;
-  height: 21px;
-  background: url(../images/colorbox/controls.png) no-repeat -101px 0; }
-
-/* line 25, lib/_colorbox.css */
-#cboxTopRight {
-  width: 21px;
-  height: 21px;
-  background: url(../images/colorbox/controls.png) no-repeat -130px 0; }
-
-/* line 26, lib/_colorbox.css */
-#cboxBottomLeft {
-  width: 21px;
-  height: 21px;
-  background: url(../images/colorbox/controls.png) no-repeat -101px -29px; }
-
-/* line 27, lib/_colorbox.css */
-#cboxBottomRight {
-  width: 21px;
-  height: 21px;
-  background: url(../images/colorbox/controls.png) no-repeat -130px -29px; }
-
-/* line 28, lib/_colorbox.css */
-#cboxMiddleLeft {
-  width: 21px;
-  background: url(../images/colorbox/controls.png) left top repeat-y; }
-
-/* line 29, lib/_colorbox.css */
-#cboxMiddleRight {
-  width: 21px;
-  background: url(../images/colorbox/controls.png) right top repeat-y; }
-
-/* line 30, lib/_colorbox.css */
-#cboxTopCenter {
-  height: 21px;
-  background: url(../images/colorbox/border.png) 0 0 repeat-x; }
-
-/* line 31, lib/_colorbox.css */
-#cboxBottomCenter {
-  height: 21px;
-  background: url(../images/colorbox/border.png) 0 -29px repeat-x; }
-
-/* line 32, lib/_colorbox.css */
-#cboxContent {
-  background: #fff;
-  overflow: hidden; }
-
-/* line 33, lib/_colorbox.css */
-.cboxIframe {
-  background: #fff; }
-
-/* line 34, lib/_colorbox.css */
-#cboxError {
-  padding: 50px;
-  border: 1px solid #ccc; }
-
-/* line 35, lib/_colorbox.css */
-#cboxLoadedContent {
-  margin-bottom: 28px; }
-
-/* line 36, lib/_colorbox.css */
-#cboxTitle {
-  position: absolute;
-  bottom: 4px;
-  left: 0;
-  text-align: center;
-  width: 100%;
-  color: #949494; }
-
-/* line 37, lib/_colorbox.css */
-#cboxCurrent {
-  position: absolute;
-  bottom: 4px;
-  left: 58px;
-  color: #949494; }
-
-/* line 38, lib/_colorbox.css */
-#cboxSlideshow {
-  position: absolute;
-  bottom: 4px;
-  right: 30px;
-  color: #0092ef; }
-
-/* line 39, lib/_colorbox.css */
-#cboxPrevious {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background: url(../images/colorbox/controls.png) no-repeat -75px 0;
-  width: 25px;
-  height: 25px;
-  text-indent: -9999px; }
-
-/* line 40, lib/_colorbox.css */
-#cboxPrevious:hover {
-  background-position: -75px -25px; }
-
-/* line 41, lib/_colorbox.css */
-#cboxNext {
-  position: absolute;
-  bottom: 0;
-  left: 27px;
-  background: url(../images/colorbox/controls.png) no-repeat -50px 0;
-  width: 25px;
-  height: 25px;
-  text-indent: -9999px; }
-
-/* line 42, lib/_colorbox.css */
-#cboxNext:hover {
-  background-position: -50px -25px; }
-
-/* line 43, lib/_colorbox.css */
-#cboxLoadingOverlay {
-  background: url(../images/colorbox/loading_background.png) no-repeat center center; }
-
-/* line 44, lib/_colorbox.css */
-#cboxLoadingGraphic {
-  background: url(../images/colorbox/loading.gif) no-repeat center center; }
-
-/* line 45, lib/_colorbox.css */
-#cboxClose {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background: url(../images/colorbox/controls.png) no-repeat -25px 0;
-  width: 25px;
-  height: 25px;
-  text-indent: -9999px; }
-
-/* line 46, lib/_colorbox.css */
-#cboxClose:hover {
-  background-position: -25px -25px; }
-
-/*
-  The following fixes a problem where IE7 and IE8 replace a PNG's alpha transparency with a black fill
-  when an alpha filter (opacity change) is set on the element or ancestor element.  This style is not applied to or needed in IE9.
-  See: http://jacklmoore.com/notes/ie-transparency-problems/
-*/
-/* line 60, lib/_colorbox.css */
-.cboxIE #cboxTopLeft,
-.cboxIE #cboxTopCenter,
-.cboxIE #cboxTopRight,
-.cboxIE #cboxBottomLeft,
-.cboxIE #cboxBottomCenter,
-.cboxIE #cboxBottomRight,
-.cboxIE #cboxMiddleLeft,
-.cboxIE #cboxMiddleRight {
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF); }
-
-/*
-  The following provides PNG transparency support for IE6
-  Feel free to remove this and the /ie6/ directory if you have dropped IE6 support.
-*/
-/* line 68, lib/_colorbox.css */
-.cboxIE6 #cboxTopLeft {
-  background: url(../images/colorbox/ie6/borderTopLeft.png); }
-
-/* line 69, lib/_colorbox.css */
-.cboxIE6 #cboxTopCenter {
-  background: url(../images/colorbox/ie6/borderTopCenter.png); }
-
-/* line 70, lib/_colorbox.css */
-.cboxIE6 #cboxTopRight {
-  background: url(../images/colorbox/ie6/borderTopRight.png); }
-
-/* line 71, lib/_colorbox.css */
-.cboxIE6 #cboxBottomLeft {
-  background: url(../images/colorbox/ie6/borderBottomLeft.png); }
-
-/* line 72, lib/_colorbox.css */
-.cboxIE6 #cboxBottomCenter {
-  background: url(../images/colorbox/ie6/borderBottomCenter.png); }
-
-/* line 73, lib/_colorbox.css */
-.cboxIE6 #cboxBottomRight {
-  background: url(../images/colorbox/ie6/borderBottomRight.png); }
-
-/* line 74, lib/_colorbox.css */
-.cboxIE6 #cboxMiddleLeft {
-  background: url(../images/colorbox/ie6/borderMiddleLeft.png); }
-
-/* line 75, lib/_colorbox.css */
-.cboxIE6 #cboxMiddleRight {
-  background: url(../images/colorbox/ie6/borderMiddleRight.png); }
-
-/* line 84, lib/_colorbox.css */
-.cboxIE6 #cboxTopLeft,
-.cboxIE6 #cboxTopCenter,
-.cboxIE6 #cboxTopRight,
-.cboxIE6 #cboxBottomLeft,
-.cboxIE6 #cboxBottomCenter,
-.cboxIE6 #cboxBottomRight,
-.cboxIE6 #cboxMiddleLeft,
-.cboxIE6 #cboxMiddleRight {
-  _behavior: expression(this.src = this.src ? this.src : this.currentStyle.backgroundImage.split('"')[1], this.style.background = "none", this.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src=" + this.src + ", sizingMethod='scale')"); }
-
-/*
  * FullCalendar v1.5.4 Stylesheet
  *
  * Copyright (c) 2011 Adam Shaw
@@ -7215,7 +6943,7 @@ table.fc-border-separate {
     background-color: #000; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-events a {
-    color: #f36e5f;
+    color: #f47769;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-events.active a {
@@ -7223,7 +6951,7 @@ table.fc-border-separate {
     background-color: #f26151; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-photos a {
-    color: #83b1ce;
+    color: #8ab6d1;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-photos.active a {
@@ -7231,31 +6959,31 @@ table.fc-border-separate {
     background-color: #78aaca; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-docs a {
-    color: #83b1ce;
+    color: #fdb042;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-docs.active a {
     color: #fff;
-    background-color: #78aaca; }
-  /* line 2, layouts/_menu.scss */
-  #menu .nav-to-calendar a {
-    color: #86a640;
-    font-weight: bold; }
-  /* line 6, layouts/_menu.scss */
-  #menu .nav-to-calendar.active a {
-    color: #fff;
-    background-color: #7d9b3c; }
+    background-color: #fda529; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-collection a {
-    color: #fdab38;
+    color: #80af22;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-collection.active a {
     color: #fff;
-    background-color: #fda529; }
+    background-color: #709a1e; }
+  /* line 2, layouts/_menu.scss */
+  #menu .nav-to-calendar a {
+    color: #4c5db2;
+    font-weight: bold; }
+  /* line 6, layouts/_menu.scss */
+  #menu .nav-to-calendar.active a {
+    color: #fff;
+    background-color: #4454a0; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-settings a {
-    color: #324f82;
+    color: #355389;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-settings.active a {
@@ -7285,35 +7013,51 @@ table.fc-border-separate {
   right: 0;
   bottom: 0;
   overflow: auto; }
+/* line 29, layouts/_ui.scss */
+.main-view .content-control, #events .content-control, #photos .content-control, #documents .content-control, #calendar .content-control, #collections .content-control {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 10px 20px;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #eee;
+  border-top: 1px solid #ccc; }
 
-/* line 34, layouts/_ui.scss */
+/* line 52, layouts/_ui.scss */
 .day-view > header .date, #events > header .date, #photos > header .date, #documents > header .date, #calendar > header .date {
   width: 250px;
   display: inline-block;
   font-size: 24px;
   cursor: default; }
-/* line 41, layouts/_ui.scss */
+/* line 59, layouts/_ui.scss */
 .day-view > header .previousDate, #events > header .previousDate, #photos > header .previousDate, #documents > header .previousDate, #calendar > header .previousDate, .day-view > header .nextDate, #events > header .nextDate, #photos > header .nextDate, #documents > header .nextDate, #calendar > header .nextDate {
   font-size: 16px;
   line-height: 60px;
   color: #999999;
   display: none;
   position: absolute; }
-  /* line 48, layouts/_ui.scss */
+  /* line 66, layouts/_ui.scss */
   .day-view > header .previousDate:hover, #events > header .previousDate:hover, #photos > header .previousDate:hover, #documents > header .previousDate:hover, #calendar > header .previousDate:hover, .day-view > header .nextDate:hover, #events > header .nextDate:hover, #photos > header .nextDate:hover, #documents > header .nextDate:hover, #calendar > header .nextDate:hover {
     cursor: pointer;
     color: #666; }
-/* line 54, layouts/_ui.scss */
+/* line 72, layouts/_ui.scss */
 .day-view > header .previousDate, #events > header .previousDate, #photos > header .previousDate, #documents > header .previousDate, #calendar > header .previousDate {
   right: 50%;
   top: 0;
   margin-right: 200px; }
-/* line 59, layouts/_ui.scss */
+/* line 77, layouts/_ui.scss */
 .day-view > header .nextDate, #events > header .nextDate, #photos > header .nextDate, #documents > header .nextDate, #calendar > header .nextDate {
   left: 50%;
   top: 0;
   margin-left: 200px; }
-/* line 65, layouts/_ui.scss */
+/* line 83, layouts/_ui.scss */
 .day-view > header button, #events > header button, #photos > header button, #documents > header button, #calendar > header button {
   font-size: 24px;
   line-height: 24px;
@@ -7322,61 +7066,244 @@ table.fc-border-separate {
   padding: 0;
   color: #999999;
   vertical-align: -1px; }
-/* line 74, layouts/_ui.scss */
+/* line 92, layouts/_ui.scss */
 .day-view > header button:active, #events > header button:active, #photos > header button:active, #documents > header button:active, #calendar > header button:active {
   color: #C75346; }
-/* line 77, layouts/_ui.scss */
+/* line 95, layouts/_ui.scss */
 .day-view > header button:hover, #events > header button:hover, #photos > header button:hover, #documents > header button:hover, #calendar > header button:hover {
   color: #666; }
-/* line 81, layouts/_ui.scss */
+/* line 99, layouts/_ui.scss */
 .day-view > header button.disabled, #events > header button.disabled, #photos > header button.disabled, #documents > header button.disabled, #calendar > header button.disabled {
   color: #ddd; }
-/* line 85, layouts/_ui.scss */
+/* line 103, layouts/_ui.scss */
 .day-view > header .icon, #events > header .icon, #photos > header .icon, #documents > header .icon, #calendar > header .icon {
   margin: 0 15px; }
-/* line 91, layouts/_ui.scss */
+/* line 109, layouts/_ui.scss */
 .day-view > header:hover .previousDate, #events > header:hover .previousDate, #photos > header:hover .previousDate, #documents > header:hover .previousDate, #calendar > header:hover .previousDate, .day-view > header:hover .nextDate, #events > header:hover .nextDate, #photos > header:hover .nextDate, #documents > header:hover .nextDate, #calendar > header:hover .nextDate {
   display: block; }
 
+/* line 1, partials/_event.scss */
+.event header, .event-detail header {
+  color: #999;
+  font-size: 13px;
+  padding: 7px 10px 5px;
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+  *zoom: 1; }
+
+/* line 11, partials/_event.scss */
+.event {
+  margin: 10px 0;
+  overflow: hidden; }
+  /* line 19, partials/_event.scss */
+  .event .cover {
+    max-height: 180px;
+    background-color: #eee;
+    margin: 10px;
+    overflow: hidden; }
+  /* line 26, partials/_event.scss */
+  .event .event-content {
+    margin: 10px 10px; }
+  /* line 30, partials/_event.scss */
+  .event.selected {
+    box-shadow: 0 1px 10px 0 rgba(102, 102, 102, 0.3);
+    position: relative;
+    bottom: 1px; }
+
+/* line 37, partials/_event.scss */
+.event-detail {
+  overflow: hidden;
+  *zoom: 1;
+  margin: 20px; }
+  /* line 46, partials/_event.scss */
+  .event-detail .event-content {
+    *zoom: 1;
+    font-size: 15px;
+    line-height: 20px;
+    padding: 0 20px 20px; }
+    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+    .event-detail .event-content:after {
+      content: "";
+      display: table;
+      clear: both; }
+  /* line 54, partials/_event.scss */
+  .event-detail .event-description, .event-detail .event-tags, .event-detail .event-who-where {
+    padding: 16px 16px 16px 25px;
+    position: relative;
+    border-top: 1px solid #eee; }
+    /* line 58, partials/_event.scss */
+    .event-detail .event-description .icon, .event-detail .event-tags .icon, .event-detail .event-who-where .icon {
+      position: absolute;
+      left: 0;
+      top: 18px;
+      color: #ccc;
+      font-size: 18px;
+      line-height: 20px; }
+  /* line 67, partials/_event.scss */
+  .event-detail .event-description {
+    border-top-style: none; }
+  /* line 70, partials/_event.scss */
+  .event-detail .event-who-where {
+    color: #999;
+    font-size: 15px; }
+  /* line 75, partials/_event.scss */
+  .event-detail .description {
+    color: #D08E32; }
+  /* line 78, partials/_event.scss */
+  .event-detail .location {
+    color: #6E93AA; }
+  /* line 81, partials/_event.scss */
+  .event-detail .people {
+    color: #718A39; }
+  /* line 85, partials/_event.scss */
+  .event-detail .tag {
+    color: #CFA243;
+    border: 1px solid rgba(207, 162, 67, 0.25);
+    background-color: rgba(255, 216, 94, 0.37);
+    border-radius: 3px;
+    padding: 3px 6px;
+    margin: 0 5px 0 0;
+    font-size: 11px;
+    position: relative;
+    top: -1px; }
+  /* line 96, partials/_event.scss */
+  .event-detail .photos-title {
+    text-align: center;
+    color: #ccc;
+    border-bottom: 1px solid #ddd; }
+    /* line 99, partials/_event.scss */
+    .event-detail .photos-title span {
+      background-color: #FFF;
+      padding: 5px;
+      position: relative;
+      top: 10px; }
+  /* line 108, partials/_event.scss */
+  .event-detail .event-photos {
+    padding: 20px; }
+  /* line 113, partials/_event.scss */
+  .event-detail .attachments {
+    *zoom: 1; }
+    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+    .event-detail .attachments:after {
+      content: "";
+      display: table;
+      clear: both; }
+  /* line 119, partials/_event.scss */
+  .event-detail .more {
+    margin-top: 20px; }
+  @media (min-width: 1280px) and (max-width: 1600px) {
+    /* line 126, partials/_event.scss */
+    .event-detail .event-content {
+      padding-bottom: 0;
+      padding-right: 0;
+      border-bottom: 1px solid #ccc; }
+    /* line 132, partials/_event.scss */
+    .event-detail .hasMap .event-text {
+      width: 50%;
+      float: left; }
+    /* line 136, partials/_event.scss */
+    .event-detail .event-location {
+      width: 50%;
+      float: right;
+      border-left: 1px solid #ccc; } }
+  @media (min-width: 1600px) {
+    /* line 145, partials/_event.scss */
+    .event-detail .event-content {
+      padding: 0 20px 20px 0;
+      width: 400px;
+      float: right; }
+    /* line 153, partials/_event.scss */
+    .event-detail .event-photos {
+      float: left;
+      width: 100%;
+      margin-right: -400px; }
+      /* line 158, partials/_event.scss */
+      .event-detail .event-photos .inner {
+        margin-right: 400px; } }
+
 /* line 1, partials/_attachment.scss */
 .attachment {
-  width: 240px;
-  height: 240px;
-  padding: 1px; }
+  width: 20%;
+  height: auto;
+  padding: 1px;
+  float: left; }
 
-/* line 8, partials/_attachment.scss */
+/* line 7, partials/_attachment.scss */
 .frame {
   width: 100%;
-  height: 100%;
+  height: 0;
+  padding-top: 100%;
   background-color: #eee;
-  overflow: hidden; }
-  /* line 16, partials/_attachment.scss */
+  overflow: hidden;
+  position: relative; }
+  /* line 15, partials/_attachment.scss */
+  .frame img {
+    position: absolute;
+    left: 0;
+    top: 0; }
+  /* line 22, partials/_attachment.scss */
   .frame.potrait img {
     width: 100%;
     max-height: none; }
-  /* line 22, partials/_attachment.scss */
+  /* line 28, partials/_attachment.scss */
   .frame.landscape img {
     height: 100%;
     max-width: none; }
 
+/* line 4, partials/_document.scss */
+.document .filename {
+  margin: 10px;
+  text-align: center;
+  color: #999; }
+
 /* line 1, partials/_ui.scss */
 .more {
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  cursor: pointer;
-  color: #fff;
-  border-radius: 4px; }
-  /* line 9, partials/_ui.scss */
-  .more:hover {
-    background-color: rgba(0, 0, 0, 0.2); }
+  padding: 15px; }
+  /* line 5, partials/_ui.scss */
+  .more .badge {
+    font-size: 15px;
+    padding: 7px 20px 7px;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: #aaa;
+    text-shadow: none; }
+    /* line 12, partials/_ui.scss */
+    .more .badge:hover {
+      background-color: #999; }
 
-/* line 14, partials/_ui.scss */
+/* line 18, partials/_ui.scss */
 .box, .event, .event-detail, #photos .photo-grid, .collection, .collection-detail {
   border-radius: 3px;
   box-shadow: 0 0 10px rgba(153, 153, 153, 0.1);
   border: 1px solid #ddd;
   background-color: #fff; }
+
+/* line 26, partials/_ui.scss */
+.paper {
+  border: 1px solid #999;
+  overflow: hidden;
+  box-shadow: 0 5px 15px 3px #ddd;
+  text-align: center;
+  background-color: #FFF; }
+  /* line 33, partials/_ui.scss */
+  .paper img {
+    width: 100%; }
+  /* line 37, partials/_ui.scss */
+  .paper:hover {
+    box-shadow: 0 5px 15px 3px #ccc;
+    position: relative;
+    top: -1px; }
+
+/* line 44, partials/_ui.scss */
+.hover-pill {
+  color: #FFF;
+  cursor: pointer;
+  background-color: #515151;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 4px; }
 
 /* line 6, _events.scss */
 #events-left {
@@ -7398,135 +7325,6 @@ table.fc-border-separate {
   right: 0;
   overflow: auto; }
 
-/* line 26, _events.scss */
-.event {
-  margin: 10px 0;
-  overflow: hidden; }
-  /* line 31, _events.scss */
-  .event header {
-    color: #999;
-    font-size: 13px;
-    padding: 7px 10px 5px;
-    background-color: #eee;
-    border-bottom: 1px solid #ddd;
-    overflow: hidden;
-    *zoom: 1; }
-  /* line 39, _events.scss */
-  .event .cover {
-    max-height: 180px;
-    background-color: #eee;
-    margin: 10px;
-    overflow: hidden; }
-  /* line 46, _events.scss */
-  .event .event-content {
-    margin: 10px 10px; }
-  /* line 50, _events.scss */
-  .event.selected {
-    box-shadow: 0 1px 10px 0 rgba(102, 102, 102, 0.3);
-    position: relative;
-    bottom: 1px; }
-
-/* line 57, _events.scss */
-.event-detail {
-  overflow: hidden;
-  *zoom: 1;
-  margin: 20px; }
-  /* line 62, _events.scss */
-  .event-detail header {
-    color: #666;
-    font-size: 20px;
-    padding: 20px;
-    border-bottom: 1px solid #ccc;
-    position: relative; }
-  /* line 69, _events.scss */
-  .event-detail .event-content {
-    font-size: 15px;
-    line-height: 20px;
-    border-bottom: 1px solid #ccc;
-    *zoom: 1; }
-    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
-    .event-detail .event-content:after {
-      content: "";
-      display: table;
-      clear: both; }
-  /* line 75, _events.scss */
-  .event-detail .event-text {
-    width: 50%;
-    float: left; }
-  /* line 79, _events.scss */
-  .event-detail .event-description, .event-detail .event-tags, .event-detail .event-who-where {
-    padding: 16px 16px 16px 45px;
-    position: relative;
-    border-top: 1px solid #eee; }
-    /* line 83, _events.scss */
-    .event-detail .event-description .icon, .event-detail .event-tags .icon, .event-detail .event-who-where .icon {
-      position: absolute;
-      left: 20px;
-      top: 16px;
-      color: #ccc;
-      font-size: 18px;
-      line-height: 20px; }
-  /* line 92, _events.scss */
-  .event-detail .event-description {
-    border-top-style: none; }
-  /* line 95, _events.scss */
-  .event-detail .event-who-where {
-    color: #999;
-    font-size: 15px; }
-  /* line 99, _events.scss */
-  .event-detail .event-location {
-    width: 50%;
-    float: right;
-    border-left: 1px solid #ccc; }
-  /* line 104, _events.scss */
-  .event-detail .description {
-    color: #D08E32; }
-  /* line 107, _events.scss */
-  .event-detail .location {
-    color: #6E93AA; }
-  /* line 110, _events.scss */
-  .event-detail .people {
-    color: #718A39; }
-  /* line 114, _events.scss */
-  .event-detail .tag {
-    color: #CFA243;
-    border: 1px solid rgba(207, 162, 67, 0.25);
-    background-color: rgba(255, 216, 94, 0.37);
-    border-radius: 3px;
-    padding: 3px 6px;
-    margin: 0 5px 0 0;
-    font-size: 11px;
-    position: relative;
-    top: -1px; }
-  /* line 125, _events.scss */
-  .event-detail .photos-title {
-    text-align: center;
-    color: #ccc;
-    border-bottom: 1px solid #ddd; }
-    /* line 128, _events.scss */
-    .event-detail .photos-title span {
-      background-color: #FFF;
-      padding: 5px;
-      position: relative;
-      top: 10px; }
-  /* line 137, _events.scss */
-  .event-detail .event-photos {
-    margin: 20px; }
-  /* line 141, _events.scss */
-  .event-detail .attachments {
-    margin: 20px -1px;
-    *zoom: 1; }
-    /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
-    .event-detail .attachments:after {
-      content: "";
-      display: table;
-      clear: both; }
-  /* line 145, _events.scss */
-  .event-detail .attachment {
-    float: left;
-    width: 20%;
-    margin: 0; }
-
 /* line 1, _photos.scss */
 #photos {
   min-height: 100%;
@@ -7535,125 +7333,90 @@ table.fc-border-separate {
   position: relative; }
   /* line 9, _photos.scss */
   #photos .photo-grid {
-    margin: 20px;
-    padding: 20px; }
-  /* line 17, _photos.scss */
+    margin: 20px 20px 80px;
+    padding: 10px; }
+  /* line 15, _photos.scss */
   #photos .attachment {
     float: left;
     width: 12.5%;
     padding: 10px; }
-  /* line 25, _photos.scss */
+  /* line 20, _photos.scss */
   #photos .more {
-    clear: both;
-    margin: 10px 0 0; }
+    clear: both; }
 
-/* line 33, _photos.scss */
-.photo-control {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  padding: 10px 20px;
-  margin: 0;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #eee;
-  border-top: 1px solid #ccc; }
-
-/* line 53, _photos.scss */
+/* line 28, _photos.scss */
 .photos-grid .frame, .photo-grid-l-l-l .frame, .photo-grid-l-p-p .frame, .photo-grid-p-l-p .frame, .photo-grid-p-p-l .frame, .photo-grid-6s .frame {
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15); }
-/* line 58, _photos.scss */
+/* line 33, _photos.scss */
 .photos-grid .photos, .photo-grid-l-l-l .photos, .photo-grid-l-p-p .photos, .photo-grid-p-l-p .photos, .photo-grid-p-p-l .photos, .photo-grid-6s .photos {
   *zoom: 1;
-  margin: 0 -1px 20px; }
+  margin: 0 0 20px; }
   /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
   .photos-grid .photos:after, .photo-grid-l-l-l .photos:after, .photo-grid-l-p-p .photos:after, .photo-grid-p-l-p .photos:after, .photo-grid-p-p-l .photos:after, .photo-grid-6s .photos:after {
     content: "";
     display: table;
     clear: both; }
-/* line 63, _photos.scss */
+/* line 38, _photos.scss */
 .photos-grid .col, .photo-grid-l-l-l .col, .photo-grid-l-p-p .col, .photo-grid-p-l-p .col, .photo-grid-p-p-l .col, .photo-grid-6s .col {
-  height: 100%;
   float: left;
   padding: 10px; }
-/* line 68, _photos.scss */
-.photos-grid .frame, .photo-grid-l-l-l .frame, .photo-grid-l-p-p .frame, .photo-grid-p-l-p .frame, .photo-grid-p-p-l .frame, .photo-grid-6s .frame {
-  background-color: #eee;
-  height: 100%; }
-/* line 72, _photos.scss */
+/* line 44, _photos.scss */
 .photos-grid .ui-selected, .photo-grid-l-l-l .ui-selected, .photo-grid-l-p-p .ui-selected, .photo-grid-p-l-p .ui-selected, .photo-grid-p-p-l .ui-selected, .photo-grid-6s .ui-selected {
   -webkit-box-shadow: 0 0 3px 3px #0b85d9;
   box-shadow: 0 0 3px 3px #0b85d9; }
-/* line 76, _photos.scss */
+/* line 48, _photos.scss */
 .photos-grid .ui-selecting, .photo-grid-l-l-l .ui-selecting, .photo-grid-l-p-p .ui-selecting, .photo-grid-p-l-p .ui-selecting, .photo-grid-p-p-l .ui-selecting, .photo-grid-6s .ui-selecting {
   -webkit-box-shadow: 0 0 3px 3px #999;
   box-shadow: 0 0 3px 3px #999; }
 
+/* line 57, _photos.scss */
+.photo-grid-l-l-l .frame {
+  padding-top: 66%; }
+/* line 61, _photos.scss */
+.photo-grid-l-l-l .col-1 {
+  width: 33.33%; }
+/* line 64, _photos.scss */
+.photo-grid-l-l-l .col-2 {
+  width: 33.33%; }
+/* line 67, _photos.scss */
+.photo-grid-l-l-l .col-3 {
+  width: 33.33%; }
+
+/* line 76, _photos.scss */
+.photo-grid-l-p-p .col-1 {
+  width: 50%; }
+/* line 79, _photos.scss */
+.photo-grid-l-p-p .col-2 {
+  width: 25%; }
 /* line 82, _photos.scss */
-.photo-grid-l-l-l {
-  height: 300px; }
-  /* line 87, _photos.scss */
-  .photo-grid-l-l-l .col-1 {
-    width: 33.33%; }
-  /* line 90, _photos.scss */
-  .photo-grid-l-l-l .col-2 {
-    width: 33.33%; }
-  /* line 93, _photos.scss */
-  .photo-grid-l-l-l .col-3 {
-    width: 33.33%; }
+.photo-grid-l-p-p .col-3 {
+  width: 25%; }
 
-/* line 99, _photos.scss */
-.photo-grid-l-p-p {
-  height: 400px; }
-  /* line 104, _photos.scss */
-  .photo-grid-l-p-p .col-1 {
-    width: 50%; }
-  /* line 107, _photos.scss */
-  .photo-grid-l-p-p .col-2 {
-    width: 25%; }
-  /* line 110, _photos.scss */
-  .photo-grid-l-p-p .col-3 {
-    width: 25%; }
+/* line 91, _photos.scss */
+.photo-grid-p-l-p .col-1 {
+  width: 25%; }
+/* line 94, _photos.scss */
+.photo-grid-p-l-p .col-2 {
+  width: 50%; }
+/* line 97, _photos.scss */
+.photo-grid-p-l-p .col-3 {
+  width: 25%; }
 
-/* line 116, _photos.scss */
-.photo-grid-p-l-p {
-  height: 400px; }
-  /* line 120, _photos.scss */
-  .photo-grid-p-l-p .col-1 {
-    width: 25%; }
-  /* line 123, _photos.scss */
-  .photo-grid-p-l-p .col-2 {
-    width: 50%; }
-  /* line 126, _photos.scss */
-  .photo-grid-p-l-p .col-3 {
-    width: 25%; }
+/* line 105, _photos.scss */
+.photo-grid-p-p-l .col-1 {
+  width: 25%; }
+/* line 108, _photos.scss */
+.photo-grid-p-p-l .col-2 {
+  width: 25%; }
+/* line 111, _photos.scss */
+.photo-grid-p-p-l .col-3 {
+  width: 50%; }
 
-/* line 131, _photos.scss */
-.photo-grid-p-p-l {
-  height: 400px; }
-  /* line 135, _photos.scss */
-  .photo-grid-p-p-l .col-1 {
-    width: 25%; }
-  /* line 138, _photos.scss */
-  .photo-grid-p-p-l .col-2 {
-    width: 25%; }
-  /* line 141, _photos.scss */
-  .photo-grid-p-p-l .col-3 {
-    width: 50%; }
-
-/* line 146, _photos.scss */
-.photo-grid-6s {
-  height: 200px; }
-  /* line 150, _photos.scss */
-  .photo-grid-6s .col {
-    width: 16.666%; }
+/* line 119, _photos.scss */
+.photo-grid-6s .col {
+  width: 16.666%; }
 
 /* line 1, _documents.scss */
 #documents {
@@ -7663,91 +7426,114 @@ table.fc-border-separate {
   position: relative; }
   /* line 9, _documents.scss */
   #documents .doc-grid {
-    margin: 20px;
-    padding: 20px; }
-  /* line 14, _documents.scss */
+    margin: 20px auto; }
+  /* line 16, _documents.scss */
   #documents .document {
     float: left;
-    padding: 20px; }
-  /* line 19, _documents.scss */
+    padding: 20px;
+    margin-bottom: 40px; }
+  /* line 21, _documents.scss */
   #documents .more {
     clear: both;
     margin: 20px 0 0; }
 
-/* line 25, _documents.scss */
-.paper {
-  border: 1px solid #666;
-  overflow: hidden;
-  box-shadow: 0 5px 15px 3px #ddd;
-  text-align: center;
-  background-color: #FFF; }
-  /* line 32, _documents.scss */
-  .paper img {
-    width: 100%; }
-  /* line 36, _documents.scss */
-  .paper:hover {
-    box-shadow: 0 5px 15px 3px #ccc;
-    position: relative;
-    top: -1px; }
+/* line 29, _documents.scss */
+.document {
+  width: 50%; }
+  /* line 31, _documents.scss */
+  .document .paper {
+    position: relative; }
+    /* line 34, _documents.scss */
+    .document .paper .open-in {
+      display: none;
+      text-align: center;
+      width: 100%;
+      position: absolute;
+      top: 48%; }
+    /* line 45, _documents.scss */
+    .document .paper:hover .open-in {
+      display: block; }
+  @media (min-width: 1280px) and (max-width: 1680px) {
+    /* line 54, _documents.scss */
+    .document {
+      width: 33.3%; } }
+  @media (min-width: 1680px) and (max-width: 2080px) {
+    /* line 59, _documents.scss */
+    .document {
+      width: 25%; } }
+  @media (min-width: 2080px) and (max-width: 2560px) {
+    /* line 64, _documents.scss */
+    .document {
+      width: 20%; } }
+  @media (min-width: 2560px) {
+    /* line 69, _documents.scss */
+    .document {
+      width: 16.66%; } }
 
-/* line 44, _documents.scss */
-.document .filename {
-  margin: 10px;
-  text-align: center;
-  color: #999; }
+/* line 78, _documents.scss */
+.document.potrait .paper {
+  width: 240px;
+  height: 320px;
+  margin: 0 auto; }
 
-/* line 7, _calendar.scss */
+/* line 86, _documents.scss */
+.document.landscape .paper {
+  width: 320px;
+  height: 240px;
+  margin: 40px auto; }
+
+/* line 6, _calendar.scss */
 #calendar-control {
   padding: 20px 20px 0 80px;
   font-size: 24px;
   line-height: 1.5; }
-  /* line 12, _calendar.scss */
+  /* line 11, _calendar.scss */
   #calendar-control span {
     cursor: pointer; }
-  /* line 15, _calendar.scss */
+  /* line 14, _calendar.scss */
   #calendar-control .events {
     color: #C65D51; }
-  /* line 18, _calendar.scss */
+  /* line 17, _calendar.scss */
   #calendar-control .photos {
     color: #6E93AA; }
 
-/* line 25, _calendar.scss */
+/* line 24, _calendar.scss */
 #calendar-d3 .month {
   padding: 0 0 20px; }
-  /* line 29, _calendar.scss */
+  /* line 28, _calendar.scss */
   #calendar-d3 .month table {
     width: 100%; }
-  /* line 33, _calendar.scss */
+  /* line 32, _calendar.scss */
   #calendar-d3 .month thead tr {
     height: 10px; }
-  /* line 36, _calendar.scss */
+  /* line 35, _calendar.scss */
   #calendar-d3 .month thead th {
     font-weight: normal;
     color: #fff; }
-  /* line 41, _calendar.scss */
+  /* line 40, _calendar.scss */
   #calendar-d3 .month thead th:first-child {
     width: 80px;
     color: #000;
     font-weight: bold; }
-  /* line 46, _calendar.scss */
+  /* line 45, _calendar.scss */
   #calendar-d3 .month thead th:last-child {
     width: 80px; }
-  /* line 53, _calendar.scss */
+  /* line 52, _calendar.scss */
   #calendar-d3 .month tbody th, #calendar-d3 .month tbody td {
     border: 1px solid #C3D2DB; }
-    /* line 56, _calendar.scss */
+    /* line 55, _calendar.scss */
     #calendar-d3 .month tbody th:first-child, #calendar-d3 .month tbody td:first-child {
       border-left-style: none; }
-    /* line 59, _calendar.scss */
+    /* line 58, _calendar.scss */
     #calendar-d3 .month tbody th:last-child, #calendar-d3 .month tbody td:last-child {
       border-right-style: none; }
-  /* line 65, _calendar.scss */
+  /* line 64, _calendar.scss */
   #calendar-d3 .month td {
     text-align: left;
     vertical-align: top;
     font-size: 13px;
     color: #ccc; }
-  /* line 71, _calendar.scss */
+  /* line 70, _calendar.scss */
   #calendar-d3 .month svg {
     position: absolute;
     left: 0%;
@@ -7755,29 +7541,29 @@ table.fc-border-separate {
     pointer-events: none;
     width: 100%;
     height: 100%; }
-  /* line 79, _calendar.scss */
+  /* line 78, _calendar.scss */
   #calendar-d3 .month line {
     shape-rendering: crispEdges;
     opacity: 0.3; }
-  /* line 83, _calendar.scss */
+  /* line 82, _calendar.scss */
   #calendar-d3 .month .photo-rect, #calendar-d3 .month .event-rect {
     opacity: 0.4;
     pointer-events: fill; }
-    /* line 87, _calendar.scss */
+    /* line 86, _calendar.scss */
     #calendar-d3 .month .photo-rect:hover, #calendar-d3 .month .event-rect:hover {
       opacity: 0.8; }
-  /* line 91, _calendar.scss */
+  /* line 90, _calendar.scss */
   #calendar-d3 .month .dateCell {
     position: relative;
     width: 100%;
     height: 75px; }
-  /* line 98, _calendar.scss */
+  /* line 97, _calendar.scss */
   #calendar-d3 .month .photo-rect {
     fill: #6E93AA; }
-  /* line 102, _calendar.scss */
+  /* line 101, _calendar.scss */
   #calendar-d3 .month .event-rect {
     fill: #C85E52; }
-  /* line 107, _calendar.scss */
+  /* line 106, _calendar.scss */
   #calendar-d3 .month .holiday {
     color: #900; }
 

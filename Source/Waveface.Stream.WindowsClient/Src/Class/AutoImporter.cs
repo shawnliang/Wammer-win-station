@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 
 namespace Waveface.Stream.WindowsClient

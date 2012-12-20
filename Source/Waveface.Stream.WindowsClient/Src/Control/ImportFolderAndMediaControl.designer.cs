@@ -41,17 +41,17 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
 			this.label1.Location = new System.Drawing.Point(36, 31);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(215, 19);
+			this.label1.Size = new System.Drawing.Size(215, 18);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Let\'s fill some fun to AOStream!";
 			// 
 			// importFromMediaButton
 			// 
 			this.importFromMediaButton.BackColor = System.Drawing.Color.PowderBlue;
-			this.importFromMediaButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.importFromMediaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.importFromMediaButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.importFromMediaButton.Location = new System.Drawing.Point(55, 185);
 			this.importFromMediaButton.Name = "importFromMediaButton";
@@ -66,7 +66,7 @@
 			// importFromDiskButton
 			// 
 			this.importFromDiskButton.BackColor = System.Drawing.Color.PowderBlue;
-			this.importFromDiskButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.importFromDiskButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.importFromDiskButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
 			this.importFromDiskButton.Location = new System.Drawing.Point(55, 98);
 			this.importFromDiskButton.Name = "importFromDiskButton";
@@ -81,16 +81,15 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.Location = new System.Drawing.Point(36, 323);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(261, 15);
+			this.label2.Size = new System.Drawing.Size(219, 13);
 			this.label2.TabIndex = 6;
 			this.label2.Text = "All imported and synced files will be stored at:";
 			// 
 			// txtStoreLocation
 			// 
-			this.txtStoreLocation.Font = new System.Drawing.Font("Arial", 9F);
+			this.txtStoreLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.txtStoreLocation.Location = new System.Drawing.Point(39, 345);
 			this.txtStoreLocation.Name = "txtStoreLocation";
 			this.txtStoreLocation.Size = new System.Drawing.Size(308, 21);
@@ -98,7 +97,6 @@
 			// 
 			// changeButton
 			// 
-			this.changeButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.changeButton.Location = new System.Drawing.Point(353, 342);
 			this.changeButton.Name = "changeButton";
 			this.changeButton.Size = new System.Drawing.Size(137, 26);
@@ -108,7 +106,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
 			this.label3.Location = new System.Drawing.Point(260, 112);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(230, 39);
@@ -117,7 +115,7 @@
 			// 
 			// label4
 			// 
-			this.label4.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
 			this.label4.Location = new System.Drawing.Point(260, 196);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(230, 39);

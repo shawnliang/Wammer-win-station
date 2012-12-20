@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
 {

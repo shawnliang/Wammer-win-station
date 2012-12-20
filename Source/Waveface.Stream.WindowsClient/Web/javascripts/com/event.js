@@ -55,11 +55,14 @@
 
       Bundler.dispatch = window.dispatch;
 
-      function Bundler() {
-        this.bind();
+      function Bundler(target) {
+        this.bind(target);
       }
 
-      Bundler.prototype.bind = function() {
+      Bundler.prototype.bind = function(target) {
+        if (target) {
+          this.eventName = "" + this.eventName + ":" + target;
+        }
         this.clear();
         return Bundler.dispatch.on(this.eventName, this.callback);
       };
@@ -91,6 +94,7 @@
           code: 1,
           msg: "online"
         };
+        Bundler.dispatch.trigger("socket:open");
         return wfwsocket.sendMessage("getUserInfo");
       };
 
@@ -193,7 +197,7 @@
       };
 
       GetAttachments.prototype.callback = function(data) {
-        return dispatch.trigger("store:change:" + data.memo.type + ":" + this.attachmentTarget, data.response, data.memo.namespace);
+        return Bundler.dispatch.trigger("store:change:" + data.memo.type + ":" + this.attachmentTarget, data.response, data.memo.namespace);
       };
 
       return GetAttachments;
@@ -210,27 +214,10 @@
       GetCollections.prototype.eventName = 'getCollections';
 
       GetCollections.prototype.callback = function(data) {
-        return true;
+        return Bundler.dispatch.trigger("store:change:" + data.memo.type + ":" + data.memo.namespace, data.response, data.memo.namespace);
       };
 
       return GetCollections;
-
-    })(Bundler);
-    self.GetDocuments = (function(_super) {
-
-      __extends(GetDocuments, _super);
-
-      function GetDocuments() {
-        return GetDocuments.__super__.constructor.apply(this, arguments);
-      }
-
-      GetDocuments.prototype.eventName = '';
-
-      GetDocuments.prototype.callback = function(data) {
-        return true;
-      };
-
-      return GetDocuments;
 
     })(Bundler);
     self.SubscribeEvent = (function(_super) {
@@ -254,9 +241,9 @@
       SubscribeEvent.prototype.callback = function(data) {
         var event_id;
         if (data.memo.event_id && (event_id = data.memo.event_id)) {
-          return dispatch.trigger("subscribe:change:" + event_id + ":" + this.target, data.response, data.memo.namespace);
+          return Bundler.dispatch.trigger("subscribe:change:" + event_id + ":" + this.target, data.response, data.memo.namespace);
         } else {
-          return dispatch.trigger("subscribe:change:" + this.target, data.response, data.memo.namespace);
+          return Bundler.dispatch.trigger("subscribe:change:" + this.target, data.response, data.memo.namespace);
         }
       };
 

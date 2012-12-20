@@ -16,23 +16,28 @@
 
       DocumentView.prototype.render = function() {
         if (!!this.model) {
+          this.setOrientation();
+          this.setSize();
           this.$el.html(M.render(Template, this.model.toJSON()));
-        }
-        if (this.options.height) {
-          this.$('.paper').css({
-            height: this.options.height - 40
-          });
-        }
-        if (this.options.width) {
-          this.$('.paper').css({
-            width: this.options.width - 40
-          });
         }
         return this;
       };
 
+      DocumentView.prototype.setSize = function() {
+        if (this.options.height) {
+          this.$el.css({
+            height: this.options.height
+          });
+        }
+        if (this.options.width) {
+          return this.$el.css({
+            width: this.options.width
+          });
+        }
+      };
+
       DocumentView.prototype.setOrientation = function() {
-        return this.$('.frame').addClass(this.model.get('orientation'));
+        return this.$el.addClass(this.model.get('orientation'));
       };
 
       return DocumentView;

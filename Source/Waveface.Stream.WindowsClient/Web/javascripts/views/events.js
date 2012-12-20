@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'views/layouts/day_view', 'mustache', 'mousetrap', 'views/event_sum', 'views/event_detail', 'collections/events', 'models/event', 'text!templates/events.html', 'localstorage', 'com/subscriber'], function(_, DayView, M, Mousetrap, EventSumView, EventDetailView, Events, EventModel, Template, Storage, Subscriber) {
+  define(['underscore', 'views/layouts/day_view', 'mustache', 'mousetrap', 'views/partials/event_sum', 'views/partials/event_detail', 'collections/events', 'models/event', 'text!templates/events.html', 'localstorage', 'com/subscriber'], function(_, DayView, M, Mousetrap, EventSumView, EventDetailView, Events, EventModel, Template, Storage, Subscriber) {
     var EventsView, POST_ADDED, POST_UPDATE;
     POST_ADDED = Subscriber.POST_ADDED;
     POST_UPDATE = Subscriber.POST_UPDATE;
@@ -95,15 +95,15 @@
 
       EventsView.prototype.eventSelect = function(event) {
         if (event) {
-          this.currentEvent = event;
-          return this.renderCurrentEvent();
+          return this.renderCurrentEvent(event);
         } else {
           return false;
         }
       };
 
-      EventsView.prototype.renderCurrentEvent = function() {
+      EventsView.prototype.renderCurrentEvent = function(event) {
         var self, viewState;
+        this.currentEvent = event || this.currentEvent;
         if (!this.currentEvent) {
           return false;
         }
@@ -114,12 +114,12 @@
         this.eventDetailView = new EventDetailView({
           model: this.currentEvent
         });
+        this.eventDetailView.render();
         self = this;
-        this.$('#events-right').fadeOut('fast', function() {
-          return $(this).empty().append(self.eventDetailView.render().el).fadeIn('fast', function() {
-            if (self.eventDetailView.map != null) {
-              return google.maps.event.trigger(self.eventDetailView.map, 'resize');
-            }
+        this.$('#events-right').fadeIn(200, function() {
+          $(this).empty().append(self.eventDetailView.el);
+          return $(this).fadeIn('fast', function() {
+            return self.eventDetailView.renderMap();
           });
         });
         this.$('.event').removeClass('selected');

@@ -34,5 +34,25 @@
 		}
 
 		#endregion
+
+
+		public override MongoDB.Driver.SafeModeResult Save(Collection doc)
+		{
+			var collectionID = doc.collection_id;
+			var collection = FindOneById(collectionID);
+
+			var ret = base.Save(doc);
+
+			if (collection == null)
+			{
+				Waveface.Stream.Core.SystemEventSubscriber.Instance.TriggerCollectionAddedEvent(collectionID);
+			}
+			else
+			{
+				Waveface.Stream.Core.SystemEventSubscriber.Instance.TriggerCollectionUpdatedEvent(collectionID);
+			}
+
+			return ret;
+		}
 	}
 }

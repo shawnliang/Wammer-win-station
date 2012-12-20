@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
 {

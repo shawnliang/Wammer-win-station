@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using Waveface.Stream.Core;
 
 namespace Waveface.Stream.ClientFramework
 {
@@ -26,9 +27,9 @@ namespace Waveface.Stream.ClientFramework
 		/// </summary>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public override Dictionary<string, Object> Execute(WebSocketCommandData data)
+		public override Dictionary<string, Object> Execute(WebSocketCommandData data, Dictionary<string, Object> systemArgs = null)
 		{
-			if (!StreamClient.Instance.IsLogined)
+			if (!LoginController.Instance.IsLogined)
 				return null;
 
 			var parameters = data.Parameters;
