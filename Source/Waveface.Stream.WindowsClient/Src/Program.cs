@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.WindowsClient.Properties;
 using Dolinay;
+using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
 {

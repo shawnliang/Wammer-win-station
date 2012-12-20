@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
-<<<<<<< HEAD
 using Waveface.Stream.Core;
-=======
-using MongoDB.Driver.Builders;
->>>>>>> develop
 
 namespace Wammer.Station
 {
