@@ -166,8 +166,8 @@ namespace Waveface.Stream.ClientFramework
 
 			AutoMapperSetting.IniteMap();
 
-			this.Logined += StreamClient_Logined;
-			this.Logouted += StreamClient_Logouted;
+			LoginController.Instance.Logined += StreamClient_Logined;
+			LoginController.Instance.Logouted += StreamClient_Logouted;
 
 
 			if (File.Exists(m_StreamDatxFile) && Datx.IsFileExist(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE))
@@ -177,204 +177,8 @@ namespace Waveface.Stream.ClientFramework
 			}
 
 			m_Server.Start();
-
-			//(new Task(() =>
-			//{
-			//	long count = 0;
-			//	HashSet<string> postIDs = null;
-			//	while (true)
-			//	{
-			//		try
-			//		{
-			//			if (LoginedUser != null)
-			//			{
-			//				var posts = PostCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("code_name", "StreamEvent")));
-			//				var postCount = posts.Count();
-
-			//				if (postCount != count)
-			//				{
-			//					var firstInit = (postIDs == null || postIDs.Count == 0);
-
-			//					var currentPostIDs = new HashSet<string>(posts.Select(post => post.post_id));
-
-			//					var addedPostIDS = firstInit ? currentPostIDs : currentPostIDs.Except(postIDs);
-
-			//					if (!firstInit && addedPostIDS.Count() > 0)
-			//					{
-			//						Trace.WriteLine("Post added detected...");
-			//						OnPostAdded(new PostsEventArgs(addedPostIDS));
-			//					}
-
-			//					count = postCount;
-			//					postIDs = currentPostIDs;
-			//				}
-			//			}
-			//		}
-			//		catch (Exception)
-			//		{
-			//		}
-
-			//		Thread.Sleep(2000);
-			//		Application.DoEvents();
-			//	}
-			//})).Start();
-
-
-			//(new Task(() =>
-			//{
-			//	HashSet<string> postIDs = null;
-			//	while (true)
-			//	{
-			//		try
-			//		{
-			//			if (LoginedUser != null)
-			//			{
-			//				var posts = PostCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("code_name", "StreamEvent")));
-
-			//				var firstInit = (postIDs == null || postIDs.Count == 0);
-
-			//				var currentPostIDs = new HashSet<string>(posts.Select(post => string.Format("{0}§{1}", post.post_id, post.attachment_id_array.Count)));
-
-			//				var updatedPostIDS = firstInit ? currentPostIDs : postIDs.Except(currentPostIDs);
-
-			//				if (!firstInit && updatedPostIDS.Count() > 0)
-			//				{
-			//					Trace.WriteLine("Post updated detected...");
-			//					OnPostUpdated(new PostsEventArgs(updatedPostIDS));
-			//				}
-
-			//				postIDs = currentPostIDs;
-			//			}
-			//		}
-			//		catch (Exception)
-			//		{
-			//		}
-
-			//		Thread.Sleep(2000);
-			//		Application.DoEvents();
-			//	}
-			//})).Start();
-
-
-			//(new Task(() =>
-			//{
-			//	long count = 0;
-			//	HashSet<string> attachmentIDs = null;
-			//	while (true)
-			//	{
-			//		try
-			//		{
-			//			if (LoginedUser != null)
-			//			{
-			//				var attachments = AttachmentCollection.Instance.Find(Query.EQ("group_id", LoginedUser.GroupID));
-			//				var attachmentCount = attachments.Count();
-
-			//				if (attachmentCount != count)
-			//				{
-			//					var firstInit = (attachmentIDs == null || attachmentIDs.Count == 0);
-
-			//					var currentAttachmentIDs = new HashSet<string>(attachments.Select(attachment => attachment.object_id));
-
-			//					var addedAttachmentIDS = firstInit ? currentAttachmentIDs : currentAttachmentIDs.Except(attachmentIDs);
-
-			//					if (!firstInit && addedAttachmentIDS.Count() > 0)
-			//					{
-			//						Trace.WriteLine("Attachment added detected...");
-			//						OnAttachmentDownloaded(new AttachmentsEventArgs(addedAttachmentIDS));
-			//					}
-
-			//					count = attachmentCount;
-			//					attachmentIDs = currentAttachmentIDs;
-			//				}
-			//			}
-			//		}
-			//		catch (Exception)
-			//		{
-			//		}
-
-			//		Thread.Sleep(2000);
-			//		Application.DoEvents();
-			//	}
-			//})).Start();
-
-			//(new Task(() =>
-			//{
-			//	long count = 0;
-			//	HashSet<string> collectionIDs = null;
-			//	while (true)
-			//	{
-			//		try
-			//		{
-			//			if (LoginedUser != null)
-			//			{
-			//				var collections = CollectionCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("hidden", false)));
-			//				var collectionCount = collections.Count();
-
-			//				if (collectionCount != count)
-			//				{
-			//					var firstInit = (collectionIDs == null || collectionIDs.Count == 0);
-
-			//					var currentCollectionIDs = new HashSet<string>(collections.Select(collection => collection.collection_id));
-
-			//					var addedCollectionIDS = firstInit ? currentCollectionIDs : currentCollectionIDs.Except(collectionIDs);
-
-			//					if (!firstInit && addedCollectionIDS.Count() > 0)
-			//					{
-			//						Trace.WriteLine("Collection added detected...");
-			//						OnCollectionAdded(new CollectionsEventArgs(addedCollectionIDS));
-			//					}
-
-			//					count = collectionCount;
-			//					collectionIDs = currentCollectionIDs;
-			//				}
-			//			}
-			//		}
-			//		catch (Exception)
-			//		{
-			//		}
-
-			//		Thread.Sleep(2000);
-			//		Application.DoEvents();
-			//	}
-			//})).Start();
-
-
-			//(new Task(() =>
-			//{
-			//	HashSet<string> collectionIDs = null;
-			//	while (true)
-			//	{
-			//		try
-			//		{
-			//			if (LoginedUser != null)
-			//			{
-			//				var collections = CollectionCollection.Instance.Find(Query.And(Query.EQ("creator_id", LoginedUser.UserID), Query.EQ("hidden", false)));
-
-			//				var firstInit = (collectionIDs == null || collectionIDs.Count == 0);
-
-			//				var currentCollectionIDs = new HashSet<string>(collections.Select(collection => string.Format("{0}§{1}", collection.collection_id, collection.attachment_id_array.Count)));
-
-			//				var updatedCollectionIDS = firstInit ? currentCollectionIDs : collectionIDs.Except(currentCollectionIDs);
-
-			//				if (!firstInit && updatedCollectionIDS.Count() > 0)
-			//				{
-			//					Trace.WriteLine("Collection updated detected...");
-			//					OnCollectionUpdated(new CollectionsEventArgs(updatedCollectionIDS));
-			//				}
-
-			//				collectionIDs = currentCollectionIDs;
-			//			}
-			//		}
-			//		catch (Exception)
-			//		{
-			//		}
-
-			//		Thread.Sleep(2000);
-			//		Application.DoEvents();
-			//	}
-			//})).Start();
-
 		}
+
 
 		private string RetryLogin(string sessionToken, int timeout)
 		{
@@ -552,6 +356,8 @@ namespace Waveface.Stream.ClientFramework
 		/// <exception cref="System.NotImplementedException"></exception>
 		void StreamClient_Logined(object sender, LoginedEventArgs e)
 		{
+			OnLogined(e);
+
 			var response = e.Response;
 
 			if (response.Length == 0)
@@ -562,6 +368,8 @@ namespace Waveface.Stream.ClientFramework
 
 		void StreamClient_Logouted(object sender, EventArgs e)
 		{
+			OnLogouted(e);
+
 			Datx.RemoveFile(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE);
 		}
 
