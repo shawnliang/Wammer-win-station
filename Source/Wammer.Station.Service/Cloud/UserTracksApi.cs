@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Cloud
 {
@@ -21,7 +22,7 @@ namespace Wammer.Cloud
 				throw new ArgumentException("user, session token or group_id is null");
 
 			return GetChangeHistory(user.session_token, CloudServer.APIKey, user.groups[0].group_id,
-									since.ToCloudTimeString());
+									since.ToUTCISO8601ShortString());
 		}
 
 		#endregion

@@ -8,6 +8,7 @@ using System.IO;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 using Wammer.Cloud;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
 {

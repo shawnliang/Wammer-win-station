@@ -19,6 +19,7 @@ using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
 using Waveface.Stream.Core;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Service
 {
@@ -195,7 +196,7 @@ namespace Wammer.Station.Service
 
 									if (needSaveToDB)
 									{
-										collection = Mapper.Map<Cloud.Collection, Model.Collection>(responseCollection);
+										collection = Mapper.Map<Cloud.Collection, Waveface.Stream.Model.Collection>(responseCollection);
 										CollectionCollection.Instance.Save(collection);
 									}
 								}

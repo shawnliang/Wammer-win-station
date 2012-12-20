@@ -4,6 +4,7 @@ using MongoDB.Driver.Builders;
 using System.Collections.Generic;
 using System.Linq;
 using Wammer.Cloud;
+using Waveface.Stream.Model;
 
 namespace Wammer.Model
 {

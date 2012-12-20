@@ -3,6 +3,7 @@ using MongoDB.Driver.Builders;
 using System;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -32,7 +33,7 @@ namespace UT_WammerStation.AttachmentUpload
 				url = "url",
 				title = "title",
 				image = null,
-				type = Wammer.Model.AttachmentType.image,
+				type = AttachmentType.image,
 			};
 
 			AttachmentUploadHandlerDB db = new AttachmentUploadHandlerDB();

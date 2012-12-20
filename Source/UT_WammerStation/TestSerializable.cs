@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Retry;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation
 {
@@ -35,7 +36,7 @@ namespace UT_WammerStation
 		{
 			BinaryFormatter f = new BinaryFormatter();
 
-			UpstreamTask t = new UpstreamTask("123", Wammer.Model.ImageMeta.None, Wammer.Station.TaskPriority.High);
+			UpstreamTask t = new UpstreamTask("123", ImageMeta.None, Wammer.Station.TaskPriority.High);
 
 			MemoryStream m = new MemoryStream();
 			f.Serialize(m, t);
@@ -71,7 +72,7 @@ namespace UT_WammerStation
 			PostponedTask t = new PostponedTask(
 				DateTime.Now,
 				Wammer.Station.TaskPriority.High,
-				new UpstreamTask("123", Wammer.Model.ImageMeta.None, Wammer.Station.TaskPriority.High));
+				new UpstreamTask("123", ImageMeta.None, Wammer.Station.TaskPriority.High));
 
 			MemoryStream m = new MemoryStream();
 			f.Serialize(m, t);

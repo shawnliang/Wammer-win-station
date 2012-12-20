@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Cloud
 {
@@ -35,7 +36,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_SESSION_TOKEN, session },
 				{ CloudServer.PARAM_NAME, name },
 				{ CloudServer.PARAM_OBJECT_ID_LIST, id_list },
-				{ "create_time", create_time.Value.ToCloudTimeString()}
+				{ "create_time", create_time.Value.ToUTCISO8601ShortString()}
 			};
 
 			if (!string.IsNullOrEmpty(collectionId))
@@ -75,7 +76,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_API_KEY, apikey },
 				{ CloudServer.PARAM_SESSION_TOKEN, session },
 				{ CloudServer.PARAM_COLLECTION_ID, collectionID },
-				{ CloudServer.PARAM_MODIFY_TIME, modifyTime.Value.ToCloudTimeString()}
+				{ CloudServer.PARAM_MODIFY_TIME, modifyTime.Value.ToUTCISO8601ShortString()}
 			};
 
 			if (attIds != null && attIds.Any())
@@ -116,7 +117,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_API_KEY, apikey },
 				{ CloudServer.PARAM_SESSION_TOKEN, session },
 				{ CloudServer.PARAM_COLLECTION_ID, collectionID },
-				{ CloudServer.PARAM_MODIFY_TIME, modifyTime.Value.ToCloudTimeString() },
+				{ CloudServer.PARAM_MODIFY_TIME, modifyTime.Value.ToUTCISO8601ShortString() },
 			};
 
 			CloudServer.requestPath<CloudResponse>("collections/hide", parameters);
@@ -142,7 +143,7 @@ namespace Wammer.Cloud
 				{ CloudServer.PARAM_API_KEY, apikey },
 				{ CloudServer.PARAM_SESSION_TOKEN, session },
 				{ CloudServer.PARAM_COLLECTION_ID, collectionID },
-				{ CloudServer.PARAM_MODIFY_TIME, modifyTime.Value.ToCloudTimeString() },
+				{ CloudServer.PARAM_MODIFY_TIME, modifyTime.Value.ToUTCISO8601ShortString() },
 			};
 
 			CloudServer.requestPath<CloudResponse>("collections/unhide", parameters);

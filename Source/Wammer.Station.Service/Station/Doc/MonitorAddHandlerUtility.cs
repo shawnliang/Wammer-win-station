@@ -1,6 +1,7 @@
 ﻿using System;
 using MongoDB.Driver.Builders;
 using Wammer.Model;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Doc
 {
@@ -8,7 +9,7 @@ namespace Wammer.Station.Doc
 	{
 		public void UpdateDocOpenTimeAsync(string user_id, string object_id, DateTime openTime)
 		{
-			Model.AttachmentCollection.Instance.Update(
+			AttachmentCollection.Instance.Update(
 				Query.EQ("_id", object_id), Update.Push("doc_meta.access_time", openTime));
 
 			TaskQueue.Enqueue(new UpdateDocAccessTimeTask(user_id, object_id, openTime), TaskPriority.Medium);
@@ -44,7 +45,7 @@ namespace Wammer.Station.Doc
 			if (user == null)
 				return;
 
-			Cloud.AttachmentApi.updateDocMetadata(user.session_token, Cloud.CloudServer.APIKey, doc_id, openTime);
+			Cloud.AttachmentApi.updateDocMetadata(user.session_token, CloudServer.APIKey, doc_id, openTime);
 		}
 
 		public override void ScheduleToRun()

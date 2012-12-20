@@ -3,6 +3,7 @@ using Moq;
 using System.Collections.Generic;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -43,7 +44,7 @@ namespace UT_WammerStation.AttachmentUpload
 			user = new Driver
 			{
 				user_id = "user1",
-				groups = new List<Wammer.Cloud.UserGroup> { new Wammer.Cloud.UserGroup { group_id = "group1" } },
+				groups = new List<UserGroup> { new UserGroup { group_id = "group1" } },
 				folder = "",
 				isPrimaryStation = true
 			};
@@ -71,7 +72,7 @@ namespace UT_WammerStation.AttachmentUpload
 				oldAtt.object_id,
 				true,
 				UpsertResult.Insert,
-				Wammer.Model.ImageMeta.Medium,
+				ImageMeta.Medium,
 				"session", "apikey",
 				"post1"));
 
@@ -94,7 +95,7 @@ namespace UT_WammerStation.AttachmentUpload
 				oldAtt.object_id,
 				true,
 				UpsertResult.Insert,
-				Wammer.Model.ImageMeta.Origin,
+				ImageMeta.Origin,
 				"session", "apikey",
 				"post1"));
 
@@ -115,7 +116,7 @@ namespace UT_WammerStation.AttachmentUpload
 				oldAtt.object_id,
 				false,
 				UpsertResult.Update,
-				Wammer.Model.ImageMeta.Origin,
+				ImageMeta.Origin,
 				"session", "apikey",
 				"post1"));
 
@@ -138,7 +139,7 @@ namespace UT_WammerStation.AttachmentUpload
 				oldAtt.object_id,
 				false,
 				UpsertResult.Update,
-				Wammer.Model.ImageMeta.Origin,
+				ImageMeta.Origin,
 				"session", "apikey",
 				"post1"));
 

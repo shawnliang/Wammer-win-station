@@ -6,6 +6,7 @@ using System.IO;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

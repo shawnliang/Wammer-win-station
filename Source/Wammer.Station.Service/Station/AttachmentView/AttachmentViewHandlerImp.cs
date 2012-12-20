@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.IO;
 using Wammer.Model;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.AttachmentView
 {

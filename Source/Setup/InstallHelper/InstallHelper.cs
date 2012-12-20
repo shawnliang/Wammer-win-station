@@ -21,6 +21,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using System.Runtime.InteropServices;
 using MongoDB.Driver.Builders;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 
 namespace Wammer.Station
@@ -391,8 +392,8 @@ namespace Wammer.Station
 		{
 			try
 			{
-				if (PerformanceCounterCategory.Exists(Wammer.PerfMonitor.PerfCounter.CATEGORY_NAME))
-					PerformanceCounterCategory.Delete(Wammer.PerfMonitor.PerfCounter.CATEGORY_NAME);
+				if (PerformanceCounterCategory.Exists(PerfCounter.CATEGORY_NAME))
+					PerformanceCounterCategory.Delete(PerfCounter.CATEGORY_NAME);
 			}
 			catch (Exception e)
 			{
@@ -867,7 +868,7 @@ namespace Wammer.Station
 							object_id = object_id,
 							group_id = dbDoc.group_id,
 							file_name = dbDoc.file_name,
-							file_create_time = fileInfo.CreationTime.ToCloudTimeString()
+							file_create_time = fileInfo.CreationTime.ToUTCISO8601ShortString()
 						};
 
 						var saveResult = Wammer.Station.Timeline.ResourceDownloadTask.SaveAttachmentToDisk(ImageMeta.Origin, properties, rawData);

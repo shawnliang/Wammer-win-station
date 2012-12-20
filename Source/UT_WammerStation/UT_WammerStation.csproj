@@ -178,6 +178,10 @@
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
+      <Project>{990ae10d-e77a-4742-bcaa-a52a9b7d1af9}</Project>
+      <Name>Waveface.Stream.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -7,6 +7,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PostUpload;
 using Wammer.Station;
+using Waveface.Stream.Model;
 
 namespace Wammer
 {

@@ -1,11 +1,12 @@
 ﻿
+using Waveface.Stream.Model;
 namespace Wammer.Station.Notify
 {
 	class PostUpsertNotifierDB : IPostUpsertNotifierDB
 	{
 		public string GetUserIdByGroupId(string group_id)
 		{
-			var driver = Wammer.Model.DriverCollection.Instance.FindDriverByGroupId(group_id);
+			var driver = DriverCollection.Instance.FindDriverByGroupId(group_id);
 			if (driver != null)
 				return driver.user_id;
 			else

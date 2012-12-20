@@ -8,6 +8,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
 using MongoDB.Driver.Builders;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Doc
 {
@@ -56,7 +57,7 @@ namespace Wammer.Station.Doc
 						preview_pages = previewResult.IsSuccess() ? previewResult.files.Count : 0
 					}
 				};
-				Model.AttachmentCollection.Instance.Save(db);
+				AttachmentCollection.Instance.Save(db);
 
 				// upload orig doc to cloud
 				AttachmentUpload.AttachmentUploadQueueHelper.Instance.Enqueue(

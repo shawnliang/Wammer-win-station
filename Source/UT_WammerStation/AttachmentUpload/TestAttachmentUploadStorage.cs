@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -11,7 +12,7 @@ namespace UT_WammerStation.AttachmentUpload
 	public class TestAttachmentUploadStorage
 	{
 		private ArraySegment<byte> raw_data;
-		private Wammer.Model.Driver user;
+		private Driver user;
 
 		private const string TEXT = "this is my data";
 
@@ -30,9 +31,9 @@ namespace UT_WammerStation.AttachmentUpload
 			if (!System.IO.Directory.Exists("user1"))
 				System.IO.Directory.CreateDirectory("user1");
 
-			user = new Wammer.Model.Driver { folder = "user1", user_id = "uuuu" };
+			user = new Driver { folder = "user1", user_id = "uuuu" };
 
-			var userRes = Path.Combine(Wammer.Station.FileStorage.ResourceFolder, "user1");
+			var userRes = Path.Combine(FileStorage.ResourceFolder, "user1");
 			if (Directory.Exists(userRes))
 				Directory.Delete(userRes, true);
 		}
@@ -48,7 +49,7 @@ namespace UT_WammerStation.AttachmentUpload
 				new UploadData
 				{
 					group_id = "group1",
-					imageMeta = Wammer.Model.ImageMeta.Origin,
+					imageMeta = ImageMeta.Origin,
 					raw_data = raw_data,
 					file_name = "file1.jpg",
 					object_id = "obj1",
@@ -77,13 +78,13 @@ namespace UT_WammerStation.AttachmentUpload
 				new UploadData
 				{
 					group_id = "group1",
-					imageMeta = Wammer.Model.ImageMeta.Origin,
+					imageMeta = ImageMeta.Origin,
 					raw_data = raw_data,
 					file_name = "file1.jpg",
 					object_id = "obj1",
 					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
 				},
-				new DateTime(1999, 9, 7, 23, 30, 40, DateTimeKind.Utc).ToCloudTimeString());
+				new DateTime(1999, 9, 7, 23, 30, 40, DateTimeKind.Utc).ToUTCISO8601ShortString());
 
 			Assert.AreEqual(@"1999\09\08\file1.jpg", result.RelativePath);
 			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
@@ -106,7 +107,7 @@ namespace UT_WammerStation.AttachmentUpload
 				new UploadData
 				{
 					group_id = "group1",
-					imageMeta = Wammer.Model.ImageMeta.Origin,
+					imageMeta = ImageMeta.Origin,
 					raw_data = raw_data,
 					file_name = "file1.jpg",
 					object_id = "obj1",
@@ -127,7 +128,7 @@ namespace UT_WammerStation.AttachmentUpload
 		public void SaveOriginalAttachmentToResourceFolder_sameFileName()
 		{
 			// prepare env
-			var store = new Wammer.Station.FileStorage(user);
+			var store = new FileStorage(user);
 			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
 			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
 			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
@@ -142,13 +143,13 @@ namespace UT_WammerStation.AttachmentUpload
 				new UploadData
 				{
 					group_id = "group1",
-					imageMeta = Wammer.Model.ImageMeta.Origin,
+					imageMeta = ImageMeta.Origin,
 					raw_data = raw_data,
 					file_name = "file1.jpg",
 					object_id = "obj1",
 					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
 				},
-				new DateTime(1999, 9, 7, 23, 30, 40, DateTimeKind.Utc).ToCloudTimeString());
+				new DateTime(1999, 9, 7, 23, 30, 40, DateTimeKind.Utc).ToUTCISO8601ShortString());
 
 			Assert.AreEqual(@"1999\09\08\file1 (3).jpg", result.RelativePath);
 			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
@@ -171,7 +172,7 @@ namespace UT_WammerStation.AttachmentUpload
 				new UploadData
 				{
 					group_id = "group1",
-					imageMeta = Wammer.Model.ImageMeta.Origin,
+					imageMeta = ImageMeta.Origin,
 					raw_data = raw_data,
 					file_name = "file1.jpg",
 					object_id = "obj1",
@@ -202,7 +203,7 @@ namespace UT_WammerStation.AttachmentUpload
 				new UploadData
 				{
 					group_id = "group1",
-					imageMeta = Wammer.Model.ImageMeta.Origin,
+					imageMeta = ImageMeta.Origin,
 					raw_data = raw_data,
 					file_name = "file1",
 					object_id = "obj1",
@@ -230,7 +231,7 @@ namespace UT_WammerStation.AttachmentUpload
 				new UploadData
 				{
 					group_id = "group1",
-					imageMeta = Wammer.Model.ImageMeta.Medium,
+					imageMeta = ImageMeta.Medium,
 					raw_data = raw_data,
 					file_name = "file1.jpg",
 					object_id = "obj1",

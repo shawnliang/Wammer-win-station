@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

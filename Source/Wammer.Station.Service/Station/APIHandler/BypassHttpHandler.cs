@@ -8,6 +8,7 @@ using System.Net;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

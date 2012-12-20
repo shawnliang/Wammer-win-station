@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System.Linq;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {
@@ -14,7 +15,7 @@ namespace Wammer.Station
 		/// </summary>
 		public static void IniteMap()
 		{
-			Mapper.CreateMap<Cloud.Collection, Model.Collection>()
+			Mapper.CreateMap<Cloud.Collection, Collection>()
 				.ForMember(dest => dest.attachment_id_array, opt => opt.MapFrom(src => src.object_list.Select(item => item.object_id)));
 		}
 		#endregion

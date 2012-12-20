@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.AttachmentUpload
 {

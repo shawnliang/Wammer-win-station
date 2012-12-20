@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
 {
@@ -13,7 +14,7 @@ namespace Wammer.Station.Timeline
 		public PostResponse GetLastestPosts(Driver user, int limit)
 		{
 			var api = new PostApi(user);
-			return api.PostFetchByFilter(new FilterEntity { limit = -limit, timestamp = DateTime.Now.ToCloudTimeString() });
+			return api.PostFetchByFilter(new FilterEntity { limit = -limit, timestamp = DateTime.Now.ToUTCISO8601ShortString() });
 		}
 
 		public PostResponse GetPostsBefore(Driver user, DateTime before, int limit)
@@ -22,7 +23,7 @@ namespace Wammer.Station.Timeline
 				limit = -limit;
 
 			var api = new PostApi(user);
-			return api.PostFetchByFilter(new FilterEntity { limit = limit, timestamp = before.ToCloudTimeString() });
+			return api.PostFetchByFilter(new FilterEntity { limit = limit, timestamp = before.ToUTCISO8601ShortString() });
 		}
 
 		public List<PostInfo> RetrievePosts(Driver user, List<string> posts)

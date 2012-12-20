@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using Wammer.Station;
+using Waveface.Stream.Model;
 
 namespace Wammer.Model
 {
