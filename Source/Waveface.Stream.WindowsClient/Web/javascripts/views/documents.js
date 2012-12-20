@@ -32,20 +32,16 @@
         docsData.each(function(doc) {
           return _this.addOne(doc);
         });
-        this.delegateEvents(_.extend(this.events, {}));
+        this.delegateEvents();
         this.setHeaderStyle();
         this.setKey();
         return this;
       };
 
       DocumentsView.prototype.addOne = function(model) {
-        var photoHeight, photoWidth, view;
-        photoWidth = Math.floor(($('#main').width() - 80) * 0.25);
-        photoHeight = Math.floor(photoWidth * 1.3);
+        var view;
         view = new DocumentView({
-          model: model,
-          width: photoWidth,
-          height: photoHeight
+          model: model
         });
         return this.$(".docs").append(view.render().el);
       };

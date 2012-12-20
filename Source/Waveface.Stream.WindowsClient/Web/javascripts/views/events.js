@@ -95,15 +95,15 @@
 
       EventsView.prototype.eventSelect = function(event) {
         if (event) {
-          this.currentEvent = event;
-          return this.renderCurrentEvent();
+          return this.renderCurrentEvent(event);
         } else {
           return false;
         }
       };
 
-      EventsView.prototype.renderCurrentEvent = function() {
+      EventsView.prototype.renderCurrentEvent = function(event) {
         var self, viewState;
+        this.currentEvent = event || this.currentEvent;
         if (!this.currentEvent) {
           return false;
         }
@@ -114,12 +114,12 @@
         this.eventDetailView = new EventDetailView({
           model: this.currentEvent
         });
+        this.eventDetailView.render();
         self = this;
-        this.$('#events-right').fadeOut('fast', function() {
-          return $(this).empty().append(self.eventDetailView.render().el).fadeIn('fast', function() {
-            if (self.eventDetailView.map != null) {
-              return google.maps.event.trigger(self.eventDetailView.map, 'resize');
-            }
+        this.$('#events-right').fadeIn(200, function() {
+          $(this).empty().append(self.eventDetailView.el);
+          return $(this).fadeIn('fast', function() {
+            return self.eventDetailView.renderMap();
           });
         });
         this.$('.event').removeClass('selected');

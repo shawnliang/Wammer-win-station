@@ -1,7 +1,8 @@
 <header>
     <div class="date pull-left">{{ time }}</div>
-    <div class="attachment-size pull-right">
-        <i class="icon-camera"></i> {{ attachment_count }}
+    <div class="attachment-size  pull-right">
+    	{{#hasMap}}<i class="icon-map-marker"></i> &nbsp;{{/hasMap}}
+    	{{#hasPhoto}}<i class="icon-camera"></i> {{attachment_count}}{{/hasPhoto}}
     </div>
 </header>
 <div class="cover">

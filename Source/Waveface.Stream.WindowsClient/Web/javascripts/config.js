@@ -29,6 +29,9 @@
       'lib/d3': {
         exports: "d3"
       },
+      'lib/lodash/underscore.string': {
+        deps: ["underscore"]
+      },
       logger: {
         deps: ["underscore", "jquery"]
       }

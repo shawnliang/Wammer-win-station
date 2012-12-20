@@ -22,49 +22,65 @@
         if (!!this.model) {
           this.$el.html(M.render(Template, this.model.toJSON()));
           this.$el.addClass('event-type-' + this.model.get('type'));
-          if (this.model.get('hasMap') === true && navigator.onLine === true) {
-            this.renderMap(this.$('#map_canvas').get(0));
-          }
           Attachments.callAttachments([this.model.id], 100, this.model.id, this.renderAttachments, this);
+          this.photoViews = [];
+          this.renderLocalAttachments(this.model.get("attachment_id_array"));
           return this;
         } else {
           return false;
         }
       };
 
-      EventView.prototype.renderAttachments = function(data) {
-        var photoWidth,
-          _this = this;
+      EventView.prototype.renderAttachments = function(data, test) {
+        var _this = this;
         this.photos = data;
-        photoWidth = Math.floor(this.$('.attachments').width() * 0.20);
+        this.$(".attachments").empty();
         return _.each(data, function(attachment_data) {
           var attachment, view;
           if (!!(attachment = Attachments.get(attachment_data.id))) {
             view = new AttachmentView({
-              model: attachment,
-              width: photoWidth,
-              height: photoWidth
+              model: attachment
             });
-            return _this.$(".attachments").append(view.render().el);
+            _this.$(".attachments").append(view.render().el);
+            return _this.photoViews.push(view);
           }
         });
       };
 
-      EventView.prototype.renderMap = function(el) {
-        var gps, latlng, mapOptions, marker;
-        gps = this.model.get('gps');
-        latlng = new google.maps.LatLng(gps.latitude, gps.longitude);
-        mapOptions = {
-          center: latlng,
-          zoom: gps.zoom_level,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          scrollwheel: false
-        };
-        this.map = new google.maps.Map(el, mapOptions);
-        return marker = new google.maps.Marker({
-          position: latlng,
-          map: this.map
+      EventView.prototype.renderLocalAttachments = function(_attachmments) {
+        if (_attachmments.length <= 0) {
+          return false;
+        }
+        this.$(".attachments").empty();
+        return _.each(_attachmments, function(attachment_id) {
+          var attachment, view;
+          if (!!(attachment = Attachments.get(attachment_id))) {
+            view = new AttachmentView({
+              model: attachment
+            });
+            return this.$(".attachments").append(view.render().el);
+          }
         });
+      };
+
+      EventView.prototype.renderMap = function() {
+        var el, gps, latlng, mapOptions, marker;
+        if (this.model.get('hasMap') === true && navigator.onLine === true) {
+          el = this.$('#map_canvas').get(0);
+          gps = this.model.get('gps');
+          latlng = new google.maps.LatLng(gps.latitude, gps.longitude);
+          mapOptions = {
+            center: latlng,
+            zoom: gps.zoom_level,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scrollwheel: false
+          };
+          this.map = new google.maps.Map(el, mapOptions);
+          return marker = new google.maps.Marker({
+            position: latlng,
+            map: this.map
+          });
+        }
       };
 
       EventView.prototype.loadMore = function() {

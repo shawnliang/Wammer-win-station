@@ -17,7 +17,7 @@
       CollectionView.prototype.initialize = function() {};
 
       CollectionView.prototype.render = function() {
-        this.$el.html(M.render(Template));
+        this.$el.html(M.render(Template, this.model.toJSON()));
         return this;
       };
 

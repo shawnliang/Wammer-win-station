@@ -1,7 +1,13 @@
 <header>
-    <div class="date">{{ time }} ~ {{ end_time }}</div>
+    <div class="date pull-left">
+    	{{ time }} ~ {{ end_time }}
+    </div>
+    <div class="attachment-size  pull-right">
+    	{{#hasMap}}<i class="icon-map-marker"></i> &nbsp;{{/hasMap}}
+    	{{#hasPhoto}}<i class="icon-camera"></i> {{attachment_count}}{{/hasPhoto}}
+    </div>
 </header>
-<div class="event-content">
+<div class="event-content {{#hasMap}}hasMap{{/hasMap}}">
 	<div class="event-text">
 		{{#hasDescription}}
 		<div class="event-description">
@@ -40,15 +46,17 @@
 		</div>
 		{{/hasTags}}
 	</div>
+	{{#hasMap}}
 	<div class="event-location">
 		<div id="map_canvas" style="width: 100%; height: 300px"></div>
 	</div>
+	{{/hasMap}}
 </div>
 <div class="event-photos">
 	<div class="inner">
 		<div class="attachments">
 		</div>
-		<div class="more"><span class="badge"><i class="icon-refresh"></i> Show more...</span></div>
+		<div class="more hide"><span class="hover-pill"><i class="icon-refresh"></i> Show more...</span></div>
 
 	</div>
 </div>

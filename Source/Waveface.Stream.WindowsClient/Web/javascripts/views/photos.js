@@ -47,7 +47,7 @@
       };
 
       PhotosView.prototype.renderPhotoGrid = function(photoData) {
-        var coin, gridSize, gridTemplate, html, options, rowHeight, templateData;
+        var coin, gridSize, gridTemplate, html, options, templateData;
         if (photoData.size() < 1) {
           return this;
         }
@@ -64,11 +64,10 @@
             return model.toJSON();
           });
           options = $(gridTemplate).data();
-          rowHeight = Math.floor(($('#main').width() - 80) * 0.1666 * options.height);
           html = M.render(gridTemplate, {
             photos: templateData
           });
-          this.$(".photos").append($(html).height(rowHeight));
+          this.$(".photos").append(html);
           photoData = _(photoData.rest(gridSize));
         }
         return this.renderPhotoGrid(photoData);

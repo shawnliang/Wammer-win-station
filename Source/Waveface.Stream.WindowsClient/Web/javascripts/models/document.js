@@ -13,7 +13,9 @@
       }
 
       DocumentModel.prototype.initialize = function() {
-        return this.setDate();
+        this.setDate();
+        this.setTruncatedName();
+        return this.setOrientation();
       };
 
       DocumentModel.prototype.setDate = function() {
@@ -23,6 +25,24 @@
           return false;
         }
         return this.set('dateUri', Moment(attach_time).format('YYYY-MM-DD'));
+      };
+
+      DocumentModel.prototype.setTruncatedName = function() {
+        return this.set('truncated_name', _.str.truncate(this.get('file_name'), 32));
+      };
+
+      DocumentModel.prototype.setOrientation = function(baseRatio) {
+        var meta_data, ratio;
+        if (baseRatio == null) {
+          baseRatio = 1;
+        }
+        meta_data = this.get('meta_data');
+        ratio = meta_data.width / meta_data.height;
+        if (ratio < baseRatio) {
+          return this.set('orientation', 'potrait');
+        } else {
+          return this.set('orientation', 'landscape');
+        }
       };
 
       return DocumentModel;

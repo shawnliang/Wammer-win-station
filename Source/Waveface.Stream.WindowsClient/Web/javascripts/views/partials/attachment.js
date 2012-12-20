@@ -19,16 +19,6 @@
           this.$el.html(M.render(Template, this.model.toJSON()));
           this.setOrientation();
         }
-        if (this.options.height) {
-          this.$el.css({
-            height: this.options.height
-          });
-        }
-        if (this.options.width) {
-          this.$el.css({
-            width: this.options.width
-          });
-        }
         return this;
       };
 
