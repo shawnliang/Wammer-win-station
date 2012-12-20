@@ -29,10 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.forgotPwdLabel = new System.Windows.Forms.LinkLabel();
-			this.loginInputPanel1 = new LoginInputPanel();
-			this.txtPassword = new CueTextBox();
-			this.tbxEMail = new CueTextBox();
-			this.fbLoginButton1 = new FBLoginButton();
+			this.loginInputPanel1 = new Waveface.Stream.WindowsClient.LoginInputPanel();
+			this.txtPassword = new Waveface.Stream.WindowsClient.CueTextBox();
+			this.tbxEMail = new Waveface.Stream.WindowsClient.CueTextBox();
+			this.fbLoginButton1 = new Waveface.Stream.WindowsClient.FBLoginButton();
 			this.label1 = new System.Windows.Forms.Label();
 			this.loginButton = new System.Windows.Forms.Button();
 			this.loginInputPanel1.SuspendLayout();
@@ -43,10 +43,10 @@
 			this.forgotPwdLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.forgotPwdLabel.AutoSize = true;
-			this.forgotPwdLabel.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.forgotPwdLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.forgotPwdLabel.Location = new System.Drawing.Point(224, 304);
 			this.forgotPwdLabel.Name = "forgotPwdLabel";
-			this.forgotPwdLabel.Size = new System.Drawing.Size(103, 14);
+			this.forgotPwdLabel.Size = new System.Drawing.Size(105, 15);
 			this.forgotPwdLabel.TabIndex = 15;
 			this.forgotPwdLabel.TabStop = true;
 			this.forgotPwdLabel.Text = "Forgot password?";
@@ -69,11 +69,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.txtPassword.CueText = "Password";
-			this.txtPassword.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
 			this.txtPassword.Location = new System.Drawing.Point(22, 65);
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.PasswordChar = '*';
-			this.txtPassword.Size = new System.Drawing.Size(267, 24);
+			this.txtPassword.Size = new System.Drawing.Size(267, 22);
 			this.txtPassword.TabIndex = 2;
 			this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPassword_KeyPress);
 			// 
@@ -83,10 +83,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tbxEMail.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.tbxEMail.CueText = "Email";
-			this.tbxEMail.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.tbxEMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
 			this.tbxEMail.Location = new System.Drawing.Point(22, 19);
 			this.tbxEMail.Name = "tbxEMail";
-			this.tbxEMail.Size = new System.Drawing.Size(267, 24);
+			this.tbxEMail.Size = new System.Drawing.Size(267, 22);
 			this.tbxEMail.TabIndex = 0;
 			// 
 			// fbLoginButton1
@@ -95,7 +95,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.fbLoginButton1.AutoSize = true;
 			this.fbLoginButton1.DisplayText = "Login with Facebook";
-			this.fbLoginButton1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.fbLoginButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
 			this.fbLoginButton1.Location = new System.Drawing.Point(115, 64);
 			this.fbLoginButton1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
 			this.fbLoginButton1.Name = "fbLoginButton1";
@@ -107,7 +107,6 @@
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.Location = new System.Drawing.Point(115, 122);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(324, 23);
@@ -119,7 +118,7 @@
 			// 
 			this.loginButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.loginButton.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.loginButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.loginButton.Location = new System.Drawing.Point(115, 344);
 			this.loginButton.Name = "loginButton";
 			this.loginButton.Size = new System.Drawing.Size(324, 32);
@@ -138,7 +137,6 @@
 			this.Controls.Add(this.forgotPwdLabel);
 			this.Controls.Add(this.loginInputPanel1);
 			this.Controls.Add(this.fbLoginButton1);
-			this.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "LoginControl";
 			this.Size = new System.Drawing.Size(555, 400);
 			this.loginInputPanel1.ResumeLayout(false);

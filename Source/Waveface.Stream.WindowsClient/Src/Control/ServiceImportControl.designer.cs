@@ -60,12 +60,14 @@
 			this.svcPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.svcPanel.AutoScroll = true;
 			this.svcPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.svcPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.svcPanel.Location = new System.Drawing.Point(26, 102);
 			this.svcPanel.Name = "svcPanel";
 			this.svcPanel.Size = new System.Drawing.Size(490, 234);
 			this.svcPanel.TabIndex = 4;
+			this.svcPanel.WrapContents = false;
 			// 
 			// ServiceImportControl
 			// 

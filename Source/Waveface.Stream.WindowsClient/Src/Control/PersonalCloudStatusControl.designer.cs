@@ -42,17 +42,16 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
 			this.label1.Location = new System.Drawing.Point(14, 14);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(240, 18);
+			this.label1.Size = new System.Drawing.Size(262, 18);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Your Personal Cloud has been created";
 			// 
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.button1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.button1.Location = new System.Drawing.Point(30, 325);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(240, 27);
@@ -65,11 +64,10 @@
 			// 
 			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabel1.AutoSize = true;
-			this.linkLabel1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 10);
 			this.linkLabel1.Location = new System.Drawing.Point(32, 367);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(238, 21);
+			this.linkLabel1.Size = new System.Drawing.Size(219, 17);
 			this.linkLabel1.TabIndex = 3;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "Learn more about our apps and extensions";
@@ -83,7 +81,6 @@
 			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameColumn,
             this.profileCol});
-			this.listView1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			listViewGroup1.Header = "Station";
 			listViewGroup1.Name = "station";
 			listViewGroup2.Header = "Tablet";
