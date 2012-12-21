@@ -9,6 +9,8 @@ namespace UT_WammerStation.Doc
 	[TestClass]
 	public class CopyDocToStreamTest
 	{
+		private string saved_path = "";
+
 		[TestInitialize]
 		public void setUp()
 		{
@@ -27,19 +29,31 @@ namespace UT_WammerStation.Doc
 		public void tearDown()
 		{
 			Directory.Delete(@"kkkkk", true);
+
+			if (!string.IsNullOrEmpty(saved_path))
+			{
+				var file = Path.Combine(Path.Combine(FileStorage.ResourceFolder, "user1"), saved_path);
+				File.SetAttributes(file, FileAttributes.Normal);
+
+				Directory.Delete(Path.Combine(FileStorage.ResourceFolder, "user1"), true);
+			}
 		}
 
 		[TestMethod]
 		public void CopyToStreamTest()
 		{
 			var storage = new FileStorage(new Driver { folder = "user1" });
-			var saved_path = storage.CopyToStorage(@"kkkkk\aaaaa\123.doc");
+			saved_path = storage.CopyToStorage(@"kkkkk\aaaaa\123.doc");
 
 			var fileTime = File.GetLastWriteTime(@"kkkkk\aaaaa\123.doc");
 			var expectPath = string.Format(@"{0}\{1}\{2}\123.doc", fileTime.Year.ToString("d4"), fileTime.Month.ToString("d2"), fileTime.Day.ToString("d2"));
 
 			Assert.AreEqual(expectPath, saved_path);
 			Assert.AreEqual(fileTime, File.GetLastWriteTime(Path.Combine(storage.basePath, saved_path)));
+
+			var file = Path.Combine(Path.Combine(FileStorage.ResourceFolder, "user1"), saved_path);
+
+			Assert.AreEqual(FileAttributes.ReadOnly, File.GetAttributes(file));
 		}
 	}
 
