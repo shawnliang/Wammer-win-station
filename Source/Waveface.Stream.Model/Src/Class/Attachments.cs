@@ -412,12 +412,9 @@ namespace Waveface.Stream.Model
 		{
 			get
 			{
-				if (_eventTimes == null)
+				if (_eventTimes == null && type == AttachmentType.doc && doc_meta != null && doc_meta.access_time != null)
 				{
-					if (type == AttachmentType.doc)
-					{
-						return doc_meta.access_time.LastOrDefault();
-					}
+					return doc_meta.access_time.LastOrDefault();
 				}
 
 				return _eventTimes;
