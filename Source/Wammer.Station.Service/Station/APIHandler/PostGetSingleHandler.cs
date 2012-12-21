@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {
@@ -40,11 +41,9 @@ namespace Wammer.Station
 					);
 			}
 
-			bool needUpdate = false;
 			if (singlePost.attachment_id_array.Count != singlePost.attachments.Count)
 			{
 				singlePost.attachments = AttachmentHelper.GetAttachmentInfoList(singlePost.attachment_id_array, singlePost.code_name);
-				needUpdate = true;
 			}
 
 
@@ -66,11 +65,6 @@ namespace Wammer.Station
 						users = userList
 					}
 				);
-
-
-
-			if (needUpdate)
-				PostCollection.Instance.UpdateAttachments(singlePost);
 		}
 
 		#endregion

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.pullTimeLine
 {
@@ -377,7 +378,7 @@ namespace UT_WammerStation.pullTimeLine
 
 	class FakeUserTracksApi : IChangeLogsApi
 	{
-		public ChangeLogResponse GetChangeHistory(Wammer.Model.Driver user, int since)
+		public ChangeLogResponse GetChangeHistory(Driver user, int since)
 		{
 			Assert.AreEqual("token", user.session_token);
 

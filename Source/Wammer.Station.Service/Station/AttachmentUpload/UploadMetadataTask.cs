@@ -1,6 +1,7 @@
 ﻿using System;
 using Wammer.Cloud;
 using Wammer.Station.Retry;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -29,7 +30,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		protected override void Run()
 		{
-			var user = Model.DriverCollection.Instance.FindDriverByGroupId(group_id);
+			var user = DriverCollection.Instance.FindDriverByGroupId(group_id);
 
 			if (user == null)
 				return;

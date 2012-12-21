@@ -13,6 +13,7 @@ using Wammer.Model;
 using Wammer.PostUpload;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

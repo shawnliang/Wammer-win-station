@@ -3,6 +3,7 @@ using Moq;
 using System;
 using Wammer.Model;
 using Wammer.Station.Doc;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.Doc
 {
@@ -27,7 +28,7 @@ namespace UT_WammerStation.Doc
 			var docAtt = new Attachment { object_id = Guid.NewGuid().ToString(), file_path = file };
 
 			Mock<IMonitorAddHandlerDB> db = new Mock<IMonitorAddHandlerDB>(MockBehavior.Strict);
-			db.Setup(x => x.FindLatestVersion(file, "user1")).Returns(null as Wammer.Model.Attachment).Verifiable();
+			db.Setup(x => x.FindLatestVersion(file, "user1")).Returns(null as Attachment).Verifiable();
 			db.Setup(x => x.SaveMonitorItemDB(
 				It.Is<MonitorItem>(item =>
 					item.user_id == "user1" &&

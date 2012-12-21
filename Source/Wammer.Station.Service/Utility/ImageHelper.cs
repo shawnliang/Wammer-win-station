@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
+using Waveface.Stream.Model;
 
 namespace Wammer.Utility
 {
@@ -177,18 +178,5 @@ namespace Wammer.Utility
 					(int)Wammer.Station.AttachmentApiError.InvalidImage, e);
 			}
 		}
-	}
-
-	public enum ExifOrientations : byte
-	{
-		Unknown = 0,
-		TopLeft = 1,
-		TopRight = 2,
-		BottomRight = 3,
-		BottomLeft = 4,
-		LeftTop = 5,
-		RightTop = 6,
-		RightBottom = 7,
-		LeftBottom = 8,
 	}
 }

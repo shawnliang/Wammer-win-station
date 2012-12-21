@@ -1,5 +1,7 @@
 ﻿﻿using System;
+using System.IO;
 using Wammer.Model;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Doc
 {
@@ -7,12 +9,12 @@ namespace Wammer.Station.Doc
 	{
 		public DateTime GetFileWriteTime(string path)
 		{
-			return System.IO.File.GetLastAccessTime(path);
+			return File.GetLastAccessTime(path);
 		}
 
 		public void ProcessChangedDoc(MonitorItem target, DateTime fileModifyTime)
 		{
-			var user = Model.DriverCollection.Instance.FindOneById(target.user_id);
+			var user = DriverCollection.Instance.FindOneById(target.user_id);
 			if (user == null)
 				return;
 

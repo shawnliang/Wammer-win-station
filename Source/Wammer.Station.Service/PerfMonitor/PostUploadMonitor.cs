@@ -1,4 +1,5 @@
-﻿namespace Wammer.PerfMonitor
+﻿using Waveface.Stream.Model;
+namespace Wammer.PerfMonitor
 {
 	internal class PostUploadMonitor
 	{

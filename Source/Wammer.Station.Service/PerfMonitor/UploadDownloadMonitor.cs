@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Waveface.Stream.Model;
 
 namespace Wammer.PerfMonitor
 {

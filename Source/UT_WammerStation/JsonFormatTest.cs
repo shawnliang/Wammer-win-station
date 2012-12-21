@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Wammer.Cloud;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation
 {
@@ -68,7 +69,7 @@ namespace UT_WammerStation
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
 			A1 a = new A1 { date = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Local) };
 			string json = a.ToFastJSON();
-			Assert.AreEqual("{\"date\":\"" + a.date.ToCloudTimeString() + "\"}", json);
+			Assert.AreEqual("{\"date\":\"" + a.date.ToUTCISO8601ShortString() + "\"}", json);
 		}
 
 		[TestMethod]
@@ -77,7 +78,7 @@ namespace UT_WammerStation
 			fastJSON.JSON.Instance.UseUTCDateTime = true;
 			A1 a = new A1 { date = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc) };
 			string json = a.ToFastJSON();
-			Assert.AreEqual("{\"date\":\"" + a.date.ToCloudTimeString() + "\"}", json);
+			Assert.AreEqual("{\"date\":\"" + a.date.ToUTCISO8601ShortString() + "\"}", json);
 		}
 
 

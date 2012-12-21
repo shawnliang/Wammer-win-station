@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using Wammer.Station;
+using Waveface.Stream.Model;
 
 namespace Wammer.Utility
 {

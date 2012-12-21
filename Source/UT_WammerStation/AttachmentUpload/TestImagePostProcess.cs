@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.AttachmentUpload;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.AttachmentUpload
 {
@@ -39,7 +40,7 @@ namespace UT_WammerStation.AttachmentUpload
 			user = new Driver
 			{
 				user_id = "user1",
-				groups = new List<Wammer.Cloud.UserGroup> { new Wammer.Cloud.UserGroup { group_id = "group1" } },
+				groups = new List<UserGroup> { new UserGroup { group_id = "group1" } },
 				folder = "",
 				isPrimaryStation = true
 			};
@@ -73,7 +74,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					false,								// not from this windows
 					UpsertResult.Insert,				// is new
-					Wammer.Model.ImageMeta.Origin,
+					ImageMeta.Origin,
 					"user_session",
 					"apikey"));	// original image
 
@@ -104,7 +105,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					false,								// not from this windows
 					UpsertResult.Insert,				// is new
-					Wammer.Model.ImageMeta.Origin,
+					ImageMeta.Origin,
 					"user_session",
 					"apikey"));	// original image
 
@@ -133,7 +134,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					true,								// from this windows
 					UpsertResult.Insert,				// is new
-					Wammer.Model.ImageMeta.Origin,
+					ImageMeta.Origin,
 					"user_session",
 					"apikey"));	// original image
 
@@ -163,7 +164,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					true,								// from this windows
 					UpsertResult.Insert,				// is new
-					Wammer.Model.ImageMeta.Origin,
+					ImageMeta.Origin,
 					"user_session",
 					"apikey"));	// original image
 
@@ -190,7 +191,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					false,								// not from this windows
 					UpsertResult.Update,				// is new
-					Wammer.Model.ImageMeta.Origin,
+					ImageMeta.Origin,
 					"user_session",
 					"apikey"));	// original image
 
@@ -211,7 +212,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					false,								// not from this windows
 					UpsertResult.Update,				// is new
-					Wammer.Model.ImageMeta.Medium,
+					ImageMeta.Medium,
 					"user_session",
 					"apikey"));	// medium image
 
@@ -233,7 +234,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					true,								// from this windows
 					UpsertResult.Update,				// is not new
-					Wammer.Model.ImageMeta.Medium,
+					ImageMeta.Medium,
 					"user_session",
 					"apikey"));	// medium image
 
@@ -256,7 +257,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					false,								// from this windows
 					UpsertResult.Update,				// is new
-					Wammer.Model.ImageMeta.None,
+					ImageMeta.None,
 					"user_session",
 					"apikey"));	// medium image
 
@@ -280,7 +281,7 @@ namespace UT_WammerStation.AttachmentUpload
 					"object1",							// object id
 					true,								// from this windows
 					UpsertResult.Update,				// is new
-					Wammer.Model.ImageMeta.None,
+					ImageMeta.None,
 					"user_session",
 					"apikey"));	// medium image
 

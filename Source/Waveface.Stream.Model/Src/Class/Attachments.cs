@@ -444,46 +444,46 @@ namespace Waveface.Stream.Model
 		/// </summary>
 		public bool fromLocal { get; set; }
 
-		[BsonIgnore]
-		[XmlIgnore]
-		[JsonIgnore]
-		public ArraySegment<byte> RawData
-		{
-			get
-			{
-				lock (rawDataMutex)
-				{
-					if (rawData.Array == null && saved_file_name != null)
-					{
-						var driver = DriverCollection.Instance.FindOne();
-						var storage = new FileStorage(driver);
-						var buffer = new byte[file_size];
-						storage.Load(saved_file_name).Read(buffer, 0, buffer.Length);
-						rawData = new ArraySegment<byte>(buffer);
-					}
-					return rawData;
-				}
-			}
-			set
-			{
-				lock (rawDataMutex)
-				{
-					rawData = value;
-					if (rawData.Array != null)
-					{
-						using (MD5 md5 = MD5.Create())
-						{
-							byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
-							var buff = new StringBuilder();
-							for (int i = 0; i < hash.Length; i++)
-								buff.Append(hash[i].ToString("x2"));
+		//[BsonIgnore]
+		//[XmlIgnore]
+		//[JsonIgnore]
+		//public ArraySegment<byte> RawData
+		//{
+		//	get
+		//	{
+		//		lock (rawDataMutex)
+		//		{
+		//			if (rawData.Array == null && saved_file_name != null)
+		//			{
+		//				var driver = DriverCollection.Instance.FindOne();
+		//				var storage = new FileStorage(driver);
+		//				var buffer = new byte[file_size];
+		//				storage.Load(saved_file_name).Read(buffer, 0, buffer.Length);
+		//				rawData = new ArraySegment<byte>(buffer);
+		//			}
+		//			return rawData;
+		//		}
+		//	}
+		//	set
+		//	{
+		//		lock (rawDataMutex)
+		//		{
+		//			rawData = value;
+		//			if (rawData.Array != null)
+		//			{
+		//				using (MD5 md5 = MD5.Create())
+		//				{
+		//					byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
+		//					var buff = new StringBuilder();
+		//					for (int i = 0; i < hash.Length; i++)
+		//						buff.Append(hash[i].ToString("x2"));
 
-							this.md5 = buff.ToString();
-						}
-					}
-				}
-			}
-		}
+		//					this.md5 = buff.ToString();
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 
 		#region IAttachmentInfo Members
 
@@ -518,6 +518,11 @@ namespace Waveface.Stream.Model
 				default:
 					throw new ArgumentException("not a valid thumbmail meta: " + meta);
 			}
+		}
+
+		public bool HasDocPreviews()
+		{
+			return doc_meta != null && doc_meta.preview_files != null && doc_meta.preview_files.Count > 0;
 		}
 
 		public IAttachmentInfo GetInfoByMeta(ImageMeta meta)

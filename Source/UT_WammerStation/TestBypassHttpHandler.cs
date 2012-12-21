@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using Wammer.Cloud;
 using Wammer.Station;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation
 {

@@ -140,10 +140,8 @@
     <Compile Include="Cloud\Response\CollectionsResponse.cs" />
     <Compile Include="Enum\APIHandlerType.cs" />
     <Compile Include="Model\Collection\MonitorItemCollection.cs" />
-    <Compile Include="Model\Collection\CollectionCollection.cs" />
     <Compile Include="Model\Collection\RetryQueueCollection.cs" />
     <Compile Include="Model\Collection\ConnectionCollection.cs" />
-    <Compile Include="Model\Collection.cs" />
     <Compile Include="Model\GenericData.cs" />
     <Compile Include="Model\MonitorItem.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
@@ -202,8 +200,6 @@
     <Compile Include="Station\TaskRunner.cs" />
     <Compile Include="Cloud\AttachmentApi.cs" />
     <Compile Include="Cloud\Response\AttachmentResponse.cs" />
-    <Compile Include="Cloud\Response\CloudResponse.cs" />
-    <Compile Include="Cloud\CloudServer.cs" />
     <Compile Include="Cloud\Response\FootprintResponse.cs" />
     <Compile Include="Cloud\Response\ObjectUploadResponse.cs" />
     <Compile Include="Cloud\PostApi.cs" />
@@ -216,16 +212,10 @@
     <Compile Include="Cloud\Response\UserLogInResponse.cs" />
     <Compile Include="Cloud\UserTracksApi.cs" />
     <Compile Include="Cloud\Response\UserTracksResponse.cs" />
-    <Compile Include="Cloud\WammerCloudException.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Event\TaskQueueEventArgs.cs" />
     <Compile Include="Interface\IPostUploadSupportable.cs" />
-    <Compile Include="Model\Attachments.cs" />
     <Compile Include="Model\CloudStorage.cs" />
-    <Compile Include="Model\Collection\LoginedSessionCollection.cs" />
-    <Compile Include="Model\Drivers.cs" />
-    <Compile Include="Model\LoginedSession.cs" />
-    <Compile Include="Model\Posts.cs" />
     <Compile Include="Model\PostUploadTasks.cs" />
     <Compile Include="Model\ProductInfo.cs" />
     <Compile Include="Model\Service.cs" />
@@ -233,7 +223,6 @@
     <Compile Include="Model\UserTracks.cs" />
     <Compile Include="PerfMonitor\UploadDownloadMonitor.cs" />
     <Compile Include="PerfMonitor\HttpRequestMonitor.cs" />
-    <Compile Include="PerfMonitor\PerfCounter.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
     <Compile Include="Enum\PostUploadActionType.cs" />
     <Compile Include="PerfMonitor\PostUploadMonitor.cs" />
@@ -313,11 +302,7 @@
     <Compile Include="Utility\BsonHelper.cs" />
     <Compile Include="Utility\MimeTypeHelper.cs" />
     <Compile Include="Utility\PDFConvert.cs" />
-    <Compile Include="Utility\DefaultWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Utility\FastJSONHelper.cs" />
-    <Compile Include="Utility\FileStorageHelper.cs" />
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\MD5Helper.cs" />
     <Compile Include="Utility\NetworkHelper.cs" />
@@ -344,13 +329,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Station\APIHandler\BypassHttpHandler.cs" />
-    <Compile Include="Station\FileStorage.cs" />
     <Compile Include="Station\APIHandler\HttpHandler.cs" />
     <Compile Include="Station\HttpHelper.cs" />
     <Compile Include="Station\HttpServer.cs" />
-    <Compile Include="Station\StationRegistry.cs" />
     <Compile Include="Station\APIHandler\AttachmentViewHandler.cs" />
-    <Compile Include="Utility\TimeHelper.cs" />
     <Compile Include="Utility\WebHelper.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -393,6 +375,10 @@
     <ProjectReference Include="..\Waveface.Stream.Core\Waveface.Stream.Core.csproj">
       <Project>{2e32611c-38bb-4ff7-94e7-eeaf6d9c26df}</Project>
       <Name>Waveface.Stream.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
+      <Project>{990ae10d-e77a-4742-bcaa-a52a9b7d1af9}</Project>
+      <Name>Waveface.Stream.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

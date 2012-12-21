@@ -3,50 +3,10 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Cloud
 {
-	public class UserStation
-	{
-		public string status { get; set; }
-		public string station_id { get; set; }
-		public string creator_id { get; set; }
-		public string location { get; set; }
-		public long last_seen { get; set; }
-		public string computer_name { get; set; }
-		public string accessible { get; set; }
-		public string public_location { get; set; }
-		public bool upnp { get; set; }
-		public string type { get; set; }
-
-		[XmlIgnore]
-		public DateTime LastSeen
-		{
-			get { return TimeHelper.ConvertToDateTime(last_seen); }
-
-			set { last_seen = TimeHelper.ConvertToUnixTimeStamp(value); }
-		}
-	}
-
-	public class UserGroup
-	{
-		public string description { get; set; }
-		public string creator_id { get; set; }
-		public string group_id { get; set; }
-		public string name { get; set; }
-	}
-
-	public class UserInfo
-	{
-		public string user_id { get; set; }
-		public List<Device> devices { get; set; }
-		public string state { get; set; }
-		public string avatar_url { get; set; }
-		public bool verified { get; set; }
-		public string nickname { get; set; }
-		public string email { get; set; }
-	}
-
 	public class UserStorages
 	{
 		public UserStorage waveface { get; set; }

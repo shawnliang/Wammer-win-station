@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using Wammer.Cloud;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation
 {
@@ -13,8 +14,8 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void classInit()
 		{
-			Wammer.Cloud.CloudServer.APIKey = "apiKey1";
-			Wammer.Cloud.CloudServer.BaseUrl = "http://127.0.0.1/v9999/";
+			CloudServer.APIKey = "apiKey1";
+			CloudServer.BaseUrl = "http://127.0.0.1/v9999/";
 		}
 
 		[TestMethod]
@@ -22,7 +23,7 @@ namespace UT_WammerStation
 		{
 			Wammer.Cloud.UserLogInResponse res =
 			new Wammer.Cloud.UserLogInResponse(200, DateTime.Now.ToUniversalTime(), "token1");
-			res.user = new Wammer.Cloud.UserInfo { user_id = "uid" };
+			res.user = new UserInfo { user_id = "uid" };
 
 			using (FakeCloud fakeCloud = new FakeCloud(res))
 			{
@@ -55,7 +56,7 @@ namespace UT_WammerStation
 				{
 					Wammer.Cloud.User.LogIn("user1", "passwd1", "deviceId", "deviceName");
 				}
-				catch (Wammer.Cloud.WammerCloudException e)
+				catch (WammerCloudException e)
 				{
 					Assert.AreEqual(res.api_ret_code, e.WammerError);
 					return;
@@ -74,7 +75,7 @@ namespace UT_WammerStation
 				{
 					Wammer.Cloud.User.LogIn("user1", "passwd1", "deviceId", "deviceName");
 				}
-				catch (Wammer.Cloud.WammerCloudException e)
+				catch (WammerCloudException e)
 				{
 					Assert.AreEqual(WebExceptionStatus.ProtocolError, e.HttpError);
 					return;

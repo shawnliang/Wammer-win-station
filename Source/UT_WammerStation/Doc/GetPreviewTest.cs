@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Wammer.Model;
 using Wammer.Station;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.Doc
 {
