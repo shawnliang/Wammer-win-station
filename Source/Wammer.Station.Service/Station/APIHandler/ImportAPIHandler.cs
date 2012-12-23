@@ -1,6 +1,8 @@
 ﻿
 using Wammer.Cloud;
 using Waveface.Stream.Model;
+using MongoDB.Driver.Builders;
+using MongoDB.Bson;
 
 namespace Wammer.Station
 {
@@ -21,9 +23,42 @@ namespace Wammer.Station
 			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			var paths = Parameters[PATHS_KEY];
 
-			TaskQueue.Enqueue(new ImportTask(apiKey, sessionToken, groupID, paths), TaskPriority.VeryLow);
+			var user = DriverCollection.Instance.FindDriverByGroupId(groupID);
+			if (user == null)
+				throw new WammerStationException("user not exist", (int)StationApiError.UserNotExist);
+
+			var task = new ImportTask(apiKey, sessionToken, groupID, paths);
+			task.FilesEnumerated += new System.EventHandler<FilesEnumeratedArgs>(task_FilesEnumerated);
+			task.FileImported += new System.EventHandler<FileImportEventArgs>(task_FileImported);
+			task.FileImportFailed += new System.EventHandler<FileImportEventArgs>(task_FileImportFailed);
+			task.ImportDone += new System.EventHandler<ImportDoneEventArgs>(task_ImportDone);
+
+			var taskStatus = new ImportTaskStaus { Id = task.TaskId, UserId = user.user_id };
+			TaskStatusCollection.Instance.Save(taskStatus);
+
+			TaskQueue.Enqueue(task, TaskPriority.VeryLow);
 
 			RespondSuccess();
+		}
+
+		void task_FileImportFailed(object sender, FileImportEventArgs e)
+		{
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Push("FailedFiles", e.file.ToBsonDocument()));
+		}
+
+		void task_ImportDone(object sender, ImportDoneEventArgs e)
+		{
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Set("IsComplete", true));
+		}
+
+		void task_FileImported(object sender, FileImportEventArgs e)
+		{
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Inc("SuccessCount", 1));
+		}
+
+		void task_FilesEnumerated(object sender, FilesEnumeratedArgs e)
+		{
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Set("TotalFiles", e.TotalCount));
 		}
 
 		/// <summary>
