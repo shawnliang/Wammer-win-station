@@ -104,47 +104,6 @@ namespace Wammer.Station
 			try
 			{
 				DownloadOriginalAttachmentsFromCloud();
-
-				var posts = PostCollection.Instance.Find(
-					Query.And(
-						Query.Exists("attachments"),
-						Query.EQ("hidden", "false")));
-
-				foreach (var post in posts)
-				{
-					if (post.attachments == null)
-						continue;
-
-					foreach (var attachment in post.attachments)
-					{
-						var savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
-						var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
-
-						// driver might be removed before download tasks completed
-						if (driver == null)
-							break;
-
-						var imageMeta = attachment.image_meta;
-						if (imageMeta == null)
-							continue;
-
-						var savedImageMeta = (savedDoc == null) ? null : savedDoc.image_meta;
-
-						// small
-						if (imageMeta.small != null &&
-							(savedImageMeta == null || savedImageMeta.small == null))
-						{
-							EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
-						}
-
-						// medium
-						if (imageMeta.medium != null &&
-							(savedImageMeta == null || savedImageMeta.medium == null))
-						{
-							EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
-						}
-					}
-				}
 			}
 			catch (Exception e)
 			{

@@ -35,7 +35,6 @@ namespace Wammer.Station.Service
 		private HttpServer managementServer;
 		private AttachmentViewHandler viewHandler;
 		private PingHandler funcPingHandler = new PingHandler();
-		private PostUpload.MobileDevicePostActivity mobileDevicePostActivity = new PostUpload.MobileDevicePostActivity();
 		private MongoDBMonitor mongoMonitor;
 
 		public StationService()
@@ -46,6 +45,7 @@ namespace Wammer.Station.Service
 			HttpWebRequest.DefaultMaximumErrorResponseLength = 10 * 1024; // in KB => 10 * 1024 * K => 10 MB
 			ServicePointManager.DefaultConnectionLimit = 200;
 
+			Waveface.Stream.Model.AutoMapperSetting.IniteMap();
 			AutoMapperSetting.IniteMap();
 		}
 
@@ -304,50 +304,6 @@ namespace Wammer.Station.Service
 
 			functionServer.AddHandler(GetDefaultBathPath("/reachability/ping/"),
 									  funcPingHandler);
-
-			functionServer.AddHandler(GetDefaultBathPath("/posts/getLatest/"),
-									  new HybridCloudHttpRouter(new PostGetLatestHandler()));
-
-			functionServer.AddHandler(GetDefaultBathPath("/posts/get/"),
-									  new HybridCloudHttpRouter(new PostGetHandler()));
-
-			functionServer.AddHandler(GetDefaultBathPath("/posts/getSingle/"),
-									  new HybridCloudHttpRouter(new PostGetSingleHandler()));
-
-			functionServer.AddHandler(GetDefaultBathPath("/posts/fetchByFilter/"),
-									  new HybridCloudHttpRouter(new PostFetchByFilterHandler()));
-
-			var newPostHandler = new HybridCloudHttpRouter(new NewPostHandler(PostUploadTaskController.Instance));
-			newPostHandler.RequestBypassed += mobileDevicePostActivity.OnPostCreated;
-			newPostHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
-			functionServer.AddHandler(GetDefaultBathPath("/posts/new/"), newPostHandler);
-
-
-			var updatePostHandler = new HybridCloudHttpRouter((new UpdatePostHandler(PostUploadTaskController.Instance)));
-			updatePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostUpdated;
-			updatePostHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
-			functionServer.AddHandler(GetDefaultBathPath("/posts/update/"), updatePostHandler);
-
-			var hidePostHandler = new HybridCloudHttpRouter((new HidePostHandler(PostUploadTaskController.Instance)));
-			hidePostHandler.RequestBypassed += mobileDevicePostActivity.OnPostHidden;
-			hidePostHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
-			functionServer.AddHandler(GetDefaultBathPath("/posts/hide/"), hidePostHandler);
-
-
-			var commentHandler = new HybridCloudHttpRouter((new NewPostCommentHandler(PostUploadTaskController.Instance)));
-			commentHandler.RequestBypassed += mobileDevicePostActivity.OnCommentCreated;
-			commentHandler.RequestBypassed += Station.Instance.PostUpsertNotifier.OnPostRequestBypassed;
-			functionServer.AddHandler(GetDefaultBathPath("/posts/newComment/"), commentHandler);
-
-
-			functionServer.AddHandler(GetDefaultBathPath("/footprints/setLastScan/"),
-									  new HybridCloudHttpRouter(new FootprintSetLastScanHandler()));
-
-			functionServer.AddHandler(GetDefaultBathPath("/footprints/getLastScan/"),
-									  new HybridCloudHttpRouter(new FootprintGetLastScanHandler()));
-
-			functionServer.AddHandler(GetDefaultBathPath("/changelogs/get/"), 
-									  new HybridCloudHttpRouter(new UserTrackHandler()));
 
 			var loginHandler = new UserLoginHandler();
 			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),

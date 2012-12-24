@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Waveface.Stream.Model;
 
 namespace Waveface.Stream.Core
 {
@@ -40,23 +41,23 @@ namespace Waveface.Stream.Core
 			}
 		}
 
-		/// <summary>
-		/// Gets or sets the content.
-		/// </summary>
-		/// <value>
-		/// The content.
-		/// </value>
-		[JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
-		public string Content { get; set; }
+		///// <summary>
+		///// Gets or sets the content.
+		///// </summary>
+		///// <value>
+		///// The content.
+		///// </value>
+		//[JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
+		//public string Content { get; set; }
 
-		/// <summary>
-		/// Gets or sets the comment count.
-		/// </summary>
-		/// <value>
-		/// The comment count.
-		/// </value>
-		[JsonProperty("comment_count")]
-		public int CommentCount { get; set; }
+		///// <summary>
+		///// Gets or sets the comment count.
+		///// </summary>
+		///// <value>
+		///// The comment count.
+		///// </value>
+		//[JsonProperty("comment_count")]
+		//public int CommentCount { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type.
@@ -65,7 +66,7 @@ namespace Waveface.Stream.Core
 		/// The type.
 		/// </value>
 		[JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-		public string Type { get; set; }
+		public PostType Type { get; set; }
 
 		/// <summary>
 		/// Gets or sets the time stamp.
@@ -74,16 +75,16 @@ namespace Waveface.Stream.Core
 		/// The time stamp.
 		/// </value>
 		[JsonProperty("timestamp", NullValueHandling = NullValueHandling.Ignore)]
-		public string TimeStamp { get; set; }
+		public DateTime? TimeStamp { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the code.
-		/// </summary>
-		/// <value>
-		/// The name of the code.
-		/// </value>
-		[JsonProperty("code_name", NullValueHandling = NullValueHandling.Ignore)]
-		public string CodeName { get; set; }
+		///// <summary>
+		///// Gets or sets the name of the code.
+		///// </summary>
+		///// <value>
+		///// The name of the code.
+		///// </value>
+		//[JsonProperty("code_name", NullValueHandling = NullValueHandling.Ignore)]
+		//public string CodeName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the attachment I ds.
@@ -94,14 +95,14 @@ namespace Waveface.Stream.Core
 		[JsonProperty("attachment_id_array", NullValueHandling = NullValueHandling.Ignore)]
 		public IEnumerable<string> AttachmentIDs { get; set; }
 
-		/// <summary>
-		/// Gets or sets the favorite.
-		/// </summary>
-		/// <value>
-		/// The favorite.
-		/// </value>
-		[JsonProperty("favorite")]
-		public int Favorite { get; set; }
+		///// <summary>
+		///// Gets or sets the favorite.
+		///// </summary>
+		///// <value>
+		///// The favorite.
+		///// </value>
+		//[JsonProperty("favorite")]
+		//public int Favorite { get; set; }
 
 		/// <summary>
 		/// Gets or sets the cover attachment ID.
@@ -146,8 +147,8 @@ namespace Waveface.Stream.Core
 		/// <value>
 		/// The GPS.
 		/// </value>
-		[JsonProperty("gps", NullValueHandling = NullValueHandling.Ignore)]
-		public PostGpsData Gps { get; set; }
+		[JsonProperty("location", NullValueHandling = NullValueHandling.Ignore)]
+		public PostGpsData Location { get; set; }
 
 		/// <summary>
 		/// Gets or sets the people.
@@ -155,8 +156,8 @@ namespace Waveface.Stream.Core
 		/// <value>
 		/// The people.
 		/// </value>
-		[JsonProperty("people", NullValueHandling = NullValueHandling.Ignore)]
-		public IEnumerable<PeopleData> People { get; set; }
+		[JsonProperty("friends", NullValueHandling = NullValueHandling.Ignore)]
+		public IEnumerable<FriendData> Friends { get; set; }
 
 		/// <summary>
 		/// Gets or sets the extra params.
@@ -180,15 +181,6 @@ namespace Waveface.Stream.Core
 
 		#region Public Method
 		/// <summary>
-		/// Shoulds the serialize people.
-		/// </summary>
-		/// <returns></returns>
-		public bool ShouldSerializePeople()
-		{
-			return People != null && People.Any();
-		}
-
-		/// <summary>
 		/// Shoulds the serialize extra params.
 		/// </summary>
 		/// <returns></returns>
@@ -201,9 +193,9 @@ namespace Waveface.Stream.Core
 		/// Shoulds the serialize GPS.
 		/// </summary>
 		/// <returns></returns>
-		public bool ShouldSerializeGps()
+		public bool ShouldSerializeLocation()
 		{
-			return Gps != null && (Gps.Name != null || (Gps.Latitude != null && Gps.Longitude != null));
+			return Location != null && (Location.Name != null || (Location.Latitude != null && Location.Longitude != null));
 		}
 
 		/// <summary>
@@ -242,32 +234,14 @@ namespace Waveface.Stream.Core
 			return !String.IsNullOrEmpty(CoverAttachmentID);
 		}
 
-		/// <summary>
-		/// Shoulds the content of the serialize.
-		/// </summary>
-		/// <returns></returns>
-		public bool ShouldSerializeContent()
-		{
-			return !String.IsNullOrEmpty(Content);
-		}
-
-		/// <summary>
-		/// Shoulds the type of the serialize.
-		/// </summary>
-		/// <returns></returns>
-		public bool ShouldSerializeType()
-		{
-			return Type != null && Type.Length > 0;
-		}
-
-		/// <summary>
-		/// Shoulds the serialize time stamp.
-		/// </summary>
-		/// <returns></returns>
-		public bool ShouldSerializeTimeStamp()
-		{
-			return !string.IsNullOrEmpty(TimeStamp);
-		}
+		///// <summary>
+		///// Shoulds the content of the serialize.
+		///// </summary>
+		///// <returns></returns>
+		//public bool ShouldSerializeContent()
+		//{
+		//	return !String.IsNullOrEmpty(Content);
+		//}
 
 		/// <summary>
 		/// Shoulds the serialize ID.
@@ -287,14 +261,14 @@ namespace Waveface.Stream.Core
 			return AttachmentCount > 0;
 		}
 
-		/// <summary>
-		/// Shoulds the serialize comment count.
-		/// </summary>
-		/// <returns></returns>
-		public bool ShouldSerializeCommentCount()
-		{
-			return CommentCount > 0;
-		}
+		///// <summary>
+		///// Shoulds the serialize comment count.
+		///// </summary>
+		///// <returns></returns>
+		//public bool ShouldSerializeCommentCount()
+		//{
+		//	return CommentCount > 0;
+		//}
 
 		/// <summary>
 		/// Shoulds the serialize check ins.
@@ -303,6 +277,11 @@ namespace Waveface.Stream.Core
 		public bool ShouldSerializeCheckIns()
 		{
 			return CheckIns != null && CheckIns.Any();
+		}
+
+		public bool ShouldSerializeFriends()
+		{
+			return Friends != null && Friends.Any();
 		}
 		#endregion
 	}

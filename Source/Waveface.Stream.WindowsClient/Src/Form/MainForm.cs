@@ -161,7 +161,6 @@ namespace Waveface.Stream.WindowsClient
 				if (m_DockPanel.Contents.Count == 1)
 				{
 					AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
-					AddDockableContent("Mock Data Generator", new DataGenerateComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
 				}
 			}
 			finally

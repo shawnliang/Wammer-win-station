@@ -94,23 +94,24 @@ namespace Waveface.Stream.Core
 
 
 			if (sinceDate != null)
-				queryParam = Query.And(queryParam, Query.GTE("event_time", sinceDate.Value.ToUTCISO8601ShortString()));
+				queryParam = Query.And(queryParam, Query.GTE("event_since_time", sinceDate.Value.ToUTCISO8601ShortString()));
 
 			if (untilDate != null)
-				queryParam = Query.And(queryParam, Query.LTE("event_time", untilDate.Value.ToUTCISO8601ShortString()));
+				queryParam = Query.And(queryParam, Query.LTE("event_since_time", untilDate.Value.ToUTCISO8601ShortString()));
 
 
 			var groupBy = parameters.ContainsKey("group_by") ? int.Parse(parameters["group_by"].ToString()) : 0;
 
-			var canendarEntries = (from post in PostCollection.Instance.Find(queryParam).SetSortOrder(SortBy.Descending("event_time"))
-								   let groupByKey = GetGroupByKey(TimeHelper.ISO8601ToDateTime(post.event_time), groupBy)
+			var canendarEntries = (from post in PostDBDataCollection.Instance.Find(queryParam).SetSortOrder(SortBy.Descending("event_since_time"))
+								   let eventTime = post.EventSinceTime.Value
+								   let groupByKey = GetGroupByKey(eventTime, groupBy)
 								   group post by new { groupByKey } into g
 								   select new CalendarEntry()
 								   {
-									   SinceDate = g.Min(p => p.event_time),
-									   UntilDate = g.Max(p => p.event_time),
+									   SinceDate = g.Min(p => p.EventSinceTime.Value.ToUTCISO8601ShortString()),
+									   UntilDate = g.Max(p => p.EventSinceTime.Value.ToUTCISO8601ShortString()),
 									   PostCount = g.Count(),
-									   AttachmentCount = g.Sum(p => p.attachment_id_array.Count())
+									   AttachmentCount = g.Sum(p => p.AttachmentIDs.Count())
 								   });
 
 

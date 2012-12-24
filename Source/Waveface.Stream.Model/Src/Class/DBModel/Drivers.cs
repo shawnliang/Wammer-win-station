@@ -34,6 +34,16 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public string email { get; set; }
 
+		///// <summary>
+		///// Gets or sets the friend I ds.
+		///// </summary>
+		///// <value>
+		///// The friend I ds.
+		///// </value>
+		//[BsonIgnoreIfNull]
+		//[BsonElement("friend_id_array")]
+		//public IEnumerable<String> FriendIDs { get; set; }
+
 		/// <summary>
 		/// Gets or sets the folder.
 		/// </summary>
@@ -79,9 +89,6 @@ namespace Waveface.Stream.Model
 		[BsonDefaultValue(true)]
 		[BsonIgnoreIfNull]
 		public bool isPrimaryStation { get; set; }
-
-		[BsonIgnoreIfNull]
-		public bool isDataImportQueried { get; set; }
 
 		/// <summary>
 		/// Gets or sets the sync_range.

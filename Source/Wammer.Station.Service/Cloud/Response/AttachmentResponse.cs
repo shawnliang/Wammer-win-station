@@ -22,7 +22,7 @@ namespace Wammer.Cloud
 			this.type = att.type.ToString();
 			this.image = att.image;
 			this.mime_type = att.mime_type;
-			this.md5 = att.md5;
+			this.md5 = att.MD5;
 			this.url = att.url;
 			this.creator_id = att.creator_id;
 			this.image_meta = att.image_meta;

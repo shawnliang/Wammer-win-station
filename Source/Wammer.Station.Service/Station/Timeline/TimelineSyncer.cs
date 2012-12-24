@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Wammer.Cloud;
@@ -56,8 +57,10 @@ namespace Wammer.Station.Timeline
 						? postProvider.GetLastestPosts(user, limit)
 						: postProvider.GetPostsBefore(user, user.sync_range.start_time, limit);
 
-			foreach (var post in res.posts)
-				db.SavePost(post);
+			var postInfos = res.posts;
+
+			foreach (var postInfo in postInfos)
+				db.SavePost(postInfo);
 
 			OnPostsRetrieved(user, res.posts);
 
@@ -146,11 +149,12 @@ namespace Wammer.Station.Timeline
 
 			if (post_id_set.Count > 0)
 			{
-				List<PostInfo> changedPost = postProvider.RetrievePosts(user, post_id_set.ToList());
-				foreach (PostInfo post in changedPost)
-					db.SavePost(post);
+				var postInfos = postProvider.RetrievePosts(user, post_id_set.ToList());
 
-				OnPostsRetrieved(user, changedPost);
+				foreach (var postInfo in postInfos)
+					db.SavePost(postInfo);
+
+				OnPostsRetrieved(user, postInfos);
 			}
 
 			if (res.changelog_list != null && res.changelog_list.Count > 0)
@@ -223,16 +227,6 @@ namespace Wammer.Station.Timeline
 			return true;
 		}
 
-		private static int min(int a, int b)
-		{
-			return a < b ? a : b;
-		}
-
-		private static int max(int a, int b)
-		{
-			return a > b ? a : b;
-		}
-
 		private void PullOldChangeLog(Driver user)
 		{
 			int since_seq_num = 1;
@@ -255,8 +249,8 @@ namespace Wammer.Station.Timeline
 						int min_local = res.changelog_list.Max(x => x.seq_num);
 						int max_local = res.changelog_list.Min(x => x.seq_num);
 
-						min_chlog_seq = min(min_local, min_chlog_seq);
-						max_chlog_seq = max(max_local, max_chlog_seq);
+						min_chlog_seq = Math.Min(min_local, min_chlog_seq);
+						max_chlog_seq = Math.Max(max_local, max_chlog_seq);
 					}
 
 				} while (res.remaining_count > 0);
@@ -276,11 +270,12 @@ namespace Wammer.Station.Timeline
 
 
 			// Last user track response could contain unsynced posts.
-			List<PostInfo> newPosts = postProvider.RetrievePosts(user, res.post_list.Select(x => x.post_id).ToList());
-			foreach (PostInfo post in newPosts)
-				db.SavePost(post);
+			var postInfos = postProvider.RetrievePosts(user, res.post_list.Select(x => x.post_id).ToList());
 
-			OnPostsRetrieved(user, newPosts);
+			foreach (var postInfo in postInfos)
+				db.SavePost(postInfo);
+
+			OnPostsRetrieved(user, postInfos);
 
 			updateSyncRangeInDB(user, min_chlog_seq, max_chlog_seq, res.next_seq_num);
 			db.UpdateDriverChangeHistorySynced(user.user_id, true);
@@ -304,14 +299,14 @@ namespace Wammer.Station.Timeline
 			{
 				result = postProvider.GetPostsBySeq(user, since, 100);
 
-				if (result.posts != null)
+				var postInfos = result.posts;
+
+				if (postInfos != null)
 				{
-					foreach (var post in result.posts)
-					{
-						db.SavePost(post);
-						if (post.seq_num >= since)
-							since = post.seq_num + 1;
-					}
+					foreach (var postInfo in postInfos)
+						db.SavePost(postInfo);
+
+					since = Math.Max(since, postInfos.Max((postInfo) => postInfo.seq_num));
 
 					OnPostsRetrieved(user, result.posts);
 				}

@@ -195,12 +195,6 @@
     <Compile Include="Src\Control\DocImportControl.designer.cs">
       <DependentUpon>DocImportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Control\DebugComponent\DataGenerateComponent.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Src\Control\DebugComponent\DataGenerateComponent.Designer.cs">
-      <DependentUpon>DataGenerateComponent.cs</DependentUpon>
-    </Compile>
     <Compile Include="Src\Control\DebugComponent\LogMessageComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -467,9 +461,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\DocImportControl.resx">
       <DependentUpon>DocImportControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Control\DebugComponent\DataGenerateComponent.resx">
-      <DependentUpon>DataGenerateComponent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\DebugComponent\LogMessageComponent.resx">
       <DependentUpon>LogMessageComponent.cs</DependentUpon>
