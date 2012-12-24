@@ -42,8 +42,13 @@ namespace Wammer.Station.AttachmentUpload
 
 		private void ProcessForFastAndSmoothClients(AttachmentEventArgs args, Attachment attachment, Driver user)
 		{
-			var postInfo = PostCollection.Instance.FindOne(Query.EQ("_id", attachment.post_id));
-			var isCoverImage = (postInfo != null && postInfo.cover_attach == attachment.object_id);
+			bool isCoverImage = false;
+			if (!string.IsNullOrEmpty(attachment.post_id))
+			{
+				var postInfo = PostCollection.Instance.FindOne(Query.EQ("_id", attachment.post_id));
+				isCoverImage = (postInfo != null && postInfo.cover_attach == attachment.object_id);
+			}
+
 			if (args.ImgMeta == ImageMeta.Medium)
 			{
 				util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, isCoverImage ? TaskPriority.High : TaskPriority.Medium);
@@ -51,14 +56,18 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			else if (args.ImgMeta == ImageMeta.Origin)
 			{
+				if (user.isPaidUser)
+					util.UpstreamAttachmentAsync(args.AttachmentId, ImageMeta.Origin, TaskPriority.VeryLow);
+
 				if (args.UpsertResult == UpsertResult.Insert)
 				{
 					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, isCoverImage ? TaskPriority.High : TaskPriority.Medium);
-					util.GenerateThumbnailAsyncAndUpstream(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
-				}
 
-				if (!user.isPrimaryStation)
-					util.UpstreamAttachmentAsync(args.AttachmentId, ImageMeta.Origin, TaskPriority.VeryLow);
+					if (user.isPaidUser)
+						util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
+					else
+						util.GenerateThumbnailAsyncAndUpstream(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
+				}
 			}
 		}
 	}
