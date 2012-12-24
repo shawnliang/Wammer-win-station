@@ -30,7 +30,6 @@ namespace Wammer.Station
 		{
 			var resourceSyncer = new ResourceSyncer(RESOURCE_SYNC_PEROID, bodySyncQueue);
 			var statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
-			statusChecker.IsPrimaryChanged += resourceSyncer.OnIsPrimaryChanged;
 			var taskRetryTimer = new TaskRetryTimer();
 			var docMonitor = new CheckDocumentChangeTimer();
 

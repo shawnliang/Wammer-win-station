@@ -91,38 +91,6 @@ namespace Wammer.Station
 			PullTimeline();
 		}
 
-		public void OnIsPrimaryChanged(object sender, IsPrimaryChangedEvtArgs args)
-		{
-			try
-			{
-				if (args.driver.isPrimaryStation)
-				{
-					// just upgraded to primary station
-					foreach (Attachment attachment in AttachmentCollection.Instance.Find(Query.EQ("group_id", args.driver.groups[0].group_id)))
-					{
-						var syncedOriginalAttachments = new List<string>();
-
-						if (string.IsNullOrEmpty(attachment.saved_file_name))
-							// download missing original attachments
-							downloader.EnqueueDownstreamTask(new AttachmentInfo(attachment), args.driver, ImageMeta.Origin);
-						else
-							syncedOriginalAttachments.Add(attachment.object_id);
-
-						if (syncedOriginalAttachments.Count > 0)
-						{
-							TaskQueue.Enqueue(
-								   new NotifyCloudOfMultiBodySyncedTask(syncedOriginalAttachments, args.driver.user_id),
-								   TaskPriority.Low, true);
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				this.LogWarnMsg("Error when adding downstream task", e);
-			}
-		}
-
 		private void PullTimeline()
 		{
 			MongoCursor<Driver> users = DriverCollection.Instance.FindAll();
