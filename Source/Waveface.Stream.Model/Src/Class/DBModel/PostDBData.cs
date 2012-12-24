@@ -113,6 +113,8 @@ namespace Waveface.Stream.Model
 		/// The hidden.
 		/// </value>
 		[BsonIgnoreIfNull]
+		[BsonIgnoreIfDefault]
+		[BsonDefaultValue(true)]
 		[BsonElement("visibility")]
 		public Boolean Visibility { get; set; }
 
