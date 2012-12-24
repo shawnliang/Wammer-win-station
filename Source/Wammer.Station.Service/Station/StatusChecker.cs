@@ -58,10 +58,56 @@ namespace Wammer.Station
 
 		protected override void ExecuteOnTimedUp(object state)
 		{
-			SendHeartbeat();
+			sendHeartbeat();
+			checkIfUserPaid();
 		}
 
-		private void SendHeartbeat()
+		private void checkIfUserPaid()
+		{
+			foreach (var user in DriverCollection.Instance.FindAll())
+			{
+				try
+				{
+					if (string.IsNullOrEmpty(user.session_token))
+						continue;
+
+					var userInfo = User.GetInfo(user.user_id, CloudServer.APIKey, user.session_token);
+					
+					var becomePaidUser = false; // TODO: put paid user logic here
+
+					if (!user.isPaidUser && becomePaidUser)
+					{
+						DriverCollection.Instance.Update(Query.EQ("_id", user.user_id), Update.Set("isPaidUser", true));
+						backupAttachmentsToCloud(user);
+					}
+					else if (user.isPaidUser && !becomePaidUser)
+					{
+						DriverCollection.Instance.Update(Query.EQ("_id", user.user_id), Update.Set("isPaidUser", false));
+					}
+				}
+				catch (Exception e)
+				{
+					this.LogWarnMsg("Unable to check if user paid: " + user.email, e);
+				}
+			}
+		}
+
+		private static void backupAttachmentsToCloud(Driver user)
+		{
+			var notBackupFiles = AttachmentCollection.Instance.Find(
+								  Query.And(
+									  Query.EQ("group_id", user.groups[0].group_id),
+									  Query.Exists("saved_file_name"),
+									  Query.NE("body_on_cloud", true)));
+
+			foreach (var file in notBackupFiles)
+			{
+				var util = new AttachmentUpload.AttachmentUtility();
+				util.UpstreamAttachmentAsync(file.object_id, ImageMeta.Origin, TaskPriority.VeryLow);
+			}
+		}
+
+		private void sendHeartbeat()
 		{
 			var detail = GetDetail();
 
