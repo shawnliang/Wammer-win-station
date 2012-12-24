@@ -6,6 +6,7 @@ using System.Linq;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {
@@ -79,7 +80,7 @@ namespace Wammer.Station
 			var newPostComment = new Comment
 									{
 										content = newPostContent,
-										timestamp = currentTimeStamp.ToCloudTimeString(),
+										timestamp = currentTimeStamp.ToUTCISO8601ShortString(),
 										code_name = codeName,
 										creator_id = creatorID
 									};

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Cloud
 {
@@ -29,7 +30,7 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
 			                 		{CloudServer.PARAM_POST_ID, postId},
-			                 		{CloudServer.PARAM_TIMESTAMP, timestamp.ToCloudTimeString()}
+			                 		{CloudServer.PARAM_TIMESTAMP, timestamp.ToUTCISO8601ShortString()}
 			                 	};
 
 			foreach (var key in param.Keys)
@@ -54,14 +55,14 @@ namespace Wammer.Cloud
 
 			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
 			{
-				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
+				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToUTCISO8601ShortString());
 			}
 
 			foreach (var key in param.Keys)
 			{
 				if (key == CloudServer.PARAM_LAST_UPDATE_TIME)
 				{
-					parameters.Add(key, lastUpdateTime.ToCloudTimeString());
+					parameters.Add(key, lastUpdateTime.ToUTCISO8601ShortString());
 				}
 				else if (key != CloudServer.PARAM_SESSION_TOKEN && key != CloudServer.PARAM_API_KEY)
 				{
@@ -82,7 +83,7 @@ namespace Wammer.Cloud
 
 			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
 			{
-				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
+				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToUTCISO8601ShortString());
 			}
 
 			foreach (var key in param.Keys)
@@ -106,7 +107,7 @@ namespace Wammer.Cloud
 
 			if (!param.ContainsKey(CloudServer.PARAM_UPDATE_TIME))
 			{
-				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToCloudTimeString());
+				parameters.Add(CloudServer.PARAM_UPDATE_TIME, updateTime.ToUTCISO8601ShortString());
 			}
 
 			foreach (var key in param.Keys)

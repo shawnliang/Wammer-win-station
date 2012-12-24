@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Wammer.Cloud;
 using Wammer.Model;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.APIHandler
 {

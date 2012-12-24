@@ -5,6 +5,7 @@ using System.Linq;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {
@@ -89,12 +90,10 @@ namespace Wammer.Station
 
 			var post = new PostInfo
 						{
-							attachments = attachmentInfos,
 							post_id = postID,
 							timestamp = timeStamp,
 							update_time = timeStamp,
 							attachment_id_array = attachmentIDs,
-							attachment_count = attachmentCount,
 							group_id = groupID,
 							creator_id = creatorID,
 							code_name = codeName,
@@ -103,11 +102,10 @@ namespace Wammer.Station
 							comment_count = 0,
 							comments = new List<Comment>(),
 							preview = new Preview(),
-							event_time = timeStamp.ToCloudTimeString(),
+							event_time = timeStamp.ToUTCISO8601ShortString(),
 							type = type,
 							cover_attach = cover_attach,
-							favorite = "1".Equals(favorite) ? 1 : 0,
-							import = isImported == "true"
+							favorite = "1".Equals(favorite) ? 1 : 0
 						};
 
 			PostCollection.Instance.Save(post);

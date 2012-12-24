@@ -6,6 +6,7 @@ using System.IO;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.AttachmentView;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.AttachmentViewTest
 {
@@ -19,7 +20,7 @@ namespace UT_WammerStation.AttachmentViewTest
 		Mock<IAttachmentViewStorage> storage;
 		AttachmentViewHandlerImp handler;
 
-		Wammer.Model.Driver user = new Wammer.Model.Driver { folder = "folder1" };
+		Driver user = new Driver { folder = "folder1" };
 		System.IO.MemoryStream m = new System.IO.MemoryStream();
 
 		[TestInitialize]

@@ -3,6 +3,7 @@ using System;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Retry;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

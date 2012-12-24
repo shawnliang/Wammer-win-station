@@ -8,6 +8,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation
 {
@@ -117,10 +118,6 @@ namespace UT_WammerStation
 
 			Assert.IsNotNull(post);
 			Assert.AreEqual("Unit Test's content", post.content);
-
-			Assert.IsNotNull(post.attachments);
-			Assert.IsTrue(post.attachments.Count > 0);
-			Assert.AreEqual("http://unittest.com", post.attachments[0].url);
 
 			var postInDB = PostCollection.Instance.FindOne(Query.EQ("_id", post.post_id));
 			Assert.IsNotNull(postInDB);

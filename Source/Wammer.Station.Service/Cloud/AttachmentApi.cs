@@ -10,6 +10,7 @@ using System.Text;
 using Wammer.Model;
 using Wammer.Station;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 
 namespace Wammer.Cloud
@@ -255,7 +256,7 @@ namespace Wammer.Cloud
 				pars["file_path"] = file_path;
 
 			if (import_time.HasValue)
-				pars["import_time"] = import_time.Value.ToCloudTimeString();
+				pars["import_time"] = import_time.Value.ToUTCISO8601ShortString();
 
 			if (exif != null)
 				pars["exif"] = JsonConvert.SerializeObject(exif, Formatting.Indented);
@@ -264,7 +265,7 @@ namespace Wammer.Cloud
 				pars["timezone"] = timezone.Value;
 
 			if (file_create_time.HasValue && file_create_time.Value > DateTime.MinValue)
-				pars["file_create_time"] = file_create_time.Value.ToCloudTimeString();
+				pars["file_create_time"] = file_create_time.Value.ToUTCISO8601ShortString();
 
 			if (doc_meta != null)
 				pars["doc_meta"] = doc_meta.ToFastJSON();
@@ -278,7 +279,7 @@ namespace Wammer.Cloud
 			{
 				object_id = object_id,
 				type = "doc",
-				access_time = accessTime.ToCloudTimeString()
+				access_time = accessTime.ToUTCISO8601ShortString()
 			};
 
 			var parameters = new Dictionary<object, object>

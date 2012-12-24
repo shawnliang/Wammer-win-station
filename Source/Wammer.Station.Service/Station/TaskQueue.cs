@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using Wammer.PerfMonitor;
 using Wammer.Queue;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

@@ -8,6 +8,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation
 {
@@ -114,7 +115,7 @@ namespace UT_WammerStation
 					                                                                 });
 			}
 
-			driver = Wammer.Model.DriverCollection.Instance.FindOne(Query.EQ("email", "exist@gmail.com"));
+			driver = DriverCollection.Instance.FindOne(Query.EQ("email", "exist@gmail.com"));
 
 			Assert.IsNotNull(driver);
 

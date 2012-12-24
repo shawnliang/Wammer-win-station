@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Wammer.Cloud
 {
-	public class CollectionsResponse : CloudResponse
+	public class CollectionsResponse : Waveface.Stream.Model.CloudResponse
 	{
 		public List<Collection> collections { get; set; }
 	}

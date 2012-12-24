@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {
@@ -245,8 +246,6 @@ namespace Wammer.Station
 																			.Unset("attachments"));
 
 				post.attachment_id_array = null;
-				post.attachment_count = 0;
-				post.attachments = null;
 				return;
 			}
 
@@ -284,8 +283,6 @@ namespace Wammer.Station
 
 
 				post.attachment_id_array = attachmentIDs;
-				post.attachment_count = attachmentIDs.Count;
-				post.attachments = attachmentInfos;
 			}
 		}
 

@@ -1,6 +1,7 @@
 ﻿using log4net;
 using System;
 using Wammer.Cloud;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

@@ -111,6 +111,12 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public string import_time { get; set; }
 
+		[BsonIgnoreIfNull]
+		public DateTime event_time { get; set; }
+
+		[BsonIgnoreIfNull]
+		public DocProperty doc_meta { get; set; }
+
 
 		#region Nested type: ImageMeta
 		[Serializable]

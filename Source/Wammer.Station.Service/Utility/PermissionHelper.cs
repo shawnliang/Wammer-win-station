@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Wammer.Model;
+using Waveface.Stream.Model;
 
 namespace Wammer.Utility
 {

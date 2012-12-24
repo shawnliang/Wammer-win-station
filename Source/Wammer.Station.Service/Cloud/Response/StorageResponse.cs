@@ -1,4 +1,5 @@
 ﻿using System;
+using Waveface.Stream.Model;
 
 namespace Wammer.Cloud
 {

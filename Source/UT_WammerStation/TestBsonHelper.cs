@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using System.Collections.Generic;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 
 namespace UT_WammerStation
@@ -132,22 +133,22 @@ namespace UT_WammerStation
 		[TestMethod]
 		public void testMixedMerge()
 		{
-			Wammer.Model.Attachment a = new Wammer.Model.Attachment
+			Attachment a = new Attachment
 			{
-				type = Wammer.Model.AttachmentType.image,
+				type = AttachmentType.image,
 				object_id = "1234567890",
-				image_meta = new Wammer.Model.ImageProperty
+				image_meta = new ImageProperty
 				{
-					small = new Wammer.Model.ThumbnailInfo
+					small = new ThumbnailInfo
 					{
 						url = "http://localhost/"
 					}
 				}
 			};
 
-			Wammer.Model.Attachment b = new Wammer.Model.Attachment
+			Attachment b = new Attachment
 			{
-				type = Wammer.Model.AttachmentType.image,
+				type = AttachmentType.image,
 				title = "this is title",
 				description = "this is description"
 			};

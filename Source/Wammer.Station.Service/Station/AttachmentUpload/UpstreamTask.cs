@@ -5,6 +5,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.AttachmentUpload
 {

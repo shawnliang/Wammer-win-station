@@ -1,4 +1,5 @@
 ﻿
+using Waveface.Stream.Model;
 namespace Wammer.PerfMonitor
 {
 	class NullPerfCounter : IPerfCounter

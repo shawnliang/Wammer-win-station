@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Wammer.Model;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -65,7 +66,7 @@ namespace Wammer.Station.AttachmentUpload
 			return exif;
 		}
 
-		private void extractGPSInfo(ExifFile exifFile, Model.exif exif)
+		private void extractGPSInfo(ExifFile exifFile, exif exif)
 		{
 			try
 			{
@@ -136,7 +137,7 @@ namespace Wammer.Station.AttachmentUpload
 			}
 		}
 
-		private void extractProperty(Model.exif exif, ExifProperty item)
+		private void extractProperty(exif exif, ExifProperty item)
 		{
 			try
 			{

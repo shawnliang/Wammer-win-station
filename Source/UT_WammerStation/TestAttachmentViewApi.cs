@@ -6,6 +6,7 @@ using Wammer;
 using Wammer.Cloud;
 using Wammer.PerfMonitor;
 using Wammer.Station;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation
 {

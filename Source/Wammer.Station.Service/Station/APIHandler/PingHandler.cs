@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
 using Wammer.Cloud;
+using Waveface.Stream.Model;
 namespace Wammer.Station
 {
 	[APIHandlerInfo(APIHandlerType.FunctionAPI | APIHandlerType.ManagementAPI, "/availability/ping/")]
@@ -19,7 +20,7 @@ namespace Wammer.Station
 				return;
 			}
 
-			var user = Model.DriverCollection.Instance.FindOne(Query.EQ("_id", user_id));
+			var user = DriverCollection.Instance.FindOne(Query.EQ("_id", user_id));
 
 			if (user != null && syncEnabled)
 				RespondSuccess();

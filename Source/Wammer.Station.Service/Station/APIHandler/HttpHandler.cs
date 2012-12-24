@@ -14,6 +14,7 @@ using Wammer.Model;
 using Wammer.MultiPart;
 using Wammer.PerfMonitor;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

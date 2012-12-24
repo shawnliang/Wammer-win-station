@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Wammer.Model;
 using System.IO;
+using Waveface.Stream.Model;
 
 
 namespace Wammer.Station
@@ -76,7 +77,7 @@ namespace Wammer.Station
 				}
 			}
 
-			TaskQueue.Enqueue(new CreateFolderCollectionTask(folders, user.session_token, Cloud.CloudServer.APIKey), TaskPriority.Medium);
+			TaskQueue.Enqueue(new CreateFolderCollectionTask(folders, user.session_token, CloudServer.APIKey), TaskPriority.Medium);
 		}
 	}
 }

@@ -7,6 +7,7 @@ using System.Threading;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

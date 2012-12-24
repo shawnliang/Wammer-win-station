@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using Wammer.Cloud;
 using Wammer.Model;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.APIHandler
 {

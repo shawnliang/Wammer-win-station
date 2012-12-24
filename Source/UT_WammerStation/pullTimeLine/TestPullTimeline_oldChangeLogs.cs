@@ -6,6 +6,7 @@ using System.Linq;
 using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Station.Timeline;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.pullTimeLine
 {

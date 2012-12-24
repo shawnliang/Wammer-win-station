@@ -12,6 +12,7 @@ using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
 using Wammer.Utility;
 using Waveface.Stream.Core;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
 {
@@ -118,7 +119,7 @@ namespace Wammer.Station.Timeline
 				var exif = ExifLibrary.ExifFile.Read(image);
 				string takenTime = null;
 				if (exif.Properties.ContainsKey(ExifLibrary.ExifTag.DateTimeOriginal))
-					takenTime = ((DateTime)(exif.Properties[ExifLibrary.ExifTag.DateTimeOriginal].Value)).ToCloudTimeString();
+					takenTime = ((DateTime)(exif.Properties[ExifLibrary.ExifTag.DateTimeOriginal].Value)).ToUTCISO8601ShortString();
 				return takenTime;
 			}
 			catch
