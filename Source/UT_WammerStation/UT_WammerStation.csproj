@@ -84,7 +84,6 @@
     <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />
     <Compile Include="AttachmentUpload\TestImagePostProcessWithPostId.cs" />
-    <Compile Include="AttachmentUpload\TestImagePostProcess.cs" />
     <Compile Include="AttachmentViewTest\TestAttachmentView.cs" />
     <Compile Include="AttachmentViewTest\TestViewStorage.cs" />
     <Compile Include="Doc\CopyDocToStreamTest.cs" />

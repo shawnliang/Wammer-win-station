@@ -48,15 +48,6 @@ namespace Wammer.Station.AttachmentUpload
 			return GenerateThumbnail(imageFilename, thumbnailType, object_id, user, origin_filename, ImageMeta.Origin);
 		}
 
-		public void UpstreamImageNow(byte[] imageRaw, string group_id, string object_id, string file_name, string mime_type,
-									 ImageMeta meta, string apikey, string session_token)
-		{
-			using (var s = new MemoryStream(imageRaw))
-			{
-				AttachmentApi.Upload(s, group_id, object_id, file_name, mime_type, meta, AttachmentType.image, apikey, session_token, 1024, UpstreamProgressChanged);
-			}
-		}
-
 		public void UpdateThumbnailInfoToDB(string object_id, ImageMeta thumbnailType, ThumbnailInfo Info)
 		{
 			AttachmentCollection.Instance.Update(
@@ -80,19 +71,6 @@ namespace Wammer.Station.AttachmentUpload
 		public void GenerateThumbnailAsyncAndUpstream(string object_id, ImageMeta thumbnailType, TaskPriority priority)
 		{
 			TaskQueue.Enqueue(new MakeThumbnailAndUpstreamTask(object_id, thumbnailType, priority), priority, true);
-		}
-
-
-		public void UpstreamAttachmentNow(string filename, Driver user, string object_id, string origFileName,
-										  string mime_type, ImageMeta meta, AttachmentType type, string session, string apikey)
-		{
-			var fileStorage = new FileStorage(user);
-
-			using (FileStream f = fileStorage.Load(filename, meta))
-			{
-				AttachmentApi.Upload(f, user.groups[0].group_id, object_id, origFileName, mime_type, meta, type, apikey,
-								  session, 1024, UpstreamProgressChanged);
-			}
 		}
 		#endregion
 
