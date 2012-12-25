@@ -45,8 +45,8 @@ namespace Wammer.Station.AttachmentUpload
 			bool isCoverImage = false;
 			if (!string.IsNullOrEmpty(attachment.post_id))
 			{
-				var postInfo = PostCollection.Instance.FindOne(Query.EQ("_id", attachment.post_id));
-				isCoverImage = (postInfo != null && postInfo.cover_attach == attachment.object_id);
+				var postInfo = PostDBDataCollection.Instance.FindOne(Query.EQ("_id", attachment.post_id));
+				isCoverImage = (postInfo != null && postInfo.CoverAttachmentID == attachment.object_id);
 			}
 
 			if (args.ImgMeta == ImageMeta.Medium)

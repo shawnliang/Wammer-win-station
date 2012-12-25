@@ -71,6 +71,8 @@ namespace Wammer.Station.AttachmentUpload
 			set { _mime_type = value; }
 		}
 
+		public string creator_id { get; set; }
+
 		public string file_name { get; set; }
 		public string title { get; set; }
 		public string description { get; set; }
@@ -182,6 +184,7 @@ namespace Wammer.Station.AttachmentUpload
 			var dbDoc = new Attachment
 							{
 								object_id = uploadData.object_id,
+								creator_id = uploadData.creator_id,
 								group_id = uploadData.group_id,
 								file_name = uploadData.file_name,
 								title = uploadData.title,
@@ -203,7 +206,7 @@ namespace Wammer.Station.AttachmentUpload
 				dbDoc.saved_file_name = saveReult.RelativePath;
 				dbDoc.file_size = uploadData.raw_data.Count;
 				dbDoc.url = GetViewApiUrl(uploadData);
-				dbDoc.md5 = MD5Helper.ComputeMD5(uploadData.raw_data.Array, uploadData.raw_data.Offset, uploadData.raw_data.Count);
+				dbDoc.MD5 = MD5Helper.ComputeMD5(uploadData.raw_data.Array, uploadData.raw_data.Offset, uploadData.raw_data.Count);
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
 				dbDoc.file_create_time = uploadData.file_create_time;

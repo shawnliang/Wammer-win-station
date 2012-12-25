@@ -134,9 +134,9 @@ namespace UT_WammerStation.pullTimeLine
 				}).Verifiable();
 
 			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 100)))
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1")))
 				.Verifiable();
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 101)))
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2")))
 				.Verifiable();
 
 			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 102 && sc.chlog_min_seq == int.MaxValue && sc.chlog_max_seq == int.MaxValue)))
@@ -181,9 +181,9 @@ namespace UT_WammerStation.pullTimeLine
 				}).Verifiable();
 
 			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 100)))
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1")))
 				.Verifiable();
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 101)))
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2")))
 				.Verifiable();
 
 			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(sc => sc.next_seq_num == 102 && sc.chlog_min_seq == int.MaxValue && sc.chlog_max_seq == int.MaxValue)))

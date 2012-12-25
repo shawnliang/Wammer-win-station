@@ -224,9 +224,9 @@ namespace UT_WammerStation.pullTimeLine
 				.Verifiable();
 
 			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 10))).Verifiable();
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 20))).Verifiable();
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3" && p.seq_num == 15))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1"))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2"))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3"))).Verifiable();
 			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21 && s.chlog_min_seq == int.MaxValue && s.chlog_max_seq == int.MaxValue))).Verifiable();
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
 
@@ -268,9 +268,9 @@ namespace UT_WammerStation.pullTimeLine
 				.Verifiable();
 
 			Mock<ITimelineSyncerDB> db = new Mock<ITimelineSyncerDB>(MockBehavior.Strict);
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1" && p.seq_num == 10))).Verifiable();
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2" && p.seq_num == 20))).Verifiable();
-			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3" && p.seq_num == 15))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post1"))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post2"))).Verifiable();
+			db.Setup(x => x.SavePost(It.Is<PostInfo>(p => p.post_id == "post3"))).Verifiable();
 			db.Setup(x => x.UpdateDriverSyncRange(user.user_id, It.Is<SyncRange>(s => s.next_seq_num == 21 && s.chlog_min_seq == int.MaxValue && s.chlog_max_seq == int.MaxValue))).Verifiable();
 			db.Setup(x => x.UpdateDriverChangeHistorySynced(user.user_id, true)).Verifiable();
 

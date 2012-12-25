@@ -9,6 +9,7 @@ namespace Waveface.Stream.Model
 	public class PostInfo
 	{
 		private string _cover_attach;
+
 		[BsonIgnoreIfNull]
 		public List<AttachmentInfo> attachments { get; set; }
 
@@ -22,7 +23,7 @@ namespace Waveface.Stream.Model
 		}
 
 		[BsonIgnoreIfNull]
-		public string event_time { get; set; }
+		public DateTime event_time { get; set; }
 
 		[BsonIgnoreIfNull]
 		public List<Comment> comments { get; set; }
@@ -31,7 +32,13 @@ namespace Waveface.Stream.Model
 		public string content { get; set; }
 
 		[BsonIgnoreIfNull]
-		public int comment_count { get; set; }
+		public int comment_count
+		{
+			get 
+			{
+				return (comments == null) ? 0 : comments.Count;
+			}
+		}
 
 		[BsonIgnoreIfNull]
 		public string hidden { get; set; }
@@ -98,7 +105,7 @@ namespace Waveface.Stream.Model
 		public List<PostCheckIn> checkins { get; set; }
 
 		[BsonIgnoreIfNull]
-		public List<Person> people { get; set; }
+		public List<FriendInfo> people { get; set; }
 
 		[BsonIgnoreIfNull]
 		public List<ExtraParameter> extra_parameters { get; set; }

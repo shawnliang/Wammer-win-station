@@ -55,7 +55,7 @@ namespace Waveface.Stream.Core
 			var pageNo = parameters.ContainsKey("page_no") ? int.Parse(parameters["page_no"].ToString()) : 1;
 			var pageSize = parameters.ContainsKey("page_size") ? int.Parse(parameters["page_size"].ToString()) : 10;
 			var skipCount = (pageNo == 1) ? 0 : (pageNo - 1) * pageSize;
-			var queryParam = Query.And(Query.EQ("creator_id", userID), Query.EQ("hidden", "false"));
+			var queryParam = Query.And(Query.EQ("creater_id", userID), Query.EQ("visibility", true));
 
 			if (parameters.ContainsKey("post_id_array"))
 			{
@@ -65,37 +65,25 @@ namespace Waveface.Stream.Core
 			}
 
 
-			var type = parameters.ContainsKey("type") ? int.Parse(parameters["type"].ToString()) : 0;
+			var type = parameters.ContainsKey("type") ? (PostType)int.Parse(parameters["type"].ToString()) : PostType.All;
 
-			if ((type & 1) == 1)
-			{
-				queryParam = Query.And(queryParam, Query.EQ("type", "text"));
-			}
+			if (type != PostType.All)
+				queryParam = Query.And(queryParam, Query.EQ("type", type));
 
-			if ((type & 2) == 2)
-			{
-				queryParam = Query.And(queryParam, Query.EQ("type", "image"));
-			}
-
-			if ((type & 4) == 4)
-			{
-				queryParam = Query.And(queryParam, Query.EQ("type", "link"));
-			}
-
-			queryParam = Query.And(queryParam, Query.EQ("code_name", "StreamEvent"));
+			//queryParam = Query.And(queryParam, Query.EQ("CodeName", "StreamEvent"));
 
 
 			if (sinceDate != null)
-				queryParam = Query.And(queryParam, Query.GTE("event_time", sinceDate.Value.ToUTCISO8601ShortString()));
+				queryParam = Query.And(queryParam, Query.GTE("event_since_time", sinceDate.Value.ToUTCISO8601ShortString()));
 
 			if (untilDate != null)
-				queryParam = Query.And(queryParam, Query.LT("event_time", untilDate.Value.ToUTCISO8601ShortString()));
+				queryParam = Query.And(queryParam, Query.LT("event_since_time", untilDate.Value.ToUTCISO8601ShortString()));
 
 
-			var filteredPosts = PostCollection.Instance.Find(queryParam)
+			var filteredPosts = PostDBDataCollection.Instance.Find(queryParam)
 				.SetSkip(skipCount)
 				.SetLimit(pageSize)
-				.SetSortOrder(SortBy.Descending("event_time"));
+				.SetSortOrder(SortBy.Descending("event_since_time"));
 
 
 			var totalCount = filteredPosts.Count();
@@ -107,11 +95,11 @@ namespace Waveface.Stream.Core
 			Object postDatas;
 			if (dataSize == 0)
 			{
-				postDatas = Mapper.Map<IEnumerable<PostInfo>, IEnumerable<SmallSizePostData>>(filteredPosts);
+				postDatas = Mapper.Map<IEnumerable<PostDBData>, IEnumerable<SmallSizePostData>>(filteredPosts);
 			}
 			else
 			{
-				postDatas = Mapper.Map<IEnumerable<PostInfo>, IEnumerable<MediumSizePostData>>(filteredPosts).ToArray();
+				postDatas = Mapper.Map<IEnumerable<PostDBData>, IEnumerable<MediumSizePostData>>(filteredPosts).ToArray();
 
 				var summaryAttachmentLimit = parameters.ContainsKey("sumary_limit") ? int.Parse(parameters["sumary_limit"].ToString()) : 1;
 

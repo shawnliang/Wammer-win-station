@@ -100,7 +100,7 @@
     <Compile Include="Src\Class\WebSocketData\MediumSizeCollcetionData.cs" />
     <Compile Include="Src\Class\WebSocketData\MediumSizeMetaData.cs" />
     <Compile Include="Src\Class\WebSocketData\MediumSizePostData.cs" />
-    <Compile Include="Src\Class\WebSocketData\PeopleData.cs" />
+    <Compile Include="Src\Class\WebSocketData\FriendData.cs" />
     <Compile Include="Src\Class\WebSocketData\PostCheckInData.cs" />
     <Compile Include="Src\Class\WebSocketData\PostExtraData.cs" />
     <Compile Include="Src\Class\WebSocketData\PostGpsData.cs" />

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Waveface.Stream.Model;
@@ -148,6 +150,51 @@ namespace Waveface.Stream.Core
 
 			return attachment.event_time.HasValue ? attachment.event_time.Value.ToUTCISO8601ShortString() : null;
 		}
+
+		private static IEnumerable<PostCheckInData> GetCheckInDatas(IEnumerable<string> checkinIDs)
+		{
+			if (checkinIDs == null || !checkinIDs.Any())
+				return null;
+
+			var locations = LocationDBDataCollection.Instance.Find(Query.In("_id", new BsonArray(checkinIDs)));
+
+			if (locations == null || !locations.Any())
+				return null;
+
+			var checkInDatas = Mapper.Map<IEnumerable<LocationDBData>, IEnumerable<PostCheckInData>>(locations);
+
+			return checkInDatas;
+		}
+
+		private static PostGpsData GetPostGPSDatas(string locationID)
+		{
+			if (string.IsNullOrEmpty(locationID))
+				return null;
+
+			var location = LocationDBDataCollection.Instance.FindOneById(locationID);
+
+			if (location == null)
+				return null;
+
+			var postGPSData = Mapper.Map<LocationDBData, PostGpsData>(location);
+
+			return postGPSData;
+		}
+
+		private static IEnumerable<FriendData> GetFriends(IEnumerable<string> friendIDs)
+		{
+			if (friendIDs == null || !friendIDs.Any())
+				return null;
+
+			var friends = FriendDBDataCollection.Instance.Find(Query.In("_id", new BsonArray(friendIDs)));
+
+			if (friends == null || !friends.Any())
+				return null;
+
+			var friendDatas = Mapper.Map<IEnumerable<FriendDBData>, IEnumerable<FriendData>>(friends);
+
+			return friendDatas;
+		}
 		#endregion
 
 
@@ -157,27 +204,30 @@ namespace Waveface.Stream.Core
 		/// </summary>
 		public static void IniteMap()
 		{
-			Mapper.CreateMap<PostInfo, SmallSizePostData>()
-				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.post_id))
-				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time));
+			Mapper.CreateMap<LocationDBData, PostCheckInData>();
+			Mapper.CreateMap<LocationDBData, PostGpsData>();
 
-			Mapper.CreateMap<PostInfo, MediumSizePostData>()
-				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.post_id))
-				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.event_time))
-				.ForMember(dest => dest.CodeName, opt => opt.MapFrom(src => src.code_name))
-				.ForMember(dest => dest.AttachmentCount, opt => opt.MapFrom(src => src.attachment_count))
-				.ForMember(dest => dest.CoverAttachmentID, opt => opt.MapFrom(src => src.cover_attach))
-				.ForMember(dest => dest.CommentCount, opt => opt.MapFrom(src => src.comment_count))
-				.ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.tags))
-				.ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array))
-				.ForMember(dest => dest.ExtraParams, opt => opt.MapFrom(src => src.extra_parameters));
+			Mapper.CreateMap<PostDBData, SmallSizePostData>()
+				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID))
+				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.EventSinceTime));
+
+			Mapper.CreateMap<PostDBData, MediumSizePostData>()
+				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID))
+				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.EventSinceTime))
+				.ForMember(dest => dest.CoverAttachmentID, opt => opt.MapFrom(src => src.CoverAttachmentID))
+				.ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags))
+				.ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.AttachmentIDs))
+				.ForMember(dest => dest.CheckIns, opt => opt.MapFrom(src => GetCheckInDatas(src.CheckinIDs)))
+				.ForMember(dest => dest.Location, opt => opt.MapFrom(src => (src.CheckinIDs == null)? null: GetPostGPSDatas(src.CheckinIDs.FirstOrDefault())))
+				.ForMember(dest => dest.Friends, opt => opt.MapFrom(src => GetFriends(src.FriendIDs)))
+				.ForMember(dest => dest.ExtraParams, opt => opt.MapFrom(src => src.ExtraParams));
 
 			Mapper.CreateMap<PostCheckIn, PostCheckInData>();
 
 			Mapper.CreateMap<PostGps, PostGpsData>()
 				.ForMember(dest => dest.ZoomLevel, opt => opt.MapFrom(src => src.zoom_level));
 
-			Mapper.CreateMap<Person, PeopleData>();
+			Mapper.CreateMap<FriendDBData, FriendData>();
 
 			Mapper.CreateMap<ExtraParameter, PostExtraData>();
 

@@ -28,7 +28,7 @@ namespace UT_WammerStation.AttachmentUpload
 				file_size = 123,
 				file_name = "file_name",
 				description = "desc",
-				md5 = "123",
+				MD5 = "123",
 				modify_time = DateTime.UtcNow,
 				url = "url",
 				title = "title",
@@ -47,7 +47,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual(att.file_size, savedDoc.file_size);
 			Assert.AreEqual(att.file_name, savedDoc.file_name);
 			Assert.AreEqual(att.description, savedDoc.description);
-			Assert.AreEqual(att.md5, savedDoc.md5);
+			Assert.AreEqual(att.MD5, savedDoc.MD5);
 			Assert.IsTrue(att.modify_time - savedDoc.modify_time < TimeSpan.FromSeconds(1));
 			Assert.AreEqual(att.url, savedDoc.url);
 			Assert.AreEqual(att.title, savedDoc.title);
@@ -74,7 +74,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual(0, savedDoc.file_size);
 			Assert.IsNull(savedDoc.file_name);
 			Assert.IsNull(savedDoc.description);
-			Assert.IsNull(savedDoc.md5);
+			Assert.IsNull(savedDoc.MD5);
 			Assert.AreEqual(DateTime.MinValue, savedDoc.modify_time);
 			Assert.IsNull(savedDoc.url);
 			Assert.IsNull(savedDoc.title);

@@ -17,7 +17,7 @@
 		/// Initializes a new instance of the <see cref="LoginedSessionCollection"/> class.
 		/// </summary>
 		private LoginedSessionCollection()
-			: base("LoginedSession")
+			: base("logined_sessions")
 		{
 		}
 

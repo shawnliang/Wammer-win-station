@@ -204,6 +204,9 @@ namespace Wammer.Station.Timeline
 			if (!string.IsNullOrEmpty(attachmentAttributes.file_name))
 				update.Set("file_name", attachmentAttributes.file_name);
 
+			if (!string.IsNullOrEmpty(attachmentAttributes.creator_id))
+				update.Set("creator_id", attachmentAttributes.creator_id);
+
 			if (attachmentAttributes.event_time > DateTime.MinValue)
 				update.Set("event_time", attachmentAttributes.event_time);
 

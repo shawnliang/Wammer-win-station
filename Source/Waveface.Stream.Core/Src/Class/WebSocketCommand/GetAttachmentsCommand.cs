@@ -68,14 +68,14 @@ namespace Waveface.Stream.Core
 			{
 				var postIDs = (parameters["post_id_array"] as JArray).Values();
 				coverAttachmentIDs.UnionWith(from postID in postIDs
-											 let post = PostCollection.Instance.FindOneById(postID.ToString())
+											 let post = PostDBDataCollection.Instance.FindOneById(postID.ToString())
 											 where post != null
-											 select post.cover_attach);
+											 select post.CoverAttachmentID);
 
 				attachmentIDs.UnionWith(from postID in postIDs
-										let post = PostCollection.Instance.FindOneById(postID.ToString())
+										let post = PostDBDataCollection.Instance.FindOneById(postID.ToString())
 										where post != null
-										from attachmentID in post.attachment_id_array
+										from attachmentID in post.AttachmentIDs
 										select attachmentID);
 			}
 
