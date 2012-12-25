@@ -322,12 +322,6 @@
     <Compile Include="Src\Dialog\AddDeviceDialog.designer.cs">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Dialog\AutoImportDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Src\Dialog\AutoImportDialog.designer.cs">
-      <DependentUpon>AutoImportDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Src\Dialog\HidableProgressingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -522,12 +516,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\AddDeviceDialog.resx">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\AutoImportDialog.resx">
-      <DependentUpon>AutoImportDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\AutoImportDialog.zh-TW.resx">
-      <DependentUpon>AutoImportDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\CleanResourceDialog.resx">
       <DependentUpon>CleanResourceDialog.cs</DependentUpon>
