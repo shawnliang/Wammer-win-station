@@ -214,6 +214,38 @@ namespace Wammer.Station.Service
 				logger.Warn("Stream station is started");
 
 				Waveface.Stream.Core.AutoMapperSetting.IniteMap();
+
+				var eventSubscriber = SystemEventSubscriber.Instance;
+				PostDBDataCollection.Instance.Saved += (s, e) => 
+				{
+					eventSubscriber.TriggerPostAddedEvent(e.ID);
+				};
+
+				PostDBDataCollection.Instance.Updated += (s, e) =>
+				{
+					eventSubscriber.TriggerPostUpdatedEvent(e.ID);
+				};
+
+				AttachmentCollection.Instance.Saved += (s, e) =>
+				{
+					eventSubscriber.TriggerAttachmentAddedEvent(e.ID);
+				};
+
+				AttachmentCollection.Instance.Updated += (s, e) =>
+				{
+					eventSubscriber.TriggerAttachmentUpdatedEvent(e.ID);
+				};
+
+				CollectionCollection.Instance.Saved += (s, e) =>
+				{
+					eventSubscriber.TriggerCollectionAddedEvent(e.ID);
+				};
+
+				CollectionCollection.Instance.Updated += (s, e) =>
+				{
+					eventSubscriber.TriggerCollectionUpdatedEvent(e.ID);
+				};
+
 				WebClientControlServer.Instance.Start();
 			}
 			catch (Exception ex)

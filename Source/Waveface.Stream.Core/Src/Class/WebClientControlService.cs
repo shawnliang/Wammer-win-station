@@ -58,8 +58,9 @@ namespace Waveface.Stream.Core
 		#region Constructor
 		public WebClientControlService()
 		{
-			SystemEventSubscriber.Instance.EventSubscribed += WebClientControlService_EventSubscribed;
-			SystemEventSubscriber.Instance.EventUnSubscribed += WebClientControlService_EventUnSubscribed;
+			var eventSubscriber = SystemEventSubscriber.Instance;
+			eventSubscriber.EventSubscribed += WebClientControlService_EventSubscribed;
+			eventSubscriber.EventUnSubscribed += WebClientControlService_EventUnSubscribed;
 		}
 		#endregion
 
@@ -161,30 +162,31 @@ namespace Waveface.Stream.Core
 
 		private void UpdateSystemEventBinding()
 		{
+			var eventSubscriber = SystemEventSubscriber.Instance;
 			foreach (SystemEventType eventType in Enum.GetValues(typeof(SystemEventType)))
 			{
 				switch (eventType)
 				{
 					case SystemEventType.PostAdded:
-						SystemEventSubscriber.Instance.PostAdded -= Instance_PostAdded;
+						eventSubscriber.PostAdded -= Instance_PostAdded;
 						break;
 					case SystemEventType.PostUpdated:
-						SystemEventSubscriber.Instance.PostUpdated -= Instance_PostUpdated;
+						eventSubscriber.PostUpdated -= Instance_PostUpdated;
 						break;
 					case SystemEventType.AttachmentAdded:
-						SystemEventSubscriber.Instance.AttachmentAdded -= Instance_AttachmentAdded;
+						eventSubscriber.AttachmentAdded -= Instance_AttachmentAdded;
 						break;
 					case SystemEventType.AttachmentUpdated:
-						SystemEventSubscriber.Instance.AttachmentUpdated -= Instance_AttachmentUpdated;
+						eventSubscriber.AttachmentUpdated -= Instance_AttachmentUpdated;
 						break;
 					case SystemEventType.AttachmentArrived:
-						SystemEventSubscriber.Instance.AttachmentArrived -= Instance_AttachmentArrived;
+						eventSubscriber.AttachmentArrived -= Instance_AttachmentArrived;
 						break;
 					case SystemEventType.CollectionAdded:
-						SystemEventSubscriber.Instance.CollectionAdded -= Instance_CollectionAdded;
+						eventSubscriber.CollectionAdded -= Instance_CollectionAdded;
 						break;
 					case SystemEventType.CollectionUpdated:
-						SystemEventSubscriber.Instance.CollectionUpdated -= Instance_CollectionUpdated;
+						eventSubscriber.CollectionUpdated -= Instance_CollectionUpdated;
 						break;
 					default:
 						break;
@@ -196,25 +198,25 @@ namespace Waveface.Stream.Core
 				switch (eventType)
 				{
 					case SystemEventType.PostAdded:
-						SystemEventSubscriber.Instance.PostAdded += Instance_PostAdded;
+						eventSubscriber.PostAdded += Instance_PostAdded;
 						break;
 					case SystemEventType.PostUpdated:
-						SystemEventSubscriber.Instance.PostUpdated += Instance_PostUpdated;
+						eventSubscriber.PostUpdated += Instance_PostUpdated;
 						break;
 					case SystemEventType.AttachmentAdded:
-						SystemEventSubscriber.Instance.AttachmentAdded += Instance_AttachmentAdded;
+						eventSubscriber.AttachmentAdded += Instance_AttachmentAdded;
 						break;
 					case SystemEventType.AttachmentUpdated:
-						SystemEventSubscriber.Instance.AttachmentUpdated += Instance_AttachmentUpdated;
+						eventSubscriber.AttachmentUpdated += Instance_AttachmentUpdated;
 						break;
 					case SystemEventType.AttachmentArrived:
-						SystemEventSubscriber.Instance.AttachmentArrived += Instance_AttachmentArrived;
+						eventSubscriber.AttachmentArrived += Instance_AttachmentArrived;
 						break;
 					case SystemEventType.CollectionAdded:
-						SystemEventSubscriber.Instance.CollectionAdded += Instance_CollectionAdded;
+						eventSubscriber.CollectionAdded += Instance_CollectionAdded;
 						break;
 					case SystemEventType.CollectionUpdated:
-						SystemEventSubscriber.Instance.CollectionUpdated += Instance_CollectionUpdated;
+						eventSubscriber.CollectionUpdated += Instance_CollectionUpdated;
 						break;
 					default:
 						break;

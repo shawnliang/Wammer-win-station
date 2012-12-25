@@ -38,8 +38,8 @@ namespace Waveface.Stream.Model
 		private PostDBDataCollection()
 			: base("posts")
 		{
-			collection.EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
-			collection.EnsureIndex(new IndexKeysBuilder().Descending("timestamp"));
+			EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
+			EnsureIndex(new IndexKeysBuilder().Descending("timestamp"));
 		}
 		#endregion
 

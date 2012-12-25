@@ -55,7 +55,7 @@ namespace Waveface.Stream.Core
 			var pageNo = parameters.ContainsKey("page_no") ? int.Parse(parameters["page_no"].ToString()) : 1;
 			var pageSize = parameters.ContainsKey("page_size") ? int.Parse(parameters["page_size"].ToString()) : 10;
 			var skipCount = (pageNo == 1) ? 0 : (pageNo - 1) * pageSize;
-			var queryParam = Query.And(Query.EQ("creater_id", userID), Query.EQ("visibility", true));
+			var queryParam = Query.And(Query.EQ("creater_id", userID), Query.NE("visibility", false));
 
 			if (parameters.ContainsKey("post_id_array"))
 			{
