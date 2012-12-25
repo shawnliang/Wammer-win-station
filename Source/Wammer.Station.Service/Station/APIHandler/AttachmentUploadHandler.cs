@@ -93,6 +93,11 @@ namespace Wammer.Station.APIHandler
 			if (!string.IsNullOrEmpty(Parameters["timezone"]))
 				data.timezone = Convert.ToInt32(Parameters["timezone"]);
 
+			var loginedUSer = LoginedSessionCollection.Instance.FindOneById(data.session_token);
+
+			if (loginedUSer != null)
+				data.creator_id = loginedUSer.user.user_id;
+
 			data.import_time = getCloudTimeFromParameters("import_time");
 			data.file_create_time = getCloudTimeFromParameters("file_create_time");
 

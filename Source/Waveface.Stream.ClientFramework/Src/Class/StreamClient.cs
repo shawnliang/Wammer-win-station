@@ -164,7 +164,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			SynchronizationContextHelper.SetMainSyncContext();
 
-			AutoMapperSetting.IniteMap();
+			Waveface.Stream.Core.AutoMapperSetting.IniteMap();
 
 			LoginController.Instance.Logined += StreamClient_Logined;
 			LoginController.Instance.Logouted += StreamClient_Logouted;

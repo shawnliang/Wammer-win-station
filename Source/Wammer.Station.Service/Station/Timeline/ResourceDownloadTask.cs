@@ -154,7 +154,8 @@ namespace Wammer.Station.Timeline
 								.Set("modify_time", DateTime.UtcNow)
 								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
 								.Set("group_id", attachmentAttributes.group_id)
-								.Set("saved_file_name", saveFileName);
+								.Set("saved_file_name", saveFileName)
+								.Set("body_on_cloud", true);
 
 				if (attachmentAttributes.image_meta != null)
 				{
@@ -202,6 +203,9 @@ namespace Wammer.Station.Timeline
 		{
 			if (!string.IsNullOrEmpty(attachmentAttributes.file_name))
 				update.Set("file_name", attachmentAttributes.file_name);
+
+			if (!string.IsNullOrEmpty(attachmentAttributes.creator_id))
+				update.Set("creator_id", attachmentAttributes.creator_id);
 
 			if (attachmentAttributes.event_time > DateTime.MinValue)
 				update.Set("event_time", attachmentAttributes.event_time);

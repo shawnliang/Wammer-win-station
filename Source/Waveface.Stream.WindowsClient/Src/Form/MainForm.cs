@@ -138,8 +138,6 @@ namespace Waveface.Stream.WindowsClient
 				this.Controls.Add(m_DockPanel);
 
 				AddDockableContent("Client Web Page", m_Browser as Control);
-
-				titlePanel1.SendToBack();
 			}
 			finally
 			{
@@ -161,7 +159,6 @@ namespace Waveface.Stream.WindowsClient
 				if (m_DockPanel.Contents.Count == 1)
 				{
 					AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
-					AddDockableContent("Mock Data Generator", new DataGenerateComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
 				}
 			}
 			finally
@@ -266,11 +263,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		private void imageButton1_Click(object sender, EventArgs e)
-		{
-			var location = PointToScreen(new Point(titlePanel1.Width - contextMenuStrip1.Width, titlePanel1.Bottom));
-			contextMenuStrip1.Show(location.X, location.Y);
-		}
 
 		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{

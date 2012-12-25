@@ -42,6 +42,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=1.1.0.188, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\AutoMapper.NET35.1.1.0.118\lib\net35\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="fastJSON">
       <HintPath>..\..\Lib\fastJSON\fastJSON.dll</HintPath>
     </Reference>
@@ -84,7 +88,6 @@
     <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />
     <Compile Include="AttachmentUpload\TestImagePostProcessWithPostId.cs" />
-    <Compile Include="AttachmentUpload\TestImagePostProcess.cs" />
     <Compile Include="AttachmentViewTest\TestAttachmentView.cs" />
     <Compile Include="AttachmentViewTest\TestViewStorage.cs" />
     <Compile Include="Doc\CopyDocToStreamTest.cs" />
@@ -96,13 +99,9 @@
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
     <Compile Include="LocalUserTrack\TestLocalUTMgr.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_oldChangeLogs.cs" />
-    <Compile Include="TestHidePostHandler.cs" />
     <Compile Include="TestMongoDB.cs" />
-    <Compile Include="TestNewPostCommandHandler.cs" />
     <Compile Include="TestSerializable.cs" />
-    <Compile Include="TestUpdatePostHandler.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />
-    <Compile Include="TestNewPostHandler.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />
     <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />

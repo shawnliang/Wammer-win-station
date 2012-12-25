@@ -217,16 +217,6 @@ namespace Wammer.Cloud
 	}
 
 	[BsonIgnoreExtraElements]
-	public class Person
-	{
-		[BsonIgnoreIfNull]
-		public string name { get; set; }
-
-		[BsonIgnoreIfNull]
-		public string avatar { get; set; }
-	}
-
-	[BsonIgnoreExtraElements]
 	public class ExtraParameter
 	{
 		[BsonIgnoreIfNull]

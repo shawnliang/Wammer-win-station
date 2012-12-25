@@ -1,4 +1,4 @@
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,16 @@ namespace Waveface.Stream.Model
 		/// <value>The email.</value>
 		[BsonIgnoreIfNull]
 		public string email { get; set; }
+
+		///// <summary>
+		///// Gets or sets the friend I ds.
+		///// </summary>
+		///// <value>
+		///// The friend I ds.
+		///// </value>
+		//[BsonIgnoreIfNull]
+		//[BsonElement("friend_id_array")]
+		//public IEnumerable<String> FriendIDs { get; set; }
 
 		/// <summary>
 		/// Gets or sets the folder.
@@ -80,8 +90,8 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public bool isPrimaryStation { get; set; }
 
-		[BsonIgnoreIfNull]
-		public bool isDataImportQueried { get; set; }
+
+		public bool isPaidUser { get; set; }
 
 		/// <summary>
 		/// Gets or sets the sync_range.

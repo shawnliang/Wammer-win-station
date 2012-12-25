@@ -367,7 +367,8 @@ namespace Waveface.Stream.Model
 		public string description { get; set; }
 
 		[BsonIgnoreIfNull]
-		public string md5 { get; set; }
+		[BsonElement("md5")]
+		public string MD5 { get; set; }
 
 		public AttachmentType type { get; set; }
 
@@ -392,7 +393,7 @@ namespace Waveface.Stream.Model
 		[BsonIgnore]
 		public ExifOrientations Orientation { get; set; }
 
-		[BsonIgnore]
+		[BsonIgnoreIfNull]
 		public string creator_id { get; set; }
 
 		[BsonIgnoreIfNull]
@@ -441,47 +442,6 @@ namespace Waveface.Stream.Model
 		/// </summary>
 		public bool fromLocal { get; set; }
 
-		//[BsonIgnore]
-		//[XmlIgnore]
-		//[JsonIgnore]
-		//public ArraySegment<byte> RawData
-		//{
-		//	get
-		//	{
-		//		lock (rawDataMutex)
-		//		{
-		//			if (rawData.Array == null && saved_file_name != null)
-		//			{
-		//				var driver = DriverCollection.Instance.FindOne();
-		//				var storage = new FileStorage(driver);
-		//				var buffer = new byte[file_size];
-		//				storage.Load(saved_file_name).Read(buffer, 0, buffer.Length);
-		//				rawData = new ArraySegment<byte>(buffer);
-		//			}
-		//			return rawData;
-		//		}
-		//	}
-		//	set
-		//	{
-		//		lock (rawDataMutex)
-		//		{
-		//			rawData = value;
-		//			if (rawData.Array != null)
-		//			{
-		//				using (MD5 md5 = MD5.Create())
-		//				{
-		//					byte[] hash = md5.ComputeHash(rawData.Array, rawData.Offset, rawData.Count);
-		//					var buff = new StringBuilder();
-		//					for (int i = 0; i < hash.Length; i++)
-		//						buff.Append(hash[i].ToString("x2"));
-
-		//					this.md5 = buff.ToString();
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
-
 		#region IAttachmentInfo Members
 
 		[BsonIgnoreIfNull]
@@ -527,34 +487,6 @@ namespace Waveface.Stream.Model
 			if (meta == ImageMeta.None || meta == ImageMeta.Origin)
 				return this;
 			return image_meta.GetThumbnailInfo(meta);
-		}
-	}
-
-	public class AttachmentCollection : DBCollection<Attachment>
-	{
-		#region Var
-		private static AttachmentCollection _instance;
-		#endregion
-
-
-		static AttachmentCollection()
-		{
-			_instance = new AttachmentCollection();
-			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
-			_instance.collection.EnsureIndex(new IndexKeysBuilder().Ascending("md5"));
-		}
-
-		#region Property
-		public static AttachmentCollection Instance
-		{
-			get { return _instance; }
-		}
-		#endregion
-
-
-		private AttachmentCollection()
-			: base("attachments")
-		{
 		}
 	}
 }

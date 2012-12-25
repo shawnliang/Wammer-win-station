@@ -62,7 +62,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual(uploadData.group_id, savedAttachment.group_id);
 			Assert.AreEqual(uploadData.type, savedAttachment.type);
 			Assert.AreEqual(uploadData.raw_data.Count, savedAttachment.file_size);
-			Assert.IsFalse(String.IsNullOrEmpty(savedAttachment.md5));
+			Assert.IsFalse(String.IsNullOrEmpty(savedAttachment.MD5));
 			Assert.AreEqual(DateTime.UtcNow.Year, savedAttachment.modify_time.Year);
 			Assert.AreEqual(DateTime.UtcNow.Month, savedAttachment.modify_time.Month);
 			Assert.AreEqual(DateTime.UtcNow.Day, savedAttachment.modify_time.Day);

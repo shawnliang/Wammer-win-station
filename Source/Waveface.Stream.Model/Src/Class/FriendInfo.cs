@@ -2,13 +2,10 @@
 
 namespace Waveface.Stream.Model
 {
-	[BsonIgnoreExtraElements]
-	public class Person
+	public class FriendInfo
 	{
-		[BsonIgnoreIfNull]
 		public string name { get; set; }
 
-		[BsonIgnoreIfNull]
 		public string avatar { get; set; }
 	}
 }

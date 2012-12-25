@@ -3,7 +3,7 @@ using System;
 
 namespace Waveface.Stream.Core
 {
-	public class PeopleData
+	public class FriendData
 	{
 		#region Public Property
 		[JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
