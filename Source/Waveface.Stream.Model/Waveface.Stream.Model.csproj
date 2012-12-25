@@ -128,6 +128,7 @@
     <Compile Include="Src\Enum\ExifOrientations.cs" />
     <Compile Include="Src\Enum\GeneralApiError.cs" />
     <Compile Include="Src\Enum\PostType.cs" />
+    <Compile Include="Src\Event\CollectionChangedEventArgs.cs" />
     <Compile Include="Src\Event\FileImportedEventArgs.cs" />
     <Compile Include="Src\Event\ImportDoneEventArgs.cs" />
     <Compile Include="Src\Event\MetadataUploadEventArgs.cs" />

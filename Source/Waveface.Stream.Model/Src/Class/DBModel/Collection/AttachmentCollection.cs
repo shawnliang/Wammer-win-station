@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +38,9 @@ namespace Waveface.Stream.Model
 		private AttachmentCollection()
 			: base("attachments")
 		{
-			collection.EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
-			collection.EnsureIndex(new IndexKeysBuilder().Ascending("md5"));
-		} 
+			EnsureIndex(new IndexKeysBuilder().Ascending("group_id"));
+			EnsureIndex(new IndexKeysBuilder().Ascending("md5"));
+		}
 		#endregion
 	}
 }

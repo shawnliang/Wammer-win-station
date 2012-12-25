@@ -8,6 +8,7 @@ namespace Waveface.Stream.Core
 	public class SystemEventSubscriber
 	{
 		#region Static Var
+		private static object _lockInstanceObj = new object();
         private static SystemEventSubscriber _instance;
         #endregion
 
@@ -23,7 +24,14 @@ namespace Waveface.Stream.Core
         { 
             get
             {
-                return _instance ?? (_instance = new SystemEventSubscriber());
+				if (_instance == null)
+				{
+					lock (_lockInstanceObj)
+					{
+						_instance = new SystemEventSubscriber();
+					}
+				}
+				return _instance;
             }
         }
         #endregion
