@@ -42,16 +42,15 @@ namespace Wammer.Station.AttachmentUpload
 				if (attachment == null)
 					return;
 
-				if (meta == ImageMeta.Medium && attachment.body_on_cloud)
-					return;	// Body is already uploaded to cloud. No need to upload medium again.
-				// This happens only on secondary station..
-
 				Driver user = DriverCollection.Instance.FindDriverByGroupId(attachment.group_id);
 				if (user == null)
 				{
 					this.LogDebugMsg("User of group id " + attachment.group_id + " is removed? Abort upstream attachment " + object_id);
 					return;
 				}
+
+				if ((meta == ImageMeta.Origin || meta == ImageMeta.None) && !user.isPaidUser)
+					return;
 
 				IAttachmentInfo info = attachment.GetInfoByMeta(meta);
 				if (info == null)

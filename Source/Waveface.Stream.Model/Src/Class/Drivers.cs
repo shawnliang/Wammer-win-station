@@ -83,6 +83,9 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public bool isDataImportQueried { get; set; }
 
+
+		public bool isPaidUser { get; set; }
+
 		/// <summary>
 		/// Gets or sets the sync_range.
 		/// </summary>
