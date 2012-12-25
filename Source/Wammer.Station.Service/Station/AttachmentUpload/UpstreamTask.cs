@@ -49,7 +49,7 @@ namespace Wammer.Station.AttachmentUpload
 					return;
 				}
 
-				if ((meta == ImageMeta.Origin || meta == ImageMeta.None) && !user.isPaidUser)
+				if (meta == ImageMeta.Origin && !user.isPaidUser)
 					return;
 
 				IAttachmentInfo info = attachment.GetInfoByMeta(meta);
