@@ -71,16 +71,14 @@ namespace Wammer.Station
 					if (string.IsNullOrEmpty(user.session_token))
 						continue;
 
-					var userInfo = User.GetInfo(user.user_id, CloudServer.APIKey, user.session_token);
-					
-					var becomePaidUser = false; // TODO: put paid user logic here
+					var cloudUser = User.GetInfo(user.user_id, CloudServer.APIKey, user.session_token);
 
-					if (!user.isPaidUser && becomePaidUser)
+					if (becomePaidUser(user, cloudUser))
 					{
 						DriverCollection.Instance.Update(Query.EQ("_id", user.user_id), Update.Set("isPaidUser", true));
 						backupAttachmentsToCloud(user);
 					}
-					else if (user.isPaidUser && !becomePaidUser)
+					else if (becomeNonPaidUser(user, cloudUser))
 					{
 						DriverCollection.Instance.Update(Query.EQ("_id", user.user_id), Update.Set("isPaidUser", false));
 					}
@@ -90,6 +88,16 @@ namespace Wammer.Station
 					this.LogWarnMsg("Unable to check if user paid: " + user.email, e);
 				}
 			}
+		}
+
+		private static bool becomeNonPaidUser(Driver user, GetUserResponse cloudUser)
+		{
+			return user.isPaidUser && !cloudUser.IsPaidUser();
+		}
+
+		private static bool becomePaidUser(Driver user, GetUserResponse cloudUser)
+		{
+			return !user.isPaidUser && cloudUser.IsPaidUser();
 		}
 
 		private static void backupAttachmentsToCloud(Driver user)
