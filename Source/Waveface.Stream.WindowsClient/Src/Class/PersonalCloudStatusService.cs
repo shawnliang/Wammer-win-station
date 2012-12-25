@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
@@ -58,13 +59,29 @@ namespace Waveface.Stream.WindowsClient
 					{
 						item.Profile = "Connected";
 
+						var importTasks = TaskStatusCollection.Instance.Find(Query.EQ("UserId", user_id));
+						var importStatus = string.Join(", ", importTasks.Select(t => formatTaskString(t)).ToArray());
+
 						var upload = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).NextValue();
 						var download = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).NextValue();
 
-						if (upload == 0 && download == 0)
-							item.Profile = "Synced at " + x.last_visit;
+						var uploadStatus = "";
+						if (upload > 0)
+							uploadStatus = string.Format("Uploading {0} files. ", upload);
+
+						var downloadStatus = "";
+						if (download > 0)
+							downloadStatus = string.Format("Downloading {0} files. ", upload);
+
+
+						if (string.IsNullOrEmpty(importStatus) && uploadStatus.Length == 0 && downloadStatus.Length == 0)
+						{
+							item.Profile = "Synced";
+						}
 						else
-							item.Profile = "Syncing: " + (upload + download) + " files";
+						{
+							item.Profile = importStatus + uploadStatus + downloadStatus;
+						}
 					}
 					else
 					{
@@ -86,6 +103,28 @@ namespace Waveface.Stream.WindowsClient
 
 			};
 
+		}
+
+		private string formatTaskString(ImportTaskStaus t)
+		{
+			if (!t.IsComplete && t.TotalFiles == 0)
+				return "Indexing files...";
+			else
+			{
+				if (t.FailedFiles == null || t.FailedFiles.Count == 0)
+				{
+					return string.Format("{0}/{1} files imported. ",
+						t.SuccessCount,
+						t.TotalFiles);
+				}
+				else
+				{
+					return string.Format("{0}/{1} files imported, {2} import failures. ",
+					t.SuccessCount,
+					t.TotalFiles,
+					t.FailedFiles.Count);
+				}
+			}
 		}
 	}
 }

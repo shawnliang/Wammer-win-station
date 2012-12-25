@@ -102,6 +102,7 @@
     <Compile Include="Src\Class\FileStorageAsyncResult.cs" />
     <Compile Include="Src\Class\FileStorageHelper.cs" />
     <Compile Include="Src\Class\GenericCommand.cs" />
+    <Compile Include="Src\Class\ImportTaskStaus.cs" />
     <Compile Include="Src\Class\FriendInfo.cs" />
     <Compile Include="Src\Class\Post.cs" />
     <Compile Include="Src\Class\PostCheckIn.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Src\Class\DBModel\Preview.cs" />
     <Compile Include="Src\Class\StationRegistry.cs" />
     <Compile Include="Src\Class\SubscribeMSg.cs" />
+    <Compile Include="Src\Class\TaskStatusCollection.cs" />
     <Compile Include="Src\Class\TimeHelper.cs" />
     <Compile Include="Src\Class\UserGroup.cs" />
     <Compile Include="Src\Class\UserInfo.cs" />
