@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Waveface.Stream.Model
@@ -7,6 +8,7 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class LocationDBData
 	{
+		#region Public Property
 		[BsonId]
 		public string ID { get; set; }
 
@@ -28,6 +30,19 @@ namespace Waveface.Stream.Model
 
 		[BsonIgnoreIfNull]
 		[BsonElement("tags")]
-		public IEnumerable<String> Tags { get; set; }
+		public IEnumerable<String> Tags { get; set; } 
+		#endregion
+
+
+		#region Public Method
+		/// <summary>
+		/// Shoulds the serialize tags.
+		/// </summary>
+		/// <returns></returns>
+		public bool ShouldSerializeTags()
+		{
+			return Tags != null && Tags.Any();
+		}
+		#endregion
 	}
 }
