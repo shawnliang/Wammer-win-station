@@ -490,5 +490,10 @@ namespace Waveface.Stream.WindowsClient
 			ControlPaint.DrawBorder(e.Graphics, dgvAccountList.DisplayRectangle, ColorTranslator.FromHtml("#bcbcbc"), ButtonBorderStyle.Solid);
 		}
 		#endregion
+
+		private void chkboxSelectiveSync_CheckedChanged(object sender, EventArgs e)
+		{
+			txtResourceLimits.Enabled = chkboxSelectiveSync.Checked;
+		}
 	}
 }

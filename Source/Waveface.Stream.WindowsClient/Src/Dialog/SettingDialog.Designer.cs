@@ -51,9 +51,14 @@ namespace Waveface.Stream.WindowsClient
 			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column3 = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.chkboxSelectiveSync = new System.Windows.Forms.CheckBox();
+			this.txtResourceLimits = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox3.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvAccountList)).BeginInit();
+			this.flowLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lblCopyRight
@@ -77,6 +82,7 @@ namespace Waveface.Stream.WindowsClient
 			// groupBox3
 			// 
 			resources.ApplyResources(this.groupBox3, "groupBox3");
+			this.groupBox3.Controls.Add(this.flowLayoutPanel1);
 			this.groupBox3.Controls.Add(this.lblResorcePath);
 			this.groupBox3.Controls.Add(this.btnMove);
 			this.groupBox3.Name = "groupBox3";
@@ -211,6 +217,31 @@ namespace Waveface.Stream.WindowsClient
 			this.Column3.Name = "Column3";
 			this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.Controls.Add(this.chkboxSelectiveSync);
+			this.flowLayoutPanel1.Controls.Add(this.txtResourceLimits);
+			this.flowLayoutPanel1.Controls.Add(this.label2);
+			resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			// 
+			// chkboxSelectiveSync
+			// 
+			resources.ApplyResources(this.chkboxSelectiveSync, "chkboxSelectiveSync");
+			this.chkboxSelectiveSync.Name = "chkboxSelectiveSync";
+			this.chkboxSelectiveSync.UseVisualStyleBackColor = true;
+			this.chkboxSelectiveSync.CheckedChanged += new System.EventHandler(this.chkboxSelectiveSync_CheckedChanged);
+			// 
+			// txtResourceLimits
+			// 
+			resources.ApplyResources(this.txtResourceLimits, "txtResourceLimits");
+			this.txtResourceLimits.Name = "txtResourceLimits";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.Name = "label2";
+			// 
 			// SettingDialog
 			// 
 			resources.ApplyResources(this, "$this");
@@ -231,6 +262,8 @@ namespace Waveface.Stream.WindowsClient
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvAccountList)).EndInit();
+			this.flowLayoutPanel1.ResumeLayout(false);
+			this.flowLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -251,5 +284,9 @@ namespace Waveface.Stream.WindowsClient
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewButtonColumn Column3;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.CheckBox chkboxSelectiveSync;
+		private System.Windows.Forms.TextBox txtResourceLimits;
+		private System.Windows.Forms.Label label2;
 	}
 }
