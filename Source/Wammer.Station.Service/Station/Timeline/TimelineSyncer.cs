@@ -301,12 +301,12 @@ namespace Wammer.Station.Timeline
 
 				var postInfos = result.posts;
 
-				if (postInfos != null)
+				if (postInfos != null && postInfos.Count > 0)
 				{
 					foreach (var postInfo in postInfos)
 						db.SavePost(postInfo);
 
-					since = Math.Max(since, postInfos.Max((postInfo) => postInfo.seq_num));
+					since = Math.Max(since, postInfos.Max((postInfo) => postInfo.seq_num) + 1);
 
 					OnPostsRetrieved(user, result.posts);
 				}
