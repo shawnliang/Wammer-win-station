@@ -15,11 +15,12 @@
       CollectionsView.prototype.id = 'collections';
 
       CollectionsView.prototype.events = {
-        'click .collection': 'renderDetail',
         'click .collection-detail': 'renderGrid'
       };
 
-      CollectionsView.prototype.initialize = function() {};
+      CollectionsView.prototype.initialize = function() {
+        return this.on('viewDetail', this.renderDetail, this);
+      };
 
       CollectionsView.prototype.render = function() {
         this.$el.html(M.render(Template));
@@ -36,17 +37,21 @@
         return this.collection.each(function(collect, index) {
           var view;
           view = new CollectionSumView({
-            model: collect
+            model: collect,
+            parent: _this
           });
           return _this.$('.collection-grid').append(view.render().el);
         });
       };
 
-      CollectionsView.prototype.renderDetail = function() {
+      CollectionsView.prototype.renderDetail = function(model) {
         var view;
+        console.log(1000, 'renderDetail');
         this.$('.content-detail').empty().show();
         this.$('.content-grid').hide();
-        view = new CollectionDetailView;
+        view = new CollectionDetailView({
+          model: model
+        });
         return this.$('.content-detail').append(view.render().el);
       };
 

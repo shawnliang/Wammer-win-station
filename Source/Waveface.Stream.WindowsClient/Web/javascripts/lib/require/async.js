@@ -36,7 +36,11 @@ define(function(){
             }else{
                 var id = uid();
                 window[id] = onLoad; //create a global variable that stores onLoad so callback function can define new module after async load
-                injectScript(formatUrl(name, id));
+                if(!window.navigator.onLine){
+                    onLoad(null)
+                }else{
+                    injectScript(formatUrl(name, id));
+                }
             }
         }
     };

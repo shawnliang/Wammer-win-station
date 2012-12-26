@@ -94,7 +94,8 @@
         eventStore.data = viewData;
         eventStore.save();
         memo = {
-          namespace: namespace
+          namespace: namespace,
+          type: this.schemaName
         };
         params = {
           page_no: pageNo,

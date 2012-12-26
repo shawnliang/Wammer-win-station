@@ -12,6 +12,12 @@
         return DocumentModel.__super__.constructor.apply(this, arguments);
       }
 
+      DocumentModel.prototype.baseRatio = 1;
+
+      DocumentModel.prototype.potraitRatio = 2 / 3;
+
+      DocumentModel.prototype.landscapeRatio = 3 / 2;
+
       DocumentModel.prototype.initialize = function() {
         this.setDate();
         this.setTruncatedName();
@@ -31,17 +37,21 @@
         return this.set('truncated_name', _.str.truncate(this.get('file_name'), 32));
       };
 
-      DocumentModel.prototype.setOrientation = function(baseRatio) {
-        var meta_data, ratio;
-        if (baseRatio == null) {
-          baseRatio = 1;
-        }
+      DocumentModel.prototype.setOrientation = function() {
+        var frameRatio, meta_data, ratio;
         meta_data = this.get('meta_data');
         ratio = meta_data.width / meta_data.height;
-        if (ratio < baseRatio) {
-          return this.set('orientation', 'potrait');
+        if (ratio < this.baseRatio) {
+          this.set('orientation', 'potrait');
+          frameRatio = this.potraitRatio;
         } else {
-          return this.set('orientation', 'landscape');
+          this.set('orientation', 'landscape');
+          frameRatio = this.landscapeRatio;
+        }
+        if (ratio >= frameRatio) {
+          return this.set('fill', 'height');
+        } else {
+          return this.set('fill', 'width');
         }
       };
 

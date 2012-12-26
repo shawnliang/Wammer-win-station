@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'views/layouts/day_view', 'mustache', 'views/partials/attachment', 'views/gallery', 'collections/attachments', 'text!templates/photos.html', 'text!templates/photos/grid_l_l_l.html', 'text!templates/photos/grid_l_p_p.html', 'text!templates/photos/grid_p_l_p.html', 'text!templates/photos/grid_p_p_l.html', 'text!templates/photos/grid_6S.html', 'bootstrap', 'jqueryui'], function(_, DayView, M, AttachmentView, GalleryView, Attachments, Template, GridLLLTemplate, GridLPPTemplate, GridPLPTemplate, GridPPLTemplate, Grid6STemplate) {
+  define(['underscore', 'views/layouts/day_view', 'mustache', 'views/partials/attachment', 'views/partials/photo_grid', 'views/gallery', 'collections/attachments', 'text!templates/photos.html', 'bootstrap', 'jqueryui'], function(_, DayView, M, AttachmentView, PhotoGridView, GalleryView, Attachments, Template) {
     var PhotosView;
     PhotosView = (function(_super) {
 
@@ -47,81 +47,21 @@
       };
 
       PhotosView.prototype.renderPhotoGrid = function(photoData) {
-        var coin, gridSize, gridTemplate, html, options, templateData;
+        var view;
         if (photoData.size() < 1) {
           return this;
         }
-        coin = _.random(1, 2);
-        if (coin === 1) {
-          gridSize = _.random(3, 3);
-          gridTemplate = this.photoTemplateByOrientation(photoData, gridSize);
-        } else {
-          gridSize = 6;
-          gridTemplate = Grid6STemplate;
+        view = new PhotoGridView();
+        if (view.render(photoData)) {
+          this.$(".photos").append(view.el);
         }
-        if (gridTemplate) {
-          templateData = photoData.first(gridSize).map(function(model) {
-            return model.toJSON();
-          });
-          options = $(gridTemplate).data();
-          html = M.render(gridTemplate, {
-            photos: templateData
-          });
-          this.$(".photos").append(html);
-          photoData = _(photoData.rest(gridSize));
-        }
-        return this.renderPhotoGrid(photoData);
-      };
-
-      PhotosView.prototype.photoTemplateByOrientation = function(photoData, gridSize) {
-        var orientations;
-        orientations = photoData.first(gridSize).map(function(model) {
-          return model.get('orientation');
-        }).join(' ');
-        switch (gridSize) {
-          case 3:
-            if (orientations === 'landscape landscape landscape') {
-              return GridLLLTemplate;
-            }
-            if (orientations === 'landscape portrait portrait') {
-              return GridLPPTemplate;
-            }
-            if (orientations === 'portrait landscape portrait') {
-              return GridPLPTemplate;
-            }
-            if (orientations === 'portrait portrait landscape') {
-              return GridPPLTemplate;
-            }
-            break;
-          default:
-            return false;
-        }
-        return false;
-      };
-
-      PhotosView.prototype.tweakPhotoOrientation = function(photoData, baseRatio) {
-        var photo, _i, _len;
-        if (baseRatio == null) {
-          baseRatio = 1;
-        }
-        if (photoData == null) {
-          return false;
-        }
-        for (_i = 0, _len = photoData.length; _i < _len; _i++) {
-          photo = photoData[_i];
-          photo.setOrientation(baseRatio);
-        }
-        return photoData;
+        return this.renderPhotoGrid(view.photoData);
       };
 
       PhotosView.prototype.addOne = function(model) {
-        var photoHeight, photoWidth, view;
-        photoWidth = Math.floor(($('#main').width() - 80) * 0.25);
-        photoHeight = Math.floor(photoWidth / 1.5);
+        var view;
         view = new AttachmentView({
-          model: model,
-          width: photoWidth,
-          height: photoHeight
+          model: model
         });
         return this.$(".photos").append(view.render().el);
       };

@@ -37,7 +37,8 @@
       };
 
       DocumentView.prototype.setOrientation = function() {
-        return this.$el.addClass(this.model.get('orientation'));
+        this.$el.addClass(this.model.get('orientation'));
+        return this.$el.addClass('fill-' + this.model.get('fill'));
       };
 
       return DocumentView;

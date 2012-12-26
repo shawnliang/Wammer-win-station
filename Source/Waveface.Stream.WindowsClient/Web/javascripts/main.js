@@ -1,7 +1,7 @@
 (function() {
 
   require(['config'], function(main) {
-    return require(['router', 'wfwsocket', 'views/layouts/app', 'logger', 'collections/attachments', 'collections/documents', 'collections/wfcollections'], function(Router, Socket, AppView, Logger, Attachments, Documents, WFCollections) {
+    return require(['router', 'wfwsocket', 'views/layouts/app', 'logger', 'collections/attachments', 'collections/documents', 'collections/wfcollections', 'collections/calendar'], function(Router, Socket, AppView, Logger, Attachments, Documents, WFCollections, Calendars) {
       var root;
       root = this;
       root.Logger = Logger;
@@ -11,7 +11,8 @@
         Backbone.history.start();
         Attachments.callAttachments();
         Documents.callAttachments();
-        return WFCollections.callCollections();
+        WFCollections.callCollections();
+        return Calendars.callCalendar();
       });
     });
   });
