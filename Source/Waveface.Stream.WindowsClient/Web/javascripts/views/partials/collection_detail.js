@@ -17,6 +17,7 @@
       CollectionView.prototype.initialize = function() {};
 
       CollectionView.prototype.render = function() {
+        console.log(this.model);
         this.$el.html(M.render(Template));
         return this;
       };

@@ -22,7 +22,10 @@
         if (!!this.model) {
           this.$el.html(M.render(Template, this.model.toJSON()));
           this.$el.addClass('event-type-' + this.model.get('type'));
-          Attachments.callAttachments([this.model.id], 100, this.model.id, this.renderAttachments, this);
+          if (!this.model.detailFetchStatus) {
+            Attachments.callAttachments([this.model.id], 100, this.model.id, this.renderAttachments, this);
+            this.model.detailFetchStatus = true;
+          }
           this.photoViews = [];
           this.renderLocalAttachments(this.model.get("attachment_id_array"));
           return this;
@@ -48,6 +51,7 @@
       };
 
       EventView.prototype.renderLocalAttachments = function(_attachmments) {
+        var _this = this;
         if (_attachmments.length <= 0) {
           return false;
         }
@@ -58,7 +62,8 @@
             view = new AttachmentView({
               model: attachment
             });
-            return this.$(".attachments").append(view.render().el);
+            _this.$(".attachments").append(view.render().el);
+            return _this.photoViews.push(view);
           }
         });
       };

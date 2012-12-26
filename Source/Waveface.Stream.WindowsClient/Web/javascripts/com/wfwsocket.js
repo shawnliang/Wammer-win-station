@@ -27,8 +27,13 @@
       WfWSocket.status = false;
 
       WfWSocket.init = function(onopen) {
+        if (root.connection) {
+          console.log(root.connection);
+          WfWSocket.connection = root.connection;
+          return WfWSocket;
+        }
         new EventBundler(['WebSocketOpen', 'GetUserInfo']);
-        WfWSocket.connection = new WebSocket("ws://" + WfWSocket.URI + ":" + WfWSocket.PORT + "/");
+        root.connection = WfWSocket.connection = new WebSocket("ws://" + WfWSocket.URI + ":" + WfWSocket.PORT + "/");
         WfWSocket.connection.onopen = function() {
           WfWSocket.handleOpen(Common.Env);
           if (typeof onopen === 'function') {

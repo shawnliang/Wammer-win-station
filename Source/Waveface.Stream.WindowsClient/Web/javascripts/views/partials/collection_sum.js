@@ -14,11 +14,19 @@
 
       CollectionView.prototype.className = 'collection';
 
+      CollectionView.prototype.events = {
+        'click': 'viewDetail'
+      };
+
       CollectionView.prototype.initialize = function() {};
 
       CollectionView.prototype.render = function() {
         this.$el.html(M.render(Template, this.model.toJSON()));
         return this;
+      };
+
+      CollectionView.prototype.viewDetail = function() {
+        return this.options.parent.trigger('viewDetail', this.model);
       };
 
       return CollectionView;

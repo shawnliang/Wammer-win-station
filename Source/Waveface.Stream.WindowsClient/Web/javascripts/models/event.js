@@ -12,6 +12,8 @@
         return EventModel.__super__.constructor.apply(this, arguments);
       }
 
+      EventModel.prototype.detailFetchStatus = false;
+
       EventModel.prototype.initialize = function() {
         this.setDate();
         this.setCover();
@@ -50,6 +52,9 @@
         this.set('hasTags', !!this.get('tags'));
         if (this.get('attachment_count') > 0) {
           this.set('hasPhoto', true);
+        }
+        if (this.get('location')) {
+          this.set('gps', this.get('location'));
         }
         if (!!this.get('gps') && this.get('gps').latitude !== 0.0 && this.get('gps').longitude !== 0.0) {
           this.set('hasLocation', !!this.get('gps').name);

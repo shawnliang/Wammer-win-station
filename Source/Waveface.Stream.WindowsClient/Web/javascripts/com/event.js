@@ -1,7 +1,6 @@
 (function() {
   var __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(['jquery', 'underscore', 'backbone', 'localstorage'], function($, _, Backbone, LocalStorage) {
     /*
@@ -72,7 +71,21 @@
         eventName = event || this.eventName;
         Logger.log("Clear Dispatch: " + eventName);
         Bundler.dispatch.off(eventName);
-        return Logger.log("Event Binded: " + eventName);
+        return Logger.log("Bundler event : " + eventName + ", callback:" + this.callback);
+      };
+
+      Bundler.prototype.callback = function(data, callback, context) {
+        if (callback == null) {
+          callback = null;
+        }
+        if (context == null) {
+          context = null;
+        }
+        Bundler.dispatch.trigger("store:change:" + data.memo.type + ":" + data.memo.namespace, data.response, data.memo.namespace);
+        if (callback != null) {
+          context = context || this;
+          return callback.call(context);
+        }
       };
 
       return Bundler;
@@ -147,28 +160,11 @@
 
       __extends(GetPosts, _super);
 
-      GetPosts.prototype.eventName = 'getPosts';
-
-      GetPosts.prototype.postTarge = false;
-
-      function GetPosts(postTarget) {
-        this.postTarget = postTarget;
-        this.callback = __bind(this.callback, this);
-
-        this.bind(this.postTarget);
+      function GetPosts() {
+        return GetPosts.__super__.constructor.apply(this, arguments);
       }
 
-      GetPosts.prototype.bind = function(postTarget) {
-        var eventName;
-        eventName = "" + this.eventName + ":" + postTarget;
-        this.clear(eventName);
-        Bundler.dispatch.on(eventName, this.callback);
-        return Logger.log("Bundler event : " + this.eventName + ":" + postTarget + ", callback:" + this.callback);
-      };
-
-      GetPosts.prototype.callback = function(data) {
-        return Bundler.dispatch.trigger("store:change:posts:" + this.postTarget, data.response, data.memo.namespace);
-      };
+      GetPosts.prototype.eventName = 'getPosts';
 
       return GetPosts;
 
@@ -177,28 +173,11 @@
 
       __extends(GetAttachments, _super);
 
-      GetAttachments.prototype.eventName = 'getAttachments';
-
-      GetAttachments.prototype.attachmentTarget = false;
-
-      function GetAttachments(attachmentTarget) {
-        this.attachmentTarget = attachmentTarget;
-        this.callback = __bind(this.callback, this);
-
-        this.bind(this.attachmentTarget);
+      function GetAttachments() {
+        return GetAttachments.__super__.constructor.apply(this, arguments);
       }
 
-      GetAttachments.prototype.bind = function(attachmentTarget) {
-        var eventName;
-        eventName = "" + this.eventName + ":" + attachmentTarget;
-        this.clear(eventName);
-        Bundler.dispatch.on(eventName, this.callback);
-        return Logger.log("Bundler event : " + this.eventName + ":" + attachmentTarget + ", callback:" + this.callback);
-      };
-
-      GetAttachments.prototype.callback = function(data) {
-        return Bundler.dispatch.trigger("store:change:" + data.memo.type + ":" + this.attachmentTarget, data.response, data.memo.namespace);
-      };
+      GetAttachments.prototype.eventName = 'getAttachments';
 
       return GetAttachments;
 
@@ -213,11 +192,20 @@
 
       GetCollections.prototype.eventName = 'getCollections';
 
-      GetCollections.prototype.callback = function(data) {
-        return Bundler.dispatch.trigger("store:change:" + data.memo.type + ":" + data.memo.namespace, data.response, data.memo.namespace);
-      };
-
       return GetCollections;
+
+    })(Bundler);
+    self.GetCalendar = (function(_super) {
+
+      __extends(GetCalendar, _super);
+
+      function GetCalendar() {
+        return GetCalendar.__super__.constructor.apply(this, arguments);
+      }
+
+      GetCalendar.prototype.eventName = 'getCalendarEntries';
+
+      return GetCalendar;
 
     })(Bundler);
     self.SubscribeEvent = (function(_super) {
