@@ -11,23 +11,10 @@ using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {
-	public class IsPrimaryChangedEvtArgs : EventArgs
-	{
-		public Driver driver { get; set; }
-
-		public IsPrimaryChangedEvtArgs(Driver driver)
-		{
-			this.driver = driver;
-		}
-	}
-
 	public class StatusChecker : NonReentrantTimer
 	{
-		//private Timer timer;
-		//private long timerPeriod;
 		private static readonly ILog logger = LogManager.GetLogger(typeof(StatusChecker));
 
-		public EventHandler<IsPrimaryChangedEvtArgs> IsPrimaryChanged;
 		private bool logon; // logOn is needed for every time service start
 
 		public StatusChecker(long timerPeriod)
@@ -71,10 +58,64 @@ namespace Wammer.Station
 
 		protected override void ExecuteOnTimedUp(object state)
 		{
-			SendHeartbeat();
+			sendHeartbeat();
+			checkIfUserPaid();
 		}
 
-		private void SendHeartbeat()
+		private void checkIfUserPaid()
+		{
+			foreach (var user in DriverCollection.Instance.FindAll())
+			{
+				try
+				{
+					if (string.IsNullOrEmpty(user.session_token))
+						continue;
+
+					var cloudUser = User.GetInfo(user.user_id, CloudServer.APIKey, user.session_token);
+
+					if (becomePaidUser(user, cloudUser))
+					{
+						DriverCollection.Instance.Update(Query.EQ("_id", user.user_id), Update.Set("isPaidUser", true));
+						backupAttachmentsToCloud(user);
+					}
+					else if (becomeNonPaidUser(user, cloudUser))
+					{
+						DriverCollection.Instance.Update(Query.EQ("_id", user.user_id), Update.Set("isPaidUser", false));
+					}
+				}
+				catch (Exception e)
+				{
+					this.LogWarnMsg("Unable to check if user paid: " + user.email, e);
+				}
+			}
+		}
+
+		private static bool becomeNonPaidUser(Driver user, GetUserResponse cloudUser)
+		{
+			return user.isPaidUser && !cloudUser.IsPaidUser();
+		}
+
+		private static bool becomePaidUser(Driver user, GetUserResponse cloudUser)
+		{
+			return !user.isPaidUser && cloudUser.IsPaidUser();
+		}
+
+		private static void backupAttachmentsToCloud(Driver user)
+		{
+			var notBackupFiles = AttachmentCollection.Instance.Find(
+								  Query.And(
+									  Query.EQ("group_id", user.groups[0].group_id),
+									  Query.Exists("saved_file_name"),
+									  Query.NE("body_on_cloud", true)));
+
+			foreach (var file in notBackupFiles)
+			{
+				var util = new AttachmentUpload.AttachmentUtility();
+				util.UpstreamAttachmentAsync(file.object_id, ImageMeta.Origin, TaskPriority.VeryLow);
+			}
+		}
+
+		private void sendHeartbeat()
 		{
 			var detail = GetDetail();
 
@@ -96,7 +137,6 @@ namespace Wammer.Station
 					}
 
 					LogonAndHeartbeat(sinfo, detail);
-					UpdatePrimaryStationSetting();
 				}
 				catch (Exception ex)
 				{
@@ -138,56 +178,6 @@ namespace Wammer.Station
 			{
 				this.LogDebugMsg("unable to send heartbeat", e);
 			}
-		}
-
-		private void UpdatePrimaryStationSetting()
-		{
-			foreach (var user in DriverCollection.Instance.FindAll())
-			{
-				try
-				{
-					var res = User.FindMyStation(user.session_token);
-					var currStation = (from station in res.stations
-									   where station.station_id == StationRegistry.StationId
-									   select station).FirstOrDefault();
-
-					if (currStation == null)
-						return;
-
-					var isCurrPrimaryStation = (currStation.type == "primary");
-					if (user.isPrimaryStation != isCurrPrimaryStation)
-					{
-						user.isPrimaryStation = isCurrPrimaryStation;
-						DriverCollection.Instance.Update(
-							Query.EQ("_id", user.user_id),
-							Update.Set("isPrimaryStation", isCurrPrimaryStation)
-							);
-						OnIsPrimaryChanged(new IsPrimaryChangedEvtArgs(user));
-					}
-				}
-				catch (WammerCloudException e)
-				{
-					if (CloudServer.IsSessionError(e))
-					{
-						user.session_token = string.Empty;
-						DriverCollection.Instance.Save(user);
-						LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", user.email));
-						this.LogDebugMsg(string.Format("cloud returns 401, clear session of {0}", user.email));
-					}
-					else
-					{
-						this.LogDebugMsg(string.Format("unable to update primary settings of user {0}", user.email), e);
-					}
-				}
-			}
-		}
-
-		private void OnIsPrimaryChanged(IsPrimaryChangedEvtArgs args)
-		{
-			var handler = IsPrimaryChanged;
-
-			if (handler != null)
-				handler(this, args);
 		}
 
 		public override void Stop()

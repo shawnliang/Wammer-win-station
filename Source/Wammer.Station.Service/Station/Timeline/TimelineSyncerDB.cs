@@ -1,8 +1,11 @@
-﻿using MongoDB.Bson;
+﻿using System.Linq;
+using AutoMapper;
+using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using Wammer.Cloud;
 using Wammer.Model;
 using Waveface.Stream.Model;
+using System;
 
 namespace Wammer.Station.Timeline
 {
@@ -10,9 +13,9 @@ namespace Wammer.Station.Timeline
 	{
 		#region ITimelineSyncerDB Members
 
-		public void SavePost(PostInfo post)
+		public void SavePost(PostInfo postInfo)
 		{
-			PostCollection.Instance.Update(post);
+			Post.Save(postInfo);
 		}
 
 		public void UpdateDriverSyncRange(string userId, SyncRange syncRange)
@@ -50,9 +53,9 @@ namespace Wammer.Station.Timeline
 
 		#region ITimelineSyncerDB Members
 
-		public void SavePost(PostInfo post)
+		public void SavePost(PostInfo postInfo)
 		{
-			PostCollection.Instance.Save(post);
+			Post.Save(postInfo);
 		}
 
 		public void UpdateDriverSyncRange(string userId, SyncRange syncRange)

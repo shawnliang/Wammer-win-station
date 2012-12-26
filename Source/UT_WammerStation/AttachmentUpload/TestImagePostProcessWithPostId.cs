@@ -124,9 +124,9 @@ namespace UT_WammerStation.AttachmentUpload
 		}
 
 		[TestMethod]
-		public void SecondaryStationRecvKnownOrigin_upstreanOriginPhoto()
+		public void UploadOldOriginForOnlyPaidUsers()
 		{
-			user.isPrimaryStation = false;
+			user.isPaidUser = true;
 
 			Moq.Mock<IAttachmentUtil> mock = new Moq.Mock<IAttachmentUtil>(MockBehavior.Strict);
 			mock.Setup(x => x.FindAttachmentInDB(oldAtt.object_id)).Returns(oldAtt).Verifiable();
@@ -139,6 +139,31 @@ namespace UT_WammerStation.AttachmentUpload
 				oldAtt.object_id,
 				false,
 				UpsertResult.Update,
+				ImageMeta.Origin,
+				"session", "apikey",
+				"post1"));
+
+			mock.VerifyAll();
+		}
+
+		[TestMethod]
+		public void NewOriginForPaidUser()
+		{
+			user.isPaidUser = true;
+
+			Moq.Mock<IAttachmentUtil> mock = new Moq.Mock<IAttachmentUtil>(MockBehavior.Strict);
+			mock.Setup(x => x.FindAttachmentInDB(oldAtt.object_id)).Returns(oldAtt).Verifiable();
+			mock.Setup(x => x.FindUserByGroupIdInDB(oldAtt.group_id)).Returns(user).Verifiable();
+			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Medium, It.IsAny<Wammer.Station.TaskPriority>())).Verifiable();
+			mock.Setup(x => x.GenerateThumbnailAsync(oldAtt.object_id, ImageMeta.Small, It.IsAny<Wammer.Station.TaskPriority>())).Verifiable();
+			mock.Setup(x => x.UpstreamAttachmentAsync(oldAtt.object_id, ImageMeta.Origin, Wammer.Station.TaskPriority.VeryLow)).Verifiable();
+
+			AttachmentProcessedHandler procHandler = new AttachmentProcessedHandler(mock.Object);
+
+			procHandler.OnProcessed(this, new AttachmentEventArgs(
+				oldAtt.object_id,
+				true,
+				UpsertResult.Insert,
 				ImageMeta.Origin,
 				"session", "apikey",
 				"post1"));

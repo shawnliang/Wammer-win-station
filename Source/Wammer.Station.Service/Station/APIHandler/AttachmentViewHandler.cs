@@ -119,9 +119,6 @@ namespace Wammer.Station
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
 
-				if (meta == ImageMeta.Origin || meta == ImageMeta.None)
-					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(Parameters["object_id"], driver.session_token), TaskPriority.Low, true);
-
 				Response.ContentType = downloadResult.ContentType;
 
 				var m = new MemoryStream(downloadResult.Image);
@@ -152,7 +149,7 @@ namespace Wammer.Station
 			var mimeType = downloadResult.ContentType;
 			var length = downloadResult.Image.Length;
 
-			ResourceDownloadTask.SaveToAttachmentDB(meta, fileName, attachmentAttributes, mimeType, length);
+			ResourceDownloadTask.SaveToAttachmentDB(meta, fileName, attachmentAttributes, length);
 		}
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)

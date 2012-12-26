@@ -42,7 +42,7 @@ namespace Wammer.Station.Doc
 					file_size = new FileInfo(file_path).Length,
 					fromLocal = true,
 					group_id = user.groups[0].group_id,
-					md5 = MD5Helper.ComputeMD5(File.ReadAllBytes(file_path)),
+					MD5 = MD5Helper.ComputeMD5(File.ReadAllBytes(file_path)),
 					mime_type = MimeTypeHelper.GetMIMEType(file_path),
 					modify_time = DateTime.Now,
 					object_id = object_id,

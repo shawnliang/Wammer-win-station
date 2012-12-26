@@ -20,10 +20,6 @@ namespace Waveface.Stream.WindowsClient
 
 		public delegate void pathFoundDelegate(string path, int photoCount);
 
-		public event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
-		public event EventHandler<FileImportedEventArgs> FileImported;
-		public event EventHandler<ImportDoneEventArgs> ImportDone;
-
 		public PhotoSearch()
 		{
 			var paths = new string[] {
@@ -222,35 +218,9 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", session_token));
 			var groupID = loginedSession.groups.First().group_id;
-			var transaction = new ImportTranscation(
-				loginedSession.user.user_id, session_token, StationAPI.API_KEY, paths);
-
-			transaction.ImportDone += new EventHandler<ImportDoneEventArgs>(transaction_ImportDone);
-			transaction.FileImported += new EventHandler<FileImportedEventArgs>(transaction_FileImported2);
-			transaction.MetadataUploaded += new EventHandler<MetadataUploadEventArgs>(transaction_MetadataUploaded);
-
-			transaction.ImportFileAsync();
+			
+			StationAPI.ImportPhoto(session_token, groupID, paths);
 		}
 
-		void transaction_MetadataUploaded(object sender, MetadataUploadEventArgs e)
-		{
-			var handler = MetadataUploaded;
-			if (handler != null)
-				handler(this, e);
-		}
-
-		void transaction_FileImported2(object sender, FileImportedEventArgs e)
-		{
-			var handler = FileImported;
-			if (handler != null)
-				handler(this, e);
-		}
-
-		void transaction_ImportDone(object sender, ImportDoneEventArgs e)
-		{
-			var handler = ImportDone;
-			if (handler != null)
-				handler(this, e);
-		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AutoMapper;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,9 +82,9 @@ namespace UT_WammerStation.pullTimeLine
 			SavedPosts = new List<PostInfo>();
 		}
 
-		public void SavePost(PostInfo post)
+		public void SavePost(PostInfo postInfo)
 		{
-			SavedPosts.Add(post);
+			SavedPosts.Add(postInfo);
 		}
 
 		public void SaveUserTracks(UserTracks ut)
@@ -254,7 +255,7 @@ namespace UT_WammerStation.pullTimeLine
 
 			Moq.Mock<IPostProvider> postInfo = new Moq.Mock<IPostProvider>(Moq.MockBehavior.Strict);
 
-			PostInfo oldestPost = new PostInfo
+			var oldestPost = new PostInfo
 			{
 				timestamp = new DateTime(2012, 2, 3, 3, 4, 5, DateTimeKind.Utc),
 				post_id = "post1"
@@ -278,6 +279,7 @@ namespace UT_WammerStation.pullTimeLine
 					first_post_time = oldestPost.timestamp
 				}))
 				.Verifiable();
+
 			db.Setup(x => x.SavePost(oldestPost)).Verifiable();
 
 			TimelineSyncer timelineSyncer = new TimelineSyncer(postInfo.Object, db.Object, new ChangeLogsApi());

@@ -6,16 +6,12 @@ using System.Text;
 
 namespace Waveface.Stream.Model
 {
-	[BsonIgnoreExtraElements]
 	public class PostCheckIn
 	{
-		[BsonIgnoreIfNull]
 		public string name { get; set; }
 
-		[BsonIgnoreIfNull]
-		public float? latitude { get; set; }
+		public double? latitude { get; set; }
 
-		[BsonIgnoreIfNull]
-		public float? longitude { get; set; }
+		public double? longitude { get; set; }
 	}
 }

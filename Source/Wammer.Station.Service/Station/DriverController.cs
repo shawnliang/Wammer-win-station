@@ -310,10 +310,11 @@ namespace Wammer.Station
 				LoginedSessionCollection.Instance.Remove(Query.EQ("_id", existingDriver.session_token));
 
 			AttachmentCollection.Instance.Remove(Query.EQ("group_id", existingDriver.groups[0].group_id));
-			PostCollection.Instance.Remove(Query.EQ("creator_id", userID));
+			PostDBDataCollection.Instance.Remove(Query.EQ("creator_id", userID));
 			MonitorItemCollection.Instance.Remove(Query.EQ("user_id", userID));
 			UserTrackCollection.Instance.Remove(Query.EQ("group_id", existingDriver.groups[0].group_id));
 			CollectionCollection.Instance.Remove(Query.EQ("creator_id", userID));
+			TaskStatusCollection.Instance.Remove(Query.EQ("UserId", userID));
 
 			//All driver removed => Remove station from db
 			Driver driver = DriverCollection.Instance.FindOne();

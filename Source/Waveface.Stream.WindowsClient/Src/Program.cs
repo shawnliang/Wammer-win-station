@@ -345,7 +345,7 @@ namespace Waveface.Stream.WindowsClient
 
 				var fileDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 				var file = Path.Combine(fileDir, @"Web\index.html");
-
+				
 				dialog.Navigate(file);
 				dialog.StartPosition = FormStartPosition.CenterParent;
 				dialog.Activate();

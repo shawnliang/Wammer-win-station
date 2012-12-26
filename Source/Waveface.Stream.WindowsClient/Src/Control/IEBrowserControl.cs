@@ -16,6 +16,7 @@ namespace Waveface.Stream.WindowsClient
 	{
 		#region Var
 		private WebBrowser _browser;
+		private string _uri;
 		private Boolean _isDebugMode;
 		#endregion
 
@@ -48,6 +49,22 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Public Property
+		public string Uri 
+		{
+			get
+			{
+				return _uri;
+			}
+			set
+			{
+				if (_uri == value)
+					return;
+
+				m_Browser.Navigate(value);
+				_uri = value;
+			}
+		}
+
 		public Boolean IsDebugMode
 		{
 			get
@@ -84,6 +101,7 @@ namespace Waveface.Stream.WindowsClient
 			this.Controls.Add(m_Browser);
 
 			this.DebugModeChanged += IEBrowserControl_DebugModeChanged;
+
 			m_Browser.DocumentCompleted += m_Browser_DocumentCompleted;
 		}
 		#endregion
@@ -133,7 +151,7 @@ namespace Waveface.Stream.WindowsClient
 		/// <param name="uri">The URI.</param>
 		void IBrowserControl.Navigate(string uri)
 		{
-			m_Browser.Navigate(uri);
+			this.Uri = uri;
 		}
 		#endregion
 

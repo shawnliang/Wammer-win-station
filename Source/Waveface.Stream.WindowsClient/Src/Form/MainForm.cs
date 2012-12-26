@@ -159,7 +159,6 @@ namespace Waveface.Stream.WindowsClient
 				if (m_DockPanel.Contents.Count == 1)
 				{
 					AddDockableContent("Log Message", new LogMessageComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
-					AddDockableContent("Mock Data Generator", new DataGenerateComponent() { Dock = DockStyle.Fill }, DockState.DockBottom);
 				}
 			}
 			finally
@@ -185,33 +184,6 @@ namespace Waveface.Stream.WindowsClient
 
 			dockContent.Controls.Add(control);
 			dockContent.Show(m_DockPanel, dockState);
-		}
-
-		private void TriggerAutoImport(Boolean alwaysQuery = true)
-		{
-			if (!StreamClient.Instance.IsLogined)
-				return;
-
-			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", StreamClient.Instance.LoginedUser.SessionToken));
-
-			if (loginedSession == null)
-				return;
-
-			var userID = loginedSession.user.user_id;
-			var driverCollection = StationDB.GetCollection("drivers");
-			BsonDocument driver = driverCollection.FindOne(Query.EQ("_id", userID));
-			Boolean isDataImportQueried = driver.Contains("isDataImportQueried") ? driver.GetElement("isDataImportQueried").Value.AsBoolean : false;
-
-			if (alwaysQuery || !isDataImportQueried)
-			{
-				driverCollection.Update(Query.EQ("_id", userID), MongoDB.Driver.Builders.Update.Set("isDataImportQueried", true));
-
-				AutoImportDialog dialog = new AutoImportDialog()
-				{
-					StartPosition = FormStartPosition.CenterParent
-				};
-				dialog.ShowDialog(this);
-			}
 		}
 		#endregion
 
@@ -241,7 +213,6 @@ namespace Waveface.Stream.WindowsClient
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			this.Show();
-			TriggerAutoImport(false);
 		}
 
 		private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -284,11 +255,6 @@ namespace Waveface.Stream.WindowsClient
 			{
 				return DialogResult.None;
 			}
-		}
-
-		private void importToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			TriggerAutoImport();
 		}
 
 		private void refreshToolStripMenuItem_Click(object sender, EventArgs e)

@@ -97,66 +97,6 @@ namespace Wammer.Station
 			}
 		}
 
-		public void ResumeUnfinishedDownstreamTasks()
-		{
-			DateTime beginTime = DateTime.Now;
-
-			try
-			{
-				DownloadOriginalAttachmentsFromCloud();
-
-				var posts = PostCollection.Instance.Find(
-					Query.And(
-						Query.Exists("attachments"),
-						Query.EQ("hidden", "false")));
-
-				foreach (var post in posts)
-				{
-					if (post.attachments == null)
-						continue;
-
-					foreach (var attachment in post.attachments)
-					{
-						var savedDoc = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachment.object_id));
-						var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", attachment.creator_id));
-
-						// driver might be removed before download tasks completed
-						if (driver == null)
-							break;
-
-						var imageMeta = attachment.image_meta;
-						if (imageMeta == null)
-							continue;
-
-						var savedImageMeta = (savedDoc == null) ? null : savedDoc.image_meta;
-
-						// small
-						if (imageMeta.small != null &&
-							(savedImageMeta == null || savedImageMeta.small == null))
-						{
-							EnqueueDownstreamTask(attachment, driver, ImageMeta.Small);
-						}
-
-						// medium
-						if (imageMeta.medium != null &&
-							(savedImageMeta == null || savedImageMeta.medium == null))
-						{
-							EnqueueDownstreamTask(attachment, driver, ImageMeta.Medium);
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				this.LogWarnMsg("Resume unfinished downstream tasks not success: " + e.ToString());
-			}
-			finally
-			{
-				TimeSpan duration = DateTime.Now - beginTime;
-				this.LogDebugMsg("Resume unfinished downstream tasks done. Totoal seconds spent: " + duration.TotalSeconds.ToString());
-			}
-		}
-
 		public static ResourceDownloadTask createDownloadTask(Driver driver, ImageMeta meta, AttachmentInfo attachment)
 		{
 			string tmpFolder;
@@ -189,29 +129,6 @@ namespace Wammer.Station
 			return new ResourceDownloadTask(evtargs, pri);
 		}
 
-
-		private void DownloadOriginalAttachmentsFromCloud()
-		{
-			foreach (var user in DriverCollection.Instance.FindAll())
-			{
-				if (user.isPrimaryStation)
-				{
-					var queued_items = AttachmentApi.GetQueue(user.session_token, int.MaxValue);
-					foreach (var object_id in queued_items.objects)
-					{
-						try
-						{
-							var attachmentInfo = AttachmentApi.GetInfo(object_id, user.session_token);
-							EnqueueDownstreamTask(attachmentInfo, user, ImageMeta.Origin);
-						}
-						catch (Exception e)
-						{
-							this.LogWarnMsg(string.Format("Unable to download origin attachment {0} : {1}", object_id, e.ToString()));
-						}
-					}
-				}
-			}
-		}
 	}
 
 	[Serializable]

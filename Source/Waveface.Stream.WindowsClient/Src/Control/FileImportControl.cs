@@ -29,19 +29,6 @@ namespace Waveface.Stream.WindowsClient
 		}
 		#endregion
 
-		private HidableProgressingDialog m_ProcessingDialog
-		{
-			get
-			{
-				return _processDialog ?? (_processDialog = new HidableProgressingDialog
-				{
-					ProgressStyle = ProgressBarStyle.Marquee,
-					StartPosition = FormStartPosition.CenterParent,
-					Hidable = false
-				});
-			}
-		}
-
 
 		/// <summary>
 		/// Processes the file import step.
@@ -71,87 +58,7 @@ namespace Waveface.Stream.WindowsClient
 			if (selectedPaths.Count() == 0)
 				return;
 
-			photoSearch.FileImported -= photoSearch_FileImported;
-			photoSearch.FileImported += photoSearch_FileImported;
-			photoSearch.MetadataUploaded -= photoSearch_MetadataUploaded;
-			photoSearch.MetadataUploaded += photoSearch_MetadataUploaded;
-			photoSearch.ImportDone -= photoSearch_ImportDone;
-			photoSearch.ImportDone += photoSearch_ImportDone;
-
-			m_ProcessingDialog.ProcessMessage = "Indexing photos...";
-			m_ProcessingDialog.ActionAfterShown = () =>
-			{
-				photoSearch.ImportToStationAsync(selectedPaths, session_token);
-			};
-			m_ProcessingDialog.ShowDialog(this);
-		}
-
-		void photoSearch_ImportDone(object sender, ImportDoneEventArgs e)
-		{
-			try
-			{
-				if (m_ProcessingDialog.InvokeRequired)
-				{
-					m_ProcessingDialog.Invoke(new MethodInvoker(() =>
-					{
-						photoSearch_ImportDone(sender, e);
-					}));
-				}
-				else
-				{
-					m_ProcessingDialog.DialogResult = DialogResult.OK;
-				}
-			}
-			catch
-			{
-			}
-		}
-
-		void photoSearch_MetadataUploaded(object sender, MetadataUploadEventArgs e)
-		{
-			try
-			{
-				if (m_ProcessingDialog.InvokeRequired)
-				{
-					m_ProcessingDialog.Invoke(new MethodInvoker(() =>
-					{
-						photoSearch_MetadataUploaded(sender, e);
-					}));
-				}
-				else
-				{
-					m_ProcessingDialog.Hidable = true;
-				}
-			}
-			catch
-			{
-			}
-		}
-
-		void photoSearch_FileImported(object sender, FileImportedEventArgs e)
-		{
-			try
-			{
-				if (m_ProcessingDialog.InvokeRequired)
-				{
-					m_ProcessingDialog.Invoke(new MethodInvoker(() =>
-					{
-						photoSearch_FileImported(sender, e);
-					}));
-				}
-				else
-				{
-					var path = e.FilePath;
-					if (path.Length > 50)
-					{
-						path = path.Substring(0, 22) + "....." + path.Substring(path.Length - 22);
-					}
-					m_ProcessingDialog.ProcessMessage = path + " imported";
-				}
-			}
-			catch
-			{
-			}
+			photoSearch.ImportToStationAsync(selectedPaths, session_token);
 		}
 
 		#region Public Method
@@ -269,10 +176,6 @@ namespace Waveface.Stream.WindowsClient
 
 	public interface IPhotoSearch
 	{
-		event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
-		event EventHandler<FileImportedEventArgs> FileImported;
-		event EventHandler<ImportDoneEventArgs> ImportDone;
-
 		IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
 		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
 		void Search(string path, PhotoFolderFound folderFound);

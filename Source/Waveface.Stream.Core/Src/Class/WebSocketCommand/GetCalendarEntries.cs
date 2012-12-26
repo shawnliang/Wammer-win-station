@@ -69,48 +69,31 @@ namespace Waveface.Stream.Core
 			var pageNo = parameters.ContainsKey("page_no") ? int.Parse(parameters["page_no"].ToString()) : 1;
 			var pageSize = parameters.ContainsKey("page_size") ? int.Parse(parameters["page_size"].ToString()) : 10;
 			var skipCount = (pageNo == 1) ? 0 : (pageNo - 1) * pageSize;
-			var queryParam = Query.And(Query.EQ("creator_id", userID), Query.EQ("hidden", "false"));
-
-			var postType = parameters.ContainsKey("post_type") ? int.Parse(parameters["post_type"].ToString()) : 0;
-
-			if ((postType & 1) == 1)
-			{
-				queryParam = Query.And(queryParam, Query.EQ("type", "text"));
-			}
-
-			if ((postType & 2) == 2)
-			{
-				queryParam = Query.And(queryParam, Query.EQ("type", "image"));
-			}
-
-			if ((postType & 4) == 4)
-			{
-				queryParam = Query.And(queryParam, Query.EQ("type", "link"));
-			}
-
-
-			queryParam = Query.And(queryParam, Query.EQ("code_name", "StreamEvent"));
+			var queryParam = Query.And(Query.EQ("creator_id", userID), Query.NE("visibility", false));
 
 
 
 			if (sinceDate != null)
-				queryParam = Query.And(queryParam, Query.GTE("event_time", sinceDate.Value.ToUTCISO8601ShortString()));
+				queryParam = Query.And(queryParam, Query.GTE("event_since_time", sinceDate.Value.ToUTCISO8601ShortString()));
 
 			if (untilDate != null)
-				queryParam = Query.And(queryParam, Query.LTE("event_time", untilDate.Value.ToUTCISO8601ShortString()));
+				queryParam = Query.And(queryParam, Query.LTE("event_since_time", untilDate.Value.ToUTCISO8601ShortString()));
 
 
 			var groupBy = parameters.ContainsKey("group_by") ? int.Parse(parameters["group_by"].ToString()) : 0;
 
-			var canendarEntries = (from post in PostCollection.Instance.Find(queryParam).SetSortOrder(SortBy.Descending("event_time"))
-								   let groupByKey = GetGroupByKey(TimeHelper.ISO8601ToDateTime(post.event_time), groupBy)
-								   group post by new { groupByKey } into g
+			var posts = PostDBDataCollection.Instance.Find(queryParam).SetSortOrder(SortBy.Descending("event_since_time")).ToArray();
+
+			var canendarEntries = (from post in posts
+								   let eventTime = post.EventSinceTime.Value
+								   let groupByKey = GetGroupByKey(eventTime, groupBy)
+								   group post by groupByKey into g
 								   select new CalendarEntry()
 								   {
-									   SinceDate = g.Min(p => p.event_time),
-									   UntilDate = g.Max(p => p.event_time),
+									   SinceDate = g.Min(p => p.EventSinceTime.Value.ToUTCISO8601ShortString()),
+									   UntilDate = g.Max(p => p.EventSinceTime.Value.ToUTCISO8601ShortString()),
 									   PostCount = g.Count(),
-									   AttachmentCount = g.Sum(p => p.attachment_id_array.Count())
+									   AttachmentCount = g.Sum(p => (p.AttachmentIDs == null)? 0: p.AttachmentIDs.Count())
 								   });
 
 

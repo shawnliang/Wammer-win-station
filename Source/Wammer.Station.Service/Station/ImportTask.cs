@@ -15,7 +15,8 @@ using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
-
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 namespace Wammer.Station
 {
 	public class ImportTask : ITask
@@ -27,7 +28,9 @@ namespace Wammer.Station
 
 		#region Events
 		public event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
-		public event EventHandler<FileImportedEventArgs> FileImported;
+		public event EventHandler<FilesEnumeratedArgs> FilesEnumerated;
+		public event EventHandler<FileImportEventArgs> FileImportFailed;
+		public event EventHandler<FileImportEventArgs> FileImported;
 		public event EventHandler<ImportDoneEventArgs> ImportDone;
 		#endregion
 
@@ -61,7 +64,10 @@ namespace Wammer.Station
 		private int timezoneDiff;
 		#endregion
 
-
+		#region Public Property
+		public Guid TaskId { get; private set; }
+		#endregion
+		
 		#region Constructor
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ImportTask"/> class.
@@ -112,6 +118,8 @@ namespace Wammer.Station
 			m_IgnorePath.AddRange(unInterestedFolders.Where(x => !string.IsNullOrEmpty(x)));
 
 			timezoneDiff = (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes;
+
+			TaskId = Guid.NewGuid();
 		}
 		#endregion
 
@@ -122,61 +130,43 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
-			this.LogInfoMsg("Importing from " + m_Paths.ToString());
-			Exception error = null;
+			this.LogInfoMsg("Importing from: " + string.Join(", ", m_Paths.ToArray()));
+	 		Exception error = null;
 
 			try
 			{
 				var importTime = DateTime.Now;
 
 				var allFiles = new List<ObjectIdAndPath>();
-				var folderCollections = new Dictionary<string, FolderCollection>();
-
 				findInterestedFiles((file) =>
 				{
 					var att = new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() };
-					allFiles.Add(att);
-
-					var folderPath = Path.GetDirectoryName(file);
-					if (folderCollections.ContainsKey(folderPath))
-					{
-						folderCollections[folderPath].Objects.Add(att.object_id);
-					}
-					else
-					{
-						folderCollections.Add(folderPath, new FolderCollection(folderPath, att.object_id));
-					}
+					allFiles.Add(att);					
 				});
-
-
 				allFiles = filterDuplicateFiles(allFiles);
-
-				System.Threading.ThreadPool.QueueUserWorkItem((nothing) =>
-				{
-					int nProcessed = 0;
-					do
-					{
-						var batch = allFiles.Skip(nProcessed).Take(50);
-						var batchMeta = extractMetadata(batch);
-						enqueueUploadMetadataTask(batchMeta);
-
-						nProcessed += batch.Count();
-
-					} while (nProcessed < allFiles.Count);
-				});
-
+				raiseFilesEnumeratedEvent(allFiles.Count);
+			
+				var allSavedFiles = new List<ObjectIdAndPath>();
+				var allFailedFiles = new List<ObjectIdAndPath>();
 
 				int nProc = 0;
 				do
 				{
 					var batch = allFiles.Skip(nProc).Take(50);
-					submitBatch(importTime, batch);
+					var saved = submitBatch(importTime, batch, ref allFailedFiles);
+
+					var meta = extractMetadata(saved);
+					enqueueUploadMetadataTask(meta);
+
+					allSavedFiles.AddRange(saved);
+
 					nProc += batch.Count();
 
 				} while (nProc < allFiles.Count);
 
-				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.Medium);
 
+				var folderCollections = buildFolderCollections(allSavedFiles);
+				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.Medium);
 			}
 			catch (Exception e)
 			{
@@ -187,6 +177,21 @@ namespace Wammer.Station
 			{
 				raiseImportDoneEvent(error);
 			}
+		}
+
+		private static Dictionary<string, FolderCollection> buildFolderCollections(List<ObjectIdAndPath> allSavedFiles)
+		{
+			var folderCollections = new Dictionary<string, FolderCollection>();
+			foreach (var file in allSavedFiles)
+			{
+				var folderPath = Path.GetDirectoryName(file.file_path);
+
+				if (folderCollections.ContainsKey(folderPath))
+					folderCollections[folderPath].Objects.Add(file.object_id);
+				else
+					folderCollections.Add(folderPath, new FolderCollection(folderPath, file.object_id));
+			}
+			return folderCollections;
 		}
 
 		private static List<ObjectIdAndPath> filterDuplicateFiles(List<ObjectIdAndPath> allFiles)
@@ -213,14 +218,30 @@ namespace Wammer.Station
 			return notDupFiles;
 		}
 
-		private void submitBatch(DateTime importTime, IEnumerable<ObjectIdAndPath> batch)
+		private List<ObjectIdAndPath> submitBatch(DateTime importTime, IEnumerable<ObjectIdAndPath> batch, ref List<ObjectIdAndPath> failed)
 		{
+			List<ObjectIdAndPath> saved = new List<ObjectIdAndPath>();
+
 			var post_id = Guid.NewGuid().ToString();
 			foreach (var file in batch)
-				saveToStream(importTime, post_id, file);
+			{
+				try
+				{
+					saveToStream(importTime, post_id, file);
+					saved.Add(file);
+				}
+				catch (Exception e)
+				{
+					file.Error = e.Message;
+					failed.Add(file);
+					raiseFileImportFailedEvent(file);
+				}
+			}
 
-			var objectIDs = batch.Select(x => x.object_id);
+			var objectIDs = saved.Select(x => x.object_id);
 			createPostContainer(importTime, post_id, objectIDs);
+
+			return saved;
 		}
 		#endregion
 
@@ -285,53 +306,46 @@ namespace Wammer.Station
 
 		private void saveToStream(DateTime importTime, string postID, ObjectIdAndPath file)
 		{
-			try
+			long begin = Stopwatch.GetTimestamp();
+
+			var imp = new AttachmentUploadHandlerImp(
+				new AttachmentUploadHandlerDB(),
+				new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
+
+			var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
+
+			imp.AttachmentProcessed += postProcess.OnProcessed;
+
+
+			var uploadData = new UploadData()
 			{
-				long begin = Stopwatch.GetTimestamp();
+				object_id = file.object_id,
+				raw_data = new ArraySegment<byte>(File.ReadAllBytes(file.file_path)),
+				file_name = Path.GetFileName(file.file_path),
+				mime_type = MimeTypeHelper.GetMIMEType(file.file_path),
+				group_id = m_GroupID,
+				api_key = m_APIKey,
+				session_token = m_SessionToken,
+				post_id = postID,
+				file_path = file.file_path,
+				import_time = importTime,
+				file_create_time = file.CreateTime,
+				type = AttachmentType.image,
+				imageMeta = ImageMeta.Origin,
+				fromLocal = true,
+				timezone = timezoneDiff
+			};
+			imp.Process(uploadData);
 
-				var imp = new AttachmentUploadHandlerImp(
-					new AttachmentUploadHandlerDB(),
-					new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
+			SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(file.object_id);
 
-				var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
+			long end = Stopwatch.GetTimestamp();
+			long duration = end - begin;
+			if (duration < 0)
+				duration += long.MaxValue;
 
-				imp.AttachmentProcessed += postProcess.OnProcessed;
-
-
-				var uploadData = new UploadData()
-				{
-					object_id = file.object_id,
-					raw_data = new ArraySegment<byte>(File.ReadAllBytes(file.file_path)),
-					file_name = Path.GetFileName(file.file_path),
-					mime_type = MimeTypeHelper.GetMIMEType(file.file_path),
-					group_id = m_GroupID,
-					api_key = m_APIKey,
-					session_token = m_SessionToken,
-					post_id = postID,
-					file_path = file.file_path,
-					import_time = importTime,
-					file_create_time = file.CreateTime,
-					type = AttachmentType.image,
-					imageMeta = ImageMeta.Origin,
-					fromLocal = true,
-					timezone = timezoneDiff
-				};
-				imp.Process(uploadData);
-
-				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(file.object_id);
-
-				long end = Stopwatch.GetTimestamp();
-				long duration = end - begin;
-				if (duration < 0)
-					duration += long.MaxValue;
-
-				Wammer.PerfMonitor.UploadDownloadMonitor.Instance.OnAttachmentProcessed(this, new HttpHandlerEventArgs(duration));
-				raiseFileImportedEvent(file.file_path);
-			}
-			catch (Exception e)
-			{
-				this.LogWarnMsg("Unable to import file: " + file.file_path, e);
-			}
+			Wammer.PerfMonitor.UploadDownloadMonitor.Instance.OnAttachmentProcessed(this, new HttpHandlerEventArgs(duration));
+			raiseFileImportedEvent(file);
 		}
 
 		private IEnumerable<FileMetadata> extractMetadata(IEnumerable<ObjectIdAndPath> files)
@@ -340,6 +354,8 @@ namespace Wammer.Station
 
 			foreach (var file in files)
 			{
+				var att = AttachmentCollection.Instance.FindOneById(file.object_id);
+
 				var meta = new FileMetadata
 				{
 					object_id = file.object_id,
@@ -348,7 +364,7 @@ namespace Wammer.Station
 					file_name = Path.GetFileName(file.file_path),
 					file_create_time = file.CreateTime,
 					timezone = timezoneDiff,
-					exif = exifExtractor.extract(file.file_path)
+					exif = att.image_meta.exif
 				};
 
 				yield return meta;
@@ -380,38 +396,56 @@ namespace Wammer.Station
 		}
 
 
-		private void raiseFileImportedEvent(string file)
+		private void raiseFileImportedEvent(ObjectIdAndPath file)
 		{
 			var handler = FileImported;
 			if (handler != null)
-				handler(this, new FileImportedEventArgs(file));
+				handler(this, new FileImportEventArgs { file = file, TaskId = TaskId });
 		}
 
 		private void raiseImportDoneEvent(Exception e)
 		{
 			var handler = ImportDone;
 			if (handler != null)
-				handler(this, new ImportDoneEventArgs { Error = e });
+				handler(this, new ImportDoneEventArgs { Error = e, TaskId = TaskId });
+		}
+
+		private void raiseFilesEnumeratedEvent(int count)
+		{
+			EventHandler<FilesEnumeratedArgs> handler = FilesEnumerated;
+			if (handler != null)
+				handler(this, new FilesEnumeratedArgs { TotalCount = count, TaskId = TaskId });
+		}
+
+		private void raiseFileImportFailedEvent(ObjectIdAndPath file)
+		{
+			EventHandler<FileImportEventArgs> handler = FileImportFailed;
+			if (handler != null)
+				handler(this, new FileImportEventArgs { file = file, TaskId = TaskId });
 		}
 		#endregion
 	}
 
 
-	public class FileImportedEventArgs : EventArgs
+	public class FileImportEventArgs : EventArgs
 	{
-		public string FilePath { get; private set; }
-
-		public FileImportedEventArgs(string file)
-		{
-			FilePath = file;
-		}
+		public ObjectIdAndPath file { get; set; }
+		public Guid TaskId { get; set; }
 	}
 
 	public class ImportDoneEventArgs : EventArgs
 	{
+		public Guid TaskId { get; set; }
 		public Exception Error { get; set; }
 	}
 
+	public class FilesEnumeratedArgs : EventArgs
+	{
+		public Guid TaskId { get; set; }
+		public int TotalCount { get; set; }
+	}
+
+	
 	class FileMetadata
 	{
 		public string object_id { get; set; }
@@ -457,29 +491,6 @@ namespace Wammer.Station
 				}
 
 				return file_create_time;
-			}
-		}
-	}
-
-	internal class ObjectIdAndPath
-	{
-		public string object_id { get; set; }
-		public string file_path { get; set; }
-
-		private DateTime? createTime;
-
-		public DateTime CreateTime
-		{
-			get
-			{
-				if (createTime.HasValue)
-					return createTime.Value;
-				else
-				{
-					var t = File.GetCreationTime(file_path);
-					createTime = new DateTime(t.Year, t.Month, t.Day, t.Hour, t.Minute, t.Second, t.Kind);
-					return createTime.Value;
-				}
 			}
 		}
 	}

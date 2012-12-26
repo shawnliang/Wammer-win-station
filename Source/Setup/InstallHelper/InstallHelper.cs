@@ -494,7 +494,7 @@ namespace Wammer.Station
 
 			try
 			{
-				PostCollection.Instance.RemoveAll();
+				PostDBDataCollection.Instance.RemoveAll();
 			}
 			catch (Exception e)
 			{
@@ -941,14 +941,14 @@ namespace Wammer.Station
 			{
 				var group_id = user.groups[0].group_id;
 
-				var latestPost = PostCollection.Instance.Find(Query.EQ("group_id", group_id))
+                var latestPost = PostDBDataCollection.Instance.Find(Query.EQ("group_id", group_id))
 					.SetSortOrder(SortBy.Descending("update_time")).SetLimit(1).First();
 
 				if (latestPost == null)
 					return;
 
 				var postApi = new PostApi(user);
-				var latestPostContent = postApi.PostGetSingle(group_id, latestPost.post_id);
+				var latestPostContent = postApi.PostGetSingle(group_id, latestPost.ID);
 				var latestSeq = latestPostContent.post.seq_num;
 
 				user.sync_range.next_seq_num = latestSeq + 1;

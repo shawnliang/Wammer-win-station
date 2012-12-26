@@ -8,6 +8,7 @@ namespace Waveface.Stream.WindowsClient
 	public interface IBrowserControl
 	{
 		#region Property
+		String Uri { get; set; }
 		Boolean IsDebugMode { get; set; }
 		#endregion
 

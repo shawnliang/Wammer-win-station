@@ -12,13 +12,16 @@ namespace Waveface.Stream.Core
 		public String Name { get; set; }
 
 		[JsonProperty("latitude", NullValueHandling = NullValueHandling.Ignore)]
-		public float? Latitude { get; set; }
+		public double? Latitude { get; set; }
 
 		[JsonProperty("longitude", NullValueHandling = NullValueHandling.Ignore)]
-		public float? Longitude { get; set; }
+		public double? Longitude { get; set; }
 
 		[JsonProperty("zoom_level", NullValueHandling = NullValueHandling.Ignore)]
 		public int? ZoomLevel { get; set; }
+
+		[JsonProperty("map", NullValueHandling = NullValueHandling.Ignore)]
+		public string Map { get; set; }
 
 		[JsonProperty("region_tags", NullValueHandling = NullValueHandling.Ignore)]
 		public IEnumerable<String> RegionTags { get; set; } 

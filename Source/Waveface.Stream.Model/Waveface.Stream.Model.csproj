@@ -38,6 +38,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=1.1.0.188, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\AutoMapper.NET35.1.1.0.118\lib\net35\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Lib\fastJSON\fastJSON.dll</HintPath>
     </Reference>
@@ -55,6 +59,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\System.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -68,46 +76,56 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Src\Class\AddUserResponse.cs" />
     <Compile Include="Src\Class\AttachmentInfo.cs" />
-    <Compile Include="Src\Class\Attachments.cs" />
+    <Compile Include="Src\Class\AutoMapperSetting.cs" />
+    <Compile Include="Src\Class\DBModel\Attachment.cs" />
     <Compile Include="Src\Class\CloudResponse.cs" />
     <Compile Include="Src\Class\CloudServer.cs" />
-    <Compile Include="Src\Class\Collection.cs" />
-    <Compile Include="Src\Class\CollectionCollection.cs" />
-    <Compile Include="Src\Class\Comment.cs" />
-    <Compile Include="Src\Class\ConnectionCollection.cs" />
+    <Compile Include="Src\Class\DBModel\Collection.cs" />
+    <Compile Include="Src\Class\DBModel\Collection\AttachmentCollection.cs" />
+    <Compile Include="Src\Class\DBModel\Collection\CollectionCollection.cs" />
+    <Compile Include="Src\Class\DBModel\Collection\LocationDBDataCollection.cs" />
+    <Compile Include="Src\Class\DBModel\Collection\FriendDBDataCollection.cs" />
+    <Compile Include="Src\Class\DBModel\Comment.cs" />
+    <Compile Include="Src\Class\DBModel\Collection\ConnectionCollection.cs" />
     <Compile Include="Src\Class\ConnectMsg.cs" />
     <Compile Include="Src\Class\Database.cs" />
     <Compile Include="Src\Class\DBCollection.cs" />
+    <Compile Include="Src\Class\DBModel\LocationDBData.cs" />
+    <Compile Include="Src\Class\DBModel\PostDBData.cs" />
     <Compile Include="Src\Class\DefaultWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Src\Class\Device.cs" />
-    <Compile Include="Src\Class\DocProperty.cs" />
-    <Compile Include="Src\Class\Drivers.cs" />
+    <Compile Include="Src\Class\DBModel\Device.cs" />
+    <Compile Include="Src\Class\DBModel\DocProperty.cs" />
+    <Compile Include="Src\Class\DBModel\Drivers.cs" />
     <Compile Include="Src\Class\ErrorMsg.cs" />
-    <Compile Include="Src\Class\ExtraParameter.cs" />
+    <Compile Include="Src\Class\DBModel\ExtraParameter.cs" />
     <Compile Include="Src\Class\FBPostData.cs" />
     <Compile Include="Src\Class\FileImportedMsg.cs" />
     <Compile Include="Src\Class\FileStorage.cs" />
     <Compile Include="Src\Class\FileStorageAsyncResult.cs" />
     <Compile Include="Src\Class\FileStorageHelper.cs" />
     <Compile Include="Src\Class\GenericCommand.cs" />
+    <Compile Include="Src\Class\ImportTaskStaus.cs" />
+    <Compile Include="Src\Class\FriendInfo.cs" />
+    <Compile Include="Src\Class\Post.cs" />
     <Compile Include="Src\Class\PostCheckIn.cs" />
     <Compile Include="Src\Class\PostGps.cs" />
     <Compile Include="Src\Class\ImportDoneMsg.cs" />
     <Compile Include="Src\Class\ImportMsg.cs" />
-    <Compile Include="Src\Class\LoginedSession.cs" />
-    <Compile Include="Src\Class\LoginedSessionCollection.cs" />
+    <Compile Include="Src\Class\DBModel\LoginedSession.cs" />
+    <Compile Include="Src\Class\DBModel\Collection\LoginedSessionCollection.cs" />
     <Compile Include="Src\Class\MetadataUploadedMsg.cs" />
     <Compile Include="Src\Class\NotifyMsg.cs" />
     <Compile Include="Src\Class\NullPerfCounter.cs" />
     <Compile Include="Src\Class\PerfCounter.cs" />
-    <Compile Include="Src\Class\Person.cs" />
+    <Compile Include="Src\Class\DBModel\FriendDBData.cs" />
     <Compile Include="Src\Class\PostInfo.cs" />
-    <Compile Include="Src\Class\Posts.cs" />
-    <Compile Include="Src\Class\Preview.cs" />
+    <Compile Include="Src\Class\DBModel\Collection\PostDBDataCollection.cs" />
+    <Compile Include="Src\Class\DBModel\Preview.cs" />
     <Compile Include="Src\Class\StationRegistry.cs" />
     <Compile Include="Src\Class\SubscribeMSg.cs" />
+    <Compile Include="Src\Class\TaskStatusCollection.cs" />
     <Compile Include="Src\Class\TimeHelper.cs" />
     <Compile Include="Src\Class\UserGroup.cs" />
     <Compile Include="Src\Class\UserInfo.cs" />
@@ -115,6 +133,8 @@
     <Compile Include="Src\Enum\CloudType.cs" />
     <Compile Include="Src\Enum\ExifOrientations.cs" />
     <Compile Include="Src\Enum\GeneralApiError.cs" />
+    <Compile Include="Src\Enum\PostType.cs" />
+    <Compile Include="Src\Event\CollectionChangedEventArgs.cs" />
     <Compile Include="Src\Event\FileImportedEventArgs.cs" />
     <Compile Include="Src\Event\ImportDoneEventArgs.cs" />
     <Compile Include="Src\Event\MetadataUploadEventArgs.cs" />

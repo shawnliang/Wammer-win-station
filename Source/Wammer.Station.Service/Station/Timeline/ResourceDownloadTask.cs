@@ -73,12 +73,9 @@ namespace Wammer.Station.Timeline
 				var rawData = File.ReadAllBytes(args.filepath);
 				var saveResult = SaveAttachmentToDisk(args.imagemeta, args.attachment, rawData);
 
-				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, "application/octet-stream", rawData.Length);
+				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, rawData.Length);
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(args.attachment.object_id);
-
-				if (args.imagemeta == ImageMeta.Origin)
-					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(args.attachment.object_id, driver.session_token), TaskPriority.Low, true);
 
 				if (args.attachment.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
 					TaskQueue.Enqueue(new MakeDocPreviewsTask(args.attachment.object_id), TaskPriority.Medium);
@@ -140,7 +137,7 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		public static void SaveToAttachmentDB(ImageMeta meta, string saveFileName, AttachmentInfo attachmentAttributes, string mimeType, long length)
+		public static void SaveToAttachmentDB(ImageMeta meta, string saveFileName, AttachmentInfo attachmentAttributes, long length)
 		{
 			// gps info is moved out of exif structure in cloud response but station still keeps gps info inside exif in station db.
 			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
@@ -149,12 +146,13 @@ namespace Wammer.Station.Timeline
 			if (meta == ImageMeta.Origin)
 			{
 				var update = Update.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
-								.Set("mime_type", mimeType)
+								.Set("mime_type", attachmentAttributes.mime_type)
 								.Set("file_size", length)
 								.Set("modify_time", DateTime.UtcNow)
 								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
 								.Set("group_id", attachmentAttributes.group_id)
-								.Set("saved_file_name", saveFileName);
+								.Set("saved_file_name", saveFileName)
+								.Set("body_on_cloud", true);
 
 				if (attachmentAttributes.image_meta != null)
 				{
@@ -178,7 +176,7 @@ namespace Wammer.Station.Timeline
 
 				var thumbnail = new ThumbnailInfo
 				{
-					mime_type = mimeType,
+					mime_type = attachmentAttributes.GetThumbnail(meta).mime_type,
 					modify_time = DateTime.UtcNow,
 					url = "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id + "&image_meta=" + metaStr,
 					file_size = length,
@@ -202,6 +200,9 @@ namespace Wammer.Station.Timeline
 		{
 			if (!string.IsNullOrEmpty(attachmentAttributes.file_name))
 				update.Set("file_name", attachmentAttributes.file_name);
+
+			if (!string.IsNullOrEmpty(attachmentAttributes.creator_id))
+				update.Set("creator_id", attachmentAttributes.creator_id);
 
 			if (attachmentAttributes.event_time > DateTime.MinValue)
 				update.Set("event_time", attachmentAttributes.event_time);
