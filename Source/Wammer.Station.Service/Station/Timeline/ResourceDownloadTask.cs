@@ -73,7 +73,7 @@ namespace Wammer.Station.Timeline
 				var rawData = File.ReadAllBytes(args.filepath);
 				var saveResult = SaveAttachmentToDisk(args.imagemeta, args.attachment, rawData);
 
-				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, "application/octet-stream", rawData.Length);
+				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, args.attachment.mime_type, rawData.Length);
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(args.attachment.object_id);
 
