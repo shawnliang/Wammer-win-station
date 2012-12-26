@@ -149,7 +149,7 @@ namespace Wammer.Station
 			var mimeType = downloadResult.ContentType;
 			var length = downloadResult.Image.Length;
 
-			ResourceDownloadTask.SaveToAttachmentDB(meta, fileName, attachmentAttributes, mimeType, length);
+			ResourceDownloadTask.SaveToAttachmentDB(meta, fileName, attachmentAttributes, length);
 		}
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)

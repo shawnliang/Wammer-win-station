@@ -73,7 +73,7 @@ namespace Wammer.Station.Timeline
 				var rawData = File.ReadAllBytes(args.filepath);
 				var saveResult = SaveAttachmentToDisk(args.imagemeta, args.attachment, rawData);
 
-				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, args.attachment.mime_type, rawData.Length);
+				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, rawData.Length);
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(args.attachment.object_id);
 
@@ -137,7 +137,7 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		public static void SaveToAttachmentDB(ImageMeta meta, string saveFileName, AttachmentInfo attachmentAttributes, string mimeType, long length)
+		public static void SaveToAttachmentDB(ImageMeta meta, string saveFileName, AttachmentInfo attachmentAttributes, long length)
 		{
 			// gps info is moved out of exif structure in cloud response but station still keeps gps info inside exif in station db.
 			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
@@ -146,7 +146,7 @@ namespace Wammer.Station.Timeline
 			if (meta == ImageMeta.Origin)
 			{
 				var update = Update.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
-								.Set("mime_type", mimeType)
+								.Set("mime_type", attachmentAttributes.mime_type)
 								.Set("file_size", length)
 								.Set("modify_time", DateTime.UtcNow)
 								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
@@ -176,7 +176,7 @@ namespace Wammer.Station.Timeline
 
 				var thumbnail = new ThumbnailInfo
 				{
-					mime_type = mimeType,
+					mime_type = attachmentAttributes.GetThumbnail(meta).mime_type,
 					modify_time = DateTime.UtcNow,
 					url = "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id + "&image_meta=" + metaStr,
 					file_size = length,
