@@ -117,6 +117,8 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public DocProperty doc_meta { get; set; }
 
+		[BsonIgnoreIfNull]
+		public string mime_type { get; set; }
 
 		#region Nested type: ImageMeta
 		[Serializable]

@@ -73,12 +73,9 @@ namespace Wammer.Station.Timeline
 				var rawData = File.ReadAllBytes(args.filepath);
 				var saveResult = SaveAttachmentToDisk(args.imagemeta, args.attachment, rawData);
 
-				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, "application/octet-stream", rawData.Length);
+				SaveToAttachmentDB(args.imagemeta, saveResult.RelativePath, args.attachment, args.attachment.mime_type, rawData.Length);
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(args.attachment.object_id);
-
-				if (args.imagemeta == ImageMeta.Origin)
-					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(args.attachment.object_id, driver.session_token), TaskPriority.Low, true);
 
 				if (args.attachment.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
 					TaskQueue.Enqueue(new MakeDocPreviewsTask(args.attachment.object_id), TaskPriority.Medium);

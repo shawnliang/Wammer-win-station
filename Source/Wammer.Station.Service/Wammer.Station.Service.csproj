@@ -179,8 +179,6 @@
     <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
     <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />
     <Compile Include="Station\MetadataUploadEventArgs.cs" />
-    <Compile Include="Station\NotifyCloudOfBodySyncedTask.cs" />
-    <Compile Include="Station\NotifyCloudOfMultiBodySyncedTask.cs" />
     <Compile Include="Station\Notify\ConnectionUpdator.cs" />
     <Compile Include="Station\Notify\PostUpsertNotifierDB.cs" />
     <Compile Include="Station\Notify\INotifyChannel.cs" />
@@ -247,8 +245,6 @@
     <Compile Include="Station\AttachmentUpload\AttachmentUtility.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailTask.cs" />
     <Compile Include="Station\AttachmentUpload\UpstreamTask.cs" />
-    <Compile Include="Station\APIHandler\CloudStorageHandler.cs" />
-    <Compile Include="Station\DropboxFileStorage.cs" />
     <Compile Include="Station\ImagePostProcessing.cs" />
     <Compile Include="Station\APIHandler\ListDriverHandler.cs" />
     <Compile Include="Station\APIHandler\PingHandler.cs" />

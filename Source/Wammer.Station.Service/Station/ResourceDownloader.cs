@@ -97,25 +97,6 @@ namespace Wammer.Station
 			}
 		}
 
-		public void ResumeUnfinishedDownstreamTasks()
-		{
-			DateTime beginTime = DateTime.Now;
-
-			try
-			{
-				DownloadOriginalAttachmentsFromCloud();
-			}
-			catch (Exception e)
-			{
-				this.LogWarnMsg("Resume unfinished downstream tasks not success: " + e.ToString());
-			}
-			finally
-			{
-				TimeSpan duration = DateTime.Now - beginTime;
-				this.LogDebugMsg("Resume unfinished downstream tasks done. Totoal seconds spent: " + duration.TotalSeconds.ToString());
-			}
-		}
-
 		public static ResourceDownloadTask createDownloadTask(Driver driver, ImageMeta meta, AttachmentInfo attachment)
 		{
 			string tmpFolder;
@@ -148,29 +129,6 @@ namespace Wammer.Station
 			return new ResourceDownloadTask(evtargs, pri);
 		}
 
-
-		private void DownloadOriginalAttachmentsFromCloud()
-		{
-			foreach (var user in DriverCollection.Instance.FindAll())
-			{
-				if (user.isPrimaryStation)
-				{
-					var queued_items = AttachmentApi.GetQueue(user.session_token, int.MaxValue);
-					foreach (var object_id in queued_items.objects)
-					{
-						try
-						{
-							var attachmentInfo = AttachmentApi.GetInfo(object_id, user.session_token);
-							EnqueueDownstreamTask(attachmentInfo, user, ImageMeta.Origin);
-						}
-						catch (Exception e)
-						{
-							this.LogWarnMsg(string.Format("Unable to download origin attachment {0} : {1}", object_id, e.ToString()));
-						}
-					}
-				}
-			}
-		}
 	}
 
 	[Serializable]
