@@ -10,10 +10,10 @@ namespace Waveface.Stream.Core
 		public String Name { get; set; }
 
 		[JsonProperty("latitude", NullValueHandling = NullValueHandling.Ignore)]
-		public float? Latitude { get; set; }
+		public double? Latitude { get; set; }
 
 		[JsonProperty("longitude", NullValueHandling = NullValueHandling.Ignore)]
-		public float? Longitude { get; set; }
+		public double? Longitude { get; set; }
 		#endregion
 
 		#region Public Method

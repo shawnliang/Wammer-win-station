@@ -3,13 +3,35 @@ using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Waveface.Stream.Model
 {
 	public class Post
 	{
+		#region Private Static Method
+		private static void DownloadMapPhoto(double latitude, double longitude, int zoomeLevel, string file)
+		{
+			if (string.IsNullOrEmpty(file))
+				throw new ArgumentNullException("file");
+
+			if(File.Exists(file))
+				return;
+
+			var urlFormat = @"http://maps.google.com/maps/api/staticmap?center={0},{1}&zoom={2}&size=640x640&scale=2&sensor=false&markers=color:red%7Csize:mid%7Clabel:A%7C{0},{1}";
+			var url = String.Format(urlFormat, latitude.ToString(), longitude.ToString(), zoomeLevel.ToString());
+
+			using (var wc = new WebClientEx())
+			{
+				wc.DownloadFile(url, file);
+			}
+		} 
+		#endregion
+
+
 		#region Public Static Method
 		public static void Save(PostInfo postInfo)
 		{
@@ -45,7 +67,11 @@ namespace Waveface.Stream.Model
 
 				post.FriendIDs = friendIDs;
 			}
-						
+
+			var userID = post.CreaterID;
+			var cacheDir = Path.Combine("cache", string.Format(@"{0}\Map", userID));
+
+			Directory.CreateDirectory(cacheDir);
 
 			var postGPS = postInfo.gps;
 
@@ -56,11 +82,24 @@ namespace Waveface.Stream.Model
 
 				if (postGPS.latitude != null && postGPS.longitude != null)
 				{
-					var existedLocation = LocationDBDataCollection.Instance.FindOne(Query.And(Query.EQ("latitude", postGPS.latitude), Query.EQ("longitude", postGPS.longitude)));
+					var latitude = postGPS.latitude.Value;
+					var longitude = postGPS.longitude.Value;
+
+					var existedLocation = LocationDBDataCollection.Instance.FindOne(Query.And(Query.EQ("creater_id", userID), Query.EQ("latitude", latitude), Query.EQ("longitude", longitude)));
 					var locationID = (existedLocation == null) ? Guid.NewGuid().ToString() : existedLocation.ID;
 
 					var location = Mapper.Map<PostGps, LocationDBData>(postGPS);
 					location.ID = locationID;
+					location.CreaterID = userID;
+
+					if (existedLocation == null)
+					{
+						var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", locationID));
+						Task.Factory.StartNew(() =>
+						{
+							DownloadMapPhoto(latitude, longitude, location.ZoomLevel.Value, mapFile);
+						});
+					}
 
 					LocationDBDataCollection.Instance.Save(location);
 				}
@@ -80,18 +119,22 @@ namespace Waveface.Stream.Model
 
 					if (checkIn.latitude != null && checkIn.longitude != null)
 					{
-						var existedLocation = LocationDBDataCollection.Instance.FindOne(Query.And(Query.EQ("latitude", checkIn.latitude), Query.EQ("longitude", checkIn.longitude)));
+						var latitude = checkIn.latitude.Value;
+						var longitude = checkIn.longitude.Value;
+
+						var existedLocation = LocationDBDataCollection.Instance.FindOne(Query.And(Query.EQ("creater_id", userID), Query.EQ("latitude", latitude), Query.EQ("longitude", longitude)));
 						var locationID = (existedLocation == null) ? Guid.NewGuid().ToString() : existedLocation.ID;
 
 						if (existedLocation == null)
 						{
 							var location = Mapper.Map<PostCheckIn, LocationDBData>(checkIn);
 							location.ID = locationID;
+							location.CreaterID = userID;
 
 							LocationDBDataCollection.Instance.Save(location);
 						}
 
-						if (checkIn.latitude == postGPS.latitude && checkIn.longitude == postGPS.longitude)
+						if (latitude == postGPS.latitude && longitude == postGPS.longitude)
 							checkInLocations.Insert(0, locationID);
 						else
 							checkInLocations.Add(locationID);
@@ -118,7 +161,7 @@ namespace Waveface.Stream.Model
 			//user.FriendIDs = existedFriendIDs.Union(new HashSet<String>(post.FriendIDs));
 
 			//DriverCollection.Instance.Save(user);
-		} 
+		}
 		#endregion
 	}
 }

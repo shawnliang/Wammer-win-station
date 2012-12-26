@@ -10,8 +10,8 @@ namespace Waveface.Stream.Model
 	{
 		public string name { get; set; }
 
-		public float? latitude { get; set; }
+		public double? latitude { get; set; }
 
-		public float? longitude { get; set; }
+		public double? longitude { get; set; }
 	}
 }

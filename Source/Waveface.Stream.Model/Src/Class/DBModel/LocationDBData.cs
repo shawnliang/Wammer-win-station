@@ -12,17 +12,21 @@ namespace Waveface.Stream.Model
 		[BsonId]
 		public string ID { get; set; }
 
+		[BsonRequired]
+		[BsonElement("creater_id")]
+		public string CreaterID { get; set; }
+
 		[BsonIgnoreIfNull]
 		[BsonElement("name")]
 		public string Name { get; set; }
 
-		[BsonIgnoreIfNull]
+		[BsonRequired]
 		[BsonElement("latitude")]
-		public float? Latitude { get; set; }
+		public double? Latitude { get; set; }
 
-		[BsonIgnoreIfNull]
+		[BsonRequired]
 		[BsonElement("longitude")]
-		public float? Longitude { get; set; }
+		public double? Longitude { get; set; }
 
 		[BsonIgnoreIfNull]
 		[BsonElement("zoom_level")]

@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Waveface.Stream.Model;
@@ -177,6 +178,19 @@ namespace Waveface.Stream.Core
 				return null;
 
 			var postGPSData = Mapper.Map<LocationDBData, PostGpsData>(location);
+
+			var userID = location.CreaterID;
+			var cacheDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "cache"), string.Format(@"{0}\Map", userID));
+
+			var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", locationID));
+
+			if (!File.Exists(mapFile))
+			{
+				var urlFormat = @"http://maps.google.com/maps/api/staticmap?center={0},{1}&zoom={2}&size=640x640&scale=2&sensor=false&markers=color:red%7Csize:mid%7Clabel:A%7C{0},{1}";
+				mapFile = String.Format(urlFormat, location.Latitude.ToString(), location.Longitude.ToString(), location.ZoomLevel.ToString());
+			}
+
+			postGPSData.Map = mapFile;
 
 			return postGPSData;
 		}
