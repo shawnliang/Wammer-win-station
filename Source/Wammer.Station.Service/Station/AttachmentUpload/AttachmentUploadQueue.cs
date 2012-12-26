@@ -109,7 +109,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			lock (csLock)
 			{
-				var item = new DequeuedTask<ITask>(task, Guid.NewGuid());
+				var item = new DequeuedTask<ITask>(task, Guid.NewGuid().ToString());
 				if (priority == TaskPriority.High)
 					highQueue.Enqueue(item);
 				else if (priority == TaskPriority.Medium)
@@ -143,7 +143,7 @@ namespace Wammer.Station.AttachmentUpload
 			QueuedTaskCollection.Instance.Save(
 				new QueuedTask
 					{
-						id = (Guid)task.Key,
+						id = task.Key,
 						Data = task.Task,
 						queue = qname,
 					});
@@ -151,7 +151,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void Remove(DequeuedTask<ITask> task)
 		{
-			QueuedTaskCollection.Instance.Remove(Query.EQ("_id", (Guid)task.Key));
+			QueuedTaskCollection.Instance.Remove(Query.EQ("_id", task.Key));
 		}
 
 		public Queue<DequeuedTask<ITask>> Load(string qname)

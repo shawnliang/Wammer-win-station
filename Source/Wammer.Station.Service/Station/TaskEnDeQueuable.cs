@@ -4,14 +4,14 @@ namespace Wammer.Station
 {
 	public class DequeuedTask<T> where T : ITask
 	{
-		public DequeuedTask(T t, object key)
+		public DequeuedTask(T t, string key)
 		{
 			Task = t;
 			Key = key;
 		}
 
 		public T Task { get; private set; }
-		public object Key { get; private set; }
+		public string Key { get; private set; }
 	}
 
 

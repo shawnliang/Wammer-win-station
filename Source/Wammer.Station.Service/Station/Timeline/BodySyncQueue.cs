@@ -17,10 +17,6 @@ namespace Wammer.Station.Timeline
 		}
 		#endregion
 
-#if DEBUG
-		private int TotalTaskCount { get; set; }
-		private int TotalDroppedTaskCount { get; set; }
-#endif
 		private readonly Semaphore hasItem = new Semaphore(0, int.MaxValue);
 		private readonly HashSet<string> keys = new HashSet<string>();
 		private readonly Queue<IResourceDownloadTask> lowPriorityQueue = new Queue<IResourceDownloadTask>();

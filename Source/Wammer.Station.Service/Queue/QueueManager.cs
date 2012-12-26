@@ -120,23 +120,23 @@ namespace Wammer.Queue
 	{
 		public WMSMessage()
 		{
-			Id = Guid.NewGuid();
+			Id = Guid.NewGuid().ToString();
 		}
 
 		public WMSMessage(object data)
 		{
-			Id = Guid.NewGuid();
+			Id = Guid.NewGuid().ToString();
 			Data = data;
 		}
 
-		public WMSMessage(Guid id, object data)
+		public WMSMessage(string id, object data)
 		{
 			Id = id;
 			Data = data;
 		}
 
 		public object Data { get; set; }
-		public Guid Id { get; private set; }
+		public string Id { get; private set; }
 		public WMSQueue Queue { get; set; }
 		public bool IsPersistent { get; set; }
 
