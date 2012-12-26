@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Collections;
 
 namespace Wammer.Station.Timeline
 {
@@ -13,7 +14,7 @@ namespace Wammer.Station.Timeline
 		#region Property
 		public static BodySyncQueue Instance
 		{
-			get { return _instance ?? (_instance = new BodySyncQueue()); }
+			get { return _instance; }
 		}
 		#endregion
 
@@ -22,13 +23,18 @@ namespace Wammer.Station.Timeline
 		private readonly Queue<IResourceDownloadTask> lowPriorityQueue = new Queue<IResourceDownloadTask>();
 		private readonly Queue<IResourceDownloadTask> mediumPriorityQueue = new Queue<IResourceDownloadTask>();
 		private readonly Queue<IResourceDownloadTask> highPriorityQueue = new Queue<IResourceDownloadTask>();
-
+		private readonly BodySyncQueueStorage storage = new BodySyncQueueStorage();
 
 		//public event EventHandler TaskDropped;
 
 		#region Constructor
 		private BodySyncQueue()
 		{
+		}
+
+		static BodySyncQueue()
+		{
+			_instance = new BodySyncQueue();
 		}
 		#endregion
 
@@ -63,6 +69,7 @@ namespace Wammer.Station.Timeline
 
 		public void AckDequeue(DequeuedTask<IResourceDownloadTask> task)
 		{
+			storage.Remove(task.Task);
 			keys.Remove(task.Task.Name);
 		}
 
@@ -98,6 +105,7 @@ namespace Wammer.Station.Timeline
 					}
 
 					queue.Enqueue(task);
+					storage.Save(task, priority);
 
 					OnTaskEnqueued(task);
 					hasItem.Release();
@@ -106,6 +114,29 @@ namespace Wammer.Station.Timeline
 		}
 
 		#endregion
+
+		public void Init()
+		{
+			foreach (var task in storage.Load(TaskPriority.High))
+			{
+				Enqueue(task, TaskPriority.High);
+			}
+
+			foreach (var task in storage.Load(TaskPriority.Medium))
+			{
+				Enqueue(task, TaskPriority.High);
+			}
+
+			foreach (var task in storage.Load(TaskPriority.Low))
+			{
+				Enqueue(task, TaskPriority.Medium);
+			}
+
+			foreach (var task in storage.Load(TaskPriority.VeryLow))
+			{
+				Enqueue(task, TaskPriority.Low);
+			}
+		}
 
 		public void RemoveAllByUserId(string user_id)
 		{
@@ -127,6 +158,7 @@ namespace Wammer.Station.Timeline
 				else
 				{
 					keys.Remove(task.Name);
+					storage.Remove(task);
 					hasItem.WaitOne();
 					OnTaskDequeued(task);
 				}
@@ -145,11 +177,12 @@ namespace Wammer.Station.Timeline
 
 	internal class DummyResourceDownloadTask : IResourceDownloadTask
 	{
-		private readonly string name = Guid.NewGuid().ToString();
+		private string name = Guid.NewGuid().ToString();
 
 		public string Name
 		{
 			get { return name; }
+			set { name = value; }
 		}
 
 		public string UserId

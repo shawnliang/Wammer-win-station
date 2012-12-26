@@ -289,15 +289,6 @@ namespace Wammer.Station.Timeline
 
 		public override void ScheduleToRun()
 		{
-			var meta = evtargs.imagemeta.ToString();
-			if (++evtargs.failureCount >= 10)
-			{
-				logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
-				return;
-			}
-
-			logger.WarnFormat("Unable to download attachment. Enqueue download task again: attachment object_id={0}, image_meta={1}",
-									   evtargs.attachment.object_id, meta);
 			BodySyncQueue.Instance.Enqueue(this, priority);
 		}
 	}
