@@ -255,7 +255,7 @@ namespace Wammer.Station.Timeline
 			}
 			catch (Exception e)
 			{
-				string msg = string.Format("Unabel to download attachment {0} meta {1}. ", evtargs.attachment.object_id, meta);
+				string msg = string.Format("Unabel to download attachment {0} meta {1}: {2}", evtargs.attachment.object_id, meta, e.ToString());
 
 				if (e is WammerCloudException)
 					throw new Exception(msg + (e as WammerCloudException).response, e);

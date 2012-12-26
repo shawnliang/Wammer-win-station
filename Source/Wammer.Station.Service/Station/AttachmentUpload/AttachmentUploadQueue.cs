@@ -21,11 +21,6 @@ namespace Wammer.Station.AttachmentUpload
 		private Queue<DequeuedTask<ITask>> mediumQueue;
 		private readonly AttachmentUploadQueuePersistentStorage storage;
 
-		public bool IsPersistenceQueue
-		{
-			get { return true; }
-		}
-
 		public AttachmentUploadQueue()
 		{
 			storage = new AttachmentUploadQueuePersistentStorage();

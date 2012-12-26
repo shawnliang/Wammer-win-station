@@ -38,11 +38,6 @@ namespace Wammer.Station.Timeline
 
 		#region ITaskDequeuable<IResourceDownloadTask> Members
 
-		public bool IsPersistenceQueue
-		{
-			get { return false; }
-		}
-
 		public DequeuedTask<IResourceDownloadTask> Dequeue()
 		{
 			hasItem.WaitOne();
@@ -65,7 +60,6 @@ namespace Wammer.Station.Timeline
 
 				if (dequeued == null)
 					return null;
-				keys.Remove(dequeued.Name);
 				OnTaskDequeued(dequeued);
 				return new DequeuedTask<IResourceDownloadTask>(dequeued, dequeued.Name);
 			}
@@ -73,8 +67,7 @@ namespace Wammer.Station.Timeline
 
 		public void AckDequeue(DequeuedTask<IResourceDownloadTask> task)
 		{
-			// This is not a persistent queue so that 
-			// we don't need to implement a this method
+			keys.Remove(task.Task.Name);
 		}
 
 		public void EnqueueDummyTask()
