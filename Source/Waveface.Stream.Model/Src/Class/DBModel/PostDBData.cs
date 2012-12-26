@@ -103,8 +103,8 @@ namespace Waveface.Stream.Model
 		/// The creator_id.
 		/// </value>
 		[BsonIgnoreIfNull]
-		[BsonElement("creater_id")]
-		public string CreaterID { get; set; }
+		[BsonElement("creator_id")]
+		public string CreatorID { get; set; }
 
 		/// <summary>
 		/// Gets or sets the hidden.

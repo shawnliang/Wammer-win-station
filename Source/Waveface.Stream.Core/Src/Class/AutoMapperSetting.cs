@@ -179,7 +179,7 @@ namespace Waveface.Stream.Core
 
 			var postGPSData = Mapper.Map<LocationDBData, PostGpsData>(location);
 
-			var userID = location.CreaterID;
+			var userID = location.CreatorID;
 			var cacheDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "cache"), string.Format(@"{0}\Map", userID));
 
 			var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", locationID));

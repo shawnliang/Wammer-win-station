@@ -68,7 +68,7 @@ namespace Waveface.Stream.Model
 				post.FriendIDs = friendIDs;
 			}
 
-			var userID = post.CreaterID;
+			var userID = post.CreatorID;
 			var cacheDir = Path.Combine("cache", string.Format(@"{0}\Map", userID));
 
 			Directory.CreateDirectory(cacheDir);
@@ -85,12 +85,12 @@ namespace Waveface.Stream.Model
 					var latitude = postGPS.latitude.Value;
 					var longitude = postGPS.longitude.Value;
 
-					var existedLocation = LocationDBDataCollection.Instance.FindOne(Query.And(Query.EQ("creater_id", userID), Query.EQ("latitude", latitude), Query.EQ("longitude", longitude)));
+					var existedLocation = LocationDBDataCollection.Instance.FindOne(Query.And(Query.EQ("creator_id", userID), Query.EQ("latitude", latitude), Query.EQ("longitude", longitude)));
 					var locationID = (existedLocation == null) ? Guid.NewGuid().ToString() : existedLocation.ID;
 
 					var location = Mapper.Map<PostGps, LocationDBData>(postGPS);
 					location.ID = locationID;
-					location.CreaterID = userID;
+					location.CreatorID = userID;
 
 					if (existedLocation == null)
 					{
@@ -122,14 +122,14 @@ namespace Waveface.Stream.Model
 						var latitude = checkIn.latitude.Value;
 						var longitude = checkIn.longitude.Value;
 
-						var existedLocation = LocationDBDataCollection.Instance.FindOne(Query.And(Query.EQ("creater_id", userID), Query.EQ("latitude", latitude), Query.EQ("longitude", longitude)));
+						var existedLocation = LocationDBDataCollection.Instance.FindOne(Query.And(Query.EQ("creator_id", userID), Query.EQ("latitude", latitude), Query.EQ("longitude", longitude)));
 						var locationID = (existedLocation == null) ? Guid.NewGuid().ToString() : existedLocation.ID;
 
 						if (existedLocation == null)
 						{
 							var location = Mapper.Map<PostCheckIn, LocationDBData>(checkIn);
 							location.ID = locationID;
-							location.CreaterID = userID;
+							location.CreatorID = userID;
 
 							LocationDBDataCollection.Instance.Save(location);
 						}

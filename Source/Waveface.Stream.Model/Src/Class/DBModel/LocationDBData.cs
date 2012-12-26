@@ -13,8 +13,8 @@ namespace Waveface.Stream.Model
 		public string ID { get; set; }
 
 		[BsonRequired]
-		[BsonElement("creater_id")]
-		public string CreaterID { get; set; }
+		[BsonElement("creator_id")]
+		public string CreatorID { get; set; }
 
 		[BsonIgnoreIfNull]
 		[BsonElement("name")]
