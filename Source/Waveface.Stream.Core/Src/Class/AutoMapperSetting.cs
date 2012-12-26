@@ -209,6 +209,12 @@ namespace Waveface.Stream.Core
 
 			return friendDatas;
 		}
+
+		private static string GetStationAttachmentUrl(string url)
+		{
+			var loginedUser = LoginedSessionCollection.Instance.FindOne();
+			return string.Format(@"http://127.0.0.1:9981{0}&apikey={1}&session_token={2}", url, StationAPI.API_KEY, loginedUser.session_token);
+		}
 		#endregion
 
 
@@ -250,7 +256,7 @@ namespace Waveface.Stream.Core
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.Type, opt => opt.MapFrom(src => GetNewClientAttachmentType(src.type)))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => GetAttachmentTimeStamp(src)))
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetAttachmentFilePath(src.url, src.group_id, src.saved_file_name)))
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetStationAttachmentUrl(src.url)))
 				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? (object)src.doc_meta : (object)src.image_meta));
 
 			Mapper.CreateMap<Attachment, LargeSizeAttachmentData>()
@@ -258,7 +264,7 @@ namespace Waveface.Stream.Core
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.Type, opt => opt.MapFrom(src => GetNewClientAttachmentType(src.type)))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => GetAttachmentTimeStamp(src)))
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetAttachmentFilePath(src.url, src.group_id, src.saved_file_name)))
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetStationAttachmentUrl(src.url)))
 				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? (object)src.doc_meta : (object)src.image_meta));
 
 
@@ -279,7 +285,7 @@ namespace Waveface.Stream.Core
 
 
 			Mapper.CreateMap<ThumbnailInfo, ThumbnailData>()
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentFilePath(src.url, src.saved_file_name)));
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetStationAttachmentUrl(src.url)));
 
 			Mapper.CreateMap<exif, ExifData>();
 
