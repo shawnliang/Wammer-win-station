@@ -38,32 +38,6 @@ namespace Wammer.Cloud
 
 		private string userToken { get; set; }
 
-		public void AttachmentSetLoc(int loc, string object_id, string file_path)
-		{
-			var parameters = new Dictionary<object, object>
-			                 	{
-			                 		{"loc", loc},
-			                 		{"object_id", object_id},
-			                 		{"file_path", file_path},
-			                 		{CloudServer.PARAM_SESSION_TOKEN, userToken},
-			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			                 	};
-
-			CloudServer.requestPath<CloudResponse>("attachments/setloc", parameters);
-		}
-
-		public void AttachmentUnsetLoc(int loc, string object_id)
-		{
-			var parameters = new Dictionary<object, object>
-			                 	{
-			                 		{"loc", loc},
-			                 		{"object_id", object_id},
-			                 		{CloudServer.PARAM_SESSION_TOKEN, userToken},
-			                 		{CloudServer.PARAM_API_KEY, CloudServer.PARAM_API_KEY}
-			                 	};
-
-			CloudServer.requestPath<CloudResponse>("attachments/unsetloc", parameters);
-		}
 
 		public void AttachmentView(ResourceDownloadEventArgs evtargs, string stationId)
 		{
