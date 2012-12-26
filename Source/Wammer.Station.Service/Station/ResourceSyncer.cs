@@ -13,7 +13,6 @@ namespace Wammer.Station
 	{
 		private readonly ResourceDownloader downloader;
 		private readonly TimelineSyncer syncer;
-		private bool isFirstRun = true;
 
 		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue)
 			: base(timerPeriod)
@@ -80,14 +79,6 @@ namespace Wammer.Station
 
 		protected override void ExecuteOnTimedUp(object state)
 		{
-			if (isFirstRun)
-			{
-				System.Threading.ThreadPool.QueueUserWorkItem(
-					(s) => downloader.ResumeUnfinishedDownstreamTasks());
-
-				isFirstRun = false;
-			}
-
 			PullTimeline();
 		}
 

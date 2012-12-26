@@ -113,63 +113,6 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public static void SetSync(string object_id, string session_token)
-		{
-			if (object_id == null || session_token == null)
-				throw new ArgumentNullException();
-
-			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_OBJECT_IDS, "[\"" + object_id + "\"]"},
-				{CloudServer.PARAM_SESSION_TOKEN, session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
-
-			CloudServer.requestPath<CloudResponse>("attachments/set_sync", parameters);
-			logger.Info("attachments/set_sync: " + object_id);
-		}
-
-		public static void SetSync(ICollection<string> object_ids, string session_token)
-		{
-			if (session_token == null || object_ids == null || object_ids.Count == 0)
-				throw new ArgumentNullException();
-
-			var buffer = new StringBuilder();
-			buffer.Append("[");
-			foreach (var object_id in object_ids)
-				buffer.Append("\"").Append(object_id).Append("\",");
-
-			buffer.Remove(buffer.Length - 1, 1); // remove the trailing comma
-			buffer.Append("]");
-			string objIdArray = buffer.ToString();
-
-			var parameters = new Dictionary<object, object>
-			{
-				{CloudServer.PARAM_OBJECT_IDS, objIdArray},
-				{CloudServer.PARAM_SESSION_TOKEN, session_token},
-				{CloudServer.PARAM_API_KEY, CloudServer.APIKey}
-			};
-
-			CloudServer.requestPath<CloudResponse>("attachments/set_sync", parameters);
-			logger.Info("attachments/set_sync: " + objIdArray);
-		}
-
-		public static AttachmentQueueResponse GetQueue(string session, int count)
-		{
-			using (DefaultWebClient agent = new DefaultWebClient())
-			{
-				Dictionary<object, object> parameters = new Dictionary<object, object>
-				{
-					{ CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-					{ CloudServer.PARAM_SESSION_TOKEN, session},
-					{ CloudServer.PARAM_TARGET, TMPQUEUE},
-					{ CloudServer.PARAM_COUNT, count}
-				};
-
-				return CloudServer.requestPath<AttachmentQueueResponse>("attachments/get_queue", parameters, false);
-			}
-		}
-
 		public static AttachmentInfo GetInfo(string object_id, string session_token)
 		{
 			if (object_id == null || session_token == null)

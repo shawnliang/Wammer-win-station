@@ -79,8 +79,6 @@ namespace Wammer.Station.Service
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<ResourceDownloadTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<UpdateDriverDBTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<Wammer.Station.Doc.UpdateDocAccessTimeTask>();
-			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NotifyCloudOfBodySyncedTask>();
-			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NotifyCloudOfMultiBodySyncedTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<QueryIfDownstreamNeededTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<DownloadDocPreviewsTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<MakeDocPreviewsTask>();

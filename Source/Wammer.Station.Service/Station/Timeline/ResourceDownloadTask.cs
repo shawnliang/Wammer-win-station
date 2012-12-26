@@ -77,9 +77,6 @@ namespace Wammer.Station.Timeline
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(args.attachment.object_id);
 
-				if (args.imagemeta == ImageMeta.Origin)
-					TaskQueue.Enqueue(new NotifyCloudOfBodySyncedTask(args.attachment.object_id, driver.session_token), TaskPriority.Low, true);
-
 				if (args.attachment.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
 					TaskQueue.Enqueue(new MakeDocPreviewsTask(args.attachment.object_id), TaskPriority.Medium);
 			}
