@@ -44,11 +44,20 @@ namespace UT_WammerStation.FailureAndRetry
 		public void FailedTaskGoesToRetryQueue()
 		{
 			AbstrackRetryTask1 task = new AbstrackRetryTask1();
-			task.Execute();
+			try
+			{
+				task.Execute();
+			}
+			catch
+			{
+				var retrtTasks = RetryQueueHelper.Instance.Dequeue(DateTime.Now);
+				Assert.AreEqual(1, retrtTasks.Count);
+				Assert.AreEqual(task, retrtTasks.First());
 
-			var retrtTasks = RetryQueueHelper.Instance.Dequeue(DateTime.Now);
-			Assert.AreEqual(1, retrtTasks.Count);
-			Assert.AreEqual(task, retrtTasks.First());
+				return;
+			}
+
+			Assert.Fail();
 		}
 
 		[TestMethod]
@@ -131,15 +140,45 @@ namespace UT_WammerStation.FailureAndRetry
 
 			DelayedRetryTask1 task = new DelayedRetryTask1(retryQueue.Object);
 
-			task.Execute();
+			try
+			{
+				task.Execute();
+			}
+			catch
+			{
+			}
 			DateTime retry1 = task.NextRetryTime;
-			task.Execute();
+			try
+			{
+				task.Execute();
+			}
+			catch
+			{
+			}
 			DateTime retry2 = task.NextRetryTime;
-			task.Execute();
+			try
+			{
+				task.Execute();
+			}
+			catch
+			{
+			}
 			DateTime retry3 = task.NextRetryTime;
-			task.Execute();
+			try
+			{
+				task.Execute();
+			}
+			catch
+			{
+			}
 			DateTime retry4 = task.NextRetryTime;
-			task.Execute();
+			try
+			{
+				task.Execute();
+			}
+			catch
+			{
+			}
 			DateTime retry5 = task.NextRetryTime;
 
 

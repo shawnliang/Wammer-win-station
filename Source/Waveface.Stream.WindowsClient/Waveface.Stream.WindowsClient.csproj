@@ -322,6 +322,12 @@
     <Compile Include="Src\Dialog\AddDeviceDialog.designer.cs">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Dialog\FileImportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\FileImportDialog.Designer.cs">
+      <DependentUpon>FileImportDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Dialog\HidableProgressingDialog.cs">
       <SubType>Form</SubType>
     </Compile>

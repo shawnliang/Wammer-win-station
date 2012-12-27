@@ -149,19 +149,24 @@ namespace Wammer.Station.Doc
 			}
 		}
 
+		private static object pdfLock = new object();
+
 		public static List<string> GeneratePdfPreviews(string pdfFile, string previewFolder, int firstPageToConvert = -1, int lastPageToConvert = -1)
 		{
-			var converter = new PDFConvert();
+			lock (pdfLock)
+			{
+				var converter = new PDFConvert();
 
-			converter.OutputToMultipleFile = true;
-			converter.FirstPageToConvert = firstPageToConvert;
-			converter.LastPageToConvert = lastPageToConvert;
-			converter.FitPage = false;
-			converter.JPEGQuality = 0;
-			converter.OutputFormat = "jpeg";
-			converter.Convert(pdfFile, Path.Combine(previewFolder, "pdf.jpg"));
+				converter.OutputToMultipleFile = true;
+				converter.FirstPageToConvert = firstPageToConvert;
+				converter.LastPageToConvert = lastPageToConvert;
+				converter.FitPage = false;
+				converter.JPEGQuality = 0;
+				converter.OutputFormat = "jpeg";
+				converter.Convert(pdfFile, Path.Combine(previewFolder, "pdf.jpg"));
 
-			return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
+				return renameToDefinedPreviewName(Directory.GetFiles(previewFolder, "*.*"));
+			}
 		}
 
 		private static List<string> renameToDefinedPreviewName(IEnumerable<string> previews)

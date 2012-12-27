@@ -9,7 +9,7 @@ namespace Wammer.Model
 	public class QueuedTask
 	{
 		[BsonId]
-		public Guid id { get; set; }
+		public string id { get; set; }
 
 		[BsonIgnoreIfNull]
 		public string queue { get; set; }

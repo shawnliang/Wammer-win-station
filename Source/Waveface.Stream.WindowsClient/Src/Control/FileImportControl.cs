@@ -11,7 +11,6 @@ namespace Waveface.Stream.WindowsClient
 	public partial class FileImportControl : StepPageControl
 	{
 		private IPhotoSearch photoSearch;
-		private SynchronizationContext mainSyncCtx;
 		private CheckBox checkBox1;
 		private HidableProgressingDialog _processDialog;
 
@@ -20,11 +19,17 @@ namespace Waveface.Stream.WindowsClient
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileImportControl"/> class.
 		/// </summary>
-		public FileImportControl(IPhotoSearch search, SynchronizationContext mainSyncCtx)
+		public FileImportControl(IPhotoSearch search)
 		{
 			InitializeComponent();
 			this.photoSearch = search;
-			this.mainSyncCtx = mainSyncCtx;
+			this.PageTitle = "Import from folders";
+		}
+
+		public FileImportControl()
+		{
+			InitializeComponent();
+			this.photoSearch = new PhotoSearch();
 			this.PageTitle = "Import from folders";
 		}
 		#endregion

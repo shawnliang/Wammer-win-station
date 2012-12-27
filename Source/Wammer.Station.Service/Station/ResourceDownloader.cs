@@ -160,10 +160,8 @@ namespace Wammer.Station
 
 				var localDoc = AttachmentCollection.Instance.FindOneById(object_id);
 
-				if (localDoc != null && localDoc.fromLocal)
-				{
+				if (localDoc != null && localDoc.type == AttachmentType.image && localDoc.fromLocal)
 					return;
-				}
 
 				if (localHasNoMedium(localDoc) && cloudHasMedium(getCloudDoc(user)))
 				{
@@ -177,17 +175,19 @@ namespace Wammer.Station
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
 
+				bool scheduledToDownloadOrigDoc = false;
 				if (localHasNoOrigin(localDoc) && cloudHasOrigin(getCloudDoc(user)))
 				{
 					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
+
+					scheduledToDownloadOrigDoc = cloudDoc.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase);
 				}
 
-				if (!localHasNoOrigin(localDoc) && localDoc.type == AttachmentType.doc &&
-					localHasNoPreviews(localDoc))
+				if (isDocTypeAndLocalHasNoPreview(user, localDoc) && cloudHasPreview(user) && !scheduledToDownloadOrigDoc)
 				{
-					var task = new DownloadDocPreviewsTask(object_id);
-					TaskQueue.Enqueue(task, task.Priority);
+					var task = new DownloadDocPreviewsTask(object_id, user_id);
+					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
 			}
 			catch (WammerCloudException e)
@@ -199,15 +199,25 @@ namespace Wammer.Station
 			}
 		}
 
-		private static bool localHasNoPreviews(Attachment localDoc)
+		private bool cloudHasPreview(Driver user)
 		{
-			if (localDoc == null)
-				throw new ArgumentNullException("localDoc");
+			return getCloudDoc(user).doc_meta != null && getCloudDoc(user).doc_meta.preview_pages > 0;
+		}
 
-			if (localDoc.type != AttachmentType.doc)
-				throw new ArgumentException("localDoc is not a doc attachment");
+		private bool isDocType(Driver user, Attachment localDoc)
+		{
+			var isDocType = localDoc != null && localDoc.type == AttachmentType.doc || getCloudDoc(user).type.Equals("doc", StringComparison.InvariantCultureIgnoreCase);
+			return isDocType;
+		}
 
-			return localDoc.doc_meta == null || localDoc.doc_meta.preview_files == null || localDoc.doc_meta.preview_files.Count == 0;
+		private bool isDocTypeAndLocalHasNoPreview(Driver user, Attachment localDoc)
+		{
+
+			return isDocType(user, localDoc) &&
+				(localDoc == null ||
+				 localDoc.doc_meta == null ||
+				 localDoc.doc_meta.preview_files == null ||
+				 localDoc.doc_meta.preview_files.Count == 0);
 		}
 
 		private AttachmentInfo getCloudDoc(Driver user)
