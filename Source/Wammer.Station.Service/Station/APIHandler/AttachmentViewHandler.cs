@@ -113,6 +113,9 @@ namespace Wammer.Station
 
 				var saveResult = ResourceDownloadTask.SaveAttachmentToDisk(meta, metaData, downloadResult.Image);
 
+				if (meta == ImageMeta.None || meta == ImageMeta.Origin)
+					impl.DB.UpdateLastAccessTime(Parameters["object_id"]);
+
 				this.LogDebugMsg("Attachement is saved to " + saveResult.RelativePath);
 
 				SetAttachementToDB(meta, downloadResult, saveResult.RelativePath);
