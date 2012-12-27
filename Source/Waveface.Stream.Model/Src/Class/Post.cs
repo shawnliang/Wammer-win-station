@@ -108,6 +108,8 @@ namespace Waveface.Stream.Model
 					}
 
 					LocationDBDataCollection.Instance.Save(location);
+
+					post.LocationID = locationID;
 				}
 			}
 
@@ -140,10 +142,7 @@ namespace Waveface.Stream.Model
 							LocationDBDataCollection.Instance.Save(location);
 						}
 
-						if (latitude == postGPS.latitude && longitude == postGPS.longitude)
-							checkInLocations.Insert(0, locationID);
-						else
-							checkInLocations.Add(locationID);
+						checkInLocations.Add(locationID);
 					}
 				}
 
