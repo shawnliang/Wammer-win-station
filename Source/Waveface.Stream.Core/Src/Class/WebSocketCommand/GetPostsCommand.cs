@@ -21,12 +21,38 @@ namespace Waveface.Stream.Core
 		/// <summary>
 		/// Gets the name.
 		/// </summary>
-		/// <value>The name.</value>
+		/// <value>
+		/// The name.
+		/// </value>
 		public override string Name
 		{
 			get { return "getPosts"; }
 		}
 		#endregion
+
+
+
+		#region Private Method
+		private string GetStationAttachmentUrl(string url)
+		{
+			var loginedUser = LoginedSessionCollection.Instance.FindOne();
+			return string.Format(@"http://127.0.0.1:9981{2}&apikey={0}&session_token={1}",
+				StationAPI.API_KEY,
+				loginedUser.session_token,
+				url);
+		}
+
+		private string GetStationAttachmentUrl(string attachmentID, ImageMeta imageMeta)
+		{
+			var loginedUser = LoginedSessionCollection.Instance.FindOne();
+			return string.Format(@"http://127.0.0.1:9981/v2/attachments/view/?apikey={0}&session_token={1}&object_id={2}&image_meta={3}",
+				StationAPI.API_KEY,
+				loginedUser.session_token,
+				attachmentID,
+				imageMeta);
+		}
+		#endregion
+
 
 
 		#region Public Method
@@ -120,6 +146,20 @@ namespace Waveface.Stream.Core
 								var coverAttachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(coverAttachment);
 								summaryAttachmentDatas.Add(coverAttachmentData);
 							}
+							else
+							{
+								summaryAttachmentDatas.Add(new MediumSizeAttachmentData()
+								{
+									Url = GetStationAttachmentUrl(coverAttachmentID, ImageMeta.Origin),
+									MetaData = new MediumSizeMetaData()
+									{
+										Small = new ThumbnailData() 
+										{
+											Url = GetStationAttachmentUrl(coverAttachmentID, ImageMeta.Small)
+										}
+									}
+								});
+							}
 						}
 
 						foreach (var attachmentID in attachmentIDs)
@@ -132,11 +172,25 @@ namespace Waveface.Stream.Core
 
 							var attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", attachmentID));
 
-							if (attachment == null)
-								continue;
-
-							var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
-							summaryAttachmentDatas.Add(attachmentData);
+							if (attachment != null)
+							{
+								var attachmentData = Mapper.Map<Attachment, MediumSizeAttachmentData>(attachment);
+								summaryAttachmentDatas.Add(attachmentData);
+							}
+							else
+							{
+								summaryAttachmentDatas.Add(new MediumSizeAttachmentData()
+								{
+									Url = GetStationAttachmentUrl(attachmentID, ImageMeta.Origin),
+									MetaData = new MediumSizeMetaData()
+									{
+										Small = new ThumbnailData()
+										{
+											Url = GetStationAttachmentUrl(attachmentID, ImageMeta.Small)
+										}
+									}
+								});
+							}
 						}
 
 						if (summaryAttachmentDatas.Count > 0)
