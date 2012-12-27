@@ -251,7 +251,7 @@ namespace Waveface.Stream.Core
 				.ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags))
 				.ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.AttachmentIDs))
 				.ForMember(dest => dest.CheckIns, opt => opt.MapFrom(src => GetCheckInDatas(src.CheckinIDs)))
-				.ForMember(dest => dest.Location, opt => opt.MapFrom(src => (src.CheckinIDs == null)? null: GetPostGPSDatas(src.CheckinIDs.FirstOrDefault())))
+				.ForMember(dest => dest.Location, opt => opt.MapFrom(src => GetPostGPSDatas(src.LocationID)))
 				.ForMember(dest => dest.Friends, opt => opt.MapFrom(src => GetFriends(src.FriendIDs)))
 				.ForMember(dest => dest.ExtraParams, opt => opt.MapFrom(src => src.ExtraParams));
 
