@@ -82,6 +82,7 @@ namespace Wammer.Station.Service
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<QueryIfDownstreamNeededTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<DownloadDocPreviewsTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<MakeDocPreviewsTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<DummyResourceDownloadTask>();
 			
 
 			mongoMonitor = new MongoDBMonitor(RunStation);
@@ -119,7 +120,7 @@ namespace Wammer.Station.Service
 				// download queue
 				BodySyncQueue.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
 				BodySyncQueue.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
-
+				BodySyncQueue.Instance.Init();
 				ConfigThreadPool();
 
 

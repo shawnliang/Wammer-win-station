@@ -7,7 +7,7 @@ namespace Wammer.Queue
 	{
 		private readonly LinkedList<WMSMessage> items = new LinkedList<WMSMessage>();
 		private readonly IPersistentStore persistentStorage;
-		private readonly Dictionary<Guid, UnackedMsg> popMsgs = new Dictionary<Guid, UnackedMsg>();
+		private readonly Dictionary<string, UnackedMsg> popMsgs = new Dictionary<string, UnackedMsg>();
 
 		public WMSQueue(string name, IPersistentStore persistentStorage)
 		{
@@ -88,7 +88,7 @@ namespace Wammer.Queue
 		{
 			lock (items)
 			{
-				var KeysToRemove = new List<Guid>();
+				var KeysToRemove = new List<string>();
 
 				foreach (var pair in popMsgs)
 				{
@@ -99,7 +99,7 @@ namespace Wammer.Queue
 					}
 				}
 
-				foreach (Guid key in KeysToRemove)
+				foreach (var key in KeysToRemove)
 					popMsgs.Remove(key);
 			}
 		}

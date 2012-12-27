@@ -58,7 +58,7 @@ namespace Wammer.Station.Timeline
 			}
 			else
 			{
-				TaskQueue.Enqueue(new DownloadDocPreviewsTask(doc_id), TaskPriority.Low);
+				BodySyncQueue.Instance.Enqueue(new DownloadDocPreviewsTask(doc_id, user.user_id), TaskPriority.Low);
 			}
 		}
 
