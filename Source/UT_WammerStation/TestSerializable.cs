@@ -102,30 +102,5 @@ namespace UT_WammerStation
 				throw new NotImplementedException();
 			}
 		}
-
-		[TestMethod]
-		public void FailedDelayedRetryTaskCanBeInsertedToRetryQueue()
-		{
-			BinaryFormatter f = new BinaryFormatter();
-
-			FailedTask t = new FailedTask();
-
-			MemoryStream m = new MemoryStream();
-			f.Serialize(m, t);
-
-			m.Position = 0;
-			IRetryTask deserializedTask = f.Deserialize(m) as IRetryTask;
-
-
-			//clean up retry queue
-			RetryQueueHelper.Instance.Dequeue(DateTime.MaxValue);
-			// run deserialized task => will fail internally
-			deserializedTask.Execute();
-
-			//verify the task is added to retryQueue
-			ICollection<IRetryTask> tasks = RetryQueueHelper.Instance.Dequeue(DateTime.MaxValue);
-			Assert.AreEqual(1, tasks.Count);
-			Assert.AreEqual(deserializedTask, tasks.First());
-		}
 	}
 }

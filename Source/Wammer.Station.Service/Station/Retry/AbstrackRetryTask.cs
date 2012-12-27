@@ -22,9 +22,10 @@ namespace Wammer.Station.Retry
 			{
 				Do();
 			}
-			catch (Exception)
+			catch
 			{
 				RetryQueueHelper.Instance.Enqueue(this);
+				throw;
 			}
 		}
 
