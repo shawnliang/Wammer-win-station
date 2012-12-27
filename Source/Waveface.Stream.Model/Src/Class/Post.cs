@@ -21,12 +21,18 @@ namespace Waveface.Stream.Model
 			if(File.Exists(file))
 				return;
 
-			var urlFormat = @"http://maps.google.com/maps/api/staticmap?center={0},{1}&zoom={2}&size=640x640&scale=2&sensor=false&markers=color:red%7Csize:mid%7Clabel:A%7C{0},{1}";
-			var url = String.Format(urlFormat, latitude.ToString(), longitude.ToString(), zoomeLevel.ToString());
-
-			using (var wc = new WebClientEx())
+			try
 			{
-				wc.DownloadFile(url, file);
+				var urlFormat = @"http://maps.google.com/maps/api/staticmap?center={0},{1}&zoom={2}&size=640x640&scale=2&sensor=false&markers=color:red%7Csize:mid%7Clabel:A%7C{0},{1}";
+				var url = String.Format(urlFormat, latitude.ToString(), longitude.ToString(), zoomeLevel.ToString());
+
+				using (var wc = new WebClientEx())
+				{
+					wc.DownloadFile(url, file);
+				}
+			}
+			catch (Exception)
+			{
 			}
 		} 
 		#endregion
