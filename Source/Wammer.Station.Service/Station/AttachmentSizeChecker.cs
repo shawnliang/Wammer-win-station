@@ -35,6 +35,8 @@ namespace Wammer.Station
 				FileStorage storage = new FileStorage(user);
 				var origFile = Path.Combine(storage.basePath, file.file_path);
 
+				var file_size = new FileInfo(origFile).Length;
+
 				try
 				{
 					File.Delete(origFile);
@@ -46,8 +48,11 @@ namespace Wammer.Station
 
 				AttachmentCollection.Instance.Update(
 					Query.EQ("_id", file.object_id),
-					Update.Unset("saved_file_name").Unset("file_size").Unset("url")
-				);
+					Update.Unset("saved_file_name").Unset("file_size").Unset("url") );
+
+				DriverCollection.Instance.Update(
+					Query.EQ("_id", user.user_id),
+					Update.Inc("cur_origin_size", -file_size) );
 			}
 				
 		}

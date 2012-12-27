@@ -187,7 +187,8 @@ namespace Wammer.Station.Timeline
 
 				var update = Update.Set("group_id", attachmentAttributes.group_id)
 								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
-								.Set("image_meta." + metaStr, thumbnail.ToBsonDocument());
+								.Set("image_meta." + metaStr, thumbnail.ToBsonDocument())
+								.Set("body_on_cloud", !string.IsNullOrEmpty(attachmentAttributes.url));
 
 				setOptionalAttributes(attachmentAttributes, update);
 
