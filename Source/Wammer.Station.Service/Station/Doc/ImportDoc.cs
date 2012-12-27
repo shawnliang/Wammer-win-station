@@ -9,6 +9,7 @@ using Wammer.Model;
 using Wammer.Utility;
 using MongoDB.Driver.Builders;
 using Waveface.Stream.Model;
+using Wammer.Station.AttachmentUpload;
 
 namespace Wammer.Station.Doc
 {
@@ -18,17 +19,27 @@ namespace Wammer.Station.Doc
 
 		public static void Process(Driver user, string object_id, string file_path, DateTime accessTime)
 		{
-			string full_saved_file_name = "";
+			AttachmentSaveResult saveResult = null;
 			MakePreviewResult previewResult = null;
 
 			try
 			{
 				// copy to res folder
-				var storage = new FileStorage(user);
-				var saved_file_name = storage.CopyToStorage(file_path);
-				full_saved_file_name = Path.Combine(storage.basePath, saved_file_name);
+				var storage = new AttachmentUploadStorage(new AttachmentUploadStorageDB());
+				var fileInfo = new UploadData 
+								{
+									type = AttachmentType.doc,
+									imageMeta = ImageMeta.None,
+									object_id = object_id,
+									group_id = user.groups[0].group_id,
+									file_name = Path.GetFileName(file_path),
+									file_create_time = File.GetCreationTime(file_path),
+									raw_data = new ArraySegment<byte>(File.ReadAllBytes(file_path))
+								};
+				saveResult = storage.Save(fileInfo, null);
 
-				previewResult = MakeDocPreview(object_id, full_saved_file_name, user.user_id);
+				// generate previews
+				previewResult = MakeDocPreview(object_id, saveResult.FullPath, user.user_id);
 
 
 				// write to db
@@ -46,7 +57,7 @@ namespace Wammer.Station.Doc
 					mime_type = MimeTypeHelper.GetMIMEType(file_path),
 					modify_time = DateTime.Now,
 					object_id = object_id,
-					saved_file_name = saved_file_name,
+					saved_file_name = saveResult.RelativePath,
 					type = AttachmentType.doc,
 					doc_meta = new DocProperty
 					{
@@ -85,10 +96,10 @@ namespace Wammer.Station.Doc
 						Directory.Delete(previewResult.previewFolder, true);
 				}
 
-				if (!string.IsNullOrEmpty(full_saved_file_name))
+				if (saveResult != null && !string.IsNullOrEmpty(saveResult.FullPath))
 				{
-					if (File.Exists(full_saved_file_name))
-						File.Delete(full_saved_file_name);
+					if (File.Exists(saveResult.FullPath))
+						File.Delete(saveResult.FullPath);
 				}
 
 				AttachmentCollection.Instance.Remove(Query.EQ("_id", object_id));

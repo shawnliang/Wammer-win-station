@@ -101,10 +101,7 @@ namespace Wammer.Station.Timeline
 			if (meta == ImageMeta.Origin)
 			{
 				string takenTime = extractTakenTimeFromImageExif(image);
-				var result = storage.Save(param, takenTime);
-
-				DriverCollection.Instance.Update(Query.EQ("_id", metaData.creator_id), Update.Inc("cur_origin_size", image.Length));
-				return result;
+				return storage.Save(param, takenTime);
 			}
 			else
 			{

@@ -170,7 +170,7 @@ namespace Wammer.Station
 				}
 
 				bool scheduledToDownloadOrigDoc = false;
-				if (localHasNoOrigin(localDoc) && cloudHasOrigin(getCloudDoc(user)) && user.ReachOriginSizeLimit())
+				if (localHasNoOrigin(localDoc) && cloudHasOrigin(getCloudDoc(user)) && !user.ReachOriginSizeLimit())
 				{
 					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
