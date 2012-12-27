@@ -118,6 +118,10 @@ namespace Waveface.Stream.Model
 		[BsonElement("visibility")]
 		public Boolean Visibility { get; set; }
 
+		[BsonIgnoreIfNull]
+		[BsonElement("location_id")]
+		public String LocationID { get; set; }
+
 		/// <summary>
 		/// Gets or sets the checkins.
 		/// </summary>
