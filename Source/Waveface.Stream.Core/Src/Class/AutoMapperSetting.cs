@@ -213,7 +213,20 @@ namespace Waveface.Stream.Core
 		private static string GetStationAttachmentUrl(string url)
 		{
 			var loginedUser = LoginedSessionCollection.Instance.FindOne();
-			return string.Format(@"http://127.0.0.1:9981{0}&apikey={1}&session_token={2}", url, StationAPI.API_KEY, loginedUser.session_token);
+			return string.Format(@"http://127.0.0.1:9981{2}&apikey={0}&session_token={1}",
+				StationAPI.API_KEY,
+				loginedUser.session_token,
+				url);
+		}
+
+		private static string GetStationAttachmentUrl(string attachmentID, ImageMeta imageMeta)
+		{
+			var loginedUser = LoginedSessionCollection.Instance.FindOne();
+			return string.Format(@"http://127.0.0.1:9981/v2/attachments/view/?apikey={0}&session_token={1}&object_id={2}&image_meta={3}",
+				StationAPI.API_KEY,
+				loginedUser.session_token,
+				attachmentID,
+				imageMeta);
 		}
 		#endregion
 
@@ -256,7 +269,7 @@ namespace Waveface.Stream.Core
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.Type, opt => opt.MapFrom(src => GetNewClientAttachmentType(src.type)))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => GetAttachmentTimeStamp(src)))
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetStationAttachmentUrl(src.url)))
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetStationAttachmentUrl(src.object_id, ImageMeta.Origin)))
 				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? (object)src.doc_meta : (object)src.image_meta));
 
 			Mapper.CreateMap<Attachment, LargeSizeAttachmentData>()
@@ -264,7 +277,7 @@ namespace Waveface.Stream.Core
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.Type, opt => opt.MapFrom(src => GetNewClientAttachmentType(src.type)))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => GetAttachmentTimeStamp(src)))
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetStationAttachmentUrl(src.url)))
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetStationAttachmentUrl(src.object_id, ImageMeta.Origin)))
 				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? (object)src.doc_meta : (object)src.image_meta));
 
 
