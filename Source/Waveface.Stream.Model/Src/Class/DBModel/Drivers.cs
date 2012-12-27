@@ -121,7 +121,23 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public int ref_count { get; set; }
 
+
+		/// <summary>
+		/// Size limit of all origin attachments
+		/// </summary>
+		public long origin_limit { get; set; }
+
+		/// <summary>
+		/// Current size of all origin attachments
+		/// </summary>
+		public long cur_origin_size { get; set; }
+
 		#endregion
+
+		public bool ReachOriginSizeLimit()
+		{
+			return origin_limit > 0 && cur_origin_size >= origin_limit;
+		}
 	}
 
 	public class DriverCollection : DBCollection<Driver>

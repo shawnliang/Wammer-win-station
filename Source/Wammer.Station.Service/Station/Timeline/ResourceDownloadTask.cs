@@ -101,7 +101,10 @@ namespace Wammer.Station.Timeline
 			if (meta == ImageMeta.Origin)
 			{
 				string takenTime = extractTakenTimeFromImageExif(image);
-				return storage.Save(param, takenTime);
+				var result = storage.Save(param, takenTime);
+
+				DriverCollection.Instance.Update(Query.EQ("_id", metaData.creator_id), Update.Inc("cur_origin_size", image.Length));
+				return result;
 			}
 			else
 			{
@@ -246,6 +249,12 @@ namespace Wammer.Station.Timeline
 				if (user == null)
 				{
 					logger.Info("drop download task because user does not exist anymore: " + evtargs.user_id);
+					return;
+				}
+
+				if ((evtargs.imagemeta == ImageMeta.Origin || evtargs.imagemeta == ImageMeta.None) && user.ReachOriginSizeLimit())
+				{
+					logger.DebugFormat("origin size limit {} is reached. Skip", user.origin_limit);
 					return;
 				}
 
