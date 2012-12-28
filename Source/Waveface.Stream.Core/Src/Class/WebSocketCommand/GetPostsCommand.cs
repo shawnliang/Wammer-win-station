@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Waveface.Stream.Model;
+using System.Web;
 
 namespace Waveface.Stream.Core
 {
@@ -38,7 +39,7 @@ namespace Waveface.Stream.Core
 			var loginedUser = LoginedSessionCollection.Instance.FindOne();
 			return string.Format(@"http://127.0.0.1:9981{2}&apikey={0}&session_token={1}",
 				StationAPI.API_KEY,
-				loginedUser.session_token,
+				HttpUtility.UrlEncode(loginedUser.session_token),
 				url);
 		}
 
@@ -47,7 +48,7 @@ namespace Waveface.Stream.Core
 			var loginedUser = LoginedSessionCollection.Instance.FindOne();
 			return string.Format(@"http://127.0.0.1:9981/v2/attachments/view/?apikey={0}&session_token={1}&object_id={2}&image_meta={3}",
 				StationAPI.API_KEY,
-				loginedUser.session_token,
+				HttpUtility.UrlEncode(loginedUser.session_token),
 				attachmentID,
 				imageMeta);
 		}
