@@ -1,1 +1,123 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","backbone","collections/events","collections/attachments","collections/documents","collections/calendar","views/events","views/photos","views/documents","views/calendar","views/collections","localstorage","com/subscriber"],function(e,n,r,i,s,o,u,a,f,l,c,h,p){var d,v;return v=this,d=function(e){function n(){return n.__super__.constructor.apply(this,arguments)}return t(n,e),n.prototype.routes={"":"actionEvents","/":"actionEvents",events:"actionEvents","events/":"actionEvents","events/:date":"actionEvents","events/:date/":"actionEvents","events/:date/:id":"actionEvents",photos:"actionPhotos","photos/":"actionPhotos","photos/:date":"actionPhotos",documents:"actionDocs","documents/":"actionDocs","documents/:date":"actionDocs",calendar:"actionCalendar",collection:"actionCollection"},n.prototype.initialize=function(){return h.reset(["nc_events_view_data","nc_photos_view_data","nc_view_state:events","nc_view_state:photos"]),dispatch.on("all",function(e){return Logger.log("Event trigger : "+e)}),this.on("all",function(e){return Logger.log("Router Event trigger : "+e)}),this.main=$("#main")},n.prototype.actionEvents=function(e,t){var n,i;i=new h("nc_view_state:events"),r.length===0&&r.callPosts();if(!e&&!t)if(i.data.id!=null)t=i.data.id;else if(n=r.first())e=n.get("dateUri");this.main.empty().append(u.render(e,t).el),t!=null&&(i.data={id:t},i.save()),r.subscribe(),r.subscribe("update:event",!1,!1,p.E_POS_UPD)},n.prototype.actionPhotos=function(e){var t,n;n=new h("nc_view_state:photos"),i.length===0&&i.callAttachments();if(!e)if(n.data.date!=null)e=n.data.date;else if(t=i.first())e=t.get("dateUri");return this.main.empty().append(a.render(e).el),n.data={date:e},n.save()},n.prototype.actionDocs=function(e){var t,n;n=new h("nc_view_state:docs"),s.length===0&&s.callAttachments();if(!e)if(n.data.date!=null)e=n.data.date;else if(t=s.first())e=t.get("dateUri");return this.main.empty().append(f.render(e).el),n.data={date:e},n.save()},n.prototype.actionCalendar=function(){return this.main.empty().append(l.render().el),l.renderCalendar()},n.prototype.actionCollection=function(){return this.main.empty().append(c.render().el)},n}(n.Router)})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'backbone', 'collections/events', 'collections/attachments', 'collections/documents', 'collections/calendar', 'views/events', 'views/photos', 'views/documents', 'views/calendar', 'views/collections', 'localstorage', 'com/subscriber'], function(_, Backbone, Events, Attachments, Documents, Calendars, EventsView, PhotosView, DocsView, CalendarView, CollectionView, Storage, Subscriber) {
+    var AppRouter, root;
+    root = this;
+    return AppRouter = (function(_super) {
+
+      __extends(AppRouter, _super);
+
+      function AppRouter() {
+        return AppRouter.__super__.constructor.apply(this, arguments);
+      }
+
+      AppRouter.prototype.routes = {
+        '': 'actionEvents',
+        '/': 'actionEvents',
+        'events': 'actionEvents',
+        'events/': 'actionEvents',
+        'events/:date': 'actionEvents',
+        'events/:date/': 'actionEvents',
+        'events/:date/:id': 'actionEvents',
+        'photos': 'actionPhotos',
+        'photos/': 'actionPhotos',
+        'photos/:date': 'actionPhotos',
+        'documents': 'actionDocs',
+        'documents/': 'actionDocs',
+        'documents/:date': 'actionDocs',
+        'calendar': 'actionCalendar',
+        'collection': 'actionCollection'
+      };
+
+      AppRouter.prototype.initialize = function() {
+        Storage.reset(['nc_events_view_data', 'nc_photos_view_data', 'nc_view_state:events', 'nc_view_state:photos']);
+        dispatch.on('all', function(e) {
+          return Logger.log("Event trigger : " + e);
+        });
+        this.on('all', function(e) {
+          return Logger.log("Router Event trigger : " + e);
+        });
+        return this.main = $("#main");
+      };
+
+      AppRouter.prototype.actionEvents = function(date, id) {
+        var last, state;
+        state = new Storage('nc_view_state:events');
+        if (Events.length === 0) {
+          Events.callPosts();
+        }
+        if (!date && !id) {
+          if (state.data.id != null) {
+            id = state.data.id;
+          } else if ((last = Events.first())) {
+            date = last.get('dateUri');
+          }
+        }
+        this.main.empty().append(EventsView.render(date, id).el);
+        if (id != null) {
+          state.data = {
+            id: id
+          };
+          state.save();
+        }
+        Events.subscribe();
+        Events.subscribe("update:event", false, false, Subscriber.E_POS_UPD);
+      };
+
+      AppRouter.prototype.actionPhotos = function(date) {
+        var last, viewState;
+        viewState = new Storage('nc_view_state:photos');
+        if (Attachments.length === 0) {
+          Attachments.callAttachments();
+        }
+        if (!date) {
+          if (viewState.data.date != null) {
+            date = viewState.data.date;
+          } else if ((last = Attachments.first())) {
+            date = last.get('dateUri');
+          }
+        }
+        this.main.empty().append(PhotosView.render(date).el);
+        viewState.data = {
+          date: date
+        };
+        return viewState.save();
+      };
+
+      AppRouter.prototype.actionDocs = function(date) {
+        var last, viewState;
+        viewState = new Storage('nc_view_state:docs');
+        if (Documents.length === 0) {
+          Documents.callAttachments();
+        }
+        if (!date) {
+          if (viewState.data.date != null) {
+            date = viewState.data.date;
+          } else if ((last = Documents.first())) {
+            date = last.get('dateUri');
+          }
+        }
+        this.main.empty().append(DocsView.render(date).el);
+        viewState.data = {
+          date: date
+        };
+        return viewState.save();
+      };
+
+      AppRouter.prototype.actionCalendar = function() {
+        this.main.empty().append(CalendarView.render().el);
+        return CalendarView.renderCalendar();
+      };
+
+      AppRouter.prototype.actionCollection = function() {
+        return this.main.empty().append(CollectionView.render().el);
+      };
+
+      return AppRouter;
+
+    })(Backbone.Router);
+  });
+
+}).call(this);

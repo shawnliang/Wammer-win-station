@@ -40,12 +40,16 @@ namespace UT_WammerStation.AttachmentViewTest
 			db.Setup(x => x.GetAttachment("obj1")).
 				Returns(new Attachment { object_id = "obj1", saved_file_name = @"2010\10\20\file1.jpg", group_id = "group1", mime_type = "mime" }).Verifiable();
 			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user).Verifiable();
+			db.Setup(x => x.UpdateLastAccessTime("obj1")).Verifiable();
 
 			storage.Setup(x => x.GetAttachmentStream(ImageMeta.Origin, user, @"2010\10\20\file1.jpg")).Returns(m).Verifiable();
 
 			var result = handler.GetAttachmentStream(new NameValueCollection { { "object_id", "obj1" } });
 			Assert.AreEqual(m, result.Stream);
 			Assert.AreEqual("mime", result.MimeType);
+
+			db.VerifyAll();
+			storage.VerifyAll();
 		}
 
 		[TestMethod]
@@ -54,12 +58,16 @@ namespace UT_WammerStation.AttachmentViewTest
 			db.Setup(x => x.GetAttachment("obj1")).
 				Returns(new Attachment { object_id = "obj1", saved_file_name = @"2010\10\20\file1.jpg", group_id = "group1", mime_type = "mime" }).Verifiable();
 			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user).Verifiable();
+			db.Setup(x => x.UpdateLastAccessTime("obj1")).Verifiable();
 
 			storage.Setup(x => x.GetAttachmentStream(ImageMeta.Origin, user, @"2010\10\20\file1.jpg")).Returns(m).Verifiable();
 
 			var result = handler.GetAttachmentStream(new NameValueCollection { { "object_id", "obj1" }, { "image_meta", "origin" } });
 			Assert.AreEqual(m, result.Stream);
 			Assert.AreEqual("mime", result.MimeType);
+
+			db.VerifyAll();
+			storage.VerifyAll();
 		}
 
 		[TestMethod]

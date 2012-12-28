@@ -32,12 +32,14 @@ namespace Wammer.Station
 			var statusChecker = new StatusChecker(STATUS_CHECK_PERIOD);
 			var taskRetryTimer = new TaskRetryTimer();
 			var docMonitor = new CheckDocumentChangeTimer();
+			var sizeChecker = new AttachmentSizeChecker();
 
 			timers = new List<IStationTimer> {
 				resourceSyncer,
 				statusChecker,
 				taskRetryTimer,
-				docMonitor
+				docMonitor,
+				sizeChecker,
 			};
 		}
 

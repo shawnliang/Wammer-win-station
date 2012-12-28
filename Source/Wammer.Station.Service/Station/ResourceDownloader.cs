@@ -41,12 +41,6 @@ namespace Wammer.Station
 			DownloadMissedResource(e.Driver, e.Posts);
 		}
 
-		public void EnqueueDownstreamTask(AttachmentInfo attachment, Driver driver, ImageMeta meta)
-		{
-			var task = createDownloadTask(driver, meta, attachment);
-			bodySyncQueue.Enqueue(task, task.Priority);
-		}
-
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
 		{
 			var fileName = objectID;
@@ -176,7 +170,7 @@ namespace Wammer.Station
 				}
 
 				bool scheduledToDownloadOrigDoc = false;
-				if (localHasNoOrigin(localDoc) && cloudHasOrigin(getCloudDoc(user)))
+				if (localHasNoOrigin(localDoc) && cloudHasOrigin(getCloudDoc(user)) && !user.ReachOriginSizeLimit())
 				{
 					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);

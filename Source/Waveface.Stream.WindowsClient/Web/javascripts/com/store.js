@@ -1,1 +1,58 @@
-(function(){var e=function(e,t){return function(){return e.apply(t,arguments)}};define(["underscore","backbone","lib/backbone/localstorage"],function(t,n,r){var i;return i=function(){function n(){this.sync=e(this.sync,this)}return n.prototype.sync=function(e,t,n){var r,i;r=!1,i=this.getSchemaName(t);switch(e){case"create":Logger.log("create was not happen");break;case"read":r=t.id?this.find(schema,t.id):this.findAll(schema);if(!r)return n.error("Not found.");break;case"destroy":r=!0}return r?n.success(r):n.error("Unknow error.")},n.prototype.find=function(e,t){return this.data[e]&&this.data[e][t]},n.prototype.findAll=function(e){return t.values(this.data[e]||[])},n.prototype.getSchemaName=function(e){if(e.schemaName)return e.schemaName;if(e.collection&&e.collection.schemaName)return e.collection.schemaName},n}()})}).call(this);
+(function() {
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+  define(['underscore', 'backbone', 'lib/backbone/localstorage'], function(_, Backbone, LocalStorage) {
+    var Store;
+    return Store = (function() {
+
+      function Store() {
+        this.sync = __bind(this.sync, this);
+
+      }
+
+      Store.prototype.sync = function(method, model, options) {
+        var resp, schemaName;
+        resp = false;
+        schemaName = this.getSchemaName(model);
+        switch (method) {
+          case "create":
+            Logger.log("create was not happen");
+            break;
+          case "read":
+            resp = model.id ? this.find(schema, model.id) : this.findAll(schema);
+            if (!resp) {
+              return options.error("Not found.");
+            }
+            break;
+          case "destroy":
+            resp = true;
+        }
+        if (resp) {
+          return options.success(resp);
+        } else {
+          return options.error("Unknow error.");
+        }
+      };
+
+      Store.prototype.find = function(schema, id) {
+        return this.data[schema] && this.data[schema][id];
+      };
+
+      Store.prototype.findAll = function(schema) {
+        return _.values(this.data[schema] || []);
+      };
+
+      Store.prototype.getSchemaName = function(model) {
+        if (model.schemaName) {
+          return model.schemaName;
+        } else if (model.collection && model.collection.schemaName) {
+          return model.collection.schemaName;
+        }
+      };
+
+      return Store;
+
+    })();
+  });
+
+}).call(this);

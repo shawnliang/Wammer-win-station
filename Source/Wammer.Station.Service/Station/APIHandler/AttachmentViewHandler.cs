@@ -98,6 +98,9 @@ namespace Wammer.Station
 				var metaData = AttachmentApi.GetImageMetadata(
 					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id);
 
+				if (metaData.type.Equals("webthumb", StringComparison.InvariantCultureIgnoreCase))
+					meta = ImageMeta.Origin;
+
 				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", metaData.creator_id));
 
 				if (driver == null)
@@ -112,6 +115,9 @@ namespace Wammer.Station
 				var downloadResult = AttachmentApi.DownloadObject(metaData.redirect_to, metaData);
 
 				var saveResult = ResourceDownloadTask.SaveAttachmentToDisk(meta, metaData, downloadResult.Image);
+
+				if (meta == ImageMeta.None || meta == ImageMeta.Origin)
+					impl.DB.UpdateLastAccessTime(Parameters["object_id"]);
 
 				this.LogDebugMsg("Attachement is saved to " + saveResult.RelativePath);
 

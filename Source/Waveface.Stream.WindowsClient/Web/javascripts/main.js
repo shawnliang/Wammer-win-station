@@ -1,1 +1,20 @@
-(function(){require(["config"],function(e){return require(["router","wfwsocket","views/layouts/app","logger","collections/attachments","collections/documents","collections/wfcollections","collections/calendar"],function(e,t,n,r,i,s,o,u){var a;return a=this,a.Logger=r,a.Router=new e,t.init(function(){return new n,Backbone.history.start(),i.callAttachments(),s.callAttachments(),o.callCollections(),u.callCalendar()})})})}).call(this);
+(function() {
+
+  require(['config'], function(main) {
+    return require(['router', 'wfwsocket', 'views/layouts/app', 'logger', 'collections/attachments', 'collections/documents', 'collections/wfcollections', 'collections/calendar'], function(Router, Socket, AppView, Logger, Attachments, Documents, WFCollections, Calendars) {
+      var root;
+      root = this;
+      root.Logger = Logger;
+      root.Router = new Router;
+      return Socket.init(function() {
+        new AppView();
+        Backbone.history.start();
+        Attachments.callAttachments();
+        Documents.callAttachments();
+        WFCollections.callCollections();
+        return Calendars.callCalendar();
+      });
+    });
+  });
+
+}).call(this);

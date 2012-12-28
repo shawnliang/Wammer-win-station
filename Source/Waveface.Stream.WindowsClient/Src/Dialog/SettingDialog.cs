@@ -292,6 +292,27 @@ namespace Waveface.Stream.WindowsClient
 
 			RefreshAccountList();
 			RefreshCurrentResourceFolder();
+			RefreshResourceLimit();
+		}
+
+		private void RefreshResourceLimit()
+		{
+			if (!StreamClient.Instance.IsLogined)
+			{
+				flowLayoutPanel1.Enabled = false;
+				return;
+			}
+
+			var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
+			if (!user.isPaidUser)
+			{
+				flowLayoutPanel1.Enabled = false;
+				return;
+			}
+
+			flowLayoutPanel1.Enabled = true;
+			chkboxSelectiveSync.Checked = user.origin_limit > 0;
+			txtResourceLimits.Text = Convert.ToString(user.origin_limit / 1024 / 1024);
 		}
 
 		private void btnMove_Click(object sender, EventArgs e)
@@ -489,6 +510,48 @@ namespace Waveface.Stream.WindowsClient
 			}
 			ControlPaint.DrawBorder(e.Graphics, dgvAccountList.DisplayRectangle, ColorTranslator.FromHtml("#bcbcbc"), ButtonBorderStyle.Solid);
 		}
+
+		private void chkboxSelectiveSync_CheckedChanged(object sender, EventArgs e)
+		{
+			txtResourceLimits.Enabled = chkboxSelectiveSync.Checked;
+
+			if (chkboxSelectiveSync.Checked && string.IsNullOrEmpty(txtResourceLimits.Text))
+			{
+				txtResourceLimits.Text = "1024";
+			}
+		}
 		#endregion
+
+		private void txtResourceLimits_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if ((e.KeyChar < '0' || '9' < e.KeyChar) && e.KeyChar != '\b')
+				e.Handled = true;
+		}
+
+		private void SettingDialog_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (StreamClient.Instance.IsLogined)
+			{
+				if (chkboxSelectiveSync.Checked && !string.IsNullOrEmpty(txtResourceLimits.Text))
+				{
+					long limitMB = Convert.ToInt64(txtResourceLimits.Text);
+
+					if (limitMB > 0)
+					{
+						DriverCollection.Instance.Update(
+						Query.EQ("_id", StreamClient.Instance.LoginedUser.UserID),
+							MongoDB.Driver.Builders.Update.Set("origin_limit", limitMB * 1024 * 1024));
+					}
+				}
+				else
+				{
+					DriverCollection.Instance.Update(
+						Query.EQ("_id", StreamClient.Instance.LoginedUser.UserID),
+						MongoDB.Driver.Builders.Update.Unset("origin_limit"));
+				}
+			}
+		}
+
+		
 	}
 }
