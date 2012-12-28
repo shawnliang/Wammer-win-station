@@ -143,7 +143,7 @@ namespace Wammer.Station.Timeline
 			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
 				attachmentAttributes.image_meta.exif.gps = attachmentAttributes.image_meta.gps;
 
-			if (meta == ImageMeta.Origin)
+			if (meta == ImageMeta.Origin || attachmentAttributes.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
 			{
 				var update = Update.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
 								.Set("mime_type", attachmentAttributes.mime_type)

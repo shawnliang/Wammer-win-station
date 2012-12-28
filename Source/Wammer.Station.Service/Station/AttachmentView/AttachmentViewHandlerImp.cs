@@ -92,6 +92,9 @@ namespace Wammer.Station.AttachmentView
 			if (dbDoc == null)
 				throw new FileNotFoundException("attachment db record not found: " + object_id);
 
+			if (dbDoc.type == AttachmentType.webthumb)
+				meta = ImageMeta.Origin;
+
 			var user = DB.GetUserByGroupId(dbDoc.group_id);
 
 			if (user == null)
