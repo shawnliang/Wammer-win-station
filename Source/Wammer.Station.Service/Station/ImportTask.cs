@@ -194,12 +194,16 @@ namespace Wammer.Station
 			return folderCollections;
 		}
 
-		private static List<ObjectIdAndPath> filterDuplicateFiles(List<ObjectIdAndPath> allFiles)
+		private List<ObjectIdAndPath> filterDuplicateFiles(List<ObjectIdAndPath> allFiles)
 		{
 			var notDupFiles = new List<ObjectIdAndPath>();
 			foreach (var item in allFiles)
 			{
-				var sameSizeFiles = AttachmentCollection.Instance.Find(Query.EQ("file_size", new FileInfo(item.file_path).Length));
+				var sameSizeFiles = AttachmentCollection.Instance.Find(
+					Query.And(
+						Query.EQ("group_id", m_GroupID),
+						Query.EQ("file_size", new FileInfo(item.file_path).Length) ) );
+
 				bool hasDup = false;
 				foreach (var sameSizeFile in sameSizeFiles)
 				{
