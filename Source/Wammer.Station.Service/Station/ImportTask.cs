@@ -62,6 +62,9 @@ namespace Wammer.Station
 		private List<string> m_IgnorePath { get; set; }
 
 		private int timezoneDiff;
+		private List<ObjectIdAndPath> allSavedFiles = new List<ObjectIdAndPath>();
+		private List<ObjectIdAndPath> allFailedFiles = new List<ObjectIdAndPath>();
+		private List<ObjectIdAndPath> allSkippedFiles = new List<ObjectIdAndPath>();
 		#endregion
 
 		#region Public Property
@@ -132,7 +135,7 @@ namespace Wammer.Station
 		{
 			this.LogInfoMsg("Importing from: " + string.Join(", ", m_Paths.ToArray()));
 	 		Exception error = null;
-
+	
 			try
 			{
 				var importTime = DateTime.Now;
@@ -143,17 +146,14 @@ namespace Wammer.Station
 					var att = new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() };
 					allFiles.Add(att);					
 				});
-				allFiles = filterDuplicateFiles(allFiles);
+
 				raiseFilesEnumeratedEvent(allFiles.Count);
-			
-				var allSavedFiles = new List<ObjectIdAndPath>();
-				var allFailedFiles = new List<ObjectIdAndPath>();
 
 				int nProc = 0;
 				do
 				{
 					var batch = allFiles.Skip(nProc).Take(50);
-					var saved = submitBatch(importTime, batch, ref allFailedFiles);
+					var saved = submitBatch(importTime, batch, ref allFailedFiles, ref allSkippedFiles);
 
 					var meta = extractMetadata(saved);
 					enqueueUploadMetadataTask(meta);
@@ -199,21 +199,7 @@ namespace Wammer.Station
 			var notDupFiles = new List<ObjectIdAndPath>();
 			foreach (var item in allFiles)
 			{
-				var sameSizeFiles = AttachmentCollection.Instance.Find(
-					Query.And(
-						Query.EQ("group_id", m_GroupID),
-						Query.EQ("file_size", new FileInfo(item.file_path).Length) ) );
-
-				bool hasDup = false;
-				foreach (var sameSizeFile in sameSizeFiles)
-				{
-					if (sameSizeFile.file_path.Equals(item.file_path, StringComparison.CurrentCultureIgnoreCase) ||
-						sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
-					{
-						hasDup = true;
-						break;
-					}
-				}
+				bool hasDup = hasDupItemInDB(item);
 
 				if (!hasDup)
 					notDupFiles.Add(item);
@@ -222,7 +208,27 @@ namespace Wammer.Station
 			return notDupFiles;
 		}
 
-		private List<ObjectIdAndPath> submitBatch(DateTime importTime, IEnumerable<ObjectIdAndPath> batch, ref List<ObjectIdAndPath> failed)
+		private bool hasDupItemInDB(ObjectIdAndPath item)
+		{
+			var sameSizeFiles = AttachmentCollection.Instance.Find(
+							Query.And(
+								Query.EQ("group_id", m_GroupID),
+								Query.EQ("file_size", new FileInfo(item.file_path).Length)));
+
+			bool hasDup = false;
+			foreach (var sameSizeFile in sameSizeFiles)
+			{
+				if (sameSizeFile.file_path.Equals(item.file_path, StringComparison.CurrentCultureIgnoreCase) ||
+					sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
+				{
+					hasDup = true;
+					break;
+				}
+			}
+			return hasDup;
+		}
+
+		private List<ObjectIdAndPath> submitBatch(DateTime importTime, IEnumerable<ObjectIdAndPath> batch, ref List<ObjectIdAndPath> failed, ref List<ObjectIdAndPath> skipped)
 		{
 			List<ObjectIdAndPath> saved = new List<ObjectIdAndPath>();
 
@@ -231,8 +237,15 @@ namespace Wammer.Station
 			{
 				try
 				{
-					saveToStream(importTime, post_id, file);
-					saved.Add(file);
+					if (hasDupItemInDB(file))
+					{
+						skipped.Add(file);
+					}
+					else
+					{
+						saveToStream(importTime, post_id, file);
+						saved.Add(file);
+					}
 				}
 				catch (Exception e)
 				{
@@ -411,7 +424,14 @@ namespace Wammer.Station
 		{
 			var handler = ImportDone;
 			if (handler != null)
-				handler(this, new ImportDoneEventArgs { Error = e, TaskId = TaskId });
+				handler(this,
+					new ImportDoneEventArgs
+					{
+						Error = e,
+						TaskId = TaskId,
+						FailedFiles = allFailedFiles.Select(x => x.file_path).ToList(),
+						SkippedFiles = allSkippedFiles.Select(x => x.file_path).ToList()
+					});
 		}
 
 		private void raiseFilesEnumeratedEvent(int count)
@@ -441,6 +461,8 @@ namespace Wammer.Station
 	{
 		public Guid TaskId { get; set; }
 		public Exception Error { get; set; }
+		public List<string> FailedFiles { get; set; }
+		public List<string> SkippedFiles { get; set; }
 	}
 
 	public class FilesEnumeratedArgs : EventArgs
