@@ -143,6 +143,12 @@ namespace Wammer.Station
 				var allFiles = new List<ObjectIdAndPath>();
 				findInterestedFiles((file) =>
 				{
+					if (Path.GetFileName(file).StartsWith("."))
+						return;
+
+					if (new FileInfo(file).Attributes == FileAttributes.Hidden)
+						return;
+
 					var att = new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() };
 					allFiles.Add(att);					
 				});
@@ -298,6 +304,12 @@ namespace Wammer.Station
 						(folder) =>
 						{
 							if (processedDir.Contains(folder))
+								return false;
+
+							if (new DirectoryInfo(folder).Attributes == FileAttributes.Hidden)
+								return false;
+
+							if (Path.GetFileName(folder).StartsWith("."))
 								return false;
 
 							foreach (var skipdir in m_IgnorePath)
