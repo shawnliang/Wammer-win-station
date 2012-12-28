@@ -10,6 +10,7 @@ using Wammer.Utility;
 using MongoDB.Driver.Builders;
 using Waveface.Stream.Model;
 using Wammer.Station.AttachmentUpload;
+using Newtonsoft.Json;
 
 namespace Wammer.Station.Doc
 {
@@ -70,8 +71,37 @@ namespace Wammer.Station.Doc
 				};
 				AttachmentCollection.Instance.Save(db);
 
+				// upload metadata to cloud
+				var metas = new List<object>{
+					new {
+						object_id = object_id,
+						file_create_time = db.file_create_time.Value.TrimToSec(),
+						file_path = db.file_path,
+						file_name = db.file_name,
+						group_id = user.groups[0].group_id,
+						type = "doc",
+						doc_meta = new {
+							file_name = db.doc_meta.file_name,
+							access_time = db.doc_meta.access_time.Select(x => x.TrimToSec()).ToList(),
+							modify_time = db.doc_meta.modify_time.TrimToSec()
+						}
+					}
+				};
+
+				var serializeSetting = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, DateTimeZoneHandling = DateTimeZoneHandling.Utc };
+				var batchMetadata = JsonConvert.SerializeObject(metas, Formatting.None, serializeSetting);
+
+				AttachmentUploadQueueHelper.Instance.Enqueue(
+					new UploadMetadataTask
+					{
+						group_id = user.groups[0].group_id,
+						metaCount = 1,
+						metadata = batchMetadata
+					}, TaskPriority.High);
+
+
 				// upload orig doc to cloud
-				AttachmentUpload.AttachmentUploadQueueHelper.Instance.Enqueue(
+				AttachmentUploadQueueHelper.Instance.Enqueue(
 					new AttachmentUpload.UpstreamTask(object_id, ImageMeta.None, TaskPriority.VeryLow),
 					TaskPriority.VeryLow);
 
