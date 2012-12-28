@@ -1,1 +1,31 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","backbone","views/layouts/menu","lib/galleria/galleria-1.2.8"],function(e,n,r,i){var s;return s=function(e){function n(){return n.__super__.constructor.apply(this,arguments)}return t(n,e),n.prototype.el="#ncApp",n.prototype.initialize=function(){return this.renderMenu(),i.loadTheme("javascripts/lib/galleria/themes/classic/galleria.classic.js")},n.prototype.renderMenu=function(){return this.$("#menu").empty().append(r.render().el)},n}(n.View)})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'backbone', 'views/layouts/menu', 'lib/galleria/galleria-1.2.8'], function(_, Backbone, MenuView, Galleria) {
+    var AppView;
+    return AppView = (function(_super) {
+
+      __extends(AppView, _super);
+
+      function AppView() {
+        return AppView.__super__.constructor.apply(this, arguments);
+      }
+
+      AppView.prototype.el = "#ncApp";
+
+      AppView.prototype.initialize = function() {
+        this.renderMenu();
+        return Galleria.loadTheme('javascripts/lib/galleria/themes/classic/galleria.classic.js');
+      };
+
+      AppView.prototype.renderMenu = function() {
+        return this.$('#menu').empty().append(MenuView.render().el);
+      };
+
+      return AppView;
+
+    })(Backbone.View);
+  });
+
+}).call(this);

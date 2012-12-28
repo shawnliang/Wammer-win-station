@@ -1,1 +1,86 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","backbone","models/calendar","localstorage","eventbundler","moment"],function(e,n,r,i,s,o){var u;return u=function(n){function u(){return u.__super__.constructor.apply(this,arguments)}return t(u,n),u.prototype.model=r,u.prototype.schemaName="calendars",u.prototype.localStorage=new i("calendars"),u.prototype.initialize=function(){return dispatch.on("store:change:"+this.schemaName+":all",this.updateCalendar,this)},u.prototype.updateCalendar=function(t,n){var r,i=this;return r=t.calendar_entries,e.each(r,function(e){return i.add(e)}),dispatch.trigger("render:change:"+this.schemaName+":"+n,t.calendars)},u.prototype.callCalendar=function(e){var t,n;return e==null&&(e="all"),new s("GetCalendar",e),t={namespace:e,type:this.schemaName},n={group_by:0,page_size:100},wfwsocket.sendMessage("getCalendarEntries",n,t)},u.prototype.photosByDate=function(e){var t,n;return e?(e=o(e,"YYYY-M-D").format("YYYY-MM-DD"),n=this.get(e),n?(t=n.get("attachment_count"),t):0):0},u.prototype.eventsByDate=function(e){var t,n;return e?(e=o(e,"YYYY-M-D").format("YYYY-MM-DD"),t=this.get(e),t?(n=t.get("post_count"),n):0):0},u}(n.Collection),new u})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'backbone', 'models/calendar', 'localstorage', 'eventbundler', 'moment'], function(_, Backbone, Calendar, LocalStorage, EventBundler, Moment) {
+    var CalendarCollection;
+    CalendarCollection = (function(_super) {
+
+      __extends(CalendarCollection, _super);
+
+      function CalendarCollection() {
+        return CalendarCollection.__super__.constructor.apply(this, arguments);
+      }
+
+      CalendarCollection.prototype.model = Calendar;
+
+      CalendarCollection.prototype.schemaName = 'calendars';
+
+      CalendarCollection.prototype.localStorage = new LocalStorage('calendars');
+
+      CalendarCollection.prototype.initialize = function() {
+        return dispatch.on("store:change:" + this.schemaName + ":all", this.updateCalendar, this);
+      };
+
+      CalendarCollection.prototype.updateCalendar = function(data, ns) {
+        var calendars,
+          _this = this;
+        calendars = data.calendar_entries;
+        _.each(calendars, function(calendar) {
+          return _this.add(calendar);
+        });
+        return dispatch.trigger("render:change:" + this.schemaName + ":" + ns, data.calendars);
+      };
+
+      CalendarCollection.prototype.callCalendar = function(ns) {
+        var memo, params;
+        if (ns == null) {
+          ns = "all";
+        }
+        new EventBundler("GetCalendar", ns);
+        memo = {
+          namespace: ns,
+          type: this.schemaName
+        };
+        params = {
+          group_by: 0,
+          page_size: 100
+        };
+        return wfwsocket.sendMessage("getCalendarEntries", params, memo);
+      };
+
+      CalendarCollection.prototype.photosByDate = function(date) {
+        var attachment_count, data;
+        if (!date) {
+          return 0;
+        }
+        date = Moment(date, "YYYY-M-D").format('YYYY-MM-DD');
+        data = this.get(date);
+        if (data) {
+          attachment_count = data.get("attachment_count");
+          return attachment_count;
+        }
+        return 0;
+      };
+
+      CalendarCollection.prototype.eventsByDate = function(date) {
+        var data, post_count;
+        if (!date) {
+          return 0;
+        }
+        date = Moment(date, "YYYY-M-D").format('YYYY-MM-DD');
+        data = this.get(date);
+        if (data) {
+          post_count = data.get("post_count");
+          return post_count;
+        }
+        return 0;
+      };
+
+      return CalendarCollection;
+
+    })(Backbone.Collection);
+    return new CalendarCollection();
+  });
+
+}).call(this);

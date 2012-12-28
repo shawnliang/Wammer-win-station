@@ -1,1 +1,66 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","backbone","mustache","collections/wfcollections","views/partials/collection_sum","views/partials/collection_detail","text!templates/collections.html"],function(e,n,r,i,s,o,u){var a;return a=function(e){function n(){return n.__super__.constructor.apply(this,arguments)}return t(n,e),n.prototype.id="collections",n.prototype.events={"click .collection-detail":"renderGrid"},n.prototype.initialize=function(){return this.on("viewDetail",this.renderDetail,this)},n.prototype.render=function(){return this.$el.html(r.render(u)),this.delegateEvents(),this.renderGrid(),this},n.prototype.renderGrid=function(){var e=this;return this.$(".content-detail").hide(),this.$(".content-grid").show(),this.$(".collection-grid").empty(),this.collection.each(function(t,n){var r;return r=new s({model:t,parent:e}),e.$(".collection-grid").append(r.render().el)})},n.prototype.renderDetail=function(e){var t;return console.log(1e3,"renderDetail"),this.$(".content-detail").empty().show(),this.$(".content-grid").hide(),t=new o({model:e}),this.$(".content-detail").append(t.render().el)},n}(n.View),new a({collection:i})})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'backbone', 'mustache', 'collections/wfcollections', 'views/partials/collection_sum', 'views/partials/collection_detail', 'text!templates/collections.html'], function(_, Backbone, M, WFCollections, CollectionSumView, CollectionDetailView, Template) {
+    var CollectionsView;
+    CollectionsView = (function(_super) {
+
+      __extends(CollectionsView, _super);
+
+      function CollectionsView() {
+        return CollectionsView.__super__.constructor.apply(this, arguments);
+      }
+
+      CollectionsView.prototype.id = 'collections';
+
+      CollectionsView.prototype.events = {
+        'click .collection-detail': 'renderGrid'
+      };
+
+      CollectionsView.prototype.initialize = function() {
+        return this.on('viewDetail', this.renderDetail, this);
+      };
+
+      CollectionsView.prototype.render = function() {
+        this.$el.html(M.render(Template));
+        this.delegateEvents();
+        this.renderGrid();
+        return this;
+      };
+
+      CollectionsView.prototype.renderGrid = function() {
+        var _this = this;
+        this.$('.content-detail').hide();
+        this.$('.content-grid').show();
+        this.$('.collection-grid').empty();
+        return this.collection.each(function(collect, index) {
+          var view;
+          view = new CollectionSumView({
+            model: collect,
+            parent: _this
+          });
+          return _this.$('.collection-grid').append(view.render().el);
+        });
+      };
+
+      CollectionsView.prototype.renderDetail = function(model) {
+        var view;
+        console.log(1000, 'renderDetail');
+        this.$('.content-detail').empty().show();
+        this.$('.content-grid').hide();
+        view = new CollectionDetailView({
+          model: model
+        });
+        return this.$('.content-detail').append(view.render().el);
+      };
+
+      return CollectionsView;
+
+    })(Backbone.View);
+    return new CollectionsView({
+      collection: WFCollections
+    });
+  });
+
+}).call(this);

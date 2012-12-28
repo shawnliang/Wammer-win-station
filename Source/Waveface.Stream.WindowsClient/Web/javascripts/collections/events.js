@@ -1,1 +1,175 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","backbone","models/event","localstorage","eventbundler","com/subscriber"],function(e,n,r,i,s,o){var u,a,f;return a=o.POST_ADDED,f=o.POST_UPDATE,u=function(u){function l(){return l.__super__.constructor.apply(this,arguments)}return t(l,u),l.prototype.model=r,l.prototype.schemaName="posts",l.prototype.dateGroup=[],l.prototype.localStorage=new i("events"),l.prototype.initialize=function(){return dispatch.on("store:change:posts:all",this.updatePost,this),dispatch.on("subscribe:change:"+a+":new:event",this.updatePost,this),dispatch.on("subscribe:change:"+f+":update:event",this.updatePost,this),dispatch.on("more:posts",this.loadMore,this)},l.prototype.comparator=function(e){return-moment(e.get("timestamp")).unix()},l.prototype.updatePost=function(t,r){var s,o,u,a,f=this;a=t.posts,u=!1;if(a.length<=0)return!1;e.each(a,function(e,t){var n;return n=moment(e.timestamp).format("YYYY-MM-DD"),t===0&&(u=n),f.dateGroup.push(n),f.add(e)}),this.dateGroup=e.uniq(this.dateGroup),this.dateGroup.sort(),this.dateGroup.reverse(),s=new i("nc_view_state:events"),s.data.date!=null?s.data.id!=null?o="events/"+s.data.date+"/"+s.data.id:o="events/"+s.data.date:r==="all"&&(o="events/"+u);if(o!=null)return n.history.navigate(o,{trigger:!0})},l.prototype.loadMore=function(){return this.callPosts("more",this.updatePost,this)},l.prototype.callPosts=function(e,t,n){var r,o,u,a,f;return e==null&&(e="all"),new s("GetPosts",e),!!t&&!!n&&(dispatch.off("store:change:posts:"+e),dispatch.on("store:change:posts:"+e,t,n)),r=new i("nc_events_view_data"),f=r.data,f.pageNo?u=f.pageNo+=1:u=f.pageNo=1,r.data=f,r.save(),o={namespace:e,type:this.schemaName},a={page_no:u,page_size:30},wfwsocket.sendMessage("getPosts",a,o)},l.prototype.subscribe=function(e,t,n,r){var i,u;return e==null&&(e="new:event"),r==null&&(r=o.POST_ADDED),new s("SubscribeEvent",e),u={event_id:r},i={namespace:e,event_id:r},wfwsocket.sendMessage("subscribeEvent",u,i)},l.prototype.filterByDate=function(t){return t?e(this.filter(function(e){var n;return n=e.get("dateUri"),n===t})):this},l.prototype.nextDate=function(t){var n;return n=e.indexOf(this.dateGroup,t),this.dateGroup[n-1]},l.prototype.previousDate=function(t,n){var r;return n==null&&(n=!0),r=e.indexOf(this.dateGroup,t),n===!0&&(this.dateGroup[r+3]||dispatch.trigger("more:posts")),this.dateGroup[r+1]},l.prototype.nextEvent=function(e){var t;return t=this.indexOf(this.get(e)),this.at(t-1)},l.prototype.previousEvent=function(e){var t;return t=this.indexOf(this.get(e)),this.at(t+1)},l}(n.Collection),new u})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'backbone', 'models/event', 'localstorage', 'eventbundler', 'com/subscriber'], function(_, Backbone, Event, LocalStorage, EventBundler, Subscriber) {
+    var EventCollection, POST_ADDED, POST_UPDATE;
+    POST_ADDED = Subscriber.POST_ADDED;
+    POST_UPDATE = Subscriber.POST_UPDATE;
+    EventCollection = (function(_super) {
+
+      __extends(EventCollection, _super);
+
+      function EventCollection() {
+        return EventCollection.__super__.constructor.apply(this, arguments);
+      }
+
+      EventCollection.prototype.model = Event;
+
+      EventCollection.prototype.schemaName = 'posts';
+
+      EventCollection.prototype.dateGroup = [];
+
+      EventCollection.prototype.localStorage = new LocalStorage('events');
+
+      EventCollection.prototype.initialize = function() {
+        dispatch.on("store:change:posts:all", this.updatePost, this);
+        dispatch.on("subscribe:change:" + POST_ADDED + ":new:event", this.updatePost, this);
+        dispatch.on("subscribe:change:" + POST_UPDATE + ":update:event", this.updatePost, this);
+        return dispatch.on("more:posts", this.loadMore, this);
+      };
+
+      EventCollection.prototype.comparator = function(model) {
+        return -moment(model.get("timestamp")).unix();
+      };
+
+      EventCollection.prototype.updatePost = function(data, ns) {
+        var eventViewState, fragment, lastDate, posts,
+          _this = this;
+        posts = data.posts;
+        lastDate = false;
+        if (posts.length <= 0) {
+          return false;
+        }
+        _.each(posts, function(post, index) {
+          var postDate;
+          postDate = moment(post.timestamp).format('YYYY-MM-DD');
+          if (index === 0) {
+            lastDate = postDate;
+          }
+          _this.dateGroup.push(postDate);
+          return _this.add(post);
+        });
+        this.dateGroup = _.uniq(this.dateGroup);
+        this.dateGroup.sort();
+        this.dateGroup.reverse();
+        eventViewState = new LocalStorage('nc_view_state:events');
+        if (eventViewState.data.date != null) {
+          if (eventViewState.data.id != null) {
+            fragment = "events/" + eventViewState.data.date + "/" + eventViewState.data.id;
+          } else {
+            fragment = "events/" + eventViewState.data.date;
+          }
+        } else if (ns === "all") {
+          fragment = "events/" + lastDate;
+        }
+        if (fragment != null) {
+          return Backbone.history.navigate(fragment, {
+            trigger: true
+          });
+        }
+      };
+
+      EventCollection.prototype.loadMore = function() {
+        return this.callPosts("more", this.updatePost, this);
+      };
+
+      EventCollection.prototype.callPosts = function(namespace, callback, context) {
+        var eventStore, memo, pageNo, params, viewData;
+        if (namespace == null) {
+          namespace = "all";
+        }
+        new EventBundler('GetPosts', namespace);
+        if (!!callback && !!context) {
+          dispatch.off("store:change:posts:" + namespace);
+          dispatch.on("store:change:posts:" + namespace, callback, context);
+        }
+        eventStore = new LocalStorage("nc_events_view_data");
+        viewData = eventStore.data;
+        if (!!viewData.pageNo) {
+          pageNo = viewData.pageNo += 1;
+        } else {
+          pageNo = viewData.pageNo = 1;
+        }
+        eventStore.data = viewData;
+        eventStore.save();
+        memo = {
+          namespace: namespace,
+          type: this.schemaName
+        };
+        params = {
+          page_no: pageNo,
+          page_size: 30
+        };
+        return wfwsocket.sendMessage('getPosts', params, memo);
+      };
+
+      EventCollection.prototype.subscribe = function(namespace, callback, context, event_id) {
+        var memo, params;
+        if (namespace == null) {
+          namespace = "new:event";
+        }
+        if (event_id == null) {
+          event_id = Subscriber.POST_ADDED;
+        }
+        new EventBundler("SubscribeEvent", namespace);
+        params = {
+          event_id: event_id
+        };
+        memo = {
+          namespace: namespace,
+          event_id: event_id
+        };
+        return wfwsocket.sendMessage("subscribeEvent", params, memo);
+      };
+
+      EventCollection.prototype.filterByDate = function(date) {
+        if (!date) {
+          return this;
+        }
+        return _(this.filter(function(model) {
+          var modelDate;
+          modelDate = model.get('dateUri');
+          return modelDate === date;
+        }));
+      };
+
+      EventCollection.prototype.nextDate = function(date) {
+        var dateIndex;
+        dateIndex = _.indexOf(this.dateGroup, date);
+        return this.dateGroup[dateIndex - 1];
+      };
+
+      EventCollection.prototype.previousDate = function(date, trigger) {
+        var dateIndex;
+        if (trigger == null) {
+          trigger = true;
+        }
+        dateIndex = _.indexOf(this.dateGroup, date);
+        if (trigger === true) {
+          if (!this.dateGroup[dateIndex + 3]) {
+            dispatch.trigger("more:posts");
+          }
+        }
+        return this.dateGroup[dateIndex + 1];
+      };
+
+      EventCollection.prototype.nextEvent = function(id) {
+        var currentIndex;
+        currentIndex = this.indexOf(this.get(id));
+        return this.at(currentIndex - 1);
+      };
+
+      EventCollection.prototype.previousEvent = function(id) {
+        var currentIndex;
+        currentIndex = this.indexOf(this.get(id));
+        return this.at(currentIndex + 1);
+      };
+
+      return EventCollection;
+
+    })(Backbone.Collection);
+    return new EventCollection();
+  });
+
+}).call(this);
