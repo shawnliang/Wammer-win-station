@@ -4,6 +4,7 @@ using System.IO;
 using Wammer.Model;
 using Wammer.Utility;
 using Waveface.Stream.Model;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -39,6 +40,10 @@ namespace Wammer.Station.AttachmentUpload
 				var folderPath = getFolderByDate(data, takenTime);
 				var relativePath = Path.Combine(folderPath, data.file_name);
 				relativePath = storage.TrySaveFile(relativePath, data.raw_data);
+
+				DriverCollection.Instance.Update(
+					Query.EQ("_id", user.user_id),
+					Update.Inc("cur_origin_size", data.raw_data.Count));
 
 				return new AttachmentSaveResult(storage.basePath, relativePath);
 			}

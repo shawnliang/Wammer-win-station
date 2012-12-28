@@ -187,7 +187,8 @@ namespace Wammer.Station.Timeline
 
 				var update = Update.Set("group_id", attachmentAttributes.group_id)
 								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
-								.Set("image_meta." + metaStr, thumbnail.ToBsonDocument());
+								.Set("image_meta." + metaStr, thumbnail.ToBsonDocument())
+								.Set("body_on_cloud", !string.IsNullOrEmpty(attachmentAttributes.url));
 
 				setOptionalAttributes(attachmentAttributes, update);
 
@@ -246,6 +247,12 @@ namespace Wammer.Station.Timeline
 				if (user == null)
 				{
 					logger.Info("drop download task because user does not exist anymore: " + evtargs.user_id);
+					return;
+				}
+
+				if ((evtargs.imagemeta == ImageMeta.Origin || evtargs.imagemeta == ImageMeta.None) && user.ReachOriginSizeLimit())
+				{
+					logger.DebugFormat("origin size limit {} is reached. Skip", user.origin_limit);
 					return;
 				}
 
