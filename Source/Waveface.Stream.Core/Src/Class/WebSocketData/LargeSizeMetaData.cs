@@ -34,8 +34,8 @@ namespace Waveface.Stream.Core
 		/// <value>
 		/// The small.
 		/// </value>
-		[JsonProperty("small", NullValueHandling = NullValueHandling.Ignore)]
-		public ThumbnailData Small { get; set; }
+		[JsonProperty("small_previews", NullValueHandling = NullValueHandling.Ignore)]
+		public IEnumerable<ThumbnailData> SmallPreviews { get; set; }
 
 		/// <summary>
 		/// Gets or sets the medium.
@@ -43,8 +43,8 @@ namespace Waveface.Stream.Core
 		/// <value>
 		/// The medium.
 		/// </value>
-		[JsonProperty("medium", NullValueHandling = NullValueHandling.Ignore)]
-		public ThumbnailData Medium { get; set; }
+		[JsonProperty("medium_previews", NullValueHandling = NullValueHandling.Ignore)]
+		public IEnumerable<ThumbnailData> MediumPreviews { get; set; }
 
 		/// <summary>
 		/// Gets or sets the large.
@@ -52,8 +52,26 @@ namespace Waveface.Stream.Core
 		/// <value>
 		/// The large.
 		/// </value>
-		[JsonProperty("large", NullValueHandling = NullValueHandling.Ignore)]
-		public ThumbnailData Large { get; set; }
+		[JsonProperty("large_previews", NullValueHandling = NullValueHandling.Ignore)]
+		public IEnumerable<ThumbnailData> LargePreviews { get; set; }
+
+		/// <summary>
+		/// Gets or sets the favicon.
+		/// </summary>
+		/// <value>
+		/// The favicon.
+		/// </value>
+		[JsonProperty("favicon")]
+		public string Favicon { get; set; }
+
+		/// <summary>
+		/// Gets or sets from.
+		/// </summary>
+		/// <value>
+		/// From.
+		/// </value>
+		[JsonProperty("from")]
+		public string From { get; set; }
 
 		/// <summary>
 		/// Gets or sets the exif.
@@ -63,15 +81,6 @@ namespace Waveface.Stream.Core
 		/// </value>
 		[JsonProperty("exif", NullValueHandling = NullValueHandling.Ignore)]
 		public ExifData Exif { get; set; }
-
-		/// <summary>
-		/// Gets or sets the preview files.
-		/// </summary>
-		/// <value>
-		/// The preview files.
-		/// </value>
-		[JsonProperty("preview_files", NullValueHandling = NullValueHandling.Ignore)]
-		public IEnumerable<string> PreviewFiles { get; set; }
 
 		/// <summary>
 		/// Gets or sets the page count.
@@ -112,15 +121,6 @@ namespace Waveface.Stream.Core
 			return Height > 0;
 		}
 
-
-		/// <summary>
-		/// Shoulds the serialize preview files.
-		/// </summary>
-		/// <returns></returns>
-		public bool ShouldSerializePreviewFiles()
-		{
-			return PreviewFiles != null && PreviewFiles.Any();
-		}
 
 		/// <summary>
 		/// Shoulds the serialize access times.

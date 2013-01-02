@@ -458,6 +458,11 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public DocProperty doc_meta { get; set; }
 
+
+		[BsonIgnoreIfNull]
+		public WebProperty web_meta { get; set; }
+		
+
 		/// <summary>
 		/// is the attachment is imported from this station?
 		/// </summary>

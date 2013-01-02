@@ -41,24 +41,6 @@ namespace Waveface.Stream.Core
 			}
 		}
 
-		///// <summary>
-		///// Gets or sets the content.
-		///// </summary>
-		///// <value>
-		///// The content.
-		///// </value>
-		//[JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
-		//public string Content { get; set; }
-
-		///// <summary>
-		///// Gets or sets the comment count.
-		///// </summary>
-		///// <value>
-		///// The comment count.
-		///// </value>
-		//[JsonProperty("comment_count")]
-		//public int CommentCount { get; set; }
-
 		/// <summary>
 		/// Gets or sets the type.
 		/// </summary>
@@ -77,15 +59,6 @@ namespace Waveface.Stream.Core
 		[JsonProperty("timestamp", NullValueHandling = NullValueHandling.Ignore)]
 		public DateTime? TimeStamp { get; set; }
 
-		///// <summary>
-		///// Gets or sets the name of the code.
-		///// </summary>
-		///// <value>
-		///// The name of the code.
-		///// </value>
-		//[JsonProperty("code_name", NullValueHandling = NullValueHandling.Ignore)]
-		//public string CodeName { get; set; }
-
 		/// <summary>
 		/// Gets or sets the attachment I ds.
 		/// </summary>
@@ -94,15 +67,6 @@ namespace Waveface.Stream.Core
 		/// </value>
 		[JsonProperty("attachment_id_array", NullValueHandling = NullValueHandling.Ignore)]
 		public IEnumerable<string> AttachmentIDs { get; set; }
-
-		///// <summary>
-		///// Gets or sets the favorite.
-		///// </summary>
-		///// <value>
-		///// The favorite.
-		///// </value>
-		//[JsonProperty("favorite")]
-		//public int Favorite { get; set; }
 
 		/// <summary>
 		/// Gets or sets the cover attachment ID.
