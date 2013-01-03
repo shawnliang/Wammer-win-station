@@ -114,9 +114,9 @@
 			// 
 			// folderColumn
 			// 
-			this.folderColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
 			this.folderColumn.HeaderText = "Location";
 			this.folderColumn.Name = "folderColumn";
+			this.folderColumn.Width = 313;
 			// 
 			// photoCountColumn
 			// 

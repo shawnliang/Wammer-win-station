@@ -106,20 +106,6 @@ namespace Wammer.Station
 
 		private ImportTask()
 		{
-			string[] unInterestedFolders = new string[]
-			{
-				Environment.GetEnvironmentVariable("windir"),
-				Environment.GetEnvironmentVariable("ProgramData"),
-				Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
-				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-				@"c:\$Recycle.bin"
-			};
-
-			m_IgnorePath = new List<string>();
-			m_IgnorePath.AddRange(unInterestedFolders.Where(x => !string.IsNullOrEmpty(x)));
-
 			timezoneDiff = (int)TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now).TotalMinutes;
 
 			TaskId = Guid.NewGuid();
@@ -140,18 +126,8 @@ namespace Wammer.Station
 			{
 				var importTime = DateTime.Now;
 
-				var allFiles = new List<ObjectIdAndPath>();
-				findInterestedFiles((file) =>
-				{
-					if (Path.GetFileName(file).StartsWith("."))
-						return;
-
-					if (new FileInfo(file).Attributes == FileAttributes.Hidden)
-						return;
-
-					var att = new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() };
-					allFiles.Add(att);					
-				});
+				var photoCrawler = new PhotoCrawler();
+				var allFiles = photoCrawler.FindPhotos(m_Paths).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
 
 				raiseFilesEnumeratedEvent(allFiles.Count);
 
@@ -198,20 +174,6 @@ namespace Wammer.Station
 					folderCollections.Add(folderPath, new FolderCollection(folderPath, file.object_id));
 			}
 			return folderCollections;
-		}
-
-		private List<ObjectIdAndPath> filterDuplicateFiles(List<ObjectIdAndPath> allFiles)
-		{
-			var notDupFiles = new List<ObjectIdAndPath>();
-			foreach (var item in allFiles)
-			{
-				bool hasDup = hasDupItemInDB(item);
-
-				if (!hasDup)
-					notDupFiles.Add(item);
-			}
-
-			return notDupFiles;
 		}
 
 		private bool hasDupItemInDB(ObjectIdAndPath item)
@@ -285,52 +247,6 @@ namespace Wammer.Station
 					{CloudServer.PARAM_IMPORT, "true"},
 				};
 			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
-		}
-
-		private void findInterestedFiles(Action<string> fileAction)
-		{
-			var processedDir = new HashSet<string>();
-
-			foreach (var path in m_Paths)
-			{
-				if (Directory.Exists(path))
-				{
-					var dir = new DirectoryInfo(path);
-					dir.SearchFiles(new string[] { "*.jpg", "*.jpeg" },
-						// file callback
-						(file) => { fileAction(file); return true; },
-
-						// dir callback
-						(folder) =>
-						{
-							if (processedDir.Contains(folder))
-								return false;
-
-							if (new DirectoryInfo(folder).Attributes == FileAttributes.Hidden)
-								return false;
-
-							if (Path.GetFileName(folder).StartsWith("."))
-								return false;
-
-							foreach (var skipdir in m_IgnorePath)
-								if (folder.StartsWith(skipdir, StringComparison.InvariantCultureIgnoreCase))
-									return false;
-
-							processedDir.Add(folder);
-
-							return true;
-						});
-				}
-				else if (File.Exists(path))
-				{
-					var ext = Path.GetExtension(path);
-					if (ext.Equals(".jpg", StringComparison.InvariantCultureIgnoreCase) ||
-						ext.Equals(".jpeg", StringComparison.InvariantCultureIgnoreCase))
-					{
-						fileAction(path);
-					}
-				}
-			}
 		}
 
 		private void saveToStream(DateTime importTime, string postID, ObjectIdAndPath file)

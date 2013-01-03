@@ -193,11 +193,26 @@ namespace Waveface.Stream.WindowsClient
 		public string path { get; set; }
 		public int photoCount { get; set; }
 
-
 		public PathAndPhotoCount(string path, int count)
 		{
 			this.path = path;
 			this.photoCount = count;
+		}
+
+		public override int GetHashCode()
+		{
+			return path.GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null)
+				return false;
+
+			if (obj is PathAndPhotoCount)
+				return path.Equals(((PathAndPhotoCount)obj).path);
+			else
+				return false;
 		}
 	}
 }
