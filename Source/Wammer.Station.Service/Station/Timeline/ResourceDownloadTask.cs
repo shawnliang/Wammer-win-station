@@ -143,7 +143,7 @@ namespace Wammer.Station.Timeline
 			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
 				attachmentAttributes.image_meta.exif.gps = attachmentAttributes.image_meta.gps;
 
-			if (meta == ImageMeta.Origin)
+			if (meta == ImageMeta.Origin || attachmentAttributes.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
 			{
 				var update = Update.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
 								.Set("mime_type", attachmentAttributes.mime_type)
@@ -192,7 +192,8 @@ namespace Wammer.Station.Timeline
 
 				var update = Update.Set("group_id", attachmentAttributes.group_id)
 								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
-								.Set("image_meta." + metaStr, thumbnail.ToBsonDocument());
+								.Set("image_meta." + metaStr, thumbnail.ToBsonDocument())
+								.Set("body_on_cloud", !string.IsNullOrEmpty(attachmentAttributes.url));
 
 				setOptionalAttributes(attachmentAttributes, update);
 
@@ -254,13 +255,19 @@ namespace Wammer.Station.Timeline
 					return;
 				}
 
+				if ((evtargs.imagemeta == ImageMeta.Origin || evtargs.imagemeta == ImageMeta.None) && user.ReachOriginSizeLimit())
+				{
+					logger.DebugFormat("origin size limit {} is reached. Skip", user.origin_limit);
+					return;
+				}
+
 				var api = new AttachmentApi(user);
 				api.AttachmentView(evtargs, StationRegistry.StationId);
 				DownloadComplete(evtargs, user);
 			}
 			catch (Exception e)
 			{
-				string msg = string.Format("Unabel to download attachment {0} meta {1}. ", evtargs.attachment.object_id, meta);
+				string msg = string.Format("Unabel to download attachment {0} meta {1}: {2}", evtargs.attachment.object_id, meta, e.ToString());
 
 				if (e is WammerCloudException)
 					throw new Exception(msg + (e as WammerCloudException).response, e);
@@ -294,15 +301,6 @@ namespace Wammer.Station.Timeline
 
 		public override void ScheduleToRun()
 		{
-			var meta = evtargs.imagemeta.ToString();
-			if (++evtargs.failureCount >= 10)
-			{
-				logger.WarnFormat("Unable to download attachment object_id={0}, image_meta={1}", evtargs.attachment.object_id, meta);
-				return;
-			}
-
-			logger.WarnFormat("Unable to download attachment. Enqueue download task again: attachment object_id={0}, image_meta={1}",
-									   evtargs.attachment.object_id, meta);
 			BodySyncQueue.Instance.Enqueue(this, priority);
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver.Builders;
+﻿using System;
+using MongoDB.Driver.Builders;
 using Waveface.Stream.Model;
 
 namespace Wammer.Station.AttachmentView
@@ -14,6 +15,13 @@ namespace Wammer.Station.AttachmentView
 		public Driver GetUserByGroupId(string group_id)
 		{
 			return DriverCollection.Instance.FindDriverByGroupId(group_id);
+		}
+
+		public void UpdateLastAccessTime(string object_id)
+		{
+			AttachmentCollection.Instance.Update(
+				Query.EQ("_id", object_id),
+				Update.Set("last_access", DateTime.Now));
 		}
 	}
 }

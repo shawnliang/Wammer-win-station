@@ -1,1 +1,139 @@
-(function(){define(["common","eventbundler"],function(e,t){var n,r,i,s;return i=window,r=i.wfwsocket,n=function(){function n(){}return n.URI="127.0.0.1",n.PORT="1337",n.connection=!1,n.wantTrigger=!0,n.wantShowReceivedData=!1,n.inSandbox=!1,n.status=!1,n.init=function(r){return i.connection?(console.log(i.connection),n.connection=i.connection,n):(new t(["WebSocketOpen","GetUserInfo"]),i.connection=n.connection=new WebSocket("ws://"+n.URI+":"+n.PORT+"/"),n.connection.onopen=function(){n.handleOpen(e.Env);if(typeof r=="function")return r()},n.connection.onclose=n.end,n.connection.onmessage=n.handleMessage,n)},n.handleOpen=function(e){return t.trigger("WebSocketOpen",e)},n.handleMessage=function(e){var r,i;(n.wantShowReceivedData||n.inSandbox)&&Logger.log("ws received message: "+e.data),r=JSON.parse(e.data),Logger.log("ws received command: "+r.command),!r.memo||Logger.log("ws received memo: "+JSON.stringify(r.memo));if(r.memo!=null){i=[r.command],!r.memo.namespace||i.push(":"+r.memo.namespace),!r.memo.page||i.push(":"+r.memo.page),i=i.join("");if(n.wantTrigger&&!n.inSandbox)return t.trigger(i,r)}else if(n.wantTrigger&&!n.inSandbox)return t.trigger(r.command,r)},n.handleError=function(e){return Logger.log("Something is wrong: "+e)},n.sendMessage=function(e,t,r){var i,s;return r==null&&(r=!1),i={command:e,params:t,memo:r},s=JSON.stringify(i),Logger.log("send msg is "+s),n.connection.send(s)},n.end=function(){return Logger.log("Connector end"),this.status={code:0,msg:"offline"}},n}.call(this),Backbone.sync=function(e,t,n){return n.success(!0)},n.noconflic=function(){return i.wfwsocket=r,this},s=i.wfwsocket=n})}).call(this);
+(function() {
+
+  define(['common', 'eventbundler'], function(Common, EventBundler) {
+    /*
+        Registry wfwsocket to global window
+    */
+
+    var WfWSocket, previousConnector, root, wfwsocket;
+    root = window;
+    previousConnector = root.wfwsocket;
+    WfWSocket = (function() {
+
+      function WfWSocket() {}
+
+      WfWSocket.URI = '127.0.0.1';
+
+      WfWSocket.PORT = '1337';
+
+      WfWSocket.connection = false;
+
+      WfWSocket.wantTrigger = true;
+
+      WfWSocket.wantShowReceivedData = false;
+
+      WfWSocket.inSandbox = false;
+
+      WfWSocket.status = false;
+
+      WfWSocket.init = function(onopen) {
+        if (root.connection) {
+          console.log(root.connection);
+          WfWSocket.connection = root.connection;
+          return WfWSocket;
+        }
+        new EventBundler(['WebSocketOpen', 'GetUserInfo']);
+        root.connection = WfWSocket.connection = new WebSocket("ws://" + WfWSocket.URI + ":" + WfWSocket.PORT + "/");
+        WfWSocket.connection.onopen = function() {
+          WfWSocket.handleOpen(Common.Env);
+          if (typeof onopen === 'function') {
+            return onopen();
+          }
+        };
+        WfWSocket.connection.onclose = WfWSocket.end;
+        WfWSocket.connection.onmessage = WfWSocket.handleMessage;
+        return WfWSocket;
+      };
+
+      WfWSocket.handleOpen = function(env) {
+        return EventBundler.trigger('WebSocketOpen', env);
+      };
+
+      /*
+              # WfWSocket.handleMessage( MessageEvent message )
+              # When websocket receive message , this method will trigger the resp command's
+              # event. If the {@statSandbox} is yes(and true or on) command will not to
+              # trigger anythings, and the console'll log MessageEvent's {data}
+      */
+
+
+      WfWSocket.handleMessage = function(message) {
+        var data, triggerStr;
+        if (WfWSocket.wantShowReceivedData || WfWSocket.inSandbox) {
+          Logger.log("ws received message: " + message.data);
+        }
+        data = JSON.parse(message.data);
+        Logger.log("ws received command: " + data.command);
+        if (!!data.memo) {
+          Logger.log("ws received memo: " + (JSON.stringify(data.memo)));
+        }
+        if (data.memo != null) {
+          triggerStr = [data.command];
+          if (!!data.memo.namespace) {
+            triggerStr.push(":" + data.memo.namespace);
+          }
+          if (!!data.memo.page) {
+            triggerStr.push(":" + data.memo.page);
+          }
+          triggerStr = triggerStr.join("");
+          if (WfWSocket.wantTrigger && !WfWSocket.inSandbox) {
+            return EventBundler.trigger(triggerStr, data);
+          }
+        } else {
+          if (WfWSocket.wantTrigger && !WfWSocket.inSandbox) {
+            return EventBundler.trigger(data.command, data);
+          }
+        }
+      };
+
+      WfWSocket.handleError = function(error) {
+        return Logger.log("Something is wrong: " + error);
+      };
+
+      WfWSocket.sendMessage = function(command, data, memo) {
+        var sendData, sendJSON;
+        if (memo == null) {
+          memo = false;
+        }
+        sendData = {
+          command: command,
+          params: data,
+          memo: memo
+        };
+        sendJSON = JSON.stringify(sendData);
+        Logger.log("send msg is " + sendJSON);
+        return WfWSocket.connection.send(sendJSON);
+      };
+
+      WfWSocket.end = function() {
+        Logger.log('Connector end');
+        return this.status = {
+          code: 0,
+          msg: "offline"
+        };
+      };
+
+      return WfWSocket;
+
+    }).call(this);
+    /*
+            TODO:Override Backbone.sync to use websocket
+    */
+
+    Backbone.sync = function(method, model, options) {
+      return options.success(true);
+    };
+    /*
+        # WfWSocket.noconflic()
+        # Recovery the origin window.wfwsocket
+        # And return self.
+    */
+
+    WfWSocket.noconflic = function() {
+      root.wfwsocket = previousConnector;
+      return this;
+    };
+    return wfwsocket = root.wfwsocket = WfWSocket;
+  });
+
+}).call(this);

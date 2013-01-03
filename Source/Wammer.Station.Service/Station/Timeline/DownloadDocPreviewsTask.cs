@@ -12,18 +12,19 @@ using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
 {
-	class DownloadDocPreviewsTask : Retry.DelayedRetryTask
+	class DownloadDocPreviewsTask : Retry.DelayedRetryTask, IResourceDownloadTask
 	{
 		public string doc_id { get; set; }
 		public int nPreviewsDownloaded { get; set; }
 		public int retry { get; set; }
 		public List<string> downloadedPreviews { get; set; }
-
-		public DownloadDocPreviewsTask(string doc_id)
+		public string user_id { get; set; }
+		public DownloadDocPreviewsTask(string doc_id, string user_id)
 			:base(TaskPriority.Low)
 		{
 			this.retry = 100;
 			this.doc_id = doc_id;
+			this.user_id = user_id;
 			this.downloadedPreviews = new List<string>();
 		}
 
@@ -62,22 +63,37 @@ namespace Wammer.Station.Timeline
 				nPreviewsDownloaded++;
 			}
 
-
 			if (this.downloadedPreviews.Any())
 			{
 				AttachmentCollection.Instance.Update(
-				   Query.EQ("_id", doc_id),
-				   Update
-					   .Set("doc_meta.preview_pages", this.downloadedPreviews.Count)
-					   .Set("doc_meta.preview_files", new BsonArray(this.downloadedPreviews))
-				   );
+					Query.EQ("_id", doc_id),
+					Update
+						.Set("type", (int)AttachmentType.doc)
+						.Set("group_id", user.groups[0].group_id)
+						.Set("creator_id", docInCloud.creator_id)
+						.Set("device_id", docInCloud.creator_id)
+						.Set("file_name", docInCloud.file_name)
+						.Set("file_path", docInCloud.file_path)
+						.Set("doc_meta.preview_pages", this.downloadedPreviews.Count)
+						.Set("doc_meta.preview_files", new BsonArray(this.downloadedPreviews)),
+					MongoDB.Driver.UpdateFlags.Upsert);
 			}
 		}
 
 		public override void ScheduleToRun()
 		{
 			if (--retry > 0)
-				TaskQueue.Enqueue(this, this.priority);
+				BodySyncQueue.Instance.Enqueue(this, this.priority);
+		}
+
+		public string Name
+		{
+			get { return doc_id + "previews"; }
+		}
+
+		public string UserId
+		{
+			get { return user_id; }
 		}
 	}
 }

@@ -440,6 +440,9 @@ namespace Waveface.Stream.Core
 
 			var response = WebSocketCommandExecuter.Instance.Execute(command, parameters);
 
+			if (response == null)
+				return;
+
 			var responseParams = new Dictionary<String, Object>(response)
 				{
 					{"event_id", (int)eventType}

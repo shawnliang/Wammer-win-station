@@ -390,6 +390,22 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
+		private static DialogResult ShowFileImportDialog()
+		{
+			try
+			{
+				var dialog = FileImportDialog.Instance;
+
+				dialog.StartPosition = FormStartPosition.CenterParent;
+				dialog.Activate();
+				return dialog.ShowDialog(MainForm.Instance);
+			}
+			catch (Exception)
+			{
+				return DialogResult.None;
+			}
+		}
+
 		private static DialogResult ShowContactUsDialog()
 		{
 			try
@@ -435,6 +451,7 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items.Add("OpenStream", "Open Stream", m_ContextMenuStrip_Open_Click);
 			m_ContextMenuStrip.Items.Add("Login", "Login", m_ContextMenuStrip_Login_Click);
 			m_ContextMenuStrip.Items.Add("-");
+			m_ContextMenuStrip.Items.Add("Import", "Import", m_ContextMenuStrip_Import_Click);
 			m_ContextMenuStrip.Items.Add("Settings", m_ContextMenuStrip_Setting_Click);
 			m_ContextMenuStrip.Items.Add("-");
 			m_ContextMenuStrip.Items.Add("Contact us", m_ContextMenuStrip_ContactUs_Click);
@@ -470,6 +487,7 @@ namespace Waveface.Stream.WindowsClient
 			var isLogined = (StreamClient.Instance.LoginedUser != null && !string.IsNullOrEmpty(StreamClient.Instance.LoginedUser.SessionToken));
 			m_ContextMenuStrip.Items["Login"].Visible = !isLogined;
 			m_ContextMenuStrip.Items["OpenStream"].Visible = isLogined;
+			m_ContextMenuStrip.Items["Import"].Visible = isLogined;
 		}
 		#endregion
 
@@ -512,7 +530,12 @@ namespace Waveface.Stream.WindowsClient
 			ShowSettingDialog();
 		}
 
+		private static void m_ContextMenuStrip_Import_Click(object sender, EventArgs e)
+		{
+			DebugInfo.ShowMethod();
 
+			ShowFileImportDialog();
+		}
 
 		private static void m_ContextMenuStrip_ContactUs_Click(object sender, EventArgs e)
 		{

@@ -24,5 +24,10 @@ namespace Waveface.Stream.Model
 		{
 			return time.ToLocalTime().ToString("o", CultureInfo.InvariantCulture);
 		}
+
+		public static DateTime TrimToSec(this DateTime time)
+		{
+			return new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second, time.Kind);
+		}
 	}
 }

@@ -11,6 +11,7 @@ namespace Wammer.Station.AttachmentView
 	{
 		Attachment GetAttachment(string object_id);
 		Driver GetUserByGroupId(string group_id);
+		void UpdateLastAccessTime(string object_id);
 	}
 
 	public interface IAttachmentViewStorage
@@ -91,12 +92,18 @@ namespace Wammer.Station.AttachmentView
 			if (dbDoc == null)
 				throw new FileNotFoundException("attachment db record not found: " + object_id);
 
+			if (dbDoc.type == AttachmentType.webthumb)
+				meta = ImageMeta.Origin;
+
 			var user = DB.GetUserByGroupId(dbDoc.group_id);
 
 			if (user == null)
 				throw new WammerStationException("User group " + dbDoc.group_id + " is not found", (int)StationLocalApiError.InvalidDriver);
 
 			string filename = getSavedFileName(meta, dbDoc);
+
+			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
+				DB.UpdateLastAccessTime(object_id);
 
 			return new ViewResult
 			{

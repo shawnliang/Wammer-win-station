@@ -37,9 +37,9 @@ namespace UT_WammerStation.MongoStorage
 		{
 			MongoPersistentStorage s = new MongoPersistentStorage();
 
-			Guid id1 = Guid.NewGuid();
+			var id1 = Guid.NewGuid().ToString();
 			s.Save(new WMSMessage(id1, new Dummy("12345")) { Queue = new WMSQueue("q1", s) });
-			Guid id2 = Guid.NewGuid();
+			var id2 = Guid.NewGuid().ToString();
 			s.Save(new WMSMessage(id2, new Dummy("abc")) { Queue = new WMSQueue("q2", s) });
 
 
@@ -63,9 +63,9 @@ namespace UT_WammerStation.MongoStorage
 		{
 			MongoPersistentStorage s = new MongoPersistentStorage();
 
-			Guid id1 = Guid.NewGuid();
+			var id1 = Guid.NewGuid().ToString();
 			s.Save(new WMSMessage(id1, new Dummy("12345")) { Queue = new WMSQueue("q1", s) });
-			Guid id2 = Guid.NewGuid();
+			var id2 = Guid.NewGuid().ToString();
 			s.Save(new WMSMessage(id2, new Dummy("abc")) { Queue = new WMSQueue("q1", s) });
 
 
@@ -87,9 +87,9 @@ namespace UT_WammerStation.MongoStorage
 		{
 			MongoPersistentStorage s = new MongoPersistentStorage();
 
-			Guid id1 = Guid.NewGuid();
+			var id1 = Guid.NewGuid().ToString();
 			s.Save(new WMSMessage(id1, new Dummy("12345")) { Queue = new WMSQueue("q1", s) });
-			Guid id2 = Guid.NewGuid();
+			var id2 = Guid.NewGuid().ToString();
 			WMSMessage msg2 = new WMSMessage(id2, new Dummy("abc")) { Queue = new WMSQueue("q1", s) };
 			s.Save(msg2);
 

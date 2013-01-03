@@ -1,1 +1,115 @@
-(function(){var e={}.hasOwnProperty,t=function(t,n){function i(){this.constructor=t}for(var r in n)e.call(n,r)&&(t[r]=n[r]);return i.prototype=n.prototype,t.prototype=new i,t.__super__=n.prototype,t};define(["underscore","views/layouts/day_view","mustache","views/partials/document","collections/documents","text!templates/documents.html"],function(e,n,r,i,s,o){var u;return u=function(n){function s(){return s.__super__.constructor.apply(this,arguments)}return t(s,n),s.prototype.id="documents",s.prototype.initialize=function(){},s.prototype.render=function(e){var t,n,i=this;return this.mode="photo",this.date=e,this.setDates(),t={currentDate:this.currentDate,nextDate:this.nextDate,previousDate:this.previousDate},this.$el.html(r.render(o,t)),n=this.collection.filterByDate(e),n.each(function(e){return i.addOne(e)}),this.delegateEvents(),this.setHeaderStyle(),this.setKey(),this},s.prototype.addOne=function(e){var t;return t=new i({model:e}),this.$(".docs").append(t.render().el)},s.prototype.loadMore=function(){return this.collection.loadMore()},s.prototype.setKey=function(){var e=this;return Mousetrap.reset(),Mousetrap.bind("right",function(){return e.nextPage(),!1}),Mousetrap.bind("left",function(){return e.previousPage(),!1}),Mousetrap.bind("c",function(){return e.calendarSwitch(),!1})},s.prototype.calendarSwitch=function(){var t,n,r=this;if(this.mode==="calendar")return this.render(this.date);if(this.mode==="photo")return n=this.collection.map(function(e){return{start:e.get("dateUri"),title:"Document",allDay:!0,backgroundColor:"#6E93AA",borderColor:"#6E93AA"}}),n=e.uniq(n,!1,function(e){return e.start}),t={events:n,year:this.currentYear,month:this.currentMonth,header:!1,height:$("#main").height()-100,eventClick:function(e){return Router.navigate("photos/"+moment(e.start).format("YYYY-MM-DD"),{trigger:!0})},viewDisplay:function(e){return r.updateHeaderDate(e.title)}},this.renderCalendar(t)},s}(n),new u({collection:s})})}).call(this);
+(function() {
+  var __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  define(['underscore', 'views/layouts/day_view', 'mustache', 'views/partials/document', 'collections/documents', 'text!templates/documents.html'], function(_, DayView, M, DocumentView, Documents, Template) {
+    var DocumentsView;
+    DocumentsView = (function(_super) {
+
+      __extends(DocumentsView, _super);
+
+      function DocumentsView() {
+        return DocumentsView.__super__.constructor.apply(this, arguments);
+      }
+
+      DocumentsView.prototype.id = 'documents';
+
+      DocumentsView.prototype.initialize = function() {};
+
+      DocumentsView.prototype.render = function(date) {
+        var data, docsData,
+          _this = this;
+        this.mode = 'photo';
+        this.date = date;
+        this.setDates();
+        data = {
+          currentDate: this.currentDate,
+          nextDate: this.nextDate,
+          previousDate: this.previousDate
+        };
+        this.$el.html(M.render(Template, data));
+        docsData = this.collection.filterByDate(date);
+        docsData.each(function(doc) {
+          return _this.addOne(doc);
+        });
+        this.delegateEvents();
+        this.setHeaderStyle();
+        this.setKey();
+        return this;
+      };
+
+      DocumentsView.prototype.addOne = function(model) {
+        var view;
+        view = new DocumentView({
+          model: model
+        });
+        return this.$(".docs").append(view.render().el);
+      };
+
+      DocumentsView.prototype.loadMore = function() {
+        return this.collection.loadMore();
+      };
+
+      DocumentsView.prototype.setKey = function() {
+        var _this = this;
+        Mousetrap.reset();
+        Mousetrap.bind('right', function() {
+          _this.nextPage();
+          return false;
+        });
+        Mousetrap.bind('left', function() {
+          _this.previousPage();
+          return false;
+        });
+        return Mousetrap.bind('c', function() {
+          _this.calendarSwitch();
+          return false;
+        });
+      };
+
+      DocumentsView.prototype.calendarSwitch = function() {
+        var calendarOptions, photoDays,
+          _this = this;
+        if (this.mode === 'calendar') {
+          return this.render(this.date);
+        } else if (this.mode === 'photo') {
+          photoDays = this.collection.map(function(model) {
+            return {
+              start: model.get('dateUri'),
+              title: 'Document',
+              allDay: true,
+              backgroundColor: '#6E93AA',
+              borderColor: '#6E93AA'
+            };
+          });
+          photoDays = _.uniq(photoDays, false, function(day) {
+            return day.start;
+          });
+          calendarOptions = {
+            events: photoDays,
+            year: this.currentYear,
+            month: this.currentMonth,
+            header: false,
+            height: $('#main').height() - 100,
+            eventClick: function(EventObj) {
+              return Router.navigate('photos/' + moment(EventObj.start).format('YYYY-MM-DD'), {
+                trigger: true
+              });
+            },
+            viewDisplay: function(view) {
+              return _this.updateHeaderDate(view.title);
+            }
+          };
+          return this.renderCalendar(calendarOptions);
+        }
+      };
+
+      return DocumentsView;
+
+    })(DayView);
+    return new DocumentsView({
+      collection: Documents
+    });
+  });
+
+}).call(this);
