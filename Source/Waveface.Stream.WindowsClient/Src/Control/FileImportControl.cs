@@ -125,10 +125,13 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			Cursor.Current = Cursors.WaitCursor;
+			int totalCount = 0;
 			photoSearch.Search(selectedPath, (path, count) =>
 			{
-				dataGridView1.Rows.Add(true, path, count);
+				totalCount += count;
 			});
+
+			dataGridView1.Rows.Add(true, selectedPath, totalCount);
 			Cursor.Current = Cursors.Default;
 		}
 
@@ -210,7 +213,7 @@ namespace Waveface.Stream.WindowsClient
 				return false;
 
 			if (obj is PathAndPhotoCount)
-				return path.Equals(((PathAndPhotoCount)obj).path);
+				return path.Equals( ((PathAndPhotoCount)obj).path );
 			else
 				return false;
 		}
