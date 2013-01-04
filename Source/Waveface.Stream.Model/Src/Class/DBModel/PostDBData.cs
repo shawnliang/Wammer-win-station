@@ -66,15 +66,15 @@ namespace Waveface.Stream.Model
 		[BsonElement("attachment_id_array")]
 		public IEnumerable<string> AttachmentIDs { get; set; }
 
-		///// <summary>
-		///// Gets or sets the content.
-		///// </summary>
-		///// <value>
-		///// The content.
-		///// </value>
-		//[BsonIgnoreIfNull]
-		//[BsonElement("content")]
-		//public string Content { get; set; }
+		/// <summary>
+		/// Gets or sets the content.
+		/// </summary>
+		/// <value>
+		/// The content.
+		/// </value>
+		[BsonIgnoreIfNull]
+		[BsonElement("content")]
+		public string Content { get; set; }
 
 		///// <summary>
 		///// Gets or sets the code_name.
@@ -220,6 +220,11 @@ namespace Waveface.Stream.Model
 			return Tags != null && Tags.Any();
 		}
 
+
+		public bool ShouldSerializeContent()
+		{
+			return !String.IsNullOrEmpty(Content);
+		} 
 
 		public bool ShouldSerializeCoverAttachmentID()
 		{

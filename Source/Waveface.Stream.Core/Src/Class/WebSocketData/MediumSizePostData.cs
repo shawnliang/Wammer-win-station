@@ -27,6 +27,15 @@ namespace Waveface.Stream.Core
 		public string ID { get; set; }
 
 		/// <summary>
+		/// Gets or sets the content.
+		/// </summary>
+		/// <value>
+		/// The content.
+		/// </value>
+		[JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
+		public string Content { get; set; }
+
+		/// <summary>
 		/// Gets or sets the attachment count.
 		/// </summary>
 		/// <value>
