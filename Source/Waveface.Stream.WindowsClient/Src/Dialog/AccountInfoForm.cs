@@ -31,7 +31,7 @@ namespace Waveface.Stream.WindowsClient
 		private const string STAGING_BASE_URL = @"http://staging.waveface.com";
 		private const string DEV_WEB_BASE_PAGE_URL = @"https://devweb.waveface.com";
 		private const string FB_TURN_ON_URL_PATH = @"/sns/facebook/connect";
-		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/";
+		public const string DEF_BASE_URL = "https://develop.waveface.com/v3/";
 		#endregion
 
 

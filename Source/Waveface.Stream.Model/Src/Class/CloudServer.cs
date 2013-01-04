@@ -10,8 +10,8 @@ namespace Waveface.Stream.Model
 {
 	public class CloudServer
 	{
-		public const string DEF_BASE_PATH = "v2";
-		public const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; //https://api.waveface.com/v2/
+		public const string DEF_BASE_PATH = "v3";
+		public const string DEF_BASE_URL = "https://develop.waveface.com/v3/";
 
 		public const string PARAM_DETAIL = "detail";
 		public const string PARAM_API_KEY = "apikey";

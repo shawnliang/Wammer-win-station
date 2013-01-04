@@ -51,7 +51,7 @@ namespace Wammer.Station
 							file_size = savedThumbnail.SavedRawData.Length,
 							mime_type = savedThumbnail.MimeType,
 							modify_time = DateTime.UtcNow,
-							url = "/v2/attachments/view/?object_id=" + attachmentId +
+							url = "/v3/attachments/view/?object_id=" + attachmentId +
 								  "&image_meta=" + meta.ToString().ToLower(),
 							RawData = savedThumbnail.SavedRawData
 						};
