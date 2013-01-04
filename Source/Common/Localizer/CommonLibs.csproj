@@ -84,7 +84,6 @@
     </Compile>
     <Compile Include="Src\EnumExtension.cs" />
     <Compile Include="Src\Env.cs" />
-    <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
     <Compile Include="Src\MongoDbHelper.cs" />
     <Compile Include="Src\TaskbarHelper.cs" />
   </ItemGroup>
@@ -117,7 +116,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Src\Extension\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)..\Tools\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
