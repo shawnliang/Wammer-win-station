@@ -113,7 +113,8 @@ namespace Wammer.Station
 								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
 								ref_count = 1,
 								user = user,
-								stations = res.stations
+								stations = res.stations,
+								sync_range = new SyncRange()
 							};
 
 			CreateUserFolder(driver);

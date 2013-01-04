@@ -135,7 +135,7 @@ namespace Wammer.Cloud
 			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchByFilter", parameters, false);
 		}
 
-		public PostFetchByFilterResponse PostFetchBySeq(int seq_num, int limit)
+		public PostFetchBySeqResponse PostFetchBySeq(int seq_num, int limit)
 		{
 			var parameters = new Dictionary<object, object>
 			{
@@ -147,7 +147,7 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_COMPONENT_OPTIONS, "[\"comment\",\"preview\",\"soul\",\"content\"]"}
 			};
 
-			return CloudServer.requestPath<PostFetchByFilterResponse>("posts/fetchBySeq", parameters, false);
+			return CloudServer.requestPath<PostFetchBySeqResponse>("posts/fetchBySeq", parameters, false);
 		}
 
 		public PostFetchByFilterResponse PostFetchByPostId(List<string> postIds)

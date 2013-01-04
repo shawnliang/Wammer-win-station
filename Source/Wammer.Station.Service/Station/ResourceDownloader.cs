@@ -36,11 +36,6 @@ namespace Wammer.Station
 			this.bodySyncQueue = bodySyncQueue;
 		}
 
-		public void PostRetrieved(object sender, TimelineSyncEventArgs e)
-		{
-			DownloadMissedResource(e.Driver, e.Posts);
-		}
-
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
 		{
 			var fileName = objectID;
@@ -62,33 +57,6 @@ namespace Wammer.Station
 				fileName += extension;
 
 			return fileName;
-		}
-
-		private void DownloadMissedResource(Driver driver, IEnumerable<PostInfo> posts)
-		{
-			// driver might be removed before running download tasks
-			if (driver == null)
-				return;
-
-
-			// find missed attachment ids
-			var attachmentsToDownload = new HashSet<string>();
-			foreach (var post in posts)
-			{
-				if (post.attachment_id_array == null)
-					continue;
-
-				foreach (var att_id in post.attachment_id_array)
-				{
-					if (AttachmentCollection.Instance.FindOneById(att_id) == null)
-						attachmentsToDownload.Add(att_id);
-				}
-			}
-
-			foreach (var attId in attachmentsToDownload)
-			{
-				TaskQueue.Enqueue(new QueryIfDownstreamNeededTask(driver.user_id, attId), TaskPriority.Low);
-			}
 		}
 
 		public static ResourceDownloadTask createDownloadTask(Driver driver, ImageMeta meta, AttachmentInfo attachment)

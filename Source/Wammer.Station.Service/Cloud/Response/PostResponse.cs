@@ -110,6 +110,11 @@ namespace Wammer.Cloud
 		}
 	}
 
+	public class PostFetchBySeqResponse : PostFetchByFilterResponse
+	{
+		public int next_datum { get; set; }
+	}
+
 	public class PostGetResponse : PostResponse
 	{
 		public PostGetResponse()

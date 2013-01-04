@@ -228,5 +228,14 @@ namespace Waveface.Stream.Model
 		{
 			return start_time.GetHashCode() + first_post_time.GetHashCode() + next_seq_num + chlog_max_seq + chlog_min_seq;
 		}
+
+		// used as next_seq_num when calling posts/fetchBySeq to sync posts
+		public int post_next_seq { get; set; }
+
+		// used as modified_time_since when calling attachments/search to sync attachments
+		public DateTime obj_next_time { get; set; }
+
+		// enable periodical sync
+		public bool enable { get; set; }
 	}
 }

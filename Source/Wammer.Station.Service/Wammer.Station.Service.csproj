@@ -272,12 +272,11 @@
     <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\BodySyncQueueStorage.cs" />
     <Compile Include="Station\Timeline\DownloadDocPreviewsTask.cs" />
+    <Compile Include="Station\Timeline\FirstTimelineSyncTask.cs" />
     <Compile Include="Station\Timeline\MakeDocPreviewsTask.cs" />
-    <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />
     <Compile Include="Station\Timeline\ResourceDownloadTask.cs" />
     <Compile Include="Station\Timeline\TimelineSyncer.cs" />
-    <Compile Include="Station\Timeline\TimelineSyncerDB.cs" />
     <Compile Include="Station\APIHandler\UserLoginHandler.cs" />
     <Compile Include="Station\APIHandler\UserLogoutHandler.cs" />
     <Compile Include="Station\UpdateDriverDBTask.cs" />
