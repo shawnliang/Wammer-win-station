@@ -66,7 +66,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual(DateTime.UtcNow.Year, savedAttachment.modify_time.Year);
 			Assert.AreEqual(DateTime.UtcNow.Month, savedAttachment.modify_time.Month);
 			Assert.AreEqual(DateTime.UtcNow.Day, savedAttachment.modify_time.Day);
-			Assert.AreEqual("/v2/attachments/view/?object_id=" + savedAttachment.object_id, savedAttachment.url);
+			Assert.AreEqual("/v3/attachments/view/?object_id=" + savedAttachment.object_id, savedAttachment.url);
 
 			Assert.AreEqual(1024, savedAttachment.image_meta.width);
 			Assert.AreEqual(768, savedAttachment.image_meta.height);

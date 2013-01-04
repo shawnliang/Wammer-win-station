@@ -17,7 +17,7 @@ namespace UT_WammerStation
 	{
 		#region Const
 		const int SERVER_PORT = 8080;
-		const string REST_COMMAND_ADD = "http://localhost:8080/v2/station/drivers/add";
+		const string REST_COMMAND_ADD = "http://localhost:8080/station/drivers/add";
 		#endregion
 
 		#region Var
@@ -49,11 +49,11 @@ namespace UT_WammerStation
 		public void setUp()
 		{
 			handler = new AddDriverHandler();
-			Server.AddHandler("/v2/station/drivers/add/", handler);
+			Server.AddHandler("/station/drivers/add/", handler);
 			Server.Start();
 			Server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost/v2/";
+			CloudServer.BaseUrl = "http://localhost/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();

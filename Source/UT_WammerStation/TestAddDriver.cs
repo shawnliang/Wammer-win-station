@@ -31,11 +31,11 @@ namespace UT_WammerStation
 		{
 			server = new HttpServer(8080);
 			handler = new AddDriverHandler();
-			server.AddHandler("/v2/station/drivers/add/", handler);
+			server.AddHandler("/station/drivers/add/", handler);
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost/v2/";
+			CloudServer.BaseUrl = "http://localhost/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
@@ -80,7 +80,7 @@ namespace UT_WammerStation
 
 			using (FakeCloud cloud = new FakeCloud(res1))
 			{
-				CloudServer.request<CloudResponse>("http://localhost:8080/v2/station/drivers/add",
+				CloudServer.request<CloudResponse>("http://localhost:8080/station/drivers/add",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"},
@@ -138,7 +138,7 @@ namespace UT_WammerStation
 			};
 			using (FakeCloud cloud = new FakeCloud(res1))
 			{
-				CloudServer.request<CloudResponse>("http://localhost:8080/v2/station/drivers/add",
+				CloudServer.request<CloudResponse>("http://localhost:8080/station/drivers/add",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"},
@@ -187,7 +187,7 @@ namespace UT_WammerStation
 				try
 				{
 					CloudServer.request<CloudResponse>(
-						"http://localhost:8080/v2/station/drivers/add",
+						"http://localhost:8080/station/drivers/add",
 						new Dictionary<object, object>{ 
 							{ "email", "user1@gmail.com"}, 
 							{ "password", "12345"},

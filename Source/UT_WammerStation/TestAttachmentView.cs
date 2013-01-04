@@ -24,24 +24,24 @@ namespace UT_WammerStation
 		#region Private Method
 		private static void TestTunnelToCloud(string argument, string requestMethod)
 		{
-			CloudServer.BaseUrl = "http://localhost/v2/";
+			CloudServer.BaseUrl = "http://localhost/";
 
 			using (HttpServer cloud = new HttpServer(80))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				cloud.AddHandler("/v2/attachments/view", new FakeCloudRemoteHandler());
-				cloud.AddHandler("/v2/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
+				cloud.AddHandler("/attachments/view", new FakeCloudRemoteHandler());
+				cloud.AddHandler("/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
 				cloud.Start();
 				cloud.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-				server.AddHandler("/v2/objects/view", new AttachmentViewHandler("sid"));
+				server.AddHandler("/objects/view", new AttachmentViewHandler("sid"));
 				server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 				server.Start();
 
 				Boolean isGetRequest = requestMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-					"http://localhost:8080/v2/objects/view" + ((isGetRequest) ? argument : string.Empty));
+					"http://localhost:8080/objects/view" + ((isGetRequest) ? argument : string.Empty));
 				req.ContentType = "application/x-www-form-urlencoded";
 				req.Method = requestMethod.ToLower();
 
@@ -175,24 +175,24 @@ namespace UT_WammerStation
 			string requestMethod = "GET";
 			string argument = "?object_id=abc&apikey=123&session_token=token123";
 
-			CloudServer.BaseUrl = "http://localhost/v2/";
+			CloudServer.BaseUrl = "http://localhost/";
 
 			using (HttpServer cloud = new HttpServer(80))
 			using (HttpServer server = new HttpServer(8080))
 			{
-				cloud.AddHandler("/v2/attachments/view", new FakeCloudRemoteHandler());
-				cloud.AddHandler("/v2/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
+				cloud.AddHandler("/attachments/view", new FakeCloudRemoteHandler());
+				cloud.AddHandler("/objects/view/DownloadAttachment", new FakeCloudRemoteAttachmentHandler());
 				cloud.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 				cloud.Start();
 
-				server.AddHandler("/v2/objects/view", new AttachmentViewHandler("sid"));
+				server.AddHandler("/objects/view", new AttachmentViewHandler("sid"));
 				server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 				server.Start();
 
 				Boolean isGetRequest = requestMethod.Equals("GET", StringComparison.CurrentCultureIgnoreCase);
 
 				HttpWebRequest req = (HttpWebRequest)WebRequest.Create(
-					"http://localhost:8080/v2/objects/view" + ((isGetRequest) ? argument : string.Empty));
+					"http://localhost:8080/objects/view" + ((isGetRequest) ? argument : string.Empty));
 				req.ContentType = "application/x-www-form-urlencoded";
 				req.Method = requestMethod.ToLower();
 
@@ -220,7 +220,7 @@ namespace UT_WammerStation
 	""status"": 302,
 	""session_token"": ""IPiyl7s8H85V0VBaI5PJTuAQ.KER6e9YNVYs8ypjsZ6+C8UFcVey375SytfvOH9X9SLA"",
 	""session_expires"": ""2012-05-19T02:44:36Z"",
-	""redirect_to"": ""http://localhost:80/v2/objects/view/DownloadAttachment"",
+	""redirect_to"": ""http://localhost:80/objects/view/DownloadAttachment"",
 	""api_ret_code"": 0,
 	""api_ret_message"": ""success"",
 	""debug"": {
@@ -237,7 +237,7 @@ namespace UT_WammerStation
 	""creator_id"": ""driver1_id"",
 	""image_meta"": {
 		""small"": {
-			""url"": ""/v2/attachments/view?object_id=98d5cac5-4387-48cc-b974-414a921a6144&image_meta=small"",
+			""url"": ""/attachments/view?object_id=98d5cac5-4387-48cc-b974-414a921a6144&image_meta=small"",
 			""height"": 120,
 			""width"": 72,
 			""modify_time"": 1332125268,
@@ -246,7 +246,7 @@ namespace UT_WammerStation
 			""md5"": ""332daefeef4a3b646dff4ded0285a16b""
 		},
 		""medium"": {
-			""url"": ""/v2/attachments/view?object_id=98d5cac5-4387-48cc-b974-414a921a6144&image_meta=medium"",
+			""url"": ""/attachments/view?object_id=98d5cac5-4387-48cc-b974-414a921a6144&image_meta=medium"",
 			""file_name"": ""IMG_20120319_104743.jpg"",
 			""height"": 512,
 			""width"": 307,
@@ -268,7 +268,7 @@ namespace UT_WammerStation
 		{
 			SavedParams = this.Parameters;
 
-			Response.RedirectLocation = "http://localhost:80/v2/objects/view/DownloadAttachment";
+			Response.RedirectLocation = "http://localhost:80/objects/view/DownloadAttachment";
 
 			Response.StatusCode = 200;
 			Response.ContentType = "application/json";
