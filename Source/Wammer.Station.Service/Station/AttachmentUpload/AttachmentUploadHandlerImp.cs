@@ -326,7 +326,7 @@ namespace Wammer.Station.AttachmentUpload
 			DebugInfo.ShowMethod();
 
 			var buf = new StringBuilder();
-			buf.Append("/v2/attachments/view/?object_id=").
+			buf.Append("/v3/attachments/view/?object_id=").
 				Append(data.object_id);
 
 			var imageMeta = data.imageMeta;

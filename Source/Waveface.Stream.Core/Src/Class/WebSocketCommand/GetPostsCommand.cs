@@ -46,7 +46,7 @@ namespace Waveface.Stream.Core
 		private string GetStationAttachmentUrl(string attachmentID, ImageMeta imageMeta)
 		{
 			var loginedUser = LoginedSessionCollection.Instance.FindOne();
-			return string.Format(@"http://127.0.0.1:9981/v2/attachments/view/?apikey={0}&session_token={1}&object_id={2}&image_meta={3}",
+			return string.Format(@"http://127.0.0.1:9981/v3/attachments/view/?apikey={0}&session_token={1}&object_id={2}&image_meta={3}",
 				StationAPI.API_KEY,
 				HttpUtility.UrlEncode(loginedUser.session_token),
 				attachmentID,

@@ -45,7 +45,7 @@ namespace Waveface.Stream.Core
 
 			const string RESTFUL_API_KEY = "restful_api";
 			var restfulAPI = parameters[RESTFUL_API_KEY];
-			var restfulUrl = string.Format(@"http://127.0.0.1:9981/v2/{0}", restfulAPI);
+			var restfulUrl = string.Format(@"http://127.0.0.1:9981/v3/{0}", restfulAPI);
 
 			var restfulParameters = new NameValueCollection();
 			foreach (var parameter in parameters)
