@@ -14,9 +14,9 @@ namespace Waveface.Stream.WindowsClient
 	class PhotoSearch : IPhotoSearch
 	{
 		private List<string> ignorePaths = new List<string>();
-		private HashSet<PathAndPhotoCount> _interestedPaths;
-		private Dictionary<string, int> m_InterestedFileCountInPhotos = new Dictionary<string, int>();
+		private Dictionary<string, PathAndPhotoCount> _interestedPaths;
 		private BackgroundWorker backgroundWorker1;
+		private object cs = new object();
 
 		public delegate void pathFoundDelegate(string path, int photoCount);
 
@@ -38,18 +38,24 @@ namespace Waveface.Stream.WindowsClient
 
 		public IEnumerable<PathAndPhotoCount> InterestedPaths
 		{
-			get { return m_InterestedPaths; }
+			get
+			{
+				lock (cs)
+				{ 
+					return m_InterestedPaths.Values.ToList(); 
+				}
+			}
 		}
 
 		/// <summary>
 		/// Gets the m_ interested paths.
 		/// </summary>
 		/// <value>The m_ interested paths.</value>
-		private HashSet<PathAndPhotoCount> m_InterestedPaths
+		private Dictionary<string, PathAndPhotoCount> m_InterestedPaths
 		{
 			get
 			{
-				return _interestedPaths ?? (_interestedPaths = new HashSet<PathAndPhotoCount>());
+				return _interestedPaths ?? (_interestedPaths = new Dictionary<string, PathAndPhotoCount>());
 			}
 		}
 
@@ -65,10 +71,19 @@ namespace Waveface.Stream.WindowsClient
 			Thread.CurrentThread.Priority = ThreadPriority.Lowest;
 
 			var drives = DriveInfo.GetDrives();
+
+			PhotoCrawler crawler = new PhotoCrawler();
+
 			foreach (var drive in drives)
 			{
-				if (drive.DriveType == DriveType.Fixed)
-					Search(drive.Name, (path, count) => AddInterestedPath(path, count));
+				try
+				{
+					if (drive.DriveType == DriveType.Fixed)
+						crawler.FindPhotoDirs(drive.Name, (path, count) => AddInterestedPath(path, count));
+				}
+				catch (Exception err)
+				{
+				}
 			}
 		}
 
@@ -82,136 +97,28 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				if (isUnderIgnorePath(path))
-					return;
+				PhotoCrawler crawler = new PhotoCrawler();
 
-				var jpgCount = JpgFileCount(path);
-				if (jpgCount > 0 && folderFound != null)
-				{
-					folderFound(path, jpgCount);
-				}
-
-				var subdirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
-
-				foreach (var subdir in subdirs)
-				{
-					Search(subdir, folderFound);
-				}
+				crawler.FindPhotoDirs(path, (folder, count) => folderFound(folder, count));
 			}
 			catch
 			{
 			}
-		}
-
-		private static bool HasDateTimeInExif(string file)
-		{
-			try
-			{
-				var exifExtract = new ExifExtractor();
-				var exif = exifExtract.extract(file);
-
-				return exif != null &&
-					(!string.IsNullOrEmpty(exif.DateTimeOriginal) || string.IsNullOrEmpty(exif.DateTimeOriginal));
-			}
-			catch
-			{
-				return false;
-			}
-		}
-
-		private static int JpgFileCount(string path)
-		{
-			var total = 0;
-
-			var jpg = Directory.GetFiles(path, "*.jpg");
-			if (jpg != null && jpg.Any(HasDateTimeInExif))
-			{
-				total += jpg.Length;
-			}
-
-			var jpeg = Directory.GetFiles(path, "*.jpeg");
-			if (jpeg != null && jpeg.Any(HasDateTimeInExif))
-			{
-				total += jpeg.Length;
-			}
-
-			return total;
 		}
 
 		private void AddInterestedPath(String path, int photoCount)
 		{
-			if (string.IsNullOrEmpty(path))
-				return;
 
-			if (!Path.IsPathRooted(path) || !Directory.Exists(path))
-				return;
+			var parts = path.Split('\\');
+			var abbrevatedPath = string.Join("\\", parts.Take(Math.Min(parts.Length, 4)).ToArray());
 
-			if ((new Uri(path)).IsUnc)
-				return;
-
-			if ((new DirectoryInfo(path)).Attributes.HasFlag(FileAttributes.Hidden))
-				return;
-
-			if (m_InterestedPaths.Contains(new PathAndPhotoCount(path, photoCount)))
-				return;
-
-			var systemResourcePath = StationRegistry.GetValue("ResourceFolder", "").ToString();
-			if (systemResourcePath.Length != 0 && path.StartsWith(systemResourcePath, StringComparison.CurrentCultureIgnoreCase))
-				return;
-
-			var pathRoot = Path.GetPathRoot(path);
-
-			HashSet<String> interruptPath = new HashSet<String>()
+			lock (cs)
 			{
-				pathRoot,
-				Environment.GetEnvironmentVariable("USERPROFILE")
-			};
-
-			if (m_InterestedFileCountInPhotos.ContainsKey(path))
-			{
-				var interestedFileCount = m_InterestedFileCountInPhotos[path];
-				var previousPath = path;
-				var tempPath = path;
-				while (!interruptPath.Contains(tempPath))
-				{
-					if (tempPath != path && interestedFileCount == m_InterestedFileCountInPhotos[tempPath])
-					{
-						break;
-					}
-					interestedFileCount = m_InterestedFileCountInPhotos[tempPath];
-					previousPath = tempPath;
-					tempPath = Path.GetDirectoryName(tempPath);
-				}
-
-				path = previousPath;
+				if (m_InterestedPaths.ContainsKey(abbrevatedPath))
+					m_InterestedPaths[abbrevatedPath].photoCount += photoCount;
+				else
+					m_InterestedPaths.Add(abbrevatedPath, new PathAndPhotoCount(abbrevatedPath, photoCount));
 			}
-
-			if (path == pathRoot)
-				return;
-
-			if (isUnderIgnorePath(path))
-				return;
-
-			foreach (var interestedPath in m_InterestedPaths)
-			{
-				if (path.StartsWith(interestedPath.path, StringComparison.CurrentCultureIgnoreCase))
-					return;
-			}
-			m_InterestedPaths.Add(new PathAndPhotoCount(path, photoCount));
-		}
-
-		private bool isUnderIgnorePath(String path)
-		{
-			bool underEx = false;
-			foreach (var unInterestedFolder in ignorePaths)
-			{
-				if (path.StartsWith(unInterestedFolder, StringComparison.CurrentCultureIgnoreCase))
-				{
-					underEx = true;
-					break;
-				}
-			}
-			return underEx;
 		}
 
 		public void ImportToStationAsync(IEnumerable<string> paths, string session_token)
