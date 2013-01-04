@@ -419,6 +419,9 @@ namespace Waveface.Stream.Core
 
 		private void ProcessEvent(SystemEventType eventType, string command, params string[] ids)
 		{
+			if (!SubscribedEvents.ContainsKey(eventType))
+				return;
+
 			var commandData = SubscribedEvents[eventType];
 			var parameters = commandData.Parameters;
 

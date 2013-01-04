@@ -165,6 +165,11 @@ namespace Wammer.Station.Timeline
 					update.Set("doc_meta", attachmentAttributes.doc_meta.ToBsonDocument());
 				}
 
+				if (attachmentAttributes.web_meta != null)
+				{
+					update.Set("web_meta", attachmentAttributes.web_meta.ToBsonDocument());
+				}
+
 				setOptionalAttributes(attachmentAttributes, update);
 
 				AttachmentCollection.Instance.Update(Query.EQ("_id", attachmentAttributes.object_id),

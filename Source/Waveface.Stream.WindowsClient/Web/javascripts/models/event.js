@@ -16,6 +16,7 @@
 
       EventModel.prototype.initialize = function() {
         this.setDate();
+        this.setProperty();
         this.setCover();
         this.setSwitch();
         return this;
@@ -34,6 +35,10 @@
 
       EventModel.prototype.setCover = function() {
         var cover, summary_attachments;
+        if ((this.get("mapOnly")) != null) {
+          this.set('cover', (this.get("location")).map);
+          return true;
+        }
         summary_attachments = this.get("summary_attachments");
         if (!(summary_attachments != null)) {
           return false;
@@ -43,19 +48,29 @@
           return false;
         }
         cover.image_meta = cover.meta_data;
+        if (cover.image_meta.small_previews != null) {
+          cover.image_meta.small = _.first(cover.image_meta.small_previews);
+        }
+        cover = cover.image_meta.small.url;
         return this.set('cover', cover);
       };
 
-      EventModel.prototype.setSwitch = function() {
+      EventModel.prototype.setProperty = function() {
         this.set('hasDescription', !!this.get('event_description'));
         this.set('hasPeople', !!this.get('people'));
         this.set('hasTags', !!this.get('tags'));
         if (this.get('attachment_count') > 0) {
           this.set('hasPhoto', true);
         }
-        if (this.get('location')) {
-          this.set('gps', this.get('location'));
+        if (!this.get('attachment_id_array')) {
+          this.set('mapOnly', true);
         }
+        if (this.get('location')) {
+          return this.set('gps', this.get('location'));
+        }
+      };
+
+      EventModel.prototype.setSwitch = function() {
         if (!!this.get('gps') && this.get('gps').latitude !== 0.0 && this.get('gps').longitude !== 0.0) {
           this.set('hasLocation', !!this.get('gps').name);
           return this.set('hasMap', !!this.get('gps').zoom_level);

@@ -184,13 +184,8 @@ namespace Waveface.Stream.Core
 
 			var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", locationID));
 
-			if (!File.Exists(mapFile))
-			{
-				var urlFormat = @"http://maps.google.com/maps/api/staticmap?center={0},{1}&zoom={2}&size=640x640&scale=2&sensor=false&markers=color:red%7Csize:mid%7Clabel:A%7C{0},{1}";
-				mapFile = String.Format(urlFormat, location.Latitude.ToString(), location.Longitude.ToString(), location.ZoomLevel.ToString());
-			}
-
-			postGPSData.Map = mapFile;
+			if (File.Exists(mapFile))
+				postGPSData.Map = mapFile;
 
 			return postGPSData;
 		}
@@ -212,13 +207,40 @@ namespace Waveface.Stream.Core
 
 		private static string GetStationAttachmentUrl(string url)
 		{
+			if (string.IsNullOrEmpty(url))
+				return null;
+
 			var loginedUser = LoginedSessionCollection.Instance.FindOne();
-			return string.Format(@"http://127.0.0.1:9981{2}&apikey={0}&session_token={1}",
-				StationAPI.API_KEY,
-				loginedUser.session_token,
-				url);
+			return string.Format(@"http://127.0.0.1:9981{0}&apikey={1}&session_token={2}", url, StationAPI.API_KEY, loginedUser.session_token);
 		}
 
+		private static string GetAttachmentUrl(Attachment attachment)
+		{
+			switch (attachment.type)
+			{
+				case AttachmentType.image:
+					return GetStationAttachmentUrl(attachment.url);
+				case AttachmentType.doc:
+					return GetResourceFilePath(attachment.group_id, attachment.saved_file_name);
+				case AttachmentType.webthumb:
+					return attachment.web_meta.url;
+			}
+			return null;
+		}
+
+		private static object GetAttachmentMetaData(Attachment attachment)
+		{
+			switch (attachment.type)
+			{
+				case AttachmentType.image:
+					return (object)attachment.image_meta;
+				case AttachmentType.doc:
+					return (object)attachment.doc_meta;
+				case AttachmentType.webthumb:
+					return (object)attachment.web_meta;
+			}
+			return null;
+		}
 		private static string GetStationAttachmentUrl(string attachmentID, ImageMeta imageMeta)
 		{
 			var loginedUser = LoginedSessionCollection.Instance.FindOne();
@@ -266,35 +288,92 @@ namespace Waveface.Stream.Core
 
 			Mapper.CreateMap<Attachment, MediumSizeAttachmentData>()
 				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.object_id))
+				.ForMember(dest => dest.Title, opt => opt.MapFrom(src => (src.type != AttachmentType.webthumb) ? null : src.web_meta.title))
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.Type, opt => opt.MapFrom(src => GetNewClientAttachmentType(src.type)))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => GetAttachmentTimeStamp(src)))
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetStationAttachmentUrl(src.object_id, ImageMeta.Origin)))
-				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? (object)src.doc_meta : (object)src.image_meta));
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentUrl(src)))
+				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => GetAttachmentMetaData(src)))
+				.AfterMap((src,dest)=> 
+				{
+					if(src.type == AttachmentType.webthumb)
+					{
+						dest.MetaData.MediumPreviews = new ThumbnailData[]
+						{
+							new ThumbnailData() 
+							{
+								Width = src.image_meta.width,
+								Height = src.image_meta.height,
+								Url = GetStationAttachmentUrl(src.url)
+							}
+						};
+					}
+				});
 
 			Mapper.CreateMap<Attachment, LargeSizeAttachmentData>()
 				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.object_id))
+				.ForMember(dest => dest.Title, opt => opt.MapFrom(src => (src.type != AttachmentType.webthumb)? null: src.web_meta.title))
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.Type, opt => opt.MapFrom(src => GetNewClientAttachmentType(src.type)))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => GetAttachmentTimeStamp(src)))
-				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? GetResourceFilePath(src.group_id, src.saved_file_name) : GetStationAttachmentUrl(src.object_id, ImageMeta.Origin)))
-				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => (src.type == AttachmentType.doc) ? (object)src.doc_meta : (object)src.image_meta));
+				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentUrl(src)))
+				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => GetAttachmentMetaData(src)))
+				.AfterMap((src, dest) =>
+				{
+					if (src.type == AttachmentType.webthumb)
+					{
+						dest.MetaData.MediumPreviews = new ThumbnailData[]
+						{
+							new ThumbnailData() 
+							{
+								Width = src.image_meta.width,
+								Height = src.image_meta.height,
+								Url = GetStationAttachmentUrl(src.url)
+							}
+						};
+					}
+				});
 
 
-			Mapper.CreateMap<ImageProperty, MediumSizeMetaData>();
+			Mapper.CreateMap<ImageProperty, MediumSizeMetaData>()
+				.ForMember(dest => dest.SmallPreviews, opt => opt.MapFrom(src => (src.small == null)? null: new ThumbnailInfo[] { src.small }))
+				.ForMember(dest => dest.MediumPreviews, opt => opt.MapFrom(src => (src.medium == null) ? null : new ThumbnailInfo[] { src.medium }))
+				.ForMember(dest => dest.LargePreviews, opt => opt.MapFrom(src => (src.large == null) ? null : new ThumbnailInfo[] { src.large }));
 
-			Mapper.CreateMap<ImageProperty, LargeSizeMetaData>();
+
+			Mapper.CreateMap<ImageProperty, LargeSizeMetaData>()
+				.ForMember(dest => dest.SmallPreviews, opt => opt.MapFrom(src => (src.small == null)? null: new ThumbnailInfo[] { src.small }))
+				.ForMember(dest => dest.MediumPreviews, opt => opt.MapFrom(src => (src.medium == null) ? null : new ThumbnailInfo[] { src.medium }))
+				.ForMember(dest => dest.LargePreviews, opt => opt.MapFrom(src => (src.large == null) ? null : new ThumbnailInfo[] { src.large }));
 
 			Mapper.CreateMap<DocProperty, MediumSizeMetaData>()
 				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
 				.ForMember(dest => dest.PageCount, opt => opt.MapFrom(src => src.preview_pages))
-				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => (src.preview_files == null) ? null : src.preview_files.Select(file => GetStationFilePath(file))));
+				.ForMember(dest => dest.MediumPreviews, opt => opt.MapFrom(src => (src.preview_files == null) ? null : src.preview_files.Select(file => 
+					new ThumbnailData()
+					{
+						Url = GetStationFilePath(file)
+					})));
 
 
 			Mapper.CreateMap<DocProperty, LargeSizeMetaData>()
 				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
 				.ForMember(dest => dest.PageCount, opt => opt.MapFrom(src => src.preview_pages))
-				.ForMember(dest => dest.PreviewFiles, opt => opt.MapFrom(src => (src.preview_files == null) ? null : src.preview_files.Select(file => GetStationFilePath(file))));
+				.ForMember(dest => dest.MediumPreviews, opt => opt.MapFrom(src => (src.preview_files == null) ? null : src.preview_files.Select(file =>
+					new ThumbnailData()
+					{
+						Url = GetStationFilePath(file)
+					})));
+
+			Mapper.CreateMap<WebProperty, MediumSizeMetaData>()
+				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.accesses.Select(item => item.time.ToUTCISO8601ShortString())))
+				.ForMember(dest => dest.From, opt => opt.MapFrom(src => src.accesses.First().from))
+				.ForMember(dest => dest.Favicon, opt => opt.MapFrom(src => src.favicon));
+
+			Mapper.CreateMap<WebProperty, LargeSizeMetaData>()
+				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.accesses.Select(item => item.time.ToUTCISO8601ShortString())))
+				.ForMember(dest => dest.From, opt => opt.MapFrom(src => src.accesses.First().from))
+				.ForMember(dest => dest.Favicon, opt => opt.MapFrom(src => src.favicon));
 
 
 			Mapper.CreateMap<ThumbnailInfo, ThumbnailData>()

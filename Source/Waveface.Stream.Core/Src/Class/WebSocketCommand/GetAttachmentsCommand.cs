@@ -119,6 +119,11 @@ namespace Waveface.Stream.Core
 					queryTypes.Add((int)AttachmentType.doc);
 				}
 
+				if ((type & 16) == 16)
+				{
+					queryTypes.Add((int)AttachmentType.webthumb);
+				}
+
 				attachmentQueryParam = Query.And(attachmentQueryParam, Query.In("type", new BsonArray(queryTypes)));
 			}
 

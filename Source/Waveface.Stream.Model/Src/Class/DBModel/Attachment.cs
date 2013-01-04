@@ -1,4 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
 using System;
@@ -458,7 +458,10 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public DocProperty doc_meta { get; set; }
 
-		public DateTime last_access { get; set; }
+
+		[BsonIgnoreIfNull]
+		public WebProperty web_meta { get; set; }
+		
 		/// <summary>
 		/// is the attachment is imported from this station?
 		/// </summary>

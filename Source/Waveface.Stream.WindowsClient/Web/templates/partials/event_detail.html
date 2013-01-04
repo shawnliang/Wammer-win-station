@@ -7,7 +7,7 @@
     	{{#hasPhoto}}<i class="icon-camera"></i> {{attachment_count}}{{/hasPhoto}}
     </div>
 </header>
-<div class="event-content {{#hasMap}}hasMap{{/hasMap}}">
+<div class="event-content {{#hasMap}}hasMap{{/hasMap}} {{#mapOnly}}mapOnly{{/mapOnly}}">
 	<div class="event-text">
 		{{#hasDescription}}
 		<div class="event-description">
@@ -52,6 +52,7 @@
 	</div>
 	{{/hasMap}}
 </div>
+{{^mapOnly}}
 <div class="event-photos">
 	<div class="inner">
 		<div class="attachments">
@@ -60,5 +61,6 @@
 
 	</div>
 </div>
+{{/mapOnly}}
 
 

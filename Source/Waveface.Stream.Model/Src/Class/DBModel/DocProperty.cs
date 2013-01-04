@@ -14,14 +14,18 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfDefault]
 		[BsonIgnoreIfNull]
 		public List<string> preview_files { get; set; }
+
 		[BsonIgnoreIfDefault]
 		[BsonIgnoreIfNull]
 		public List<DateTime> access_time { get; set; }
+
 		[BsonIgnoreIfDefault]
 		[BsonIgnoreIfNull]
 		public DateTime modify_time { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string title { get; set; }
+
 		[BsonIgnoreIfNull]
 		public string author { get; set; }
 

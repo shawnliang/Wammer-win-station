@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['backbone', 'mustache', 'views/partials/attachment', 'views/gallery', 'collections/attachments', 'text!templates/layouts/day_view_calendar.html', 'lib/jquery/fullcalendar'], function(Backbone, M, AttachmentView, GalleryView, Attachments, CalendarTemplate) {
+  define(['jquery', 'backbone', 'mustache', 'views/partials/attachment', 'views/gallery', 'collections/attachments', 'text!templates/layouts/day_view_calendar.html', 'lib/jquery/jquery.blockUI', 'lib/jquery/fullcalendar'], function($, Backbone, M, AttachmentView, GalleryView, Attachments, CalendarTemplate) {
     var DayView;
     return DayView = (function(_super) {
 

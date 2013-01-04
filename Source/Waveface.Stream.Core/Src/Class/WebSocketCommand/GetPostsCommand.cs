@@ -154,9 +154,11 @@ namespace Waveface.Stream.Core
 									Url = GetStationAttachmentUrl(coverAttachmentID, ImageMeta.Origin),
 									MetaData = new MediumSizeMetaData()
 									{
-										Small = new ThumbnailData() 
-										{
-											Url = GetStationAttachmentUrl(coverAttachmentID, ImageMeta.Small)
+										SmallPreviews = new ThumbnailData[]{
+											new ThumbnailData() 
+											{
+												Url = GetStationAttachmentUrl(coverAttachmentID, ImageMeta.Small)
+											}
 										}
 									}
 								});
@@ -185,9 +187,11 @@ namespace Waveface.Stream.Core
 									Url = GetStationAttachmentUrl(attachmentID, ImageMeta.Origin),
 									MetaData = new MediumSizeMetaData()
 									{
-										Small = new ThumbnailData()
-										{
-											Url = GetStationAttachmentUrl(attachmentID, ImageMeta.Small)
+										SmallPreviews = new ThumbnailData[]{
+											new ThumbnailData() 
+											{
+												Url = GetStationAttachmentUrl(coverAttachmentID, ImageMeta.Small)
+											}
 										}
 									}
 								});

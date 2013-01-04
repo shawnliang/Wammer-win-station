@@ -169,6 +169,7 @@ namespace Waveface.Stream.WindowsClient
 				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
 				recentDocWatcher.Start();
 
+
 				driveDetector = new DriveDetector();
 				driveDetector.DeviceArrived += new DriveDetectorEventHandler(driveDetector_DeviceArrived);
 				driveDetector.DeviceRemoved += new DriveDetectorEventHandler(driveDetector_DeviceRemoved);
