@@ -14,8 +14,20 @@
 
       AttachmentModel.prototype.initialize = function() {
         this.set("image_meta", this.get("meta_data"));
+        if ((this.get("image_meta")).small_previews != null) {
+          this.transformSchema();
+        }
         this.setOrientation();
         return this.setDate();
+      };
+
+      AttachmentModel.prototype.transformSchema = function() {
+        var originData, result;
+        originData = this.get("image_meta");
+        originData.small = _(originData.small_previews).first();
+        originData.medium = _(originData.medium_previews).first() || _(originData.small_previews).first();
+        originData.large = _(originData.large_previews).first() || _(originData.medium_previews).first();
+        return this.set("image_meta", result = originData);
       };
 
       AttachmentModel.prototype.setOrientation = function(baseRatio) {

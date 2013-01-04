@@ -24,6 +24,10 @@
 
       EventView.prototype.render = function() {
         this.$el.html(M.render(template, this.model.toJSON()));
+        this.$("img").on("error", function() {
+          console.log("ImageLoadError", this.src);
+          return this.src = "images/placeholder.png";
+        });
         return this;
       };
 

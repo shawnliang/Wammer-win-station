@@ -32,14 +32,14 @@ namespace UT_WammerStation
 		[TestInitialize]
 		public void Setup()
 		{
-			CloudServer.BaseUrl = "http://127.0.0.1:8080/v2/";
+			CloudServer.BaseUrl = "http://127.0.0.1:8080/";
 
 			FakeCloudRemoteHandler.SavedParams = new System.Collections.Specialized.NameValueCollection();
-			server8080.AddHandler("/v2/attachments/view/", new FakeCloudRemoteHandler());
+			server8080.AddHandler("/attachments/view/", new FakeCloudRemoteHandler());
 			server8080.Start();
 			server8080.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			server80.AddHandler("/v2/objects/view/DownloadAttachment", new FackAttViewHandler());
+			server80.AddHandler("/objects/view/DownloadAttachment", new FackAttViewHandler());
 			server80.Start();
 			server80.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 		}

@@ -18,6 +18,12 @@
         if (!!this.model) {
           this.$el.html(M.render(Template, this.model.toJSON()));
           this.setOrientation();
+          this.$("img").on("error", function() {
+            console.log("ImageLoadError", this.src);
+            return this.src = "images/placeholder.png";
+          });
+        } else {
+          console.log("NoAttachModel");
         }
         return this;
       };

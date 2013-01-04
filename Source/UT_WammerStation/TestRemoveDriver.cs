@@ -29,11 +29,11 @@ namespace UT_WammerStation
 		{
 			server = new HttpServer(8080);
 			handler = new RemoveOwnerHandler();
-			server.AddHandler("/v2/station/drivers/remove/", handler);
+			server.AddHandler("/station/drivers/remove/", handler);
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost/v2/";
+			CloudServer.BaseUrl = "http://localhost/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
@@ -79,7 +79,7 @@ namespace UT_WammerStation
 
 			using (FakeCloud cloud = new FakeCloud(new CloudResponse()))
 			{
-				CloudServer.request<CloudResponse>("http://localhost:8080/v2/station/drivers/remove",
+				CloudServer.request<CloudResponse>("http://localhost:8080/station/drivers/remove",
 					new Dictionary<object, object>{
 						{ "session_token", "token123"},
 						{ "user_ID", "exist_uid1"},
@@ -114,7 +114,7 @@ namespace UT_WammerStation
 
 			using (FakeCloud cloud = new FakeCloud(new CloudResponse()))
 			{
-				CloudServer.request<CloudResponse>("http://localhost:8080/v2/station/drivers/remove",
+				CloudServer.request<CloudResponse>("http://localhost:8080/station/drivers/remove",
 					new Dictionary<object, object>{ 
 						{ "session_token", "token123"}, 
 						{ "user_ID", "exist_uid1"} ,

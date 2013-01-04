@@ -6943,44 +6943,52 @@ table.fc-border-separate {
     background-color: #000; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-events a {
-    color: #f47769;
+    color: #f57564;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-events.active a {
     color: #fff;
-    background-color: #f26151; }
+    background-color: #f4604c; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-photos a {
-    color: #8ab6d1;
+    color: #fcb015;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-photos.active a {
     color: #fff;
-    background-color: #78aaca; }
+    background-color: #f5a503; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-docs a {
-    color: #fdb042;
+    color: #c4c0bd;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-docs.active a {
     color: #fff;
-    background-color: #fda529; }
+    background-color: #b8b3b0; }
+  /* line 2, layouts/_menu.scss */
+  #menu .nav-to-reading a {
+    color: #44bdca;
+    font-weight: bold; }
+  /* line 6, layouts/_menu.scss */
+  #menu .nav-to-reading.active a {
+    color: #fff;
+    background-color: #36b1bf; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-collection a {
-    color: #80af22;
+    color: #0c7f9f;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-collection.active a {
     color: #fff;
-    background-color: #709a1e; }
+    background-color: #0a6c87; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-calendar a {
-    color: #4c5db2;
+    color: #f48e66;
     font-weight: bold; }
   /* line 6, layouts/_menu.scss */
   #menu .nav-to-calendar.active a {
     color: #fff;
-    background-color: #4454a0; }
+    background-color: #f27d4e; }
   /* line 2, layouts/_menu.scss */
   #menu .nav-to-settings a {
     color: #355389;
@@ -7107,16 +7115,17 @@ table.fc-border-separate {
     margin: 10px 10px; }
   /* line 30, partials/_event.scss */
   .event.selected {
-    box-shadow: 0 1px 10px 0 rgba(102, 102, 102, 0.3);
+    box-shadow: 0 1px 5px 2px rgba(102, 102, 102, 0.3), 2px 2px 10px 2px rgba(51, 51, 51, 0.3);
     position: relative;
-    bottom: 1px; }
+    bottom: 1px;
+    margin: 10px -10px; }
 
-/* line 37, partials/_event.scss */
+/* line 38, partials/_event.scss */
 .event-detail {
   overflow: hidden;
   *zoom: 1;
   margin: 20px; }
-  /* line 46, partials/_event.scss */
+  /* line 47, partials/_event.scss */
   .event-detail .event-content {
     *zoom: 1;
     font-size: 15px;
@@ -7127,12 +7136,12 @@ table.fc-border-separate {
       content: "";
       display: table;
       clear: both; }
-  /* line 54, partials/_event.scss */
+  /* line 55, partials/_event.scss */
   .event-detail .event-description, .event-detail .event-tags, .event-detail .event-who-where {
     padding: 16px 16px 16px 25px;
     position: relative;
     border-top: 1px solid #eee; }
-    /* line 58, partials/_event.scss */
+    /* line 59, partials/_event.scss */
     .event-detail .event-description .icon, .event-detail .event-tags .icon, .event-detail .event-who-where .icon {
       position: absolute;
       left: 0;
@@ -7140,23 +7149,23 @@ table.fc-border-separate {
       color: #ccc;
       font-size: 18px;
       line-height: 20px; }
-  /* line 67, partials/_event.scss */
+  /* line 68, partials/_event.scss */
   .event-detail .event-description {
     border-top-style: none; }
-  /* line 70, partials/_event.scss */
+  /* line 71, partials/_event.scss */
   .event-detail .event-who-where {
     color: #999;
     font-size: 15px; }
-  /* line 75, partials/_event.scss */
+  /* line 76, partials/_event.scss */
   .event-detail .description {
     color: #D08E32; }
-  /* line 78, partials/_event.scss */
+  /* line 79, partials/_event.scss */
   .event-detail .location {
     color: #6E93AA; }
-  /* line 81, partials/_event.scss */
+  /* line 82, partials/_event.scss */
   .event-detail .people {
     color: #718A39; }
-  /* line 85, partials/_event.scss */
+  /* line 86, partials/_event.scss */
   .event-detail .tag {
     color: #CFA243;
     border: 1px solid rgba(207, 162, 67, 0.25);
@@ -7167,21 +7176,21 @@ table.fc-border-separate {
     font-size: 11px;
     position: relative;
     top: -1px; }
-  /* line 96, partials/_event.scss */
+  /* line 97, partials/_event.scss */
   .event-detail .photos-title {
     text-align: center;
     color: #ccc;
     border-bottom: 1px solid #ddd; }
-    /* line 99, partials/_event.scss */
+    /* line 100, partials/_event.scss */
     .event-detail .photos-title span {
       background-color: #FFF;
       padding: 5px;
       position: relative;
       top: 10px; }
-  /* line 108, partials/_event.scss */
+  /* line 109, partials/_event.scss */
   .event-detail .event-photos {
     padding: 20px; }
-  /* line 113, partials/_event.scss */
+  /* line 114, partials/_event.scss */
   .event-detail .attachments {
     *zoom: 1; }
     /* line 38, ../../../../../../../Ruby193/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
@@ -7189,36 +7198,40 @@ table.fc-border-separate {
       content: "";
       display: table;
       clear: both; }
-  /* line 119, partials/_event.scss */
+  /* line 120, partials/_event.scss */
   .event-detail .more {
     margin-top: 20px; }
   @media (min-width: 1280px) and (max-width: 1600px) {
-    /* line 126, partials/_event.scss */
+    /* line 127, partials/_event.scss */
     .event-detail .event-content {
       padding-bottom: 0;
       padding-right: 0;
       border-bottom: 1px solid #ccc; }
-    /* line 132, partials/_event.scss */
+    /* line 133, partials/_event.scss */
     .event-detail .hasMap .event-text {
       width: 50%;
       float: left; }
-    /* line 136, partials/_event.scss */
+    /* line 137, partials/_event.scss */
     .event-detail .event-location {
       width: 50%;
       float: right;
       border-left: 1px solid #ccc; } }
   @media (min-width: 1600px) {
-    /* line 145, partials/_event.scss */
+    /* line 146, partials/_event.scss */
     .event-detail .event-content {
       padding: 0 20px 20px 0;
       width: 400px;
       float: right; }
-    /* line 153, partials/_event.scss */
+    /* line 155, partials/_event.scss */
+    .event-detail .mapOnly {
+      padding-left: 20px;
+      width: 100% !important; }
+    /* line 160, partials/_event.scss */
     .event-detail .event-photos {
       float: left;
       width: 100%;
       margin-right: -400px; }
-      /* line 158, partials/_event.scss */
+      /* line 165, partials/_event.scss */
       .event-detail .event-photos .inner {
         margin-right: 400px; } }
 

@@ -20,7 +20,7 @@
       };
 
       AppView.prototype.renderMenu = function() {
-        return this.$('#menu').empty().append(MenuView.render().el);
+        return this.$('#menu').empty().append((new MenuView).render().el);
       };
 
       return AppView;

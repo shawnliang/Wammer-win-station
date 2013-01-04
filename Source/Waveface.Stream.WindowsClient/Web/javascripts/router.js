@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'backbone', 'collections/events', 'collections/attachments', 'collections/documents', 'collections/calendar', 'views/events', 'views/photos', 'views/documents', 'views/calendar', 'views/collections', 'localstorage', 'com/subscriber'], function(_, Backbone, Events, Attachments, Documents, Calendars, EventsView, PhotosView, DocsView, CalendarView, CollectionView, Storage, Subscriber) {
+  define(['underscore', 'backbone', 'moment', 'collections/events', 'collections/attachments', 'collections/documents', 'collections/calendar', 'views/events', 'views/photos', 'views/documents', 'views/calendar', 'views/collections', 'localstorage', 'com/subscriber'], function(_, Backbone, Moment, Events, Attachments, Documents, Calendars, EventsView, PhotosView, DocsView, CalendarView, CollectionView, Storage, Subscriber) {
     var AppRouter, root;
     root = this;
     return AppRouter = (function(_super) {
@@ -27,7 +27,9 @@
         'documents': 'actionDocs',
         'documents/': 'actionDocs',
         'documents/:date': 'actionDocs',
+        'reading': 'actionReading',
         'calendar': 'actionCalendar',
+        'calendar/:year': 'actionCalendar',
         'collection': 'actionCollection'
       };
 
@@ -106,8 +108,13 @@
         return viewState.save();
       };
 
-      AppRouter.prototype.actionCalendar = function() {
-        this.main.empty().append(CalendarView.render().el);
+      AppRouter.prototype.actionReading = function() {
+        return true;
+      };
+
+      AppRouter.prototype.actionCalendar = function(year) {
+        year = year || Moment().format('YYYY');
+        this.main.empty().append(CalendarView.render(year).el);
         return CalendarView.renderCalendar();
       };
 

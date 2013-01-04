@@ -58,11 +58,11 @@ namespace UT_WammerStation
 
 			server = new HttpServer(8080);
 			handler = new UserLoginHandler();
-			server.AddHandler("/v2/auth/login", handler);
+			server.AddHandler("/auth/login", handler);
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);
 
-			CloudServer.BaseUrl = "http://localhost/v2/";
+			CloudServer.BaseUrl = "http://localhost/";
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").Insert(
 				new Driver
@@ -86,7 +86,7 @@ namespace UT_WammerStation
 		{
 			using (FakeCloud cloud = new FakeCloud(string.Empty))
 			{
-				CloudServer.request<CloudResponse>("http://localhost:8080/v2/auth/login",
+				CloudServer.request<CloudResponse>("http://localhost:8080/auth/login",
 					new Dictionary<object, object>{ 
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"} ,
@@ -158,7 +158,7 @@ namespace UT_WammerStation
 
 			using (FakeCloud cloud = new FakeCloud(loginedJson))
 			{
-				var response = CloudServer.request<CloudResponse>("http://localhost:8080/v2/auth/login",
+				var response = CloudServer.request<CloudResponse>("http://localhost:8080/auth/login",
 					new Dictionary<object, object>{ 
 					{ "email", "exist@gmail.com"}, 
 					{ "password", "12345"} ,

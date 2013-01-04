@@ -18,6 +18,8 @@
         'click .attachment': 'startGallery'
       };
 
+      EventView.prototype.photoViews = [];
+
       EventView.prototype.render = function() {
         if (!!this.model) {
           this.$el.html(M.render(Template, this.model.toJSON()));
@@ -25,10 +27,12 @@
           if (!this.model.detailFetchStatus) {
             Attachments.callAttachments([this.model.id], 100, this.model.id, this.renderAttachments, this);
             this.model.detailFetchStatus = true;
+            $.unblockUI();
+          } else {
+            this.renderLocalAttachments(this.model.get("attachment_id_array"));
+            $.unblockUI();
           }
-          this.photoViews = [];
           this.renderLocalAttachments(this.model.get("attachment_id_array"));
-          this.delegateEvents();
           return this;
         } else {
           return false;
@@ -39,7 +43,7 @@
         var _this = this;
         this.photos = data;
         this.$(".attachments").empty();
-        return _.each(data, function(attachment_data) {
+        _.each(data, function(attachment_data) {
           var attachment, view;
           if (!!(attachment = Attachments.get(attachment_data.id))) {
             view = new AttachmentView({
@@ -49,16 +53,18 @@
             return _this.photoViews.push(view);
           }
         });
+        this.delegateEvents();
+        return $.unblockUI();
       };
 
-      EventView.prototype.renderLocalAttachments = function(_attachmments) {
+      EventView.prototype.renderLocalAttachments = function(_attachments) {
         var _this = this;
-        this.photos = _attachmments;
-        if (_attachmments.length <= 0) {
+        this.photos = _attachments;
+        if ((_attachments != null) && _attachments.length <= 0) {
           return false;
         }
         this.$(".attachments").empty();
-        return _.each(_attachmments, function(attachment_id) {
+        _.each(_attachments, function(attachment_id) {
           var attachment, view;
           if (!!(attachment = Attachments.get(attachment_id))) {
             view = new AttachmentView({
@@ -68,6 +74,7 @@
             return _this.photoViews.push(view);
           }
         });
+        return this.delegateEvents();
       };
 
       EventView.prototype.renderMap = function() {

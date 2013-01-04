@@ -65,7 +65,7 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual(1024, savedAttachment.image_meta.medium.width);
 			Assert.AreEqual(768, savedAttachment.image_meta.medium.height);
 			Assert.AreEqual(
-				"/v2/attachments/view/?object_id=" + savedAttachment.object_id + "&image_meta=" + uploadData.imageMeta.ToString().ToLower(),
+				"/v3/attachments/view/?object_id=" + savedAttachment.object_id + "&image_meta=" + uploadData.imageMeta.ToString().ToLower(),
 				savedAttachment.image_meta.medium.url);
 			Assert.AreEqual("123.jpg", savedAttachment.image_meta.medium.saved_file_name);
 		}
