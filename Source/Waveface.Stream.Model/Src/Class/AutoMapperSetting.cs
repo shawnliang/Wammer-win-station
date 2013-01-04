@@ -17,6 +17,7 @@ namespace Waveface.Stream.Model
 		{
 			Mapper.CreateMap<PostInfo, PostDBData>()
 					.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.post_id))
+					.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.content))
 					.ForMember(dest => dest.Type, opt => opt.MapFrom(src => (src.type.Equals("doc"))? PostType.Doc: PostType.Photo)) //TODO: 待處理
 					.ForMember(dest => dest.CoverAttachmentID, opt => opt.MapFrom(src => src.cover_attach))
 					.ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array))

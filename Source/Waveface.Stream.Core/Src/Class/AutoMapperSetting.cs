@@ -268,6 +268,7 @@ namespace Waveface.Stream.Core
 
 			Mapper.CreateMap<PostDBData, MediumSizePostData>()
 				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID))
+				.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.EventSinceTime))
 				.ForMember(dest => dest.CoverAttachmentID, opt => opt.MapFrom(src => src.CoverAttachmentID))
 				.ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags))
