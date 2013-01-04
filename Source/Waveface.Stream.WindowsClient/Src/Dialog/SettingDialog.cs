@@ -24,10 +24,6 @@ namespace Waveface.Stream.WindowsClient
 			public bool removeData { get; set; }
 		}
 
-		#region Const
-		private const string DEF_BASE_URL = "https://develop.waveface.com/v2/"; // https://api.waveface.com/v2/
-		#endregion
-
 		#region Static Var
 		private static SettingDialog _instance;
 		#endregion

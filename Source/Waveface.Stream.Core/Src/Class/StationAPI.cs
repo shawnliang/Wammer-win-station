@@ -19,6 +19,8 @@ namespace Waveface.Stream.Core
 	{
 		#region Const
 		public static string API_KEY = "a23f9491-ba70-5075-b625-b8fb5d9ecd90";
+		private const string STATION_MGMT_URLBASE = "http://127.0.0.1:9989/v3";
+		private const string STATION_FUNC_URLBASE = "http://127.0.0.1:9981/v3";
 		#endregion
 
 
@@ -69,7 +71,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9989/v2/station/suspendSync";
+			var uri = STATION_MGMT_URLBASE + @"/station/suspendSync";
 
 			return Post(uri, new NameValueCollection(){
 						{ "apikey", API_KEY }
@@ -80,7 +82,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9989/v2/station/resumeSync";
+			var uri = STATION_MGMT_URLBASE + @"/station/resumeSync";
 
 			return Post(uri, new NameValueCollection(){
 						{ "apikey", API_KEY }
@@ -91,7 +93,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var url = @"http://127.0.0.1:9989/v2/station/Import";
+			var url = STATION_MGMT_URLBASE + @"/station/Import";
 
 			var parameters = new NameValueCollection() 
 				{
@@ -108,7 +110,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var url = @"http://127.0.0.1:9989/v2/station/ImportDoc";
+			var url = STATION_MGMT_URLBASE + @"/station/ImportDoc";
 
 			var parameters = new NameValueCollection() 
 				{
@@ -124,7 +126,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var url = @"http://127.0.0.1:9981/v2/users/SNSDisconnect";
+			var url = STATION_FUNC_URLBASE + @"/users/SNSDisconnect";
 
 			var parameters = new NameValueCollection() 
 				{
@@ -141,7 +143,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var url = @"http://127.0.0.1:9981/v2/users/update";
+			var url = STATION_FUNC_URLBASE + @"/users/update";
 
 			var parameters = new NameValueCollection() 
 				{
@@ -158,7 +160,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var url = @"http://127.0.0.1:9981/v2/users/update";
+			var url = STATION_FUNC_URLBASE + @"/users/update";
 
 			var parameters = new NameValueCollection() 
 				{
@@ -176,7 +178,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var url = @"http://127.0.0.1:9981/v2/users/get";
+			var url = STATION_FUNC_URLBASE + @"/users/get";
 
 			var parameters = new NameValueCollection() 
 				{
@@ -193,7 +195,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9989/v2/station/drivers/add";
+			var uri = STATION_MGMT_URLBASE + @"/station/drivers/add";
 
 			return Post(uri, new NameValueCollection(){
 						{ "email", email},
@@ -207,7 +209,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9989/v2/station/drivers/add";
+			var uri = STATION_MGMT_URLBASE + @"/station/drivers/add";
 
 			return Post(uri, new NameValueCollection(){
 						{ "user_id", userID},
@@ -219,7 +221,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9989/v2/station/drivers/remove";
+			var uri = STATION_MGMT_URLBASE + @"/station/drivers/remove";
 
 			return Post(uri, new NameValueCollection(){
                         { "apikey", API_KEY},
@@ -233,7 +235,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9981/v2/auth/login";
+			var uri = STATION_FUNC_URLBASE + @"/auth/login";
 
 			return Post(uri, new NameValueCollection(){
 						{ "apikey", API_KEY},
@@ -248,7 +250,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9981/v2/auth/login";
+			var uri = STATION_FUNC_URLBASE + @"/auth/login";
 
 			return Post(uri, new NameValueCollection(){
 						{ "apikey", API_KEY},
@@ -259,7 +261,7 @@ namespace Waveface.Stream.Core
 
 		public static void AddMonitorFile(string file, string user_id, string sesion_token)
 		{
-			var uri = @"http://127.0.0.1:9989/v2/station/monitor/add";
+			var uri = STATION_MGMT_URLBASE + @"/station/monitor/add";
 
 			var parameters = new NameValueCollection()
 				{
@@ -276,7 +278,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9981/v2/auth/logout";
+			var uri = STATION_FUNC_URLBASE + @"/auth/logout";
 
 			return Post(uri, new NameValueCollection(){
 						{ "apikey", API_KEY},
@@ -287,7 +289,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9981/v2/collections/create";
+			var uri = STATION_FUNC_URLBASE + @"/collections/create";
 
 			if (timeStamp == null)
 				timeStamp = DateTime.Now;
@@ -319,7 +321,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9981/v2/collections/hide";
+			var uri = STATION_FUNC_URLBASE + @"/collections/hide";
 
 			if (timeStamp == null)
 				timeStamp = DateTime.Now;
@@ -339,7 +341,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9981/v2/collections/unhide";
+			var uri = STATION_FUNC_URLBASE + @"/collections/unhide";
 
 			if (timeStamp == null)
 				timeStamp = DateTime.Now;
@@ -358,7 +360,7 @@ namespace Waveface.Stream.Core
 		{
 			DebugInfo.ShowMethod();
 
-			var uri = @"http://127.0.0.1:9981/v2/collections/update";
+			var uri = STATION_FUNC_URLBASE + @"/collections/update";
 
 			if (timeStamp == null)
 				timeStamp = DateTime.Now;

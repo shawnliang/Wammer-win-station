@@ -145,7 +145,7 @@ namespace Wammer.Station.Timeline
 
 			if (meta == ImageMeta.Origin || attachmentAttributes.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
 			{
-				var update = Update.Set("url", "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id)
+				var update = Update.Set("url", "/v3/attachments/view/?object_id=" + attachmentAttributes.object_id)
 								.Set("mime_type", attachmentAttributes.mime_type)
 								.Set("file_size", length)
 								.Set("modify_time", DateTime.UtcNow)
@@ -183,7 +183,7 @@ namespace Wammer.Station.Timeline
 				{
 					mime_type = attachmentAttributes.GetThumbnail(meta).mime_type,
 					modify_time = DateTime.UtcNow,
-					url = "/v2/attachments/view/?object_id=" + attachmentAttributes.object_id + "&image_meta=" + metaStr,
+					url = "/v3/attachments/view/?object_id=" + attachmentAttributes.object_id + "&image_meta=" + metaStr,
 					file_size = length,
 					width = attachmentAttributes.GetThumbnail(meta).width,
 					height = attachmentAttributes.GetThumbnail(meta).height,

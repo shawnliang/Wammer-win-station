@@ -125,10 +125,13 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			Cursor.Current = Cursors.WaitCursor;
+			int totalCount = 0;
 			photoSearch.Search(selectedPath, (path, count) =>
 			{
-				dataGridView1.Rows.Add(true, path, count);
+				totalCount += count;
 			});
+
+			dataGridView1.Rows.Add(true, selectedPath, totalCount);
 			Cursor.Current = Cursors.Default;
 		}
 
@@ -193,11 +196,26 @@ namespace Waveface.Stream.WindowsClient
 		public string path { get; set; }
 		public int photoCount { get; set; }
 
-
 		public PathAndPhotoCount(string path, int count)
 		{
 			this.path = path;
 			this.photoCount = count;
+		}
+
+		public override int GetHashCode()
+		{
+			return path.GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null)
+				return false;
+
+			if (obj is PathAndPhotoCount)
+				return path.Equals( ((PathAndPhotoCount)obj).path );
+			else
+				return false;
 		}
 	}
 }
