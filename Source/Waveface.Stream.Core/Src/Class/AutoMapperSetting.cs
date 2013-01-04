@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using System;
@@ -184,13 +184,8 @@ namespace Waveface.Stream.Core
 
 			var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", locationID));
 
-			if (!File.Exists(mapFile))
-			{
-				var urlFormat = @"http://maps.google.com/maps/api/staticmap?center={0},{1}&zoom={2}&size=640x640&scale=2&sensor=false&markers=color:red%7Csize:mid%7Clabel:A%7C{0},{1}";
-				mapFile = String.Format(urlFormat, location.Latitude.ToString(), location.Longitude.ToString(), location.ZoomLevel.ToString());
-			}
-
-			postGPSData.Map = mapFile;
+			if (File.Exists(mapFile))
+				postGPSData.Map = mapFile;
 
 			return postGPSData;
 		}

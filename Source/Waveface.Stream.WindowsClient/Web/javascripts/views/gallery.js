@@ -40,12 +40,15 @@
           _this.close.call(_this);
           return false;
         });
-        return Router.navigate(Backbone.history.fragment + '/gallery');
+        return Backbone.history.navigate("" + this.history + "/gallery");
       };
 
       GalleryView.prototype.close = function() {
         $('#gallery').remove();
-        return Router.navigate(this.history);
+        Galleria.get(0).destroy();
+        return Backbone.history.navigate(this.history, {
+          trigger: true
+        });
       };
 
       return GalleryView;

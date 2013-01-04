@@ -11,6 +11,9 @@
       jqueryui: {
         deps: ["jquery"]
       },
+      scrollTo: {
+        deps: ["jquery"]
+      },
       backbone: {
         deps: ["underscore", "amplifystore", "jquery"],
         exports: "Backbone"
@@ -21,7 +24,12 @@
       mousetrap: {
         exports: "Mousetrap"
       },
-      'lib/jquery/fullcalendar': ["jquery"],
+      'lib/jquery/fullcalendar': {
+        deps: ["jquery"]
+      },
+      'lib/jquery/jquery.blockUI': {
+        deps: ["jquery"]
+      },
       'lib/galleria/galleria-1.2.8': {
         deps: ["jquery"],
         exports: "Galleria"
@@ -40,6 +48,7 @@
     paths: {
       jquery: "lib/jquery/jquery",
       jqueryui: "lib/jquery/jquery-ui-1.9.2.custom",
+      scrollTo: "lib/jquery/jquery.scrollTo.min",
       underscore: "lib/lodash/lodash",
       backbone: "lib/backbone/backbone",
       text: "lib/require/text",
@@ -58,7 +67,8 @@
       async: "lib/require/async",
       jasmine: "lib/jasmine/jasmine",
       jasminehtml: "lib/jasmine/jasmine-html"
-    }
+    },
+    waitSeconds: 30
   });
 
 }).call(this);

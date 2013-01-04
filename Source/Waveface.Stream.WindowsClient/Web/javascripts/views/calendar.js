@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'backbone', 'mustache', 'collections/events', 'collections/attachments', 'collections/calendar', 'text!templates/calendar.html', 'lib/d3'], function(_, Backbone, M, Events, Photos, Calendars, Template, d3) {
+  define(['underscore', 'backbone', 'mustache', 'collections/events', 'collections/attachments', 'collections/calendar', 'text!templates/calendar.html', 'lib/d3', 'moment'], function(_, Backbone, M, Events, Photos, Calendars, Template, d3, Moment) {
     var CalendarView;
     CalendarView = (function(_super) {
 
@@ -20,17 +20,34 @@
 
       CalendarView.prototype.events = {
         'click #calendar-control .events': 'renderEvents',
-        'click #calendar-control .photos': 'renderPhotos'
+        'click #calendar-control .photos': 'renderPhotos',
+        'click #previousDateBtn': 'previousYear',
+        'click #nextDateBtn': 'nextYear'
       };
 
-      CalendarView.prototype.initialize = function() {};
-
-      CalendarView.prototype.render = function() {
-        this.photoDays = this.testData();
-        this.$el.html(M.render(Template));
+      CalendarView.prototype.render = function(year) {
+        this.year = year;
+        this.photoDays = this.fetchData(this.year);
+        this.$el.html(M.render(Template, {
+          year: this.year
+        }));
         Mousetrap.reset();
         this.delegateEvents();
         return this;
+      };
+
+      CalendarView.prototype.nextYear = function() {
+        this.year++;
+        return Backbone.history.navigate("calendar/" + this.year, {
+          trigger: true
+        });
+      };
+
+      CalendarView.prototype.previousYear = function() {
+        this.year -= 1;
+        return Backbone.history.navigate("calendar/" + this.year, {
+          trigger: true
+        });
       };
 
       CalendarView.prototype.renderCalendar = function() {
@@ -66,7 +83,7 @@
         this.$('#calendar-control .btn').removeClass("active");
         this.$('#calendar-control .photos').addClass("active");
         this.dateLink.attr("xlink:href", function(d) {
-          return '#photos/' + d.date;
+          return '#photos/' + Moment(d.date, "YYYY-M-D").format('YYYY-MM-DD');
         });
         return this.rects.transition().duration(500).attr("class", "photo-rect").attr("height", function(d) {
           return "" + (_this.photoBarHeight(d.photo_count)) + "%";
@@ -80,7 +97,7 @@
         this.$('#calendar-control .btn').removeClass("active");
         this.$('#calendar-control .events').addClass("active");
         this.dateLink.attr("xlink:href", function(d) {
-          return '#events/' + d.date;
+          return '#events/' + Moment(d.date, "YYYY-M-D").format('YYYY-MM-DD');
         });
         return this.rects.transition().duration(500).attr("class", "event-rect").attr("height", function(d) {
           return "" + (_this.eventBarHeight(d.event_count)) + "%";
@@ -94,7 +111,7 @@
         if (event_count === 0) {
           return 0;
         }
-        h = event_count * 10 + 10;
+        h = event_count * 10;
         if (h > 100) {
           h = 100;
         }
@@ -113,17 +130,17 @@
         return h;
       };
 
-      CalendarView.prototype.testData = function() {
+      CalendarView.prototype.fetchData = function(year) {
         var data, date, i, m, _i, _j;
         data = [];
         for (m = _i = 0; _i <= 11; m = ++_i) {
           data[m] = {
-            month: '2012-' + (m + 1),
+            month: ("" + year + "-") + (m + 1),
             month_i18n: moment().month(m).format('MMM'),
             day: []
           };
           for (i = _j = 0; _j <= 30; i = ++_j) {
-            date = "2012-" + (m + 1) + "-" + (i + 1);
+            date = "" + year + "-" + (m + 1) + "-" + (i + 1);
             data[m]['day'][i] = {
               date: date,
               photo_count: Calendars.photosByDate(date),
