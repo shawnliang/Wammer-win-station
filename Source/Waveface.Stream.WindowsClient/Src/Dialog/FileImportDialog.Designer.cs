@@ -28,9 +28,28 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileImportDialog));
+			this.SuspendLayout();
+			// 
+			// wizardControl
+			// 
+			resources.ApplyResources(this.wizardControl, "wizardControl");
+			// 
+			// nextButton
+			// 
+			resources.ApplyResources(this.nextButton, "nextButton");
+			// 
+			// prevButton
+			// 
+			resources.ApplyResources(this.prevButton, "prevButton");
+			// 
+			// FileImportDialog
+			// 
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Text = "FileImportDialog";
+			this.Name = "FileImportDialog";
+			this.ResumeLayout(false);
+
 		}
 
 		#endregion

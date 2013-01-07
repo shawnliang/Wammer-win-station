@@ -35,31 +35,31 @@ namespace Waveface.Stream.WindowsClient
 			}
 			catch (AuthenticationException)
 			{
-				MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.AUTH_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (StationServiceDownException)
 			{
-				MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.STATION_SERVICE_DOWN, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (ConnectToCloudException)
 			{
-				MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.CONNECT_CLOUD_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 			catch (VersionNotSupportedException)
 			{
-				var result = MessageBox.Show(Resources.NeedToUpgrade, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				var result = MessageBox.Show(Resources.NEED_UPGRADE, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
 				if (result == System.Windows.Forms.DialogResult.OK)
 				{
 					var update = new AutoUpdate(true);
 					if (update.IsUpdateRequired())
 						update.ShowUpdateNeededUI();
 					else
-						MessageBox.Show(Resources.ALREAD_UPDATED, Resources.APP_NAME);
+						MessageBox.Show(Resources.ALREAD_UPDATED, Application.ProductName);
 				}
 			}
 			catch (Exception)
 			{
-				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace Waveface.Stream.WindowsClient
 			}
 			catch (Exception)
 			{
-				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 

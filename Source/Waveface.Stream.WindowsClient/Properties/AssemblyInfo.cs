@@ -12,7 +12,7 @@ using System;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Waveface")]
-[assembly: AssemblyProduct("Stream")]
+[assembly: AssemblyProduct("AOStream")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

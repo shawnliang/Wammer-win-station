@@ -67,11 +67,11 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// tabControl
 			// 
+			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.Controls.Add(this.tabPage1);
 			this.tabControl.Controls.Add(this.tabSignIn);
 			this.tabControl.Controls.Add(this.tabMainStationSetup);
 			this.tabControl.Controls.Add(this.tabSecondStationSetup);
-			resources.ApplyResources(this.tabControl, "tabControl");
 			this.tabControl.HideTabs = true;
 			this.tabControl.Multiline = true;
 			this.tabControl.Name = "tabControl";
@@ -80,11 +80,11 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// tabPage1
 			// 
+			resources.ApplyResources(this.tabPage1, "tabPage1");
 			this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabPage1.Controls.Add(this.button2);
 			this.tabPage1.Controls.Add(this.button1);
 			this.tabPage1.Controls.Add(this.pictureBox3);
-			resources.ApplyResources(this.tabPage1, "tabPage1");
 			this.tabPage1.Name = "tabPage1";
 			// 
 			// button2
@@ -109,6 +109,7 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// tabSignIn
 			// 
+			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabSignIn.Controls.Add(this.loginInputBox1);
 			this.tabSignIn.Controls.Add(this.devVersionTag);
@@ -121,7 +122,6 @@ namespace Waveface.Stream.WindowsClient
 			this.tabSignIn.Controls.Add(this.lblSignUp);
 			this.tabSignIn.Controls.Add(this.chkRememberPassword);
 			this.tabSignIn.Controls.Add(this.label2);
-			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
 			// 
 			// loginInputBox1
@@ -158,7 +158,6 @@ namespace Waveface.Stream.WindowsClient
 			// loginButton1
 			// 
 			resources.ApplyResources(this.loginButton1, "loginButton1");
-			this.loginButton1.MaximumSize = new System.Drawing.Size(110, 40);
 			this.loginButton1.Name = "loginButton1";
 			this.loginButton1.Click += new System.EventHandler(this.loginButton1_Click);
 			// 
@@ -170,9 +169,9 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// label1
 			// 
+			resources.ApplyResources(this.label1, "label1");
 			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
 			// 
 			// lblSignUp
@@ -198,11 +197,11 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// tabMainStationSetup
 			// 
+			resources.ApplyResources(this.tabMainStationSetup, "tabMainStationSetup");
 			this.tabMainStationSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabMainStationSetup.Controls.Add(this.btnOK);
 			this.tabMainStationSetup.Controls.Add(this.lblWelcome);
 			this.tabMainStationSetup.Controls.Add(this.lblMainStationSetup);
-			resources.ApplyResources(this.tabMainStationSetup, "tabMainStationSetup");
 			this.tabMainStationSetup.Name = "tabMainStationSetup";
 			// 
 			// btnOK
@@ -224,11 +223,11 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// tabSecondStationSetup
 			// 
+			resources.ApplyResources(this.tabSecondStationSetup, "tabSecondStationSetup");
 			this.tabSecondStationSetup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.tabSecondStationSetup.Controls.Add(this.btnOK2);
 			this.tabSecondStationSetup.Controls.Add(this.lblSecondStationSetup);
 			this.tabSecondStationSetup.Controls.Add(this.lblWelcome2);
-			resources.ApplyResources(this.tabSecondStationSetup, "tabSecondStationSetup");
 			this.tabSecondStationSetup.Name = "tabSecondStationSetup";
 			// 
 			// btnOK2
@@ -250,8 +249,8 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// LoginDialog
 			// 
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			resources.ApplyResources(this, "$this");
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.tabControl);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

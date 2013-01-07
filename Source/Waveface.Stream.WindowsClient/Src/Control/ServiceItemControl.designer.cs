@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServiceItemControl));
 			this.serviceName = new System.Windows.Forms.Label();
 			this.serviceIcon = new System.Windows.Forms.PictureBox();
 			this.connectCheckbox = new System.Windows.Forms.CheckBox();
@@ -36,47 +37,32 @@
 			// 
 			// serviceName
 			// 
-			this.serviceName.AutoSize = true;
-			this.serviceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-			this.serviceName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.serviceName.Location = new System.Drawing.Point(99, 30);
+			resources.ApplyResources(this.serviceName, "serviceName");
 			this.serviceName.Name = "serviceName";
-			this.serviceName.Size = new System.Drawing.Size(96, 18);
-			this.serviceName.TabIndex = 9;
-			this.serviceName.Text = "service name";
 			// 
 			// serviceIcon
 			// 
-			this.serviceIcon.Location = new System.Drawing.Point(33, 12);
+			resources.ApplyResources(this.serviceIcon, "serviceIcon");
 			this.serviceIcon.Name = "serviceIcon";
-			this.serviceIcon.Size = new System.Drawing.Size(60, 60);
-			this.serviceIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.serviceIcon.TabIndex = 8;
 			this.serviceIcon.TabStop = false;
 			// 
 			// connectCheckbox
 			// 
-			this.connectCheckbox.Appearance = System.Windows.Forms.Appearance.Button;
+			resources.ApplyResources(this.connectCheckbox, "connectCheckbox");
 			this.connectCheckbox.Checked = true;
 			this.connectCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.connectCheckbox.Location = new System.Drawing.Point(294, 28);
 			this.connectCheckbox.Name = "connectCheckbox";
-			this.connectCheckbox.Size = new System.Drawing.Size(147, 30);
-			this.connectCheckbox.TabIndex = 11;
-			this.connectCheckbox.Text = "Connect";
-			this.connectCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.connectCheckbox.UseVisualStyleBackColor = true;
 			this.connectCheckbox.CheckedChanged += new System.EventHandler(this.connectCheckbox_CheckedChanged);
 			// 
 			// ServiceItemControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.connectCheckbox);
 			this.Controls.Add(this.serviceName);
 			this.Controls.Add(this.serviceIcon);
 			this.Name = "ServiceItemControl";
-			this.Size = new System.Drawing.Size(465, 85);
 			((System.ComponentModel.ISupportInitialize)(this.serviceIcon)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

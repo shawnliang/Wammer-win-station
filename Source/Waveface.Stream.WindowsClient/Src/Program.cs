@@ -17,7 +17,6 @@ namespace Waveface.Stream.WindowsClient
 	internal static class Program
 	{
 		#region Const
-		private const string APP_NAME = "Stream";
 		private const string CATEGORY_NAME = "Waveface Station";
 		private const string UPSTREAM_RATE = "Upstream rate (bytes/sec)";
 		private const string DWSTREAM_RATE = "Downstream rate (bytes/sec)";
@@ -249,7 +248,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				m_Timer.Stop();
 
-				var iconText = APP_NAME;
+				var iconText = Application.ProductName;
 				var upRemainedCount = m_UpRemainedCountCounter.NextValue();
 				var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
 
@@ -428,7 +427,7 @@ namespace Waveface.Stream.WindowsClient
 		private static void InitNotifyIcon()
 		{
 			DebugInfo.ShowMethod();
-			m_NotifyIcon.Text = APP_NAME;
+			m_NotifyIcon.Text = Application.ProductName;
 			m_NotifyIcon.Icon = Icon.FromHandle(Resources.stream_tray_init.GetHicon());
 			m_NotifyIcon.ContextMenuStrip = m_ContextMenuStrip;
 			m_NotifyIcon.Visible = true;
@@ -445,17 +444,17 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 
 			m_ContextMenuStrip.Items.Clear();
-			m_ContextMenuStrip.Items.Add("ResumeService", "Resume Service", m_ContextMenuStrip_Resume_Click);
-			m_ContextMenuStrip.Items.Add("PauseService", "Pause Service", m_ContextMenuStrip_Pause_Click);
+			m_ContextMenuStrip.Items.Add("ResumeService", Resources.SERVICE_RESUME_MENU_ITEM, m_ContextMenuStrip_Resume_Click);
+			m_ContextMenuStrip.Items.Add("PauseService", Resources.SERVICE_PAUSE_MENU_ITEM, m_ContextMenuStrip_Pause_Click);
 			m_ContextMenuStrip.Items.Add("-");
-			m_ContextMenuStrip.Items.Add("OpenStream", "Open Stream", m_ContextMenuStrip_Open_Click);
-			m_ContextMenuStrip.Items.Add("Login", "Login", m_ContextMenuStrip_Login_Click);
+			m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
+			m_ContextMenuStrip.Items.Add("Login", Resources.LOGIN_MENU_ITEM, m_ContextMenuStrip_Login_Click);
 			m_ContextMenuStrip.Items.Add("-");
-			m_ContextMenuStrip.Items.Add("Import", "Import", m_ContextMenuStrip_Import_Click);
-			m_ContextMenuStrip.Items.Add("Settings", m_ContextMenuStrip_Setting_Click);
+			m_ContextMenuStrip.Items.Add("Import", Resources.IMPORT_MENU_ITEM, m_ContextMenuStrip_Import_Click);
+			m_ContextMenuStrip.Items.Add(Resources.SETTING_MENU_ITEM, m_ContextMenuStrip_Setting_Click);
 			m_ContextMenuStrip.Items.Add("-");
-			m_ContextMenuStrip.Items.Add("Contact us", m_ContextMenuStrip_ContactUs_Click);
-			m_ContextMenuStrip.Items.Add("Quit", m_ContextMenuStrip_Quit_Click);
+			m_ContextMenuStrip.Items.Add(Resources.CONTACT_US_MENU_ITEM, m_ContextMenuStrip_ContactUs_Click);
+			m_ContextMenuStrip.Items.Add(Resources.SERVICE_QUIT, m_ContextMenuStrip_Quit_Click);
 
 
 		}
