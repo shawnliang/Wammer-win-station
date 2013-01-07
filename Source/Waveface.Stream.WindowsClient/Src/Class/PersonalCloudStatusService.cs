@@ -71,7 +71,7 @@ namespace Waveface.Stream.WindowsClient
 
 						var downloadStatus = "";
 						if (download > 0)
-							downloadStatus = string.Format("Downloading {0} files. ", upload);
+							downloadStatus = string.Format("Downloading {0} files. ", download);
 
 
 						if (string.IsNullOrEmpty(importStatus) && uploadStatus.Length == 0 && downloadStatus.Length == 0)
