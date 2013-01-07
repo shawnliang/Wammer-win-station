@@ -83,7 +83,7 @@ namespace Wammer.Station.Service
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<DownloadDocPreviewsTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<MakeDocPreviewsTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<DummyResourceDownloadTask>();
-			
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<FirstTimelineSyncTask>();
 
 			mongoMonitor = new MongoDBMonitor(RunStation);
 		}
@@ -287,7 +287,6 @@ namespace Wammer.Station.Service
 
 			var addDriverHandler = managementServer.m_Handlers[GetDefaultBathPath("/station/drivers/add/")] as AddDriverHandler;
 			addDriverHandler.DriverAdded += addDriverHandler_DriverAdded;
-			addDriverHandler.BeforeDriverSaved += addDriverHandler_BeforeDriverSaved;
 
 			(managementServer.m_Handlers[GetDefaultBathPath("/station/drivers/remove/")] as RemoveOwnerHandler).DriverRemoved += removeOwnerHandler_DriverRemoved;
 			(managementServer.m_Handlers[GetDefaultBathPath("/station/suspendSync/")] as SuspendSyncHandler).SyncSuspended += viewHandler.OnSyncSuspended;
@@ -359,25 +358,7 @@ namespace Wammer.Station.Service
 
 		private void addDriverHandler_DriverAdded(object sender, DriverAddedEvtArgs e)
 		{
-			var posts = e.UserData as List<PostInfo>;
-
-			var downloader = new ResourceDownloader(BodySyncQueue.Instance);
-			downloader.PostRetrieved(this, new TimelineSyncEventArgs(e.Driver, posts));
-		}
-
-		private void addDriverHandler_BeforeDriverSaved(object sender, BeforeDriverSavedEvtArgs e)
-		{
-			var syncer = new TimelineSyncer(
-				new PostProvider(),
-				new TimelineSyncerDBWithDriverCached(e.Driver),
-				new ChangeLogsApi()
-				);
-
-			List<PostInfo> posts = new List<PostInfo>();
-			syncer.PostsRetrieved += (evtSender, evtArg) => posts.AddRange(evtArg.Posts);
-			syncer.PullBackward(e.Driver, 20);
-
-			e.UserData = posts;
+			TaskQueue.Enqueue(new FirstTimelineSyncTask { user = e.Driver }, TaskPriority.High, true);
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

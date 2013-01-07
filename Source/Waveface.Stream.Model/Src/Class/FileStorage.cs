@@ -61,6 +61,7 @@ namespace Waveface.Stream.Model
 				Directory.CreateDirectory(basePath);
 		}
 
+
 		/// <summary>
 		/// Save data to cache folder
 		/// </summary>
@@ -169,6 +170,13 @@ namespace Waveface.Stream.Model
 				throw new ArgumentNullException("user", "user or user.folder is null");
 
 			return Path.Combine(ResourceFolder, Path.Combine(user.folder, "temp_" + Guid.NewGuid().ToString()));
+		}
+
+		public static String GetStaticMap(string userID, string object_id)
+		{
+			var cacheDir = Path.Combine("cache", string.Format(@"{0}\Map", userID));
+
+			return Path.Combine(cacheDir, string.Format("{0}.jpg", object_id));
 		}
 
 		public FileStream Load(string filename)

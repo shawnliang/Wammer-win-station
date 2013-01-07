@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
+using Waveface.Stream.Model;
+using System.Collections.Generic;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -46,82 +48,10 @@ namespace Waveface.Stream.WindowsClient
 			try
 			{
 				var nodes = service.GetNodes(user_id, session_token, StationAPI.API_KEY);
-				nodes = nodes.ToList();
+				
 				this.Invoke(new MethodInvoker(() =>
 				{
-					foreach (var node in nodes)
-					{
-
-						if (listView1.Items.ContainsKey(node.Id))
-						{
-							var item = listView1.Items[node.Id];
-							if (!item.Text.Equals(node.Name))
-								item.Text = node.Name;
-
-							var sub1 = item.SubItems["profile"];
-							if (!sub1.Text.Equals(node.Profile))
-								sub1.Text = node.Profile;
-						}
-						else
-						{
-							listView1.Items.Add(node.Id, node.Name, 0);
-
-							var item = listView1.Items[node.Id];
-
-							item.SubItems.Add(
-								new ListViewItem.ListViewSubItem
-								{
-									Name = "profile",
-									Text = node.Profile
-								});
-
-							if (node.Type == NodeType.Station)
-								item.Group = listView1.Groups["station"];
-							else if (node.Type == NodeType.Tablet)
-								item.Group = listView1.Groups["tablet"];
-							else if (node.Type == NodeType.Phone)
-								item.Group = listView1.Groups["phone"];
-
-
-						}
-					}
-
-
-					int phoneCount = nodes.Count((x) => x.Type == NodeType.Phone);
-
-					if (phoneCount == 0)
-					{
-						if (!listView1.Items.ContainsKey("no phone"))
-						{
-							var defaultItem = listView1.Items.Add("no phone", "You have no linked phone.", 0);
-							defaultItem.Group = listView1.Groups["phone"];
-							defaultItem.ForeColor = Color.DimGray;
-						}
-
-					}
-					else
-					{
-						if (listView1.Items.ContainsKey("no phone"))
-							listView1.Items.RemoveByKey("no phone");
-					}
-
-					int tabletCount = nodes.Count((x) => x.Type == NodeType.Tablet);
-
-					if (tabletCount == 0)
-					{
-						if (!listView1.Items.ContainsKey("no tablet"))
-						{
-							var defaultItem = listView1.Items.Add("no tablet", "You have no linked tablet.", 0);
-							defaultItem.Group = listView1.Groups["tablet"];
-							defaultItem.ForeColor = Color.DimGray;
-						}
-					}
-					else
-					{
-						if (listView1.Items.ContainsKey("no tablet"))
-							listView1.Items.RemoveByKey("no tablet");
-					}
-
+					formatNodes(nodes);
 				}));
 			}
 			catch (Exception ex)
@@ -136,6 +66,82 @@ namespace Waveface.Stream.WindowsClient
 					timer.Dispose();
 					timer = null;
 				}
+			}
+		}
+
+		private void formatNodes(System.Collections.Generic.IEnumerable<PersonalCloudNode> nodes)
+		{
+			foreach (var node in nodes)
+			{
+
+				if (listView1.Items.ContainsKey(node.Id))
+				{
+					var item = listView1.Items[node.Id];
+					if (!item.Text.Equals(node.Name))
+						item.Text = node.Name;
+
+					var sub1 = item.SubItems["profile"];
+					if (!sub1.Text.Equals(node.Profile))
+						sub1.Text = node.Profile;
+				}
+				else
+				{
+					listView1.Items.Add(node.Id, node.Name, 0);
+
+					var item = listView1.Items[node.Id];
+
+					item.SubItems.Add(
+						new ListViewItem.ListViewSubItem
+						{
+							Name = "profile",
+							Text = node.Profile
+						});
+
+					if (node.Type == NodeType.Station)
+						item.Group = listView1.Groups["station"];
+					else if (node.Type == NodeType.Tablet)
+						item.Group = listView1.Groups["tablet"];
+					else if (node.Type == NodeType.Phone)
+						item.Group = listView1.Groups["phone"];
+
+
+				}
+			}
+
+
+			int phoneCount = nodes.Count((x) => x.Type == NodeType.Phone);
+
+			if (phoneCount == 0)
+			{
+				if (!listView1.Items.ContainsKey("no phone"))
+				{
+					var defaultItem = listView1.Items.Add("no phone", "You have no linked phone.", 0);
+					defaultItem.Group = listView1.Groups["phone"];
+					defaultItem.ForeColor = Color.DimGray;
+				}
+
+			}
+			else
+			{
+				if (listView1.Items.ContainsKey("no phone"))
+					listView1.Items.RemoveByKey("no phone");
+			}
+
+			int tabletCount = nodes.Count((x) => x.Type == NodeType.Tablet);
+
+			if (tabletCount == 0)
+			{
+				if (!listView1.Items.ContainsKey("no tablet"))
+				{
+					var defaultItem = listView1.Items.Add("no tablet", "You have no linked tablet.", 0);
+					defaultItem.Group = listView1.Groups["tablet"];
+					defaultItem.ForeColor = Color.DimGray;
+				}
+			}
+			else
+			{
+				if (listView1.Items.ContainsKey("no tablet"))
+					listView1.Items.RemoveByKey("no tablet");
 			}
 		}
 

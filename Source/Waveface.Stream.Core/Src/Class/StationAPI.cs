@@ -37,7 +37,7 @@ namespace Waveface.Stream.Core
 			return string.Join("&", Array.ConvertAll(nvc.AllKeys, key => string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(nvc[key]))));
 		}
 
-		public static string Post(string uri, NameValueCollection parameters)
+		public static string Post(string uri, NameValueCollection parameters, int timeout = 0, int readWriteTimeout = 0)
 		{
 			DebugInfo.ShowMethod();
 
@@ -48,6 +48,12 @@ namespace Waveface.Stream.Core
 			request.Method = "POST";
 			request.ContentType = "application/x-www-form-urlencoded";
 			request.ContentLength = data.Length;
+
+			if (timeout > 0)
+				request.Timeout = timeout;
+
+			if (readWriteTimeout > 0)
+				request.ReadWriteTimeout = readWriteTimeout;
 
 			using (var requestStream = request.GetRequestStream())
 			{
@@ -174,7 +180,7 @@ namespace Waveface.Stream.Core
 			return Post(url, parameters);
 		}
 
-		public static string GetUser(string sessionToken, string userID)
+		public static string GetUser(string sessionToken, string userID, int timeout = 0, int readWriteTimeout = 0)
 		{
 			DebugInfo.ShowMethod();
 
@@ -187,7 +193,7 @@ namespace Waveface.Stream.Core
                     {"user_id", userID}
 				};
 
-			return Post(url, parameters);
+			return Post(url, parameters, timeout, readWriteTimeout);
 		}
 
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
 using Waveface.Stream.Model;
 
 namespace Waveface.Stream.Core
@@ -179,13 +180,15 @@ namespace Waveface.Stream.Core
 
 			var postGPSData = Mapper.Map<LocationDBData, PostGpsData>(location);
 
-			var userID = location.CreatorID;
-			var cacheDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "cache"), string.Format(@"{0}\Map", userID));
+			//var userID = location.CreatorID;
+			//var cacheDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "cache"), string.Format(@"{0}\Map", userID));
 
-			var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", locationID));
+			//var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", locationID));
 
-			if (File.Exists(mapFile))
-				postGPSData.Map = mapFile;
+			//if (File.Exists(mapFile))
+			//	postGPSData.Map = mapFile;
+
+			postGPSData.Map = GetStationAttachmentUrl(string.Format("/v3/attachments/view/?object_id={0}&target=static_map", locationID));
 
 			return postGPSData;
 		}
@@ -211,7 +214,7 @@ namespace Waveface.Stream.Core
 				return null;
 
 			var loginedUser = LoginedSessionCollection.Instance.FindOne();
-			return string.Format(@"http://127.0.0.1:9981{0}&apikey={1}&session_token={2}", url, StationAPI.API_KEY, loginedUser.session_token);
+			return string.Format(@"http://127.0.0.1:9981{0}&apikey={1}&session_token={2}", url, HttpUtility.UrlEncode(StationAPI.API_KEY), HttpUtility.UrlEncode(loginedUser.session_token));
 		}
 
 		private static string GetAttachmentUrl(Attachment attachment)
@@ -268,6 +271,7 @@ namespace Waveface.Stream.Core
 
 			Mapper.CreateMap<PostDBData, MediumSizePostData>()
 				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID))
+				.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => src.EventSinceTime))
 				.ForMember(dest => dest.CoverAttachmentID, opt => opt.MapFrom(src => src.CoverAttachmentID))
 				.ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags))

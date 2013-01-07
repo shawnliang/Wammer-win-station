@@ -113,7 +113,8 @@ namespace Wammer.Station
 								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
 								ref_count = 1,
 								user = user,
-								stations = res.stations
+								stations = res.stations,
+								sync_range = new SyncRange()
 							};
 
 			CreateUserFolder(driver);
@@ -312,7 +313,6 @@ namespace Wammer.Station
 			AttachmentCollection.Instance.Remove(Query.EQ("group_id", existingDriver.groups[0].group_id));
 			PostDBDataCollection.Instance.Remove(Query.EQ("creator_id", userID));
 			MonitorItemCollection.Instance.Remove(Query.EQ("user_id", userID));
-			UserTrackCollection.Instance.Remove(Query.EQ("group_id", existingDriver.groups[0].group_id));
 			CollectionCollection.Instance.Remove(Query.EQ("creator_id", userID));
 			TaskStatusCollection.Instance.Remove(Query.EQ("UserId", userID));
 

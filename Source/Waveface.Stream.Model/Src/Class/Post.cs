@@ -12,32 +12,6 @@ namespace Waveface.Stream.Model
 {
 	public class Post
 	{
-		#region Private Static Method
-		private static void DownloadMapPhoto(double latitude, double longitude, int zoomeLevel, string file)
-		{
-			if (string.IsNullOrEmpty(file))
-				throw new ArgumentNullException("file");
-
-			if(File.Exists(file))
-				return;
-
-			try
-			{
-				var urlFormat = @"http://maps.google.com/maps/api/staticmap?center={0},{1}&zoom={2}&size=640x640&scale=2&format=jpg&sensor=false&markers=color:red%7Csize:mid%7Clabel:A%7C{0},{1}";
-				var url = String.Format(urlFormat, latitude.ToString(), longitude.ToString(), zoomeLevel.ToString());
-
-				using (var wc = new WebClientEx())
-				{
-					wc.DownloadFile(url, file);
-				}
-			}
-			catch (Exception)
-			{
-			}
-		} 
-		#endregion
-
-
 		#region Public Static Method
 		public static void Save(PostInfo postInfo)
 		{
@@ -75,9 +49,6 @@ namespace Waveface.Stream.Model
 			}
 
 			var userID = post.CreatorID;
-			var cacheDir = Path.Combine("cache", string.Format(@"{0}\Map", userID));
-
-			Directory.CreateDirectory(cacheDir);
 
 			var postGPS = postInfo.gps;
 
@@ -97,15 +68,6 @@ namespace Waveface.Stream.Model
 					var location = Mapper.Map<PostGps, LocationDBData>(postGPS);
 					location.ID = locationID;
 					location.CreatorID = userID;
-
-					if (existedLocation == null)
-					{
-						var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", locationID));
-						Task.Factory.StartNew(() =>
-						{
-							DownloadMapPhoto(latitude, longitude, location.ZoomLevel.Value, mapFile);
-						});
-					}
 
 					LocationDBDataCollection.Instance.Save(location);
 

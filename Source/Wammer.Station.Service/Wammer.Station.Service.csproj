@@ -177,8 +177,6 @@
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\ImportDocTask.cs" />
     <Compile Include="Station\ImportTask.cs" />
-    <Compile Include="Station\LocalUserTrack\LocalUserTrackCollection.cs" />
-    <Compile Include="Station\LocalUserTrack\LocalUserTrackManager.cs" />
     <Compile Include="Station\MetadataUploadEventArgs.cs" />
     <Compile Include="Station\Notify\ConnectionUpdator.cs" />
     <Compile Include="Station\Notify\PostUpsertNotifierDB.cs" />
@@ -217,7 +215,6 @@
     <Compile Include="Model\ProductInfo.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\StationInfo.cs" />
-    <Compile Include="Model\UserTracks.cs" />
     <Compile Include="PerfMonitor\UploadDownloadMonitor.cs" />
     <Compile Include="PerfMonitor\HttpRequestMonitor.cs" />
     <Compile Include="PerfMonitor\PerfCounterInstaller.cs" />
@@ -238,7 +235,6 @@
     <Compile Include="Station\APIHandler\AttachmentGetHandler.cs" />
     <Compile Include="Model\Database.cs" />
     <Compile Include="Station\APIHandler\AttachmentUploadHandler.cs" />
-    <Compile Include="Station\APIHandler\UserTrackHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentProcessedHandler.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadHandlerDB.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadHandlerImp.cs" />
@@ -272,12 +268,11 @@
     <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\BodySyncQueueStorage.cs" />
     <Compile Include="Station\Timeline\DownloadDocPreviewsTask.cs" />
+    <Compile Include="Station\Timeline\FirstTimelineSyncTask.cs" />
     <Compile Include="Station\Timeline\MakeDocPreviewsTask.cs" />
-    <Compile Include="Station\Timeline\PostProvider.cs" />
     <Compile Include="Station\ResourceDownloader.cs" />
     <Compile Include="Station\Timeline\ResourceDownloadTask.cs" />
     <Compile Include="Station\Timeline\TimelineSyncer.cs" />
-    <Compile Include="Station\Timeline\TimelineSyncerDB.cs" />
     <Compile Include="Station\APIHandler\UserLoginHandler.cs" />
     <Compile Include="Station\APIHandler\UserLogoutHandler.cs" />
     <Compile Include="Station\UpdateDriverDBTask.cs" />

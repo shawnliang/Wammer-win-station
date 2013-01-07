@@ -97,15 +97,11 @@
     <Compile Include="Doc\MonitorAddHandlerTest.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
-    <Compile Include="LocalUserTrack\TestLocalUTMgr.cs" />
-    <Compile Include="pullTimeLine\TestPullTimeline_oldChangeLogs.cs" />
     <Compile Include="TestMongoDB.cs" />
     <Compile Include="TestSerializable.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />
-    <Compile Include="pullTimeLine\TestPullTimeline_backward.cs" />
-    <Compile Include="pullTimeLine\TestPullTimeline_forward.cs" />
     <Compile Include="TestAttachmentViewApi.cs" />
     <Compile Include="TestRemoveDriver.cs" />
     <Compile Include="TestAddDriver.cs" />
@@ -129,8 +125,6 @@
     <Compile Include="TestTimeHelper.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
-    <Compile Include="TestUserTrackApiHandler.cs" />
-    <Compile Include="TestUserTrackCollection.cs" />
     <Compile Include="TestMongoPersistentStorage.cs" />
     <Compile Include="WebSocketChannel\TestPostUpsertNotifier.cs" />
     <Compile Include="WebSocketChannel\TestWebSocketChannel.cs" />
@@ -170,6 +164,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="pullTimeLine\" />
     <Folder Include="Test References\" />
   </ItemGroup>
   <ItemGroup>

@@ -209,6 +209,31 @@ namespace Wammer.Cloud
 			CloudServer.requestPath<CloudResponse>("attachments/update_metadata", parameters, false);
 		}
 
+
+		public static AttachmentSearchResult Search(string session, string apikey, DateTime since, DateTime until, int count = 100, int start = 0)
+		{
+			var parameters = new Dictionary<object, object>
+			{
+				{"modify_time_since", since.ToUTCISO8601ShortString()},
+				{"modify_time_until", until.ToUTCISO8601ShortString()},
+				{"start", start},
+				{"count", count},
+				{"views", "all"},
+				{CloudServer.PARAM_SESSION_TOKEN, session},
+				{CloudServer.PARAM_API_KEY, apikey}
+			};
+
+			return CloudServer.requestPath<AttachmentSearchResult>("attachments/search", parameters, false);
+		}
+	}
+
+
+	public class AttachmentSearchResult
+	{
+		public int total_count { get; set; }
+		public int results_count { get; set; }
+		public string next_page { get; set; }
+		public List<AttachmentInfo> results { get; set; }
 	}
 
 	public class AttachmentRedirectInfo : AttachmentInfo

@@ -180,53 +180,48 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class SyncRange
 	{
-		[BsonIgnoreIfNull]
-		public DateTime start_time { get; set; }
-
-		[BsonIgnoreIfNull]
-		public DateTime? first_post_time { get; set; }
-
-		[BsonIgnoreIfNull]
-		public int next_seq_num { get; set; }
+		/// <summary>
+		/// Used as next_seq_num when calling posts/fetchBySeq to sync posts
+		/// </summary>
+		public int post_next_seq { get; set; }
 
 		/// <summary>
-		/// Minimum seq number of this user's changelogs
+		/// Used as modified_time_since when calling attachments/search to sync attachments 
 		/// </summary>
-		[BsonDefaultValue(0)]
-		public int chlog_min_seq { get; set; }
+		public DateTime obj_next_time { get; set; }
 
 		/// <summary>
-		/// Maximum seq number of this user's changelogs
+		/// Enable periodical sync
 		/// </summary>
-		[BsonDefaultValue(0)]
-		public int chlog_max_seq { get; set; }
+		public bool enable { get; set; }
 
-		public SyncRange Clone()
+		/// <summary>
+		/// is syncing
+		/// </summary>
+		public bool syncing { get; set; }
+
+		/// <summary>
+		/// download index error
+		/// </summary>
+		[BsonIgnoreIfNull]
+		public string download_index_error { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string upload_error { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string download_error { get; set; }
+
+
+		public string GetUploadDownloadError()
 		{
-			return (SyncRange)MemberwiseClone();
-		}
+			if (!string.IsNullOrEmpty(upload_error))
+				return upload_error;
 
-		public override bool Equals(object obj)
-		{
-			if (obj == this)
-				return true;
+			if (!string.IsNullOrEmpty(download_error))
+				return download_error;
 
-			if (obj is SyncRange)
-			{
-				var rhs = obj as SyncRange;
-				return start_time == rhs.start_time &&
-						first_post_time.Value == rhs.first_post_time.Value &&
-						next_seq_num == rhs.next_seq_num &&
-						chlog_max_seq == rhs.chlog_max_seq &&
-						chlog_min_seq == rhs.chlog_min_seq;
-			}
-			else
-				return false;
-		}
-
-		public override int GetHashCode()
-		{
-			return start_time.GetHashCode() + first_post_time.GetHashCode() + next_seq_num + chlog_max_seq + chlog_min_seq;
+			return null;
 		}
 	}
 }

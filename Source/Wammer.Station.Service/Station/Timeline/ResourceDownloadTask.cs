@@ -236,7 +236,7 @@ namespace Wammer.Station.Timeline
 		{
 			string meta = evtargs.imagemeta.ToString();
 			string oldFile = evtargs.filepath;
-
+			string user_id = null;
 			downloadCount.Increment();
 
 			try
@@ -255,6 +255,8 @@ namespace Wammer.Station.Timeline
 					return;
 				}
 
+				user_id = user.user_id;
+
 				if ((evtargs.imagemeta == ImageMeta.Origin || evtargs.imagemeta == ImageMeta.None) && user.ReachOriginSizeLimit())
 				{
 					logger.DebugFormat("origin size limit {} is reached. Skip", user.origin_limit);
@@ -264,9 +266,28 @@ namespace Wammer.Station.Timeline
 				var api = new AttachmentApi(user);
 				api.AttachmentView(evtargs, StationRegistry.StationId);
 				DownloadComplete(evtargs, user);
+
+				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Unset("sync_range.download_error"));
 			}
 			catch (Exception e)
 			{
+				var err = e.Message;
+
+				if (e is WammerCloudException)
+				{
+					var cloudErr = (WammerCloudException)e;
+
+					if (cloudErr.HttpError == System.Net.WebExceptionStatus.ProtocolError)
+						err = cloudErr.GetCloudRetMsg();
+					else if (cloudErr.InnerException != null)
+						err = cloudErr.InnerException.Message;
+					else
+						err = cloudErr.Message;
+				}
+
+				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Set("sync_range.download_error", err));
+
+
 				string msg = string.Format("Unabel to download attachment {0} meta {1}: {2}", evtargs.attachment.object_id, meta, e.ToString());
 
 				if (e is WammerCloudException)
