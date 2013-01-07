@@ -24,7 +24,7 @@ namespace Wammer.Station
 
 		void syncer_PostsRetrieved(object sender, TimelineSyncEventArgs e)
 		{
-			DriverCollection.Instance.Update(Query.EQ("_id", e.Driver.user_id), Update.Set("sync_range.syncing", true).Unset("sync_range.error"));
+			DriverCollection.Instance.Update(Query.EQ("_id", e.Driver.user_id), Update.Set("sync_range.syncing", true).Unset("sync_range.download_index_error"));
 
 			foreach (var post in e.Posts)
 			{
@@ -34,7 +34,7 @@ namespace Wammer.Station
 
 		void syncer_AttachmentModified(object sender, AttachmentModifiedEventArgs e)
 		{
-			DriverCollection.Instance.Update(Query.EQ("_id", e.user_id), Update.Set("sync_range.syncing", true).Unset("sync_range.error"));
+			DriverCollection.Instance.Update(Query.EQ("_id", e.user_id), Update.Set("sync_range.syncing", true).Unset("sync_range.download_index_error"));
 
 			foreach (var item in e.attachments)
 			{
@@ -66,13 +66,13 @@ namespace Wammer.Station
 						Station.Instance.PostUpsertNotifier.NotifyUser(user.user_id);
 
 					DriverCollection.Instance.Update(Query.EQ("_id", user.user_id),
-						Update.Set("sync_range.syncing", false).Unset("sync_range.error"));
+						Update.Set("sync_range.syncing", false).Unset("sync_range.download_index_error"));
 				}
 				catch (Exception e)
 				{
 					this.LogDebugMsg("Unable to sync timeline of user " + user.email, e);
 					DriverCollection.Instance.Update(Query.EQ("_id", user.user_id),
-						Update.Set("sync_range.syncing", false).Set("sync_range.error", e.Message));
+						Update.Set("sync_range.syncing", false).Set("sync_range.download_index_error", e.Message));
 				}
 			}
 		}

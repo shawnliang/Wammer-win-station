@@ -125,5 +125,17 @@ namespace Waveface.Stream.Model
 
 			return buf.ToString();
 		}
+
+		public string GetCloudRetMsg()
+		{
+			if (string.IsNullOrEmpty(this.response))
+				return "---Unknown error---";
+			else
+			{
+				var res = fastJSON.JSON.Instance.ToObject<CloudResponse>(response);
+				return res.api_ret_message;
+			}
+
+		}
 	}
 }

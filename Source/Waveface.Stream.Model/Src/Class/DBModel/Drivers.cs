@@ -201,9 +201,27 @@ namespace Waveface.Stream.Model
 		public bool syncing { get; set; }
 
 		/// <summary>
-		/// sync error
+		/// download index error
 		/// </summary>
 		[BsonIgnoreIfNull]
-		public string error { get; set; }
+		public string download_index_error { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string upload_error { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string download_error { get; set; }
+
+
+		public string GetUploadDownloadError()
+		{
+			if (!string.IsNullOrEmpty(upload_error))
+				return upload_error;
+
+			if (!string.IsNullOrEmpty(download_error))
+				return download_error;
+
+			return null;
+		}
 	}
 }

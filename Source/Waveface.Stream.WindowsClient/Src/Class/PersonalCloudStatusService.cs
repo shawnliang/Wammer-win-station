@@ -7,22 +7,58 @@ using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
+using System.Net;
 
 namespace Waveface.Stream.WindowsClient
 {
 	class PersonalCloudStatusService : IPersonalCloudStatus
 	{
-		public IEnumerable<PersonalCloudNode> GetNodes(string user_id, string session_token, string apikey)
+		public ICollection<PersonalCloudNode> GetNodes(string user_id, string session_token, string apikey)
 		{
-			yield return new PersonalCloudNode()
+			var retNodes = new List<PersonalCloudNode>()
 			{
-				Name = "Stream Cloud",
-				Id = Guid.Empty.ToString(),
-				Profile = "Connected",
-				Type = NodeType.Station
+				new PersonalCloudNode()
+				{
+					Name = "Stream Cloud",
+					Id = Guid.Empty.ToString(),
+					Profile = "Connected",
+					Type = NodeType.Station
+				}
 			};
 
-			var session = JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(session_token, user_id));
+			try
+			{
+				var nodes = queryDeviceNodesFromCloud(user_id, session_token);
+				retNodes.AddRange(nodes);
+			}
+			catch (WebException e)
+			{
+				var err = e.Message;
+
+				if (e.Status == WebExceptionStatus.ProtocolError)
+				{
+					var cloudErr = new WammerCloudException("", e);
+					err = cloudErr.GetCloudRetMsg();
+				}
+
+				retNodes.Add(
+					new PersonalCloudNode
+					{
+						Name = Environment.MachineName,
+						Id = StationRegistry.StationId,
+						Profile = err,
+						Type = NodeType.Station
+					});
+			}
+
+			return retNodes;
+		}
+
+		private List<PersonalCloudNode> queryDeviceNodesFromCloud(string user_id, string session_token)
+		{
+			var nodes = new List<PersonalCloudNode>();
+
+			var session = JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(session_token, user_id, 3000, 3000));
 
 			foreach (var x in session.user.devices)
 			{
@@ -60,6 +96,7 @@ namespace Waveface.Stream.WindowsClient
 					{
 						item.Profile = "Connected";
 
+						var syncRange = DriverCollection.Instance.FindOneById(user_id).sync_range;
 						var importTasks = TaskStatusCollection.Instance.Find(Query.EQ("UserId", user_id));
 						var importStatus = string.Join(", ", importTasks.Where(t => t.IsComplete).Select(t => formatTaskString(t)).ToArray());
 
@@ -68,19 +105,21 @@ namespace Waveface.Stream.WindowsClient
 
 						var uploadStatus = "";
 						if (upload > 0)
+						{
 							uploadStatus = string.Format("Uploading {0} files. ", upload);
+						}
 
 						var downloadStatus = "";
 						if (download > 0)
+						{
 							downloadStatus = string.Format("Downloading {0} files. ", download);
-
-						var syncRange = DriverCollection.Instance.FindOneById(user_id).sync_range;
+						}
 
 
 						if (string.IsNullOrEmpty(importStatus) && uploadStatus.Length == 0 && downloadStatus.Length == 0)
 						{
-							if (!string.IsNullOrEmpty(syncRange.error))
-								item.Profile = Resources.SYNC_ERROR + syncRange.error;
+							if (!string.IsNullOrEmpty(syncRange.download_index_error))
+								item.Profile = Resources.SYNC_ERROR + syncRange.download_index_error;
 							else if (syncRange.syncing)
 								item.Profile = Resources.DOWNLOAD_INDEX;
 							else
@@ -89,6 +128,10 @@ namespace Waveface.Stream.WindowsClient
 						else
 						{
 							item.Profile = importStatus + uploadStatus + downloadStatus;
+
+							var uploadDownloadError = syncRange.GetUploadDownloadError();
+							if (!string.IsNullOrEmpty(uploadDownloadError))
+								item.Profile = importStatus + Resources.SYNC_ERROR + uploadDownloadError;
 						}
 					}
 					else
@@ -107,10 +150,10 @@ namespace Waveface.Stream.WindowsClient
 						item.Profile = "Last seen: " + x.last_visit;
 					}
 				}
-				yield return item;
 
+				nodes.Add(item);
 			};
-
+			return nodes;
 		}
 
 		private string formatTaskString(ImportTaskStaus t)

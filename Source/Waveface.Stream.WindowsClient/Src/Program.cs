@@ -263,6 +263,14 @@ namespace Waveface.Stream.WindowsClient
 				_upRemainedCount.Enqueue(upRemainedCount);
 				_downRemainedCount.Enqueue(downloadRemainedCount);
 
+				SyncRange syncRange = null;
+
+				if (StreamClient.Instance.IsLogined)
+					syncRange = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID).sync_range;
+
+				if (syncRange == null)
+					syncRange = new SyncRange();
+
 				if (upRemainedCount > 0 || downloadRemainedCount > 0)
 				{
 					if (m_IsServiceRunning)
@@ -294,6 +302,7 @@ namespace Waveface.Stream.WindowsClient
 						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
 
+
 						if (upRemainedCount > 0)
 						{
 							iconText = string.Format(Resources.INDICATOR_PATTERN,
@@ -317,6 +326,15 @@ namespace Waveface.Stream.WindowsClient
 						}
 
 						m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
+
+
+
+						if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
+						{
+							iconText = APP_NAME + Environment.NewLine + Resources.SYNC_ERROR + syncRange.GetUploadDownloadError();
+							m_NotifyIcon.Icon = iconWarning;
+						}
+
 					}
 					else
 					{
@@ -327,25 +345,19 @@ namespace Waveface.Stream.WindowsClient
 				{
 					m_NotifyIcon.Icon = iconWorking;
 
-					if (StreamClient.Instance.IsLogined)
+					if (!string.IsNullOrEmpty(syncRange.download_index_error))
 					{
-						var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
-						if (user != null)
-						{
-							if (!string.IsNullOrEmpty(user.sync_range.error))
-							{
-								iconText = APP_NAME + Environment.NewLine +  Resources.SYNC_ERROR + user.sync_range.error;
-								if (iconText.Length > 127)
-									iconText = iconText.Substring(0, 124) + "...";
-								m_NotifyIcon.Icon = iconWarning;
-							}
-							else if (user.sync_range.syncing)
-							{
-								iconText = Resources.DOWNLOAD_INDEX;
-								m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
-							}
-						}
+						iconText = APP_NAME + Environment.NewLine + Resources.SYNC_ERROR + syncRange.download_index_error;
+						if (iconText.Length > 127)
+							iconText = iconText.Substring(0, 124) + "...";
+						m_NotifyIcon.Icon = iconWarning;
 					}
+					else if (syncRange.syncing)
+					{
+						iconText = Resources.DOWNLOAD_INDEX;
+						m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
+					}
+					
 				}
 
 				m_NotifyIcon.SetNotifyIconText(iconText);

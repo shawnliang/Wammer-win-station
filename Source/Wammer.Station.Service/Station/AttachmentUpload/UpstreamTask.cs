@@ -6,6 +6,7 @@ using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
+using System.Net;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -36,6 +37,8 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			upstreamCount.Increment();
 
+			string user_id = null;
+
 			try
 			{
 				Attachment attachment = AttachmentCollection.Instance.FindOne(Query.EQ("_id", object_id));
@@ -48,6 +51,8 @@ namespace Wammer.Station.AttachmentUpload
 					this.LogDebugMsg("User of group id " + attachment.group_id + " is removed? Abort upstream attachment " + object_id);
 					return;
 				}
+
+				user_id = user.user_id;
 
 				if (meta == ImageMeta.Origin && !user.isPaidUser)
 					return;
@@ -84,6 +89,8 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					AttachmentCollection.Instance.Update(Query.EQ("_id", object_id), Update.Set("body_on_cloud", true));
 				}
+
+				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Unset("sync_range.upload_error"));
 			}
 			catch (WammerCloudException e)
 			{
@@ -94,7 +101,22 @@ namespace Wammer.Station.AttachmentUpload
 					this.LogWarnMsg("attachment " + object_id + " is rejected by Cloud. Drop this task.");
 				}
 				else
+				{
+					if (!string.IsNullOrEmpty(user_id))
+					{
+						var err = e.Message;
+
+						if (e.HttpError == WebExceptionStatus.ProtocolError)
+							err = e.GetCloudRetMsg();
+						else if (e.InnerException is WebException)
+							err = e.InnerException.Message;
+
+						DriverCollection.Instance.Update(Query.EQ("_id", user_id),
+							Update.Set("sync_range.upload_error", err));
+					}
+
 					throw;
+				}
 			}
 			finally
 			{
