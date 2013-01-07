@@ -60,7 +60,7 @@ namespace Waveface.Stream.WindowsClient
 						item.Profile = "Connected";
 
 						var importTasks = TaskStatusCollection.Instance.Find(Query.EQ("UserId", user_id));
-						var importStatus = string.Join(", ", importTasks.Select(t => formatTaskString(t)).ToArray());
+						var importStatus = string.Join(", ", importTasks.Where(t => t.IsComplete).Select(t => formatTaskString(t)).ToArray());
 
 						var upload = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).NextValue();
 						var download = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).NextValue();
