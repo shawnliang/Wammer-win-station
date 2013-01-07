@@ -57,13 +57,13 @@ namespace Wammer.Station.AttachmentView
 				throw new WammerStationException("object_id not found", -1);
 
 			var userID = location.CreatorID;
-			var cacheDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "cache"), string.Format(@"{0}\Map", userID));
 
-			var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", object_id));
+
+			var mapFile = FileStorage.GetStaticMap(userID, object_id);
 
 			if (!File.Exists(mapFile))
 			{
-				Directory.CreateDirectory(cacheDir);
+				Directory.CreateDirectory(Path.GetDirectoryName(mapFile));
 				DownloadMapPhoto(location.Latitude.Value, location.Longitude.Value, location.ZoomLevel.Value, mapFile);
 			}
 
