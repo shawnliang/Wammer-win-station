@@ -180,55 +180,6 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class SyncRange
 	{
-		[BsonIgnoreIfNull]
-		public DateTime start_time { get; set; }
-
-		[BsonIgnoreIfNull]
-		public DateTime? first_post_time { get; set; }
-
-		[BsonIgnoreIfNull]
-		public int next_seq_num { get; set; }
-
-		/// <summary>
-		/// Minimum seq number of this user's changelogs
-		/// </summary>
-		[BsonDefaultValue(0)]
-		public int chlog_min_seq { get; set; }
-
-		/// <summary>
-		/// Maximum seq number of this user's changelogs
-		/// </summary>
-		[BsonDefaultValue(0)]
-		public int chlog_max_seq { get; set; }
-
-		public SyncRange Clone()
-		{
-			return (SyncRange)MemberwiseClone();
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (obj == this)
-				return true;
-
-			if (obj is SyncRange)
-			{
-				var rhs = obj as SyncRange;
-				return start_time == rhs.start_time &&
-						first_post_time.Value == rhs.first_post_time.Value &&
-						next_seq_num == rhs.next_seq_num &&
-						chlog_max_seq == rhs.chlog_max_seq &&
-						chlog_min_seq == rhs.chlog_min_seq;
-			}
-			else
-				return false;
-		}
-
-		public override int GetHashCode()
-		{
-			return start_time.GetHashCode() + first_post_time.GetHashCode() + next_seq_num + chlog_max_seq + chlog_min_seq;
-		}
-
 		// used as next_seq_num when calling posts/fetchBySeq to sync posts
 		public int post_next_seq { get; set; }
 
