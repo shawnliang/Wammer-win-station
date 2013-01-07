@@ -11,6 +11,7 @@ using Waveface.Stream.ClientFramework;
 using Waveface.Stream.WindowsClient.Properties;
 using Dolinay;
 using Waveface.Stream.Core;
+using Waveface.Stream.Model;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -325,6 +326,26 @@ namespace Waveface.Stream.WindowsClient
 				else
 				{
 					m_NotifyIcon.Icon = iconWorking;
+
+					if (StreamClient.Instance.IsLogined)
+					{
+						var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
+						if (user != null)
+						{
+							if (!string.IsNullOrEmpty(user.sync_range.error))
+							{
+								iconText = APP_NAME + Environment.NewLine +  Resources.SYNC_ERROR + user.sync_range.error;
+								if (iconText.Length > 127)
+									iconText = iconText.Substring(0, 124) + "...";
+								m_NotifyIcon.Icon = iconWarning;
+							}
+							else if (user.sync_range.syncing)
+							{
+								iconText = Resources.DOWNLOAD_INDEX;
+								m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
+							}
+						}
+					}
 				}
 
 				m_NotifyIcon.SetNotifyIconText(iconText);

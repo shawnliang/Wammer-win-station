@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -73,10 +74,17 @@ namespace Waveface.Stream.WindowsClient
 						if (download > 0)
 							downloadStatus = string.Format("Downloading {0} files. ", download);
 
+						var syncRange = DriverCollection.Instance.FindOneById(user_id).sync_range;
+
 
 						if (string.IsNullOrEmpty(importStatus) && uploadStatus.Length == 0 && downloadStatus.Length == 0)
 						{
-							item.Profile = "Synced";
+							if (!string.IsNullOrEmpty(syncRange.error))
+								item.Profile = Resources.SYNC_ERROR + syncRange.error;
+							else if (syncRange.syncing)
+								item.Profile = Resources.DOWNLOAD_INDEX;
+							else
+								item.Profile = "Synced";
 						}
 						else
 						{

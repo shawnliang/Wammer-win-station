@@ -180,13 +180,30 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class SyncRange
 	{
-		// used as next_seq_num when calling posts/fetchBySeq to sync posts
+		/// <summary>
+		/// Used as next_seq_num when calling posts/fetchBySeq to sync posts
+		/// </summary>
 		public int post_next_seq { get; set; }
 
-		// used as modified_time_since when calling attachments/search to sync attachments
+		/// <summary>
+		/// Used as modified_time_since when calling attachments/search to sync attachments 
+		/// </summary>
 		public DateTime obj_next_time { get; set; }
 
-		// enable periodical sync
+		/// <summary>
+		/// Enable periodical sync
+		/// </summary>
 		public bool enable { get; set; }
+
+		/// <summary>
+		/// is syncing
+		/// </summary>
+		public bool syncing { get; set; }
+
+		/// <summary>
+		/// sync error
+		/// </summary>
+		[BsonIgnoreIfNull]
+		public string error { get; set; }
 	}
 }
