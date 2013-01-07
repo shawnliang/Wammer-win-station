@@ -110,7 +110,6 @@
       <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
       <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
       <ProgressText Action="MigrateThumbnailsExtension">!(loc.Migrating)</ProgressText>
-      <ProgressText Action="MigrateUserTracks">!(loc.Migrating)</ProgressText>
       <ProgressText Action="MigrateOriginalPhotoLocation">!(loc.Migrating)</ProgressText>
       <ProgressText Action="WriteProductInfo">!(loc.WriteProductInfo)</ProgressText>
     </UI>
