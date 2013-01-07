@@ -40,9 +40,62 @@ namespace Wammer.Station.AttachmentView
 		{
 			if ("preview".Equals(Parameters["target"]))
 				return getDocPreview(Parameters);
+			else if ("static_map".Equals(Parameters["target"]))
+				return getStaticMap(Parameters);
 			else
 				return getImageStream(Parameters);
 		}
+
+		private ViewResult getStaticMap(NameValueCollection Parameters) //暫時先借用attachment/view
+		{
+			var object_id = Parameters["object_id"];
+			if (string.IsNullOrEmpty(object_id))
+				throw new FormatException("missing parameter: object_id");
+
+			var location = LocationDBDataCollection.Instance.FindOneById(object_id);
+			if(location == null)
+				throw new WammerStationException("object_id not found", -1);
+
+			var userID = location.CreatorID;
+			var cacheDir = Path.Combine(Path.Combine(Environment.CurrentDirectory, "cache"), string.Format(@"{0}\Map", userID));
+
+			var mapFile = Path.Combine(cacheDir, string.Format("{0}.jpg", object_id));
+
+			if (!File.Exists(mapFile))
+			{
+				Directory.CreateDirectory(cacheDir);
+				DownloadMapPhoto(location.Latitude.Value, location.Longitude.Value, location.ZoomLevel.Value, mapFile);
+			}
+
+			return new ViewResult
+			{
+				MimeType = "image/jpeg",
+				Stream = File.OpenRead(mapFile)
+			};
+		}
+
+		private void DownloadMapPhoto(double latitude, double longitude, int zoomeLevel, string file)
+		{
+			if (string.IsNullOrEmpty(file))
+				throw new ArgumentNullException("file");
+
+			if (File.Exists(file))
+				return;
+
+			try
+			{
+				var urlFormat = @"http://maps.google.com/maps/api/staticmap?center={0},{1}&zoom={2}&size=640x640&scale=2&format=jpg&sensor=false&markers=color:red%7Csize:mid%7Clabel:A%7C{0},{1}";
+				var url = String.Format(urlFormat, latitude.ToString(), longitude.ToString(), zoomeLevel.ToString());
+
+				using (var wc = new WebClientEx())
+				{
+					wc.DownloadFile(url, file);
+				}
+			}
+			catch (Exception)
+			{
+			}
+		} 
 
 		private ViewResult getDocPreview(NameValueCollection Parameters)
 		{
