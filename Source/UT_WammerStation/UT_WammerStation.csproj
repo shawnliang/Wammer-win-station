@@ -97,7 +97,6 @@
     <Compile Include="Doc\MonitorAddHandlerTest.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
-    <Compile Include="LocalUserTrack\TestLocalUTMgr.cs" />
     <Compile Include="TestMongoDB.cs" />
     <Compile Include="TestSerializable.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />
@@ -126,8 +125,6 @@
     <Compile Include="TestTimeHelper.cs" />
     <Compile Include="TestUserSingOn.cs" />
     <Compile Include="TestAttachmentView.cs" />
-    <Compile Include="TestUserTrackApiHandler.cs" />
-    <Compile Include="TestUserTrackCollection.cs" />
     <Compile Include="TestMongoPersistentStorage.cs" />
     <Compile Include="WebSocketChannel\TestPostUpsertNotifier.cs" />
     <Compile Include="WebSocketChannel\TestWebSocketChannel.cs" />
