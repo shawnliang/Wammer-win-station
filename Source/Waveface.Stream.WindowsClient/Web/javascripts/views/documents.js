@@ -19,6 +19,10 @@
       DocumentsView.prototype.render = function(date) {
         var data, docsData,
           _this = this;
+        this.$("img").on("error", function() {
+          console.log("ImageLoadError", this.src);
+          return this.src = "images/placeholder.png";
+        });
         this.mode = 'photo';
         this.date = date;
         this.setDates();

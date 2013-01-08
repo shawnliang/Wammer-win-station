@@ -35,9 +35,6 @@
 
       AppRouter.prototype.initialize = function() {
         Storage.reset(['nc_events_view_data', 'nc_photos_view_data', 'nc_view_state:events', 'nc_view_state:photos']);
-        dispatch.on('all', function(e) {
-          return Logger.log("Event trigger : " + e);
-        });
         this.on('all', function(e) {
           return Logger.log("Router Event trigger : " + e);
         });
@@ -66,6 +63,7 @@
         }
         Events.subscribe();
         Events.subscribe("update:event", false, false, Subscriber.E_POS_UPD);
+        return $.unblockUI();
       };
 
       AppRouter.prototype.actionPhotos = function(date) {
@@ -75,17 +73,14 @@
           Attachments.callAttachments();
         }
         if (!date) {
-          if (viewState.data.date != null) {
-            date = viewState.data.date;
-          } else if ((last = Attachments.first())) {
-            date = last.get('dateUri');
-          }
+          date = viewState.data.date != null ? viewState.data.date : (last = Attachments.first()) ? last.get('dateUri') : void 0;
         }
         this.main.empty().append(PhotosView.render(date).el);
         viewState.data = {
           date: date
         };
-        return viewState.save();
+        viewState.save();
+        return $.unblockUI();
       };
 
       AppRouter.prototype.actionDocs = function(date) {

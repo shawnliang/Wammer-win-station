@@ -14,8 +14,6 @@
 
       EventView.prototype.className = 'event';
 
-      EventView.prototype.initialize = function() {};
-
       EventView.prototype.events = function() {
         return {
           'click': 'setSelected'

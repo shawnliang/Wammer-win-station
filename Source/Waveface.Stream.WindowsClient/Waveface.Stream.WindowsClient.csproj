@@ -441,21 +441,13 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resources\addDeviceInstruction.rtf" />
-    <None Include="Web\javascripts\lib\jasmine\MIT.LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Web\javascripts\tests\mocks\posts.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Web\stylesheets\font\fontawesome-webfont.eot">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Web\stylesheets\font\fontawesome-webfont.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Web\stylesheets\font\fontawesome-webfont.woff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Web\.DS_Store" />
+    <None Include="Web\javascripts\lib\jasmine\MIT.LICENSE" />
+    <None Include="Web\javascripts\tests\mocks\posts.json" />
+    <None Include="Web\stylesheets\.DS_Store" />
+    <None Include="Web\stylesheets\font\fontawesome-webfont.eot" />
+    <None Include="Web\stylesheets\font\fontawesome-webfont.ttf" />
+    <None Include="Web\stylesheets\font\fontawesome-webfont.woff" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -629,408 +621,141 @@
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
     <Content Include="Resources\windows_zh-tw_2.jpg" />
-    <Content Include="Web\images\colorbox\border.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\controls.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\ie6\borderBottomCenter.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\ie6\borderBottomLeft.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\ie6\borderBottomRight.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\ie6\borderMiddleLeft.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\ie6\borderMiddleRight.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\ie6\borderTopCenter.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\ie6\borderTopLeft.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\ie6\borderTopRight.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\loading.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\loading_background.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\colorbox\overlay.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\loading.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\images\placeholder.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\index.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\all.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\collections\attachments.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\collections\calendar.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\collections\documents.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\collections\events.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\collections\wfcollections.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\common.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\connector.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\env\base.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\env\local.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\env\windows.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\event.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\gmap.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\logger.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\store.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\subscriber.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\user.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\com\wfwsocket.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\config.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\global.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\backbone\amplify.store.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\backbone\backbone.amplify.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\backbone\backbone.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\backbone\localstorage.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\bootstrap\bootstrap.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\bootstrap\bootstrap.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\d3.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\galleria-1.2.8.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\galleria-1.2.8.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\LICENSE.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\flickr-demo.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\flickr-loader.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\galleria.flickr.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\galleria.flickr.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\loader.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\history\galleria.history.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\history\galleria.history.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\history\history-demo.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\picasa\galleria.picasa.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\picasa\galleria.picasa.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\picasa\loader.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\plugins\picasa\picasa-demo.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\themes\classic\classic-demo.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\themes\classic\classic-loader.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\themes\classic\classic-map.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\themes\classic\galleria.classic.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\themes\classic\galleria.classic.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\galleria\themes\classic\galleria.classic.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\jasmine\jasmine-html.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\jasmine\jasmine.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\jasmine\jasmine.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\jquery\fullcalendar.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\jquery\jquery-ui-1.9.2.custom.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\jquery\jquery.blockUI.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\jquery\jquery.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\jquery\jquery.scrollTo.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\lodash\lodash.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\lodash\lodash.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\lodash\underscore.string.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\moment.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\mousetrap.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\mustache.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\photobox.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\require\async.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\require\require.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\lib\require\text.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\main.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\models\attachment.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\models\calendar.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\models\document.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\models\event.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\models\wfcollection.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\modules\attachment_caller.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\router.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\tests.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\calendar.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\collections.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\documents.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\events.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\gallery.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\layouts\app.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\layouts\day_view.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\layouts\menu.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\partials\attachment.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\partials\collection_detail.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\partials\collection_sum.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\partials\document.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\partials\event_detail.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\partials\event_sum.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\partials\photo_grid.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\javascripts\views\photos.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\stylesheets\font\fontawesome-webfont.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\stylesheets\lib\photobox.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\stylesheets\screen.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\calendar.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\collections.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\documents.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\events.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\layouts\app.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\layouts\day_view_calendar.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\layouts\menu.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\partials\attachment.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\partials\collection_detail.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\partials\collection_sum.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\partials\document.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\partials\event_detail.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\partials\event_sum.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_2L4S.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_4S2L.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_6S.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_LLL.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_LLPP.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_LPP.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_PLP.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_PPL.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\templates\photos\grid_PPLL.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\tests\index.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Web\images\colorbox\border.png" />
+    <Content Include="Web\images\colorbox\controls.png" />
+    <Content Include="Web\images\colorbox\ie6\borderBottomCenter.png" />
+    <Content Include="Web\images\colorbox\ie6\borderBottomLeft.png" />
+    <Content Include="Web\images\colorbox\ie6\borderBottomRight.png" />
+    <Content Include="Web\images\colorbox\ie6\borderMiddleLeft.png" />
+    <Content Include="Web\images\colorbox\ie6\borderMiddleRight.png" />
+    <Content Include="Web\images\colorbox\ie6\borderTopCenter.png" />
+    <Content Include="Web\images\colorbox\ie6\borderTopLeft.png" />
+    <Content Include="Web\images\colorbox\ie6\borderTopRight.png" />
+    <Content Include="Web\images\colorbox\loading.gif" />
+    <Content Include="Web\images\colorbox\loading_background.png" />
+    <Content Include="Web\images\colorbox\overlay.png" />
+    <Content Include="Web\images\loading.gif" />
+    <Content Include="Web\images\placeholder.png" />
+    <Content Include="Web\index.html" />
+    <Content Include="Web\javascripts\all.js" />
+    <Content Include="Web\javascripts\collections\attachments.js" />
+    <Content Include="Web\javascripts\collections\calendar.js" />
+    <Content Include="Web\javascripts\collections\documents.js" />
+    <Content Include="Web\javascripts\collections\events.js" />
+    <Content Include="Web\javascripts\collections\wfcollections.js" />
+    <Content Include="Web\javascripts\common.js" />
+    <Content Include="Web\javascripts\com\connector.js" />
+    <Content Include="Web\javascripts\com\env\base.js" />
+    <Content Include="Web\javascripts\com\env\local.js" />
+    <Content Include="Web\javascripts\com\env\windows.js" />
+    <Content Include="Web\javascripts\com\event.js" />
+    <Content Include="Web\javascripts\com\gmap.js" />
+    <Content Include="Web\javascripts\com\logger.js" />
+    <Content Include="Web\javascripts\com\store.js" />
+    <Content Include="Web\javascripts\com\subscriber.js" />
+    <Content Include="Web\javascripts\com\user.js" />
+    <Content Include="Web\javascripts\com\wfwsocket.js" />
+    <Content Include="Web\javascripts\config.js" />
+    <Content Include="Web\javascripts\global.js" />
+    <Content Include="Web\javascripts\lib\backbone\amplify.store.js" />
+    <Content Include="Web\javascripts\lib\backbone\backbone.amplify.js" />
+    <Content Include="Web\javascripts\lib\backbone\backbone.js" />
+    <Content Include="Web\javascripts\lib\backbone\localstorage.js" />
+    <Content Include="Web\javascripts\lib\bootstrap\bootstrap.js" />
+    <Content Include="Web\javascripts\lib\bootstrap\bootstrap.min.js" />
+    <Content Include="Web\javascripts\lib\d3.js" />
+    <Content Include="Web\javascripts\lib\galleria\galleria-1.2.8.js" />
+    <Content Include="Web\javascripts\lib\galleria\galleria-1.2.8.min.js" />
+    <Content Include="Web\javascripts\lib\galleria\LICENSE.txt" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\flickr-demo.html" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\flickr-loader.gif" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\galleria.flickr.js" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\galleria.flickr.min.js" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\flickr\loader.gif" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\history\galleria.history.js" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\history\galleria.history.min.js" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\history\history-demo.html" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\picasa\galleria.picasa.js" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\picasa\galleria.picasa.min.js" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\picasa\loader.gif" />
+    <Content Include="Web\javascripts\lib\galleria\plugins\picasa\picasa-demo.html" />
+    <Content Include="Web\javascripts\lib\galleria\themes\classic\classic-demo.html" />
+    <Content Include="Web\javascripts\lib\galleria\themes\classic\classic-loader.gif" />
+    <Content Include="Web\javascripts\lib\galleria\themes\classic\classic-map.png" />
+    <Content Include="Web\javascripts\lib\galleria\themes\classic\galleria.classic.css" />
+    <Content Include="Web\javascripts\lib\galleria\themes\classic\galleria.classic.js" />
+    <Content Include="Web\javascripts\lib\galleria\themes\classic\galleria.classic.min.js" />
+    <Content Include="Web\javascripts\lib\jasmine\jasmine-html.js" />
+    <Content Include="Web\javascripts\lib\jasmine\jasmine.css" />
+    <Content Include="Web\javascripts\lib\jasmine\jasmine.js" />
+    <Content Include="Web\javascripts\lib\jquery\fullcalendar.js" />
+    <Content Include="Web\javascripts\lib\jquery\jquery-ui-1.9.2.custom.js" />
+    <Content Include="Web\javascripts\lib\jquery\jquery.blockUI.js" />
+    <Content Include="Web\javascripts\lib\jquery\jquery.js" />
+    <Content Include="Web\javascripts\lib\jquery\jquery.scrollTo.min.js" />
+    <Content Include="Web\javascripts\lib\lodash\lodash.js" />
+    <Content Include="Web\javascripts\lib\lodash\lodash.min.js" />
+    <Content Include="Web\javascripts\lib\lodash\underscore.string.js" />
+    <Content Include="Web\javascripts\lib\moment.js" />
+    <Content Include="Web\javascripts\lib\mousetrap.js" />
+    <Content Include="Web\javascripts\lib\mustache.js" />
+    <Content Include="Web\javascripts\lib\photobox.js" />
+    <Content Include="Web\javascripts\lib\require\async.js" />
+    <Content Include="Web\javascripts\lib\require\require.js" />
+    <Content Include="Web\javascripts\lib\require\text.js" />
+    <Content Include="Web\javascripts\lib\spin.min.js" />
+    <Content Include="Web\javascripts\main.js" />
+    <Content Include="Web\javascripts\models\attachment.js" />
+    <Content Include="Web\javascripts\models\calendar.js" />
+    <Content Include="Web\javascripts\models\document.js" />
+    <Content Include="Web\javascripts\models\event.js" />
+    <Content Include="Web\javascripts\models\wfcollection.js" />
+    <Content Include="Web\javascripts\modules\attachment_caller.js" />
+    <Content Include="Web\javascripts\router.js" />
+    <Content Include="Web\javascripts\tests.js" />
+    <Content Include="Web\javascripts\views\calendar.js" />
+    <Content Include="Web\javascripts\views\collections.js" />
+    <Content Include="Web\javascripts\views\documents.js" />
+    <Content Include="Web\javascripts\views\events.js" />
+    <Content Include="Web\javascripts\views\gallery.js" />
+    <Content Include="Web\javascripts\views\layouts\app.js" />
+    <Content Include="Web\javascripts\views\layouts\day_view.js" />
+    <Content Include="Web\javascripts\views\layouts\menu.js" />
+    <Content Include="Web\javascripts\views\partials\attachment.js" />
+    <Content Include="Web\javascripts\views\partials\collection_detail.js" />
+    <Content Include="Web\javascripts\views\partials\collection_sum.js" />
+    <Content Include="Web\javascripts\views\partials\document.js" />
+    <Content Include="Web\javascripts\views\partials\event_detail.js" />
+    <Content Include="Web\javascripts\views\partials\event_sum.js" />
+    <Content Include="Web\javascripts\views\partials\photo_grid.js" />
+    <Content Include="Web\javascripts\views\photos.js" />
+    <Content Include="Web\stylesheets\font\fontawesome-webfont.svg" />
+    <Content Include="Web\stylesheets\lib\photobox.css" />
+    <Content Include="Web\stylesheets\screen.css" />
+    <Content Include="Web\templates\calendar.html" />
+    <Content Include="Web\templates\collections.html" />
+    <Content Include="Web\templates\documents.html" />
+    <Content Include="Web\templates\events.html" />
+    <Content Include="Web\templates\layouts\app.html" />
+    <Content Include="Web\templates\layouts\day_view_calendar.html" />
+    <Content Include="Web\templates\layouts\menu.html" />
+    <Content Include="Web\templates\partials\attachment.html" />
+    <Content Include="Web\templates\partials\collection_detail.html" />
+    <Content Include="Web\templates\partials\collection_sum.html" />
+    <Content Include="Web\templates\partials\document.html" />
+    <Content Include="Web\templates\partials\event_detail.html" />
+    <Content Include="Web\templates\partials\event_sum.html" />
+    <Content Include="Web\templates\photos.html" />
+    <Content Include="Web\templates\photos\grid_2L4S.html" />
+    <Content Include="Web\templates\photos\grid_4S2L.html" />
+    <Content Include="Web\templates\photos\grid_6S.html" />
+    <Content Include="Web\templates\photos\grid_LLL.html" />
+    <Content Include="Web\templates\photos\grid_LLPP.html" />
+    <Content Include="Web\templates\photos\grid_LPP.html" />
+    <Content Include="Web\templates\photos\grid_PLP.html" />
+    <Content Include="Web\templates\photos\grid_PPL.html" />
+    <Content Include="Web\templates\photos\grid_PPLL.html" />
+    <Content Include="Web\tests\index.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Waveface.Stream.ClientFramework\Waveface.Stream.ClientFramework.csproj">
@@ -1074,10 +799,13 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Web\images\bootstrap\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)..\Tools\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release signtool.exe sign /f "$(SolutionDir)..\Tools\WavefaceCert.pfx" /p waveface /t http://timestamp.verisign.com/scripts/timstamp.dll /v "$(TargetPath)"
+xcopy $(ProjectDir)Web\*.* $(TargetDir)Web\*.* /Y /S</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

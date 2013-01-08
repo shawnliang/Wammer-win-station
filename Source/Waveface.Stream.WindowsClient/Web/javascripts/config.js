@@ -66,7 +66,8 @@
       googlemaps: "com/gmap",
       async: "lib/require/async",
       jasmine: "lib/jasmine/jasmine",
-      jasminehtml: "lib/jasmine/jasmine-html"
+      jasminehtml: "lib/jasmine/jasmine-html",
+      spinner: "lib/spin.min"
     },
     waitSeconds: 30
   });

@@ -18,6 +18,8 @@
 
       PhotosView.prototype.mode = "photo";
 
+      PhotosView.prototype.schemaName = "photo";
+
       PhotosView.prototype.events = function() {
         return _.extend({}, DayView.prototype.events, {
           'click .frame': this.initGallery,
@@ -31,9 +33,12 @@
 
       PhotosView.prototype.render = function(date) {
         var data, photoData;
-        dispatch.on("render:change:attachment:all", this.render, this);
-        this.date = date;
-        this.setDates();
+        this.$("img").on("error", function() {
+          console.log("ImageLoadError", this.src);
+          return this.src = "images/placeholder.png";
+        });
+        dispatch.on("render:change:" + this.schemaName + ":all", this.render, this);
+        this.setDates(date);
         data = {
           currentDate: this.currentDate,
           nextDate: this.nextDate,
@@ -45,6 +50,7 @@
         this.delegateEvents();
         this.setHeaderStyle();
         this.setKey();
+        Backbone.history.navigate("" + this.id + "/" + date);
         return this;
       };
 

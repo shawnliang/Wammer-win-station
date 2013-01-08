@@ -64,9 +64,11 @@
           fragment = "events/" + lastDate;
         }
         if (fragment != null) {
-          return Backbone.history.navigate(fragment, {
-            trigger: true
-          });
+          if (!window.currentView || window.currentView === "events") {
+            return Backbone.history.navigate(fragment, {
+              trigger: true
+            });
+          }
         }
       };
 

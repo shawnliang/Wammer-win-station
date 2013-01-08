@@ -27,11 +27,10 @@
           if (!this.model.detailFetchStatus) {
             Attachments.callAttachments([this.model.id], 100, this.model.id, this.renderAttachments, this);
             this.model.detailFetchStatus = true;
-            $.unblockUI();
           } else {
             this.renderLocalAttachments(this.model.get("attachment_id_array"));
-            $.unblockUI();
           }
+          $.unblockUI();
           this.renderLocalAttachments(this.model.get("attachment_id_array"));
           return this;
         } else {
@@ -53,8 +52,7 @@
             return _this.photoViews.push(view);
           }
         });
-        this.delegateEvents();
-        return $.unblockUI();
+        return this.delegateEvents();
       };
 
       EventView.prototype.renderLocalAttachments = function(_attachments) {
@@ -85,9 +83,9 @@
           latlng = new google.maps.LatLng(gps.latitude, gps.longitude);
           mapOptions = {
             center: latlng,
-            zoom: gps.zoom_level,
+            zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            scrollwheel: false
+            scrollwheel: true
           };
           this.map = new google.maps.Map(el, mapOptions);
           return marker = new google.maps.Marker({
