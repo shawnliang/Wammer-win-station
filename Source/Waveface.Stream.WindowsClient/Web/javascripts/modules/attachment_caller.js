@@ -63,6 +63,7 @@
           return _this.add(attachment);
         });
         this.pageNow = parseInt(this.length / this.loadSize);
+        this.fetchStat = false;
         this.dateGroup = _.uniq(this.dateGroup);
         this.dateGroup.sort();
         this.dateGroup.reverse();

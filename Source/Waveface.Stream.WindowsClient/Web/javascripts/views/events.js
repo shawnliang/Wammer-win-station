@@ -132,8 +132,8 @@
           }
         });
         if (this.eventDetailView != null) {
-          this.eventDetailView.remove();
           this.eventDetailView.model.off();
+          this.eventDetailView.close();
         }
         this.eventDetailView = new EventDetailView({
           model: this.currentEvent

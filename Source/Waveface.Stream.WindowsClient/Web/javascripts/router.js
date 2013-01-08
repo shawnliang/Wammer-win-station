@@ -13,6 +13,8 @@
         return AppRouter.__super__.constructor.apply(this, arguments);
       }
 
+      AppRouter.prototype.currentView = null;
+
       AppRouter.prototype.routes = {
         '': 'actionEvents',
         '/': 'actionEvents',
@@ -54,7 +56,8 @@
             date = last.get('dateUri');
           }
         }
-        this.main.empty().append(EventsView.render(date, id).el);
+        this.currentView = EventsView;
+        this.main.empty().append(this.currentView.render(date, id).el);
         if (id != null) {
           state.data = {
             id: id
@@ -75,7 +78,8 @@
         if (!date) {
           date = viewState.data.date != null ? viewState.data.date : (last = Attachments.first()) ? last.get('dateUri') : void 0;
         }
-        this.main.empty().append(PhotosView.render(date).el);
+        this.currentView = PhotosView;
+        this.main.empty().append(this.currentView.render(date).el);
         viewState.data = {
           date: date
         };
@@ -96,6 +100,7 @@
             date = last.get('dateUri');
           }
         }
+        this.currentView = DocsView;
         this.main.empty().append(DocsView.render(date).el);
         viewState.data = {
           date: date
@@ -109,6 +114,7 @@
 
       AppRouter.prototype.actionCalendar = function(year) {
         year = year || Moment().format('YYYY');
+        this.currentView = CalendarView;
         this.main.empty().append(CalendarView.render(year).el);
         return CalendarView.renderCalendar();
       };

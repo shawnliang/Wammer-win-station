@@ -118,7 +118,7 @@
 
       return DayView;
 
-    })(Backbone.View);
+    })(Backbone.Marionette.View);
   });
 
 }).call(this);

@@ -676,6 +676,7 @@
     <Content Include="Web\javascripts\lib\backbone\amplify.store.js" />
     <Content Include="Web\javascripts\lib\backbone\backbone.amplify.js" />
     <Content Include="Web\javascripts\lib\backbone\backbone.js" />
+    <Content Include="Web\javascripts\lib\backbone\backbone.marionette.min.js" />
     <Content Include="Web\javascripts\lib\backbone\localstorage.js" />
     <Content Include="Web\javascripts\lib\bootstrap\bootstrap.js" />
     <Content Include="Web\javascripts\lib\bootstrap\bootstrap.min.js" />

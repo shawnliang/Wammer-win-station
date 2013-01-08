@@ -24,6 +24,8 @@
 
       AttachmentCollection.prototype.localStorage = new LocalStorage('attachments');
 
+      AttachmentCollection.prototype.fetchStat = false;
+
       AttachmentCollection.prototype.loadSize = 100;
 
       AttachmentCollection.prototype.initialize = function() {
@@ -103,6 +105,9 @@
         if (ns == null) {
           ns = "more";
         }
+        if (this.fetchStat) {
+          return false;
+        }
         new EventBundler('GetAttachments', ns);
         params = {
           page_size: pageSize,
@@ -113,7 +118,10 @@
           namespace: ns,
           type: this.schemaName
         };
-        return wfwsocket.sendMessage('getAttachments', params, memo);
+        if (!this.fetchStat) {
+          wfwsocket.sendMessage('getAttachments', params, memo);
+        }
+        return this.fetchStat = true;
       };
 
       return AttachmentCollection;
