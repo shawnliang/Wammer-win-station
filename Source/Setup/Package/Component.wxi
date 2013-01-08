@@ -71,7 +71,9 @@
         <Component Id="gsdll32.dll" Guid="*">
           <File Id="gsdll32.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\gsdll32.dll" />
         </Component>
-        
+        <Component Id="CommandLine.dll" Guid="*">
+          <File Id="CommandLine.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\CommandLine.dll" />
+        </Component>
 
         <Component Id="WeifenLuo.WinFormsUI.Docking.dll" Guid="*">
           <File Id="WeifenLuo.WinFormsUI.Docking.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WeifenLuo.WinFormsUI.Docking.dll" />
@@ -147,6 +149,7 @@
         <ComponentRef Id="Waveface.Stream.Core.dll" />
         <ComponentRef Id="Waveface.Stream.Serializer.dll" />
         <ComponentRef Id="gsdll32.dll" />
+        <ComponentRef Id="CommandLine.dll" />
       </ComponentGroup>
 
 </Include>
