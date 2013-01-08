@@ -23,19 +23,25 @@ namespace Waveface.Stream.WindowsClient
 
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OldUserWizardDialog));
 			this.SuspendLayout();
+			// 
+			// wizardControl
+			// 
+			resources.ApplyResources(this.wizardControl, "wizardControl");
+			// 
+			// nextButton
+			// 
+			resources.ApplyResources(this.nextButton, "nextButton");
 			// 
 			// prevButton
 			// 
-			this.prevButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			resources.ApplyResources(this.prevButton, "prevButton");
 			// 
 			// OldUserWizardDialog
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.ClientSize = new System.Drawing.Size(554, 453);
-			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+			resources.ApplyResources(this, "$this");
 			this.Name = "OldUserWizardDialog";
-			this.Text = "Stream (0 of 0)";
 			this.ResumeLayout(false);
 
 		}

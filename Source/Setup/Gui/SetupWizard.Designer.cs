@@ -28,14 +28,14 @@ namespace Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetupWizard));
-			this.SuspendLayout();
-			// 
-			// SetupWizard
-			// 
-			resources.ApplyResources(this, "$this");
-			this.Name = "SetupWizard";
-			this.ResumeLayout(false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetupWizard));
+            this.SuspendLayout();
+            // 
+            // SetupWizard
+            // 
+            resources.ApplyResources(this, "$this");
+            this.Name = "SetupWizard";
+            this.ResumeLayout(false);
 
 		}
 

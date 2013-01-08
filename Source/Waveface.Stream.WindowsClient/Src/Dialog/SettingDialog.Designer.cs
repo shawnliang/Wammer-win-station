@@ -30,14 +30,14 @@ namespace Waveface.Stream.WindowsClient
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingDialog));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblCopyRight = new System.Windows.Forms.Label();
 			this.linkLegalNotice = new System.Windows.Forms.LinkLabel();
 			this.label1 = new System.Windows.Forms.Label();
@@ -90,10 +90,10 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// flowLayoutPanel1
 			// 
+			resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
 			this.flowLayoutPanel1.Controls.Add(this.chkboxSelectiveSync);
 			this.flowLayoutPanel1.Controls.Add(this.txtResourceLimits);
 			this.flowLayoutPanel1.Controls.Add(this.label2);
-			resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			// 
 			// chkboxSelectiveSync
@@ -151,56 +151,56 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// dgvAccountList
 			// 
+			resources.ApplyResources(this.dgvAccountList, "dgvAccountList");
 			this.dgvAccountList.AllowUserToAddRows = false;
 			this.dgvAccountList.AllowUserToDeleteRows = false;
 			this.dgvAccountList.AllowUserToResizeColumns = false;
 			this.dgvAccountList.AllowUserToResizeRows = false;
-			dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.Black;
-			this.dgvAccountList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+			this.dgvAccountList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.dgvAccountList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvAccountList.BackgroundColor = System.Drawing.Color.White;
 			this.dgvAccountList.CausesValidation = false;
 			this.dgvAccountList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			this.dgvAccountList.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
 			this.dgvAccountList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			dataGridViewCellStyle18.BackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-			dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dgvAccountList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
-			resources.ApplyResources(this.dgvAccountList, "dgvAccountList");
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dgvAccountList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.dgvAccountList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dgvAccountList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.Column3});
-			dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-			dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle22.SelectionBackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle22.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dgvAccountList.DefaultCellStyle = dataGridViewCellStyle22;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dgvAccountList.DefaultCellStyle = dataGridViewCellStyle6;
 			this.dgvAccountList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.dgvAccountList.MultiSelect = false;
 			this.dgvAccountList.Name = "dgvAccountList";
-			dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-			dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.Black;
-			dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dgvAccountList.RowHeadersDefaultCellStyle = dataGridViewCellStyle23;
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
+			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dgvAccountList.RowHeadersDefaultCellStyle = dataGridViewCellStyle7;
 			this.dgvAccountList.RowHeadersVisible = false;
-			dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.Black;
-			this.dgvAccountList.RowsDefaultCellStyle = dataGridViewCellStyle24;
+			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
+			this.dgvAccountList.RowsDefaultCellStyle = dataGridViewCellStyle8;
 			this.dgvAccountList.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.White;
 			this.dgvAccountList.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Black;
 			this.dgvAccountList.RowTemplate.Height = 32;
@@ -210,11 +210,11 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// Column1
 			// 
-			dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle19.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-			dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
-			this.Column1.DefaultCellStyle = dataGridViewCellStyle19;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+			this.Column1.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Column1.FillWeight = 285F;
 			resources.ApplyResources(this.Column1, "Column1");
 			this.Column1.Name = "Column1";
@@ -222,10 +222,10 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// Column2
 			// 
-			dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.Black;
-			this.Column2.DefaultCellStyle = dataGridViewCellStyle20;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+			this.Column2.DefaultCellStyle = dataGridViewCellStyle4;
 			this.Column2.FillWeight = 128F;
 			resources.ApplyResources(this.Column2, "Column2");
 			this.Column2.Name = "Column2";
@@ -233,11 +233,11 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// Column3
 			// 
-			dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			dataGridViewCellStyle21.Padding = new System.Windows.Forms.Padding(24, 3, 24, 3);
-			dataGridViewCellStyle21.SelectionBackColor = System.Drawing.Color.White;
-			dataGridViewCellStyle21.SelectionForeColor = System.Drawing.Color.Black;
-			this.Column3.DefaultCellStyle = dataGridViewCellStyle21;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(24, 3, 24, 3);
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.White;
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Black;
+			this.Column3.DefaultCellStyle = dataGridViewCellStyle5;
 			this.Column3.FillWeight = 156F;
 			resources.ApplyResources(this.Column3, "Column3");
 			this.Column3.Name = "Column3";
