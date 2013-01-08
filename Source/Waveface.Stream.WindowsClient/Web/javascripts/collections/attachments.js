@@ -2,7 +2,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  define(['underscore', 'backbone', 'models/attachment', 'localstorage', 'com/subscriber', 'modules/attachment_caller', 'global'], function(_, Backbone, Photo, LocalStorage, Subscriber, AttachmentCaller) {
+  define(['underscore', 'backbone', 'models/attachment', 'localstorage', 'com/subscriber', 'modules/attachment_caller', 'eventbundler', 'global'], function(_, Backbone, Photo, LocalStorage, Subscriber, AttachmentCaller, EventBundler) {
     var AttachmentCollection;
     AttachmentCollection = (function(_super) {
 
@@ -24,8 +24,11 @@
 
       AttachmentCollection.prototype.localStorage = new LocalStorage('attachments');
 
+      AttachmentCollection.prototype.loadSize = 100;
+
       AttachmentCollection.prototype.initialize = function() {
         dispatch.on("store:change:" + this.schemaName + ":all", this.updateAttachment, this);
+        dispatch.on("store:change:" + this.schemaName + ":more", this.updateAttachment, this);
         dispatch.on("more:" + this.schemaName + ":bylength", this.loadByLength, this);
         return true;
       };
@@ -92,20 +95,22 @@
         return wfwsocket.sendMessage('getAttachments', params, memo);
       };
 
-      AttachmentCollection.prototype.loadByLength = function(pageSize) {
-        var localAttachsNum, memo, pageNow, params;
+      AttachmentCollection.prototype.loadByLength = function(pageSize, ns) {
+        var memo, params;
         if (pageSize == null) {
-          pageSize = 100;
+          pageSize = this.loadSize;
         }
-        localAttachsNum = this.length;
-        pageNow = parseInt(localAttachsNum / pageSize);
+        if (ns == null) {
+          ns = "more";
+        }
+        new EventBundler('GetAttachments', ns);
         params = {
           page_size: pageSize,
-          page_no: pageNow + 1,
+          page_no: this.pageNow + 1,
           type: this.type
         };
         memo = {
-          namespace: 'all',
+          namespace: ns,
           type: this.schemaName
         };
         return wfwsocket.sendMessage('getAttachments', params, memo);
