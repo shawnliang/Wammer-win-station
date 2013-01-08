@@ -16,6 +16,10 @@
 
       PhotoGridView.prototype.render = function(photoData) {
         var $grid_el, coin, gridSize, gridTemplate, html, templateData;
+        this.$("img").on("error", function() {
+          console.log("ImageLoadError", this.src);
+          return this.src = "images/placeholder.png";
+        });
         this.photoData = photoData;
         if (photoData.size() < 1) {
           return false;

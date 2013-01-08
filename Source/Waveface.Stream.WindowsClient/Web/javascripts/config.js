@@ -15,7 +15,7 @@
         deps: ["jquery"]
       },
       backbone: {
-        deps: ["underscore", "amplifystore", "jquery"],
+        deps: ["underscore", "amplifystore", "jquery", "backboneOrig"],
         exports: "Backbone"
       },
       bootstrap: {
@@ -50,7 +50,8 @@
       jqueryui: "lib/jquery/jquery-ui-1.9.2.custom",
       scrollTo: "lib/jquery/jquery.scrollTo.min",
       underscore: "lib/lodash/lodash",
-      backbone: "lib/backbone/backbone",
+      backboneOrig: "lib/backbone/backbone",
+      backbone: "lib/backbone/backbone.marionette.min",
       text: "lib/require/text",
       bootstrap: "lib/bootstrap/bootstrap",
       mustache: "lib/mustache",

@@ -12,6 +12,7 @@ using Waveface.Stream.WindowsClient.Properties;
 using Dolinay;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
+using CommandLine;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -141,13 +142,12 @@ namespace Waveface.Stream.WindowsClient
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			CommandLineHelper.ProcessCommandLineArgs(() => {}, new CommandLineCommand[] 
+			var options = new Options();
+			ICommandLineParser parser = new CommandLineParser();
+			if (parser.ParseArguments(args, options))
 			{
-				new CommandLineCommand("-RunMode",(parameters)=>
-				{
-					MainForm.Instance.IsDebugMode = parameters.FirstOrDefault().Equals("debug", StringComparison.CurrentCultureIgnoreCase);
-				})
-			});
+				MainForm.Instance.IsDebugMode = options.IsDebugMode;
+			}
 
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 

@@ -33,10 +33,6 @@
 
       PhotosView.prototype.render = function(date) {
         var data, photoData;
-        this.$("img").on("error", function() {
-          console.log("ImageLoadError", this.src);
-          return this.src = "images/placeholder.png";
-        });
         dispatch.on("render:change:" + this.schemaName + ":all", this.render, this);
         this.setDates(date);
         data = {

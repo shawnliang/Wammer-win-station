@@ -90,6 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\NetSparkle-1.0.83\AppLimit.NetSparkle.dll</HintPath>
     </Reference>
+    <Reference Include="CommandLine">
+      <HintPath>..\..\Lib\CommandLineParser.1.9.3.34\lib\CommandLine.dll</HintPath>
+    </Reference>
     <Reference Include="ExifLibrary">
       <HintPath>..\..\Lib\ExifLibrary.dll</HintPath>
     </Reference>
@@ -168,7 +171,6 @@
     <Compile Include="Src\Class\AutoImporter.cs" />
     <Compile Include="Src\Class\AutoUpdate.cs" />
     <Compile Include="Src\Class\CommandLineCommand.cs" />
-    <Compile Include="Src\Class\CommandLineHelper.cs" />
     <Compile Include="Src\Class\Content.cs" />
     <Compile Include="Src\Class\ContentBase.cs" />
     <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="Src\Class\GoogleConnectableService.cs" />
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
+    <Compile Include="Src\Class\Options.cs" />
     <Compile Include="Src\Class\PersonalCloudNode.cs" />
     <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
     <Compile Include="Src\Class\RecentDocumentWatcher.cs" />
@@ -676,6 +679,7 @@
     <Content Include="Web\javascripts\lib\backbone\amplify.store.js" />
     <Content Include="Web\javascripts\lib\backbone\backbone.amplify.js" />
     <Content Include="Web\javascripts\lib\backbone\backbone.js" />
+    <Content Include="Web\javascripts\lib\backbone\backbone.marionette.min.js" />
     <Content Include="Web\javascripts\lib\backbone\localstorage.js" />
     <Content Include="Web\javascripts\lib\bootstrap\bootstrap.js" />
     <Content Include="Web\javascripts\lib\bootstrap\bootstrap.min.js" />

@@ -1,4 +1,5 @@
 (function() {
+  var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   define(['eventbundler'], function(EventBundler) {
     var AttachmentCaller;
@@ -61,7 +62,11 @@
           _this.setDateGroup(attachment, index);
           return _this.add(attachment);
         });
+        this.pageNow = parseInt(this.length / this.loadSize);
+        this.fetchStat = false;
         this.dateGroup = _.uniq(this.dateGroup);
+        this.dateGroup.sort();
+        this.dateGroup.reverse();
         payload = ns === "all" ? this.first().get("dateUri") : attachments;
         return dispatch.trigger("render:change:" + this.schemaName + ":" + ns, payload);
       };
@@ -69,7 +74,9 @@
       AttachmentCaller.prototype.setDateGroup = function(attachment, index) {
         var attachDate;
         attachDate = moment(attachment.timestamp).format('YYYY-MM-DD');
-        return this.dateGroup.push(attachDate);
+        if (__indexOf.call(this.dateGroup, attachDate) < 0) {
+          return this.dateGroup.push(attachDate);
+        }
       };
 
       AttachmentCaller.prototype.filterByDate = function(date) {

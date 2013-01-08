@@ -35,7 +35,7 @@
 
       return EventView;
 
-    })(Backbone.View);
+    })(Backbone.Marionette.View);
   });
 
 }).call(this);
