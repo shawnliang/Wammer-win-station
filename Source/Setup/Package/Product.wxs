@@ -46,8 +46,6 @@
     <CustomAction Id='RestoreBackupData' BinaryKey='InstallHelperDll' DllEntry='RestoreBackupData' />
     <!-- MigrateThumbnailsExtension -->
     <CustomAction Id='MigrateThumbnailsExtension' BinaryKey='InstallHelperDll' DllEntry='MigrateThumbnailsExtension' />
-    <!-- MigrateUserTracks -->
-    <CustomAction Id='MigrateUserTracks' BinaryKey='InstallHelperDll' DllEntry='MigrateUserTracks' />
     <!-- MigrateOriginalPhotoLocation -->
     <CustomAction Id='MigrateOriginalPhotoLocation' BinaryKey='InstallHelperDll' DllEntry='MigrateOriginalPhotoLocation' />
     <!-- WriteProductInfo -->
@@ -87,10 +85,7 @@
       <Custom Action="MigrateThumbnailsExtension" After="RestoreBackupData">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
-      <Custom Action="MigrateUserTracks" After="MigrateThumbnailsExtension">
-        (&amp;MainFeature = 3)
-      </Custom>
-      <Custom Action="MigrateOriginalPhotoLocation" After="MigrateUserTracks">
+      <Custom Action="MigrateOriginalPhotoLocation" After="MigrateThumbnailsExtension">
         (&amp;MainFeature = 3)
       </Custom>
       <Custom Action="StartWavefaceService" After="MigrateOriginalPhotoLocation">
