@@ -38,9 +38,9 @@ namespace Waveface.Stream.WindowsClient
 			// nextButton
 			// 
 			this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.nextButton.Location = new System.Drawing.Point(432, 409);
+			this.nextButton.Location = new System.Drawing.Point(432, 378);
 			this.nextButton.Name = "nextButton";
-			this.nextButton.Size = new System.Drawing.Size(110, 32);
+			this.nextButton.Size = new System.Drawing.Size(110, 30);
 			this.nextButton.TabIndex = 1;
 			this.nextButton.Text = "Next";
 			this.nextButton.UseVisualStyleBackColor = true;
@@ -49,9 +49,9 @@ namespace Waveface.Stream.WindowsClient
 			// prevButton
 			// 
 			this.prevButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.prevButton.Location = new System.Drawing.Point(10, 409);
+			this.prevButton.Location = new System.Drawing.Point(10, 378);
 			this.prevButton.Name = "prevButton";
-			this.prevButton.Size = new System.Drawing.Size(110, 32);
+			this.prevButton.Size = new System.Drawing.Size(110, 30);
 			this.prevButton.TabIndex = 2;
 			this.prevButton.Text = "Previous";
 			this.prevButton.UseVisualStyleBackColor = true;
@@ -65,15 +65,15 @@ namespace Waveface.Stream.WindowsClient
 			this.wizardControl.Location = new System.Drawing.Point(0, 0);
 			this.wizardControl.Name = "wizardControl";
 			this.wizardControl.PageIndex = 0;
-			this.wizardControl.Size = new System.Drawing.Size(555, 400);
+			this.wizardControl.Size = new System.Drawing.Size(555, 369);
 			this.wizardControl.TabIndex = 3;
 			// 
 			// StepByStepWizardDialog
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.ClientSize = new System.Drawing.Size(554, 453);
+			this.ClientSize = new System.Drawing.Size(554, 418);
 			this.Controls.Add(this.wizardControl);
 			this.Controls.Add(this.prevButton);
 			this.Controls.Add(this.nextButton);
@@ -83,7 +83,7 @@ namespace Waveface.Stream.WindowsClient
 			this.MinimizeBox = false;
 			this.Name = "StepByStepWizardDialog";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Stream";
+			this.Text = "AOStream";
 			this.Load += new System.EventHandler(this.FirstUseWizardDialog_Load);
 			this.ResumeLayout(false);
 

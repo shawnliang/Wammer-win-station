@@ -28,25 +28,27 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewUserWizardDialog));
 			this.SuspendLayout();
+			// 
+			// wizardControl
+			// 
+			resources.ApplyResources(this.wizardControl, "wizardControl");
 			// 
 			// nextButton
 			// 
-			this.nextButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.nextButton, "nextButton");
 			// 
 			// prevButton
 			// 
-			this.prevButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.prevButton.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			resources.ApplyResources(this.prevButton, "prevButton");
 			// 
 			// NewUserWizardDialog
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.ClientSize = new System.Drawing.Size(554, 453);
 			this.Name = "NewUserWizardDialog";
-			this.Text = "Stream (0 of 0)";
 			this.ResumeLayout(false);
 
 		}

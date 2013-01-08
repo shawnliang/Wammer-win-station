@@ -110,7 +110,7 @@
 			this.KeyPreview = true;
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
-			this.Text = "Stream";
+			this.Text = "AOStream";
 			this.WindowState = global::Waveface.Stream.WindowsClient.Properties.Settings.Default.CLIENT_WINDOW_STATE;
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);

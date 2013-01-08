@@ -119,10 +119,10 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lblDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 13</value>
+    <value>155, 12</value>
   </data>
   <data name="lblDescription.Text" xml:space="preserve">
-    <value>Waveface Stream 將會安裝至此路徑:</value>
+    <value>AOStream 將會安裝至此路徑:</value>
   </data>
   <data name="$this.Subtitle" xml:space="preserve">
     <value>請選擇指定的安裝路徑。</value>

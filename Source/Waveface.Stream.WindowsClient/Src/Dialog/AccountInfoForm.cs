@@ -270,7 +270,7 @@ namespace Waveface.Stream.WindowsClient
 
 						if (isDialogInited && accessTokenExpired)
 						{
-							var result = MessageBox.Show(Properties.Resources.RECONNECT_MESSAGE, Properties.Resources.FB_TOKEN_EXPIRED, MessageBoxButtons.YesNo);
+							var result = MessageBox.Show(Properties.Resources.FB_RECONNECT_MESSAGE, Properties.Resources.FB_TOKEN_EXPIRED, MessageBoxButtons.YesNo);
 							if (result == System.Windows.Forms.DialogResult.Yes)
 							{
 								ConnectWithFB();

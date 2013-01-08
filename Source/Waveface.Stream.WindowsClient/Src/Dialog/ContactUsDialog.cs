@@ -253,7 +253,7 @@ namespace Waveface.Stream.WindowsClient
 			m_inProgressDialog = new ProcessingDialog();
 			m_inProgressDialog.StartPosition = FormStartPosition.CenterParent;
 			m_inProgressDialog.ProgressStyle = ProgressBarStyle.Marquee;
-			m_inProgressDialog.ProcessMessage = Resources.CollectingLogs;
+			m_inProgressDialog.ProcessMessage = Resources.COLLECTING_LOGS;
 			m_inProgressDialog.ShowDialog();
 		}
 

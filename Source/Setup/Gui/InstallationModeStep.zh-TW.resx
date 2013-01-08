@@ -121,9 +121,13 @@
     <value>請按 "下一步" 繼續安裝。</value>
   </data>
   <data name="lblDetails.Text" xml:space="preserve">
-    <value>您已安裝 Waveface Stream 在此部電腦上。請選擇您要執行的動作。</value>
+    <value>您已安裝 AOStream 在此部電腦上。請選擇您要執行的動作。</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
-    <value>歡迎使用 Waveface Stream</value>
+    <value>歡迎使用 AOStream</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
   </data>
 </root>

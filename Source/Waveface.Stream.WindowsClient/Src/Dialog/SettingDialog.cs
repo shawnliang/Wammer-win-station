@@ -216,19 +216,19 @@ namespace Waveface.Stream.WindowsClient
 			{
 				if (e.Error is AuthenticationException)
 				{
-					MessageBox.Show(Resources.AuthError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show(Resources.AUTH_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				else if (e.Error is StationServiceDownException)
 				{
-					MessageBox.Show(Resources.StationServiceDown, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show(Resources.STATION_SERVICE_DOWN, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				else if (e.Error is ConnectToCloudException)
 				{
-					MessageBox.Show(Resources.ConnectCloudError, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show(Resources.CONNECT_CLOUD_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 				else
 				{
-					MessageBox.Show(Resources.UNKNOW_REMOVEACCOUNT_ERROR, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show(Resources.UNKNOW_REMOVEACCOUNT_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 			}
 
@@ -338,7 +338,7 @@ namespace Waveface.Stream.WindowsClient
 				SetUIEnabled(false);
 				_isMovingFolder = true;
 
-				m_ProcessingDialog.ProcessMessage = Resources.MovingResourceFolder;
+				m_ProcessingDialog.ProcessMessage = Resources.MOVING_RESOURCE_FOLDER;
 				m_ProcessingDialog.ProgressStyle = ProgressBarStyle.Marquee;
 				m_ProcessingDialog.StartPosition = FormStartPosition.CenterParent;
 				m_ProcessingDialog.ShowDialog(this);
@@ -412,7 +412,7 @@ namespace Waveface.Stream.WindowsClient
 
 				if (args.Error != null)
 				{
-					MessageBox.Show(args.Error.Message, Resources.MoveFolderUnsuccess);
+					MessageBox.Show(args.Error.Message, Resources.MOVE_FOLDER_UNSUCCESS);
 					return;
 				}
 			}
@@ -474,7 +474,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				if (e.Error != null)
 				{
-					MessageBox.Show(e.Error.Message, Resources.APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(e.Error.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 
