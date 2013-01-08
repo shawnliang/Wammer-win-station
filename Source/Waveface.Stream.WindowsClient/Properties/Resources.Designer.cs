@@ -75,20 +75,11 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You currently have the latest version of Stream installed..
+        ///   Looks up a localized string similar to You currently have the latest version of AOStream installed..
         /// </summary>
         internal static string ALREAD_UPDATED {
             get {
                 return ResourceManager.GetString("ALREAD_UPDATED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stream.
-        /// </summary>
-        internal static string APP_NAME {
-            get {
-                return ResourceManager.GetString("APP_NAME", resourceCulture);
             }
         }
         
@@ -98,15 +89,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string AUTH_ERROR {
             get {
                 return ResourceManager.GetString("AUTH_ERROR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid email or password. Please try again..
-        /// </summary>
-        internal static string AuthError {
-            get {
-                return ResourceManager.GetString("AuthError", resourceCulture);
             }
         }
         
@@ -145,9 +127,9 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove user account {0} from this computer?.
         /// </summary>
-        internal static string CleanResourceMsg {
+        internal static string CLEAN_RESOURCE_MSG_PATTERN {
             get {
-                return ResourceManager.GetString("CleanResourceMsg", resourceCulture);
+                return ResourceManager.GetString("CLEAN_RESOURCE_MSG_PATTERN", resourceCulture);
             }
         }
         
@@ -163,14 +145,14 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CollectingLogs.
         /// </summary>
-        internal static string CollectingLogs {
+        internal static string COLLECTING_LOGS {
             get {
-                return ResourceManager.GetString("CollectingLogs", resourceCulture);
+                return ResourceManager.GetString("COLLECTING_LOGS", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to connect to Stream server.
+        ///   Looks up a localized string similar to Unable to connect to AOStream server.
         /// </summary>
         internal static string CONNECT_CLOUD_ERROR {
             get {
@@ -179,27 +161,11 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to connect to Stream server.
+        ///   Looks up a localized string similar to Contact us.
         /// </summary>
-        internal static string ConnectCloudError {
+        internal static string CONTACT_US_MENU_ITEM {
             get {
-                return ResourceManager.GetString("ConnectCloudError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Arial.
-        /// </summary>
-        internal static string DEFAULT_FONT {
-            get {
-                return ResourceManager.GetString("DEFAULT_FONT", resourceCulture);
-            }
-        }
-        
-        internal static System.Drawing.Bitmap desktop_logo {
-            get {
-                object obj = ResourceManager.GetObject("desktop_logo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("CONTACT_US_MENU_ITEM", resourceCulture);
             }
         }
         
@@ -218,13 +184,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string DOWNLOAD_INDICATOR {
             get {
                 return ResourceManager.GetString("DOWNLOAD_INDICATOR", resourceCulture);
-            }
-        }
-        
-        internal static System.Drawing.Bitmap dragNdrop_area {
-            get {
-                object obj = ResourceManager.GetObject("dragNdrop-area", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -250,7 +209,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The account does not match the one used to create your Stream account. Please try again with another account..
+        ///   Looks up a localized string similar to The account does not match the one used to create your AOStream account. Please try again with another account..
         /// </summary>
         internal static string FB_CONNECT_FAILED {
             get {
@@ -293,39 +252,20 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your Facebook connection has been disabled. Do you want to reconnect with Facebook..
+        /// </summary>
+        internal static string FB_RECONNECT_MESSAGE {
+            get {
+                return ResourceManager.GetString("FB_RECONNECT_MESSAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Facebook token expired.
         /// </summary>
         internal static string FB_TOKEN_EXPIRED {
             get {
                 return ResourceManager.GetString("FB_TOKEN_EXPIRED", resourceCulture);
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FBT_account {
-            get {
-                object obj = ResourceManager.GetObject("FBT_account", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FBT_account_hl {
-            get {
-                object obj = ResourceManager.GetObject("FBT_account_hl", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FBT_setting {
-            get {
-                object obj = ResourceManager.GetObject("FBT_setting", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap FBT_setting_hl {
-            get {
-                object obj = ResourceManager.GetObject("FBT_setting_hl", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -341,9 +281,9 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Please fill in all the fields!.
         /// </summary>
-        internal static string FillAllFields {
+        internal static string FILL_ALL_FIELDS {
             get {
-                return ResourceManager.GetString("FillAllFields", resourceCulture);
+                return ResourceManager.GetString("FILL_ALL_FIELDS", resourceCulture);
             }
         }
         
@@ -354,17 +294,12 @@ namespace Waveface.Stream.WindowsClient.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap import_photos_normal {
+        /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        internal static string IMPORT_MENU_ITEM {
             get {
-                object obj = ResourceManager.GetObject("import-photos_normal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap import_photos_press {
-            get {
-                object obj = ResourceManager.GetObject("import-photos_press", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("IMPORT_MENU_ITEM", resourceCulture);
             }
         }
         
@@ -385,11 +320,11 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid email address.
+        ///   Looks up a localized string similar to Invalid email.
         /// </summary>
-        internal static string InvalidEmail {
+        internal static string INVALID_EMAIL {
             get {
-                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+                return ResourceManager.GetString("INVALID_EMAIL", resourceCulture);
             }
         }
         
@@ -410,27 +345,27 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Login error. Please try again..
         /// </summary>
-        internal static string LogInError {
+        internal static string LOGIN_ERROR {
             get {
-                return ResourceManager.GetString("LogInError", resourceCulture);
+                return ResourceManager.GetString("LOGIN_ERROR", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login.
+        ///   Looks up a localized string similar to Login....
         /// </summary>
-        internal static string LoginMenuItem {
+        internal static string LOGIN_MENU_ITEM {
             get {
-                return ResourceManager.GetString("LoginMenuItem", resourceCulture);
+                return ResourceManager.GetString("LOGIN_MENU_ITEM", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Logout.
+        ///   Looks up a localized string similar to Logout....
         /// </summary>
-        internal static string LogoutMenuItem {
+        internal static string LOGOUT_MENU_ITEM {
             get {
-                return ResourceManager.GetString("LogoutMenuItem", resourceCulture);
+                return ResourceManager.GetString("LOGOUT_MENU_ITEM", resourceCulture);
             }
         }
         
@@ -444,29 +379,11 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to move.
-        /// </summary>
-        internal static string MoveFolderUnsuccess {
-            get {
-                return ResourceManager.GetString("MoveFolderUnsuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Moving....
         /// </summary>
         internal static string MOVING_RESOURCE_FOLDER {
             get {
                 return ResourceManager.GetString("MOVING_RESOURCE_FOLDER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Moving....
-        /// </summary>
-        internal static string MovingResourceFolder {
-            get {
-                return ResourceManager.GetString("MovingResourceFolder", resourceCulture);
             }
         }
         
@@ -489,15 +406,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This version is out of date. Click ‘OK’ to download and install the latest version..
-        /// </summary>
-        internal static string NeedToUpgrade {
-            get {
-                return ResourceManager.GetString("NeedToUpgrade", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Internet connection error.
         /// </summary>
         internal static string NETWORK_EXCEPTION {
@@ -515,20 +423,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap newpost_btn {
-            get {
-                object obj = ResourceManager.GetObject("newpost_btn", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap newpost_btn_hl {
-            get {
-                object obj = ResourceManager.GetObject("newpost_btn_hl", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
@@ -539,11 +433,11 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open Stream.
+        ///   Looks up a localized string similar to Open AOStream.
         /// </summary>
-        internal static string OPEN_STREAM {
+        internal static string OPEN_STREAM_MENU_ITEM {
             get {
-                return ResourceManager.GetString("OPEN_STREAM", resourceCulture);
+                return ResourceManager.GetString("OPEN_STREAM_MENU_ITEM", resourceCulture);
             }
         }
         
@@ -592,15 +486,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your Facebook connection has been disabled. Do you want to reconnect with Facebook..
-        /// </summary>
-        internal static string RECONNECT_MESSAGE {
-            get {
-                return ResourceManager.GetString("RECONNECT_MESSAGE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         internal static string REMOVE_ACCOUNT_BUTTON_TITLE {
@@ -619,20 +504,20 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service..
-        /// </summary>
-        internal static string SERVICE_DOWN {
-            get {
-                return ResourceManager.GetString("SERVICE_DOWN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Pause sync.
         /// </summary>
         internal static string SERVICE_PAUSE {
             get {
                 return ResourceManager.GetString("SERVICE_PAUSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause service.
+        /// </summary>
+        internal static string SERVICE_PAUSE_MENU_ITEM {
+            get {
+                return ResourceManager.GetString("SERVICE_PAUSE_MENU_ITEM", resourceCulture);
             }
         }
         
@@ -664,6 +549,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resume service.
+        /// </summary>
+        internal static string SERVICE_RESUME_MENU_ITEM {
+            get {
+                return ResourceManager.GetString("SERVICE_RESUME_MENU_ITEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resuming sync....
         /// </summary>
         internal static string SERVICE_RESUMING {
@@ -682,7 +576,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to connect to Stream server.
+        ///   Looks up a localized string similar to Unable to connect to AOStream server.
         /// </summary>
         internal static string SERVICE_START_FAIL {
             get {
@@ -691,7 +585,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Starting Stream....
+        ///   Looks up a localized string similar to Starting AOStream....
         /// </summary>
         internal static string SERVICE_STARTING {
             get {
@@ -718,7 +612,16 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signup - Stream.
+        ///   Looks up a localized string similar to Setting.
+        /// </summary>
+        internal static string SETTING_MENU_ITEM {
+            get {
+                return ResourceManager.GetString("SETTING_MENU_ITEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signup - AOStream.
         /// </summary>
         internal static string SIGNUP_PAGE_TITLE {
             get {
@@ -734,20 +637,11 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service..
+        ///   Looks up a localized string similar to AOStream service is not completely started. Please wait for a while and try again, or ensure the running status of AOStream service..
         /// </summary>
         internal static string STATION_SERVICE_DOWN {
             get {
                 return ResourceManager.GetString("STATION_SERVICE_DOWN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stream service is not completely started. Please wait for a while and try again, or ensure the running status of Stream service..
-        /// </summary>
-        internal static string StationServiceDown {
-            get {
-                return ResourceManager.GetString("StationServiceDown", resourceCulture);
             }
         }
         
@@ -823,13 +717,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap titlebar_1 {
-            get {
-                object obj = ResourceManager.GetObject("titlebar_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to Turn Off.
         /// </summary>
@@ -899,24 +786,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string UNKNOW_SIGNUP_ERROR {
             get {
                 return ResourceManager.GetString("UNKNOW_SIGNUP_ERROR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unknown signup error occur!.
-        /// </summary>
-        internal static string UNKNOW_SIGNUP_ERROR1 {
-            get {
-                return ResourceManager.GetString("UNKNOW_SIGNUP_ERROR1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unknown signin error occur!.
-        /// </summary>
-        internal static string UnknownSigninError {
-            get {
-                return ResourceManager.GetString("UnknownSigninError", resourceCulture);
             }
         }
         

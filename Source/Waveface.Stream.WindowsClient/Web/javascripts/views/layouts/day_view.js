@@ -42,8 +42,9 @@
         }
       };
 
-      DayView.prototype.setDates = function() {
+      DayView.prototype.setDates = function(date) {
         var nextDateUri, previousDateUri;
+        this.date = date;
         this.currentDate = moment(this.date).format('MMMM DD, YYYY');
         this.currentYear = moment(this.date).format('YYYY');
         this.currentMonth = moment(this.date).format('M') - 1;

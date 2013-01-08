@@ -51,7 +51,7 @@
       };
 
       AttachmentCaller.prototype.updateAttachment = function(data, ns) {
-        var attachments,
+        var attachments, payload,
           _this = this;
         attachments = data.attachments;
         if (attachments.length <= 0) {
@@ -62,9 +62,8 @@
           return _this.add(attachment);
         });
         this.dateGroup = _.uniq(this.dateGroup);
-        if (ns !== "all") {
-          return dispatch.trigger("render:change:" + this.schemaName + ":" + ns, attachments);
-        }
+        payload = ns === "all" ? this.first().get("dateUri") : attachments;
+        return dispatch.trigger("render:change:" + this.schemaName + ":" + ns, payload);
       };
 
       AttachmentCaller.prototype.setDateGroup = function(attachment, index) {
