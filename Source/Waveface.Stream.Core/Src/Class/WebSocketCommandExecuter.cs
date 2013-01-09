@@ -5,6 +5,8 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Reflection;
 using System.ComponentModel.Composition.Primitives;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 
 namespace Waveface.Stream.Core
@@ -104,7 +106,25 @@ namespace Waveface.Stream.Core
 			if (!HasCommand(commandName))
 				return null; //TODO: Throw unsupport command exception
 
-			return webSocketCommandPool[commandName].Execute(data, systemArgs);
+#if DEBUG
+			var sw = Stopwatch.StartNew();
+#endif
+			var result = webSocketCommandPool[commandName].Execute(data, systemArgs);
+
+#if DEBUG
+			var es = sw.ElapsedMilliseconds;
+
+			if (es > 200)
+			{
+				Console.Error.WriteLine(string.Format("Execute {0} elapsed {1} ms:{2}{3}", 
+					commandName, 
+					es,
+					Environment.NewLine,
+					JsonConvert.SerializeObject(data, Formatting.Indented)));
+			}
+#endif
+
+			return result;
 		}
 
 		/// <summary>

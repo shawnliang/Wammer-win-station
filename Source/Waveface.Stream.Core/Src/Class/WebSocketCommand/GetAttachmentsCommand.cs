@@ -62,15 +62,10 @@ namespace Waveface.Stream.Core
 			if (untilDate != null)
 				attachmentQueryParam = Query.And(attachmentQueryParam, Query.LT("event_time", untilDate));
 
-			var coverAttachmentIDs = new HashSet<string>();
 			var attachmentIDs = new HashSet<string>();
 			if (parameters.ContainsKey("post_id_array"))
 			{
 				var postIDs = (parameters["post_id_array"] as JArray).Values();
-				coverAttachmentIDs.UnionWith(from postID in postIDs
-											 let post = PostDBDataCollection.Instance.FindOneById(postID.ToString())
-											 where post != null
-											 select post.CoverAttachmentID);
 
 				attachmentIDs.UnionWith(from postID in postIDs
 										let post = PostDBDataCollection.Instance.FindOneById(postID.ToString())
@@ -82,10 +77,6 @@ namespace Waveface.Stream.Core
 			if (parameters.ContainsKey("collection_id_array"))
 			{
 				var collectionIDs = (parameters["collection_id_array"] as JArray).Values();
-				coverAttachmentIDs.UnionWith(from collectionID in collectionIDs
-											 let collection = CollectionCollection.Instance.FindOneById(collectionID.ToString())
-											 where collection != null
-											 select collection.cover);
 
 				attachmentIDs.UnionWith(from collectionID in collectionIDs
 										let collection = CollectionCollection.Instance.FindOneById(collectionID.ToString())
@@ -128,17 +119,12 @@ namespace Waveface.Stream.Core
 			}
 
 			var attachments = AttachmentCollection.Instance.Find(attachmentQueryParam)
-				.SetSortOrder(SortBy.Descending("event_time")).AsEnumerable();
+				.SetSortOrder(SortBy.Descending("event_time"))
+				.SetSkip(skipCount)
+				.SetLimit(pageSize);
 
 			var totalCount = attachments.Count();
 			var pageCount = (int)Math.Ceiling((decimal)totalCount / pageSize);
-
-			var coverAttachments = attachments.Where((attachment) => coverAttachmentIDs.Contains(attachment.object_id));
-			var normalAttachments = attachments.Except(coverAttachments, new AttachmentCompare());
-
-			attachments = coverAttachments.Union(normalAttachments)
-				.Skip(skipCount)
-				.Take(pageSize);
 
 			var dataSize = parameters.ContainsKey("data_size") ? int.Parse(parameters["data_size"].ToString()) : 1;
 
@@ -151,7 +137,6 @@ namespace Waveface.Stream.Core
 			{
 				attachmentDatas = Mapper.Map<IEnumerable<Attachment>, IEnumerable<MediumSizeAttachmentData>>(attachments);
 			}
-
 
 			return new Dictionary<string, Object>() 
 			{
