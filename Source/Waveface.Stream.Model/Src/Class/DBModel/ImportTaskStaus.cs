@@ -24,6 +24,11 @@ namespace Waveface.Stream.Model
 
 		public int SuccessCount { get; set; }
 		public int TotalFiles { get; set; }
+
+		public bool Hidden { get; set; }
+
+		public List<string> Sources { get; set; }
+		public string Error { get; set; }
 	}
 
 	[BsonIgnoreExtraElements]

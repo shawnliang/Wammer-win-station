@@ -137,6 +137,8 @@ namespace Wammer.Station.Service
 
 				JSON.Instance.UseUTCDateTime = true;
 
+				clearImportTasksStatus();
+
 
 				Station.Instance.UserLogined += loginHandler_UserLogined;
 
@@ -252,6 +254,12 @@ namespace Wammer.Station.Service
 				logger.Error("Unknown exception", ex);
 				throw;
 			}
+		}
+
+		private void clearImportTasksStatus()
+		{
+			TaskStatusCollection.Instance.HideAll();
+			TaskStatusCollection.Instance.AbortAllIncompleteTasks();
 		}
 
 		private static void InitCloudForwarder(BypassHttpHandler cloudForwarder)
