@@ -720,14 +720,14 @@ namespace Wammer.Station
 
 
 			string installDir = session["INSTALLLOCATION"];
-			using (var zip = new ZipFile(Path.Combine(installDir, "WebFiles.zip")))
-			{
-				foreach(ZipEntry entry in zip)
-				{
-					if (entry.IsFile)
-						extractFile(zip.GetInputStream(entry), entry, installDir);
-				}
-			}
+            //using (var zip = new ZipFile(Path.Combine(installDir, "WebFiles.zip")))
+            //{
+            //    foreach(ZipEntry entry in zip)
+            //    {
+            //        if (entry.IsFile)
+            //            extractFile(zip.GetInputStream(entry), entry, installDir);
+            //    }
+            //}
 
 			return ActionResult.Success;
 		}
