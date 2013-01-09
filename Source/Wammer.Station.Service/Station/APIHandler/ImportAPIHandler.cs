@@ -51,7 +51,8 @@ namespace Wammer.Station
 			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), 
 				Update
 					.Set("IsComplete", true)
-					.Set("SkippedFiles", new BsonArray(e.SkippedFiles) ) );
+					.Set("SkippedFiles", new BsonArray(e.SkippedFiles) )
+					.Set("Error", e.Error.Message) );
 		}
 
 		void task_FileImported(object sender, FileImportEventArgs e)

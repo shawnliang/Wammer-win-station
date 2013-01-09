@@ -373,12 +373,15 @@ namespace Waveface.Stream.WindowsClient
 			{
 				var dialog = MainForm.Instance;
 
+				if(!dialog.IsDebugMode)
+					return DialogResult.OK;
+
 				dialog.FormClosed -= dialog_FormClosed;
 				dialog.FormClosed += dialog_FormClosed;
 
 				var fileDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 				var file = Path.Combine(fileDir, @"Web\index.html");
-				
+
 				dialog.Navigate(file);
 				dialog.StartPosition = FormStartPosition.CenterParent;
 				dialog.Activate();
@@ -479,8 +482,8 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items.Clear();
 			m_ContextMenuStrip.Items.Add("ResumeService", Resources.SERVICE_RESUME_MENU_ITEM, m_ContextMenuStrip_Resume_Click);
 			m_ContextMenuStrip.Items.Add("PauseService", Resources.SERVICE_PAUSE_MENU_ITEM, m_ContextMenuStrip_Pause_Click);
-			m_ContextMenuStrip.Items.Add("-");
-			m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
+			m_ContextMenuStrip.Items.Add("Seperator", "-", null);
+			//m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
 			m_ContextMenuStrip.Items.Add("Login", Resources.LOGIN_MENU_ITEM, m_ContextMenuStrip_Login_Click);
 			m_ContextMenuStrip.Items.Add("-");
 			m_ContextMenuStrip.Items.Add("Import", Resources.IMPORT_MENU_ITEM, m_ContextMenuStrip_Import_Click);
@@ -518,7 +521,12 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var isLogined = (StreamClient.Instance.LoginedUser != null && !string.IsNullOrEmpty(StreamClient.Instance.LoginedUser.SessionToken));
 			m_ContextMenuStrip.Items["Login"].Visible = !isLogined;
-			m_ContextMenuStrip.Items["OpenStream"].Visible = isLogined;
+
+			if (MainForm.Instance.IsDebugMode)
+				m_ContextMenuStrip.Items["OpenStream"].Visible = isLogined;
+			else
+				m_ContextMenuStrip.Items["Seperator"].Visible = !isLogined;
+
 			m_ContextMenuStrip.Items["Import"].Visible = isLogined;
 		}
 		#endregion

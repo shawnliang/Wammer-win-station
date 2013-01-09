@@ -100,6 +100,7 @@
     <Compile Include="TestMongoDB.cs" />
     <Compile Include="TestSerializable.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />
+    <Compile Include="TestUpdateEntireCollection.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />
     <Compile Include="TestAttachmentViewApi.cs" />
