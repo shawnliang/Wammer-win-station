@@ -85,18 +85,23 @@ namespace Waveface.Stream.Model
 		public override SafeModeResult Update(IMongoQuery query, IMongoUpdate update, UpdateFlags flags)
 		{
 			var bs = query.ToBsonDocument();
+
+			if (bs == null || !bs.Contains("_id"))
+			{
+				return base.Update(query, update, flags);
+			}
+
 			var id = bs["_id"].ToString();
-			var obj = FindOneById(id);
 
 			var ret = base.Update(query, update, flags);
 
-			if (obj == null)
+			if (ret.UpdatedExisting)
 			{
-				OnSaved(new CollectionChangedEventArgs(id));
+				OnUpdated(new CollectionChangedEventArgs(id)); 
 			}
 			else
 			{
-				OnUpdated(new CollectionChangedEventArgs(id));
+				OnSaved(new CollectionChangedEventArgs(id));
 			}
 			return ret;
 		}
