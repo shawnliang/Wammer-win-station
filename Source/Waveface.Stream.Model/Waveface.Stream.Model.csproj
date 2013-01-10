@@ -108,6 +108,7 @@
     <Compile Include="Src\Class\GenericCommand.cs" />
     <Compile Include="Src\Class\DBModel\ImportTaskStaus.cs" />
     <Compile Include="Src\Class\FriendInfo.cs" />
+    <Compile Include="Src\Class\ImportResponse.cs" />
     <Compile Include="Src\Class\Post.cs" />
     <Compile Include="Src\Class\PostCheckIn.cs" />
     <Compile Include="Src\Class\PostGps.cs" />

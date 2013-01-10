@@ -39,7 +39,7 @@ namespace Wammer.Station
 		/// Gets or sets the m_ paths.
 		/// </summary>
 		/// <value>The m_ paths.</value>
-		private IEnumerable<String> m_Paths { get; set; }
+		public IEnumerable<String> Paths { get; set; }
 
 		/// <summary>
 		/// Gets or sets the m_ group ID.
@@ -89,7 +89,7 @@ namespace Wammer.Station
 			m_APIKey = apiKey;
 			m_SessionToken = sessionToken;
 			m_GroupID = groupID;
-			m_Paths = from m in ms.OfType<Match>()
+			Paths = from m in ms.OfType<Match>()
 					  let path = m.Groups[PATH_MATCH_GROUP].Value
 					  where path.Length > 0
 					  select path;
@@ -101,7 +101,7 @@ namespace Wammer.Station
 			m_APIKey = apiKey;
 			m_SessionToken = sessionToken;
 			m_GroupID = groupID;
-			m_Paths = paths.Where((file) => file.Length > 0);
+			Paths = paths.Where((file) => file.Length > 0);
 		}
 
 		private ImportTask()
@@ -119,7 +119,7 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
-			this.LogInfoMsg("Importing from: " + string.Join(", ", m_Paths.ToArray()));
+			this.LogInfoMsg("Importing from: " + string.Join(", ", Paths.ToArray()));
 	 		Exception error = null;
 	
 			try
@@ -127,7 +127,7 @@ namespace Wammer.Station
 				var importTime = DateTime.Now;
 
 				var photoCrawler = new PhotoCrawler();
-				var allFiles = photoCrawler.FindPhotos(m_Paths).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
+				var allFiles = photoCrawler.FindPhotos(Paths).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
 
 				raiseFilesEnumeratedEvent(allFiles.Count);
 

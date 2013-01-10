@@ -262,13 +262,7 @@ namespace Waveface.Stream.WindowsClient
 				_upRemainedCount.Enqueue(upRemainedCount);
 				_downRemainedCount.Enqueue(downloadRemainedCount);
 
-				SyncRange syncRange = null;
-
-				if (StreamClient.Instance.IsLogined)
-					syncRange = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID).sync_range;
-
-				if (syncRange == null)
-					syncRange = new SyncRange();
+				SyncRange syncRange = getSyncRange();
 
 				if (upRemainedCount > 0 || downloadRemainedCount > 0)
 				{
@@ -347,8 +341,6 @@ namespace Waveface.Stream.WindowsClient
 					if (!string.IsNullOrEmpty(syncRange.download_index_error))
 					{
 						iconText = Application.ProductName + Environment.NewLine + Resources.SYNC_ERROR + syncRange.download_index_error;
-						if (iconText.Length > 127)
-							iconText = iconText.Substring(0, 124) + "...";
 						m_NotifyIcon.Icon = iconWarning;
 					}
 					else if (syncRange.syncing)
@@ -364,6 +356,31 @@ namespace Waveface.Stream.WindowsClient
 			finally
 			{
 				m_Timer.Start();
+			}
+		}
+
+		private static SyncRange getSyncRange()
+		{
+			try
+			{
+				SyncRange syncRange = null;
+
+				if (StreamClient.Instance.IsLogined)
+				{
+					var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
+					if (user != null)
+						syncRange = user.sync_range;
+				}
+
+				if (syncRange == null)
+					syncRange = new SyncRange();
+
+
+				return syncRange;
+			}
+			catch
+			{
+				return new SyncRange();
 			}
 		}
 

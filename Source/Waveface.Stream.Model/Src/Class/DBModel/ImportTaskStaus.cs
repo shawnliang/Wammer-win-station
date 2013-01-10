@@ -11,7 +11,7 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class ImportTaskStaus
 	{
-		[BsonId(IdGenerator=typeof(GuidGenerator))]
+		[BsonId]
 		public Guid Id { get; set; }
 
 		public bool IsComplete { get; set; }
@@ -27,8 +27,25 @@ namespace Waveface.Stream.Model
 
 		public bool Hidden { get; set; }
 
+		[BsonIgnoreIfNull]
 		public List<string> Sources { get; set; }
+
+		[BsonIgnoreIfNull]
 		public string Error { get; set; }
+
+		public DateTime Time { get; set; }
+
+
+		public int GetSkippedCount()
+		{
+			return TotalFiles - SuccessCount - (FailedFiles == null ? 0 : FailedFiles.Count);
+		}
+
+		public ImportTaskStaus()
+		{
+			FailedFiles = new List<ObjectIdAndPath>();
+			Sources = new List<string>();
+		}
 	}
 
 	[BsonIgnoreExtraElements]
