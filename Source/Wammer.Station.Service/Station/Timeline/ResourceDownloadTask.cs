@@ -322,7 +322,7 @@ namespace Wammer.Station.Timeline
 
 		public override void ScheduleToRun()
 		{
-			BodySyncQueue.Instance.Enqueue(this, priority);
+			BodySyncQueue.Instance.EnqueueAlways(this, priority);
 		}
 	}
 }
