@@ -107,8 +107,8 @@ namespace Wammer.Station
 					throw new WammerStationException("driver does not exist: " + metaData.creator_id,
 													 (int)StationLocalApiError.InvalidDriver);
 
-				if (meta == ImageMeta.Origin && !driver.isPrimaryStation)
-					throw new WammerStationException("Access to original attachment from secondary station is not allowed.",
+				if (meta == ImageMeta.Origin && !driver.isPaidUser)
+					throw new WammerStationException("Access to original attachment from non-paid user is not allowed.",
 													 (int)StationLocalApiError.AccessDenied);
 
 
