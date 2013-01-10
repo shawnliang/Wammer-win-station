@@ -114,7 +114,8 @@ namespace Wammer.Station
 								ref_count = 1,
 								user = user,
 								stations = res.stations,
-								sync_range = new SyncRange()
+								sync_range = new SyncRange(),
+								isPaidUser = isPaidUser(res)
 							};
 
 			CreateUserFolder(driver);
@@ -188,6 +189,8 @@ namespace Wammer.Station
 
 			var res = StationApi.SignUpByEmailPassword(stationId, email, password, deviceID,
 													   deviceName, StatusChecker.GetDetail());
+
+
 			StationCollection.Instance.Update(
 				Query.EQ("_id", stationId),
 				Update.Set("SessionToken", res.session_token)
@@ -206,7 +209,9 @@ namespace Wammer.Station
 								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
 								ref_count = 1,
 								user = res.user,
-								stations = res.stations
+								stations = res.stations,
+								sync_range = new SyncRange(),
+								isPaidUser = isPaidUser(res)
 							};
 
 			CreateUserFolder(driver);
@@ -226,6 +231,15 @@ namespace Wammer.Station
 						Stations = driver.stations
 					};
 
+		}
+
+		private static bool isPaidUser(StationSignUpResponse res)
+		{
+			var isPaidUser = false;
+			var userInfo = User.GetInfo(res.user.user_id, CloudServer.APIKey, res.session_token);
+			isPaidUser = userInfo.billing.type.Equals("paid", StringComparison.InvariantCultureIgnoreCase);
+
+			return isPaidUser;
 		}
 
 		public void RemoveDriver(string stationID, string userID, Boolean removeAllData = false)
