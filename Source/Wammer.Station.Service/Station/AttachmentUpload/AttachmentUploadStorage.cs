@@ -37,26 +37,57 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			else
 			{
-				var folderPath = getFolderByDate(data, takenTime);
-				var relativePath = Path.Combine(folderPath, data.file_name);
-				relativePath = storage.TrySaveFile(relativePath, data.raw_data);
+				var relativeFile = GetAttachmentRelativeFile(data.file_name, takenTime, data.file_create_time);
+				relativeFile = storage.TrySaveFile(relativeFile, data.raw_data);
 
 				DriverCollection.Instance.Update(
 					Query.EQ("_id", user.user_id),
 					Update.Inc("cur_origin_size", data.raw_data.Count));
 
-				return new AttachmentSaveResult(storage.basePath, relativePath);
+				return new AttachmentSaveResult(storage.basePath, relativeFile);
 			}
 		}
 
-		private static string getFolderByDate(UploadData data, string takenTime)
+		public static string GetAttachmentRelativeFile(string fileName, string eventTime, DateTime? fileCreateTime = null, string userID = null, string attachmentID = null, ImageMeta meta = ImageMeta.None)
+		{
+			var folderPath = GetAttachmentRelativeFolder(eventTime, fileCreateTime, userID, meta);
+
+			var relativePathFile = default(string);
+
+			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
+			{
+				relativePathFile = Path.Combine(folderPath, attachmentID + "_" + meta.GetCustomAttribute<DescriptionAttribute>().Description + ".dat");
+			}
+			else
+			{
+				relativePathFile = Path.Combine(folderPath, fileName);
+			}
+
+			return relativePathFile;
+		}
+
+		public static string GetAttachmentRelativeFolder(string eventTime, DateTime? fileCreateTime = null, string userID = null, ImageMeta meta = ImageMeta.None)
+		{
+			var folderPath = default(string);
+			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
+			{
+				folderPath = String.Format(@"cache\{0}", userID);
+			}
+			else
+			{
+				folderPath = getFolderByDate(eventTime, fileCreateTime);
+			}
+			return folderPath;
+		}
+
+		private static string getFolderByDate(string eventTime, DateTime? fileCreateTime = null)
 		{
 			DateTime fileTime;
 
-			if (!string.IsNullOrEmpty(takenTime))
-				fileTime = TimeHelper.ParseGeneralDateTime(takenTime).ToLocalTime();
-			else if (data.file_create_time.HasValue)
-				fileTime = data.file_create_time.Value.ToLocalTime();
+			if (!string.IsNullOrEmpty(eventTime))
+				fileTime = TimeHelper.ParseGeneralDateTime(eventTime).ToLocalTime();
+			else if (fileCreateTime.HasValue)
+				fileTime = fileCreateTime.Value.ToLocalTime();
 			else
 				fileTime = DateTime.Now;
 
