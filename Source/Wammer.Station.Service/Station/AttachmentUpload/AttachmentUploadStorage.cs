@@ -60,7 +60,12 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			else
 			{
-				relativePathFile = Path.Combine(folderPath, fileName);
+				var driver = DriverCollection.Instance.FindOneById(userID);
+				if(driver != null)
+				{
+					var fs = new FileStorage(driver);
+					relativePathFile = Path.Combine(fs.basePath, Path.Combine(folderPath, fileName));
+				}
 			}
 
 			return relativePathFile;
