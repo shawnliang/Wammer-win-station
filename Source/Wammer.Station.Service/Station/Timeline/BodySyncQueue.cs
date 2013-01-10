@@ -84,10 +84,20 @@ namespace Wammer.Station.Timeline
 
 		public void Enqueue(IResourceDownloadTask task, TaskPriority priority)
 		{
+			enqueue(task, priority, false);
+		}
+
+		public void EnqueueAlways(ResourceDownloadTask task, TaskPriority priority)
+		{
+			enqueue(task, priority, true);
+		}
+
+		private void enqueue(IResourceDownloadTask task, TaskPriority priority, bool noCheckDuplicate)
+		{
 			string taskName = task.Name;
 			lock (keys)
 			{
-				if (keys.Add(taskName))
+				if (keys.Add(taskName) || noCheckDuplicate)
 				{
 					Queue<IResourceDownloadTask> queue = null;
 
@@ -112,7 +122,6 @@ namespace Wammer.Station.Timeline
 				}
 			}
 		}
-
 		#endregion
 
 		public void Init()
@@ -171,7 +180,6 @@ namespace Wammer.Station.Timeline
 					oldQueue.Enqueue(task);
 			}
 		}
-
 	}
 
 
