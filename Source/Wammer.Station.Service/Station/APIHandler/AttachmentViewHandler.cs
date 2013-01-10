@@ -113,27 +113,31 @@ namespace Wammer.Station
 					throw new WammerStationException("Access to original attachment from secondary station is not allowed.",
 													 (int)StationLocalApiError.AccessDenied);
 
-				var attachmentFile = AttachmentUploadStorage.GetAttachmentRelativeFile(metaData.file_name, 
+				var attachmentRelativeFile = AttachmentUploadStorage.GetAttachmentRelativeFile(metaData.file_name, 
 					metaData.event_time.ToUTCISO8601ShortString(),
 					TimeHelper.ParseCloudTimeString(metaData.file_create_time),
 					metaData.creator_id,
 					metaData.object_id,
 					meta);
 
-				if (string.IsNullOrEmpty(attachmentFile) || !File.Exists(attachmentFile))
+				var attachmentFile = GetArrachmentFile(meta, driver, attachmentRelativeFile);
+
+				if (string.IsNullOrEmpty(attachmentRelativeFile) || !File.Exists(attachmentFile))
 				{
 					var downloadResult = AttachmentApi.DownloadObject(metaData.redirect_to, metaData);
-					attachmentFile = ResourceDownloadTask.SaveAttachmentToDisk(meta, metaData, downloadResult.Image).RelativePath;
+					attachmentRelativeFile = ResourceDownloadTask.SaveAttachmentToDisk(meta, metaData, downloadResult.Image).RelativePath;
+					attachmentFile = GetArrachmentFile(meta, driver, attachmentRelativeFile);
 				}
-
-				if (meta == ImageMeta.None || meta == ImageMeta.Origin)
-					impl.DB.UpdateLastAccessTime(Parameters["object_id"]);
 
 				this.LogDebugMsg("Attachement is saved to " + attachmentFile);
 
 				var fs = File.OpenRead(attachmentFile);
 
-				ResourceDownloadTask.SaveToAttachmentDB(meta, attachmentFile, metaData, fs.Length);
+				ResourceDownloadTask.SaveToAttachmentDB(meta, attachmentRelativeFile, metaData, fs.Length);
+
+
+				if (meta == ImageMeta.None || meta == ImageMeta.Origin)
+					impl.DB.UpdateLastAccessTime(Parameters["object_id"]);
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
 
@@ -156,6 +160,12 @@ namespace Wammer.Station
 			{
 				OnFileDownloadFinished();
 			}
+		}
+
+		private static string GetArrachmentFile(ImageMeta meta, Driver driver, string attachmentRelativeFile)
+		{
+			var attachmentFile = (!string.IsNullOrEmpty(attachmentRelativeFile) && (meta == ImageMeta.None || meta == ImageMeta.Origin)) ? Path.Combine((new FileStorage(driver)).basePath, attachmentRelativeFile) : attachmentRelativeFile;
+			return attachmentFile;
 		}
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
