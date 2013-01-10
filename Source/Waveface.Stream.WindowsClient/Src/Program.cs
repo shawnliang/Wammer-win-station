@@ -342,7 +342,7 @@ namespace Waveface.Stream.WindowsClient
 				}
 				else
 				{
-					m_NotifyIcon.Icon = iconWorking;
+					m_NotifyIcon.Icon = (m_IsServiceRunning) ? iconWorking : iconPaused;
 
 					if (!string.IsNullOrEmpty(syncRange.download_index_error))
 					{
