@@ -35,7 +35,6 @@
 			this.importButton = new System.Windows.Forms.Button();
 			this.progressBar = new System.Windows.Forms.ProgressBar();
 			this.progressText = new System.Windows.Forms.Label();
-			this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
 			this.label2 = new System.Windows.Forms.Label();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -104,11 +103,6 @@
 			this.progressText.TabIndex = 4;
 			this.progressText.Text = "Processing...";
 			this.progressText.Visible = false;
-			// 
-			// backgroundWorker
-			// 
-			this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
-			this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
 			// 
 			// label2
 			// 
@@ -213,7 +207,6 @@
 		private System.Windows.Forms.Button importButton;
 		private System.Windows.Forms.ProgressBar progressBar;
 		private System.Windows.Forms.Label progressText;
-		private System.ComponentModel.BackgroundWorker backgroundWorker;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn nameColumn;

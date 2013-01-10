@@ -1,10 +1,12 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.IO;
 using System.Net;
 using Wammer.Cloud;
 using Wammer.Model;
+using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
 using Wammer.Utility;
 using Waveface.Stream.Core;
@@ -107,30 +109,42 @@ namespace Wammer.Station
 					throw new WammerStationException("driver does not exist: " + metaData.creator_id,
 													 (int)StationLocalApiError.InvalidDriver);
 
-				if (meta == ImageMeta.Origin && !driver.isPrimaryStation)
-					throw new WammerStationException("Access to original attachment from secondary station is not allowed.",
+				if (meta == ImageMeta.Origin && !driver.isPaidUser)
+					throw new WammerStationException("Access to original attachment from non-paid user is not allowed.",
 													 (int)StationLocalApiError.AccessDenied);
 
+				var attachmentRelativeFile = AttachmentUploadStorage.GetAttachmentRelativeFile(metaData.file_name, 
+					metaData.event_time.ToUTCISO8601ShortString(),
+					TimeHelper.ParseCloudTimeString(metaData.file_create_time),
+					metaData.creator_id,
+					metaData.object_id,
+					meta);
 
-				var downloadResult = AttachmentApi.DownloadObject(metaData.redirect_to, metaData);
+				var attachmentFile = GetArrachmentFile(meta, driver, attachmentRelativeFile);
 
-				var saveResult = ResourceDownloadTask.SaveAttachmentToDisk(meta, metaData, downloadResult.Image);
+				if (string.IsNullOrEmpty(attachmentRelativeFile) || !File.Exists(attachmentFile))
+				{
+					var downloadResult = AttachmentApi.DownloadObject(metaData.redirect_to, metaData);
+					attachmentRelativeFile = ResourceDownloadTask.SaveAttachmentToDisk(meta, metaData, downloadResult.Image).RelativePath;
+					attachmentFile = GetArrachmentFile(meta, driver, attachmentRelativeFile);
+				}
+
+				this.LogDebugMsg("Attachement is saved to " + attachmentFile);
+
+				var fs = File.OpenRead(attachmentFile);
+
+				ResourceDownloadTask.SaveToAttachmentDB(meta, attachmentRelativeFile, metaData, fs.Length);
+
 
 				if (meta == ImageMeta.None || meta == ImageMeta.Origin)
 					impl.DB.UpdateLastAccessTime(Parameters["object_id"]);
 
-				this.LogDebugMsg("Attachement is saved to " + saveResult.RelativePath);
-
-				SetAttachementToDB(meta, downloadResult, saveResult.RelativePath);
-
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
 
-				Response.ContentType = downloadResult.ContentType;
+				Response.ContentType = metaData.mime_type;
 
-				var m = new MemoryStream(downloadResult.Image);
-
-				StreamHelper.BeginCopy(m, Response.OutputStream, CopyComplete,
-									   new CopyState(m, Response, Parameters["object_id"]));
+				StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
+									   new CopyState(fs, Response, Parameters["object_id"]));
 			}
 			catch (WebException e)
 			{
@@ -148,14 +162,10 @@ namespace Wammer.Station
 			}
 		}
 
-		private void SetAttachementToDB(ImageMeta meta, DownloadResult downloadResult, string fileName)
+		private static string GetArrachmentFile(ImageMeta meta, Driver driver, string attachmentRelativeFile)
 		{
-
-			var attachmentAttributes = downloadResult.Metadata;
-			var mimeType = downloadResult.ContentType;
-			var length = downloadResult.Image.Length;
-
-			ResourceDownloadTask.SaveToAttachmentDB(meta, fileName, attachmentAttributes, length);
+			var attachmentFile = (!string.IsNullOrEmpty(attachmentRelativeFile) && (meta == ImageMeta.None || meta == ImageMeta.Origin)) ? Path.Combine((new FileStorage(driver)).basePath, attachmentRelativeFile) : attachmentRelativeFile;
+			return attachmentFile;
 		}
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)

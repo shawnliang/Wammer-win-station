@@ -15,7 +15,9 @@ namespace Waveface.Stream.WindowsClient
 		private volatile bool canceled;
 		private string user_id;
 		private string session_token;
-		private int import_count;
+		private string curTaskId;
+
+		private Timer timer;
 
 		public ImportFromPotableMediaControl()
 		{
@@ -23,6 +25,11 @@ namespace Waveface.Stream.WindowsClient
 			progressBar.Value = 0;
 			this.Service = new NullPortableMediaService();
 			this.PageTitle = "Import from media";
+
+			timer = new Timer();
+			timer.Interval = 1000;
+			timer.Tick += new EventHandler(timer_Tick);
+
 		}
 
 		public ImportFromPotableMediaControl(IPortableMediaService service)
@@ -37,8 +44,6 @@ namespace Waveface.Stream.WindowsClient
 			set 
 			{
 				this.service = value;
-				this.service.ImportDone += service_ImportDone;
-				this.service.FileImported += service_FileImported;
 			}
 		}
 
@@ -65,35 +70,6 @@ namespace Waveface.Stream.WindowsClient
 					return;
 				}
 			}
-		}
-
-		void service_FileImported(object sender, FileImportedEventArgs e)
-		{
-			import_count++;
-
-			progressBar.Invoke(new MethodInvoker(() =>
-			{
-				progressText.Text = string.Format("{0}/{1} {2} processed", import_count, progressBar.Maximum, e.FilePath);
-				progressBar.PerformStep();
-			}));
-		}
-
-		void service_ImportDone(object sender, ImportDoneEventArgs e)
-		{
-			string doneMsg;
-
-			if (e.Error != null)
-				doneMsg = string.Format("{0} files imported. An error occurred: {1}", import_count, e.Error);
-			else
-				doneMsg = string.Format("{0} files are imported successfully", import_count);
-
-			progressBar.Invoke(new MethodInvoker(() =>
-			{
-				progressText.Text = doneMsg;
-				progressBar.Value = progressBar.Maximum;
-				dataGridView1.Rows.Add(deviceCombobox.SelectedItem, import_count);
-				importButton.Enabled = true;
-			}));
 		}
 
 		private void ImportFromPotableMediaControl_Load(object sender, EventArgs e)
@@ -126,33 +102,44 @@ namespace Waveface.Stream.WindowsClient
 			progressBar.Value = 0;
 			progressText.Text = "Scanning photos...";
 			canceled = false;
-			import_count = 0;
 			importButton.Enabled = false;
 
-			backgroundWorker.RunWorkerAsync(device);
+			curTaskId = service.ImportAsync(device.DrivePath, user_id, session_token, StationAPI.API_KEY);
+			timer.Start();
 		}
 
-		private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		private void refreshTaskStatus(string taskId)
 		{
-			var device = e.Argument as PortableDevice;
-			var files = service.GetFileList(device.DrivePath);
-
-			progressBar.Invoke(new MethodInvoker(() =>
+			if (canceled)
 			{
-				progressBar.Maximum = files.Count();
-			}));
+				timer.Stop();
+				return;
+			}
 
+			var taskStatus = service.QueryTaskStatus(taskId);
 
-			service.ImportAsync(files, user_id, session_token, StationAPI.API_KEY);
-
-		}
-
-		private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			if (e.Error != null)
+			if (taskStatus.IsComplete)
 			{
-				MessageBox.Show(e.Error.Message);
+				if (string.IsNullOrEmpty(taskStatus.Error))
+				{
+					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.SuccessCount);
+				}
+				else
+				{
+					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Error);
+				}
+
+				progressBar.Maximum = taskStatus.TotalFiles;
+				progressBar.Value = taskStatus.TotalFiles;
+				progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.SuccessCount, taskStatus.FailedFiles.Count, taskStatus.GetSkippedCount());
+				timer.Stop();
 				importButton.Enabled = true;
+			}
+			else
+			{
+				progressBar.Maximum = taskStatus.TotalFiles;
+				progressBar.Value = taskStatus.SuccessCount;
+				progressText.Text = string.Format("{0} files processed", taskStatus.SuccessCount + taskStatus.FailedFiles.Count);
 			}
 		}
 
@@ -163,21 +150,19 @@ namespace Waveface.Stream.WindowsClient
 
 		public override void OnLeavingStep(WizardParameters parameters)
 		{
-			if (backgroundWorker.IsBusy)
-			{
-				canceled = true;
-
-				while (backgroundWorker.IsBusy)
-					Application.DoEvents();
-
-				progressBar.Visible = progressText.Visible = false;
-			}
+			canceled = true;
+			progressBar.Visible = progressText.Visible = false;
 		}
 
 		public override void OnEnteringStep(WizardParameters parameters)
 		{
 			session_token = (string)parameters.Get("session_token");
 			user_id = (string)parameters.Get("user_id");
+		}
+
+		void timer_Tick(object sender, EventArgs e)
+		{
+			refreshTaskStatus(curTaskId);
 		}
 
 		private void deviceCombobox_SelectedIndexChanged(object sender, EventArgs e)
@@ -210,22 +195,20 @@ namespace Waveface.Stream.WindowsClient
 	internal class NullPortableMediaService : IPortableMediaService
 	{
 
-		public event EventHandler<FileImportedEventArgs> FileImported;
 
-		public event EventHandler<ImportDoneEventArgs> ImportDone;
-
-		public System.Collections.Generic.IEnumerable<PortableDevice> GetPortableDevices()
+		public IEnumerable<PortableDevice> GetPortableDevices()
 		{
 			return new List<PortableDevice>();
 		}
 
-		public System.Collections.Generic.IEnumerable<string> GetFileList(string path)
+		public string ImportAsync(string drive_path, string user_id, string session_token, string apikey)
 		{
-			return new List<string>();
+			return "";
 		}
 
-		public void ImportAsync(System.Collections.Generic.IEnumerable<string> files, string user_id, string session_token, string apikey)
+		public ImportTaskStaus QueryTaskStatus(string taskId)
 		{
+			return new ImportTaskStaus();
 		}
 
 		public bool GetAlwaysAutoImport(string driveName)

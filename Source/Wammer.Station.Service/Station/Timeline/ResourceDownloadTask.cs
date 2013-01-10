@@ -100,8 +100,8 @@ namespace Wammer.Station.Timeline
 
 			if (meta == ImageMeta.Origin)
 			{
-				string takenTime = extractTakenTimeFromImageExif(image);
-				return storage.Save(param, takenTime);
+				//string takenTime = extractTakenTimeFromImageExif(image);
+				return storage.Save(param, metaData.event_time.ToUTCISO8601ShortString());
 			}
 			else
 			{
@@ -322,7 +322,7 @@ namespace Wammer.Station.Timeline
 
 		public override void ScheduleToRun()
 		{
-			BodySyncQueue.Instance.Enqueue(this, priority);
+			BodySyncQueue.Instance.EnqueueAlways(this, priority);
 		}
 	}
 }

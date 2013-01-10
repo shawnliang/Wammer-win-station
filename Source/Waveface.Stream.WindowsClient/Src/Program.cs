@@ -262,13 +262,7 @@ namespace Waveface.Stream.WindowsClient
 				_upRemainedCount.Enqueue(upRemainedCount);
 				_downRemainedCount.Enqueue(downloadRemainedCount);
 
-				SyncRange syncRange = null;
-
-				if (StreamClient.Instance.IsLogined)
-					syncRange = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID).sync_range;
-
-				if (syncRange == null)
-					syncRange = new SyncRange();
+				SyncRange syncRange = getSyncRange();
 
 				if (upRemainedCount > 0 || downloadRemainedCount > 0)
 				{
@@ -342,13 +336,11 @@ namespace Waveface.Stream.WindowsClient
 				}
 				else
 				{
-					m_NotifyIcon.Icon = iconWorking;
+					m_NotifyIcon.Icon = (m_IsServiceRunning) ? iconWorking : iconPaused;
 
 					if (!string.IsNullOrEmpty(syncRange.download_index_error))
 					{
 						iconText = Application.ProductName + Environment.NewLine + Resources.SYNC_ERROR + syncRange.download_index_error;
-						if (iconText.Length > 127)
-							iconText = iconText.Substring(0, 124) + "...";
 						m_NotifyIcon.Icon = iconWarning;
 					}
 					else if (syncRange.syncing)
@@ -364,6 +356,31 @@ namespace Waveface.Stream.WindowsClient
 			finally
 			{
 				m_Timer.Start();
+			}
+		}
+
+		private static SyncRange getSyncRange()
+		{
+			try
+			{
+				SyncRange syncRange = null;
+
+				if (StreamClient.Instance.IsLogined)
+				{
+					var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
+					if (user != null)
+						syncRange = user.sync_range;
+				}
+
+				if (syncRange == null)
+					syncRange = new SyncRange();
+
+
+				return syncRange;
+			}
+			catch
+			{
+				return new SyncRange();
 			}
 		}
 
@@ -483,7 +500,7 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items.Add("ResumeService", Resources.SERVICE_RESUME_MENU_ITEM, m_ContextMenuStrip_Resume_Click);
 			m_ContextMenuStrip.Items.Add("PauseService", Resources.SERVICE_PAUSE_MENU_ITEM, m_ContextMenuStrip_Pause_Click);
 			m_ContextMenuStrip.Items.Add("Seperator", "-", null);
-			//m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
+			m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
 			m_ContextMenuStrip.Items.Add("Login", Resources.LOGIN_MENU_ITEM, m_ContextMenuStrip_Login_Click);
 			m_ContextMenuStrip.Items.Add("-");
 			m_ContextMenuStrip.Items.Add("Import", Resources.IMPORT_MENU_ITEM, m_ContextMenuStrip_Import_Click);
@@ -522,10 +539,8 @@ namespace Waveface.Stream.WindowsClient
 			var isLogined = (StreamClient.Instance.LoginedUser != null && !string.IsNullOrEmpty(StreamClient.Instance.LoginedUser.SessionToken));
 			m_ContextMenuStrip.Items["Login"].Visible = !isLogined;
 
-			if (MainForm.Instance.IsDebugMode)
-				m_ContextMenuStrip.Items["OpenStream"].Visible = isLogined;
-			else
-				m_ContextMenuStrip.Items["Seperator"].Visible = !isLogined;
+			m_ContextMenuStrip.Items["OpenStream"].Visible = MainForm.Instance.IsDebugMode && isLogined;
+			m_ContextMenuStrip.Items["Seperator"].Visible = !MainForm.Instance.IsDebugMode && !isLogined;
 
 			m_ContextMenuStrip.Items["Import"].Visible = isLogined;
 		}

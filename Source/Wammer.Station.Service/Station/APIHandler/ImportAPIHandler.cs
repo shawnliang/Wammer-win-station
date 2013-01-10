@@ -1,8 +1,9 @@
-﻿
-using Wammer.Cloud;
+﻿using Wammer.Cloud;
 using Waveface.Stream.Model;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
+using System.Linq;
+using System;
 
 namespace Wammer.Station
 {
@@ -33,12 +34,12 @@ namespace Wammer.Station
 			task.FileImportFailed += new System.EventHandler<FileImportEventArgs>(task_FileImportFailed);
 			task.ImportDone += new System.EventHandler<ImportDoneEventArgs>(task_ImportDone);
 
-			var taskStatus = new ImportTaskStaus { Id = task.TaskId, UserId = user.user_id };
+			var taskStatus = new ImportTaskStaus { Id = task.TaskId, UserId = user.user_id, Sources = task.Paths.ToList(), Time = DateTime.Now };
 			TaskStatusCollection.Instance.Save(taskStatus);
 
 			TaskQueue.Enqueue(task, TaskPriority.VeryLow);
 
-			RespondSuccess();
+			RespondSuccess(new ImportResponse { task_id = task.TaskId.ToString() });
 		}
 
 		void task_FileImportFailed(object sender, FileImportEventArgs e)
@@ -48,11 +49,16 @@ namespace Wammer.Station
 
 		void task_ImportDone(object sender, ImportDoneEventArgs e)
 		{
-			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), 
-				Update
-					.Set("IsComplete", true)
-					.Set("SkippedFiles", new BsonArray(e.SkippedFiles) )
-					.Set("Error", e.Error.Message) );
+			var update = Update.Set("IsComplete", true);
+
+			if (e.SkippedFiles != null)
+				update.Set("SkippedFiles", new BsonArray(e.SkippedFiles));
+
+			if (e.Error != null)
+				update.Set("Error", e.Error.Message);
+
+
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), update);
 		}
 
 		void task_FileImported(object sender, FileImportEventArgs e)
