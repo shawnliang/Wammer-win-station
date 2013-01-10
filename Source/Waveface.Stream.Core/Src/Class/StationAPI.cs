@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using Waveface.Stream.Model;
+using Newtonsoft.Json;
 
 namespace Waveface.Stream.Core
 {
@@ -95,7 +96,7 @@ namespace Waveface.Stream.Core
 					});
 		}
 
-		public static string ImportPhoto(string sessionToken, string groupID, IEnumerable<string> paths)
+		public static ImportResponse ImportPhoto(string sessionToken, string groupID, IEnumerable<string> paths)
 		{
 			DebugInfo.ShowMethod();
 
@@ -109,7 +110,8 @@ namespace Waveface.Stream.Core
 					{"paths", string.Format("[{0}]", string.Join(",", paths.ToArray()))}
 				};
 
-			return Post(url, parameters);
+			var response = Post(url, parameters);
+			return JsonConvert.DeserializeObject<ImportResponse>(response);
 		}
 
 		public static string ImportDoc(string sessionToken, IEnumerable<string> paths)
