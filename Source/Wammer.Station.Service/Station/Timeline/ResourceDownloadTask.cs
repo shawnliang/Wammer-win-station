@@ -100,8 +100,8 @@ namespace Wammer.Station.Timeline
 
 			if (meta == ImageMeta.Origin)
 			{
-				string takenTime = extractTakenTimeFromImageExif(image);
-				return storage.Save(param, takenTime);
+				//string takenTime = extractTakenTimeFromImageExif(image);
+				return storage.Save(param, metaData.event_time.ToUTCISO8601ShortString());
 			}
 			else
 			{
