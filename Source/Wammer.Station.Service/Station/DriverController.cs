@@ -38,6 +38,9 @@ namespace Wammer.Station
 		}
 		#endregion
 
+		#region Public Property
+		public IBillingPlanChecker PlanChecker { get; set; }
+		#endregion
 
 		#region Protected Method
 		/// <summary>
@@ -64,7 +67,6 @@ namespace Wammer.Station
 				handler(this, args);
 		}
 		#endregion
-
 
 		#region Public Method
 		/// <summary>
@@ -115,7 +117,7 @@ namespace Wammer.Station
 								user = user,
 								stations = res.stations,
 								sync_range = new SyncRange(),
-								isPaidUser = isPaidUser(res)
+								isPaidUser = PlanChecker.IsPaidUser(user.user_id, res.session_token)
 							};
 
 			CreateUserFolder(driver);
@@ -211,7 +213,7 @@ namespace Wammer.Station
 								user = res.user,
 								stations = res.stations,
 								sync_range = new SyncRange(),
-								isPaidUser = isPaidUser(res)
+								isPaidUser = PlanChecker.IsPaidUser(res.user.user_id, res.session_token)
 							};
 
 			CreateUserFolder(driver);
@@ -231,15 +233,6 @@ namespace Wammer.Station
 						Stations = driver.stations
 					};
 
-		}
-
-		private static bool isPaidUser(StationSignUpResponse res)
-		{
-			var isPaidUser = false;
-			var userInfo = User.GetInfo(res.user.user_id, CloudServer.APIKey, res.session_token);
-			isPaidUser = userInfo.billing.type.Equals("paid", StringComparison.InvariantCultureIgnoreCase);
-
-			return isPaidUser;
 		}
 
 		public void RemoveDriver(string stationID, string userID, Boolean removeAllData = false)
@@ -337,5 +330,25 @@ namespace Wammer.Station
 		}
 
 		#endregion
+
+		public DriverController()
+		{
+			PlanChecker = new BillingPlanChecker();
+		}
+	}
+
+
+	public interface IBillingPlanChecker
+	{
+		bool IsPaidUser(string user_id, string session_token);
+	}
+
+	class BillingPlanChecker : IBillingPlanChecker
+	{
+		public bool IsPaidUser(string user_id, string session_token)
+		{
+			var userInfo = User.GetInfo(user_id, CloudServer.APIKey, session_token);
+			return userInfo.billing.type.Equals("paid", StringComparison.InvariantCultureIgnoreCase);
+		}
 	}
 }
