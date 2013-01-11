@@ -44,6 +44,9 @@ namespace Waveface.Stream.Model
 
 		public static DateTime ParseCloudTimeString(string cloudTimeString)
 		{
+			if (string.IsNullOrEmpty(cloudTimeString))
+				return DateTime.MinValue;
+
 			DateTime dt = DateTime.ParseExact(cloudTimeString, CLOUD_TIME_FORMAT, CultureInfo.InvariantCulture,
 											  DateTimeStyles.AssumeUniversal);
 

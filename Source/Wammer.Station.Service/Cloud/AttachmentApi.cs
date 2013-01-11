@@ -50,7 +50,7 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_STATION_ID, stationId}
 			                 	};
 
-			if (evtargs.imagemeta != ImageMeta.Origin)
+			if (evtargs.attachment.type.Equals("image") && !evtargs.IsOriginalAttachment())
 			{
 				parameters.Add(CloudServer.PARAM_IMAGE_META, evtargs.imagemeta.ToString().ToLower());
 			}
