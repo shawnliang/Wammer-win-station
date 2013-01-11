@@ -137,7 +137,7 @@ namespace Wammer.Station.Service
 
 				JSON.Instance.UseUTCDateTime = true;
 
-				clearImportTasksStatus();
+				initializeDatabase();
 
 
 				Station.Instance.UserLogined += loginHandler_UserLogined;
@@ -256,10 +256,12 @@ namespace Wammer.Station.Service
 			}
 		}
 
-		private void clearImportTasksStatus()
+		private void initializeDatabase()
 		{
 			TaskStatusCollection.Instance.HideAll();
 			TaskStatusCollection.Instance.AbortAllIncompleteTasks();
+
+			Waveface.Stream.Model.ConnectionCollection.Instance.RemoveAll();
 		}
 
 		private static void InitCloudForwarder(BypassHttpHandler cloudForwarder)
