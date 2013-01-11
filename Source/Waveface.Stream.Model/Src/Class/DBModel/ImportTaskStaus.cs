@@ -41,6 +41,11 @@ namespace Waveface.Stream.Model
 			return TotalFiles - SuccessCount - (FailedFiles == null ? 0 : FailedFiles.Count);
 		}
 
+		public bool IsPending()
+		{
+			return TotalFiles == 0 && !IsComplete;
+		}
+
 		public ImportTaskStaus()
 		{
 			FailedFiles = new List<ObjectIdAndPath>();

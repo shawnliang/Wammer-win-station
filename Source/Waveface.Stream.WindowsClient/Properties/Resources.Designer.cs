@@ -295,6 +295,51 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import completed..
+        /// </summary>
+        internal static string IMPORT_DESC_DONE {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_DONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} folders.
+        /// </summary>
+        internal static string IMPORT_DESC_FOLDERS {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_FOLDERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing {0}, {1} task(s) queued..
+        /// </summary>
+        internal static string IMPORT_DESC_IN_PROGRESS_HAS_PENDING {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_IN_PROGRESS_HAS_PENDING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing {0}.
+        /// </summary>
+        internal static string IMPORT_DESC_IN_PROGRESS_NO_PENDING {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_IN_PROGRESS_NO_PENDING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing to import next folder(s), {0} task(s) euqued..
+        /// </summary>
+        internal static string IMPORT_DESC_WAITING {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_WAITING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         internal static string IMPORT_MENU_ITEM {
