@@ -14,6 +14,8 @@ namespace Waveface.Stream.Model
 		[BsonId]
 		public Guid Id { get; set; }
 
+		public bool IsStarted { get; set; }
+
 		public bool IsComplete { get; set; }
 
 		[BsonIgnoreIfNull]

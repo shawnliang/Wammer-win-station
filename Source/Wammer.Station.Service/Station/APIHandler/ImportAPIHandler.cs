@@ -29,6 +29,7 @@ namespace Wammer.Station
 				throw new WammerStationException("user not exist", (int)StationApiError.UserNotExist);
 
 			var task = new ImportTask(apiKey, sessionToken, groupID, paths);
+			task.TaskStarted += new EventHandler<TaskStartedEventArgs>(task_TaskStarted);
 			task.FilesEnumerated += new System.EventHandler<FilesEnumeratedArgs>(task_FilesEnumerated);
 			task.FileImported += new System.EventHandler<FileImportEventArgs>(task_FileImported);
 			task.FileImportFailed += new System.EventHandler<FileImportEventArgs>(task_FileImportFailed);
@@ -40,6 +41,11 @@ namespace Wammer.Station
 			TaskQueue.Enqueue(task, TaskPriority.VeryLow);
 
 			RespondSuccess(new ImportResponse { task_id = task.TaskId.ToString() });
+		}
+
+		void task_TaskStarted(object sender, TaskStartedEventArgs e)
+		{
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Set("IsStarted", true));
 		}
 
 		void task_FileImportFailed(object sender, FileImportEventArgs e)

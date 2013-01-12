@@ -27,7 +27,7 @@ namespace Wammer.Station
 		#endregion
 
 		#region Events
-		public event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
+		public event EventHandler<TaskStartedEventArgs> TaskStarted;
 		public event EventHandler<FilesEnumeratedArgs> FilesEnumerated;
 		public event EventHandler<FileImportEventArgs> FileImportFailed;
 		public event EventHandler<FileImportEventArgs> FileImported;
@@ -124,6 +124,8 @@ namespace Wammer.Station
 	
 			try
 			{
+				raiseTaskStartedEvent();
+
 				var importTime = DateTime.Now;
 
 				var photoCrawler = new PhotoCrawler();
@@ -324,7 +326,6 @@ namespace Wammer.Station
 				var batchMetadata = JsonConvert.SerializeObject(batch, Formatting.None, serializeSetting);
 
 				var task = new UploadMetadataTask(m_GroupID, batchMetadata, batch.Count());
-				task.Uploaded += new EventHandler<MetadataUploadEventArgs>(metadataUploaded);
 				AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 			}
 			catch (Exception e)
@@ -332,14 +333,6 @@ namespace Wammer.Station
 				this.LogWarnMsg("metadata upload failed", e);
 			}
 		}
-
-		void metadataUploaded(object sender, MetadataUploadEventArgs e)
-		{
-			var handler = MetadataUploaded;
-			if (handler != null)
-				handler(sender, e);
-		}
-
 
 		private void raiseFileImportedEvent(ObjectIdAndPath file)
 		{
@@ -375,9 +368,20 @@ namespace Wammer.Station
 			if (handler != null)
 				handler(this, new FileImportEventArgs { file = file, TaskId = TaskId });
 		}
+
+		private void raiseTaskStartedEvent()
+		{
+			var handler = TaskStarted;
+			if (handler != null)
+				handler(this, new TaskStartedEventArgs { TaskId = TaskId });
+		}
 		#endregion
 	}
 
+	public class TaskStartedEventArgs : EventArgs
+	{
+		public Guid TaskId { get; set; }
+	}
 
 	public class FileImportEventArgs : EventArgs
 	{
