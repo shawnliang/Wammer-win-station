@@ -13,6 +13,14 @@ using Waveface.Stream.Model;
 
 namespace UT_WammerStation
 {
+	class NullPlanChecker : IBillingPlanChecker
+	{
+		public bool IsPaidUser(string user_id, string session_token)
+		{
+			return false;
+		}
+	}
+
 	[TestClass]
 	public class TestAddDriver
 	{
@@ -31,6 +39,7 @@ namespace UT_WammerStation
 		{
 			server = new HttpServer(8080);
 			handler = new AddDriverHandler();
+			handler.m_DriverAgent.PlanChecker = new NullPlanChecker();
 			server.AddHandler("/station/drivers/add/", handler);
 			server.Start();
 			server.TaskEnqueue += new EventHandler<TaskQueueEventArgs>(HttpRequestMonitor.Instance.OnTaskEnqueue);

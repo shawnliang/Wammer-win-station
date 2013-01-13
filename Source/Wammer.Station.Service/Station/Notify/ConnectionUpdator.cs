@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Notify
 {
@@ -10,7 +11,7 @@ namespace Wammer.Station.Notify
 			try
 			{
 				var connectionInfo = Cloud.User.GetLoginInfo(arg.UserId, arg.ApiKey, arg.SessionToken);
-				Model.ConnectionCollection.Instance.Save(connectionInfo);
+				ConnectionCollection.Instance.Save(connectionInfo);
 			}
 			catch (Exception e)
 			{
@@ -22,7 +23,7 @@ namespace Wammer.Station.Notify
 		{
 			try
 			{
-				Model.ConnectionCollection.Instance.Remove(Query.EQ("_id", arg.SessionToken));
+				ConnectionCollection.Instance.Remove(Query.EQ("_id", arg.SessionToken));
 			}
 			catch (Exception e)
 			{
@@ -32,7 +33,7 @@ namespace Wammer.Station.Notify
 
 		public void ClearAll()
 		{
-			Model.ConnectionCollection.Instance.RemoveAll();
+			ConnectionCollection.Instance.RemoveAll();
 		}
 	}
 }
