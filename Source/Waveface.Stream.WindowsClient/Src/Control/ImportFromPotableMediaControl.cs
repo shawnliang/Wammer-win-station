@@ -118,29 +118,31 @@ namespace Waveface.Stream.WindowsClient
 
 			var taskStatus = service.QueryTaskStatus(taskId);
 
-			if (taskStatus.IsComplete)
-			{
-				if (string.IsNullOrEmpty(taskStatus.Error))
-				{
-					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.SuccessCount);
-				}
-				else
-				{
-					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Error);
-				}
+			throw new NotImplementedException();
 
-				progressBar.Maximum = taskStatus.TotalFiles;
-				progressBar.Value = taskStatus.TotalFiles;
-				progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.SuccessCount, taskStatus.FailedFiles.Count, taskStatus.GetSkippedCount());
-				timer.Stop();
-				importButton.Enabled = true;
-			}
-			else
-			{
-				progressBar.Maximum = taskStatus.TotalFiles;
-				progressBar.Value = taskStatus.SuccessCount;
-				progressText.Text = string.Format("{0} files processed", taskStatus.SuccessCount + taskStatus.FailedFiles.Count);
-			}
+			//if (taskStatus.IsComplete)
+			//{
+			//    if (string.IsNullOrEmpty(taskStatus.Error))
+			//    {
+			//        dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.ImportedCount);
+			//    }
+			//    else
+			//    {
+			//        dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Error);
+			//    }
+
+			//    progressBar.Maximum = taskStatus.TotalFiles;
+			//    progressBar.Value = taskStatus.TotalFiles;
+			//    progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.ImportedCount, taskStatus.CopyFailed.Count, taskStatus.GetSkippedCount());
+			//    timer.Stop();
+			//    importButton.Enabled = true;
+			//}
+			//else
+			//{
+			//    progressBar.Maximum = taskStatus.TotalFiles;
+			//    progressBar.Value = taskStatus.ImportedCount;
+			//    progressText.Text = string.Format("{0} files processed", taskStatus.ImportedCount + taskStatus.CopyFailed.Count);
+			//}
 		}
 
 		private void deviceCombobox_DropDown(object sender, EventArgs e)

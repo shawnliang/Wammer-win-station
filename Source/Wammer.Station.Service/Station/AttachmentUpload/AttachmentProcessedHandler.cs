@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
 using Wammer.Model;
 using Waveface.Stream.Model;
+using System;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -8,9 +9,6 @@ namespace Wammer.Station.AttachmentUpload
 	{
 		Attachment FindAttachmentInDB(string object_id);
 		Driver FindUserByGroupIdInDB(string group_id);
-
-		ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user,
-										string origin_filename);
 
 		void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority);
 		void GenerateThumbnailAsyncAndUpstream(string object_id, ImageMeta thumbnailType, TaskPriority priority);

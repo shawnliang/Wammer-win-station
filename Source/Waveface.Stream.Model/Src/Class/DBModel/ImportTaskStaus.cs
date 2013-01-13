@@ -14,21 +14,12 @@ namespace Waveface.Stream.Model
 		[BsonId]
 		public Guid Id { get; set; }
 
-		public bool IsStarted { get; set; }
-
-		public bool IsComplete { get; set; }
-
 		[BsonIgnoreIfNull]
 		public string UserId { get; set; }
 
 		[BsonIgnoreIfNull]
-		public List<ObjectIdAndPath> FailedFiles { get; set; }
-
-		public int SuccessCount { get; set; }
-		public int TotalFiles { get; set; }
-
-		public bool Hidden { get; set; }
-
+		public List<ObjectIdAndPath> CopyFailed { get; set; }
+		
 		[BsonIgnoreIfNull]
 		public List<string> Sources { get; set; }
 
@@ -37,15 +28,30 @@ namespace Waveface.Stream.Model
 
 		public DateTime Time { get; set; }
 
+		public bool Hidden { get; set; }
+
+		public bool IsStarted { get; set; }
+		public bool IsCopyComplete { get; set; }
+		
+		public int Total { get; set; }
+		public int Skipped { get; set; }
+		public int Indexed { get; set; }
+		public int Copied { get; set; }
+		public int Thumbnailed { get; set; }
+		public int UploadedCount { get; set; }
+		public int UploadedSize { get; set; }
+
+		public int UploadCount { get; set; }
+		public int UploadSize { get; set; }
 
 		public int GetSkippedCount()
 		{
-			return TotalFiles - SuccessCount - (FailedFiles == null ? 0 : FailedFiles.Count);
+			return Total - Indexed - (CopyFailed == null ? 0 : CopyFailed.Count);
 		}
 
 		public ImportTaskStaus()
 		{
-			FailedFiles = new List<ObjectIdAndPath>();
+			CopyFailed = new List<ObjectIdAndPath>();
 			Sources = new List<string>();
 		}
 	}
@@ -60,19 +66,20 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public string Error { get; set; }
 
-		private DateTime? createTime;
 
+		private DateTime? _createTime;
+
+		[BsonIgnore]
 		public DateTime CreateTime
 		{
 			get
 			{
-				if (createTime.HasValue)
-					return createTime.Value;
+				if (_createTime.HasValue)
+					return _createTime.Value;
 				else
 				{
-					var t = File.GetCreationTime(file_path);
-					createTime = new DateTime(t.Year, t.Month, t.Day, t.Hour, t.Minute, t.Second, t.Kind);
-					return createTime.Value;
+					_createTime = File.GetCreationTime(file_path).TrimToSec();
+					return _createTime.Value;
 				}
 			}
 		}

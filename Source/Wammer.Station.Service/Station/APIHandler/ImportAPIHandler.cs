@@ -31,6 +31,8 @@ namespace Wammer.Station
 			var task = new ImportTask(apiKey, sessionToken, groupID, paths);
 			task.TaskStarted += new EventHandler<TaskStartedEventArgs>(task_TaskStarted);
 			task.FilesEnumerated += new System.EventHandler<FilesEnumeratedArgs>(task_FilesEnumerated);
+			task.FileIndexed += new EventHandler<FileImportEventArgs>(task_FileIndexed);
+			task.FileSkipped += new EventHandler<FileImportEventArgs>(task_FileSkipped);
 			task.FileImported += new System.EventHandler<FileImportEventArgs>(task_FileImported);
 			task.FileImportFailed += new System.EventHandler<FileImportEventArgs>(task_FileImportFailed);
 			task.ImportDone += new System.EventHandler<ImportDoneEventArgs>(task_ImportDone);
@@ -48,34 +50,44 @@ namespace Wammer.Station
 			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Set("IsStarted", true));
 		}
 
-		void task_FileImportFailed(object sender, FileImportEventArgs e)
+		void task_FilesEnumerated(object sender, FilesEnumeratedArgs e)
 		{
-			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Push("FailedFiles", e.file.ToBsonDocument()));
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Set("Total", e.TotalCount));
 		}
 
-		void task_ImportDone(object sender, ImportDoneEventArgs e)
+		void task_FileIndexed(object sender, FileImportEventArgs e)
 		{
-			var update = Update.Set("IsComplete", true);
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Inc("Indexed", 1));
+		}
 
-			if (e.SkippedFiles != null)
-				update.Set("SkippedFiles", new BsonArray(e.SkippedFiles));
-
-			if (e.Error != null)
-				update.Set("Error", e.Error.Message);
-
-
-			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), update);
+		void task_FileSkipped(object sender, FileImportEventArgs e)
+		{
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Inc("Skipped", 1));
 		}
 
 		void task_FileImported(object sender, FileImportEventArgs e)
 		{
-			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Inc("SuccessCount", 1));
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Inc("Copied", 1));
 		}
 
-		void task_FilesEnumerated(object sender, FilesEnumeratedArgs e)
+		void task_FileImportFailed(object sender, FileImportEventArgs e)
 		{
-			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Set("TotalFiles", e.TotalCount));
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), Update.Push("CopyFailed", e.file.ToBsonDocument()));
 		}
+
+		void task_ImportDone(object sender, ImportDoneEventArgs e)
+		{
+			var update = Update.Set("IsCopyComplete", true);
+
+			if (e.Error != null)
+				update = update.Set("Error", e.Error.Message);
+
+			TaskStatusCollection.Instance.Update(Query.EQ("_id", e.TaskId), update);
+		}
+
+		
+
+		
 
 		/// <summary>
 		/// Clones this instance.
