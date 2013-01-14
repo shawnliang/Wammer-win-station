@@ -120,6 +120,9 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
+			if (string.IsNullOrEmpty(m_APIKey) || string.IsNullOrEmpty(m_SessionToken) || string.IsNullOrEmpty(m_GroupID) || Paths.Count() == 0)
+				return;
+
 			this.LogInfoMsg("Importing from: " + string.Join(", ", Paths.ToArray()));
 	 		Exception error = null;
 	
