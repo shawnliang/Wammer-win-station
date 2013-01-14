@@ -179,6 +179,7 @@
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
     <Compile Include="Src\Class\FastJSONHelper.cs" />
     <Compile Include="Src\Class\GoogleConnectableService.cs" />
+    <Compile Include="Src\Class\ImportStatus.cs" />
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
     <Compile Include="Src\Class\Options.cs" />

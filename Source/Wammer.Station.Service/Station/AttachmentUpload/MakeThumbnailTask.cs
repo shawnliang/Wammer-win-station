@@ -13,6 +13,7 @@ namespace Wammer.Station.AttachmentUpload
 		public string object_id { get; set; }
 		public ImageMeta thumbnail_type { get; set; }
 		public int retry_count { get; set; }
+		public Guid? importTaskId { get; set; }
 
 		private static IPerfCounter smallThumbnailCounter = PerfCounter.GetCounter(PerfCounter.SMALL_THUMBNAIL_GENERATE_COUNT);
 		private static IPerfCounter mediumThumbnailCounter = PerfCounter.GetCounter(PerfCounter.MEDIUM_THUMBNAIL_GENERATE_COUNT);
@@ -23,7 +24,7 @@ namespace Wammer.Station.AttachmentUpload
 		{
 		}
 
-		public MakeThumbnailTask(string object_id, ImageMeta thumbnail_type, TaskPriority pri)
+		public MakeThumbnailTask(string object_id, ImageMeta thumbnail_type, TaskPriority pri, Guid? importTaskId = null)
 			: base(pri)
 		{
 			if (thumbnail_type == ImageMeta.Origin || thumbnail_type == ImageMeta.None)
@@ -31,6 +32,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			this.object_id = object_id;
 			this.thumbnail_type = thumbnail_type;
+			this.importTaskId = importTaskId;
 		}
 
 		protected override void Run()
@@ -82,6 +84,16 @@ namespace Wammer.Station.AttachmentUpload
 				mediumThumbnailCounter.Increment();
 			else if (ImageMeta.Small == thumbnail_type)
 				smallThumbnailCounter.Increment();
+
+			updateImportTaskIfNeeded();
+		}
+
+		private void updateImportTaskIfNeeded()
+		{
+			if (importTaskId.HasValue && thumbnail_type == ImageMeta.Medium)
+				TaskStatusCollection.Instance.Update(
+					Query.EQ("_id", importTaskId.Value),
+					Update.Inc("Thumbnailed", 1));
 		}
 
 		public override void ScheduleToRun()

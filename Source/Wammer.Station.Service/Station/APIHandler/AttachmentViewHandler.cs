@@ -113,9 +113,9 @@ namespace Wammer.Station
 					throw new WammerStationException("Access to original attachment from non-paid user is not allowed.",
 													 (int)StationLocalApiError.AccessDenied);
 
-				var attachmentRelativeFile = AttachmentUploadStorage.GetAttachmentRelativeFile(metaData.file_name, 
+				var attachmentRelativeFile = AttachmentUploadStorage.GetAttachmentRelativeFile(metaData.file_name,
 					metaData.event_time.ToUTCISO8601ShortString(),
-					TimeHelper.ParseCloudTimeString(metaData.file_create_time),
+					string.IsNullOrEmpty(metaData.file_create_time) ? default(DateTime?) : TimeHelper.ParseCloudTimeString(metaData.file_create_time),
 					metaData.creator_id,
 					metaData.object_id,
 					meta);
@@ -141,7 +141,7 @@ namespace Wammer.Station
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
 
-				Response.ContentType = metaData.mime_type;
+				Response.ContentType = (metaData.type.Equals("image") && meta != ImageMeta.Origin) ? metaData.GetThumbnail(meta).mime_type : metaData.mime_type;
 
 				StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
 									   new CopyState(fs, Response, Parameters["object_id"]));
