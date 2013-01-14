@@ -13,6 +13,7 @@ using Wammer.Station.Retry;
 using Wammer.Utility;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
+using Wammer.Station.AttachmentUpload;
 
 namespace Wammer.Station.Timeline
 {
@@ -50,7 +51,7 @@ namespace Wammer.Station.Timeline
 		{
 			bool alreadyExist;
 
-			if (evtargs.imagemeta == ImageMeta.Origin || evtargs.imagemeta == ImageMeta.None)
+			if (evtargs.IsOriginalAttachment() || evtargs.IsWebThumb())
 				// origin image and non-image attachment here
 				alreadyExist = AttachmentCollection.Instance.FindOne(
 					Query.And(
@@ -66,7 +67,7 @@ namespace Wammer.Station.Timeline
 			return alreadyExist;
 		}
 
-		private static void DownloadComplete(ResourceDownloadEventArgs args, Driver driver)
+		private static AttachmentSaveResult DownloadComplete(ResourceDownloadEventArgs args, Driver driver)
 		{
 			try
 			{
@@ -79,10 +80,13 @@ namespace Wammer.Station.Timeline
 
 				if (args.attachment.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
 					TaskQueue.Enqueue(new MakeDocPreviewsTask(args.attachment.object_id), TaskPriority.Medium);
+
+				return saveResult;
 			}
 			catch (Exception ex)
 			{
 				logger.Warn("Unable to save attachment, ignore it.", ex);
+				return null;
 			}
 		}
 
@@ -143,7 +147,9 @@ namespace Wammer.Station.Timeline
 			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
 				attachmentAttributes.image_meta.exif.gps = attachmentAttributes.image_meta.gps;
 
-			if (meta == ImageMeta.Origin || attachmentAttributes.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase))
+			if (meta == ImageMeta.Origin || 
+				attachmentAttributes.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase) ||
+				attachmentAttributes.type.Equals("webthumb", StringComparison.InvariantCultureIgnoreCase))
 			{
 				var update = Update.Set("url", "/v3/attachments/view/?object_id=" + attachmentAttributes.object_id)
 								.Set("mime_type", attachmentAttributes.mime_type)
@@ -234,16 +240,31 @@ namespace Wammer.Station.Timeline
 
 		protected override void Run()
 		{
-			string meta = evtargs.imagemeta.ToString();
-			string oldFile = evtargs.filepath;
-			string user_id = null;
 			downloadCount.Increment();
+			try
+			{
+				bool noNeedToDownload;
+				AttachmentSaveResult saveResult;
+
+				Run(out noNeedToDownload, out saveResult);
+			}
+			finally
+			{
+				downloadCount.Decrement();
+			}
+		}
+
+		public void Run(out bool noNeedToDownload, out AttachmentSaveResult saveResult)
+		{
+			string meta = evtargs.imagemeta.ToString();
+			string user_id = null;
+			string oldFile = evtargs.filepath;
+			noNeedToDownload = true;
+			saveResult = null;
 
 			try
 			{
-				bool alreadyExist = AttachmentExists(evtargs);
-
-				if (alreadyExist)
+				if (AttachmentExists(evtargs))
 				{
 					return;
 				}
@@ -257,17 +278,39 @@ namespace Wammer.Station.Timeline
 
 				user_id = user.user_id;
 
-				if ((evtargs.imagemeta == ImageMeta.Origin || evtargs.imagemeta == ImageMeta.None) && user.ReachOriginSizeLimit())
+				if (evtargs.IsOriginalAttachment() && user.ReachOriginSizeLimit())
 				{
 					logger.DebugFormat("origin size limit {} is reached. Skip", user.origin_limit);
 					return;
 				}
 
-				var api = new AttachmentApi(user);
-				api.AttachmentView(evtargs, StationRegistry.StationId);
-				DownloadComplete(evtargs, user);
+				var attachmentRelativeFile = AttachmentUploadStorage.GetAttachmentRelativeFile(evtargs.attachment.file_name,
+					evtargs.attachment.event_time.ToUTCISO8601ShortString(),
+					string.IsNullOrEmpty(evtargs.attachment.file_create_time) ? default(DateTime?) : TimeHelper.ParseCloudTimeString(evtargs.attachment.file_create_time),
+					evtargs.attachment.creator_id,
+					evtargs.attachment.object_id,
+					evtargs.imagemeta);
 
-				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Unset("sync_range.download_error"));
+				var attachmentFile = GetAttachmentFile(evtargs.imagemeta, user, attachmentRelativeFile);
+
+				if (string.IsNullOrEmpty(attachmentRelativeFile) || !File.Exists(attachmentFile))
+				{
+					var api = new AttachmentApi(user);
+					api.AttachmentView(evtargs, StationRegistry.StationId);
+					saveResult = DownloadComplete(evtargs, user);
+
+					if (saveResult != null)
+						noNeedToDownload = false;
+
+					DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Unset("sync_range.download_error"));
+				}
+				else
+				{
+					SaveToAttachmentDB(evtargs.imagemeta, attachmentRelativeFile, evtargs.attachment, new FileInfo(attachmentFile).Length);
+
+					saveResult = new AttachmentSaveResult(attachmentFile.Substring(0, attachmentFile.Length - attachmentRelativeFile.Length), attachmentRelativeFile);
+					noNeedToDownload = false;
+				}
 			}
 			catch (Exception e)
 			{
@@ -297,11 +340,15 @@ namespace Wammer.Station.Timeline
 			}
 			finally
 			{
-				downloadCount.Decrement();
-
 				if (File.Exists(oldFile))
 					File.Delete(oldFile);
 			}
+		}
+
+		private static string GetAttachmentFile(ImageMeta meta, Driver driver, string attachmentRelativeFile)
+		{
+			var attachmentFile = (!string.IsNullOrEmpty(attachmentRelativeFile) && (meta == ImageMeta.None || meta == ImageMeta.Origin)) ? Path.Combine((new FileStorage(driver)).basePath, attachmentRelativeFile) : attachmentRelativeFile;
+			return attachmentFile;
 		}
 
 		public string Name

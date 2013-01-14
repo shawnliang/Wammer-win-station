@@ -266,6 +266,7 @@
     <Compile Include="Station\ThumbnailEventArgs.cs" />
     <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\BodySyncQueueStorage.cs" />
+    <Compile Include="Station\Timeline\QueryIfDownstreamNeededTask.cs" />
     <Compile Include="Station\Timeline\DownloadDocPreviewsTask.cs" />
     <Compile Include="Station\Timeline\FirstTimelineSyncTask.cs" />
     <Compile Include="Station\Timeline\MakeDocPreviewsTask.cs" />
