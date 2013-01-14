@@ -49,6 +49,11 @@ namespace Waveface.Stream.Model
 			return Total - Indexed - (CopyFailed == null ? 0 : CopyFailed.Count);
 		}
 
+		public bool IsPending()
+		{
+			return TotalFiles == 0 && !IsComplete;
+		}
+
 		public ImportTaskStaus()
 		{
 			CopyFailed = new List<ObjectIdAndPath>();

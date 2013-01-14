@@ -300,4 +300,19 @@
   <data name="SYNC_ERROR" xml:space="preserve">
     <value>同步失敗: </value>
   </data>
+  <data name="IMPORT_DESC_DONE" xml:space="preserve">
+    <value>匯入完成</value>
+  </data>
+  <data name="IMPORT_DESC_FOLDERS" xml:space="preserve">
+    <value>{0} 個資料夾</value>
+  </data>
+  <data name="IMPORT_DESC_IN_PROGRESS_HAS_PENDING" xml:space="preserve">
+    <value>正在匯入 {0}, {1} 個工作等待中</value>
+  </data>
+  <data name="IMPORT_DESC_IN_PROGRESS_NO_PENDING" xml:space="preserve">
+    <value>正在匯入 {0}</value>
+  </data>
+  <data name="IMPORT_DESC_WAITING" xml:space="preserve">
+    <value>準備匯入下一個資料夾, {0} 個工作等待中</value>
+  </data>
 </root>
