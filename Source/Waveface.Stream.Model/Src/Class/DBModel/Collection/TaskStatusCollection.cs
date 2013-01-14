@@ -34,8 +34,8 @@ namespace Waveface.Stream.Model
 		public void AbortAllIncompleteTasks()
 		{
 			instance.Update(
-				Query.EQ("IsComplete", false), 
-				MongoDB.Driver.Builders.Update.Set("IsComplete", true).Set("Error", "Aborted due to system restarts. Please import again."),
+				Query.EQ("IsCopyComplete", false),
+				MongoDB.Driver.Builders.Update.Set("IsCopyComplete", true).Set("Error", "Aborted due to system restarts. Please import again."),
 				UpdateFlags.Multi);
 		}
 	}

@@ -31,8 +31,8 @@ namespace Waveface.Stream.WindowsClient
 
 		private void loginButton1_Click(object sender, EventArgs e)
 		{
-			var email = tbxEMail.Text;
-			var pwd = txtPassword.Text;
+			var email = loginInputBox1.Email;
+			var pwd = loginInputBox1.Password;
 
 			Func<UserSession> func = () => { return login.Login(email, pwd); };
 			loginAndHandleError(func);

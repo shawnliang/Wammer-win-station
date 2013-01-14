@@ -110,14 +110,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		//public long UploadedPhotoCount
-		//{
-		//	get
-		//	{
-		//		return m_Response.storages.waveface.usage.image_objects;
-		//	}
-		//}
-
 		public Boolean Subscribed
 		{
 			get
@@ -147,6 +139,22 @@ namespace Waveface.Stream.WindowsClient
 			get
 			{
 				return m_Response.user.sns;
+			}
+		}
+
+		public long Quota 
+		{
+			get 
+			{
+				return m_Response.quota.doc.origin_size + m_Response.quota.image.origin_size;
+			}
+		}
+
+		public long Usage
+		{
+			get
+			{
+				return m_Response.usage.doc.origin_size + m_Response.usage.image.origin_size;
 			}
 		}
 		#endregion
@@ -309,12 +317,41 @@ namespace Waveface.Stream.WindowsClient
 		public WFStorage waveface;
 	}
 
+	public class QuotaItem
+	{
+		public int origin_size { get; set; }
+		public int origin_files { get; set; }
+	}
+
+	public class Quota
+	{
+		public QuotaItem doc { get; set; }
+		public QuotaItem image { get; set; }
+	}
+
+	public class UsageItem
+	{
+		public int meta_files { get; set; }
+		public int objects { get; set; }
+		public int meta_size { get; set; }
+		public int origin_files { get; set; }
+		public int origin_size { get; set; }
+	}
+
+	public class Usage
+	{
+		public UsageItem doc { get; set; }
+		public UsageItem image { get; set; }
+	}
+
 	public class MR_users_get : General_R
 	{
 		public User user { get; set; }
 		public List<Group> groups { get; set; }
 		public List<Station> stations { get; set; }
 		public List<SNS1> sns { get; set; }
+		public Quota quota { get; set; }
+		public Usage usage { get; set; }
 		public Device device { get; set; }
 		public Storages storages { get; set; }
 	}

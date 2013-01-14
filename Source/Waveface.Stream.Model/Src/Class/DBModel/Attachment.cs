@@ -63,6 +63,7 @@ namespace Waveface.Stream.Model
 	{
 		string mime_type { get; }
 		string saved_file_name { get; }
+		long file_size { get; }
 	}
 
 	[BsonIgnoreExtraElements]

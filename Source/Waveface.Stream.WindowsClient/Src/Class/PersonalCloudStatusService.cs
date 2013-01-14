@@ -97,8 +97,9 @@ namespace Waveface.Stream.WindowsClient
 						item.Profile = "Connected";
 
 						var syncRange = DriverCollection.Instance.FindOneById(user_id).sync_range;
-						var importTasks = TaskStatusCollection.Instance.Find(Query.EQ("UserId", user_id));
-						var importStatus = string.Join(", ", importTasks.Where(t => t.IsComplete).Select(t => formatTaskString(t)).ToArray());
+
+						var status = ImportStatus.Lookup(user_id);
+						var importStatus = (status.HasTasks()) ? status.Description() : default(string);
 
 						var upload = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).NextValue();
 						var download = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).NextValue();
@@ -127,7 +128,7 @@ namespace Waveface.Stream.WindowsClient
 						}
 						else
 						{
-							item.Profile = importStatus + uploadStatus + downloadStatus;
+							item.Profile = importStatus + " " + uploadStatus + downloadStatus;
 
 							var uploadDownloadError = syncRange.GetUploadDownloadError();
 							if (!string.IsNullOrEmpty(uploadDownloadError))
@@ -154,28 +155,6 @@ namespace Waveface.Stream.WindowsClient
 				nodes.Add(item);
 			};
 			return nodes;
-		}
-
-		private string formatTaskString(ImportTaskStaus t)
-		{
-			if (!t.IsComplete && t.TotalFiles == 0)
-				return "Indexing files...";
-			else
-			{
-				if (t.FailedFiles == null || t.FailedFiles.Count == 0)
-				{
-					return string.Format("{0}/{1} files imported. ",
-						t.SuccessCount,
-						t.TotalFiles);
-				}
-				else
-				{
-					return string.Format("{0}/{1} files imported, {2} import failures. ",
-					t.SuccessCount,
-					t.TotalFiles,
-					t.FailedFiles.Count);
-				}
-			}
 		}
 	}
 }

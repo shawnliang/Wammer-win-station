@@ -36,7 +36,14 @@ namespace Waveface.Stream.Core
 			string curFolder = "";
 			int photoCountInCurFolder = 0;
 
-			findPhotos(new List<string> { path },
+			var leafPaths = ((new DirectoryInfo(path)).GetDirectories("*", SearchOption.AllDirectories)
+				.Where(subDir => !subDir.GetDirectories("*", SearchOption.TopDirectoryOnly).Any())
+				.Select(subDir => subDir.FullName)).ToArray();
+
+			if (leafPaths.Length == 0)
+				leafPaths = new string[] { path };
+
+			findPhotos(leafPaths,
 
 				(folder) => {
 

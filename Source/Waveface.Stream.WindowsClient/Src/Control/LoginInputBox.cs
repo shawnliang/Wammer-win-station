@@ -29,6 +29,26 @@ namespace Waveface.Stream.WindowsClient
 				return tbxPassword.Text;
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets the enable drop down.
+		/// </summary>
+		/// <value>
+		/// The enable drop down.
+		/// </value>
+		public Boolean EnableDropDown 
+		{
+			get
+			{
+				return button1.Visible;
+			}
+			set
+			{
+				button1.Visible = value;
+
+				AdjustLayout();
+			}
+		}
 		#endregion
 
 
@@ -36,6 +56,15 @@ namespace Waveface.Stream.WindowsClient
 		public LoginInputBox()
 		{
 			InitializeComponent();
+
+			cmbEmail.DataBindings.Add("Visible", button1, "Visible");
+		}
+		#endregion
+
+		#region Private Method
+		private void AdjustLayout()
+		{
+			tbxEMail.Width = EnableDropDown ? button1.Left - tbxEMail.Left : tbxPassword.Width;
 		}
 		#endregion
 	}

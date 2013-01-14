@@ -242,6 +242,106 @@ namespace Waveface.Stream.WindowsClient
 			unit = units[index];
 		}
 
+		private static string GetSyncStatus()
+		{
+			var iconText = default(string);
+			var upRemainedCount = m_UpRemainedCountCounter.NextValue();
+			var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
+
+			if (_upRemainedCount.Count >= 10)
+				_upRemainedCount.Dequeue();
+
+			if (_downRemainedCount.Count >= 10)
+				_downRemainedCount.Dequeue();
+
+			_upRemainedCount.Enqueue(upRemainedCount);
+			_downRemainedCount.Enqueue(downloadRemainedCount);
+
+			SyncRange syncRange = getSyncRange();
+
+			if (upRemainedCount > 0 || downloadRemainedCount > 0)
+			{
+				if (m_IsServiceRunning)
+				{
+					var upSpeed = m_UpStreamRateCounter.NextValue();
+					var downloadSpeed = m_DownStreamRateCounter.NextValue();
+
+					if (_upSpeeds.Count >= 5)
+						_upSpeeds.Dequeue();
+					_upSpeeds.Enqueue(upSpeed);
+
+					if (_downSpeeds.Count >= 5)
+						_downSpeeds.Dequeue();
+					_downSpeeds.Enqueue(downloadSpeed);
+
+					if (_upSpeeds.Count >= 0)
+						upSpeed = _upSpeeds.Average();
+
+					if (_downSpeeds.Count >= 0)
+						downloadSpeed = _downSpeeds.Average();
+
+					string upSpeedUnit = string.Empty;
+					GetSpeedAndUnit(upSpeed, ref upSpeed, ref upSpeedUnit);
+
+					string downloadSpeedUnit = string.Empty;
+					GetSpeedAndUnit(downloadSpeed, ref downloadSpeed, ref downloadSpeedUnit);
+
+					upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
+					downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
+
+
+
+					if (upRemainedCount > 0)
+					{
+						iconText = string.Format(Resources.INDICATOR_PATTERN,
+												 Resources.UPLOAD_INDICATOR,
+												 (upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
+												 upSpeed,
+												 upSpeedUnit);
+					}
+
+					if (downloadRemainedCount > 0)
+					{
+						iconText = string.Format(Resources.INDICATOR_PATTERN,
+												 Resources.DOWNLOAD_INDICATOR,
+												 (downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
+												 downloadSpeed,
+												 downloadSpeedUnit);
+					}
+
+					if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
+					{
+						iconText = Application.ProductName + Environment.NewLine + Resources.SYNC_ERROR + syncRange.GetUploadDownloadError();
+					}
+
+					if (string.IsNullOrEmpty(iconText))
+						iconText = Resources.SERVICE_RUNNING;
+
+				}else
+				{
+					iconText = Resources.SERVICE_STOP;
+				}
+			}
+			else
+			{
+				if (!string.IsNullOrEmpty(syncRange.download_index_error))
+				{
+					iconText = Application.ProductName + Environment.NewLine + Resources.SYNC_ERROR + syncRange.download_index_error;
+				}
+				else if (syncRange.syncing)
+				{
+					iconText = Resources.DOWNLOAD_INDEX;
+				}
+				else 
+				{
+					iconText = (m_IsServiceRunning) ? Resources.SERVICE_RUNNING : Resources.SERVICE_STOP;
+				}
+
+			}
+
+			return iconText;
+		}
+
 
 		private static void RefreshSyncingStatus()
 		{
@@ -249,7 +349,6 @@ namespace Waveface.Stream.WindowsClient
 			{
 				m_Timer.Stop();
 
-				var iconText = Application.ProductName;
 				var upRemainedCount = m_UpRemainedCountCounter.NextValue();
 				var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
 
@@ -294,37 +393,12 @@ namespace Waveface.Stream.WindowsClient
 						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
-
-
-						if (upRemainedCount > 0)
-						{
-							iconText = string.Format(Resources.INDICATOR_PATTERN,
-													 iconText,
-													 Environment.NewLine,
-													 Resources.UPLOAD_INDICATOR,
-													 (upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
-													 upSpeed,
-													 upSpeedUnit);
-						}
-
-						if (downloadRemainedCount > 0)
-						{
-							iconText = string.Format(Resources.INDICATOR_PATTERN,
-													 iconText,
-													 Environment.NewLine,
-													 Resources.DOWNLOAD_INDICATOR,
-													 (downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
-													 downloadSpeed,
-													 downloadSpeedUnit);
-						}
-
 						m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
 
 
 
 						if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
 						{
-							iconText = Application.ProductName + Environment.NewLine + Resources.SYNC_ERROR + syncRange.GetUploadDownloadError();
 							m_NotifyIcon.Icon = iconWarning;
 						}
 
@@ -340,16 +414,19 @@ namespace Waveface.Stream.WindowsClient
 
 					if (!string.IsNullOrEmpty(syncRange.download_index_error))
 					{
-						iconText = Application.ProductName + Environment.NewLine + Resources.SYNC_ERROR + syncRange.download_index_error;
 						m_NotifyIcon.Icon = iconWarning;
 					}
 					else if (syncRange.syncing)
 					{
-						iconText = Resources.DOWNLOAD_INDEX;
 						m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
 					}
-					
+
 				}
+
+				var iconText = string.Format("{0}{1}{2}",
+					Application.ProductName,
+					Environment.NewLine,
+					GetSyncStatus());
 
 				m_NotifyIcon.SetNotifyIconText(iconText);
 			}
@@ -426,11 +503,11 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		private static DialogResult ShowSettingDialog()
+		private static DialogResult ShowControlPanelDialog()
 		{
 			try
 			{
-				var dialog = SettingDialog.Instance;
+				var dialog = ControlPanelDialog.Instance;
 
 				dialog.StartPosition = FormStartPosition.CenterParent;
 				dialog.Activate();
@@ -485,9 +562,10 @@ namespace Waveface.Stream.WindowsClient
 			m_NotifyIcon.ContextMenuStrip = m_ContextMenuStrip;
 			m_NotifyIcon.Visible = true;
 
-			m_NotifyIcon.MouseDown += new MouseEventHandler(m_NotifyIcon_MouseDown);
-			m_NotifyIcon.DoubleClick += m_NotifyIcon_DoubleClick;
+			m_NotifyIcon.MouseDown += m_NotifyIcon_MouseDown;
+			m_NotifyIcon.MouseDoubleClick += m_NotifyIcon_MouseDoubleClick;
 		}
+
 
 		/// <summary>
 		/// Inits the context menu strip items.
@@ -495,21 +573,20 @@ namespace Waveface.Stream.WindowsClient
 		private static void InitContextMenuStripItems()
 		{
 			DebugInfo.ShowMethod();
-
+			
 			m_ContextMenuStrip.Items.Clear();
+			m_ContextMenuStrip.Items.Add(Resources.CONTROL_PANEL_MENU_ITEM, m_ContextMenuStrip_ControlPanel_Click);
 			m_ContextMenuStrip.Items.Add("ResumeService", Resources.SERVICE_RESUME_MENU_ITEM, m_ContextMenuStrip_Resume_Click);
 			m_ContextMenuStrip.Items.Add("PauseService", Resources.SERVICE_PAUSE_MENU_ITEM, m_ContextMenuStrip_Pause_Click);
+			m_ContextMenuStrip.Items.Add("SyncStatusSeperator", "-", null);
 			m_ContextMenuStrip.Items.Add("Seperator", "-", null);
 			m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
 			m_ContextMenuStrip.Items.Add("Login", Resources.LOGIN_MENU_ITEM, m_ContextMenuStrip_Login_Click);
 			m_ContextMenuStrip.Items.Add("-");
 			m_ContextMenuStrip.Items.Add("Import", Resources.IMPORT_MENU_ITEM, m_ContextMenuStrip_Import_Click);
-			m_ContextMenuStrip.Items.Add(Resources.SETTING_MENU_ITEM, m_ContextMenuStrip_Setting_Click);
 			m_ContextMenuStrip.Items.Add("-");
 			m_ContextMenuStrip.Items.Add(Resources.CONTACT_US_MENU_ITEM, m_ContextMenuStrip_ContactUs_Click);
 			m_ContextMenuStrip.Items.Add(Resources.SERVICE_QUIT, m_ContextMenuStrip_Quit_Click);
-
-
 		}
 
 		private static void RunningService()
@@ -543,6 +620,29 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items["Seperator"].Visible = !MainForm.Instance.IsDebugMode && !isLogined;
 
 			m_ContextMenuStrip.Items["Import"].Visible = isLogined;
+		}
+
+		private static void UpdateTrayMenuSyncStatus()
+		{
+			var insertIndex = m_ContextMenuStrip.Items.IndexOfKey("SyncStatusSeperator") + 1;
+
+			while (!(m_ContextMenuStrip.Items[insertIndex] is ToolStripSeparator))
+			{
+				m_ContextMenuStrip.Items.RemoveAt(insertIndex);
+			}
+
+			var syncStatus = GetSyncStatus();
+
+			if (string.IsNullOrEmpty(syncStatus))
+				return;
+
+			foreach (var status in syncStatus.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+			{
+				m_ContextMenuStrip.Items.Insert(insertIndex++, new ToolStripMenuItem(status) 
+				{
+					Enabled = false
+				});
+			}
 		}
 		#endregion
 
@@ -578,11 +678,11 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		private static void m_ContextMenuStrip_Setting_Click(object sender, EventArgs e)
+		private static void m_ContextMenuStrip_ControlPanel_Click(object sender, EventArgs e)
 		{
 			DebugInfo.ShowMethod();
 
-			ShowSettingDialog();
+			ShowControlPanelDialog();
 		}
 
 		private static void m_ContextMenuStrip_Import_Click(object sender, EventArgs e)
@@ -641,12 +741,21 @@ namespace Waveface.Stream.WindowsClient
 
 			UpdateServiceMenuItemStatus();
 			UpdateLoginMenuItemStatus();
+			UpdateTrayMenuSyncStatus();
 		}
 
-		static void m_NotifyIcon_DoubleClick(object sender, EventArgs e)
+		static void m_NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
+			if (e.Button != MouseButtons.Left)
+				return;
+
 			if (StreamClient.Instance.IsLogined)
-				ShowMainWindow();
+			{
+				if (!MainForm.Instance.IsDebugMode)
+					ShowControlPanelDialog();
+				else
+					ShowMainWindow();
+			}
 			else
 				ShowLoginDialog();
 		}
@@ -660,8 +769,7 @@ namespace Waveface.Stream.WindowsClient
 
 		static void Instance_Logouted(object sender, EventArgs e)
 		{
-			SettingDialog.Instance.Dispose();
-			AccountInfoForm.Instance.Dispose();
+			ControlPanelDialog.Instance.Dispose();
 			MainForm.Instance.Dispose();
 
 			if (ShowLoginDialog() == DialogResult.OK)
