@@ -100,40 +100,19 @@ namespace Wammer.Station
 				var metaData = AttachmentApi.GetImageMetadata(
 					Parameters["object_id"], Parameters["session_token"], Parameters["apikey"], meta, station_id);
 
-				if (metaData.type.Equals("webthumb", StringComparison.InvariantCultureIgnoreCase))
-					meta = ImageMeta.Origin;
-
 				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", metaData.creator_id));
-
 				if (driver == null)
 					throw new WammerStationException("driver does not exist: " + metaData.creator_id,
 													 (int)StationLocalApiError.InvalidDriver);
 
-				if (meta == ImageMeta.Origin && !driver.isPaidUser)
-					throw new WammerStationException("Access to original attachment from non-paid user is not allowed.",
-													 (int)StationLocalApiError.AccessDenied);
 
-				var attachmentRelativeFile = AttachmentUploadStorage.GetAttachmentRelativeFile(metaData.file_name, 
-					metaData.event_time.ToUTCISO8601ShortString(),
-					TimeHelper.ParseCloudTimeString(metaData.file_create_time),
-					metaData.creator_id,
-					metaData.object_id,
-					meta);
-
-				var attachmentFile = GetArrachmentFile(meta, driver, attachmentRelativeFile);
-
-				if (string.IsNullOrEmpty(attachmentRelativeFile) || !File.Exists(attachmentFile))
-				{
-					var downloadResult = AttachmentApi.DownloadObject(metaData.redirect_to, metaData);
-					attachmentRelativeFile = ResourceDownloadTask.SaveAttachmentToDisk(meta, metaData, downloadResult.Image).RelativePath;
-					attachmentFile = GetArrachmentFile(meta, driver, attachmentRelativeFile);
-				}
-
-				this.LogDebugMsg("Attachement is saved to " + attachmentFile);
-
-				var fs = File.OpenRead(attachmentFile);
-
-				ResourceDownloadTask.SaveToAttachmentDB(meta, attachmentRelativeFile, metaData, fs.Length);
+				var downloadTask = ResourceDownloader.createDownloadTask(driver, meta, metaData);
+				bool noNeedToDownload;
+				AttachmentSaveResult result;
+				downloadTask.Run(out noNeedToDownload, out result);
+				
+				if (result == null)
+					throw new WammerStationException("File. Try again", -1);
 
 
 				if (meta == ImageMeta.None || meta == ImageMeta.Origin)
@@ -142,6 +121,8 @@ namespace Wammer.Station
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
 
 				Response.ContentType = metaData.mime_type;
+
+				var fs = File.OpenRead(result.FullPath);
 
 				StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
 									   new CopyState(fs, Response, Parameters["object_id"]));
@@ -160,12 +141,6 @@ namespace Wammer.Station
 			{
 				OnFileDownloadFinished();
 			}
-		}
-
-		private static string GetArrachmentFile(ImageMeta meta, Driver driver, string attachmentRelativeFile)
-		{
-			var attachmentFile = (!string.IsNullOrEmpty(attachmentRelativeFile) && (meta == ImageMeta.None || meta == ImageMeta.Origin)) ? Path.Combine((new FileStorage(driver)).basePath, attachmentRelativeFile) : attachmentRelativeFile;
-			return attachmentFile;
 		}
 
 		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
