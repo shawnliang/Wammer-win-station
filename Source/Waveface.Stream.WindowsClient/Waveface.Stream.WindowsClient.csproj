@@ -169,15 +169,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Src\Class\AutoImportContentProvider.cs" />
-    <Compile Include="Src\Class\AutoImporter.cs" />
     <Compile Include="Src\Class\AutoUpdate.cs" />
     <Compile Include="Src\Class\CommandLineCommand.cs" />
-    <Compile Include="Src\Class\Content.cs" />
-    <Compile Include="Src\Class\ContentBase.cs" />
-    <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
-    <Compile Include="Src\Class\ContentProvider\LibrariesContentProvider.cs" />
-    <Compile Include="Src\Class\ContentProvider\PicasaContentProvider.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\DriveDetector.cs">
       <SubType>Form</SubType>
@@ -191,11 +184,13 @@
     <Compile Include="Src\Class\Options.cs" />
     <Compile Include="Src\Class\PersonalCloudNode.cs" />
     <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
+    <Compile Include="Src\Class\Picasa.cs" />
     <Compile Include="Src\Class\RecentDocumentWatcher.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
     <Compile Include="Src\Class\StreamSignup.cs" />
     <Compile Include="Src\Class\TwitterConnectableService.cs" />
     <Compile Include="Src\Class\WebRedirectConnectableService.cs" />
+    <Compile Include="Src\Class\WindowsLibraries.cs" />
     <Compile Include="Src\Control\CentralLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -371,8 +366,6 @@
     <Compile Include="Src\Dialog\UsbImportDialog.Designer.cs">
       <DependentUpon>UsbImportDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Enum\ContentProviderType.cs" />
-    <Compile Include="Src\Enum\ContentType.cs" />
     <Compile Include="Src\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\Win32Helper.cs" />
     <Compile Include="Src\Control\CueTextBox.cs">
@@ -429,8 +422,6 @@
     </Compile>
     <Compile Include="Src\Interface\IBrowserControl.cs" />
     <Compile Include="Src\Interface\IConnectableService.cs" />
-    <Compile Include="Src\Interface\IContent.cs" />
-    <Compile Include="Src\Interface\IContentProvider.cs" />
     <Compile Include="Src\Interface\IDebugComponent.cs" />
     <Compile Include="Src\Interface\IDockableModule.cs" />
     <Compile Include="Src\Interface\IExifExtractor.cs" />
@@ -815,6 +806,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Src\Enum\" />
     <Folder Include="Web\images\bootstrap\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

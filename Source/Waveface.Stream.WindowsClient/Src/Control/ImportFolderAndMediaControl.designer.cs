@@ -42,7 +42,7 @@
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-			this.label1.Location = new System.Drawing.Point(36, 31);
+			this.label1.Location = new System.Drawing.Point(36, 29);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(215, 18);
 			this.label1.TabIndex = 2;
@@ -53,10 +53,10 @@
 			this.importFromMediaButton.BackColor = System.Drawing.Color.PowderBlue;
 			this.importFromMediaButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.importFromMediaButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.importFromMediaButton.Location = new System.Drawing.Point(55, 185);
+			this.importFromMediaButton.Location = new System.Drawing.Point(55, 171);
 			this.importFromMediaButton.Name = "importFromMediaButton";
-			this.importFromMediaButton.Padding = new System.Windows.Forms.Padding(0, 15, 0, 10);
-			this.importFromMediaButton.Size = new System.Drawing.Size(181, 57);
+			this.importFromMediaButton.Padding = new System.Windows.Forms.Padding(0, 14, 0, 9);
+			this.importFromMediaButton.Size = new System.Drawing.Size(181, 53);
 			this.importFromMediaButton.TabIndex = 5;
 			this.importFromMediaButton.Text = "Import Removable Media";
 			this.importFromMediaButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -68,10 +68,10 @@
 			this.importFromDiskButton.BackColor = System.Drawing.Color.PowderBlue;
 			this.importFromDiskButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.importFromDiskButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.importFromDiskButton.Location = new System.Drawing.Point(55, 98);
+			this.importFromDiskButton.Location = new System.Drawing.Point(55, 90);
 			this.importFromDiskButton.Name = "importFromDiskButton";
-			this.importFromDiskButton.Padding = new System.Windows.Forms.Padding(0, 15, 0, 0);
-			this.importFromDiskButton.Size = new System.Drawing.Size(181, 57);
+			this.importFromDiskButton.Padding = new System.Windows.Forms.Padding(0, 14, 0, 0);
+			this.importFromDiskButton.Size = new System.Drawing.Size(181, 53);
 			this.importFromDiskButton.TabIndex = 4;
 			this.importFromDiskButton.Text = "Import Photo Folders";
 			this.importFromDiskButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -81,50 +81,51 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(36, 323);
+			this.label2.Location = new System.Drawing.Point(36, 298);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(219, 13);
+			this.label2.Size = new System.Drawing.Size(220, 12);
 			this.label2.TabIndex = 6;
 			this.label2.Text = "All imported and synced files will be stored at:";
 			// 
 			// txtStoreLocation
 			// 
 			this.txtStoreLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.txtStoreLocation.Location = new System.Drawing.Point(39, 345);
+			this.txtStoreLocation.Location = new System.Drawing.Point(39, 318);
 			this.txtStoreLocation.Name = "txtStoreLocation";
 			this.txtStoreLocation.Size = new System.Drawing.Size(308, 21);
 			this.txtStoreLocation.TabIndex = 7;
 			// 
 			// changeButton
 			// 
-			this.changeButton.Location = new System.Drawing.Point(353, 342);
+			this.changeButton.Location = new System.Drawing.Point(353, 316);
 			this.changeButton.Name = "changeButton";
-			this.changeButton.Size = new System.Drawing.Size(137, 26);
+			this.changeButton.Size = new System.Drawing.Size(137, 24);
 			this.changeButton.TabIndex = 8;
 			this.changeButton.Text = "Change";
 			this.changeButton.UseVisualStyleBackColor = true;
+			this.changeButton.Click += new System.EventHandler(this.changeButton_Click);
 			// 
 			// label3
 			// 
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-			this.label3.Location = new System.Drawing.Point(260, 112);
+			this.label3.Location = new System.Drawing.Point(260, 103);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(230, 39);
+			this.label3.Size = new System.Drawing.Size(230, 36);
 			this.label3.TabIndex = 9;
 			this.label3.Text = "Choose any folders from this PC and import photo folders into AOStream";
 			// 
 			// label4
 			// 
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F);
-			this.label4.Location = new System.Drawing.Point(260, 196);
+			this.label4.Location = new System.Drawing.Point(260, 181);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(230, 39);
+			this.label4.Size = new System.Drawing.Size(230, 36);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Insert your USB, SD card, or CD and let old memories live again.";
 			// 
 			// ImportFolderAndMediaControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.label4);
@@ -136,7 +137,7 @@
 			this.Controls.Add(this.importFromDiskButton);
 			this.Controls.Add(this.label1);
 			this.Name = "ImportFolderAndMediaControl";
-			this.Size = new System.Drawing.Size(555, 400);
+			this.Size = new System.Drawing.Size(555, 369);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
