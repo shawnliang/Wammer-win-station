@@ -117,6 +117,37 @@ namespace Waveface.Stream.Model
 		{
 			return IsStarted && !IsCompleteSuccessfully() && string.IsNullOrEmpty(Error);
 		}
+
+		public bool GetProgress(out int maximum, out int current)
+		{
+			maximum = current = 0;
+	
+			if (IsIndexing())
+			{
+				maximum = Total;
+				current = Indexed + Skipped;
+			}
+			else if (IsCopying())
+			{
+				maximum = Indexed;
+				current = Copied;
+			}
+			else if (IsThumbnailing())
+			{
+				maximum = Indexed;
+				current = Thumbnailed;
+			}
+			else if (IsUploading())
+			{
+				maximum = UploadSize;
+				current = UploadedSize;
+			}
+			else
+				return false;
+
+			return true;
+		}
+
 		#endregion
 	}
 

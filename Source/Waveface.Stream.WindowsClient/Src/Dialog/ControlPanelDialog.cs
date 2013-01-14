@@ -28,7 +28,7 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Static Var
 		private static ControlPanelDialog _instance;
-        #endregion
+		#endregion
 
 
 		#region Var
@@ -41,13 +41,13 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Public Static Property
 		public static ControlPanelDialog Instance
-        { 
-            get
-            {
+		{ 
+			get
+			{
 				return _instance ?? (_instance = new ControlPanelDialog());
-            }
-        }
-        #endregion
+			}
+		}
+		#endregion
 
 		#region Private Property
 		/// <summary>
@@ -105,15 +105,19 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Constructor
 		private ControlPanelDialog()
-        {
+		{
 			InitializeComponent();
 			UpdateAccountInfo();
 			UpdateUserPackage();
 			UpdateUsageStatus();
 			UpdateResourceFolder();
 			UpdateSoftwareInfo();
-        }
-        #endregion
+			UpdateImportStatus();
+
+			refreshStatusTimer.Enabled = true;
+			refreshStatusTimer.Start();
+		}
+		#endregion
 
 
 		#region Private Method
@@ -144,7 +148,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
 
- 			lblPackage.Text = (user.isPaidUser)? "VIP": "Free";
+			lblPackage.Text = (user.isPaidUser)? "VIP": "Free";
 		}
 
 		private void GetSizeAndUnit(float value, ref float size, ref string unit)
@@ -219,6 +223,44 @@ namespace Waveface.Stream.WindowsClient
 			catch (Exception)
 			{
 				return DialogResult.None;
+			}
+		}
+
+		private void UpdateImportStatus()
+		{
+			try
+			{
+				var importStatus = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
+				if (!importStatus.HasTasks())
+				{
+					progressBar1.Visible = label1.Visible = false;
+					return;
+				}
+				else if (!importStatus.GetRunningTasks().Any())
+				{
+					progressBar1.Visible = false;
+					label1.Text = string.Format("Waiting to import. {0} import tasks queued.", importStatus.GetPendingTasks().Count());
+					label1.Visible = true;
+				}
+				else
+				{
+					var curTask = importStatus.GetRunningTasks().First();
+					label1.Visible = true;
+					label1.Text = curTask.Description();
+
+					int max;
+					int cur;
+					if (curTask.GetProgress(out max, out cur))
+					{
+						progressBar1.Maximum = max;
+						progressBar1.Value = cur;
+						progressBar1.Visible = true;
+					}
+				}
+			}
+			catch
+			{
+
 			}
 		}
 		#endregion
@@ -336,6 +378,14 @@ namespace Waveface.Stream.WindowsClient
 		{
 			ShowFileImportDialog();
 		}
+
+		private void refreshStatusTimer_Tick(object sender, EventArgs e)
+		{
+			UpdateImportStatus();
+		}
+
 		#endregion
+
+		
 	}
 }

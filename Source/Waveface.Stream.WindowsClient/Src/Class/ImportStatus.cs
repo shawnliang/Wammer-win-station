@@ -69,19 +69,26 @@ namespace Waveface.Stream.WindowsClient
 			}
 			else if (task.IsIndexing())
 			{
-				return "Indexing files";
+				return string.Format("Indexing files ({0}/{1})", task.Indexed + task.Skipped, task.Total);
 			}
 			else if (task.IsCopying())
 			{
-				return "Copying files to AOStream";
+				return string.Format("Copying files to AOStream ({0}/{1})", task.Copied, task.Indexed);
 			}
 			else if (task.IsThumbnailing())
 			{
-				return "Generating thumbnails";
+				return string.Format("Generating thumbnails ({0}/{1})", task.Thumbnailed, task.Indexed);
 			}
 			else if (task.IsUploading())
 			{
-				return "Syncing to AOStream Cloud";
+				var toUploadStr = "";
+				var toUpload = task.UploadSize/1024/1024;
+				if (toUpload < 1)
+					toUploadStr = "~1";
+				else
+					toUploadStr = toUpload.ToString();
+
+				return string.Format("Syncing to AOStream Cloud ({0}/{1}MB)", task.UploadedSize/1024/1024, toUploadStr);
 			}
 			else if (task.IsCompleteSuccessfully())
 			{
