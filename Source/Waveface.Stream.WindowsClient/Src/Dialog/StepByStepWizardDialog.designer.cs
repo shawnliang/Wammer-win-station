@@ -70,8 +70,7 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// StepByStepWizardDialog
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.ClientSize = new System.Drawing.Size(554, 418);
 			this.Controls.Add(this.wizardControl);
