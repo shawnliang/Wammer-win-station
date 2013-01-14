@@ -13,7 +13,8 @@ namespace Waveface.Stream.WindowsClient
 			{
 				new LoginControl(new StreamLogin()),
 				new ChoosePlanControl(),
-				new ImportFolderAndMediaControl(m_photoSearch),
+				//new ImportFolderAndMediaControl(m_photoSearch),
+				new FileImportControl(),
 				new DocImportControl(),
 				new PersonalCloudStatusControl2(new PersonalCloudStatusService())
 			});
@@ -40,6 +41,7 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// OldUserWizardDialog
 			// 
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			resources.ApplyResources(this, "$this");
 			this.Name = "OldUserWizardDialog";
 			this.ResumeLayout(false);

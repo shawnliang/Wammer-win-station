@@ -99,6 +99,8 @@
     <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Lib\fastJSON\fastJSON.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\..\Lib\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -315,20 +317,26 @@
     <Compile Include="Src\Control\TutorialNavigator.designer.cs">
       <DependentUpon>TutorialNavigator.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Control\WizardControl.cs">
+    <Compile Include="Src\Control\UsageBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Src\Dialog\AccountInfoForm.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Src\Control\UsageBar.Designer.cs">
+      <DependentUpon>UsageBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Dialog\AccountInfoForm.designer.cs">
-      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    <Compile Include="Src\Control\WizardControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Src\Dialog\AddDeviceDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Src\Dialog\AddDeviceDialog.designer.cs">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\ControlPanelDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\ControlPanelDialog.Designer.cs">
+      <DependentUpon>ControlPanelDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\FileImportDialog.cs">
       <SubType>Form</SubType>
@@ -402,12 +410,6 @@
     </Compile>
     <Compile Include="Src\Dialog\ProcessingDialog.Designer.cs">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Src\Dialog\SettingDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Src\Dialog\SettingDialog.Designer.cs">
-      <DependentUpon>SettingDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\SignUpDialog.cs">
       <SubType>Form</SubType>
@@ -522,11 +524,8 @@
     <EmbeddedResource Include="Src\Control\TutorialNavigator.resx">
       <DependentUpon>TutorialNavigator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\AccountInfoForm.resx">
-      <DependentUpon>AccountInfoForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\AccountInfoForm.zh-TW.resx">
-      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    <EmbeddedResource Include="Src\Control\UsageBar.resx">
+      <DependentUpon>UsageBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\AddDeviceDialog.resx">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
@@ -547,6 +546,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\ControlPanelDialog.resx">
+      <DependentUpon>ControlPanelDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\FileImportDialog.resx">
       <DependentUpon>FileImportDialog.cs</DependentUpon>
@@ -582,13 +584,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.zh-TW.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\SettingDialog.resx">
-      <DependentUpon>SettingDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\SettingDialog.zh-TW.resx">
-      <DependentUpon>SettingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\SignUpDialog.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>

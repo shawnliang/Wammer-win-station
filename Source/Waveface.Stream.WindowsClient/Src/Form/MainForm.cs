@@ -220,42 +220,6 @@ namespace Waveface.Stream.WindowsClient
 			this.Close();
 		}
 
-		private void accountToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				var dialog = AccountInfoForm.Instance;
-
-				dialog.StartPosition = FormStartPosition.CenterParent;
-				dialog.Activate();
-				dialog.ShowDialog(this);
-			}
-			catch (Exception)
-			{
-			}
-		}
-
-
-		private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ShowSettingDialog();
-		}
-
-		private DialogResult ShowSettingDialog()
-		{
-			try
-			{
-				var dialog = SettingDialog.Instance;
-
-				dialog.StartPosition = FormStartPosition.CenterParent;
-				dialog.Activate();
-				return dialog.ShowDialog(this);
-			}
-			catch (Exception)
-			{
-				return DialogResult.None;
-			}
-		}
 
 		private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
 		{

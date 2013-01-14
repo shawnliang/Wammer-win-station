@@ -127,7 +127,7 @@
     <value>登錄時發生錯誤, 請重新輸入.</value>
   </data>
   <data name="INDICATOR_PATTERN" xml:space="preserve">
-    <value>{0}{1}{2} {3} 張圖片, {4:0.##} {5}</value>
+    <value>{0} {1} 張圖片, {2:0.##} {3}</value>
   </data>
   <data name="NEXT_BUTTON_TEXT" xml:space="preserve">
     <value>下一步</value>
@@ -291,8 +291,8 @@
   <data name="SERVICE_RESUME_MENU_ITEM" xml:space="preserve">
     <value>啟動同步</value>
   </data>
-  <data name="SETTING_MENU_ITEM" xml:space="preserve">
-    <value>設定</value>
+  <data name="CONTROL_PANEL_MENU_ITEM" xml:space="preserve">
+    <value>開啟AOStream主控台</value>
   </data>
   <data name="DOWNLOAD_INDEX" xml:space="preserve">
     <value>下載索引中</value>
