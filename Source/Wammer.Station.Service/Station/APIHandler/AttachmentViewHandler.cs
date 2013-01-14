@@ -105,6 +105,9 @@ namespace Wammer.Station
 					throw new WammerStationException("driver does not exist: " + metaData.creator_id,
 													 (int)StationLocalApiError.InvalidDriver);
 
+				if (meta == ImageMeta.Origin && !driver.isPaidUser)
+					throw new WammerStationException("Access to original attachment from non-paid user is not allowed.", 
+						(int)StationLocalApiError.AccessDenied);
 
 				var downloadTask = ResourceDownloader.createDownloadTask(driver, meta, metaData);
 				bool noNeedToDownload;
@@ -120,7 +123,8 @@ namespace Wammer.Station
 
 				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
 
-				Response.ContentType = metaData.mime_type;
+				Response.ContentType = (meta == ImageMeta.Origin || meta == ImageMeta.None) ?
+					metaData.mime_type : metaData.GetThumbnail(meta).mime_type;
 
 				var fs = File.OpenRead(result.FullPath);
 
