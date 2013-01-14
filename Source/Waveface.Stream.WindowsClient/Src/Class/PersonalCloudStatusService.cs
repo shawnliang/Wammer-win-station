@@ -97,8 +97,9 @@ namespace Waveface.Stream.WindowsClient
 						item.Profile = "Connected";
 
 						var syncRange = DriverCollection.Instance.FindOneById(user_id).sync_range;
-						var importTasks = TaskStatusCollection.Instance.Find(Query.EQ("UserId", user_id));
-						var importStatus = "import status not implement";
+
+						var status = ImportStatus.Lookup(user_id);
+						var importStatus = (status.HasTasks()) ? status.Description() : default(string);
 
 						var upload = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).NextValue();
 						var download = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).NextValue();
@@ -127,7 +128,7 @@ namespace Waveface.Stream.WindowsClient
 						}
 						else
 						{
-							item.Profile = importStatus + uploadStatus + downloadStatus;
+							item.Profile = importStatus + " " + uploadStatus + downloadStatus;
 
 							var uploadDownloadError = syncRange.GetUploadDownloadError();
 							if (!string.IsNullOrEmpty(uploadDownloadError))
@@ -154,11 +155,6 @@ namespace Waveface.Stream.WindowsClient
 				nodes.Add(item);
 			};
 			return nodes;
-		}
-
-		private string formatTaskString(ImportTaskStaus t)
-		{
-			return "Not implemented yet";
 		}
 	}
 }

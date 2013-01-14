@@ -118,31 +118,29 @@ namespace Waveface.Stream.WindowsClient
 
 			var taskStatus = service.QueryTaskStatus(taskId);
 
-			throw new NotImplementedException();
+			if (taskStatus.IsCopyComplete)
+			{
+				if (string.IsNullOrEmpty(taskStatus.Error))
+				{
+					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Copied);
+				}
+				else
+				{
+					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Error);
+				}
 
-			//if (taskStatus.IsComplete)
-			//{
-			//    if (string.IsNullOrEmpty(taskStatus.Error))
-			//    {
-			//        dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.ImportedCount);
-			//    }
-			//    else
-			//    {
-			//        dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Error);
-			//    }
-
-			//    progressBar.Maximum = taskStatus.TotalFiles;
-			//    progressBar.Value = taskStatus.TotalFiles;
-			//    progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.ImportedCount, taskStatus.CopyFailed.Count, taskStatus.GetSkippedCount());
-			//    timer.Stop();
-			//    importButton.Enabled = true;
-			//}
-			//else
-			//{
-			//    progressBar.Maximum = taskStatus.TotalFiles;
-			//    progressBar.Value = taskStatus.ImportedCount;
-			//    progressText.Text = string.Format("{0} files processed", taskStatus.ImportedCount + taskStatus.CopyFailed.Count);
-			//}
+				progressBar.Maximum = taskStatus.Total;
+				progressBar.Value = taskStatus.Total;
+				progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.Copied, taskStatus.CopyFailed.Count, taskStatus.Skipped);
+				timer.Stop();
+				importButton.Enabled = true;
+			}
+			else
+			{
+				progressBar.Maximum = taskStatus.Total;
+				progressBar.Value = taskStatus.Skipped + taskStatus.Copied;
+				progressText.Text = string.Format("{0} files processed", taskStatus.Copied + taskStatus.CopyFailed.Count + taskStatus.Skipped);
+			}
 		}
 
 		private void deviceCombobox_DropDown(object sender, EventArgs e)

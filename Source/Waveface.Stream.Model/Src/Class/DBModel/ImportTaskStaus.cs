@@ -11,6 +11,7 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class ImportTaskStaus
 	{
+		#region Propertis
 		[BsonId]
 		public Guid Id { get; set; }
 
@@ -43,22 +44,80 @@ namespace Waveface.Stream.Model
 
 		public int UploadCount { get; set; }
 		public int UploadSize { get; set; }
-
-		public int GetSkippedCount()
-		{
-			return Total - Indexed - (CopyFailed == null ? 0 : CopyFailed.Count);
-		}
-
-		public bool IsPending()
-		{
-			return TotalFiles == 0 && !IsComplete;
-		}
+		#endregion
 
 		public ImportTaskStaus()
 		{
 			CopyFailed = new List<ObjectIdAndPath>();
 			Sources = new List<string>();
 		}
+
+		#region State getters
+		public bool IsPending()
+		{
+			return !IsStarted;
+		}
+
+		public bool IsEnumerating()
+		{
+			return !IsPending() && Total == 0 && string.IsNullOrEmpty(Error);
+		}
+
+		public bool IsEnumerated()
+		{
+			return Total > 0;
+		}
+
+		public bool IsIndexing()
+		{
+			return IsEnumerated() && Skipped + Indexed < Total && string.IsNullOrEmpty(Error);
+		}
+
+		public bool IsIndexed()
+		{
+			return IsEnumerated() && Skipped + Indexed == Total;
+		}
+
+		public bool IsCopying()
+		{
+			return IsIndexed() && Copied < Indexed && string.IsNullOrEmpty(Error);
+		}
+
+		public bool IsCopied()
+		{
+			return IsIndexed() && Copied == Indexed;
+		}
+
+		public bool IsThumbnailing()
+		{
+			return IsCopied() && Thumbnailed < Indexed && string.IsNullOrEmpty(Error);
+		}
+
+		public bool IsThumbnailed()
+		{
+			return IsCopied() && Thumbnailed == Indexed;
+		}
+
+		public bool IsUploading()
+		{
+			return IsThumbnailed() && UploadedCount < Indexed && string.IsNullOrEmpty(Error);
+		}
+
+		public bool IsUploaded()
+		{
+			return IsThumbnailed() && UploadedCount == Indexed;
+		}
+
+		public bool IsCompleteSuccessfully()
+		{
+			return IsUploaded();
+		}
+
+		public bool IsInProgress()
+		{
+			return IsStarted && !IsCompleteSuccessfully() && string.IsNullOrEmpty(Error);
+		}
+		#endregion
 	}
 
 	[BsonIgnoreExtraElements]

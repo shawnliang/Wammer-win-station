@@ -10,37 +10,21 @@ namespace Waveface.Stream.WindowsClient
 {
 	public class ImportStatus
 	{
-		private int PendingTasks { get; set; }
-		private List<string> ImportSources { get; set; }
+		private IEnumerable<ImportTaskStaus> tasks;
 
-		public int TotalFiles { get; set; }
-		public int ProcessedFiles { get; set; }
-
-		public string GetDescription()
+		private ImportStatus(IEnumerable<ImportTaskStaus> tasks)
 		{
-			if (!IsInProgress())
-			{
-				if (PendingTasks > 0)
-					return string.Format(Resources.IMPORT_DESC_WAITING, PendingTasks);
-				else
-					return Resources.IMPORT_DESC_DONE;
-			}
-			else
-			{
-				var folders = (ImportSources.Count == 1) ?
-					ImportSources.First() : 
-					string.Format(Resources.IMPORT_DESC_FOLDERS, ImportSources.Count);
-
-				if (PendingTasks > 0)
-					return string.Format(Resources.IMPORT_DESC_IN_PROGRESS_HAS_PENDING, folders, PendingTasks);
-				else
-					return string.Format(Resources.IMPORT_DESC_IN_PROGRESS_NO_PENDING, folders);
-			}
+			this.tasks = tasks;
 		}
 
-		public bool IsInProgress()
+		public IEnumerable<ImportTaskStaus> GetPendingTasks()
 		{
-			return TotalFiles > 0;
+			return tasks.Where(t => t.IsPending());
+		}
+
+		public IEnumerable<ImportTaskStaus> GetRunningTasks()
+		{
+			return tasks.Where(t => t.IsInProgress());
 		}
 
 		public static ImportStatus Lookup(string user_id)
@@ -48,26 +32,69 @@ namespace Waveface.Stream.WindowsClient
 			var unfinishedTasks = TaskStatusCollection.Instance.Find(
 				Query.And(
 					Query.EQ("UserId", user_id),
-					Query.NE("IsComplete", true)
+					Query.NE("Hidden", true)
 				)
-			);
+			).SetSortOrder(SortBy.Ascending("Time")).Where(x => x.IsPending() || x.IsInProgress());
 
-			var pendingTasks = unfinishedTasks.Where(x=>x.IsPending());
-			var runningTasks = unfinishedTasks.Where(x=>!x.IsPending());
 
-			var sources = new List<string>();
-			foreach(var t in runningTasks)
+			return new ImportStatus(unfinishedTasks);
+		}
+
+		public string Description()
+		{
+			if (HasTasks())
+				return tasks.First().Description();
+			else
+				return "Nothing to import";
+		}
+
+		public bool HasTasks()
+		{
+			return tasks.Any();
+		}
+	}
+
+
+	public static class ImportTaskStatusExtension
+	{
+		public static string Description(this ImportTaskStaus task)
+		{
+			if (task.IsPending())
 			{
-				sources.AddRange(t.Sources);
+				return "Waiting";
 			}
-
-			return new ImportStatus
+			else if (task.IsEnumerating())
 			{
-				PendingTasks = pendingTasks.Count(),
-				ProcessedFiles = runningTasks.Sum(x => x.SuccessCount + x.FailedFiles.Count),
-				TotalFiles = runningTasks.Sum(x => x.TotalFiles),
-				ImportSources = sources
-			};
+				return "Scanning folders";
+			}
+			else if (task.IsIndexing())
+			{
+				return "Indexing files";
+			}
+			else if (task.IsCopying())
+			{
+				return "Copying files to AOStream";
+			}
+			else if (task.IsThumbnailing())
+			{
+				return "Generating thumbnails";
+			}
+			else if (task.IsUploading())
+			{
+				return "Syncing to AOStream Cloud";
+			}
+			else if (task.IsCompleteSuccessfully())
+			{
+				return "Completed successfully";
+			}
+			else if (string.IsNullOrEmpty(task.Error))
+			{
+				return "Import unsuccessfully. " + task.Error;
+			}
+			else
+			{
+				throw new NotImplementedException();
+			}
 		}
 	}
 }
