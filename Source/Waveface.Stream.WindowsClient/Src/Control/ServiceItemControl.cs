@@ -41,22 +41,30 @@ namespace Waveface.Stream.WindowsClient
 				handler(this, arg);
 
 				connectCheckbox.Checked = (arg.Cancel) ? !turnOn : turnOn;
+
+				connectCheckbox.Text = connectCheckbox.Checked ? "Connected" : "Connect";
+			}
+		}
+
+		private void connectCheckbox_Click(object sender, EventArgs e)
+		{
+			if (ServiceEnabled)
+			{
+				connectCheckbox.Text = "Connecting";
+				raiseOnChangeEvent(true);
+			}
+			else
+			{
+				connectCheckbox.Text = "Disconnecting";
+				raiseOnChangeEvent(false);
 			}
 		}
 
 		private void connectCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
-			if (ServiceEnabled)
-			{
-				connectCheckbox.Text = "Connected";
-				raiseOnChangeEvent(true); // turn on
-			}
-			else
-			{
-				connectCheckbox.Text = "Connect";
-				raiseOnChangeEvent(false); // turn off
-			}
+			connectCheckbox.Text = connectCheckbox.Checked ? "Connected" : "Connect";
 		}
+
 	}
 
 	public class ServiceConnectivityChangeEventArgs : EventArgs
