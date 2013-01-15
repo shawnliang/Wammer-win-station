@@ -153,7 +153,8 @@ namespace Waveface.Stream.WindowsClient
 				driveDetector.DeviceRemoved += new DriveDetectorEventHandler(driveDetector_DeviceRemoved);
 				driveDetector.QueryRemove += new DriveDetectorEventHandler(driveDetector_QueryRemove);
 
-				ShowMainWindow();
+				ShowControlPanelDialog();
+				//ShowMainWindow();
 			}
 
 			Application.Run();
