@@ -25,6 +25,13 @@ namespace Waveface.Stream.WindowsClient
 
 		private void ServiceImportControl_Load(object sender, EventArgs e)
 		{
+			if (this.IsDesignMode())
+				return;
+
+			var user = StreamClient.Instance.LoginedUser;
+			this.user_id = user.UserID;
+			this.session_token = user.SessionToken;
+
 			var catalog = new AssemblyCatalog(this.GetType().Assembly);
 			var container = new CompositionContainer(catalog);
 			container.ComposeParts(this);
@@ -49,11 +56,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		public override void OnEnteringStep(WizardParameters parameters)
-		{
-			this.user_id = (string)parameters.Get("user_id");
-			this.session_token = (string)parameters.Get("session_token");
-		}
 
 		void svcItem_OnChange(object sender, ServiceConnectivityChangeEventArgs e)
 		{

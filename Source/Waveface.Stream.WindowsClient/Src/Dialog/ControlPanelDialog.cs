@@ -107,6 +107,10 @@ namespace Waveface.Stream.WindowsClient
 		private ControlPanelDialog()
         {
 			InitializeComponent();
+
+			if (this.IsDesignMode())
+				return;
+
 			UpdateAccountInfo();
 			UpdateUserPackage();
 			UpdateUsageStatus();

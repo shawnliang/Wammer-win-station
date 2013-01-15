@@ -28,13 +28,9 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+			this.btnOK = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.progressBar1 = new System.Windows.Forms.ProgressBar();
-			this.btnImport = new System.Windows.Forms.Button();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -57,21 +53,51 @@
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.btnUpdate = new System.Windows.Forms.Button();
 			this.lblVersion = new System.Windows.Forms.Label();
-			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-			this.btnOK = new System.Windows.Forms.Button();
+			this.panelEx1 = new Waveface.Stream.WindowsClient.PanelEx();
+			this.lblSyncSpeed = new System.Windows.Forms.Label();
+			this.lblSyncStatus = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.progressBar1 = new System.Windows.Forms.ProgressBar();
+			this.btnImport = new System.Windows.Forms.Button();
 			this.usageBar1 = new Waveface.Stream.WindowsClient.Src.Control.UsageBar();
+			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
+			this.personalCloudStatusControl21 = new Waveface.Stream.WindowsClient.PersonalCloudStatusControl2();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
-			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			this.tabPage2.SuspendLayout();
+			this.tabPage3.SuspendLayout();
 			this.tabPage4.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.groupBox4.SuspendLayout();
+			this.panelEx1.SuspendLayout();
 			this.SuspendLayout();
+			// 
+			// linkLabel1
+			// 
+			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.linkLabel1.AutoSize = true;
+			this.linkLabel1.Location = new System.Drawing.Point(12, 331);
+			this.linkLabel1.Name = "linkLabel1";
+			this.linkLabel1.Size = new System.Drawing.Size(60, 12);
+			this.linkLabel1.TabIndex = 1;
+			this.linkLabel1.TabStop = true;
+			this.linkLabel1.Text = "Learn More";
+			// 
+			// btnOK
+			// 
+			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.btnOK.Location = new System.Drawing.Point(530, 320);
+			this.btnOK.Name = "btnOK";
+			this.btnOK.Size = new System.Drawing.Size(75, 23);
+			this.btnOK.TabIndex = 2;
+			this.btnOK.Text = "OK";
+			this.btnOK.UseVisualStyleBackColor = true;
 			// 
 			// splitContainer1
 			// 
@@ -84,7 +110,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.panel1);
+			this.splitContainer1.Panel1.Controls.Add(this.panelEx1);
 			// 
 			// splitContainer1.Panel2
 			// 
@@ -92,70 +118,6 @@
 			this.splitContainer1.Size = new System.Drawing.Size(593, 302);
 			this.splitContainer1.SplitterDistance = 138;
 			this.splitContainer1.TabIndex = 0;
-			// 
-			// panel1
-			// 
-			this.panel1.BackColor = System.Drawing.Color.DarkOliveGreen;
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel1.Controls.Add(this.label3);
-			this.panel1.Controls.Add(this.label2);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.progressBar1);
-			this.panel1.Controls.Add(this.btnImport);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(0, 0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(138, 302);
-			this.panel1.TabIndex = 0;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.ForeColor = System.Drawing.Color.White;
-			this.label3.Location = new System.Drawing.Point(2, 42);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(131, 12);
-			this.label3.TabIndex = 2;
-			this.label3.Text = "Upload 25 items, 250 KB/s";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.ForeColor = System.Drawing.Color.White;
-			this.label2.Location = new System.Drawing.Point(22, 12);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(95, 12);
-			this.label2.TabIndex = 1;
-			this.label2.Text = "Syncing with cloud";
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 199);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(63, 12);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Processing...";
-			// 
-			// progressBar1
-			// 
-			this.progressBar1.Location = new System.Drawing.Point(14, 228);
-			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(107, 13);
-			this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-			this.progressBar1.TabIndex = 0;
-			// 
-			// btnImport
-			// 
-			this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnImport.Location = new System.Drawing.Point(14, 261);
-			this.btnImport.Name = "btnImport";
-			this.btnImport.Size = new System.Drawing.Size(107, 23);
-			this.btnImport.TabIndex = 0;
-			this.btnImport.Text = "Import Photos";
-			this.btnImport.UseVisualStyleBackColor = true;
-			this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
 			// 
 			// tabControl1
 			// 
@@ -320,6 +282,7 @@
 			// 
 			// tabPage2
 			// 
+			this.tabPage2.Controls.Add(this.serviceImportControl1);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -330,6 +293,7 @@
 			// 
 			// tabPage3
 			// 
+			this.tabPage3.Controls.Add(this.personalCloudStatusControl21);
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -355,7 +319,6 @@
 			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox3.Controls.Add(this.lblResorcePath);
-			this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
 			this.groupBox3.Location = new System.Drawing.Point(6, 6);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(431, 66);
@@ -368,7 +331,6 @@
 			this.lblResorcePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblResorcePath.AutoEllipsis = true;
-			this.lblResorcePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.lblResorcePath.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.lblResorcePath.Location = new System.Drawing.Point(8, 27);
 			this.lblResorcePath.Name = "lblResorcePath";
@@ -382,7 +344,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox4.Controls.Add(this.btnUpdate);
 			this.groupBox4.Controls.Add(this.lblVersion);
-			this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
 			this.groupBox4.Location = new System.Drawing.Point(6, 78);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(431, 63);
@@ -393,7 +354,6 @@
 			// btnUpdate
 			// 
 			this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.btnUpdate.ForeColor = System.Drawing.Color.Black;
 			this.btnUpdate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.btnUpdate.Location = new System.Drawing.Point(317, 25);
@@ -407,35 +367,82 @@
 			// lblVersion
 			// 
 			this.lblVersion.AutoSize = true;
-			this.lblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.lblVersion.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.lblVersion.Location = new System.Drawing.Point(8, 30);
 			this.lblVersion.Name = "lblVersion";
-			this.lblVersion.Size = new System.Drawing.Size(93, 13);
+			this.lblVersion.Size = new System.Drawing.Size(93, 12);
 			this.lblVersion.TabIndex = 0;
 			this.lblVersion.Text = "[Software Version]";
 			// 
-			// linkLabel1
+			// panelEx1
 			// 
-			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.linkLabel1.AutoSize = true;
-			this.linkLabel1.Location = new System.Drawing.Point(12, 331);
-			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(60, 12);
-			this.linkLabel1.TabIndex = 1;
-			this.linkLabel1.TabStop = true;
-			this.linkLabel1.Text = "Learn More";
+			this.panelEx1.Controls.Add(this.lblSyncSpeed);
+			this.panelEx1.Controls.Add(this.lblSyncStatus);
+			this.panelEx1.Controls.Add(this.label1);
+			this.panelEx1.Controls.Add(this.progressBar1);
+			this.panelEx1.Controls.Add(this.btnImport);
+			this.panelEx1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelEx1.EnableLinearGradientBackground = true;
+			this.panelEx1.LinearGradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(223)))), ((int)(((byte)(183)))));
+			this.panelEx1.LinearGradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(124)))), ((int)(((byte)(55)))));
+			this.panelEx1.Location = new System.Drawing.Point(0, 0);
+			this.panelEx1.Name = "panelEx1";
+			this.panelEx1.Size = new System.Drawing.Size(138, 302);
+			this.panelEx1.TabIndex = 3;
 			// 
-			// btnOK
+			// lblSyncSpeed
 			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOK.Location = new System.Drawing.Point(530, 320);
-			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(75, 23);
-			this.btnOK.TabIndex = 2;
-			this.btnOK.Text = "OK";
-			this.btnOK.UseVisualStyleBackColor = true;
+			this.lblSyncSpeed.BackColor = System.Drawing.Color.Transparent;
+			this.lblSyncSpeed.ForeColor = System.Drawing.Color.White;
+			this.lblSyncSpeed.Location = new System.Drawing.Point(0, 42);
+			this.lblSyncSpeed.Name = "lblSyncSpeed";
+			this.lblSyncSpeed.Size = new System.Drawing.Size(138, 62);
+			this.lblSyncSpeed.TabIndex = 2;
+			this.lblSyncSpeed.Text = "[Sync Speed]";
+			this.lblSyncSpeed.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// lblSyncStatus
+			// 
+			this.lblSyncStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblSyncStatus.BackColor = System.Drawing.Color.Transparent;
+			this.lblSyncStatus.ForeColor = System.Drawing.Color.White;
+			this.lblSyncStatus.Location = new System.Drawing.Point(0, 12);
+			this.lblSyncStatus.Name = "lblSyncStatus";
+			this.lblSyncStatus.Size = new System.Drawing.Size(138, 12);
+			this.lblSyncStatus.TabIndex = 1;
+			this.lblSyncStatus.Text = "[Sync Status]";
+			this.lblSyncStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.Transparent;
+			this.label1.Location = new System.Drawing.Point(12, 199);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(63, 12);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Processing...";
+			// 
+			// progressBar1
+			// 
+			this.progressBar1.Location = new System.Drawing.Point(14, 228);
+			this.progressBar1.Name = "progressBar1";
+			this.progressBar1.Size = new System.Drawing.Size(107, 13);
+			this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+			this.progressBar1.TabIndex = 0;
+			// 
+			// btnImport
+			// 
+			this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnImport.Location = new System.Drawing.Point(14, 261);
+			this.btnImport.Name = "btnImport";
+			this.btnImport.Size = new System.Drawing.Size(107, 23);
+			this.btnImport.TabIndex = 0;
+			this.btnImport.Text = "Import Photos";
+			this.btnImport.UseVisualStyleBackColor = true;
+			this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
 			// 
 			// usageBar1
 			// 
@@ -447,6 +454,32 @@
 			this.usageBar1.TabIndex = 12;
 			this.usageBar1.Unit = "MB";
 			this.usageBar1.Value = 0;
+			// 
+			// serviceImportControl1
+			// 
+			this.serviceImportControl1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.serviceImportControl1.CustomLabelForNextStep = null;
+			this.serviceImportControl1.CustomSize = new System.Drawing.Size(0, 0);
+			this.serviceImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.serviceImportControl1.Location = new System.Drawing.Point(3, 3);
+			this.serviceImportControl1.Name = "serviceImportControl1";
+			this.serviceImportControl1.PageTitle = null;
+			this.serviceImportControl1.Size = new System.Drawing.Size(437, 270);
+			this.serviceImportControl1.TabIndex = 0;
+			this.serviceImportControl1.WizardControl = null;
+			// 
+			// personalCloudStatusControl21
+			// 
+			this.personalCloudStatusControl21.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.personalCloudStatusControl21.CustomLabelForNextStep = null;
+			this.personalCloudStatusControl21.CustomSize = new System.Drawing.Size(0, 0);
+			this.personalCloudStatusControl21.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.personalCloudStatusControl21.Location = new System.Drawing.Point(3, 3);
+			this.personalCloudStatusControl21.Name = "personalCloudStatusControl21";
+			this.personalCloudStatusControl21.PageTitle = null;
+			this.personalCloudStatusControl21.Size = new System.Drawing.Size(437, 270);
+			this.personalCloudStatusControl21.TabIndex = 0;
+			this.personalCloudStatusControl21.WizardControl = null;
 			// 
 			// ControlPanelDialog
 			// 
@@ -465,18 +498,20 @@
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			this.tabPage2.ResumeLayout(false);
+			this.tabPage3.ResumeLayout(false);
 			this.tabPage4.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
+			this.panelEx1.ResumeLayout(false);
+			this.panelEx1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -490,9 +525,8 @@
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.LinkLabel linkLabel1;
 		private System.Windows.Forms.Button btnOK;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label lblSyncSpeed;
+		private System.Windows.Forms.Label lblSyncStatus;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ProgressBar progressBar1;
 		private System.Windows.Forms.Button btnImport;
@@ -516,5 +550,8 @@
 		private System.Windows.Forms.Label lblVersion;
 		private System.Windows.Forms.Label lblName;
 		private Src.Control.UsageBar usageBar1;
+		private ServiceImportControl serviceImportControl1;
+		private PersonalCloudStatusControl2 personalCloudStatusControl21;
+		private PanelEx panelEx1;
 	}
 }

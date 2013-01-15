@@ -42,19 +42,19 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-			this.label1.Location = new System.Drawing.Point(14, 14);
+			this.label1.Location = new System.Drawing.Point(3, 9);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(262, 18);
+			this.label1.Size = new System.Drawing.Size(182, 12);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Your Personal Cloud has been created";
 			// 
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.button1.Location = new System.Drawing.Point(30, 325);
+			this.button1.AutoSize = true;
+			this.button1.Location = new System.Drawing.Point(5, 310);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(240, 27);
+			this.button1.Size = new System.Drawing.Size(106, 25);
 			this.button1.TabIndex = 2;
 			this.button1.Text = "Add a device ...";
 			this.button1.UseVisualStyleBackColor = true;
@@ -65,9 +65,9 @@
 			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabel1.AutoSize = true;
 			this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 10);
-			this.linkLabel1.Location = new System.Drawing.Point(32, 367);
+			this.linkLabel1.Location = new System.Drawing.Point(5, 352);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(219, 17);
+			this.linkLabel1.Size = new System.Drawing.Size(203, 19);
 			this.linkLabel1.TabIndex = 3;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "Learn more about our apps and extensions";
@@ -92,9 +92,9 @@
             listViewGroup2,
             listViewGroup3});
 			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.listView1.Location = new System.Drawing.Point(32, 51);
+			this.listView1.Location = new System.Drawing.Point(5, 24);
 			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(578, 268);
+			this.listView1.Size = new System.Drawing.Size(639, 280);
 			this.listView1.TabIndex = 4;
 			this.listView1.UseCompatibleStateImageBehavior = false;
 			this.listView1.View = System.Windows.Forms.View.Details;
@@ -111,7 +111,7 @@
 			// 
 			// PersonalCloudStatusControl2
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.listView1);
@@ -119,7 +119,7 @@
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label1);
 			this.Name = "PersonalCloudStatusControl2";
-			this.Size = new System.Drawing.Size(647, 402);
+			this.Size = new System.Drawing.Size(647, 371);
 			this.Load += new System.EventHandler(this.PersonalCloudStatusControl2_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
