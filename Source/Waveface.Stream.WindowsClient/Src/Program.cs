@@ -153,8 +153,10 @@ namespace Waveface.Stream.WindowsClient
 				driveDetector.DeviceRemoved += new DriveDetectorEventHandler(driveDetector_DeviceRemoved);
 				driveDetector.QueryRemove += new DriveDetectorEventHandler(driveDetector_QueryRemove);
 
-				ShowControlPanelDialog();
-				//ShowMainWindow();
+				if (!MainForm.Instance.IsDebugMode)
+					ShowControlPanelDialog();
+				else
+					ShowMainWindow();
 			}
 
 			Application.Run();
@@ -494,7 +496,10 @@ namespace Waveface.Stream.WindowsClient
 
 			if (ShowLoginDialog() == DialogResult.OK)
 			{
-				ShowMainWindow();
+				if (!MainForm.Instance.IsDebugMode)
+					ShowControlPanelDialog();
+				else
+					ShowMainWindow();
 			}
 		}
 
@@ -569,15 +574,13 @@ namespace Waveface.Stream.WindowsClient
 			if (e.Button != MouseButtons.Left)
 				return;
 
-			if (StreamClient.Instance.IsLogined)
+			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
 				if (!MainForm.Instance.IsDebugMode)
 					ShowControlPanelDialog();
 				else
 					ShowMainWindow();
 			}
-			else
-				ShowLoginDialog();
 		}
 
 		static void dialog_FormClosed(object sender, FormClosedEventArgs e)
@@ -594,7 +597,10 @@ namespace Waveface.Stream.WindowsClient
 
 			if (ShowLoginDialog() == DialogResult.OK)
 			{
-				ShowMainWindow();
+				if (!MainForm.Instance.IsDebugMode)
+					ShowControlPanelDialog();
+				else
+					ShowMainWindow();
 			}
 		}
 		#endregion
