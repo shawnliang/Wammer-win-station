@@ -117,109 +117,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;connectCheckbox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;connectCheckbox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;serviceIcon.Name" xml:space="preserve">
-    <value>serviceIcon</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="connectCheckbox.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="serviceName.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
   <data name="serviceName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;connectCheckbox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ServiceItemControl</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="serviceName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 18</value>
-  </data>
-  <data name="serviceIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 55</value>
-  </data>
-  <data name="&gt;&gt;serviceName.Name" xml:space="preserve">
-    <value>serviceName</value>
-  </data>
-  <data name="connectCheckbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 28</value>
-  </data>
-  <data name="&gt;&gt;serviceName.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="serviceIcon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>33, 11</value>
-  </data>
-  <data name="connectCheckbox.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="connectCheckbox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>294, 26</value>
-  </data>
-  <data name="&gt;&gt;connectCheckbox.Name" xml:space="preserve">
-    <value>connectCheckbox</value>
-  </data>
-  <data name="&gt;&gt;serviceIcon.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;serviceName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="serviceName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 11pt</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="serviceName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;serviceIcon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="serviceName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 11pt</value>
-  </data>
-  <data name="&gt;&gt;serviceName.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="connectCheckbox.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
-    <value>Button</value>
-  </data>
-  <data name="serviceIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
-  </data>
-  <data name="&gt;&gt;serviceIcon.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="connectCheckbox.Text" xml:space="preserve">
-    <value>Connect</value>
-  </data>
-  <data name="serviceIcon.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
   <data name="serviceName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>99, 28</value>
+    <value>99, 30</value>
   </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
+  <data name="serviceName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 18</value>
   </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>465, 78</value>
+  <data name="serviceName.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
   <data name="serviceName.Text" xml:space="preserve">
     <value>service name</value>
   </data>
+  <data name="&gt;&gt;serviceName.Name" xml:space="preserve">
+    <value>serviceName</value>
+  </data>
+  <data name="&gt;&gt;serviceName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;serviceName.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;serviceName.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="serviceIcon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>33, 12</value>
+  </data>
+  <data name="serviceIcon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 60</value>
+  </data>
+  <data name="serviceIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="serviceIcon.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;serviceIcon.Name" xml:space="preserve">
+    <value>serviceIcon</value>
+  </data>
+  <data name="&gt;&gt;serviceIcon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;serviceIcon.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;serviceIcon.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="connectCheckbox.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
+    <value>Button</value>
+  </data>
+  <data name="connectCheckbox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>294, 28</value>
+  </data>
+  <data name="connectCheckbox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 30</value>
+  </data>
+  <data name="connectCheckbox.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="connectCheckbox.Text" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="connectCheckbox.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;connectCheckbox.Name" xml:space="preserve">
+    <value>connectCheckbox</value>
+  </data>
+  <data name="&gt;&gt;connectCheckbox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;connectCheckbox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;connectCheckbox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>465, 85</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ServiceItemControl</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
