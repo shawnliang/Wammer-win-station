@@ -111,6 +111,8 @@ namespace Waveface.Stream.WindowsClient
 			if (this.IsDesignMode())
 				return;
 
+			this.Disposed += ControlPanelDialog_Disposed;
+
 			lblSyncStatus.Text = string.Empty;
 			lblSyncTransferStatus.Text = string.Empty;
 			lblLocalProcessStatus.Text = string.Empty;
@@ -268,6 +270,11 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 		#region Event Process
+		void ControlPanelDialog_Disposed(object sender, EventArgs e)
+		{
+			_instance = null;
+		}
+
 		private void ControlPanelDialog_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			var userInfo = UserInfo.Instance;
@@ -390,7 +397,5 @@ namespace Waveface.Stream.WindowsClient
 		}
 
 		#endregion
-
-		
 	}
 }

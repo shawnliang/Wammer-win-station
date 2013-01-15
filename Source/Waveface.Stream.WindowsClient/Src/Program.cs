@@ -153,7 +153,10 @@ namespace Waveface.Stream.WindowsClient
 				driveDetector.DeviceRemoved += new DriveDetectorEventHandler(driveDetector_DeviceRemoved);
 				driveDetector.QueryRemove += new DriveDetectorEventHandler(driveDetector_QueryRemove);
 
-				ShowMainWindow();
+				if (!MainForm.Instance.IsDebugMode)
+					ShowControlPanelDialog();
+				else
+					ShowMainWindow();
 			}
 
 			Application.Run();
@@ -401,9 +404,9 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items.Add("Seperator", "-", null);
 			m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
 			m_ContextMenuStrip.Items.Add("Login", Resources.LOGIN_MENU_ITEM, m_ContextMenuStrip_Login_Click);
-			m_ContextMenuStrip.Items.Add("-");
+			m_ContextMenuStrip.Items.Add("LoginSeperator", "-", null);
 			m_ContextMenuStrip.Items.Add("Import", Resources.IMPORT_MENU_ITEM, m_ContextMenuStrip_Import_Click);
-			m_ContextMenuStrip.Items.Add("-");
+			m_ContextMenuStrip.Items.Add("ImportSeperator", "-", null);
 			m_ContextMenuStrip.Items.Add(Resources.CONTACT_US_MENU_ITEM, m_ContextMenuStrip_ContactUs_Click);
 			m_ContextMenuStrip.Items.Add(Resources.SERVICE_QUIT, m_ContextMenuStrip_Quit_Click);
 		}
@@ -439,6 +442,7 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items["Seperator"].Visible = !MainForm.Instance.IsDebugMode && !isLogined;
 
 			m_ContextMenuStrip.Items["Import"].Visible = isLogined;
+			m_ContextMenuStrip.Items["ImportSeperator"].Visible = isLogined;
 		}
 
 		private static void UpdateTrayMenuSyncStatus()
@@ -493,7 +497,10 @@ namespace Waveface.Stream.WindowsClient
 
 			if (ShowLoginDialog() == DialogResult.OK)
 			{
-				ShowMainWindow();
+				if (!MainForm.Instance.IsDebugMode)
+					ShowControlPanelDialog();
+				else
+					ShowMainWindow();
 			}
 		}
 
@@ -568,15 +575,13 @@ namespace Waveface.Stream.WindowsClient
 			if (e.Button != MouseButtons.Left)
 				return;
 
-			if (StreamClient.Instance.IsLogined)
+			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
 				if (!MainForm.Instance.IsDebugMode)
 					ShowControlPanelDialog();
 				else
 					ShowMainWindow();
 			}
-			else
-				ShowLoginDialog();
 		}
 
 		static void dialog_FormClosed(object sender, FormClosedEventArgs e)
@@ -593,7 +598,10 @@ namespace Waveface.Stream.WindowsClient
 
 			if (ShowLoginDialog() == DialogResult.OK)
 			{
-				ShowMainWindow();
+				if (!MainForm.Instance.IsDebugMode)
+					ShowControlPanelDialog();
+				else
+					ShowMainWindow();
 			}
 		}
 		#endregion

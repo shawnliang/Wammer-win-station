@@ -129,6 +129,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			InitializeComponent();
 
+			this.Disposed += MainForm_Disposed;
 			this.DebugModeChanged += MainForm_DebugStateChanged;
 
 			try
@@ -200,9 +201,19 @@ namespace Waveface.Stream.WindowsClient
 		}
 		#endregion
 
+
+		#region Public Method
 		public void Navigate(string url)
 		{
 			m_Browser.Navigate(url);
+		} 
+		#endregion
+
+
+		#region Event Process
+		void MainForm_Disposed(object sender, EventArgs e)
+		{
+			_instance = null;
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -232,6 +243,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (m_KonamiSequence.IsCompletedBy(e.KeyCode))
 				IsDebugMode = !IsDebugMode;
-		}
+		} 
+		#endregion
 	}
 }
