@@ -120,6 +120,9 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
+			if (string.IsNullOrEmpty(m_APIKey) || string.IsNullOrEmpty(m_SessionToken) || string.IsNullOrEmpty(m_GroupID) || Paths.Count() == 0)
+				return;
+
 			this.LogInfoMsg("Importing from: " + string.Join(", ", Paths.ToArray()));
 	 		Exception error = null;
 	
@@ -137,6 +140,10 @@ namespace Wammer.Station
 				// index files, generate metadata
 				var allMeta = extractMetadata(allFiles).ToList();
 				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
+
+				if (allMeta.Count == 0)
+					throw new Exception("No file needs to import");
+
 
 				// upload metadata task
 				int nMetaupload = 0;

@@ -97,6 +97,7 @@
     <Compile Include="Doc\MonitorAddHandlerTest.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
+    <Compile Include="TestImportTaskStatus.cs" />
     <Compile Include="TestMongoDB.cs" />
     <Compile Include="TestSerializable.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />

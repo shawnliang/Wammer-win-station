@@ -27,7 +27,7 @@ namespace Waveface.Stream.WindowsClient
 			return tasks.Where(t => t.IsInProgress());
 		}
 
-		public static ImportStatus Lookup(string user_id)
+		public static ImportStatusSummary Lookup(string user_id)
 		{
 			var unfinishedTasks = TaskStatusCollection.Instance.Find(
 				Query.And(
@@ -37,7 +37,7 @@ namespace Waveface.Stream.WindowsClient
 			).SetSortOrder(SortBy.Ascending("Time")).Where(x => x.IsPending() || x.IsInProgress());
 
 
-			return new ImportStatus(unfinishedTasks);
+			return new ImportStatusSummary(new ImportStatus(unfinishedTasks));
 		}
 
 		public string Description()
@@ -52,6 +52,79 @@ namespace Waveface.Stream.WindowsClient
 		{
 			return tasks.Any();
 		}
+	}
+
+	public class ImportStatusSummary
+	{
+		private string desc = "";
+		private int max;
+		private int cur;
+		private bool hasProgress;
+
+		public ImportStatusSummary(ImportStatus status)
+		{
+			var runnings = status.GetRunningTasks();
+			var pendings = status.GetPendingTasks();
+
+
+			if (!status.HasTasks())
+				return;
+
+			if (runnings.Count() > 0)
+			{
+				var foreground = runnings.FirstOrDefault(t => t.IsInProgress() && !t.IsCopyComplete);
+
+				if (foreground != null)
+				{
+					desc = foreground.Description();
+
+					if (pendings.Count() > 0)
+						desc += "\r\n" + string.Format("{0} tasks are queued.", pendings.Count());
+
+					hasProgress = foreground.GetProgress(out max, out cur);
+					return;
+				}
+				else
+				{
+					var aggregated = aggregateTasks(runnings);
+					desc = aggregated.Description();
+					hasProgress = aggregated.GetProgress(out max, out cur);
+
+					if (pendings.Count() > 0)
+						desc += "\r\n" + string.Format("{0} tasks are queued.");
+				}
+			}
+			else if (pendings.Count() > 0)
+			{
+				desc = string.Format("Waiting to import... {0} tasks queued", pendings.Count());
+			}
+		}
+
+		private ImportTaskStaus aggregateTasks(IEnumerable<ImportTaskStaus> runnings)
+		{
+			var result = runnings.First();
+
+			foreach (var item in runnings.Skip(1))
+			{
+				result = result + item;
+			}
+
+			return result;
+		}
+
+		public string Description
+		{
+			get { return desc; }
+		}
+
+		public bool GetProgress(out int maximum, out int current)
+		{
+			maximum = max;
+			current = cur;
+
+			return hasProgress;
+		}
+
 	}
 
 
