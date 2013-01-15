@@ -90,22 +90,22 @@ namespace Waveface.Stream.Model
 
 		public bool IsThumbnailing()
 		{
-			return IsCopied() && Thumbnailed < Indexed && string.IsNullOrEmpty(Error);
+			return IsCopied() && Thumbnailed < Copied && string.IsNullOrEmpty(Error);
 		}
 
 		public bool IsThumbnailed()
 		{
-			return IsCopied() && Thumbnailed == Indexed;
+			return IsCopied() && Thumbnailed == Copied;
 		}
 
 		public bool IsUploading()
 		{
-			return IsThumbnailed() && UploadedCount < Indexed && string.IsNullOrEmpty(Error);
+			return IsThumbnailed() && UploadedCount < UploadCount && string.IsNullOrEmpty(Error);
 		}
 
 		public bool IsUploaded()
 		{
-			return IsThumbnailed() && UploadedCount == Indexed;
+			return IsThumbnailed() && UploadedCount == UploadCount;
 		}
 
 		public bool IsCompleteSuccessfully()
