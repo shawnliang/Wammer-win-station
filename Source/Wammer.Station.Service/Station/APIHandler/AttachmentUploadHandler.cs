@@ -121,8 +121,8 @@ namespace Wammer.Station.APIHandler
 			if (data.raw_data.Array == null)
 				throw new FormatException("file is missing in file upload multipart data");
 
-			if (data.raw_data.Count > 20 * 1024 * 1024)
-				throw new WammerStationException("file size is over 20MB", (int)StationLocalApiError.ImageTooLarge);
+			if (data.raw_data.Count > 100 * 1024 * 1024)
+				throw new WammerStationException("file size is over 100MB", (int)StationLocalApiError.ImageTooLarge);
 
 			if (string.IsNullOrEmpty(data.file_name))
 				throw new FormatException("file_name is null or empty");
