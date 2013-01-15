@@ -127,7 +127,7 @@
     <value>登錄時發生錯誤, 請重新輸入.</value>
   </data>
   <data name="INDICATOR_PATTERN" xml:space="preserve">
-    <value>{0} {1} 張圖片, {2:0.##} {3}</value>
+    <value>{0}{1}{2} {3} 張圖片, {4:0.##} {5}</value>
   </data>
   <data name="NEXT_BUTTON_TEXT" xml:space="preserve">
     <value>下一步</value>
@@ -150,7 +150,7 @@
   <data name="NEED_UPGRADE" xml:space="preserve">
     <value>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。在還未升級前將無法繼續使用AOStream。</value>
   </data>
-  <data name="SERVICE_RUNNING" xml:space="preserve">
+  <data name="ALL_DATA_SYNCED" xml:space="preserve">
     <value>同步完成</value>
   </data>
   <data name="SERVICE_STARTING" xml:space="preserve">
@@ -314,5 +314,8 @@
   </data>
   <data name="IMPORT_DESC_WAITING" xml:space="preserve">
     <value>準備匯入下一個資料夾, {0} 個工作等待中</value>
+  </data>
+  <data name="SYNCING_WITH_CLOUD" xml:space="preserve">
+    <value>雲端同步中</value>
   </data>
 </root>

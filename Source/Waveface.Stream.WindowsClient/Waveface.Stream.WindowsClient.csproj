@@ -189,6 +189,7 @@
     <Compile Include="Src\Class\RecentDocumentWatcher.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
     <Compile Include="Src\Class\StreamSignup.cs" />
+    <Compile Include="Src\Class\SyncStatus.cs" />
     <Compile Include="Src\Class\TwitterConnectableService.cs" />
     <Compile Include="Src\Class\WebRedirectConnectableService.cs" />
     <Compile Include="Src\Class\WindowsLibraries.cs" />
@@ -220,6 +221,9 @@
     <Compile Include="Src\Class\PhotoSearch.cs" />
     <Compile Include="Src\Class\PortableDevice.cs" />
     <Compile Include="Src\Class\PortableMediaService.cs" />
+    <Compile Include="Src\Control\PanelEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Src\Control\PersonalCloudStatusControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -411,6 +415,7 @@
     <Compile Include="Src\Dialog\SignUpDialog.Designer.cs">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Extension\ControlExtension.cs" />
     <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
     <Compile Include="Src\Extension\ErrorProviderExtension.cs" />
     <Compile Include="Src\Extension\NotifyIconExtension.cs" />

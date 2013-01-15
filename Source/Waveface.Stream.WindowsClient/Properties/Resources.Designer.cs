@@ -75,6 +75,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Data Synced.
+        /// </summary>
+        internal static string ALL_DATA_SYNCED {
+            get {
+                return ResourceManager.GetString("ALL_DATA_SYNCED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You currently have the latest version of AOStream installed..
         /// </summary>
         internal static string ALREAD_UPDATED {
@@ -379,7 +388,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} {1} photos, {2:0.##} {3}.
+        ///   Looks up a localized string similar to {0}{1}{2} {3} photos, {4:0.##} {5}.
         /// </summary>
         internal static string INDICATOR_PATTERN {
             get {
@@ -666,15 +675,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All Data Synced.
-        /// </summary>
-        internal static string SERVICE_RUNNING {
-            get {
-                return ResourceManager.GetString("SERVICE_RUNNING", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to connect to AOStream server.
         /// </summary>
         internal static string SERVICE_START_FAIL {
@@ -834,6 +834,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string SYNC_ERROR {
             get {
                 return ResourceManager.GetString("SYNC_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syncing with Cloud.
+        /// </summary>
+        internal static string SYNCING_WITH_CLOUD {
+            get {
+                return ResourceManager.GetString("SYNCING_WITH_CLOUD", resourceCulture);
             }
         }
         

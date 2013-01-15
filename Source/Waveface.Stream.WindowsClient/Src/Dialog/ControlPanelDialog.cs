@@ -107,6 +107,14 @@ namespace Waveface.Stream.WindowsClient
 		private ControlPanelDialog()
 		{
 			InitializeComponent();
+
+			if (this.IsDesignMode())
+				return;
+
+			lblSyncStatus.Text = string.Empty;
+			lblSyncTransferStatus.Text = string.Empty;
+			lblLocalProcessStatus.Text = string.Empty;
+
 			UpdateAccountInfo();
 			UpdateUserPackage();
 			UpdateUsageStatus();
@@ -234,13 +242,13 @@ namespace Waveface.Stream.WindowsClient
 
 				if (string.IsNullOrEmpty(summary.Description))
 				{
-					progressBar1.Visible = label1.Visible = false;
+					progressBar1.Visible = lblLocalProcessStatus.Visible = false;
 					return;
 				}
 				else
 				{
-					label1.Text = summary.Description;
-					label1.Visible = true;
+					lblLocalProcessStatus.Text = summary.Description;
+					lblLocalProcessStatus.Visible = true;
 
 					int max;
 					int cur;
@@ -376,6 +384,9 @@ namespace Waveface.Stream.WindowsClient
 		private void refreshStatusTimer_Tick(object sender, EventArgs e)
 		{
 			UpdateImportStatus();
+
+			lblSyncStatus.Text = SyncStatus.GetSyncStatus();
+			lblSyncTransferStatus.Text = SyncStatus.GetSyncTransferStatus();
 		}
 
 		#endregion

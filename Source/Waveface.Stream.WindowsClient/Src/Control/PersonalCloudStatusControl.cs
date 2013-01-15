@@ -17,27 +17,33 @@ namespace Waveface.Stream.WindowsClient
 		private Timer timer;
 		private object cs = new object();
 
+		public PersonalCloudStatusControl2()
+			: this(new PersonalCloudStatusService())
+		{
+		}
+
 		public PersonalCloudStatusControl2(IPersonalCloudStatus service)
 		{
 			InitializeComponent();
+
 			CustomSize = new Size(710, 437);
 			this.service = service;
 			this.CustomLabelForNextStep = "Start Stream!";
 		}
 
-		public override void OnEnteringStep(WizardParameters parameters)
-		{
-			user_id = parameters.Get("user_id") as string;
-			session_token = parameters.Get("session_token") as string;
+		//public override void OnEnteringStep(WizardParameters parameters)
+		//{
+		//	user_id = parameters.Get("user_id") as string;
+		//	session_token = parameters.Get("session_token") as string;
 
-			listView1.Items.Clear();
-			updateStatus();
+		//	listView1.Items.Clear();
+		//	updateStatus();
 
-			timer = new Timer();
-			timer.Interval = 2000;
-			timer.Tick += timer1_Tick;
-			timer.Start();
-		}
+		//	timer = new Timer();
+		//	timer.Interval = 2000;
+		//	timer.Tick += timer1_Tick;
+		//	timer.Start();
+		//}
 
 		public override void OnLeavingStep(WizardParameters parameters)
 		{
@@ -177,7 +183,22 @@ namespace Waveface.Stream.WindowsClient
 
 		private void PersonalCloudStatusControl2_Load(object sender, EventArgs e)
 		{
+			if (this.IsDesignMode())
+				return;
+
 			SetDoubleBuffered(listView1);
+
+			var user = StreamClient.Instance.LoginedUser;
+			user_id = user.UserID;
+			session_token = user.SessionToken;
+
+			listView1.Items.Clear();
+			updateStatus();
+
+			timer = new Timer();
+			timer.Interval = 2000;
+			timer.Tick += timer1_Tick;
+			timer.Start();
 		}
 
 		private void button1_Click(object sender, EventArgs e)

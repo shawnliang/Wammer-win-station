@@ -18,15 +18,6 @@ namespace Waveface.Stream.WindowsClient
 {
 	internal static class Program
 	{
-		#region Const
-		private const string CATEGORY_NAME = "Waveface Station";
-		private const string UPSTREAM_RATE = "Upstream rate (bytes/sec)";
-		private const string DWSTREAM_RATE = "Downstream rate (bytes/sec)";
-		private const string UP_REMAINED_COUNT = "Atachement upload remained count";
-		private const string DW_REMAINED_COUNT = "Atachement download remained count";
-		#endregion
-
-
 		#region Private Static Var
 		private static NotifyIcon _notifyIcon;
 		private static ContextMenuStrip _contextMenuStrip;
@@ -36,16 +27,6 @@ namespace Waveface.Stream.WindowsClient
 
 		private static DriveDetector driveDetector;
 		private static UsbImportDialog usbImportDialog;
-
-		private static Queue<float> _upRemainedCount = new Queue<float>();
-		private static Queue<float> _downRemainedCount = new Queue<float>();
-		private static Queue<float> _upSpeeds = new Queue<float>();
-		private static Queue<float> _downSpeeds = new Queue<float>();
-
-		private static PerformanceCounter m_DownRemainedCountCounter = new PerformanceCounter(CATEGORY_NAME, DW_REMAINED_COUNT, false);
-		private static PerformanceCounter m_DownStreamRateCounter = new PerformanceCounter(CATEGORY_NAME, DWSTREAM_RATE, false);
-		private static PerformanceCounter m_UpRemainedCountCounter = new PerformanceCounter(CATEGORY_NAME, UP_REMAINED_COUNT, false);
-		private static PerformanceCounter m_UpStreamRateCounter = new PerformanceCounter(CATEGORY_NAME, UPSTREAM_RATE, false);
 
 
 		private static Icon iconSyncing1 = Icon.FromHandle(Resources.stream_tray_syncing1.GetHicon());
@@ -58,9 +39,6 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Private Static Property
 		private static Mutex m_Mutex { get; set; }
-
-
-		public static Boolean m_IsServiceRunning { get; set; }
 
 		/// <summary>
 		/// Gets the m_ notify icon.
@@ -157,7 +135,7 @@ namespace Waveface.Stream.WindowsClient
 			InitNotifyIcon();
 
 			StationAPI.ResumeSync();
-			m_IsServiceRunning = true;
+			SyncStatus.IsServiceRunning = true;
 
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
@@ -221,181 +199,22 @@ namespace Waveface.Stream.WindowsClient
 		}
 
 
-		private static void GetSpeedAndUnit(float value, ref float speed, ref string unit)
-		{
-			var units = new string[] { "B/s", "KB/s", "MB/s" };
-			var index = Array.IndexOf(units, unit);
-
-			if (index == -1)
-				index = 0;
-
-			if (value > 1024)
-			{
-				value = value / 1024;
-				speed = value;
-				unit = units[index + 1];
-				GetSpeedAndUnit(value, ref speed, ref unit);
-				return;
-			}
-
-			speed = value;
-			unit = units[index];
-		}
-
-		private static string GetSyncStatus()
-		{
-			var iconText = default(string);
-			var upRemainedCount = m_UpRemainedCountCounter.NextValue();
-			var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
-
-			if (_upRemainedCount.Count >= 10)
-				_upRemainedCount.Dequeue();
-
-			if (_downRemainedCount.Count >= 10)
-				_downRemainedCount.Dequeue();
-
-			_upRemainedCount.Enqueue(upRemainedCount);
-			_downRemainedCount.Enqueue(downloadRemainedCount);
-
-			SyncRange syncRange = getSyncRange();
-
-			if (upRemainedCount > 0 || downloadRemainedCount > 0)
-			{
-				if (m_IsServiceRunning)
-				{
-					var upSpeed = m_UpStreamRateCounter.NextValue();
-					var downloadSpeed = m_DownStreamRateCounter.NextValue();
-
-					if (_upSpeeds.Count >= 5)
-						_upSpeeds.Dequeue();
-					_upSpeeds.Enqueue(upSpeed);
-
-					if (_downSpeeds.Count >= 5)
-						_downSpeeds.Dequeue();
-					_downSpeeds.Enqueue(downloadSpeed);
-
-					if (_upSpeeds.Count >= 0)
-						upSpeed = _upSpeeds.Average();
-
-					if (_downSpeeds.Count >= 0)
-						downloadSpeed = _downSpeeds.Average();
-
-					string upSpeedUnit = string.Empty;
-					GetSpeedAndUnit(upSpeed, ref upSpeed, ref upSpeedUnit);
-
-					string downloadSpeedUnit = string.Empty;
-					GetSpeedAndUnit(downloadSpeed, ref downloadSpeed, ref downloadSpeedUnit);
-
-					upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
-					downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
-
-
-
-					if (upRemainedCount > 0)
-					{
-						iconText = string.Format(Resources.INDICATOR_PATTERN,
-												 Resources.UPLOAD_INDICATOR,
-												 (upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
-												 upSpeed,
-												 upSpeedUnit);
-					}
-
-					if (downloadRemainedCount > 0)
-					{
-						iconText = string.Format(Resources.INDICATOR_PATTERN,
-												 Resources.DOWNLOAD_INDICATOR,
-												 (downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
-												 downloadSpeed,
-												 downloadSpeedUnit);
-					}
-
-					if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
-					{
-						iconText = Application.ProductName + Environment.NewLine + Resources.SYNC_ERROR + syncRange.GetUploadDownloadError();
-					}
-
-					if (string.IsNullOrEmpty(iconText))
-						iconText = Resources.SERVICE_RUNNING;
-
-				}else
-				{
-					iconText = Resources.SERVICE_STOP;
-				}
-			}
-			else
-			{
-				if (!string.IsNullOrEmpty(syncRange.download_index_error))
-				{
-					iconText = Application.ProductName + Environment.NewLine + Resources.SYNC_ERROR + syncRange.download_index_error;
-				}
-				else if (syncRange.syncing)
-				{
-					iconText = Resources.DOWNLOAD_INDEX;
-				}
-				else 
-				{
-					iconText = (m_IsServiceRunning) ? Resources.SERVICE_RUNNING : Resources.SERVICE_STOP;
-				}
-
-			}
-
-			return iconText;
-		}
-
-
 		private static void RefreshSyncingStatus()
 		{
 			try
 			{
 				m_Timer.Stop();
 
-				var upRemainedCount = m_UpRemainedCountCounter.NextValue();
-				var downloadRemainedCount = m_DownRemainedCountCounter.NextValue();
-
-				if (_upRemainedCount.Count >= 10)
-					_upRemainedCount.Dequeue();
-
-				if (_downRemainedCount.Count >= 10)
-					_downRemainedCount.Dequeue();
-
-				_upRemainedCount.Enqueue(upRemainedCount);
-				_downRemainedCount.Enqueue(downloadRemainedCount);
+				var upRemainedCount = SyncStatus.UploadRemainedCount;
+				var downloadRemainedCount = SyncStatus.DownloadRemainedCount;
 
 				SyncRange syncRange = getSyncRange();
 
 				if (upRemainedCount > 0 || downloadRemainedCount > 0)
 				{
-					if (m_IsServiceRunning)
+					if (SyncStatus.IsServiceRunning)
 					{
-						var upSpeed = m_UpStreamRateCounter.NextValue();
-						var downloadSpeed = m_DownStreamRateCounter.NextValue();
-
-						if (_upSpeeds.Count >= 5)
-							_upSpeeds.Dequeue();
-						_upSpeeds.Enqueue(upSpeed);
-
-						if (_downSpeeds.Count >= 5)
-							_downSpeeds.Dequeue();
-						_downSpeeds.Enqueue(downloadSpeed);
-
-						if (_upSpeeds.Count >= 0)
-							upSpeed = _upSpeeds.Average();
-
-						if (_downSpeeds.Count >= 0)
-							downloadSpeed = _downSpeeds.Average();
-
-						string upSpeedUnit = string.Empty;
-						GetSpeedAndUnit(upSpeed, ref upSpeed, ref upSpeedUnit);
-
-						string downloadSpeedUnit = string.Empty;
-						GetSpeedAndUnit(downloadSpeed, ref downloadSpeed, ref downloadSpeedUnit);
-
-						upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
-						downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
-
 						m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
-
-
 
 						if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
 						{
@@ -410,7 +229,7 @@ namespace Waveface.Stream.WindowsClient
 				}
 				else
 				{
-					m_NotifyIcon.Icon = (m_IsServiceRunning) ? iconWorking : iconPaused;
+					m_NotifyIcon.Icon = (SyncStatus.IsServiceRunning) ? iconWorking : iconPaused;
 
 					if (!string.IsNullOrEmpty(syncRange.download_index_error))
 					{
@@ -426,7 +245,7 @@ namespace Waveface.Stream.WindowsClient
 				var iconText = string.Format("{0}{1}{2}",
 					Application.ProductName,
 					Environment.NewLine,
-					GetSyncStatus());
+					SyncStatus.GetSyncDescription());
 
 				m_NotifyIcon.SetNotifyIconText(iconText);
 			}
@@ -594,7 +413,7 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 
 			StationAPI.ResumeSync();
-			m_IsServiceRunning = true;
+			SyncStatus.IsServiceRunning = true;
 		}
 
 		private static void PauseService()
@@ -602,13 +421,13 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 
 			StationAPI.SuspendSync();
-			m_IsServiceRunning = false;
+			SyncStatus.IsServiceRunning = false;
 		}
 
 		private static void UpdateServiceMenuItemStatus()
 		{
-			m_ContextMenuStrip.Items["ResumeService"].Visible = !m_IsServiceRunning;
-			m_ContextMenuStrip.Items["PauseService"].Visible = m_IsServiceRunning;
+			m_ContextMenuStrip.Items["ResumeService"].Visible = !SyncStatus.IsServiceRunning;
+			m_ContextMenuStrip.Items["PauseService"].Visible = SyncStatus.IsServiceRunning;
 		}
 
 		private static void UpdateLoginMenuItemStatus()
@@ -631,7 +450,7 @@ namespace Waveface.Stream.WindowsClient
 				m_ContextMenuStrip.Items.RemoveAt(insertIndex);
 			}
 
-			var syncStatus = GetSyncStatus();
+			var syncStatus = SyncStatus.GetSyncDescription();
 
 			if (string.IsNullOrEmpty(syncStatus))
 				return;
