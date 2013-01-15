@@ -166,7 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="pullTimeLine\" />
-    <Folder Include="Test References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">

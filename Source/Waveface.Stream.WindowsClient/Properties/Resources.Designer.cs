@@ -75,6 +75,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Data Synced.
+        /// </summary>
+        internal static string ALL_DATA_SYNCED {
+            get {
+                return ResourceManager.GetString("ALL_DATA_SYNCED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You currently have the latest version of AOStream installed..
         /// </summary>
         internal static string ALREAD_UPDATED {
@@ -325,6 +334,51 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import completed..
+        /// </summary>
+        internal static string IMPORT_DESC_DONE {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_DONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} folders.
+        /// </summary>
+        internal static string IMPORT_DESC_FOLDERS {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_FOLDERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing {0}, {1} task(s) queued..
+        /// </summary>
+        internal static string IMPORT_DESC_IN_PROGRESS_HAS_PENDING {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_IN_PROGRESS_HAS_PENDING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing {0}.
+        /// </summary>
+        internal static string IMPORT_DESC_IN_PROGRESS_NO_PENDING {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_IN_PROGRESS_NO_PENDING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing to import next folder(s), {0} task(s) euqued..
+        /// </summary>
+        internal static string IMPORT_DESC_WAITING {
+            get {
+                return ResourceManager.GetString("IMPORT_DESC_WAITING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         internal static string IMPORT_MENU_ITEM {
@@ -334,7 +388,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} {1} photos, {2:0.##} {3}.
+        ///   Looks up a localized string similar to {0}{1}{2} {3} photos, {4:0.##} {5}.
         /// </summary>
         internal static string INDICATOR_PATTERN {
             get {
@@ -621,15 +675,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All Data Synced.
-        /// </summary>
-        internal static string SERVICE_RUNNING {
-            get {
-                return ResourceManager.GetString("SERVICE_RUNNING", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to connect to AOStream server.
         /// </summary>
         internal static string SERVICE_START_FAIL {
@@ -789,6 +834,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string SYNC_ERROR {
             get {
                 return ResourceManager.GetString("SYNC_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syncing with Cloud.
+        /// </summary>
+        internal static string SYNCING_WITH_CLOUD {
+            get {
+                return ResourceManager.GetString("SYNCING_WITH_CLOUD", resourceCulture);
             }
         }
         

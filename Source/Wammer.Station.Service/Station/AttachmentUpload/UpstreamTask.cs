@@ -20,17 +20,19 @@ namespace Wammer.Station.AttachmentUpload
 
 		public string object_id { get; set; }
 		public ImageMeta meta { get; set; }
+		public Guid? importTaskId { get; set; }
 
 		public UpstreamTask()
 			: base(TaskPriority.Medium)
 		{
 		}
 
-		public UpstreamTask(string object_id, ImageMeta meta, TaskPriority pri)
+		public UpstreamTask(string object_id, ImageMeta meta, TaskPriority pri, Guid? importTaskId = null)
 			: base(pri)
 		{
 			this.object_id = object_id;
 			this.meta = meta;
+			this.importTaskId = importTaskId;
 		}
 
 		protected override void Run()
@@ -67,6 +69,7 @@ namespace Wammer.Station.AttachmentUpload
 
 				var fileStorage = new FileStorage(user);
 
+				var uploadedSize = 0L;
 				using (var f = fileStorage.Load(info.saved_file_name, meta))
 				{
 					AttachmentApi.Upload(f, attachment.group_id, object_id, attachment.file_name,
@@ -83,6 +86,7 @@ namespace Wammer.Station.AttachmentUpload
 									  attachment.doc_meta);
 
 					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
+					uploadedSize = f.Length;
 				}
 
 				if (meta == ImageMeta.Origin || meta == ImageMeta.None)
@@ -91,6 +95,12 @@ namespace Wammer.Station.AttachmentUpload
 				}
 
 				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Unset("sync_range.upload_error"));
+
+				if (importTaskId.HasValue)
+				{
+					TaskStatusCollection.Instance.Update(Query.EQ("_id", importTaskId.Value),
+						Update.Inc("UploadedSize", uploadedSize).Inc("UploadedCount", 1));
+				}
 			}
 			catch (WammerCloudException e)
 			{

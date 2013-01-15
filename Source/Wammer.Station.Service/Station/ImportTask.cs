@@ -27,8 +27,10 @@ namespace Wammer.Station
 		#endregion
 
 		#region Events
-		public event EventHandler<MetadataUploadEventArgs> MetadataUploaded;
+		public event EventHandler<TaskStartedEventArgs> TaskStarted;
 		public event EventHandler<FilesEnumeratedArgs> FilesEnumerated;
+		public event EventHandler<FileImportEventArgs> FileIndexed;
+		public event EventHandler<FileImportEventArgs> FileSkipped;
 		public event EventHandler<FileImportEventArgs> FileImportFailed;
 		public event EventHandler<FileImportEventArgs> FileImported;
 		public event EventHandler<ImportDoneEventArgs> ImportDone;
@@ -64,7 +66,6 @@ namespace Wammer.Station
 		private int timezoneDiff;
 		private List<ObjectIdAndPath> allSavedFiles = new List<ObjectIdAndPath>();
 		private List<ObjectIdAndPath> allFailedFiles = new List<ObjectIdAndPath>();
-		private List<ObjectIdAndPath> allSkippedFiles = new List<ObjectIdAndPath>();
 		#endregion
 
 		#region Public Property
@@ -124,6 +125,8 @@ namespace Wammer.Station
 	
 			try
 			{
+				raiseTaskStartedEvent();
+
 				var importTime = DateTime.Now;
 
 				var photoCrawler = new PhotoCrawler();
@@ -131,24 +134,36 @@ namespace Wammer.Station
 
 				raiseFilesEnumeratedEvent(allFiles.Count);
 
+				// index files, generate metadata
+				var allMeta = extractMetadata(allFiles).ToList();
+				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
+
+				// upload metadata task
+				int nMetaupload = 0;
+				do
+				{
+					var batch = allMeta.Skip(nMetaupload).Take(50);
+					enqueueUploadMetadataTask(batch);
+
+					nMetaupload += batch.Count();
+				} while (nMetaupload < allMeta.Count);
+
+				// build collections
+				var folderCollections = buildFolderCollections(allMeta);
+				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.High);
+
+				// copy file to stream
 				int nProc = 0;
 				do
 				{
-					var batch = allFiles.Skip(nProc).Take(50);
-					var saved = submitBatch(importTime, batch, ref allFailedFiles, ref allSkippedFiles);
-
-					var meta = extractMetadata(saved);
-					enqueueUploadMetadataTask(meta);
+					var batch = allMeta.Skip(nProc).Take(50);
+					var saved = submitBatch(importTime, batch, ref allFailedFiles);
 
 					allSavedFiles.AddRange(saved);
 
 					nProc += batch.Count();
 
-				} while (nProc < allFiles.Count);
-
-
-				var folderCollections = buildFolderCollections(allSavedFiles);
-				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.Medium);
+				} while (nProc < allMeta.Count);
 			}
 			catch (Exception e)
 			{
@@ -161,7 +176,7 @@ namespace Wammer.Station
 			}
 		}
 
-		private static Dictionary<string, FolderCollection> buildFolderCollections(List<ObjectIdAndPath> allSavedFiles)
+		private static Dictionary<string, FolderCollection> buildFolderCollections(List<FileMetadata> allSavedFiles)
 		{
 			var folderCollections = new Dictionary<string, FolderCollection>();
 			foreach (var file in allSavedFiles)
@@ -176,7 +191,7 @@ namespace Wammer.Station
 			return folderCollections;
 		}
 
-		private bool hasDupItemInDB(ObjectIdAndPath item)
+		private bool hasDupItemInDB(FileMetadata item)
 		{
 			var sameSizeFiles = AttachmentCollection.Instance.Find(
 							Query.And(
@@ -196,7 +211,7 @@ namespace Wammer.Station
 			return hasDup;
 		}
 
-		private List<ObjectIdAndPath> submitBatch(DateTime importTime, IEnumerable<ObjectIdAndPath> batch, ref List<ObjectIdAndPath> failed, ref List<ObjectIdAndPath> skipped)
+		private List<ObjectIdAndPath> submitBatch(DateTime importTime, IEnumerable<FileMetadata> batch, ref List<ObjectIdAndPath> failed)
 		{
 			List<ObjectIdAndPath> saved = new List<ObjectIdAndPath>();
 
@@ -205,15 +220,8 @@ namespace Wammer.Station
 			{
 				try
 				{
-					if (hasDupItemInDB(file))
-					{
-						skipped.Add(file);
-					}
-					else
-					{
-						saveToStream(importTime, post_id, file);
-						saved.Add(file);
-					}
+					saveToStream(importTime, post_id, file);
+					saved.Add(file);
 				}
 				catch (Exception e)
 				{
@@ -249,7 +257,7 @@ namespace Wammer.Station
 			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
 		}
 
-		private void saveToStream(DateTime importTime, string postID, ObjectIdAndPath file)
+		private void saveToStream(DateTime importTime, string postID, FileMetadata file)
 		{
 			long begin = Stopwatch.GetTimestamp();
 
@@ -257,7 +265,7 @@ namespace Wammer.Station
 				new AttachmentUploadHandlerDB(),
 				new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
 
-			var postProcess = new AttachmentProcessedHandler(new AttachmentUtility());
+			var postProcess = new AttachmentProcessedHandler(new AttachmentUtility(TaskId));
 
 			imp.AttachmentProcessed += postProcess.OnProcessed;
 
@@ -274,11 +282,12 @@ namespace Wammer.Station
 				post_id = postID,
 				file_path = file.file_path,
 				import_time = importTime,
-				file_create_time = file.CreateTime,
+				file_create_time = file.file_create_time,
 				type = AttachmentType.image,
 				imageMeta = ImageMeta.Origin,
 				fromLocal = true,
-				timezone = timezoneDiff
+				timezone = timezoneDiff,
+				exif = file.exif.ToFastJSON()
 			};
 			imp.Process(uploadData);
 
@@ -296,11 +305,10 @@ namespace Wammer.Station
 		private IEnumerable<FileMetadata> extractMetadata(IEnumerable<ObjectIdAndPath> files)
 		{
 			var exifExtractor = new ExifExtractor();
+			var uniqueFiles = new HashSet<FileMetadata>();
 
 			foreach (var file in files)
 			{
-				var att = AttachmentCollection.Instance.FindOneById(file.object_id);
-
 				var meta = new FileMetadata
 				{
 					object_id = file.object_id,
@@ -309,11 +317,19 @@ namespace Wammer.Station
 					file_name = Path.GetFileName(file.file_path),
 					file_create_time = file.CreateTime,
 					timezone = timezoneDiff,
-					exif = att.image_meta.exif
+					exif = exifExtractor.extract(file.file_path)
 				};
 
-				yield return meta;
+				if (hasDupItemInDB(meta) || uniqueFiles.Contains(meta))
+					raiseFileSkippedEvent(file);
+				else
+				{
+					uniqueFiles.Add(meta);
+					raiseFileIndexedEvent(file);
+				}
 			}
+
+			return uniqueFiles;
 		}
 
 		private void enqueueUploadMetadataTask(IEnumerable<FileMetadata> batch)
@@ -324,7 +340,6 @@ namespace Wammer.Station
 				var batchMetadata = JsonConvert.SerializeObject(batch, Formatting.None, serializeSetting);
 
 				var task = new UploadMetadataTask(m_GroupID, batchMetadata, batch.Count());
-				task.Uploaded += new EventHandler<MetadataUploadEventArgs>(metadataUploaded);
 				AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 			}
 			catch (Exception e)
@@ -332,14 +347,6 @@ namespace Wammer.Station
 				this.LogWarnMsg("metadata upload failed", e);
 			}
 		}
-
-		void metadataUploaded(object sender, MetadataUploadEventArgs e)
-		{
-			var handler = MetadataUploaded;
-			if (handler != null)
-				handler(sender, e);
-		}
-
 
 		private void raiseFileImportedEvent(ObjectIdAndPath file)
 		{
@@ -357,8 +364,7 @@ namespace Wammer.Station
 					{
 						Error = e,
 						TaskId = TaskId,
-						FailedFiles = allFailedFiles.Select(x => x.file_path).ToList(),
-						SkippedFiles = allSkippedFiles.Select(x => x.file_path).ToList()
+						FailedFiles = allFailedFiles.Select(x => x.file_path).ToList()
 					});
 		}
 
@@ -375,9 +381,34 @@ namespace Wammer.Station
 			if (handler != null)
 				handler(this, new FileImportEventArgs { file = file, TaskId = TaskId });
 		}
+
+		private void raiseFileIndexedEvent(ObjectIdAndPath file)
+		{
+			var handler = FileIndexed;
+			if (handler != null)
+				handler(this, new FileImportEventArgs { file = file, TaskId = TaskId });
+		}
+
+		private void raiseFileSkippedEvent(ObjectIdAndPath file)
+		{
+			var handler = FileSkipped;
+			if (handler != null)
+				handler(this, new FileImportEventArgs { file = file, TaskId = TaskId });
+		}
+
+		private void raiseTaskStartedEvent()
+		{
+			var handler = TaskStarted;
+			if (handler != null)
+				handler(this, new TaskStartedEventArgs { TaskId = TaskId });
+		}
 		#endregion
 	}
 
+	public class TaskStartedEventArgs : EventArgs
+	{
+		public Guid TaskId { get; set; }
+	}
 
 	public class FileImportEventArgs : EventArgs
 	{
@@ -390,7 +421,6 @@ namespace Wammer.Station
 		public Guid TaskId { get; set; }
 		public Exception Error { get; set; }
 		public List<string> FailedFiles { get; set; }
-		public List<string> SkippedFiles { get; set; }
 	}
 
 	public class FilesEnumeratedArgs : EventArgs
@@ -400,11 +430,9 @@ namespace Wammer.Station
 	}
 
 	
-	class FileMetadata
+	class FileMetadata : ObjectIdAndPath
 	{
-		public string object_id { get; set; }
 		public string type { get; set; }
-		public string file_path { get; set; }
 		public string file_name { get; set; }
 		public DateTime file_create_time { get; set; }
 		public int timezone { get; set; }
@@ -416,36 +444,78 @@ namespace Wammer.Station
 			return value;
 		}
 
+		private DateTime? _event_time;
+		private long _file_size = -1;
+
+		[JsonIgnore]
+		public long file_size
+		{
+			get
+			{
+				if (_file_size < 0)
+					_file_size = new FileInfo(file_path).Length;
+
+				return _file_size;
+			}
+		}
+
 		[JsonIgnore]
 		public DateTime EventTime
 		{
 			get
 			{
-				if (exif != null)
+				if (!_event_time.HasValue)
+					_event_time = computeEventTime();
+
+				return _event_time.Value;
+			}
+		}
+
+		public override int GetHashCode()
+		{
+			return file_name.GetHashCode() + (int)file_size;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null)
+				return false;
+
+			if (obj is FileMetadata)
+			{
+				var rhs = (FileMetadata)obj;
+				return file_size == rhs.file_size && file_name.Equals(rhs.file_name);
+			}
+			else
+				return false;
+		}
+
+		private DateTime computeEventTime()
+		{
+			if (exif != null)
+			{
+				if (exif.gps != null && !string.IsNullOrEmpty(exif.gps.GPSDateStamp) && exif.gps.GPSTimeStamp != null)
 				{
-					if (exif.gps != null && !string.IsNullOrEmpty(exif.gps.GPSDateStamp) && exif.gps.GPSTimeStamp != null)
-					{
-						var eventTime = DateTime.ParseExact(exif.gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+					var eventTime = DateTime.ParseExact(exif.gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
 
-						var hour = getRationalValue(exif.gps.GPSTimeStamp[0]);
-						var min = getRationalValue(exif.gps.GPSTimeStamp[1]);
-						var sec = getRationalValue(exif.gps.GPSTimeStamp[2]);
+					var hour = getRationalValue(exif.gps.GPSTimeStamp[0]);
+					var min = getRationalValue(exif.gps.GPSTimeStamp[1]);
+					var sec = getRationalValue(exif.gps.GPSTimeStamp[2]);
 
-						return eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
-					}
-
-					if (exif.DateTimeOriginal != null)
-						return TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal);
-
-					if (exif.DateTimeDigitized != null)
-						return TimeHelper.ParseGeneralDateTime(exif.DateTimeDigitized);
-
-					if (exif.DateTime != null)
-						return TimeHelper.ParseGeneralDateTime(exif.DateTime);
+					return eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
 				}
 
-				return file_create_time;
+				if (exif.DateTimeOriginal != null)
+					return TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal);
+
+				if (exif.DateTimeDigitized != null)
+					return TimeHelper.ParseGeneralDateTime(exif.DateTimeDigitized);
+
+				if (exif.DateTime != null)
+					return TimeHelper.ParseGeneralDateTime(exif.DateTime);
 			}
+
+			return file_create_time;
 		}
 	}
 

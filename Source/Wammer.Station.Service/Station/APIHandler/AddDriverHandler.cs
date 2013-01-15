@@ -21,7 +21,7 @@ namespace Wammer.Station
 		/// Gets the m_ driver agent.
 		/// </summary>
 		/// <value>The m_ driver agent.</value>
-		private DriverController m_DriverAgent
+		public DriverController m_DriverAgent
 		{
 			get
 			{

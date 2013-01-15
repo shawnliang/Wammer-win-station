@@ -43,7 +43,7 @@ namespace UT_WammerStation
 
 			foreach (var item in all)
 			{
-				Assert.IsTrue(item.IsComplete);
+				Assert.IsTrue(item.IsCopyComplete);
 				Assert.IsTrue(item.Error.Length > 0);
 			}
 		}

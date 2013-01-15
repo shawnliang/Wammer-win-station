@@ -168,7 +168,6 @@ namespace Wammer.Station.Timeline
 				{
 					keys.Remove(task.Name);
 					storage.Remove(task);
-					hasItem.WaitOne();
 					OnTaskDequeued(task);
 				}
 			}
