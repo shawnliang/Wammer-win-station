@@ -4,6 +4,7 @@ using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 using System.Linq;
 using System;
+using Wammer.Station.Import;
 
 namespace Wammer.Station
 {
@@ -40,7 +41,7 @@ namespace Wammer.Station
 			var taskStatus = new ImportTaskStaus { Id = task.TaskId, UserId = user.user_id, Sources = task.Paths.ToList(), Time = DateTime.Now };
 			TaskStatusCollection.Instance.Save(taskStatus);
 
-			TaskQueue.Enqueue(task, TaskPriority.VeryLow);
+			ImportTaskQueue.Instance.Enqueue(task, TaskPriority.High);
 
 			RespondSuccess(new ImportResponse { task_id = task.TaskId.ToString() });
 		}

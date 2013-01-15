@@ -14,6 +14,7 @@ using Wammer.PostUpload;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
 using Waveface.Stream.Model;
+using Wammer.Station.Import;
 
 namespace Wammer.Station
 {
@@ -23,6 +24,7 @@ namespace Wammer.Station
 		private const string STATION_ID_REGISTORY_KEY = "stationId";
 		private const int BODY_SYNC_THREAD_COUNT = 10;
 		private const int UPSTREAM_THREAD_COUNT = 1;
+		private const int IMPORT_TASK_THREAD_COUNT = 1;
 		#endregion
 
 
@@ -37,6 +39,8 @@ namespace Wammer.Station
 		private string _stationID;
 		private TaskRunner<IResourceDownloadTask>[] _bodySyncRunners;
 		private TaskRunner<ITask>[] _upstreamTaskRunner;
+		private TaskRunner<ImportTask>[] _importTaskRunner;
+
 		private DriverController _driverAgent;
 		private Object _bodySyncRunnersLockObj;
 		private Exit threadsExit = new Exit();
@@ -130,6 +134,15 @@ namespace Wammer.Station
 			}
 		}
 
+
+		private TaskRunner<ImportTask>[] m_ImportTaskRunner
+		{
+			get
+			{
+				return _importTaskRunner ?? (_importTaskRunner = Enumerable.Range(0, IMPORT_TASK_THREAD_COUNT).Select(
+					item => new TaskRunner<ImportTask>(ImportTaskQueue.Instance, threadsExit)).ToArray());
+			}
+		}
 		/// <summary>
 		/// Gets the m_ driver agent.
 		/// </summary>
@@ -385,11 +398,13 @@ namespace Wammer.Station
 
 			// Signal to stop runners
 			m_PostUploadRunner.StopAsync();
+			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.StopAsync());
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.StopAsync());
 			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.StopAsync());
 
 			// Wait runners to stop
 			m_PostUploadRunner.JoinOrKill();
+			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.JoinOrKill());
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.JoinOrKill());
 			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.JoinOrKill());
 
@@ -414,6 +429,7 @@ namespace Wammer.Station
 			m_StationTimer.Start();
 			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Start());
 			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Start());
+			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.Start());
 			wsChannelServer.Start();
 
 			this.LogDebugMsg("Start synchronization successfully");

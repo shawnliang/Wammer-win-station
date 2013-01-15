@@ -238,27 +238,21 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				var importStatus = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
-				if (!importStatus.HasTasks())
+				var summary = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
+
+				if (string.IsNullOrEmpty(summary.Description))
 				{
 					progressBar1.Visible = lblLocalProcessStatus.Visible = false;
 					return;
 				}
-				else if (!importStatus.GetRunningTasks().Any())
-				{
-					progressBar1.Visible = false;
-					lblLocalProcessStatus.Text = string.Format("Waiting to import. {0} import tasks queued.", importStatus.GetPendingTasks().Count());
-					lblLocalProcessStatus.Visible = true;
-				}
 				else
 				{
-					var curTask = importStatus.GetRunningTasks().First();
+					lblLocalProcessStatus.Text = summary.Description;
 					lblLocalProcessStatus.Visible = true;
-					lblLocalProcessStatus.Text = curTask.Description();
 
 					int max;
 					int cur;
-					if (curTask.GetProgress(out max, out cur))
+					if (summary.GetProgress(out max, out cur))
 					{
 						progressBar1.Maximum = max;
 						progressBar1.Value = cur;

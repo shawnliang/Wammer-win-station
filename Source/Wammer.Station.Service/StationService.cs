@@ -63,7 +63,7 @@ namespace Wammer.Station.Service
 			OnStart(null);
 
 			Console.WriteLine("Press any key to exit");
-			Console.ReadKey();
+			 Console.ReadKey();
 
 			OnStop();
 		}

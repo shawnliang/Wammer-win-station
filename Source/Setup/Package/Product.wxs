@@ -4,8 +4,8 @@
      xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'>
   <?define AppCode = "WavefaceStation" ?>
   <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
-  <?define AppVersionMajor = "2" ?>
-  <?define AppVersionMinor = "1" ?>
+  <?define AppVersionMajor = "3" ?>
+  <?define AppVersionMinor = "0" ?>
   <?define AppVersionPatch = "0" ?>
   <?define AppVersionBuild = "3333" ?>
   <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>

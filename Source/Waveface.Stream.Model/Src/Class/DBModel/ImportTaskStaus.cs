@@ -80,32 +80,32 @@ namespace Waveface.Stream.Model
 
 		public bool IsCopying()
 		{
-			return IsIndexed() && Copied < Indexed && string.IsNullOrEmpty(Error);
+			return IsIndexed() && Copied + CopyFailed.Count < Indexed && string.IsNullOrEmpty(Error);
 		}
 
 		public bool IsCopied()
 		{
-			return IsIndexed() && Copied == Indexed;
+			return IsIndexed() && Copied + CopyFailed.Count == Indexed;
 		}
 
 		public bool IsThumbnailing()
 		{
-			return IsCopied() && Thumbnailed < Indexed && string.IsNullOrEmpty(Error);
+			return IsCopied() && Thumbnailed < Copied && string.IsNullOrEmpty(Error);
 		}
 
 		public bool IsThumbnailed()
 		{
-			return IsCopied() && Thumbnailed == Indexed;
+			return IsCopied() && Thumbnailed == Copied;
 		}
 
 		public bool IsUploading()
 		{
-			return IsThumbnailed() && UploadedCount < Indexed && string.IsNullOrEmpty(Error);
+			return IsThumbnailed() && UploadedCount < UploadCount && string.IsNullOrEmpty(Error);
 		}
 
 		public bool IsUploaded()
 		{
-			return IsThumbnailed() && UploadedCount == Indexed;
+			return IsThumbnailed() && UploadedCount == UploadCount;
 		}
 
 		public bool IsCompleteSuccessfully()
@@ -149,6 +149,34 @@ namespace Waveface.Stream.Model
 		}
 
 		#endregion
+
+
+		public static ImportTaskStaus operator+(ImportTaskStaus lhs, ImportTaskStaus rhs)
+		{
+			var result = new ImportTaskStaus
+			{
+				Total = lhs.Total + rhs.Total,
+				Indexed = lhs.Indexed + rhs.Indexed,
+				Skipped = lhs.Skipped + rhs.Skipped,
+
+				Copied = lhs.Copied + rhs.Copied,
+				Thumbnailed = lhs.Thumbnailed + rhs.Thumbnailed,
+				UploadCount = lhs.UploadCount + rhs.UploadCount,
+				UploadedCount = lhs.UploadedCount + rhs.UploadedCount,
+				UploadSize = lhs.UploadSize + rhs.UploadSize,
+				UploadedSize = lhs.UploadedSize + rhs.UploadedSize,
+
+				Error = (lhs.Error != null) ? lhs.Error : rhs.Error,			
+				IsCopyComplete = (lhs.IsCopyComplete && rhs.IsCopyComplete),
+				IsStarted = lhs.IsStarted || rhs.IsStarted,
+				UserId = lhs.UserId
+			};
+
+			result.CopyFailed.AddRange(lhs.CopyFailed);
+			result.CopyFailed.AddRange(rhs.CopyFailed);
+
+			return result;
+		}
 	}
 
 	[BsonIgnoreExtraElements]

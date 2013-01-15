@@ -98,8 +98,7 @@ namespace Waveface.Stream.WindowsClient
 
 						var syncRange = DriverCollection.Instance.FindOneById(user_id).sync_range;
 
-						var status = ImportStatus.Lookup(user_id);
-						var importStatus = (status.HasTasks()) ? status.Description() : default(string);
+						var importStatus = ImportStatus.Lookup(user_id).Description;
 
 						var upload = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).NextValue();
 						var download = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).NextValue();
