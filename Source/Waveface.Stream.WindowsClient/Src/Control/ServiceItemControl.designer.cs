@@ -49,11 +49,10 @@
 			// connectCheckbox
 			// 
 			resources.ApplyResources(this.connectCheckbox, "connectCheckbox");
-			this.connectCheckbox.Checked = true;
-			this.connectCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.connectCheckbox.Name = "connectCheckbox";
 			this.connectCheckbox.UseVisualStyleBackColor = true;
 			this.connectCheckbox.CheckedChanged += new System.EventHandler(this.connectCheckbox_CheckedChanged);
+			this.connectCheckbox.Click += new System.EventHandler(this.connectCheckbox_Click);
 			// 
 			// ServiceItemControl
 			// 
