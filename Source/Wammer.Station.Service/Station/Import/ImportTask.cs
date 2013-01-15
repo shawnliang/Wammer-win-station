@@ -141,6 +141,10 @@ namespace Wammer.Station
 				var allMeta = extractMetadata(allFiles).ToList();
 				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
 
+				if (allMeta.Count == 0)
+					throw new Exception("No file needs to import");
+
+
 				// upload metadata task
 				int nMetaupload = 0;
 				do
