@@ -87,6 +87,17 @@ namespace Wammer.Cloud
 			}
 		}
 
+		public static DownloadResult DownloadObject(string url, string save_path, AttachmentInfo metaData = null)
+		{
+			using (var agent = new DefaultWebClient())
+			{
+				agent.DownloadFile(url, save_path);
+				var contentType = agent.ResponseHeaders["Content-type"];
+
+				return new DownloadResult(null, metaData, contentType);
+			}
+		}
+
 		public static AttachmentInfo GetInfo(string object_id, string session_token)
 		{
 			if (object_id == null || session_token == null)

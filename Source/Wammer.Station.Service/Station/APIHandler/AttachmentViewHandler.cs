@@ -112,6 +112,7 @@ namespace Wammer.Station
 				var downloadTask = ResourceDownloader.createDownloadTask(driver, meta, metaData);
 				bool noNeedToDownload;
 				AttachmentSaveResult result;
+				downloadTask.Url = metaData.redirect_to;
 				downloadTask.Run(out noNeedToDownload, out result);
 
 				if (result == null)

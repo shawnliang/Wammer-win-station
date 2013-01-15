@@ -295,8 +295,16 @@ namespace Wammer.Station.Timeline
 
 				if (string.IsNullOrEmpty(attachmentRelativeFile) || !File.Exists(attachmentFile))
 				{
-					var api = new AttachmentApi(user);
-					api.AttachmentView(evtargs, StationRegistry.StationId);
+					if (string.IsNullOrEmpty(Url))
+					{
+						var api = new AttachmentApi(user);
+						api.AttachmentView(evtargs, StationRegistry.StationId);
+					}
+					else
+					{
+						AttachmentApi.DownloadObject(Url, evtargs.filepath, evtargs.attachment);
+					}
+
 					saveResult = DownloadComplete(evtargs, user);
 
 					if (saveResult != null)
@@ -371,5 +379,7 @@ namespace Wammer.Station.Timeline
 		{
 			BodySyncQueue.Instance.EnqueueAlways(this, priority);
 		}
+
+		public string Url { get; set; }
 	}
 }
