@@ -404,9 +404,9 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items.Add("Seperator", "-", null);
 			m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
 			m_ContextMenuStrip.Items.Add("Login", Resources.LOGIN_MENU_ITEM, m_ContextMenuStrip_Login_Click);
-			m_ContextMenuStrip.Items.Add("-");
+			m_ContextMenuStrip.Items.Add("LoginSeperator", "-", null);
 			m_ContextMenuStrip.Items.Add("Import", Resources.IMPORT_MENU_ITEM, m_ContextMenuStrip_Import_Click);
-			m_ContextMenuStrip.Items.Add("-");
+			m_ContextMenuStrip.Items.Add("ImportSeperator", "-", null);
 			m_ContextMenuStrip.Items.Add(Resources.CONTACT_US_MENU_ITEM, m_ContextMenuStrip_ContactUs_Click);
 			m_ContextMenuStrip.Items.Add(Resources.SERVICE_QUIT, m_ContextMenuStrip_Quit_Click);
 		}
@@ -442,6 +442,7 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items["Seperator"].Visible = !MainForm.Instance.IsDebugMode && !isLogined;
 
 			m_ContextMenuStrip.Items["Import"].Visible = isLogined;
+			m_ContextMenuStrip.Items["ImportSeperator"].Visible = isLogined;
 		}
 
 		private static void UpdateTrayMenuSyncStatus()
