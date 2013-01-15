@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -10,9 +11,11 @@ namespace Waveface.Stream.WindowsClient
 {
 	public partial class FileImportControl : StepPageControl
 	{
-		private IPhotoSearch photoSearch;
-		private CheckBox checkBox1;
+		#region Var
+		private IPhotoSearch _photoSearch;
+		private CheckBox _checkBox1;
 		private HidableProgressingDialog _processDialog;
+		#endregion
 
 
 		#region Constructor
@@ -22,14 +25,14 @@ namespace Waveface.Stream.WindowsClient
 		public FileImportControl(IPhotoSearch search)
 		{
 			InitializeComponent();
-			this.photoSearch = search;
+			this._photoSearch = search;
 			this.PageTitle = "Import from folders";
 		}
 
 		public FileImportControl()
 		{
 			InitializeComponent();
-			this.photoSearch = new PhotoSearch();
+			this._photoSearch = new PhotoSearch();
 			this.PageTitle = "Import from folders";
 		}
 		#endregion
@@ -43,7 +46,7 @@ namespace Waveface.Stream.WindowsClient
 			base.OnEnteringStep(parameters);
 
 			ClearInterestedPaths();
-			AddInterestedPaths(photoSearch.InterestedPaths);
+			AddInterestedPaths(_photoSearch.InterestedPaths);
 		}
 
 		public override void OnLeavingStep(WizardParameters parameters)
@@ -63,7 +66,7 @@ namespace Waveface.Stream.WindowsClient
 			if (selectedPaths.Count() == 0)
 				return;
 
-			photoSearch.ImportToStationAsync(selectedPaths, session_token);
+			_photoSearch.ImportToStationAsync(selectedPaths, session_token);
 		}
 
 		#region Public Method
@@ -99,7 +102,7 @@ namespace Waveface.Stream.WindowsClient
 			for (int i = 0; i < dataGridView1.RowCount; i++)
 			{
 				if ((bool)dataGridView1[0, i].Value)
-					yield return dataGridView1[1, i].Value as string;
+					yield return dataGridView1[2, i].Value as string;
 			}
 		}
 		#endregion
@@ -118,30 +121,50 @@ namespace Waveface.Stream.WindowsClient
 
 			var selectedPath = folderBrowserDialog1.SelectedPath;
 
-			for (int i = 0; i < dataGridView1.RowCount; i++)
-			{
-				if (dataGridView1[1, i].Value.Equals(selectedPath))
-					return;
-			}
-
-			Cursor.Current = Cursors.WaitCursor;
-			int totalCount = 0;
-			photoSearch.Search(selectedPath, (path, count) =>
-			{
-				totalCount += count;
-			});
-
-			dataGridView1.Rows.Add(true, selectedPath, totalCount);
-			Cursor.Current = Cursors.Default;
+			AddImportFolder(new string[] { selectedPath });
 		}
 
+		private void AddImportFolder(IEnumerable<String> selectedPaths)
+		{
+			foreach (var selectedPath in selectedPaths)
+			{
+				Cursor.Current = Cursors.WaitCursor;
+
+				_photoSearch.Search(selectedPath, (p, c) =>
+				{
+					try
+					{
+						p = p.TrimEnd(Path.DirectorySeparatorChar);
+						for (int i = 0; i < dataGridView1.RowCount; i++)
+						{
+							if (dataGridView1[2, i].Value.Equals(p))
+								return;
+						}
+						dataGridView1.Rows.Add(true, Path.GetFileName(p), p);
+					}
+					catch (Exception)
+					{
+					}
+				});
+			}
+		}
+
+		private void button1_Click_1(object sender, EventArgs e)
+		{
+			AddImportFolder(WindowsLibraries.GetLibrariesFolders());
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			AddImportFolder(Picasa.GetAlbums());
+		}
 		#endregion
 
 		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
 			for (int i = 0; i < dataGridView1.RowCount; i++)
 			{
-				dataGridView1[0, i].Value = checkBox1.Checked;
+				dataGridView1[0, i].Value = _checkBox1.Checked;
 			}
 
 			dataGridView1.EndEdit();
@@ -152,20 +175,20 @@ namespace Waveface.Stream.WindowsClient
 		{
 
 			var rect = dataGridView1.GetCellDisplayRectangle(0, -1, true);
-			checkBox1 = new CheckBox
+			_checkBox1 = new CheckBox
 			{
 				Size = new Size(14, 15),
 				Checked = true
 			};
 
 			var loc = rect.Location;
-			loc.X = loc.X + rect.Width / 2 - checkBox1.Width / 2;
-			loc.Y = loc.Y + rect.Height / 2 - checkBox1.Height / 2;
+			loc.X = loc.X + rect.Width / 2 - _checkBox1.Width / 2;
+			loc.Y = loc.Y + rect.Height / 2 - _checkBox1.Height / 2;
 
-			checkBox1.Location = loc;
+			_checkBox1.Location = loc;
 
-			checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-			dataGridView1.Controls.Add(checkBox1);
+			_checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+			dataGridView1.Controls.Add(_checkBox1);
 		}
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

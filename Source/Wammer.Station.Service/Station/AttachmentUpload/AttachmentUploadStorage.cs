@@ -25,6 +25,9 @@ namespace Wammer.Station.AttachmentUpload
 		public AttachmentSaveResult Save(UploadData data, string takenTime)
 		{
 			var user = db.GetUserByGroupId(data.group_id);
+			if (user == null)
+				throw new WammerStationException("driver does not exist", -1);
+
 			var storage = new FileStorage(user);
 
 

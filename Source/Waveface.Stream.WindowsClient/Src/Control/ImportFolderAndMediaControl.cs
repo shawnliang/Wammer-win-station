@@ -51,5 +51,10 @@ namespace Waveface.Stream.WindowsClient
 
 			dialog.ShowDialog(this);
 		}
+
+		private void changeButton_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

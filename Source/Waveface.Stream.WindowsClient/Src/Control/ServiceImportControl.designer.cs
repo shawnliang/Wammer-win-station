@@ -37,10 +37,9 @@
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-			this.label2.Location = new System.Drawing.Point(23, 34);
+			this.label2.Location = new System.Drawing.Point(3, 9);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(493, 65);
+			this.label2.Size = new System.Drawing.Size(549, 33);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "A better way to fill your journal with memories from the past. Connect o all your" +
     " favorite web services and let Stream generate real life events for you.";
@@ -48,10 +47,10 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-			this.label1.Location = new System.Drawing.Point(23, 339);
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(5, 352);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(228, 45);
+			this.label1.Size = new System.Drawing.Size(244, 12);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "You can change theses settings whenever you want.";
 			// 
@@ -63,24 +62,25 @@
 			this.svcPanel.AutoScroll = true;
 			this.svcPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.svcPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.svcPanel.Location = new System.Drawing.Point(26, 102);
+			this.svcPanel.Location = new System.Drawing.Point(5, 36);
 			this.svcPanel.Name = "svcPanel";
-			this.svcPanel.Size = new System.Drawing.Size(490, 234);
+			this.svcPanel.Size = new System.Drawing.Size(547, 304);
 			this.svcPanel.TabIndex = 4;
 			this.svcPanel.WrapContents = false;
 			// 
 			// ServiceImportControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.svcPanel);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label2);
 			this.Name = "ServiceImportControl";
-			this.Size = new System.Drawing.Size(555, 400);
+			this.Size = new System.Drawing.Size(555, 369);
 			this.Load += new System.EventHandler(this.ServiceImportControl_Load);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 

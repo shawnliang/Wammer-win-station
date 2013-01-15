@@ -50,7 +50,7 @@ namespace Wammer.Cloud
 			                 		{CloudServer.PARAM_STATION_ID, stationId}
 			                 	};
 
-			if (evtargs.imagemeta != ImageMeta.Origin)
+			if (evtargs.attachment.type.Equals("image") && !evtargs.IsOriginalAttachment())
 			{
 				parameters.Add(CloudServer.PARAM_IMAGE_META, evtargs.imagemeta.ToString().ToLower());
 			}
@@ -84,6 +84,17 @@ namespace Wammer.Cloud
 				var contentType = agent.ResponseHeaders["Content-type"];
 
 				return new DownloadResult(data, metaData, contentType);
+			}
+		}
+
+		public static DownloadResult DownloadObject(string url, string save_path, AttachmentInfo metaData = null)
+		{
+			using (var agent = new DefaultWebClient())
+			{
+				agent.DownloadFile(url, save_path);
+				var contentType = agent.ResponseHeaders["Content-type"];
+
+				return new DownloadResult(null, metaData, contentType);
 			}
 		}
 

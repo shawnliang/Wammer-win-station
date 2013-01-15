@@ -118,28 +118,28 @@ namespace Waveface.Stream.WindowsClient
 
 			var taskStatus = service.QueryTaskStatus(taskId);
 
-			if (taskStatus.IsComplete)
+			if (taskStatus.IsCopyComplete)
 			{
 				if (string.IsNullOrEmpty(taskStatus.Error))
 				{
-					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.SuccessCount);
+					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Copied);
 				}
 				else
 				{
 					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Error);
 				}
 
-				progressBar.Maximum = taskStatus.TotalFiles;
-				progressBar.Value = taskStatus.TotalFiles;
-				progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.SuccessCount, taskStatus.FailedFiles.Count, taskStatus.GetSkippedCount());
+				progressBar.Maximum = taskStatus.Total;
+				progressBar.Value = taskStatus.Total;
+				progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.Copied, taskStatus.CopyFailed.Count, taskStatus.Skipped);
 				timer.Stop();
 				importButton.Enabled = true;
 			}
 			else
 			{
-				progressBar.Maximum = taskStatus.TotalFiles;
-				progressBar.Value = taskStatus.SuccessCount;
-				progressText.Text = string.Format("{0} files processed", taskStatus.SuccessCount + taskStatus.FailedFiles.Count);
+				progressBar.Maximum = taskStatus.Total;
+				progressBar.Value = taskStatus.Skipped + taskStatus.Copied;
+				progressText.Text = string.Format("{0} files processed", taskStatus.Copied + taskStatus.CopyFailed.Count + taskStatus.Skipped);
 			}
 		}
 

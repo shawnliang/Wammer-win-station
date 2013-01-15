@@ -67,7 +67,8 @@ namespace Waveface.Stream.Core
 			// Open the stream using a StreamReader for easy access.
 			using (var sr = new StreamReader(dataStream))
 			{
-				return sr.ReadToEnd();
+				var responseMsg = sr.ReadToEnd();
+				return responseMsg;
 			}
 		}
 		#endregion

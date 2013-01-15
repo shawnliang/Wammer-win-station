@@ -99,6 +99,8 @@
     <Reference Include="fastJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Lib\fastJSON\fastJSON.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\..\Lib\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -167,15 +169,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Src\Class\AutoImportContentProvider.cs" />
-    <Compile Include="Src\Class\AutoImporter.cs" />
     <Compile Include="Src\Class\AutoUpdate.cs" />
     <Compile Include="Src\Class\CommandLineCommand.cs" />
-    <Compile Include="Src\Class\Content.cs" />
-    <Compile Include="Src\Class\ContentBase.cs" />
-    <Compile Include="Src\Class\ContentProvider\ContentProviderBase.cs" />
-    <Compile Include="Src\Class\ContentProvider\LibrariesContentProvider.cs" />
-    <Compile Include="Src\Class\ContentProvider\PicasaContentProvider.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\DriveDetector.cs">
       <SubType>Form</SubType>
@@ -184,16 +179,20 @@
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
     <Compile Include="Src\Class\FastJSONHelper.cs" />
     <Compile Include="Src\Class\GoogleConnectableService.cs" />
+    <Compile Include="Src\Class\ImportStatus.cs" />
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
     <Compile Include="Src\Class\Options.cs" />
     <Compile Include="Src\Class\PersonalCloudNode.cs" />
     <Compile Include="Src\Class\PersonalCloudStatusService.cs" />
+    <Compile Include="Src\Class\Picasa.cs" />
     <Compile Include="Src\Class\RecentDocumentWatcher.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
     <Compile Include="Src\Class\StreamSignup.cs" />
+    <Compile Include="Src\Class\SyncStatus.cs" />
     <Compile Include="Src\Class\TwitterConnectableService.cs" />
     <Compile Include="Src\Class\WebRedirectConnectableService.cs" />
+    <Compile Include="Src\Class\WindowsLibraries.cs" />
     <Compile Include="Src\Control\CentralLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -222,6 +221,9 @@
     <Compile Include="Src\Class\PhotoSearch.cs" />
     <Compile Include="Src\Class\PortableDevice.cs" />
     <Compile Include="Src\Class\PortableMediaService.cs" />
+    <Compile Include="Src\Control\PanelEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Src\Control\PersonalCloudStatusControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -315,20 +317,26 @@
     <Compile Include="Src\Control\TutorialNavigator.designer.cs">
       <DependentUpon>TutorialNavigator.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Control\WizardControl.cs">
+    <Compile Include="Src\Control\UsageBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Src\Dialog\AccountInfoForm.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Src\Control\UsageBar.Designer.cs">
+      <DependentUpon>UsageBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Dialog\AccountInfoForm.designer.cs">
-      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    <Compile Include="Src\Control\WizardControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Src\Dialog\AddDeviceDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Src\Dialog\AddDeviceDialog.designer.cs">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\ControlPanelDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\ControlPanelDialog.Designer.cs">
+      <DependentUpon>ControlPanelDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\FileImportDialog.cs">
       <SubType>Form</SubType>
@@ -363,8 +371,6 @@
     <Compile Include="Src\Dialog\UsbImportDialog.Designer.cs">
       <DependentUpon>UsbImportDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Enum\ContentProviderType.cs" />
-    <Compile Include="Src\Enum\ContentType.cs" />
     <Compile Include="Src\EventArgs\AccountEventArgs.cs" />
     <Compile Include="Src\Class\Win32Helper.cs" />
     <Compile Include="Src\Control\CueTextBox.cs">
@@ -403,18 +409,13 @@
     <Compile Include="Src\Dialog\ProcessingDialog.Designer.cs">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Dialog\SettingDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Src\Dialog\SettingDialog.Designer.cs">
-      <DependentUpon>SettingDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Src\Dialog\SignUpDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Src\Dialog\SignUpDialog.Designer.cs">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Extension\ControlExtension.cs" />
     <Compile Include="Src\Extension\DirectoryInfoExtension.cs" />
     <Compile Include="Src\Extension\ErrorProviderExtension.cs" />
     <Compile Include="Src\Extension\NotifyIconExtension.cs" />
@@ -427,8 +428,6 @@
     </Compile>
     <Compile Include="Src\Interface\IBrowserControl.cs" />
     <Compile Include="Src\Interface\IConnectableService.cs" />
-    <Compile Include="Src\Interface\IContent.cs" />
-    <Compile Include="Src\Interface\IContentProvider.cs" />
     <Compile Include="Src\Interface\IDebugComponent.cs" />
     <Compile Include="Src\Interface\IDockableModule.cs" />
     <Compile Include="Src\Interface\IExifExtractor.cs" />
@@ -522,11 +521,8 @@
     <EmbeddedResource Include="Src\Control\TutorialNavigator.resx">
       <DependentUpon>TutorialNavigator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\AccountInfoForm.resx">
-      <DependentUpon>AccountInfoForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\AccountInfoForm.zh-TW.resx">
-      <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    <EmbeddedResource Include="Src\Control\UsageBar.resx">
+      <DependentUpon>UsageBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\AddDeviceDialog.resx">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
@@ -547,6 +543,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\ControlPanelDialog.resx">
+      <DependentUpon>ControlPanelDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\FileImportDialog.resx">
       <DependentUpon>FileImportDialog.cs</DependentUpon>
@@ -582,13 +581,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.zh-TW.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\SettingDialog.resx">
-      <DependentUpon>SettingDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\SettingDialog.zh-TW.resx">
-      <DependentUpon>SettingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\SignUpDialog.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
@@ -820,6 +812,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Src\Enum\" />
     <Folder Include="Web\images\bootstrap\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

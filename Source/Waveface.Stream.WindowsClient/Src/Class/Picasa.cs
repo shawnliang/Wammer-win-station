@@ -6,29 +6,25 @@ using System.Text;
 
 namespace Waveface.Stream.WindowsClient
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class PicasaContentProvider : ContentProviderBase
+	public static class Picasa
 	{
 		#region Const
 		const string PICASA_DB_RELATIVED_STORAGE_PATH = @"Google\Picasa2\db3";
 		const string ALBUM_PATH_PMP_FILENAME = "albumdata_filename.pmp";
 		#endregion
 
-		#region Var
-		private string _picasaDBStoragePath;
-		private string _albumPathPMPFileName;
-		private IEnumerable<ContentType> _supportTypes;
+		#region Static Var
+		private static string _picasaDBStoragePath;
+		private static string _albumPathPMPFileName;
 		#endregion
 
 
-		#region Private Property
+		#region Private Static Property
 		/// <summary>
 		/// Gets the m_ picasa DB storage path.
 		/// </summary>
 		/// <value>The m_ picasa DB storage path.</value>
-		private string m_PicasaDBStoragePath
+		private static string m_PicasaDBStoragePath
 		{
 			get
 			{
@@ -41,7 +37,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the name of the m_ album path PMP file.
 		/// </summary>
 		/// <value>The name of the m_ album path PMP file.</value>
-		private string m_AlbumPathPMPFileName
+		private static string m_AlbumPathPMPFileName
 		{
 			get
 			{
@@ -52,33 +48,12 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 
-		#region Public Property
-		/// <summary>
-		/// Gets the support types.
-		/// </summary>
-		/// <value>The support types.</value>
-		public override IEnumerable<ContentType> SupportTypes
-		{
-			get { return _supportTypes ?? (_supportTypes = new ContentType[] { ContentType.Photo }); }
-		}
-
-		/// <summary>
-		/// Gets the type.
-		/// </summary>
-		/// <value>The type.</value>
-		public override ContentProviderType Type
-		{
-			get { return ContentProviderType.Picasa; }
-		}
-		#endregion
-
-
 		#region Private Method
 		/// <summary>
 		/// Checks the picasa format.
 		/// </summary>
 		/// <param name="file">The file.</param>
-		private void CheckPicasaFormat(string file)
+		private static void CheckPicasaFormat(string file)
 		{
 			using (var fs = File.OpenRead(file))
 			{
@@ -93,7 +68,7 @@ namespace Waveface.Stream.WindowsClient
 		/// Checks the picasa format.
 		/// </summary>
 		/// <param name="br">The br.</param>
-		private void CheckPicasaFormat(BinaryReader br)
+		private static void CheckPicasaFormat(BinaryReader br)
 		{
 			if (!IsValidPicasaFormat(br))
 				throw new FileFormatException("Incorrect picasa file format.");
@@ -106,7 +81,7 @@ namespace Waveface.Stream.WindowsClient
 		/// <returns>
 		/// 	<c>true</c> if [is valid picasa format] [the specified file]; otherwise, <c>false</c>.
 		/// </returns>
-		private Boolean IsValidPicasaFormat(string file)
+		private static Boolean IsValidPicasaFormat(string file)
 		{
 			using (var fs = File.OpenRead(file))
 			{
@@ -124,7 +99,7 @@ namespace Waveface.Stream.WindowsClient
 		/// <returns>
 		/// 	<c>true</c> if [is valid picasa format] [the specified br]; otherwise, <c>false</c>.
 		/// </returns>
-		private Boolean IsValidPicasaFormat(BinaryReader br)
+		private static Boolean IsValidPicasaFormat(BinaryReader br)
 		{
 			if (br == null)
 				throw new ArgumentNullException("br");
@@ -176,7 +151,7 @@ namespace Waveface.Stream.WindowsClient
 		/// </summary>
 		/// <param name="file">The file.</param>
 		/// <returns></returns>
-		private IEnumerable<string> ReadAllStringField(string file)
+		private static IEnumerable<string> ReadAllStringField(string file)
 		{
 			using (var fs = File.OpenRead(file))
 			{
@@ -199,7 +174,7 @@ namespace Waveface.Stream.WindowsClient
 		/// </summary>
 		/// <param name="br">The br.</param>
 		/// <returns></returns>
-		private IEnumerable<string> ReadAllStringField(BinaryReader br)
+		private static IEnumerable<string> ReadAllStringField(BinaryReader br)
 		{
 			br.BaseStream.Seek(16, SeekOrigin.Begin);
 			var number = br.ReadInt32();
@@ -216,7 +191,7 @@ namespace Waveface.Stream.WindowsClient
 		/// </summary>
 		/// <param name="br">The br.</param>
 		/// <returns></returns>
-		private String getString(BinaryReader br)
+		private static String getString(BinaryReader br)
 		{
 			var sb = new StringBuilder();
 			int c;
@@ -234,23 +209,14 @@ namespace Waveface.Stream.WindowsClient
 		/// Gets the contents.
 		/// </summary>
 		/// <returns></returns>
-		public override IEnumerable<IContent> GetContents()
+		public static IEnumerable<String> GetAlbums()
 		{
 			if (!Directory.Exists(m_PicasaDBStoragePath) ||
 				!File.Exists(m_AlbumPathPMPFileName) ||
 				!IsValidPicasaFormat(m_AlbumPathPMPFileName))
-				return new Content[0];
+				return new string[0];
 
-			var albumPaths = ReadAllStringField(m_AlbumPathPMPFileName);
-
-			return from albumPath in albumPaths
-				   where !string.IsNullOrEmpty(albumPath)
-				   from file in EnumerateFiles(albumPath)
-				   let extension = Path.GetExtension(file)
-				   where extension.Equals(".jpg", StringComparison.CurrentCultureIgnoreCase) ||
-				   extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase) ||
-				   extension.Equals(".bmp", StringComparison.CurrentCultureIgnoreCase)
-				   select (new Content(file, ContentType.Photo) as IContent);
+			return ReadAllStringField(m_AlbumPathPMPFileName).Where(album => !string.IsNullOrEmpty(album));
 		}
 		#endregion
 	}

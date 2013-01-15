@@ -17,6 +17,13 @@ namespace Wammer.Station.AttachmentUpload
 	{
 		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
 
+		private Guid? importTaskId;
+
+		public AttachmentUtility(Guid? importTaskId = null)
+		{
+			this.importTaskId = importTaskId;
+		}
+
 		#region IAttachmentUtil Members
 
 		public Attachment FindAttachmentInDB(string object_id)
@@ -60,17 +67,44 @@ namespace Wammer.Station.AttachmentUpload
 
 		public void UpstreamAttachmentAsync(string object_id, ImageMeta meta, TaskPriority priority)
 		{
-			AttachmentUploadQueueHelper.Instance.Enqueue(new UpstreamTask(object_id, meta, priority), priority);
+			incUploadSizeIfNeeded(object_id, meta);
+
+			AttachmentUploadQueueHelper.Instance.Enqueue(new UpstreamTask(object_id, meta, priority, importTaskId), priority);
+		}
+
+		private void incUploadSizeIfNeeded(string object_id, ImageMeta meta)
+		{
+			try
+			{
+				if (importTaskId.HasValue)
+				{
+					var att = AttachmentCollection.Instance.FindOneById(object_id);
+					if (att != null)
+					{
+
+						var info = att.GetInfoByMeta(meta);
+						var uploadSize = info.file_size;
+
+						TaskStatusCollection.Instance.Update(
+							Query.EQ("_id", importTaskId),
+							Update.Inc("UploadSize", uploadSize).Inc("UploadCount", 1));
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Unable to update import task's upload size", e);
+			}
 		}
 
 		public void GenerateThumbnailAsync(string object_id, ImageMeta thumbnailType, TaskPriority priority)
 		{
-			TaskQueue.Enqueue(new MakeThumbnailTask(object_id, thumbnailType, priority), priority, true);
+			TaskQueue.Enqueue(new MakeThumbnailTask(object_id, thumbnailType, priority, importTaskId), priority, true);
 		}
 
 		public void GenerateThumbnailAsyncAndUpstream(string object_id, ImageMeta thumbnailType, TaskPriority priority)
 		{
-			TaskQueue.Enqueue(new MakeThumbnailAndUpstreamTask(object_id, thumbnailType, priority), priority, true);
+			TaskQueue.Enqueue(new MakeThumbnailAndUpstreamTask(object_id, thumbnailType, priority, importTaskId), priority, true);
 		}
 		#endregion
 

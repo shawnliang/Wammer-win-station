@@ -141,6 +141,7 @@ namespace UT_WammerStation
 					email = "driver1@waveface.com",
 					user_id = "driver1_id",
 					folder = "",
+					session_token = "sess",
 					groups = new List<UserGroup>
 					{
 						new UserGroup {

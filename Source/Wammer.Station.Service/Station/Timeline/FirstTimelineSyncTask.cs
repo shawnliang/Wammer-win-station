@@ -19,6 +19,9 @@ namespace Wammer.Station.Timeline
 
 		protected override void Run()
 		{
+			if (DriverCollection.Instance.FindOneById(user.user_id) == null)
+				return;
+
 			var resSyncer = new ResourceSyncer(0, BodySyncQueue.Instance);
 			resSyncer.SyncTimeline(user);
 

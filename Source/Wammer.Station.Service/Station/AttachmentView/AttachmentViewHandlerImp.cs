@@ -160,7 +160,7 @@ namespace Wammer.Station.AttachmentView
 
 			return new ViewResult
 			{
-				Stream = Storage.GetAttachmentStream(meta, user, filename),
+				Stream = Storage.GetAttachmentStream((dbDoc.type == AttachmentType.webthumb) ? ImageMeta.Medium : meta, user, filename),
 				MimeType = getMimeType(meta, dbDoc)
 			};
 		}
