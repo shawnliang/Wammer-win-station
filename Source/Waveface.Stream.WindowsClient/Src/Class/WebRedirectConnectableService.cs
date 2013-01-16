@@ -36,11 +36,11 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				if (UserInfo.Instance.SNS1 != null)
-					return UserInfo.Instance.SNS1.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
+				if (Waveface.Stream.ClientFramework.UserInfo.Instance.SNS1 != null)
+					return Waveface.Stream.ClientFramework.UserInfo.Instance.SNS1.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
 
-				else if (UserInfo.Instance.SNS2 != null)
-					return UserInfo.Instance.SNS2.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
+				else if (Waveface.Stream.ClientFramework.UserInfo.Instance.SNS2 != null)
+					return Waveface.Stream.ClientFramework.UserInfo.Instance.SNS2.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
 				else
 					return false;
 			}
@@ -134,7 +134,7 @@ namespace Waveface.Stream.WindowsClient
 					return;
 				}
 
-				UserInfo.Instance.Update();
+				Waveface.Stream.ClientFramework.UserInfo.Instance.Update();
 			}
 			else
 				throw new OperationCanceledException();
@@ -143,7 +143,7 @@ namespace Waveface.Stream.WindowsClient
 		public void Disconnect(string session_token, string api_key)
 		{
 			StationAPI.SNSDisconnect(session_token, svcType);
-			UserInfo.Instance.Update();
+			Waveface.Stream.ClientFramework.UserInfo.Instance.Update();
 		}
 	}
 }
