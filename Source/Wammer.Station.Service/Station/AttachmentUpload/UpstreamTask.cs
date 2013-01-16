@@ -57,7 +57,10 @@ namespace Wammer.Station.AttachmentUpload
 				user_id = user.user_id;
 
 				if (meta == ImageMeta.Origin && !user.isPaidUser)
+				{
+					updateImportTaskIfNeeded(0);
 					return;
+				}
 
 				IAttachmentInfo info = attachment.GetInfoByMeta(meta);
 				if (info == null)
@@ -96,30 +99,23 @@ namespace Wammer.Station.AttachmentUpload
 
 				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Unset("sync_range.upload_error"));
 
-				if (importTaskId.HasValue)
-				{
-					TaskStatusCollection.Instance.Update(Query.EQ("_id", importTaskId.Value),
-						Update.Inc("UploadedSize", uploadedSize).Inc("UploadedCount", 1));
-				}
+				updateImportTaskIfNeeded(uploadedSize);
 			}
 			catch (WammerCloudException e)
 			{
 				if (e.WammerError == (int)AttachmentApiError.FileExisted ||
 					e.WammerError == (int)AttachmentApiError.InvalidObjectId ||
-					e.WammerError == (int)AttachmentApiError.InvalidPostId)
+					e.WammerError == (int)AttachmentApiError.InvalidPostId ||
+					e.WammerError == (int)AttachmentApiError.InvalidImage)
 				{
 					this.LogWarnMsg("attachment " + object_id + " is rejected by Cloud. Drop this task.");
+					updateImportTaskIfNeeded(0);
 				}
 				else
 				{
 					if (!string.IsNullOrEmpty(user_id))
 					{
-						var err = e.Message;
-
-						if (e.HttpError == WebExceptionStatus.ProtocolError)
-							err = e.GetCloudRetMsg();
-						else if (e.InnerException is WebException)
-							err = e.InnerException.Message;
+						var err = e.GetDisplayDescription();
 
 						DriverCollection.Instance.Update(Query.EQ("_id", user_id),
 							Update.Set("sync_range.upload_error", err));
@@ -131,6 +127,15 @@ namespace Wammer.Station.AttachmentUpload
 			finally
 			{
 				upstreamCount.Decrement();
+			}
+		}
+
+		private void updateImportTaskIfNeeded(long uploadedSize)
+		{
+			if (importTaskId.HasValue)
+			{
+				TaskStatusCollection.Instance.Update(Query.EQ("_id", importTaskId.Value),
+					Update.Inc("UploadedSize", uploadedSize).Inc("UploadedCount", 1));
 			}
 		}
 

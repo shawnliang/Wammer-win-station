@@ -5,7 +5,7 @@ using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 
-namespace Waveface.Stream.WindowsClient
+namespace Waveface.Stream.ClientFramework
 {
 	public class UserInfo
 	{
@@ -146,7 +146,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get 
 			{
-				return m_Response.quota.doc.origin_size + m_Response.quota.image.origin_size;
+				return (m_Response.quota.total != null) ? m_Response.quota.total.origin_size : m_Response.quota.doc.origin_size + m_Response.quota.image.origin_size;
 			}
 		}
 
@@ -166,7 +166,8 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				return JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(m_SessionToken, m_UserID));
+				var response = StationAPI.GetUser(m_SessionToken, m_UserID);
+				return JsonConvert.DeserializeObject<MR_users_get>(response);
 			}
 			catch (Exception)
 			{
@@ -177,6 +178,11 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Public Method
+		public void Reset()
+		{
+			m_Response = null;
+		}
+
 		public void Update()
 		{
 			var response = GetUserData();
@@ -319,23 +325,24 @@ namespace Waveface.Stream.WindowsClient
 
 	public class QuotaItem
 	{
-		public int origin_size { get; set; }
-		public int origin_files { get; set; }
+		public long origin_size { get; set; }
+		public long origin_files { get; set; }
 	}
 
 	public class Quota
 	{
 		public QuotaItem doc { get; set; }
 		public QuotaItem image { get; set; }
+		public QuotaItem total { get; set; }
 	}
 
 	public class UsageItem
 	{
-		public int meta_files { get; set; }
-		public int objects { get; set; }
-		public int meta_size { get; set; }
-		public int origin_files { get; set; }
-		public int origin_size { get; set; }
+		public long meta_files { get; set; }
+		public long objects { get; set; }
+		public long meta_size { get; set; }
+		public long origin_files { get; set; }
+		public long origin_size { get; set; }
 	}
 
 	public class Usage

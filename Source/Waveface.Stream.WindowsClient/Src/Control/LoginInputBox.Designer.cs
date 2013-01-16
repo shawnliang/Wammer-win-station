@@ -38,15 +38,14 @@
 			// 
 			// loginInputPanel1
 			// 
-			this.loginInputPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.loginInputPanel1.Controls.Add(this.button1);
 			this.loginInputPanel1.Controls.Add(this.tbxPassword);
 			this.loginInputPanel1.Controls.Add(this.tbxEMail);
 			this.loginInputPanel1.Controls.Add(this.cmbEmail);
+			this.loginInputPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.loginInputPanel1.Location = new System.Drawing.Point(0, 0);
 			this.loginInputPanel1.Name = "loginInputPanel1";
-			this.loginInputPanel1.Size = new System.Drawing.Size(286, 103);
+			this.loginInputPanel1.Size = new System.Drawing.Size(279, 103);
 			this.loginInputPanel1.TabIndex = 3;
 			// 
 			// button1
@@ -57,7 +56,7 @@
 			this.button1.FlatAppearance.BorderSize = 0;
 			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.button1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.button1.Location = new System.Drawing.Point(242, 8);
+			this.button1.Location = new System.Drawing.Point(235, 8);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(21, 37);
 			this.button1.TabIndex = 1;
@@ -75,7 +74,7 @@
 			this.tbxPassword.Location = new System.Drawing.Point(22, 65);
 			this.tbxPassword.Name = "tbxPassword";
 			this.tbxPassword.PasswordChar = '*';
-			this.tbxPassword.Size = new System.Drawing.Size(242, 23);
+			this.tbxPassword.Size = new System.Drawing.Size(235, 23);
 			this.tbxPassword.TabIndex = 2;
 			// 
 			// tbxEMail
@@ -87,7 +86,7 @@
 			this.tbxEMail.Font = new System.Drawing.Font("Arial", 15F);
 			this.tbxEMail.Location = new System.Drawing.Point(22, 15);
 			this.tbxEMail.Name = "tbxEMail";
-			this.tbxEMail.Size = new System.Drawing.Size(219, 23);
+			this.tbxEMail.Size = new System.Drawing.Size(212, 23);
 			this.tbxEMail.TabIndex = 0;
 			// 
 			// cmbEmail
@@ -99,7 +98,7 @@
 			this.cmbEmail.FormattingEnabled = true;
 			this.cmbEmail.Location = new System.Drawing.Point(22, 15);
 			this.cmbEmail.Name = "cmbEmail";
-			this.cmbEmail.Size = new System.Drawing.Size(242, 31);
+			this.cmbEmail.Size = new System.Drawing.Size(235, 31);
 			this.cmbEmail.Sorted = true;
 			this.cmbEmail.TabIndex = 1;
 			this.cmbEmail.Visible = false;
@@ -110,7 +109,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.loginInputPanel1);
 			this.Name = "LoginInputBox";
-			this.Size = new System.Drawing.Size(286, 106);
+			this.Size = new System.Drawing.Size(279, 105);
+			this.SizeChanged += new System.EventHandler(this.LoginInputBox_SizeChanged);
 			this.loginInputPanel1.ResumeLayout(false);
 			this.loginInputPanel1.PerformLayout();
 			this.ResumeLayout(false);

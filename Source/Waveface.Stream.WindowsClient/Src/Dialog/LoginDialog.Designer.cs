@@ -102,7 +102,7 @@ namespace Waveface.Stream.WindowsClient
         private System.Windows.Forms.TabPage tabMainPage;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.PictureBox pictureBox3;
+		private System.Windows.Forms.PictureBox pictureBox3;
 	}
 }
 

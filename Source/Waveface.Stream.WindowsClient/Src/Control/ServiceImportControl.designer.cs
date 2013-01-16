@@ -28,21 +28,24 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label2 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.svcPanel = new System.Windows.Forms.FlowLayoutPanel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// label2
+			// svcPanel
 			// 
-			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.svcPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(3, 9);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(549, 33);
-			this.label2.TabIndex = 2;
-			this.label2.Text = "A better way to fill your journal with memories from the past. Connect o all your" +
-    " favorite web services and let Stream generate real life events for you.";
+			this.svcPanel.AutoScroll = true;
+			this.svcPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.svcPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+			this.svcPanel.Location = new System.Drawing.Point(3, 45);
+			this.svcPanel.Name = "svcPanel";
+			this.svcPanel.Size = new System.Drawing.Size(547, 295);
+			this.svcPanel.TabIndex = 4;
+			this.svcPanel.WrapContents = false;
 			// 
 			// label1
 			// 
@@ -54,19 +57,16 @@
 			this.label1.TabIndex = 3;
 			this.label1.Text = "You can change theses settings whenever you want.";
 			// 
-			// svcPanel
+			// label2
 			// 
-			this.svcPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.svcPanel.AutoScroll = true;
-			this.svcPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.svcPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.svcPanel.Location = new System.Drawing.Point(5, 36);
-			this.svcPanel.Name = "svcPanel";
-			this.svcPanel.Size = new System.Drawing.Size(547, 304);
-			this.svcPanel.TabIndex = 4;
-			this.svcPanel.WrapContents = false;
+			this.label2.Location = new System.Drawing.Point(3, 9);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(547, 33);
+			this.label2.TabIndex = 2;
+			this.label2.Text = "A better way to fill your journal with memories from the past. Connect o all your" +
+    " favorite web services and let Stream generate real life events for you.";
 			// 
 			// ServiceImportControl
 			// 

@@ -53,28 +53,29 @@
 			// 
 			this.changeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.changeButton.Enabled = false;
-			this.changeButton.Location = new System.Drawing.Point(421, 349);
+			this.changeButton.Location = new System.Drawing.Point(322, 352);
 			this.changeButton.Name = "changeButton";
-			this.changeButton.Size = new System.Drawing.Size(118, 24);
+			this.changeButton.Size = new System.Drawing.Size(67, 24);
 			this.changeButton.TabIndex = 13;
 			this.changeButton.Text = "Change";
 			this.changeButton.UseVisualStyleBackColor = true;
 			// 
 			// txtStoreLocation
 			// 
-			this.txtStoreLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.txtStoreLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtStoreLocation.Enabled = false;
 			this.txtStoreLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.txtStoreLocation.Location = new System.Drawing.Point(46, 352);
+			this.txtStoreLocation.Location = new System.Drawing.Point(15, 355);
 			this.txtStoreLocation.Name = "txtStoreLocation";
-			this.txtStoreLocation.Size = new System.Drawing.Size(355, 21);
+			this.txtStoreLocation.Size = new System.Drawing.Size(301, 21);
 			this.txtStoreLocation.TabIndex = 12;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(43, 332);
+			this.label2.Location = new System.Drawing.Point(13, 336);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(220, 12);
 			this.label2.TabIndex = 11;
@@ -84,9 +85,9 @@
 			// 
 			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.button2.Location = new System.Drawing.Point(421, 128);
+			this.button2.Location = new System.Drawing.Point(398, 92);
 			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(118, 24);
+			this.button2.Size = new System.Drawing.Size(145, 24);
 			this.button2.TabIndex = 10;
 			this.button2.Text = "Add from Picasa";
 			this.button2.UseVisualStyleBackColor = true;
@@ -96,9 +97,9 @@
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.button1.Location = new System.Drawing.Point(421, 98);
+			this.button1.Location = new System.Drawing.Point(398, 62);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(118, 24);
+			this.button1.Size = new System.Drawing.Size(145, 24);
 			this.button1.TabIndex = 9;
 			this.button1.Text = "Add from Library";
 			this.button1.UseVisualStyleBackColor = true;
@@ -108,9 +109,11 @@
 			// 
 			this.dataGridView1.AllowUserToAddRows = false;
 			this.dataGridView1.AllowUserToDeleteRows = false;
+			this.dataGridView1.AllowUserToResizeRows = false;
 			this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
 			this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -134,40 +137,43 @@
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-			this.dataGridView1.Location = new System.Drawing.Point(45, 68);
+			this.dataGridView1.Location = new System.Drawing.Point(15, 32);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowHeadersVisible = false;
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(356, 224);
+			this.dataGridView1.Size = new System.Drawing.Size(374, 288);
 			this.dataGridView1.TabIndex = 8;
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
 			// chkBoxColumn
 			// 
+			this.chkBoxColumn.FillWeight = 22.16398F;
 			this.chkBoxColumn.HeaderText = "";
+			this.chkBoxColumn.MinimumWidth = 14;
 			this.chkBoxColumn.Name = "chkBoxColumn";
 			this.chkBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.chkBoxColumn.Width = 50;
 			// 
 			// Column1
 			// 
+			this.Column1.FillWeight = 70F;
 			this.Column1.HeaderText = "CollectionName";
 			this.Column1.Name = "Column1";
 			this.Column1.ReadOnly = true;
 			// 
 			// folderColumn
 			// 
+			this.folderColumn.FillWeight = 149.3538F;
 			this.folderColumn.HeaderText = "Location";
 			this.folderColumn.Name = "folderColumn";
-			this.folderColumn.Width = 313;
+			this.folderColumn.ReadOnly = true;
 			// 
 			// addButton
 			// 
 			this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.addButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.addButton.Location = new System.Drawing.Point(421, 68);
+			this.addButton.Location = new System.Drawing.Point(398, 32);
 			this.addButton.Name = "addButton";
-			this.addButton.Size = new System.Drawing.Size(118, 24);
+			this.addButton.Size = new System.Drawing.Size(145, 24);
 			this.addButton.TabIndex = 6;
 			this.addButton.Text = "Add ...";
 			this.addButton.UseVisualStyleBackColor = true;
@@ -176,11 +182,10 @@
 			// lblWelcome
 			// 
 			this.lblWelcome.AutoSize = true;
-			this.lblWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
 			this.lblWelcome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.lblWelcome.Location = new System.Drawing.Point(27, 18);
+			this.lblWelcome.Location = new System.Drawing.Point(13, 9);
 			this.lblWelcome.Name = "lblWelcome";
-			this.lblWelcome.Size = new System.Drawing.Size(268, 18);
+			this.lblWelcome.Size = new System.Drawing.Size(190, 12);
 			this.lblWelcome.TabIndex = 4;
 			this.lblWelcome.Text = "Choose existing photo folders to import";
 			// 
@@ -197,7 +202,7 @@
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "FileImportControl";
-			this.Size = new System.Drawing.Size(555, 380);
+			this.Size = new System.Drawing.Size(555, 383);
 			this.Load += new System.EventHandler(this.FileImportControl_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
@@ -211,14 +216,14 @@
 		private System.Windows.Forms.Button addButton;
 		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 		private System.Windows.Forms.DataGridView dataGridView1;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn chkBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn folderColumn;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox txtStoreLocation;
 		private System.Windows.Forms.Button changeButton;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn chkBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn folderColumn;
 
 
 

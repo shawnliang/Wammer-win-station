@@ -10,11 +10,15 @@ namespace Waveface.Stream.WindowsClient
 		private IStreamLoginable login;
 		private UserSession session;
 
-		public LoginControl(IStreamLoginable login)
+		public LoginControl()
 			: base()
 		{
 			InitializeComponent();
+		}
 
+		public LoginControl(IStreamLoginable login)
+			: this()
+		{
 			this.login = login;
 		}
 

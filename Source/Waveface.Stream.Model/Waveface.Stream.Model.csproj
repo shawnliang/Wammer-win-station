@@ -145,6 +145,7 @@
     <Compile Include="Src\Exception\VersionNotSupportedException.cs" />
     <Compile Include="Src\Exception\WammerCloudException.cs" />
     <Compile Include="Src\Extension\DateTimeExtenstion.cs" />
+    <Compile Include="Src\Extension\ExceptionExtension.cs" />
     <Compile Include="Src\Extension\StreamExtension.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

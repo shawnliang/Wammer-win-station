@@ -33,13 +33,7 @@ namespace Waveface.Stream.WindowsClient
 			}
 			catch (WebException e)
 			{
-				var err = e.Message;
-
-				if (e.Status == WebExceptionStatus.ProtocolError)
-				{
-					var cloudErr = new WammerCloudException("", e);
-					err = cloudErr.GetCloudRetMsg();
-				}
+				var err = e.GetDisplayDescription();
 
 				retNodes.Add(
 					new PersonalCloudNode

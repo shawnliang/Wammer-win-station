@@ -346,7 +346,7 @@
     <value>tabControl</value>
   </data>
   <data name="&gt;&gt;tabControl.Type" xml:space="preserve">
-    <value>Waveface.Stream.WindowsClient.TabControlEx, WindowsClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Waveface.Stream.WindowsClient.TabControlEx, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tabControl.Parent" xml:space="preserve">
     <value>$this</value>
@@ -9748,6 +9748,9 @@
         ////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////8=
 </value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
