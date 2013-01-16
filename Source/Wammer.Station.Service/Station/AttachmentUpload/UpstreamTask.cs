@@ -115,12 +115,7 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					if (!string.IsNullOrEmpty(user_id))
 					{
-						var err = e.Message;
-
-						if (e.HttpError == WebExceptionStatus.ProtocolError)
-							err = e.GetCloudRetMsg();
-						else if (e.InnerException is WebException)
-							err = e.InnerException.Message;
+						var err = e.GetDisplayDescription();
 
 						DriverCollection.Instance.Update(Query.EQ("_id", user_id),
 							Update.Set("sync_range.upload_error", err));
