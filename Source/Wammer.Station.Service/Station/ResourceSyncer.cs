@@ -64,22 +64,36 @@ namespace Wammer.Station
 				{
 					if (SyncTimeline(user))
 						Station.Instance.PostUpsertNotifier.NotifyUser(user.user_id);
-
-					DriverCollection.Instance.Update(Query.EQ("_id", user.user_id),
-						Update.Set("sync_range.syncing", false).Unset("sync_range.download_index_error"));
 				}
 				catch (Exception e)
 				{
-					this.LogDebugMsg("Unable to sync timeline of user " + user.email, e);
-					DriverCollection.Instance.Update(Query.EQ("_id", user.user_id),
-						Update.Set("sync_range.syncing", false).Set("sync_range.download_index_error", e.Message));
+					this.LogWarnMsg("Unable to sync timeline of user " + user.email, e);
+
 				}
 			}
 		}
 
 		public bool SyncTimeline(Driver user)
 		{
-			return syncer.PullTimeline(user);
+			try
+			{
+				bool changed = syncer.PullTimeline(user);
+
+				DriverCollection.Instance.Update(Query.EQ("_id", user.user_id),
+						Update.Set("sync_range.syncing", false).Unset("sync_range.download_index_error"));
+
+
+				return changed;
+			}
+			catch (Exception e)
+			{
+				var err = e.GetDisplayDescription();
+
+				DriverCollection.Instance.Update(Query.EQ("_id", user.user_id),
+						Update.Set("sync_range.syncing", false).Set("sync_range.download_index_error", err));
+
+				throw;
+			}
 		}
 
 		public static void EnablePeriodicalSync(string user_id)

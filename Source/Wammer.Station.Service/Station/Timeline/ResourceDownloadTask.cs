@@ -322,19 +322,7 @@ namespace Wammer.Station.Timeline
 			}
 			catch (Exception e)
 			{
-				var err = e.Message;
-
-				if (e is WammerCloudException)
-				{
-					var cloudErr = (WammerCloudException)e;
-
-					if (cloudErr.HttpError == System.Net.WebExceptionStatus.ProtocolError)
-						err = cloudErr.GetCloudRetMsg();
-					else if (cloudErr.InnerException != null)
-						err = cloudErr.InnerException.Message;
-					else
-						err = cloudErr.Message;
-				}
+				var err = e.GetDisplayDescription();
 
 				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Set("sync_range.download_error", err));
 
