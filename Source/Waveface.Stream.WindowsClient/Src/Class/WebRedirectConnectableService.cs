@@ -34,10 +34,20 @@ namespace Waveface.Stream.WindowsClient
 
 		public bool IsEnabled(string user_id, string session_token, string api_key)
 		{
-			var loginInfo = JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(session_token, user_id));
+			try
+			{
+				if (UserInfo.Instance.SNS1 != null)
+					return UserInfo.Instance.SNS1.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
 
-			return loginInfo.user.sns != null &&
-				loginInfo.user.sns.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
+				else if (UserInfo.Instance.SNS2 != null)
+					return UserInfo.Instance.SNS2.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
+				else
+					return false;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 
@@ -123,6 +133,8 @@ namespace Waveface.Stream.WindowsClient
 
 					return;
 				}
+
+				UserInfo.Instance.Update();
 			}
 			else
 				throw new OperationCanceledException();
@@ -131,6 +143,7 @@ namespace Waveface.Stream.WindowsClient
 		public void Disconnect(string session_token, string api_key)
 		{
 			StationAPI.SNSDisconnect(session_token, svcType);
+			UserInfo.Instance.Update();
 		}
 	}
 }
