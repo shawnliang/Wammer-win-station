@@ -138,22 +138,25 @@ namespace Wammer.Station
 				raiseFilesEnumeratedEvent(allFiles.Count);
 
 				// index files, generate metadata
-				var allMeta = extractMetadata(allFiles).ToList();
+				var allMeta = new List<FileMetadata>();
+				var nIndexed = 0;
+				do
+				{
+					var batch = allFiles.Skip(nIndexed).Take(50);
+					var metadata = extractMetadata(batch);
+
+					enqueueUploadMetadataTask(metadata);
+					nIndexed += batch.Count();
+					allMeta.AddRange(metadata);
+
+				} while (nIndexed < allFiles.Count);
+
+
 				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
 
 				if (allMeta.Count == 0)
 					throw new Exception("No file needs to import");
 
-
-				// upload metadata task
-				int nMetaupload = 0;
-				do
-				{
-					var batch = allMeta.Skip(nMetaupload).Take(50);
-					enqueueUploadMetadataTask(batch);
-
-					nMetaupload += batch.Count();
-				} while (nMetaupload < allMeta.Count);
 
 				// build collections
 				var folderCollections = buildFolderCollections(allMeta);
