@@ -36,17 +36,10 @@ namespace Waveface.Stream.Core
 			string curFolder = "";
 			int photoCountInCurFolder = 0;
 
-			var leafPaths = ((new DirectoryInfo(path)).GetDirectories("*", SearchOption.AllDirectories)
-				.Where(subDir => !subDir.GetDirectories("*", SearchOption.TopDirectoryOnly).Any())
-				.Select(subDir => subDir.FullName)).ToArray();
+			findPhotos(new List<string> { path },
 
-			if (leafPaths.Length == 0)
-				leafPaths = new string[] { path };
-
-			findPhotos(leafPaths,
-
-				(folder) => {
-
+				(folder) =>
+				{
 					if (!string.IsNullOrEmpty(curFolder) && photoCountInCurFolder > 0)
 						photoFolderFound(curFolder, photoCountInCurFolder);
 
@@ -55,7 +48,8 @@ namespace Waveface.Stream.Core
 					photoCountInCurFolder = 0;
 				},
 
-				(file) => {
+				(file) =>
+				{
 					++photoCountInCurFolder;
 				}
 			);
