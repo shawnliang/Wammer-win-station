@@ -509,6 +509,7 @@
 			this.Name = "ControlPanelDialog";
 			this.Text = "AOStream Control Center";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ControlPanelDialog_FormClosing);
+			this.Load += new System.EventHandler(this.ControlPanelDialog_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.ResumeLayout(false);

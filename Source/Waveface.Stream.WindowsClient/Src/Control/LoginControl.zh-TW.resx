@@ -117,22 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="forgotPwdLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="forgotPwdLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 281</value>
-  </data>
-  <data name="forgotPwdLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>549, 15</value>
-  </data>
   <data name="forgotPwdLabel.Text" xml:space="preserve">
     <value>忘記密碼?</value>
-  </data>
-  <data name="forgotPwdLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
   </data>
   <data name="txtPassword.CueText" xml:space="preserve">
     <value>密碼</value>
@@ -142,12 +128,6 @@
   </data>
   <data name="fbLoginButton1.DisplayText" xml:space="preserve">
     <value>Facebook 登入</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 113</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>546, 21</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>或</value>

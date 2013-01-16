@@ -173,7 +173,6 @@ namespace Waveface.Stream.WindowsClient
 
 		private void FileImportControl_Load(object sender, EventArgs e)
 		{
-
 			var rect = dataGridView1.GetCellDisplayRectangle(0, -1, true);
 			_checkBox1 = new CheckBox
 			{
@@ -182,8 +181,8 @@ namespace Waveface.Stream.WindowsClient
 			};
 
 			var loc = rect.Location;
-			loc.X = loc.X + rect.Width / 2 - _checkBox1.Width / 2;
-			loc.Y = loc.Y + rect.Height / 2 - _checkBox1.Height / 2;
+			loc.X = loc.X + (rect.Width - _checkBox1.Width) / 2;
+			loc.Y = loc.Y + (rect.Height - _checkBox1.Height) / 2;
 
 			_checkBox1.Location = loc;
 

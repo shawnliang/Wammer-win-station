@@ -116,16 +116,6 @@ namespace Waveface.Stream.WindowsClient
 			lblSyncStatus.Text = string.Empty;
 			lblSyncTransferStatus.Text = string.Empty;
 			lblLocalProcessStatus.Text = string.Empty;
-
-			UpdateAccountInfo();
-			UpdateUserPackage();
-			UpdateUsageStatus();
-			UpdateResourceFolder();
-			UpdateSoftwareInfo();
-			UpdateImportStatus();
-
-			refreshStatusTimer.Enabled = true;
-			refreshStatusTimer.Start();
 		}
 		#endregion
 
@@ -133,7 +123,7 @@ namespace Waveface.Stream.WindowsClient
 		#region Private Method
 		private void UpdateAccountInfo()
 		{
-			var userInfo = UserInfo.Instance;
+			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
 			lblEmail.Text = userInfo.Email;
 			lblName.Text = userInfo.NickName;
 			chkSubscribed.Checked = userInfo.Subscribed;
@@ -163,7 +153,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void GetSizeAndUnit(float value, ref float size, ref string unit)
 		{
-			var units = new string[] { "B", "KB", "MB" };
+			var units = new string[] { "B", "KB", "MB", "GB"};
 			var index = Array.IndexOf(units, unit);
 
 			if (index == -1)
@@ -184,7 +174,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateUsageStatus()
 		{
-			var userInfo = UserInfo.Instance;
+			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
 
 			var quota = userInfo.Quota;
 			var size = 0.0f;
@@ -277,7 +267,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void ControlPanelDialog_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var userInfo = UserInfo.Instance;
+			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
 			if (userInfo.Subscribed == chkSubscribed.Checked)
 				return;
 
@@ -337,7 +327,9 @@ namespace Waveface.Stream.WindowsClient
 			if (param != null && !string.IsNullOrEmpty(param.email))
 			{
 				if (StreamClient.Instance.IsLogined && param.email.Equals(StreamClient.Instance.LoginedUser.EMail, StringComparison.CurrentCultureIgnoreCase))
+				{
 					StreamClient.Instance.Logout();
+				}
 			}
 
 			m_ProcessingDialog = null;
@@ -395,7 +387,29 @@ namespace Waveface.Stream.WindowsClient
 			lblSyncStatus.Text = SyncStatus.GetSyncStatus();
 			lblSyncTransferStatus.Text = SyncStatus.GetSyncTransferStatus();
 		}
+				
+		
+		private void ControlPanelDialog_Load(object sender, EventArgs e)
+		{
+			if (this.IsDesignMode())
+				return;
 
+			UpdateAccountInfo();
+			UpdateUserPackage();
+			UpdateUsageStatus();
+			UpdateResourceFolder();
+			UpdateSoftwareInfo();
+			UpdateImportStatus();
+
+			refreshStatusTimer.Enabled = true;
+			refreshStatusTimer.Start();
+
+			this.tabPage2.Controls.Clear();
+			this.tabPage2.Controls.Add(new ServiceImportControl() { Dock = DockStyle.Fill });
+
+			this.tabPage3.Controls.Clear();
+			this.tabPage3.Controls.Add(new PersonalCloudStatusControl2() { Dock = DockStyle.Fill });
+		}
 		#endregion
 	}
 }

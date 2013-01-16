@@ -251,7 +251,6 @@
     <Compile Include="Src\Control\SignUpControl.designer.cs">
       <DependentUpon>SignUpControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Class\UserInfo.cs" />
     <Compile Include="Src\Class\UserSession.cs" />
     <Compile Include="Src\Class\WizardParameters.cs" />
     <Compile Include="Src\Control\ChoosePlanControl.cs">

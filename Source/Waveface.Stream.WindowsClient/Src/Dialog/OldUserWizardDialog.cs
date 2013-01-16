@@ -39,8 +39,8 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// OldUserWizardDialog
 			// 
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			resources.ApplyResources(this, "$this");
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Name = "OldUserWizardDialog";
 			this.ResumeLayout(false);
 
