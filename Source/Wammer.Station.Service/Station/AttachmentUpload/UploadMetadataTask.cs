@@ -6,11 +6,13 @@ using Waveface.Stream.Model;
 namespace Wammer.Station.AttachmentUpload
 {
 	[Serializable]
-	public class UploadMetadataTask : DelayedRetryTask
+	public class UploadMetadataTask : DelayedRetryTask, INamedTask
 	{
 		public string group_id { get; set; }
 		public string metadata { get; set; }
 		public int metaCount { get; set; }
+		public string Name { get; set; }
+
 
 		[field: NonSerialized]
 		public event EventHandler<MetadataUploadEventArgs> Uploaded;
@@ -18,10 +20,11 @@ namespace Wammer.Station.AttachmentUpload
 		public UploadMetadataTask()
 			:base(TaskPriority.High)
 		{
+			Name = Guid.NewGuid().ToString();
 		}
 
 		public UploadMetadataTask(string group_id, string metadata, int metaCount)
-			: base(TaskPriority.High)
+			: this()
 		{
 			this.group_id = group_id;
 			this.metadata = metadata;

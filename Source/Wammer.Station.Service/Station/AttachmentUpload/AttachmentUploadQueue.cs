@@ -7,7 +7,7 @@ using Wammer.Model;
 
 namespace Wammer.Station.AttachmentUpload
 {
-	internal class AttachmentUploadQueue : AbstractTaskEnDequeueNotifier, ITaskEnqueuable<ITask>, ITaskDequeuable<ITask>
+	public class AttachmentUploadQueue : AbstractTaskEnDequeueNotifier, ITaskEnqueuable<INamedTask>, ITaskDequeuable<INamedTask>
 	{
 		public const string QNAME_HIGH = "attUpl_high";
 		public const string QNAME_MED = "attUpl_med";
@@ -16,9 +16,9 @@ namespace Wammer.Station.AttachmentUpload
 		private readonly object csLock = new object();
 		bool isInited = false;
 		private Semaphore hasItem;
-		private Queue<DequeuedTask<ITask>> highQueue;
-		private Queue<DequeuedTask<ITask>> lowQueue;
-		private Queue<DequeuedTask<ITask>> mediumQueue;
+		private Queue<DequeuedTask<INamedTask>> highQueue;
+		private Queue<DequeuedTask<INamedTask>> lowQueue;
+		private Queue<DequeuedTask<INamedTask>> mediumQueue;
 		private readonly AttachmentUploadQueuePersistentStorage storage;
 
 		public AttachmentUploadQueue()
@@ -54,9 +54,9 @@ namespace Wammer.Station.AttachmentUpload
 		}
 
 
-		#region ITaskDequeuable<ITask> Members
+		#region ITaskDequeuable<INamedTask> Members
 
-		public DequeuedTask<ITask> Dequeue()
+		public DequeuedTask<INamedTask> Dequeue()
 		{
 			if (!isInited)
 				throw new InvalidOperationException("Not inited");
@@ -66,7 +66,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			lock (csLock)
 			{
-				DequeuedTask<ITask> deqTask;
+				DequeuedTask<INamedTask> deqTask;
 
 				if (highQueue.Count > 0)
 					deqTask = highQueue.Dequeue();
@@ -81,7 +81,7 @@ namespace Wammer.Station.AttachmentUpload
 			}
 		}
 
-		public void AckDequeue(DequeuedTask<ITask> item)
+		public void AckDequeue(DequeuedTask<INamedTask> item)
 		{
 			if (!isInited)
 				throw new InvalidOperationException("Not inited");
@@ -95,21 +95,21 @@ namespace Wammer.Station.AttachmentUpload
 			if (!isInited)
 				throw new InvalidOperationException("Not inited");
 
-			Enqueue(new NullTask(), TaskPriority.High);
+			Enqueue(new NullNamedTask(), TaskPriority.High);
 		}
 
 		#endregion
 
 		#region ITaskEnqueuable<ITask> Members
 
-		public void Enqueue(ITask task, TaskPriority priority)
+		public void Enqueue(INamedTask task, TaskPriority priority)
 		{
 			if (!isInited)
 				throw new InvalidOperationException("Not inited");
 
 			lock (csLock)
 			{
-				var item = new DequeuedTask<ITask>(task, Guid.NewGuid().ToString());
+				var item = new DequeuedTask<INamedTask>(task, task.Name);
 				if (priority == TaskPriority.High)
 					highQueue.Enqueue(item);
 				else if (priority == TaskPriority.Medium)
@@ -125,12 +125,20 @@ namespace Wammer.Station.AttachmentUpload
 		}
 
 		#endregion
+
+		public object GetCount()
+		{
+			lock (csLock)
+			{
+				return highQueue.Count + mediumQueue.Count + lowQueue.Count;
+			}
+		}
 	}
 
 
 	internal class AttachmentUploadQueuePersistentStorage
 	{
-		public void Save(DequeuedTask<ITask> task, TaskPriority pri)
+		public void Save(DequeuedTask<INamedTask> task, TaskPriority pri)
 		{
 			string qname;
 			if (pri == TaskPriority.High)
@@ -149,17 +157,17 @@ namespace Wammer.Station.AttachmentUpload
 					});
 		}
 
-		public void Remove(DequeuedTask<ITask> task)
+		public void Remove(DequeuedTask<INamedTask> task)
 		{
 			QueuedTaskCollection.Instance.Remove(Query.EQ("_id", task.Key));
 		}
 
-		public Queue<DequeuedTask<ITask>> Load(string qname)
+		public Queue<DequeuedTask<INamedTask>> Load(string qname)
 		{
-			var queue = new Queue<DequeuedTask<ITask>>();
+			var queue = new Queue<DequeuedTask<INamedTask>>();
 			foreach (QueuedTask item in QueuedTaskCollection.Instance.Find(Query.EQ("queue", qname)))
 			{
-				queue.Enqueue(new DequeuedTask<ITask>(item.Data, item.id));
+				queue.Enqueue(new DequeuedTask<INamedTask>((INamedTask)item.Data, item.id));
 			}
 
 			return queue;

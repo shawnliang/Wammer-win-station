@@ -11,7 +11,7 @@ using System.Net;
 namespace Wammer.Station.AttachmentUpload
 {
 	[Serializable]
-	public class UpstreamTask : DelayedRetryTask
+	public class UpstreamTask : DelayedRetryTask, INamedTask
 	{
 		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
 		private static readonly IPerfCounter upstreamCount = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
@@ -28,7 +28,7 @@ namespace Wammer.Station.AttachmentUpload
 		}
 
 		public UpstreamTask(string object_id, ImageMeta meta, TaskPriority pri, Guid? importTaskId = null)
-			: base(pri)
+			: this()
 		{
 			this.object_id = object_id;
 			this.meta = meta;
@@ -154,6 +154,11 @@ namespace Wammer.Station.AttachmentUpload
 			EventHandler<ThumbnailEventArgs> handler = AttachmentUpstreamed;
 			if (handler != null)
 				handler(sender, evt);
+		}
+
+		public string Name
+		{
+			get { return object_id + meta.GetCustomAttribute<DescriptionAttribute>(); }
 		}
 	}
 }
