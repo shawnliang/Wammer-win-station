@@ -188,6 +188,8 @@ namespace Waveface.Stream.WindowsClient
 
 			SetDoubleBuffered(listView1);
 
+			listView1.Columns[1].Width = listView1.ClientSize.Width - listView1.Columns[0].Width;
+
 			var user = StreamClient.Instance.LoginedUser;
 			user_id = user.UserID;
 			session_token = user.SessionToken;

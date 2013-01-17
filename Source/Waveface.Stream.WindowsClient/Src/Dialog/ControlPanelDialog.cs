@@ -132,8 +132,8 @@ namespace Waveface.Stream.WindowsClient
 		private void RemoveAccount(string userID, string email, Boolean removeAllDatas)
 		{
 			BackgroundWorker removeAccountBgWorker = new BackgroundWorker();
-			removeAccountBgWorker.DoWork += new DoWorkEventHandler(removeAccountBgWorker_DoWork);
-			removeAccountBgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(removeAccountBgWorker_RunWorkerCompleted);
+			removeAccountBgWorker.DoWork += removeAccountBgWorker_DoWork;
+			removeAccountBgWorker.RunWorkerCompleted += removeAccountBgWorker_RunWorkerCompleted;
 			removeAccountBgWorker.RunWorkerAsync(new RemoveParam { user_id = userID, email = email, removeData = removeAllDatas });
 
 			m_ProcessingDialog.ProcessMessage = Resources.REMOVE_ACCOUNT_MESSAGE;
@@ -257,6 +257,18 @@ namespace Waveface.Stream.WindowsClient
 
 			}
 		}
+
+		private void UpdateUserInfoToCloud()
+		{
+			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+			if (userInfo.Subscribed == chkSubscribed.Checked)
+				return;
+
+			var user = StreamClient.Instance.LoginedUser;
+			StationAPI.UpdateUser(user.SessionToken, user.UserID, chkSubscribed.Checked);
+
+			userInfo.Reset();
+		}
 		#endregion
 
 		#region Event Process
@@ -267,14 +279,13 @@ namespace Waveface.Stream.WindowsClient
 
 		private void ControlPanelDialog_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
-			if (userInfo.Subscribed == chkSubscribed.Checked)
-				return;
-
-			var user = StreamClient.Instance.LoginedUser;
-			StationAPI.UpdateUser(user.SessionToken, user.UserID, chkSubscribed.Checked);
-
-			userInfo.Update();
+			try
+			{
+				UpdateUserInfoToCloud();
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		private void btnUnLink_Click(object sender, EventArgs e)
@@ -328,6 +339,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				if (StreamClient.Instance.IsLogined && param.email.Equals(StreamClient.Instance.LoginedUser.EMail, StringComparison.CurrentCultureIgnoreCase))
 				{
+					UpdateUserInfoToCloud();
 					StreamClient.Instance.Logout();
 				}
 			}

@@ -31,7 +31,7 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Private Property
-		private DateTime m_UpdateTime { get; set; }
+		private DateTime? m_UpdateTime { get; set; }
 
 		private string m_SessionToken 
 		{ 
@@ -65,7 +65,7 @@ namespace Waveface.Stream.ClientFramework
 			get
 			{
 				var currentTime = DateTime.Now;
-				if (_response == null || (currentTime - m_UpdateTime).TotalMinutes >= 10)
+				if (_response == null || (m_UpdateTime.HasValue && (currentTime - m_UpdateTime.Value).TotalMinutes >= 10))
 				{
 					Update();
 				}
@@ -180,6 +180,7 @@ namespace Waveface.Stream.ClientFramework
 		#region Public Method
 		public void Reset()
 		{
+			m_UpdateTime = null;
 			m_Response = null;
 		}
 

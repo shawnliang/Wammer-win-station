@@ -83,7 +83,7 @@
 			// 
 			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.linkLabel1.AutoSize = true;
-			this.linkLabel1.Location = new System.Drawing.Point(12, 326);
+			this.linkLabel1.Location = new System.Drawing.Point(12, 335);
 			this.linkLabel1.Name = "linkLabel1";
 			this.linkLabel1.Size = new System.Drawing.Size(60, 12);
 			this.linkLabel1.TabIndex = 1;
@@ -94,7 +94,7 @@
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOK.Location = new System.Drawing.Point(526, 322);
+			this.btnOK.Location = new System.Drawing.Point(526, 331);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 21);
 			this.btnOK.TabIndex = 2;
@@ -111,6 +111,7 @@
 			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.splitContainer1.IsSplitterFixed = true;
 			this.splitContainer1.Location = new System.Drawing.Point(12, 12);
 			this.splitContainer1.Name = "splitContainer1";
@@ -122,7 +123,7 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-			this.splitContainer1.Size = new System.Drawing.Size(593, 302);
+			this.splitContainer1.Size = new System.Drawing.Size(593, 311);
 			this.splitContainer1.SplitterDistance = 138;
 			this.splitContainer1.TabIndex = 0;
 			// 
@@ -139,7 +140,7 @@
 			this.panelEx1.LinearGradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(124)))), ((int)(((byte)(55)))));
 			this.panelEx1.Location = new System.Drawing.Point(0, 0);
 			this.panelEx1.Name = "panelEx1";
-			this.panelEx1.Size = new System.Drawing.Size(138, 302);
+			this.panelEx1.Size = new System.Drawing.Size(138, 311);
 			this.panelEx1.TabIndex = 3;
 			// 
 			// lblSyncTransferStatus
@@ -176,7 +177,7 @@
 			this.lblLocalProcessStatus.ForeColor = System.Drawing.Color.Black;
 			this.lblLocalProcessStatus.Location = new System.Drawing.Point(14, 137);
 			this.lblLocalProcessStatus.Name = "lblLocalProcessStatus";
-			this.lblLocalProcessStatus.Size = new System.Drawing.Size(107, 106);
+			this.lblLocalProcessStatus.Size = new System.Drawing.Size(107, 115);
 			this.lblLocalProcessStatus.TabIndex = 0;
 			this.lblLocalProcessStatus.Text = "[Process Status]";
 			this.lblLocalProcessStatus.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -185,7 +186,7 @@
 			// 
 			this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.progressBar1.Location = new System.Drawing.Point(14, 246);
+			this.progressBar1.Location = new System.Drawing.Point(14, 255);
 			this.progressBar1.Name = "progressBar1";
 			this.progressBar1.Size = new System.Drawing.Size(107, 12);
 			this.progressBar1.TabIndex = 0;
@@ -195,7 +196,7 @@
 			// 
 			this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnImport.Location = new System.Drawing.Point(14, 264);
+			this.btnImport.Location = new System.Drawing.Point(14, 273);
 			this.btnImport.Name = "btnImport";
 			this.btnImport.Size = new System.Drawing.Size(107, 21);
 			this.btnImport.TabIndex = 0;
@@ -213,7 +214,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(451, 302);
+			this.tabControl1.Size = new System.Drawing.Size(451, 311);
 			this.tabControl1.TabIndex = 0;
 			// 
 			// tabPage1
@@ -223,7 +224,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(443, 276);
+			this.tabPage1.Size = new System.Drawing.Size(443, 285);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Account";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -239,13 +240,15 @@
 			this.groupBox2.Controls.Add(this.label8);
 			this.groupBox2.Location = new System.Drawing.Point(3, 140);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(431, 128);
+			this.groupBox2.Size = new System.Drawing.Size(431, 139);
 			this.groupBox2.TabIndex = 4;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Service Status";
 			// 
 			// usageBar1
 			// 
+			this.usageBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.usageBar1.Location = new System.Drawing.Point(6, 76);
 			this.usageBar1.Maximum = 100;
 			this.usageBar1.Minimum = 0;
@@ -324,8 +327,7 @@
 			// 
 			// btnUnLink
 			// 
-			this.btnUnLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnUnLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnUnLink.Location = new System.Drawing.Point(277, 72);
 			this.btnUnLink.Name = "btnUnLink";
 			this.btnUnLink.Size = new System.Drawing.Size(148, 23);
@@ -381,7 +383,7 @@
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(443, 276);
+			this.tabPage2.Size = new System.Drawing.Size(443, 285);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Web Services";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -395,7 +397,7 @@
 			this.serviceImportControl1.Location = new System.Drawing.Point(3, 3);
 			this.serviceImportControl1.Name = "serviceImportControl1";
 			this.serviceImportControl1.PageTitle = null;
-			this.serviceImportControl1.Size = new System.Drawing.Size(437, 270);
+			this.serviceImportControl1.Size = new System.Drawing.Size(437, 279);
 			this.serviceImportControl1.TabIndex = 0;
 			this.serviceImportControl1.WizardControl = null;
 			// 
@@ -405,7 +407,7 @@
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(443, 276);
+			this.tabPage3.Size = new System.Drawing.Size(443, 285);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Personal Cloud";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -419,7 +421,7 @@
 			this.personalCloudStatusControl21.Location = new System.Drawing.Point(3, 3);
 			this.personalCloudStatusControl21.Name = "personalCloudStatusControl21";
 			this.personalCloudStatusControl21.PageTitle = null;
-			this.personalCloudStatusControl21.Size = new System.Drawing.Size(437, 270);
+			this.personalCloudStatusControl21.Size = new System.Drawing.Size(437, 279);
 			this.personalCloudStatusControl21.TabIndex = 0;
 			this.personalCloudStatusControl21.WizardControl = null;
 			// 
@@ -430,7 +432,7 @@
 			this.tabPage4.Location = new System.Drawing.Point(4, 22);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(443, 276);
+			this.tabPage4.Size = new System.Drawing.Size(443, 285);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "General";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -499,7 +501,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(617, 352);
+			this.ClientSize = new System.Drawing.Size(617, 361);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.splitContainer1);

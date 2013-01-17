@@ -149,9 +149,7 @@ namespace Waveface.Stream.WindowsClient
 
 
 				driveDetector = new DriveDetector();
-				driveDetector.DeviceArrived += new DriveDetectorEventHandler(driveDetector_DeviceArrived);
-				driveDetector.DeviceRemoved += new DriveDetectorEventHandler(driveDetector_DeviceRemoved);
-				driveDetector.QueryRemove += new DriveDetectorEventHandler(driveDetector_QueryRemove);
+				driveDetector.DeviceArrived += driveDetector_DeviceArrived;
 
 				if (!MainForm.Instance.IsDebugMode)
 					ShowControlPanelDialog();
@@ -160,14 +158,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			Application.Run();
-		}
-
-		static void driveDetector_QueryRemove(object sender, DriveDetectorEventArgs e)
-		{
-		}
-
-		static void driveDetector_DeviceRemoved(object sender, DriveDetectorEventArgs e)
-		{
 		}
 
 		static void driveDetector_DeviceArrived(object sender, DriveDetectorEventArgs e)
@@ -593,6 +583,8 @@ namespace Waveface.Stream.WindowsClient
 
 		static void Instance_Logouted(object sender, EventArgs e)
 		{
+			driveDetector.DeviceArrived -= driveDetector_DeviceArrived;
+
 			ControlPanelDialog.Instance.Dispose();
 			MainForm.Instance.Dispose();
 
