@@ -159,7 +159,7 @@ namespace Wammer.Station
 
 
 				// build collections
-				var folderCollections = buildFolderCollections(allMeta);
+				var folderCollections = FolderCollection.Build(allMeta.Cast<ObjectIdAndPath>());
 				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.High);
 
 				// copy file to stream
@@ -186,20 +186,6 @@ namespace Wammer.Station
 			}
 		}
 
-		private static Dictionary<string, FolderCollection> buildFolderCollections(List<FileMetadata> allSavedFiles)
-		{
-			var folderCollections = new Dictionary<string, FolderCollection>();
-			foreach (var file in allSavedFiles)
-			{
-				var folderPath = Path.GetDirectoryName(file.file_path);
-
-				if (folderCollections.ContainsKey(folderPath))
-					folderCollections[folderPath].Objects.Add(file.object_id);
-				else
-					folderCollections.Add(folderPath, new FolderCollection(folderPath, file.object_id));
-			}
-			return folderCollections;
-		}
 
 		private bool hasDupItemInDB(FileMetadata item)
 		{
@@ -440,7 +426,7 @@ namespace Wammer.Station
 	}
 
 	
-	class FileMetadata : ObjectIdAndPath
+	public class FileMetadata : ObjectIdAndPath
 	{
 		public string type { get; set; }
 		public string file_name { get; set; }
@@ -539,7 +525,7 @@ namespace Wammer.Station
 		public FolderCollection(string folderPath)
 		{
 			FolderPath = folderPath;
-			FolderName = Path.GetFileName(folderPath);
+			FolderName = string.IsNullOrEmpty(Path.GetFileName(folderPath)) ? folderPath : Path.GetFileName(folderPath);
 			Objects = new List<string>();
 		}
 
@@ -557,6 +543,23 @@ namespace Wammer.Station
 		public override bool Equals(object obj)
 		{
 			return FolderPath.Equals(obj);
+		}
+
+		public static Dictionary<string, FolderCollection> Build(IEnumerable<ObjectIdAndPath> files)
+		{
+			var folderCollections = new Dictionary<string, FolderCollection>();
+
+			foreach (var file in files)
+			{
+				var folderPath = Path.GetDirectoryName(file.file_path);
+
+				if (folderCollections.ContainsKey(folderPath))
+					folderCollections[folderPath].Objects.Add(file.object_id);
+				else
+					folderCollections.Add(folderPath, new FolderCollection(folderPath, file.object_id));
+			}
+
+			return folderCollections;
 		}
 	}
 }
