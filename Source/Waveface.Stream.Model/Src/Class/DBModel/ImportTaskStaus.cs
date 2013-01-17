@@ -40,10 +40,10 @@ namespace Waveface.Stream.Model
 		public int Copied { get; set; }
 		public int Thumbnailed { get; set; }
 		public int UploadedCount { get; set; }
-		public int UploadedSize { get; set; }
+		public long UploadedSize { get; set; }
 
 		public int UploadCount { get; set; }
-		public int UploadSize { get; set; }
+		public long UploadSize { get; set; }
 		#endregion
 
 		public ImportTaskStaus()
@@ -118,7 +118,7 @@ namespace Waveface.Stream.Model
 			return IsStarted && !IsCompleteSuccessfully() && string.IsNullOrEmpty(Error);
 		}
 
-		public bool GetProgress(out int maximum, out int current)
+		public bool GetProgress(out long maximum, out long current)
 		{
 			maximum = current = 0;
 	

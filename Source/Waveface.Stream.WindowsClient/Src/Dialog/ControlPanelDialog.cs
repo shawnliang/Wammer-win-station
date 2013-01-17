@@ -228,34 +228,43 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateImportStatus()
 		{
-			try
+			var summary = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
+
+			if (string.IsNullOrEmpty(summary.Description))
 			{
-				var summary = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
+				progressBar1.Visible = lblLocalProcessStatus.Visible = false;
+				return;
+			}
+			else
+			{
+				lblLocalProcessStatus.Text = summary.Description;
+				lblLocalProcessStatus.Visible = true;
 
-				if (string.IsNullOrEmpty(summary.Description))
+				long max64;
+				long cur64;
+				if (summary.GetProgress(out max64, out cur64))
 				{
-					progressBar1.Visible = lblLocalProcessStatus.Visible = false;
-					return;
-				}
-				else
-				{
-					lblLocalProcessStatus.Text = summary.Description;
-					lblLocalProcessStatus.Visible = true;
 
-					int max;
-					int cur;
-					if (summary.GetProgress(out max, out cur))
-					{
-						progressBar1.Maximum = max;
-						progressBar1.Value = cur;
-						progressBar1.Visible = true;
-					}
+					int max32, cur32;
+					normalizeTo32bit(max64, cur64, out max32, out cur32);
+
+					progressBar1.Maximum = max32;
+					progressBar1.Value = cur32;
+					progressBar1.Visible = true;
 				}
 			}
-			catch
-			{
+		}
 
+		private void normalizeTo32bit(long max64, long cur64, out int max32, out int cur32)
+		{
+			while (max64 > Int32.MaxValue)
+			{
+				max64 = max64 >> 1;
+				cur64 = cur64 >> 1;
 			}
+
+			max32 = (int)max64;
+			cur32 = (int)cur64;
 		}
 
 		private void UpdateUserInfoToCloud()
