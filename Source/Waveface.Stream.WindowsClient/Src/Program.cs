@@ -387,7 +387,7 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 			
 			m_ContextMenuStrip.Items.Clear();
-			m_ContextMenuStrip.Items.Add(Resources.CONTROL_PANEL_MENU_ITEM, m_ContextMenuStrip_ControlPanel_Click);
+			m_ContextMenuStrip.Items.Add("ControlCenter" , Resources.CONTROL_PANEL_MENU_ITEM, m_ContextMenuStrip_ControlPanel_Click);
 			m_ContextMenuStrip.Items.Add("ResumeService", Resources.SERVICE_RESUME_MENU_ITEM, m_ContextMenuStrip_Resume_Click);
 			m_ContextMenuStrip.Items.Add("PauseService", Resources.SERVICE_PAUSE_MENU_ITEM, m_ContextMenuStrip_Pause_Click);
 			m_ContextMenuStrip.Items.Add("SyncStatusSeperator", "-", null);
@@ -431,6 +431,7 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items["OpenStream"].Visible = MainForm.Instance.IsDebugMode && isLogined;
 			m_ContextMenuStrip.Items["Seperator"].Visible = !MainForm.Instance.IsDebugMode && !isLogined;
 
+			m_ContextMenuStrip.Items["ControlCenter"].Visible = isLogined;
 			m_ContextMenuStrip.Items["Import"].Visible = isLogined;
 			m_ContextMenuStrip.Items["ImportSeperator"].Visible = isLogined;
 		}

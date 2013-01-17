@@ -276,7 +276,20 @@ namespace Waveface.Stream.WindowsClient
 			var user = StreamClient.Instance.LoginedUser;
 			StationAPI.UpdateUser(user.SessionToken, user.UserID, chkSubscribed.Checked);
 
-			userInfo.Reset();
+			userInfo.Clear();
+		}
+
+		private void UpdateLeftPanel()
+		{
+			UpdateSyncStatus();
+			UpdateImportStatus();
+		}
+
+		private void UpdateAccountPage()
+		{
+			UpdateAccountInfo();
+			UpdateUserPackage();
+			UpdateUsageStatus();
 		}
 		#endregion
 
@@ -405,6 +418,11 @@ namespace Waveface.Stream.WindowsClient
 		{
 			UpdateImportStatus();
 
+			UpdateSyncStatus();
+		}
+
+		private void UpdateSyncStatus()
+		{
 			lblSyncStatus.Text = SyncStatus.GetSyncStatus();
 			lblSyncTransferStatus.Text = SyncStatus.GetSyncTransferStatus();
 		}
@@ -415,14 +433,10 @@ namespace Waveface.Stream.WindowsClient
 			if (this.IsDesignMode())
 				return;
 
-			UpdateAccountInfo();
-			UpdateUserPackage();
-			UpdateUsageStatus();
-			UpdateResourceFolder();
-			UpdateSoftwareInfo();
-			UpdateImportStatus();
+			UpdateAccountPage();
 
-			refreshStatusTimer.Enabled = true;
+			UpdateLeftPanel();
+
 			refreshStatusTimer.Start();
 
 			this.tabPage2.Controls.Clear();
@@ -430,6 +444,46 @@ namespace Waveface.Stream.WindowsClient
 
 			this.tabPage3.Controls.Clear();
 			this.tabPage3.Controls.Add(new PersonalCloudStatusControl2() { Dock = DockStyle.Fill });
+
+			Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdated += Instance_UserInfoUpdated;
+			tabControl1.SelectedIndexChanged += InitGeneralPage;
+		}
+
+		void Instance_UserInfoUpdated(object sender, EventArgs e)
+		{
+			if (tabControl1.SelectedTab == tabPage1)
+				UpdateAccountPage();
+			else
+			{
+				tabControl1.SelectedIndexChanged -= InitAccountPage;
+				tabControl1.SelectedIndexChanged += InitAccountPage;
+			}
+		}
+
+		private void InitAccountPage(object sender, EventArgs e)
+		{
+			if (tabControl1.SelectedTab == tabPage1)
+			{
+				UpdateAccountPage();
+
+				tabControl1.SelectedIndexChanged -= InitAccountPage;
+			}
+		}
+
+		private void InitGeneralPage(object sender, EventArgs e)
+		{
+			if (tabControl1.SelectedTab == tabPage4)
+			{
+				UpdateResourceFolder();
+				UpdateSoftwareInfo();
+
+				tabControl1.SelectedIndexChanged -= InitGeneralPage;
+			}
+		}
+
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			(tabPage3.Controls[0] as PersonalCloudStatusControl2).EnableAutoRefreshStatus = (tabControl1.SelectedTab == tabPage3);
 		}
 		#endregion
 	}

@@ -368,7 +368,7 @@ namespace Waveface.Stream.ClientFramework
 
 		void StreamClient_Logouted(object sender, EventArgs e)
 		{
-			Waveface.Stream.ClientFramework.UserInfo.Instance.Reset();
+			Waveface.Stream.ClientFramework.UserInfo.Instance.Clear();
 
 			Datx.RemoveFile(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE);
 			OnLogouted(e);

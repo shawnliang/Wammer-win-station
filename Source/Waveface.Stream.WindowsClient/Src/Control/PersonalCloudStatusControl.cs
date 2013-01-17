@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,11 +11,50 @@ namespace Waveface.Stream.WindowsClient
 {
 	public partial class PersonalCloudStatusControl2 : StepPageControl
 	{
+		#region Var
 		private IPersonalCloudStatus service;
 		private string user_id;
 		private string session_token;
-		private Timer timer;
+		private Timer _refreshTimer;
 		private object cs = new object();
+		#endregion
+
+		#region Private Property
+		public Timer m_RefreshTimer
+		{
+			get 
+			{
+				if (_refreshTimer == null)
+				{
+					_refreshTimer = new Timer();
+					_refreshTimer.Interval = 2000;
+					_refreshTimer.Tick += timer1_Tick;
+				}
+				return _refreshTimer;
+			}
+			set
+			{
+				if (_refreshTimer != null)
+					_refreshTimer.Dispose();
+
+				_refreshTimer = value;
+			}
+		}
+		#endregion
+
+		#region Public Property
+		public Boolean EnableAutoRefreshStatus 
+		{
+			get
+			{
+				return m_RefreshTimer.Enabled;
+			}
+			set
+			{
+				m_RefreshTimer.Enabled = value;
+			}
+		}
+		#endregion
 
 		public PersonalCloudStatusControl2()
 			: this(new PersonalCloudStatusService())
@@ -31,25 +70,9 @@ namespace Waveface.Stream.WindowsClient
 			this.CustomLabelForNextStep = "Start Stream!";
 		}
 
-		//public override void OnEnteringStep(WizardParameters parameters)
-		//{
-		//	user_id = parameters.Get("user_id") as string;
-		//	session_token = parameters.Get("session_token") as string;
-
-		//	listView1.Items.Clear();
-		//	updateStatus();
-
-		//	timer = new Timer();
-		//	timer.Interval = 2000;
-		//	timer.Tick += timer1_Tick;
-		//	timer.Start();
-		//}
-
-		public override void OnLeavingStep(WizardParameters parameters)
-		{
-		}
-
 		private void updateStatus()
+		{
+			lock (cs)
 		{
 			try
 			{
@@ -62,21 +85,17 @@ namespace Waveface.Stream.WindowsClient
 			}
 			catch (Exception ex)
 			{
-
-				// HACK - The best place to stop timer is at OnLeavingStep()
-				//        but there is a bug causing last step's OnLeavingStep() not called
-				//        so tempararily place the code here.
-				if (timer != null)
-				{
-					timer.Stop();
-					timer.Dispose();
-					timer = null;
 				}
 			}
 		}
 
-		private void formatNodes(System.Collections.Generic.IEnumerable<PersonalCloudNode> nodes)
+		private void formatNodes(IEnumerable<PersonalCloudNode> nodes)
 		{
+			try
+		{
+				listView1.SuspendLayout();
+				listView1.BeginUpdate();
+
 			foreach (var node in nodes)
 			{
 
@@ -150,35 +169,17 @@ namespace Waveface.Stream.WindowsClient
 					listView1.Items.RemoveByKey("no tablet");
 			}
 		}
+			finally
+		{
+				listView1.EndUpdate();
+				listView1.ResumeLayout();
+				}
+			}
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			try
-			{
-				lock (cs)
-				{
-					updateStatus();
-				}
-			}
-			catch
-			{
-			}
-		}
-
-		private static void SetDoubleBuffered(System.Windows.Forms.Control c)
-		{
-			//Taxes: Remote Desktop Connection and painting
-			//http://blogs.msdn.com/oldnewthing/archive/2006/01/03/508694.aspx
-			if (System.Windows.Forms.SystemInformation.TerminalServerSession)
-				return;
-
-			System.Reflection.PropertyInfo aProp =
-				  typeof(System.Windows.Forms.Control).GetProperty(
-						"DoubleBuffered",
-						System.Reflection.BindingFlags.NonPublic |
-						System.Reflection.BindingFlags.Instance);
-
-			aProp.SetValue(c, true, null);
+			Waveface.Stream.ClientFramework.UserInfo.Instance.Clear();
+			updateStatus();
 		}
 
 		private void PersonalCloudStatusControl2_Load(object sender, EventArgs e)
@@ -186,7 +187,7 @@ namespace Waveface.Stream.WindowsClient
 			if (this.IsDesignMode())
 				return;
 
-			SetDoubleBuffered(listView1);
+			listView1.SetDoubleBuffered();
 
 			listView1.Columns[1].Width = listView1.ClientSize.Width - listView1.Columns[0].Width;
 
@@ -194,13 +195,7 @@ namespace Waveface.Stream.WindowsClient
 			user_id = user.UserID;
 			session_token = user.SessionToken;
 
-			listView1.Items.Clear();
 			updateStatus();
-
-			timer = new Timer();
-			timer.Interval = 10000;
-			timer.Tick += timer1_Tick;
-			timer.Start();
 		}
 
 		private void button1_Click(object sender, EventArgs e)
