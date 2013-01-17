@@ -177,6 +177,7 @@
     <Compile Include="Station\Import\ImportDocTask.cs" />
     <Compile Include="Station\Import\ImportTask.cs" />
     <Compile Include="Station\Import\ImportTaskQueue.cs" />
+    <Compile Include="Station\INamedTask.cs" />
     <Compile Include="Station\MetadataUploadEventArgs.cs" />
     <Compile Include="Station\Notify\ConnectionUpdator.cs" />
     <Compile Include="Station\Notify\PostUpsertNotifierDB.cs" />

@@ -14,4 +14,19 @@ namespace Wammer.Station.AttachmentUpload
 
 		#endregion
 	}
+
+
+	public class NullNamedTask : INamedTask
+	{
+
+		public string Name
+		{
+			get { return "nulltask"; }
+		}
+
+		public void Execute()
+		{
+			
+		}
+	}
 }
