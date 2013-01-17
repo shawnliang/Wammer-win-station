@@ -79,6 +79,7 @@
             listViewGroup3});
 			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.listView1.Location = new System.Drawing.Point(5, 24);
+			this.listView1.MultiSelect = false;
 			this.listView1.Name = "listView1";
 			this.listView1.Size = new System.Drawing.Size(639, 313);
 			this.listView1.TabIndex = 4;

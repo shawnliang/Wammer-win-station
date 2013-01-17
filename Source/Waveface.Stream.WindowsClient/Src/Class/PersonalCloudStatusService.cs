@@ -52,20 +52,22 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var nodes = new List<PersonalCloudNode>();
 
-			var session = JsonConvert.DeserializeObject<MR_users_get>(StationAPI.GetUser(session_token, user_id, 3000, 3000));
+			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+			var devices = userInfo.Devices;
 
-			foreach (var x in session.user.devices)
+			foreach (var device in devices)
 			{
-				var connection = ConnectionCollection.Instance.FindOne(Query.EQ("device.device_id", x.device_id));
-				bool isConnected = (x.device_id == StationRegistry.GetValue("stationId", "") as string) ? true : connection != null;
+				var connection = ConnectionCollection.Instance.FindOne(Query.EQ("device.device_id", device.device_id));
+				bool isConnected = (device.device_id == StationRegistry.GetValue("stationId", "") as string) ? true : connection != null;
+
 
 				var item = new PersonalCloudNode
 				{
-					Name = x.device_name,
-					Id = x.device_id
+					Name = device.device_name,
+					Id = device.device_id
 				};
 
-				switch (x.device_type)
+				switch (device.device_type)
 				{
 					case "Android Tablet":
 					case "iPad":
@@ -82,6 +84,7 @@ namespace Waveface.Stream.WindowsClient
 						item.Type = NodeType.Station;
 						break;
 				}
+
 
 
 				if (item.Type == NodeType.Station)
@@ -130,7 +133,7 @@ namespace Waveface.Stream.WindowsClient
 					}
 					else
 					{
-						item.Profile = "Last seen: " + x.last_visit;
+						item.Profile = "Last seen: " + device.last_visit;
 					}
 				}
 				else
@@ -141,7 +144,7 @@ namespace Waveface.Stream.WindowsClient
 					}
 					else
 					{
-						item.Profile = "Last seen: " + x.last_visit;
+						item.Profile = "Last seen: " + device.last_visit;
 					}
 				}
 
