@@ -299,17 +299,6 @@ namespace Waveface.Stream.WindowsClient
 			_instance = null;
 		}
 
-		private void ControlPanelDialog_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			try
-			{
-				UpdateUserInfoToCloud();
-			}
-			catch (Exception)
-			{
-			}
-		}
-
 		private void btnUnLink_Click(object sender, EventArgs e)
 		{
 			var user = StreamClient.Instance.LoginedUser;
@@ -361,7 +350,6 @@ namespace Waveface.Stream.WindowsClient
 			{
 				if (StreamClient.Instance.IsLogined && param.email.Equals(StreamClient.Instance.LoginedUser.EMail, StringComparison.CurrentCultureIgnoreCase))
 				{
-					UpdateUserInfoToCloud();
 					StreamClient.Instance.Logout();
 				}
 			}
@@ -484,6 +472,12 @@ namespace Waveface.Stream.WindowsClient
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			(tabPage3.Controls[0] as PersonalCloudStatusControl2).EnableAutoRefreshStatus = (tabControl1.SelectedTab == tabPage3);
+		}
+
+
+		private void chkSubscribed_CheckedChanged(object sender, EventArgs e)
+		{
+			UpdateUserInfoToCloud();
 		}
 		#endregion
 	}
