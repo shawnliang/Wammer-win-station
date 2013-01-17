@@ -18,6 +18,21 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 
+		#region Private Property
+		private CheckBox m_SelectAll 
+		{
+			get
+			{
+				if (_checkBox1 == null)
+				{
+					InitSelectAllCheckBox();
+				}
+				return _checkBox1;
+			}
+		}
+		#endregion
+
+
 		#region Constructor
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileImportControl"/> class.
@@ -34,6 +49,32 @@ namespace Waveface.Stream.WindowsClient
 			InitializeComponent();
 			this._photoSearch = new PhotoSearch();
 			this.PageTitle = "Import from folders";
+		}
+		#endregion
+
+
+		#region Private Method
+		private void InitSelectAllCheckBox()
+		{
+			if (_checkBox1 != null)
+				return;
+
+			_checkBox1 = new CheckBox()
+			{
+				Size = new Size(14, 15),
+				Checked = true
+			};
+
+			_checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+			dataGridView1.Controls.Add(_checkBox1);
+
+			var rect = dataGridView1.GetCellDisplayRectangle(0, -1, true);
+
+			var loc = rect.Location;
+			loc.X = loc.X + (rect.Width - _checkBox1.Width) / 2;
+			loc.Y = loc.Y + (rect.Height - _checkBox1.Height) / 2;
+
+			_checkBox1.Location = loc;
 		}
 		#endregion
 
@@ -173,21 +214,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void FileImportControl_Load(object sender, EventArgs e)
 		{
-			var rect = dataGridView1.GetCellDisplayRectangle(0, -1, true);
-			_checkBox1 = new CheckBox
-			{
-				Size = new Size(14, 15),
-				Checked = true
-			};
-
-			var loc = rect.Location;
-			loc.X = loc.X + (rect.Width - _checkBox1.Width) / 2;
-			loc.Y = loc.Y + (rect.Height - _checkBox1.Height) / 2;
-
-			_checkBox1.Location = loc;
-
-			_checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-			dataGridView1.Controls.Add(_checkBox1);
+			InitSelectAllCheckBox();
 		}
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -21,8 +21,8 @@ namespace Waveface.Stream.WindowsClient
 		private const string CALLBACK_URL_PATH = @"/client/callback";
 		private const string FB_LOGIN_GUID = @"6CF7FA1E-80F7-48A3-922F-F3B2841C7A0D";
 		private const string CALLBACK_MATCH_PATTERN_FORMAT = @"(/" + FB_LOGIN_GUID + "/{0}?.*)";
-		private const string LOGIN_URL_PATH = @"/sns/facebook/signin";
-		private const string SIGNUP_URL_PATH = @"/signup";
+		private const string LOGIN_URL_PATH = @"/client/v3/sns/facebook/signin";
+		private const string SIGNUP_URL_PATH = @"/client/v3/signup";
 
 		public void ShowSignUpPage(WebBrowser browser)
 		{

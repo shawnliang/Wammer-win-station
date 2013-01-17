@@ -88,6 +88,7 @@
     <Compile Include="AttachmentUpload\TestHandleUpload_OriginalImageWithObjectId.cs" />
     <Compile Include="AttachmentUpload\TestHandleUpload_Thumbnails.cs" />
     <Compile Include="AttachmentUpload\TestImagePostProcessWithPostId.cs" />
+    <Compile Include="AttachmentUpload\TestUploadQueue.cs" />
     <Compile Include="AttachmentViewTest\TestAttachmentView.cs" />
     <Compile Include="AttachmentViewTest\TestViewStorage.cs" />
     <Compile Include="Doc\CopyDocToStreamTest.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Doc\MonitorAddHandlerTest.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
+    <Compile Include="TestFolderCollection.cs" />
     <Compile Include="TestImportTaskStatus.cs" />
     <Compile Include="TestMongoDB.cs" />
     <Compile Include="TestSerializable.cs" />

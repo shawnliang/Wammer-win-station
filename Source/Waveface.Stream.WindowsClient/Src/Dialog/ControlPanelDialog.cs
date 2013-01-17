@@ -132,8 +132,8 @@ namespace Waveface.Stream.WindowsClient
 		private void RemoveAccount(string userID, string email, Boolean removeAllDatas)
 		{
 			BackgroundWorker removeAccountBgWorker = new BackgroundWorker();
-			removeAccountBgWorker.DoWork += new DoWorkEventHandler(removeAccountBgWorker_DoWork);
-			removeAccountBgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(removeAccountBgWorker_RunWorkerCompleted);
+			removeAccountBgWorker.DoWork += removeAccountBgWorker_DoWork;
+			removeAccountBgWorker.RunWorkerCompleted += removeAccountBgWorker_RunWorkerCompleted;
 			removeAccountBgWorker.RunWorkerAsync(new RemoveParam { user_id = userID, email = email, removeData = removeAllDatas });
 
 			m_ProcessingDialog.ProcessMessage = Resources.REMOVE_ACCOUNT_MESSAGE;
@@ -228,44 +228,46 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateImportStatus()
 		{
-			try
+			var summary = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
+
+			if (string.IsNullOrEmpty(summary.Description))
 			{
-				var summary = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
-
-				if (string.IsNullOrEmpty(summary.Description))
-				{
-					progressBar1.Visible = lblLocalProcessStatus.Visible = false;
-					return;
-				}
-				else
-				{
-					lblLocalProcessStatus.Text = summary.Description;
-					lblLocalProcessStatus.Visible = true;
-
-					int max;
-					int cur;
-					if (summary.GetProgress(out max, out cur))
-					{
-						progressBar1.Maximum = max;
-						progressBar1.Value = cur;
-						progressBar1.Visible = true;
-					}
-				}
+				progressBar1.Visible = lblLocalProcessStatus.Visible = false;
+				return;
 			}
-			catch
+			else
 			{
+				lblLocalProcessStatus.Text = summary.Description;
+				lblLocalProcessStatus.Visible = true;
 
+				long max64;
+				long cur64;
+				if (summary.GetProgress(out max64, out cur64))
+				{
+
+					int max32, cur32;
+					normalizeTo32bit(max64, cur64, out max32, out cur32);
+
+					progressBar1.Maximum = max32;
+					progressBar1.Value = cur32;
+					progressBar1.Visible = true;
+				}
 			}
 		}
-		#endregion
 
-		#region Event Process
-		void ControlPanelDialog_Disposed(object sender, EventArgs e)
+		private void normalizeTo32bit(long max64, long cur64, out int max32, out int cur32)
 		{
-			_instance = null;
+			while (max64 > Int32.MaxValue)
+			{
+				max64 = max64 >> 1;
+				cur64 = cur64 >> 1;
+			}
+
+			max32 = (int)max64;
+			cur32 = (int)cur64;
 		}
 
-		private void ControlPanelDialog_FormClosing(object sender, FormClosingEventArgs e)
+		private void UpdateUserInfoToCloud()
 		{
 			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
 			if (userInfo.Subscribed == chkSubscribed.Checked)
@@ -274,7 +276,27 @@ namespace Waveface.Stream.WindowsClient
 			var user = StreamClient.Instance.LoginedUser;
 			StationAPI.UpdateUser(user.SessionToken, user.UserID, chkSubscribed.Checked);
 
-			userInfo.Update();
+			userInfo.Clear();
+		}
+
+		private void UpdateLeftPanel()
+		{
+			UpdateSyncStatus();
+			UpdateImportStatus();
+		}
+
+		private void UpdateAccountPage()
+		{
+			UpdateAccountInfo();
+			UpdateUserPackage();
+			UpdateUsageStatus();
+		}
+		#endregion
+
+		#region Event Process
+		void ControlPanelDialog_Disposed(object sender, EventArgs e)
+		{
+			_instance = null;
 		}
 
 		private void btnUnLink_Click(object sender, EventArgs e)
@@ -384,6 +406,11 @@ namespace Waveface.Stream.WindowsClient
 		{
 			UpdateImportStatus();
 
+			UpdateSyncStatus();
+		}
+
+		private void UpdateSyncStatus()
+		{
 			lblSyncStatus.Text = SyncStatus.GetSyncStatus();
 			lblSyncTransferStatus.Text = SyncStatus.GetSyncTransferStatus();
 		}
@@ -394,14 +421,10 @@ namespace Waveface.Stream.WindowsClient
 			if (this.IsDesignMode())
 				return;
 
-			UpdateAccountInfo();
-			UpdateUserPackage();
-			UpdateUsageStatus();
-			UpdateResourceFolder();
-			UpdateSoftwareInfo();
-			UpdateImportStatus();
+			UpdateAccountPage();
 
-			refreshStatusTimer.Enabled = true;
+			UpdateLeftPanel();
+
 			refreshStatusTimer.Start();
 
 			this.tabPage2.Controls.Clear();
@@ -409,6 +432,52 @@ namespace Waveface.Stream.WindowsClient
 
 			this.tabPage3.Controls.Clear();
 			this.tabPage3.Controls.Add(new PersonalCloudStatusControl2() { Dock = DockStyle.Fill });
+
+			Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdated += Instance_UserInfoUpdated;
+			tabControl1.SelectedIndexChanged += InitGeneralPage;
+		}
+
+		void Instance_UserInfoUpdated(object sender, EventArgs e)
+		{
+			if (tabControl1.SelectedTab == tabPage1)
+				UpdateAccountPage();
+			else
+			{
+				tabControl1.SelectedIndexChanged -= InitAccountPage;
+				tabControl1.SelectedIndexChanged += InitAccountPage;
+			}
+		}
+
+		private void InitAccountPage(object sender, EventArgs e)
+		{
+			if (tabControl1.SelectedTab == tabPage1)
+			{
+				UpdateAccountPage();
+
+				tabControl1.SelectedIndexChanged -= InitAccountPage;
+			}
+		}
+
+		private void InitGeneralPage(object sender, EventArgs e)
+		{
+			if (tabControl1.SelectedTab == tabPage4)
+			{
+				UpdateResourceFolder();
+				UpdateSoftwareInfo();
+
+				tabControl1.SelectedIndexChanged -= InitGeneralPage;
+			}
+		}
+
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			(tabPage3.Controls[0] as PersonalCloudStatusControl2).EnableAutoRefreshStatus = (tabControl1.SelectedTab == tabPage3);
+		}
+
+
+		private void chkSubscribed_CheckedChanged(object sender, EventArgs e)
+		{
+			UpdateUserInfoToCloud();
 		}
 		#endregion
 	}

@@ -54,22 +54,11 @@ namespace Wammer.Station
 
 
 			// Import to stream
-			Dictionary<string, FolderCollection> folders = new Dictionary<string, FolderCollection>();
 			foreach (var doc in allDocs)
 			{
 				try
 				{
-					Wammer.Station.Doc.ImportDoc.Process(user, doc.object_id, doc.file_path, File.GetLastAccessTime(doc.file_path));
-
-					var dirName = Path.GetDirectoryName(doc.file_path);
-					if (folders.ContainsKey(dirName))
-					{
-						folders[dirName].Objects.Add(doc.object_id);
-					}
-					else
-					{
-						folders.Add(dirName, new FolderCollection(dirName, doc.object_id));
-					}
+					Wammer.Station.Doc.ImportDoc.Process(user, doc.object_id, doc.file_path, File.GetLastAccessTime(doc.file_path));				
 				}
 				catch (Exception e)
 				{
@@ -77,6 +66,7 @@ namespace Wammer.Station
 				}
 			}
 
+			var folders = FolderCollection.Build(allDocs);
 			TaskQueue.Enqueue(new CreateFolderCollectionTask(folders, user.session_token, CloudServer.APIKey), TaskPriority.Medium);
 		}
 	}

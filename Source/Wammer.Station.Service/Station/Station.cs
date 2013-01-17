@@ -38,7 +38,7 @@ namespace Wammer.Station
 		private StationTimer _stationTimer;
 		private string _stationID;
 		private TaskRunner<IResourceDownloadTask>[] _bodySyncRunners;
-		private TaskRunner<ITask>[] _upstreamTaskRunner;
+		private TaskRunner<INamedTask>[] _upstreamTaskRunner;
 		private TaskRunner<ImportTask>[] _importTaskRunner;
 
 		private DriverController _driverAgent;
@@ -125,12 +125,12 @@ namespace Wammer.Station
 		/// Gets the m_ upstream task runner.
 		/// </summary>
 		/// <value>The m_ upstream task runner.</value>
-		private TaskRunner<ITask>[] m_UpstreamTaskRunner
+		private TaskRunner<INamedTask>[] m_UpstreamTaskRunner
 		{
 			get
 			{
 				return _upstreamTaskRunner ?? (_upstreamTaskRunner = Enumerable.Range(0, UPSTREAM_THREAD_COUNT).Select(
-					item => new TaskRunner<ITask>(AttachmentUploadQueueHelper.Instance, threadsExit)).ToArray());
+					item => new TaskRunner<INamedTask>(AttachmentUploadQueueHelper.Instance, threadsExit)).ToArray());
 			}
 		}
 

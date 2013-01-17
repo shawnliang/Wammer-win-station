@@ -15,7 +15,8 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Var
-		private MR_users_get _response;
+		private string _response;
+		private MR_users_get _responseObj;
 		#endregion
 
 
@@ -31,7 +32,7 @@ namespace Waveface.Stream.ClientFramework
 
 
 		#region Private Property
-		private DateTime m_UpdateTime { get; set; }
+		private DateTime? m_UpdateTime { get; set; }
 
 		private string m_SessionToken 
 		{ 
@@ -55,17 +56,20 @@ namespace Waveface.Stream.ClientFramework
 			}
 		}
 
+		private string m_PreviousResponse { get; set; }
 
 		/// <summary>
 		/// Gets or sets the m_ response.
 		/// </summary>
-		/// <value>The m_ response.</value>
-		private MR_users_get m_Response
+		/// <value>
+		/// The m_ response.
+		/// </value>
+		private string m_Response
 		{
 			get
 			{
 				var currentTime = DateTime.Now;
-				if (_response == null || (currentTime - m_UpdateTime).TotalMinutes >= 10)
+				if (String.IsNullOrEmpty(_response) || (m_UpdateTime.HasValue && (currentTime - m_UpdateTime.Value).TotalMinutes >= 5))
 				{
 					Update();
 				}
@@ -80,6 +84,39 @@ namespace Waveface.Stream.ClientFramework
 
 				var currentTime = DateTime.Now;
 				m_UpdateTime = currentTime;
+
+				if (string.IsNullOrEmpty(value))
+					return;
+
+				if (!value.Equals(m_PreviousResponse, StringComparison.CurrentCultureIgnoreCase))
+					OnUserInfoUpdated(EventArgs.Empty);
+
+				m_PreviousResponse = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the m_ response obj.
+		/// </summary>
+		/// <value>
+		/// The m_ response obj.
+		/// </value>
+		private MR_users_get m_ResponseObj
+		{
+			get
+			{
+				try
+				{
+					return _responseObj ?? (_responseObj = JsonConvert.DeserializeObject<MR_users_get>(m_Response));
+				}
+				catch (Exception)
+				{
+					return null;
+				}
+			}
+			set 
+			{
+				_responseObj = value;
 			}
 		}
 		#endregion
@@ -90,7 +127,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return m_Response.user.nickname;
+				return m_ResponseObj.user.nickname;
 			}
 		}
 
@@ -98,7 +135,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return m_Response.user.email;
+				return m_ResponseObj.user.email;
 			}
 		}
 
@@ -106,7 +143,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return TimeHelper.ConvertToDateTime(m_Response.user.since);
+				return TimeHelper.ConvertToDateTime(m_ResponseObj.user.since);
 			}
 		}
 
@@ -114,7 +151,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return m_Response.user.subscribed;
+				return m_ResponseObj.user.subscribed;
 			}
 		}
 
@@ -122,7 +159,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return m_Response.user.devices;
+				return m_ResponseObj.user.devices;
 			}
 		}
 
@@ -130,7 +167,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return m_Response.sns;
+				return m_ResponseObj.sns;
 			}
 		}
 
@@ -138,7 +175,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return m_Response.user.sns;
+				return m_ResponseObj.user.sns;
 			}
 		}
 
@@ -146,7 +183,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get 
 			{
-				return (m_Response.quota.total != null) ? m_Response.quota.total.origin_size : m_Response.quota.doc.origin_size + m_Response.quota.image.origin_size;
+				return (m_ResponseObj.quota.total != null) ? m_ResponseObj.quota.total.origin_size : m_ResponseObj.quota.doc.origin_size + m_ResponseObj.quota.image.origin_size;
 			}
 		}
 
@@ -154,20 +191,24 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return m_Response.usage.doc.origin_size + m_Response.usage.image.origin_size;
+				return m_ResponseObj.usage.doc.origin_size + m_ResponseObj.usage.image.origin_size;
 			}
 		}
 		#endregion
 
 
+		#region Event
+		public event EventHandler UserInfoUpdated;
+		#endregion
+
 
 		#region Private Method
-		private MR_users_get GetUserData()
+		private string GetUserData()
 		{
 			try
 			{
 				var response = StationAPI.GetUser(m_SessionToken, m_UserID);
-				return JsonConvert.DeserializeObject<MR_users_get>(response);
+				return response;
 			}
 			catch (Exception)
 			{
@@ -177,10 +218,24 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 
-		#region Public Method
-		public void Reset()
+		#region Protected Method
+		/// <summary>
+		/// Raises the <see cref="E:UserInfoUpdated" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		protected void OnUserInfoUpdated(EventArgs e)
 		{
+			this.RaiseEvent(UserInfoUpdated, e);
+		}
+		#endregion
+
+
+		#region Public Method
+		public void Clear()
+		{
+			m_UpdateTime = null;
 			m_Response = null;
+			m_ResponseObj = null;
 		}
 
 		public void Update()

@@ -57,8 +57,8 @@ namespace Waveface.Stream.WindowsClient
 	public class ImportStatusSummary
 	{
 		private string desc = "";
-		private int max;
-		private int cur;
+		private long max;
+		private long cur;
 		private bool hasProgress;
 
 		public ImportStatusSummary(ImportStatus status)
@@ -117,7 +117,7 @@ namespace Waveface.Stream.WindowsClient
 			get { return desc; }
 		}
 
-		public bool GetProgress(out int maximum, out int current)
+		public bool GetProgress(out long maximum, out long current)
 		{
 			maximum = max;
 			current = cur;
