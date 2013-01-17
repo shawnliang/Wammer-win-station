@@ -198,7 +198,7 @@ namespace Waveface.Stream.WindowsClient
 			updateStatus();
 
 			timer = new Timer();
-			timer.Interval = 2000;
+			timer.Interval = 10000;
 			timer.Tick += timer1_Tick;
 			timer.Start();
 		}
