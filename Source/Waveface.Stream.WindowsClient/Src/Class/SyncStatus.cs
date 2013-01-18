@@ -18,6 +18,8 @@ namespace Waveface.Stream.WindowsClient
 		private const string DWSTREAM_RATE = "Downstream rate (bytes/sec)";
 		private const string UP_REMAINED_COUNT = "Atachement upload remained count";
 		private const string DW_REMAINED_COUNT = "Atachement download remained count";
+		private const string BYTES_TO_DOWNLOAD = "Bytes to download";
+		private const string BYTES_TO_UPLOAD = "Bytes to upload";
 		#endregion
 
 
@@ -28,7 +30,9 @@ namespace Waveface.Stream.WindowsClient
 		private static PerformanceCounter m_DownRemainedCountCounter = new PerformanceCounter(CATEGORY_NAME, DW_REMAINED_COUNT, false);
 		private static PerformanceCounter m_DownStreamRateCounter = new PerformanceCounter(CATEGORY_NAME, DWSTREAM_RATE, false);
 		private static PerformanceCounter m_UpRemainedCountCounter = new PerformanceCounter(CATEGORY_NAME, UP_REMAINED_COUNT, false);
-		private static PerformanceCounter m_UpStreamRateCounter = new PerformanceCounter(CATEGORY_NAME, UPSTREAM_RATE, false); 
+		private static PerformanceCounter m_UpStreamRateCounter = new PerformanceCounter(CATEGORY_NAME, UPSTREAM_RATE, false);
+		private static PerformanceCounter m_BytesToDownloadCounter = new PerformanceCounter(CATEGORY_NAME, BYTES_TO_DOWNLOAD, false);
+		private static PerformanceCounter m_BytesToUploadCounter = new PerformanceCounter(CATEGORY_NAME, BYTES_TO_UPLOAD, false);
 		#endregion
 
 
@@ -175,29 +179,55 @@ namespace Waveface.Stream.WindowsClient
 			upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 			downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
+			
 			if (upRemainedCount > 0)
 			{
+				var mbToUpload = getMBytesToUpload();
+
 				transferStatus = string.Format(Resources.INDICATOR_PATTERN,
 										 transferStatus,
 										 (transferStatus.Length == 0) ? string.Empty : Environment.NewLine,
 										 Resources.UPLOAD_INDICATOR,
-										 (upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
+										 //(upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
+										 mbToUpload,
 										 upSpeed,
 										 upSpeedUnit);
 			}
 
 			if (downloadRemainedCount > 0)
 			{
+				var mbToDownload = getMBytesToDownload();
+
 				transferStatus = string.Format(Resources.INDICATOR_PATTERN,
 										 transferStatus,
 										 (transferStatus.Length == 0) ? string.Empty : Environment.NewLine,
 										 Resources.DOWNLOAD_INDICATOR,
-										 (downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
+										 //(downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
+										 mbToDownload,
 										 downloadSpeed,
 										 downloadSpeedUnit);
 			}
 
 			return transferStatus;
+		}
+
+		private static string getMBytesToDownload()
+		{
+			var mbytesToDownload = "<1";
+			var mbytes = m_BytesToDownloadCounter.RawValue / 1024 / 1024;
+			if (mbytes > 0)
+				mbytesToDownload = mbytes.ToString();
+
+			return mbytesToDownload;
+		}
+
+		private static string getMBytesToUpload()
+		{
+			var mbToUpload = "<1";
+			var mbytes = m_BytesToUploadCounter.RawValue / 1024 / 1024;
+			if (mbytes > 0)
+				mbToUpload = mbytes.ToString();
+			return mbToUpload;
 		}
 
 		public static string GetSyncStatus()

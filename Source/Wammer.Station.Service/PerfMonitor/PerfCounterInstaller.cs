@@ -116,7 +116,19 @@ namespace Wammer.PerfMonitor
 			               		new CounterCreationData(
 			               			PerfCounter.MEDIUM_THUMBNAIL_GENERATE_COUNT,
 									PerfCounter.MEDIUM_THUMBNAIL_GENERATE_COUNT,
-			               			PerformanceCounterType.NumberOfItems32)
+									PerformanceCounterType.NumberOfItems32),
+
+								//17. Bytes to download
+								new CounterCreationData(
+									PerfCounter.BYTES_TO_DOWNLOAD,
+									PerfCounter.BYTES_TO_DOWNLOAD,
+									PerformanceCounterType.NumberOfItems64),
+
+								//18. Bytes to upload
+								new CounterCreationData(
+									PerfCounter.BYTES_TO_UPLOAD,
+									PerfCounter.BYTES_TO_UPLOAD,
+									PerformanceCounterType.NumberOfItems64)
 			               	};
 
 			// Add new category
