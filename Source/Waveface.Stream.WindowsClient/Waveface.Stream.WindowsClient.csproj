@@ -197,7 +197,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Control\DocImportControl.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Control\DocImportControl.designer.cs">
       <DependentUpon>DocImportControl.cs</DependentUpon>
@@ -211,16 +211,16 @@
     <Compile Include="Src\Control\IEBrowserControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Src\Class\NetworkChecker.cs" />
+    <Compile Include="Src\Class\PhotoSearch.cs" />
+    <Compile Include="Src\Class\PortableDevice.cs" />
+    <Compile Include="Src\Class\PortableMediaService.cs" />
     <Compile Include="Src\Control\IntroControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Src\Control\IntroControl.designer.cs">
       <DependentUpon>IntroControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Class\NetworkChecker.cs" />
-    <Compile Include="Src\Class\PhotoSearch.cs" />
-    <Compile Include="Src\Class\PortableDevice.cs" />
-    <Compile Include="Src\Class\PortableMediaService.cs" />
     <Compile Include="Src\Control\PanelEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -254,7 +254,7 @@
     <Compile Include="Src\Class\UserSession.cs" />
     <Compile Include="Src\Class\WizardParameters.cs" />
     <Compile Include="Src\Control\ChoosePlanControl.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Src\Control\ChoosePlanControl.designer.cs">
       <DependentUpon>ChoosePlanControl.cs</DependentUpon>
@@ -270,12 +270,6 @@
     </Compile>
     <Compile Include="Src\Control\FileImportControl.designer.cs">
       <DependentUpon>FileImportControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Src\Control\ImportFolderAndMediaControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Src\Control\ImportFolderAndMediaControl.designer.cs">
-      <DependentUpon>ImportFolderAndMediaControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Control\ImportFromPotableMediaControl.cs">
       <SubType>UserControl</SubType>
@@ -307,9 +301,6 @@
     <Compile Include="Src\Control\StepNavigator.designer.cs">
       <DependentUpon>StepNavigator.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Control\StepPageControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Src\Control\TutorialNavigator.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -321,9 +312,6 @@
     </Compile>
     <Compile Include="Src\Control\UsageBar.Designer.cs">
       <DependentUpon>UsageBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Src\Control\WizardControl.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Src\Dialog\AddDeviceDialog.cs">
       <SubType>Form</SubType>
@@ -337,6 +325,12 @@
     <Compile Include="Src\Dialog\ControlPanelDialog.Designer.cs">
       <DependentUpon>ControlPanelDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Dialog\NewUserWizardDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\NewUserWizardDialog.Designer.cs">
+      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Dialog\FileImportDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -349,20 +343,11 @@
     <Compile Include="Src\Dialog\HidableProgressingDialog.designer.cs">
       <DependentUpon>HidableProgressingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Dialog\NewUserWizardDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Src\Dialog\NewUserWizardDialog.designer.cs">
-      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Src\Dialog\OldUserWizardDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Src\Dialog\StepByStepWizardDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Src\Dialog\StepByStepWizardDialog.designer.cs">
-      <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
+    <Compile Include="Src\Dialog\OldUserWizardDialog.Designer.cs">
+      <DependentUpon>OldUserWizardDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\UsbImportDialog.cs">
       <SubType>Form</SubType>
@@ -502,9 +487,6 @@
     <EmbeddedResource Include="Src\Control\ImageButton.resx">
       <DependentUpon>ImageButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Control\ImportFolderAndMediaControl.resx">
-      <DependentUpon>ImportFolderAndMediaControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ImportFromPotableMediaControl.resx">
       <DependentUpon>ImportFromPotableMediaControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -546,6 +528,9 @@
     <EmbeddedResource Include="Src\Dialog\ControlPanelDialog.resx">
       <DependentUpon>ControlPanelDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\NewUserWizardDialog.resx">
+      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\FileImportDialog.resx">
       <DependentUpon>FileImportDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -563,16 +548,7 @@
       <DependentUpon>LoginDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\NewUserWizardDialog.resx">
-      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\NewUserWizardDialog.zh-TW.resx">
-      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\OldUserWizardDialog.resx">
-      <DependentUpon>OldUserWizardDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\OldUserWizardDialog.zh-TW.resx">
       <DependentUpon>OldUserWizardDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
@@ -586,9 +562,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\SignUpDialog.zh-TW.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\StepByStepWizardDialog.resx">
-      <DependentUpon>StepByStepWizardDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\UsbImportDialog.resx">
       <DependentUpon>UsbImportDialog.cs</DependentUpon>

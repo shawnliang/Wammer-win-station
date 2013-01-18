@@ -5,43 +5,35 @@ using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class LoginControl : StepPageControl
+	public partial class LoginControl : UserControl
 	{
+		#region Var
 		private IStreamLoginable login;
-		private UserSession session;
+		private UserSession session; 
+		#endregion
 
+
+		#region Event
+		public event EventHandler LoginSuccess;
+		#endregion
+
+
+		#region Constructor
 		public LoginControl()
-			: base()
+			: this(new StreamLogin())
 		{
-			InitializeComponent();
 		}
 
 		public LoginControl(IStreamLoginable login)
-			: this()
 		{
+			InitializeComponent();
 			this.login = login;
 		}
+		#endregion
 
-		public override void OnEnteringStep(WizardParameters parameters)
-		{
-			base.OnEnteringStep(parameters);
-		}
 
-		private void fbLoginButton1_Click(object sender, EventArgs e)
-		{
-			Func<UserSession> func = () => { return login.LoginWithFacebook(); };
-			loginAndHandleError(func);
-		}
 
-		private void loginButton1_Click(object sender, EventArgs e)
-		{
-			var email = loginInputBox1.Email;
-			var pwd = loginInputBox1.Password;
-
-			Func<UserSession> func = () => { return login.Login(email, pwd); };
-			loginAndHandleError(func);
-		}
-
+		#region Private Method
 		private void loginAndHandleError(Func<UserSession> func)
 		{
 			Cursor.Current = Cursors.WaitCursor;
@@ -49,7 +41,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				session = func();
 
-				WizardControl.NextPage();
+				OnLoginSuccess(EventArgs.Empty);
 			}
 			catch (OperationCanceledException)
 			{
@@ -87,28 +79,32 @@ namespace Waveface.Stream.WindowsClient
 			{
 				Cursor.Current = Cursors.Default;
 			}
+		} 
+		#endregion
+
+
+		#region Protected Method
+		protected void OnLoginSuccess(EventArgs e)
+		{
+			this.RaiseEvent(LoginSuccess, e);
+		}
+		#endregion
+
+
+		#region Event Process
+		private void fbLoginButton1_Click(object sender, EventArgs e)
+		{
+			Func<UserSession> func = () => { return login.LoginWithFacebook(); };
+			loginAndHandleError(func);
 		}
 
-		public override void OnLeavingStep(WizardParameters parameters)
+		private void loginButton1_Click(object sender, EventArgs e)
 		{
-			parameters.Set("user_id", session.user_id);
-			parameters.Set("session_token", session.session_token);
-		}
+			var email = loginInputBox1.Email;
+			var pwd = loginInputBox1.Password;
 
-		public override bool RunOnce
-		{
-			get
-			{
-				return true;
-			}
-		}
-
-		public override bool HasPrevAndBack
-		{
-			get
-			{
-				return false;
-			}
+			Func<UserSession> func = () => { return login.Login(email, pwd); };
+			loginAndHandleError(func);
 		}
 
 		private void forgotPwdLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -128,7 +124,8 @@ namespace Waveface.Stream.WindowsClient
 			{
 				loginButton1_Click(this, e);
 			}
-		}
+		} 
+		#endregion
 
 	}
 }

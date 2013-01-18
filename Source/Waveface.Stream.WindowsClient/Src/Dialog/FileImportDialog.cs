@@ -10,7 +10,7 @@ using Waveface.Stream.ClientFramework;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class FileImportDialog : StepByStepWizardDialog
+	public partial class FileImportDialog : Form
 	{
 		private static FileImportDialog _instance;
 
@@ -25,17 +25,11 @@ namespace Waveface.Stream.WindowsClient
 		private FileImportDialog()
 		{
 			InitializeComponent();
+		}
 
-			if (!StreamClient.Instance.IsLogined)
-				throw new InvalidOperationException();
-
-			wizardControl.Parameters.Set("user_id", StreamClient.Instance.LoginedUser.UserID);
-			wizardControl.Parameters.Set("session_token", StreamClient.Instance.LoginedUser.SessionToken);
-
-			wizardControl.SetWizardPages(new StepPageControl[]
-			{
-				new FileImportControl()
-			});
+		private void button2_Click(object sender, EventArgs e)
+		{
+			fileImportControl1.ImportSelectedPaths();
 		}
 	}
 }

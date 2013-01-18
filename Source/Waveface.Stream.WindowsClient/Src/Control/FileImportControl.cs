@@ -5,11 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Model;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class FileImportControl : StepPageControl
+	public partial class FileImportControl : UserControl
 	{
 		#region Var
 		private IPhotoSearch _photoSearch;
@@ -41,14 +42,11 @@ namespace Waveface.Stream.WindowsClient
 		{
 			InitializeComponent();
 			this._photoSearch = search;
-			this.PageTitle = "Import from folders";
 		}
 
 		public FileImportControl()
+			: this(new PhotoSearch())
 		{
-			InitializeComponent();
-			this._photoSearch = new PhotoSearch();
-			this.PageTitle = "Import from folders";
 		}
 		#endregion
 
@@ -76,26 +74,22 @@ namespace Waveface.Stream.WindowsClient
 
 			_checkBox1.Location = loc;
 		}
+
+		/// <summary>
+		/// Gets the selected paths.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerable<String> GetSelectedPaths()
+		{
+			for (int i = 0; i < dataGridView1.RowCount; i++)
+			{
+				if ((bool)dataGridView1[0, i].Value)
+					yield return dataGridView1[2, i].Value as string;
+			}
+		}
 		#endregion
 
 
-		/// <summary>
-		/// Processes the file import step.
-		/// </summary>
-		public override void OnEnteringStep(WizardParameters parameters)
-		{
-			base.OnEnteringStep(parameters);
-
-			ClearInterestedPaths();
-			AddInterestedPaths(_photoSearch.InterestedPaths);
-		}
-
-		public override void OnLeavingStep(WizardParameters parameters)
-		{
-			base.OnLeavingStep(parameters);
-
-			ImportSelectedPaths((string)parameters.Get("session_token"));
-		}
 
 		/// <summary>
 		/// Imports the selected paths.
@@ -104,47 +98,19 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var selectedPaths = GetSelectedPaths();
 
-			if (selectedPaths.Count() == 0)
+			if (!selectedPaths.Any())
 				return;
 
 			_photoSearch.ImportToStationAsync(selectedPaths, session_token);
 		}
 
 		#region Public Method
-		/// <summary>
-		/// Clears the interested paths.
-		/// </summary>
-		public void ClearInterestedPaths()
+		public void ImportSelectedPaths()
 		{
-			dataGridView1.Rows.Clear();
-		}
+			if (!StreamClient.Instance.IsLogined)
+				return;
 
-		/// <summary>
-		/// Adds the interested paths.
-		/// </summary>
-		/// <param name="paths">The paths.</param>
-		public void AddInterestedPaths(IEnumerable<PathAndPhotoCount> paths)
-		{
-			foreach (var path in paths)
-			{
-				dataGridView1.Rows.Add(true, path.path, path.photoCount);
-			}
-		}
-
-		/// <summary>
-		/// Gets the selected paths.
-		/// </summary>
-		/// <returns></returns>
-		public IEnumerable<String> GetSelectedPaths()
-		{
-			//return from path in clbInterestedFolders.CheckedItems.OfType<object>()
-			//       select path.ToString();
-
-			for (int i = 0; i < dataGridView1.RowCount; i++)
-			{
-				if ((bool)dataGridView1[0, i].Value)
-					yield return dataGridView1[2, i].Value as string;
-			}
+			ImportSelectedPaths(StreamClient.Instance.LoginedUser.SessionToken);
 		}
 		#endregion
 

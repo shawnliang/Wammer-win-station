@@ -129,8 +129,10 @@ namespace Waveface.Stream.WindowsClient
 
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
-			StreamClient.Instance.Logouted += Instance_Logouted;
+			driveDetector = new DriveDetector();
 
+			StreamClient.Instance.Logouted += Instance_Logouted;
+			StreamClient.Instance.Logined += Instance_Logined;
 
 			InitNotifyIcon();
 
@@ -147,8 +149,7 @@ namespace Waveface.Stream.WindowsClient
 				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
 				recentDocWatcher.Start();
 
-
-				driveDetector = new DriveDetector();
+				driveDetector.DeviceArrived -= driveDetector_DeviceArrived;
 				driveDetector.DeviceArrived += driveDetector_DeviceArrived;
 
 				if (!MainForm.Instance.IsDebugMode)
@@ -159,6 +160,8 @@ namespace Waveface.Stream.WindowsClient
 
 			Application.Run();
 		}
+
+
 
 		static void driveDetector_DeviceArrived(object sender, DriveDetectorEventArgs e)
 		{
@@ -174,7 +177,7 @@ namespace Waveface.Stream.WindowsClient
 					{
 						usbImportDialog = null;
 					};
-					usbImportDialog.Show();
+					usbImportDialog.ShowDialog();
 				}
 			});
 		}
@@ -581,6 +584,12 @@ namespace Waveface.Stream.WindowsClient
 			Settings.Default.Save();
 		}
 
+
+		static void Instance_Logined(object sender, ClientFramework.LoginedEventArgs e)
+		{
+			driveDetector.DeviceArrived -= driveDetector_DeviceArrived;
+			driveDetector.DeviceArrived += driveDetector_DeviceArrived;
+		}
 
 		static void Instance_Logouted(object sender, EventArgs e)
 		{

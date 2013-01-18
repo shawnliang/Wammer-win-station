@@ -1,49 +1,92 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
 namespace Waveface.Stream.WindowsClient
 {
-	class OldUserWizardDialog : StepByStepWizardDialog
+	public partial class OldUserWizardDialog : Form
 	{
-		private PhotoSearch m_photoSearch = new PhotoSearch();
+		#region Private Property
+		/// <summary>
+		/// Gets the m_ tab control.
+		/// </summary>
+		/// <value>The m_ tab control.</value>
+		private TabControlEx m_TabControl
+		{
+			get
+			{
+				return tabControl1;
+			}
+		}
+		#endregion
 
+
+		#region Constructor
 		public OldUserWizardDialog()
 		{
 			InitializeComponent();
+		} 
+		#endregion
 
-			wizardControl.SetWizardPages(new StepPageControl[]
-			{
-				new LoginControl(new StreamLogin()),
-				new ChoosePlanControl(),
-				new FileImportControl(),
-				new DocImportControl()
-			});
 
-			m_photoSearch.StartSearchAsync();
-		}
-
-		private void InitializeComponent()
+		#region Private Method
+		private void UpdateUI()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OldUserWizardDialog));
-			this.SuspendLayout();
-			// 
-			// wizardControl
-			// 
-			resources.ApplyResources(this.wizardControl, "wizardControl");
-			// 
-			// nextButton
-			// 
-			resources.ApplyResources(this.nextButton, "nextButton");
-			// 
-			// prevButton
-			// 
-			resources.ApplyResources(this.prevButton, "prevButton");
-			// 
-			// OldUserWizardDialog
-			// 
-			resources.ApplyResources(this, "$this");
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Name = "OldUserWizardDialog";
-			this.ResumeLayout(false);
+			var selectedTab = m_TabControl.SelectedTab;
 
+			if (selectedTab == null)
+				return;
+
+			this.Text = selectedTab.Text;
+
+			button1.Visible = selectedTab != tabPage1 && selectedTab != tabPage2;
+			button2.Visible = selectedTab != tabPage1;
+
+			button2.Text = m_TabControl.IsLastPage ? "Done" : "Next";
 		}
+		#endregion
+
+
+
+		#region Event Process
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			UpdateUI();
+		}
+
+		private void OldUserWizardDialog_Load(object sender, EventArgs e)
+		{
+			UpdateUI();
+
+			loginControl1.LoginSuccess += loginControl1_LoginSuccess;
+		}
+
+		void loginControl1_LoginSuccess(object sender, EventArgs e)
+		{
+			m_TabControl.NextPage();
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			m_TabControl.PreviousPage();
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			if (m_TabControl.IsLastPage)
+			{
+				fileImportControl1.ImportSelectedPaths();
+				this.DialogResult = DialogResult.OK;
+				return;
+			}
+
+			m_TabControl.NextPage();
+		}
+		#endregion
 	}
 }

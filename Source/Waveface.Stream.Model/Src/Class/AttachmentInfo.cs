@@ -123,6 +123,8 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public string mime_type { get; set; }
 
+		public long file_size { get; set; }
+
 		#region Nested type: ImageMeta
 		[Serializable]
 		[BsonIgnoreExtraElements]

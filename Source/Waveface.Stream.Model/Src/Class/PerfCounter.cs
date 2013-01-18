@@ -32,6 +32,8 @@ namespace Waveface.Stream.Model
 		public const string ATTACHMENT_UPLOAD_COUNT = "Attachment upload count";
 		public const string SMALL_THUMBNAIL_GENERATE_COUNT = "Small thumbnail generate count";
 		public const string MEDIUM_THUMBNAIL_GENERATE_COUNT = "Medium thumbnail generate count";
+		public const string BYTES_TO_DOWNLOAD = "Bytes to download";
+		public const string BYTES_TO_UPLOAD = "Bytes to upload";
 		#endregion
 
 

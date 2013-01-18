@@ -1,35 +1,107 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class NewUserWizardDialog : StepByStepWizardDialog
+	public partial class NewUserWizardDialog : Form
 	{
-		#region Var
-		private PhotoSearch m_photoSearch = new PhotoSearch();
+		#region Private Property
+		/// <summary>
+		/// Gets the m_ tab control.
+		/// </summary>
+		/// <value>The m_ tab control.</value>
+		private TabControlEx m_TabControl
+		{
+			get
+			{
+				return tabControl1;
+			}
+		}
 		#endregion
 
+
+		#region Constructor
 		public NewUserWizardDialog()
 		{
 			InitializeComponent();
-
-			Image[] tutorial = new Image[] { Resources.P1, Resources.P2, Resources.P3 };
-			var intro = new IntroControl(tutorial);
-			intro.CustomLabelForNextStep = "Sign Up";
+		} 
+		#endregion
 
 
-			wizardControl.SetWizardPages(new StepPageControl[]
-			{
-				intro,
-				new SignUpControl(new StreamSignup()),
-				new ServiceImportControl(),
-				new ChoosePlanControl(),
-				new FileImportControl(),
-				new DocImportControl()
-			});
+		#region Private Method
+		private void UpdateUI()
+		{
+			var selectedTab = m_TabControl.SelectedTab;
 
-			m_photoSearch.StartSearchAsync();
+			if (selectedTab == null)
+				return;
+
+			this.Text = selectedTab.Text;
+
+			button1.Visible = selectedTab != tabPage5 && selectedTab != tabPage4;
+			button2.Visible = selectedTab != tabPage5;
+
+			button2.Text = m_TabControl.IsLastPage ? "Done" : "Next";
+
+			panel1.Visible = selectedTab != tabPage5;
+		}
+		#endregion
+
+
+		#region Event Process
+		private void NewUserWizardDialog_Load(object sender, EventArgs e)
+		{
+			UpdateUI();
+
+			signUpControl1.ShowSignUpPage();
+
+			signUpControl1.SignUpSuccess += signUpControl1_SignUpSuccess;
+
+			m_TabControl.SelectedIndexChanged += InitIntroPage;
 		}
 
+		void InitIntroPage(object sender, EventArgs e)
+		{
+			if (m_TabControl.SelectedTab == tabPage4)
+			{
+				m_TabControl.SelectedIndexChanged -= InitIntroPage;
+				introControl1.SetTutorialPhotos(new Image[] { Resources.P1, Resources.P2, Resources.P3 });
+			}
+		}
+
+		void signUpControl1_SignUpSuccess(object sender, EventArgs e)
+		{
+			m_TabControl.NextPage();
+		}
+
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			UpdateUI();
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			m_TabControl.PreviousPage();
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			if (m_TabControl.IsLastPage)
+			{
+				fileImportControl1.ImportSelectedPaths();
+				this.DialogResult = DialogResult.OK;
+				return;
+			}
+
+			m_TabControl.NextPage();
+		}
+		#endregion
 	}
 }

@@ -127,7 +127,7 @@
     <value>登錄時發生錯誤, 請重新輸入.</value>
   </data>
   <data name="INDICATOR_PATTERN" xml:space="preserve">
-    <value>{0}{1}{2} {3} 張圖片, {4:0.##} {5}</value>
+    <value>{0}{1}{2} {3} MB, {4:0.##} {5}</value>
   </data>
   <data name="NEXT_BUTTON_TEXT" xml:space="preserve">
     <value>下一步</value>

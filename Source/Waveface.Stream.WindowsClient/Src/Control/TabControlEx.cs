@@ -10,6 +10,44 @@ namespace Waveface.Stream.WindowsClient
 	{
 		private bool m_HideTabs;
 
+
+		#region Public Property
+		/// <summary>
+		/// Gets or sets the index of the page.
+		/// </summary>
+		/// <value>The index of the page.</value>
+		public int PageIndex
+		{
+			get
+			{
+				return SelectedIndex + 1;
+			}
+			set
+			{
+				SelectedIndex = value - 1;
+			}
+		}
+
+		/// <summary>
+		/// Gets the page count.
+		/// </summary>
+		/// <value>The page count.</value>
+		public int PageCount
+		{
+			get
+			{
+				return TabPages.Count;
+			}
+		}
+
+		public Boolean IsLastPage
+		{
+			get
+			{
+				return PageIndex == this.PageCount;
+			}
+		}
+
 		[DefaultValue(false), RefreshProperties(RefreshProperties.All)]
 		public bool HideTabs
 		{
@@ -75,5 +113,51 @@ namespace Waveface.Stream.WindowsClient
 				return base.DisplayRectangle;
 			}
 		}
+		#endregion
+
+
+		#region Public Method
+		/// <summary>
+		/// Firsts the page.
+		/// </summary>
+		public void FirstPage()
+		{
+			PageIndex = 1;
+		}
+
+		/// <summary>
+		/// Lasts the page.
+		/// </summary>
+		public void LastPage()
+		{
+			PageIndex = PageCount;
+		}
+
+		/// <summary>
+		/// Previouses the page.
+		/// </summary>
+		public void PreviousPage()
+		{
+			var pageIndex = this.PageIndex;
+			if (pageIndex <= 1)
+				return;
+
+			this.PageIndex = pageIndex - 1;
+		}
+
+		/// <summary>
+		/// Nexts the page.
+		/// </summary>
+		public void NextPage()
+		{
+			var pageIndex = this.PageIndex;
+			if (pageIndex >= PageCount)
+				return;
+
+			Cursor.Current = Cursors.WaitCursor;
+
+			this.PageIndex = pageIndex + 1;
+		}
+		#endregion
 	}
 }

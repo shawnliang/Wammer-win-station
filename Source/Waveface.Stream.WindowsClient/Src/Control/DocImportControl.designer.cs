@@ -44,7 +44,7 @@
 			this.lblWelcome.AutoSize = true;
 			this.lblWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
 			this.lblWelcome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.lblWelcome.Location = new System.Drawing.Point(27, 20);
+			this.lblWelcome.Location = new System.Drawing.Point(27, 18);
 			this.lblWelcome.Name = "lblWelcome";
 			this.lblWelcome.Size = new System.Drawing.Size(304, 18);
 			this.lblWelcome.TabIndex = 4;
@@ -54,9 +54,9 @@
 			// 
 			this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.addButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.addButton.Location = new System.Drawing.Point(45, 343);
+			this.addButton.Location = new System.Drawing.Point(45, 317);
 			this.addButton.Name = "addButton";
-			this.addButton.Size = new System.Drawing.Size(118, 26);
+			this.addButton.Size = new System.Drawing.Size(118, 24);
 			this.addButton.TabIndex = 6;
 			this.addButton.Text = "Add ...";
 			this.addButton.UseVisualStyleBackColor = true;
@@ -73,7 +73,6 @@
 			this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
 			this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -95,11 +94,11 @@
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
-			this.dataGridView1.Location = new System.Drawing.Point(45, 74);
+			this.dataGridView1.Location = new System.Drawing.Point(45, 68);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowHeadersVisible = false;
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(465, 263);
+			this.dataGridView1.Size = new System.Drawing.Size(465, 243);
 			this.dataGridView1.TabIndex = 8;
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
@@ -118,15 +117,11 @@
 			// 
 			// DocImportControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "DocImportControl";
-			this.Size = new System.Drawing.Size(555, 400);
-			this.Load += new System.EventHandler(this.FileImportControl_Load);
+			this.Size = new System.Drawing.Size(555, 369);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
