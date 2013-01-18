@@ -9,7 +9,7 @@ using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class ServiceImportControl : StepPageControl
+	public partial class ServiceImportControl : UserControl
 	{
 		private string session_token;
 		private string user_id;

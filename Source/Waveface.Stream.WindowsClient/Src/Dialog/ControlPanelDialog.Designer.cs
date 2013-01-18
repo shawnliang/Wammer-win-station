@@ -476,29 +476,21 @@
 			// serviceImportControl1
 			// 
 			this.serviceImportControl1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.serviceImportControl1.CustomLabelForNextStep = null;
-			this.serviceImportControl1.CustomSize = new System.Drawing.Size(0, 0);
 			this.serviceImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.serviceImportControl1.Location = new System.Drawing.Point(3, 3);
 			this.serviceImportControl1.Name = "serviceImportControl1";
-			this.serviceImportControl1.PageTitle = null;
 			this.serviceImportControl1.Size = new System.Drawing.Size(437, 279);
 			this.serviceImportControl1.TabIndex = 0;
-			this.serviceImportControl1.WizardControl = null;
 			// 
 			// personalCloudStatusControl21
 			// 
 			this.personalCloudStatusControl21.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.personalCloudStatusControl21.CustomLabelForNextStep = null;
-			this.personalCloudStatusControl21.CustomSize = new System.Drawing.Size(0, 0);
 			this.personalCloudStatusControl21.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.personalCloudStatusControl21.EnableAutoRefreshStatus = false;
 			this.personalCloudStatusControl21.Location = new System.Drawing.Point(3, 3);
 			this.personalCloudStatusControl21.Name = "personalCloudStatusControl21";
-			this.personalCloudStatusControl21.PageTitle = null;
 			this.personalCloudStatusControl21.Size = new System.Drawing.Size(437, 279);
 			this.personalCloudStatusControl21.TabIndex = 0;
-			this.personalCloudStatusControl21.WizardControl = null;
 			// 
 			// ControlPanelDialog
 			// 

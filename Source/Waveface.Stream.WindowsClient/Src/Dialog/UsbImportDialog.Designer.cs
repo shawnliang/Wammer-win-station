@@ -35,16 +35,12 @@
 			// importControl
 			// 
 			this.importControl.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.importControl.CustomLabelForNextStep = null;
-			this.importControl.CustomSize = new System.Drawing.Size(0, 0);
 			this.importControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.importControl.Location = new System.Drawing.Point(0, 0);
 			this.importControl.Name = "importControl";
-			this.importControl.PageTitle = "Import from media";
 			this.importControl.Service = nullPortableMediaService1;
 			this.importControl.Size = new System.Drawing.Size(536, 431);
 			this.importControl.TabIndex = 0;
-			this.importControl.WizardControl = null;
 			// 
 			// UsbImportDialog
 			// 

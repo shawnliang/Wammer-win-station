@@ -228,6 +228,9 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateImportStatus()
 		{
+			if (!StreamClient.Instance.IsLogined)
+				return;
+
 			var summary = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
 
 			if (string.IsNullOrEmpty(summary.Description))

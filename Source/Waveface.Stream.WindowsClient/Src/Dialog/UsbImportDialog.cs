@@ -38,7 +38,6 @@ namespace Waveface.Stream.WindowsClient
 			var parameters = new WizardParameters();
 			parameters.Set("user_id", user_id);
 			parameters.Set("session_token", session_token);
-			importControl.OnEnteringStep(parameters);
 
 			if (!string.IsNullOrEmpty(driveToImport))
 			{

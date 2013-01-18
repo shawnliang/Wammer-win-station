@@ -6,19 +6,45 @@ using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class SignUpControl : StepPageControl
+	public partial class SignUpControl : UserControl
 	{
 		private IStreamSignUp signup;
 		private SignUpData signupData;
+
+		#region Event
+		public event EventHandler SignUpSuccess;
+		#endregion
+
+		public SignUpControl()
+			:this(new StreamSignup())
+		{
+		}
 
 		public SignUpControl(IStreamSignUp signup)
 		{
 			InitializeComponent();
 
 			this.signup = signup;
-			this.PageTitle = "Sign Up";
-			this.CustomSize = new Size(740, 590);
 			this.webBrowser1.Navigated += new WebBrowserNavigatedEventHandler(webBrowser1_Navigated);
+		}
+
+		#region Protected Method
+		protected void OnSignUpSuccess(EventArgs e)
+		{
+			this.RaiseEvent(SignUpSuccess, e);
+		}
+		#endregion
+
+		public void ShowSignUpPage()
+		{
+			try
+			{
+				signup.ShowSignUpPage(webBrowser1);
+			}
+			catch (Exception)
+			{
+				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
@@ -26,8 +52,9 @@ namespace Waveface.Stream.WindowsClient
 			try
 			{
 				this.signupData = signup.TryParseSignUpDataFromUrl(e.Url);
+
 				if (this.signupData != null)
-					WizardControl.NextPage();
+					OnSignUpSuccess(EventArgs.Empty);
 			}
 			catch (OperationCanceledException)
 			{
@@ -60,40 +87,6 @@ namespace Waveface.Stream.WindowsClient
 			catch (Exception)
 			{
 				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-		}
-
-		public override void OnLeavingStep(WizardParameters parameters)
-		{
-			parameters.Set("user_id", signupData.user_id);
-			parameters.Set("session_token", signupData.session_token);
-		}
-
-		public override void OnEnteringStep(WizardParameters parameters)
-		{
-			try
-			{
-				signup.ShowSignUpPage(webBrowser1);
-			}
-			catch (Exception)
-			{
-				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-		}
-
-		public override bool RunOnce
-		{
-			get
-			{
-				return true;
-			}
-		}
-
-		public override bool HasPrevAndBack
-		{
-			get
-			{
-				return false;
 			}
 		}
 	}

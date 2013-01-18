@@ -76,7 +76,6 @@
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.Controls.Add(this.collectLogsLink);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.fbLink);

@@ -90,8 +90,6 @@
 			// LoginControl
 			// 
 			resources.ApplyResources(this, "$this");
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "LoginControl";
 			this.tableLayoutPanel1.ResumeLayout(false);
