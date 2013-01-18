@@ -1,6 +1,6 @@
 ﻿namespace Waveface.Stream.WindowsClient
 {
-	partial class NewUserWizardDialog
+	partial class OldUserWizardDialog
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -32,20 +32,14 @@
 			this.button2 = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.tabControl1 = new Waveface.Stream.WindowsClient.TabControlEx();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
-			this.signUpControl1 = new Waveface.Stream.WindowsClient.SignUpControl();
-			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.introControl1 = new Waveface.Stream.WindowsClient.IntroControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
+			this.loginControl1 = new Waveface.Stream.WindowsClient.LoginControl();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.choosePlanControl1 = new Waveface.Stream.WindowsClient.ChoosePlanControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.fileImportControl1 = new Waveface.Stream.WindowsClient.FileImportControl();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
-			this.tabPage5.SuspendLayout();
-			this.tabPage4.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.tabPage3.SuspendLayout();
@@ -87,8 +81,6 @@
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Controls.Add(this.tabPage5);
-			this.tabControl1.Controls.Add(this.tabPage4);
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
 			this.tabControl1.Controls.Add(this.tabPage3);
@@ -97,69 +89,30 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.PageIndex = 1;
+			this.tabControl1.PageIndex = 3;
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(706, 400);
 			this.tabControl1.TabIndex = 1;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
-			// tabPage5
-			// 
-			this.tabPage5.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tabPage5.Controls.Add(this.signUpControl1);
-			this.tabPage5.Location = new System.Drawing.Point(0, 0);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(706, 400);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "Sign Up";
-			// 
-			// signUpControl1
-			// 
-			this.signUpControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.signUpControl1.Location = new System.Drawing.Point(3, 3);
-			this.signUpControl1.Name = "signUpControl1";
-			this.signUpControl1.Size = new System.Drawing.Size(700, 394);
-			this.signUpControl1.TabIndex = 0;
-			// 
-			// tabPage4
-			// 
-			this.tabPage4.Controls.Add(this.introControl1);
-			this.tabPage4.Location = new System.Drawing.Point(4, 23);
-			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(698, 373);
-			this.tabPage4.TabIndex = 5;
-			this.tabPage4.Text = "Introduction";
-			this.tabPage4.UseVisualStyleBackColor = true;
-			// 
-			// introControl1
-			// 
-			this.introControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-			this.introControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.introControl1.Location = new System.Drawing.Point(3, 3);
-			this.introControl1.Name = "introControl1";
-			this.introControl1.Size = new System.Drawing.Size(692, 367);
-			this.introControl1.TabIndex = 0;
-			// 
 			// tabPage1
 			// 
 			this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tabPage1.Controls.Add(this.serviceImportControl1);
+			this.tabPage1.Controls.Add(this.loginControl1);
 			this.tabPage1.Location = new System.Drawing.Point(4, 23);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage1.Size = new System.Drawing.Size(698, 373);
 			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "Service Connect";
+			this.tabPage1.Text = "AOStream";
 			// 
-			// serviceImportControl1
+			// loginControl1
 			// 
-			this.serviceImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.serviceImportControl1.Location = new System.Drawing.Point(3, 3);
-			this.serviceImportControl1.Name = "serviceImportControl1";
-			this.serviceImportControl1.Size = new System.Drawing.Size(692, 367);
-			this.serviceImportControl1.TabIndex = 0;
+			this.loginControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.loginControl1.Location = new System.Drawing.Point(3, 3);
+			this.loginControl1.Name = "loginControl1";
+			this.loginControl1.Size = new System.Drawing.Size(692, 367);
+			this.loginControl1.TabIndex = 0;
 			// 
 			// tabPage2
 			// 
@@ -184,10 +137,10 @@
 			// 
 			this.tabPage3.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabPage3.Controls.Add(this.fileImportControl1);
-			this.tabPage3.Location = new System.Drawing.Point(4, 23);
+			this.tabPage3.Location = new System.Drawing.Point(0, 0);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(698, 373);
+			this.tabPage3.Size = new System.Drawing.Size(706, 400);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Import photos";
 			// 
@@ -196,23 +149,21 @@
 			this.fileImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.fileImportControl1.Location = new System.Drawing.Point(3, 3);
 			this.fileImportControl1.Name = "fileImportControl1";
-			this.fileImportControl1.Size = new System.Drawing.Size(692, 367);
+			this.fileImportControl1.Size = new System.Drawing.Size(700, 394);
 			this.fileImportControl1.TabIndex = 0;
 			// 
-			// NewUserWizardDialog
+			// OldUserWizardDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(706, 444);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.panel1);
-			this.Name = "NewUserWizardDialog";
+			this.Name = "OldUserWizardDialog";
 			this.Text = "OldUserWizardDialog2";
-			this.Load += new System.EventHandler(this.NewUserWizardDialog_Load);
+			this.Load += new System.EventHandler(this.OldUserWizardDialog_Load);
 			this.panel1.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
-			this.tabPage5.ResumeLayout(false);
-			this.tabPage4.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
@@ -228,13 +179,9 @@
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button1;
+		private LoginControl loginControl1;
 		private ChoosePlanControl choosePlanControl1;
 		private System.Windows.Forms.TabPage tabPage3;
 		private FileImportControl fileImportControl1;
-		private ServiceImportControl serviceImportControl1;
-		private System.Windows.Forms.TabPage tabPage5;
-		private SignUpControl signUpControl1;
-		private System.Windows.Forms.TabPage tabPage4;
-		private IntroControl introControl1;
 	}
 }

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class ImportFromPotableMediaControl : StepPageControl
+	public partial class ImportFromPotableMediaControl : UserControl
 	{
 		private IPortableMediaService service;
 		private volatile bool canceled;
@@ -24,7 +24,6 @@ namespace Waveface.Stream.WindowsClient
 			InitializeComponent();
 			progressBar.Value = 0;
 			this.Service = new NullPortableMediaService();
-			this.PageTitle = "Import from media";
 
 			timer = new Timer();
 			timer.Interval = 1000;
@@ -146,18 +145,6 @@ namespace Waveface.Stream.WindowsClient
 		private void deviceCombobox_DropDown(object sender, EventArgs e)
 		{
 			refreshDrives();
-		}
-
-		public override void OnLeavingStep(WizardParameters parameters)
-		{
-			canceled = true;
-			progressBar.Visible = progressText.Visible = false;
-		}
-
-		public override void OnEnteringStep(WizardParameters parameters)
-		{
-			session_token = (string)parameters.Get("session_token");
-			user_id = (string)parameters.Get("user_id");
 		}
 
 		void timer_Tick(object sender, EventArgs e)

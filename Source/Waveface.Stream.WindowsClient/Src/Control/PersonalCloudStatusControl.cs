@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class PersonalCloudStatusControl2 : StepPageControl
+	public partial class PersonalCloudStatusControl2 : UserControl
 	{
 		#region Var
 		private IPersonalCloudStatus service;
@@ -64,27 +64,24 @@ namespace Waveface.Stream.WindowsClient
 		public PersonalCloudStatusControl2(IPersonalCloudStatus service)
 		{
 			InitializeComponent();
-
-			CustomSize = new Size(710, 437);
 			this.service = service;
-			this.CustomLabelForNextStep = "Start Stream!";
 		}
 
 		private void updateStatus()
 		{
 			lock (cs)
-		{
-			try
 			{
-				var nodes = service.GetNodes(user_id, session_token, StationAPI.API_KEY);
-				
-				this.Invoke(new MethodInvoker(() =>
+				try
 				{
-					formatNodes(nodes);
-				}));
-			}
-			catch (Exception ex)
-			{
+					var nodes = service.GetNodes(user_id, session_token, StationAPI.API_KEY);
+
+					this.Invoke(new MethodInvoker(() =>
+					{
+						formatNodes(nodes);
+					}));
+				}
+				catch (Exception ex)
+				{
 				}
 			}
 		}

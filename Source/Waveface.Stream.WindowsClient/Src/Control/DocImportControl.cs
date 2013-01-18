@@ -10,7 +10,7 @@ using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class DocImportControl : StepPageControl
+	public partial class DocImportControl : Control
 	{
 		private CheckBox checkBox1;
 		private HidableProgressingDialog _processDialog;
@@ -23,7 +23,6 @@ namespace Waveface.Stream.WindowsClient
 		public DocImportControl()
 		{
 			InitializeComponent();
-			this.PageTitle = "Import your documents";
 		}
 		#endregion
 
@@ -40,24 +39,24 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		public override void OnEnteringStep(WizardParameters parameters)
-		{
-			base.OnEnteringStep(parameters);
+		//public override void OnEnteringStep(WizardParameters parameters)
+		//{
+		//	base.OnEnteringStep(parameters);
 
-			this.session_token = (string)parameters.Get("session_token");
+		//	this.session_token = (string)parameters.Get("session_token");
 
-			dataGridView1.Rows.Clear();
+		//	dataGridView1.Rows.Clear();
 
-			var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			dataGridView1.Rows.Add(true, folder);
-		}
+		//	var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+		//	dataGridView1.Rows.Add(true, folder);
+		//}
 
-		public override void OnLeavingStep(WizardParameters parameters)
-		{
-			base.OnLeavingStep(parameters);
+		//public override void OnLeavingStep(WizardParameters parameters)
+		//{
+		//	base.OnLeavingStep(parameters);
 
-			importSelectedPaths(session_token);
-		}
+		//	importSelectedPaths(session_token);
+		//}
 
 		private void importSelectedPaths(string session_token)
 		{
