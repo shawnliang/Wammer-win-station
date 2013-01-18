@@ -81,6 +81,7 @@ namespace Waveface.Stream.ClientFramework
 					return;
 
 				_response = value;
+				_responseObj = null;
 
 				var currentTime = DateTime.Now;
 				m_UpdateTime = currentTime;
