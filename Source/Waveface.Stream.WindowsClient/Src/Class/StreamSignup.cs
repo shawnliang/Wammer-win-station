@@ -81,6 +81,8 @@ namespace Waveface.Stream.WindowsClient
 				var password = parameters["password"];
 				var accountType = parameters["account_type"];
 
+
+				//TODO: 怪怪的...
 				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 				if (driver == null)
 				{
@@ -101,7 +103,7 @@ namespace Waveface.Stream.WindowsClient
 					else
 					{
 						AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken));
-						StationAPI.Login(userID, sessionToken);
+						StreamClient.Instance.Login(sessionToken);
 
 						return new SignUpData
 						{
@@ -129,7 +131,7 @@ namespace Waveface.Stream.WindowsClient
 					}
 					else
 					{
-						StationAPI.Login(userID, sessionToken);
+						StreamClient.Instance.Login(sessionToken);
 						return new SignUpData
 						{
 							account_type = accountType,
