@@ -28,18 +28,7 @@ namespace Waveface.Stream.Model
 
 		private static string GetStationPath()
 		{
-			//var stationProcess = System.Diagnostics.Process.GetProcessesByName("Station.Service").FirstOrDefault();
-			//var stationPath = string.Empty;
-			//if (stationProcess != null)
-			//{
-			//    stationPath = Path.GetDirectoryName(stationProcess.MainModule.FileName);
-			//}
-			//else
-			//{
 			return (string)StationRegistry.GetValue("InstallPath", "");
-			//}
-
-			//return stationPath;
 		}
 
 		private static void CreateFolder(string basePath)
