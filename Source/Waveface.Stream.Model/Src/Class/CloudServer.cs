@@ -23,6 +23,7 @@ namespace Waveface.Stream.Model
 		public const string PARAM_STATION_ID = "station_id";
 		public const string PARAM_LOCATION = "location";
 		public const string PARAM_USER_ID = "user_id";
+		public const string PARAM_USER_FOLDER = "user_folder";
 		public const string PARAM_LIMIT = "limit";
 		public const string PARAM_FILTER_ENTITY = "filter_entity";
 		public const string PARAM_POST_ID_LIST = "post_id_list";

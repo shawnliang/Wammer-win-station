@@ -397,8 +397,6 @@ namespace Wammer.Station.Service
 
 		private void InitResourceFolder()
 		{
-			if (!Directory.Exists(FileStorage.ResourceFolder))
-				Directory.CreateDirectory(FileStorage.ResourceFolder);
 		}
 
 		private void ConfigThreadPool()

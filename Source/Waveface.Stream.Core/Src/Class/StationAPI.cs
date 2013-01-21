@@ -200,7 +200,7 @@ namespace Waveface.Stream.Core
 		}
 
 
-		public static string AddUser(string email, string password, string deviceId, string deviceName)
+		public static string AddUser(string email, string password, string deviceId, string deviceName, string userFolder)
 		{
 			DebugInfo.ShowMethod();
 
@@ -210,11 +210,12 @@ namespace Waveface.Stream.Core
 						{ "email", email},
 						{ "password", password},
 						{ "device_id", deviceId},
-						{ "device_name", deviceName}
+						{ "device_name", deviceName},
+						{ "user_folder", userFolder}
 					});
 		}
 
-		public static string AddUser(string userID, string sessionToken)
+		public static string AddUser(string userID, string sessionToken, string userFolder)
 		{
 			DebugInfo.ShowMethod();
 
@@ -222,7 +223,8 @@ namespace Waveface.Stream.Core
 
 			return Post(uri, new NameValueCollection(){
 						{ "user_id", userID},
-						{ "session_token", sessionToken}
+						{ "session_token", sessionToken},
+						{ "user_folder", userFolder}
 					});
 		}
 

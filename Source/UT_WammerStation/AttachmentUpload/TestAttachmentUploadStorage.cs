@@ -33,7 +33,7 @@ namespace UT_WammerStation.AttachmentUpload
 
 			user = new Driver { folder = "user1", user_id = "uuuu" };
 
-			var userRes = Path.Combine(FileStorage.ResourceFolder, "user1");
+			var userRes = Path.Combine("", "user1");
 			if (Directory.Exists(userRes))
 				Directory.Delete(userRes, true);
 		}
