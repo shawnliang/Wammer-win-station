@@ -82,13 +82,17 @@ namespace Waveface.Stream.WindowsClient
 				var accountType = parameters["account_type"];
 
 
+				var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "AOStream");
+				if (!Directory.Exists(userFolder))
+					Directory.CreateDirectory(userFolder);
+
 				//TODO: 怪怪的...
 				var driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 				if (driver == null)
 				{
 					if (string.Compare(accountType, "native", true) == 0)
 					{
-						AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(email, password, StationRegistry.GetValue("stationId", string.Empty).ToString(), Environment.MachineName));
+						AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(email, password, StationRegistry.GetValue("stationId", string.Empty).ToString(), Environment.MachineName, userFolder));
 						var session = LoginToStation(email, password);
 
 						return new SignUpData
@@ -102,7 +106,7 @@ namespace Waveface.Stream.WindowsClient
 					}
 					else
 					{
-						AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken));
+						AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken, userFolder));
 						StreamClient.Instance.Login(sessionToken);
 
 						return new SignUpData

@@ -311,7 +311,7 @@ namespace Wammer.Station
 
 			m_DriverAgent.RemoveDriver(StationID, user.user_id);
 
-			m_DriverAgent.AddDriver("", StationID, userID, sessionToken);
+			m_DriverAgent.AddDriver(driver.folder, StationID, userID, sessionToken);
 		}
 
 		private void CheckAndUpdateDriver(LoginedSession loginInfo, string email, string password, string deviceID, string deviceName)
@@ -335,7 +335,7 @@ namespace Wammer.Station
 
 			m_DriverAgent.RemoveDriver(StationID, user.user_id);
 
-			m_DriverAgent.AddDriver("", StationID, email, password, deviceID, deviceName);
+			m_DriverAgent.AddDriver(driver.folder, StationID, email, password, deviceID, deviceName);
 		}
 
 		#endregion

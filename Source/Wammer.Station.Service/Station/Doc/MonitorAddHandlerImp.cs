@@ -22,7 +22,7 @@ namespace Wammer.Station.Doc
 
 		public void Process(string apikey, string session_token, string user_id, string file)
 		{
-			if (IsFileInStreamFolder(file))
+			if (util.IsFileInStreamFolder(user_id, file))
 				return;
 
 			var attDoc = db.FindLatestVersion(file, user_id);
@@ -39,11 +39,6 @@ namespace Wammer.Station.Doc
 					db.SaveMonitorItemDB(item);
 			}
 		}
-
-		private static bool IsFileInStreamFolder(string file)
-		{
-			return file.ToLower().Contains(FileStorage.ResourceFolder.ToLower());
-		}
 	}
 
 	public interface IMonitorAddHandlerDB
@@ -56,5 +51,6 @@ namespace Wammer.Station.Doc
 	public interface IMonitorAddHandlerUtility
 	{
 		void UpdateDocOpenTimeAsync(string user_id, string object_id, DateTime openTime);
+		bool IsFileInStreamFolder(string user_id, string file_path);
 	}
 }

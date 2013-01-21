@@ -190,7 +190,14 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateResourceFolder()
 		{
-			lblResorcePath.Text = StationRegistry.GetValue("ResourceFolder", string.Empty) as string;
+			try
+			{
+				var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
+				lblResorcePath.Text = user.folder;
+			}
+			catch
+			{
+			}
 		}
 
 		private void UpdateSoftwareInfo()

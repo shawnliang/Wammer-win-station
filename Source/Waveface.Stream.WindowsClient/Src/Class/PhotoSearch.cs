@@ -129,5 +129,13 @@ namespace Waveface.Stream.WindowsClient
 			StationAPI.ImportPhoto(session_token, groupID, paths);
 		}
 
+
+
+		public string GetUserFolder(string user_id)
+		{
+			var user = DriverCollection.Instance.FindOneById(user_id);
+
+			return user.folder;
+		}
 	}
 }

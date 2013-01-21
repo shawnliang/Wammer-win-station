@@ -24,8 +24,19 @@ namespace UT_WammerStation.AttachmentViewTest
 			var bytes = new ArraySegment<byte>(Encoding.UTF8.GetBytes("1234567890"));
 			mediumPath = FileStorage.SaveToCacheFolder(user.user_id, "obj1.dat", bytes);
 
+
+			if (!Directory.Exists(user.folder))
+				Directory.CreateDirectory(user.folder);
+
 			var storage = new FileStorage(user);
 			storage.TrySaveFile("file1.jpg", bytes);
+		}
+
+		[TestCleanup]
+		public void teardown()
+		{
+			if (Directory.Exists(user.folder))
+				Directory.Delete(user.folder, true);
 		}
 
 		[TestMethod]

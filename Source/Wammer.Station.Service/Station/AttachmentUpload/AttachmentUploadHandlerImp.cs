@@ -179,7 +179,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			var saveReult = storage.Save(uploadData, (exif != null) ? exif.DateTimeOriginal : null);
 
-			DateTime eventTime = guessEventTime(uploadData, exif);
+			var eventTime = EventTime.GuessFromExif(exif, uploadData.file_create_time, uploadData.timezone, uploadData.file_path);
 
 			var dbDoc = new Attachment
 							{
@@ -241,51 +241,6 @@ namespace Wammer.Station.AttachmentUpload
 					uploadData.group_id
 				)
 			);
-		}
-
-		private static DateTime guessEventTime(UploadData uploadData, exif exif)
-		{
-			DateTime eventTime;
-			if (exif != null && exif.gps != null && !string.IsNullOrEmpty(exif.gps.GPSDateStamp) && exif.gps.GPSTimeStamp != null)
-			{
-				eventTime = DateTime.ParseExact(exif.gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-
-				var hour = getRationalValue(exif.gps.GPSTimeStamp[0]);
-				var min = getRationalValue(exif.gps.GPSTimeStamp[1]);
-				var sec = getRationalValue(exif.gps.GPSTimeStamp[2]);
-
-				eventTime = eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
-			}
-			else if (uploadData.timezone.HasValue && exif != null && !string.IsNullOrEmpty(exif.DateTimeOriginal))
-			{
-				var exifTime = DateTime.ParseExact(exif.DateTimeOriginal, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-				eventTime = exifTime.AddMinutes(-uploadData.timezone.Value);
-			}
-			else if (uploadData.timezone.HasValue && exif != null && !string.IsNullOrEmpty(exif.DateTimeDigitized))
-			{
-				var exifTime = DateTime.ParseExact(exif.DateTimeDigitized, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-				eventTime = exifTime.AddMinutes(-uploadData.timezone.Value);
-			}
-			else if (uploadData.timezone.HasValue && exif != null && !string.IsNullOrEmpty(exif.DateTime))
-			{
-				var exifTime = DateTime.ParseExact(exif.DateTime, "yyyy:MM:dd HH:mm:ss", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-				eventTime = exifTime.AddMinutes(-uploadData.timezone.Value);
-			}
-			else if (uploadData.file_create_time.HasValue)
-			{
-				eventTime = uploadData.file_create_time.Value;
-			}
-			else
-			{
-				eventTime = DateTime.Now;
-			}
-			return eventTime;
-		}
-
-		private static uint getRationalValue(object[] rational)
-		{
-			var value = Convert.ToUInt32(rational[0]) / Convert.ToUInt32(rational[1]);
-			return value;
 		}
 
 		private exif parseExifParameter(UploadData uploadData)

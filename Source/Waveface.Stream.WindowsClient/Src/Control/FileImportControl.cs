@@ -181,6 +181,7 @@ namespace Waveface.Stream.WindowsClient
 		private void FileImportControl_Load(object sender, EventArgs e)
 		{
 			InitSelectAllCheckBox();
+			txtStoreLocation.Text = _photoSearch.GetUserFolder(StreamClient.Instance.LoginedUser.UserID);
 		}
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -202,6 +203,7 @@ namespace Waveface.Stream.WindowsClient
 		IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
 		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
 		void Search(string path, PhotoFolderFound folderFound);
+		string GetUserFolder(string user_id);
 	}
 
 	public delegate void PhotoFolderFound(string path, int count);

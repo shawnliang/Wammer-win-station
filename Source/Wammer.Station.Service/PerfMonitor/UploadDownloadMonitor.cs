@@ -114,7 +114,7 @@ namespace Wammer.PerfMonitor
 			var downloadTask = arg.task as Wammer.Station.Timeline.ResourceDownloadTask;
 
 			var bytesToDownload = 0L;
-			if (downloadTask.evtargs.imagemeta == ImageMeta.Origin || downloadTask.evtargs.imagemeta == ImageMeta.None)
+			if (downloadTask.evtargs.IsOriginalAttachment() || downloadTask.evtargs.IsWebThumb())
 				bytesToDownload = downloadTask.evtargs.attachment.file_size;
 			else
 				bytesToDownload = downloadTask.evtargs.attachment.GetThumbnail(downloadTask.evtargs.imagemeta).file_size;

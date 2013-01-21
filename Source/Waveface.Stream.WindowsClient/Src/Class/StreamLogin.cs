@@ -97,14 +97,16 @@ namespace Waveface.Stream.WindowsClient
 				Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 				if (driver == null)
 				{
-					AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken));
+					var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "AOStream");
+					if (!Directory.Exists(userFolder))
+						Directory.CreateDirectory(userFolder);
+
+					AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken, userFolder));
 				}
 
 				StreamClient.Instance.LoginSNS(userID, sessionToken);
 
 				return new UserSession { session_token = sessionToken, user_id = userID };
-
-
 			}
 			else
 				throw new OperationCanceledException();
@@ -112,8 +114,13 @@ namespace Waveface.Stream.WindowsClient
 
 		public UserSession Login(string email, string password)
 		{
+			var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "AOStream");
+			if (!Directory.Exists(userFolder))
+				Directory.CreateDirectory(userFolder);
+
+
 			AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(email.ToLower(), password,
-				StationRegistry.StationId, Environment.MachineName));
+				StationRegistry.StationId, Environment.MachineName, userFolder));
 
 
 			var session = LoginToStation(email, password);
