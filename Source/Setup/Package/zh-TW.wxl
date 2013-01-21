@@ -3,7 +3,7 @@
   <!-- This is translation to Chinese (Traditional, Taiwan) -->
   <String Id="LANGUAGE">1028</String>
   <String Id="CULTURE">zh-TW</String>
-  <String Id="APPNAME">Waveface Stream</String>
+  <String Id="APPNAME">AOStream</String>
   <String Id="SHORTCUT.UNINSTALLER.NAME">解除安裝</String>
   <String Id="MONGO_SVC_DESC">AOStream 的 MongoDB</String>
   <String Id="STATION_SVC_DESC">AOStream Station服務</String>
