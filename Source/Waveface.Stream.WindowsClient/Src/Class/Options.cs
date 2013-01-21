@@ -10,5 +10,8 @@ namespace Waveface.Stream.WindowsClient
 	{
 		[Option("d", "debug")]
 		public Boolean IsDebugMode { get; set; }
+
+		[OptionArray("i", "import")]
+		public String[] Imports { get; set; }
 	}
 }

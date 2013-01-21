@@ -3,7 +3,7 @@
   <!-- This is translation to English (United States) -->
   <String Id="LANGUAGE">1033</String>
   <String Id="CULTURE">en-US</String>
-  <String Id="APPNAME">Waveface Stream</String>
+  <String Id="APPNAME">AOStream</String>
   <String Id="SHORTCUT.UNINSTALLER.NAME">Uninstall AOStream</String>
   <String Id="MONGO_SVC_DESC">MongoDB for AOStation </String>
   <String Id="STATION_SVC_DESC">AOStream Station service</String>

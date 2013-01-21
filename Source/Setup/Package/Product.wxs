@@ -112,7 +112,6 @@
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
       <Directory Id="ProgramMenuFolder" Name="Programs">
         <Directory Id="ProgramMenuDir" Name="!(loc.APPNAME)">
-
           <!-- for station + client -->
           <Component Id="pmd" Guid="{60fa9a1b-662a-43df-a97b-d7667e79cb19}">
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\ProgramMenuDir" Type="string" Value="ProgramMenuDir" KeyPath="yes"/>
@@ -121,18 +120,27 @@
                       WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WindowsClient.exe">
               <ShortcutProperty Key="System.AppUserModel.ID" Value="WavefaceStreamApp"></ShortcutProperty>
             </Shortcut>
+       
             <Shortcut Id="Desktop.Shortcut.Waveface" Name="!(loc.APPNAME)"
                       WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WindowsClient.exe" Directory="DesktopFolder">
               <ShortcutProperty Key="System.AppUserModel.ID" Value="WavefaceStreamApp"></ShortcutProperty>
             </Shortcut>
-            <Shortcut Id="UninstallerExeShortcut" Name="!(loc.SHORTCUT.UNINSTALLER.NAME)"
+            <Shortcut Id="ProgMenu.Shortcut.UninstallerExeShortcut" Name="!(loc.SHORTCUT.UNINSTALLER.NAME)"
                       WorkingDirectory="INSTALLDIR" Target="[UninstallDir]Uninstaller.exe" Arguments="!(loc.CULTURE)" />
           </Component>
-         
         </Directory>
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop" />
+
+      <Directory Id="SendToFolder" Name="SendTo">
+        <Component Id="SendToShortcut" Guid="{EFA4DF70-B9D3-417D-BAE6-FA3445A6E5E2}">
+          <Shortcut Id="SendTo.stream" Name="!(loc.APPNAME)" WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WindowsClient.exe" Arguments="-i"></Shortcut>
+        </Component>
+      </Directory>
+
     </Directory>
+
+
 
     <DirectoryRef Id="TARGETDIR">
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
@@ -233,6 +241,7 @@
       <ComponentRef Id="mongoPrealloc.tar.gz"/>
       <ComponentGroupRef Id="AllStreamFiles"/>
       <ComponentRef Id='pmd'/>
+      <ComponentRef Id='SendToShortcut'/>
       <ComponentRef Id="CultureSetting"/>
       <ComponentRef Id="InstallPath"/>
       <ComponentRef Id="LaunchAtStartUp"/>
