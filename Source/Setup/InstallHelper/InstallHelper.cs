@@ -701,14 +701,51 @@ namespace Wammer.Station
 
 
 			string installDir = session["INSTALLLOCATION"];
-            //using (var zip = new ZipFile(Path.Combine(installDir, "WebFiles.zip")))
-            //{
-            //    foreach(ZipEntry entry in zip)
-            //    {
-            //        if (entry.IsFile)
-            //            extractFile(zip.GetInputStream(entry), entry, installDir);
-            //    }
-            //}
+			//using (var zip = new ZipFile(Path.Combine(installDir, "WebFiles.zip")))
+			//{
+			//    foreach(ZipEntry entry in zip)
+			//    {
+			//        if (entry.IsFile)
+			//            extractFile(zip.GetInputStream(entry), entry, installDir);
+			//    }
+			//}
+
+			return ActionResult.Success;
+		}
+
+		[CustomAction]
+		public static ActionResult CleanRemainingFiles(Session session)
+		{
+			string installDir = session["INSTALLLOCATION"];
+			var dir = new DirectoryInfo(installDir);
+			foreach (var subdir in dir.GetDirectories())
+			{
+				try
+				{
+					// Skip mongodb backup folder
+					if (subdir.Name.Equals("MongoDB", StringComparison.InvariantCultureIgnoreCase))
+					{
+						var mongodbDir = subdir;
+						var subsInMongodbDir = mongodbDir.GetDirectories();
+
+						foreach (var subInMongo in subsInMongodbDir)
+						{
+							if (subInMongo.Name.Equals("Backup", StringComparison.InvariantCultureIgnoreCase))
+								continue;
+							else
+								subInMongo.Delete(true);
+						}
+					}
+					else
+					{
+						subdir.Delete(true);
+					}
+				}
+				catch (Exception e)
+				{
+					Logger.Warn("Unable to delete: " + subdir.FullName, e);
+				}
+			}
 
 			return ActionResult.Success;
 		}

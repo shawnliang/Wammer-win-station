@@ -2,8 +2,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'
      xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'>
-  <?define AppCode = "WavefaceStation" ?>
-  <?define AppProductCode = "{2839f3a1-39f2-4651-b4b7-da815f8e4968}" ?>
+  <?define AppCode = "AOStream" ?>
+  <?define AppProductCode = "{D7103CDC-3557-48BC-B831-4E7D33A33031}" ?>
   <?define AppVersionMajor = "3" ?>
   <?define AppVersionMinor = "0" ?>
   <?define AppVersionPatch = "0" ?>
@@ -13,7 +13,7 @@
   <?define DefaultCulture = "en-US" ?>
   <Product Id="$(var.AppProductCode)" Name="$(var.AppCode)" Language="!(loc.LANGUAGE)" 
            Version="$(var.AppVersion)" Manufacturer="$(var.AppManufacturer)"
-           UpgradeCode="{d2b3ed2e-cef5-44cb-8254-ac1a2ef0f73c}">
+           UpgradeCode="{0D3A35C1-20FE-4DC8-8DC9-1014D851F287}">
     <Package Id="*" InstallerVersion="200" Compressed="yes"/>
     <Media Id="1" Cabinet="media1.cab" EmbedCab="no" />
     <Property Id="INSTALLLEVEL" Value="100" />
@@ -46,6 +46,8 @@
     <CustomAction Id='RestoreBackupData' BinaryKey='InstallHelperDll' DllEntry='RestoreBackupData' />
     <!-- WriteProductInfo -->
     <CustomAction Id='WriteProductInfo' BinaryKey='InstallHelperDll' DllEntry='WriteProductInfo' />
+    <!-- CleanRemainingFiles -->
+    <CustomAction Id='CleanRemainingFiles' BinaryKey='InstallHelperDll' DllEntry='CleanRemainingFiles' />
     
 
     <InstallExecuteSequence>
@@ -63,6 +65,9 @@
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
       <Custom Action="RemovePerfCounters" Before="RemoveFiles">
+        (&amp;MainFeature = 2) AND (!MainFeature = 3)
+      </Custom>
+      <Custom Action="CleanRemainingFiles" After="InstallFinalize">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
       <!-- while install -->
