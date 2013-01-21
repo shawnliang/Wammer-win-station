@@ -9,6 +9,7 @@ using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station;
 using Waveface.Stream.Model;
+using System.IO;
 
 namespace UT_WammerStation
 {
@@ -64,9 +65,12 @@ namespace UT_WammerStation
 				{
 					user_id = "exist_uid",
 					email = "exist@gmail.com",
-					folder = "resource\\user_exist_uid",
+					folder = "user1",
 					groups = new List<UserGroup> { new UserGroup { group_id = "123" } }
 				});
+
+			if (!Directory.Exists("user1"))
+				Directory.CreateDirectory("user1");
 		}
 
 		[TestCleanup]
@@ -112,7 +116,8 @@ namespace UT_WammerStation
 					                                                                 	{ "email", "exist@gmail.com"}, 
 					                                                                 	{ "password", "12345"},
 					                                                                 	{ "device_id", "deviceId"},
-					                                                                 	{ "device_name", "deviceName"}
+					                                                                 	{ "device_name", "deviceName"},
+																						{ "user_folder", "folder"}
 					                                                                 });
 			}
 
@@ -156,7 +161,8 @@ namespace UT_WammerStation
 					{ "email", "user1@gmail.com"}, 
 					{ "password", "12345"},
 					{ "device_id", "deviceId"},
-					{ "device_name", "deviceName"}});
+					{ "device_name", "deviceName"},
+					{ "user_folder", "folder"} });
 
 
 				// verify db
@@ -166,7 +172,7 @@ namespace UT_WammerStation
 
 				Assert.IsNotNull(driver);
 				Assert.AreEqual("user1@gmail.com", driver.email);
-				Assert.AreEqual(@"user_uid1", driver.folder);
+				Assert.AreEqual(@"folder", driver.folder);
 				Assert.AreEqual(res1.user.user_id, driver.user_id);
 				Assert.AreEqual(1, driver.groups.Count);
 				Assert.AreEqual(res1.session_token, driver.session_token);

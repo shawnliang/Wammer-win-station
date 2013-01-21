@@ -14,15 +14,6 @@ namespace Waveface.Stream.Model
 	public class FileStorage
 	{
 		public string basePath;
-		private static string defaultResFolder;
-
-		static FileStorage()
-		{
-			defaultResFolder = Path.Combine(GetStationPath(), "resource");
-
-			//if (!Directory.Exists("cache"))
-			//    Directory.CreateDirectory("cache");
-		}
 
 		public FileStorage(Driver driver)
 		{
@@ -32,11 +23,7 @@ namespace Waveface.Stream.Model
 			if (driver.folder == null)
 				throw new ArgumentNullException("driver.folder");
 
-
-			basePath = Path.Combine(ResourceFolder, driver.folder);
-
-			if (!Directory.Exists(basePath))
-				CreateFolder(basePath);
+			basePath = driver.folder;
 		}
 
 		private static string GetStationPath()
@@ -164,14 +151,6 @@ namespace Waveface.Stream.Model
 			}
 		}
 
-		public static string GetTempFile(Driver user)
-		{
-			if (user == null || user.folder == null)
-				throw new ArgumentNullException("user", "user or user.folder is null");
-
-			return Path.Combine(ResourceFolder, Path.Combine(user.folder, "temp_" + Guid.NewGuid().ToString()));
-		}
-
 		public static String GetStaticMap(string userID, string object_id)
 		{
 			var cacheDir = Path.Combine("cache", string.Format(@"{0}\Map", userID));
@@ -265,19 +244,6 @@ namespace Waveface.Stream.Model
 		public long GetUsedSize()
 		{
 			return FileStorageHelper.GetUsedSize(basePath);
-		}
-
-		public static string ResourceFolder
-		{
-			get
-			{
-				return StationRegistry.GetValue("ResourceFolder", defaultResFolder) as string;
-			}
-
-			set
-			{
-				StationRegistry.SetValue("ResourceFolder", value);
-			}
 		}
 
 		public string CopyToStorage(string file_path)

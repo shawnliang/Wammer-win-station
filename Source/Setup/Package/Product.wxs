@@ -44,10 +44,6 @@
     <CustomAction Id='RemovePerfCounters' BinaryKey='InstallHelperDll' DllEntry='RemovePerfCounters' />
     <!-- Restore backup data -->
     <CustomAction Id='RestoreBackupData' BinaryKey='InstallHelperDll' DllEntry='RestoreBackupData' />
-    <!-- MigrateThumbnailsExtension -->
-    <CustomAction Id='MigrateThumbnailsExtension' BinaryKey='InstallHelperDll' DllEntry='MigrateThumbnailsExtension' />
-    <!-- MigrateOriginalPhotoLocation -->
-    <CustomAction Id='MigrateOriginalPhotoLocation' BinaryKey='InstallHelperDll' DllEntry='MigrateOriginalPhotoLocation' />
     <!-- WriteProductInfo -->
     <CustomAction Id='WriteProductInfo' BinaryKey='InstallHelperDll' DllEntry='WriteProductInfo' />
     
@@ -82,13 +78,7 @@
       <Custom Action="RestoreBackupData" After="StartAndWaitMongoDbReady">
         ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
       </Custom>
-      <Custom Action="MigrateThumbnailsExtension" After="RestoreBackupData">
-        (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
-      </Custom>
-      <Custom Action="MigrateOriginalPhotoLocation" After="MigrateThumbnailsExtension">
-        (&amp;MainFeature = 3)
-      </Custom>
-      <Custom Action="StartWavefaceService" After="MigrateOriginalPhotoLocation">
+      <Custom Action="StartWavefaceService" After="RestoreBackupData">
         (&amp;MainFeature = 3)
       </Custom>
       <Custom Action="WriteProductInfo" After="StartWavefaceService">
@@ -104,8 +94,6 @@
       <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
       <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
       <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
-      <ProgressText Action="MigrateThumbnailsExtension">!(loc.Migrating)</ProgressText>
-      <ProgressText Action="MigrateOriginalPhotoLocation">!(loc.Migrating)</ProgressText>
       <ProgressText Action="WriteProductInfo">!(loc.WriteProductInfo)</ProgressText>
     </UI>
     <!-- Program Menu-->

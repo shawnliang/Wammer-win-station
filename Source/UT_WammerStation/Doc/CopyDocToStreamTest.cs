@@ -32,10 +32,10 @@ namespace UT_WammerStation.Doc
 
 			if (!string.IsNullOrEmpty(saved_path))
 			{
-				var file = Path.Combine(Path.Combine(FileStorage.ResourceFolder, "user1"), saved_path);
+				var file = Path.Combine(Path.Combine("", "user1"), saved_path);
 				File.SetAttributes(file, FileAttributes.Normal);
 
-				Directory.Delete(Path.Combine(FileStorage.ResourceFolder, "user1"), true);
+				Directory.Delete(Path.Combine("", "user1"), true);
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace UT_WammerStation.Doc
 			Assert.AreEqual(expectPath, saved_path);
 			Assert.AreEqual(fileTime, File.GetLastWriteTime(Path.Combine(storage.basePath, saved_path)));
 
-			var file = Path.Combine(Path.Combine(FileStorage.ResourceFolder, "user1"), saved_path);
+			var file = Path.Combine(Path.Combine("", "user1"), saved_path);
 
 			Assert.AreEqual(FileAttributes.ReadOnly, File.GetAttributes(file));
 		}

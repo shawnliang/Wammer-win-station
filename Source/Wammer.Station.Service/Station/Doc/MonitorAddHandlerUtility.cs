@@ -14,6 +14,14 @@ namespace Wammer.Station.Doc
 
 			TaskQueue.Enqueue(new UpdateDocAccessTimeTask(user_id, object_id, openTime), TaskPriority.Medium);
 		}
+
+
+		public bool IsFileInStreamFolder(string user_id, string file_path)
+		{
+			var user = DriverCollection.Instance.FindOneById(user_id);
+
+			return file_path.ToLower().Contains(user.folder.ToLower());
+		}
 	}
 
 

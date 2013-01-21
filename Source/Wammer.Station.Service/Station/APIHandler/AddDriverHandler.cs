@@ -88,8 +88,9 @@ namespace Wammer.Station
 			{
 				var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
 				var userID = Parameters[CloudServer.PARAM_USER_ID];
+				var userFilder = Parameters[CloudServer.PARAM_USER_FOLDER];
 
-				RespondSuccess(m_DriverAgent.AddDriver("", Station.Instance.StationID, userID, sessionToken));
+				RespondSuccess(m_DriverAgent.AddDriver(userFilder, Station.Instance.StationID, userID, sessionToken));
 			}
 			else
 			{
@@ -102,8 +103,9 @@ namespace Wammer.Station
 				var password = Parameters[CloudServer.PARAM_PASSWORD];
 				var deviceId = Parameters[CloudServer.PARAM_DEVICE_ID];
 				var deviceName = Parameters[CloudServer.PARAM_DEVICE_NAME];
+				var userFilder = Parameters[CloudServer.PARAM_USER_FOLDER];
 
-				RespondSuccess(m_DriverAgent.AddDriver("", Station.Instance.StationID, email, password, deviceId, deviceName));
+				RespondSuccess(m_DriverAgent.AddDriver(userFilder, Station.Instance.StationID, email, password, deviceId, deviceName));
 			}
 		}
 		#endregion

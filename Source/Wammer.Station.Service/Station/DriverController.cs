@@ -110,7 +110,7 @@ namespace Wammer.Station
 								user_id = user.user_id,
 								email = user.email,
 								groups = res.groups,
-								folder = Path.Combine(resourceBasePath, "user_" + user.user_id),
+								folder = resourceBasePath,
 								session_token = res.session_token,
 								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
 								ref_count = 1,
@@ -205,7 +205,7 @@ namespace Wammer.Station
 							{
 								user_id = res.user.user_id,
 								email = email,
-								folder = Path.Combine(resourceBasePath, "user_" + res.user.user_id),
+								folder = resourceBasePath,
 								groups = res.groups,
 								session_token = res.session_token,
 								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),

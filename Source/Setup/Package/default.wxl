@@ -15,7 +15,6 @@
   <String Id="WaitMongoDbReady">Preparing MongoDB. This may take minutes. Please wait.</String>
   <String Id="StartWavefaceService">Starting AOStream station service</String>
   <String Id="RestoreBackupData">Restoring data</String>
-  <String Id="Migrating">Migrating data</String>
   <String Id="WriteProductInfo">Saving product configuration</String>
   <!-- Copied from Wix 3.6 src\ext\FirewallExtension\wixlib\en-us.wxl -->
   <String Id="msierrFirewallCannotConnect" Overridable="yes">Cannot connect to Windows Firewall.  ([2]   [3]   [4]   [5])</String>
