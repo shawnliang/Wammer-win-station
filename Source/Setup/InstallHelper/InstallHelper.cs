@@ -741,7 +741,24 @@ namespace Wammer.Station
 			{
 				try
 				{
-					subdir.Delete(true);
+					// Skip mongodb backup folder
+					if (subdir.Name.Equals("MongoDB", StringComparison.InvariantCultureIgnoreCase))
+					{
+						var mongodbDir = subdir;
+						var subsInMongodbDir = mongodbDir.GetDirectories();
+
+						foreach (var subInMongo in subsInMongodbDir)
+						{
+							if (subInMongo.Name.Equals("Backup", StringComparison.InvariantCultureIgnoreCase))
+								continue;
+							else
+								subInMongo.Delete(true);
+						}
+					}
+					else
+					{
+						subdir.Delete(true);
+					}
 				}
 				catch (Exception e)
 				{
