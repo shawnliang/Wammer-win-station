@@ -322,7 +322,7 @@ namespace Waveface.Stream.Core
 				parameters.Add("cover", coverAttachID);
 
 			if (isManualCreated.HasValue)
-				parameters.Add("manual", isManualCreated.Value.ToString());
+				parameters.Add("manual", isManualCreated.Value.ToString().ToLower());
 
 			return Post(uri, parameters);
 		}
