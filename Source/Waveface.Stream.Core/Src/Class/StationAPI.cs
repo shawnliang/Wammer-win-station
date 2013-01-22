@@ -9,6 +9,7 @@ using System.Text;
 using System.Web;
 using Waveface.Stream.Model;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace Waveface.Stream.Core
 {
@@ -75,6 +76,23 @@ namespace Waveface.Stream.Core
 
 
 		#region Public Static Method
+		public static void MoveFolder(string user_id, string folder_path, string session_token)
+		{
+			DebugInfo.ShowMethod();
+
+			var url = STATION_MGMT_URLBASE + @"/station/moveFolder";
+
+			var parameters = new NameValueCollection()
+				{
+					{"apikey", API_KEY},
+					{"session_token", session_token},
+					{"user_id", user_id},
+					{"user_folder", folder_path}
+				};
+
+			Post(url, parameters, 30 * 60 * 1000, 30 * 60 * 1000);
+		}
+
 		public static string SuspendSync()
 		{
 			DebugInfo.ShowMethod();
@@ -322,7 +340,7 @@ namespace Waveface.Stream.Core
 				parameters.Add("cover", coverAttachID);
 
 			if (isManualCreated.HasValue)
-				parameters.Add("manual", isManualCreated.Value.ToString());
+				parameters.Add("manual", isManualCreated.Value.ToString().ToLower());
 
 			return Post(uri, parameters);
 		}

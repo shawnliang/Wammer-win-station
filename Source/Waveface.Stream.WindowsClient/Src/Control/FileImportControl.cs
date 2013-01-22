@@ -7,6 +7,8 @@ using System.Threading;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Model;
+using System.ComponentModel;
+using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -16,6 +18,7 @@ namespace Waveface.Stream.WindowsClient
 		private IPhotoSearch _photoSearch;
 		private CheckBox _checkBox1;
 		private HidableProgressingDialog _processDialog;
+		private string _originalLocation;
 		#endregion
 
 
@@ -112,6 +115,36 @@ namespace Waveface.Stream.WindowsClient
 
 			ImportSelectedPaths(StreamClient.Instance.LoginedUser.SessionToken);
 		}
+
+		public void ChangeLocation()
+		{
+			if (!_originalLocation.Equals(txtStoreLocation.Text, StringComparison.InvariantCultureIgnoreCase))
+			{
+				var progressing = new ProcessingDialog();
+
+				var bgworker = new BackgroundWorker();
+				bgworker.DoWork += (sender, arg) =>
+				{
+					StationAPI.MoveFolder(StreamClient.Instance.LoginedUser.UserID, txtStoreLocation.Text, StreamClient.Instance.LoginedUser.SessionToken);
+				};
+
+				bgworker.RunWorkerCompleted += (sender, arg) =>
+				{
+					progressing.Close();
+
+					if (arg.Error != null)
+					{
+						MessageBox.Show(arg.Error.GetDisplayDescription(), "Unable to change AOStream folder location");
+					}
+				};
+				bgworker.RunWorkerAsync();
+
+				progressing.Text = "Moving AOStream folder...";
+				progressing.StartPosition = FormStartPosition.CenterParent;
+				progressing.ProgressStyle = ProgressBarStyle.Marquee;
+				progressing.ShowDialog();
+			}
+		}
 		#endregion
 
 
@@ -181,7 +214,7 @@ namespace Waveface.Stream.WindowsClient
 		private void FileImportControl_Load(object sender, EventArgs e)
 		{
 			InitSelectAllCheckBox();
-			txtStoreLocation.Text = _photoSearch.GetUserFolder(StreamClient.Instance.LoginedUser.UserID);
+			txtStoreLocation.Text = _originalLocation = _photoSearch.GetUserFolder(StreamClient.Instance.LoginedUser.UserID);
 		}
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -193,6 +226,17 @@ namespace Waveface.Stream.WindowsClient
 				dataGridView1[e.ColumnIndex, e.RowIndex].Value = !origValue;
 
 				dataGridView1.EndEdit();
+			}
+		}
+
+		private void changeButton_Click(object sender, EventArgs e)
+		{
+			using (var dialog = new FolderBrowserDialog())
+			{
+				if (dialog.ShowDialog() == DialogResult.OK)
+				{
+					txtStoreLocation.Text = dialog.SelectedPath;
+				}
 			}
 		}
 	}

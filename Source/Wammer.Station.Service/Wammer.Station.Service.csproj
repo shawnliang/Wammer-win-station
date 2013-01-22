@@ -150,6 +150,7 @@
     <Compile Include="Station\APIHandler\ImportAPIHandler.cs" />
     <Compile Include="Station\APIHandler\ImportDocHandler.cs" />
     <Compile Include="Station\APIHandler\MonitorAddHandler.cs" />
+    <Compile Include="Station\APIHandler\MoveFolderHandler.cs" />
     <Compile Include="Station\AttachmentSizeChecker.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
@@ -175,6 +176,8 @@
     <Compile Include="Station\Doc\MonitorAddHandlerUtility.cs" />
     <Compile Include="Station\Doc\PptConvert.cs" />
     <Compile Include="Station\DriverController.cs" />
+    <Compile Include="Station\FolderMover.cs" />
+    <Compile Include="Station\FolderUtility.cs" />
     <Compile Include="Station\Import\ImportDocTask.cs" />
     <Compile Include="Station\Import\ImportTask.cs" />
     <Compile Include="Station\Import\ImportTaskQueue.cs" />

@@ -177,6 +177,7 @@ namespace Waveface.Stream.WindowsClient
 				driveDetector.DeviceArrived -= driveDetector_DeviceArrived;
 				driveDetector.DeviceArrived += driveDetector_DeviceArrived;
 
+
 				if (!MainForm.Instance.IsDebugMode)
 					ShowControlPanelDialog();
 				else

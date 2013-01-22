@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'
-     xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'>
+     xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <?define AppCode = "AOStream" ?>
   <?define AppProductCode = "{D7103CDC-3557-48BC-B831-4E7D33A33031}" ?>
   <?define AppVersionMajor = "3" ?>

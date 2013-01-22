@@ -95,6 +95,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (m_TabControl.IsLastPage)
 			{
+				fileImportControl1.ChangeLocation();
 				fileImportControl1.ImportSelectedPaths();
 				this.DialogResult = DialogResult.OK;
 				return;
