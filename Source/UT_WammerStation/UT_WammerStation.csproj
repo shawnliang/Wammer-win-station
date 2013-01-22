@@ -99,6 +99,8 @@
     <Compile Include="Doc\MonitorAddHandlerTest.cs" />
     <Compile Include="FailureAndRetry\TestFailureAndRetry.cs" />
     <Compile Include="FailureAndRetry\TestRetryQueuePersistentStore.cs" />
+    <Compile Include="MoveFolder\TestMoveFolder.cs" />
+    <Compile Include="MoveFolder\TestRecursiveCopy.cs" />
     <Compile Include="TestFolderCollection.cs" />
     <Compile Include="TestImportTaskStatus.cs" />
     <Compile Include="TestMongoDB.cs" />
@@ -168,9 +170,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="pullTimeLine\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
