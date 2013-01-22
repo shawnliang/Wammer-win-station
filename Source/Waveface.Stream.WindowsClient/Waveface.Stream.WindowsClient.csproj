@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Src\Class\AutoUpdate.cs" />
     <Compile Include="Src\Class\CommandLineCommand.cs" />
+    <Compile Include="Src\Class\CopyDataStruct.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\DriveDetector.cs">
       <SubType>Form</SubType>
@@ -182,6 +183,9 @@
     <Compile Include="Src\Class\ImportStatus.cs" />
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
+    <Compile Include="Src\Class\SendMessageHelper.cs" />
+    <Compile Include="Src\EventArgs\MessageEventArgs.cs" />
+    <Compile Include="Src\Class\MessageReceiver.cs" />
     <Compile Include="Src\Class\Options.cs" />
     <Compile Include="Src\Class\PersonalCloudNode.cs" />
     <Compile Include="Src\Class\PersonalCloudStatusService.cs" />

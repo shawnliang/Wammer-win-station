@@ -13,12 +13,16 @@ using Dolinay;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 using CommandLine;
+using System.Runtime.InteropServices;
 
 namespace Waveface.Stream.WindowsClient
 {
 	internal static class Program
 	{
+		public const int WM_COPYDATA = 0x004A;
+
 		#region Private Static Var
+		private static MessageReceiver _messageReceiver;
 		private static NotifyIcon _notifyIcon;
 		private static ContextMenuStrip _contextMenuStrip;
 		private static StreamClient _client;
@@ -38,6 +42,14 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Private Static Property
+		private static MessageReceiver m_MessageReceiver
+		{
+			get
+			{
+				return _messageReceiver ?? (_messageReceiver = new MessageReceiver("StreamClientMessageReceiver", null));
+			}
+		}
+
 		private static Mutex m_Mutex { get; set; }
 
 		/// <summary>
@@ -94,6 +106,16 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 			DebugInfo.ShowBugReportOnError();
 
+			var options = new Options();
+			ICommandLineParser parser = new CommandLineParser();
+			if (!parser.ParseArguments(args, options))
+				return;
+
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+
+			MainForm.Instance.IsDebugMode = options.IsDebugMode;
+
 			bool isFirstCreated;
 
 			//Create a new mutex using specific mutex name
@@ -106,27 +128,30 @@ namespace Waveface.Stream.WindowsClient
 
 				if (processes.Any(process => process.Id != currentProcess.Id))
 				{
-					var handle = Win32Helper.FindWindow("NewClientTrayReceiver", null);
+					var handle = Win32Helper.FindWindow("StreamClientMessageReceiver", null);
 
 					if (handle == IntPtr.Zero)
 						return;
 
 					Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
-					return;
+
+					if (options.Imports != null && options.Imports.Any())
+					{
+						(new SendMessageHelper()).SendMessage("StreamClientMessageReceiver", null, 0x402, string.Join(",", options.Imports), true);
+					}
 				}
 				return;
 			}
-
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-
-			var options = new Options();
-			ICommandLineParser parser = new CommandLineParser();
-			if (parser.ParseArguments(args, options))
+			else 
 			{
-				MainForm.Instance.IsDebugMode = options.IsDebugMode;
+				if (options.Imports != null && options.Imports.Any())
+				{
+					ImportFileAndFolders(options.Imports);
+				}
 			}
 
+			m_MessageReceiver.WndProc += m_MessageReceiver_WndProc;
+			
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
 			driveDetector = new DriveDetector();
@@ -159,6 +184,41 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			Application.Run();
+		}
+
+		private static void ImportFileAndFolders(IEnumerable<string> fileAndFolders)
+		{
+			if (!StreamClient.Instance.IsLogined)
+				return;
+
+			(new PhotoSearch()).ImportToStationAsync(fileAndFolders, StreamClient.Instance.LoginedUser.SessionToken);
+		}
+
+		static void m_MessageReceiver_WndProc(object sender, MessageEventArgs e)
+		{
+			switch ((int)e.Message)
+			{
+				case 0x401:
+					{
+						if (!MainForm.Instance.IsDebugMode)
+							ShowControlPanelDialog();
+						else
+							ShowMainWindow();
+					}
+					break;
+
+				case WM_COPYDATA:
+					{
+						switch ((int)e.wParam)
+						{
+							case 0x402:
+								var cd = (CopyDataStruct)Marshal.PtrToStructure(e.lParam, typeof(CopyDataStruct));
+								ImportFileAndFolders(Marshal.PtrToStringAuto(cd.lpData, cd.cbData / 2).Split(new char[] { ',' }));
+								break;
+						}
+					}
+					break;
+			}
 		}
 
 
@@ -307,7 +367,6 @@ namespace Waveface.Stream.WindowsClient
 			try
 			{
 				var dialog = LoginDialog.Instance;
-
 				dialog.StartPosition = FormStartPosition.CenterParent;
 				dialog.Activate();
 				return dialog.ShowDialog(MainForm.Instance);
