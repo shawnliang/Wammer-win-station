@@ -150,6 +150,7 @@
     <Compile Include="Station\APIHandler\ImportAPIHandler.cs" />
     <Compile Include="Station\APIHandler\ImportDocHandler.cs" />
     <Compile Include="Station\APIHandler\MonitorAddHandler.cs" />
+    <Compile Include="Station\APIHandler\MoveFolderHandler.cs" />
     <Compile Include="Station\AttachmentSizeChecker.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
