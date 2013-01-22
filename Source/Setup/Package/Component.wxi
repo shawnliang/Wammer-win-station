@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Include xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'>
+<Include xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'
+         xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
 
       <DirectoryRef Id="INSTALLLOCATION">
         <Component Id="AppLimit.NetSparkle.dll" Guid="*">
@@ -32,9 +33,6 @@
         <Component Id="MongoDB.Driver.dll" Guid="*">
           <File Id="MongoDB.Driver.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\MongoDB.Driver.dll" />
         </Component>
-        <Component Id="MonthCalendarControl.dll" Guid="*">
-          <File Id="MonthCalendarControl.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\MonthCalendarControl.dll" />
-        </Component>
         <Component Id="Newtonsoft.Json.dll" Guid="*">
           <File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Newtonsoft.Json.dll" />
         </Component>
@@ -48,7 +46,9 @@
           <ServiceControl Name='WavefaceStation' Id='WavefaceStationSvcControl' Remove='uninstall' Stop='both' Wait='yes'/>
 
 
-          <File Id="Station.Service.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Service.exe" />
+          <File Id="Station.Service.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Service.exe">
+            <netfx:NativeImage Id="ngen_Station.Service.exe" Platform="32bit" Priority="0"/>
+          </File>
         </Component>
         <Component Id="Station.Service.exe.config" Guid="*">
           <File Id="Station.Service.exe.config" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Service.exe.config" />
@@ -60,10 +60,14 @@
           <File Id="System.Threading.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\System.Threading.dll" />
         </Component>
         <Component Id="Waveface.Stream.ClientFramework.dll" Guid="*">
-          <File Id="Waveface.Stream.ClientFramework.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.ClientFramework.dll" />
+          <File Id="Waveface.Stream.ClientFramework.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.ClientFramework.dll">
+            <netfx:NativeImage Id="ngen_Waveface.Stream.ClientFramework.dll" Platform="32bit" Priority="0"/>
+          </File>
         </Component>
         <Component Id="Waveface.Stream.Model.dll" Guid="*">
-          <File Id="Waveface.Stream.Model.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Model.dll" />
+          <File Id="Waveface.Stream.Model.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Model.dll">
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Model.dll" Platform="32bit" Priority="0"/>
+          </File>
         </Component>
         <Component Id="websocket_sharp.dll" Guid="*">
           <File Id="websocket_sharp.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\websocket-sharp.dll" />
@@ -83,7 +87,9 @@
         </Component>
         <Component Id="WindowsClient.exe" Guid="*">
           <fire:FirewallException Id="WFFWX3" Name="AOStream Client Websocket" Port="1337" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
-          <File Id="WindowsClient.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe"/>
+          <File Id="WindowsClient.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe">
+            <netfx:NativeImage Id="ngen_WindowsClient.exe" Platform="32bit" Priority="0"/>
+          </File>
         </Component>
         <Component Id="WindowsClient.exe.config" Guid="*">
           <File Id="WindowsClient.exe.config" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe.config" />
@@ -95,16 +101,24 @@
           <File Id="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\ICSharpCode.SharpZipLib.dll" />
         </Component>
         <Component Id="Waveface.Stream.Compression.dll" Guid="*">
-          <File Id="Waveface.Stream.Compression.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Compression.dll" />
+          <File Id="Waveface.Stream.Compression.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Compression.dll">
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Compression.dll" Platform="32bit" Priority="0"/>
+          </File>
         </Component>
         <Component Id="Waveface.Stream.Datx.dll" Guid="*">
-          <File Id="Waveface.Stream.Datx.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Datx.dll" />
+          <File Id="Waveface.Stream.Datx.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Datx.dll">
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Datx.dll" Platform="32bit" Priority="0"/>
+          </File>
         </Component>
         <Component Id="Waveface.Stream.Serializer.dll" Guid="*">
-          <File Id="Waveface.Stream.Serializer.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Serializer.dll" />
+          <File Id="Waveface.Stream.Serializer.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Serializer.dll">
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Serializer.dll" Platform="32bit" Priority="0"/>
+          </File>
         </Component>
         <Component Id="Waveface.Stream.Core.dll" Guid="*">
-          <File Id="Waveface.Stream.Core.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Core.dll" />
+          <File Id="Waveface.Stream.Core.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Core.dll">
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Core.dll" Platform="32bit" Priority="0"/>
+          </File>
         </Component>
         
         <Directory Id="zh_TW" Name="zh-TW">
@@ -128,7 +142,6 @@
         <ComponentRef Id="Microsoft.WindowsAPICodePack.Shell.dll" />
         <ComponentRef Id="MongoDB.Bson.dll" />
         <ComponentRef Id="MongoDB.Driver.dll" />
-        <ComponentRef Id="MonthCalendarControl.dll" />
         <ComponentRef Id="Newtonsoft.Json.dll" />
         <ComponentRef Id="Station.Service.exe" />
         <ComponentRef Id="Station.Service.exe.config" />
