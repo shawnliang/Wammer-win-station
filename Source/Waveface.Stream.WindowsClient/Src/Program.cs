@@ -200,10 +200,13 @@ namespace Waveface.Stream.WindowsClient
 			{
 				case 0x401:
 					{
-						if (!MainForm.Instance.IsDebugMode)
-							ShowControlPanelDialog();
-						else
-							ShowMainWindow();
+                        if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
+                        {
+                            if (!MainForm.Instance.IsDebugMode)
+                                ShowControlPanelDialog();
+                            else
+                                ShowMainWindow();
+                        }
 					}
 					break;
 
@@ -212,6 +215,8 @@ namespace Waveface.Stream.WindowsClient
 						switch ((int)e.wParam)
 						{
 							case 0x402:
+                                if (!StreamClient.Instance.IsLogined)
+                                    return;
 								var cd = (CopyDataStruct)Marshal.PtrToStructure(e.lParam, typeof(CopyDataStruct));
 								ImportFileAndFolders(Marshal.PtrToStringAuto(cd.lpData, cd.cbData / 2).Split(new char[] { ',' }));
 								break;
