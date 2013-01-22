@@ -127,6 +127,7 @@
 
       <Directory Id="SendToFolder" Name="SendTo">
         <Component Id="SendToShortcut" Guid="{EFA4DF70-B9D3-417D-BAE6-FA3445A6E5E2}">
+          <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.AppCode)\SendToShortcut" Type="string" Value="SendToShortcut" KeyPath="yes"/>
           <Shortcut Id="SendTo.stream" Name="!(loc.APPNAME)" WorkingDirectory="INSTALLDIR" Target="[INSTALLLOCATION]WindowsClient.exe" Arguments="-i"></Shortcut>
         </Component>
       </Directory>
