@@ -55,6 +55,7 @@ namespace Wammer.Station
 		/// <value>The m_ session token.</value>
 		private String m_SessionToken { get; set; }
 
+
 		/// <summary>
 		/// Gets or sets the m_ API key.
 		/// </summary>
@@ -74,12 +75,13 @@ namespace Wammer.Station
 		
 		#region Constructor
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ImportTask"/> class.
+		/// Initializes a new instance of the <see cref="ImportTask" /> class.
 		/// </summary>
 		/// <param name="apiKey">The API key.</param>
 		/// <param name="sessionToken">The session token.</param>
 		/// <param name="groupID">The group ID.</param>
 		/// <param name="paths">The paths.</param>
+		/// <exception cref="System.ArgumentException">Invalid paths format!!;paths</exception>
 		public ImportTask(string apiKey, string sessionToken, string groupID, string paths)
 			: this()
 		{
@@ -133,6 +135,7 @@ namespace Wammer.Station
 				var importTime = DateTime.Now;
 
 				var photoCrawler = new PhotoCrawler();
+				var inputFiles = Paths.Where(file => Path.GetExtension(file).Length > 0);
 				var allFiles = photoCrawler.FindPhotos(Paths).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
 
 				raiseFilesEnumeratedEvent(allFiles.Count);
@@ -159,8 +162,9 @@ namespace Wammer.Station
 
 
 				// build collections
-				var folderCollections = FolderCollection.Build(allMeta.Cast<ObjectIdAndPath>());
+				var folderCollections = FolderCollection.Build(allMeta.Where(meta => !inputFiles.Contains(meta.file_path)).Cast<ObjectIdAndPath>());
 				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.High);
+
 
 				// copy file to stream
 				int nProc = 0;
