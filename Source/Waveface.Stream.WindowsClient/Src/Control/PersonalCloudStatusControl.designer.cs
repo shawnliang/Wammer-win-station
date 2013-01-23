@@ -28,9 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Station", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Tablet", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Phone", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Computers", System.Windows.Forms.HorizontalAlignment.Left);
+			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Devices", System.Windows.Forms.HorizontalAlignment.Left);
 			this.label1 = new System.Windows.Forms.Label();
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.nameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -58,16 +57,13 @@
 			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameColumn,
             this.profileCol});
-			listViewGroup1.Header = "Station";
-			listViewGroup1.Name = "station";
-			listViewGroup2.Header = "Tablet";
-			listViewGroup2.Name = "tablet";
-			listViewGroup3.Header = "Phone";
-			listViewGroup3.Name = "phone";
+			listViewGroup1.Header = "Computers";
+			listViewGroup1.Name = "computers";
+			listViewGroup2.Header = "Devices";
+			listViewGroup2.Name = "devices";
 			this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
+            listViewGroup2});
 			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.listView1.Location = new System.Drawing.Point(5, 24);
 			this.listView1.MultiSelect = false;
@@ -96,6 +92,7 @@
 			this.btnGetApp.TabIndex = 5;
 			this.btnGetApp.Text = "Get the Apps...";
 			this.btnGetApp.UseVisualStyleBackColor = true;
+			this.btnGetApp.Click += new System.EventHandler(this.btnGetApp_Click);
 			// 
 			// btnInstallChromeExtension
 			// 
@@ -106,6 +103,7 @@
 			this.btnInstallChromeExtension.TabIndex = 6;
 			this.btnInstallChromeExtension.Text = "Install Chrome Extension...";
 			this.btnInstallChromeExtension.UseVisualStyleBackColor = true;
+			this.btnInstallChromeExtension.Click += new System.EventHandler(this.btnInstallChromeExtension_Click);
 			// 
 			// label2
 			// 
@@ -128,7 +126,6 @@
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Install AOStream Google Chrome extension to collect web pages that you really rea" +
     "d.";
-			this.label3.Click += new System.EventHandler(this.label3_Click);
 			// 
 			// PersonalCloudStatusControl2
 			// 
