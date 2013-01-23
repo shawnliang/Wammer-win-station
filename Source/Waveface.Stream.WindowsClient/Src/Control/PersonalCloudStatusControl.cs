@@ -200,5 +200,10 @@ namespace Waveface.Stream.WindowsClient
 			var dialog = new AddDeviceDialog();
 			dialog.ShowDialog(this);
 		}
+
+		private void label3_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
