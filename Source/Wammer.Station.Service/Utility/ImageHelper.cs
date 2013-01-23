@@ -175,7 +175,7 @@ namespace Wammer.Utility
 			catch (Exception e)
 			{
 				throw new Wammer.Station.WammerStationException("Seems the attachment is not a valid image",
-					(int)Wammer.Station.AttachmentApiError.InvalidImage, e);
+					(int)AttachmentApiError.InvalidImage, e);
 			}
 		}
 	}

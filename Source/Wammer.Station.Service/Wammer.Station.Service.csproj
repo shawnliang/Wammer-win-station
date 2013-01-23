@@ -253,7 +253,6 @@
     <Compile Include="Station\APIHandler\RemoveOwnerHandler.cs" />
     <Compile Include="Station\APIHandler\ResouceDirHandler.cs" />
     <Compile Include="Station\ResourceSyncer.cs" />
-    <Compile Include="Station\RestApiRetCode.cs" />
     <Compile Include="Station\Retry\AbstrackRetryTask.cs" />
     <Compile Include="Station\Retry\IRetryQueuePersistentStorage.cs" />
     <Compile Include="Station\Retry\IRetryQueue.cs" />

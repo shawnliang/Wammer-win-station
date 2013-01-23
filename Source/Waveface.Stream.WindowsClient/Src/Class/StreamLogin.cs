@@ -13,6 +13,7 @@ using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
+using System.Net;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -114,18 +115,47 @@ namespace Waveface.Stream.WindowsClient
 
 		public UserSession Login(string email, string password)
 		{
-			var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "AOStream");
-			if (!Directory.Exists(userFolder))
-				Directory.CreateDirectory(userFolder);
+			try
+			{
+				var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "AOStream");
+				if (!Directory.Exists(userFolder))
+					Directory.CreateDirectory(userFolder);
 
 
-			AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(email.ToLower(), password,
-				StationRegistry.StationId, Environment.MachineName, userFolder));
+				AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(email.ToLower(), password,
+					StationRegistry.StationId, Environment.MachineName, userFolder));
 
 
-			var session = LoginToStation(email, password);
+				var session = LoginToStation(email, password);
 
-			return new UserSession { user_id = res.UserId, session_token = session.session_token };
+				return new UserSession { user_id = res.UserId, session_token = session.session_token };
+			}
+			catch (WebException e)
+			{
+				if (e.Status == WebExceptionStatus.ProtocolError)
+				{
+					var streamErr = new WammerCloudException(e.Message, e);
+					var msg = streamErr.GetDisplayDescription();
+
+					switch (streamErr.WammerError)
+					{
+						case (int)AuthApiError.InvalidEmailPassword:
+							throw new AuthenticationException(msg);
+						case (int)StationLocalApiError.ConnectToCloudError:
+							throw new ConnectToCloudException(msg);
+						case (int)GeneralApiError.NotSupportClient:
+							throw new VersionNotSupportedException(msg);
+						case (int)StationLocalApiError.AuthFailed:
+							throw new AuthenticationException(msg);
+						case (int)StationApiError.UserNotExist:
+							throw new AuthenticationException(msg);
+						default:
+							throw;
+					}
+				}
+				else
+					throw new StationServiceDownException(e.Message);
+			}
 		}
 
 		private LoginedSession LoginToStation(string email, string password)
