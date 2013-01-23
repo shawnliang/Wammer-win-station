@@ -84,6 +84,7 @@ namespace Wammer.Station.Service
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<MakeDocPreviewsTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<DummyResourceDownloadTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<FirstTimelineSyncTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NullNamedTask>();
 
 			mongoMonitor = new MongoDBMonitor(RunStation);
 		}
