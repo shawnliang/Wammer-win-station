@@ -55,15 +55,13 @@ namespace Gui
 		{
 			try
 			{
-				if (HasFeaure("MainFeature"))
-				{
-					// stop WF service to prevent WinXP pops up "Waveface Installer
-					// need to be stopped first".
-					StopService("WavefaceStation");
-					MongoDump();
-					BackupRegistry();
-				}
+				// stop WF service to prevent WinXP pops up "Waveface Installer
+				// need to be stopped first".
+				StopService("WavefaceStation");
+				MongoDump();
+				BackupRegistry();
 
+				BackupCacheFolder();
 				BackupClientAppData();
 			}
 			catch (Exception e)
@@ -71,6 +69,18 @@ namespace Gui
 				System.Windows.Forms.MessageBox.Show(e.Message, "Waveface", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
 				throw;
 			}
+		}
+
+		private static void BackupCacheFolder()
+		{
+			var appRoot = MsiConnection.Instance.GetPath("INSTALLLOCATION");
+			var cacheDir = Path.Combine(appRoot, "cache");
+			var cacheBackupDir = Path.Combine(appRoot, "cache.backup");
+
+			if (Directory.Exists(cacheBackupDir))
+				Directory.Delete(cacheBackupDir, true);
+
+			Directory.Move(cacheDir, cacheBackupDir);
 		}
 
 		private static void StopService(string svcName)
