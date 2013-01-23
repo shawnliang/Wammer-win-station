@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Wammer.Utility;
 using WebSocketSharp.Server;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.Notify
 {
@@ -32,6 +33,21 @@ namespace Wammer.Station.Notify
 				{
 					this.channelInfo = new WebSocketNotifyChannel(this, connect.user_id, connect.session_token, connect.apikey);
 					addChannel(channelInfo);
+				}
+
+				if (cmd.sync_status != null)
+				{
+					try
+					{
+						var session = channelInfo.SessionToken;
+						Waveface.Stream.Model.ConnectionCollection.Instance.Update(
+							Query.EQ("_id", session),
+							Update.Set("files_to_backup", cmd.sync_status.files_to_backup));
+					}
+					catch (Exception err)
+					{
+
+					}
 				}
 			}
 			catch (Exception ex)
