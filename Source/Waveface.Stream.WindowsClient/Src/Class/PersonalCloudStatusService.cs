@@ -31,8 +31,7 @@ namespace Waveface.Stream.WindowsClient
 					{
 						Name = Environment.MachineName,
 						Id = StationRegistry.StationId,
-						//I18N
-						Profile = "Offline: " + err,
+						Profile = string.Format(Resources.SYNC_OFFLINE, err),
 						Type = NodeType.Station
 					});
 			}
@@ -87,21 +86,18 @@ namespace Waveface.Stream.WindowsClient
 					}
 					else
 					{
-						//I18N
-						item.Profile = "Last seen at " + device.last_visit;
+						item.Profile = string.Format(Resources.SYNC_LAST_SEEN, device.last_visit);
 					}
 				}
 				else
 				{
 					if (isConnected)
 					{
-						//I18N
-						item.Profile = "Connected locally";
+						item.Profile = Resources.SYNC_CONNECTED_LOCALLY;
 					}
 					else
 					{
-						//I18N
-						item.Profile = "Last seen at " + device.last_visit;
+						item.Profile = string.Format(Resources.SYNC_LAST_SEEN, device.last_visit);
 					}
 				}
 

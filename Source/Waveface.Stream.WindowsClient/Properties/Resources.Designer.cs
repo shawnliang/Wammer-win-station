@@ -754,11 +754,38 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connected locally.
+        /// </summary>
+        internal static string SYNC_CONNECTED_LOCALLY {
+            get {
+                return ResourceManager.GetString("SYNC_CONNECTED_LOCALLY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sync error: .
         /// </summary>
         internal static string SYNC_ERROR {
             get {
                 return ResourceManager.GetString("SYNC_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last seen at {0}.
+        /// </summary>
+        internal static string SYNC_LAST_SEEN {
+            get {
+                return ResourceManager.GetString("SYNC_LAST_SEEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offline ({0}).
+        /// </summary>
+        internal static string SYNC_OFFLINE {
+            get {
+                return ResourceManager.GetString("SYNC_OFFLINE", resourceCulture);
             }
         }
         
