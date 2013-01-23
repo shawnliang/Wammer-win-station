@@ -1,4 +1,4 @@
-﻿namespace Wammer.Station
+﻿namespace Waveface.Stream.Model
 {
 	public enum StationLocalApiError
 	{
