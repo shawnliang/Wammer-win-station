@@ -32,6 +32,7 @@
 			this.serviceName = new System.Windows.Forms.Label();
 			this.serviceIcon = new System.Windows.Forms.PictureBox();
 			this.connectCheckbox = new System.Windows.Forms.CheckBox();
+			this.description = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.serviceIcon)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -54,10 +55,16 @@
 			this.connectCheckbox.CheckedChanged += new System.EventHandler(this.connectCheckbox_CheckedChanged);
 			this.connectCheckbox.Click += new System.EventHandler(this.connectCheckbox_Click);
 			// 
+			// description
+			// 
+			resources.ApplyResources(this.description, "description");
+			this.description.Name = "description";
+			// 
 			// ServiceItemControl
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.description);
 			this.Controls.Add(this.connectCheckbox);
 			this.Controls.Add(this.serviceName);
 			this.Controls.Add(this.serviceIcon);
@@ -73,5 +80,6 @@
 		private System.Windows.Forms.Label serviceName;
 		private System.Windows.Forms.PictureBox serviceIcon;
 		private System.Windows.Forms.CheckBox connectCheckbox;
+		private System.Windows.Forms.Label description;
 	}
 }

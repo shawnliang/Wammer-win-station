@@ -25,6 +25,12 @@ namespace Waveface.Stream.WindowsClient
 			set { serviceIcon.Image = value; }
 		}
 
+		public string Description
+		{
+			get { return description.Text; }
+			set { description.Text = value; }
+		}
+
 		public bool ServiceEnabled
 		{
 			get { return connectCheckbox.Checked; }

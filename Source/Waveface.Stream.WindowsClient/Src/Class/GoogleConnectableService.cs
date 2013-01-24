@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -6,7 +7,7 @@ namespace Waveface.Stream.WindowsClient
 	class GoogleConnectableService : WebRedirectConnectableService
 	{
 		public GoogleConnectableService()
-			: base("google", "Google")
+			: base("google", "Google", Resources.SVC_GOOGLE_DESC)
 		{
 		}
 	}
