@@ -137,7 +137,9 @@ namespace Waveface.Stream.WindowsClient
 
 					if (options.Imports != null && options.Imports.Any())
 					{
-						(new SendMessageHelper()).SendMessage("StreamClientMessageReceiver", null, 0x402, string.Join(",", options.Imports), true);
+						var msg = new ImportMsg { files = options.Imports.ToList() };
+
+						(new SendMessageHelper()).SendMessage("StreamClientMessageReceiver", null, 0x402, msg.ToFastJSON(), true);
 					}
 				}
 				return;
@@ -219,7 +221,9 @@ namespace Waveface.Stream.WindowsClient
                                 if (!StreamClient.Instance.IsLogined)
                                     return;
 								var cd = (CopyDataStruct)Marshal.PtrToStructure(e.lParam, typeof(CopyDataStruct));
-								ImportFileAndFolders(Marshal.PtrToStringAuto(cd.lpData, cd.cbData / 2).Split(new char[] { ',' }));
+
+								var jsonstr = Marshal.PtrToStringAuto(cd.lpData, cd.cbData / 2);
+								ImportFileAndFolders(fastJSON.JSON.Instance.ToObject<ImportMsg>(jsonstr).files);
 								break;
 						}
 					}
