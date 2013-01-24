@@ -58,7 +58,7 @@ namespace Wammer.Station
 		IEnumerable<string> GetSubEntries(string path);
 	}
 
-	public class DestinationExistException : Exception
+	public class DestinationExistException : ApplicationException
 	{
 		public DestinationExistException(string msg)
 			:base(msg)

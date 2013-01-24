@@ -21,11 +21,6 @@ namespace Wammer.Station
 {
 	public class ImportTask : ITask
 	{
-		#region Const
-		const String PATH_MATCH_GROUP = @"path";
-		const String PATHS_MATCH_PATTERN = @"(?<" + PATH_MATCH_GROUP + @">[^\[\],]*)";
-		#endregion
-
 		#region Events
 		public event EventHandler<TaskStartedEventArgs> TaskStarted;
 		public event EventHandler<FilesEnumeratedArgs> FilesEnumerated;
@@ -74,30 +69,6 @@ namespace Wammer.Station
 		#endregion
 		
 		#region Constructor
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ImportTask" /> class.
-		/// </summary>
-		/// <param name="apiKey">The API key.</param>
-		/// <param name="sessionToken">The session token.</param>
-		/// <param name="groupID">The group ID.</param>
-		/// <param name="paths">The paths.</param>
-		/// <exception cref="System.ArgumentException">Invalid paths format!!;paths</exception>
-		public ImportTask(string apiKey, string sessionToken, string groupID, string paths)
-			: this()
-		{
-			var ms = Regex.Matches(paths, PATHS_MATCH_PATTERN);
-			if (ms.Count == 0)
-				throw new ArgumentException("Invalid paths format!!", "paths");
-
-			m_APIKey = apiKey;
-			m_SessionToken = sessionToken;
-			m_GroupID = groupID;
-			Paths = from m in ms.OfType<Match>()
-					  let path = m.Groups[PATH_MATCH_GROUP].Value
-					  where path.Length > 0
-					  select path;
-		}
-
 		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths)
 			: this()
 		{
@@ -122,7 +93,7 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
-			if (string.IsNullOrEmpty(m_APIKey) || string.IsNullOrEmpty(m_SessionToken) || string.IsNullOrEmpty(m_GroupID) || Paths.Count() == 0)
+			if (string.IsNullOrEmpty(m_APIKey) || string.IsNullOrEmpty(m_SessionToken) || string.IsNullOrEmpty(m_GroupID) || !Paths.Any())
 				return;
 
 			this.LogInfoMsg("Importing from: " + string.Join(", ", Paths.ToArray()));

@@ -121,12 +121,15 @@ namespace Waveface.Stream.Core
 
 			var url = STATION_MGMT_URLBASE + @"/station/Import";
 
+			var pathObj = new ImportMsg { files = paths.ToList() };
+			var pathStr = JsonConvert.SerializeObject(pathObj);
+
 			var parameters = new NameValueCollection() 
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
 					{"group_id", groupID},
-					{"paths", string.Format("[{0}]", string.Join(",", paths.ToArray()))}
+					{"paths", pathStr}
 				};
 
 			var response = Post(url, parameters);
@@ -159,8 +162,8 @@ namespace Waveface.Stream.Core
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
-                    {"sns", sns},
-                    {"purge_all", "no"}
+					{"sns", sns},
+					{"purge_all", "no"}
 				};
 
 			return Post(url, parameters);
@@ -176,8 +179,8 @@ namespace Waveface.Stream.Core
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
-                    {"user_id", userID},
-                    {"subscribed", (subscribed ? "yes" : "no")}
+					{"user_id", userID},
+					{"subscribed", (subscribed ? "yes" : "no")}
 				};
 
 			return Post(url, parameters);
@@ -193,9 +196,9 @@ namespace Waveface.Stream.Core
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
-                    {"user_id", userID},
-                    {"nickname", nickName},
-                    {"avatar_url", avatarUrl}
+					{"user_id", userID},
+					{"nickname", nickName},
+					{"avatar_url", avatarUrl}
 				};
 
 			return Post(url, parameters);
@@ -211,7 +214,7 @@ namespace Waveface.Stream.Core
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
-                    {"user_id", userID}
+					{"user_id", userID}
 				};
 
 			return Post(url, parameters, timeout, readWriteTimeout);
@@ -253,7 +256,7 @@ namespace Waveface.Stream.Core
 			var uri = STATION_MGMT_URLBASE + @"/station/drivers/remove";
 
 			return Post(uri, new NameValueCollection(){
-                        { "apikey", API_KEY},
+						{ "apikey", API_KEY},
 						{ "user_id", userId},
 						{ "remove_resource", removeResource.ToString()}
 					});
