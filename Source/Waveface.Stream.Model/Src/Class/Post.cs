@@ -15,7 +15,7 @@ namespace Waveface.Stream.Model
 		#region Public Static Method
 		public static void Save(PostInfo postInfo)
 		{
-			if (!postInfo.code_name.Equals("StreamEvent", StringComparison.CurrentCultureIgnoreCase))
+			if (!postInfo.type.Equals("event"))
 				return;
 
 			if (string.IsNullOrEmpty(postInfo.post_id))

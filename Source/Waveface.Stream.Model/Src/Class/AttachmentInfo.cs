@@ -91,7 +91,7 @@ namespace Waveface.Stream.Model
 		public string code_name { get; set; }
 
 		[BsonIgnoreIfNull]
-		public string hidden { get; set; }
+		public bool hidden { get; set; }
 
 		[BsonIgnoreIfNull]
 		public string type { get; set; }

@@ -111,11 +111,10 @@ namespace Wammer.Station.Doc
 				postApi.NewPost(object_id, DateTime.Now, new Dictionary<string, string>
 				{
 					{ CloudServer.PARAM_ATTACHMENT_ID_ARRAY, "[\"" + object_id + "\"]" },
-					{ CloudServer.PARAM_TYPE, "doc" },
+					{ CloudServer.PARAM_TYPE, "import" },
 					{ CloudServer.PARAM_API_KEY, CloudServer.APIKey },
 					{ CloudServer.PARAM_SESSION_TOKEN, user.session_token},
 					{ CloudServer.PARAM_GROUP_ID, user.groups[0].group_id},
-					{ CloudServer.PARAM_IMPORT, "true"}
 				});
 			}
 			catch (Exception ex)
