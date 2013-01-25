@@ -167,7 +167,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				return "Completed successfully";
 			}
-			else if (string.IsNullOrEmpty(task.Error))
+			else if (!string.IsNullOrEmpty(task.Error))
 			{
 				return "Import unsuccessfully. " + task.Error;
 			}
