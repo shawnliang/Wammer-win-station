@@ -318,4 +318,13 @@
   <data name="SYNCING_WITH_CLOUD" xml:space="preserve">
     <value>雲端同步中</value>
   </data>
+  <data name="SYNC_CONNECTED_LOCALLY" xml:space="preserve">
+    <value>已連線</value>
+  </data>
+  <data name="SYNC_LAST_SEEN" xml:space="preserve">
+    <value>上次出現時間 {0}</value>
+  </data>
+  <data name="SYNC_OFFLINE" xml:space="preserve">
+    <value>離線 ({0})</value>
+  </data>
 </root>

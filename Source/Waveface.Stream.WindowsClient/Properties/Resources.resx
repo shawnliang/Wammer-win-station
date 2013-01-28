@@ -412,4 +412,13 @@
   <data name="SYNCING_WITH_CLOUD" xml:space="preserve">
     <value>Syncing with Cloud</value>
   </data>
+  <data name="SYNC_CONNECTED_LOCALLY" xml:space="preserve">
+    <value>Connected locally</value>
+  </data>
+  <data name="SYNC_LAST_SEEN" xml:space="preserve">
+    <value>Last seen at {0}</value>
+  </data>
+  <data name="SYNC_OFFLINE" xml:space="preserve">
+    <value>Offline ({0})</value>
+  </data>
 </root>
