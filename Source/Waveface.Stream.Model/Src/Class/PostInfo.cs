@@ -13,35 +13,20 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public List<AttachmentInfo> attachments { get; set; }
 
-		[BsonIgnore]
-		public int attachment_count
-		{
-			get
-			{
-				return (attachment_id_array == null) ? 0 : attachment_id_array.Count;
-			}
-		}
+		[BsonIgnoreIfNull]
+		public DateTime event_start_time { get; set; }
 
 		[BsonIgnoreIfNull]
-		public DateTime event_time { get; set; }
-
-		[BsonIgnoreIfNull]
-		public List<Comment> comments { get; set; }
+		public DateTime event_end_time { get; set; }
 
 		[BsonIgnoreIfNull]
 		public string content { get; set; }
 
 		[BsonIgnoreIfNull]
-		public int comment_count
-		{
-			get 
-			{
-				return (comments == null) ? 0 : comments.Count;
-			}
-		}
+		public string content_auto { get; set; }
 
 		[BsonIgnoreIfNull]
-		public string hidden { get; set; }
+		public bool hidden { get; set; }
 
 		[BsonIgnoreIfNull]
 		public Preview preview { get; set; }
@@ -50,14 +35,15 @@ namespace Waveface.Stream.Model
 		public string type { get; set; }
 
 		[BsonIgnoreIfNull]
-		public List<string> style { get; set; }
+		public string event_type { get; set; }
 
 		[BsonIgnoreIfNull]
 		public DateTime update_time { get; set; }
 
-		[BsonIgnoreIfNull]
-		public Boolean isImported { get; set; }
 
+		/// <summary>
+		/// post create time
+		/// </summary>
 		[BsonIgnoreIfNull]
 		public DateTime timestamp { get; set; }
 

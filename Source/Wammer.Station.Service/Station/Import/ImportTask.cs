@@ -217,13 +217,12 @@ namespace Wammer.Station
 					{CloudServer.PARAM_SESSION_TOKEN, m_SessionToken},
 					{CloudServer.PARAM_API_KEY, m_APIKey},
 					{CloudServer.PARAM_POST_ID, postID},
-					{CloudServer.PARAM_TYPE, "image"},
+					{CloudServer.PARAM_TYPE, "import"},
 					{CloudServer.PARAM_TIMESTAMP, importTime.ToUTCISO8601ShortString()},
 					{CloudServer.PARAM_GROUP_ID, m_GroupID},
 					{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, string.Format("[{0}]",string.Join(",", objectIDs.Select((x)=> "\""+x+"\"").ToArray()))},
 					{CloudServer.PARAM_CONTENT, string.Format("Import {0} files", objectIDs.Count())},
 					{CloudServer.PARAM_COVER_ATTACH, objectIDs.FirstOrDefault()},
-					{CloudServer.PARAM_IMPORT, "true"},
 				};
 			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
 		}
