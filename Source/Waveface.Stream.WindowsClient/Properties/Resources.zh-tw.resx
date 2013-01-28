@@ -318,4 +318,22 @@
   <data name="SYNCING_WITH_CLOUD" xml:space="preserve">
     <value>雲端同步中</value>
   </data>
+  <data name="SYNC_CONNECTED_LOCALLY" xml:space="preserve">
+    <value>已連線</value>
+  </data>
+  <data name="SYNC_LAST_SEEN" xml:space="preserve">
+    <value>上次出現時間 {0}</value>
+  </data>
+  <data name="SYNC_OFFLINE" xml:space="preserve">
+    <value>離線 ({0})</value>
+  </data>
+  <data name="SVC_FACEBOOK_DESC" xml:space="preserve">
+    <value>[TBD] 連結 Facebook 後，將彙整您自己或朋友幫您標註的打卡資訊，以及您分享過/喜愛的網頁</value>
+  </data>
+  <data name="SVC_GOOGLE_DESC" xml:space="preserve">
+    <value>[TBD] 連結 Google 後，將彙整您在 Google Reader 或其他閱讀器如 Filpboard 用星號標註的閱讀項目</value>
+  </data>
+  <data name="SVC_TWITTER_DESC" xml:space="preserve">
+    <value>[TBD] 連結 Twitter 後，將彙整您分享過或是喜愛的網頁</value>
+  </data>
 </root>

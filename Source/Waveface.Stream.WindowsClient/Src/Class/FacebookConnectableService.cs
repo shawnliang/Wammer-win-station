@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -6,7 +7,7 @@ namespace Waveface.Stream.WindowsClient
 	class FacebookConnectableService : WebRedirectConnectableService
 	{
 		public FacebookConnectableService()
-			: base("facebook", "Facebook")
+			: base("facebook", "Facebook", Resources.SVC_FACEBOOK_DESC)
 		{
 		}
 	}

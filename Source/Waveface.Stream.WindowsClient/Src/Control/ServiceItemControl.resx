@@ -123,23 +123,23 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="serviceName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 11pt</value>
+    <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="serviceName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="serviceName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 20</value>
+    <value>49, 3</value>
   </data>
   <data name="serviceName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 18</value>
+    <value>90, 13</value>
   </data>
   <data name="serviceName.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="serviceName.Text" xml:space="preserve">
-    <value>service name</value>
+    <value>[service name]</value>
   </data>
   <data name="&gt;&gt;serviceName.Name" xml:space="preserve">
     <value>serviceName</value>
@@ -151,13 +151,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;serviceName.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="serviceIcon.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
   <data name="serviceIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 55</value>
+    <value>40, 40</value>
   </data>
   <data name="serviceIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -175,16 +175,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;serviceIcon.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
+  </data>
+  <data name="connectCheckbox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="connectCheckbox.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
     <value>Button</value>
   </data>
   <data name="connectCheckbox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>245, 17</value>
+    <value>317, 11</value>
   </data>
   <data name="connectCheckbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 28</value>
+    <value>75, 30</value>
   </data>
   <data name="connectCheckbox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -205,16 +208,43 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;connectCheckbox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="description.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="description.Location" type="System.Drawing.Point, System.Drawing">
+    <value>49, 20</value>
+  </data>
+  <data name="description.Size" type="System.Drawing.Size, System.Drawing">
+    <value>262, 46</value>
+  </data>
+  <data name="description.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="description.Text" xml:space="preserve">
+    <value>[description]</value>
+  </data>
+  <data name="&gt;&gt;description.Name" xml:space="preserve">
+    <value>description</value>
+  </data>
+  <data name="&gt;&gt;description.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;description.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;description.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
+    <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>398, 60</value>
+    <value>398, 66</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ServiceItemControl</value>

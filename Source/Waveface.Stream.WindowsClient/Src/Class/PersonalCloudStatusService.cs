@@ -15,16 +15,7 @@ namespace Waveface.Stream.WindowsClient
 	{
 		public ICollection<PersonalCloudNode> GetNodes(string user_id, string session_token, string apikey)
 		{
-			var retNodes = new List<PersonalCloudNode>()
-			{
-				new PersonalCloudNode()
-				{
-					Name = "Stream Cloud",
-					Id = Guid.Empty.ToString(),
-					Profile = "Connected",
-					Type = NodeType.Station
-				}
-			};
+			var retNodes = new List<PersonalCloudNode>();
 
 			try
 			{
@@ -40,7 +31,7 @@ namespace Waveface.Stream.WindowsClient
 					{
 						Name = Environment.MachineName,
 						Id = StationRegistry.StationId,
-						Profile = err,
+						Profile = string.Format(Resources.SYNC_OFFLINE, err),
 						Type = NodeType.Station
 					});
 			}
@@ -91,60 +82,22 @@ namespace Waveface.Stream.WindowsClient
 				{
 					if (item.Name.Equals(Environment.MachineName))
 					{
-						item.Profile = "Connected";
-
-						var syncRange = DriverCollection.Instance.FindOneById(user_id).sync_range;
-
-						var importStatus = ImportStatus.Lookup(user_id).Description;
-
-						var upload = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT, false).NextValue();
-						var download = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT, false).NextValue();
-
-						var uploadStatus = "";
-						if (upload > 0)
-						{
-							uploadStatus = string.Format("Uploading {0} files. ", upload);
-						}
-
-						var downloadStatus = "";
-						if (download > 0)
-						{
-							downloadStatus = string.Format("Downloading {0} files. ", download);
-						}
-
-
-						if (string.IsNullOrEmpty(importStatus) && uploadStatus.Length == 0 && downloadStatus.Length == 0)
-						{
-							if (!string.IsNullOrEmpty(syncRange.download_index_error))
-								item.Profile = Resources.SYNC_ERROR + syncRange.download_index_error;
-							else if (syncRange.syncing)
-								item.Profile = Resources.DOWNLOAD_INDEX;
-							else
-								item.Profile = "Synced";
-						}
-						else
-						{
-							item.Profile = importStatus + " " + uploadStatus + downloadStatus;
-
-							var uploadDownloadError = syncRange.GetUploadDownloadError();
-							if (!string.IsNullOrEmpty(uploadDownloadError))
-								item.Profile = importStatus + Resources.SYNC_ERROR + uploadDownloadError;
-						}
+						item.Profile = SyncStatus.GetSyncStatus();
 					}
 					else
 					{
-						item.Profile = "Last seen: " + device.last_visit;
+						item.Profile = string.Format(Resources.SYNC_LAST_SEEN, device.last_visit);
 					}
 				}
 				else
 				{
 					if (isConnected)
 					{
-						item.Profile = "Connected (Local Hyper Mode)";
+						item.Profile = Resources.SYNC_CONNECTED_LOCALLY;
 					}
 					else
 					{
-						item.Profile = "Last seen: " + device.last_visit;
+						item.Profile = string.Format(Resources.SYNC_LAST_SEEN, device.last_visit);
 					}
 				}
 

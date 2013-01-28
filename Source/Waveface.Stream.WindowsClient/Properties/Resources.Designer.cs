@@ -754,11 +754,65 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connected locally.
+        /// </summary>
+        internal static string SYNC_CONNECTED_LOCALLY {
+            get {
+                return ResourceManager.GetString("SYNC_CONNECTED_LOCALLY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TBD] AOStream collects your check-ins and web links you liked or shared..
+        /// </summary>
+        internal static string SVC_FACEBOOK_DESC {
+            get {
+                return ResourceManager.GetString("SVC_FACEBOOK_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TBD] AOStream collects starred articles in Google Reader..
+        /// </summary>
+        internal static string SVC_GOOGLE_DESC {
+            get {
+                return ResourceManager.GetString("SVC_GOOGLE_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [TBD] Your favorite or retwitted web pages will be collected in AOStream..
+        /// </summary>
+        internal static string SVC_TWITTER_DESC {
+            get {
+                return ResourceManager.GetString("SVC_TWITTER_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sync error: .
         /// </summary>
         internal static string SYNC_ERROR {
             get {
                 return ResourceManager.GetString("SYNC_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last seen at {0}.
+        /// </summary>
+        internal static string SYNC_LAST_SEEN {
+            get {
+                return ResourceManager.GetString("SYNC_LAST_SEEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offline ({0}).
+        /// </summary>
+        internal static string SYNC_OFFLINE {
+            get {
+                return ResourceManager.GetString("SYNC_OFFLINE", resourceCulture);
             }
         }
         

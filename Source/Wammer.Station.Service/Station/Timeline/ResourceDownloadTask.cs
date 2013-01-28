@@ -246,7 +246,7 @@ namespace Wammer.Station.Timeline
 				bool noNeedToDownload;
 				AttachmentSaveResult saveResult;
 
-				Run(out noNeedToDownload, out saveResult);
+				run(out noNeedToDownload, out saveResult, false);
 			}
 			finally
 			{
@@ -254,7 +254,12 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		public void Run(out bool noNeedToDownload, out AttachmentSaveResult saveResult)
+		public void ForceDownload(out bool noNeedToDownload, out AttachmentSaveResult saveResult)
+		{
+			run(out noNeedToDownload, out saveResult, true);
+		}
+
+		private void run(out bool noNeedToDownload, out AttachmentSaveResult saveResult, bool forceDownload)
 		{
 			string meta = evtargs.imagemeta.ToString();
 			string user_id = null;
@@ -264,7 +269,7 @@ namespace Wammer.Station.Timeline
 
 			try
 			{
-				if (AttachmentExists(evtargs))
+				if (!forceDownload && AttachmentExists(evtargs))
 				{
 					return;
 				}

@@ -158,7 +158,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public string Name
 		{
-			get { return object_id + meta.GetCustomAttribute<DescriptionAttribute>(); }
+			get { return object_id + meta.GetCustomAttribute<DescriptionAttribute>().Description; }
 		}
 	}
 }

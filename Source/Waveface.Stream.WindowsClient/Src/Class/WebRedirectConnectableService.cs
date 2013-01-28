@@ -24,13 +24,15 @@ namespace Waveface.Stream.WindowsClient
 
 		private string svcType;
 
-		protected WebRedirectConnectableService(string svcType, string displayName)
+		protected WebRedirectConnectableService(string svcType, string displayName, string desc)
 		{
 			this.svcType = svcType;
 			this.Name = displayName;
+			this.Description = desc;
 		}
 
 		public string Name { get; private set; }
+		public string Description { get; private set; }
 
 		public bool IsEnabled(string user_id, string session_token, string api_key)
 		{
