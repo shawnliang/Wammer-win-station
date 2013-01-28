@@ -41,6 +41,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				var svcItem = new ServiceItemControl();
 				svcItem.ServiceName = service.Name;
+				svcItem.Description = service.Description;
 				svcItem.ServiceIcon = service.Icon;
 				svcItem.OnChange += svcItem_OnChange;
 				svcItem.Tag = service;

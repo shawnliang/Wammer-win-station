@@ -4,6 +4,7 @@ namespace Waveface.Stream.WindowsClient
 	public interface IConnectableService
 	{
 		string Name { get; }
+		string Description { get; }
 		System.Drawing.Image Icon { get; }
 
 

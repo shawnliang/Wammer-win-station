@@ -52,7 +52,7 @@ namespace Wammer.Station
 
 		public void HandleRequest(HttpListenerRequest origReq, HttpListenerResponse response)
 		{
-			logger.Info("Forward to cloud: " + origReq.Url.AbsolutePath);
+			logger.Debug("Forward to cloud: " + origReq.Url.AbsolutePath);
 			try
 			{
 				if (HasNotAllowedPrefix(origReq.Url.AbsolutePath))

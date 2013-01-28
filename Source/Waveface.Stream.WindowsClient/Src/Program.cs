@@ -133,7 +133,9 @@ namespace Waveface.Stream.WindowsClient
 
 					if (options.Imports != null && options.Imports.Any())
 					{
-						(new SendMessageHelper()).SendMessage("StreamClientMessageReceiver", null, 0x402, string.Join(",", options.Imports), true);
+						var msg = new ImportMsg { files = options.Imports.ToList() };
+
+						(new SendMessageHelper()).SendMessage("StreamClientMessageReceiver", null, 0x402, msg.ToFastJSON(), true);
 					}
 				}
 				return;
@@ -212,7 +214,9 @@ namespace Waveface.Stream.WindowsClient
                                 if (!StreamClient.Instance.IsLogined)
                                     return;
 								var cd = (CopyDataStruct)Marshal.PtrToStructure(e.lParam, typeof(CopyDataStruct));
-								ImportFileAndFolders(Marshal.PtrToStringAuto(cd.lpData, cd.cbData / 2).Split(new char[] { ',' }));
+
+								var jsonstr = Marshal.PtrToStringAuto(cd.lpData, cd.cbData / 2);
+								ImportFileAndFolders(fastJSON.JSON.Instance.ToObject<ImportMsg>(jsonstr).files);
 								break;
 						}
 					}
@@ -279,10 +283,16 @@ namespace Waveface.Stream.WindowsClient
 
 				}
 
+				var syncStatus = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID).Description;
+
+				if (string.IsNullOrEmpty(syncStatus))
+					syncStatus = SyncStatus.GetSyncDescription();
+
+
 				var iconText = string.Format("{0}{1}{2}",
 					Application.ProductName,
 					Environment.NewLine,
-					SyncStatus.GetSyncDescription());
+					syncStatus);
 
 				m_NotifyIcon.SetNotifyIconText(iconText);
 			}
@@ -500,7 +510,10 @@ namespace Waveface.Stream.WindowsClient
 				m_ContextMenuStrip.Items.RemoveAt(insertIndex);
 			}
 
-			var syncStatus = SyncStatus.GetSyncDescription();
+			var syncStatus = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID).Description;
+
+			if (string.IsNullOrEmpty(syncStatus))
+				syncStatus = SyncStatus.GetSyncDescription();
 
 			if (string.IsNullOrEmpty(syncStatus))
 				return;

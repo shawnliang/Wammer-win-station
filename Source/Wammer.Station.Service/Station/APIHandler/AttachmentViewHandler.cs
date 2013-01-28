@@ -113,10 +113,10 @@ namespace Wammer.Station
 				bool noNeedToDownload;
 				AttachmentSaveResult result;
 				downloadTask.Url = metaData.redirect_to;
-				downloadTask.Run(out noNeedToDownload, out result);
+				downloadTask.ForceDownload(out noNeedToDownload, out result);
 
 				if (result == null)
-					throw new WammerStationException("File. Try again", -1);
+					throw new WammerStationException("File does not exit. Try again", -1);
 
 
 				if (meta == ImageMeta.None || meta == ImageMeta.Origin)

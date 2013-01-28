@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -121,12 +121,15 @@ namespace Waveface.Stream.Core
 
 			var url = STATION_MGMT_URLBASE + @"/station/Import";
 
+			var pathObj = new ImportMsg { files = paths.ToList() };
+			var pathStr = JsonConvert.SerializeObject(pathObj);
+
 			var parameters = new NameValueCollection() 
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
 					{"group_id", groupID},
-					{"paths", string.Format("[{0}]", string.Join(",", paths.ToArray()))}
+					{"paths", pathStr}
 				};
 
 			var response = Post(url, parameters);

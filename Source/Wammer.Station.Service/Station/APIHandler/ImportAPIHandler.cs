@@ -29,7 +29,9 @@ namespace Wammer.Station
 			if (user == null)
 				throw new WammerStationException("user not exist", (int)StationApiError.UserNotExist);
 
-			var task = new ImportTask(apiKey, sessionToken, groupID, paths);
+			var pathParam = fastJSON.JSON.Instance.ToObject<ImportMsg>(paths);
+
+			var task = new ImportTask(apiKey, sessionToken, groupID, pathParam.files);
 			task.TaskStarted += new EventHandler<TaskStartedEventArgs>(task_TaskStarted);
 			task.FilesEnumerated += new System.EventHandler<FilesEnumeratedArgs>(task_FilesEnumerated);
 			task.FileIndexed += new EventHandler<FileImportEventArgs>(task_FileIndexed);

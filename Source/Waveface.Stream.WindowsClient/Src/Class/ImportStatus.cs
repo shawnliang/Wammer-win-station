@@ -142,34 +142,37 @@ namespace Waveface.Stream.WindowsClient
 			}
 			else if (task.IsIndexing())
 			{
-				return string.Format("Indexing files ({0}/{1})", task.Indexed + task.Skipped, task.Total);
+				return string.Format("Indexing {0}/{1} files", task.Indexed + task.Skipped, task.Total);
 			}
 			else if (task.IsCopying())
 			{
-				return string.Format("Copying files to AOStream ({0}/{1})", task.Copied, task.Indexed);
+				return string.Format("Copying {0}/{1} files", task.Copied, task.Indexed);
 			}
 			else if (task.IsThumbnailing())
 			{
-				return string.Format("Generating thumbnails ({0}/{1})", task.Thumbnailed, task.Indexed);
+				return string.Format("Generating previews of {0}/{1} files", task.Thumbnailed, task.Indexed);
 			}
 			else if (task.IsUploading())
 			{
-				var toUploadStr = "";
-				var toUpload = task.UploadSize/1024/1024;
-				if (toUpload < 1)
-					toUploadStr = "~1";
-				else
-					toUploadStr = toUpload.ToString();
+				//var toUploadStr = "";
+				//var toUpload = task.UploadSize/1024/1024;
+				//if (toUpload < 1)
+				//	toUploadStr = "~1";
+				//else
+				//	toUploadStr = toUpload.ToString();
 
-				return string.Format("Syncing to AOStream Cloud ({0}/{1}MB)", task.UploadedSize/1024/1024, toUploadStr);
+				//return string.Format("Syncing to AOStream Cloud ({0}/{1}MB)", task.UploadedSize/1024/1024, toUploadStr);
+				return string.Empty;
 			}
 			else if (task.IsCompleteSuccessfully())
 			{
-				return "Completed successfully";
+				//return "Completed successfully";
+				return string.Empty;
 			}
-			else if (string.IsNullOrEmpty(task.Error))
+			else if (!string.IsNullOrEmpty(task.Error))
 			{
-				return "Import unsuccessfully. " + task.Error;
+				//return "Import unsuccessfully. " + task.Error;
+				return string.Empty;
 			}
 			else
 			{

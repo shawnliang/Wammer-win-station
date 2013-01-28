@@ -18,13 +18,13 @@ namespace Waveface.Stream.Model
 			Mapper.CreateMap<PostInfo, PostDBData>()
 					.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.post_id))
 					.ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.content))
-					.ForMember(dest => dest.Type, opt => opt.MapFrom(src => (src.type.Equals("doc"))? PostType.Doc: PostType.Photo)) //TODO: 待處理
+					.ForMember(dest => dest.Type, opt => opt.UseValue(PostType.Photo))
 					.ForMember(dest => dest.CoverAttachmentID, opt => opt.MapFrom(src => src.cover_attach))
 					.ForMember(dest => dest.AttachmentIDs, opt => opt.MapFrom(src => src.attachment_id_array))
 					.ForMember(dest => dest.CreatorID, opt => opt.MapFrom(src => src.creator_id))
-					.ForMember(dest => dest.Visibility, opt => opt.MapFrom(src => src.hidden.Equals("false", System.StringComparison.CurrentCultureIgnoreCase)))
-					.ForMember(dest => dest.EventSinceTime, opt => opt.MapFrom(src => src.event_time))
-					.ForMember(dest => dest.EventUntilTime, opt => opt.MapFrom(src => src.timestamp))
+					.ForMember(dest => dest.Visibility, opt => opt.MapFrom(src => !src.hidden))
+					.ForMember(dest => dest.EventSinceTime, opt => opt.MapFrom(src => src.event_start_time))
+					.ForMember(dest => dest.EventUntilTime, opt => opt.MapFrom(src => src.event_end_time))
 					.ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.update_time));
 
 			Mapper.CreateMap<FriendInfo, FriendDBData>();

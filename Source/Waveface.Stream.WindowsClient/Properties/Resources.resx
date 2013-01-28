@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -414,14 +414,32 @@
   </data>
   <data name="CHROME_EXTENSION_MENU_ITEM" xml:space="preserve">
     <value>Install Chrome Extension</value>
+      </data>
+  <data name="SYNC_CONNECTED_LOCALLY" xml:space="preserve">
+    <value>Connected locally</value>
+  </data>
+  <data name="SYNC_LAST_SEEN" xml:space="preserve">
+    <value>Last seen at {0}</value>
+  </data>
+  <data name="SYNC_OFFLINE" xml:space="preserve">
+    <value>Offline ({0})</value>
   </data>
   <data name="GET_APPS_MENU_ITEM" xml:space="preserve">
     <value>Get Apps</value>
+      </data>
+  <data name="SVC_FACEBOOK_DESC" xml:space="preserve">
+    <value>[TBD] AOStream collects your check-ins and web links you liked or shared.</value>
   </data>
   <data name="HELP_CENTER_MENU_ITEM" xml:space="preserve">
     <value>Help Center</value>
+      </data>
+  <data name="SVC_GOOGLE_DESC" xml:space="preserve">
+    <value>[TBD] AOStream collects starred articles in Google Reader.</value>
   </data>
   <data name="FreePlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FreePlan.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
+      </data>
+  <data name="SVC_TWITTER_DESC" xml:space="preserve">
+    <value>[TBD] Your favorite or retwitted web pages will be collected in AOStream.</value>
   </data>
 </root>

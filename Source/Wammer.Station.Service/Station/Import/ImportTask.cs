@@ -21,11 +21,6 @@ namespace Wammer.Station
 {
 	public class ImportTask : ITask
 	{
-		#region Const
-		const String PATH_MATCH_GROUP = @"path";
-		const String PATHS_MATCH_PATTERN = @"(?<" + PATH_MATCH_GROUP + @">[^\[\],]*)";
-		#endregion
-
 		#region Events
 		public event EventHandler<TaskStartedEventArgs> TaskStarted;
 		public event EventHandler<FilesEnumeratedArgs> FilesEnumerated;
@@ -55,6 +50,7 @@ namespace Wammer.Station
 		/// <value>The m_ session token.</value>
 		private String m_SessionToken { get; set; }
 
+
 		/// <summary>
 		/// Gets or sets the m_ API key.
 		/// </summary>
@@ -73,29 +69,6 @@ namespace Wammer.Station
 		#endregion
 		
 		#region Constructor
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ImportTask"/> class.
-		/// </summary>
-		/// <param name="apiKey">The API key.</param>
-		/// <param name="sessionToken">The session token.</param>
-		/// <param name="groupID">The group ID.</param>
-		/// <param name="paths">The paths.</param>
-		public ImportTask(string apiKey, string sessionToken, string groupID, string paths)
-			: this()
-		{
-			var ms = Regex.Matches(paths, PATHS_MATCH_PATTERN);
-			if (ms.Count == 0)
-				throw new ArgumentException("Invalid paths format!!", "paths");
-
-			m_APIKey = apiKey;
-			m_SessionToken = sessionToken;
-			m_GroupID = groupID;
-			Paths = from m in ms.OfType<Match>()
-					  let path = m.Groups[PATH_MATCH_GROUP].Value
-					  where path.Length > 0
-					  select path;
-		}
-
 		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths)
 			: this()
 		{
@@ -120,7 +93,7 @@ namespace Wammer.Station
 		/// </summary>
 		public void Execute()
 		{
-			if (string.IsNullOrEmpty(m_APIKey) || string.IsNullOrEmpty(m_SessionToken) || string.IsNullOrEmpty(m_GroupID) || Paths.Count() == 0)
+			if (string.IsNullOrEmpty(m_APIKey) || string.IsNullOrEmpty(m_SessionToken) || string.IsNullOrEmpty(m_GroupID) || !Paths.Any())
 				return;
 
 			this.LogInfoMsg("Importing from: " + string.Join(", ", Paths.ToArray()));
@@ -133,6 +106,7 @@ namespace Wammer.Station
 				var importTime = DateTime.Now;
 
 				var photoCrawler = new PhotoCrawler();
+				var inputFiles = Paths.Where(file => Path.GetExtension(file).Length > 0);
 				var allFiles = photoCrawler.FindPhotos(Paths).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
 
 				raiseFilesEnumeratedEvent(allFiles.Count);
@@ -159,8 +133,9 @@ namespace Wammer.Station
 
 
 				// build collections
-				var folderCollections = FolderCollection.Build(allMeta.Cast<ObjectIdAndPath>());
+				var folderCollections = FolderCollection.Build(allMeta.Where(meta => !inputFiles.Contains(meta.file_path)).Cast<ObjectIdAndPath>());
 				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.High);
+
 
 				// copy file to stream
 				int nProc = 0;
@@ -242,13 +217,12 @@ namespace Wammer.Station
 					{CloudServer.PARAM_SESSION_TOKEN, m_SessionToken},
 					{CloudServer.PARAM_API_KEY, m_APIKey},
 					{CloudServer.PARAM_POST_ID, postID},
-					{CloudServer.PARAM_TYPE, "image"},
+					{CloudServer.PARAM_TYPE, "import"},
 					{CloudServer.PARAM_TIMESTAMP, importTime.ToUTCISO8601ShortString()},
 					{CloudServer.PARAM_GROUP_ID, m_GroupID},
 					{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, string.Format("[{0}]",string.Join(",", objectIDs.Select((x)=> "\""+x+"\"").ToArray()))},
 					{CloudServer.PARAM_CONTENT, string.Format("Import {0} files", objectIDs.Count())},
 					{CloudServer.PARAM_COVER_ATTACH, objectIDs.FirstOrDefault()},
-					{CloudServer.PARAM_IMPORT, "true"},
 				};
 			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
 		}

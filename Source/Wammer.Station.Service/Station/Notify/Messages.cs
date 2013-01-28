@@ -61,7 +61,10 @@ namespace Wammer.Station.Notify
 	}
 	#endregion
 
-
+	public class DeviceSyncStatus
+	{
+		public int files_to_backup { get; set; }
+	}
 
 
 	public class GenericCommand
@@ -70,7 +73,7 @@ namespace Wammer.Station.Notify
 		public ConnectMsg connect { get; set; }
 		public SubscribeMSg subscribe { get; set; }
 		public NotifyMsg notify { get; set; }
-
+		public DeviceSyncStatus sync_status { get; set; }
 
 		#region Station only web socket msgs
 		public ImportMsg import { get; set; }
