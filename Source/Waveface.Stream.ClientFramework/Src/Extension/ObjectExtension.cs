@@ -80,6 +80,5 @@ public static class ObjectExtension
 	{
 		return GetCustomAttributes<T>(obj, memberName).FirstOrDefault();
 	}
-
 	#endregion
 }

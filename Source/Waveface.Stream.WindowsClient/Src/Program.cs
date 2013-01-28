@@ -29,10 +29,6 @@ namespace Waveface.Stream.WindowsClient
 		private static System.Windows.Forms.Timer _timer;
 		private static RecentDocumentWatcher recentDocWatcher = new RecentDocumentWatcher();
 
-		private static DriveDetector driveDetector;
-		private static UsbImportDialog usbImportDialog;
-
-
 		private static Icon iconSyncing1 = Icon.FromHandle(Resources.stream_tray_syncing1.GetHicon());
 		private static Icon iconSyncing2 = Icon.FromHandle(Resources.stream_tray_syncing2.GetHicon());
 		private static Icon iconPaused = Icon.FromHandle(Resources.stream_tray_pause.GetHicon());
@@ -154,8 +150,6 @@ namespace Waveface.Stream.WindowsClient
 			
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
-			driveDetector = new DriveDetector();
-
 			StreamClient.Instance.Logouted += Instance_Logouted;
 			StreamClient.Instance.Logined += Instance_Logined;
 
@@ -174,12 +168,11 @@ namespace Waveface.Stream.WindowsClient
 				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
 				recentDocWatcher.Start();
 
-				driveDetector.DeviceArrived -= driveDetector_DeviceArrived;
-				driveDetector.DeviceArrived += driveDetector_DeviceArrived;
+				UsbImportController.Instance.StartDetect();
 
 
 				if (!MainForm.Instance.IsDebugMode)
-					ShowControlPanelDialog();
+					ShowPreferencesDialog();
 				else
 					ShowMainWindow();
 			}
@@ -204,7 +197,7 @@ namespace Waveface.Stream.WindowsClient
                         if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
                         {
                             if (!MainForm.Instance.IsDebugMode)
-                                ShowControlPanelDialog();
+                                ShowPreferencesDialog();
                             else
                                 ShowMainWindow();
                         }
@@ -229,24 +222,6 @@ namespace Waveface.Stream.WindowsClient
 
 
 
-		static void driveDetector_DeviceArrived(object sender, DriveDetectorEventArgs e)
-		{
-			SynchronizationContextHelper.SendMainSyncContext(() =>
-			{
-				if (usbImportDialog == null)
-				{
-					usbImportDialog = new UsbImportDialog(
-						e.Drive,
-						StreamClient.Instance.LoginedUser.UserID,
-						StreamClient.Instance.LoginedUser.SessionToken);
-					usbImportDialog.FormClosed += (s, arg) =>
-					{
-						usbImportDialog = null;
-					};
-					usbImportDialog.ShowDialog();
-				}
-			});
-		}
 
 		static void recentDocWatcher_FileTouched(object sender, FileTouchEventArgs e)
 		{
@@ -383,11 +358,11 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		private static DialogResult ShowControlPanelDialog()
+		private static DialogResult ShowPreferencesDialog()
 		{
 			try
 			{
-				var dialog = ControlPanelDialog.Instance;
+				var dialog = PreferencesDialog.Instance;
 
 				dialog.StartPosition = FormStartPosition.CenterParent;
 				dialog.Activate();
@@ -455,18 +430,30 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 			
 			m_ContextMenuStrip.Items.Clear();
-			m_ContextMenuStrip.Items.Add("ControlCenter" , Resources.CONTROL_PANEL_MENU_ITEM, m_ContextMenuStrip_ControlPanel_Click);
+
+			var preferencesMenuItem = m_ContextMenuStrip.Items.Add("Preferences", Resources.CONTROL_PREFERENCES_MENU_ITEM, m_ContextMenuStrip_Preferences_Click);
+			var loginMenuItem = m_ContextMenuStrip.Items.Add("Login", Resources.LOGIN_MENU_ITEM, m_ContextMenuStrip_Login_Click);
+
+			m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
+			m_ContextMenuStrip.Items.Add("Seperator", "-", null);
+
 			m_ContextMenuStrip.Items.Add("ResumeService", Resources.SERVICE_RESUME_MENU_ITEM, m_ContextMenuStrip_Resume_Click);
 			m_ContextMenuStrip.Items.Add("PauseService", Resources.SERVICE_PAUSE_MENU_ITEM, m_ContextMenuStrip_Pause_Click);
-			m_ContextMenuStrip.Items.Add("SyncStatusSeperator", "-", null);
-			m_ContextMenuStrip.Items.Add("Seperator", "-", null);
-			m_ContextMenuStrip.Items.Add("OpenStream", Resources.OPEN_STREAM_MENU_ITEM, m_ContextMenuStrip_Open_Click);
-			m_ContextMenuStrip.Items.Add("Login", Resources.LOGIN_MENU_ITEM, m_ContextMenuStrip_Login_Click);
-			m_ContextMenuStrip.Items.Add("LoginSeperator", "-", null);
 			m_ContextMenuStrip.Items.Add("Import", Resources.IMPORT_MENU_ITEM, m_ContextMenuStrip_Import_Click);
-			m_ContextMenuStrip.Items.Add("ImportSeperator", "-", null);
+			m_ContextMenuStrip.Items.Add("SyncStatusSeperator", "-", null);
+
+			m_ContextMenuStrip.Items.Add("-", null);
+
+			m_ContextMenuStrip.Items.Add(Resources.HELP_CENTER_MENU_ITEM, null);
+			m_ContextMenuStrip.Items.Add(Resources.GET_APPS_MENU_ITEM, null);
+			m_ContextMenuStrip.Items.Add(Resources.CHROME_EXTENSION_MENU_ITEM, null);
 			m_ContextMenuStrip.Items.Add(Resources.CONTACT_US_MENU_ITEM, m_ContextMenuStrip_ContactUs_Click);
+			m_ContextMenuStrip.Items.Add("-", null);
+
 			m_ContextMenuStrip.Items.Add(Resources.SERVICE_QUIT, m_ContextMenuStrip_Quit_Click);
+
+			preferencesMenuItem.Font = new Font(preferencesMenuItem.Font, FontStyle.Bold | preferencesMenuItem.Font.Style);
+			loginMenuItem.Font = preferencesMenuItem.Font;
 		}
 
 		private static void RunningService()
@@ -487,8 +474,9 @@ namespace Waveface.Stream.WindowsClient
 
 		private static void UpdateServiceMenuItemStatus()
 		{
-			m_ContextMenuStrip.Items["ResumeService"].Visible = !SyncStatus.IsServiceRunning;
-			m_ContextMenuStrip.Items["PauseService"].Visible = SyncStatus.IsServiceRunning;
+			var isLogined = (StreamClient.Instance.LoginedUser != null && !string.IsNullOrEmpty(StreamClient.Instance.LoginedUser.SessionToken));
+			m_ContextMenuStrip.Items["ResumeService"].Visible = isLogined && !SyncStatus.IsServiceRunning;
+			m_ContextMenuStrip.Items["PauseService"].Visible = isLogined && SyncStatus.IsServiceRunning;
 		}
 
 		private static void UpdateLoginMenuItemStatus()
@@ -497,11 +485,10 @@ namespace Waveface.Stream.WindowsClient
 			m_ContextMenuStrip.Items["Login"].Visible = !isLogined;
 
 			m_ContextMenuStrip.Items["OpenStream"].Visible = MainForm.Instance.IsDebugMode && isLogined;
-			m_ContextMenuStrip.Items["Seperator"].Visible = !MainForm.Instance.IsDebugMode && !isLogined;
+			m_ContextMenuStrip.Items["Seperator"].Visible = isLogined;
 
-			m_ContextMenuStrip.Items["ControlCenter"].Visible = isLogined;
+			m_ContextMenuStrip.Items["Preferences"].Visible = isLogined;
 			m_ContextMenuStrip.Items["Import"].Visible = isLogined;
-			m_ContextMenuStrip.Items["ImportSeperator"].Visible = isLogined;
 		}
 
 		private static void UpdateTrayMenuSyncStatus()
@@ -557,17 +544,17 @@ namespace Waveface.Stream.WindowsClient
 			if (ShowLoginDialog() == DialogResult.OK)
 			{
 				if (!MainForm.Instance.IsDebugMode)
-					ShowControlPanelDialog();
+					ShowPreferencesDialog();
 				else
 					ShowMainWindow();
 			}
 		}
 
-		private static void m_ContextMenuStrip_ControlPanel_Click(object sender, EventArgs e)
+		private static void m_ContextMenuStrip_Preferences_Click(object sender, EventArgs e)
 		{
 			DebugInfo.ShowMethod();
 
-			ShowControlPanelDialog();
+			ShowPreferencesDialog();
 		}
 
 		private static void m_ContextMenuStrip_Import_Click(object sender, EventArgs e)
@@ -637,7 +624,7 @@ namespace Waveface.Stream.WindowsClient
 			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
 				if (!MainForm.Instance.IsDebugMode)
-					ShowControlPanelDialog();
+					ShowPreferencesDialog();
 				else
 					ShowMainWindow();
 			}
@@ -652,21 +639,20 @@ namespace Waveface.Stream.WindowsClient
 
 		static void Instance_Logined(object sender, ClientFramework.LoginedEventArgs e)
 		{
-			driveDetector.DeviceArrived -= driveDetector_DeviceArrived;
-			driveDetector.DeviceArrived += driveDetector_DeviceArrived;
+			UsbImportController.Instance.StartDetect();
 		}
 
 		static void Instance_Logouted(object sender, EventArgs e)
 		{
-			driveDetector.DeviceArrived -= driveDetector_DeviceArrived;
+			UsbImportController.Instance.StopDetect();
 
-			ControlPanelDialog.Instance.Dispose();
+			PreferencesDialog.Instance.Dispose();
 			MainForm.Instance.Dispose();
 
 			if (ShowLoginDialog() == DialogResult.OK)
 			{
 				if (!MainForm.Instance.IsDebugMode)
-					ShowControlPanelDialog();
+					ShowPreferencesDialog();
 				else
 					ShowMainWindow();
 			}

@@ -291,8 +291,8 @@
   <data name="SERVICE_RESUME_MENU_ITEM" xml:space="preserve">
     <value>啟動同步</value>
   </data>
-  <data name="CONTROL_PANEL_MENU_ITEM" xml:space="preserve">
-    <value>開啟AOStream主控台</value>
+  <data name="CONTROL_PREFERENCES_MENU_ITEM" xml:space="preserve">
+    <value>偏好設定...</value>
   </data>
   <data name="DOWNLOAD_INDEX" xml:space="preserve">
     <value>下載索引中</value>

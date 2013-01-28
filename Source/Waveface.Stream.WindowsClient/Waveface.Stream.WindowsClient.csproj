@@ -79,11 +79,12 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AppLimit.NetSparkle, Version=1.0.22.0, Culture=neutral, processorArchitecture=MSIL">
@@ -180,6 +181,31 @@
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
     <Compile Include="Src\Class\SendMessageHelper.cs" />
+    <Compile Include="Src\Class\UsbImportController.cs" />
+    <Compile Include="Src\Control\PlanBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\PlanControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\PlanControl.Designer.cs">
+      <DependentUpon>PlanControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\SystemIconControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Src\Control\UsageDetailControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\UsageDetailControl.Designer.cs">
+      <DependentUpon>UsageDetailControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\PlanChangeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\PlanChangeDialog.Designer.cs">
+      <DependentUpon>PlanChangeDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\EventArgs\MessageEventArgs.cs" />
     <Compile Include="Src\Class\MessageReceiver.cs" />
     <Compile Include="Src\Class\Options.cs" />
@@ -254,7 +280,7 @@
     <Compile Include="Src\Class\UserSession.cs" />
     <Compile Include="Src\Class\WizardParameters.cs" />
     <Compile Include="Src\Control\ChoosePlanControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Src\Control\ChoosePlanControl.designer.cs">
       <DependentUpon>ChoosePlanControl.cs</DependentUpon>
@@ -319,11 +345,11 @@
     <Compile Include="Src\Dialog\AddDeviceDialog.designer.cs">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Dialog\ControlPanelDialog.cs">
+    <Compile Include="Src\Dialog\PreferencesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Src\Dialog\ControlPanelDialog.Designer.cs">
-      <DependentUpon>ControlPanelDialog.cs</DependentUpon>
+    <Compile Include="Src\Dialog\PreferencesDialog.Designer.cs">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Dialog\NewUserWizardDialog.cs">
       <SubType>Form</SubType>
@@ -429,6 +455,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resources\addDeviceInstruction.rtf" />
+    <None Include="Resources\FreePlan.rtf" />
     <None Include="Web\.DS_Store" />
     <None Include="Web\javascripts\lib\jasmine\MIT.LICENSE" />
     <None Include="Web\javascripts\tests\mocks\posts.json" />
@@ -462,6 +489,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\PersonalCloudStatusControl.resx">
       <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\PlanControl.resx">
+      <DependentUpon>PlanControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
       <DependentUpon>ServiceImportControl.cs</DependentUpon>
@@ -505,6 +535,9 @@
     <EmbeddedResource Include="Src\Control\UsageBar.resx">
       <DependentUpon>UsageBar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\UsageDetailControl.resx">
+      <DependentUpon>UsageDetailControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\AddDeviceDialog.resx">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -525,8 +558,11 @@
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Dialog\ControlPanelDialog.resx">
-      <DependentUpon>ControlPanelDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Src\Dialog\PlanChangeDialog.resx">
+      <DependentUpon>PlanChangeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\PreferencesDialog.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\NewUserWizardDialog.resx">
       <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
