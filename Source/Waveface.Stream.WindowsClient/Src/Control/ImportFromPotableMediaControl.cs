@@ -13,8 +13,6 @@ namespace Waveface.Stream.WindowsClient
 	{
 		private IPortableMediaService service;
 		private volatile bool canceled;
-		private string user_id;
-		private string session_token;
 		private string curTaskId;
 
 		private Timer timer;
@@ -48,27 +46,22 @@ namespace Waveface.Stream.WindowsClient
 
 		public void ImportDevice(string driveName)
 		{
-			foreach (PortableDevice dev in deviceCombobox.Items)
-			{
-				if (dev.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase))
-				{
-					deviceCombobox.SelectedItem = dev;
-					importDevice(dev);
-					return;
-				}
-			}
+			var device = deviceCombobox.Items.OfType<PortableDevice>().FirstOrDefault(d => d.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase));
+		
+			if (device == null)
+				return;
+
+			importDevice(device);
 		}
 
 		public void SelectDevice(string driveName)
 		{
-			foreach (PortableDevice dev in deviceCombobox.Items)
-			{
-				if (dev.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase))
-				{
-					deviceCombobox.SelectedItem = dev;
-					return;
-				}
-			}
+			var device = deviceCombobox.Items.OfType<PortableDevice>().FirstOrDefault(d => d.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase));
+
+			if (device == null)
+				return;
+
+			deviceCombobox.SelectedItem = device;
 		}
 
 		private void ImportFromPotableMediaControl_Load(object sender, EventArgs e)
@@ -103,7 +96,7 @@ namespace Waveface.Stream.WindowsClient
 			canceled = false;
 			importButton.Enabled = false;
 
-			curTaskId = service.ImportAsync(device.DrivePath, user_id, session_token, StationAPI.API_KEY);
+			curTaskId = service.ImportAsync(device.DrivePath);
 			timer.Start();
 		}
 
@@ -188,7 +181,7 @@ namespace Waveface.Stream.WindowsClient
 			return new List<PortableDevice>();
 		}
 
-		public string ImportAsync(string drive_path, string user_id, string session_token, string apikey)
+		public string ImportAsync(string drive_path)
 		{
 			return "";
 		}

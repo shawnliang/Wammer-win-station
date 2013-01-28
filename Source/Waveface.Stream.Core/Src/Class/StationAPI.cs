@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -162,8 +162,8 @@ namespace Waveface.Stream.Core
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
-					{"sns", sns},
-					{"purge_all", "no"}
+                    {"sns", sns},
+                    {"purge_all", "no"}
 				};
 
 			return Post(url, parameters);
@@ -179,14 +179,14 @@ namespace Waveface.Stream.Core
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
-					{"user_id", userID},
-					{"subscribed", (subscribed ? "yes" : "no")}
+                    {"user_id", userID},
+                    {"subscribed", (subscribed ? "yes" : "no")}
 				};
 
 			return Post(url, parameters);
 		}
 
-		public static string UpdateUser(string sessionToken, string userID, string nickName, string avatarUrl)
+		public static string UpdateUser(string sessionToken, string userID, string email = null, string nickName = null, string avatarUrl = null)
 		{
 			DebugInfo.ShowMethod();
 
@@ -196,10 +196,17 @@ namespace Waveface.Stream.Core
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
-					{"user_id", userID},
-					{"nickname", nickName},
-					{"avatar_url", avatarUrl}
+                    {"user_id", userID}
 				};
+
+			if (!string.IsNullOrEmpty(email))
+				parameters.Add("email", email);
+
+			if (!string.IsNullOrEmpty(nickName))
+				parameters.Add("nickname", nickName);
+
+			if (!string.IsNullOrEmpty(avatarUrl))
+				parameters.Add("avatar_url", avatarUrl);
 
 			return Post(url, parameters);
 		}
@@ -214,7 +221,7 @@ namespace Waveface.Stream.Core
 				{
 					{"apikey", API_KEY},
 					{"session_token", sessionToken},
-					{"user_id", userID}
+                    {"user_id", userID}
 				};
 
 			return Post(url, parameters, timeout, readWriteTimeout);
@@ -256,7 +263,7 @@ namespace Waveface.Stream.Core
 			var uri = STATION_MGMT_URLBASE + @"/station/drivers/remove";
 
 			return Post(uri, new NameValueCollection(){
-						{ "apikey", API_KEY},
+                        { "apikey", API_KEY},
 						{ "user_id", userId},
 						{ "remove_resource", removeResource.ToString()}
 					});
@@ -317,6 +324,18 @@ namespace Waveface.Stream.Core
 						{ "session_token", sessionToken}
 					});
 		}
+
+		public static string DeleteAccount(string sessionToken)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = STATION_FUNC_URLBASE + @"/users/deleteWithEmail";
+
+			return Post(uri, new NameValueCollection(){
+						{ "session_token", sessionToken}
+					});
+		}
+
 		public static string CreateCollection(string sessionToken, string name, IEnumerable<string> attachmentIDs, string id = null, string coverAttachID = null, bool? isManualCreated = null, DateTime? timeStamp = null)
 		{
 			DebugInfo.ShowMethod();

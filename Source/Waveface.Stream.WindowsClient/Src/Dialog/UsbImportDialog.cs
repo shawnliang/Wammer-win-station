@@ -12,18 +12,16 @@ namespace Waveface.Stream.WindowsClient
 {
 	public partial class UsbImportDialog : Form
 	{
-		private string driveToImport;
-		private string user_id;
-		private string session_token;
-		private PortableMediaService portableMediaService = new PortableMediaService();
+		#region Var
+		private string _driveToImport;
+		private PortableMediaService _portableMediaService = new PortableMediaService(); 
+		#endregion
 
-		public UsbImportDialog(string driveToImport, string user_id, string session_token)
+		public UsbImportDialog(string driveToImport)
 		{
 			InitializeComponent();
-			this.driveToImport = driveToImport;
-			this.user_id = user_id;
-			this.session_token = session_token;
-			this.importControl.Service = portableMediaService;
+			this._driveToImport = driveToImport;
+			this.importControl.Service = _portableMediaService;
 			this.Icon = Resources.Icon;
 		}
 
@@ -35,16 +33,12 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UsbImportDialog_Shown(object sender, EventArgs e)
 		{
-			var parameters = new WizardParameters();
-			parameters.Set("user_id", user_id);
-			parameters.Set("session_token", session_token);
-
-			if (!string.IsNullOrEmpty(driveToImport))
+			if (!string.IsNullOrEmpty(_driveToImport))
 			{
-				if (portableMediaService.GetAlwaysAutoImport(driveToImport))
-					importControl.ImportDevice(driveToImport);
+				if (_portableMediaService.GetAlwaysAutoImport(_driveToImport))
+					importControl.ImportDevice(_driveToImport);
 				else
-					importControl.SelectDevice(driveToImport);
+					importControl.SelectDevice(_driveToImport);
 			}
 		}
 	}
