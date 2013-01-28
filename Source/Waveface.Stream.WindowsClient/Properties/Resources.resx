@@ -421,4 +421,13 @@
   <data name="SYNC_OFFLINE" xml:space="preserve">
     <value>Offline ({0})</value>
   </data>
+  <data name="SVC_FACEBOOK_DESC" xml:space="preserve">
+    <value>[TBD] AOStream collects your check-ins and web links you liked or shared.</value>
+  </data>
+  <data name="SVC_GOOGLE_DESC" xml:space="preserve">
+    <value>[TBD] AOStream collects starred articles in Google Reader.</value>
+  </data>
+  <data name="SVC_TWITTER_DESC" xml:space="preserve">
+    <value>[TBD] Your favorite or retwitted web pages will be collected in AOStream.</value>
+  </data>
 </root>

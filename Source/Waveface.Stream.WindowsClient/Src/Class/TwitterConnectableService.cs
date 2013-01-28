@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -6,7 +7,7 @@ namespace Waveface.Stream.WindowsClient
 	class TwitterConnectableService : WebRedirectConnectableService
 	{
 		public TwitterConnectableService()
-			: base("twitter", "Twitter")
+			: base("twitter", "Twitter", Resources.SVC_TWITTER_DESC)
 		{
 		}
 	}
