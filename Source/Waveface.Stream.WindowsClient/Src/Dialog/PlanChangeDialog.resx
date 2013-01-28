@@ -117,25 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="planBox3.RTFDescription" xml:space="preserve">
-    <value>{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset0 Arial;}}
-{\colortbl ;\red105\green105\blue105;}
-\viewkind4\uc1\pard\cf1\lang1028\fs20 250GB cloud storage, plus multiple PC storage management\par
-}
-</value>
-  </data>
-  <data name="planBox2.RTFDescription" xml:space="preserve">
-    <value>{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset0 Arial;}}
-{\colortbl ;\red105\green105\blue105;}
-\viewkind4\uc1\pard\cf1\lang1028\fs20 250GB cloud storage, plus multiple PC storage management\par
-}
-</value>
-  </data>
-  <data name="planBox1.RTFDescription" xml:space="preserve">
-    <value>{\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset0 Arial;}}
-{\colortbl ;\red105\green105\blue105;}
-\viewkind4\uc1\pard\cf1\lang1028\fs20 Save all original files to one PC\par
-}
-</value>
-  </data>
 </root>

@@ -87,9 +87,6 @@ namespace Dolinay
 		}
 	}   // class DetectorForm
 
-
-	// Delegate for event handler to handle the device events 
-	public delegate void DriveDetectorEventHandler(Object sender, DriveDetectorEventArgs e);
 	
 	/// <summary>
 	/// Our class for passing in custom arguments to our event handlers 
@@ -142,47 +139,65 @@ namespace Dolinay
 		/// Events signalized to the client app.
 		/// Add handlers for these events in your form to be notified of removable device events 
 		/// </summary>
-		public event DriveDetectorEventHandler DeviceArrived;
-		public event DriveDetectorEventHandler DeviceRemoved;
-		public event DriveDetectorEventHandler QueryRemove;
+		public event EventHandler<DriveDetectorEventArgs> DeviceArrived;
+		public event EventHandler<DriveDetectorEventArgs> DeviceRemoved;
+		public event EventHandler<DriveDetectorEventArgs> QueryRemove;
 
+
+		#region Static Var
+        private static DriveDetector _instance;
+        #endregion
+
+        #region Public Static Property
+        public static DriveDetector Instance
+        { 
+            get
+            {
+                return _instance ?? (_instance = new DriveDetector());
+            }
+        }
+        #endregion
+
+
+		#region Constructor
 		/// <summary>
 		/// The easiest way to use DriveDetector. 
 		/// It will create hidden form for processing Windows messages about USB drives
 		/// You do not need to override WndProc in your form.
 		/// </summary>
-		public DriveDetector()
+		private DriveDetector()
 		{
-			DetectorForm  frm = new DetectorForm(this);
+			DetectorForm frm = new DetectorForm(this);
 			frm.Show(); // will be hidden immediatelly
 			Init(frm, null);
 		}
 
-		/// <summary>
-		/// Alternate constructor.
-		/// Pass in your Form and DriveDetector will not create hidden form.
-		/// </summary>
-		/// <param name="control">object which will receive Windows messages. 
-		/// Pass "this" as this argument from your form class.</param>
-		public DriveDetector(Control control)
-		{
-			Init(control, null);
-		}
+		///// <summary>
+		///// Alternate constructor.
+		///// Pass in your Form and DriveDetector will not create hidden form.
+		///// </summary>
+		///// <param name="control">object which will receive Windows messages. 
+		///// Pass "this" as this argument from your form class.</param>
+		//public DriveDetector(Control control)
+		//{
+		//	Init(control, null);
+		//}
 
-		/// <summary>
-		/// Consructs DriveDetector object setting also path to file which should be opened
-		/// when registering for query remove.  
-		/// </summary>
-		///<param name="control">object which will receive Windows messages. 
-		/// Pass "this" as this argument from your form class.</param>
-		/// <param name="FileToOpen">Optional. Name of a file on the removable drive which should be opened. 
-		/// If null, root directory of the drive will be opened. Opening a file is needed for us 
-		/// to be able to register for the query remove message. TIP: For files use relative path without drive letter.
-		/// e.g. "SomeFolder\file_on_flash.txt"</param>
-		public DriveDetector(Control control, string FileToOpen)
-		{
-			Init(control, FileToOpen);
-		}
+		///// <summary>
+		///// Consructs DriveDetector object setting also path to file which should be opened
+		///// when registering for query remove.  
+		///// </summary>
+		/////<param name="control">object which will receive Windows messages. 
+		///// Pass "this" as this argument from your form class.</param>
+		///// <param name="FileToOpen">Optional. Name of a file on the removable drive which should be opened. 
+		///// If null, root directory of the drive will be opened. Opening a file is needed for us 
+		///// to be able to register for the query remove message. TIP: For files use relative path without drive letter.
+		///// e.g. "SomeFolder\file_on_flash.txt"</param>
+		//public DriveDetector(Control control, string FileToOpen)
+		//{
+		//	Init(control, FileToOpen);
+		//} 
+		#endregion
 
 		/// <summary>
 		/// init the DriveDetector object
@@ -335,7 +350,7 @@ namespace Dolinay
 							//
 							// We should create copy of the event before testing it and
 							// calling the delegate - if any
-							DriveDetectorEventHandler tempDeviceArrived = DeviceArrived;
+							var tempDeviceArrived = DeviceArrived;
 							if ( tempDeviceArrived != null )
 							{
 								DriveDetectorEventArgs e = new DriveDetectorEventArgs();
@@ -382,7 +397,7 @@ namespace Dolinay
 							//
 							// Call the event handler in client
 							//
-							DriveDetectorEventHandler tempQuery = QueryRemove;
+							var tempQuery = QueryRemove;
 							if (tempQuery != null)
 							{
 								DriveDetectorEventArgs e = new DriveDetectorEventArgs();
@@ -427,7 +442,7 @@ namespace Dolinay
 								//
 								// Call the client event handler
 								//
-								DriveDetectorEventHandler tempDeviceRemoved = DeviceRemoved;
+								var tempDeviceRemoved = DeviceRemoved;
 								if (tempDeviceRemoved != null)
 								{
 									DriveDetectorEventArgs e = new DriveDetectorEventArgs();

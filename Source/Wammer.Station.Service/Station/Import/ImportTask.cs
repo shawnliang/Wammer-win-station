@@ -107,7 +107,7 @@ namespace Wammer.Station
 
 				var photoCrawler = new PhotoCrawler();
 				var inputFiles = Paths.Where(file => Path.GetExtension(file).Length > 0);
-				var allFiles = photoCrawler.FindPhotos(Paths).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
+				var allFiles = photoCrawler.FindPhotos(Paths, photoCrawlerError).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
 
 				raiseFilesEnumeratedEvent(allFiles.Count);
 
@@ -210,6 +210,12 @@ namespace Wammer.Station
 		#endregion
 
 		#region Private Method
+
+		private void photoCrawlerError(string path, Exception e)
+		{
+			this.LogWarnMsg("Unable to enumerate files under " + path, e);
+		}
+
 		private void createPostContainer(DateTime importTime, string postID, IEnumerable<string> objectIDs)
 		{
 			var parameters = new NameValueCollection()

@@ -4,6 +4,7 @@ using System.IO;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
 using Waveface.Stream.Core;
+using Waveface.Stream.ClientFramework;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -31,10 +32,10 @@ namespace Waveface.Stream.WindowsClient
 		}
 
 
-		public string ImportAsync(string drive_path, string user_id, string session_token, string apikey)
+		public string ImportAsync(string drive_path)
 		{
-			var session = LoginedSessionCollection.Instance.FindOneById(session_token);
-			return StationAPI.ImportPhoto(session_token, session.groups[0].group_id, new string[] { drive_path }).task_id;
+			var user = StreamClient.Instance.LoginedUser;
+			return StationAPI.ImportPhoto(user.SessionToken, user.GroupID, new string[] { drive_path }).task_id;
 		}
 
 		public ImportTaskStaus QueryTaskStatus(string taskId)

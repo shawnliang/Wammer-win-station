@@ -52,6 +52,12 @@ namespace Waveface.Stream.WindowsClient
 							 "Content-Type: application/json");
 		}
 
+		/// <summary>
+		/// Tries the parse sign up data from URL.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns></returns>
+		/// <exception cref="System.Exception">sign up error:  + apiRetCode</exception>
 		public SignUpData TryParseSignUpDataFromUrl(Uri url)
 		{
 			if (!Regex.IsMatch(url.AbsoluteUri, string.Format(CALLBACK_MATCH_PATTERN_FORMAT, "SignUp"),

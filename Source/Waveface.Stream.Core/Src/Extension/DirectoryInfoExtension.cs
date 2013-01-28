@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 public static class DirectoryInfoExtension
 {
 	public delegate bool PathCallback(string path);
+	public delegate void PathErrorCallback(string path, Exception err);
 
 	#region PInvoke
 	[DllImport("kernel32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto, SetLastError = true)]
@@ -77,7 +78,7 @@ public static class DirectoryInfoExtension
 		FindClose(hFind);
 	}
 
-	private static void searchFiles(string path, string[] patterns, PathCallback fileCB, PathCallback folderCB)
+	private static void searchFiles(string path, string[] patterns, PathCallback fileCB, PathCallback folderCB, PathErrorCallback errorCB)
 	{
 		if (folderCB != null && !folderCB(path))
 			return;
@@ -106,10 +107,12 @@ public static class DirectoryInfoExtension
 		{
 			try
 			{
-				searchFiles(subdir, patterns, fileCB, folderCB);
+				searchFiles(subdir, patterns, fileCB, folderCB, errorCB);
 			}
-			catch
+			catch (Exception e)
 			{
+				if (errorCB != null)
+					errorCB(subdir, e);
 			}
 		}
 	}
@@ -118,14 +121,14 @@ public static class DirectoryInfoExtension
 
 
 	#region Public Method
-	public static void SearchFiles(this DirectoryInfo dir, string[] patterns, PathCallback fileCB, PathCallback folderCB = null)
+	public static void SearchFiles(this DirectoryInfo dir, string[] patterns, PathCallback fileCB, PathCallback folderCB = null, PathErrorCallback errorCB = null)
 	{
 		if (fileCB == null)
 			throw new ArgumentNullException("fileCB");
 		if (patterns == null)
 			throw new ArgumentNullException("patterns");
 
-		searchFiles(dir.FullName, patterns, fileCB, folderCB);
+		searchFiles(dir.FullName, patterns, fileCB, folderCB, errorCB);
 	}
 
 

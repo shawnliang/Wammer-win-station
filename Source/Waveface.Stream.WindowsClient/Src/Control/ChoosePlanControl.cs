@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace Waveface.Stream.WindowsClient
 {
 
-	public partial class ChoosePlanControl : Control
+	public partial class ChoosePlanControl : UserControl
 	{
 		public ChoosePlanControl()
 		{
