@@ -8,6 +8,6 @@ namespace Wammer.Queue
 {
 	public interface IThrottleDest
 	{
-		void NoThrottleEnqueue(ITask task, TaskPriority pri);
+		void NoThrottleEnqueue(WMSMessage msg, TaskPriority pri);
 	}
 }

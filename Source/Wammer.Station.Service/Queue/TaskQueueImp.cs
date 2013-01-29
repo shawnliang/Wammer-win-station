@@ -154,10 +154,10 @@ namespace Wammer.Queue
 			}
 		}
 
-		public void NoThrottleEnqueue(ITask task, TaskPriority priority)
+		public void NoThrottleEnqueue(WMSMessage msg, TaskPriority priority)
 		{
 			var que = getQueue(priority);
-			noThrottleEnqueue(priority, que, task, false);
+			noThrottleEnqueue(priority, que, msg);
 		}
 
 		private void enqueue(TaskPriority priority, WMSQueue queue, ITask task, bool persistent)
@@ -168,7 +168,12 @@ namespace Wammer.Queue
 			{
 				if (throttle.ShouldThrottle(task))
 				{
-					throttle.Eat(task, priority);
+					var saveItem = new WMSMessage(task) { IsPersistent = persistent, Queue = queue };
+
+					if (persistent)
+						storage.Save(saveItem);
+
+					throttle.Eat(saveItem, priority);
 					return;
 				}
 			}
@@ -177,9 +182,9 @@ namespace Wammer.Queue
 			noThrottleEnqueue(priority, queue, task, persistent);
 		}
 
-		private void noThrottleEnqueue(TaskPriority priority, WMSQueue queue, ITask task, bool persistent)
+		private void noThrottleEnqueue(TaskPriority priority, WMSQueue queue, WMSMessage msg)
 		{
-			mqSession.Push(queue, task, persistent);
+			queue.Push(msg, msg.IsPersistent);
 
 			lock (lockObj)
 			{
@@ -189,6 +194,12 @@ namespace Wammer.Queue
 
 				_scheduleNextTaskToRun();
 			}
+		}
+
+		private void noThrottleEnqueue(TaskPriority priority, WMSQueue queue, ITask task, bool persistent)
+		{
+			WMSMessage msg = new WMSMessage(task) { IsPersistent = persistent, Queue = queue };
+			noThrottleEnqueue(priority, queue, msg);
 		}
 
 		private void _scheduleNextTaskToRun()

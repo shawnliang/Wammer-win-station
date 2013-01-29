@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wammer.Queue;
 using Moq;
 using Wammer.Station.AttachmentUpload;
+using Wammer.Model;
 
 namespace UT_WammerStation.TaskQueueTest
 {
@@ -25,8 +26,14 @@ namespace UT_WammerStation.TaskQueueTest
 			}
 		}
 
+		[TestInitialize]
+		public void setup()
+		{
+			QueuedTaskCollection.Instance.RemoveAll();
+		}
+
 		[TestMethod]
-		public void TestMethod1()
+		public void throttle_allow_at_most_n_current_tasks()
 		{
 			var threadPool = new Mock<IThreadPool>();
 			var queue = new TaskQueueImp(threadPool.Object);
@@ -60,6 +67,60 @@ namespace UT_WammerStation.TaskQueueTest
 			queue.RunPriorityQueue(null);
 
 			Assert.AreEqual(5, count);
+		}
+
+		[TestMethod]
+		public void throttle_also_supports_persistency()
+		{
+			var threadPool = new Mock<IThreadPool>();
+			var queue = new TaskQueueImp(threadPool.Object);
+
+			var concurrentCount = 1;
+			var taskType = typeof(NullTask);
+			var thottle1 = new Throttle1(concurrentCount);
+
+			queue.AddThrottle(thottle1);
+
+			var count = 0;
+			threadPool.Setup(x => x.QueueWorkItem(queue.RunPriorityQueue)).Callback(() => count++);
+
+
+			queue.Enqueue(new NullTask(), Wammer.Station.TaskPriority.Medium, true);
+			queue.Enqueue(new NullTask(), Wammer.Station.TaskPriority.Medium, true);
+			queue.Enqueue(new NullTask(), Wammer.Station.TaskPriority.Medium, true);
+			queue.Enqueue(new NullTask(), Wammer.Station.TaskPriority.Medium, true);
+			queue.Enqueue(new NullTask(), Wammer.Station.TaskPriority.Medium, true);
+
+
+			var loadFromStorage = 0;
+			var queue2 = new TaskQueueImp(threadPool.Object);
+			threadPool.Setup(x => x.QueueWorkItem(queue2.RunPriorityQueue)).Callback(() => loadFromStorage++);
+			queue2.Init();
+
+			Assert.AreEqual(5, loadFromStorage);
+		}
+
+		[TestMethod]
+		public void db_is_cleared_if_a_persistent_throttle_task_is_executed()
+		{
+			var threadPool = new Mock<IThreadPool>();
+			var queue = new TaskQueueImp(threadPool.Object);
+
+			var concurrentCount = 1;
+			var taskType = typeof(NullTask);
+			var thottle1 = new Throttle1(concurrentCount);
+
+			queue.AddThrottle(thottle1);
+
+			var count = 0;
+			threadPool.Setup(x => x.QueueWorkItem(queue.RunPriorityQueue)).Callback(() => count++);
+			queue.Enqueue(new NullTask(), Wammer.Station.TaskPriority.Medium, true);
+			queue.Enqueue(new NullTask(), Wammer.Station.TaskPriority.Medium, true);
+
+			queue.RunPriorityQueue(null);
+			queue.RunPriorityQueue(null);
+
+			Assert.AreEqual(0L, QueuedTaskCollection.Instance.FindAll().Count());
 		}
 	}
 }

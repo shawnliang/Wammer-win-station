@@ -8,7 +8,8 @@ namespace Wammer.Queue
 {
 	public abstract class Throttle
 	{
-		private Queue<ITask> _tasks;
+		private Queue<WMSMessage> _msgs;
+
 		private int maxValue;
 		private int running = 0;
 		private object cs = new object();
@@ -17,9 +18,9 @@ namespace Wammer.Queue
 
 		public abstract bool ShouldThrottle(ITask task);
 
-		private Queue<ITask> m_Tasks
+		private Queue<WMSMessage> m_Msgs
 		{
-			get { return _tasks ?? (_tasks = new Queue<ITask>()); }
+			get { return _msgs ?? (_msgs = new Queue<WMSMessage>()); }
 		}
 
 		protected Throttle(int maxValue)
@@ -27,39 +28,43 @@ namespace Wammer.Queue
 			this.maxValue = maxValue;
 		}
 
-		public void Eat(ITask task, TaskPriority pri)
+		public void Eat(WMSMessage msg, TaskPriority pri)
 		{
 			lock (cs)
 			{
 				if (running < maxValue)
 				{
-					Dest.NoThrottleEnqueue(new ThrottleTask(task, this), pri);
+					msg.Data = new ThrottleTask((ITask)msg.Data, this);
+					Dest.NoThrottleEnqueue(msg, pri);
 					running++;
 				}
 				else
 				{
-					m_Tasks.Enqueue(task);
+					m_Msgs.Enqueue(msg);
 				}
 			}
 		}
 
 		public void AdvanceThrottle()
 		{
-			ITask task = null;
+			WMSMessage msg = null;
 
 			lock (cs)
 			{
 				running--;
 
-				if (running < maxValue && m_Tasks.Any())
+				if (running < maxValue && m_Msgs.Any())
 				{
-					task = new ThrottleTask(m_Tasks.Dequeue(), this);
+					msg = m_Msgs.Dequeue();
 					running++;
 				}
 			}
 
-			if (task != null)
-				Dest.NoThrottleEnqueue(task, TaskPriority.Medium);
+			if (msg != null)
+			{
+				msg.Data = new ThrottleTask((ITask)msg.Data, this);
+				Dest.NoThrottleEnqueue(msg, TaskPriority.Medium);
+			}
 		}
 	}
 
