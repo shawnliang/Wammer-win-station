@@ -29,11 +29,27 @@ namespace Waveface.Stream.WindowsClient
 		private static System.Windows.Forms.Timer _timer;
 		private static RecentDocumentWatcher recentDocWatcher = new RecentDocumentWatcher();
 
-		private static Icon iconSyncing1 = Icon.FromHandle(Resources.stream_tray_syncing1.GetHicon());
-		private static Icon iconSyncing2 = Icon.FromHandle(Resources.stream_tray_syncing2.GetHicon());
-		private static Icon iconPaused = Icon.FromHandle(Resources.stream_tray_pause.GetHicon());
-		private static Icon iconWarning = Icon.FromHandle(Resources.stream_tray_warn.GetHicon());
-		private static Icon iconWorking = Icon.FromHandle(Resources.stream_tray_working.GetHicon());
+		private static int syncingIconIndex;
+		private static Icon[] syncingIcons = new Icon[] 
+		{
+			Icon.FromHandle(Resources._1.GetHicon()),
+			Icon.FromHandle(Resources._2.GetHicon()),
+			Icon.FromHandle(Resources._3.GetHicon()),
+			Icon.FromHandle(Resources._4.GetHicon()),
+			Icon.FromHandle(Resources._5.GetHicon()),
+			Icon.FromHandle(Resources._6.GetHicon()),
+			Icon.FromHandle(Resources._7.GetHicon()),
+			Icon.FromHandle(Resources._8.GetHicon()),
+			Icon.FromHandle(Resources._9.GetHicon()),
+			Icon.FromHandle(Resources._10.GetHicon()),
+			Icon.FromHandle(Resources._11.GetHicon()),
+			Icon.FromHandle(Resources._12.GetHicon()),
+			Icon.FromHandle(Resources._13.GetHicon()),
+		};
+
+		private static Icon iconPaused = Icon.FromHandle(Resources.icon_16x16offline.GetHicon());
+		private static Icon iconWarning = Icon.FromHandle(Resources.icon_16x16.GetHicon());
+		private static Icon iconWorking = Icon.FromHandle(Resources.icon_16x16.GetHicon());
 		#endregion
 
 
@@ -255,7 +271,7 @@ namespace Waveface.Stream.WindowsClient
 				{
 					if (SyncStatus.IsServiceRunning)
 					{
-						m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
+						m_NotifyIcon.Icon = syncingIcons[syncingIconIndex ++ % syncingIcons.Length];
 
 						if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
 						{
@@ -278,12 +294,12 @@ namespace Waveface.Stream.WindowsClient
 					}
 					else if (syncRange.syncing)
 					{
-						m_NotifyIcon.Icon = (m_NotifyIcon.Icon == iconSyncing1 ? iconSyncing2 : iconSyncing1);
+						m_NotifyIcon.Icon = syncingIcons[syncingIconIndex++ % syncingIcons.Length];
 					}
 
 				}
 
-				var syncStatus = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID).Description;
+				var syncStatus = (StreamClient.Instance.IsLogined) ? ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID).Description : string.Empty;
 
 				if (string.IsNullOrEmpty(syncStatus))
 					syncStatus = SyncStatus.GetSyncDescription();
@@ -423,7 +439,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			DebugInfo.ShowMethod();
 			m_NotifyIcon.Text = Application.ProductName;
-			m_NotifyIcon.Icon = Icon.FromHandle(Resources.stream_tray_init.GetHicon());
+			m_NotifyIcon.Icon = iconWorking;
 			m_NotifyIcon.ContextMenuStrip = m_ContextMenuStrip;
 			m_NotifyIcon.Visible = true;
 
@@ -510,7 +526,7 @@ namespace Waveface.Stream.WindowsClient
 				m_ContextMenuStrip.Items.RemoveAt(insertIndex);
 			}
 
-			var syncStatus = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID).Description;
+			var syncStatus = (StreamClient.Instance.IsLogined)? ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID).Description: string.Empty;
 
 			if (string.IsNullOrEmpty(syncStatus))
 				syncStatus = SyncStatus.GetSyncDescription();

@@ -58,6 +58,8 @@ namespace Waveface.Stream.WindowsClient
 		#region Event Process
 		private void NewUserWizardDialog_Load(object sender, EventArgs e)
 		{
+			this.Icon = Properties.Resources.Icon;
+
 			UpdateUI();
 
 			signUpControl1.ShowSignUpPage();

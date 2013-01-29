@@ -47,6 +47,7 @@ namespace Waveface.Stream.WindowsClient
 			this.tabControl.HideTabs = true;
 			this.tabControl.Multiline = true;
 			this.tabControl.Name = "tabControl";
+			this.tabControl.PageIndex = 1;
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.TabStop = false;
 			// 
@@ -89,6 +90,7 @@ namespace Waveface.Stream.WindowsClient
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "LoginDialog";
+			this.Load += new System.EventHandler(this.LoginDialog_Load);
 			this.tabControl.ResumeLayout(false);
 			this.tabMainPage.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
