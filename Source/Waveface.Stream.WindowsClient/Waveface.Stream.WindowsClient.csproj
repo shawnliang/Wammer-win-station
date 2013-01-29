@@ -630,6 +630,9 @@
     <Content Include="Resources\f_logo.png" />
     <None Include="Resources\icon_16x16.png" />
     <None Include="Resources\icon_16x16offline.png" />
+    <None Include="Resources\icon_16x16Error.png" />
+    <None Include="Resources\icon_16x16Pause.png" />
+    <None Include="Resources\icon_16x16Warning.png" />
     <Content Include="Resources\import-photos_normal.png" />
     <Content Include="Resources\import-photos_press.png" />
     <Content Include="Resources\input_box-2.png" />

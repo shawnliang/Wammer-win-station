@@ -47,8 +47,8 @@ namespace Waveface.Stream.WindowsClient
 			Icon.FromHandle(Resources._13.GetHicon()),
 		};
 
-		private static Icon iconPaused = Icon.FromHandle(Resources.icon_16x16offline.GetHicon());
-		private static Icon iconWarning = Icon.FromHandle(Resources.icon_16x16.GetHicon());
+		private static Icon iconPaused = Icon.FromHandle(Resources.icon_16x16Pause.GetHicon());
+		private static Icon iconWarning = Icon.FromHandle(Resources.icon_16x16Warning.GetHicon());
 		private static Icon iconWorking = Icon.FromHandle(Resources.icon_16x16.GetHicon());
 		#endregion
 

@@ -519,9 +519,39 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_16x16Error {
+            get {
+                object obj = ResourceManager.GetObject("icon_16x16Error", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_16x16offline {
             get {
                 object obj = ResourceManager.GetObject("icon_16x16offline", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_16x16Pause {
+            get {
+                object obj = ResourceManager.GetObject("icon_16x16Pause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_16x16Warning {
+            get {
+                object obj = ResourceManager.GetObject("icon_16x16Warning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
