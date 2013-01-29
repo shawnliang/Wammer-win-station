@@ -200,21 +200,15 @@ namespace Waveface.Stream.ClientFramework
 
 		#region Event
 		public event EventHandler UserInfoUpdated;
+		public event EventHandler<ExceptionEventArgs> UserInfoUpdateFail;
 		#endregion
 
 
 		#region Private Method
 		private string GetUserData()
 		{
-			try
-			{
-				var response = StationAPI.GetUser(m_SessionToken, m_UserID);
-				return response;
-			}
-			catch (Exception)
-			{
-			}
-			return null;
+			var response = StationAPI.GetUser(m_SessionToken, m_UserID);
+			return response;
 		}
 		#endregion
 
@@ -227,6 +221,15 @@ namespace Waveface.Stream.ClientFramework
 		protected void OnUserInfoUpdated(EventArgs e)
 		{
 			this.RaiseEvent(UserInfoUpdated, e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="E:UserInfoUpdateFail" /> event.
+		/// </summary>
+		/// <param name="e">The <see cref="ExceptionEventArgs" /> instance containing the event data.</param>
+		protected void OnUserInfoUpdateFail(ExceptionEventArgs e)
+		{
+			this.RaiseEvent<ExceptionEventArgs>(UserInfoUpdateFail, e);
 		}
 		#endregion
 
@@ -241,11 +244,13 @@ namespace Waveface.Stream.ClientFramework
 
 		public void Update()
 		{
-			var response = GetUserData();
-
-			if (response != null)
+			try
 			{
-				m_Response = response;
+				m_Response = GetUserData();
+			}
+			catch (Exception e)
+			{
+				OnUserInfoUpdateFail(new ExceptionEventArgs(e));
 			}
 		}
 		#endregion

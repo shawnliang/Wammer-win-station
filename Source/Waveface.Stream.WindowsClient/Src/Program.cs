@@ -14,6 +14,9 @@ using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 using CommandLine;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
+using System.Net;
+using fastJSON;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -197,6 +200,7 @@ namespace Waveface.Stream.WindowsClient
 
 			Application.Run();
 		}
+
 
 		private static void ImportFileAndFolders(IEnumerable<string> fileAndFolders)
 		{
