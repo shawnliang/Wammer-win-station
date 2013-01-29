@@ -1,4 +1,5 @@
-﻿using System;
+﻿using fastJSON;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -128,6 +130,11 @@ namespace Waveface.Stream.WindowsClient
 			lblName.Text = userInfo.NickName;
 			//chkSubscribed.Checked = userInfo.Subscribed;
 
+			AdjustEditFunction();
+		}
+
+		private void AdjustEditFunction()
+		{
 			var left = lblEmail.Left + Math.Max(lblEmail.Width, lblName.Width) + lblEmail.Padding.Right + lnklblEditEmail.Padding.Left;
 			lnklblEditEmail.Left = left;
 			lnklblEditName.Left = left;
@@ -570,24 +577,50 @@ namespace Waveface.Stream.WindowsClient
 
 		private void lnklblSaveEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			var user = StreamClient.Instance.LoginedUser;
-			StationAPI.UpdateUser(user.SessionToken, user.UserID, email: tbxEmail.Text);
+			try
+			{
+				var user = StreamClient.Instance.LoginedUser;
+				StationAPI.UpdateUser(user.SessionToken, user.UserID, email: tbxEmail.Text);
 
-			lblEmail.Text = tbxEmail.Text;
-			SwitchToEmailDisplayMode();
+				lblEmail.Text = tbxEmail.Text;
 
-			Waveface.Stream.ClientFramework.UserInfo.Instance.Reset();
+				AdjustEditFunction();
+				SwitchToEmailDisplayMode();
+
+				Waveface.Stream.ClientFramework.UserInfo.Instance.Reset();
+			}
+			catch (WebException ex)
+			{
+				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
+				{
+					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
+					MessageBox.Show(cloudResponse.api_ret_message);
+				}
+			}
 		}
 
 		private void lnklblSaveName_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			var user = StreamClient.Instance.LoginedUser;
-			StationAPI.UpdateUser(user.SessionToken, user.UserID, nickName: tbxName.Text);
+			try
+			{
+				var user = StreamClient.Instance.LoginedUser;
+				StationAPI.UpdateUser(user.SessionToken, user.UserID, nickName: tbxName.Text);
 
-			lblName.Text = tbxName.Text;
-			SwitchToNameDisplayMode();
+				lblName.Text = tbxName.Text;
 
-			Waveface.Stream.ClientFramework.UserInfo.Instance.Reset();
+				AdjustEditFunction();
+				SwitchToNameDisplayMode();
+
+				Waveface.Stream.ClientFramework.UserInfo.Instance.Reset();
+			}			
+			catch (WebException ex)
+			{
+				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
+				{
+					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
+					MessageBox.Show(cloudResponse.api_ret_message);
+				}
+			}
 		}
 
 
