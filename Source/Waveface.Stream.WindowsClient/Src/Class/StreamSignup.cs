@@ -112,7 +112,7 @@ namespace Waveface.Stream.WindowsClient
 					else
 					{
 						AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken, userFolder));
-						StreamClient.Instance.Login(sessionToken);
+						StreamClient.Instance.LoginSNS(userID, sessionToken);
 
 						return new SignUpData
 						{
@@ -140,7 +140,8 @@ namespace Waveface.Stream.WindowsClient
 					}
 					else
 					{
-						StreamClient.Instance.Login(sessionToken);
+						StreamClient.Instance.LoginSNS(userID, sessionToken);
+
 						return new SignUpData
 						{
 							account_type = accountType,
