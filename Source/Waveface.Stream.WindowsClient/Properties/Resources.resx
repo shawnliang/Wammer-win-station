@@ -163,9 +163,6 @@
   <data name="SERVICE_STARTING" xml:space="preserve">
     <value>Starting AOStream...</value>
   </data>
-  <data name="stream_tray_syncing2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_syncing2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CONNECT_CLOUD_ERROR" xml:space="preserve">
     <value>Unable to connect to AOStream server</value>
   </data>
@@ -211,20 +208,11 @@
   <data name="SERVICE_START_FAIL" xml:space="preserve">
     <value>Unable to connect to AOStream server</value>
   </data>
-  <data name="stream_tray_syncing1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_syncing1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MOVE_FOLDER_UNSUCCESS" xml:space="preserve">
     <value>Unable to move</value>
   </data>
-  <data name="stream_tray_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_init.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="UpdateAvailable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UpdateAvailable.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stream_tray_warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_warn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="input_box_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\input_box-2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -274,17 +262,11 @@
   <data name="SERVICE_QUIT" xml:space="preserve">
     <value>Quit</value>
   </data>
-  <data name="stream_tray_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CHECKING_UPDATE" xml:space="preserve">
     <value>Checking...</value>
   </data>
   <data name="REMOVE_ACCOUNT_MESSAGE" xml:space="preserve">
     <value>Remove Account...</value>
-  </data>
-  <data name="stream_tray_working" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_tray_working.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FB_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FB_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -414,7 +396,7 @@
   </data>
   <data name="CHROME_EXTENSION_MENU_ITEM" xml:space="preserve">
     <value>Install Chrome Extension</value>
-      </data>
+  </data>
   <data name="SYNC_CONNECTED_LOCALLY" xml:space="preserve">
     <value>Connected locally</value>
   </data>
@@ -426,20 +408,74 @@
   </data>
   <data name="GET_APPS_MENU_ITEM" xml:space="preserve">
     <value>Get Apps</value>
-      </data>
+  </data>
   <data name="SVC_FACEBOOK_DESC" xml:space="preserve">
     <value>[TBD] AOStream collects your check-ins and web links you liked or shared.</value>
   </data>
   <data name="HELP_CENTER_MENU_ITEM" xml:space="preserve">
     <value>Help Center</value>
-      </data>
+  </data>
   <data name="SVC_GOOGLE_DESC" xml:space="preserve">
     <value>[TBD] AOStream collects starred articles in Google Reader.</value>
   </data>
   <data name="FreePlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FreePlan.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
-      </data>
+  </data>
   <data name="SVC_TWITTER_DESC" xml:space="preserve">
     <value>[TBD] Your favorite or retwitted web pages will be collected in AOStream.</value>
+  </data>
+  <data name="icon_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_16x16offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_16x16offline.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\10.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\11.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\12.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\13.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\5.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\6.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\7.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\8.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\9.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_16x16Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_16x16Error.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_16x16Pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_16x16Pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_16x16Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_16x16Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

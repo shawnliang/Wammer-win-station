@@ -61,6 +61,8 @@ namespace Waveface.Stream.WindowsClient
 
 		private void OldUserWizardDialog_Load(object sender, EventArgs e)
 		{
+			this.Icon = Properties.Resources.Icon;
+
 			UpdateUI();
 
 			loginControl1.LoginSuccess += loginControl1_LoginSuccess;
