@@ -28,7 +28,11 @@ namespace Wammer.Station
 
 		public static void Init()
 		{
-			queue.AddThrottle(new ThumbnailThrottle(2));
+			var concurrency = Environment.ProcessorCount / 2;
+			if (concurrency == 0)
+				concurrency = 1;
+
+			queue.AddThrottle(new ThumbnailThrottle(concurrency));
 			queue.Init();
 		}
 
