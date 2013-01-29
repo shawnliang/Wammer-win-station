@@ -94,6 +94,7 @@
     <Compile Include="Src\Class\WebSocketCommand\LogCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\OpenAttachmentCommand.cs" />
     <Compile Include="Src\Event\LoginedEventArgs.cs" />
+    <Compile Include="Src\Event\ExceptionEventArgs.cs" />
     <Compile Include="Src\Extension\FileInfoExtension.cs" />
     <Compile Include="Src\Extension\ListBoxExtension.cs" />
     <Compile Include="Src\Extension\EnumExtension.cs" />

@@ -44,7 +44,7 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Public Static Property
 		public static PreferencesDialog Instance
-		{ 
+		{
 			get
 			{
 				return _instance ?? (_instance = new PreferencesDialog());
@@ -125,12 +125,18 @@ namespace Waveface.Stream.WindowsClient
 		#region Private Method
 		private void UpdateAccountInfo()
 		{
-			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
-			lblEmail.Text = userInfo.Email;
-			lblName.Text = userInfo.NickName;
-			//chkSubscribed.Checked = userInfo.Subscribed;
+			try
+			{
+				var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+				lblEmail.Text = userInfo.Email;
+				lblName.Text = userInfo.NickName;
+				//chkSubscribed.Checked = userInfo.Subscribed;
 
-			AdjustEditFunction();
+				AdjustEditFunction();
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		private void AdjustEditFunction()
@@ -164,7 +170,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void GetSizeAndUnit(float value, ref float size, ref string unit)
 		{
-			var units = new string[] { "B", "KB", "MB", "GB"};
+			var units = new string[] { "B", "KB", "MB", "GB" };
 			var index = Array.IndexOf(units, unit);
 
 			if (index == -1)
@@ -471,11 +477,11 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var summary = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
 
-			lblSyncStatus.Text = string.IsNullOrEmpty(summary.Description)? SyncStatus.GetSyncStatus(): summary.Description;
-			lblSyncTransferStatus.Text =  string.IsNullOrEmpty(summary.Description)? SyncStatus.GetSyncTransferStatus(): string.Empty;
+			lblSyncStatus.Text = string.IsNullOrEmpty(summary.Description) ? SyncStatus.GetSyncStatus() : summary.Description;
+			lblSyncTransferStatus.Text = string.IsNullOrEmpty(summary.Description) ? SyncStatus.GetSyncTransferStatus() : string.Empty;
 		}
-				
-		
+
+
 		private void PreferencesDialog_Load(object sender, EventArgs e)
 		{
 			if (this.IsDesignMode())
@@ -501,6 +507,7 @@ namespace Waveface.Stream.WindowsClient
 			this.tabDevices.Controls.Add(new PersonalCloudStatusControl2() { Dock = DockStyle.Fill });
 
 			Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdated += Instance_UserInfoUpdated;
+			Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdateFail += Instance_UserInfoUpdateFail;
 			tabControl1.SelectedIndexChanged += InitGeneralPage;
 		}
 
@@ -594,6 +601,11 @@ namespace Waveface.Stream.WindowsClient
 				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
 				{
 					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
+					if (cloudResponse.status == 401)
+					{
+						StreamClient.Instance.Logout();
+						return;
+					}
 					MessageBox.Show(cloudResponse.api_ret_message);
 				}
 			}
@@ -612,12 +624,17 @@ namespace Waveface.Stream.WindowsClient
 				SwitchToNameDisplayMode();
 
 				Waveface.Stream.ClientFramework.UserInfo.Instance.Reset();
-			}			
+			}
 			catch (WebException ex)
 			{
 				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
 				{
 					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
+					if (cloudResponse.status == 401)
+					{
+						StreamClient.Instance.Logout();
+						return;
+					}
 					MessageBox.Show(cloudResponse.api_ret_message);
 				}
 			}
@@ -628,6 +645,18 @@ namespace Waveface.Stream.WindowsClient
 		private void lnklblCancelName_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			SwitchToNameDisplayMode();
+		}
+
+		static void Instance_UserInfoUpdateFail(object sender, ExceptionEventArgs e)
+		{
+			using (var sr = new StreamReader((e.Exception as WebException).Response.GetResponseStream()))
+			{
+				var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
+				if (cloudResponse.status == 401)
+				{
+					StreamClient.Instance.Logout();
+				}
+			}
 		}
 
 		//private void chkSubscribed_CheckedChanged(object sender, EventArgs e)
