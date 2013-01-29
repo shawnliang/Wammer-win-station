@@ -98,7 +98,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public override void ScheduleToRun()
 		{
-			TaskQueue.Enqueue(this, priority);
+			TaskQueue.Enqueue(this, priority, true);
 		}
 
 		protected static void OnThumbnailGenerated(object sender, ThumbnailEventArgs evt)

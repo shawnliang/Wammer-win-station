@@ -145,7 +145,9 @@
     <Compile Include="Model\MonitorItem.cs" />
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="PerfMonitor\NullPerfCounter.cs" />
+    <Compile Include="Queue\IThreadPool.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
+    <Compile Include="Queue\TaskQueueImp.cs" />
     <Compile Include="Station\AbstractTaskEnDequeueNotifier.cs" />
     <Compile Include="Station\APIHandler\ImportAPIHandler.cs" />
     <Compile Include="Station\APIHandler\ImportDocHandler.cs" />
