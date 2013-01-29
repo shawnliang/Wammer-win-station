@@ -102,6 +102,7 @@
     <Compile Include="MoveFolder\TestMoveFolder.cs" />
     <Compile Include="MoveFolder\TestRecursiveCopy.cs" />
     <Compile Include="TaskQueueTest\TestTaskQueue.cs" />
+    <Compile Include="TaskQueueTest\TestThrottle.cs" />
     <Compile Include="TestFolderCollection.cs" />
     <Compile Include="TestImportTaskStatus.cs" />
     <Compile Include="TestMongoDB.cs" />

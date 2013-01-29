@@ -28,6 +28,7 @@ namespace Wammer.Station
 
 		public static void Init()
 		{
+			queue.AddThrottle(new ThumbnailThrottle(2));
 			queue.Init();
 		}
 

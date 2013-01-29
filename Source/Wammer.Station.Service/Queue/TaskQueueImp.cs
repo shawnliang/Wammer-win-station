@@ -8,7 +8,7 @@ using log4net;
 
 namespace Wammer.Queue
 {
-	public class TaskQueueImp
+	public class TaskQueueImp : IThrottleDest
 	{
 		private MongoPersistentStorage storage;
 		private WMSBroker mqBroker;
@@ -25,6 +25,8 @@ namespace Wammer.Queue
 		private int waitingHighTaskCount;
 		private int maxRunningNonHighTaskCount;
 		private int runningNonHighTaskCount;
+
+		private List<Throttle> throttles = new List<Throttle>();
 
 		private readonly object lockObj = new object();
 
@@ -50,8 +52,13 @@ namespace Wammer.Queue
 		
 		public void Enqueue(Station.ITask task, TaskPriority priority = TaskPriority.Medium, bool persistent = false)
 		{
-			WMSQueue queue;
+			WMSQueue queue = getQueue(priority);
+			enqueue(priority, queue, task, persistent);
+		}
 
+		private WMSQueue getQueue(TaskPriority priority)
+		{
+			WMSQueue queue;
 			switch (priority)
 			{
 				case TaskPriority.High:
@@ -69,8 +76,7 @@ namespace Wammer.Queue
 				default:
 					throw new ArgumentOutOfRangeException("unknown priority: " + priority.ToString());
 			}
-
-			enqueue(priority, queue, task, persistent);
+			return queue;
 		}
 
 		public void Init()
@@ -139,10 +145,40 @@ namespace Wammer.Queue
 			}
 		}
 
+		public void AddThrottle(Throttle throttle)
+		{
+			lock(this.lockObj)
+			{
+				throttle.Dest = this;
+				throttles.Add(throttle);
+			}
+		}
+
+		public void NoThrottleEnqueue(ITask task, TaskPriority priority)
+		{
+			var que = getQueue(priority);
+			noThrottleEnqueue(priority, que, task, false);
+		}
+
 		private void enqueue(TaskPriority priority, WMSQueue queue, ITask task, bool persistent)
 		{
 			itemsInQueue.Increment();
 
+			foreach (var throttle in throttles)
+			{
+				if (throttle.ShouldThrottle(task))
+				{
+					throttle.Eat(task, priority);
+					return;
+				}
+			}
+
+
+			noThrottleEnqueue(priority, queue, task, persistent);
+		}
+
+		private void noThrottleEnqueue(TaskPriority priority, WMSQueue queue, ITask task, bool persistent)
+		{
 			mqSession.Push(queue, task, persistent);
 
 			lock (lockObj)
@@ -224,7 +260,5 @@ namespace Wammer.Queue
 
 			throw new InvalidOperationException("No items in TaskQueue");
 		}
-
-		
 	}
 }

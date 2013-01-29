@@ -146,8 +146,10 @@
     <Compile Include="Model\QueuedTasks.cs" />
     <Compile Include="PerfMonitor\NullPerfCounter.cs" />
     <Compile Include="Queue\IThreadPool.cs" />
+    <Compile Include="Queue\IThrottleDest.cs" />
     <Compile Include="Queue\MongoPersistentStorage.cs" />
     <Compile Include="Queue\TaskQueueImp.cs" />
+    <Compile Include="Queue\Throttle.cs" />
     <Compile Include="Station\AbstractTaskEnDequeueNotifier.cs" />
     <Compile Include="Station\APIHandler\ImportAPIHandler.cs" />
     <Compile Include="Station\APIHandler\ImportDocHandler.cs" />
@@ -271,6 +273,7 @@
     <Compile Include="Station\TaskRetryTimer.cs" />
     <Compile Include="Station\AbstrackTaskRunner.cs" />
     <Compile Include="Station\ThumbnailEventArgs.cs" />
+    <Compile Include="Station\ThumbnailThrottle.cs" />
     <Compile Include="Station\Timeline\BodySyncQueue.cs" />
     <Compile Include="Station\Timeline\BodySyncQueueStorage.cs" />
     <Compile Include="Station\Timeline\QueryIfDownstreamNeededTask.cs" />
