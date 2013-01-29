@@ -51,6 +51,11 @@ namespace Waveface.Stream.Core
 				(file) =>
 				{
 					++photoCountInCurFolder;
+				},
+
+				(errorPath, err) =>
+				{
+					//TODO: let caller know this error
 				}
 			);
 
@@ -60,16 +65,16 @@ namespace Waveface.Stream.Core
 		}
 
 
-		public IEnumerable<string> FindPhotos(IEnumerable<string> fromPaths)
+		public IEnumerable<string> FindPhotos(IEnumerable<string> fromPaths, Action<string, Exception> errorCB = null)
 		{
 			List<string> photoPaths = new List<string>();
 
-			findPhotos(fromPaths, (folder) => { }, (file) => { photoPaths.Add(file); });
+			findPhotos(fromPaths, (folder) => { }, (file) => { photoPaths.Add(file); }, errorCB);
 
 			return photoPaths;
 		}
 
-		private void findPhotos(IEnumerable<string> fromPaths, Action<string> folderAction, Action<string> fileAction)
+		private void findPhotos(IEnumerable<string> fromPaths, Action<string> folderAction, Action<string> fileAction, Action<string, Exception> errorAction)
 		{
 			var processedDir = new HashSet<string>();
 
@@ -80,13 +85,14 @@ namespace Waveface.Stream.Core
 					var dir = new DirectoryInfo(path);
 					dir.SearchFiles(new string[] { "*.jpg", "*.jpeg" },
 						// file callback
-						(file) => {
+						(file) =>
+						{
 
 							if (Path.GetFileName(file).StartsWith(".") ||
 								(new FileInfo(file).Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
 								return true;
 
-							fileAction(file); 
+							fileAction(file);
 							return true;
 						},
 
@@ -110,11 +116,17 @@ namespace Waveface.Stream.Core
 								return false;
 
 							processedDir.Add(folder);
-							
+
 							folderAction(folder);
 
 							return true;
-						});
+						},
+
+						(errorPath, error) =>
+						{
+							errorAction(errorPath, error);
+						}
+						);
 				}
 				else if (File.Exists(path))
 				{

@@ -173,7 +173,21 @@ namespace Waveface.Stream.ClientFramework
 			if (File.Exists(m_StreamDatxFile) && Datx.IsFileExist(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE))
 			{
 				var sessionToken = Datx.Read<String>(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE, GetStreamDatxPassword());
-				RetryLogin(sessionToken, 5000);
+				try
+				{
+					RetryLogin(sessionToken, 5000);
+				}
+				catch (WebException ex)
+				{
+					using (var sr = new StreamReader(ex.Response.GetResponseStream()))
+					{
+						var cloudResponse = JsonConvert.DeserializeObject<CloudResponse>(sr.ReadToEnd());
+						if (cloudResponse.status == 401)
+						{
+							Datx.RemoveFile(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE);
+						}
+					}
+				}
 			}
 
 			m_Server.Start();

@@ -60,7 +60,12 @@ namespace Waveface.Stream.WindowsClient
 			wizard.StartPosition = FormStartPosition.CenterParent;
 			wizard.FormClosed += wizard_FormClosed;
 			wizard.ShowDialog();
-		} 
+		}
+
+		private void LoginDialog_Load(object sender, EventArgs e)
+		{
+			this.Icon = Properties.Resources.Icon;
+		}
 		#endregion
 	}
 }

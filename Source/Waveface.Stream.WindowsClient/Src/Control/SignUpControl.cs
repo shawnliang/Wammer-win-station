@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Net;
 using System.Windows.Forms;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
@@ -84,7 +86,17 @@ namespace Waveface.Stream.WindowsClient
 						MessageBox.Show(Resources.ALREAD_UPDATED, Application.ProductName);
 				}
 			}
-			catch (Exception)
+#if DEBUG
+			catch (WebException ex)
+			{
+				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
+				{
+					var msg = sr.ReadToEnd();
+					MessageBox.Show(msg);
+				}
+			}
+#endif
+			catch(Exception)
 			{
 				MessageBox.Show(Resources.UNKNOW_SIGNUP_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
