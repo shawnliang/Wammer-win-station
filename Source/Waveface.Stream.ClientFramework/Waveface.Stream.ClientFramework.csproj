@@ -43,6 +43,10 @@
     <Reference Include="AutoMapper">
       <HintPath>..\..\Lib\AutoMapper.NET35.1.1.0.118\lib\net35\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\log4net-1.2.11\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=1.6.1.4678, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Wammer-win-station\Lib\mongo-driver\MongoDB.Bson.dll</HintPath>

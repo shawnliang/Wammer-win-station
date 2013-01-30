@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using log4net;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -120,12 +121,12 @@ namespace Waveface.Stream.ClientFramework
 
 				var responseMessage = JsonConvert.SerializeObject(executedValue, Formatting.Indented);
 
-				Trace.WriteLine(string.Format("Response to {0}: {1}", this.ID, responseMessage));
+				LogManager.GetLogger(this.GetType()).DebugFormat("Response to {0}: {1}", this.ID, responseMessage);
 				Send(responseMessage);
 			}
 			catch (Exception ex)
 			{
-				Trace.WriteLine(string.Format("Command execute fail: {0}", ex.ToString()));
+				LogManager.GetLogger(this.GetType()).ErrorFormat("Command execute fail: {0}", ex.ToString());
 			}
 		}
 
@@ -144,7 +145,7 @@ namespace Waveface.Stream.ClientFramework
 
 				if (jObject["command"] == null)
 				{
-					Trace.WriteLine("Invalid websocket command format!!");
+					LogManager.GetLogger(this.GetType()).Error("Invalid websocket command format!!");
 					return;
 				}
 
@@ -164,7 +165,7 @@ namespace Waveface.Stream.ClientFramework
 			}
 			catch (Exception)
 			{
-				Trace.WriteLine("Invalid command format!!");
+				LogManager.GetLogger(this.GetType()).Error("Invalid command format!!");
 			}
 		}
 
@@ -209,7 +210,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected override void onOpen(object sender, EventArgs e)
 		{
-			Trace.WriteLine(String.Format("WebSocket server open connection {0}...", this.ID));
+			LogManager.GetLogger(this.GetType()).DebugFormat("WebSocket server open connection {0}...", this.ID);
 
 			OnServiceAdded(EventArgs.Empty);
 
@@ -225,7 +226,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			if (e.Type == WebSocketSharp.Frame.Opcode.TEXT)
 			{
-				Trace.WriteLine(string.Format("WebSocket server received message from {0}: {1}", this.ID, e.Data));
+				LogManager.GetLogger(this.GetType()).DebugFormat("WebSocket server received message from {0}: {1}", this.ID, e.Data);
 
 				AsyncParseAndExecuteCommand(e.Data);
 			}
@@ -238,7 +239,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="e">The <see cref="WebSocketSharp.CloseEventArgs"/> instance containing the event data.</param>
 		protected override void onClose(object sender, WebSocketSharp.CloseEventArgs e)
 		{
-			Trace.WriteLine(String.Format("WebSocket server connection {0} close: {1}", this.ID, e.Reason));
+			LogManager.GetLogger(this.GetType()).DebugFormat("WebSocket server connection {0} close: {1}", this.ID, e.Reason);
 
 			OnServiceRemoved(EventArgs.Empty);
 
@@ -252,7 +253,8 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="e">The <see cref="WebSocketSharp.ErrorEventArgs"/> instance containing the event data.</param>
 		protected override void onError(object sender, WebSocketSharp.ErrorEventArgs e)
 		{
-			Trace.WriteLine(string.Format("WebSocket server connection {0} error: {1}", this.ID, e.Message));
+			LogManager.GetLogger(this.GetType()).DebugFormat("WebSocket server connection {0} error: {1}", this.ID, e.Message);
+
 			base.onError(sender, e);
 		}
 		#endregion
@@ -268,7 +270,7 @@ namespace Waveface.Stream.ClientFramework
 			if (e.Type == WebSocketSharp.Frame.Opcode.TEXT)
 			{
 				var responseMessage = e.Data;
-				Trace.WriteLine(string.Format("Response to {0}: {1}", this.ID, responseMessage));
+				LogManager.GetLogger(this.GetType()).DebugFormat("Response to {0}: {1}", this.ID, responseMessage);
 				Send(responseMessage);
 			}
 		}

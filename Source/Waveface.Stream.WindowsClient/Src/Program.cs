@@ -17,6 +17,8 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Net;
 using fastJSON;
+using log4net;
+using log4net.Config;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -126,6 +128,8 @@ namespace Waveface.Stream.WindowsClient
 			if (!parser.ParseArguments(args, options))
 				return;
 
+			XmlConfigurator.Configure();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
@@ -166,7 +170,7 @@ namespace Waveface.Stream.WindowsClient
 					ImportFileAndFolders(options.Imports);
 				}
 			}
-
+			
 			m_MessageReceiver.WndProc += m_MessageReceiver_WndProc;
 			
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
