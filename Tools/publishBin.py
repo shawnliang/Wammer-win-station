@@ -13,9 +13,9 @@ if __name__ == "__main__":
     for pdb in glob.glob("{0}/*.pdb".format(Wammer_release_dir)):
         shutil.copy2(pdb, version)
 
-	shutil.copy2('{0}/development-WavefaceSetup-{1}.exe'.format(os.path.dirname(solution_dir), version), version)
-    shutil.copy2('{0}/production-WavefaceSetup-{1}.exe'.format(os.path.dirname(solution_dir), version), version)
-    shutil.copy2('{0}/staging-WavefaceSetup-{1}.exe'.format(os.path.dirname(solution_dir), version), version)
+	shutil.copy2('{0}/development-WavefaceSetup-{1}.exe'.format(solution_dir, version), version)
+    shutil.copy2('{0}/production-WavefaceSetup-{1}.exe'.format(solution_dir, version), version)
+    shutil.copy2('{0}/staging-WavefaceSetup-{1}.exe'.format(solution_dir, version), version)
     #shutil.copy2('{0}/versioninfo.xml'.format(os.path.dirname(solution_dir)), version)
     #shutil.copy2('{0}/versioninfo_dev.xml'.format(os.path.dirname(solution_dir)), version)
     ftp = FTP("WF-NAS", "admin", "13579246801")
