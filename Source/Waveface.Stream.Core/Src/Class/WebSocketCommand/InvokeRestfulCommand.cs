@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using log4net;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -54,7 +55,8 @@ namespace Waveface.Stream.Core
 			}
 
 			var restfulResponse = StationAPI.Post(restfulUrl, restfulParameters);
-			Trace.WriteLine(string.Format("Received restful response: {0}", restfulResponse));
+			LogManager.GetLogger(this.GetType()).DebugFormat("Received restful response: {0}", restfulResponse);
+
 			var jObject = JObject.Parse(restfulResponse);
 
 			var responseParameters = new Dictionary<string, Object>() 

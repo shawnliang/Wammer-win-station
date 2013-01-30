@@ -26,10 +26,10 @@ namespace Gui
 			MemoryStream m = new MemoryStream();
 			StreamWriter w = new StreamWriter(m, Encoding.UTF8);
 			w.WriteLine(
-			@"
+            @"
 <log4net>
   <appender name='RollingFile' type='log4net.Appender.RollingFileAppender'>
-	<file value='${APPDATA}\WavefaceUpgrade.log' />
+	<file value='${APPDATA}\Waveface\AOStream\Upgrade.log' />
 	<appendToFile value='true' />
 	<maximumFileSize value='100KB' />
 	<maxSizeRollBackups value='2' />
