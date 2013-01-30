@@ -34,7 +34,7 @@ def build_target(solution_dir, target, version, build_num) :
 			raise Exception("signtool returned failure: {0}".format(ret))
 	
 	built_path = os.path.join(solution_dir, r"Source\Setup\Release\WavefaceSetup.exe")
-	publish_path = os.path.join(solution_dir, r"..\{0}-WavefaceSetup-{1}.{2}.exe".format(target, version, build_num))
+	publish_path = os.path.join(solution_dir, r"{0}-WavefaceSetup-{1}.{2}.exe".format(target, version, build_num))
 	shutil.copy(built_path, publish_path)
 
 
