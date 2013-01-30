@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
@@ -34,7 +35,8 @@ namespace Waveface.Stream.ClientFramework
 
 			var parameters = data.Parameters;
 
-			Trace.WriteLine(string.Format("[{0}] {1}", parameters["type"], parameters["data"]));
+			LogManager.GetLogger(this.GetType()).DebugFormat("[{0}] {1}", parameters["type"], parameters["data"]);
+
 			return null;
 		}
 		#endregion

@@ -1,4 +1,5 @@
-﻿using mshtml;
+﻿using log4net;
+using mshtml;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -170,11 +171,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				we.Handled = true;
 
-				Trace.WriteLine(string.Format(
-					   "Error: {0}\nline: {1}\nurl: {2}",
-					   we.LineNumber,
-					   we.Description,
-					   we.Url));
+				LogManager.GetLogger(this.GetType()).ErrorFormat("Error: {0}\nline: {1}\nurl: {2}", we.LineNumber, we.Description, we.Url);
 			};
 		}
 

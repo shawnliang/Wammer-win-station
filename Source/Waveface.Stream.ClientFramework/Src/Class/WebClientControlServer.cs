@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using WebSocketSharp.Server;
@@ -151,7 +152,7 @@ namespace Waveface.Stream.ClientFramework
 		/// <param name="e">The <see cref="WebSocketSharp.ErrorEventArgs" /> instance containing the event data.</param>
 		void WebSocketServer_OnError(object sender, WebSocketSharp.ErrorEventArgs e)
 		{
-			Trace.WriteLine(e.Message);
+			LogManager.GetLogger(this.GetType()).Error(e.Message);
 		}
 
 		void WebClientControlService_ServiceRemoved(object sender, EventArgs e)
