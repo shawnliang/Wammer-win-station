@@ -99,10 +99,10 @@
 			// 
 			this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabPage1.Controls.Add(this.loginControl1);
-			this.tabPage1.Location = new System.Drawing.Point(4, 23);
+			this.tabPage1.Location = new System.Drawing.Point(0, 0);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(698, 373);
+			this.tabPage1.Size = new System.Drawing.Size(706, 400);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "AOStream";
 			// 
@@ -111,17 +111,17 @@
 			this.loginControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.loginControl1.Location = new System.Drawing.Point(3, 3);
 			this.loginControl1.Name = "loginControl1";
-			this.loginControl1.Size = new System.Drawing.Size(692, 367);
+			this.loginControl1.Size = new System.Drawing.Size(700, 394);
 			this.loginControl1.TabIndex = 0;
 			// 
 			// tabPage2
 			// 
 			this.tabPage2.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabPage2.Controls.Add(this.choosePlanControl1);
-			this.tabPage2.Location = new System.Drawing.Point(4, 23);
+			this.tabPage2.Location = new System.Drawing.Point(0, 0);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(698, 373);
+			this.tabPage2.Size = new System.Drawing.Size(706, 400);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Upgrade";
 			// 
@@ -130,7 +130,7 @@
 			this.choosePlanControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.choosePlanControl1.Location = new System.Drawing.Point(3, 3);
 			this.choosePlanControl1.Name = "choosePlanControl1";
-			this.choosePlanControl1.Size = new System.Drawing.Size(692, 367);
+			this.choosePlanControl1.Size = new System.Drawing.Size(700, 394);
 			this.choosePlanControl1.TabIndex = 0;
 			// 
 			// tabPage3
@@ -159,6 +159,9 @@
 			this.ClientSize = new System.Drawing.Size(706, 444);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.panel1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "OldUserWizardDialog";
 			this.Text = "OldUserWizardDialog2";
 			this.Load += new System.EventHandler(this.OldUserWizardDialog_Load);

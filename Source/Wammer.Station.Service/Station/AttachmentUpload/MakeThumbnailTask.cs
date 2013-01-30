@@ -4,6 +4,8 @@ using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
+using System.IO;
+using System.Drawing;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -58,19 +60,37 @@ namespace Wammer.Station.AttachmentUpload
 
 			var imgProc = new AttachmentUtility();
 
-			ThumbnailInfo thumbnail;
+			ThumbnailInfo thumbnail = null;
 
-			if (!string.IsNullOrEmpty(attachment.saved_file_name))
+			var originExist = !string.IsNullOrEmpty(attachment.saved_file_name);
+
+			if (thumbnail_type == ImageMeta.Small)
+			{
+				var mediumExist = attachment.image_meta.medium != null && !string.IsNullOrEmpty(attachment.image_meta.medium.saved_file_name);
+
+				if (mediumExist)
+				{
+					thumbnail = imgProc.GenerateThumbnail(attachment.image_meta.medium.saved_file_name,
+									thumbnail_type, object_id, user, attachment.file_name, ImageMeta.Medium);
+				}
+				else if (originExist)
+				{
+					ThumbnailInfo info = getThumbnailFromEmbededExif(attachment, user);
+
+					if (info != null)
+						thumbnail = info;
+					else
+						thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
+							object_id, user, attachment.file_name);
+				}
+			}
+			else if (thumbnail_type == ImageMeta.Medium && originExist)
+			{
 				thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
-																object_id, user, attachment.file_name);
-			else if (attachment.image_meta != null &&
-					attachment.image_meta.medium != null &&
-					!string.IsNullOrEmpty(attachment.image_meta.medium.saved_file_name) &&
-					(thumbnail_type == ImageMeta.Small || thumbnail_type == ImageMeta.Square))
+								object_id, user, attachment.file_name);
+			}
 
-				thumbnail = imgProc.GenerateThumbnail(attachment.image_meta.medium.saved_file_name, thumbnail_type,
-														object_id, user, attachment.file_name, ImageMeta.Medium);
-			else
+			if (thumbnail == null)
 			{
 				this.LogWarnMsg("No file is available to make thumbnail: " + attachment.object_id);
 				return;
@@ -88,6 +108,34 @@ namespace Wammer.Station.AttachmentUpload
 			updateImportTaskIfNeeded();
 		}
 
+		private ThumbnailInfo getThumbnailFromEmbededExif(Attachment attachment, Driver user)
+		{
+			try
+			{
+				Stream thumbnailStream = null;
+				var storage = new FileStorage(user);
+				using (var fs = storage.Load(attachment.saved_file_name, ImageMeta.Origin))
+				{
+					var exif = ExifLibrary.ExifFile.Read(fs);
+					thumbnailStream = exif.Thumbnail;
+				}
+
+				if (thumbnailStream == null)
+					return null;
+
+
+				using (var thumbBitmap = new Bitmap(thumbnailStream))
+				{
+					return ImagePostProcessing.MakeThumbnail(thumbBitmap, thumbnail_type, ExifOrientations.Unknown, attachment.object_id, user, attachment.file_name);
+				}
+			}
+			catch (Exception e)
+			{
+				this.LogWarnMsg("Unable to get thumbnails from embeded exif: " + attachment.saved_file_name, e);
+				return null;
+			}
+		}
+
 		private void updateImportTaskIfNeeded()
 		{
 			if (importTaskId.HasValue && thumbnail_type == ImageMeta.Medium)
@@ -98,7 +146,7 @@ namespace Wammer.Station.AttachmentUpload
 
 		public override void ScheduleToRun()
 		{
-			TaskQueue.Enqueue(this, priority);
+			TaskQueue.Enqueue(this, priority, true);
 		}
 
 		protected static void OnThumbnailGenerated(object sender, ThumbnailEventArgs evt)

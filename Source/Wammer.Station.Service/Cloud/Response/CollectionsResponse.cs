@@ -26,5 +26,6 @@ namespace Wammer.Cloud
 		public bool hidden { get; set; }
 		public bool smart { get; set; }
 		public bool manual { get; set; }
+		public string import_folder { get; set; }
 	}
 }

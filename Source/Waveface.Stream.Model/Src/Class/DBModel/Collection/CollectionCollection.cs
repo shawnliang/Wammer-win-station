@@ -12,6 +12,13 @@
 		#endregion
 
 		#region Constructor
+
+		static CollectionCollection()
+		{
+			instance = new CollectionCollection();
+			instance.EnsureIndex("import_folder");
+		}
+
 		/// <summary>
 		/// Prevents a default instance of the <see cref="CollectionCollection" /> class from being created.
 		/// </summary>
@@ -30,9 +37,8 @@
 		/// <value>The instance.</value>
 		public static CollectionCollection Instance
 		{
-			get { return instance ?? (instance = new CollectionCollection()); }
+			get { return instance; }
 		}
-
 		#endregion
 	}
 }

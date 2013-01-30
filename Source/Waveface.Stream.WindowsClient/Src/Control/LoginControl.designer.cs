@@ -89,9 +89,9 @@
 			// 
 			// LoginControl
 			// 
-			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "LoginControl";
+			resources.ApplyResources(this, "$this");
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();

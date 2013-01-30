@@ -45,6 +45,9 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(693, 338);
 			this.Controls.Add(this.choosePlanControl1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "PlanChangeDialog";
 			this.Text = "PlanChangeDialog";
 			this.ResumeLayout(false);

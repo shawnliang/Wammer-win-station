@@ -39,5 +39,8 @@ namespace Waveface.Stream.Model
 
 		[BsonIgnoreIfNull]
 		public bool manual { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string import_folder { get; set; }
 	}
 }

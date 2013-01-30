@@ -125,10 +125,10 @@
 			// tabPage4
 			// 
 			this.tabPage4.Controls.Add(this.introControl1);
-			this.tabPage4.Location = new System.Drawing.Point(4, 23);
+			this.tabPage4.Location = new System.Drawing.Point(0, 0);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(698, 373);
+			this.tabPage4.Size = new System.Drawing.Size(706, 400);
 			this.tabPage4.TabIndex = 5;
 			this.tabPage4.Text = "Introduction";
 			this.tabPage4.UseVisualStyleBackColor = true;
@@ -139,17 +139,17 @@
 			this.introControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.introControl1.Location = new System.Drawing.Point(3, 3);
 			this.introControl1.Name = "introControl1";
-			this.introControl1.Size = new System.Drawing.Size(692, 367);
+			this.introControl1.Size = new System.Drawing.Size(700, 394);
 			this.introControl1.TabIndex = 0;
 			// 
 			// tabPage1
 			// 
 			this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabPage1.Controls.Add(this.serviceImportControl1);
-			this.tabPage1.Location = new System.Drawing.Point(4, 23);
+			this.tabPage1.Location = new System.Drawing.Point(0, 0);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(698, 373);
+			this.tabPage1.Size = new System.Drawing.Size(706, 400);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Service Connect";
 			// 
@@ -158,17 +158,17 @@
 			this.serviceImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.serviceImportControl1.Location = new System.Drawing.Point(3, 3);
 			this.serviceImportControl1.Name = "serviceImportControl1";
-			this.serviceImportControl1.Size = new System.Drawing.Size(692, 367);
+			this.serviceImportControl1.Size = new System.Drawing.Size(700, 394);
 			this.serviceImportControl1.TabIndex = 0;
 			// 
 			// tabPage2
 			// 
 			this.tabPage2.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabPage2.Controls.Add(this.choosePlanControl1);
-			this.tabPage2.Location = new System.Drawing.Point(4, 23);
+			this.tabPage2.Location = new System.Drawing.Point(0, 0);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(698, 373);
+			this.tabPage2.Size = new System.Drawing.Size(706, 400);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Upgrade";
 			// 
@@ -177,17 +177,17 @@
 			this.choosePlanControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.choosePlanControl1.Location = new System.Drawing.Point(3, 3);
 			this.choosePlanControl1.Name = "choosePlanControl1";
-			this.choosePlanControl1.Size = new System.Drawing.Size(692, 367);
+			this.choosePlanControl1.Size = new System.Drawing.Size(700, 394);
 			this.choosePlanControl1.TabIndex = 0;
 			// 
 			// tabPage3
 			// 
 			this.tabPage3.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabPage3.Controls.Add(this.fileImportControl1);
-			this.tabPage3.Location = new System.Drawing.Point(4, 23);
+			this.tabPage3.Location = new System.Drawing.Point(0, 0);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(698, 373);
+			this.tabPage3.Size = new System.Drawing.Size(706, 400);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Import photos";
 			// 
@@ -196,7 +196,7 @@
 			this.fileImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.fileImportControl1.Location = new System.Drawing.Point(3, 3);
 			this.fileImportControl1.Name = "fileImportControl1";
-			this.fileImportControl1.Size = new System.Drawing.Size(692, 367);
+			this.fileImportControl1.Size = new System.Drawing.Size(700, 394);
 			this.fileImportControl1.TabIndex = 0;
 			// 
 			// NewUserWizardDialog
@@ -206,6 +206,9 @@
 			this.ClientSize = new System.Drawing.Size(706, 444);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.panel1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "NewUserWizardDialog";
 			this.Text = "OldUserWizardDialog2";
 			this.Load += new System.EventHandler(this.NewUserWizardDialog_Load);
