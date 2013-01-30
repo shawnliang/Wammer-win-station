@@ -18,7 +18,7 @@ namespace Wammer.Cloud
 		/// <param name="collectionId">The collection id.</param>
 		/// <param name="create_time">The create_time.</param>
 		/// <exception cref="System.ArgumentNullException">name</exception>
-		public static void CreateCollection(string session, string apikey, string name, IEnumerable<string> attIds, string collectionId = null, string cover = null, bool? manual = null, DateTime? create_time = null)
+		public static void CreateCollection(string session, string apikey, string name, IEnumerable<string> attIds, string collectionId = null, string cover = null, bool? manual = null, DateTime? create_time = null, string folder_path = null)
 		{
 			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException("name");
@@ -47,6 +47,9 @@ namespace Wammer.Cloud
 
 			if (manual.HasValue)
 				parameters.Add("manual", manual.Value.ToString());
+
+			if (!string.IsNullOrEmpty(folder_path))
+				parameters.Add("import_folder", folder_path);
 
 			CloudServer.requestPath<CloudResponse>("collections/create", parameters);
 		}

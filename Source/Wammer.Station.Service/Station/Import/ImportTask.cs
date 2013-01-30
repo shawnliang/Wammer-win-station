@@ -134,7 +134,7 @@ namespace Wammer.Station
 
 				// build collections
 				var folderCollections = FolderCollection.Build(allMeta.Where(meta => !inputFiles.Contains(meta.file_path)).Cast<ObjectIdAndPath>());
-				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_SessionToken, m_APIKey), TaskPriority.High);
+				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_GroupID), TaskPriority.High);
 
 
 				// copy file to stream
@@ -499,7 +499,7 @@ namespace Wammer.Station
 	public class FolderCollection
 	{
 		public string FolderPath { get; private set; }
-		public string FolderName { get; private set; }
+		public string FolderName { get; set; }
 		public List<string> Objects { get; private set; }
 
 		public FolderCollection(string folderPath)

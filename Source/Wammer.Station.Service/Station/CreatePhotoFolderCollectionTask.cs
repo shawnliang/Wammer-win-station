@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Wammer.Cloud;
 using Wammer.Station.Retry;
+using Waveface.Stream.Model;
+using MongoDB.Driver.Builders;
+using MongoDB.Driver;
 
 namespace Wammer.Station
 {
@@ -10,8 +13,7 @@ namespace Wammer.Station
 	public class CreateFolderCollectionTask : DelayedRetryTask
 	{
 		public Dictionary<string, FolderCollection> collections { get; set; }
-		public string session { get; set; }
-		public string apikey { get; set; }
+		public string group_id { get; set; }
 		public int retry { get; set; }
 
 		public CreateFolderCollectionTask()
@@ -20,24 +22,59 @@ namespace Wammer.Station
 			collections = new Dictionary<string, FolderCollection>();
 		}
 
-		public CreateFolderCollectionTask(Dictionary<string, FolderCollection> collections, string session, string apikey)
+		public CreateFolderCollectionTask(Dictionary<string, FolderCollection> collections, string group_id)
 			: base(TaskPriority.Medium)
 		{
 			this.collections = collections;
-			this.session = session;
-			this.apikey = apikey;
+			this.group_id = group_id;
 		}
 
 		protected override void Run()
 		{
 			var keys = collections.Keys.ToList();
+			var user = DriverCollection.Instance.FindDriverByGroupId(group_id);
+
+			if (user == null)
+				return;
 
 			foreach (var key in keys)
 			{
 				var folderCollection = collections[key];
-				CollectionApi.CreateCollection(session, apikey, folderCollection.FolderName, folderCollection.Objects);
+
+				var collectionId = Guid.NewGuid().ToString();
+
+				if (hasBeenImported(folderCollection, user.user_id))
+				{
+
+					folderCollection.FolderName += "_" + DateTime.Now.ToString("yyyyMMddHHmm");
+				}
+
+				CollectionApi.CreateCollection(
+					user.session_token, CloudServer.APIKey, folderCollection.FolderName, folderCollection.Objects, collectionId,
+					null, null, null, folderCollection.FolderPath);
+
 				collections.Remove(key);
+
+
+				CollectionCollection.Instance.Save(
+					new Waveface.Stream.Model.Collection
+					{
+						attachment_id_array = folderCollection.Objects,
+						collection_id = collectionId,
+						import_folder = folderCollection.FolderPath,
+						name = folderCollection.FolderName,
+						creator_id = user.user_id,
+					});
 			}
+		}
+
+		private bool hasBeenImported(FolderCollection folder, string user_id)
+		{
+			return CollectionCollection.Instance.FindOne(
+				Query.And(
+					Query.EQ("creator_id", user_id),
+					Query.EQ("import_folder", folder.FolderPath)
+				)) != null;
 		}
 
 		public override void ScheduleToRun()
