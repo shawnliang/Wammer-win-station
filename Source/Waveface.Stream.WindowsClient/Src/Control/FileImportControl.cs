@@ -213,6 +213,9 @@ namespace Waveface.Stream.WindowsClient
 
 		private void FileImportControl_Load(object sender, EventArgs e)
 		{
+			if (this.IsDesignMode())
+				return;
+
 			InitSelectAllCheckBox();
 			txtStoreLocation.Text = _originalLocation = _photoSearch.GetUserFolder(StreamClient.Instance.LoginedUser.UserID);
 		}
