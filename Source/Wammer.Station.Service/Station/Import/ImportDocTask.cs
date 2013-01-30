@@ -67,7 +67,7 @@ namespace Wammer.Station
 			}
 
 			var folders = FolderCollection.Build(allDocs);
-			TaskQueue.Enqueue(new CreateFolderCollectionTask(folders, user.session_token, CloudServer.APIKey), TaskPriority.Medium);
+			TaskQueue.Enqueue(new CreateFolderCollectionTask(folders, user.groups[0].group_id), TaskPriority.Medium);
 		}
 	}
 }
