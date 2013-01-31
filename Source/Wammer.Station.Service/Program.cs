@@ -10,6 +10,7 @@ namespace Wammer.Station.Service
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
+		[STAThread]
 		private static void Main(string[] argv)
 		{
 			if (argv.Any(item => item.Equals("-i", StringComparison.CurrentCultureIgnoreCase)))

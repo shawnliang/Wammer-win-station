@@ -47,7 +47,6 @@ namespace Wammer.Station.AttachmentUpload
 				{
 					OnTaskEnqueued(t.Task);
 				}
-
 				hasItem = new Semaphore(highQueue.Count + mediumQueue.Count + lowQueue.Count, int.MaxValue);
 				isInited = true;
 			}

@@ -273,7 +273,6 @@ namespace Waveface
 
 				// Cleanup
 				_webResponse.Close();
-				_webResponse.Close();
 
 				return image;
 			}
@@ -318,7 +317,6 @@ namespace Waveface
 
 				// Cleanup
 				_streamReader.Close();
-				_webStream.Close();
 				_webResponse.Close();
 
 				return _pageContent;

@@ -49,15 +49,6 @@ namespace Wammer.Station.Service
 			AutoMapperSetting.IniteMap();
 		}
 
-		~StationService()
-		{
-			if (managementServer != null)
-				managementServer.Dispose();
-
-			if (functionServer != null)
-				functionServer.Dispose();
-		}
-
 		public void Run()
 		{
 			OnStart(null);
@@ -385,6 +376,7 @@ namespace Wammer.Station.Service
 			}
 		}
 
+
 		protected override void OnStop()
 		{
 			Station.Instance.Stop();
@@ -444,17 +436,41 @@ namespace Wammer.Station.Service
 		}
 	}
 
-	internal class MongoDBMonitor
+	internal class MongoDBMonitor:IDisposable
 	{
+		#region Var
 		private object cs = new object();
 		private System.Threading.Timer timer;
 		private bool isReady;
-		private Action onReady;
+		private Action onReady; 
+		#endregion
+
+		#region Private Property
+		private bool m_Disposed { get; set; }
+		#endregion
 
 		public MongoDBMonitor(Action onReady)
 		{
 			timer = new System.Threading.Timer(Do, this, 1000, 2000);
 			this.onReady = onReady;
+		}
+
+		~MongoDBMonitor()
+		{
+			Dispose(false);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (m_Disposed)
+				return;
+
+			if (disposing)
+			{
+				timer.Dispose();
+			}
+
+			m_Disposed = true;
 		}
 
 		private void Do(object state)
@@ -473,6 +489,12 @@ namespace Wammer.Station.Service
 				else
 					this.LogInfoMsg("MongoDB is not ready...");
 			}
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 	}
 }
