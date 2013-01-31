@@ -155,16 +155,10 @@ namespace Wammer.Station.Doc
 		{
 			try
 			{
-				var userCache = Path.Combine("cache", user_id);
+				var userCache = FileStorage.GetCachePath(user_id);
 				var previewFolder = Path.Combine(userCache, object_id);
 
 				// create preview folder
-				if (!Directory.Exists("cache"))
-					Directory.CreateDirectory("cache");
-
-				if (!Directory.Exists(userCache))
-					Directory.CreateDirectory(userCache);
-
 				if (!Directory.Exists(previewFolder))
 					Directory.CreateDirectory(previewFolder);
 

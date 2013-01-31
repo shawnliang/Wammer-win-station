@@ -74,7 +74,7 @@ namespace Wammer.Station.AttachmentUpload
 			var folderPath = default(string);
 			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
 			{
-				folderPath = String.Format(@"cache\{0}", userID);
+				folderPath = FileStorage.GetCachePath(userID);
 			}
 			else
 			{

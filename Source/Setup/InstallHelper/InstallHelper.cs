@@ -169,8 +169,6 @@ namespace Wammer.Station
 				RestoreStationDB(session, dumpFolder);
 				RestoreStationId();
 				RestoreClientAppData();
-				RestoreCacheFolder(session["INSTALLLOCATION"]);
-
 				return ActionResult.Success;
 			}
 			catch (Exception e)
@@ -184,23 +182,11 @@ namespace Wammer.Station
 			}
 		}
 
-		private static void RestoreCacheFolder(string appRoot)
-		{
-			var cacheBackup = Path.Combine(appRoot, "cache.backup");
-			var cacheOrig = Path.Combine(appRoot, "cache");
-
-			if (!Directory.Exists(cacheBackup) || Directory.Exists(cacheOrig))
-				return;
-
-			Directory.Move(cacheBackup, cacheOrig);
-		}
-
 		private static void RemoveBackupData(string dumpFolder, string appRoot)
 		{
 			try
 			{
 				RemoveDirectory(dumpFolder);
-				RemoveDirectory(Path.Combine(appRoot, "cache.backup"));
 
 				if (StationRegistry.GetValue("oldStationId", null) != null)
 					StationRegistry.DeleteValue("oldStattionId");
@@ -736,11 +722,6 @@ namespace Wammer.Station
 							else
 								subInMongo.Delete(true);
 						}
-					}
-					else if (subdir.Name.Equals("cache.backup", StringComparison.InvariantCultureIgnoreCase))
-					{
-						// skip cache backup folder
-						continue;
 					}
 					else
 					{

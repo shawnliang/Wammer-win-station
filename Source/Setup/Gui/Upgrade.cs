@@ -61,7 +61,6 @@ namespace Gui
 				MongoDump();
 				BackupRegistry();
 
-				BackupCacheFolder();
 				BackupClientAppData();
 			}
 			catch (Exception e)
@@ -69,18 +68,6 @@ namespace Gui
 				System.Windows.Forms.MessageBox.Show(e.Message, "Waveface", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
 				throw;
 			}
-		}
-
-		private static void BackupCacheFolder()
-		{
-			var appRoot = MsiConnection.Instance.GetPath("INSTALLLOCATION");
-			var cacheDir = Path.Combine(appRoot, "cache");
-			var cacheBackupDir = Path.Combine(appRoot, "cache.backup");
-
-			if (Directory.Exists(cacheBackupDir))
-				Directory.Delete(cacheBackupDir, true);
-
-			Directory.Move(cacheDir, cacheBackupDir);
 		}
 
 		private static void StopService(string svcName)
@@ -220,11 +207,7 @@ namespace Gui
 		{
 			try
 			{
-				KillProcess("StationSystemTray");
-				KillProcess("WavefaceWindowsClient");
-				KillProcess("StationSetup");
-				KillProcess("StationUI");
-
+				KillProcess("WindowsClient");
 				System.Threading.Thread.Sleep(1000);
 
 				MoveDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "waveface", "oldWaveface");
@@ -238,14 +221,25 @@ namespace Gui
 
 		private static void MoveDir(string parentFolder, string orig, string backup)
 		{
-			string origName = Path.Combine(parentFolder, orig);
-			string newName = Path.Combine(parentFolder, backup);
+			int retry = 10;
 
-			if (Directory.Exists(newName))
-				Directory.Delete(newName, true);
+			while (retry-- > 0)
+			{
+				try
+				{
+					string origName = Path.Combine(parentFolder, orig);
+					string newName = Path.Combine(parentFolder, backup);
 
-			if (Directory.Exists(origName))
-				Directory.Move(origName, newName);
+					if (Directory.Exists(newName))
+						Directory.Delete(newName, true);
+
+					if (Directory.Exists(origName))
+						Directory.Move(origName, newName);
+				}
+				catch
+				{
+				}
+			}
 		}
 
 		private static void KillProcess(string name)

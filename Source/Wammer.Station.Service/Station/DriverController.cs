@@ -295,7 +295,7 @@ namespace Wammer.Station
 				retryTimes = 0;
 				while (retryTimes++ < 3)
 				{
-					var userCacheFolder = Path.Combine("cache", userID);
+					var userCacheFolder = FileStorage.GetCachePath(userID);
 
 					try
 					{
