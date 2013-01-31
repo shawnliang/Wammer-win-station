@@ -96,7 +96,7 @@ namespace Wammer.Station
 			if (string.IsNullOrEmpty(m_APIKey) || string.IsNullOrEmpty(m_SessionToken) || string.IsNullOrEmpty(m_GroupID) || !Paths.Any())
 				return;
 
-			this.LogInfoMsg("Importing from: " + string.Join(", ", Paths.ToArray()));
+			this.LogInfoMsg("Importing from: \n" + string.Join("\n", Paths.ToArray()));
 	 		Exception error = null;
 	
 			try

@@ -12,7 +12,6 @@ namespace Waveface.Stream.Core
 		public delegate void PhotoFolderFoundDelegate(string path, int count);
 
 		private static List<string> ignorePath;
-		private string StreamResourceDir = StationRegistry.GetValue("ResourceFolder", "").ToString();
 			
 		static PhotoCrawler()
 		{
@@ -102,18 +101,12 @@ namespace Waveface.Stream.Core
 							if (processedDir.Contains(folder))
 								return false;
 
-							//if ((new DirectoryInfo(folder).Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
-							//    return false;
-
 							if (Path.GetFileName(folder).StartsWith("."))
 								return false;
 
 							foreach (var skipdir in ignorePath)
 								if (folder.StartsWith(skipdir, StringComparison.InvariantCultureIgnoreCase))
 									return false;
-
-							if (StreamResourceDir.Length != 0 && path.StartsWith(StreamResourceDir, StringComparison.CurrentCultureIgnoreCase))
-								return false;
 
 							processedDir.Add(folder);
 
@@ -136,6 +129,10 @@ namespace Waveface.Stream.Core
 					{
 						fileAction(path);
 					}
+				}
+				else
+				{
+					errorAction(path, new FileNotFoundException("path does not exist: " + path));
 				}
 			}
 		}
