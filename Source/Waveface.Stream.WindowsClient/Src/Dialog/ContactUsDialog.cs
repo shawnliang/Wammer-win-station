@@ -265,10 +265,9 @@ namespace Waveface.Stream.WindowsClient
 		void logCollecBgWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			var wavefaceDir = Path.Combine(appdata, "waveface");
-			var supportDir = Path.Combine(wavefaceDir, "support");
+			var streamDir = Path.Combine(appdata, @"waveface\AOStream");
+			var supportDir = Path.Combine(streamDir, "support");
 			var installDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			var cacheDir = Path.Combine(wavefaceDir, "cache");
 			var stationLogDir = Path.Combine(installDir, "log");
 
 			MakeEmptyDir(supportDir);
@@ -276,10 +275,7 @@ namespace Waveface.Stream.WindowsClient
 			using (var zip = ZipPackage.Open(Path.Combine(supportDir, "support.zip"), FileMode.Create))
 			{
 				AddDirToZip(stationLogDir, "*.*", zip);
-				AddDirToZip(wavefaceDir, "*.log", zip);
-				AddDirToZip(cacheDir, "*.dat", zip);
-				AddDirToZip(cacheDir, "*.txt", zip);
-				AddDirToZip(wavefaceDir, "trayIcon.*", zip);
+				AddDirToZip(streamDir, "*.*", zip);
 
 				var dumpDir = DumpMongoDB(supportDir, installDir);
 				if (dumpDir != null)
