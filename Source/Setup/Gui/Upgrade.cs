@@ -26,7 +26,7 @@ namespace Gui
 			MemoryStream m = new MemoryStream();
 			StreamWriter w = new StreamWriter(m, Encoding.UTF8);
 			w.WriteLine(
-            @"
+			@"
 <log4net>
   <appender name='RollingFile' type='log4net.Appender.RollingFileAppender'>
 	<file value='${APPDATA}\Waveface\AOStream\Upgrade.log' />
@@ -208,6 +208,7 @@ namespace Gui
 			try
 			{
 				KillProcess("WindowsClient");
+				KillProcess("Station.Service");
 				System.Threading.Thread.Sleep(1000);
 
 				MoveDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "waveface", "oldWaveface");

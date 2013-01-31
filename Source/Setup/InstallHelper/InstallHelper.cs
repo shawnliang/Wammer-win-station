@@ -87,7 +87,7 @@ namespace Wammer.Station
 			if (wavefaceDir == null)
 				return ActionResult.Failure;
 
-			//CloseStream();
+			KillProcess("Station.Service");
 			KillProcess("WindowsClient");
 
 			return ActionResult.Success;
