@@ -112,24 +112,24 @@ namespace Wammer.Station
 				raiseFilesEnumeratedEvent(allFiles.Count);
 
 				// index files, generate metadata
-				var allMeta = new List<FileMetadata>();
+				var allIndexed = new HashSet<FileMetadata>();
 				var nIndexed = 0;
 				do
 				{
 					var batch = allFiles.Skip(nIndexed).Take(50);
-					var metadata = extractMetadata(batch);
+					var metadata = extractMetadata(batch, allIndexed);
 
 					enqueueUploadMetadataTask(metadata);
 					nIndexed += batch.Count();
-					allMeta.AddRange(metadata);
 
 				} while (nIndexed < allFiles.Count);
 
 
-				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
-
-				if (allMeta.Count == 0)
+				if (allIndexed.Count == 0)
 					throw new Exception("No file needs to import");
+
+				var allMeta = allIndexed.ToList();
+				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
 
 
 				// build collections
@@ -278,10 +278,10 @@ namespace Wammer.Station
 			raiseFileImportedEvent(file);
 		}
 
-		private IEnumerable<FileMetadata> extractMetadata(IEnumerable<ObjectIdAndPath> files)
+		private List<FileMetadata> extractMetadata(IEnumerable<ObjectIdAndPath> files, HashSet<FileMetadata> indexedFiles)
 		{
 			var exifExtractor = new ExifExtractor();
-			var uniqueFiles = new HashSet<FileMetadata>();
+			var batch = new List<FileMetadata>();
 
 			foreach (var file in files)
 			{
@@ -296,16 +296,17 @@ namespace Wammer.Station
 					exif = exifExtractor.extract(file.file_path)
 				};
 
-				if (hasDupItemInDB(meta) || uniqueFiles.Contains(meta))
+				if (hasDupItemInDB(meta) || indexedFiles.Contains(meta))
 					raiseFileSkippedEvent(file);
 				else
 				{
-					uniqueFiles.Add(meta);
+					indexedFiles.Add(meta);
+					batch.Add(meta);
 					raiseFileIndexedEvent(file);
 				}
 			}
 
-			return uniqueFiles;
+			return batch;
 		}
 
 		private void enqueueUploadMetadataTask(IEnumerable<FileMetadata> batch)
