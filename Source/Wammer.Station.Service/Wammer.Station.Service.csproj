@@ -304,12 +304,6 @@
     <Compile Include="MultiPart\Parser.cs" />
     <Compile Include="MultiPart\Part.cs" />
     <Compile Include="MultiPart\Serializer.cs" />
-    <Compile Include="ProjectInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProjectInstaller.Designer.cs">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </Compile>
     <Compile Include="StationService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -333,9 +327,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ProjectInstaller.resx">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="StationService.resx">
       <DependentUpon>StationService.cs</DependentUpon>
     </EmbeddedResource>

@@ -37,8 +37,6 @@
     <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry'/>
     <!-- Start and Wait mongo db ready -->
     <CustomAction Id='StartAndWaitMongoDbReady' BinaryKey='InstallHelperDll' DllEntry='StartAndWaitMongoDbReady' />
-    <!-- Start waveface service -->
-    <CustomAction Id='StartWavefaceService' BinaryKey='InstallHelperDll' DllEntry='StartWavefaceService' />
     <!-- Add performance counters -->
     <CustomAction Id='AddPerfCounters' BinaryKey='InstallHelperDll' DllEntry='AddPerfCounters' />
     <!-- Remove performance counters -->
@@ -75,7 +73,7 @@
       <Custom Action="SetRegistry" Before="InstallFiles">
         ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
       </Custom>
-      <Custom Action="AddPerfCounters" Before="StartServices">
+      <Custom Action="AddPerfCounters" After="InstallFiles">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
       <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
@@ -84,10 +82,7 @@
       <Custom Action="RestoreBackupData" After="StartAndWaitMongoDbReady">
         ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
       </Custom>
-      <Custom Action="StartWavefaceService" After="RestoreBackupData">
-        (&amp;MainFeature = 3)
-      </Custom>
-      <Custom Action="WriteProductInfo" After="StartWavefaceService">
+      <Custom Action="WriteProductInfo" After="RestoreBackupData">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
     </InstallExecuteSequence>
@@ -98,7 +93,6 @@
       <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
       <ProgressText Action="CleanAppData">!(loc.CLEAN.APP.DATA.DESC)</ProgressText>
       <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
-      <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
       <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
       <ProgressText Action="WriteProductInfo">!(loc.WriteProductInfo)</ProgressText>
     </UI>
