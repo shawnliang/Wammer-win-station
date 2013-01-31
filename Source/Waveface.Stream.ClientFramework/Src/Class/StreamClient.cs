@@ -22,11 +22,9 @@ namespace Waveface.Stream.ClientFramework
 	public class StreamClient
 	{
 		#region Private Const
-		private const string APP_NAME = "Stream";
-
-		private const string STREAM_RELATIVED_FOLDER = @"Waveface\Stream\";
-		private const string DATA_RELATIVED_FOLDER = STREAM_RELATIVED_FOLDER + @"Data\";
-		private const string STREAM_DATX_FILE_NAME = @"Stream.datx";
+		private const string STREAM_RELATIVED_FOLDER_PATTERN = @"Waveface\{0}\";
+		private const string DATA_RELATIVED_FOLDER_PATTERN = STREAM_RELATIVED_FOLDER_PATTERN + @"Data\";
+		private const string STREAM_DATX_FILE_NAME_PATTERN = @"{0}.datx";
 
 		private const string RELATIVED_LOGINED_SESSION_XML_FILE = @"LoginedSession.xml";
 		#endregion
@@ -76,7 +74,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return _dataPath ?? (_dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATA_RELATIVED_FOLDER));
+				return _dataPath ?? (_dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), string.Format(DATA_RELATIVED_FOLDER_PATTERN, Application.ProductName)));
 			}
 		}
 
@@ -84,7 +82,7 @@ namespace Waveface.Stream.ClientFramework
 		{
 			get
 			{
-				return _streamDatxFile ?? (_streamDatxFile = Path.Combine(m_DataPath, STREAM_DATX_FILE_NAME));
+				return _streamDatxFile ?? (_streamDatxFile = Path.Combine(m_DataPath, string.Format(STREAM_DATX_FILE_NAME_PATTERN, Application.ProductName)));
 			}
 		}
 		#endregion
