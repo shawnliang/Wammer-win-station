@@ -59,12 +59,12 @@ namespace Wammer.Station.AttachmentUpload
 
 				if (args.UpsertResult == UpsertResult.Insert)
 				{
-					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, isCoverImage ? TaskPriority.High : TaskPriority.Medium);
-
 					if (user.isPaidUser)
 						util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
 					else
 						util.GenerateThumbnailAsyncAndUpstream(args.AttachmentId, ImageMeta.Medium, TaskPriority.Low);
+
+					util.GenerateThumbnailAsync(args.AttachmentId, ImageMeta.Small, isCoverImage ? TaskPriority.High : TaskPriority.Medium);
 				}
 			}
 		}

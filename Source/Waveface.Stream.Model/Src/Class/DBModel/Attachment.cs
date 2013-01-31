@@ -483,24 +483,14 @@ namespace Waveface.Stream.Model
 			return file_size > 0;
 		}
 
-		public bool HasThumbnail(ImageMeta meta)
+		public bool HasMediumPreview()
 		{
-			if (image_meta == null)
-				return false;
+			return image_meta != null && image_meta.medium != null && !string.IsNullOrEmpty(image_meta.medium.saved_file_name);
+		}
 
-			switch (meta)
-			{
-				case ImageMeta.Small:
-					return image_meta.small != null;
-				case ImageMeta.Medium:
-					return image_meta.medium != null;
-				case ImageMeta.Large:
-					return image_meta.large != null;
-				case ImageMeta.Square:
-					return image_meta.square != null;
-				default:
-					throw new ArgumentException("not a valid thumbmail meta: " + meta);
-			}
+		public bool HasOriginFile()
+		{
+			return !string.IsNullOrEmpty(saved_file_name);
 		}
 
 		public bool HasDocPreviews()
