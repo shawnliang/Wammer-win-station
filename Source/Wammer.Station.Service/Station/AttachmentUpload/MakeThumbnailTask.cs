@@ -62,29 +62,20 @@ namespace Wammer.Station.AttachmentUpload
 
 			ThumbnailInfo thumbnail = null;
 
-			var originExist = !string.IsNullOrEmpty(attachment.saved_file_name);
-
 			if (thumbnail_type == ImageMeta.Small)
 			{
-				var mediumExist = attachment.image_meta.medium != null && !string.IsNullOrEmpty(attachment.image_meta.medium.saved_file_name);
-
-				if (mediumExist)
+				if (attachment.HasMediumPreview())
 				{
 					thumbnail = imgProc.GenerateThumbnail(attachment.image_meta.medium.saved_file_name,
 									thumbnail_type, object_id, user, attachment.file_name, ImageMeta.Medium);
 				}
-				else if (originExist)
+				else if (attachment.HasOriginFile())
 				{
-					ThumbnailInfo info = getThumbnailFromEmbededExif(attachment, user);
-
-					if (info != null)
-						thumbnail = info;
-					else
-						thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
-							object_id, user, attachment.file_name);
+					thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name,
+									thumbnail_type, object_id, user, attachment.file_name);
 				}
 			}
-			else if (thumbnail_type == ImageMeta.Medium && originExist)
+			else if (thumbnail_type == ImageMeta.Medium && attachment.HasOriginFile())
 			{
 				thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
 								object_id, user, attachment.file_name);
@@ -92,7 +83,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			if (thumbnail == null)
 			{
-				this.LogWarnMsg("No file is available to make thumbnail: " + attachment.object_id);
+				this.LogWarnMsg("File is not available to make thumbnail: " + attachment.object_id);
 				return;
 			}
 
@@ -106,34 +97,6 @@ namespace Wammer.Station.AttachmentUpload
 				smallThumbnailCounter.Increment();
 
 			updateImportTaskIfNeeded();
-		}
-
-		private ThumbnailInfo getThumbnailFromEmbededExif(Attachment attachment, Driver user)
-		{
-			try
-			{
-				Stream thumbnailStream = null;
-				var storage = new FileStorage(user);
-				using (var fs = storage.Load(attachment.saved_file_name, ImageMeta.Origin))
-				{
-					var exif = ExifLibrary.ExifFile.Read(fs);
-					thumbnailStream = exif.Thumbnail;
-				}
-
-				if (thumbnailStream == null)
-					return null;
-
-
-				using (var thumbBitmap = new Bitmap(thumbnailStream))
-				{
-					return ImagePostProcessing.MakeThumbnail(thumbBitmap, thumbnail_type, ExifOrientations.Unknown, attachment.object_id, user, attachment.file_name);
-				}
-			}
-			catch (Exception e)
-			{
-				this.LogWarnMsg("Unable to get thumbnails from embeded exif: " + attachment.saved_file_name, e);
-				return null;
-			}
 		}
 
 		private void updateImportTaskIfNeeded()
