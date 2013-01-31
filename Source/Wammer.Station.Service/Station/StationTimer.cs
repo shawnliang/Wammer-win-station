@@ -68,15 +68,22 @@ namespace Wammer.Station
 		}
 	}
 
-	public abstract class NonReentrantTimer : IStationTimer
+	public abstract class NonReentrantTimer : IStationTimer,IDisposable
 	{
 		private readonly Timer timer;
 		private readonly long timerPeriod;
+
+		private bool m_Disposed { get; set; }
 
 		protected NonReentrantTimer(long timerPeriod)
 		{
 			timer = new Timer(OnTimedUp);
 			this.timerPeriod = timerPeriod;
+		}
+
+		~NonReentrantTimer()
+		{
+			Dispose(false);
 		}
 
 		#region IStationTimer Members
@@ -112,6 +119,25 @@ namespace Wammer.Station
 			{
 				timer.Change(timerPeriod, Timeout.Infinite);
 			}
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (m_Disposed)
+				return;
+
+			if (disposing)
+			{
+				timer.Dispose();
+			}
+
+			m_Disposed = true;
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 
 		protected abstract void ExecuteOnTimedUp(object state);

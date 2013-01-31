@@ -67,20 +67,39 @@ namespace Wammer.Queue
 	{
 		private readonly HashSet<WMSQueue> popQueues = new HashSet<WMSQueue>();
 
+		#region Private Property
+		private bool m_Disposed { get; set; } 
+		#endregion
 
 		public WMSSession()
 		{
 			Id = Guid.NewGuid();
 		}
 
+		~WMSSession()
+		{
+			Dispose(false);
+		}
+
 		public Guid Id { get; private set; }
 
 		#region IDisposable Members
 
+		protected virtual void Dispose(bool disposing)
+		{
+			if (m_Disposed)
+				return;
+
+			Close();
+
+			m_Disposed = true;
+		}
+
+
 		public void Dispose()
 		{
-			Close();
-			GC.SuppressFinalize(true);
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 
 		#endregion

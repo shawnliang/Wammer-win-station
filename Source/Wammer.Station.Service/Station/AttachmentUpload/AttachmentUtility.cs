@@ -39,10 +39,9 @@ namespace Wammer.Station.AttachmentUpload
 		public ThumbnailInfo GenerateThumbnail(string imageFilename, ImageMeta thumbnailType, string object_id, Driver user,
 											   string origin_filename, ImageMeta from)
 		{
-			var fileStorage = new FileStorage(user);
+			var fs = new FileStorage(user);
 
-			using (FileStream f = fileStorage.Load(imageFilename, from))
-			using (var image = new Bitmap(f))
+			using (var image = new Bitmap(fs.Load(imageFilename, from)))
 			{
 				return ImagePostProcessing.MakeThumbnail(image, thumbnailType, ExifOrientations.Unknown, object_id, user,
 														 origin_filename);

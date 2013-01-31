@@ -20,17 +20,16 @@ namespace Wammer.Station
 	public class HttpServer : IDisposable
 	{
 		#region Var
-
 		private IHttpHandler _defaultHandler;
 		private Dictionary<string, IHttpHandler> _handlers;
 		private HttpListener _listener;
 		private Object _lockSwitchObj;
 		private ILog _logger;
 		private bool _started;
-
 		#endregion
 
 		#region Private Property
+		private bool m_Disposed { get; set; }
 
 		private ILog m_Logger
 		{
@@ -69,7 +68,13 @@ namespace Wammer.Station
 			m_Port = port;
 		}
 
+		~HttpServer()
+		{
+			Dispose(false);
+		}
 		#endregion
+
+
 
 		#region Private Method
 
@@ -169,6 +174,16 @@ namespace Wammer.Station
 			this.RaiseEvent(TaskEnqueue, e);
 		}
 
+		protected virtual void Dispose(bool disposing)
+		{
+			if (m_Disposed)
+				return;
+
+			Close();
+
+			m_Disposed = true;
+		}
+
 		#endregion
 
 		#region Public Method
@@ -178,8 +193,8 @@ namespace Wammer.Station
 		/// </summary>
 		public void Dispose()
 		{
-			Close();
-			GC.SuppressFinalize(true);
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>

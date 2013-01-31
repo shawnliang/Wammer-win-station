@@ -16,6 +16,15 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+
+				if (managementServer != null)
+					managementServer.Dispose();
+
+				if (functionServer != null)
+					functionServer.Dispose();
+
+				if (mongoMonitor != null)
+					mongoMonitor.Dispose();
             }
             base.Dispose(disposing);
         }
