@@ -163,15 +163,19 @@ namespace Waveface.Stream.WindowsClient
 				}
 				return;
 			}
-			else 
-			{
-				StationServiceProxy.Instance.StartService();
 
-				if (options.Imports != null && options.Imports.Any())
-				{
-					ImportFileAndFolders(options.Imports);
-				}
+			SplashScreen.ShowSplashScreen();
+			SplashScreen.SetProgressText("Starting AOStream");
+
+			StationServiceProxy.Instance.StartService();
+
+			//waitDialog.Close();
+
+			if (options.Imports != null && options.Imports.Any())
+			{
+				ImportFileAndFolders(options.Imports);
 			}
+			
 			
 			m_MessageReceiver.WndProc += m_MessageReceiver_WndProc;
 			
@@ -182,7 +186,7 @@ namespace Waveface.Stream.WindowsClient
 
 			InitNotifyIcon();
 
-			StationAPI.ResumeSync();
+			//StationAPI.ResumeSync();
 			SyncStatus.IsServiceRunning = true;
 
 			m_Timer.Interval = 500;
@@ -190,13 +194,14 @@ namespace Waveface.Stream.WindowsClient
 			m_Timer.Start();
 
 
+			SplashScreen.CloseForm();
+
 			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
 				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
 				recentDocWatcher.Start();
 
 				UsbImportController.Instance.StartDetect();
-
 
 				if (!MainForm.Instance.IsDebugMode)
 					ShowPreferencesDialog();
