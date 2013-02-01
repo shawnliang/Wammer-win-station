@@ -165,6 +165,8 @@ namespace Waveface.Stream.WindowsClient
 			}
 			else 
 			{
+				StationServiceProxy.Instance.StartService();
+
 				if (options.Imports != null && options.Imports.Any())
 				{
 					ImportFileAndFolders(options.Imports);
@@ -630,6 +632,8 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 
 			Settings.Default.Save();
+
+			StationServiceProxy.Instance.StopService();
 
 			m_ContextMenuStrip.Dispose();
 			m_NotifyIcon.Dispose();

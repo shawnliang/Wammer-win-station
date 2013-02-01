@@ -183,6 +183,7 @@
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
     <Compile Include="Src\Class\SendMessageHelper.cs" />
+    <Compile Include="Src\Class\StationServiceProxy.cs" />
     <Compile Include="Src\Class\UsbImportController.cs" />
     <Compile Include="Src\Control\PlanBox.cs">
       <SubType>Component</SubType>
