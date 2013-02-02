@@ -182,6 +182,7 @@
     <Compile Include="Src\Class\ImportStatus.cs" />
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
+    <Compile Include="Src\Class\MongoDBNotReadyException.cs" />
     <Compile Include="Src\Class\SendMessageHelper.cs" />
     <Compile Include="Src\Class\StationServiceProxy.cs" />
     <Compile Include="Src\Class\UsbImportController.cs" />
@@ -803,6 +804,10 @@
     <Content Include="Web\tests\index.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Localizer\CommonLibs.csproj">
+      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
+      <Name>CommonLibs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Waveface.Stream.ClientFramework\Waveface.Stream.ClientFramework.csproj">
       <Project>{6C951229-0A01-47B7-89B5-9317B025415B}</Project>
       <Name>Waveface.Stream.ClientFramework</Name>

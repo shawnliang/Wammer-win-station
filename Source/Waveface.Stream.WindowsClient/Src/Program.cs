@@ -165,11 +165,16 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			SplashScreen.ShowSplashScreen();
-			SplashScreen.SetProgressText("Starting AOStream");
+
+			SplashScreen.SetProgressText("Waiting database service...");
+
+			waitUntilMongodbReady();
+
+			SplashScreen.SetProgressText("Starting AOStream...");
 
 			StationServiceProxy.Instance.StartService();
 
-			//waitDialog.Close();
+			waitUntilStationAPIReady();
 
 			if (options.Imports != null && options.Imports.Any())
 			{
@@ -210,6 +215,34 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			Application.Run();
+		}
+
+		private static void waitUntilStationAPIReady()
+		{
+			var begin = DateTime.Now;
+
+			while (!StationAPI.PingFuncAndMgnt())
+			{
+				Thread.Sleep(500);
+
+				var dur = (DateTime.Now - begin).TotalSeconds;
+
+				if (dur > 30.0)
+					throw new StationServiceNotReadyException("Station not ready in 30 seconds");
+			}
+		}
+
+		private static void waitUntilMongodbReady()
+		{
+			var begin = DateTime.Now;
+
+			while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
+			{
+				var dur = (DateTime.Now - begin).TotalSeconds;
+
+				if (dur > 30.0)
+					throw new MongoDBNotReadyException("MongoDB is not ready in 30 secs");
+			}
 		}
 
 
