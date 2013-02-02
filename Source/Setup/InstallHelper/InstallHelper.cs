@@ -22,6 +22,8 @@ using System.Runtime.InteropServices;
 using MongoDB.Driver.Builders;
 using Wammer.Utility;
 using Waveface.Stream.Model;
+using System.Management;
+using System.Security.Cryptography;
 
 
 namespace Wammer.Station
@@ -319,6 +321,51 @@ namespace Wammer.Station
 			}
 		}
 
+		/// <summary>
+		/// Generates the unique device id.
+		/// </summary>
+		/// <returns></returns>
+		private static string GenerateUniqueDeviceId()
+		{
+			// uniqueness is at least guaranteed by volume serial number
+			var volumeSN = string.Empty;
+			try
+			{
+				var pathRoot = Path.GetPathRoot(Environment.CurrentDirectory);
+
+				Debug.Assert(pathRoot != null);
+				var drive = pathRoot.TrimEnd('\\');
+				var disk = new ManagementObject(string.Format("win32_logicaldisk.deviceid=\"{0}\"", drive));
+				disk.Get();
+				volumeSN = disk["VolumeSerialNumber"].ToString();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to retrieve win32_logicaldisk.deviceid", e);
+				return Guid.NewGuid().ToString();
+			}
+
+			var cpuID = "DEFAULT";
+			try
+			{
+				var mc = new ManagementClass("win32_processor");
+				var moc = mc.GetInstances();
+				foreach (var mo in moc)
+				{
+					// use first CPU's ID
+					cpuID = mo.Properties["processorID"].Value.ToString();
+					break;
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to retrieve processor ID", e);
+			}
+
+			var md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
+			return new Guid(md5).ToString();
+		}
+
 		[CustomAction]
 		public static ActionResult SetRegistry(Session session)
 		{
@@ -328,6 +375,8 @@ namespace Wammer.Station
 				Configuration config = ConfigurationManager.OpenExeConfiguration(myPath);
 
 				StationRegistry.SetValue("cloudBaseURL", config.AppSettings.Settings["cloudBaseURL"].Value);
+
+				StationRegistry.SetValue("stationId", GenerateUniqueDeviceId());
 			}
 			catch (Exception e)
 			{
