@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using log4net;
+using System.Reflection;
+using System.IO;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -31,10 +33,13 @@ namespace Waveface.Stream.WindowsClient
 
 		public void StartService()
 		{
+			var installDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			var stationPath = Path.Combine(installDir, "station.service.exe");
+
 			stationProc = new Process
 			{
 				EnableRaisingEvents = true,
-				StartInfo = new ProcessStartInfo("Station.Service.exe", "-c")
+				StartInfo = new ProcessStartInfo(stationPath, "-c")
 				{
 					CreateNoWindow = true,
 					WindowStyle = ProcessWindowStyle.Hidden
