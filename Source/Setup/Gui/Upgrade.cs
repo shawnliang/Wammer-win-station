@@ -55,9 +55,10 @@ namespace Gui
 		{
 			try
 			{
-				// stop WF service to prevent WinXP pops up "Waveface Installer
-				// need to be stopped first".
-				StopService("WavefaceStation");
+				KillProcess("WindowsClient");
+				KillProcess("Station.Service");
+				System.Threading.Thread.Sleep(1000);
+
 				MongoDump();
 				BackupRegistry();
 
@@ -207,10 +208,6 @@ namespace Gui
 		{
 			try
 			{
-				KillProcess("WindowsClient");
-				KillProcess("Station.Service");
-				System.Threading.Thread.Sleep(1000);
-
 				MoveDir(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "waveface", "oldWaveface");
 				MoveDir(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "waveface", "oldWaveface");
 			}
@@ -236,6 +233,9 @@ namespace Gui
 
 					if (Directory.Exists(origName))
 						Directory.Move(origName, newName);
+
+
+					return;
 				}
 				catch
 				{
