@@ -336,4 +336,7 @@
   <data name="SVC_TWITTER_DESC" xml:space="preserve">
     <value>[TBD] 連結 Twitter 後，將彙整您分享過或是喜愛的網頁</value>
   </data>
+  <data name="SVC_FOURSQUARE_DESC" xml:space="preserve">
+    <value>[TBD] 連結 foursquare 後，將彙整您的打卡資訊</value>
+  </data>
 </root>

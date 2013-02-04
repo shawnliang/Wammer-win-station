@@ -897,6 +897,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [TBD] AOStream collects your check-ins..
+        /// </summary>
+        internal static string SVC_FOURSQUARE_DESC {
+            get {
+                return ResourceManager.GetString("SVC_FOURSQUARE_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [TBD] AOStream collects starred articles in Google Reader..
         /// </summary>
         internal static string SVC_GOOGLE_DESC {
