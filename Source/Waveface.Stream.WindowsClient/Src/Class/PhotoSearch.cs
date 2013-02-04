@@ -15,7 +15,6 @@ namespace Waveface.Stream.WindowsClient
 	{
 		private List<string> ignorePaths = new List<string>();
 		private Dictionary<string, PathAndPhotoCount> _interestedPaths;
-		private BackgroundWorker backgroundWorker1;
 		private object cs = new object();
 
 		public delegate void pathFoundDelegate(string path, int photoCount);
@@ -59,33 +58,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		public void StartSearchAsync()
-		{
-			backgroundWorker1 = new BackgroundWorker();
-			backgroundWorker1.DoWork += backgroundWorker1_DoWork;
-			backgroundWorker1.RunWorkerAsync();
-		}
-
-		private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-		{
-			Thread.CurrentThread.Priority = ThreadPriority.Lowest;
-
-			var drives = DriveInfo.GetDrives();
-
-			PhotoCrawler crawler = new PhotoCrawler();
-
-			foreach (var drive in drives)
-			{
-				try
-				{
-					if (drive.DriveType == DriveType.Fixed)
-						crawler.FindPhotoDirs(drive.Name, (path, count) => AddInterestedPath(path, count));
-				}
-				catch (Exception err)
-				{
-				}
-			}
-		}
 
 		/// <summary>
 		/// Searches valid photos with jpg/jpeg extension from a path
@@ -99,10 +71,11 @@ namespace Waveface.Stream.WindowsClient
 			{
 				PhotoCrawler crawler = new PhotoCrawler();
 
-				crawler.FindPhotoDirs(path, (folder, count) => folderFound(folder, count));
+				crawler.FindPhotoDirs(path, (folder, count) => { return folderFound(folder, count); });
 			}
-			catch
+			catch (Exception e)
 			{
+				log4net.LogManager.GetLogger(typeof(PhotoSearch)).Warn("Unable to file photo dir: " + path, e);
 			}
 		}
 

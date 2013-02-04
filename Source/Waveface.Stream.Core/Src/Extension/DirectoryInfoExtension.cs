@@ -78,10 +78,10 @@ public static class DirectoryInfoExtension
 		FindClose(hFind);
 	}
 
-	private static void searchFiles(string path, string[] patterns, PathCallback fileCB, PathCallback folderCB, PathErrorCallback errorCB)
+	private static bool searchFiles(string path, string[] patterns, PathCallback fileCB, PathCallback folderCB, PathErrorCallback errorCB)
 	{
 		if (folderCB != null && !folderCB(path))
-			return;
+			return false;
 
 		foreach (var pattern in patterns)
 		{
@@ -93,7 +93,7 @@ public static class DirectoryInfoExtension
 			foreach (var file in files)
 			{
 				if (!fileCB(file))
-					return;
+					return false;
 			}
 		}
 
@@ -101,13 +101,14 @@ public static class DirectoryInfoExtension
 		var subdirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
 
 		if (subdirs == null)
-			return;
+			return true;
 
 		foreach (var subdir in subdirs)
 		{
 			try
 			{
-				searchFiles(subdir, patterns, fileCB, folderCB, errorCB);
+				if (!searchFiles(subdir, patterns, fileCB, folderCB, errorCB))
+					return false;
 			}
 			catch (Exception e)
 			{
@@ -115,6 +116,8 @@ public static class DirectoryInfoExtension
 					errorCB(subdir, e);
 			}
 		}
+
+		return true;
 	}
 
 	#endregion

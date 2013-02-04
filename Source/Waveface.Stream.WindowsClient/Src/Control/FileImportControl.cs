@@ -17,7 +17,6 @@ namespace Waveface.Stream.WindowsClient
 		#region Var
 		private IPhotoSearch _photoSearch;
 		private CheckBox _checkBox1;
-		private HidableProgressingDialog _processDialog;
 		private string _originalLocation;
 		#endregion
 
@@ -169,25 +168,50 @@ namespace Waveface.Stream.WindowsClient
 
 		private void AddImportFolder(IEnumerable<String> selectedPaths)
 		{
-			foreach (var selectedPath in selectedPaths)
+			var bg = new BackgroundWorker();
+			bg.WorkerSupportsCancellation = true;
+			bg.DoWork += new DoWorkEventHandler(bg_DoWork);
+			bg.RunWorkerAsync(new ImportArgs { paths = selectedPaths, bgworker = bg });
+
+			var processingDialog = new WaitingBGWorkerDialog { Title = "Scanning photos", BackgroupWorker = bg };
+			processingDialog.StartPosition = FormStartPosition.CenterParent;
+			processingDialog.ShowDialog(this);
+
+		}
+
+		void bg_DoWork(object sender, DoWorkEventArgs e)
+		{
+			var arg = (ImportArgs)e.Argument;
+
+			foreach (var selectedPath in arg.paths)
 			{
 				Cursor.Current = Cursors.WaitCursor;
 
 				_photoSearch.Search(selectedPath, (p, c) =>
 				{
-					try
+					if (arg.bgworker.CancellationPending)
+						return false;
+
+					p = p.TrimEnd(Path.DirectorySeparatorChar);
+
+					this.Invoke(new MethodInvoker(() =>
 					{
-						p = p.TrimEnd(Path.DirectorySeparatorChar);
-						for (int i = 0; i < dataGridView1.RowCount; i++)
+						try
 						{
-							if (dataGridView1[2, i].Value.Equals(p))
-								return;
+							for (int i = 0; i < dataGridView1.RowCount; i++)
+							{
+								if (dataGridView1[2, i].Value.Equals(p))
+									return;
+							}
+							dataGridView1.Rows.Add(true, Path.GetFileName(p), p);
 						}
-						dataGridView1.Rows.Add(true, Path.GetFileName(p), p);
-					}
-					catch (Exception)
-					{
-					}
+						catch (Exception ex)
+						{
+							log4net.LogManager.GetLogger(typeof(FileImportControl)).Warn("Unable to add path:" + p, ex);
+						}
+					}));
+
+					return true;
 				});
 			}
 		}
@@ -257,7 +281,7 @@ namespace Waveface.Stream.WindowsClient
 		string GetUserFolder(string user_id);
 	}
 
-	public delegate void PhotoFolderFound(string path, int count);
+	public delegate bool PhotoFolderFound(string path, int count);
 
 	public class PathAndPhotoCount
 	{
@@ -285,5 +309,11 @@ namespace Waveface.Stream.WindowsClient
 			else
 				return false;
 		}
+	}
+
+	class ImportArgs
+	{
+		public BackgroundWorker bgworker { get; set; }
+		public IEnumerable<string> paths { get; set; }
 	}
 }

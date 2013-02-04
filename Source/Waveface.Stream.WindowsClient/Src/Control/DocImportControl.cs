@@ -14,7 +14,6 @@ namespace Waveface.Stream.WindowsClient
 	{
 		private CheckBox checkBox1;
 		private HidableProgressingDialog _processDialog;
-		private string session_token;
 
 		#region Constructor
 		/// <summary>

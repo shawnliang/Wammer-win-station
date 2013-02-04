@@ -9,7 +9,7 @@ namespace Waveface.Stream.Core
 	public class PhotoCrawler
 	{
 
-		public delegate void PhotoFolderFoundDelegate(string path, int count);
+		public delegate bool PhotoFolderFoundDelegate(string path, int count);
 
 		private static List<string> ignorePath;
 			
@@ -39,12 +39,16 @@ namespace Waveface.Stream.Core
 
 				(folder) =>
 				{
+					var ret = true;
+
 					if (!string.IsNullOrEmpty(curFolder) && photoCountInCurFolder > 0)
-						photoFolderFound(curFolder, photoCountInCurFolder);
+						ret = photoFolderFound(curFolder, photoCountInCurFolder);
 
 					// reset
 					curFolder = folder;
 					photoCountInCurFolder = 0;
+
+					return ret;
 				},
 
 				(file) =>
@@ -68,12 +72,12 @@ namespace Waveface.Stream.Core
 		{
 			List<string> photoPaths = new List<string>();
 
-			findPhotos(fromPaths, (folder) => { }, (file) => { photoPaths.Add(file); }, errorCB);
+			findPhotos(fromPaths, (folder) => { return true; }, (file) => { photoPaths.Add(file); }, errorCB);
 
 			return photoPaths;
 		}
 
-		private void findPhotos(IEnumerable<string> fromPaths, Action<string> folderAction, Action<string> fileAction, Action<string, Exception> errorAction)
+		private void findPhotos(IEnumerable<string> fromPaths, Func<string, bool> folderCallback, Action<string> fileAction, Action<string, Exception> errorAction)
 		{
 			var processedDir = new HashSet<string>();
 
@@ -110,9 +114,7 @@ namespace Waveface.Stream.Core
 
 							processedDir.Add(folder);
 
-							folderAction(folder);
-
-							return true;
+							return folderCallback(folder);
 						},
 
 						(errorPath, error) =>
