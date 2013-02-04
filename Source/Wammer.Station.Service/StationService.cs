@@ -26,7 +26,6 @@ namespace Wammer.Station.Service
 	public partial class StationService : ServiceBase
 	{
 		#region Const
-		public const string SERVICE_NAME = "WavefaceStation";
 		public const string MONGO_SERVICE_NAME = "MongoDbForWaveface";
 		#endregion
 
@@ -41,7 +40,7 @@ namespace Wammer.Station.Service
 		{
 			XmlConfigurator.Configure();
 			InitializeComponent();
-			ServiceName = SERVICE_NAME;
+			ServiceName = "AOStream service (Not used anymore)";
 			HttpWebRequest.DefaultMaximumErrorResponseLength = 10 * 1024; // in KB => 10 * 1024 * K => 10 MB
 			ServicePointManager.DefaultConnectionLimit = 200;
 

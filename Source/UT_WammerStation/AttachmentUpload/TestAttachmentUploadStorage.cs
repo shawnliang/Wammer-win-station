@@ -238,9 +238,9 @@ namespace UT_WammerStation.AttachmentUpload
 					file_create_time = new DateTime(2000, 1, 2, 3, 4, 5, DateTimeKind.Utc)
 				}, "");
 
-			Assert.AreEqual(@"cache\uuuu\obj1_medium.dat", result.RelativePath);
+			Assert.AreEqual(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Waveface", "AOStream", "cache", @"uuuu\obj1_medium.dat"), result.RelativePath);
 			Assert.AreEqual("", result.StorageBasePath);
-			Assert.AreEqual(@"cache\uuuu\obj1_medium.dat", result.FullPath);
+			Assert.AreEqual(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Waveface", "AOStream", "cache", @"uuuu\obj1_medium.dat"), result.FullPath);
 
 			using (var r = new StreamReader(result.FullPath))
 			{

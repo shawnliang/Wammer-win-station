@@ -182,7 +182,9 @@
     <Compile Include="Src\Class\ImportStatus.cs" />
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
+    <Compile Include="Src\Class\MongoDBNotReadyException.cs" />
     <Compile Include="Src\Class\SendMessageHelper.cs" />
+    <Compile Include="Src\Class\StationServiceProxy.cs" />
     <Compile Include="Src\Class\UsbImportController.cs" />
     <Compile Include="Src\Control\PlanBox.cs">
       <SubType>Component</SubType>
@@ -207,6 +209,12 @@
     </Compile>
     <Compile Include="Src\Dialog\PlanChangeDialog.Designer.cs">
       <DependentUpon>PlanChangeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Dialog\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Src\Dialog\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\EventArgs\MessageEventArgs.cs" />
     <Compile Include="Src\Class\MessageReceiver.cs" />
@@ -601,6 +609,9 @@
     <EmbeddedResource Include="Src\Dialog\SignUpDialog.zh-TW.resx">
       <DependentUpon>SignUpDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\UsbImportDialog.resx">
       <DependentUpon>UsbImportDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -626,6 +637,7 @@
     <Content Include="Resources\button.appstore.png" />
     <Content Include="Resources\button.googleplay.png" />
     <Content Include="Resources\cloud-connected-devices.png" />
+    <None Include="Resources\Default-Landscape.png" />
     <Content Include="Resources\fb_btn.png" />
     <Content Include="Resources\fb_btn_press.png" />
     <Content Include="Resources\FB_Logo.png" />
@@ -792,6 +804,10 @@
     <Content Include="Web\tests\index.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Localizer\CommonLibs.csproj">
+      <Project>{CD587988-F28E-45CE-8619-86804A6C79D7}</Project>
+      <Name>CommonLibs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Waveface.Stream.ClientFramework\Waveface.Stream.ClientFramework.csproj">
       <Project>{6C951229-0A01-47B7-89B5-9317B025415B}</Project>
       <Name>Waveface.Stream.ClientFramework</Name>

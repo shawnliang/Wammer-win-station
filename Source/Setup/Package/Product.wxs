@@ -37,8 +37,6 @@
     <CustomAction Id='SetRegistry' BinaryKey='InstallHelperDll' DllEntry='SetRegistry'/>
     <!-- Start and Wait mongo db ready -->
     <CustomAction Id='StartAndWaitMongoDbReady' BinaryKey='InstallHelperDll' DllEntry='StartAndWaitMongoDbReady' />
-    <!-- Start waveface service -->
-    <CustomAction Id='StartWavefaceService' BinaryKey='InstallHelperDll' DllEntry='StartWavefaceService' />
     <!-- Add performance counters -->
     <CustomAction Id='AddPerfCounters' BinaryKey='InstallHelperDll' DllEntry='AddPerfCounters' />
     <!-- Remove performance counters -->
@@ -49,7 +47,21 @@
     <CustomAction Id='WriteProductInfo' BinaryKey='InstallHelperDll' DllEntry='WriteProductInfo' />
     <!-- CleanRemainingFiles -->
     <CustomAction Id='CleanRemainingFiles' BinaryKey='InstallHelperDll' DllEntry='CleanRemainingFiles' />
-    
+
+    <!-- Custom action to set HTTP URL ACL -->
+
+    <CustomAction Id="AddUrlAcl" Directory="INSTALLLOCATION"
+                      ExeCommand="[SystemFolder]netsh.exe http add urlacl url=http://+:9981/ user=users"
+                      Return="asyncWait" />
+    <CustomAction Id="AddUrlAcl2" Directory="INSTALLLOCATION"
+                      ExeCommand="[SystemFolder]netsh.exe http add urlacl url=http://+:9989/ user=users"
+                      Return="asyncWait" />
+    <CustomAction Id="RemoveUrlAcl" Directory="INSTALLLOCATION"
+                      ExeCommand="[SystemFolder]netsh.exe http delete urlacl url=http://+:9981/"
+                      Return="asyncWait" />
+    <CustomAction Id="RemoveUrlAcl2" Directory="INSTALLLOCATION"
+                      ExeCommand="[SystemFolder]netsh.exe http delete urlacl url=http://+:9989/"
+                      Return="asyncWait" />
 
     <InstallExecuteSequence>
       <!-- while uninstall -->
@@ -68,6 +80,8 @@
       <Custom Action="RemovePerfCounters" Before="RemoveFiles">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
+      <Custom Action="RemoveUrlAcl" Before="InstallFinalize">Installed</Custom>
+      <Custom Action="RemoveUrlAcl2" Before="InstallFinalize">Installed</Custom>
       <Custom Action="CleanRemainingFiles" After="InstallFinalize">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
@@ -75,19 +89,18 @@
       <Custom Action="SetRegistry" Before="InstallFiles">
         ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
       </Custom>
-      <Custom Action="AddPerfCounters" Before="StartServices">
+      <Custom Action="AddPerfCounters" After="InstallFiles">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
+      <Custom Action="AddUrlAcl" Before="InstallFinalize">NOT Installed</Custom>
+      <Custom Action="AddUrlAcl2" Before="InstallFinalize">NOT Installed</Custom>
       <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
         (&amp;MainFeature = 3)
       </Custom>
       <Custom Action="RestoreBackupData" After="StartAndWaitMongoDbReady">
         ((&amp;MainFeature = 3) AND NOT (!MainFeature = 3)) OR ((&amp;ClientFeature = 3) AND NOT (!ClientFeature = 3))
       </Custom>
-      <Custom Action="StartWavefaceService" After="RestoreBackupData">
-        (&amp;MainFeature = 3)
-      </Custom>
-      <Custom Action="WriteProductInfo" After="StartWavefaceService">
+      <Custom Action="WriteProductInfo" After="RestoreBackupData">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
     </InstallExecuteSequence>
@@ -98,10 +111,14 @@
       <ProgressText Action="CleanStationInfoAction">!(loc.CLEAN.STATION.INFO.DESC)</ProgressText>
       <ProgressText Action="CleanAppData">!(loc.CLEAN.APP.DATA.DESC)</ProgressText>
       <ProgressText Action="StartAndWaitMongoDbReady">!(loc.WaitMongoDbReady)</ProgressText>
-      <ProgressText Action="StartWavefaceService">!(loc.StartWavefaceService)</ProgressText>
       <ProgressText Action="RestoreBackupData">!(loc.RestoreBackupData)</ProgressText>
       <ProgressText Action="WriteProductInfo">!(loc.WriteProductInfo)</ProgressText>
+      <ProgressText Action="RemoveUrlAcl">!(loc.SetUrlAcl)</ProgressText>
+      <ProgressText Action="RemoveUrlAcl2">!(loc.SetUrlAcl)</ProgressText>
+      <ProgressText Action="AddUrlAcl">!(locl.SetUrlAcl)</ProgressText>
+      <ProgressText Action="AddUrlAcl2">!(locl.SetUrlAcl)</ProgressText>
     </UI>
+
     <!-- Program Menu-->
     <Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
       <Directory Id="ProgramMenuFolder" Name="Programs">

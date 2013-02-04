@@ -39,13 +39,6 @@
         <Component Id="Station.Service.exe" Guid="*">
           <fire:FirewallException Id="WFFWX1" Name="AOStream REST" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
           <fire:FirewallException Id="WFFWX2" Name="AOStream WebSocket" Port="9983" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
-          <ServiceInstall Description="!(loc.STATION_SVC_DESC)" DisplayName="Waveface Station"
-                          Name="WavefaceStation" Start="auto" Type="ownProcess" ErrorControl="ignore">
-            <ServiceDependency Id="MongoDbForWaveface"/>
-          </ServiceInstall>
-          <ServiceControl Name='WavefaceStation' Id='WavefaceStationSvcControl' Remove='uninstall' Stop='both' Wait='yes'/>
-
-
           <File Id="Station.Service.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Service.exe">
             <netfx:NativeImage Id="ngen_Station.Service.exe" Platform="32bit" Priority="0"/>
           </File>

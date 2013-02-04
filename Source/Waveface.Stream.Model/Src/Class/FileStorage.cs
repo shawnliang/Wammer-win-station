@@ -31,10 +31,11 @@ namespace Waveface.Stream.Model
 			return (string)StationRegistry.GetValue("InstallPath", "");
 		}
 
-		private static void CreateFolder(string basePath)
+
+		public static string GetCachePath(string user_id)
 		{
-			if (!string.IsNullOrEmpty(basePath) && !Directory.Exists(basePath))
-				Directory.CreateDirectory(basePath);
+			var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			return Path.Combine(localAppData, @"Waveface\AOStream\cache\" + user_id);
 		}
 
 
@@ -46,7 +47,7 @@ namespace Waveface.Stream.Model
 		/// <returns>relative path to station's current folder</returns>
 		public static string SaveToCacheFolder(string user_id, string filename, ArraySegment<byte> data)
 		{
-			var userCache = Path.Combine("cache", user_id);
+			var userCache = GetCachePath(user_id);
 
 			if (!Directory.Exists(userCache))
 				Directory.CreateDirectory(userCache);
@@ -142,8 +143,7 @@ namespace Waveface.Stream.Model
 
 		public static String GetStaticMap(string userID, string object_id)
 		{
-			var cacheDir = Path.Combine("cache", string.Format(@"{0}\Map", userID));
-
+			var cacheDir = Path.Combine(GetCachePath(userID), "Map");
 			return Path.Combine(cacheDir, string.Format("{0}.jpg", object_id));
 		}
 

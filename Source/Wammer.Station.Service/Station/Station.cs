@@ -165,8 +165,10 @@ namespace Wammer.Station
 			{
 				if (_stationID == null)
 				{
-					InitStationId();
 					_stationID = (string)StationRegistry.GetValue(STATION_ID_REGISTORY_KEY, null);
+
+					if (string.IsNullOrEmpty(_stationID))
+						throw new ApplicationException("station id is blank");
 				}
 				return _stationID;
 			}
@@ -228,67 +230,6 @@ namespace Wammer.Station
 
 		#region Private Method
 
-		/// <summary>
-		/// Inits the station id.
-		/// </summary>
-		private void InitStationId()
-		{
-			var stationId = (string)StationRegistry.GetValue(STATION_ID_REGISTORY_KEY, null);
-
-			if (stationId == null)
-			{
-				stationId = GenerateUniqueDeviceId();
-
-				StationRegistry.SetValue("stationId", stationId);
-			}
-		}
-
-		/// <summary>
-		/// Generates the unique device id.
-		/// </summary>
-		/// <returns></returns>
-		private string GenerateUniqueDeviceId()
-		{
-			// uniqueness is at least guaranteed by volume serial number
-			var volumeSN = string.Empty;
-			try
-			{
-				var pathRoot = Path.GetPathRoot(Environment.CurrentDirectory);
-
-				Debug.Assert(pathRoot != null);
-				var drive = pathRoot.TrimEnd('\\');
-				var disk = new ManagementObject(string.Format("win32_logicaldisk.deviceid=\"{0}\"", drive));
-				disk.Get();
-				volumeSN = disk["VolumeSerialNumber"].ToString();
-				this.LogDebugMsg(String.Format("volume serial number = {0}", volumeSN));
-			}
-			catch (Exception e)
-			{
-				this.LogDebugMsg("Unable to retrieve volume serial number", e);
-				return Guid.NewGuid().ToString();
-			}
-
-			var cpuID = "DEFAULT";
-			try
-			{
-				var mc = new ManagementClass("win32_processor");
-				var moc = mc.GetInstances();
-				foreach (var mo in moc)
-				{
-					// use first CPU's ID
-					cpuID = mo.Properties["processorID"].Value.ToString();
-					break;
-				}
-				this.LogDebugMsg(string.Format("processor ID = {0}", cpuID));
-			}
-			catch (Exception e)
-			{
-				this.LogDebugMsg("Unable to retrieve processor ID", e);
-			}
-
-			var md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
-			return new Guid(md5).ToString();
-		}
 
 		private void CheckAndUpdateDriver(LoginedSession loginInfo, string sessionToken, string userID)
 		{

@@ -163,13 +163,24 @@ namespace Waveface.Stream.WindowsClient
 				}
 				return;
 			}
-			else 
+
+			SplashScreen.ShowSplashScreen();
+
+			SplashScreen.SetProgressText("Waiting database service...");
+
+			waitUntilMongodbReady();
+
+			SplashScreen.SetProgressText("Starting AOStream...");
+
+			StationServiceProxy.Instance.StartService();
+
+			waitUntilStationAPIReady();
+
+			if (options.Imports != null && options.Imports.Any())
 			{
-				if (options.Imports != null && options.Imports.Any())
-				{
-					ImportFileAndFolders(options.Imports);
-				}
+				ImportFileAndFolders(options.Imports);
 			}
+			
 			
 			m_MessageReceiver.WndProc += m_MessageReceiver_WndProc;
 			
@@ -180,13 +191,15 @@ namespace Waveface.Stream.WindowsClient
 
 			InitNotifyIcon();
 
-			StationAPI.ResumeSync();
+			//StationAPI.ResumeSync();
 			SyncStatus.IsServiceRunning = true;
 
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
 
+
+			SplashScreen.CloseForm();
 
 			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
@@ -195,7 +208,6 @@ namespace Waveface.Stream.WindowsClient
 
 				UsbImportController.Instance.StartDetect();
 
-
 				if (!MainForm.Instance.IsDebugMode)
 					ShowPreferencesDialog();
 				else
@@ -203,6 +215,34 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			Application.Run();
+		}
+
+		private static void waitUntilStationAPIReady()
+		{
+			var begin = DateTime.Now;
+
+			while (!StationAPI.PingFuncAndMgnt())
+			{
+				Thread.Sleep(500);
+
+				var dur = (DateTime.Now - begin).TotalSeconds;
+
+				if (dur > 30.0)
+					throw new StationServiceNotReadyException("Station not ready in 30 seconds");
+			}
+		}
+
+		private static void waitUntilMongodbReady()
+		{
+			var begin = DateTime.Now;
+
+			while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
+			{
+				var dur = (DateTime.Now - begin).TotalSeconds;
+
+				if (dur > 30.0)
+					throw new MongoDBNotReadyException("MongoDB is not ready in 30 secs");
+			}
 		}
 
 
@@ -630,6 +670,8 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 
 			Settings.Default.Save();
+
+			StationServiceProxy.Instance.StopService();
 
 			m_ContextMenuStrip.Dispose();
 			m_NotifyIcon.Dispose();

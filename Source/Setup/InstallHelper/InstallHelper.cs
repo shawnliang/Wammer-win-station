@@ -22,6 +22,8 @@ using System.Runtime.InteropServices;
 using MongoDB.Driver.Builders;
 using Wammer.Utility;
 using Waveface.Stream.Model;
+using System.Management;
+using System.Security.Cryptography;
 
 
 namespace Wammer.Station
@@ -87,7 +89,7 @@ namespace Wammer.Station
 			if (wavefaceDir == null)
 				return ActionResult.Failure;
 
-			//CloseStream();
+			KillProcess("Station.Service");
 			KillProcess("WindowsClient");
 
 			return ActionResult.Success;
@@ -169,8 +171,6 @@ namespace Wammer.Station
 				RestoreStationDB(session, dumpFolder);
 				RestoreStationId();
 				RestoreClientAppData();
-				RestoreCacheFolder(session["INSTALLLOCATION"]);
-
 				return ActionResult.Success;
 			}
 			catch (Exception e)
@@ -184,23 +184,11 @@ namespace Wammer.Station
 			}
 		}
 
-		private static void RestoreCacheFolder(string appRoot)
-		{
-			var cacheBackup = Path.Combine(appRoot, "cache.backup");
-			var cacheOrig = Path.Combine(appRoot, "cache");
-
-			if (!Directory.Exists(cacheBackup) || Directory.Exists(cacheOrig))
-				return;
-
-			Directory.Move(cacheBackup, cacheOrig);
-		}
-
 		private static void RemoveBackupData(string dumpFolder, string appRoot)
 		{
 			try
 			{
 				RemoveDirectory(dumpFolder);
-				RemoveDirectory(Path.Combine(appRoot, "cache.backup"));
 
 				if (StationRegistry.GetValue("oldStationId", null) != null)
 					StationRegistry.DeleteValue("oldStattionId");
@@ -333,6 +321,51 @@ namespace Wammer.Station
 			}
 		}
 
+		/// <summary>
+		/// Generates the unique device id.
+		/// </summary>
+		/// <returns></returns>
+		private static string GenerateUniqueDeviceId()
+		{
+			// uniqueness is at least guaranteed by volume serial number
+			var volumeSN = string.Empty;
+			try
+			{
+				var pathRoot = Path.GetPathRoot(Environment.CurrentDirectory);
+
+				Debug.Assert(pathRoot != null);
+				var drive = pathRoot.TrimEnd('\\');
+				var disk = new ManagementObject(string.Format("win32_logicaldisk.deviceid=\"{0}\"", drive));
+				disk.Get();
+				volumeSN = disk["VolumeSerialNumber"].ToString();
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to retrieve win32_logicaldisk.deviceid", e);
+				return Guid.NewGuid().ToString();
+			}
+
+			var cpuID = "DEFAULT";
+			try
+			{
+				var mc = new ManagementClass("win32_processor");
+				var moc = mc.GetInstances();
+				foreach (var mo in moc)
+				{
+					// use first CPU's ID
+					cpuID = mo.Properties["processorID"].Value.ToString();
+					break;
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Warn("Unable to retrieve processor ID", e);
+			}
+
+			var md5 = MD5.Create().ComputeHash(Encoding.Default.GetBytes(cpuID + "-" + volumeSN));
+			return new Guid(md5).ToString();
+		}
+
 		[CustomAction]
 		public static ActionResult SetRegistry(Session session)
 		{
@@ -342,6 +375,8 @@ namespace Wammer.Station
 				Configuration config = ConfigurationManager.OpenExeConfiguration(myPath);
 
 				StationRegistry.SetValue("cloudBaseURL", config.AppSettings.Settings["cloudBaseURL"].Value);
+
+				StationRegistry.SetValue("stationId", GenerateUniqueDeviceId());
 			}
 			catch (Exception e)
 			{
@@ -580,50 +615,6 @@ namespace Wammer.Station
 			}
 		}
 
-		[CustomAction]
-		public static ActionResult StartWavefaceService(Session session)
-		{
-			try
-			{
-				int exitCode;
-				using (var process = new Process())
-				{
-					var startInfo = process.StartInfo;
-					startInfo.FileName = "sc";
-					startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-					// tell Windows that the service should restart if it fails
-					startInfo.Arguments = string.Format("failure WavefaceStation reset= 86400 actions= restart/60000");
-
-					process.Start();
-					if (!process.WaitForExit(60 * 1000))
-						throw new System.TimeoutException("Wait SC timeout");
-
-					exitCode = process.ExitCode;
-
-					process.Close();
-				}
-
-				if (exitCode != 0)
-					throw new InvalidOperationException("sc retuens error: " + exitCode);
-			}
-			catch (Exception e)
-			{
-				Logger.Warn("Unable to set WavefaceStation service failure action", e);
-			}
-
-			try
-			{
-				StartService("WavefaceStation");
-				return ActionResult.Success;
-			}
-			catch (Exception e)
-			{
-				Logger.Error("Unable to start Waveface service", e);
-				return ActionResult.Failure;
-			}
-		}
-
 
 		private static void StartService(string svcName)
 		{
@@ -736,11 +727,6 @@ namespace Wammer.Station
 							else
 								subInMongo.Delete(true);
 						}
-					}
-					else if (subdir.Name.Equals("cache.backup", StringComparison.InvariantCultureIgnoreCase))
-					{
-						// skip cache backup folder
-						continue;
 					}
 					else
 					{

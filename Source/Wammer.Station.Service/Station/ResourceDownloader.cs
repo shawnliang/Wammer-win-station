@@ -80,7 +80,7 @@ namespace Wammer.Station
 				tmpFolder = new FileStorage(driver).basePath;
 			else
 			{
-				tmpFolder = Path.Combine("cache", driver.user_id);
+				tmpFolder = FileStorage.GetCachePath(driver.user_id);
 				if (!Directory.Exists(tmpFolder))
 					Directory.CreateDirectory(tmpFolder);
 			}

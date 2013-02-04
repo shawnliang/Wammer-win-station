@@ -6,7 +6,6 @@
   <String Id="APPNAME">AOStream</String>
   <String Id="SHORTCUT.UNINSTALLER.NAME">解除安裝</String>
   <String Id="MONGO_SVC_DESC">AOStream 的 MongoDB</String>
-  <String Id="STATION_SVC_DESC">AOStream Station服務</String>
   <String Id="SHORTCUT.AddUser.NAME">增加一個使用者</String>
   <String Id="SHORTCUT.STARTWAVEFACE.NAME">AOStream</String>
   <String Id="DOWNGRADE.ERROR">您已安裝了比較新的 [ProductName] 版本. 安裝程序即將結束</String>
@@ -15,9 +14,9 @@
   <String Id="CLEAN.APP.DATA.DESC">清除應用程式資料</String>
   <String Id="KILL.PROCESS.DESC">關閉執行中的程式</String>
   <String Id="WaitMongoDbReady">準備MongoDB中. 可能會需要數分鐘, 請稍候</String>
-  <String Id="StartWavefaceService">正在啟動 AOStream 服務</String>
   <String Id="RestoreBackupData">還原備份的資料</String>
   <String Id="WriteProductInfo">寫入產品設定</String>
+  <String Id="SetUrlAcl">設定網路權限</String>
   <!-- Copied from Wix 3.6 src\ext\FirewallExtension\wixlib\en-us.wxl -->
   <String Id="msierrFirewallCannotConnect" Overridable="yes">無法連結至Windows防火牆.  ([2]   [3]   [4]   [5])</String>
   <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Windows防火牆設定中</String>

@@ -6,16 +6,15 @@
   <String Id="APPNAME">AOStream</String>
   <String Id="SHORTCUT.UNINSTALLER.NAME">Uninstall AOStream</String>
   <String Id="MONGO_SVC_DESC">MongoDB for AOStream </String>
-  <String Id="STATION_SVC_DESC">AOStream Station service</String>
   <String Id="DOWNGRADE.ERROR">A later version of [ProductName] is already installed. Setup will now exit.</String>
   <String Id="SIGNOFF.STATION.DESC">Signing off AOStream</String>
   <String Id="CLEAN.STATION.INFO.DESC">Cleaning station registry and database</String>
   <String Id="CLEAN.APP.DATA.DESC">Cleaning application data</String>
   <String Id="KILL.PROCESS.DESC">Close running process</String>
   <String Id="WaitMongoDbReady">Preparing MongoDB. This may take minutes. Please wait.</String>
-  <String Id="StartWavefaceService">Starting AOStream station service</String>
   <String Id="RestoreBackupData">Restoring data</String>
   <String Id="WriteProductInfo">Saving product configuration</String>
+  <String Id="SetUrlAcl">Setting network permission</String>
   <!-- Copied from Wix 3.6 src\ext\FirewallExtension\wixlib\en-us.wxl -->
   <String Id="msierrFirewallCannotConnect" Overridable="yes">Cannot connect to Windows Firewall.  ([2]   [3]   [4]   [5])</String>
   <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Configuring Windows Firewall</String>

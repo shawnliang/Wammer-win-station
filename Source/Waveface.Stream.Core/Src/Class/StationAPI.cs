@@ -442,5 +442,24 @@ namespace Waveface.Stream.Core
 		}
 
 		#endregion
+
+		public static bool PingFuncAndMgnt()
+		{
+			try
+			{
+				using (var agent = new DefaultWebClient())
+				{
+					agent.Timeout = 1000;
+					agent.DownloadString("http://127.0.0.1:9981/v3/availability/ping/");
+					agent.DownloadString("http://127.0.0.1:9989/v3/availability/ping/");
+				}
+
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 	}
 }
