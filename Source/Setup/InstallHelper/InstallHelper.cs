@@ -248,14 +248,6 @@ namespace Wammer.Station
 			StationRegistry.DeleteValue("oldStationId");
 		}
 
-		private static void RestoreDriverAccount()
-		{
-			string oldDriver = (string)StationRegistry.GetValue("olddriver", null);
-			if (oldDriver != null)
-				StationRegistry.SetValue("driver", oldDriver);
-			StationRegistry.DeleteValue("olddriver");
-		}
-
 		private static bool HasFeature(Session session, string featureId)
 		{
 			foreach (FeatureInfo feature in session.Features)
@@ -709,35 +701,10 @@ namespace Wammer.Station
 		public static ActionResult CleanRemainingFiles(Session session)
 		{
 			string installDir = session["INSTALLLOCATION"];
-			var dir = new DirectoryInfo(installDir);
-			foreach (var subdir in dir.GetDirectories())
-			{
-				try
-				{
-					// Skip mongodb backup folder
-					if (subdir.Name.Equals("MongoDB", StringComparison.InvariantCultureIgnoreCase))
-					{
-						var mongodbDir = subdir;
-						var subsInMongodbDir = mongodbDir.GetDirectories();
+			var mongoBackup = Path.Combine(installDir, @"MongoDB\Backup");
 
-						foreach (var subInMongo in subsInMongodbDir)
-						{
-							if (subInMongo.Name.Equals("Backup", StringComparison.InvariantCultureIgnoreCase))
-								continue;
-							else
-								subInMongo.Delete(true);
-						}
-					}
-					else
-					{
-						subdir.Delete(true);
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Warn("Unable to delete: " + subdir.FullName, e);
-				}
-			}
+			if (!Directory.Exists(mongoBackup))
+				Directory.Delete(installDir, true);
 
 			return ActionResult.Success;
 		}
