@@ -216,6 +216,7 @@ namespace Waveface.Stream.WindowsClient
 			if (this.IsDesignMode())
 				return;
 
+			dataGridView1.Rows.Clear();
 			InitSelectAllCheckBox();
 			txtStoreLocation.Text = _originalLocation = _photoSearch.GetUserFolder(StreamClient.Instance.LoginedUser.UserID);
 		}
