@@ -4,25 +4,64 @@ using System.Reflection;
 
 namespace Waveface.Stream.WindowsClient
 {
-	class RecentDocumentWatcher
+	public class RecentDocumentWatcher
 	{
+
+		#region Static Var
+        private static RecentDocumentWatcher _instance;
+        #endregion
+
+        #region Public Static Property
+		public static RecentDocumentWatcher Instance
+		{
+			get
+			{
+				return _instance ?? (_instance = new RecentDocumentWatcher());
+			}
+		}
+        #endregion
+
+
+		#region Public Property
+		public Boolean Enabled 
+		{
+			get
+			{
+				return watcher.EnableRaisingEvents;
+			}
+			set
+			{
+				watcher.EnableRaisingEvents = value;
+			}
+		}
+		#endregion
+
 		private FileSystemWatcher watcher;
 
-		public event EventHandler<FileTouchEventArgs> FileTouched;
 
-		public RecentDocumentWatcher()
-		{
+        #region Constructor
+        private RecentDocumentWatcher()
+        {
 			var recentDir = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 			watcher = new FileSystemWatcher(recentDir, "*.lnk");
 
 			watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime;
 			watcher.Changed += watcher_Touched;
 			watcher.Created += watcher_Touched;
-		}
+        }
+        #endregion
+	
+
+		public event EventHandler<FileTouchEventArgs> FileTouched;
 
 		public void Start()
 		{
-			watcher.EnableRaisingEvents = true;
+			this.Enabled = true;
+		}
+
+		public void Stop()
+		{
+			this.Enabled = false;
 		}
 
 		void watcher_Touched(object sender, FileSystemEventArgs e)
@@ -81,7 +120,7 @@ namespace Waveface.Stream.WindowsClient
 
 	}
 
-	class FileTouchEventArgs : EventArgs
+	public class FileTouchEventArgs : EventArgs
 	{
 		public string File { get; private set; }
 

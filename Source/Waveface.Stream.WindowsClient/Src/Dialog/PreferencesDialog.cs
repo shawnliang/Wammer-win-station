@@ -1,4 +1,5 @@
 ﻿using fastJSON;
+using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,7 +37,6 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Var
 		private ProcessingDialog _processingDialog;
-		private BackgroundWorker _updateBackgroundWorker;
 		private AutoUpdate _updator;
 		private AutoResetEvent _startRemoveEvt = new AutoResetEvent(false);
 		#endregion
@@ -75,24 +75,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		///// <summary>
-		///// Gets the m_ update background worker.
-		///// </summary>
-		///// <value>The m_ update background worker.</value>
-		//private BackgroundWorker m_UpdateBackgroundWorker
-		//{
-		//	get
-		//	{
-		//		if (_updateBackgroundWorker == null)
-		//		{
-		//			_updateBackgroundWorker = new BackgroundWorker();
-		//			_updateBackgroundWorker.DoWork += bgworkerUpdate_DoWork;
-		//			_updateBackgroundWorker.RunWorkerCompleted += bgworkerUpdate_RunWorkerCompleted;
-		//		}
-		//		return _updateBackgroundWorker;
-		//	}
-		//}
-
 		/// <summary>
 		/// Gets the m_ updator.
 		/// </summary>
@@ -118,6 +100,9 @@ namespace Waveface.Stream.WindowsClient
 
 			lblSyncStatus.Text = string.Empty;
 			lblSyncTransferStatus.Text = string.Empty;
+			lblDeviceConnectStatus.Text = string.Empty;
+			lblDeviceName.Text = string.Empty;
+			label2.Text = string.Empty;
 		}
 		#endregion
 
@@ -130,7 +115,6 @@ namespace Waveface.Stream.WindowsClient
 				var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
 				lblEmail.Text = userInfo.Email;
 				lblName.Text = userInfo.NickName;
-				//chkSubscribed.Checked = userInfo.Subscribed;
 
 				AdjustEditFunction();
 			}
@@ -161,12 +145,6 @@ namespace Waveface.Stream.WindowsClient
 			m_ProcessingDialog.ShowDialog(this);
 		}
 
-		//private void UpdateUserPackage()
-		//{
-		//	var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
-
-		//	lblPackage.Text = (user.isPaidUser)? "VIP": "Free";
-		//}
 
 		private void GetSizeAndUnit(float value, ref float size, ref string unit)
 		{
@@ -189,38 +167,48 @@ namespace Waveface.Stream.WindowsClient
 			unit = units[index];
 		}
 
-		//private void UpdateUsageStatus()
-		//{
-		//	var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+		private void UpdateCloudUsage()
+		{
+			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
 
-		//	var quota = userInfo.Quota;
-		//	var size = 0.0f;
-		//	var unit = string.Empty;
-		//	GetSizeAndUnit(quota,ref size,ref unit);
+			var quota = userInfo.TotalQuota;
+			var size = 0.0f;
+			var unit = string.Empty;
+			GetSizeAndUnit(quota, ref size, ref unit);
 
-		//	var usagePercent = (int)(((double)userInfo.Usage) / userInfo.Quota * 100);
-		//	lblUsageStatus.Text = string.Format("{0}% of {1}{2}", usagePercent, size, unit);
-		//	usageBar1.Maximum = (int)size;
-		//	usageBar1.Unit = unit;
-		//	usageBar1.Value = (int)(size * usagePercent / 100);
-		//}
+			var usagePercent = (int)(((double)userInfo.TotalUsage) / userInfo.TotalQuota * 100);
+			usageDetailControl1.CloudTotalUsage = string.Format("{0}% of {1}{2}", usagePercent, size, unit);
+		}
 
-		//private void UpdateResourceFolder()
-		//{
-		//	try
-		//	{
-		//		var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
-		//		lblResorcePath.Text = user.folder;
-		//	}
-		//	catch
-		//	{
-		//	}
-		//}
 
-		//private void UpdateSoftwareInfo()
-		//{
-		//	lblVersion.Text = ProductVersion;
-		//}
+		private void UpdateUsageDetail()
+		{
+			var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+
+			UpdateCloudUsage();
+
+			var localPhotos = AttachmentCollection.Instance.Find(Query.And(Query.EQ("group_id", StreamClient.Instance.LoginedUser.GroupID), Query.EQ("type", AttachmentType.image)));
+			usageDetailControl1.LocalPhoto = localPhotos.Count().ToString();
+
+			var localDocs = AttachmentCollection.Instance.Find(Query.And(Query.EQ("group_id", StreamClient.Instance.LoginedUser.GroupID), Query.EQ("type", AttachmentType.doc)));
+			usageDetailControl1.LocalDocument = localDocs.Count().ToString();
+
+			usageDetailControl1.TotalPhoto = userInfo.PhotoMetaCount;
+			usageDetailControl1.TotalWeb = userInfo.WebMetaCount;
+			usageDetailControl1.TotalDocument = userInfo.DocumentMetaCount;
+		}
+
+		private void UpdateResourceFolder()
+		{
+			try
+			{
+				var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
+				usageDetailControl1.ResourcePath = user.folder;
+			}
+			catch
+			{
+			}
+		}
 
 		private bool IsWinVistaOrLater()
 		{
@@ -250,37 +238,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		//private void UpdateImportStatus()
-		//{
-		//	if (!StreamClient.Instance.IsLogined)
-		//		return;
-
-		//	var summary = ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID);
-
-		//	if (string.IsNullOrEmpty(summary.Description))
-		//	{
-		//		progressBar1.Visible = lblLocalProcessStatus.Visible = false;
-		//		return;
-		//	}
-		//	else
-		//	{
-		//		lblLocalProcessStatus.Text = summary.Description;
-		//		lblLocalProcessStatus.Visible = true;
-
-		//		long max64;
-		//		long cur64;
-		//		if (summary.GetProgress(out max64, out cur64))
-		//		{
-
-		//			int max32, cur32;
-		//			normalizeTo32bit(max64, cur64, out max32, out cur32);
-
-		//			progressBar1.Maximum = max32;
-		//			progressBar1.Value = cur32;
-		//			progressBar1.Visible = true;
-		//		}
-		//	}
-		//}
 
 		private void normalizeTo32bit(long max64, long cur64, out int max32, out int cur32)
 		{
@@ -293,30 +250,17 @@ namespace Waveface.Stream.WindowsClient
 			max32 = (int)max64;
 			cur32 = (int)cur64;
 		}
-
-		//private void UpdateUserInfoToCloud()
-		//{
-		//	var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
-		//	if (userInfo.Subscribed == chkSubscribed.Checked)
-		//		return;
-
-		//	var user = StreamClient.Instance.LoginedUser;
-		//	StationAPI.UpdateUser(user.SessionToken, user.UserID, chkSubscribed.Checked);
-
-		//	userInfo.Clear();
-		//}
-
 		private void UpdateLeftPanel()
 		{
 			UpdateSyncStatus();
-			//UpdateImportStatus();
+			UpdateDeviceComboBox();
+			UpdateDeviceSyncStatus();
+			UpdateDeviceConnectCount();
 		}
 
 		private void UpdateAccountPage()
 		{
 			UpdateAccountInfo();
-			//UpdateUserPackage();
-			//UpdateUsageStatus();
 		}
 
 		private void SwitchToEmailEditMode()
@@ -359,6 +303,39 @@ namespace Waveface.Stream.WindowsClient
 			tbxName.Visible = false;
 			lnklblSaveName.Visible = false;
 			lnklblCancelName.Visible = false;
+		}
+
+
+		private void UpdateGeneralPage()
+		{
+			UpdateResourceFolder();
+			UpdateUsageDetail();
+		}
+
+		private void UpdateDeviceSyncStatus()
+		{
+			if (cmbDevice.Items.Count == 0 || cmbDevice.SelectedValue == null)
+			{
+				lblDeviceName.Text = string.Empty;
+				lblDeviceConnectStatus.Text = string.Empty;
+				label2.Text = string.Empty;
+				return;
+			}
+
+			var deviceID = cmbDevice.SelectedValue.ToString();
+			lblDeviceName.Text = cmbDevice.Text;
+
+			var connection = ConnectionCollection.Instance.FindOne(
+						Query.EQ("device.device_id", deviceID));
+
+			if (connection == null)
+				return;
+
+
+			if (connection.files_to_backup != null && connection.files_to_backup > 0)
+				label2.Text = string.Format("receiving {0} files", connection.files_to_backup.ToString());
+			else
+				label2.Text = "Connected Locally";
 		}
 		#endregion
 
@@ -426,51 +403,9 @@ namespace Waveface.Stream.WindowsClient
 			m_ProcessingDialog = null;
 		}
 
-		//private void btnUpdate_Click(object sender, EventArgs e)
-		//{
-		//	m_UpdateBackgroundWorker.RunWorkerAsync();
-		//	btnUpdate.Text = Resources.CHECKING_UPDATE;
-		//	btnUpdate.Enabled = false;
-		//}
-
-		//private void bgworkerUpdate_DoWork(object sender, DoWorkEventArgs e)
-		//{
-		//	e.Result = m_Updator.IsUpdateRequired();
-		//}
-
-		//private void bgworkerUpdate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		//{
-		//	try
-		//	{
-		//		if (e.Error != null)
-		//		{
-		//			MessageBox.Show(e.Error.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-		//			return;
-		//		}
-
-		//		bool isUpdateRequired = (bool)e.Result;
-
-		//		if (isUpdateRequired)
-		//		{
-		//			m_Updator.ShowUpdateNeededUI();
-		//		}
-		//		else
-		//		{
-		//			MessageBox.Show(Properties.Resources.ALREAD_UPDATED, "Stream", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//		}
-		//	}
-		//	finally
-		//	{
-		//		btnUpdate.Enabled = true;
-		//		btnUpdate.Text = Properties.Resources.CHECK_FOR_UPDATE;
-		//	}
-		//}
-
 		private void refreshStatusTimer_Tick(object sender, EventArgs e)
 		{
-			//UpdateImportStatus();
-
-			UpdateSyncStatus();
+			UpdateLeftPanel();
 		}
 
 		private void UpdateSyncStatus()
@@ -481,6 +416,25 @@ namespace Waveface.Stream.WindowsClient
 			lblSyncTransferStatus.Text = string.IsNullOrEmpty(summary.Description) ? SyncStatus.GetSyncTransferStatus() : string.Empty;
 		}
 
+
+		private void UpdateDeviceConnectCount()
+		{
+			lblDeviceConnectStatus.Text = string.Format("{0} devices connected", cmbDevice.Items.Count.ToString());
+		}
+
+		private void UpdateDeviceComboBox()
+		{
+			var newDatas = ConnectionCollection.Instance.FindAll().Select(item => new 
+			{
+				DeviceID = item.device.device_id,
+				DeviceName = item.device.device_name
+			}).ToList();
+
+
+			cmbDevice.DisplayMember = "DeviceName";
+			cmbDevice.ValueMember = "DeviceID";
+			cmbDevice.DataSource = newDatas;
+		}
 
 		private void PreferencesDialog_Load(object sender, EventArgs e)
 		{
@@ -494,8 +448,7 @@ namespace Waveface.Stream.WindowsClient
 			SwitchToEmailDisplayMode();
 			SwitchToNameDisplayMode();
 
-			UpdateAccountPage();
-
+			UpdateGeneralPage();
 			UpdateLeftPanel();
 
 			refreshStatusTimer.Start();
@@ -508,17 +461,24 @@ namespace Waveface.Stream.WindowsClient
 
 			Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdated += Instance_UserInfoUpdated;
 			Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdateFail += Instance_UserInfoUpdateFail;
-			tabControl1.SelectedIndexChanged += InitGeneralPage;
+
+			tabControl1.SelectedIndexChanged -= InitAccountPage;
+			tabControl1.SelectedIndexChanged += InitAccountPage;
 		}
 
 		void Instance_UserInfoUpdated(object sender, EventArgs e)
 		{
 			if (tabControl1.SelectedTab == tabAccount)
 				UpdateAccountPage();
+			else if (tabControl1.SelectedTab == tabGeneral)
+				UpdateGeneralPage();
 			else
 			{
 				tabControl1.SelectedIndexChanged -= InitAccountPage;
 				tabControl1.SelectedIndexChanged += InitAccountPage;
+
+				tabControl1.SelectedIndexChanged -= InitGeneralPage;
+				tabControl1.SelectedIndexChanged += InitGeneralPage;
 			}
 		}
 
@@ -536,12 +496,13 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (tabControl1.SelectedTab == tabGeneral)
 			{
-				//UpdateResourceFolder();
-				//UpdateSoftwareInfo();
+				UpdateGeneralPage();
+				
 
 				tabControl1.SelectedIndexChanged -= InitGeneralPage;
 			}
 		}
+
 
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -659,10 +620,116 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		//private void chkSubscribed_CheckedChanged(object sender, EventArgs e)
-		//{
-		//	UpdateUserInfoToCloud();
-		//}
+		private void checkBox2_CheckedChanged(object sender, EventArgs e)
+		{
+			RecentDocumentWatcher.Instance.Enabled = checkBox2.Checked;
+		}
+
+		private void usageDetailControl1_ChangeResourcePathButtonClick(object sender, EventArgs e)
+		{
+			using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+			{
+				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) // cancelled
+					return;
+
+				if (dialog.SelectedPath.Equals(usageDetailControl1.ResourcePath)) // not changed
+					return;
+
+				DialogResult confirm = MessageBox.Show("Stream is going to move the resource folder to " + dialog.SelectedPath + ". Are you sure?",
+					"Are you sure?", MessageBoxButtons.OKCancel);
+
+				if (confirm != System.Windows.Forms.DialogResult.OK)	// cancelled
+					return;
+
+				usageDetailControl1.ResourcePath = dialog.SelectedPath;
+
+				BackgroundWorker bgWorker = new BackgroundWorker();
+				bgWorker.DoWork += MoveResourceFolder_DoWork;
+				bgWorker.RunWorkerCompleted += MoveResourceFolder_WorkCompleted;
+				bgWorker.RunWorkerAsync(bgWorker);
+
+				Cursor.Current = Cursors.WaitCursor;
+				//SetUIEnabled(false);
+				//_isMovingFolder = true;
+
+				m_ProcessingDialog.ProcessMessage = Resources.MovingResourceFolder;
+				m_ProcessingDialog.ProgressStyle = ProgressBarStyle.Marquee;
+				m_ProcessingDialog.StartPosition = FormStartPosition.CenterParent;
+				m_ProcessingDialog.ShowDialog(this);
+			}
+		}
+
+		private void MoveResourceFolder_DoWork(object sender, DoWorkEventArgs args)
+		{
+			string outputFilename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "move_folder.out");
+
+			Process p = new Process();
+			p.StartInfo = new ProcessStartInfo
+			{
+				FileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Station.Management.exe"),
+				Arguments = string.Format("--moveFolder \"{0}\" --output \"{1}\"", usageDetailControl1.ResourcePath, outputFilename),
+				CreateNoWindow = true,
+				WindowStyle = ProcessWindowStyle.Hidden,
+			};
+
+			if (IsWinVistaOrLater())
+				p.StartInfo.Verb = "runas";
+
+			p.Start();
+			p.WaitForExit();
+
+			if (p.ExitCode != 0)
+			{
+				if (File.Exists(outputFilename))
+				{
+					using (StreamReader reader = File.OpenText(outputFilename))
+					{
+						throw new Exception(reader.ReadToEnd());
+					}
+				}
+				else
+				{
+					throw new Exception("Unknown error");
+				}
+			}
+		}
+
+		private void MoveResourceFolder_WorkCompleted(object sender, RunWorkerCompletedEventArgs args)
+		{
+			try
+			{
+				if (args.Cancelled)
+					return;
+
+				if (args.Error != null)
+				{
+					MessageBox.Show(args.Error.Message, Resources.MoveFolderUnsuccess);
+					return;
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.ToString());
+			}
+			finally
+			{
+				//RefreshCurrentResourceFolder();
+
+				Cursor.Current = Cursors.Default;
+
+				//SetUIEnabled(true);
+				//_isMovingFolder = false;
+				m_ProcessingDialog = null;
+			}
+		}
+
+		private void cmbDevice_TextChanged(object sender, EventArgs e)
+		{
+			UpdateDeviceSyncStatus();
+		}
+
+
 		#endregion
+
 	}
 }

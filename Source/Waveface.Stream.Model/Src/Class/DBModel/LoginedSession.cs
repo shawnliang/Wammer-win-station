@@ -33,6 +33,9 @@ namespace Waveface.Stream.Model
 		public Device device { get; set; }
 
 		[BsonIgnoreIfNull]
+		public long? files_to_backup { get; set; }
+
+		[BsonIgnoreIfNull]
 		public Apikey apikey { get; set; }
 
 		[BsonIgnoreIfNull]
