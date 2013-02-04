@@ -52,16 +52,16 @@
 
     <CustomAction Id="AddUrlAcl" Directory="INSTALLLOCATION"
                       ExeCommand="[SystemFolder]netsh.exe http add urlacl url=http://+:9981/ user=users"
-                      Return="asyncWait" />
+                      Return="check" Execute="deferred" />
     <CustomAction Id="AddUrlAcl2" Directory="INSTALLLOCATION"
                       ExeCommand="[SystemFolder]netsh.exe http add urlacl url=http://+:9989/ user=users"
-                      Return="asyncWait" />
+                      Return="check" Execute="deferred"/>
     <CustomAction Id="RemoveUrlAcl" Directory="INSTALLLOCATION"
                       ExeCommand="[SystemFolder]netsh.exe http delete urlacl url=http://+:9981/"
-                      Return="asyncWait" />
+                      Return="asyncWait" Execute="deferred"/>
     <CustomAction Id="RemoveUrlAcl2" Directory="INSTALLLOCATION"
                       ExeCommand="[SystemFolder]netsh.exe http delete urlacl url=http://+:9989/"
-                      Return="asyncWait" />
+                      Return="asyncWait" Execute="deferred"/>
 
     <InstallExecuteSequence>
       <!-- while uninstall -->
