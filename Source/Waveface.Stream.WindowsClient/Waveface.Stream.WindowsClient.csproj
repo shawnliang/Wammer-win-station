@@ -178,6 +178,7 @@
     <Compile Include="Src\Class\ExifExtractor.cs" />
     <Compile Include="Src\Class\FacebookConnectableService.cs" />
     <Compile Include="Src\Class\FastJSONHelper.cs" />
+    <Compile Include="Src\Class\FoursquareConnectableService.cs" />
     <Compile Include="Src\Class\GoogleConnectableService.cs" />
     <Compile Include="Src\Class\ImportStatus.cs" />
     <Compile Include="Src\Class\ImportTranscation.cs" />
