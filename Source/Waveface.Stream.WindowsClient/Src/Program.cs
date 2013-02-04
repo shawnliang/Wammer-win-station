@@ -32,7 +32,6 @@ namespace Waveface.Stream.WindowsClient
 		private static ContextMenuStrip _contextMenuStrip;
 		private static StreamClient _client;
 		private static System.Windows.Forms.Timer _timer;
-		private static RecentDocumentWatcher recentDocWatcher = new RecentDocumentWatcher();
 
 		private static int syncingIconIndex;
 		private static Icon[] syncingIcons = new Icon[] 
@@ -203,8 +202,8 @@ namespace Waveface.Stream.WindowsClient
 
 			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
-				recentDocWatcher.FileTouched += recentDocWatcher_FileTouched;
-				recentDocWatcher.Start();
+				RecentDocumentWatcher.Instance.FileTouched += recentDocWatcher_FileTouched;
+				RecentDocumentWatcher.Instance.Start();
 
 				UsbImportController.Instance.StartDetect();
 
@@ -718,11 +717,13 @@ namespace Waveface.Stream.WindowsClient
 
 		static void Instance_Logined(object sender, ClientFramework.LoginedEventArgs e)
 		{
+			RecentDocumentWatcher.Instance.Start();
 			UsbImportController.Instance.StartDetect();
 		}
 
 		static void Instance_Logouted(object sender, EventArgs e)
 		{
+			RecentDocumentWatcher.Instance.Stop();
 			UsbImportController.Instance.StopDetect();
 
 			PreferencesDialog.Instance.Dispose();

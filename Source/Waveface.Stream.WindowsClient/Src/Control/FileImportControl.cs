@@ -156,12 +156,15 @@ namespace Waveface.Stream.WindowsClient
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		private void button1_Click(object sender, EventArgs e)
 		{
-			if (folderBrowserDialog1.ShowDialog() != DialogResult.OK)
-				return;
+			using (var dialog = new FolderBrowserDialog())
+			{
+				if (dialog.ShowDialog() != DialogResult.OK)
+					return;
 
-			var selectedPath = folderBrowserDialog1.SelectedPath;
+				var selectedPath = dialog.SelectedPath;
 
-			AddImportFolder(new string[] { selectedPath });
+				AddImportFolder(new string[] { selectedPath });
+			}
 		}
 
 		private void AddImportFolder(IEnumerable<String> selectedPaths)

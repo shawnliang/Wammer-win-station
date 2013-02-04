@@ -618,11 +618,29 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to move.
+        /// </summary>
+        internal static string MoveFolderUnsuccess {
+            get {
+                return ResourceManager.GetString("MoveFolderUnsuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Moving....
         /// </summary>
         internal static string MOVING_RESOURCE_FOLDER {
             get {
                 return ResourceManager.GetString("MOVING_RESOURCE_FOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moving....
+        /// </summary>
+        internal static string MovingResourceFolder {
+            get {
+                return ResourceManager.GetString("MovingResourceFolder", resourceCulture);
             }
         }
         

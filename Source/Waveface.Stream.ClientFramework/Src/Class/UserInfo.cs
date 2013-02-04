@@ -180,7 +180,7 @@ namespace Waveface.Stream.ClientFramework
 			}
 		}
 
-		public long Quota 
+		public long TotalQuota 
 		{
 			get 
 			{
@@ -188,11 +188,35 @@ namespace Waveface.Stream.ClientFramework
 			}
 		}
 
-		public long Usage
+		public long TotalUsage
 		{
 			get
 			{
 				return m_ResponseObj.usage.doc.origin_size + m_ResponseObj.usage.image.origin_size;
+			}
+		}
+
+		public long PhotoMetaCount
+		{
+			get
+			{
+				return m_ResponseObj.usage.image.objects;
+			}
+		}
+
+		public long WebMetaCount
+		{
+			get
+			{
+				return m_ResponseObj.usage.webthumb.objects;
+			}
+		}
+
+		public long DocumentMetaCount
+		{
+			get
+			{
+				return m_ResponseObj.usage.doc.objects;
 			}
 		}
 		#endregion
@@ -410,6 +434,7 @@ namespace Waveface.Stream.ClientFramework
 	{
 		public UsageItem doc { get; set; }
 		public UsageItem image { get; set; }
+		public UsageItem webthumb { get; set; }
 	}
 
 	public class MR_users_get : General_R

@@ -37,6 +37,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabGeneral = new System.Windows.Forms.TabPage();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tabDevices = new System.Windows.Forms.TabPage();
 			this.tabAccount = new System.Windows.Forms.TabPage();
@@ -62,6 +63,10 @@
 			this.tabConnections = new System.Windows.Forms.TabPage();
 			this.systemIconControl1 = new Waveface.Stream.WindowsClient.SystemIconControl();
 			this.panelEx1 = new Waveface.Stream.WindowsClient.PanelEx();
+			this.lblDeviceName = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.lblDeviceConnectStatus = new System.Windows.Forms.Label();
+			this.cmbDevice = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.pbxLogo = new System.Windows.Forms.PictureBox();
 			this.lblSyncTransferStatus = new System.Windows.Forms.Label();
@@ -147,7 +152,6 @@
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(513, 325);
 			this.tabControl1.TabIndex = 0;
-			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
 			// tabGeneral
 			// 
@@ -163,23 +167,35 @@
 			// 
 			// groupBox3
 			// 
+			this.groupBox3.Controls.Add(this.checkBox2);
 			this.groupBox3.Controls.Add(this.checkBox1);
 			this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.groupBox3.Location = new System.Drawing.Point(3, 236);
+			this.groupBox3.Location = new System.Drawing.Point(3, 214);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(499, 60);
+			this.groupBox3.Size = new System.Drawing.Size(499, 82);
 			this.groupBox3.TabIndex = 0;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Import Wizard";
+			// 
+			// checkBox2
+			// 
+			this.checkBox2.AutoSize = true;
+			this.checkBox2.Location = new System.Drawing.Point(10, 50);
+			this.checkBox2.Name = "checkBox2";
+			this.checkBox2.Size = new System.Drawing.Size(265, 16);
+			this.checkBox2.TabIndex = 1;
+			this.checkBox2.Text = "開啟PDF及PowerPoint檔案後，自動匯入該文件";
+			this.checkBox2.UseVisualStyleBackColor = true;
+			this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
 			// 
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
 			this.checkBox1.Location = new System.Drawing.Point(10, 28);
 			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(252, 16);
+			this.checkBox1.Size = new System.Drawing.Size(240, 16);
 			this.checkBox1.TabIndex = 0;
-			this.checkBox1.Text = "當插入外接裝置時，自動開啟檔案匯入精靈";
+			this.checkBox1.Text = "插入外接裝置時，自動開啟檔案匯入精靈";
 			this.checkBox1.UseVisualStyleBackColor = true;
 			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
@@ -446,6 +462,10 @@
 			// 
 			// panelEx1
 			// 
+			this.panelEx1.Controls.Add(this.lblDeviceName);
+			this.panelEx1.Controls.Add(this.label2);
+			this.panelEx1.Controls.Add(this.lblDeviceConnectStatus);
+			this.panelEx1.Controls.Add(this.cmbDevice);
 			this.panelEx1.Controls.Add(this.label1);
 			this.panelEx1.Controls.Add(this.pbxLogo);
 			this.panelEx1.Controls.Add(this.lblSyncTransferStatus);
@@ -458,6 +478,53 @@
 			this.panelEx1.Name = "panelEx1";
 			this.panelEx1.Size = new System.Drawing.Size(138, 325);
 			this.panelEx1.TabIndex = 3;
+			// 
+			// lblDeviceName
+			// 
+			this.lblDeviceName.BackColor = System.Drawing.Color.Transparent;
+			this.lblDeviceName.Font = new System.Drawing.Font("PMingLiU", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+			this.lblDeviceName.Location = new System.Drawing.Point(4, 223);
+			this.lblDeviceName.Name = "lblDeviceName";
+			this.lblDeviceName.Size = new System.Drawing.Size(132, 23);
+			this.lblDeviceName.TabIndex = 10;
+			this.lblDeviceName.Text = "[Device Name]";
+			this.lblDeviceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label2
+			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.label2.BackColor = System.Drawing.Color.Transparent;
+			this.label2.Location = new System.Drawing.Point(14, 223);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(107, 57);
+			this.label2.TabIndex = 9;
+			this.label2.Text = "[Device Sync Status]";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// lblDeviceConnectStatus
+			// 
+			this.lblDeviceConnectStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblDeviceConnectStatus.BackColor = System.Drawing.Color.Transparent;
+			this.lblDeviceConnectStatus.Location = new System.Drawing.Point(14, 307);
+			this.lblDeviceConnectStatus.Name = "lblDeviceConnectStatus";
+			this.lblDeviceConnectStatus.Size = new System.Drawing.Size(107, 14);
+			this.lblDeviceConnectStatus.TabIndex = 8;
+			this.lblDeviceConnectStatus.Text = "[Device Connect Status]";
+			this.lblDeviceConnectStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// cmbDevice
+			// 
+			this.cmbDevice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.cmbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbDevice.FormattingEnabled = true;
+			this.cmbDevice.Location = new System.Drawing.Point(16, 284);
+			this.cmbDevice.Name = "cmbDevice";
+			this.cmbDevice.Size = new System.Drawing.Size(105, 20);
+			this.cmbDevice.TabIndex = 7;
+			this.cmbDevice.TextChanged += new System.EventHandler(this.cmbDevice_TextChanged);
 			// 
 			// label1
 			// 
@@ -509,10 +576,18 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.usageDetailControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.usageDetailControl1.CloudTotalUsage = "[Cloud Total Usage]";
+			this.usageDetailControl1.LocalDocument = "---";
+			this.usageDetailControl1.LocalPhoto = "---";
 			this.usageDetailControl1.Location = new System.Drawing.Point(4, 6);
 			this.usageDetailControl1.Name = "usageDetailControl1";
-			this.usageDetailControl1.Size = new System.Drawing.Size(495, 224);
+			this.usageDetailControl1.ResourcePath = "[Resource Folder]";
+			this.usageDetailControl1.Size = new System.Drawing.Size(495, 202);
 			this.usageDetailControl1.TabIndex = 1;
+			this.usageDetailControl1.TotalDocument = ((long)(0));
+			this.usageDetailControl1.TotalPhoto = ((long)(0));
+			this.usageDetailControl1.TotalWeb = ((long)(0));
+			this.usageDetailControl1.ChangeResourcePathButtonClick += new System.EventHandler(this.usageDetailControl1_ChangeResourcePathButtonClick);
 			// 
 			// personalCloudStatusControl21
 			// 
@@ -624,5 +699,10 @@
 		private System.Windows.Forms.LinkLabel lnklblCancelEmail;
 		private System.Windows.Forms.LinkLabel lnklblSaveName;
 		private System.Windows.Forms.LinkLabel lnklblSaveEmail;
+		private System.Windows.Forms.CheckBox checkBox2;
+		private System.Windows.Forms.Label lblDeviceConnectStatus;
+		private System.Windows.Forms.ComboBox cmbDevice;
+		private System.Windows.Forms.Label lblDeviceName;
+		private System.Windows.Forms.Label label2;
 	}
 }
