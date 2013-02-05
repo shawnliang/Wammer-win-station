@@ -193,7 +193,7 @@ namespace Waveface.Stream.WindowsClient
 
 			SyncStatus.IsServiceRunning = true;
 
-			m_Timer.Interval = 500;
+			m_Timer.Interval = 300;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
 

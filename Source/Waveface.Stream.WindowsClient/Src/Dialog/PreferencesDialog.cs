@@ -187,11 +187,11 @@ namespace Waveface.Stream.WindowsClient
 
 			UpdateCloudUsage();
 
-			var localPhotos = AttachmentCollection.Instance.Find(Query.And(Query.EQ("group_id", StreamClient.Instance.LoginedUser.GroupID), Query.EQ("type", AttachmentType.image)));
-			usageDetailControl1.LocalPhoto = localPhotos.Count().ToString();
+			var localPhotos = AttachmentCollection.Instance.Find(Query.And(Query.EQ("group_id", StreamClient.Instance.LoginedUser.GroupID), Query.EQ("type", AttachmentType.image), Query.Exists("saved_file_name")));
+			usageDetailControl1.LocalPhoto = localPhotos.Count().ToString("N0");
 
-			var localDocs = AttachmentCollection.Instance.Find(Query.And(Query.EQ("group_id", StreamClient.Instance.LoginedUser.GroupID), Query.EQ("type", AttachmentType.doc)));
-			usageDetailControl1.LocalDocument = localDocs.Count().ToString();
+			var localDocs = AttachmentCollection.Instance.Find(Query.And(Query.EQ("group_id", StreamClient.Instance.LoginedUser.GroupID), Query.EQ("type", AttachmentType.doc), Query.Exists("saved_file_name")));
+			usageDetailControl1.LocalDocument = localDocs.Count().ToString("N0");
 
 			usageDetailControl1.TotalPhoto = userInfo.PhotoMetaCount;
 			usageDetailControl1.TotalWeb = userInfo.WebMetaCount;
@@ -430,10 +430,11 @@ namespace Waveface.Stream.WindowsClient
 				DeviceName = item.device.device_name
 			}).ToList();
 
-
+			cmbDevice.BeginUpdate();
 			cmbDevice.DisplayMember = "DeviceName";
 			cmbDevice.ValueMember = "DeviceID";
 			cmbDevice.DataSource = newDatas;
+			cmbDevice.EndUpdate();
 		}
 
 		private void PreferencesDialog_Load(object sender, EventArgs e)

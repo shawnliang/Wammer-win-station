@@ -44,7 +44,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 			}
 			set
 			{
-				lblTotalPhoto.Text = value.ToString();
+				lblTotalPhoto.Text = value.ToString("N0");
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 			}
 			set
 			{
-				lblTotalWeb.Text = value.ToString();
+				lblTotalWeb.Text = value.ToString("N0");
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 			}
 			set
 			{
-				lblTotalDocument.Text = value.ToString();
+				lblTotalDocument.Text = value.ToString("N0");
 			}
 		}
 		#endregion

@@ -43,7 +43,7 @@
 			// tableLayoutPanel1
 			// 
 			resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-			this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 1);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			// 
 			// panel1
