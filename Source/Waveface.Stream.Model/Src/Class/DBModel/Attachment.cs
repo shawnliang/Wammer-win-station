@@ -69,8 +69,6 @@ namespace Waveface.Stream.Model
 	[BsonIgnoreExtraElements]
 	public class ThumbnailInfo : IAttachmentInfo
 	{
-		private byte[] rawData;
-
 		[BsonIgnoreIfNull]
 		public string url { get; set; }
 
@@ -88,32 +86,6 @@ namespace Waveface.Stream.Model
 
 		[BsonIgnoreIfNull]
 		public string file_name { get; set; }
-
-		[BsonIgnoreIfNull]
-		public string md5 { get; set; }
-
-		[BsonIgnore]
-		[XmlIgnore]
-		public byte[] RawData
-		{
-			get { return rawData; }
-			set
-			{
-				rawData = value;
-				if (rawData != null)
-				{
-					using (MD5 md5 = MD5.Create())
-					{
-						byte[] hash = md5.ComputeHash(rawData);
-						var buff = new StringBuilder();
-						for (int i = 0; i < hash.Length; i++)
-							buff.Append(hash[i].ToString("x2"));
-
-						this.md5 = buff.ToString();
-					}
-				}
-			}
-		}
 
 		#region IAttachmentInfo Members
 
@@ -362,13 +334,10 @@ namespace Waveface.Stream.Model
 	{
 		[BsonIgnore]
 		private readonly object rawDataMutex = new object();
-		private ArraySegment<byte> rawData;
-
 		private DateTime? _eventTimes;
 
 		public Attachment()
 		{
-			rawData = new ArraySegment<byte>();
 			Orientation = ExifOrientations.Unknown;
 		}
 

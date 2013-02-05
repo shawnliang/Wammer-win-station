@@ -109,7 +109,7 @@ namespace Wammer.Station
 					throw new WammerStationException("Access to original attachment from non-paid user is not allowed.", 
 						(int)StationLocalApiError.AccessDenied);
 
-				var downloadTask = ResourceDownloader.createDownloadTask(driver, meta, metaData);
+				var downloadTask = ResourceDownloadTaskFactory.createDownloadTask(driver, meta, metaData);
 				bool noNeedToDownload;
 				AttachmentSaveResult result;
 				downloadTask.Url = metaData.redirect_to;

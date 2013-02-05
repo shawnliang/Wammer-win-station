@@ -37,38 +37,8 @@ namespace Wammer.Station
 
 
 
-	internal class ResourceDownloader
+	internal static class ResourceDownloadTaskFactory
 	{
-		private readonly ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue;
-
-		public ResourceDownloader(ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue)
-		{
-			this.bodySyncQueue = bodySyncQueue;
-		}
-
-		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
-		{
-			var fileName = objectID;
-
-			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
-			{
-				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
-				fileName += "_" + metaStr;
-			}
-
-			if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
-				uri = new Uri(uri).AbsolutePath;
-
-			var extension = Path.GetExtension(uri);
-
-			if (meta == ImageMeta.Small || meta == ImageMeta.Medium || meta == ImageMeta.Large || meta == ImageMeta.Square)
-				fileName += ".dat";
-			else if (!string.IsNullOrEmpty(extension))
-				fileName += extension;
-
-			return fileName;
-		}
-
 		public static ResourceDownloadTask createDownloadTask(Driver driver, ImageMeta meta, AttachmentInfo attachment)
 		{
 			string tmpFolder;

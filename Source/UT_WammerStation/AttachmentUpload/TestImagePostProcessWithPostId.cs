@@ -51,7 +51,6 @@ namespace UT_WammerStation.AttachmentUpload
 
 			thumb = new ThumbnailInfo
 			{
-				RawData = new byte[] { 1, 2, 3, 4, 5 },
 				mime_type = "mime",
 				saved_file_name = "saved_thumb_name",
 			};

@@ -41,13 +41,13 @@ namespace Wammer.Station.Timeline
 
 				if (localHasNoMedium(localDoc) && cloudHasMedium(getCloudDoc(user)))
 				{
-					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Medium, cloudDoc);
+					var task = ResourceDownloadTaskFactory.createDownloadTask(user, ImageMeta.Medium, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
 
 				if (localHasNoSmall(localDoc) && cloudHasSmall(getCloudDoc(user)))
 				{
-					var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Small, cloudDoc);
+					var task = ResourceDownloadTaskFactory.createDownloadTask(user, ImageMeta.Small, cloudDoc);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
 
@@ -58,7 +58,7 @@ namespace Wammer.Station.Timeline
 
 					if (isWebthumb || !user.ReachOriginSizeLimit())
 					{
-						var task = ResourceDownloader.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
+						var task = ResourceDownloadTaskFactory.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
 						BodySyncQueue.Instance.Enqueue(task, task.Priority);
 
 						scheduledToDownloadOrigDoc = cloudDoc.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase);

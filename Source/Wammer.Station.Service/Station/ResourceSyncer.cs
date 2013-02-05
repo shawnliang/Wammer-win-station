@@ -11,13 +11,11 @@ namespace Wammer.Station
 {
 	internal class ResourceSyncer : NonReentrantTimer
 	{
-		private readonly ResourceDownloader downloader;
 		private readonly TimelineSyncer syncer = new TimelineSyncer();
 
 		public ResourceSyncer(long timerPeriod, ITaskEnqueuable<IResourceDownloadTask> bodySyncQueue)
 			: base(timerPeriod)
 		{
-			downloader = new ResourceDownloader(bodySyncQueue);
 			syncer.AttachmentModified += new EventHandler<AttachmentModifiedEventArgs>(syncer_AttachmentModified);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
 		}
