@@ -120,6 +120,10 @@
   <data name="lblInstallation.Text" xml:space="preserve">
     <value>必要元件的初始設定進行中，請稍等幾分鐘。</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
   <data name="$this.Subtitle" xml:space="preserve">
     <value>正在設定選擇的安裝元件。</value>
   </data>

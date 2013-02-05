@@ -5,6 +5,7 @@ using SharpSetup.UI.Forms.Modern;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Gui
 {
@@ -13,7 +14,7 @@ namespace Gui
 		public SetupWizard()
 		{
 			InitializeComponent();
-			this.Icon = Gui.Properties.Resources.configure5121;
+			this.Icon = Icon.FromHandle(Gui.Properties.Resources.install_package512.GetHicon());
 		}
 
 		InstallationModeCollection GetInstallationModes(MsiInstallationModes mode)

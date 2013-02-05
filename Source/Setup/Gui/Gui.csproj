@@ -36,7 +36,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\configure512.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -134,6 +135,7 @@
     </Compile>
     <EmbeddedResource Include="BackupAndUninstallStep.resx">
       <DependentUpon>BackupAndUninstallStep.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="BackupAndUninstallStep.zh-TW.resx">
       <DependentUpon>BackupAndUninstallStep.cs</DependentUpon>
@@ -171,6 +173,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InstallationStep.resx">
       <DependentUpon>InstallationStep.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="InstallationStep.zh-TW.resx">
       <DependentUpon>InstallationStep.cs</DependentUpon>
@@ -222,10 +225,8 @@
     <None Include="ResourceFiles\LicenseStep.zh-TW.rtf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\configure512.ico" />
     <Content Include="ResourceFiles\InstallationStep.png" />
-    <None Include="Resources\configure512.png" />
-    <None Include="Resources\configure.png" />
+    <None Include="Resources\install_package512.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Localizer\CommonLibs.csproj">
