@@ -90,7 +90,7 @@ namespace Wammer.Station
 				user_id = driver.user_id,
 				attachment = attachment,
 				imagemeta = meta,
-				filepath = Path.Combine(tmpFolder, GetSavedFile(attachment.object_id, attachment.file_name, meta) + @".tmp") //FileStorage.GetTempFile(driver)
+				filepath = Path.Combine(FileStorage.GetCachePath(driver.user_id), Guid.NewGuid().ToString())
 			};
 
 			TaskPriority pri;
