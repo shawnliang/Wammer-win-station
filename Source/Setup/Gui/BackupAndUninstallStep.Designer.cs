@@ -28,44 +28,44 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackupAndUninstallStep));
-			this.ipProgress = new SharpSetup.UI.Controls.InstallationProgress();
-			this.lblInstallation = new System.Windows.Forms.Label();
-			this.pbInstallation = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(this.pbInstallation)).BeginInit();
-			this.SuspendLayout();
-			// 
-			// ipProgress
-			// 
-			resources.ApplyResources(this.ipProgress, "ipProgress");
-			this.ipProgress.Name = "ipProgress";
-			// 
-			// lblInstallation
-			// 
-			resources.ApplyResources(this.lblInstallation, "lblInstallation");
-			this.lblInstallation.Name = "lblInstallation";
-			// 
-			// pbInstallation
-			// 
-			resources.ApplyResources(this.pbInstallation, "pbInstallation");
-			this.pbInstallation.Image = global::Gui.Properties.Resources.configure;
-			this.pbInstallation.Name = "pbInstallation";
-			this.pbInstallation.TabStop = false;
-			// 
-			// BackupAndUninstallStep
-			// 
-			resources.ApplyResources(this, "$this");
-			this.Controls.Add(this.lblInstallation);
-			this.Controls.Add(this.pbInstallation);
-			this.Controls.Add(this.ipProgress);
-			this.Name = "BackupAndUninstallStep";
-			this.Entered += new System.EventHandler<System.EventArgs>(this.BackupAndUninstallStep_Entered);
-			this.Controls.SetChildIndex(this.ipProgress, 0);
-			this.Controls.SetChildIndex(this.pbInstallation, 0);
-			this.Controls.SetChildIndex(this.lblInstallation, 0);
-			((System.ComponentModel.ISupportInitialize)(this.pbInstallation)).EndInit();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackupAndUninstallStep));
+            this.ipProgress = new SharpSetup.UI.Controls.InstallationProgress();
+            this.lblInstallation = new System.Windows.Forms.Label();
+            this.pbInstallation = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbInstallation)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // ipProgress
+            // 
+            resources.ApplyResources(this.ipProgress, "ipProgress");
+            this.ipProgress.Name = "ipProgress";
+            // 
+            // lblInstallation
+            // 
+            resources.ApplyResources(this.lblInstallation, "lblInstallation");
+            this.lblInstallation.Name = "lblInstallation";
+            // 
+            // pbInstallation
+            // 
+            resources.ApplyResources(this.pbInstallation, "pbInstallation");
+            this.pbInstallation.Image = global::Gui.Properties.Resources.install_package512;
+            this.pbInstallation.Name = "pbInstallation";
+            this.pbInstallation.TabStop = false;
+            // 
+            // BackupAndUninstallStep
+            // 
+            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.lblInstallation);
+            this.Controls.Add(this.pbInstallation);
+            this.Controls.Add(this.ipProgress);
+            this.Name = "BackupAndUninstallStep";
+            this.Entered += new System.EventHandler<System.EventArgs>(this.BackupAndUninstallStep_Entered);
+            this.Controls.SetChildIndex(this.ipProgress, 0);
+            this.Controls.SetChildIndex(this.pbInstallation, 0);
+            this.Controls.SetChildIndex(this.lblInstallation, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.pbInstallation)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
