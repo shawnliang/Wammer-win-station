@@ -34,11 +34,16 @@ namespace Waveface.Stream.WindowsClient
 								break;
 
 							var process = processes.Dequeue();
-
-							this.Invoke(new MethodInvoker(() =>
+							try
 							{
-								this.progressText.Text = process.Key;
-							}));
+								this.Invoke(new MethodInvoker(() =>
+								{
+									this.progressText.Text = process.Key;
+								}));
+							}
+							catch (Exception)
+							{
+							}
 							process.Value();
 						}
 
