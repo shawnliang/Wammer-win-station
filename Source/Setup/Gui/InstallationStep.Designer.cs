@@ -30,9 +30,9 @@ namespace Gui
 		{
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstallationStep));
             this.ipProgress = new SharpSetup.UI.Controls.InstallationProgress();
+            this.pbInstallation = new System.Windows.Forms.PictureBox();
             this.lblInstallation = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbInstallation)).BeginInit();
             this.SuspendLayout();
             // 
             // ipProgress
@@ -40,31 +40,31 @@ namespace Gui
             resources.ApplyResources(this.ipProgress, "ipProgress");
             this.ipProgress.Name = "ipProgress";
             // 
+            // pbInstallation
+            // 
+            this.pbInstallation.Image = global::Gui.Properties.Resources.configure;
+            resources.ApplyResources(this.pbInstallation, "pbInstallation");
+            this.pbInstallation.Name = "pbInstallation";
+            this.pbInstallation.TabStop = false;
+            // 
             // lblInstallation
             // 
             resources.ApplyResources(this.lblInstallation, "lblInstallation");
             this.lblInstallation.Name = "lblInstallation";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Gui.Properties.Resources.install_package512;
-            resources.ApplyResources(this.pictureBox1, "pictureBox1");
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.TabStop = false;
-            // 
             // InstallationStep
             // 
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblInstallation);
+            this.Controls.Add(this.pbInstallation);
             this.Controls.Add(this.ipProgress);
             this.Name = "InstallationStep";
             this.StepType = SharpSetup.UI.Forms.Modern.ModernStepType.TransitionaryOnetime;
             this.Entered += new System.EventHandler<System.EventArgs>(this.InstallationStep_Entered);
             this.Controls.SetChildIndex(this.ipProgress, 0);
+            this.Controls.SetChildIndex(this.pbInstallation, 0);
             this.Controls.SetChildIndex(this.lblInstallation, 0);
-            this.Controls.SetChildIndex(this.pictureBox1, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbInstallation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -72,8 +72,8 @@ namespace Gui
 
 		#endregion
 
-        private SharpSetup.UI.Controls.InstallationProgress ipProgress;
+		private SharpSetup.UI.Controls.InstallationProgress ipProgress;
+		private System.Windows.Forms.PictureBox pbInstallation;
 		private System.Windows.Forms.Label lblInstallation;
-        private System.Windows.Forms.PictureBox pictureBox1;
 	}
 }

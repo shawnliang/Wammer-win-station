@@ -61,21 +61,41 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard has detected that newer version of AOStream is already installed on your computer. Setup cannot continue..
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static string DowngradeNotSupported {
+        internal static System.Drawing.Bitmap configure {
             get {
-                return ResourceManager.GetString("DowngradeNotSupported", resourceCulture);
+                object obj = ResourceManager.GetObject("configure", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap install_package512 {
+        internal static System.Drawing.Bitmap configure512 {
             get {
-                object obj = ResourceManager.GetObject("install_package512", resourceCulture);
+                object obj = ResourceManager.GetObject("configure512", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon configure5121 {
+            get {
+                object obj = ResourceManager.GetObject("configure5121", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The wizard has detected that newer version of AOStream is already installed on your computer. Setup cannot continue..
+        /// </summary>
+        internal static string DowngradeNotSupported {
+            get {
+                return ResourceManager.GetString("DowngradeNotSupported", resourceCulture);
             }
         }
         
