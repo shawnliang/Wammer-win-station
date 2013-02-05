@@ -173,7 +173,6 @@ namespace Waveface.Stream.Model
 				height = thumbnail.height;
 				mime_type = thumbnail.mime_type;
 				file_size = thumbnail.file_size;
-				md5 = thumbnail.md5;
 			}
 
 			[BsonIgnoreIfNull]

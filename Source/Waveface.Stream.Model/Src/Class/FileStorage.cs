@@ -14,6 +14,7 @@ namespace Waveface.Stream.Model
 	public class FileStorage
 	{
 		public string basePath;
+		private static bool cacheDirCreated = false;
 
 		public FileStorage(Driver driver)
 		{
@@ -35,7 +36,17 @@ namespace Waveface.Stream.Model
 		public static string GetCachePath(string user_id)
 		{
 			var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			return Path.Combine(localAppData, @"Waveface\AOStream\cache\" + user_id);
+			var cacheDir = Path.Combine(localAppData, @"Waveface\AOStream\cache\" + user_id);
+
+			if (!cacheDirCreated )
+			{
+				if (!Directory.Exists(cacheDir))
+					Directory.CreateDirectory(cacheDir);
+
+				cacheDirCreated = true;
+			}
+
+			return cacheDir;
 		}
 
 

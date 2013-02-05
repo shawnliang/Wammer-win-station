@@ -60,7 +60,6 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.IsNotNull(savedAttachment.image_meta);
 			Assert.IsNotNull(savedAttachment.image_meta.medium);
 			Assert.AreEqual(uploadData.raw_data.Count, savedAttachment.image_meta.medium.file_size);
-			Assert.IsFalse(string.IsNullOrEmpty(savedAttachment.image_meta.medium.md5));
 			Assert.AreEqual(uploadData.mime_type, savedAttachment.image_meta.medium.mime_type);
 			Assert.AreEqual(1024, savedAttachment.image_meta.medium.width);
 			Assert.AreEqual(768, savedAttachment.image_meta.medium.height);

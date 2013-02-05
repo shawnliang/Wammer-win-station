@@ -216,7 +216,6 @@ namespace Wammer.Station.AttachmentUpload
 				var thumb = new ThumbnailInfo
 								{
 									file_size = uploadData.raw_data.Count,
-									md5 = MD5Helper.ComputeMD5(uploadData.raw_data.Array, uploadData.raw_data.Offset, uploadData.raw_data.Count),
 									mime_type = uploadData.mime_type,
 									saved_file_name = saveReult.RelativePath,
 									url = GetViewApiUrl(uploadData),

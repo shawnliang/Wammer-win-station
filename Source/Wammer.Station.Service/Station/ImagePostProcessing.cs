@@ -53,7 +53,6 @@ namespace Wammer.Station
 							modify_time = DateTime.UtcNow,
 							url = "/v3/attachments/view/?object_id=" + attachmentId +
 								  "&image_meta=" + meta.ToString().ToLower(),
-							RawData = savedThumbnail.SavedRawData
 						};
 			}
 			finally
