@@ -7,66 +7,75 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using Waveface.Stream.Core;
 
 
 namespace Waveface.Stream.WindowsClient
 {
 	public partial class SplashScreen : Form
 	{
-		static SplashScreen instance;
-		static Thread thread;
+		#region Var
+		private Queue<KeyValuePair<string, Action>> processes = new Queue<KeyValuePair<string, Action>>();
+		private Thread _processThread;
+		#endregion
 
+		#region Private Property
+		public Thread m_ProcessThread 
+		{
+			get
+			{
+				if (_processThread == null)
+				{
+					_processThread = new Thread(() =>
+					{
+						while (true)
+						{
+							if (processes.Count == 0)
+								break;
+
+							var process = processes.Dequeue();
+
+							this.Invoke(new MethodInvoker(() =>
+							{
+								this.progressText.Text = process.Key;
+							}));
+							process.Value();
+						}
+
+						this.Invoke(new MethodInvoker(() =>
+						{
+							this.Dispose();
+						}));
+					});
+					_processThread.IsBackground = true;
+				}
+				return _processThread;
+			}
+		}
+		#endregion
+
+		#region Constructor
 		public SplashScreen()
 		{
 			InitializeComponent();
+
 			this.ClientSize = BackgroundImage.Size;
-		}
+		} 
+		#endregion
 
-		private static void ShowForm()
-		{
-			instance = new SplashScreen();
-			instance.ShowDialog();
-		}
 
-		public static void CloseForm()
+		#region Public Method
+		public SplashScreen AppendProcess(string processName, Action processAction)
 		{
-			if (instance != null && !instance.IsDisposed)
+			processes.Enqueue(new KeyValuePair<string, Action>(processName, processAction));
+
+			if (m_ProcessThread.ThreadState != ThreadState.Running && processes.Count == 1)
 			{
-				instance.Invoke(new MethodInvoker(() => instance.Close()));
-				instance = null;
-				thread = null;
-			}
-		}
-
-		public static void ShowSplashScreen()
-		{
-			if (instance != null)
-				return;
-
-			thread = new Thread(SplashScreen.ShowForm);
-			thread.IsBackground = true;
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
-
-			while (instance == null)
-				Application.DoEvents();
-		}
-
-		public static void SetProgressText(string text)
-		{
-			if (instance == null || instance.IsDisposed)
-				throw new InvalidOperationException();
-
-			if (instance.InvokeRequired)
-			{
-				instance.Invoke( new MethodInvoker(() => {
-					instance.progressText.Text = text;
-				}));
-				return;
+				m_ProcessThread.Start();
 			}
 
-
-			instance.progressText.Text = text;
-		}
+			return this;
+		} 
+		#endregion
 	}
 }

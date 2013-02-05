@@ -37,9 +37,9 @@
 			// 
 			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.progressBar.Location = new System.Drawing.Point(282, 469);
+			this.progressBar.Location = new System.Drawing.Point(282, 433);
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(194, 23);
+			this.progressBar.Size = new System.Drawing.Size(194, 21);
 			this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
 			this.progressBar.TabIndex = 0;
 			// 
@@ -48,20 +48,20 @@
 			this.progressText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.progressText.BackColor = System.Drawing.Color.Transparent;
-			this.progressText.Location = new System.Drawing.Point(55, 443);
+			this.progressText.Location = new System.Drawing.Point(55, 409);
 			this.progressText.Name = "progressText";
-			this.progressText.Size = new System.Drawing.Size(649, 23);
+			this.progressText.Size = new System.Drawing.Size(649, 21);
 			this.progressText.TabIndex = 1;
 			this.progressText.Text = "[progress text]";
 			this.progressText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// SplashScreen
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.ClientSize = new System.Drawing.Size(758, 544);
+			this.ClientSize = new System.Drawing.Size(758, 502);
 			this.Controls.Add(this.progressText);
 			this.Controls.Add(this.progressBar);
 			this.DoubleBuffered = true;

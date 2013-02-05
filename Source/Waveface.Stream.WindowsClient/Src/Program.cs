@@ -164,17 +164,18 @@ namespace Waveface.Stream.WindowsClient
 				return;
 			}
 
-			SplashScreen.ShowSplashScreen();
+			var splashScreen = new SplashScreen();
 
-			SplashScreen.SetProgressText("Waiting database service...");
+			splashScreen
+				.AppendProcess("Waiting database service...", waitUntilMongodbReady)
+				.AppendProcess("Starting AOStream...", () =>
+				{
+					StationServiceProxy.Instance.StartService();
 
-			waitUntilMongodbReady();
+					waitUntilStationAPIReady();
+				})
+				.ShowDialog();
 
-			SplashScreen.SetProgressText("Starting AOStream...");
-
-			StationServiceProxy.Instance.StartService();
-
-			waitUntilStationAPIReady();
 
 			if (options.Imports != null && options.Imports.Any())
 			{
@@ -191,15 +192,12 @@ namespace Waveface.Stream.WindowsClient
 
 			InitNotifyIcon();
 
-			//StationAPI.ResumeSync();
 			SyncStatus.IsServiceRunning = true;
 
 			m_Timer.Interval = 500;
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
 
-
-			SplashScreen.CloseForm();
 
 			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
