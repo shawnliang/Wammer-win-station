@@ -177,12 +177,15 @@ namespace Waveface.Stream.ClientFramework
 				}
 				catch (WebException ex)
 				{
-					using (var sr = new StreamReader(ex.Response.GetResponseStream()))
+					if (ex.Response != null)
 					{
-						var cloudResponse = JsonConvert.DeserializeObject<CloudResponse>(sr.ReadToEnd());
-						if (cloudResponse.status == 401)
+						using (var sr = new StreamReader(ex.Response.GetResponseStream()))
 						{
-							Datx.RemoveFile(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE);
+							var cloudResponse = JsonConvert.DeserializeObject<CloudResponse>(sr.ReadToEnd());
+							if (cloudResponse.status == 401)
+							{
+								Datx.RemoveFile(m_StreamDatxFile, RELATIVED_LOGINED_SESSION_XML_FILE);
+							}
 						}
 					}
 				}
