@@ -34,16 +34,15 @@ namespace Waveface.Stream.WindowsClient
 								break;
 
 							var process = processes.Dequeue();
-							try
+
+							if (this.Visible)
 							{
 								this.Invoke(new MethodInvoker(() =>
 								{
 									this.progressText.Text = process.Key;
 								}));
 							}
-							catch (Exception)
-							{
-							}
+
 							process.Value();
 						}
 
@@ -65,7 +64,9 @@ namespace Waveface.Stream.WindowsClient
 			InitializeComponent();
 
 			this.ClientSize = BackgroundImage.Size;
-		} 
+
+			this.Load += SplashScreen_Load;
+		}
 		#endregion
 
 
@@ -73,13 +74,16 @@ namespace Waveface.Stream.WindowsClient
 		public SplashScreen AppendProcess(string processName, Action processAction)
 		{
 			processes.Enqueue(new KeyValuePair<string, Action>(processName, processAction));
-
-			if (m_ProcessThread.ThreadState != ThreadState.Running && processes.Count == 1)
-			{
-				m_ProcessThread.Start();
-			}
-
 			return this;
+		} 
+		#endregion
+
+
+		#region Event Process
+		void SplashScreen_Load(object sender, EventArgs e)
+		{
+			if (m_ProcessThread.ThreadState != ThreadState.Running)
+				m_ProcessThread.Start();
 		} 
 		#endregion
 	}
