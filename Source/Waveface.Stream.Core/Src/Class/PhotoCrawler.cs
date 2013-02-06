@@ -79,7 +79,7 @@ namespace Waveface.Stream.Core
 
 		private void findPhotos(IEnumerable<string> fromPaths, Func<string, bool> folderCallback, Action<string> fileAction, Action<string, Exception> errorAction)
 		{
-			var processedDir = new HashSet<string>();
+			var state = new CrawState(folderCallback);
 
 			foreach (var path in fromPaths)
 			{
@@ -100,23 +100,9 @@ namespace Waveface.Stream.Core
 						},
 
 						// dir callback
-						(folder) =>
-						{
-							if (processedDir.Contains(folder))
-								return false;
+						state.shouldProcessThisDir,
 
-							if (Path.GetFileName(folder).StartsWith("."))
-								return false;
-
-							foreach (var skipdir in ignorePath)
-								if (folder.StartsWith(skipdir, StringComparison.InvariantCultureIgnoreCase))
-									return false;
-
-							processedDir.Add(folder);
-
-							return folderCallback(folder);
-						},
-
+						// error callback
 						(errorPath, error) =>
 						{
 							errorAction(errorPath, error);
@@ -136,6 +122,44 @@ namespace Waveface.Stream.Core
 				{
 					errorAction(path, new FileNotFoundException("path does not exist: " + path));
 				}
+			}
+		}
+
+
+		internal class CrawState
+		{
+			private HashSet<string> processedDir = new HashSet<string>();
+			private Func<string, bool> folderCallback;
+
+			public CrawState(Func<string, bool> folderCallback)
+			{
+				this.folderCallback = folderCallback;
+			}
+
+			public bool shouldProcessThisDir(string folder, out bool prune)
+			{
+				prune = false;
+
+				if (!processedDir.Add(folder))
+					return false;
+
+				if (Path.GetFileName(folder).StartsWith("."))
+					return false;
+
+				foreach (var skipdir in ignorePath)
+					if (folder.StartsWith(skipdir, StringComparison.InvariantCultureIgnoreCase))
+						return false;
+
+				if (folderCallback(folder))
+				{
+					return true;
+				}
+				else
+				{
+					prune = true;
+					return false;
+				}
+
 			}
 		}
 	}

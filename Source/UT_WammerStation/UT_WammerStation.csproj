@@ -107,6 +107,7 @@
     <Compile Include="TestFolderCollection.cs" />
     <Compile Include="TestImportTaskStatus.cs" />
     <Compile Include="TestMongoDB.cs" />
+    <Compile Include="TestPhotoCrawler.cs" />
     <Compile Include="TestSerializable.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />
     <Compile Include="TestUpdateEntireCollection.cs" />
@@ -178,6 +179,10 @@
     <ProjectReference Include="..\Wammer.Station.Service\Wammer.Station.Service.csproj">
       <Project>{C7B8A613-B0D8-49B4-B232-54A222E0095C}</Project>
       <Name>Wammer.Station.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Waveface.Stream.Core\Waveface.Stream.Core.csproj">
+      <Project>{2E32611C-38BB-4FF7-94E7-EEAF6D9C26DF}</Project>
+      <Name>Waveface.Stream.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Waveface.Stream.Model\Waveface.Stream.Model.csproj">
       <Project>{990ae10d-e77a-4742-bcaa-a52a9b7d1af9}</Project>
