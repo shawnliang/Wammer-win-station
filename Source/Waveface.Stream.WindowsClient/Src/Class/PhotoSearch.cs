@@ -94,12 +94,12 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		public void ImportToStationAsync(IEnumerable<string> paths, string session_token)
+		public void ImportToStationAsync(IEnumerable<string> paths, string session_token, bool copyToStation = true)
 		{
 			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", session_token));
 			var groupID = loginedSession.groups.First().group_id;
 			
-			StationAPI.ImportPhoto(session_token, groupID, paths);
+			StationAPI.ImportPhoto(session_token, groupID, paths, copyToStation);
 		}
 
 
