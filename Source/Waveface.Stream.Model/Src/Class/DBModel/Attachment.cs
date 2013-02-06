@@ -473,5 +473,7 @@ namespace Waveface.Stream.Model
 				return this;
 			return image_meta.GetThumbnailInfo(meta);
 		}
+
+		public bool IndexOnly { get; set; }
 	}
 }

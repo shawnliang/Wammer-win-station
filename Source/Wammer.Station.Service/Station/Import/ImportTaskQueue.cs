@@ -56,7 +56,7 @@ namespace Wammer.Station.Import
 
 		public void EnqueueDummyTask()
 		{
-			Enqueue(new ImportTask("", "", "", new List<string>()), TaskPriority.VeryLow);
+			Enqueue(new ImportTask("", "", "", new List<string>(), true), TaskPriority.VeryLow);
 		}
 	}
 }

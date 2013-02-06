@@ -24,6 +24,7 @@ namespace Wammer.Station
 			var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
 			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			var paths = Parameters[PATHS_KEY];
+			var copyToStation = "true".Equals(Parameters["copy"], StringComparison.InvariantCultureIgnoreCase);
 
 			var user = DriverCollection.Instance.FindDriverByGroupId(groupID);
 			if (user == null)
@@ -31,7 +32,7 @@ namespace Wammer.Station
 
 			var pathParam = fastJSON.JSON.Instance.ToObject<ImportMsg>(paths);
 
-			var task = new ImportTask(apiKey, sessionToken, groupID, pathParam.files);
+			var task = new ImportTask(apiKey, sessionToken, groupID, pathParam.files, copyToStation);
 			task.TaskStarted += new EventHandler<TaskStartedEventArgs>(task_TaskStarted);
 			task.FilesEnumerated += new System.EventHandler<FilesEnumeratedArgs>(task_FilesEnumerated);
 			task.FileIndexed += new EventHandler<FileImportEventArgs>(task_FileIndexed);

@@ -69,16 +69,14 @@ namespace Wammer.Station.AttachmentUpload
 					thumbnail = imgProc.GenerateThumbnail(attachment.image_meta.medium.saved_file_name,
 									thumbnail_type, object_id, user, attachment.file_name, ImageMeta.Medium);
 				}
-				else if (attachment.HasOriginFile())
+				else
 				{
-					thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name,
-									thumbnail_type, object_id, user, attachment.file_name);
+					thumbnail = generateThumbnailFromOrigin(attachment, user, imgProc);
 				}
 			}
-			else if (thumbnail_type == ImageMeta.Medium && attachment.HasOriginFile())
+			else if (thumbnail_type == ImageMeta.Medium )
 			{
-				thumbnail = imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
-								object_id, user, attachment.file_name);
+				thumbnail = generateThumbnailFromOrigin(attachment, user, imgProc);
 			}
 
 			if (thumbnail == null)
@@ -97,6 +95,20 @@ namespace Wammer.Station.AttachmentUpload
 				smallThumbnailCounter.Increment();
 
 			updateImportTaskIfNeeded();
+		}
+
+		private ThumbnailInfo generateThumbnailFromOrigin(Attachment attachment, Driver user, AttachmentUtility imgProc)
+		{
+			if (attachment.HasOriginFile())
+			{
+				return imgProc.GenerateThumbnail(attachment.saved_file_name, thumbnail_type,
+								object_id, user, attachment.file_name);
+			}
+			else
+			{
+				return imgProc.GenerateThumbnail(attachment.file_path,
+								thumbnail_type, object_id, user, attachment.file_name);
+			}
 		}
 
 		private void updateImportTaskIfNeeded()

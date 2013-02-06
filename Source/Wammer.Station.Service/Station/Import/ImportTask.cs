@@ -50,6 +50,7 @@ namespace Wammer.Station
 		/// <value>The m_ session token.</value>
 		private String m_SessionToken { get; set; }
 
+		private bool m_CopyToStation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the m_ API key.
@@ -69,12 +70,13 @@ namespace Wammer.Station
 		#endregion
 		
 		#region Constructor
-		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths)
+		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths, bool copyToStation)
 			: this()
 		{
 			m_APIKey = apiKey;
 			m_SessionToken = sessionToken;
 			m_GroupID = groupID;
+			m_CopyToStation = copyToStation;
 			Paths = paths.Where((file) => file.Length > 0);
 		}
 
@@ -137,18 +139,72 @@ namespace Wammer.Station
 				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_GroupID), TaskPriority.High);
 
 
-				// copy file to stream
-				int nProc = 0;
-				do
+				if (m_CopyToStation)
 				{
-					var batch = allMeta.Skip(nProc).Take(50);
-					var saved = submitBatch(importTime, batch, ref allFailedFiles);
+					// copy file to stream
+					int nProc = 0;
+					do
+					{
+						var batch = allMeta.Skip(nProc).Take(50);
+						var saved = submitBatch(importTime, batch, ref allFailedFiles);
 
-					allSavedFiles.AddRange(saved);
+						allSavedFiles.AddRange(saved);
 
-					nProc += batch.Count();
+						nProc += batch.Count();
 
-				} while (nProc < allMeta.Count);
+					} while (nProc < allMeta.Count);
+				}
+				else
+				{
+					var user = DriverCollection.Instance.FindDriverByGroupId(m_GroupID);
+
+					foreach (var file in allMeta)
+					{
+						var attDoc = new Attachment
+						{
+							creator_id = user.user_id,
+							device_id = StationRegistry.StationId,
+							event_time = file.EventTime,
+							file_create_time = file.file_create_time,
+							file_modify_time = File.GetLastWriteTime(file.file_path),
+							file_name = file.file_name,
+							file_path = file.file_path,
+							file_size = file.file_size,
+							fromLocal = true,
+							group_id = m_GroupID,
+							image_meta = new ImageProperty { exif = file.exif },
+							mime_type = MimeTypeHelper.GetMIMEType(file.file_name),
+							MD5 = MD5Helper.ComputeMD5(File.ReadAllBytes(file.file_path)),
+							modify_time = DateTime.Now,
+							object_id = file.object_id,
+							timezone = file.timezone,
+							type = AttachmentType.image,
+							IndexOnly = true
+						};
+						AttachmentCollection.Instance.Save(attDoc);
+
+						raiseFileImportedEvent(file);
+
+						if (user.isPaidUser)
+						{
+							var backupTask = new UpstreamTask(file.object_id, ImageMeta.Origin, TaskPriority.VeryLow, TaskId);
+							AttachmentUpload.AttachmentUploadQueueHelper.Instance.Enqueue(backupTask, TaskPriority.VeryLow);
+
+							var medium = new MakeThumbnailTask(file.object_id, ImageMeta.Medium, TaskPriority.Medium, TaskId);
+							TaskQueue.Enqueue(medium, medium.Priority, true);
+						}
+						else
+						{
+							var medium = new MakeThumbnailAndUpstreamTask(file.object_id, ImageMeta.Medium, TaskPriority.Medium, TaskId);
+							TaskQueue.Enqueue(medium, medium.Priority, true);
+						}
+
+
+						var small = new MakeThumbnailTask(file.object_id, ImageMeta.Small, TaskPriority.Medium, TaskId);
+						TaskQueue.Enqueue(small, small.Priority, true);
+						
+					}
+				}
 			}
 			catch (Exception e)
 			{
