@@ -82,6 +82,7 @@ namespace Wammer.Utility
 					let statistics = adapter.GetIPv4Statistics()
 					where (!adapter.IsReceiveOnly && adapter.NetworkInterfaceType != NetworkInterfaceType.Loopback &&
 							adapter.NetworkInterfaceType != NetworkInterfaceType.Tunnel) &&
+							adapter.OperationalStatus == OperationalStatus.Up &&
 							(statistics.BytesReceived > 0 && statistics.BytesSent > 0)
 					from AddressInfo in adapter.GetIPProperties().UnicastAddresses
 					let ipAddress = AddressInfo.Address.ToString()

@@ -445,6 +445,7 @@ namespace Waveface.Stream.WindowsClient
 			pbxLogo.Image = new Icon(this.Icon, 64, 64).ToBitmap();
 
 			checkBox1.Checked = UsbImportController.Instance.Enabled;
+			checkBox2.Checked = RecentDocumentWatcher.Instance.Enabled;
 
 			SwitchToEmailDisplayMode();
 			SwitchToNameDisplayMode();
@@ -512,7 +513,8 @@ namespace Waveface.Stream.WindowsClient
 
 		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
-			UsbImportController.Instance.Enabled = checkBox1.Checked;
+			Settings.Default.DetectMediaInsert = UsbImportController.Instance.Enabled = checkBox1.Checked;
+			Settings.Default.Save();
 		}
 
 		private void button3_Click(object sender, EventArgs e)
@@ -623,7 +625,8 @@ namespace Waveface.Stream.WindowsClient
 
 		private void checkBox2_CheckedChanged(object sender, EventArgs e)
 		{
-			RecentDocumentWatcher.Instance.Enabled = checkBox2.Checked;
+			Settings.Default.ImportOpenedDoc = RecentDocumentWatcher.Instance.Enabled = checkBox2.Checked;
+			Settings.Default.Save();
 		}
 
 		private void usageDetailControl1_ChangeResourcePathButtonClick(object sender, EventArgs e)
