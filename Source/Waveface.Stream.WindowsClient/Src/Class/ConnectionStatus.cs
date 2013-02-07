@@ -80,13 +80,24 @@ namespace Waveface.Stream.WindowsClient
 		#region Private Method
 		private void UpdateDevices()
 		{
-			var currentDevices = ConnectionCollection.Instance.FindAll().Select((item) => new Waveface.Stream.WindowsClient.Device(item.device.device_id, item.device.device_name)
+			var currentDevices = ConnectionCollection.Instance.FindAll().Select((item) => new Device(item.device.device_id, item.device.device_name)
 			{
 				RemainingBackUpCount = item.files_to_backup.HasValue ? item.files_to_backup.Value : 0
-			});
-
+			}).ToArray();
+			
 			var addedDevices = currentDevices.Except(m_Devices).ToArray();
 			var removedDevices = m_Devices.Except(currentDevices).ToArray();
+			var sameDevices = m_Devices.Intersect(currentDevices).ToArray();
+
+			foreach (var oldDevice in sameDevices)
+			{
+				var newDevice = currentDevices.FirstOrDefault(device => device.ID == oldDevice.ID);
+
+				if (newDevice == null)
+					continue;
+
+				oldDevice.RemainingBackUpCount = newDevice.RemainingBackUpCount;
+			}
 
 			m_Devices.ExceptWith(removedDevices);
 			m_Devices.UnionWith(addedDevices);

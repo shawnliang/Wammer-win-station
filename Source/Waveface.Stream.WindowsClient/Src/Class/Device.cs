@@ -9,6 +9,10 @@ namespace Waveface.Stream.WindowsClient
 	[DebuggerDisplayAttribute("{Name}({ID})")]
 	public class Device
 	{
+		#region Var
+		private long _remainingBackUpCount;
+		#endregion
+
 		#region Property
 		/// <summary>
 		/// Gets or sets the ID.
@@ -32,7 +36,26 @@ namespace Waveface.Stream.WindowsClient
 		/// <value>
 		/// The remaining back up count.
 		/// </value>
-		public long RemainingBackUpCount { get; set; } 
+		public long RemainingBackUpCount 
+		{
+			get 
+			{
+				return _remainingBackUpCount;
+			}
+			internal set
+			{
+				if (_remainingBackUpCount == value)
+					return;
+
+				_remainingBackUpCount = value;
+				OnRemainingBackUpCountChanged(EventArgs.Empty);
+			}
+		} 
+		#endregion
+
+
+		#region Event
+		public event EventHandler RemainingBackUpCountChanged;
 		#endregion
 
 
@@ -51,6 +74,11 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Protected Method
+		protected void OnRemainingBackUpCountChanged(EventArgs e)
+		{
+			this.RaiseEvent(RemainingBackUpCountChanged, e);
+		}
+
 		/// <summary>
 		/// Returns a <see cref="System.String" /> that represents this instance.
 		/// </summary>

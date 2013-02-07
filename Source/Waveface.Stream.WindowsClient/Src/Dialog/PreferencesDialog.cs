@@ -257,7 +257,6 @@ namespace Waveface.Stream.WindowsClient
 		private void UpdateLeftPanel()
 		{
 			UpdateSyncStatus();
-			UpdateDeviceSyncStatus();
 			UpdateDeviceConnectCount();
 		}
 
@@ -315,16 +314,17 @@ namespace Waveface.Stream.WindowsClient
 			UpdateUsageDetail();
 		}
 
+
+		private void BindingSelectedDevice()
+		{
+			var device = cmbDevice.SelectedItem as Device;
+			device.RemainingBackUpCountChanged += device_RemainingBackUpCountChanged;
+
+			UpdateDeviceSyncStatus();
+		}
+
 		private void UpdateDeviceSyncStatus()
 		{
-			if (cmbDevice.Items.Count == 0 || cmbDevice.SelectedValue == null)
-			{
-				lblDeviceName.Text = string.Empty;
-				lblDeviceConnectStatus.Text = string.Empty;
-				label2.Text = string.Empty;
-				return;
-			}
-
 			var device = cmbDevice.SelectedItem as Device;
 			lblDeviceName.Text = device.Name;
 
@@ -717,17 +717,30 @@ namespace Waveface.Stream.WindowsClient
 
 		private void cmbDevice_TextChanged(object sender, EventArgs e)
 		{
-			UpdateDeviceSyncStatus();
+			BindingSelectedDevice();
 		}
 
 		void Instance_DeviceRemoved(object sender, DevicesEventArgs e)
 		{
 			UpdateDeviceComboBox();
+
+			if (cmbDevice.Items.Count == 0 || cmbDevice.SelectedItem == null)
+			{
+				lblDeviceName.Text = string.Empty;
+				lblDeviceConnectStatus.Text = string.Empty;
+				label2.Text = string.Empty;
+				return;
+			}
 		}
 
 		void Instance_DeviceAdded(object sender, DevicesEventArgs e)
 		{
 			UpdateDeviceComboBox();
+		}
+
+		void device_RemainingBackUpCountChanged(object sender, EventArgs e)
+		{
+			UpdateDeviceSyncStatus();
 		}
 		#endregion
 
