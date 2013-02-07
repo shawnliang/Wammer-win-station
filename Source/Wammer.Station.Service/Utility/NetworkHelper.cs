@@ -125,7 +125,7 @@ namespace Wammer.Utility
 				return getBaseIPAddress(staticIP);
 			}
 
-			IEnumerable<String> addresses = m_LocalIPAddresses.ToArray();
+			IEnumerable<String> addresses = m_LocalIPAddresses;
 
 			string address = addresses.FirstOrDefault();
 
