@@ -457,6 +457,8 @@ namespace Waveface.Stream.WindowsClient
 
 			tabControl1.SelectedIndexChanged -= InitAccountPage;
 			tabControl1.SelectedIndexChanged += InitAccountPage;
+
+			(tabDevices.Controls[0] as PersonalCloudStatusControl2).RefreshInterval = refreshStatusTimer.Interval * 3;
 		}
 
 		void Instance_UserInfoUpdated(object sender, EventArgs e)
@@ -501,17 +503,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var personalCloudControl = tabDevices.Controls[0] as PersonalCloudStatusControl2;
 
-			var deviceTabSelected = (tabControl1.SelectedTab == tabDevices);
-
-			if (deviceTabSelected)
-			{
-				personalCloudControl.RefreshInterval = refreshStatusTimer.Interval * 3;
-				personalCloudControl.EnableAutoRefreshStatus = true;
-			}
-			else
-			{
-				personalCloudControl.EnableAutoRefreshStatus = false;
-			}
+			personalCloudControl.EnableAutoRefreshStatus = (tabControl1.SelectedTab == tabDevices);
 		}
 
 		private void checkBox1_CheckedChanged(object sender, EventArgs e)
