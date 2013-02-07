@@ -61,6 +61,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(315, 99);
 			this.Name = "WaitingBGWorkerDialog";
 			this.Text = "[title]";
 			this.Load += new System.EventHandler(this.WaitingBGWorkerDialog_Load);
