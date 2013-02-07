@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 public static class DirectoryInfoExtension
 {
 	public delegate bool PathCallback(string path);
+	public delegate bool PathPruneCallback(string path, out bool prune);
 	public delegate void PathErrorCallback(string path, Exception err);
 
 	#region PInvoke
@@ -78,10 +79,12 @@ public static class DirectoryInfoExtension
 		FindClose(hFind);
 	}
 
-	private static bool searchFiles(string path, string[] patterns, PathCallback fileCB, PathCallback folderCB, PathErrorCallback errorCB)
+	private static void searchFiles(string path, string[] patterns, PathCallback fileCB, PathPruneCallback shouldProceThisDir, PathErrorCallback errorCB, out bool prune)
 	{
-		if (folderCB != null && !folderCB(path))
-			return false;
+		prune = false;
+
+		if (shouldProceThisDir != null && !shouldProceThisDir(path, out prune))
+			return;
 
 		foreach (var pattern in patterns)
 		{
@@ -93,7 +96,7 @@ public static class DirectoryInfoExtension
 			foreach (var file in files)
 			{
 				if (!fileCB(file))
-					return false;
+					return;
 			}
 		}
 
@@ -101,14 +104,15 @@ public static class DirectoryInfoExtension
 		var subdirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
 
 		if (subdirs == null)
-			return true;
+			return;
 
 		foreach (var subdir in subdirs)
 		{
 			try
 			{
-				if (!searchFiles(subdir, patterns, fileCB, folderCB, errorCB))
-					return false;
+				searchFiles(subdir, patterns, fileCB, shouldProceThisDir, errorCB, out prune);
+				if (prune)
+					return;
 			}
 			catch (Exception e)
 			{
@@ -116,22 +120,21 @@ public static class DirectoryInfoExtension
 					errorCB(subdir, e);
 			}
 		}
-
-		return true;
 	}
 
 	#endregion
 
 
 	#region Public Method
-	public static void SearchFiles(this DirectoryInfo dir, string[] patterns, PathCallback fileCB, PathCallback folderCB = null, PathErrorCallback errorCB = null)
+	public static void SearchFiles(this DirectoryInfo dir, string[] patterns, PathCallback fileCB, PathPruneCallback shouldProcessThisDir = null, PathErrorCallback errorCB = null)
 	{
 		if (fileCB == null)
 			throw new ArgumentNullException("fileCB");
 		if (patterns == null)
 			throw new ArgumentNullException("patterns");
 
-		searchFiles(dir.FullName, patterns, fileCB, folderCB, errorCB);
+		bool prune;
+		searchFiles(dir.FullName, patterns, fileCB, shouldProcessThisDir, errorCB, out prune);
 	}
 
 
