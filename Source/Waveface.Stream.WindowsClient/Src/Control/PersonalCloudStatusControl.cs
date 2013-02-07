@@ -55,6 +55,18 @@ namespace Waveface.Stream.WindowsClient
 				m_RefreshTimer.Enabled = value;
 			}
 		}
+
+		public int RefreshInterval
+		{
+			get
+			{
+				return m_RefreshTimer.Interval;
+			}
+			set
+			{
+				m_RefreshTimer.Interval = value;
+			}
+		}
 		#endregion
 
 		public PersonalCloudStatusControl2()
