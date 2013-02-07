@@ -103,6 +103,10 @@ namespace Waveface.Stream.WindowsClient
 			lblDeviceConnectStatus.Text = string.Empty;
 			lblDeviceName.Text = string.Empty;
 			label2.Text = string.Empty;
+
+			ConnectionStatus.Instance.DeviceAdded += Instance_DeviceAdded;
+			ConnectionStatus.Instance.DeviceRemoved += Instance_DeviceRemoved;
+
 		}
 		#endregion
 
@@ -253,7 +257,6 @@ namespace Waveface.Stream.WindowsClient
 		private void UpdateLeftPanel()
 		{
 			UpdateSyncStatus();
-			UpdateDeviceComboBox();
 			UpdateDeviceSyncStatus();
 			UpdateDeviceConnectCount();
 		}
@@ -322,18 +325,11 @@ namespace Waveface.Stream.WindowsClient
 				return;
 			}
 
-			var deviceID = cmbDevice.SelectedValue.ToString();
-			lblDeviceName.Text = cmbDevice.Text;
+			var device = cmbDevice.SelectedItem as Device;
+			lblDeviceName.Text = device.Name;
 
-			var connection = ConnectionCollection.Instance.FindOne(
-						Query.EQ("device.device_id", deviceID));
-
-			if (connection == null)
-				return;
-
-
-			if (connection.files_to_backup != null && connection.files_to_backup > 0)
-				label2.Text = string.Format("receiving {0} files", connection.files_to_backup.ToString());
+			if (device.RemainingBackUpCount > 0)
+				label2.Text = string.Format("receiving {0} files", device.RemainingBackUpCount.ToString());
 			else
 				label2.Text = "Connected Locally";
 		}
@@ -424,16 +420,10 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateDeviceComboBox()
 		{
-			var newDatas = ConnectionCollection.Instance.FindAll().Select(item => new 
-			{
-				DeviceID = item.device.device_id,
-				DeviceName = item.device.device_name
-			}).ToList();
-
 			cmbDevice.BeginUpdate();
-			cmbDevice.DisplayMember = "DeviceName";
-			cmbDevice.ValueMember = "DeviceID";
-			cmbDevice.DataSource = newDatas;
+			cmbDevice.DisplayMember = "Name";
+			cmbDevice.ValueMember = "ID";
+			cmbDevice.DataSource = ConnectionStatus.Instance.Devices.ToList();
 			cmbDevice.EndUpdate();
 		}
 
@@ -451,6 +441,7 @@ namespace Waveface.Stream.WindowsClient
 
 			UpdateGeneralPage();
 			UpdateLeftPanel();
+			UpdateDeviceComboBox();
 
 			refreshStatusTimer.Start();
 
@@ -729,7 +720,15 @@ namespace Waveface.Stream.WindowsClient
 			UpdateDeviceSyncStatus();
 		}
 
+		void Instance_DeviceRemoved(object sender, DevicesEventArgs e)
+		{
+			UpdateDeviceComboBox();
+		}
 
+		void Instance_DeviceAdded(object sender, DevicesEventArgs e)
+		{
+			UpdateDeviceComboBox();
+		}
 		#endregion
 
 	}
