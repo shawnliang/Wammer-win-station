@@ -187,6 +187,12 @@
     <Compile Include="Src\Class\SendMessageHelper.cs" />
     <Compile Include="Src\Class\StationServiceProxy.cs" />
     <Compile Include="Src\Class\UsbImportController.cs" />
+    <Compile Include="Src\Control\AboutControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\AboutControl.Designer.cs">
+      <DependentUpon>AboutControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\PlanBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -491,6 +497,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\AboutControl.resx">
+      <DependentUpon>AboutControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\DocImportControl.resx">
       <DependentUpon>DocImportControl.cs</DependentUpon>
