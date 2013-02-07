@@ -189,6 +189,13 @@ namespace Waveface.Stream.WindowsClient
 			StreamClient.Instance.Logouted += Instance_Logouted;
 			StreamClient.Instance.Logined += Instance_Logined;
 
+			if (StreamClient.Instance.IsLogined)
+			{
+				// Because logined event handler has no chance to be called if client is already logined
+				// at startup, call logined event handler here.
+				Instance_Logined(StreamClient.Instance, new ClientFramework.LoginedEventArgs(null));
+			}
+
 			InitNotifyIcon();
 
 			SyncStatus.IsServiceRunning = true;
@@ -200,11 +207,6 @@ namespace Waveface.Stream.WindowsClient
 
 			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
-				RecentDocumentWatcher.Instance.FileTouched += recentDocWatcher_FileTouched;
-				RecentDocumentWatcher.Instance.Start();
-
-				UsbImportController.Instance.StartDetect();
-
 				if (!MainForm.Instance.IsDebugMode)
 					ShowPreferencesDialog();
 				else
@@ -257,13 +259,13 @@ namespace Waveface.Stream.WindowsClient
 			{
 				case 0x401:
 					{
-                        if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
-                        {
-                            if (!MainForm.Instance.IsDebugMode)
-                                ShowPreferencesDialog();
-                            else
-                                ShowMainWindow();
-                        }
+						if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
+						{
+							if (!MainForm.Instance.IsDebugMode)
+								ShowPreferencesDialog();
+							else
+								ShowMainWindow();
+						}
 					}
 					break;
 
@@ -272,8 +274,8 @@ namespace Waveface.Stream.WindowsClient
 						switch ((int)e.wParam)
 						{
 							case 0x402:
-                                if (!StreamClient.Instance.IsLogined)
-                                    return;
+								if (!StreamClient.Instance.IsLogined)
+									return;
 								var cd = (CopyDataStruct)Marshal.PtrToStructure(e.lParam, typeof(CopyDataStruct));
 
 								var jsonstr = Marshal.PtrToStringAuto(cd.lpData, cd.cbData / 2);
@@ -715,8 +717,17 @@ namespace Waveface.Stream.WindowsClient
 
 		static void Instance_Logined(object sender, ClientFramework.LoginedEventArgs e)
 		{
-			RecentDocumentWatcher.Instance.Start();
-			UsbImportController.Instance.StartDetect();
+			if (Settings.Default.ImportOpenedDoc)
+			{
+				RecentDocumentWatcher.Instance.FileTouched -= recentDocWatcher_FileTouched;
+				RecentDocumentWatcher.Instance.FileTouched += recentDocWatcher_FileTouched;
+				RecentDocumentWatcher.Instance.Start();
+			}
+
+			if (Settings.Default.DetectMediaInsert)
+			{
+				UsbImportController.Instance.StartDetect();
+			}
 		}
 
 		static void Instance_Logouted(object sender, EventArgs e)

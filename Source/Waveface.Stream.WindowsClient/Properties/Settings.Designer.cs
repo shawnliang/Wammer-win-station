@@ -45,5 +45,29 @@ namespace Waveface.Stream.WindowsClient.Properties {
                 this["AutoImportDevices"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DetectMediaInsert {
+            get {
+                return ((bool)(this["DetectMediaInsert"]));
+            }
+            set {
+                this["DetectMediaInsert"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ImportOpenedDoc {
+            get {
+                return ((bool)(this["ImportOpenedDoc"]));
+            }
+            set {
+                this["ImportOpenedDoc"] = value;
+            }
+        }
     }
 }

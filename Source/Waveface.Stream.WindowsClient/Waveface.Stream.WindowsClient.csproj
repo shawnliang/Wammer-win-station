@@ -170,8 +170,10 @@
     </Compile>
     <Compile Include="Src\Class\AutoUpdate.cs" />
     <Compile Include="Src\Class\CommandLineCommand.cs" />
+    <Compile Include="Src\Class\ConnectionStatus.cs" />
     <Compile Include="Src\Class\CopyDataStruct.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
+    <Compile Include="Src\Class\Device.cs" />
     <Compile Include="Src\Class\DriveDetector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +189,12 @@
     <Compile Include="Src\Class\SendMessageHelper.cs" />
     <Compile Include="Src\Class\StationServiceProxy.cs" />
     <Compile Include="Src\Class\UsbImportController.cs" />
+    <Compile Include="Src\Control\AboutControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\AboutControl.Designer.cs">
+      <DependentUpon>AboutControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Src\Control\PlanBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -223,6 +231,7 @@
     <Compile Include="Src\Dialog\WaitingBGWorkerDialog.Designer.cs">
       <DependentUpon>WaitingBGWorkerDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\EventArgs\DevicesEventArgs.cs" />
     <Compile Include="Src\EventArgs\MessageEventArgs.cs" />
     <Compile Include="Src\Class\MessageReceiver.cs" />
     <Compile Include="Src\Class\Options.cs" />
@@ -491,6 +500,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\AboutControl.resx">
+      <DependentUpon>AboutControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\DocImportControl.resx">
       <DependentUpon>DocImportControl.cs</DependentUpon>
