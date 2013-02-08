@@ -157,7 +157,7 @@
     <DirectoryRef Id="TARGETDIR">
       <Component Id="LaunchAtStartUp" Guid="{0CB8CC8A-3A18-4F86-A6B6-C32AB76B5571}">
         <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run">
-          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]WindowsClient.exe' KeyPath='yes'/>
+          <RegistryValue Type="string" Name="WavefaceStation" Value='"[INSTALLLOCATION]WindowsClient.exe"' KeyPath='yes'/>
         </RegistryKey>
       </Component> 
       
