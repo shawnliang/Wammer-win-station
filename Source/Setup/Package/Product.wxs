@@ -115,8 +115,8 @@
       <ProgressText Action="WriteProductInfo">!(loc.WriteProductInfo)</ProgressText>
       <ProgressText Action="RemoveUrlAcl">!(loc.SetUrlAcl)</ProgressText>
       <ProgressText Action="RemoveUrlAcl2">!(loc.SetUrlAcl)</ProgressText>
-      <ProgressText Action="AddUrlAcl">!(locl.SetUrlAcl)</ProgressText>
-      <ProgressText Action="AddUrlAcl2">!(locl.SetUrlAcl)</ProgressText>
+      <ProgressText Action="AddUrlAcl">!(loc.SetUrlAcl)</ProgressText>
+      <ProgressText Action="AddUrlAcl2">!(loc.SetUrlAcl)</ProgressText>
     </UI>
 
     <!-- Program Menu-->
