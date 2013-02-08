@@ -7,6 +7,7 @@ using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
 using System.Net;
+using System.IO;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -70,12 +71,11 @@ namespace Wammer.Station.AttachmentUpload
 					return;
 				}
 
-				var fileStorage = new FileStorage(user);
-
 				var uploadedSize = 0L;
-				using (var f = fileStorage.Load(info.saved_file_name, meta))
+
+				using (var fileStream = getFileStream(attachment, user, info))
 				{
-					AttachmentApi.Upload(f, attachment.group_id, object_id, attachment.file_name,
+					AttachmentApi.Upload(fileStream, attachment.group_id, object_id, attachment.file_name,
 									  info.mime_type, meta, attachment.type, CloudServer.APIKey,
 									  user.session_token,
 									  65535,
@@ -89,7 +89,7 @@ namespace Wammer.Station.AttachmentUpload
 									  attachment.doc_meta);
 
 					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
-					uploadedSize = f.Length;
+					uploadedSize = fileStream.Length;
 				}
 
 				if (meta == ImageMeta.Origin || meta == ImageMeta.None)
@@ -128,6 +128,18 @@ namespace Wammer.Station.AttachmentUpload
 			{
 				upstreamCount.Decrement();
 			}
+		}
+
+		private FileStream getFileStream(Attachment attachment, Driver user, IAttachmentInfo info)
+		{
+
+			var fileStorage = new FileStorage(user);
+			FileStream fileStream;
+			if (attachment.IndexOnly && (meta == ImageMeta.Origin || meta == ImageMeta.None))
+				fileStream = File.OpenRead(attachment.file_path);
+			else
+				fileStream = fileStorage.Load(info.saved_file_name, meta);
+			return fileStream;
 		}
 
 		private void updateImportTaskIfNeeded(long uploadedSize)

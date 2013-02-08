@@ -166,7 +166,9 @@ namespace Waveface.Stream.Model
 
 		public FileStream Load(string filename, ImageMeta meta)
 		{
-			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
+			if (Path.IsPathRooted(filename))
+				return File.OpenRead(filename);
+			else if (meta == ImageMeta.Origin || meta == ImageMeta.None)
 				return Load(filename);
 			else
 				return FileStorage.LoadFromCacheFolder(filename);

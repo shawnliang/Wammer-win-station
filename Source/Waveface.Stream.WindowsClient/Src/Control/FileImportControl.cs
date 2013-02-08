@@ -103,7 +103,7 @@ namespace Waveface.Stream.WindowsClient
 			if (!selectedPaths.Any())
 				return;
 
-			_photoSearch.ImportToStationAsync(selectedPaths, session_token);
+			_photoSearch.ImportToStationAsync(selectedPaths, session_token, radioCopy.Checked);
 		}
 
 		#region Public Method
@@ -276,7 +276,7 @@ namespace Waveface.Stream.WindowsClient
 	public interface IPhotoSearch
 	{
 		IEnumerable<PathAndPhotoCount> InterestedPaths { get; }
-		void ImportToStationAsync(IEnumerable<string> paths, string session_token);
+		void ImportToStationAsync(IEnumerable<string> paths, string session_token, bool copyToStation = true);
 		void Search(string path, PhotoFolderFound folderFound);
 		string GetUserFolder(string user_id);
 	}

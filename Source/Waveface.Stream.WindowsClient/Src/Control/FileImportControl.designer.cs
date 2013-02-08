@@ -41,13 +41,15 @@
 			this.folderColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.addButton = new System.Windows.Forms.Button();
 			this.lblWelcome = new System.Windows.Forms.Label();
+			this.radioIndexOnly = new System.Windows.Forms.RadioButton();
+			this.radioCopy = new System.Windows.Forms.RadioButton();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// changeButton
 			// 
 			this.changeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.changeButton.Location = new System.Drawing.Point(322, 352);
+			this.changeButton.Location = new System.Drawing.Point(407, 356);
 			this.changeButton.Name = "changeButton";
 			this.changeButton.Size = new System.Drawing.Size(67, 24);
 			this.changeButton.TabIndex = 13;
@@ -61,27 +63,26 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtStoreLocation.Enabled = false;
 			this.txtStoreLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.txtStoreLocation.Location = new System.Drawing.Point(15, 355);
+			this.txtStoreLocation.Location = new System.Drawing.Point(30, 357);
 			this.txtStoreLocation.Name = "txtStoreLocation";
 			this.txtStoreLocation.ReadOnly = true;
-			this.txtStoreLocation.Size = new System.Drawing.Size(301, 21);
+			this.txtStoreLocation.Size = new System.Drawing.Size(371, 21);
 			this.txtStoreLocation.TabIndex = 12;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(13, 336);
+			this.label2.Location = new System.Drawing.Point(41, 318);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(220, 12);
+			this.label2.Size = new System.Drawing.Size(0, 13);
 			this.label2.TabIndex = 11;
-			this.label2.Text = "All imported and synced files will be stored at:";
 			// 
 			// button2
 			// 
 			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.button2.Location = new System.Drawing.Point(398, 92);
+			this.button2.Location = new System.Drawing.Point(468, 92);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(145, 24);
 			this.button2.TabIndex = 10;
@@ -93,7 +94,7 @@
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.button1.Location = new System.Drawing.Point(398, 62);
+			this.button1.Location = new System.Drawing.Point(468, 62);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(145, 24);
 			this.button1.TabIndex = 9;
@@ -136,7 +137,7 @@
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowHeadersVisible = false;
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView1.Size = new System.Drawing.Size(374, 288);
+			this.dataGridView1.Size = new System.Drawing.Size(444, 261);
 			this.dataGridView1.TabIndex = 8;
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
@@ -166,7 +167,7 @@
 			// 
 			this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.addButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.addButton.Location = new System.Drawing.Point(398, 32);
+			this.addButton.Location = new System.Drawing.Point(468, 32);
 			this.addButton.Name = "addButton";
 			this.addButton.Size = new System.Drawing.Size(145, 24);
 			this.addButton.TabIndex = 6;
@@ -180,12 +181,38 @@
 			this.lblWelcome.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.lblWelcome.Location = new System.Drawing.Point(13, 9);
 			this.lblWelcome.Name = "lblWelcome";
-			this.lblWelcome.Size = new System.Drawing.Size(190, 12);
+			this.lblWelcome.Size = new System.Drawing.Size(188, 13);
 			this.lblWelcome.TabIndex = 4;
 			this.lblWelcome.Text = "Choose existing photo folders to import";
 			// 
+			// radioIndexOnly
+			// 
+			this.radioIndexOnly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.radioIndexOnly.AutoSize = true;
+			this.radioIndexOnly.Location = new System.Drawing.Point(15, 313);
+			this.radioIndexOnly.Name = "radioIndexOnly";
+			this.radioIndexOnly.Size = new System.Drawing.Size(184, 17);
+			this.radioIndexOnly.TabIndex = 14;
+			this.radioIndexOnly.Text = "Index and generate previews only";
+			this.radioIndexOnly.UseVisualStyleBackColor = true;
+			// 
+			// radioCopy
+			// 
+			this.radioCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.radioCopy.AutoSize = true;
+			this.radioCopy.Checked = true;
+			this.radioCopy.Location = new System.Drawing.Point(15, 336);
+			this.radioCopy.Name = "radioCopy";
+			this.radioCopy.Size = new System.Drawing.Size(187, 17);
+			this.radioCopy.TabIndex = 15;
+			this.radioCopy.TabStop = true;
+			this.radioCopy.Text = "Copy imported files to this location:";
+			this.radioCopy.UseVisualStyleBackColor = true;
+			// 
 			// FileImportControl
 			// 
+			this.Controls.Add(this.radioCopy);
+			this.Controls.Add(this.radioIndexOnly);
 			this.Controls.Add(this.changeButton);
 			this.Controls.Add(this.txtStoreLocation);
 			this.Controls.Add(this.label2);
@@ -195,7 +222,7 @@
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "FileImportControl";
-			this.Size = new System.Drawing.Size(555, 383);
+			this.Size = new System.Drawing.Size(625, 387);
 			this.Load += new System.EventHandler(this.FileImportControl_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
@@ -216,6 +243,8 @@
 		private System.Windows.Forms.DataGridViewCheckBoxColumn chkBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn folderColumn;
+		private System.Windows.Forms.RadioButton radioIndexOnly;
+		private System.Windows.Forms.RadioButton radioCopy;
 
 
 
