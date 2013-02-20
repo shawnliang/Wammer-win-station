@@ -213,7 +213,7 @@
    
     <!-- mongo db files -->
     <DirectoryRef Id="MongoDB">
-      <Component Id="mongod.exe" Guid="{1163C7C1-0494-4DFD-890D-2611FDCD3C19}">
+      <Component Id="mongod.exe" Guid="*">
         <File Id="mongod.exe" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\bin\mongod.exe" KeyPath="yes" Checksum="yes"/>
         <ServiceInstall Arguments='--logpath "[INSTALLLOCATION]\log\MongoDB.log" --port 10319 --dbpath "[INSTALLLOCATION]\MongoDB\Data\DB" --journal --service --smallfiles --bind_ip 127.0.0.1 --logappend'
                 Description='!(loc.MONGO_SVC_DESC)' DisplayName='MongoDB for Waveface' 
@@ -221,10 +221,10 @@
         </ServiceInstall>
         <ServiceControl Name='MongoDbForWaveface' Id='mongoServiceControl' Start='install' Remove='uninstall' Stop='both' Wait='yes'/>
       </Component>
-      <Component Id="mongos.exe" Guid="{996CFEA9-7286-44C8-82D3-68B9AEE1EAE5}">
+      <Component Id="mongos.exe" Guid="*">
         <File Id="mongos.exe" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\bin\mongos.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="mongo.exe" Guid="{03376030-6756-4698-B1FF-AD92F18BABE5}">
+      <Component Id="mongo.exe" Guid="*">
         <File Id="mongo.exe" Source="$(var.SolutionDir)..\Lib\mongodb-win32-i386-2.0.1\bin\mongo.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Guid="*">
