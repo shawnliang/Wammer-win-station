@@ -36,7 +36,7 @@ namespace Waveface.Stream.WindowsClient
 			var container = new CompositionContainer(catalog);
 			container.ComposeParts(this);
 
-			SuspendLayout();
+
 			foreach (var service in services)
 			{
 				var svcItem = new ServiceItemControl();
@@ -48,9 +48,13 @@ namespace Waveface.Stream.WindowsClient
 
 				itemControls.Add(svcItem);
 				svcPanel.Controls.Add(svcItem);
+			}
 
-				// width - 10 for not showing horizontal scroll bar
-				svcItem.Size = new System.Drawing.Size(svcPanel.ClientSize.Width - 10, svcItem.Height);
+			SuspendLayout();
+			foreach (var svcItemControl in svcPanel.Controls)
+			{
+				var item = (ServiceItemControl)svcItemControl;
+				item.Size = new System.Drawing.Size(svcPanel.ClientSize.Width - 10, item.Height);
 			}
 			ResumeLayout();
 
