@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DowngradeNotSupported" xml:space="preserve">
-    <value>安裝精靈偵測到您已有較新版本的 Stream 安裝在此部電腦上。無法繼續安裝。</value>
+    <value>安裝精靈偵測到您已有較新版本的 AOStream 安裝在此部電腦上。無法繼續安裝。</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LicenseStepRtf" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -128,15 +128,15 @@
     <value>Package.msi</value>
   </data>
   <data name="WelcomeStepGreetingInstall" xml:space="preserve">
-    <value>安裝精靈將自動在您的電腦上開始設定 Stream。</value>
+    <value>安裝精靈將自動在您的電腦上開始設定 AOStream。</value>
   </data>
   <data name="WelcomeStepGreetingModify" xml:space="preserve">
-    <value>安裝精靈將修改 Stream。</value>
+    <value>安裝精靈將修改 AOStream。</value>
   </data>
   <data name="WelcomeStepGreetingReinstall" xml:space="preserve">
-    <value>安裝精靈將重新安裝 Stream。</value>
+    <value>安裝精靈將重新安裝 AOStream。</value>
   </data>
   <data name="WelcomeStepGreetingUninstall" xml:space="preserve">
-    <value>安裝精靈將解除安裝 Stream。</value>
+    <value>安裝精靈將解除安裝 AOStream。</value>
   </data>
 </root>
