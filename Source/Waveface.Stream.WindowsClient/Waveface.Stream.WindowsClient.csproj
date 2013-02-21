@@ -525,6 +525,9 @@
     <EmbeddedResource Include="Src\Control\ServiceImportControl.resx">
       <DependentUpon>ServiceImportControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ServiceImportControl.zh-TW.resx">
+      <DependentUpon>ServiceImportControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ServiceItemControl.resx">
       <DependentUpon>ServiceItemControl.cs</DependentUpon>
     </EmbeddedResource>
