@@ -29,181 +29,238 @@
 		private void InitializeComponent()
 		{
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
+			this.buttonNext = new System.Windows.Forms.Button();
+			this.buttonPrev = new System.Windows.Forms.Button();
 			this.tabControl1 = new Waveface.Stream.WindowsClient.TabControlEx();
-			this.tabPage5 = new System.Windows.Forms.TabPage();
-			this.signUpControl1 = new Waveface.Stream.WindowsClient.SignUpControl();
-			this.tabPage4 = new System.Windows.Forms.TabPage();
-			this.introControl1 = new Waveface.Stream.WindowsClient.IntroControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.tabIntro1 = new System.Windows.Forms.TabPage();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.tabIntro2 = new System.Windows.Forms.TabPage();
+			this.pictureBox2 = new System.Windows.Forms.PictureBox();
+			this.tabIntro3 = new System.Windows.Forms.TabPage();
+			this.pictureBox3 = new System.Windows.Forms.PictureBox();
+			this.tabChoosePlan = new System.Windows.Forms.TabPage();
 			this.choosePlanControl1 = new Waveface.Stream.WindowsClient.ChoosePlanControl();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.tabSignup = new System.Windows.Forms.TabPage();
+			this.signUpControl1 = new Waveface.Stream.WindowsClient.SignUpControl();
+			this.tabConnectCloudServices = new System.Windows.Forms.TabPage();
+			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
+			this.tabImportPhoto = new System.Windows.Forms.TabPage();
 			this.fileImportControl1 = new Waveface.Stream.WindowsClient.FileImportControl();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
-			this.tabPage5.SuspendLayout();
-			this.tabPage4.SuspendLayout();
-			this.tabPage1.SuspendLayout();
-			this.tabPage2.SuspendLayout();
-			this.tabPage3.SuspendLayout();
+			this.tabIntro1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.tabIntro2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+			this.tabIntro3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+			this.tabChoosePlan.SuspendLayout();
+			this.tabSignup.SuspendLayout();
+			this.tabConnectCloudServices.SuspendLayout();
+			this.tabImportPhoto.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.panel1.Controls.Add(this.button2);
-			this.panel1.Controls.Add(this.button1);
+			this.panel1.Controls.Add(this.buttonNext);
+			this.panel1.Controls.Add(this.buttonPrev);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 400);
+			this.panel1.Location = new System.Drawing.Point(0, 433);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(706, 44);
+			this.panel1.Size = new System.Drawing.Size(706, 48);
 			this.panel1.TabIndex = 0;
 			// 
-			// button2
+			// buttonNext
 			// 
-			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.Location = new System.Drawing.Point(619, 9);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 1;
-			this.button2.Text = "Next";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
+			this.buttonNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonNext.Location = new System.Drawing.Point(619, 10);
+			this.buttonNext.Name = "buttonNext";
+			this.buttonNext.Size = new System.Drawing.Size(75, 25);
+			this.buttonNext.TabIndex = 1;
+			this.buttonNext.Text = "Next";
+			this.buttonNext.UseVisualStyleBackColor = true;
+			this.buttonNext.Click += new System.EventHandler(this.button2_Click);
 			// 
-			// button1
+			// buttonPrev
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.button1.Location = new System.Drawing.Point(12, 9);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "Previous";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.buttonPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonPrev.Location = new System.Drawing.Point(12, 10);
+			this.buttonPrev.Name = "buttonPrev";
+			this.buttonPrev.Size = new System.Drawing.Size(75, 25);
+			this.buttonPrev.TabIndex = 0;
+			this.buttonPrev.Text = "Previous";
+			this.buttonPrev.UseVisualStyleBackColor = true;
+			this.buttonPrev.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Controls.Add(this.tabPage5);
-			this.tabControl1.Controls.Add(this.tabPage4);
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Controls.Add(this.tabPage3);
+			this.tabControl1.Controls.Add(this.tabIntro1);
+			this.tabControl1.Controls.Add(this.tabIntro2);
+			this.tabControl1.Controls.Add(this.tabIntro3);
+			this.tabControl1.Controls.Add(this.tabChoosePlan);
+			this.tabControl1.Controls.Add(this.tabSignup);
+			this.tabControl1.Controls.Add(this.tabConnectCloudServices);
+			this.tabControl1.Controls.Add(this.tabImportPhoto);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.HideTabs = true;
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.PageIndex = 1;
+			this.tabControl1.PageIndex = 3;
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(706, 400);
+			this.tabControl1.Size = new System.Drawing.Size(706, 433);
 			this.tabControl1.TabIndex = 1;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
-			// tabPage5
+			// tabIntro1
 			// 
-			this.tabPage5.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tabPage5.Controls.Add(this.signUpControl1);
-			this.tabPage5.Location = new System.Drawing.Point(0, 0);
-			this.tabPage5.Name = "tabPage5";
-			this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage5.Size = new System.Drawing.Size(706, 400);
-			this.tabPage5.TabIndex = 4;
-			this.tabPage5.Text = "Sign Up";
+			this.tabIntro1.Controls.Add(this.pictureBox1);
+			this.tabIntro1.Location = new System.Drawing.Point(0, 0);
+			this.tabIntro1.Name = "tabIntro1";
+			this.tabIntro1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabIntro1.Size = new System.Drawing.Size(706, 433);
+			this.tabIntro1.TabIndex = 6;
+			this.tabIntro1.Text = "What is AOStream?";
+			this.tabIntro1.UseVisualStyleBackColor = true;
 			// 
-			// signUpControl1
+			// pictureBox1
 			// 
-			this.signUpControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.signUpControl1.Location = new System.Drawing.Point(3, 3);
-			this.signUpControl1.Name = "signUpControl1";
-			this.signUpControl1.Size = new System.Drawing.Size(700, 394);
-			this.signUpControl1.TabIndex = 0;
+			this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pictureBox1.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.P1;
+			this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(700, 427);
+			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.pictureBox1.TabIndex = 0;
+			this.pictureBox1.TabStop = false;
 			// 
-			// tabPage4
+			// tabIntro2
 			// 
-			this.tabPage4.Controls.Add(this.introControl1);
-			this.tabPage4.Location = new System.Drawing.Point(0, 0);
-			this.tabPage4.Name = "tabPage4";
-			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(706, 400);
-			this.tabPage4.TabIndex = 5;
-			this.tabPage4.Text = "Introduction";
-			this.tabPage4.UseVisualStyleBackColor = true;
+			this.tabIntro2.Controls.Add(this.pictureBox2);
+			this.tabIntro2.Location = new System.Drawing.Point(0, 0);
+			this.tabIntro2.Name = "tabIntro2";
+			this.tabIntro2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabIntro2.Size = new System.Drawing.Size(706, 433);
+			this.tabIntro2.TabIndex = 7;
+			this.tabIntro2.Text = "What is AOStream?";
+			this.tabIntro2.UseVisualStyleBackColor = true;
 			// 
-			// introControl1
+			// pictureBox2
 			// 
-			this.introControl1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-			this.introControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.introControl1.Location = new System.Drawing.Point(3, 3);
-			this.introControl1.Name = "introControl1";
-			this.introControl1.Size = new System.Drawing.Size(700, 394);
-			this.introControl1.TabIndex = 0;
+			this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pictureBox2.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.P2;
+			this.pictureBox2.Location = new System.Drawing.Point(3, 3);
+			this.pictureBox2.Name = "pictureBox2";
+			this.pictureBox2.Size = new System.Drawing.Size(700, 427);
+			this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.pictureBox2.TabIndex = 0;
+			this.pictureBox2.TabStop = false;
 			// 
-			// tabPage1
+			// tabIntro3
 			// 
-			this.tabPage1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tabPage1.Controls.Add(this.serviceImportControl1);
-			this.tabPage1.Location = new System.Drawing.Point(0, 0);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(706, 400);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "Service Connect";
+			this.tabIntro3.Controls.Add(this.pictureBox3);
+			this.tabIntro3.Location = new System.Drawing.Point(0, 0);
+			this.tabIntro3.Name = "tabIntro3";
+			this.tabIntro3.Padding = new System.Windows.Forms.Padding(3);
+			this.tabIntro3.Size = new System.Drawing.Size(706, 433);
+			this.tabIntro3.TabIndex = 8;
+			this.tabIntro3.Text = "What is AOStream?";
+			this.tabIntro3.UseVisualStyleBackColor = true;
 			// 
-			// serviceImportControl1
+			// pictureBox3
 			// 
-			this.serviceImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.serviceImportControl1.Location = new System.Drawing.Point(3, 3);
-			this.serviceImportControl1.Name = "serviceImportControl1";
-			this.serviceImportControl1.Size = new System.Drawing.Size(700, 394);
-			this.serviceImportControl1.TabIndex = 0;
+			this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pictureBox3.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.P3;
+			this.pictureBox3.Location = new System.Drawing.Point(3, 3);
+			this.pictureBox3.Name = "pictureBox3";
+			this.pictureBox3.Size = new System.Drawing.Size(700, 427);
+			this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.pictureBox3.TabIndex = 0;
+			this.pictureBox3.TabStop = false;
 			// 
-			// tabPage2
+			// tabChoosePlan
 			// 
-			this.tabPage2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tabPage2.Controls.Add(this.choosePlanControl1);
-			this.tabPage2.Location = new System.Drawing.Point(0, 0);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(706, 400);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "Upgrade";
+			this.tabChoosePlan.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabChoosePlan.Controls.Add(this.choosePlanControl1);
+			this.tabChoosePlan.Location = new System.Drawing.Point(0, 0);
+			this.tabChoosePlan.Name = "tabChoosePlan";
+			this.tabChoosePlan.Padding = new System.Windows.Forms.Padding(3);
+			this.tabChoosePlan.Size = new System.Drawing.Size(706, 433);
+			this.tabChoosePlan.TabIndex = 1;
+			this.tabChoosePlan.Text = "Upgrade";
 			// 
 			// choosePlanControl1
 			// 
 			this.choosePlanControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.choosePlanControl1.Location = new System.Drawing.Point(3, 3);
 			this.choosePlanControl1.Name = "choosePlanControl1";
-			this.choosePlanControl1.Size = new System.Drawing.Size(700, 394);
+			this.choosePlanControl1.Size = new System.Drawing.Size(700, 427);
 			this.choosePlanControl1.TabIndex = 0;
 			// 
-			// tabPage3
+			// tabSignup
 			// 
-			this.tabPage3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tabPage3.Controls.Add(this.fileImportControl1);
-			this.tabPage3.Location = new System.Drawing.Point(0, 0);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(706, 400);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "Import photos";
+			this.tabSignup.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabSignup.Controls.Add(this.signUpControl1);
+			this.tabSignup.Location = new System.Drawing.Point(0, 0);
+			this.tabSignup.Name = "tabSignup";
+			this.tabSignup.Padding = new System.Windows.Forms.Padding(3);
+			this.tabSignup.Size = new System.Drawing.Size(706, 433);
+			this.tabSignup.TabIndex = 4;
+			this.tabSignup.Text = "Sign Up";
+			// 
+			// signUpControl1
+			// 
+			this.signUpControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.signUpControl1.Location = new System.Drawing.Point(3, 3);
+			this.signUpControl1.Name = "signUpControl1";
+			this.signUpControl1.Size = new System.Drawing.Size(700, 427);
+			this.signUpControl1.TabIndex = 0;
+			// 
+			// tabConnectCloudServices
+			// 
+			this.tabConnectCloudServices.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabConnectCloudServices.Controls.Add(this.serviceImportControl1);
+			this.tabConnectCloudServices.Location = new System.Drawing.Point(0, 0);
+			this.tabConnectCloudServices.Name = "tabConnectCloudServices";
+			this.tabConnectCloudServices.Padding = new System.Windows.Forms.Padding(3);
+			this.tabConnectCloudServices.Size = new System.Drawing.Size(706, 433);
+			this.tabConnectCloudServices.TabIndex = 0;
+			this.tabConnectCloudServices.Text = "Service Connect";
+			// 
+			// serviceImportControl1
+			// 
+			this.serviceImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.serviceImportControl1.Location = new System.Drawing.Point(3, 3);
+			this.serviceImportControl1.Name = "serviceImportControl1";
+			this.serviceImportControl1.Size = new System.Drawing.Size(700, 427);
+			this.serviceImportControl1.TabIndex = 0;
+			// 
+			// tabImportPhoto
+			// 
+			this.tabImportPhoto.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabImportPhoto.Controls.Add(this.fileImportControl1);
+			this.tabImportPhoto.Location = new System.Drawing.Point(0, 0);
+			this.tabImportPhoto.Name = "tabImportPhoto";
+			this.tabImportPhoto.Padding = new System.Windows.Forms.Padding(3);
+			this.tabImportPhoto.Size = new System.Drawing.Size(706, 433);
+			this.tabImportPhoto.TabIndex = 2;
+			this.tabImportPhoto.Text = "Import photos";
 			// 
 			// fileImportControl1
 			// 
 			this.fileImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.fileImportControl1.Location = new System.Drawing.Point(3, 3);
 			this.fileImportControl1.Name = "fileImportControl1";
-			this.fileImportControl1.Size = new System.Drawing.Size(700, 394);
+			this.fileImportControl1.Size = new System.Drawing.Size(700, 427);
 			this.fileImportControl1.TabIndex = 0;
 			// 
 			// NewUserWizardDialog
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(706, 444);
+			this.ClientSize = new System.Drawing.Size(706, 481);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -214,11 +271,16 @@
 			this.Load += new System.EventHandler(this.NewUserWizardDialog_Load);
 			this.panel1.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
-			this.tabPage5.ResumeLayout(false);
-			this.tabPage4.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
-			this.tabPage2.ResumeLayout(false);
-			this.tabPage3.ResumeLayout(false);
+			this.tabIntro1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			this.tabIntro2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+			this.tabIntro3.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+			this.tabChoosePlan.ResumeLayout(false);
+			this.tabSignup.ResumeLayout(false);
+			this.tabConnectCloudServices.ResumeLayout(false);
+			this.tabImportPhoto.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -227,17 +289,21 @@
 
 		private System.Windows.Forms.Panel panel1;
 		private TabControlEx tabControl1;
-		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabPage tabPage2;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.TabPage tabConnectCloudServices;
+		private System.Windows.Forms.TabPage tabChoosePlan;
+		private System.Windows.Forms.Button buttonNext;
+		private System.Windows.Forms.Button buttonPrev;
 		private ChoosePlanControl choosePlanControl1;
-		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.TabPage tabImportPhoto;
 		private FileImportControl fileImportControl1;
 		private ServiceImportControl serviceImportControl1;
-		private System.Windows.Forms.TabPage tabPage5;
+		private System.Windows.Forms.TabPage tabSignup;
 		private SignUpControl signUpControl1;
-		private System.Windows.Forms.TabPage tabPage4;
-		private IntroControl introControl1;
+		private System.Windows.Forms.TabPage tabIntro1;
+		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.TabPage tabIntro2;
+		private System.Windows.Forms.PictureBox pictureBox2;
+		private System.Windows.Forms.TabPage tabIntro3;
+		private System.Windows.Forms.PictureBox pictureBox3;
 	}
 }

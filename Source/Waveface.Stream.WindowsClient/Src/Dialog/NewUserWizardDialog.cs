@@ -45,12 +45,12 @@ namespace Waveface.Stream.WindowsClient
 
 			this.Text = selectedTab.Text;
 
-			button1.Visible = selectedTab != tabPage5 && selectedTab != tabPage4;
-			button2.Visible = selectedTab != tabPage5;
+			buttonPrev.Visible = selectedTab != tabSignup && selectedTab != tabConnectCloudServices;
+			buttonNext.Visible = selectedTab != tabSignup;
 
-			button2.Text = m_TabControl.IsLastPage ? "Done" : "Next";
+			buttonNext.Text = m_TabControl.IsLastPage ? "Done" : "Next";
 
-			panel1.Visible = selectedTab != tabPage5;
+			panel1.Visible = selectedTab != tabSignup;
 		}
 		#endregion
 
@@ -65,17 +65,6 @@ namespace Waveface.Stream.WindowsClient
 			signUpControl1.ShowSignUpPage();
 
 			signUpControl1.SignUpSuccess += signUpControl1_SignUpSuccess;
-
-			m_TabControl.SelectedIndexChanged += InitIntroPage;
-		}
-
-		void InitIntroPage(object sender, EventArgs e)
-		{
-			if (m_TabControl.SelectedTab == tabPage4)
-			{
-				m_TabControl.SelectedIndexChanged -= InitIntroPage;
-				introControl1.SetTutorialPhotos(new Image[] { Resources.P1, Resources.P2, Resources.P3 });
-			}
 		}
 
 		void signUpControl1_SignUpSuccess(object sender, EventArgs e)
