@@ -178,6 +178,24 @@
           <RegistryValue Type="integer" Name="WindowsClient.exe" Value="10000" KeyPath="yes"/>
         </RegistryKey>
       </Component>
+
+      <Component Id="AddToStreamExplorerMenu">
+        <RegistryKey Root="HKCR" Key="*\shell\AOStream">
+          <RegistryValue Type="string" Value="Add to AOStream" KeyPath="yes"/>
+          
+          <RegistryKey Key="command">
+            <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
+          </RegistryKey>
+        </RegistryKey>
+
+        <RegistryKey Root="HKCR" Key="Folder\shell\AOStream">
+          <RegistryValue Type="string" Value="Add to AOStream"/>
+
+          <RegistryKey Key="command">
+            <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
+          </RegistryKey>
+        </RegistryKey>
+      </Component>
     </DirectoryRef>
 
     <?include Component.wxi ?>
@@ -258,6 +276,7 @@
       <ComponentRef Id="InstallPath"/>
       <ComponentRef Id="LaunchAtStartUp"/>
       <ComponentRef Id="IE10Emulation"/>
+      <ComponentRef Id="AddToStreamExplorerMenu"/>
       <!--<ComponentRef Id="WebFiles.zip"/>-->
     </Feature>
     
