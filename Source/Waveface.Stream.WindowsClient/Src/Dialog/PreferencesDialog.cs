@@ -628,6 +628,8 @@ namespace Waveface.Stream.WindowsClient
 		{
 			using (FolderBrowserDialog dialog = new FolderBrowserDialog())
 			{
+				dialog.SelectedPath = usageDetailControl1.ResourcePath;
+
 				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) // cancelled
 					return;
 
