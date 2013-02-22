@@ -10,12 +10,12 @@ using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public partial class NativeSignupControl : UserControl
+	public partial class SignupControl : UserControl
 	{
-		ISignupAction signup = new SignupAction();
+		ISignupAction signup = new StreamSignup();
 		public event EventHandler SignUpSuccess;
 
-		public NativeSignupControl()
+		public SignupControl()
 		{
 			InitializeComponent();
 		}

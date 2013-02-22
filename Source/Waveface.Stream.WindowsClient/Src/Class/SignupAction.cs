@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Waveface.Stream.WindowsClient
 {
-	class SignupAction : ISignupAction
+	class StreamSignup : ISignupAction
 	{
 		public void SignUpWithEmail(string email, string password, string name)
 		{

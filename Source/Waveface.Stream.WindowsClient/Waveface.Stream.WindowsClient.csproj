@@ -196,11 +196,11 @@
     <Compile Include="Src\Control\AboutControl.Designer.cs">
       <DependentUpon>AboutControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Src\Control\NativeSignupControl.cs">
+    <Compile Include="Src\Control\SignupControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Src\Control\NativeSignupControl.Designer.cs">
-      <DependentUpon>NativeSignupControl.cs</DependentUpon>
+    <Compile Include="Src\Control\SignupControl.Designer.cs">
+      <DependentUpon>SignupControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Control\PlanBox.cs">
       <SubType>Component</SubType>
@@ -470,7 +470,6 @@
     <Compile Include="Src\Interface\IPersonalCloudStatus.cs" />
     <Compile Include="Src\Interface\IPortableMediaService.cs" />
     <Compile Include="Src\Interface\IStreamLoginable.cs" />
-    <Compile Include="Src\Interface\IStreamSignUp.cs" />
     <Compile Include="Src\Program.cs" />
     <Compile Include="Src\Class\StationDB.cs" />
   </ItemGroup>
@@ -516,8 +515,8 @@
     <EmbeddedResource Include="Src\Control\LoginControl.zh-TW.resx">
       <DependentUpon>LoginControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Src\Control\NativeSignupControl.resx">
-      <DependentUpon>NativeSignupControl.cs</DependentUpon>
+    <EmbeddedResource Include="Src\Control\SignupControl.resx">
+      <DependentUpon>SignupControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\PersonalCloudStatusControl.resx">
       <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>

@@ -1,6 +1,6 @@
 ﻿namespace Waveface.Stream.WindowsClient
 {
-	partial class NativeSignupControl
+	partial class SignupControl
 	{
 		/// <summary> 
 		/// Required designer variable.
