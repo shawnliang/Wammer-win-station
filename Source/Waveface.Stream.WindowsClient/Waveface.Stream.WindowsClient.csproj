@@ -557,6 +557,9 @@
     <EmbeddedResource Include="Src\Control\LoginInputBox.resx">
       <DependentUpon>LoginInputBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\SignupControl.zh-TW.resx">
+      <DependentUpon>SignupControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\StepNavigator.resx">
       <DependentUpon>StepNavigator.cs</DependentUpon>
     </EmbeddedResource>
