@@ -32,11 +32,13 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.button2 = new System.Windows.Forms.Button();
 			this.fileImportControl1 = new Waveface.Stream.WindowsClient.FileImportControl();
+			this.button1 = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.button1);
 			this.panel1.Controls.Add(this.button2);
 			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
@@ -53,6 +55,13 @@
 			// 
 			resources.ApplyResources(this.fileImportControl1, "fileImportControl1");
 			this.fileImportControl1.Name = "fileImportControl1";
+			// 
+			// button1
+			// 
+			resources.ApplyResources(this.button1, "button1");
+			this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.button1.Name = "button1";
+			this.button1.UseVisualStyleBackColor = true;
 			// 
 			// FileImportDialog
 			// 
@@ -74,5 +83,6 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Button button2;
 		private FileImportControl fileImportControl1;
+		private System.Windows.Forms.Button button1;
 	}
 }
