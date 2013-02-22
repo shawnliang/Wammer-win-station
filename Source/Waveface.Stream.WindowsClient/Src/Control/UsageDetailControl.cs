@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Waveface.Stream.WindowsClient.Src.Control
 {
@@ -16,11 +17,11 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 		{
 			get
 			{
-				return lblResourcePath.Text;
+				return linkLabel3.Text;
 			}
 			set
 			{
-				lblResourcePath.Text = value;
+				linkLabel3.Text = value;
 			}
 		}
 
@@ -124,7 +125,12 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 		private void btnChangeResourceFolder_Click(object sender, EventArgs e)
 		{
 			OnChangeResourcePathButtonClick(EventArgs.Empty);
-		} 
+		}
+
+		private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			Process.Start(linkLabel3.Text);
+		}
 		#endregion
 	}
 }

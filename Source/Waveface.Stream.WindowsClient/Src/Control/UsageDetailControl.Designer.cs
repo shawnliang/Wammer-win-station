@@ -60,7 +60,6 @@
 			this.btnChangeResourceFolder = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-			this.lblResourcePath = new System.Windows.Forms.Label();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel26 = new System.Windows.Forms.TableLayoutPanel();
 			this.lblTotalDocument = new System.Windows.Forms.Label();
@@ -80,6 +79,7 @@
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.linkLabel2 = new System.Windows.Forms.LinkLabel();
 			this.lblCloudTotalUsage = new System.Windows.Forms.Label();
+			this.linkLabel3 = new System.Windows.Forms.LinkLabel();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel17.SuspendLayout();
 			this.tableLayoutPanel23.SuspendLayout();
@@ -533,8 +533,8 @@
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.linkLabel3);
 			this.panel1.Controls.Add(this.linkLabel1);
-			this.panel1.Controls.Add(this.lblResourcePath);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -555,16 +555,6 @@
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "本機保存原始檔案";
 			this.linkLabel1.UseCompatibleTextRendering = true;
-			// 
-			// lblResourcePath
-			// 
-			this.lblResourcePath.AutoSize = true;
-			this.lblResourcePath.Font = new System.Drawing.Font("PMingLiU", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-			this.lblResourcePath.Location = new System.Drawing.Point(1, 18);
-			this.lblResourcePath.Name = "lblResourcePath";
-			this.lblResourcePath.Size = new System.Drawing.Size(80, 11);
-			this.lblResourcePath.TabIndex = 2;
-			this.lblResourcePath.Text = "[Resource Folder]";
 			// 
 			// tableLayoutPanel2
 			// 
@@ -813,6 +803,18 @@
 			this.lblCloudTotalUsage.TabIndex = 3;
 			this.lblCloudTotalUsage.Text = "[Cloud Total Usage]";
 			// 
+			// linkLabel3
+			// 
+			this.linkLabel3.AutoSize = true;
+			this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+			this.linkLabel3.Location = new System.Drawing.Point(1, 17);
+			this.linkLabel3.Name = "linkLabel3";
+			this.linkLabel3.Size = new System.Drawing.Size(89, 12);
+			this.linkLabel3.TabIndex = 4;
+			this.linkLabel3.TabStop = true;
+			this.linkLabel3.Text = "[Resource Folder]";
+			this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+			// 
 			// UsageDetailControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -883,7 +885,6 @@
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
 		private System.Windows.Forms.Button btnChangeResourceFolder;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label lblResourcePath;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
 		private System.Windows.Forms.Button button2;
@@ -929,6 +930,7 @@
 		private System.Windows.Forms.Label lblTotalWeb;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel24;
 		private System.Windows.Forms.Label lblTotalPhoto;
+		private System.Windows.Forms.LinkLabel linkLabel3;
 
 
 	}
