@@ -41,7 +41,6 @@
 			this.tabChoosePlan = new System.Windows.Forms.TabPage();
 			this.choosePlanControl1 = new Waveface.Stream.WindowsClient.ChoosePlanControl();
 			this.tabSignup = new System.Windows.Forms.TabPage();
-			this.signUpControl1 = new Waveface.Stream.WindowsClient.SignUpControl();
 			this.tabConnectCloudServices = new System.Windows.Forms.TabPage();
 			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
 			this.tabImportPhoto = new System.Windows.Forms.TabPage();
@@ -204,21 +203,12 @@
 			// 
 			this.tabSignup.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabSignup.Controls.Add(this.nativeSignupControl1);
-			this.tabSignup.Controls.Add(this.signUpControl1);
 			this.tabSignup.Location = new System.Drawing.Point(0, 0);
 			this.tabSignup.Name = "tabSignup";
 			this.tabSignup.Padding = new System.Windows.Forms.Padding(3);
 			this.tabSignup.Size = new System.Drawing.Size(706, 433);
 			this.tabSignup.TabIndex = 4;
 			this.tabSignup.Text = "Sign Up";
-			// 
-			// signUpControl1
-			// 
-			this.signUpControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.signUpControl1.Location = new System.Drawing.Point(3, 3);
-			this.signUpControl1.Name = "signUpControl1";
-			this.signUpControl1.Size = new System.Drawing.Size(700, 427);
-			this.signUpControl1.TabIndex = 0;
 			// 
 			// tabConnectCloudServices
 			// 
@@ -309,7 +299,6 @@
 		private FileImportControl fileImportControl1;
 		private ServiceImportControl serviceImportControl1;
 		private System.Windows.Forms.TabPage tabSignup;
-		private SignUpControl signUpControl1;
 		private System.Windows.Forms.TabPage tabIntro1;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.TabPage tabIntro2;

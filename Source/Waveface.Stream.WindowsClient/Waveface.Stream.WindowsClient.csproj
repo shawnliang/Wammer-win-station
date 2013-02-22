@@ -247,7 +247,6 @@
     <Compile Include="Src\Class\Picasa.cs" />
     <Compile Include="Src\Class\RecentDocumentWatcher.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
-    <Compile Include="Src\Class\StreamSignup.cs" />
     <Compile Include="Src\Class\SyncStatus.cs" />
     <Compile Include="Src\Class\TwitterConnectableService.cs" />
     <Compile Include="Src\Class\WebRedirectConnectableService.cs" />
@@ -303,12 +302,6 @@
     </Compile>
     <Compile Include="Src\Control\ServiceItemControl.designer.cs">
       <DependentUpon>ServiceItemControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Src\Control\SignUpControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Src\Control\SignUpControl.designer.cs">
-      <DependentUpon>SignUpControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Class\UserSession.cs" />
     <Compile Include="Src\Class\WizardParameters.cs" />
@@ -543,9 +536,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ServiceItemControl.zh-TW.resx">
       <DependentUpon>ServiceItemControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Control\SignUpControl.resx">
-      <DependentUpon>SignUpControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ChoosePlanControl.resx">
       <DependentUpon>ChoosePlanControl.cs</DependentUpon>

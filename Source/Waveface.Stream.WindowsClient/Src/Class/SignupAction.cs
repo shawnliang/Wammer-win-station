@@ -27,7 +27,8 @@ namespace Waveface.Stream.WindowsClient
 
 		public void SignUpWithFacebook()
 		{
-			throw new NotImplementedException();
+			var fbLogin = new StreamLogin();
+			fbLogin.LoginWithFacebook();
 		}
 
 		private static string prepareUserFolderPath()
