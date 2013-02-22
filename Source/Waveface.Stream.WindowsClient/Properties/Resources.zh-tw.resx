@@ -339,4 +339,10 @@
   <data name="SVC_FOURSQUARE_DESC" xml:space="preserve">
     <value>連接Foursquare後，將匯整您自己或朋友幫您標註的打卡的資訊。</value>
   </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>請輸入正確的電子郵件</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>不合法的密碼。密碼需有6~16字元，且不可包含空白</value>
+  </data>
 </root>
