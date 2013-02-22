@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
@@ -29,6 +30,10 @@ namespace Waveface.Stream.WindowsClient
 			public string email { get; set; }
 			public bool removeData { get; set; }
 		}
+
+		#region Const
+		const string EMAIL_VALIDATE_MATCH_PATTERN = @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b";
+		#endregion
 
 		#region Static Var
 		private static PreferencesDialog _instance;
@@ -117,22 +122,14 @@ namespace Waveface.Stream.WindowsClient
 			try
 			{
 				var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
-				lblEmail.Text = userInfo.Email;
-				lblName.Text = userInfo.NickName;
-
-				AdjustEditFunction();
+				tbxEmail.Text = userInfo.Email;
+				tbxName.Text = userInfo.NickName;
 			}
 			catch (Exception)
 			{
 			}
 		}
 
-		private void AdjustEditFunction()
-		{
-			var left = lblEmail.Left + Math.Max(lblEmail.Width, lblName.Width) + lblEmail.Padding.Right + lnklblEditEmail.Padding.Left;
-			lnklblEditEmail.Left = left;
-			lnklblEditName.Left = left;
-		}
 
 		private void RemoveAccount(string userID, string email, Boolean removeAllDatas)
 		{
@@ -254,6 +251,8 @@ namespace Waveface.Stream.WindowsClient
 			max32 = (int)max64;
 			cur32 = (int)cur64;
 		}
+
+
 		private void UpdateLeftPanel()
 		{
 			UpdateSyncStatus();
@@ -264,49 +263,6 @@ namespace Waveface.Stream.WindowsClient
 		{
 			UpdateAccountInfo();
 		}
-
-		private void SwitchToEmailEditMode()
-		{
-			tbxEmail.Text = lblEmail.Text;
-			lblEmail.Visible = false;
-			lnklblEditEmail.Visible = false;
-			tbxEmail.Visible = true;
-			lnklblSaveEmail.Visible = true;
-			lnklblCancelEmail.Visible = true;
-
-			tbxEmail.Focus();
-		}
-
-		private void SwitchToNameEditMode()
-		{
-			tbxName.Text = lblName.Text;
-			lblName.Visible = false;
-			lnklblEditName.Visible = false;
-			tbxName.Visible = true;
-			lnklblSaveName.Visible = true;
-			lnklblCancelName.Visible = true;
-
-			tbxName.Focus();
-		}
-
-		private void SwitchToEmailDisplayMode()
-		{
-			lblEmail.Visible = true;
-			lnklblEditEmail.Visible = true;
-			tbxEmail.Visible = false;
-			lnklblSaveEmail.Visible = false;
-			lnklblCancelEmail.Visible = false;
-		}
-
-		private void SwitchToNameDisplayMode()
-		{
-			lblName.Visible = true;
-			lnklblEditName.Visible = true;
-			tbxName.Visible = false;
-			lnklblSaveName.Visible = false;
-			lnklblCancelName.Visible = false;
-		}
-
 
 		private void UpdateGeneralPage()
 		{
@@ -333,7 +289,109 @@ namespace Waveface.Stream.WindowsClient
 			else
 				label2.Text = "Connected Locally";
 		}
+
+		private Boolean IsValidEmailFormat()
+		{
+			return Regex.IsMatch(tbxEmail.Text, EMAIL_VALIDATE_MATCH_PATTERN, RegexOptions.IgnoreCase);
+		}
+
+		private Boolean CheckEmailFormat()
+		{
+			if (!IsValidEmailFormat())
+			{
+				errorProvider1.SetError(tbxEmail, "invalid email address");
+				return false;
+			}
+			errorProvider1.SetError(tbxEmail, string.Empty);
+			return true;
+		}
+
+		private Boolean IsValidNickNameFormat()
+		{
+			return tbxName.Text.Trim().Length > 0;
+		}
+
+		private Boolean CheckNickNameFormat()
+		{
+			if (!IsValidNickNameFormat())
+			{
+				errorProvider1.SetError(tbxName, "invalid nickname");
+				return false;
+			}
+			errorProvider1.SetError(tbxName, string.Empty);
+			return true;
+		}
+
+		private Boolean UpdateEmailToCloud()
+		{
+			try
+			{
+				if (!CheckEmailFormat())
+					return false;
+
+				var user = StreamClient.Instance.LoginedUser;
+
+				if (tbxEmail.Text.Equals(user.EMail, StringComparison.CurrentCultureIgnoreCase))
+					return true;
+
+				StationAPI.UpdateUser(user.SessionToken, user.UserID, email: tbxEmail.Text);
+				errorProvider1.SetError(tbxEmail, string.Empty);
+
+				return true;
+			}
+			catch (WebException ex)
+			{
+				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
+				{
+					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
+					if (cloudResponse.status == 401)
+					{
+						StreamClient.Instance.Logout();
+						return false;
+					}
+
+					errorProvider1.SetError(tbxEmail, cloudResponse.api_ret_message);
+				}
+				return false;
+			}
+		}
+
+		private Boolean UpdateNickNameToCloud()
+		{
+			try
+			{
+				if (!CheckNickNameFormat())
+					return false;
+
+				var user = StreamClient.Instance.LoginedUser;
+				var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+
+				if (tbxName.Text.Equals(userInfo.NickName, StringComparison.CurrentCultureIgnoreCase))
+					return true;
+
+				StationAPI.UpdateUser(user.SessionToken, user.UserID, nickName: tbxName.Text);
+				errorProvider1.SetError(tbxEmail, string.Empty);
+
+				return true;
+			}
+			catch (WebException ex)
+			{
+				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
+				{
+					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
+					if (cloudResponse.status == 401)
+					{
+						StreamClient.Instance.Logout();
+						return false;
+					}
+
+					errorProvider1.SetError(tbxEmail, cloudResponse.api_ret_message);
+					return false;
+				}
+			}
+		}
 		#endregion
+
 
 		#region Event Process
 		void PreferencesDialog_Disposed(object sender, EventArgs e)
@@ -420,6 +478,11 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateDeviceComboBox()
 		{
+			cmbDevice.Enabled = ConnectionStatus.Instance.Devices.Any();
+
+			if (!cmbDevice.Enabled)
+				return;
+
 			cmbDevice.BeginUpdate();
 			cmbDevice.DisplayMember = "Name";
 			cmbDevice.ValueMember = "ID";
@@ -434,11 +497,15 @@ namespace Waveface.Stream.WindowsClient
 
 			pbxLogo.Image = new Icon(this.Icon, 64, 64).ToBitmap();
 
+			tabControl1.SelectedTab = tabGeneral;
+
+			errorProvider1.SetError(tbxEmail, string.Empty);
+			errorProvider1.SetError(tbxName, string.Empty);
+
+
 			checkBox1.Checked = UsbImportController.Instance.Enabled;
 			checkBox2.Checked = RecentDocumentWatcher.Instance.Enabled;
 
-			SwitchToEmailDisplayMode();
-			SwitchToNameDisplayMode();
 
 			UpdateGeneralPage();
 			UpdateLeftPanel();
@@ -463,15 +530,10 @@ namespace Waveface.Stream.WindowsClient
 
 		void Instance_UserInfoUpdated(object sender, EventArgs e)
 		{
-			if (tabControl1.SelectedTab == tabAccount)
-				UpdateAccountPage();
-			else if (tabControl1.SelectedTab == tabGeneral)
+			if (tabControl1.SelectedTab == tabGeneral)
 				UpdateGeneralPage();
 			else
 			{
-				tabControl1.SelectedIndexChanged -= InitAccountPage;
-				tabControl1.SelectedIndexChanged += InitAccountPage;
-
 				tabControl1.SelectedIndexChanged -= InitGeneralPage;
 				tabControl1.SelectedIndexChanged += InitGeneralPage;
 			}
@@ -506,12 +568,6 @@ namespace Waveface.Stream.WindowsClient
 			personalCloudControl.EnableAutoRefreshStatus = (tabControl1.SelectedTab == tabDevices);
 		}
 
-		private void checkBox1_CheckedChanged(object sender, EventArgs e)
-		{
-			Settings.Default.DetectMediaInsert = UsbImportController.Instance.Enabled = checkBox1.Checked;
-			Settings.Default.Save();
-		}
-
 		private void button3_Click(object sender, EventArgs e)
 		{
 			var dialog = new PlanChangeDialog();
@@ -523,87 +579,6 @@ namespace Waveface.Stream.WindowsClient
 		{
 			StationAPI.DeleteAccount(StreamClient.Instance.LoginedUser.SessionToken);
 			MessageBox.Show("Delete email sended...");
-		}
-
-		private void lnklblEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			SwitchToEmailEditMode();
-		}
-
-		private void lnklblName_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			SwitchToNameEditMode();
-		}
-
-		private void lnklblCancelEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			SwitchToEmailDisplayMode();
-		}
-
-
-		private void lnklblSaveEmail_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			try
-			{
-				var user = StreamClient.Instance.LoginedUser;
-				StationAPI.UpdateUser(user.SessionToken, user.UserID, email: tbxEmail.Text);
-
-				lblEmail.Text = tbxEmail.Text;
-
-				AdjustEditFunction();
-				SwitchToEmailDisplayMode();
-
-				Waveface.Stream.ClientFramework.UserInfo.Instance.Reset();
-			}
-			catch (WebException ex)
-			{
-				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
-				{
-					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
-					if (cloudResponse.status == 401)
-					{
-						StreamClient.Instance.Logout();
-						return;
-					}
-					MessageBox.Show(cloudResponse.api_ret_message);
-				}
-			}
-		}
-
-		private void lnklblSaveName_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			try
-			{
-				var user = StreamClient.Instance.LoginedUser;
-				StationAPI.UpdateUser(user.SessionToken, user.UserID, nickName: tbxName.Text);
-
-				lblName.Text = tbxName.Text;
-
-				AdjustEditFunction();
-				SwitchToNameDisplayMode();
-
-				Waveface.Stream.ClientFramework.UserInfo.Instance.Reset();
-			}
-			catch (WebException ex)
-			{
-				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
-				{
-					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
-					if (cloudResponse.status == 401)
-					{
-						StreamClient.Instance.Logout();
-						return;
-					}
-					MessageBox.Show(cloudResponse.api_ret_message);
-				}
-			}
-		}
-
-
-
-		private void lnklblCancelName_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			SwitchToNameDisplayMode();
 		}
 
 		static void Instance_UserInfoUpdateFail(object sender, ExceptionEventArgs e)
@@ -618,13 +593,12 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		private void checkBox2_CheckedChanged(object sender, EventArgs e)
+		private void usageDetailControl1_ChangeResourcePathButtonClick(object sender, EventArgs e)
 		{
-			Settings.Default.ImportOpenedDoc = RecentDocumentWatcher.Instance.Enabled = checkBox2.Checked;
-			Settings.Default.Save();
+			ChangeResource();
 		}
 
-		private void usageDetailControl1_ChangeResourcePathButtonClick(object sender, EventArgs e)
+		private void ChangeResource()
 		{
 			using (FolderBrowserDialog dialog = new FolderBrowserDialog())
 			{
@@ -749,7 +723,38 @@ namespace Waveface.Stream.WindowsClient
 		{
 			UpdateDeviceSyncStatus();
 		}
-		#endregion
 
+		private void btnOK_Click(object sender, EventArgs e)
+		{
+			if (!UpdateEmailToCloud() || !UpdateNickNameToCloud())
+			{
+				tabControl1.SelectedTab = tabAccount;
+				return;
+			}
+
+			Settings.Default.DetectMediaInsert = UsbImportController.Instance.Enabled = checkBox1.Checked;
+			Settings.Default.ImportOpenedDoc = RecentDocumentWatcher.Instance.Enabled = checkBox2.Checked;
+			Settings.Default.Save();
+
+			Waveface.Stream.ClientFramework.UserInfo.Instance.Clear();
+
+			this.DialogResult = System.Windows.Forms.DialogResult.OK;
+		}
+
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
+			this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+		}
+
+		private void tbxEmail_Leave(object sender, EventArgs e)
+		{
+			CheckEmailFormat();
+		}
+
+		private void tbxName_Leave(object sender, EventArgs e)
+		{
+			CheckNickNameFormat();
+		}
+		#endregion
 	}
 }
