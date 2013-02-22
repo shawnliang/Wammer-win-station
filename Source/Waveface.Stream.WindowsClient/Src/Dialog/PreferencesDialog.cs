@@ -616,85 +616,33 @@ namespace Waveface.Stream.WindowsClient
 				if (confirm != System.Windows.Forms.DialogResult.OK)	// cancelled
 					return;
 
-				usageDetailControl1.ResourcePath = dialog.SelectedPath;
+				var progressing = new ProcessingDialog();
 
-				BackgroundWorker bgWorker = new BackgroundWorker();
-				bgWorker.DoWork += MoveResourceFolder_DoWork;
-				bgWorker.RunWorkerCompleted += MoveResourceFolder_WorkCompleted;
-				bgWorker.RunWorkerAsync(bgWorker);
-
-				Cursor.Current = Cursors.WaitCursor;
-				//SetUIEnabled(false);
-				//_isMovingFolder = true;
-
-				m_ProcessingDialog.ProcessMessage = Resources.MovingResourceFolder;
-				m_ProcessingDialog.ProgressStyle = ProgressBarStyle.Marquee;
-				m_ProcessingDialog.StartPosition = FormStartPosition.CenterParent;
-				m_ProcessingDialog.ShowDialog(this);
-			}
-		}
-
-		private void MoveResourceFolder_DoWork(object sender, DoWorkEventArgs args)
-		{
-			string outputFilename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "move_folder.out");
-
-			Process p = new Process();
-			p.StartInfo = new ProcessStartInfo
-			{
-				FileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Station.Management.exe"),
-				Arguments = string.Format("--moveFolder \"{0}\" --output \"{1}\"", usageDetailControl1.ResourcePath, outputFilename),
-				CreateNoWindow = true,
-				WindowStyle = ProcessWindowStyle.Hidden,
-			};
-
-			if (IsWinVistaOrLater())
-				p.StartInfo.Verb = "runas";
-
-			p.Start();
-			p.WaitForExit();
-
-			if (p.ExitCode != 0)
-			{
-				if (File.Exists(outputFilename))
+				var bgworker = new BackgroundWorker();
+				bgworker.DoWork += (sender, arg) =>
 				{
-					using (StreamReader reader = File.OpenText(outputFilename))
+					StationAPI.MoveFolder(StreamClient.Instance.LoginedUser.UserID, dialog.SelectedPath, StreamClient.Instance.LoginedUser.SessionToken);
+				};
+
+				bgworker.RunWorkerCompleted += (sender, arg) =>
+				{
+					progressing.Close();
+
+					if (arg.Error != null)
 					{
-						throw new Exception(reader.ReadToEnd());
+						MessageBox.Show(arg.Error.GetDisplayDescription(), "Unable to change AOStream folder location");
 					}
-				}
-				else
-				{
-					throw new Exception("Unknown error");
-				}
-			}
-		}
+					else
+					{
+						usageDetailControl1.ResourcePath = dialog.SelectedPath;
+					}
+				};
+				bgworker.RunWorkerAsync();
 
-		private void MoveResourceFolder_WorkCompleted(object sender, RunWorkerCompletedEventArgs args)
-		{
-			try
-			{
-				if (args.Cancelled)
-					return;
-
-				if (args.Error != null)
-				{
-					MessageBox.Show(args.Error.Message, Resources.MoveFolderUnsuccess);
-					return;
-				}
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show(e.ToString());
-			}
-			finally
-			{
-				//RefreshCurrentResourceFolder();
-
-				Cursor.Current = Cursors.Default;
-
-				//SetUIEnabled(true);
-				//_isMovingFolder = false;
-				m_ProcessingDialog = null;
+				progressing.Text = "Moving AOStream folder...";
+				progressing.StartPosition = FormStartPosition.CenterParent;
+				progressing.ProgressStyle = ProgressBarStyle.Marquee;
+				progressing.ShowDialog();
 			}
 		}
 
