@@ -187,6 +187,7 @@
     <Compile Include="Src\Class\KonamiSequence.cs" />
     <Compile Include="Src\Class\MongoDBNotReadyException.cs" />
     <Compile Include="Src\Class\SendMessageHelper.cs" />
+    <Compile Include="Src\Class\SignupAction.cs" />
     <Compile Include="Src\Class\StationServiceProxy.cs" />
     <Compile Include="Src\Class\UsbImportController.cs" />
     <Compile Include="Src\Control\AboutControl.cs">
@@ -194,6 +195,12 @@
     </Compile>
     <Compile Include="Src\Control\AboutControl.Designer.cs">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\SignupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\SignupControl.Designer.cs">
+      <DependentUpon>SignupControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Control\PlanBox.cs">
       <SubType>Component</SubType>
@@ -240,7 +247,6 @@
     <Compile Include="Src\Class\Picasa.cs" />
     <Compile Include="Src\Class\RecentDocumentWatcher.cs" />
     <Compile Include="Src\Class\StreamLogin.cs" />
-    <Compile Include="Src\Class\StreamSignup.cs" />
     <Compile Include="Src\Class\SyncStatus.cs" />
     <Compile Include="Src\Class\TwitterConnectableService.cs" />
     <Compile Include="Src\Class\WebRedirectConnectableService.cs" />
@@ -296,12 +302,6 @@
     </Compile>
     <Compile Include="Src\Control\ServiceItemControl.designer.cs">
       <DependentUpon>ServiceItemControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Src\Control\SignUpControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Src\Control\SignUpControl.designer.cs">
-      <DependentUpon>SignUpControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Class\UserSession.cs" />
     <Compile Include="Src\Class\WizardParameters.cs" />
@@ -470,7 +470,6 @@
     <Compile Include="Src\Interface\IPersonalCloudStatus.cs" />
     <Compile Include="Src\Interface\IPortableMediaService.cs" />
     <Compile Include="Src\Interface\IStreamLoginable.cs" />
-    <Compile Include="Src\Interface\IStreamSignUp.cs" />
     <Compile Include="Src\Program.cs" />
     <Compile Include="Src\Class\StationDB.cs" />
   </ItemGroup>
@@ -516,6 +515,9 @@
     <EmbeddedResource Include="Src\Control\LoginControl.zh-TW.resx">
       <DependentUpon>LoginControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\SignupControl.resx">
+      <DependentUpon>SignupControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\PersonalCloudStatusControl.resx">
       <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -533,9 +535,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ServiceItemControl.zh-TW.resx">
       <DependentUpon>ServiceItemControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Src\Control\SignUpControl.resx">
-      <DependentUpon>SignUpControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\ChoosePlanControl.resx">
       <DependentUpon>ChoosePlanControl.cs</DependentUpon>

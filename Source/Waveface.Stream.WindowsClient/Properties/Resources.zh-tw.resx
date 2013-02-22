@@ -145,7 +145,7 @@
     <value>檢查更新</value>
   </data>
   <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
-    <value>未知的註冊錯誤!</value>
+    <value>註冊錯誤</value>
   </data>
   <data name="NEED_UPGRADE" xml:space="preserve">
     <value>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。在還未升級前將無法繼續使用AOStream。</value>
@@ -172,7 +172,7 @@
     <value>正在重啟同步...</value>
   </data>
   <data name="UNKNOW_SIGNIN_ERROR" xml:space="preserve">
-    <value>未知的登入錯誤!</value>
+    <value>登入錯誤</value>
   </data>
   <data name="SERVICE_STOP" xml:space="preserve">
     <value>同步暫停</value>

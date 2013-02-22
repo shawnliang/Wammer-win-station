@@ -1041,7 +1041,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown signin error occur!.
+        ///   Looks up a localized string similar to Login is unsuccessful.
         /// </summary>
         internal static string UNKNOW_SIGNIN_ERROR {
             get {
@@ -1050,7 +1050,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown signup error occur!.
+        ///   Looks up a localized string similar to Signup is unsuccessful.
         /// </summary>
         internal static string UNKNOW_SIGNUP_ERROR {
             get {

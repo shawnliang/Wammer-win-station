@@ -41,11 +41,11 @@
 			this.tabChoosePlan = new System.Windows.Forms.TabPage();
 			this.choosePlanControl1 = new Waveface.Stream.WindowsClient.ChoosePlanControl();
 			this.tabSignup = new System.Windows.Forms.TabPage();
-			this.signUpControl1 = new Waveface.Stream.WindowsClient.SignUpControl();
 			this.tabConnectCloudServices = new System.Windows.Forms.TabPage();
 			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
 			this.tabImportPhoto = new System.Windows.Forms.TabPage();
 			this.fileImportControl1 = new Waveface.Stream.WindowsClient.FileImportControl();
+			this.nativeSignupControl1 = new Waveface.Stream.WindowsClient.SignupControl();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabIntro1.SuspendLayout();
@@ -108,7 +108,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.PageIndex = 3;
+			this.tabControl1.PageIndex = 5;
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(706, 433);
 			this.tabControl1.TabIndex = 1;
@@ -202,21 +202,13 @@
 			// tabSignup
 			// 
 			this.tabSignup.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.tabSignup.Controls.Add(this.signUpControl1);
+			this.tabSignup.Controls.Add(this.nativeSignupControl1);
 			this.tabSignup.Location = new System.Drawing.Point(0, 0);
 			this.tabSignup.Name = "tabSignup";
 			this.tabSignup.Padding = new System.Windows.Forms.Padding(3);
 			this.tabSignup.Size = new System.Drawing.Size(706, 433);
 			this.tabSignup.TabIndex = 4;
 			this.tabSignup.Text = "Sign Up";
-			// 
-			// signUpControl1
-			// 
-			this.signUpControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.signUpControl1.Location = new System.Drawing.Point(3, 3);
-			this.signUpControl1.Name = "signUpControl1";
-			this.signUpControl1.Size = new System.Drawing.Size(700, 427);
-			this.signUpControl1.TabIndex = 0;
 			// 
 			// tabConnectCloudServices
 			// 
@@ -255,6 +247,15 @@
 			this.fileImportControl1.Name = "fileImportControl1";
 			this.fileImportControl1.Size = new System.Drawing.Size(700, 427);
 			this.fileImportControl1.TabIndex = 0;
+			// 
+			// nativeSignupControl1
+			// 
+			this.nativeSignupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.nativeSignupControl1.Location = new System.Drawing.Point(3, 3);
+			this.nativeSignupControl1.Name = "nativeSignupControl1";
+			this.nativeSignupControl1.SignupAction = null;
+			this.nativeSignupControl1.Size = new System.Drawing.Size(700, 427);
+			this.nativeSignupControl1.TabIndex = 1;
 			// 
 			// NewUserWizardDialog
 			// 
@@ -298,12 +299,12 @@
 		private FileImportControl fileImportControl1;
 		private ServiceImportControl serviceImportControl1;
 		private System.Windows.Forms.TabPage tabSignup;
-		private SignUpControl signUpControl1;
 		private System.Windows.Forms.TabPage tabIntro1;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.TabPage tabIntro2;
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.TabPage tabIntro3;
 		private System.Windows.Forms.PictureBox pictureBox3;
+		private SignupControl nativeSignupControl1;
 	}
 }
