@@ -187,6 +187,7 @@
     <Compile Include="Src\Class\KonamiSequence.cs" />
     <Compile Include="Src\Class\MongoDBNotReadyException.cs" />
     <Compile Include="Src\Class\SendMessageHelper.cs" />
+    <Compile Include="Src\Class\SignupAction.cs" />
     <Compile Include="Src\Class\StationServiceProxy.cs" />
     <Compile Include="Src\Class\UsbImportController.cs" />
     <Compile Include="Src\Control\AboutControl.cs">
@@ -194,6 +195,12 @@
     </Compile>
     <Compile Include="Src\Control\AboutControl.Designer.cs">
       <DependentUpon>AboutControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Src\Control\NativeSignupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Src\Control\NativeSignupControl.Designer.cs">
+      <DependentUpon>NativeSignupControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Control\PlanBox.cs">
       <SubType>Component</SubType>
@@ -515,6 +522,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\LoginControl.zh-TW.resx">
       <DependentUpon>LoginControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\NativeSignupControl.resx">
+      <DependentUpon>NativeSignupControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\PersonalCloudStatusControl.resx">
       <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>

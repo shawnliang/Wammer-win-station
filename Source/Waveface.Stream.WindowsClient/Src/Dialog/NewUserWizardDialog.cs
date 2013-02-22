@@ -61,10 +61,7 @@ namespace Waveface.Stream.WindowsClient
 			this.Icon = Properties.Resources.Icon;
 
 			UpdateUI();
-
-			signUpControl1.ShowSignUpPage();
-
-			signUpControl1.SignUpSuccess += signUpControl1_SignUpSuccess;
+			nativeSignupControl1.SignUpSuccess += signUpControl1_SignUpSuccess;
 		}
 
 		void signUpControl1_SignUpSuccess(object sender, EventArgs e)

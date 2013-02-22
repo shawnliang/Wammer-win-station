@@ -13,7 +13,7 @@ public static class ExceptionExtension
 		WammerCloudException cloudErr = null;
 
 		if (e is WebException)
-			cloudErr = new WammerCloudException(e.Message, e);
+			cloudErr = new WammerCloudException(e.Message, e as WebException);
 		else if (e is WammerCloudException)
 			cloudErr = (WammerCloudException)e;
 		else

@@ -170,6 +170,27 @@ namespace Waveface.Stream.Core
 			return Post(url, parameters);
 		}
 
+		public static string UserSignup(string email, string password, string name, string device_id, string device_name, string lang = null)
+		{
+			DebugInfo.ShowMethod();
+
+			var url = STATION_FUNC_URLBASE + @"/auth/signup";
+
+			var parameters = new NameValueCollection()
+				{
+					{"apikey", API_KEY},
+					{"email", email},
+					{"password", password},
+					{"nickname", name},
+				};
+
+
+			if (!string.IsNullOrEmpty(lang))
+				parameters.Add("lang", lang);
+
+			return Post(url, parameters);
+		}
+
 		public static string UpdateUser(string sessionToken, string userID, Boolean subscribed)
 		{
 			DebugInfo.ShowMethod();

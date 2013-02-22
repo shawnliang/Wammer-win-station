@@ -46,6 +46,7 @@
 			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
 			this.tabImportPhoto = new System.Windows.Forms.TabPage();
 			this.fileImportControl1 = new Waveface.Stream.WindowsClient.FileImportControl();
+			this.nativeSignupControl1 = new Waveface.Stream.WindowsClient.NativeSignupControl();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabIntro1.SuspendLayout();
@@ -108,7 +109,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.PageIndex = 3;
+			this.tabControl1.PageIndex = 5;
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(706, 433);
 			this.tabControl1.TabIndex = 1;
@@ -202,6 +203,7 @@
 			// tabSignup
 			// 
 			this.tabSignup.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabSignup.Controls.Add(this.nativeSignupControl1);
 			this.tabSignup.Controls.Add(this.signUpControl1);
 			this.tabSignup.Location = new System.Drawing.Point(0, 0);
 			this.tabSignup.Name = "tabSignup";
@@ -256,6 +258,15 @@
 			this.fileImportControl1.Size = new System.Drawing.Size(700, 427);
 			this.fileImportControl1.TabIndex = 0;
 			// 
+			// nativeSignupControl1
+			// 
+			this.nativeSignupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.nativeSignupControl1.Location = new System.Drawing.Point(3, 3);
+			this.nativeSignupControl1.Name = "nativeSignupControl1";
+			this.nativeSignupControl1.SignupAction = null;
+			this.nativeSignupControl1.Size = new System.Drawing.Size(700, 427);
+			this.nativeSignupControl1.TabIndex = 1;
+			// 
 			// NewUserWizardDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,5 +316,6 @@
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.TabPage tabIntro3;
 		private System.Windows.Forms.PictureBox pictureBox3;
+		private NativeSignupControl nativeSignupControl1;
 	}
 }

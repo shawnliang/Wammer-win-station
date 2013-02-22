@@ -62,7 +62,7 @@ namespace Waveface.Stream.Model
 		}
 
 		public WammerCloudException(string msg, WebExceptionStatus httpError, int wammerError, Exception innerException)
-			: base(msg, innerException)
+			: this(msg, innerException)
 		{
 			this.httpError = httpError;
 			this.wammerError = wammerError;
