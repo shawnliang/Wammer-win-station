@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Waveface.Stream.WindowsClient.Properties;
 
@@ -12,7 +13,9 @@ namespace Waveface.Stream.WindowsClient
 {
 	public partial class SignupControl : UserControl
 	{
-		ISignupAction signup = new StreamSignup();
+		private ISignupAction signup = new StreamSignup();
+		private const string EMAIL_VERIFY_PATTERN = @"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$";
+
 		public event EventHandler SignUpSuccess;
 
 		public SignupControl()
@@ -45,6 +48,22 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
+				if (string.IsNullOrEmpty(emailBox.Text) || string.IsNullOrEmpty(passwordBox.Text) || string.IsNullOrEmpty(nameBox.Text))
+					throw new Exception(Resources.FILL_ALL_FIELDS);
+
+				if (passwordBox.Text.Length < 6 || 16 < passwordBox.Text.Length || passwordBox.Text.Contains(" "))
+				{
+					passwordBox.Text = "";
+					passwordBox.Focus();
+					throw new Exception(Resources.InvalidPassword);
+				}
+
+				if (!Regex.IsMatch(emailBox.Text, EMAIL_VERIFY_PATTERN))
+				{
+					emailBox.Focus();
+					throw new Exception(Resources.InvalidEmail);
+				}
+
 				Cursor.Current = Cursors.WaitCursor;
 				signup.SignUpWithEmail(emailBox.Text, passwordBox.Text, nameBox.Text);
 				this.RaiseEvent(SignUpSuccess, EventArgs.Empty);

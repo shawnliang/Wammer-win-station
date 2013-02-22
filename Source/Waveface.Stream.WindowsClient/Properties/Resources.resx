@@ -490,4 +490,10 @@
   <data name="MoveFolderUnsuccess" xml:space="preserve">
     <value>Unable to move</value>
   </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Please enter a valid email address.</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Password is not valid. Password must contain 6-16 characters with no spaces.</value>
+  </data>
 </root>

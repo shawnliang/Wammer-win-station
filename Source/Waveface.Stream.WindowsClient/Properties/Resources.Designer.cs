@@ -567,6 +567,24 @@ namespace Waveface.Stream.WindowsClient.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid email address..
+        /// </summary>
+        internal static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is not valid. Password must contain 6-16 characters with no spaces..
+        /// </summary>
+        internal static string InvalidPassword {
+            get {
+                return ResourceManager.GetString("InvalidPassword", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap login_btn {
             get {
                 object obj = ResourceManager.GetObject("login_btn", resourceCulture);
