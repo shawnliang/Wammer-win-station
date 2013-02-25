@@ -228,8 +228,7 @@ namespace Wammer.Station
 			bool hasDup = false;
 			foreach (var sameSizeFile in sameSizeFiles)
 			{
-				if (sameSizeFile.file_path.Equals(item.file_path, StringComparison.CurrentCultureIgnoreCase) ||
-					sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
+				if (sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
 				{
 					hasDup = true;
 					break;
