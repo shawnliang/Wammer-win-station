@@ -37,6 +37,7 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
+		[Localizable(true)]
 		public String HeaderText
 		{
 			get
@@ -72,8 +73,9 @@ namespace Waveface.Stream.WindowsClient
 			{
 				rtbxPlanDescription.ForeColor = value;
 			}
-		} 
+		}
 
+		[Localizable(true)]
 		public String Description
 		{
 			get
@@ -86,6 +88,7 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
+		[Localizable(true)]
 		public string RTFDescription
 		{
 			get 

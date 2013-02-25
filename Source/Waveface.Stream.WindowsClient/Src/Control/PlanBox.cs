@@ -12,7 +12,9 @@ namespace Waveface.Stream.WindowsClient
 		#region Enum
 		public enum PlanType
 		{
- 			Free
+ 			Free,
+			Plan1,
+			Plan2
 		}
 		#endregion
 
@@ -26,10 +28,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get
 			{
-				return _planControl ?? (_planControl = new PlanControl()
-				{
-					HeaderVisible = false
-				});
+				return _planControl ?? (_planControl = new PlanControl());
 			}
 		}
 		#endregion
@@ -49,6 +48,18 @@ namespace Waveface.Stream.WindowsClient
 
 				_type = value;
 				UpdateUI();
+			}
+		}
+
+		public Boolean HeaderVisibile 
+		{
+			get
+			{
+				return m_PlanControl.HeaderVisible;
+			}
+			set
+			{
+				m_PlanControl.HeaderVisible = value;
 			}
 		}
 		#endregion
@@ -73,12 +84,30 @@ namespace Waveface.Stream.WindowsClient
 			{
 				case PlanType.Free:
 					m_PlanControl.HeaderIconText = "Free";
+					m_PlanControl.HeaderText = Resources.FREE_PLAN_HEADER;
 					m_PlanControl.RTFDescription = Resources.FreePlan;
+					break;
+				case PlanType.Plan1:
+					m_PlanControl.HeaderIconText = "250";
+					m_PlanControl.HeaderText = Resources.PLAN1_HEADER;
+					m_PlanControl.RTFDescription = Resources.Plan1;
+					break;
+				case PlanType.Plan2:
+					m_PlanControl.HeaderIconText = "500";
+					m_PlanControl.HeaderText = Resources.PLAN2_HEADER;
+					m_PlanControl.RTFDescription = Resources.Plan2;
 					break;
 				default:
 					break;
 			}
 		}
 		#endregion
+
+		private void InitializeComponent()
+		{
+			this.SuspendLayout();
+			this.ResumeLayout(false);
+
+		}
 	}
 }

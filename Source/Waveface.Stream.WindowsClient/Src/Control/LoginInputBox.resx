@@ -117,4 +117,175 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="button1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="button1.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 8</value>
+  </data>
+  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>21, 37</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="button1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>▼</value>
+  </data>
+  <data name="&gt;&gt;button1.Name" xml:space="preserve">
+    <value>button1</value>
+  </data>
+  <data name="&gt;&gt;button1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
+    <value>loginInputPanel1</value>
+  </data>
+  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tbxPassword.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="tbxPassword.CueText" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="tbxPassword.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 15pt</value>
+  </data>
+  <data name="tbxPassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 65</value>
+  </data>
+  <data name="tbxPassword.PasswordChar" type="System.Char, mscorlib" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="tbxPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 23</value>
+  </data>
+  <data name="tbxPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;tbxPassword.Name" xml:space="preserve">
+    <value>tbxPassword</value>
+  </data>
+  <data name="&gt;&gt;tbxPassword.Type" xml:space="preserve">
+    <value>Waveface.Stream.WindowsClient.CueTextBox, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tbxPassword.Parent" xml:space="preserve">
+    <value>loginInputPanel1</value>
+  </data>
+  <data name="&gt;&gt;tbxPassword.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tbxEMail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="tbxEMail.CueText" xml:space="preserve">
+    <value>Your email (e.g. John@gmail.com)</value>
+  </data>
+  <data name="tbxEMail.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 15pt</value>
+  </data>
+  <data name="tbxEMail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 15</value>
+  </data>
+  <data name="tbxEMail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 23</value>
+  </data>
+  <data name="tbxEMail.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tbxEMail.Name" xml:space="preserve">
+    <value>tbxEMail</value>
+  </data>
+  <data name="&gt;&gt;tbxEMail.Type" xml:space="preserve">
+    <value>Waveface.Stream.WindowsClient.CueTextBox, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tbxEMail.Parent" xml:space="preserve">
+    <value>loginInputPanel1</value>
+  </data>
+  <data name="&gt;&gt;tbxEMail.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="cmbEmail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cmbEmail.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="cmbEmail.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 15pt</value>
+  </data>
+  <data name="cmbEmail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 15</value>
+  </data>
+  <data name="cmbEmail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 31</value>
+  </data>
+  <data name="cmbEmail.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="cmbEmail.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;cmbEmail.Name" xml:space="preserve">
+    <value>cmbEmail</value>
+  </data>
+  <data name="&gt;&gt;cmbEmail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmbEmail.Parent" xml:space="preserve">
+    <value>loginInputPanel1</value>
+  </data>
+  <data name="&gt;&gt;cmbEmail.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="loginInputPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="loginInputPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="loginInputPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>279, 103</value>
+  </data>
+  <data name="loginInputPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;loginInputPanel1.Name" xml:space="preserve">
+    <value>loginInputPanel1</value>
+  </data>
+  <data name="&gt;&gt;loginInputPanel1.Type" xml:space="preserve">
+    <value>Waveface.Stream.WindowsClient.LoginInputPanel, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;loginInputPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;loginInputPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>279, 105</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>LoginInputBox</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

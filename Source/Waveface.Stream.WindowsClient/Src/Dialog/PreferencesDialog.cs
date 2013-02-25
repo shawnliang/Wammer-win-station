@@ -285,9 +285,9 @@ namespace Waveface.Stream.WindowsClient
 			lblDeviceName.Text = device.Name;
 
 			if (device.RemainingBackUpCount > 0)
-				label2.Text = string.Format("receiving {0} files", device.RemainingBackUpCount.ToString());
+				label2.Text = string.Format(Resources.RECEVING_FILES_PATTERN, device.RemainingBackUpCount.ToString());
 			else
-				label2.Text = "Connected Locally";
+				label2.Text = Resources.SYNC_CONNECTED_LOCALLY;
 		}
 
 		private Boolean IsValidEmailFormat()
@@ -402,7 +402,7 @@ namespace Waveface.Stream.WindowsClient
 		private void btnUnLink_Click(object sender, EventArgs e)
 		{
 			var user = StreamClient.Instance.LoginedUser;
-			using (var dialog = new CleanResourceDialog(user.EMail))
+			using (var dialog = new CleanResourceDialog())
 			{
 				dialog.TopMost = this.TopMost;
 				dialog.BackColor = this.BackColor;
@@ -473,7 +473,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateDeviceConnectCount()
 		{
-			lblDeviceConnectStatus.Text = string.Format("{0} devices connected", cmbDevice.Items.Count.ToString());
+			lblDeviceConnectStatus.Text = string.Format(Resources.DEVICE_CONNECTED_PATTERN, cmbDevice.Items.Count.ToString());
 		}
 
 		private void UpdateDeviceComboBox()
@@ -577,8 +577,10 @@ namespace Waveface.Stream.WindowsClient
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			StationAPI.DeleteAccount(StreamClient.Instance.LoginedUser.SessionToken);
-			MessageBox.Show("Delete email sended...");
+			if (MessageBox.Show(Resources.DELETE_ACCOUNT_MESSAGE,Resources.DELETE_ACCOUNT_TITLE, MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+			{
+				StationAPI.DeleteAccount(StreamClient.Instance.LoginedUser.SessionToken);
+			}
 		}
 
 		static void Instance_UserInfoUpdateFail(object sender, ExceptionEventArgs e)
@@ -637,7 +639,7 @@ namespace Waveface.Stream.WindowsClient
 		private void MoveResourceFolder_DoWork(object sender, DoWorkEventArgs args)
 		{
 			string outputFilename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "move_folder.out");
-
+			
 			Process p = new Process();
 			p.StartInfo = new ProcessStartInfo
 			{
@@ -675,7 +677,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				if (args.Cancelled)
 					return;
-
+				
 				if (args.Error != null)
 				{
 					MessageBox.Show(args.Error.Message, Resources.MoveFolderUnsuccess);

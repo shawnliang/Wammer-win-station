@@ -45,7 +45,7 @@ namespace Waveface.Stream.WindowsClient
 			if (HasTasks())
 				return tasks.First().Description();
 			else
-				return "Nothing to import";
+				return Resources.NOTHING_IMPORT;
 		}
 
 		public bool HasTasks()
@@ -79,7 +79,7 @@ namespace Waveface.Stream.WindowsClient
 					desc = foreground.Description();
 
 					if (pendings.Count() > 0)
-						desc += "\r\n" + string.Format("{0} tasks are queued.", pendings.Count());
+						desc += "\r\n" + string.Format(Resources.TASK_QUEUED_PATTERN, pendings.Count());
 
 					hasProgress = foreground.GetProgress(out max, out cur);
 					return;
@@ -91,12 +91,12 @@ namespace Waveface.Stream.WindowsClient
 					hasProgress = aggregated.GetProgress(out max, out cur);
 
 					if (pendings.Count() > 0)
-						desc += "\r\n" + string.Format("{0} tasks are queued.");
+						desc += "\r\n" + string.Format(Resources.TASK_QUEUED_PATTERN, pendings.Count());
 				}
 			}
 			else if (pendings.Count() > 0)
 			{
-				desc = string.Format("Waiting to import... {0} tasks queued", pendings.Count());
+				desc = string.Format(Resources.WAITING_IMPORT, pendings.Count());
 			}
 		}
 
@@ -142,15 +142,15 @@ namespace Waveface.Stream.WindowsClient
 			}
 			else if (task.IsIndexing())
 			{
-				return string.Format("Indexing {0}/{1} files", task.Indexed + task.Skipped, task.Total);
+				return string.Format(Resources.INDEXING_FILE_PATTERN, task.Indexed + task.Skipped, task.Total);
 			}
 			else if (task.IsCopying())
 			{
-				return string.Format("Copying {0}/{1} files", task.Copied, task.Indexed);
+				return string.Format(Resources.COPYING_FILE_PATTERN, task.Copied, task.Indexed);
 			}
 			else if (task.IsThumbnailing())
 			{
-				return string.Format("Generating previews of {0}/{1} files", task.Thumbnailed, task.Indexed);
+				return string.Format(Resources.GENERATING_PREVIEW_PATTERN, task.Thumbnailed, task.Indexed);
 			}
 			else if (task.IsUploading())
 			{

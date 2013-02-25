@@ -12,12 +12,11 @@ namespace Waveface.Stream.WindowsClient
 			get { return checkBox1.Checked; }
 		}
 
-		public CleanResourceDialog(string email)
+		public CleanResourceDialog()
 		{
 			Font = SystemFonts.MessageBoxFont;
 			InitializeComponent();
 			pictureBox1.Image = SystemIcons.Question.ToBitmap();
-			lblConfirm.Text = string.Format(Resources.CLEAN_RESOURCE_MSG_PATTERN, email);
 		}
 
 		private void btnYes_Click(object sender, EventArgs e)

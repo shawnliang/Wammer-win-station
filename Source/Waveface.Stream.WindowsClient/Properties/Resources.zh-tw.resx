@@ -199,7 +199,7 @@
     <value>移除</value>
   </data>
   <data name="ALREAD_UPDATED" xml:space="preserve">
-    <value>您的AOStream已經更新到最新版了</value>
+    <value>您的AOStream已經是最新的版本</value>
   </data>
   <data name="LOGOUT_MENU_ITEM" xml:space="preserve">
     <value>登出...</value>
@@ -221,9 +221,6 @@
   </data>
   <data name="PREVIOUS_BUTTON_TEXT" xml:space="preserve">
     <value>上一步</value>
-  </data>
-  <data name="CLEAN_RESOURCE_MSG_PATTERN" xml:space="preserve">
-    <value>是否要將 {0} 帳號自本機移除？</value>
   </data>
   <data name="NETWORK_UNAVAILABLE" xml:space="preserve">
     <value>沒有網路連線</value>
@@ -283,13 +280,13 @@
     <value>聯絡我們</value>
   </data>
   <data name="IMPORT_MENU_ITEM" xml:space="preserve">
-    <value>匯入</value>
+    <value>匯入資料夾...</value>
   </data>
   <data name="SERVICE_PAUSE_MENU_ITEM" xml:space="preserve">
     <value>暫停同步</value>
   </data>
   <data name="SERVICE_RESUME_MENU_ITEM" xml:space="preserve">
-    <value>啟動同步</value>
+    <value>重啟同步</value>
   </data>
   <data name="CONTROL_PREFERENCES_MENU_ITEM" xml:space="preserve">
     <value>偏好設定...</value>
@@ -319,7 +316,7 @@
     <value>雲端同步中</value>
   </data>
   <data name="SYNC_CONNECTED_LOCALLY" xml:space="preserve">
-    <value>已連線</value>
+    <value>已透過區域網路連接</value>
   </data>
   <data name="SYNC_LAST_SEEN" xml:space="preserve">
     <value>上次出現時間 {0}</value>
@@ -328,21 +325,91 @@
     <value>離線 ({0})</value>
   </data>
   <data name="SVC_FACEBOOK_DESC" xml:space="preserve">
-    <value>連接Facebook後，將匯整您自己或朋友幫您標註的打卡的資訊，以及分享/喜愛的網頁。</value>
+    <value>打卡資訊、分享的網頁</value>
   </data>
   <data name="SVC_GOOGLE_DESC" xml:space="preserve">
-    <value>連接 Google 後，將匯整您在 Google Reader 或其他閱讀器如Flipboard 用星號標注的Google Reader RSS項目。</value>
+    <value>星號標注的RSS項目</value>
   </data>
   <data name="SVC_TWITTER_DESC" xml:space="preserve">
-    <value>連接Twitter後，將匯整您Favorite或分享的網頁。</value>
+    <value>喜愛的網頁，分享的網頁</value>
   </data>
   <data name="SVC_FOURSQUARE_DESC" xml:space="preserve">
-    <value>連接Foursquare後，將匯整您自己或朋友幫您標註的打卡的資訊。</value>
+    <value>打卡位置</value>
   </data>
   <data name="InvalidEmail" xml:space="preserve">
     <value>請輸入正確的電子郵件</value>
   </data>
   <data name="InvalidPassword" xml:space="preserve">
     <value>不合法的密碼。密碼需有6~16字元，且不可包含空白</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="FreePlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FreePlan.zh-tw.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
+  </data>
+  <data name="FREE_PLAN_HEADER" xml:space="preserve">
+    <value>免費</value>
+  </data>
+  <data name="Plan1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Plan1.zh-tw.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
+  </data>
+  <data name="PLAN1_HEADER" xml:space="preserve">
+    <value>每月只要249</value>
+  </data>
+  <data name="Plan2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Plan2.zh-tw.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
+  </data>
+  <data name="PLAN2_HEADER" xml:space="preserve">
+    <value>每月只要599</value>
+  </data>
+  <data name="DEVICE_CONNECTED_PATTERN" xml:space="preserve">
+    <value>{0} 裝置已連接</value>
+  </data>
+  <data name="CHROME_EXTENSION_MENU_ITEM" xml:space="preserve">
+    <value>安裝Chrome擴充功能</value>
+  </data>
+  <data name="GET_APPS_MENU_ITEM" xml:space="preserve">
+    <value>取得App</value>
+  </data>
+  <data name="HELP_CENTER_MENU_ITEM" xml:space="preserve">
+    <value>線上指南</value>
+  </data>
+  <data name="RECEVING_FILES_PATTERN" xml:space="preserve">
+    <value>正在接收 {0} 個檔案</value>
+  </data>
+  <data name="CONNECT" xml:space="preserve">
+    <value>連接</value>
+  </data>
+  <data name="CONNECTED" xml:space="preserve">
+    <value>已連接</value>
+  </data>
+  <data name="CONNECTING" xml:space="preserve">
+    <value>連接中</value>
+  </data>
+  <data name="DISCONNECTING" xml:space="preserve">
+    <value>連接中斷中</value>
+  </data>
+  <data name="COPYING_FILE_PATTERN" xml:space="preserve">
+    <value>正在拷貝 {0}/{1}</value>
+  </data>
+  <data name="DELETE_ACCOUNT_MESSAGE" xml:space="preserve">
+    <value>在您按下「是」之後，系統將會發出一封確認信息到您的Email信箱，點擊信件中的連結將會永久的刪除這個帳號。</value>
+  </data>
+  <data name="DELETE_ACCOUNT_TITLE" xml:space="preserve">
+    <value>刪除帳號</value>
+  </data>
+  <data name="GENERATING_PREVIEW_PATTERN" xml:space="preserve">
+    <value>產生縮圖 {0}/{1}</value>
+  </data>
+  <data name="INDEXING_FILE_PATTERN" xml:space="preserve">
+    <value>正在索引 {0}/{1}</value>
+  </data>
+  <data name="NOTHING_IMPORT" xml:space="preserve">
+    <value>沒有可匯入的資料</value>
+  </data>
+  <data name="TASK_QUEUED_PATTERN" xml:space="preserve">
+    <value>{0} 任務被佇列</value>
+  </data>
+  <data name="WAITING_IMPORT" xml:space="preserve">
+    <value>等待匯入... {0} 任務被佇列</value>
   </data>
 </root>

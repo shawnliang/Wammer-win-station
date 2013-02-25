@@ -29,9 +29,9 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SignupControl));
-			this.emailBox = new System.Windows.Forms.TextBox();
-			this.passwordBox = new System.Windows.Forms.TextBox();
-			this.nameBox = new System.Windows.Forms.TextBox();
+			this.emailBox = new Waveface.Stream.WindowsClient.CueTextBox();
+			this.passwordBox = new Waveface.Stream.WindowsClient.CueTextBox();
+			this.nameBox = new Waveface.Stream.WindowsClient.CueTextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
@@ -126,9 +126,9 @@
 		#endregion
 
 		private FBLoginButton fbButton;
-		private System.Windows.Forms.TextBox emailBox;
-		private System.Windows.Forms.TextBox passwordBox;
-		private System.Windows.Forms.TextBox nameBox;
+		private CueTextBox emailBox;
+		private CueTextBox passwordBox;
+		private CueTextBox nameBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;

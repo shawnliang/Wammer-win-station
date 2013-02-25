@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -44,10 +45,10 @@ namespace Waveface.Stream.WindowsClient
 
 			this.Text = selectedTab.Text;
 
-			button1.Visible = selectedTab != tabPage1 && selectedTab != tabPage2;
-			button2.Visible = selectedTab != tabPage1;
+			button1.Visible = selectedTab != tabSignIn && selectedTab != tabPlan;
+			button2.Visible = selectedTab != tabSignIn;
 
-			button2.Text = m_TabControl.IsLastPage ? "Done" : "Next";
+			button2.Text = m_TabControl.IsLastPage ? Resources.CLOSE_BUTTON_TEXT : Resources.NEXT_BUTTON_TEXT;
 		}
 		#endregion
 

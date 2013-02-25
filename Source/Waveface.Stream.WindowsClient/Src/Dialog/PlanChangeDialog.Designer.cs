@@ -36,14 +36,14 @@
 			this.choosePlanControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.choosePlanControl1.Location = new System.Drawing.Point(0, 0);
 			this.choosePlanControl1.Name = "choosePlanControl1";
-			this.choosePlanControl1.Size = new System.Drawing.Size(693, 338);
+			this.choosePlanControl1.Size = new System.Drawing.Size(693, 415);
 			this.choosePlanControl1.TabIndex = 0;
 			// 
 			// PlanChangeDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(693, 338);
+			this.ClientSize = new System.Drawing.Size(693, 415);
 			this.Controls.Add(this.choosePlanControl1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
