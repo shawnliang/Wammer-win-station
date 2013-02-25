@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="button2.Text" xml:space="preserve">
+    <value>下一步</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>上一步</value>
+  </data>
   <data name="tabPlan.Text" xml:space="preserve">
     <value>選擇方案</value>
   </data>
