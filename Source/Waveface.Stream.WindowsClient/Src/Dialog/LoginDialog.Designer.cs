@@ -52,8 +52,8 @@ namespace Waveface.Stream.WindowsClient
 			// 
 			// pictureBox3
 			// 
+			this.pictureBox3.BackgroundImage = global::Waveface.Stream.WindowsClient.Properties.Resources.GBGsmall;
 			resources.ApplyResources(this.pictureBox3, "pictureBox3");
-			this.pictureBox3.BackgroundImage = global::Waveface.Stream.WindowsClient.Properties.Resources.GBG;
 			this.pictureBox3.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.WinLogo;
 			this.pictureBox3.Name = "pictureBox3";
 			this.pictureBox3.TabStop = false;

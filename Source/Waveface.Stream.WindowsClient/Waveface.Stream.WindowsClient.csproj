@@ -703,13 +703,15 @@
     <Content Include="Resources\fb_btn.png" />
     <Content Include="Resources\fb_btn_press.png" />
     <Content Include="Resources\FB_Logo.png" />
+    <None Include="Resources\Foursquare.png" />
     <Content Include="Resources\f_logo.png" />
     <None Include="Resources\icon_16x16.png" />
     <None Include="Resources\icon_16x16offline.png" />
     <None Include="Resources\icon_16x16Error.png" />
     <None Include="Resources\icon_16x16Pause.png" />
     <None Include="Resources\icon_16x16Warning.png" />
-    <None Include="Resources\GBG.png" />
+    <None Include="Resources\Google.jpg" />
+    <None Include="Resources\GBGsmall.png" />
     <Content Include="Resources\import-photos_normal.png" />
     <Content Include="Resources\import-photos_press.png" />
     <Content Include="Resources\input_box-2.png" />
@@ -723,6 +725,7 @@
     <Content Include="Resources\streamfotocollector_icon_128.png" />
     <Content Include="Resources\stream_appstore_qr.png" />
     <Content Include="Resources\stream_googleplay_qr.png" />
+    <None Include="Resources\twitter.png" />
     <Content Include="Resources\UpdateAvailable.ico" />
     <Content Include="Resources\usbflashcardwithcardreader2.png" />
     <Content Include="Resources\windows_en_1.jpg" />

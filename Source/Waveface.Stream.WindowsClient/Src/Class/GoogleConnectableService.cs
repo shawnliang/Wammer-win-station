@@ -10,5 +10,10 @@ namespace Waveface.Stream.WindowsClient
 			: base("google", "Google", Resources.SVC_GOOGLE_DESC)
 		{
 		}
+
+		public override System.Drawing.Image Icon
+		{
+			get { return Properties.Resources.Google; }
+		}
 	}
 }

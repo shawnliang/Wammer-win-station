@@ -14,5 +14,10 @@ namespace Waveface.Stream.WindowsClient
 			:base("foursquare", "foursquare", Resources.SVC_FOURSQUARE_DESC)
 		{
 		}
+
+		public override System.Drawing.Image Icon
+		{
+			get { return Properties.Resources.Foursquare; }
+		}
 	}
 }

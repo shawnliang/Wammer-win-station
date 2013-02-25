@@ -536,6 +536,16 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Foursquare {
+            get {
+                object obj = ResourceManager.GetObject("Foursquare", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Free.
         /// </summary>
         internal static string FREE_PLAN_HEADER {
@@ -562,9 +572,9 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GBG {
+        internal static System.Drawing.Bitmap GBGsmall {
             get {
-                object obj = ResourceManager.GetObject("GBG", resourceCulture);
+                object obj = ResourceManager.GetObject("GBGsmall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -584,6 +594,16 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string GET_APPS_MENU_ITEM {
             get {
                 return ResourceManager.GetString("GET_APPS_MENU_ITEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Google {
+            get {
+                object obj = ResourceManager.GetObject("Google", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1327,6 +1347,16 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string TURNED_ON {
             get {
                 return ResourceManager.GetString("TURNED_ON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap twitter {
+            get {
+                object obj = ResourceManager.GetObject("twitter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

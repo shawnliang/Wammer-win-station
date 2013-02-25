@@ -53,9 +53,9 @@ namespace Waveface.Stream.WindowsClient
 		}
 
 
-		public System.Drawing.Image Icon
+		public abstract System.Drawing.Image Icon
 		{
-			get { return Properties.Resources.f_logo; }
+			get;
 		}
 
 

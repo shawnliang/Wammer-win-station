@@ -10,5 +10,10 @@ namespace Waveface.Stream.WindowsClient
 			: base("facebook", "Facebook", Resources.SVC_FACEBOOK_DESC)
 		{
 		}
+
+		public override System.Drawing.Image Icon
+		{
+			get { return Properties.Resources.f_logo; }
+		}
 	}
 }
