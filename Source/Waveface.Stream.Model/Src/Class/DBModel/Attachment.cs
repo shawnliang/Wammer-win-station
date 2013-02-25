@@ -196,7 +196,7 @@ namespace Waveface.Stream.Model
 		public string position { get; set; }
 		public int width { get; set; }
 		public int height { get; set; }
-		public int id { get; set; }
+		public long id { get; set; }
 
 		[BsonIgnoreIfNull]
 		public string saved_file_name { get; set; }

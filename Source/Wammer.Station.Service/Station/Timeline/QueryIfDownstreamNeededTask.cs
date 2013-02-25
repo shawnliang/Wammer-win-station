@@ -54,9 +54,7 @@ namespace Wammer.Station.Timeline
 				bool scheduledToDownloadOrigDoc = false;
 				if (localHasNoOrigin(localDoc) && cloudHasOrigin(getCloudDoc(user)) && !user.ReachOriginSizeLimit())
 				{
-					var isWebthumb = cloudDoc.type.Equals("webthumb");
-
-					if (isWebthumb || !user.ReachOriginSizeLimit())
+					if (!user.ReachOriginSizeLimit())
 					{
 						var task = ResourceDownloadTaskFactory.createDownloadTask(user, ImageMeta.Origin, cloudDoc);
 						BodySyncQueue.Instance.Enqueue(task, task.Priority);
@@ -70,6 +68,26 @@ namespace Wammer.Station.Timeline
 					var task = new DownloadDocPreviewsTask(object_id, user_id);
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
+
+				if (isWebThumbType(user, localDoc))
+				{
+					var cloudApiResponse = getCloudDoc(user);
+					var localDbDoc = AutoMapper.Mapper.Map<AttachmentInfo, Attachment>(cloudApiResponse);
+					AttachmentCollection.Instance.Save(localDbDoc);
+
+					if (cloudHasAnyWebThumb(user))
+					{
+						foreach (var cloudThumb in getCloudDoc(user).web_meta.thumbs.Where(x => !x.broken_thumb))
+						{
+							if (!localHasThisWebThumb(localDoc, cloudThumb))
+							{
+								var task = ResourceDownloadTaskFactory.createWebThumbDownloadTask(user, object_id, cloudThumb.id);
+								BodySyncQueue.Instance.Enqueue(task, TaskPriority.Medium);
+							}
+						}
+					}
+				}
+
 			}
 			catch (WammerCloudException e)
 			{
@@ -87,8 +105,32 @@ namespace Wammer.Station.Timeline
 
 		private bool isDocType(Driver user, Attachment localDoc)
 		{
-			var isDocType = localDoc != null && localDoc.type == AttachmentType.doc || getCloudDoc(user).type.Equals("doc", StringComparison.InvariantCultureIgnoreCase);
-			return isDocType;
+			if (localDoc != null)
+				return localDoc.type == AttachmentType.doc;
+			else
+				return getCloudDoc(user).type.Equals("doc", StringComparison.InvariantCultureIgnoreCase);
+		}
+
+		private bool isWebThumbType(Driver user, Attachment localDoc)
+		{
+			if (localDoc != null)
+				return localDoc.type == AttachmentType.webthumb;
+			else
+				return getCloudDoc(user).type.Equals("webthumb", StringComparison.InvariantCultureIgnoreCase);
+		}
+
+		private bool localHasThisWebThumb(Attachment localDoc, WebThumb cloudThumb)
+		{
+			return
+				localDoc != null &&
+				localDoc.web_meta != null &&
+				localDoc.web_meta.thumbs != null &&
+				localDoc.web_meta.thumbs.Any(x => x.id == cloudThumb.id && !string.IsNullOrEmpty(x.saved_file_name));
+		}
+
+		private bool cloudHasAnyWebThumb(Driver user)
+		{
+			return getCloudDoc(user).web_meta != null && getCloudDoc(user).web_meta.thumbs != null && getCloudDoc(user).web_meta.thumbs.Any();
 		}
 
 		private bool isDocTypeAndLocalHasNoPreview(Driver user, Attachment localDoc)

@@ -285,6 +285,7 @@
     <Compile Include="Station\Timeline\TimelineSyncer.cs" />
     <Compile Include="Station\APIHandler\UserLoginHandler.cs" />
     <Compile Include="Station\APIHandler\UserLogoutHandler.cs" />
+    <Compile Include="Station\Timeline\WebThumbDownloadTask.cs" />
     <Compile Include="Station\UpdateDriverDBTask.cs" />
     <Compile Include="Station\WammerStationException.cs" />
     <Compile Include="Utility\AutoRunHelper.cs" />

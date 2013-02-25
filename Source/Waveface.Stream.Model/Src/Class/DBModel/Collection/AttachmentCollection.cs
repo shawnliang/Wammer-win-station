@@ -42,5 +42,15 @@ namespace Waveface.Stream.Model
 			EnsureIndex(new IndexKeysBuilder().Ascending("md5"));
 		}
 		#endregion
+
+		public void UpdateWebThumbSavedFile(string object_id, long webthumb_id, string saved_file_name)
+		{
+			Instance.Update(
+				Query.And(
+					Query.EQ("_id", object_id),
+					Query.EQ("web_meta.thumbs._id", webthumb_id)),
+				MongoDB.Driver.Builders.Update.Set("web_meta.thumbs.$.saved_file_name", saved_file_name)
+			);
+		}
 	}
 }

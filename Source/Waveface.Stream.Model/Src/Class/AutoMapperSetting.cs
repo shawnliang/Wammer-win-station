@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System.Linq;
 using Waveface.Stream.Model;
+using System;
 
 namespace Waveface.Stream.Model
 {
@@ -34,6 +35,14 @@ namespace Waveface.Stream.Model
 			Mapper.CreateMap<PostGps, LocationDBData>()
 				.ForMember(dest => dest.ZoomLevel, opt => opt.MapFrom(src => src.zoom_level))
 				.ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.region_tags));
+
+
+			Mapper.CreateMap<AttachmentInfo, Attachment>()
+				.ForMember(dest => dest.modify_time, opt => opt.UseValue(DateTime.Now));
+				//.ForMember(dest => dest.description, opt=> opt.MapFrom(src=>src.description))
+				//.ForMember(dest=> dest.device_id, opt=>opt.MapFrom(src=>src.device_id))
+				//.for
+
 		}
 		#endregion
 	}
