@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -48,7 +49,7 @@ namespace Waveface.Stream.WindowsClient
 
 				connectCheckbox.Checked = (arg.Cancel) ? !turnOn : turnOn;
 
-				connectCheckbox.Text = connectCheckbox.Checked ? "Connected" : "Connect";
+				connectCheckbox.Text = connectCheckbox.Checked ? Resources.CONNECTED : Resources.CONNECT;
 			}
 		}
 
@@ -56,19 +57,19 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (ServiceEnabled)
 			{
-				connectCheckbox.Text = "Connecting";
+				connectCheckbox.Text = Resources.CONNECTING;
 				raiseOnChangeEvent(true);
 			}
 			else
 			{
-				connectCheckbox.Text = "Disconnecting";
+				connectCheckbox.Text = Resources.DISCONNECTING;
 				raiseOnChangeEvent(false);
 			}
 		}
 
 		private void connectCheckbox_CheckedChanged(object sender, EventArgs e)
 		{
-			connectCheckbox.Text = connectCheckbox.Checked ? "Connected" : "Connect";
+			connectCheckbox.Text = connectCheckbox.Checked ? Resources.CONNECTED : Resources.CONNECT;
 		}
 
 	}

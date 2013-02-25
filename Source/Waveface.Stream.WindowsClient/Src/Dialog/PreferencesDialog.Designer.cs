@@ -30,9 +30,6 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PreferencesDialog));
-			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-			this.btnOK = new System.Windows.Forms.Button();
-			this.refreshStatusTimer = new System.Windows.Forms.Timer(this.components);
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.panelEx1 = new Waveface.Stream.WindowsClient.PanelEx();
 			this.lblDeviceName = new System.Windows.Forms.Label();
@@ -68,6 +65,9 @@
 			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
 			this.tabAbout = new System.Windows.Forms.TabPage();
 			this.aboutControl1 = new Waveface.Stream.WindowsClient.Src.Control.AboutControl();
+			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+			this.btnOK = new System.Windows.Forms.Button();
+			this.refreshStatusTimer = new System.Windows.Forms.Timer(this.components);
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
 			this.systemIconControl1 = new Waveface.Stream.WindowsClient.SystemIconControl();
@@ -90,56 +90,34 @@
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// linkLabel1
-			// 
-			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.linkLabel1.AutoSize = true;
-			this.linkLabel1.Location = new System.Drawing.Point(44, 349);
-			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(27, 12);
-			this.linkLabel1.TabIndex = 1;
-			this.linkLabel1.TabStop = true;
-			this.linkLabel1.Text = "Help";
-			// 
-			// btnOK
-			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.Location = new System.Drawing.Point(507, 345);
-			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(75, 21);
-			this.btnOK.TabIndex = 2;
-			this.btnOK.Text = "OK";
-			this.btnOK.UseVisualStyleBackColor = true;
-			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-			// 
-			// refreshStatusTimer
-			// 
-			this.refreshStatusTimer.Interval = 1000;
-			this.refreshStatusTimer.Tick += new System.EventHandler(this.refreshStatusTimer_Tick);
-			// 
 			// splitContainer1
 			// 
-			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.splitContainer1, "splitContainer1");
+			this.errorProvider1.SetError(this.splitContainer1, resources.GetString("splitContainer1.Error"));
 			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-			this.splitContainer1.IsSplitterFixed = true;
-			this.splitContainer1.Location = new System.Drawing.Point(12, 12);
+			this.errorProvider1.SetIconAlignment(this.splitContainer1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("splitContainer1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.splitContainer1, ((int)(resources.GetObject("splitContainer1.IconPadding"))));
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
 			// 
+			resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
 			this.splitContainer1.Panel1.Controls.Add(this.panelEx1);
+			this.errorProvider1.SetError(this.splitContainer1.Panel1, resources.GetString("splitContainer1.Panel1.Error"));
+			this.errorProvider1.SetIconAlignment(this.splitContainer1.Panel1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("splitContainer1.Panel1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.splitContainer1.Panel1, ((int)(resources.GetObject("splitContainer1.Panel1.IconPadding"))));
 			// 
 			// splitContainer1.Panel2
 			// 
+			resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
 			this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-			this.splitContainer1.Size = new System.Drawing.Size(655, 325);
-			this.splitContainer1.SplitterDistance = 138;
-			this.splitContainer1.TabIndex = 0;
+			this.errorProvider1.SetError(this.splitContainer1.Panel2, resources.GetString("splitContainer1.Panel2.Error"));
+			this.errorProvider1.SetIconAlignment(this.splitContainer1.Panel2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("splitContainer1.Panel2.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.splitContainer1.Panel2, ((int)(resources.GetObject("splitContainer1.Panel2.IconPadding"))));
 			// 
 			// panelEx1
 			// 
+			resources.ApplyResources(this.panelEx1, "panelEx1");
 			this.panelEx1.Controls.Add(this.lblDeviceName);
 			this.panelEx1.Controls.Add(this.label2);
 			this.panelEx1.Controls.Add(this.lblDeviceConnectStatus);
@@ -148,147 +126,127 @@
 			this.panelEx1.Controls.Add(this.pbxLogo);
 			this.panelEx1.Controls.Add(this.lblSyncTransferStatus);
 			this.panelEx1.Controls.Add(this.lblSyncStatus);
-			this.panelEx1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panelEx1.EnableLinearGradientBackground = true;
+			this.errorProvider1.SetError(this.panelEx1, resources.GetString("panelEx1.Error"));
+			this.errorProvider1.SetIconAlignment(this.panelEx1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panelEx1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.panelEx1, ((int)(resources.GetObject("panelEx1.IconPadding"))));
 			this.panelEx1.LinearGradientEndColor = System.Drawing.Color.White;
 			this.panelEx1.LinearGradientStartColor = System.Drawing.Color.SlateGray;
-			this.panelEx1.Location = new System.Drawing.Point(0, 0);
 			this.panelEx1.Name = "panelEx1";
-			this.panelEx1.Size = new System.Drawing.Size(138, 325);
-			this.panelEx1.TabIndex = 3;
 			// 
 			// lblDeviceName
 			// 
+			resources.ApplyResources(this.lblDeviceName, "lblDeviceName");
 			this.lblDeviceName.BackColor = System.Drawing.Color.Transparent;
-			this.lblDeviceName.Font = new System.Drawing.Font("PMingLiU", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-			this.lblDeviceName.Location = new System.Drawing.Point(4, 223);
+			this.errorProvider1.SetError(this.lblDeviceName, resources.GetString("lblDeviceName.Error"));
+			this.errorProvider1.SetIconAlignment(this.lblDeviceName, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblDeviceName.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.lblDeviceName, ((int)(resources.GetObject("lblDeviceName.IconPadding"))));
 			this.lblDeviceName.Name = "lblDeviceName";
-			this.lblDeviceName.Size = new System.Drawing.Size(132, 23);
-			this.lblDeviceName.TabIndex = 10;
-			this.lblDeviceName.Text = "[Device Name]";
-			this.lblDeviceName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label2
 			// 
-			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.label2, "label2");
 			this.label2.BackColor = System.Drawing.Color.Transparent;
-			this.label2.Location = new System.Drawing.Point(14, 223);
+			this.errorProvider1.SetError(this.label2, resources.GetString("label2.Error"));
+			this.errorProvider1.SetIconAlignment(this.label2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label2.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.label2, ((int)(resources.GetObject("label2.IconPadding"))));
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(107, 57);
-			this.label2.TabIndex = 9;
-			this.label2.Text = "[Device Sync Status]";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lblDeviceConnectStatus
 			// 
-			this.lblDeviceConnectStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.lblDeviceConnectStatus, "lblDeviceConnectStatus");
 			this.lblDeviceConnectStatus.BackColor = System.Drawing.Color.Transparent;
-			this.lblDeviceConnectStatus.Location = new System.Drawing.Point(14, 307);
+			this.errorProvider1.SetError(this.lblDeviceConnectStatus, resources.GetString("lblDeviceConnectStatus.Error"));
+			this.errorProvider1.SetIconAlignment(this.lblDeviceConnectStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblDeviceConnectStatus.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.lblDeviceConnectStatus, ((int)(resources.GetObject("lblDeviceConnectStatus.IconPadding"))));
 			this.lblDeviceConnectStatus.Name = "lblDeviceConnectStatus";
-			this.lblDeviceConnectStatus.Size = new System.Drawing.Size(107, 14);
-			this.lblDeviceConnectStatus.TabIndex = 8;
-			this.lblDeviceConnectStatus.Text = "[Device Connect Status]";
-			this.lblDeviceConnectStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// cmbDevice
 			// 
-			this.cmbDevice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.cmbDevice, "cmbDevice");
 			this.cmbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.errorProvider1.SetError(this.cmbDevice, resources.GetString("cmbDevice.Error"));
 			this.cmbDevice.FormattingEnabled = true;
-			this.cmbDevice.Location = new System.Drawing.Point(16, 284);
+			this.errorProvider1.SetIconAlignment(this.cmbDevice, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("cmbDevice.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.cmbDevice, ((int)(resources.GetObject("cmbDevice.IconPadding"))));
 			this.cmbDevice.Name = "cmbDevice";
-			this.cmbDevice.Size = new System.Drawing.Size(105, 20);
-			this.cmbDevice.TabIndex = 7;
 			this.cmbDevice.TextChanged += new System.EventHandler(this.cmbDevice_TextChanged);
 			// 
 			// label1
 			// 
+			resources.ApplyResources(this.label1, "label1");
 			this.label1.BackColor = System.Drawing.Color.Transparent;
-			this.label1.Font = new System.Drawing.Font("PMingLiU", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-			this.label1.Location = new System.Drawing.Point(4, 100);
+			this.errorProvider1.SetError(this.label1, resources.GetString("label1.Error"));
+			this.errorProvider1.SetIconAlignment(this.label1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.label1, ((int)(resources.GetObject("label1.IconPadding"))));
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(132, 23);
-			this.label1.TabIndex = 6;
-			this.label1.Text = "AOStream Station";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// pbxLogo
 			// 
+			resources.ApplyResources(this.pbxLogo, "pbxLogo");
 			this.pbxLogo.BackColor = System.Drawing.Color.Transparent;
-			this.pbxLogo.Location = new System.Drawing.Point(21, 12);
+			this.errorProvider1.SetError(this.pbxLogo, resources.GetString("pbxLogo.Error"));
+			this.errorProvider1.SetIconAlignment(this.pbxLogo, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("pbxLogo.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.pbxLogo, ((int)(resources.GetObject("pbxLogo.IconPadding"))));
 			this.pbxLogo.Name = "pbxLogo";
-			this.pbxLogo.Size = new System.Drawing.Size(100, 82);
-			this.pbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.pbxLogo.TabIndex = 6;
 			this.pbxLogo.TabStop = false;
 			// 
 			// lblSyncTransferStatus
 			// 
-			this.lblSyncTransferStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.lblSyncTransferStatus, "lblSyncTransferStatus");
 			this.lblSyncTransferStatus.BackColor = System.Drawing.Color.Transparent;
-			this.lblSyncTransferStatus.Location = new System.Drawing.Point(14, 153);
+			this.errorProvider1.SetError(this.lblSyncTransferStatus, resources.GetString("lblSyncTransferStatus.Error"));
+			this.errorProvider1.SetIconAlignment(this.lblSyncTransferStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblSyncTransferStatus.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.lblSyncTransferStatus, ((int)(resources.GetObject("lblSyncTransferStatus.IconPadding"))));
 			this.lblSyncTransferStatus.Name = "lblSyncTransferStatus";
-			this.lblSyncTransferStatus.Size = new System.Drawing.Size(107, 57);
-			this.lblSyncTransferStatus.TabIndex = 2;
-			this.lblSyncTransferStatus.Text = "[Sync Transfer Status]";
 			// 
 			// lblSyncStatus
 			// 
-			this.lblSyncStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.lblSyncStatus, "lblSyncStatus");
 			this.lblSyncStatus.BackColor = System.Drawing.Color.Transparent;
-			this.lblSyncStatus.Location = new System.Drawing.Point(0, 125);
+			this.errorProvider1.SetError(this.lblSyncStatus, resources.GetString("lblSyncStatus.Error"));
+			this.errorProvider1.SetIconAlignment(this.lblSyncStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblSyncStatus.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.lblSyncStatus, ((int)(resources.GetObject("lblSyncStatus.IconPadding"))));
 			this.lblSyncStatus.Name = "lblSyncStatus";
-			this.lblSyncStatus.Size = new System.Drawing.Size(138, 28);
-			this.lblSyncStatus.TabIndex = 1;
-			this.lblSyncStatus.Text = "[Sync Status]";
-			this.lblSyncStatus.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
 			// tabControl1
 			// 
+			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.Controls.Add(this.tabGeneral);
 			this.tabControl1.Controls.Add(this.tabDevices);
 			this.tabControl1.Controls.Add(this.tabAccount);
 			this.tabControl1.Controls.Add(this.tabConnections);
 			this.tabControl1.Controls.Add(this.tabAbout);
-			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.errorProvider1.SetError(this.tabControl1, resources.GetString("tabControl1.Error"));
+			this.errorProvider1.SetIconAlignment(this.tabControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabControl1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.tabControl1, ((int)(resources.GetObject("tabControl1.IconPadding"))));
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(513, 325);
-			this.tabControl1.TabIndex = 0;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
 			// tabGeneral
 			// 
+			resources.ApplyResources(this.tabGeneral, "tabGeneral");
 			this.tabGeneral.Controls.Add(this.usageDetailControl1);
 			this.tabGeneral.Controls.Add(this.groupBox3);
-			this.tabGeneral.Location = new System.Drawing.Point(4, 22);
+			this.errorProvider1.SetError(this.tabGeneral, resources.GetString("tabGeneral.Error"));
+			this.errorProvider1.SetIconAlignment(this.tabGeneral, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabGeneral.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.tabGeneral, ((int)(resources.GetObject("tabGeneral.IconPadding"))));
 			this.tabGeneral.Name = "tabGeneral";
-			this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-			this.tabGeneral.Size = new System.Drawing.Size(505, 299);
-			this.tabGeneral.TabIndex = 3;
-			this.tabGeneral.Text = "General";
 			this.tabGeneral.UseVisualStyleBackColor = true;
 			// 
 			// usageDetailControl1
 			// 
-			this.usageDetailControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.usageDetailControl1, "usageDetailControl1");
 			this.usageDetailControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.usageDetailControl1.CloudTotalUsage = "[Cloud Total Usage]";
+			this.errorProvider1.SetError(this.usageDetailControl1, resources.GetString("usageDetailControl1.Error"));
+			this.errorProvider1.SetIconAlignment(this.usageDetailControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("usageDetailControl1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.usageDetailControl1, ((int)(resources.GetObject("usageDetailControl1.IconPadding"))));
 			this.usageDetailControl1.LocalDocument = "---";
 			this.usageDetailControl1.LocalPhoto = "---";
-			this.usageDetailControl1.Location = new System.Drawing.Point(4, 6);
 			this.usageDetailControl1.Name = "usageDetailControl1";
 			this.usageDetailControl1.ResourcePath = "[Resource Folder]";
-			this.usageDetailControl1.Size = new System.Drawing.Size(495, 202);
-			this.usageDetailControl1.TabIndex = 1;
 			this.usageDetailControl1.TotalDocument = ((long)(0));
 			this.usageDetailControl1.TotalPhoto = ((long)(0));
 			this.usageDetailControl1.TotalWeb = ((long)(0));
@@ -296,274 +254,282 @@
 			// 
 			// groupBox3
 			// 
+			resources.ApplyResources(this.groupBox3, "groupBox3");
 			this.groupBox3.Controls.Add(this.checkBox2);
 			this.groupBox3.Controls.Add(this.checkBox1);
-			this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.groupBox3.Location = new System.Drawing.Point(3, 214);
+			this.errorProvider1.SetError(this.groupBox3, resources.GetString("groupBox3.Error"));
+			this.errorProvider1.SetIconAlignment(this.groupBox3, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("groupBox3.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.groupBox3, ((int)(resources.GetObject("groupBox3.IconPadding"))));
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(499, 82);
-			this.groupBox3.TabIndex = 0;
 			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = "Import Wizard";
 			// 
 			// checkBox2
 			// 
-			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(10, 50);
+			resources.ApplyResources(this.checkBox2, "checkBox2");
+			this.errorProvider1.SetError(this.checkBox2, resources.GetString("checkBox2.Error"));
+			this.errorProvider1.SetIconAlignment(this.checkBox2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("checkBox2.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.checkBox2, ((int)(resources.GetObject("checkBox2.IconPadding"))));
 			this.checkBox2.Name = "checkBox2";
-			this.checkBox2.Size = new System.Drawing.Size(265, 16);
-			this.checkBox2.TabIndex = 1;
-			this.checkBox2.Text = "開啟PDF及PowerPoint檔案後，自動匯入該文件";
 			this.checkBox2.UseVisualStyleBackColor = true;
 			// 
 			// checkBox1
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(10, 28);
+			resources.ApplyResources(this.checkBox1, "checkBox1");
+			this.errorProvider1.SetError(this.checkBox1, resources.GetString("checkBox1.Error"));
+			this.errorProvider1.SetIconAlignment(this.checkBox1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("checkBox1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.checkBox1, ((int)(resources.GetObject("checkBox1.IconPadding"))));
 			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(240, 16);
-			this.checkBox1.TabIndex = 0;
-			this.checkBox1.Text = "插入外接裝置時，自動開啟檔案匯入精靈";
 			this.checkBox1.UseVisualStyleBackColor = true;
 			// 
 			// tabDevices
 			// 
+			resources.ApplyResources(this.tabDevices, "tabDevices");
 			this.tabDevices.Controls.Add(this.personalCloudStatusControl21);
-			this.tabDevices.Location = new System.Drawing.Point(4, 22);
+			this.errorProvider1.SetError(this.tabDevices, resources.GetString("tabDevices.Error"));
+			this.errorProvider1.SetIconAlignment(this.tabDevices, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabDevices.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.tabDevices, ((int)(resources.GetObject("tabDevices.IconPadding"))));
 			this.tabDevices.Name = "tabDevices";
-			this.tabDevices.Padding = new System.Windows.Forms.Padding(3);
-			this.tabDevices.Size = new System.Drawing.Size(505, 299);
-			this.tabDevices.TabIndex = 2;
-			this.tabDevices.Text = "Personal Cloud";
 			this.tabDevices.UseVisualStyleBackColor = true;
 			// 
 			// personalCloudStatusControl21
 			// 
+			resources.ApplyResources(this.personalCloudStatusControl21, "personalCloudStatusControl21");
 			this.personalCloudStatusControl21.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.personalCloudStatusControl21.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.personalCloudStatusControl21.EnableAutoRefreshStatus = false;
-			this.personalCloudStatusControl21.Location = new System.Drawing.Point(3, 3);
+			this.errorProvider1.SetError(this.personalCloudStatusControl21, resources.GetString("personalCloudStatusControl21.Error"));
+			this.errorProvider1.SetIconAlignment(this.personalCloudStatusControl21, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("personalCloudStatusControl21.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.personalCloudStatusControl21, ((int)(resources.GetObject("personalCloudStatusControl21.IconPadding"))));
 			this.personalCloudStatusControl21.Name = "personalCloudStatusControl21";
 			this.personalCloudStatusControl21.RefreshInterval = 15000;
-			this.personalCloudStatusControl21.Size = new System.Drawing.Size(499, 293);
-			this.personalCloudStatusControl21.TabIndex = 0;
 			// 
 			// tabAccount
 			// 
+			resources.ApplyResources(this.tabAccount, "tabAccount");
 			this.tabAccount.Controls.Add(this.groupBox2);
 			this.tabAccount.Controls.Add(this.groupBox1);
-			this.tabAccount.Location = new System.Drawing.Point(4, 22);
+			this.errorProvider1.SetError(this.tabAccount, resources.GetString("tabAccount.Error"));
+			this.errorProvider1.SetIconAlignment(this.tabAccount, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabAccount.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.tabAccount, ((int)(resources.GetObject("tabAccount.IconPadding"))));
 			this.tabAccount.Name = "tabAccount";
-			this.tabAccount.Padding = new System.Windows.Forms.Padding(3);
-			this.tabAccount.Size = new System.Drawing.Size(505, 299);
-			this.tabAccount.TabIndex = 0;
-			this.tabAccount.Text = "Account";
 			this.tabAccount.UseVisualStyleBackColor = true;
 			// 
 			// groupBox2
 			// 
+			resources.ApplyResources(this.groupBox2, "groupBox2");
 			this.groupBox2.Controls.Add(this.planBox1);
 			this.groupBox2.Controls.Add(this.panel1);
-			this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBox2.Location = new System.Drawing.Point(3, 111);
+			this.errorProvider1.SetError(this.groupBox2, resources.GetString("groupBox2.Error"));
+			this.errorProvider1.SetIconAlignment(this.groupBox2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("groupBox2.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.groupBox2, ((int)(resources.GetObject("groupBox2.IconPadding"))));
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(499, 185);
-			this.groupBox2.TabIndex = 4;
 			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Plan";
 			// 
 			// planBox1
 			// 
+			resources.ApplyResources(this.planBox1, "planBox1");
 			this.planBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.planBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.planBox1.Location = new System.Drawing.Point(3, 18);
+			this.errorProvider1.SetError(this.planBox1, resources.GetString("planBox1.Error"));
+			this.planBox1.HeaderVisibile = false;
+			this.errorProvider1.SetIconAlignment(this.planBox1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("planBox1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.planBox1, ((int)(resources.GetObject("planBox1.IconPadding"))));
 			this.planBox1.Name = "planBox1";
-			this.planBox1.Size = new System.Drawing.Size(493, 133);
-			this.planBox1.TabIndex = 19;
-			this.planBox1.Text = "planBox1";
 			this.planBox1.Type = Waveface.Stream.WindowsClient.PlanBox.PlanType.Free;
 			// 
 			// panel1
 			// 
+			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Controls.Add(this.button3);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(3, 151);
+			this.errorProvider1.SetError(this.panel1, resources.GetString("panel1.Error"));
+			this.errorProvider1.SetIconAlignment(this.panel1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panel1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.panel1, ((int)(resources.GetObject("panel1.IconPadding"))));
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(493, 31);
-			this.panel1.TabIndex = 18;
 			// 
 			// button3
 			// 
-			this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button3.Location = new System.Drawing.Point(380, 3);
+			resources.ApplyResources(this.button3, "button3");
+			this.errorProvider1.SetError(this.button3, resources.GetString("button3.Error"));
+			this.errorProvider1.SetIconAlignment(this.button3, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("button3.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.button3, ((int)(resources.GetObject("button3.IconPadding"))));
 			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(110, 23);
-			this.button3.TabIndex = 18;
-			this.button3.Text = "Pick your Right Plan";
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
 			// groupBox1
 			// 
+			resources.ApplyResources(this.groupBox1, "groupBox1");
 			this.groupBox1.Controls.Add(this.panel2);
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Controls.Add(this.tbxEmail);
 			this.groupBox1.Controls.Add(this.tbxName);
-			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox1.Location = new System.Drawing.Point(3, 3);
+			this.errorProvider1.SetError(this.groupBox1, resources.GetString("groupBox1.Error"));
+			this.errorProvider1.SetIconAlignment(this.groupBox1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("groupBox1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.groupBox1, ((int)(resources.GetObject("groupBox1.IconPadding"))));
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(499, 108);
-			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Account Info";
 			// 
 			// panel2
 			// 
+			resources.ApplyResources(this.panel2, "panel2");
 			this.panel2.Controls.Add(this.button2);
 			this.panel2.Controls.Add(this.btnUnLink);
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel2.Location = new System.Drawing.Point(3, 74);
+			this.errorProvider1.SetError(this.panel2, resources.GetString("panel2.Error"));
+			this.errorProvider1.SetIconAlignment(this.panel2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panel2.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.panel2, ((int)(resources.GetObject("panel2.IconPadding"))));
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(493, 31);
-			this.panel2.TabIndex = 19;
 			// 
 			// button2
 			// 
-			this.button2.Location = new System.Drawing.Point(380, 3);
+			resources.ApplyResources(this.button2, "button2");
+			this.errorProvider1.SetError(this.button2, resources.GetString("button2.Error"));
+			this.errorProvider1.SetIconAlignment(this.button2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("button2.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.button2, ((int)(resources.GetObject("button2.IconPadding"))));
 			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(110, 23);
-			this.button2.TabIndex = 16;
-			this.button2.Text = "Delete Account";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
 			// btnUnLink
 			// 
-			this.btnUnLink.Location = new System.Drawing.Point(226, 3);
+			resources.ApplyResources(this.btnUnLink, "btnUnLink");
+			this.errorProvider1.SetError(this.btnUnLink, resources.GetString("btnUnLink.Error"));
+			this.errorProvider1.SetIconAlignment(this.btnUnLink, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btnUnLink.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.btnUnLink, ((int)(resources.GetObject("btnUnLink.IconPadding"))));
 			this.btnUnLink.Name = "btnUnLink";
-			this.btnUnLink.Size = new System.Drawing.Size(148, 23);
-			this.btnUnLink.TabIndex = 13;
-			this.btnUnLink.Text = "Logout && Unlink this PC...";
 			this.btnUnLink.UseVisualStyleBackColor = true;
 			this.btnUnLink.Click += new System.EventHandler(this.btnUnLink_Click);
 			// 
 			// label4
 			// 
-			this.label4.AutoSize = true;
-			this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label4.Location = new System.Drawing.Point(6, 46);
+			resources.ApplyResources(this.label4, "label4");
+			this.errorProvider1.SetError(this.label4, resources.GetString("label4.Error"));
+			this.errorProvider1.SetIconAlignment(this.label4, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label4.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.label4, ((int)(resources.GetObject("label4.IconPadding"))));
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(38, 12);
-			this.label4.TabIndex = 10;
-			this.label4.Text = "Name :";
 			// 
 			// label5
 			// 
-			this.label5.AutoSize = true;
-			this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label5.Location = new System.Drawing.Point(6, 18);
+			resources.ApplyResources(this.label5, "label5");
+			this.errorProvider1.SetError(this.label5, resources.GetString("label5.Error"));
+			this.errorProvider1.SetIconAlignment(this.label5, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label5.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.label5, ((int)(resources.GetObject("label5.IconPadding"))));
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(38, 12);
-			this.label5.TabIndex = 8;
-			this.label5.Text = "Email :";
 			// 
 			// tbxEmail
 			// 
-			this.tbxEmail.Location = new System.Drawing.Point(65, 15);
+			resources.ApplyResources(this.tbxEmail, "tbxEmail");
+			this.errorProvider1.SetError(this.tbxEmail, resources.GetString("tbxEmail.Error"));
+			this.errorProvider1.SetIconAlignment(this.tbxEmail, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tbxEmail.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.tbxEmail, ((int)(resources.GetObject("tbxEmail.IconPadding"))));
 			this.tbxEmail.Name = "tbxEmail";
-			this.tbxEmail.Size = new System.Drawing.Size(165, 22);
-			this.tbxEmail.TabIndex = 21;
 			this.tbxEmail.Leave += new System.EventHandler(this.tbxEmail_Leave);
 			// 
 			// tbxName
 			// 
-			this.tbxName.Location = new System.Drawing.Point(65, 43);
+			resources.ApplyResources(this.tbxName, "tbxName");
+			this.errorProvider1.SetError(this.tbxName, resources.GetString("tbxName.Error"));
+			this.errorProvider1.SetIconAlignment(this.tbxName, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tbxName.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.tbxName, ((int)(resources.GetObject("tbxName.IconPadding"))));
 			this.tbxName.Name = "tbxName";
-			this.tbxName.Size = new System.Drawing.Size(165, 22);
-			this.tbxName.TabIndex = 22;
 			this.tbxName.Leave += new System.EventHandler(this.tbxName_Leave);
 			// 
 			// tabConnections
 			// 
+			resources.ApplyResources(this.tabConnections, "tabConnections");
 			this.tabConnections.Controls.Add(this.serviceImportControl1);
-			this.tabConnections.Location = new System.Drawing.Point(4, 22);
+			this.errorProvider1.SetError(this.tabConnections, resources.GetString("tabConnections.Error"));
+			this.errorProvider1.SetIconAlignment(this.tabConnections, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabConnections.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.tabConnections, ((int)(resources.GetObject("tabConnections.IconPadding"))));
 			this.tabConnections.Name = "tabConnections";
-			this.tabConnections.Padding = new System.Windows.Forms.Padding(3);
-			this.tabConnections.Size = new System.Drawing.Size(505, 299);
-			this.tabConnections.TabIndex = 1;
-			this.tabConnections.Text = "Web Services";
 			this.tabConnections.UseVisualStyleBackColor = true;
 			// 
 			// serviceImportControl1
 			// 
+			resources.ApplyResources(this.serviceImportControl1, "serviceImportControl1");
 			this.serviceImportControl1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.serviceImportControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.serviceImportControl1.Location = new System.Drawing.Point(3, 3);
+			this.errorProvider1.SetError(this.serviceImportControl1, resources.GetString("serviceImportControl1.Error"));
+			this.errorProvider1.SetIconAlignment(this.serviceImportControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("serviceImportControl1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.serviceImportControl1, ((int)(resources.GetObject("serviceImportControl1.IconPadding"))));
 			this.serviceImportControl1.Name = "serviceImportControl1";
-			this.serviceImportControl1.Size = new System.Drawing.Size(499, 293);
-			this.serviceImportControl1.TabIndex = 0;
 			// 
 			// tabAbout
 			// 
+			resources.ApplyResources(this.tabAbout, "tabAbout");
 			this.tabAbout.Controls.Add(this.aboutControl1);
-			this.tabAbout.Location = new System.Drawing.Point(4, 22);
+			this.errorProvider1.SetError(this.tabAbout, resources.GetString("tabAbout.Error"));
+			this.errorProvider1.SetIconAlignment(this.tabAbout, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("tabAbout.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.tabAbout, ((int)(resources.GetObject("tabAbout.IconPadding"))));
 			this.tabAbout.Name = "tabAbout";
-			this.tabAbout.Padding = new System.Windows.Forms.Padding(3);
-			this.tabAbout.Size = new System.Drawing.Size(505, 299);
-			this.tabAbout.TabIndex = 4;
-			this.tabAbout.Text = "About";
 			this.tabAbout.UseVisualStyleBackColor = true;
 			// 
 			// aboutControl1
 			// 
-			this.aboutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.aboutControl1.Location = new System.Drawing.Point(3, 3);
+			resources.ApplyResources(this.aboutControl1, "aboutControl1");
+			this.errorProvider1.SetError(this.aboutControl1, resources.GetString("aboutControl1.Error"));
+			this.errorProvider1.SetIconAlignment(this.aboutControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("aboutControl1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.aboutControl1, ((int)(resources.GetObject("aboutControl1.IconPadding"))));
 			this.aboutControl1.Name = "aboutControl1";
-			this.aboutControl1.Size = new System.Drawing.Size(499, 293);
-			this.aboutControl1.TabIndex = 0;
+			// 
+			// linkLabel1
+			// 
+			resources.ApplyResources(this.linkLabel1, "linkLabel1");
+			this.errorProvider1.SetError(this.linkLabel1, resources.GetString("linkLabel1.Error"));
+			this.errorProvider1.SetIconAlignment(this.linkLabel1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("linkLabel1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.linkLabel1, ((int)(resources.GetObject("linkLabel1.IconPadding"))));
+			this.linkLabel1.Name = "linkLabel1";
+			this.linkLabel1.TabStop = true;
+			// 
+			// btnOK
+			// 
+			resources.ApplyResources(this.btnOK, "btnOK");
+			this.errorProvider1.SetError(this.btnOK, resources.GetString("btnOK.Error"));
+			this.errorProvider1.SetIconAlignment(this.btnOK, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btnOK.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.btnOK, ((int)(resources.GetObject("btnOK.IconPadding"))));
+			this.btnOK.Name = "btnOK";
+			this.btnOK.UseVisualStyleBackColor = true;
+			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+			// 
+			// refreshStatusTimer
+			// 
+			this.refreshStatusTimer.Interval = 1000;
+			this.refreshStatusTimer.Tick += new System.EventHandler(this.refreshStatusTimer_Tick);
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnCancel.Location = new System.Drawing.Point(588, 345);
+			resources.ApplyResources(this.btnCancel, "btnCancel");
+			this.errorProvider1.SetError(this.btnCancel, resources.GetString("btnCancel.Error"));
+			this.errorProvider1.SetIconAlignment(this.btnCancel, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("btnCancel.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.btnCancel, ((int)(resources.GetObject("btnCancel.IconPadding"))));
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(75, 21);
-			this.btnCancel.TabIndex = 3;
-			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// errorProvider1
 			// 
 			this.errorProvider1.ContainerControl = this;
+			resources.ApplyResources(this.errorProvider1, "errorProvider1");
 			// 
 			// systemIconControl1
 			// 
-			this.systemIconControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			resources.ApplyResources(this.systemIconControl1, "systemIconControl1");
+			this.errorProvider1.SetError(this.systemIconControl1, resources.GetString("systemIconControl1.Error"));
+			this.errorProvider1.SetIconAlignment(this.systemIconControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("systemIconControl1.IconAlignment"))));
+			this.errorProvider1.SetIconPadding(this.systemIconControl1, ((int)(resources.GetObject("systemIconControl1.IconPadding"))));
 			this.systemIconControl1.IconType = Waveface.Stream.WindowsClient.SystemIconControl.SystemIconType.Question;
-			this.systemIconControl1.Location = new System.Drawing.Point(12, 343);
 			this.systemIconControl1.Name = "systemIconControl1";
-			this.systemIconControl1.Size = new System.Drawing.Size(26, 23);
-			this.systemIconControl1.TabIndex = 2;
-			this.systemIconControl1.Text = "systemIconControl1";
 			// 
 			// PreferencesDialog
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(679, 375);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.systemIconControl1);
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.splitContainer1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "PreferencesDialog";
-			this.Text = "AOStream Preferences";
 			this.Load += new System.EventHandler(this.PreferencesDialog_Load);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);

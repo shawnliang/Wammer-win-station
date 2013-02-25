@@ -52,11 +52,11 @@
 			// 
 			// ServiceImportControl
 			// 
-			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.svcPanel);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.label2);
 			this.Name = "ServiceImportControl";
+			resources.ApplyResources(this, "$this");
 			this.Load += new System.EventHandler(this.ServiceImportControl_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

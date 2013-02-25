@@ -481,6 +481,11 @@
     </None>
     <None Include="Resources\addDeviceInstruction.rtf" />
     <None Include="Resources\FreePlan.rtf" />
+    <None Include="Resources\FreePlan.zh-tw.rtf" />
+    <None Include="Resources\Plan1.rtf" />
+    <None Include="Resources\Plan1.zh-tw.rtf" />
+    <None Include="Resources\Plan2.rtf" />
+    <None Include="Resources\Plan2.zh-tw.rtf" />
     <None Include="Web\.DS_Store" />
     <None Include="Web\javascripts\lib\jasmine\MIT.LICENSE" />
     <None Include="Web\javascripts\tests\mocks\posts.json" />
@@ -503,17 +508,35 @@
     <EmbeddedResource Include="Src\Control\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\AboutControl.zh-TW.resx">
+      <DependentUpon>AboutControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\ChoosePlanControl.zh-TW.resx">
+      <DependentUpon>ChoosePlanControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\DocImportControl.resx">
       <DependentUpon>DocImportControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\DebugComponent\LogMessageComponent.resx">
       <DependentUpon>LogMessageComponent.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\FileImportControl.zh-TW.resx">
+      <DependentUpon>FileImportControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\IntroControl.resx">
       <DependentUpon>IntroControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\LoginControl.zh-TW.resx">
       <DependentUpon>LoginControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\LoginInputBox.zh-TW.resx">
+      <DependentUpon>LoginInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\PersonalCloudStatusControl.zh-TW.resx">
+      <DependentUpon>PersonalCloudStatusControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\PlanBox.resx">
+      <DependentUpon>PlanBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\SignupControl.resx">
       <DependentUpon>SignupControl.cs</DependentUpon>
@@ -572,6 +595,9 @@
     <EmbeddedResource Include="Src\Control\UsageDetailControl.resx">
       <DependentUpon>UsageDetailControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Control\UsageDetailControl.zh-TW.resx">
+      <DependentUpon>UsageDetailControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\AddDeviceDialog.resx">
       <DependentUpon>AddDeviceDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -591,6 +617,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ContactUsDialog.zh-TW.resx">
       <DependentUpon>ContactUsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\NewUserWizardDialog.zh-TW.resx">
+      <DependentUpon>NewUserWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\OldUserWizardDialog.zh-TW.resx">
+      <DependentUpon>OldUserWizardDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\PlanChangeDialog.resx">
       <DependentUpon>PlanChangeDialog.cs</DependentUpon>
@@ -620,6 +652,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\OldUserWizardDialog.resx">
       <DependentUpon>OldUserWizardDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\PreferencesDialog.zh-TW.resx">
+      <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\ProcessingDialog.resx">
       <DependentUpon>ProcessingDialog.cs</DependentUpon>
@@ -668,12 +703,15 @@
     <Content Include="Resources\fb_btn.png" />
     <Content Include="Resources\fb_btn_press.png" />
     <Content Include="Resources\FB_Logo.png" />
+    <None Include="Resources\Foursquare.png" />
     <Content Include="Resources\f_logo.png" />
     <None Include="Resources\icon_16x16.png" />
     <None Include="Resources\icon_16x16offline.png" />
     <None Include="Resources\icon_16x16Error.png" />
     <None Include="Resources\icon_16x16Pause.png" />
     <None Include="Resources\icon_16x16Warning.png" />
+    <None Include="Resources\Google.jpg" />
+    <None Include="Resources\GBGsmall.png" />
     <Content Include="Resources\import-photos_normal.png" />
     <Content Include="Resources\import-photos_press.png" />
     <Content Include="Resources\input_box-2.png" />
@@ -687,12 +725,14 @@
     <Content Include="Resources\streamfotocollector_icon_128.png" />
     <Content Include="Resources\stream_appstore_qr.png" />
     <Content Include="Resources\stream_googleplay_qr.png" />
+    <None Include="Resources\twitter.png" />
     <Content Include="Resources\UpdateAvailable.ico" />
     <Content Include="Resources\usbflashcardwithcardreader2.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
     <Content Include="Resources\windows_zh-tw_2.jpg" />
+    <None Include="Resources\WinLogo.png" />
     <Content Include="Web\images\colorbox\border.png" />
     <Content Include="Web\images\colorbox\controls.png" />
     <Content Include="Web\images\colorbox\ie6\borderBottomCenter.png" />

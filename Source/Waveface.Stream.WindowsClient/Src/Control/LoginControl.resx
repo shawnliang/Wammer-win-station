@@ -129,7 +129,7 @@
     <value>True</value>
   </data>
   <data name="fbLoginButton1.DisplayText" xml:space="preserve">
-    <value>Login with Facebook</value>
+    <value>Log in with Facebook</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="fbLoginButton1.Font" type="System.Drawing.Font, System.Drawing">
@@ -142,7 +142,7 @@
     <value>6, 5, 6, 5</value>
   </data>
   <data name="fbLoginButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>377, 45</value>
+    <value>393, 45</value>
   </data>
   <data name="fbLoginButton1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -172,13 +172,13 @@
     <value>8, 227</value>
   </data>
   <data name="forgotPwdLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>375, 15</value>
+    <value>391, 15</value>
   </data>
   <data name="forgotPwdLabel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="forgotPwdLabel.Text" xml:space="preserve">
-    <value>Forgot password?</value>
+    <value>Forgot Password?</value>
   </data>
   <data name="forgotPwdLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopCenter</value>
@@ -205,7 +205,7 @@
     <value>6, 59</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>378, 21</value>
+    <value>394, 21</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -241,13 +241,13 @@
     <value>6, 264</value>
   </data>
   <data name="loginButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>377, 30</value>
+    <value>393, 30</value>
   </data>
   <data name="loginButton.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="loginButton.Text" xml:space="preserve">
-    <value>Login</value>
+    <value>Log in</value>
   </data>
   <data name="&gt;&gt;loginButton.Name" xml:space="preserve">
     <value>loginButton</value>
@@ -268,7 +268,7 @@
     <value>8, 120</value>
   </data>
   <data name="loginInputBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>375, 102</value>
+    <value>391, 102</value>
   </data>
   <data name="loginInputBox1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -289,7 +289,7 @@
     <value>83, 35</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 299</value>
+    <value>405, 299</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>

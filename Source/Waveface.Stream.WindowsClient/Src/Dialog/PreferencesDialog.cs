@@ -285,9 +285,9 @@ namespace Waveface.Stream.WindowsClient
 			lblDeviceName.Text = device.Name;
 
 			if (device.RemainingBackUpCount > 0)
-				label2.Text = string.Format("receiving {0} files", device.RemainingBackUpCount.ToString());
+				label2.Text = string.Format(Resources.RECEVING_FILES_PATTERN, device.RemainingBackUpCount.ToString());
 			else
-				label2.Text = "Connected Locally";
+				label2.Text = Resources.SYNC_CONNECTED_LOCALLY;
 		}
 
 		private Boolean IsValidEmailFormat()
@@ -402,7 +402,7 @@ namespace Waveface.Stream.WindowsClient
 		private void btnUnLink_Click(object sender, EventArgs e)
 		{
 			var user = StreamClient.Instance.LoginedUser;
-			using (var dialog = new CleanResourceDialog(user.EMail))
+			using (var dialog = new CleanResourceDialog())
 			{
 				dialog.TopMost = this.TopMost;
 				dialog.BackColor = this.BackColor;
@@ -473,7 +473,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateDeviceConnectCount()
 		{
-			lblDeviceConnectStatus.Text = string.Format("{0} devices connected", cmbDevice.Items.Count.ToString());
+			lblDeviceConnectStatus.Text = string.Format(Resources.DEVICE_CONNECTED_PATTERN, cmbDevice.Items.Count.ToString());
 		}
 
 		private void UpdateDeviceComboBox()
@@ -577,8 +577,10 @@ namespace Waveface.Stream.WindowsClient
 
 		private void button2_Click(object sender, EventArgs e)
 		{
+			if (MessageBox.Show(Resources.DELETE_ACCOUNT_MESSAGE,Resources.DELETE_ACCOUNT_TITLE, MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+			{
 			StationAPI.DeleteAccount(StreamClient.Instance.LoginedUser.SessionToken);
-			MessageBox.Show("Delete email sended...");
+			}
 		}
 
 		static void Instance_UserInfoUpdateFail(object sender, ExceptionEventArgs e)
@@ -620,22 +622,22 @@ namespace Waveface.Stream.WindowsClient
 
 				var bgworker = new BackgroundWorker();
 				bgworker.DoWork += (sender, arg) =>
-				{
+		{
 					StationAPI.MoveFolder(StreamClient.Instance.LoginedUser.UserID, dialog.SelectedPath, StreamClient.Instance.LoginedUser.SessionToken);
 				};
 
 				bgworker.RunWorkerCompleted += (sender, arg) =>
-				{
+			{
 					progressing.Close();
 
 					if (arg.Error != null)
-					{
+			{
 						MessageBox.Show(arg.Error.GetDisplayDescription(), "Unable to change AOStream folder location");
-					}
-					else
-					{
+				}
+				else
+				{
 						usageDetailControl1.ResourcePath = dialog.SelectedPath;
-					}
+				}
 				};
 				bgworker.RunWorkerAsync();
 

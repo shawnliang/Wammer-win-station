@@ -10,5 +10,10 @@ namespace Waveface.Stream.WindowsClient
 			: base("twitter", "Twitter", Resources.SVC_TWITTER_DESC)
 		{
 		}
+
+		public override System.Drawing.Image Icon
+		{
+			get { return Properties.Resources.twitter; }
+		}
 	}
 }

@@ -128,13 +128,13 @@
     <value>435, 41</value>
   </data>
   <data name="lblConfirm.Text" xml:space="preserve">
-    <value>是否要刪除 xxx@waveface.com 在這台電腦上儲存的所有資料？</value>
+    <value>解除這台電腦的連結之後，將不再與您的裝置同步。繼續？</value>
   </data>
   <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 19</value>
+    <value>247, 19</value>
   </data>
   <data name="checkBox1.Text" xml:space="preserve">
-    <value>刪除所有資料</value>
+    <value>同時刪除所有保存在這台電腦上的檔案</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1451,6 +1451,6 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>刪除帳號</value>
+    <value>登出並解除這台電腦的連結</value>
   </data>
 </root>
