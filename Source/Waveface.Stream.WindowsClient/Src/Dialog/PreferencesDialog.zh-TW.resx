@@ -117,53 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="btnCancel.Error" xml:space="preserve">
-    <value />
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnCancel.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnCancel.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="btnCancel.Text" xml:space="preserve">
     <value>取消</value>
-  </data>
-  <data name="systemIconControl1.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="systemIconControl1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="systemIconControl1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnOK.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="btnOK.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="btnOK.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="btnOK.Text" xml:space="preserve">
     <value>確定</value>
   </data>
-  <data name="linkLabel1.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="linkLabel1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="linkLabel1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
+    <value>31, 13</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
     <value>幫助</value>
@@ -6340,397 +6315,205 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>喜好設定</value>
-  </data>
-  <data name="splitContainer1.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="splitContainer1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="splitContainer1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblDeviceName.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="lblDeviceName.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="lblDeviceName.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label2.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="label2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="label2.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblDeviceConnectStatus.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="lblDeviceConnectStatus.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="lblDeviceConnectStatus.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="cmbDevice.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="cmbDevice.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="cmbDevice.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label1.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="label1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="label1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="pbxLogo.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="pbxLogo.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="pbxLogo.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblSyncTransferStatus.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="lblSyncTransferStatus.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="lblSyncTransferStatus.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblSyncStatus.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="lblSyncStatus.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="lblSyncStatus.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="panelEx1.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="panelEx1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="panelEx1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="splitContainer1.Panel1.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="splitContainer1.Panel1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="splitContainer1.Panel1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="usageDetailControl1.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="usageDetailControl1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="usageDetailControl1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="checkBox2.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="checkBox2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="checkBox2.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="checkBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 16</value>
+    <value>300, 17</value>
   </data>
   <data name="checkBox2.Text" xml:space="preserve">
-    <value>開啟PDF及PowerPoint檔案時，自動匯入該文件</value>
-  </data>
-  <data name="checkBox1.Error" xml:space="preserve">
-    <value />
+    <value>開啟PDF及PowerPoint檔案時，自動匯入該文件 (Beta)</value>
   </data>
   <data name="checkBox1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="checkBox1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="checkBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 16</value>
+    <value>194, 17</value>
   </data>
   <data name="checkBox1.Text" xml:space="preserve">
     <value>插入外接裝置時，自動匯入照片</value>
   </data>
-  <data name="groupBox3.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="groupBox3.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="groupBox3.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>自動匯入</value>
   </data>
-  <data name="tabGeneral.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabGeneral.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="tabGeneral.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="tabGeneral.Text" xml:space="preserve">
     <value>一般</value>
   </data>
-  <data name="personalCloudStatusControl21.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="personalCloudStatusControl21.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="personalCloudStatusControl21.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tabDevices.Error" xml:space="preserve">
-    <value />
+  <data name="personalCloudStatusControl21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>511, 320</value>
   </data>
   <data name="tabDevices.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="tabDevices.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="tabDevices.Text" xml:space="preserve">
     <value>連接的裝置</value>
-  </data>
-  <data name="planBox1.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="planBox1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="planBox1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="button3.Error" xml:space="preserve">
-    <value />
+  <data name="planBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>505, 150</value>
   </data>
   <data name="button3.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="button3.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="button3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>392, 3</value>
   </data>
   <data name="button3.Text" xml:space="preserve">
     <value>選擇適合的方案...</value>
   </data>
-  <data name="panel1.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="panel1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="panel1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 166</value>
   </data>
-  <data name="groupBox2.Error" xml:space="preserve">
-    <value />
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>505, 34</value>
   </data>
   <data name="groupBox2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="groupBox2.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>511, 203</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>現行方案</value>
   </data>
-  <data name="button2.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="button2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="button2.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="button2.Text" xml:space="preserve">
     <value>刪除帳號</value>
   </data>
-  <data name="btnUnLink.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="btnUnLink.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="btnUnLink.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="btnUnLink.Text" xml:space="preserve">
     <value>解除與本機連結</value>
   </data>
-  <data name="panel2.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="panel2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="panel2.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label4.Error" xml:space="preserve">
-    <value />
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>505, 34</value>
   </data>
   <data name="label4.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="label4.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 12</value>
+    <value>37, 13</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>名稱 :</value>
   </data>
-  <data name="label5.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="label5.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="label5.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 12</value>
+    <value>58, 13</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>電子郵件:</value>
   </data>
-  <data name="tbxEmail.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="tbxEmail.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="tbxEmail.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tbxName.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="tbxName.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="tbxName.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="groupBox1.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="groupBox1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="groupBox1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>511, 117</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>帳號資訊</value>
   </data>
-  <data name="tabAccount.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabAccount.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="tabAccount.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="tabAccount.Text" xml:space="preserve">
     <value>帳號</value>
   </data>
-  <data name="serviceImportControl1.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="serviceImportControl1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="serviceImportControl1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tabConnections.Error" xml:space="preserve">
-    <value />
+  <data name="serviceImportControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>511, 320</value>
   </data>
   <data name="tabConnections.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="tabConnections.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="tabConnections.Text" xml:space="preserve">
     <value>連接的服務</value>
-  </data>
-  <data name="aboutControl1.Error" xml:space="preserve">
-    <value />
   </data>
   <data name="aboutControl1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="aboutControl1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tabAbout.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabAbout.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="tabAbout.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="tabAbout.Text" xml:space="preserve">
     <value>關於</value>
   </data>
-  <data name="tabControl1.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="tabControl1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
   </data>
-  <data name="tabControl1.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="splitContainer1.Panel2.Error" xml:space="preserve">
-    <value />
-  </data>
   <data name="splitContainer1.Panel2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>MiddleRight</value>
-  </data>
-  <data name="splitContainer1.Panel2.IconPadding" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
 </root>

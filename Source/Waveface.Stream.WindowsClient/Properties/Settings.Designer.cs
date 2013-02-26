@@ -60,7 +60,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ImportOpenedDoc {
             get {
                 return ((bool)(this["ImportOpenedDoc"]));
