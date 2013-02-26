@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 
@@ -34,9 +33,9 @@ namespace Waveface.Stream.ClientFramework
 		#region Private Property
 		private DateTime? m_UpdateTime { get; set; }
 
-		private string m_SessionToken 
-		{ 
-			get 
+		private string m_SessionToken
+		{
+			get
 			{
 				return StreamClient.Instance.LoginedUser.SessionToken;
 			}
@@ -48,9 +47,9 @@ namespace Waveface.Stream.ClientFramework
 		/// <value>
 		/// The m_ user ID.
 		/// </value>
-		private string m_UserID 
+		private string m_UserID
 		{
-			get 
+			get
 			{
 				return StreamClient.Instance.LoginedUser.UserID;
 			}
@@ -115,7 +114,7 @@ namespace Waveface.Stream.ClientFramework
 					return null;
 				}
 			}
-			set 
+			set
 			{
 				_responseObj = value;
 			}
@@ -180,9 +179,9 @@ namespace Waveface.Stream.ClientFramework
 			}
 		}
 
-		public long TotalQuota 
+		public long TotalQuota
 		{
-			get 
+			get
 			{
 				return (m_ResponseObj.quota.total != null) ? m_ResponseObj.quota.total.origin_size : m_ResponseObj.quota.doc.origin_size + m_ResponseObj.quota.image.origin_size;
 			}

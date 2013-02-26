@@ -1,11 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Waveface.Stream.ClientFramework;
-using Waveface.Stream.Core;
 using Waveface.Stream.Model;
-using System.Collections.Generic;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -30,7 +27,7 @@ namespace Waveface.Stream.WindowsClient
 		}
 
 		public ImportFromPotableMediaControl(IPortableMediaService service)
-			:this()
+			: this()
 		{
 			this.Service = service;
 		}
@@ -38,7 +35,7 @@ namespace Waveface.Stream.WindowsClient
 		public IPortableMediaService Service
 		{
 			get { return service; }
-			set 
+			set
 			{
 				this.service = value;
 			}
@@ -47,7 +44,7 @@ namespace Waveface.Stream.WindowsClient
 		public void ImportDevice(string driveName)
 		{
 			var device = deviceCombobox.Items.OfType<PortableDevice>().FirstOrDefault(d => d.DrivePath.Equals(driveName, StringComparison.InvariantCultureIgnoreCase));
-		
+
 			if (device == null)
 				return;
 

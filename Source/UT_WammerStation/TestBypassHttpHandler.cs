@@ -3,7 +3,6 @@ using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
-using Wammer.Cloud;
 using Wammer.Station;
 using Waveface.Stream.Model;
 

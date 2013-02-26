@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Model;
-using System.Diagnostics;
-using System.IO;
+﻿using MongoDB.Bson;
 using MongoDB.Driver.Builders;
-using MongoDB.Bson;
-using Wammer.Cloud;
+using System;
+using System.IO;
 using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
@@ -18,13 +12,13 @@ namespace Wammer.Station.Timeline
 		public int retryCount { get; set; }
 
 		public MakeDocPreviewsTask()
-			:base(TaskPriority.Medium)
+			: base(TaskPriority.Medium)
 		{
 			retryCount = 50;
 		}
 
 		public MakeDocPreviewsTask(string doc_id)
-			:this()
+			: this()
 		{
 			this.doc_id = doc_id;
 		}

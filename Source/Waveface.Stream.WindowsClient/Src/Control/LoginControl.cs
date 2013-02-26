@@ -9,7 +9,7 @@ namespace Waveface.Stream.WindowsClient
 	{
 		#region Var
 		private IStreamLoginable login;
-		private UserSession session; 
+		private UserSession session;
 		#endregion
 
 
@@ -79,7 +79,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				Cursor.Current = Cursors.Default;
 			}
-		} 
+		}
 		#endregion
 
 
@@ -124,7 +124,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				loginButton1_Click(this, e);
 			}
-		} 
+		}
 		#endregion
 
 	}

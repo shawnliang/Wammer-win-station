@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Wammer.Utility;
 using Waveface.Stream.Model;
 
 namespace UT_WammerStation

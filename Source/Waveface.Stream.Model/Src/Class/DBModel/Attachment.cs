@@ -1,14 +1,9 @@
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver.Builders;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.Serialization;
-using System.Security.Cryptography;
-using System.Text;
-using System.Xml.Serialization;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Waveface.Stream.Model
 {
@@ -415,7 +410,7 @@ namespace Waveface.Stream.Model
 		public DateTime? file_create_time { get; set; }
 
 		[BsonIgnoreIfNull]
-		public DateTime? event_time 
+		public DateTime? event_time
 		{
 			get
 			{
@@ -446,7 +441,7 @@ namespace Waveface.Stream.Model
 
 		[BsonIgnoreIfNull]
 		public WebProperty web_meta { get; set; }
-		
+
 		/// <summary>
 		/// is the attachment is imported from this station?
 		/// </summary>

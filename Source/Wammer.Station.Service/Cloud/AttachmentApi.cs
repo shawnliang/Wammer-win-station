@@ -6,8 +6,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Text;
-using Wammer.Model;
 using Wammer.Station;
 using Wammer.Utility;
 using Waveface.Stream.Model;

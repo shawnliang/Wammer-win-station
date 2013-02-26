@@ -1,7 +1,6 @@
 ﻿using log4net;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using WebSocketSharp.Server;
 
 namespace Waveface.Stream.ClientFramework

@@ -12,7 +12,7 @@ namespace Waveface.Stream.Model
 	public class PostDBData
 	{
 		#region Var
-		private string _coverAttachID; 
+		private string _coverAttachID;
 		#endregion
 
 
@@ -190,7 +190,7 @@ namespace Waveface.Stream.Model
 		/// </value>
 		[BsonIgnoreIfNull]
 		[BsonElement("tags")]
-		public IEnumerable<string> Tags { get; set; } 
+		public IEnumerable<string> Tags { get; set; }
 		#endregion
 
 
@@ -198,7 +198,7 @@ namespace Waveface.Stream.Model
 		public bool ShouldSerializeAttachmentIDs()
 		{
 			return AttachmentIDs != null && AttachmentIDs.Any();
-		} 
+		}
 
 		public bool ShouldSerializeFriendIDs()
 		{
@@ -224,12 +224,12 @@ namespace Waveface.Stream.Model
 		public bool ShouldSerializeContent()
 		{
 			return !String.IsNullOrEmpty(Content);
-		} 
+		}
 
 		public bool ShouldSerializeCoverAttachmentID()
 		{
 			return !String.IsNullOrEmpty(CoverAttachmentID);
-		} 
+		}
 		#endregion
 	}
 }

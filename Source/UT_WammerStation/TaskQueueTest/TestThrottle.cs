@@ -1,12 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Queue;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Wammer.Station.AttachmentUpload;
 using Wammer.Model;
+using Wammer.Queue;
+using Wammer.Station.AttachmentUpload;
 
 namespace UT_WammerStation.TaskQueueTest
 {

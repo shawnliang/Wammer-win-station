@@ -1,17 +1,14 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Waveface.Stream.Model;
-using MongoDB.Driver.Builders;
 using System.IO;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {
 	class AttachmentSizeChecker : NonReentrantTimer
 	{
 		public AttachmentSizeChecker()
-			:base(3 * 60 * 1000)
+			: base(3 * 60 * 1000)
 		{
 		}
 
@@ -48,13 +45,13 @@ namespace Wammer.Station
 
 				AttachmentCollection.Instance.Update(
 					Query.EQ("_id", file.object_id),
-					Update.Unset("saved_file_name").Unset("file_size").Unset("url") );
+					Update.Unset("saved_file_name").Unset("file_size").Unset("url"));
 
 				DriverCollection.Instance.Update(
 					Query.EQ("_id", user.user_id),
-					Update.Inc("cur_origin_size", -file_size) );
+					Update.Inc("cur_origin_size", -file_size));
 			}
-				
+
 		}
 
 		private static List<ObjectIdAndPath> selectFilesToDelete(Driver user)

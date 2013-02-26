@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Wammer.Queue;
 using Wammer.Station.AttachmentUpload;
 
@@ -13,7 +10,7 @@ namespace Wammer.Station
 		Type type2 = typeof(MakeThumbnailTask);
 
 		public ThumbnailThrottle(int maxConcurrency)
-			:base(maxConcurrency)
+			: base(maxConcurrency)
 		{
 		}
 

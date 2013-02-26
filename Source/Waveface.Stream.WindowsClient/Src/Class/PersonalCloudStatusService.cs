@@ -1,13 +1,9 @@
 ﻿using MongoDB.Driver.Builders;
-using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using Waveface.Stream.ClientFramework;
-using Waveface.Stream.Core;
+using System.Net;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
-using System.Net;
 
 namespace Waveface.Stream.WindowsClient
 {

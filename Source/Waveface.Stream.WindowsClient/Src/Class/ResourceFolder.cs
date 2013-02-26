@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using Waveface.Stream.WindowsClient.Properties;
 using System.ComponentModel;
+using System.IO;
+using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {

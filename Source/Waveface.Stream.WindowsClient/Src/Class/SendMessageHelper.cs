@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -63,7 +61,7 @@ namespace Waveface.Stream.WindowsClient
 			SendMessage(className, title, wParam, lParam, false);
 		}
 
-		public void SendMessage(string className,string title,int wParam, string lParam,Boolean useUnicode)
+		public void SendMessage(string className, string title, int wParam, string lParam, Boolean useUnicode)
 		{
 			var encoder = (useUnicode) ? Encoding.Unicode : Encoding.Default;
 

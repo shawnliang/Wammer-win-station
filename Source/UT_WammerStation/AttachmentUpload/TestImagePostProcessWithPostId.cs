@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
-using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
 using Waveface.Stream.Model;
 

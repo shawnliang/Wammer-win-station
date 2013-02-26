@@ -1,13 +1,10 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Wammer.Cloud;
-using Wammer.Model;
 using System.Web;
-using System.IO;
-using MongoDB.Driver.Builders;
-using MongoDB.Bson;
+using Wammer.Cloud;
 using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
@@ -20,7 +17,7 @@ namespace Wammer.Station.Timeline
 		public List<string> downloadedPreviews { get; set; }
 		public string user_id { get; set; }
 		public DownloadDocPreviewsTask(string doc_id, string user_id)
-			:base(TaskPriority.Low)
+			: base(TaskPriority.Low)
 		{
 			this.retry = 100;
 			this.doc_id = doc_id;
@@ -46,7 +43,7 @@ namespace Wammer.Station.Timeline
 			{
 				var downloadIndex = nPreviewsDownloaded + 1;
 
-				var url = CloudServer.BaseUrl + "attachments/view?" + 
+				var url = CloudServer.BaseUrl + "attachments/view?" +
 					"object_id=" + HttpUtility.UrlEncode(doc_id) + "&" +
 					"target=preview&" +
 					"page=" + downloadIndex + "&" +
@@ -57,7 +54,7 @@ namespace Wammer.Station.Timeline
 
 				var previewFile = string.Format(@"{0}\{1}.jpg", doc_id, downloadIndex.ToString("d8"));
 				var savedFile = FileStorage.SaveToCacheFolder(user.user_id, previewFile, new ArraySegment<byte>(downloadResult.Image));
-				
+
 				downloadedPreviews.Add(savedFile);
 
 				nPreviewsDownloaded++;

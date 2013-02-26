@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Net;
 using Wammer;
 using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station;
 using Waveface.Stream.Model;
@@ -154,7 +153,7 @@ namespace UT_WammerStation
 					{ "password", "12345"},
 					{ "device_id", "deviceId"},
 					{ "device_name", "deviceName"},
-					{ "user_folder", "folder"} } );
+					{ "user_folder", "folder"} });
 
 
 				// verify db

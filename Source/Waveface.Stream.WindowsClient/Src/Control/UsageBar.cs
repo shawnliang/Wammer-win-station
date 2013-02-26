@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient.Src.Control
@@ -12,7 +7,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 	public partial class UsageBar : UserControl
 	{
 		#region Public Property
-		public int Minimum 
+		public int Minimum
 		{
 			get
 			{
@@ -48,7 +43,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 			}
 		}
 
-		public string Unit{ get; set; }
+		public string Unit { get; set; }
 		#endregion
 
 
@@ -56,7 +51,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 		public UsageBar()
 		{
 			InitializeComponent();
-		} 
+		}
 		#endregion
 
 
@@ -71,7 +66,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 			var firstValueWidth = (int)Math.Floor(g.MeasureString(value, this.Font).Width);
 			g.DrawString(value, this.Font, Brushes.Black, 0, 0);
 
-		
+
 			value = String.Format("{0} {1}", Maximum.ToString(), Unit);
 			var lastValueWidth = (int)Math.Floor(g.MeasureString(value, this.Font).Width);
 			g.DrawString(value, this.Font, Brushes.Black, this.Width - lastValueWidth, 0);

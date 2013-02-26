@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Waveface.Stream.Model;
 using Wammer.Cloud;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
 {

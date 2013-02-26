@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using MongoDB.Bson;
-using MongoDB.Driver.Builders;
-
+﻿
 namespace Waveface.Stream.Model
 {
 	/// <summary>
@@ -22,12 +19,12 @@ namespace Waveface.Stream.Model
 		/// The instance.
 		/// </value>
 		public static LocationDBDataCollection Instance
-        { 
-            get
-            {
-                return _instance ?? (_instance = new LocationDBDataCollection());
-            }
-        }
+		{
+			get
+			{
+				return _instance ?? (_instance = new LocationDBDataCollection());
+			}
+		}
 		#endregion
 
 

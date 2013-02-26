@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using System.Text;
 using Wammer;
-using Wammer.Cloud;
 using Wammer.PerfMonitor;
 using Wammer.Station;
 using Waveface.Stream.Model;

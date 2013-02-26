@@ -1,7 +1,5 @@
 ﻿using MongoDB.Driver.Builders;
-using Wammer.Model;
 using Waveface.Stream.Model;
-using System;
 
 namespace Wammer.Station.AttachmentUpload
 {

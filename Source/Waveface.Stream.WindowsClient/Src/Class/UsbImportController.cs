@@ -1,9 +1,5 @@
 ﻿using Dolinay;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
@@ -11,8 +7,8 @@ namespace Waveface.Stream.WindowsClient
 	public class UsbImportController
 	{
 		#region Static Var
-        private static UsbImportController _instance;
-        #endregion
+		private static UsbImportController _instance;
+		#endregion
 
 		#region Var
 		private UsbImportDialog _usbImportDialog;
@@ -22,13 +18,13 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Public Static Property
 		public static UsbImportController Instance
-        { 
-            get
-            {
-                return _instance ?? (_instance = new UsbImportController());
-            }
-        }
-        #endregion
+		{
+			get
+			{
+				return _instance ?? (_instance = new UsbImportController());
+			}
+		}
+		#endregion
 
 
 		#region Private Property
@@ -53,7 +49,7 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Public Property
-		public Boolean Enabled 
+		public Boolean Enabled
 		{
 			get
 			{
@@ -80,10 +76,10 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Constructor
 		private UsbImportController()
-        {
+		{
 			this.EnableStateChanged += UsbImportController_EnableStateChanged;
-        }
-        #endregion
+		}
+		#endregion
 
 
 		#region Protected Method

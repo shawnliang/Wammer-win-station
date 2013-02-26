@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Linq;
 
 namespace Wammer.Station
 {
@@ -61,7 +60,7 @@ namespace Wammer.Station
 	public class DestinationExistException : ApplicationException
 	{
 		public DestinationExistException(string msg)
-			:base(msg)
+			: base(msg)
 		{
 		}
 	}

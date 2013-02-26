@@ -1,8 +1,5 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 
@@ -15,24 +12,24 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 		#region Static Var
-        private static LoginController _instance;
-        #endregion
+		private static LoginController _instance;
+		#endregion
 
-        #region Public Static Property
+		#region Public Static Property
 		/// <summary>
 		/// Gets the instance.
 		/// </summary>
 		/// <value>
 		/// The instance.
 		/// </value>
-        public static LoginController Instance
-        { 
-            get
-            {
-                return _instance ?? (_instance = new LoginController());
-            }
-        }
-        #endregion
+		public static LoginController Instance
+		{
+			get
+			{
+				return _instance ?? (_instance = new LoginController());
+			}
+		}
+		#endregion
 
 
 		#region Public Property
@@ -85,16 +82,16 @@ namespace Waveface.Stream.ClientFramework
 		#endregion
 
 
-        #region Constructor
+		#region Constructor
 		/// <summary>
 		/// Prevents a default instance of the <see cref="LoginController" /> class from being created.
 		/// </summary>
-        private LoginController()
-        {
+		private LoginController()
+		{
 			this.Logined += LoginController_Logined;
 			this.Logouted += LoginController_Logouted;
-        }
-        #endregion
+		}
+		#endregion
 
 
 
@@ -275,7 +272,7 @@ namespace Waveface.Stream.ClientFramework
 		void LoginController_Logouted(object sender, EventArgs e)
 		{
 			LoginedUser = null;
-		} 
+		}
 		#endregion
 	}
 }

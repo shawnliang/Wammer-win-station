@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
-using Waveface.Stream.Model;
-using System.ComponentModel;
 using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
@@ -22,7 +20,7 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Private Property
-		private CheckBox m_SelectAll 
+		private CheckBox m_SelectAll
 		{
 			get
 			{
@@ -303,7 +301,7 @@ namespace Waveface.Stream.WindowsClient
 				return false;
 
 			if (obj is PathAndPhotoCount)
-				return path.Equals( ((PathAndPhotoCount)obj).path );
+				return path.Equals(((PathAndPhotoCount)obj).path);
 			else
 				return false;
 		}

@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Waveface.Stream.Core
 {
@@ -30,7 +28,7 @@ namespace Waveface.Stream.Core
 		public string TimeStamp { get; set; }
 
 		[JsonProperty("meta_data", NullValueHandling = NullValueHandling.Ignore)]
-		public LargeSizeMetaData MetaData { get; set; } 
+		public LargeSizeMetaData MetaData { get; set; }
 		#endregion
 	}
 }

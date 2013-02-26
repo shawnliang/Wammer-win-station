@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
-using Newtonsoft.Json;
-using Waveface.Stream.ClientFramework;
-using System.IO;
 
 namespace Waveface.Stream.WindowsClient
 {

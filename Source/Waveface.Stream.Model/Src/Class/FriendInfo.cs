@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-
+﻿
 namespace Waveface.Stream.Model
 {
 	public class FriendInfo

@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Waveface.Stream.Model
 {
@@ -34,7 +34,7 @@ namespace Waveface.Stream.Model
 
 		[BsonIgnoreIfNull]
 		[BsonElement("tags")]
-		public IEnumerable<String> Tags { get; set; } 
+		public IEnumerable<String> Tags { get; set; }
 		#endregion
 
 

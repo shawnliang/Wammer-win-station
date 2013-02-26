@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace Wammer.Station
@@ -41,7 +39,7 @@ namespace Wammer.Station
 			foreach (var subDir in subDirs)
 			{
 				var destSubDir = Path.Combine(dest, subDir.Name);
-				
+
 				if (!Directory.Exists(destSubDir))
 					Directory.CreateDirectory(destSubDir);
 

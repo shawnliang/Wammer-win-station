@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
@@ -39,7 +37,7 @@ namespace Waveface.Stream.WindowsClient
 		#region Public Static Property
 		public static Boolean IsServiceRunning { get; set; }
 
-		public static float UploadRemainedCount 
+		public static float UploadRemainedCount
 		{
 			get
 			{
@@ -179,7 +177,7 @@ namespace Waveface.Stream.WindowsClient
 			upSpeed = upRemainedCount == 0 ? 0 : upSpeed;
 			downloadSpeed = downloadSpeed == 0 ? 0 : downloadSpeed;
 
-			
+
 			if (upRemainedCount > 0)
 			{
 				var mbToUpload = getMBytesToUpload();
@@ -188,7 +186,7 @@ namespace Waveface.Stream.WindowsClient
 										 transferStatus,
 										 (transferStatus.Length == 0) ? string.Empty : Environment.NewLine,
 										 Resources.UPLOAD_INDICATOR,
-										 //(upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
+					//(upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
 										 mbToUpload,
 										 upSpeed,
 										 upSpeedUnit);
@@ -202,7 +200,7 @@ namespace Waveface.Stream.WindowsClient
 										 transferStatus,
 										 (transferStatus.Length == 0) ? string.Empty : Environment.NewLine,
 										 Resources.DOWNLOAD_INDICATOR,
-										 //(downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
+					//(downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
 										 mbToDownload,
 										 downloadSpeed,
 										 downloadSpeedUnit);

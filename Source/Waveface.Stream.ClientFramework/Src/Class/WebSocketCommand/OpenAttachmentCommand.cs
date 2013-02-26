@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using MongoDB.Bson;
 using MongoDB.Driver.Builders;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework.Properties;
