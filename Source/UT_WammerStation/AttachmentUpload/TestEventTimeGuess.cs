@@ -79,6 +79,29 @@ namespace UT_WammerStation.AttachmentUpload
 		}
 
 		[TestMethod]
+		public void UseDateTimeOriginalIfGPSDateTimeStampError2()
+		{
+			var t = EventTime.GuessFromExif(
+				new exif
+				{
+					gps = new Gps
+					{
+						GPSDateStamp = "0113:01:20",
+						GPSTimeStamp = new List<object[]> {
+							new object[] { 11, 1 },
+							new object[] { 22, 1 },
+							new object[] { 33, 11 }
+						}
+					},
+
+					DateTimeOriginal = "2012:11:22 11:44:33"
+				},
+				DateTime.Now, 480, "file_path");
+
+			Assert.AreEqual(new DateTime(2012, 11, 22, 11, 44, 33, DateTimeKind.Local), t);
+		}
+
+		[TestMethod]
 		public void UseDigitizedTimeIfNoDateTimeOriginal()
 		{
 			var t = EventTime.GuessFromExif(

@@ -528,13 +528,18 @@ namespace Wammer.Station
 			{
 				if (exif.gps != null && !string.IsNullOrEmpty(exif.gps.GPSDateStamp) && exif.gps.GPSTimeStamp != null)
 				{
-					var eventTime = DateTime.ParseExact(exif.gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+					var gps = exif.gps;
+					var eventTime = DateTime.ParseExact(gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
 
-					var hour = getRationalValue(exif.gps.GPSTimeStamp[0]);
-					var min = getRationalValue(exif.gps.GPSTimeStamp[1]);
-					var sec = getRationalValue(exif.gps.GPSTimeStamp[2]);
+					if (eventTime.Year >= 1900)
+					{
+						var gpsTimeStamp = exif.gps.GPSTimeStamp;
+						var hour = getRationalValue(gpsTimeStamp[0]);
+						var min = getRationalValue(gpsTimeStamp[1]);
+						var sec = getRationalValue(gpsTimeStamp[2]);
 
-					return eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
+						return eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
+					}
 				}
 
 				if (exif.DateTimeOriginal != null)
