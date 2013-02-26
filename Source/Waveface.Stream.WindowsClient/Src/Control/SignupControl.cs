@@ -51,17 +51,17 @@ namespace Waveface.Stream.WindowsClient
 				if (string.IsNullOrEmpty(emailBox.Text) || string.IsNullOrEmpty(passwordBox.Text) || string.IsNullOrEmpty(nameBox.Text))
 					throw new Exception(Resources.FILL_ALL_FIELDS);
 
+				if (!Regex.IsMatch(emailBox.Text, EMAIL_VERIFY_PATTERN))
+				{
+					emailBox.Focus();
+					throw new Exception(Resources.InvalidEmail);
+				}
+
 				if (passwordBox.Text.Length < 6 || 16 < passwordBox.Text.Length || passwordBox.Text.Contains(" "))
 				{
 					passwordBox.Text = "";
 					passwordBox.Focus();
 					throw new Exception(Resources.InvalidPassword);
-				}
-
-				if (!Regex.IsMatch(emailBox.Text, EMAIL_VERIFY_PATTERN))
-				{
-					emailBox.Focus();
-					throw new Exception(Resources.InvalidEmail);
 				}
 
 				Cursor.Current = Cursors.WaitCursor;
