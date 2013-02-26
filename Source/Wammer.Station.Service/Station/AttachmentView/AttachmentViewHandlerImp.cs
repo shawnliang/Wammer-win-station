@@ -106,7 +106,7 @@ namespace Wammer.Station.AttachmentView
 
 			var attDoc = DB.GetAttachment(object_id);
 			if (attDoc == null)
-				throw new WammerStationException("object_id not found", -1);
+				throw new FileNotFoundException("object_id not found in db");
 
 
 
@@ -148,8 +148,12 @@ namespace Wammer.Station.AttachmentView
 				throw new WammerStationException("previews are not yet ready", -1);
 
 			var webthumb = attDoc.web_meta.thumbs.First(x => x.id == webthumb_id);
+
+			if (webthumb.broken_thumb)
+				throw new WammerStationException("This web thumb has no preview. (broken_thumb=true)", -1);
+
 			if (string.IsNullOrEmpty(webthumb.saved_file_name))
-				throw new WammerStationException("previews are not yet ready", -1);
+				throw new FileNotFoundException("previews are not downloaded yet");
 
 			var user = DB.GetUserByGroupId(attDoc.group_id);
 
