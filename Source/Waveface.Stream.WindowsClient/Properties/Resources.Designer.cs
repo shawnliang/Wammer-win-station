@@ -1282,7 +1282,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown error occur when remove account!.
+        ///   Looks up a localized string similar to Error with unlinking this PC.
         /// </summary>
         internal static string UNKNOW_REMOVEACCOUNT_ERROR {
             get {

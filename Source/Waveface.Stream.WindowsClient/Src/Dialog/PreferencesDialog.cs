@@ -426,22 +426,10 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (e.Error != null)
 			{
-				if (e.Error is AuthenticationException)
-				{
-					MessageBox.Show(Resources.AUTH_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				}
-				else if (e.Error is StationServiceDownException)
-				{
-					MessageBox.Show(Resources.STATION_SERVICE_DOWN, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				}
-				else if (e.Error is ConnectToCloudException)
-				{
-					MessageBox.Show(Resources.CONNECT_CLOUD_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				}
-				else
-				{
-					MessageBox.Show(Resources.UNKNOW_REMOVEACCOUNT_ERROR, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				}
+				MessageBox.Show(e.Error.GetDisplayDescription(), Resources.UNKNOW_REMOVEACCOUNT_ERROR, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				StreamClient.Instance.Logout();
+				m_ProcessingDialog = null;
+				return;
 			}
 
 			var param = e.Result as RemoveParam;

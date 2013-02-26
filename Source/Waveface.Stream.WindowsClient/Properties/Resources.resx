@@ -158,7 +158,7 @@
     <value>Invalid email</value>
   </data>
   <data name="UNKNOW_REMOVEACCOUNT_ERROR" xml:space="preserve">
-    <value>Unknown error occur when remove account!</value>
+    <value>Error with unlinking this PC</value>
   </data>
   <data name="INDICATOR_PATTERN" xml:space="preserve">
     <value>{0}{1}{2} {3} MB, {4:0.##} {5}</value>
