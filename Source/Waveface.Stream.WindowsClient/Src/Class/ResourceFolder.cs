@@ -32,7 +32,7 @@ namespace Waveface.Stream.WindowsClient
 
 				using (FolderBrowserDialog dialog = new FolderBrowserDialog())
 				{
-					dialog.SelectedPath = oldFolder;
+					dialog.SelectedPath = Path.GetDirectoryName(oldFolder);
 
 					if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) // cancelled
 						return;
