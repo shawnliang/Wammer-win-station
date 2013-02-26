@@ -55,12 +55,9 @@ namespace Waveface.Stream.WindowsClient
 		/// <param name="file">The file.</param>
 		private static void CheckPicasaFormat(string file)
 		{
-			using (var fs = File.OpenRead(file))
+			using (var br = new BinaryReader(File.OpenRead(file)))
 			{
-				using (var br = new BinaryReader(fs))
-				{
-					CheckPicasaFormat(br);
-				}
+				CheckPicasaFormat(br);
 			}
 		}
 
@@ -83,12 +80,9 @@ namespace Waveface.Stream.WindowsClient
 		/// </returns>
 		private static Boolean IsValidPicasaFormat(string file)
 		{
-			using (var fs = File.OpenRead(file))
+			using (var br = new BinaryReader(File.OpenRead(file)))
 			{
-				using (var br = new BinaryReader(fs))
-				{
-					return IsValidPicasaFormat(br);
-				}
+				return IsValidPicasaFormat(br);
 			}
 		}
 

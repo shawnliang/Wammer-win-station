@@ -31,11 +31,7 @@ namespace Waveface.Stream.WindowsClient
 		private DateTime m_UpdateTime { get; set; }
 		#endregion
 
-		[DllImport("wininet")]
-		public static extern bool InternetGetConnectedState(
-			ref uint lpdwFlags,
-			uint dwReserved
-			);
+
 		#region Public Property
 		public Boolean IsNetworkAvailable
 		{
@@ -47,7 +43,7 @@ namespace Waveface.Stream.WindowsClient
 					//連線的Flag
 					uint flags = 0x0;
 
-					IsNetworkAvailable = InternetGetConnectedState(ref flags, 0);
+					IsNetworkAvailable = NativeMethods.InternetGetConnectedState(ref flags, 0);
 				}
 				return _isNetworkAvailable;
 			}

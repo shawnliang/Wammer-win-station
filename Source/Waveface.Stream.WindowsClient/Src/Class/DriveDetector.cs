@@ -609,7 +609,7 @@ namespace Dolinay
 			IntPtr buffer = Marshal.AllocHGlobal(size);
 			Marshal.StructureToPtr(data, buffer, true);
 
-			mDeviceNotifyHandle = Native.RegisterDeviceNotification(mRecipientHandle, buffer, 0);
+			mDeviceNotifyHandle = NativeMethods.RegisterDeviceNotification(mRecipientHandle, buffer, 0);
 
 		}
 
@@ -637,7 +637,7 @@ namespace Dolinay
 				IntPtr buffer = Marshal.AllocHGlobal(size);
 				Marshal.StructureToPtr(data, buffer, true);
 
-				mDeviceNotifyHandle = Native.RegisterDeviceNotification(mRecipientHandle, buffer, 0);
+				mDeviceNotifyHandle = NativeMethods.RegisterDeviceNotification(mRecipientHandle, buffer, 0);
 			}
 			else
 			{
@@ -651,7 +651,7 @@ namespace Dolinay
 				// unregister
 				if (mDeviceNotifyHandle != IntPtr.Zero)
 				{
-					Native.UnregisterDeviceNotification(mDeviceNotifyHandle);                                        
+					NativeMethods.UnregisterDeviceNotification(mDeviceNotifyHandle);                                        
 				}
 				
 
@@ -732,41 +732,7 @@ namespace Dolinay
 		/// </summary>        
 		private class Native
 		{
-			//   HDEVNOTIFY RegisterDeviceNotification(HANDLE hRecipient,LPVOID NotificationFilter,DWORD Flags);
-			[DllImport("user32.dll", CharSet = CharSet.Auto)]
-			public static extern IntPtr RegisterDeviceNotification(IntPtr hRecipient, IntPtr NotificationFilter, uint Flags);
-
-			[DllImport("user32.dll", CharSet = CharSet.Auto)]
-			public static extern uint UnregisterDeviceNotification(IntPtr hHandle);
-
-			//
-			// CreateFile  - MSDN
-			const uint GENERIC_READ = 0x80000000;
-			const uint OPEN_EXISTING = 3;
-			const uint FILE_SHARE_READ = 0x00000001;
-			const uint FILE_SHARE_WRITE = 0x00000002;
-			const uint FILE_ATTRIBUTE_NORMAL = 128;
-			const uint FILE_FLAG_BACKUP_SEMANTICS = 0x02000000;
 			static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
-
-
-			// should be "static extern unsafe"
-			[DllImport("kernel32", SetLastError = true)]
-			static extern IntPtr CreateFile(
-				  string FileName,                    // file name
-				  uint DesiredAccess,                 // access mode
-				  uint ShareMode,                     // share mode
-				  uint SecurityAttributes,            // Security Attributes
-				  uint CreationDisposition,           // how to create
-				  uint FlagsAndAttributes,            // file attributes
-				  int hTemplateFile                   // handle to template file
-				  );
-
-
-			[DllImport("kernel32", SetLastError = true)]
-			static extern bool CloseHandle(
-				  IntPtr hObject   // handle to object
-				  );
 
 			/// <summary>
 			/// Opens a directory, returns it's handle or zero.
@@ -776,14 +742,14 @@ namespace Dolinay
 			static public IntPtr OpenDirectory(string dirPath)
 			{
 				// open the existing file for reading          
-				IntPtr handle = CreateFile(
+				IntPtr handle = NativeMethods.CreateFile(
 					  dirPath,
-					  GENERIC_READ,
-					  FILE_SHARE_READ | FILE_SHARE_WRITE,
-					  0,
-					  OPEN_EXISTING,
-					  FILE_FLAG_BACKUP_SEMANTICS | FILE_ATTRIBUTE_NORMAL,
-					  0);
+					  NativeMethods.GENERIC_READ,
+					  NativeMethods.FILE_SHARE_READ | NativeMethods.FILE_SHARE_WRITE,
+					  IntPtr.Zero,
+					  NativeMethods.OPEN_EXISTING,
+					  NativeMethods.FILE_FLAG_BACKUP_SEMANTICS | NativeMethods.FILE_ATTRIBUTE_NORMAL,
+					  IntPtr.Zero);
 
 				if ( handle == INVALID_HANDLE_VALUE)
 					return IntPtr.Zero;
@@ -794,7 +760,7 @@ namespace Dolinay
 
 			public static bool CloseDirectoryHandle(IntPtr handle)
 			{
-				return CloseHandle(handle);
+				return NativeMethods.CloseHandle(handle);
 			}
 		}
 
