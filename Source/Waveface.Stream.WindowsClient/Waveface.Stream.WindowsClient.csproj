@@ -171,7 +171,7 @@
     <Compile Include="Src\Class\AutoUpdate.cs" />
     <Compile Include="Src\Class\CommandLineCommand.cs" />
     <Compile Include="Src\Class\ConnectionStatus.cs" />
-    <Compile Include="Src\Class\CopyDataStruct.cs" />
+    <Compile Include="Src\Struct\CopyDataStruct.cs" />
     <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\Device.cs" />
     <Compile Include="Src\Class\DriveDetector.cs">
@@ -408,7 +408,7 @@
       <DependentUpon>UsbImportDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\EventArgs\AccountEventArgs.cs" />
-    <Compile Include="Src\Class\Win32Helper.cs" />
+    <Compile Include="Src\Class\NativeMethods.cs" />
     <Compile Include="Src\Control\CueTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -472,6 +472,8 @@
     <Compile Include="Src\Interface\IStreamLoginable.cs" />
     <Compile Include="Src\Program.cs" />
     <Compile Include="Src\Class\StationDB.cs" />
+    <Compile Include="Src\Struct\WIN32_FIND_DATA.cs" />
+    <Compile Include="Src\Struct\WNDCLASS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

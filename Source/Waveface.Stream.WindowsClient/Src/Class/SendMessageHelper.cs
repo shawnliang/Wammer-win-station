@@ -8,25 +8,6 @@ namespace Waveface.Stream.WindowsClient
 {
 	public class SendMessageHelper
 	{
-		#region Const
-		const int WM_COPYDATA = 0x4A;
-		#endregion
-
-		#region DllImport
-		[DllImport("user32.dll", SetLastError = true)]
-		static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		static extern IntPtr SendMessage(IntPtr hWnd, Int32 Msg, Int32 wParam, Int32 lParam);
-
-		[DllImport("User32.dll", EntryPoint = "SendMessage")]
-		private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, ref CopyDataStruct lParam);
-
-		[return: MarshalAs(UnmanagedType.Bool)]
-		[DllImport("user32.dll", SetLastError = true)]
-		static extern bool PostMessage(IntPtr hWnd, Int32 Msg, Int32 wParam, Int32 lParam);
-		#endregion
-
 		#region Public Method
 		/// <summary>
 		/// Sends the message.
@@ -38,7 +19,7 @@ namespace Waveface.Stream.WindowsClient
 		/// <History>
 		/// Larry 2011/6/9 上午 10:05 Created
 		/// </History>
-		public void SendMessage(string title, int message, int wParam, int lParam)
+		public void SendMessage(string title, int message, IntPtr wParam, IntPtr lParam)
 		{
 			SendMessage(null, title, message, wParam, lParam);
 		}
@@ -54,17 +35,17 @@ namespace Waveface.Stream.WindowsClient
 		/// <History>
 		/// Larry 2011/6/9 上午 10:05 Created
 		/// </History>
-		public void SendMessage(string className,string title,int message,int wParam, int lParam)
+		public void SendMessage(string className, string title, int message, IntPtr wParam, IntPtr lParam)
 		{
 			if (title.Length == 0)
 				return;
 
-			var handle = FindWindow(className, title);
+			var handle = NativeMethods.FindWindow(className, title);
 
 			if (handle == IntPtr.Zero)
 				return;
 
-			SendMessage(handle, message, wParam, lParam);
+			NativeMethods.SendMessage(handle, message, wParam, lParam);
 		}
 
 		public void SendMessage(string title, int wParam, string lParam, Boolean useUnicode)
@@ -93,12 +74,12 @@ namespace Waveface.Stream.WindowsClient
 			cds.lpData = Marshal.AllocHGlobal(buffer.Length);
 			Marshal.Copy(buffer, 0, cds.lpData, buffer.Length);
 
-			var handle = FindWindow(className, title);
+			var handle = NativeMethods.FindWindow(className, title);
 
 			if (handle == IntPtr.Zero)
 				return;
 
-			SendMessage(handle, WM_COPYDATA, wParam, ref cds);
+			NativeMethods.SendMessage(handle, NativeMethods.WM_COPYDATA, wParam, ref cds);
 		}
 		#endregion
 	}

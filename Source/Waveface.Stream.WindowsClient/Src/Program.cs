@@ -146,12 +146,12 @@ namespace Waveface.Stream.WindowsClient
 
 				if (processes.Any(process => process.Id != currentProcess.Id))
 				{
-					var handle = Win32Helper.FindWindow("StreamClientMessageReceiver", null);
+					var handle = NativeMethods.FindWindow("StreamClientMessageReceiver", null);
 
 					if (handle == IntPtr.Zero)
 						return;
 
-					Win32Helper.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
+					NativeMethods.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
 
 					if (options.Imports != null && options.Imports.Any())
 					{
