@@ -37,13 +37,13 @@
 			this.button2 = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.chkBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.folderColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.addButton = new System.Windows.Forms.Button();
 			this.lblWelcome = new System.Windows.Forms.Label();
 			this.radioIndexOnly = new System.Windows.Forms.RadioButton();
 			this.radioCopy = new System.Windows.Forms.RadioButton();
-			this.chkBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.folderColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -81,10 +81,10 @@
 			// 
 			// dataGridView1
 			// 
-			resources.ApplyResources(this.dataGridView1, "dataGridView1");
 			this.dataGridView1.AllowUserToAddRows = false;
 			this.dataGridView1.AllowUserToDeleteRows = false;
 			this.dataGridView1.AllowUserToResizeRows = false;
+			resources.ApplyResources(this.dataGridView1, "dataGridView1");
 			this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -113,6 +113,27 @@
 			this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
+			// chkBoxColumn
+			// 
+			this.chkBoxColumn.FillWeight = 22.16398F;
+			resources.ApplyResources(this.chkBoxColumn, "chkBoxColumn");
+			this.chkBoxColumn.Name = "chkBoxColumn";
+			this.chkBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			// 
+			// Column1
+			// 
+			this.Column1.FillWeight = 70F;
+			resources.ApplyResources(this.Column1, "Column1");
+			this.Column1.Name = "Column1";
+			this.Column1.ReadOnly = true;
+			// 
+			// folderColumn
+			// 
+			this.folderColumn.FillWeight = 149.3538F;
+			resources.ApplyResources(this.folderColumn, "folderColumn");
+			this.folderColumn.Name = "folderColumn";
+			this.folderColumn.ReadOnly = true;
+			// 
 			// addButton
 			// 
 			resources.ApplyResources(this.addButton, "addButton");
@@ -139,30 +160,8 @@
 			this.radioCopy.TabStop = true;
 			this.radioCopy.UseVisualStyleBackColor = true;
 			// 
-			// chkBoxColumn
-			// 
-			this.chkBoxColumn.FillWeight = 22.16398F;
-			resources.ApplyResources(this.chkBoxColumn, "chkBoxColumn");
-			this.chkBoxColumn.Name = "chkBoxColumn";
-			this.chkBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			// 
-			// Column1
-			// 
-			this.Column1.FillWeight = 70F;
-			resources.ApplyResources(this.Column1, "Column1");
-			this.Column1.Name = "Column1";
-			this.Column1.ReadOnly = true;
-			// 
-			// folderColumn
-			// 
-			this.folderColumn.FillWeight = 149.3538F;
-			resources.ApplyResources(this.folderColumn, "folderColumn");
-			this.folderColumn.Name = "folderColumn";
-			this.folderColumn.ReadOnly = true;
-			// 
 			// FileImportControl
 			// 
-			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.radioCopy);
 			this.Controls.Add(this.radioIndexOnly);
 			this.Controls.Add(this.changeButton);
@@ -174,6 +173,7 @@
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "FileImportControl";
+			resources.ApplyResources(this, "$this");
 			this.Load += new System.EventHandler(this.FileImportControl_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);

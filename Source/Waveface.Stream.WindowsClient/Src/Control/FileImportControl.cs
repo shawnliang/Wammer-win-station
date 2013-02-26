@@ -262,13 +262,11 @@ namespace Waveface.Stream.WindowsClient
 
 		private void changeButton_Click(object sender, EventArgs e)
 		{
-			using (var dialog = new FolderBrowserDialog())
-			{
-				if (dialog.ShowDialog() == DialogResult.OK)
-				{
-					txtStoreLocation.Text = dialog.SelectedPath;
-				}
-			}
+			ResourceFolder.Change(
+				StreamClient.Instance.LoginedUser.UserID,
+				StreamClient.Instance.LoginedUser.SessionToken,
+				(newFolder) => { txtStoreLocation.Text = newFolder; }
+			);
 		}
 	}
 

@@ -203,8 +203,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
-				usageDetailControl1.ResourcePath = user.folder;
+				usageDetailControl1.ResourcePath = ResourceFolder.GetResFolder(StreamClient.Instance.LoginedUser.UserID);
 			}
 			catch
 			{
@@ -597,57 +596,13 @@ namespace Waveface.Stream.WindowsClient
 
 		private void usageDetailControl1_ChangeResourcePathButtonClick(object sender, EventArgs e)
 		{
-			ChangeResource();
+			ResourceFolder.Change(
+				StreamClient.Instance.LoginedUser.UserID,
+				StreamClient.Instance.LoginedUser.SessionToken,
+				(newFolder) => { usageDetailControl1.ResourcePath = newFolder; }
+			);
 		}
-
-		private void ChangeResource()
-		{
-			using (FolderBrowserDialog dialog = new FolderBrowserDialog())
-			{
-				dialog.SelectedPath = usageDetailControl1.ResourcePath;
-
-				if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) // cancelled
-					return;
-
-				if (dialog.SelectedPath.Equals(usageDetailControl1.ResourcePath)) // not changed
-					return;
-
-				DialogResult confirm = MessageBox.Show("Stream is going to move the resource folder to " + dialog.SelectedPath + ". Are you sure?",
-					"Are you sure?", MessageBoxButtons.OKCancel);
-
-				if (confirm != System.Windows.Forms.DialogResult.OK)	// cancelled
-					return;
-
-				var progressing = new ProcessingDialog();
-
-				var bgworker = new BackgroundWorker();
-				bgworker.DoWork += (sender, arg) =>
-		{
-					StationAPI.MoveFolder(StreamClient.Instance.LoginedUser.UserID, dialog.SelectedPath, StreamClient.Instance.LoginedUser.SessionToken);
-				};
-
-				bgworker.RunWorkerCompleted += (sender, arg) =>
-			{
-					progressing.Close();
-
-					if (arg.Error != null)
-			{
-						MessageBox.Show(arg.Error.GetDisplayDescription(), "Unable to change AOStream folder location");
-				}
-				else
-				{
-						usageDetailControl1.ResourcePath = dialog.SelectedPath;
-				}
-				};
-				bgworker.RunWorkerAsync();
-
-				progressing.Text = "Moving AOStream folder...";
-				progressing.StartPosition = FormStartPosition.CenterParent;
-				progressing.ProgressStyle = ProgressBarStyle.Marquee;
-				progressing.ShowDialog();
-			}
-		}
-
+		
 		private void cmbDevice_TextChanged(object sender, EventArgs e)
 		{
 			BindingSelectedDevice();
