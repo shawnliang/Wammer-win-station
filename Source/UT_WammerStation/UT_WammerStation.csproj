@@ -92,6 +92,7 @@
     <Compile Include="AttachmentUpload\TestUploadQueue.cs" />
     <Compile Include="AttachmentViewTest\TestAttachmentView.cs" />
     <Compile Include="AttachmentViewTest\TestViewStorage.cs" />
+    <Compile Include="AttachmentViewTest\TestViewWebThumb.cs" />
     <Compile Include="Doc\CopyDocToStreamTest.cs" />
     <Compile Include="Doc\DocChangeMonitorTest.cs" />
     <Compile Include="Doc\GeneratePptPreviewTest.cs" />

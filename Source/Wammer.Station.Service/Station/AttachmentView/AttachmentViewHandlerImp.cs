@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.IO;
 using Wammer.Model;
 using Waveface.Stream.Model;
@@ -39,7 +40,7 @@ namespace Wammer.Station.AttachmentView
 		public ViewResult GetAttachmentStream(NameValueCollection Parameters)
 		{
 			if ("preview".Equals(Parameters["target"]))
-				return getDocPreview(Parameters);
+				return getDocOrWebthumbPreview(Parameters);
 			else if ("static_map".Equals(Parameters["target"]))
 				return getStaticMap(Parameters);
 			else
@@ -97,7 +98,7 @@ namespace Wammer.Station.AttachmentView
 			}
 		} 
 
-		private ViewResult getDocPreview(NameValueCollection Parameters)
+		private ViewResult getDocOrWebthumbPreview(NameValueCollection Parameters)
 		{
 			var object_id = Parameters["object_id"];
 			if (string.IsNullOrEmpty(object_id))
@@ -105,11 +106,20 @@ namespace Wammer.Station.AttachmentView
 
 			var attDoc = DB.GetAttachment(object_id);
 			if (attDoc == null)
-				throw new WammerStationException("object_id not found", -1);
+				throw new FileNotFoundException("object_id not found in db");
 
-			if (attDoc.type != AttachmentType.doc)
-				throw new WammerStationException("This type of attachment has no review: " + attDoc.type.ToString(), -1);
 
+
+			if (attDoc.type == AttachmentType.doc)
+				return getDocPreview(Parameters, attDoc);
+			else if (attDoc.type == AttachmentType.webthumb)
+				return getWebthumbPreview(Parameters, attDoc);
+			else
+				throw new WammerStationException("attachment does not support target=preview", -1);
+		}
+
+		private static ViewResult getDocPreview(NameValueCollection Parameters, Attachment attDoc)
+		{
 			var pageNum = Parameters["page"];
 			if (string.IsNullOrEmpty(pageNum))
 				throw new FormatException("missing parameter: page");
@@ -127,6 +137,30 @@ namespace Wammer.Station.AttachmentView
 			{
 				MimeType = "image/jpeg",
 				Stream = File.OpenRead(filename)
+			};
+		}
+
+		private ViewResult getWebthumbPreview(NameValueCollection Parameters, Attachment attDoc)
+		{
+			var webthumb_id = Convert.ToInt64(Parameters["id"]);
+
+			if (attDoc.web_meta == null || attDoc.web_meta.thumbs == null)
+				throw new WammerStationException("previews are not yet ready", -1);
+
+			var webthumb = attDoc.web_meta.thumbs.First(x => x.id == webthumb_id);
+
+			if (webthumb.broken_thumb)
+				throw new WammerStationException("This web thumb has no preview. (broken_thumb=true)", -1);
+
+			if (string.IsNullOrEmpty(webthumb.saved_file_name))
+				throw new FileNotFoundException("previews are not downloaded yet");
+
+			var user = DB.GetUserByGroupId(attDoc.group_id);
+
+			return new ViewResult
+			{
+				MimeType = "image/jpeg",
+				Stream = Storage.GetAttachmentStream(ImageMeta.None, user, webthumb.saved_file_name)
 			};
 		}
 

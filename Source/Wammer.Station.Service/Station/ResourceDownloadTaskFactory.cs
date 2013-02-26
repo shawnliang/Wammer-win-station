@@ -43,9 +43,6 @@ namespace Wammer.Station
 		{
 			string tmpFolder;
 
-			if (attachment.type.Equals("webthumb", StringComparison.InvariantCultureIgnoreCase))
-				meta = ImageMeta.Medium;
-
 			if (meta == ImageMeta.Origin || meta == ImageMeta.None)
 				tmpFolder = new FileStorage(driver).basePath;
 			else
@@ -74,5 +71,10 @@ namespace Wammer.Station
 			return new ResourceDownloadTask(evtargs, pri);
 		}
 
+
+		public static WebThumbDownloadTask createWebThumbDownloadTask(Driver user, string object_id, long webthumb_id)
+		{
+			return new WebThumbDownloadTask(user.user_id, object_id, webthumb_id);
+		}
 	}
 }

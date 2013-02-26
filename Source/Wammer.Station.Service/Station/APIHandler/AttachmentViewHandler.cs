@@ -105,32 +105,56 @@ namespace Wammer.Station
 					throw new WammerStationException("driver does not exist: " + metaData.creator_id,
 													 (int)StationLocalApiError.InvalidDriver);
 
-				if (meta == ImageMeta.Origin && !driver.isPaidUser)
-					throw new WammerStationException("Access to original attachment from non-paid user is not allowed.", 
-						(int)StationLocalApiError.AccessDenied);
+				if (metaData.type.Equals("webthumb"))
+				{
+					var webthumb_id = Convert.ToInt64(Parameters["id"]);
 
-				var downloadTask = ResourceDownloadTaskFactory.createDownloadTask(driver, meta, metaData);
-				bool noNeedToDownload;
-				AttachmentSaveResult result;
-				downloadTask.Url = metaData.redirect_to;
-				downloadTask.ForceDownload(out noNeedToDownload, out result);
+					// supposedly before running webthumbDownloadTask, there should be a corresponding Attachment doc in DB.
+					// However, if writing a db record here could result in consistency issue that causes written data from other
+					// WebthumbDownloadTasks overridden.
+					//
+					// (Because of different implementation, image attachment won't have this problem.)
+					//
+					// As a result, webthumbs downloaded here won't be written to db if there exists no db record already.
 
-				if (result == null)
-					throw new WammerStationException("File does not exit. Try again", -1);
+					var webthumbDownloadTask = ResourceDownloadTaskFactory.createWebThumbDownloadTask(driver, Parameters["object_id"], webthumb_id);
+					var file_path = webthumbDownloadTask.RunOnce(Parameters[CloudServer.PARAM_SESSION_TOKEN], Parameters[CloudServer.PARAM_API_KEY]);
+
+					var fs = FileStorage.LoadFromCacheFolder(file_path);
+
+					StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
+										   new CopyState(fs, Response, Parameters["object_id"]));
+				}
+				else
+				{
+
+					if (meta == ImageMeta.Origin && !driver.isPaidUser)
+						throw new WammerStationException("Access to original attachment from non-paid user is not allowed.",
+							(int)StationLocalApiError.AccessDenied);
+
+					var downloadTask = ResourceDownloadTaskFactory.createDownloadTask(driver, meta, metaData);
+					bool noNeedToDownload;
+					AttachmentSaveResult result;
+					downloadTask.Url = metaData.redirect_to;
+					downloadTask.ForceDownload(out noNeedToDownload, out result);
+
+					if (result == null)
+						throw new WammerStationException("File does not exit. Try again", -1);
 
 
-				if (meta == ImageMeta.None || meta == ImageMeta.Origin)
-					impl.DB.UpdateLastAccessTime(Parameters["object_id"]);
+					if (meta == ImageMeta.None || meta == ImageMeta.Origin)
+						impl.DB.UpdateLastAccessTime(Parameters["object_id"]);
 
-				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
+					SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(metaData.object_id);
 
-				Response.ContentType = (meta == ImageMeta.Origin || meta == ImageMeta.None) ?
-					metaData.mime_type : metaData.GetThumbnail(meta).mime_type;
+					Response.ContentType = (meta == ImageMeta.Origin || meta == ImageMeta.None) ?
+						metaData.mime_type : metaData.GetThumbnail(meta).mime_type;
 
-				var fs = File.OpenRead(result.FullPath);
+					var fs = File.OpenRead(result.FullPath);
 
-				StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
-									   new CopyState(fs, Response, Parameters["object_id"]));
+					StreamHelper.BeginCopy(fs, Response.OutputStream, CopyComplete,
+										   new CopyState(fs, Response, Parameters["object_id"]));
+				}
 			}
 			catch (WebException e)
 			{

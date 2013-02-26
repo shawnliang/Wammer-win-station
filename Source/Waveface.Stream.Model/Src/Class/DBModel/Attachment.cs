@@ -187,15 +187,30 @@ namespace Waveface.Stream.Model
 		}
 	}
 
+	[Serializable]
+	[BsonIgnoreExtraElements]
+	public class WebThumb
+	{
+		public bool broken_thumb { get; set; }
+		public bool cloud_generated { get; set; }
+		public string position { get; set; }
+		public int width { get; set; }
+		public int height { get; set; }
+		public long id { get; set; }
+
+		[BsonIgnoreIfNull]
+		public string saved_file_name { get; set; }
+	}
 
 	[Serializable]
 	[BsonIgnoreExtraElements]
 	public class WebProperty
 	{
+		public string url { get; set; }
+		public string title { get; set; }
 		public List<WebAccess> accesses { get; set; }
 		public string favicon { get; set; }
-		public string title { get; set; }
-		public string url { get; set; }
+		public List<WebThumb> thumbs { get; set; }
 	}
 
 	[Serializable]

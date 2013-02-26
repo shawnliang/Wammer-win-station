@@ -236,6 +236,21 @@ namespace Wammer.Cloud
 
 			return CloudServer.requestPath<AttachmentSearchResult>("attachments/search", parameters, false);
 		}
+
+		public static void DownloadWebThumb(string session_token, string apikey, string object_id, long webthumb_id, string save_path)
+		{
+			var url = string.Format("{0}attachments/view/?object_id={1}&target=preview&id={2}&session_token={3}&apikey={4}",
+				CloudServer.BaseUrl,
+				object_id,
+				webthumb_id,
+				System.Web.HttpUtility.UrlEncode(session_token),
+				apikey);
+
+			using (var agent = new DefaultWebClient())
+			{
+				agent.DownloadFile(url, save_path);
+			}
+		}
 	}
 
 
