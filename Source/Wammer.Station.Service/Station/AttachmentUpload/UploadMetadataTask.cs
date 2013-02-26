@@ -18,7 +18,7 @@ namespace Wammer.Station.AttachmentUpload
 		public event EventHandler<MetadataUploadEventArgs> Uploaded;
 
 		public UploadMetadataTask()
-			:base(TaskPriority.High)
+			: base(TaskPriority.High)
 		{
 			Name = Guid.NewGuid().ToString();
 		}

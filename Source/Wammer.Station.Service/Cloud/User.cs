@@ -1,6 +1,5 @@
 ﻿using fastJSON;
 using System.Collections.Generic;
-using Wammer.Model;
 using Waveface.Stream.Model;
 
 namespace Wammer.Cloud

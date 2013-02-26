@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient
 {
-	public class PanelEx: Panel
+	public class PanelEx : Panel
 	{
 		#region Property
 		public Boolean EnableLinearGradientBackground { get; set; }
 		public Color LinearGradientStartColor { get; set; }
-		public Color LinearGradientEndColor { get; set; } 
+		public Color LinearGradientEndColor { get; set; }
 		#endregion
 
 		#region Protected Method

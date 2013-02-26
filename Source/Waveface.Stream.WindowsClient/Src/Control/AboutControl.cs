@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Waveface.Common;
-using Waveface.Stream.WindowsClient.Properties;
 using System.Reflection;
+using System.Windows.Forms;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient.Src.Control
 {

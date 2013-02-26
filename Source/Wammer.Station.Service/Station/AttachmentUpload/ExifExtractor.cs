@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Wammer.Model;
 using Waveface.Stream.Model;
 
 namespace Wammer.Station.AttachmentUpload

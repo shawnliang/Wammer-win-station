@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {

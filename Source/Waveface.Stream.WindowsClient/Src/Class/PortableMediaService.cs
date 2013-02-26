@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Waveface.Stream.ClientFramework;
+using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
-using Waveface.Stream.Core;
-using Waveface.Stream.ClientFramework;
 
 namespace Waveface.Stream.WindowsClient
 {

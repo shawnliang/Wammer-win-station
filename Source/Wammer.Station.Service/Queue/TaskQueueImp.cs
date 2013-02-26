@@ -1,10 +1,8 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Wammer.Station;
 using Waveface.Stream.Model;
-using log4net;
 
 namespace Wammer.Queue
 {
@@ -49,7 +47,7 @@ namespace Wammer.Queue
 
 			this.MaxConcurrentTaskCount = maxConcurrency;
 		}
-		
+
 		public void Enqueue(Station.ITask task, TaskPriority priority = TaskPriority.Medium, bool persistent = false)
 		{
 			WMSQueue queue = getQueue(priority);
@@ -147,7 +145,7 @@ namespace Wammer.Queue
 
 		public void AddThrottle(Throttle throttle)
 		{
-			lock(this.lockObj)
+			lock (this.lockObj)
 			{
 				throttle.Dest = this;
 				throttles.Add(throttle);

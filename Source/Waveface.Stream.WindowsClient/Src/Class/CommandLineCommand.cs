@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -38,7 +36,7 @@ namespace Waveface.Stream.WindowsClient
 			Name = name;
 			Handler = handler;
 			ShortForm = null;
-		} 
+		}
 		#endregion
 
 
@@ -47,7 +45,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			Handler(values);
 			return 1;
-		} 
+		}
 		#endregion
 	}
 }

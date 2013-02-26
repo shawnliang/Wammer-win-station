@@ -1,8 +1,7 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
 using System.Collections.Generic;
 using System.Linq;
 using Wammer.Model;
-using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.Timeline
 {
@@ -38,7 +37,7 @@ namespace Wammer.Station.Timeline
 		internal IEnumerable<IResourceDownloadTask> Load(TaskPriority taskPriority)
 		{
 			var queueName = getQueueName(taskPriority);
-			return QueuedTaskCollection.Instance.Find(Query.EQ("queue", queueName)).Select(x=>(IResourceDownloadTask)x.Data);
+			return QueuedTaskCollection.Instance.Find(Query.EQ("queue", queueName)).Select(x => (IResourceDownloadTask)x.Data);
 		}
 	}
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Linq;
 using System.IO;
-using Wammer.Model;
+using System.Linq;
 using Waveface.Stream.Model;
 
 namespace Wammer.Station.AttachmentView
@@ -54,7 +53,7 @@ namespace Wammer.Station.AttachmentView
 				throw new FormatException("missing parameter: object_id");
 
 			var location = LocationDBDataCollection.Instance.FindOneById(object_id);
-			if(location == null)
+			if (location == null)
 				throw new WammerStationException("object_id not found", -1);
 
 			var userID = location.CreatorID;
@@ -96,7 +95,7 @@ namespace Wammer.Station.AttachmentView
 			catch (Exception)
 			{
 			}
-		} 
+		}
 
 		private ViewResult getDocOrWebthumbPreview(NameValueCollection Parameters)
 		{

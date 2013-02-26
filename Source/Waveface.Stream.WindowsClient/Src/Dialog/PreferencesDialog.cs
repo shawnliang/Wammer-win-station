@@ -1,16 +1,11 @@
 ﻿using fastJSON;
 using MongoDB.Driver.Builders;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -541,7 +536,7 @@ namespace Waveface.Stream.WindowsClient
 			if (tabControl1.SelectedTab == tabGeneral)
 			{
 				UpdateGeneralPage();
-				
+
 
 				tabControl1.SelectedIndexChanged -= InitGeneralPage;
 			}
@@ -564,9 +559,9 @@ namespace Waveface.Stream.WindowsClient
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show(Resources.DELETE_ACCOUNT_MESSAGE,Resources.DELETE_ACCOUNT_TITLE, MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+			if (MessageBox.Show(Resources.DELETE_ACCOUNT_MESSAGE, Resources.DELETE_ACCOUNT_TITLE, MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
 			{
-			StationAPI.DeleteAccount(StreamClient.Instance.LoginedUser.SessionToken);
+				StationAPI.DeleteAccount(StreamClient.Instance.LoginedUser.SessionToken);
 			}
 		}
 
@@ -590,7 +585,7 @@ namespace Waveface.Stream.WindowsClient
 				(newFolder) => { usageDetailControl1.ResourcePath = newFolder; }
 			);
 		}
-		
+
 		private void cmbDevice_TextChanged(object sender, EventArgs e)
 		{
 			BindingSelectedDevice();

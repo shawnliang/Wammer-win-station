@@ -1,9 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
 using System.IO;
 
 namespace Waveface.Stream.Model
@@ -20,7 +17,7 @@ namespace Waveface.Stream.Model
 
 		[BsonIgnoreIfNull]
 		public List<ObjectIdAndPath> CopyFailed { get; set; }
-		
+
 		[BsonIgnoreIfNull]
 		public List<string> Sources { get; set; }
 
@@ -33,7 +30,7 @@ namespace Waveface.Stream.Model
 
 		public bool IsStarted { get; set; }
 		public bool IsCopyComplete { get; set; }
-		
+
 		public int Total { get; set; }
 		public int Skipped { get; set; }
 		public int Indexed { get; set; }
@@ -121,7 +118,7 @@ namespace Waveface.Stream.Model
 		public bool GetProgress(out long maximum, out long current)
 		{
 			maximum = current = 0;
-	
+
 			if (IsIndexing())
 			{
 				maximum = Total;
@@ -151,7 +148,7 @@ namespace Waveface.Stream.Model
 		#endregion
 
 
-		public static ImportTaskStaus operator+(ImportTaskStaus lhs, ImportTaskStaus rhs)
+		public static ImportTaskStaus operator +(ImportTaskStaus lhs, ImportTaskStaus rhs)
 		{
 			var result = new ImportTaskStaus
 			{
@@ -166,7 +163,7 @@ namespace Waveface.Stream.Model
 				UploadSize = lhs.UploadSize + rhs.UploadSize,
 				UploadedSize = lhs.UploadedSize + rhs.UploadedSize,
 
-				Error = (lhs.Error != null) ? lhs.Error : rhs.Error,			
+				Error = (lhs.Error != null) ? lhs.Error : rhs.Error,
 				IsCopyComplete = (lhs.IsCopyComplete && rhs.IsCopyComplete),
 				IsStarted = lhs.IsStarted || rhs.IsStarted,
 				UserId = lhs.UserId

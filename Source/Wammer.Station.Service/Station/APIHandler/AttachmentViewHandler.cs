@@ -1,13 +1,10 @@
 using MongoDB.Driver.Builders;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.IO;
 using System.Net;
 using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
-using Wammer.Station.Timeline;
 using Wammer.Utility;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;

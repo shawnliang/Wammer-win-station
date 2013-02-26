@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
-using Waveface.Stream.Model;
-using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 
 namespace Waveface.Stream.WindowsClient
@@ -38,25 +34,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		//public override void OnEnteringStep(WizardParameters parameters)
-		//{
-		//	base.OnEnteringStep(parameters);
-
-		//	this.session_token = (string)parameters.Get("session_token");
-
-		//	dataGridView1.Rows.Clear();
-
-		//	var folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-		//	dataGridView1.Rows.Add(true, folder);
-		//}
-
-		//public override void OnLeavingStep(WizardParameters parameters)
-		//{
-		//	base.OnLeavingStep(parameters);
-
-		//	importSelectedPaths(session_token);
-		//}
-
 		private void importSelectedPaths(string session_token)
 		{
 			List<string> docPaths = new List<string>();
@@ -66,13 +43,13 @@ namespace Waveface.Stream.WindowsClient
 				if ((bool)dataGridView1[0, i].Value)
 					docPaths.Add(dataGridView1[1, i].Value as string);
 			}
-			
+
 			StationAPI.ImportDoc(session_token, docPaths);
 		}
 
 
 		#region Public Method
-		
+
 		#endregion
 
 

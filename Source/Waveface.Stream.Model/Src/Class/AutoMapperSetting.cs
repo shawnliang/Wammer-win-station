@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using System.Linq;
-using Waveface.Stream.Model;
 using System;
 
 namespace Waveface.Stream.Model
@@ -39,9 +37,9 @@ namespace Waveface.Stream.Model
 
 			Mapper.CreateMap<AttachmentInfo, Attachment>()
 				.ForMember(dest => dest.modify_time, opt => opt.UseValue(DateTime.Now));
-				//.ForMember(dest => dest.description, opt=> opt.MapFrom(src=>src.description))
-				//.ForMember(dest=> dest.device_id, opt=>opt.MapFrom(src=>src.device_id))
-				//.for
+			//.ForMember(dest => dest.description, opt=> opt.MapFrom(src=>src.description))
+			//.ForMember(dest=> dest.device_id, opt=>opt.MapFrom(src=>src.device_id))
+			//.for
 
 		}
 		#endregion

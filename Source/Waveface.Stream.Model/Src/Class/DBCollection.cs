@@ -1,8 +1,7 @@
-﻿using System;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 using StreamDB = Waveface.Stream.Model.Database;
-using MongoDB.Bson.Serialization;
 
 namespace Waveface.Stream.Model
 {
@@ -97,7 +96,7 @@ namespace Waveface.Stream.Model
 
 			if (ret.UpdatedExisting)
 			{
-				OnUpdated(new CollectionChangedEventArgs(id)); 
+				OnUpdated(new CollectionChangedEventArgs(id));
 			}
 			else
 			{

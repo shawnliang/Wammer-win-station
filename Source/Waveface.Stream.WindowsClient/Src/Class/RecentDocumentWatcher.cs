@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -8,10 +7,10 @@ namespace Waveface.Stream.WindowsClient
 	{
 
 		#region Static Var
-        private static RecentDocumentWatcher _instance;
-        #endregion
+		private static RecentDocumentWatcher _instance;
+		#endregion
 
-        #region Public Static Property
+		#region Public Static Property
 		public static RecentDocumentWatcher Instance
 		{
 			get
@@ -19,11 +18,11 @@ namespace Waveface.Stream.WindowsClient
 				return _instance ?? (_instance = new RecentDocumentWatcher());
 			}
 		}
-        #endregion
+		#endregion
 
 
 		#region Public Property
-		public Boolean Enabled 
+		public Boolean Enabled
 		{
 			get
 			{
@@ -39,18 +38,18 @@ namespace Waveface.Stream.WindowsClient
 		private FileSystemWatcher watcher;
 
 
-        #region Constructor
-        private RecentDocumentWatcher()
-        {
+		#region Constructor
+		private RecentDocumentWatcher()
+		{
 			var recentDir = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 			watcher = new FileSystemWatcher(recentDir, "*.lnk");
 
 			watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime;
 			watcher.Changed += watcher_Touched;
 			watcher.Created += watcher_Touched;
-        }
-        #endregion
-	
+		}
+		#endregion
+
 
 		public event EventHandler<FileTouchEventArgs> FileTouched;
 

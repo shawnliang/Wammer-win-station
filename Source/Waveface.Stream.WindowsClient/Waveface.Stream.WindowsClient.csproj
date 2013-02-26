@@ -305,7 +305,6 @@
       <DependentUpon>ServiceItemControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Class\UserSession.cs" />
-    <Compile Include="Src\Class\WizardParameters.cs" />
     <Compile Include="Src\Control\ChoosePlanControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

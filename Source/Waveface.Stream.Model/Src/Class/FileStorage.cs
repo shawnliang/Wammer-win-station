@@ -38,7 +38,7 @@ namespace Waveface.Stream.Model
 			var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 			var cacheDir = Path.Combine(localAppData, @"Waveface\AOStream\cache\" + user_id);
 
-			if (!cacheDirCreated )
+			if (!cacheDirCreated)
 			{
 				if (!Directory.Exists(cacheDir))
 					Directory.CreateDirectory(cacheDir);

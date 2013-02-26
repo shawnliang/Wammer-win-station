@@ -13,9 +13,9 @@ namespace Waveface.Stream.Core
 		#endregion
 
 		#region Static Var
-        private static WebClientControlServer _instance;
+		private static WebClientControlServer _instance;
 		private static IDictionary<string, WebSocketService> _services;
-        #endregion
+		#endregion
 
 		#region Var
 		private WebSocketServer<WebClientControlService> _webSocketServer;

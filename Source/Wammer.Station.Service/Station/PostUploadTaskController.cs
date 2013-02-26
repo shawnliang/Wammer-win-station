@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.PostUpload;
 using Wammer.Station;
 using Waveface.Stream.Model;

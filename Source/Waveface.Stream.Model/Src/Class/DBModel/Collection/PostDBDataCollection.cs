@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using MongoDB.Bson;
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
 
 namespace Waveface.Stream.Model
 {
@@ -14,7 +12,7 @@ namespace Waveface.Stream.Model
 		#endregion
 
 
-		#region Property       
+		#region Property
 		/// <summary>
 		/// Gets the instance.
 		/// </summary>
@@ -22,12 +20,12 @@ namespace Waveface.Stream.Model
 		/// The instance.
 		/// </value>
 		public static PostDBDataCollection Instance
-        { 
-            get
-            {
-                return _instance ?? (_instance = new PostDBDataCollection());
-            }
-        }
+		{
+			get
+			{
+				return _instance ?? (_instance = new PostDBDataCollection());
+			}
+		}
 		#endregion
 
 

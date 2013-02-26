@@ -37,7 +37,7 @@ namespace Waveface.Stream.WindowsClient
 		/// <value>
 		/// The enable drop down.
 		/// </value>
-		public Boolean EnableDropDown 
+		public Boolean EnableDropDown
 		{
 			get
 			{

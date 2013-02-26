@@ -7,13 +7,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using Wammer.Cloud;
-using Wammer.Model;
-using Wammer.PerfMonitor;
+using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Retry;
-using Wammer.Utility;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
-using Wammer.Station.AttachmentUpload;
 
 namespace Wammer.Station.Timeline
 {
@@ -147,7 +144,7 @@ namespace Wammer.Station.Timeline
 			if (attachmentAttributes.image_meta != null && attachmentAttributes.image_meta.exif != null)
 				attachmentAttributes.image_meta.exif.gps = attachmentAttributes.image_meta.gps;
 
-			if (meta == ImageMeta.Origin || 
+			if (meta == ImageMeta.Origin ||
 				attachmentAttributes.type.Equals("doc", StringComparison.InvariantCultureIgnoreCase) ||
 				attachmentAttributes.type.Equals("webthumb", StringComparison.InvariantCultureIgnoreCase))
 			{

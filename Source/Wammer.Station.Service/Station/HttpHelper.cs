@@ -3,7 +3,6 @@ using log4net;
 using System;
 using System.IO;
 using System.Net;
-using Wammer.Cloud;
 using Wammer.Utility;
 using Waveface.Stream.Model;
 

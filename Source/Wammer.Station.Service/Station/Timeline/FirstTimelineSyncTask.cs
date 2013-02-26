@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Waveface.Stream.Model;
-using MongoDB.Driver.Builders;
+﻿using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
 {
@@ -12,7 +7,7 @@ namespace Wammer.Station.Timeline
 		public Driver user { get; set; }
 
 		public FirstTimelineSyncTask()
-			:base(TaskPriority.High)
+			: base(TaskPriority.High)
 		{
 
 		}

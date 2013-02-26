@@ -1,13 +1,10 @@
-﻿using AutoMapper;
+﻿using MongoDB.Bson;
+using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Wammer.Cloud;
-using Wammer.Model;
-using Waveface.Stream.Model;
-using MongoDB.Driver.Builders;
-using MongoDB.Bson;
 using System.Web;
+using Wammer.Cloud;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Timeline
 {
@@ -32,7 +29,7 @@ namespace Wammer.Station.Timeline
 		PostFetchBySeqResponse GetPostsBySeq(Driver user, int seq, int limit);
 	}
 
-	public class PostProvicer  : IPostProvider
+	public class PostProvicer : IPostProvider
 	{
 		public PostFetchBySeqResponse GetPostsBySeq(Driver user, int seq, int limit)
 		{

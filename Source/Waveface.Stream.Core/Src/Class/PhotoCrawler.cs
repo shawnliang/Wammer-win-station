@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
-using Waveface.Stream.Model;
+using System.Linq;
 
 namespace Waveface.Stream.Core
 {
@@ -12,7 +11,7 @@ namespace Waveface.Stream.Core
 		public delegate bool PhotoFolderFoundDelegate(string path, int count);
 
 		private static List<string> ignorePath;
-			
+
 		static PhotoCrawler()
 		{
 			string[] unInterestedFolders = new string[]

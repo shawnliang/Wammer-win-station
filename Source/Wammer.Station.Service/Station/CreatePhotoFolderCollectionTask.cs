@@ -1,11 +1,10 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Wammer.Cloud;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver;
 
 namespace Wammer.Station
 {
@@ -17,7 +16,7 @@ namespace Wammer.Station
 		public int retry { get; set; }
 
 		public CreateFolderCollectionTask()
-			:base(TaskPriority.Medium)
+			: base(TaskPriority.Medium)
 		{
 			collections = new Dictionary<string, FolderCollection>();
 		}

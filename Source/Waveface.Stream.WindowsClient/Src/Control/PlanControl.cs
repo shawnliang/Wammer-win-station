@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -61,7 +56,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				rtbxPlanDescription.Font = value;
 			}
-		} 
+		}
 
 		public Color DescriptionColor
 		{
@@ -91,11 +86,11 @@ namespace Waveface.Stream.WindowsClient
 		[Localizable(true)]
 		public string RTFDescription
 		{
-			get 
+			get
 			{
 				return rtbxPlanDescription.Rtf;
 			}
-			set 
+			set
 			{
 				rtbxPlanDescription.Rtf = value;
 			}

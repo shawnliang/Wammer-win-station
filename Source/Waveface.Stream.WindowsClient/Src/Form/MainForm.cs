@@ -1,13 +1,8 @@
-using MongoDB.Bson;
-using MongoDB.Driver.Builders;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using Waveface.Stream.ClientFramework;
-using Waveface.Stream.Model;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Waveface.Stream.WindowsClient
@@ -206,7 +201,7 @@ namespace Waveface.Stream.WindowsClient
 		public void Navigate(string url)
 		{
 			m_Browser.Navigate(url);
-		} 
+		}
 		#endregion
 
 
@@ -243,7 +238,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (m_KonamiSequence.IsCompletedBy(e.KeyCode))
 				IsDebugMode = !IsDebugMode;
-		} 
+		}
 		#endregion
 	}
 }

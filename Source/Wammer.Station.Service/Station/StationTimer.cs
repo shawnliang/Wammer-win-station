@@ -68,7 +68,7 @@ namespace Wammer.Station
 		}
 	}
 
-	public abstract class NonReentrantTimer : IStationTimer,IDisposable
+	public abstract class NonReentrantTimer : IStationTimer, IDisposable
 	{
 		private readonly Timer timer;
 		private readonly long timerPeriod;

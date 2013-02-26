@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Waveface.Stream.WindowsClient.Properties;
@@ -51,17 +45,17 @@ namespace Waveface.Stream.WindowsClient
 				if (string.IsNullOrEmpty(emailBox.Text) || string.IsNullOrEmpty(passwordBox.Text) || string.IsNullOrEmpty(nameBox.Text))
 					throw new Exception(Resources.FILL_ALL_FIELDS);
 
+				if (!Regex.IsMatch(emailBox.Text, EMAIL_VERIFY_PATTERN))
+				{
+					emailBox.Focus();
+					throw new Exception(Resources.InvalidEmail);
+				}
+
 				if (passwordBox.Text.Length < 6 || 16 < passwordBox.Text.Length || passwordBox.Text.Contains(" "))
 				{
 					passwordBox.Text = "";
 					passwordBox.Focus();
 					throw new Exception(Resources.InvalidPassword);
-				}
-
-				if (!Regex.IsMatch(emailBox.Text, EMAIL_VERIFY_PATTERN))
-				{
-					emailBox.Focus();
-					throw new Exception(Resources.InvalidEmail);
 				}
 
 				Cursor.Current = Cursors.WaitCursor;

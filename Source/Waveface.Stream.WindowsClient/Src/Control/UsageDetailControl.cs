@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient.Src.Control
 {
 	public partial class UsageDetailControl : UserControl
 	{
 		#region Public Property
-		public String ResourcePath 
+		public String ResourcePath
 		{
 			get
 			{
@@ -37,7 +31,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 			}
 		}
 
-		public long TotalPhoto 
+		public long TotalPhoto
 		{
 			get
 			{
@@ -109,7 +103,7 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 		public UsageDetailControl()
 		{
 			InitializeComponent();
-		} 
+		}
 		#endregion
 
 

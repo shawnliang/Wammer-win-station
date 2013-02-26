@@ -1,11 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
-using Wammer.Model;
-using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
-using System.IO;
-using System.Drawing;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -22,7 +18,7 @@ namespace Wammer.Station.AttachmentUpload
 		public static event EventHandler<ThumbnailEventArgs> ThumbnailGenerated;
 
 		public MakeThumbnailTask()
-			:base(TaskPriority.Medium)
+			: base(TaskPriority.Medium)
 		{
 		}
 
@@ -74,7 +70,7 @@ namespace Wammer.Station.AttachmentUpload
 					thumbnail = generateThumbnailFromOrigin(attachment, user, imgProc);
 				}
 			}
-			else if (thumbnail_type == ImageMeta.Medium )
+			else if (thumbnail_type == ImageMeta.Medium)
 			{
 				thumbnail = generateThumbnailFromOrigin(attachment, user, imgProc);
 			}

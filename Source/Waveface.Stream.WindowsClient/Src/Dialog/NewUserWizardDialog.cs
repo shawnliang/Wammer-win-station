@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Waveface.Stream.WindowsClient.Properties;
 
@@ -31,7 +25,7 @@ namespace Waveface.Stream.WindowsClient
 		public NewUserWizardDialog()
 		{
 			InitializeComponent();
-		} 
+		}
 		#endregion
 
 
@@ -45,7 +39,7 @@ namespace Waveface.Stream.WindowsClient
 
 			this.Text = selectedTab.Text;
 
-			buttonPrev.Visible = selectedTab != tabSignup && selectedTab != tabConnectCloudServices;
+			buttonPrev.Visible = selectedTab != tabIntro1 && selectedTab != tabConnectCloudServices;
 			buttonNext.Visible = selectedTab != tabSignup;
 
 			buttonNext.Text = m_TabControl.IsLastPage ? Resources.CLOSE_BUTTON_TEXT : Resources.NEXT_BUTTON_TEXT;

@@ -1,9 +1,6 @@
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using System;
-using System.Collections.Generic;
-using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.Station.Timeline;
 using Waveface.Stream.Model;
 

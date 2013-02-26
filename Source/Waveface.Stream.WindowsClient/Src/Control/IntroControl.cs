@@ -6,7 +6,7 @@ namespace Waveface.Stream.WindowsClient
 {
 	public partial class IntroControl : UserControl
 	{
-		public IntroControl():
+		public IntroControl() :
 			this(null)
 		{
 

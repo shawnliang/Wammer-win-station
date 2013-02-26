@@ -1,10 +1,8 @@
+using Microsoft.Win32.SafeHandles;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;             // required for Message
-using System.Runtime.InteropServices;   // required for Marshal
 using System.IO;
-using Microsoft.Win32.SafeHandles;     
+using System.Runtime.InteropServices;   // required for Marshal
+using System.Windows.Forms;             // required for Message     
 // DriveDetector - rev. 1, Oct. 31 2007
 
 namespace Dolinay
@@ -87,12 +85,12 @@ namespace Dolinay
 		}
 	}   // class DetectorForm
 
-	
+
 	/// <summary>
 	/// Our class for passing in custom arguments to our event handlers 
 	/// 
 	/// </summary>
-	public class DriveDetectorEventArgs : EventArgs 
+	public class DriveDetectorEventArgs : EventArgs
 	{
 
 
@@ -122,7 +120,7 @@ namespace Dolinay
 
 	}
 
-	
+
 	/// <summary>
 	/// Detects insertion or removal of removable drives.
 	/// Use it in 1 or 2 steps:
@@ -133,7 +131,7 @@ namespace Dolinay
 	/// If you do not want to do step 2, just use the DriveDetector constructor without arguments and
 	/// it will create its own invisible form to receive messages from Windows.
 	/// </summary>
-	class DriveDetector : IDisposable 
+	class DriveDetector : IDisposable
 	{
 		/// <summary>
 		/// Events signalized to the client app.
@@ -145,18 +143,18 @@ namespace Dolinay
 
 
 		#region Static Var
-        private static DriveDetector _instance;
-        #endregion
+		private static DriveDetector _instance;
+		#endregion
 
-        #region Public Static Property
-        public static DriveDetector Instance
-        { 
-            get
-            {
-                return _instance ?? (_instance = new DriveDetector());
-            }
-        }
-        #endregion
+		#region Public Static Property
+		public static DriveDetector Instance
+		{
+			get
+			{
+				return _instance ?? (_instance = new DriveDetector());
+			}
+		}
+		#endregion
 
 
 		#region Constructor
@@ -267,8 +265,8 @@ namespace Dolinay
 		{
 			if (fileOnDrive == null || fileOnDrive.Length == 0)
 				throw new ArgumentException("Drive path must be supplied to register for Query remove.");
-			
-			if ( fileOnDrive.Length == 2 && fileOnDrive[1] == ':' )
+
+			if (fileOnDrive.Length == 2 && fileOnDrive[1] == ':')
 				fileOnDrive += '\\';        // append "\\" if only drive letter with ":" was passed in.
 
 			if (mDeviceNotifyHandle != IntPtr.Zero)
@@ -277,7 +275,7 @@ namespace Dolinay
 				RegisterForDeviceChange(false, null);
 			}
 
-			if (Path.GetFileName(fileOnDrive).Length == 0 ||!File.Exists(fileOnDrive))
+			if (Path.GetFileName(fileOnDrive).Length == 0 || !File.Exists(fileOnDrive))
 				mFileToOpen = null;     // use root directory...
 			else
 				mFileToOpen = fileOnDrive;
@@ -329,9 +327,9 @@ namespace Dolinay
 				switch (m.WParam.ToInt32())
 				{
 
-						//
-						// New device has just arrived
-						//
+					//
+					// New device has just arrived
+					//
 					case DBT_DEVICEARRIVAL:
 
 						devType = Marshal.ReadInt32(m.LParam, 4);
@@ -351,12 +349,12 @@ namespace Dolinay
 							// We should create copy of the event before testing it and
 							// calling the delegate - if any
 							var tempDeviceArrived = DeviceArrived;
-							if ( tempDeviceArrived != null )
+							if (tempDeviceArrived != null)
 							{
 								DriveDetectorEventArgs e = new DriveDetectorEventArgs();
 								e.Drive = c + ":\\";
 								tempDeviceArrived(this, e);
-								
+
 								// Register for query remove if requested
 								if (e.HookQueryRemove)
 								{
@@ -365,21 +363,21 @@ namespace Dolinay
 									{
 										RegisterForDeviceChange(false, null);
 									}
-										
-								   RegisterQuery(c + ":\\");
+
+									RegisterQuery(c + ":\\");
 								}
 							}     // if  has event handler
 
-							
+
 						}
 						break;
 
 
 
-						//
-						// Device is about to be removed
-						// Any application can cancel the removal
-						//
+					//
+					// Device is about to be removed
+					// Any application can cancel the removal
+					//
 					case DBT_DEVICEQUERYREMOVE:
 
 						devType = Marshal.ReadInt32(m.LParam, 4);
@@ -392,8 +390,8 @@ namespace Dolinay
 							//vol = (DEV_BROADCAST_HANDLE)
 							//   Marshal.PtrToStructure(m.LParam, typeof(DEV_BROADCAST_HANDLE));
 							// if ( vol.dbch_handle ....
-							
-  
+
+
 							//
 							// Call the event handler in client
 							//
@@ -406,7 +404,7 @@ namespace Dolinay
 
 								// If the client wants to cancel, let Windows know
 								if (e.Cancel)
-								{                                    
+								{
 									m.Result = (IntPtr)BROADCAST_QUERY_DENY;
 								}
 								else
@@ -418,14 +416,14 @@ namespace Dolinay
 									RegisterForDeviceChange(false, null);   // will also close the mFileOnFlash
 								}
 
-						   }                          
+							}
 						}
 						break;
 
 
-						//
-						// Device has been removed
-						//
+					//
+					// Device has been removed
+					//
 					case DBT_DEVICEREMOVECOMPLETE:
 
 						devType = Marshal.ReadInt32(m.LParam, 4);
@@ -496,7 +494,7 @@ namespace Dolinay
 		/// <summary>
 		/// Drive which is currently hooked for query remove
 		/// </summary>
-		private string mCurrentDrive;   
+		private string mCurrentDrive;
 
 
 		// Win32 constants
@@ -651,13 +649,13 @@ namespace Dolinay
 				// unregister
 				if (mDeviceNotifyHandle != IntPtr.Zero)
 				{
-					NativeMethods.UnregisterDeviceNotification(mDeviceNotifyHandle);                                        
+					NativeMethods.UnregisterDeviceNotification(mDeviceNotifyHandle);
 				}
-				
+
 
 				mDeviceNotifyHandle = IntPtr.Zero;
 				mDirHandle = IntPtr.Zero;
-			   
+
 				mCurrentDrive = "";
 				if (mFileOnFlash != null)
 				{
@@ -683,7 +681,7 @@ namespace Dolinay
 			// 2 = B
 			// 4 = C...
 			int cnt = 0;
-			int pom = mask / 2;     
+			int pom = mask / 2;
 			while (pom != 0)
 			{
 				// while there is any bit set in the mask
@@ -751,7 +749,7 @@ namespace Dolinay
 					  NativeMethods.FILE_FLAG_BACKUP_SEMANTICS | NativeMethods.FILE_ATTRIBUTE_NORMAL,
 					  IntPtr.Zero);
 
-				if ( handle == INVALID_HANDLE_VALUE)
+				if (handle == INVALID_HANDLE_VALUE)
 					return IntPtr.Zero;
 				else
 					return handle;
@@ -764,7 +762,7 @@ namespace Dolinay
 			}
 		}
 
-		
+
 		// Structure with information for RegisterDeviceNotification.
 		[StructLayout(LayoutKind.Sequential)]
 		public struct DEV_BROADCAST_HANDLE
@@ -778,7 +776,7 @@ namespace Dolinay
 			public long dbch_nameoffset;
 			//public byte[] dbch_data[1]; // = new byte[1];
 			public byte dbch_data;
-			public byte dbch_data1; 
+			public byte dbch_data1;
 		}
 
 		// Struct for parameters of the WM_DEVICECHANGE message

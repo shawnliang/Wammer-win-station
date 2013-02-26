@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.Threading;
-using Waveface.Stream.Core;
+using System.Windows.Forms;
 
 
 namespace Waveface.Stream.WindowsClient
@@ -20,7 +14,7 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 		#region Private Property
-		public Thread m_ProcessThread 
+		public Thread m_ProcessThread
 		{
 			get
 			{
@@ -75,7 +69,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			processes.Enqueue(new KeyValuePair<string, Action>(processName, processAction));
 			return this;
-		} 
+		}
 		#endregion
 
 
@@ -84,7 +78,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (m_ProcessThread.ThreadState != ThreadState.Running)
 				m_ProcessThread.Start();
-		} 
+		}
 		#endregion
 	}
 }

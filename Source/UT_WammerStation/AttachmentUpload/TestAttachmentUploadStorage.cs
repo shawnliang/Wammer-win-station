@@ -3,7 +3,6 @@ using Moq;
 using System;
 using System.IO;
 using Wammer.Station.AttachmentUpload;
-using Wammer.Utility;
 using Waveface.Stream.Model;
 
 namespace UT_WammerStation.AttachmentUpload

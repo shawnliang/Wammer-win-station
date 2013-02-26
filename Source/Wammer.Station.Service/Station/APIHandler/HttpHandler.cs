@@ -9,8 +9,6 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.MultiPart;
 using Wammer.PerfMonitor;
 using Wammer.Utility;
