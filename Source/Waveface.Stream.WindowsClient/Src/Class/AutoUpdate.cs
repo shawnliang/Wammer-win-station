@@ -1,6 +1,7 @@
 ﻿using AppLimit.NetSparkle;
 using Microsoft.Win32;
 using System;
+using System.Drawing;
 using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
@@ -16,8 +17,8 @@ namespace Waveface.Stream.WindowsClient
 		public AutoUpdate(bool forceUpgrade)
 		{
 			m_autoUpdator = new Sparkle(UpdateURL);
-			m_autoUpdator.ApplicationIcon = Resources.software_update_available;
-			m_autoUpdator.ApplicationWindowIcon = Resources.UpdateAvailable;
+			m_autoUpdator.ApplicationIcon = Resources.streamUpdate_icon_512;
+			m_autoUpdator.ApplicationWindowIcon = Icon.FromHandle(Resources.streamUpdate_icon_512.GetHicon());
 
 			this.forceUpgrade = forceUpgrade;
 		}
