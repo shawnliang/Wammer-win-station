@@ -180,14 +180,32 @@
       </Component>
 
       <Component Id="AddToStreamExplorerMenu">
-        <RegistryKey Root="HKCR" Key="*\shell\AOStream">
-          <RegistryValue Type="string" Value="Add to AOStream" KeyPath="yes"/>
-          
-          <RegistryKey Key="command">
-            <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
+        <RegistryKey Root="HKLM" Key="Software\Classes\SystemFileAssociations">
+          <RegistryKey Key=".jpeg\shell\AOStream">
+            <RegistryValue Type="string" Value="Add to AOStream" KeyPath="yes"/>
+
+            <RegistryKey Key="command">
+              <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
+            </RegistryKey>
+          </RegistryKey>
+
+          <RegistryKey Key=".jpg\shell\AOStream">
+            <RegistryValue Type="string" Value="Add to AOStream"/>
+
+            <RegistryKey Key="command">
+              <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
+            </RegistryKey>
+          </RegistryKey>
+
+          <RegistryKey Key=".png\shell\AOStream">
+            <RegistryValue Type="string" Value="Add to AOStream"/>
+
+            <RegistryKey Key="command">
+              <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
+            </RegistryKey>
           </RegistryKey>
         </RegistryKey>
-
+        
         <RegistryKey Root="HKCR" Key="Folder\shell\AOStream">
           <RegistryValue Type="string" Value="Add to AOStream"/>
 
