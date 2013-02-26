@@ -1,13 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Wammer.Model;
+using Wammer.Queue;
 using Wammer.Station;
 using Wammer.Station.AttachmentUpload;
-using Moq;
-using Wammer.Queue;
-using Wammer.Model;
 
 namespace UT_WammerStation.TaskQueueTest
 {
@@ -63,7 +59,7 @@ namespace UT_WammerStation.TaskQueueTest
 			Assert.AreEqual(2, queuedCount);
 
 			queue.RunPriorityQueue(null);
-			
+
 			Assert.AreEqual(3, queuedCount);
 		}
 
@@ -160,7 +156,7 @@ namespace UT_WammerStation.TaskQueueTest
 			queue.Enqueue(new NullTask());
 
 			Assert.AreEqual(concurrency / 2, queuedCount);
-			
+
 
 			queue.RunPriorityQueue(null);
 			queue.RunPriorityQueue(null);

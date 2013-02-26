@@ -68,7 +68,7 @@ namespace Wammer.Queue
 		private readonly HashSet<WMSQueue> popQueues = new HashSet<WMSQueue>();
 
 		#region Private Property
-		private bool m_Disposed { get; set; } 
+		private bool m_Disposed { get; set; }
 		#endregion
 
 		public WMSSession()

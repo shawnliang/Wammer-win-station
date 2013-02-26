@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-using Wammer.Model;
+﻿using System;
 using Waveface.Stream.Model;
 
 namespace Wammer.Cloud

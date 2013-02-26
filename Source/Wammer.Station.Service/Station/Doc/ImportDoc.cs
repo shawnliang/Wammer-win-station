@@ -1,16 +1,14 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
+﻿using MongoDB.Driver.Builders;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Wammer.Cloud;
-using Wammer.Model;
-using Wammer.Utility;
-using MongoDB.Driver.Builders;
-using Waveface.Stream.Model;
 using Wammer.Station.AttachmentUpload;
-using Newtonsoft.Json;
+using Wammer.Utility;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.Doc
 {
@@ -27,7 +25,7 @@ namespace Wammer.Station.Doc
 			{
 				// copy to res folder
 				var storage = new AttachmentUploadStorage(new AttachmentUploadStorageDB());
-				var fileInfo = new UploadData 
+				var fileInfo = new UploadData
 								{
 									type = AttachmentType.doc,
 									imageMeta = ImageMeta.None,
@@ -149,7 +147,7 @@ namespace Wammer.Station.Doc
 			return IsPowerPoint;
 		}
 
-		
+
 
 		public static MakePreviewResult MakeDocPreview(string object_id, string full_saved_file_name, string user_id)
 		{

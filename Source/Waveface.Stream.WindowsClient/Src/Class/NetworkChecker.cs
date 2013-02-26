@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
 
 namespace Waveface.Stream.WindowsClient
 {

@@ -3,7 +3,6 @@ using Moq;
 using System;
 using System.Collections.Specialized;
 using System.IO;
-using Wammer.Model;
 using Wammer.Station;
 using Wammer.Station.AttachmentView;
 using Waveface.Stream.Model;

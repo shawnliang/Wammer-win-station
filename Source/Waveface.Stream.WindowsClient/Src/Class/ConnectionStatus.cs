@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Waveface.Stream.Model;
 
@@ -10,8 +9,8 @@ namespace Waveface.Stream.WindowsClient
 	public class ConnectionStatus
 	{
 		#region Static Var
-        private static ConnectionStatus _instance;
-        #endregion
+		private static ConnectionStatus _instance;
+		#endregion
 
 		#region Var
 		private HashSet<Device> _devices;
@@ -20,13 +19,13 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Public Static Property
 		public static ConnectionStatus Instance
-        { 
-            get
-            {
-                return _instance ?? (_instance = new ConnectionStatus());
-            }
-        }
-        #endregion
+		{
+			get
+			{
+				return _instance ?? (_instance = new ConnectionStatus());
+			}
+		}
+		#endregion
 
 
 		#region Private Property
@@ -49,7 +48,7 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Public Property
-		public IEnumerable<Device> Devices 
+		public IEnumerable<Device> Devices
 		{
 			get
 			{
@@ -67,14 +66,14 @@ namespace Waveface.Stream.WindowsClient
 
 		#region Constructor
 		private ConnectionStatus()
-        {
+		{
 			m_UpdateTimer.Interval = 1500;
 
 			m_UpdateTimer.Tick += m_UpdateTimer_Tick;
 
 			m_UpdateTimer.Enabled = true;
-        }
-        #endregion
+		}
+		#endregion
 
 
 		#region Private Method
@@ -84,7 +83,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				RemainingBackUpCount = item.files_to_backup.HasValue ? item.files_to_backup.Value : 0
 			}).ToArray();
-			
+
 			var addedDevices = currentDevices.Except(m_Devices).ToArray();
 			var removedDevices = m_Devices.Except(currentDevices).ToArray();
 			var sameDevices = m_Devices.Intersect(currentDevices).ToArray();

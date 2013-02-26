@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Model;
 using System.IO;
 using Waveface.Stream.Model;
 
@@ -13,7 +10,7 @@ namespace Wammer.Station
 	{
 		private LoginedSession session;
 		private string[] paths;
-		
+
 		public ImportDocTask(LoginedSession session, string[] paths)
 		{
 			this.session = session;
@@ -58,7 +55,7 @@ namespace Wammer.Station
 			{
 				try
 				{
-					Wammer.Station.Doc.ImportDoc.Process(user, doc.object_id, doc.file_path, File.GetLastAccessTime(doc.file_path));				
+					Wammer.Station.Doc.ImportDoc.Process(user, doc.object_id, doc.file_path, File.GetLastAccessTime(doc.file_path));
 				}
 				catch (Exception e)
 				{

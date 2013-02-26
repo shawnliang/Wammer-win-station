@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using log4net;
+using System;
 using System.Diagnostics;
-using log4net;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -71,8 +68,8 @@ namespace Waveface.Stream.WindowsClient
 			//TODO: pass this event to other handler? or ??
 			LogManager.GetLogger(typeof(StationServiceProxy)).ErrorFormat("Station process is closed. Exit code : {0}", stationProc.ExitCode);
 		}
-		
-		
+
+
 
 		private bool killProcess(Process proc)
 		{

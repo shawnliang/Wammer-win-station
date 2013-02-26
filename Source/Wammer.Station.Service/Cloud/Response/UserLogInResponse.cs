@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using Wammer.Model;
-using Wammer.Utility;
 using Waveface.Stream.Model;
 
 namespace Wammer.Cloud

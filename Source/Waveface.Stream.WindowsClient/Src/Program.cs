@@ -1,3 +1,5 @@
+using CommandLine;
+using log4net.Config;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -5,20 +7,13 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
-using Waveface.Stream.WindowsClient.Properties;
-using Dolinay;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
-using CommandLine;
-using System.Runtime.InteropServices;
-using Newtonsoft.Json;
-using System.Net;
-using fastJSON;
-using log4net;
-using log4net.Config;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -180,10 +175,10 @@ namespace Waveface.Stream.WindowsClient
 			{
 				ImportFileAndFolders(options.Imports);
 			}
-			
-			
+
+
 			m_MessageReceiver.WndProc += m_MessageReceiver_WndProc;
-			
+
 			Application.ApplicationExit += new EventHandler(Application_ApplicationExit);
 
 			StreamClient.Instance.Logouted += Instance_Logouted;
@@ -318,7 +313,7 @@ namespace Waveface.Stream.WindowsClient
 				{
 					if (SyncStatus.IsServiceRunning)
 					{
-						m_NotifyIcon.Icon = syncingIcons[syncingIconIndex ++ % syncingIcons.Length];
+						m_NotifyIcon.Icon = syncingIcons[syncingIconIndex++ % syncingIcons.Length];
 
 						if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
 						{
@@ -396,7 +391,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				var dialog = MainForm.Instance;
 
-				if(!dialog.IsDebugMode)
+				if (!dialog.IsDebugMode)
 					return DialogResult.OK;
 
 				dialog.FormClosed -= dialog_FormClosed;
@@ -501,7 +496,7 @@ namespace Waveface.Stream.WindowsClient
 		private static void InitContextMenuStripItems()
 		{
 			DebugInfo.ShowMethod();
-			
+
 			m_ContextMenuStrip.Items.Clear();
 
 			var preferencesMenuItem = m_ContextMenuStrip.Items.Add("Preferences", Resources.CONTROL_PREFERENCES_MENU_ITEM, m_ContextMenuStrip_Preferences_Click);
@@ -573,7 +568,7 @@ namespace Waveface.Stream.WindowsClient
 				m_ContextMenuStrip.Items.RemoveAt(insertIndex);
 			}
 
-			var syncStatus = (StreamClient.Instance.IsLogined)? ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID).Description: string.Empty;
+			var syncStatus = (StreamClient.Instance.IsLogined) ? ImportStatus.Lookup(StreamClient.Instance.LoginedUser.UserID).Description : string.Empty;
 
 			if (string.IsNullOrEmpty(syncStatus))
 				syncStatus = SyncStatus.GetSyncDescription();
@@ -583,7 +578,7 @@ namespace Waveface.Stream.WindowsClient
 
 			foreach (var status in syncStatus.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
 			{
-				m_ContextMenuStrip.Items.Insert(insertIndex++, new ToolStripMenuItem(status) 
+				m_ContextMenuStrip.Items.Insert(insertIndex++, new ToolStripMenuItem(status)
 				{
 					Enabled = false
 				});

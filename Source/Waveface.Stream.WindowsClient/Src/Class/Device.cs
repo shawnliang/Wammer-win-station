@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -36,9 +33,9 @@ namespace Waveface.Stream.WindowsClient
 		/// <value>
 		/// The remaining back up count.
 		/// </value>
-		public long RemainingBackUpCount 
+		public long RemainingBackUpCount
 		{
-			get 
+			get
 			{
 				return _remainingBackUpCount;
 			}
@@ -50,7 +47,7 @@ namespace Waveface.Stream.WindowsClient
 				_remainingBackUpCount = value;
 				OnRemainingBackUpCountChanged(EventArgs.Empty);
 			}
-		} 
+		}
 		#endregion
 
 

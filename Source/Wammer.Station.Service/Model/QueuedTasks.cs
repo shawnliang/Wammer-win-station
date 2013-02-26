@@ -1,7 +1,4 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Wammer.Model
 {

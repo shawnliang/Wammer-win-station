@@ -93,7 +93,7 @@ namespace Waveface.Stream.Core
 									   SinceDate = g.Min(p => p.EventSinceTime.Value.ToUTCISO8601ShortString()),
 									   UntilDate = g.Max(p => p.EventSinceTime.Value.ToUTCISO8601ShortString()),
 									   PostCount = g.Count(),
-									   AttachmentCount = g.Sum(p => (p.AttachmentIDs == null)? 0: p.AttachmentIDs.Count())
+									   AttachmentCount = g.Sum(p => (p.AttachmentIDs == null) ? 0 : p.AttachmentIDs.Count())
 								   });
 
 

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Linq;
+using System.Text;
 using Waveface.Stream.Core;
 
 namespace UT_WammerStation
@@ -44,10 +43,11 @@ namespace UT_WammerStation
 
 			var foundDir = new List<string>();
 
-			c1.FindPhotoDirs("dir1", (path, count) => {
+			c1.FindPhotoDirs("dir1", (path, count) =>
+			{
 				Assert.AreEqual(1, count);
 				foundDir.Add(path);
-				return true; 
+				return true;
 			});
 
 			Assert.AreEqual(2, foundDir.Count);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Wammer.Utility;
 using Waveface.Stream.Model;
 
 namespace Wammer.Cloud

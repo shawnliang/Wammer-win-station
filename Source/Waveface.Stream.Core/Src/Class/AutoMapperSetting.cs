@@ -3,7 +3,6 @@ using MongoDB.Bson;
 using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -298,9 +297,9 @@ namespace Waveface.Stream.Core
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => GetAttachmentTimeStamp(src)))
 				.ForMember(dest => dest.Url, opt => opt.MapFrom(src => GetAttachmentUrl(src)))
 				.ForMember(dest => dest.MetaData, opt => opt.MapFrom(src => GetAttachmentMetaData(src)))
-				.AfterMap((src,dest)=> 
+				.AfterMap((src, dest) =>
 				{
-					if(src.type == AttachmentType.webthumb)
+					if (src.type == AttachmentType.webthumb)
 					{
 						dest.MetaData.MediumPreviews = new ThumbnailData[]
 						{
@@ -316,7 +315,7 @@ namespace Waveface.Stream.Core
 
 			Mapper.CreateMap<Attachment, LargeSizeAttachmentData>()
 				.ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.object_id))
-				.ForMember(dest => dest.Title, opt => opt.MapFrom(src => (src.type != AttachmentType.webthumb)? null: src.web_meta.title))
+				.ForMember(dest => dest.Title, opt => opt.MapFrom(src => (src.type != AttachmentType.webthumb) ? null : src.web_meta.title))
 				.ForMember(dest => dest.FileName, opt => opt.MapFrom(src => src.file_name))
 				.ForMember(dest => dest.Type, opt => opt.MapFrom(src => GetNewClientAttachmentType(src.type)))
 				.ForMember(dest => dest.TimeStamp, opt => opt.MapFrom(src => GetAttachmentTimeStamp(src)))
@@ -340,20 +339,20 @@ namespace Waveface.Stream.Core
 
 
 			Mapper.CreateMap<ImageProperty, MediumSizeMetaData>()
-				.ForMember(dest => dest.SmallPreviews, opt => opt.MapFrom(src => (src.small == null)? null: new ThumbnailInfo[] { src.small }))
+				.ForMember(dest => dest.SmallPreviews, opt => opt.MapFrom(src => (src.small == null) ? null : new ThumbnailInfo[] { src.small }))
 				.ForMember(dest => dest.MediumPreviews, opt => opt.MapFrom(src => (src.medium == null) ? null : new ThumbnailInfo[] { src.medium }))
 				.ForMember(dest => dest.LargePreviews, opt => opt.MapFrom(src => (src.large == null) ? null : new ThumbnailInfo[] { src.large }));
 
 
 			Mapper.CreateMap<ImageProperty, LargeSizeMetaData>()
-				.ForMember(dest => dest.SmallPreviews, opt => opt.MapFrom(src => (src.small == null)? null: new ThumbnailInfo[] { src.small }))
+				.ForMember(dest => dest.SmallPreviews, opt => opt.MapFrom(src => (src.small == null) ? null : new ThumbnailInfo[] { src.small }))
 				.ForMember(dest => dest.MediumPreviews, opt => opt.MapFrom(src => (src.medium == null) ? null : new ThumbnailInfo[] { src.medium }))
 				.ForMember(dest => dest.LargePreviews, opt => opt.MapFrom(src => (src.large == null) ? null : new ThumbnailInfo[] { src.large }));
 
 			Mapper.CreateMap<DocProperty, MediumSizeMetaData>()
 				.ForMember(dest => dest.AccessTimes, opt => opt.MapFrom(src => src.access_time))
 				.ForMember(dest => dest.PageCount, opt => opt.MapFrom(src => src.preview_pages))
-				.ForMember(dest => dest.MediumPreviews, opt => opt.MapFrom(src => (src.preview_files == null) ? null : src.preview_files.Select(file => 
+				.ForMember(dest => dest.MediumPreviews, opt => opt.MapFrom(src => (src.preview_files == null) ? null : src.preview_files.Select(file =>
 					new ThumbnailData()
 					{
 						Url = GetStationFilePath(file)

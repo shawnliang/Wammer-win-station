@@ -1,13 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Wammer.Station.AttachmentView;
-using Waveface.Stream.Model;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using Wammer.Station.AttachmentView;
+using Waveface.Stream.Model;
 
 namespace UT_WammerStation.AttachmentViewTest
 {
@@ -48,7 +45,7 @@ namespace UT_WammerStation.AttachmentViewTest
 						new WebThumb{ id = 2, saved_file_name = "file2.dat"},
 					}
 				},
-				 group_id = "group1"
+				group_id = "group1"
 			};
 
 			db.Setup(x => x.GetAttachment("obj1")).
@@ -57,7 +54,7 @@ namespace UT_WammerStation.AttachmentViewTest
 
 			storage.Setup(x => x.GetAttachmentStream(ImageMeta.None, user, dbDoc.web_meta.thumbs[1].saved_file_name)).Returns(m).Verifiable();
 
-			var result = handler.GetAttachmentStream(new NameValueCollection { { "object_id", "obj1" }, { "target", "preview" }, { "id", "1"} });
+			var result = handler.GetAttachmentStream(new NameValueCollection { { "object_id", "obj1" }, { "target", "preview" }, { "id", "1" } });
 
 			Assert.AreEqual(m, result.Stream);
 			Assert.AreEqual("image/jpeg", result.MimeType);

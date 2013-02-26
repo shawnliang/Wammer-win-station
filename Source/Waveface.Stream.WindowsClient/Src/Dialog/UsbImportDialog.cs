@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Waveface.Stream.WindowsClient.Properties;
 
@@ -14,7 +8,7 @@ namespace Waveface.Stream.WindowsClient
 	{
 		#region Var
 		private string _driveToImport;
-		private PortableMediaService _portableMediaService = new PortableMediaService(); 
+		private PortableMediaService _portableMediaService = new PortableMediaService();
 		#endregion
 
 		public UsbImportDialog(string driveToImport)

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Waveface.Stream.Core
 {
@@ -9,8 +6,8 @@ namespace Waveface.Stream.Core
 	{
 		#region Static Var
 		private static object _lockInstanceObj = new object();
-        private static SystemEventSubscriber _instance;
-        #endregion
+		private static SystemEventSubscriber _instance;
+		#endregion
 
 
 		#region Public Static Property
@@ -21,9 +18,9 @@ namespace Waveface.Stream.Core
 		/// The instance.
 		/// </value>
 		public static SystemEventSubscriber Instance
-        { 
-            get
-            {
+		{
+			get
+			{
 				if (_instance == null)
 				{
 					lock (_lockInstanceObj)
@@ -32,9 +29,9 @@ namespace Waveface.Stream.Core
 					}
 				}
 				return _instance;
-            }
-        }
-        #endregion
+			}
+		}
+		#endregion
 
 
 		#region Event
@@ -82,10 +79,10 @@ namespace Waveface.Stream.Core
 
 		#region Constructor
 		private SystemEventSubscriber()
-        {
+		{
 
-        }
-        #endregion
+		}
+		#endregion
 
 
 		#region Protected Method

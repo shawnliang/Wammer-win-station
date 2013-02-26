@@ -2,9 +2,7 @@
 using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using Wammer.Model;
 
 namespace Wammer.Station.Retry
@@ -17,7 +15,8 @@ namespace Wammer.Station.Retry
 		{
 			MongoCursor<GenericData> savedItems = RetryQueueCollection.Instance.FindAll();
 
-			return savedItems.Select(x => {
+			return savedItems.Select(x =>
+			{
 				var item = new RetryQueueItem
 				{
 					Task = (IRetryTask)x.Data,

@@ -1,6 +1,5 @@
-﻿using System;
-using MongoDB.Driver.Builders;
-using Wammer.Model;
+﻿using MongoDB.Driver.Builders;
+using System;
 using Waveface.Stream.Model;
 
 namespace Wammer.Station.Doc
@@ -34,13 +33,13 @@ namespace Wammer.Station.Doc
 		public int retryCount { get; set; }
 
 		public UpdateDocAccessTimeTask()
-			:base(TaskPriority.Medium)
+			: base(TaskPriority.Medium)
 		{
 			retryCount = 50;
 		}
 
 		public UpdateDocAccessTimeTask(string user_id, string doc_id, DateTime openTime)
-			:this()
+			: this()
 		{
 			this.user_id = user_id;
 			this.doc_id = doc_id;

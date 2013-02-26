@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Waveface.Stream.Core
 {
@@ -24,7 +24,7 @@ namespace Waveface.Stream.Core
 		public string Map { get; set; }
 
 		[JsonProperty("region_tags", NullValueHandling = NullValueHandling.Ignore)]
-		public IEnumerable<String> RegionTags { get; set; } 
+		public IEnumerable<String> RegionTags { get; set; }
 		#endregion
 
 

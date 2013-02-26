@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient
@@ -47,7 +43,7 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 		#region Public Property
-		public SystemIconType IconType 
+		public SystemIconType IconType
 		{
 			get
 			{

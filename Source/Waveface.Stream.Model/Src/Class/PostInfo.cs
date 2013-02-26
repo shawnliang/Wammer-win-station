@@ -72,11 +72,11 @@ namespace Waveface.Stream.Model
 		public string creator_id { get; set; }
 
 		[BsonIgnoreIfNull]
-		public string cover_attach 
+		public string cover_attach
 		{
-			get 
+			get
 			{
-				return (string.IsNullOrEmpty(_cover_attach) && attachment_id_array != null) ? attachment_id_array.FirstOrDefault() : _cover_attach; 
+				return (string.IsNullOrEmpty(_cover_attach) && attachment_id_array != null) ? attachment_id_array.FirstOrDefault() : _cover_attach;
 			}
 			set
 			{

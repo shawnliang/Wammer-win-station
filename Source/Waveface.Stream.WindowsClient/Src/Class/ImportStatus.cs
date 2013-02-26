@@ -1,8 +1,7 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using MongoDB.Driver.Builders;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
 

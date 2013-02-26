@@ -1,11 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wammer.Station;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.IO;
+using Wammer.Station;
 
 namespace UT_WammerStation.MoveFolder
 {
@@ -40,8 +36,8 @@ namespace UT_WammerStation.MoveFolder
 			util.Setup(u => u.IsOnSameDrive(src, dest)).Returns(false).Verifiable();
 			util.Setup(u => u.RecursiveCopy(src, dest)).Verifiable();
 			util.Setup(u => u.RecursiveDelete(src)).Verifiable();
-			
-			
+
+
 			var mv = new FolderMover(util.Object);
 			mv.MoveFolder(src, dest);
 
@@ -77,7 +73,7 @@ namespace UT_WammerStation.MoveFolder
 			var util = new Mock<IFolderUtility>();
 
 			util.Setup(u => u.GetSubDirectories(src)).Returns(new string[] { src + @"\a", src + @"\b" }).Verifiable();
-			util.Setup(u=>u.GetSubEntries(dest)).Returns(new string[] { src + @"\c", src + @"\b" }).Verifiable();
+			util.Setup(u => u.GetSubEntries(dest)).Returns(new string[] { src + @"\c", src + @"\b" }).Verifiable();
 
 			var mv = new FolderMover(util.Object);
 			mv.MoveFolder(src, dest);

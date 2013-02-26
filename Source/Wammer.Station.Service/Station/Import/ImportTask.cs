@@ -1,22 +1,15 @@
-﻿using Microsoft.Win32;
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
 namespace Wammer.Station
 {
 	public class ImportTask : ITask
@@ -68,7 +61,7 @@ namespace Wammer.Station
 		#region Public Property
 		public Guid TaskId { get; private set; }
 		#endregion
-		
+
 		#region Constructor
 		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths, bool copyToStation)
 			: this()
@@ -99,8 +92,8 @@ namespace Wammer.Station
 				return;
 
 			this.LogInfoMsg("Importing from: \n" + string.Join("\n", Paths.ToArray()));
-	 		Exception error = null;
-	
+			Exception error = null;
+
 			try
 			{
 				raiseTaskStartedEvent();
@@ -202,7 +195,7 @@ namespace Wammer.Station
 
 						var small = new MakeThumbnailTask(file.object_id, ImageMeta.Small, TaskPriority.Medium, TaskId);
 						TaskQueue.Enqueue(small, small.Priority, true);
-						
+
 					}
 				}
 			}
@@ -461,7 +454,7 @@ namespace Wammer.Station
 		public int TotalCount { get; set; }
 	}
 
-	
+
 	public class FileMetadata : ObjectIdAndPath
 	{
 		public string type { get; set; }

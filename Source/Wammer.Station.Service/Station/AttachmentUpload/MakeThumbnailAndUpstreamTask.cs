@@ -1,5 +1,4 @@
 ﻿using System;
-using Wammer.Model;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
 
@@ -13,7 +12,7 @@ namespace Wammer.Station.AttachmentUpload
 		public Guid? importTaskId { get; set; }
 
 		public MakeThumbnailAndUpstreamTask()
-			:base(TaskPriority.Medium)
+			: base(TaskPriority.Medium)
 		{
 		}
 

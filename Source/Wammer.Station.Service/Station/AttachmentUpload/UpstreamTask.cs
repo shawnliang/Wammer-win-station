@@ -1,13 +1,10 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
 using System.ComponentModel;
+using System.IO;
 using Wammer.Cloud;
-using Wammer.Model;
-using Wammer.PerfMonitor;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
-using System.Net;
-using System.IO;
 
 namespace Wammer.Station.AttachmentUpload
 {

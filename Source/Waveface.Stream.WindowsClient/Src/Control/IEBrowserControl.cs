@@ -1,7 +1,6 @@
 ﻿using log4net;
 using mshtml;
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Windows.Forms;
@@ -50,7 +49,7 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Public Property
-		public string Uri 
+		public string Uri
 		{
 			get
 			{

@@ -5,7 +5,6 @@ using System.IO;
 using System.Net;
 using Wammer;
 using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station;
 using Waveface.Stream.Model;

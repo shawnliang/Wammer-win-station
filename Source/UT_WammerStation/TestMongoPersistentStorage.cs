@@ -4,7 +4,7 @@ using Wammer.Queue;
 
 namespace UT_WammerStation.MongoStorage
 {
-	
+
 	class Dummy : Wammer.Station.ITask
 	{
 		public string name { get; set; }

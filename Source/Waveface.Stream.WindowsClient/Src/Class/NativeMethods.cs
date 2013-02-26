@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 
 internal class NativeMethods
@@ -39,9 +38,9 @@ internal class NativeMethods
 	[DllImport("user32.dll")]
 	internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
 
-	[DllImport("user32.dll", SetLastError = true)]
+	[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 	internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-	
+
 	[DllImport("User32.dll", EntryPoint = "SendMessage")]
 	internal static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, ref CopyDataStruct lParam);
 
@@ -166,6 +165,6 @@ internal class NativeMethods
 	internal static extern bool InternetGetConnectedState(
 		ref uint lpdwFlags,
 		uint dwReserved
-		); 
+		);
 	#endregion
 }

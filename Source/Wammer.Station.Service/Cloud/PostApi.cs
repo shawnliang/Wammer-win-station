@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Wammer.Model;
 using Wammer.Utility;
 using Waveface.Stream.Model;
 

@@ -2,11 +2,6 @@
 using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Waveface.Stream.Model
 {
@@ -77,12 +72,12 @@ namespace Waveface.Stream.Model
 
 
 			var checkIns = postInfo.checkins;
-			
-			if(checkIns != null)
+
+			if (checkIns != null)
 			{
 				var checkInLocations = new List<String>(checkIns.Count);
 
-				foreach(var checkIn in checkIns)
+				foreach (var checkIn in checkIns)
 				{
 					//Debug.Assert(checkIn.latitude != null);
 					//Debug.Assert(checkIn.longitude != null);

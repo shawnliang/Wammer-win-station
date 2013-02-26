@@ -4,6 +4,7 @@ using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,7 +14,6 @@ using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
-using System.Net;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -25,7 +25,7 @@ namespace Waveface.Stream.WindowsClient
 		private const string CALLBACK_URL_PATH = @"/client/callback";
 		private const string FB_LOGIN_GUID = @"6CF7FA1E-80F7-48A3-922F-F3B2841C7A0D";
 		private const string CALLBACK_MATCH_PATTERN_FORMAT = @"(/" + FB_LOGIN_GUID + "/{0}?.*)";
-        private const string LOGIN_URL_PATH = @"/client/v3/sns/facebook/signin";
+		private const string LOGIN_URL_PATH = @"/client/v3/sns/facebook/signin";
 
 		public UserSession LoginWithFacebook()
 		{

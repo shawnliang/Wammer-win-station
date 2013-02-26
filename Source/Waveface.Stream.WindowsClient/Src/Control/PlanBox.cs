@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Waveface.Stream.WindowsClient.Properties;
 
@@ -12,7 +9,7 @@ namespace Waveface.Stream.WindowsClient
 		#region Enum
 		public enum PlanType
 		{
- 			Free,
+			Free,
 			Plan1,
 			Plan2
 		}
@@ -51,7 +48,7 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		public Boolean HeaderVisibile 
+		public Boolean HeaderVisibile
 		{
 			get
 			{

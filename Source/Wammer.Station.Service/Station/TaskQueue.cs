@@ -1,10 +1,6 @@
-﻿using log4net;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Threading;
-using Wammer.PerfMonitor;
 using Wammer.Queue;
-using Waveface.Stream.Model;
 
 namespace Wammer.Station
 {

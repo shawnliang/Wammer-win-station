@@ -1,11 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Threading;
-using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
 
@@ -40,8 +36,8 @@ namespace Waveface.Stream.WindowsClient
 			get
 			{
 				lock (cs)
-				{ 
-					return m_InterestedPaths.Values.ToList(); 
+				{
+					return m_InterestedPaths.Values.ToList();
 				}
 			}
 		}
@@ -98,7 +94,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var loginedSession = LoginedSessionCollection.Instance.FindOne(Query.EQ("_id", session_token));
 			var groupID = loginedSession.groups.First().group_id;
-			
+
 			StationAPI.ImportPhoto(session_token, groupID, paths, copyToStation);
 		}
 

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Reflection;
-using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics;
-using Newtonsoft.Json;
 
 
 namespace Waveface.Stream.Core
@@ -116,8 +113,8 @@ namespace Waveface.Stream.Core
 
 			if (es > 200)
 			{
-				Console.Error.WriteLine(string.Format("Execute {0} elapsed {1} ms:{2}{3}", 
-					commandName, 
+				Console.Error.WriteLine(string.Format("Execute {0} elapsed {1} ms:{2}{3}",
+					commandName,
 					es,
 					Environment.NewLine,
 					JsonConvert.SerializeObject(data, Formatting.Indented)));

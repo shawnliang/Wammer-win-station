@@ -2,8 +2,6 @@
 using System;
 using System.IO;
 using System.Text;
-using Wammer.Model;
-using Wammer.Station;
 using Wammer.Station.AttachmentView;
 using Waveface.Stream.Model;
 

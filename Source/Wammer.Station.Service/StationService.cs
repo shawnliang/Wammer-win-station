@@ -4,7 +4,6 @@ using log4net;
 using log4net.Config;
 using MongoDB.Driver.Builders;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -13,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Wammer.Cloud;
-using Wammer.Model;
 using Wammer.PerfMonitor;
 using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
@@ -208,7 +206,7 @@ namespace Wammer.Station.Service
 				Waveface.Stream.Core.AutoMapperSetting.IniteMap();
 
 				var eventSubscriber = SystemEventSubscriber.Instance;
-				PostDBDataCollection.Instance.Saved += (s, e) => 
+				PostDBDataCollection.Instance.Saved += (s, e) =>
 				{
 					eventSubscriber.TriggerPostAddedEvent(e.ID);
 				};
@@ -433,13 +431,13 @@ namespace Wammer.Station.Service
 		}
 	}
 
-	internal class MongoDBMonitor:IDisposable
+	internal class MongoDBMonitor : IDisposable
 	{
 		#region Var
 		private object cs = new object();
 		private System.Threading.Timer timer;
 		private bool isReady;
-		private Action onReady; 
+		private Action onReady;
 		#endregion
 
 		#region Private Property

@@ -1,12 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
-using Waveface.Stream.Model;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -23,7 +21,7 @@ namespace Waveface.Stream.WindowsClient
 		#region Private Property
 		public Timer m_RefreshTimer
 		{
-			get 
+			get
 			{
 				if (_refreshTimer == null)
 				{
@@ -44,7 +42,7 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 		#region Public Property
-		public Boolean EnableAutoRefreshStatus 
+		public Boolean EnableAutoRefreshStatus
 		{
 			get
 			{
