@@ -69,17 +69,22 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			try
 			{
-				var eventTime = DateTime.ParseExact(exif.gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+				var gps = exif.gps;
+				var eventTime = DateTime.ParseExact(gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
 
-				var hour = getRationalValue(exif.gps.GPSTimeStamp[0]);
-				var min = getRationalValue(exif.gps.GPSTimeStamp[1]);
-				var sec = getRationalValue(exif.gps.GPSTimeStamp[2]);
+				if (eventTime.Year < 1900)
+					throw new Exception("GPS datestamp should be 1900 years latter.");
+
+				var gpsTimeStamp = gps.GPSTimeStamp;
+				var hour = getRationalValue(gpsTimeStamp[0]);
+				var min = getRationalValue(gpsTimeStamp[1]);
+				var sec = getRationalValue(gpsTimeStamp[2]);
 
 				return eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
 			}
 			catch (Exception e)
 			{
-				logger.WarnFormat("bad GPD datestamp or timestamp in {0}: {1}", file_path, e.Message);
+				logger.WarnFormat("bad GPS datestamp or timestamp in {0}: {1}", file_path, e.Message);
 				return null;
 			}
 		}
