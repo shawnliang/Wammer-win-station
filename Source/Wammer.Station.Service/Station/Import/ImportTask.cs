@@ -524,35 +524,7 @@ namespace Wammer.Station
 
 		private DateTime computeEventTime()
 		{
-			if (exif != null)
-			{
-				if (exif.gps != null && !string.IsNullOrEmpty(exif.gps.GPSDateStamp) && exif.gps.GPSTimeStamp != null)
-				{
-					var gps = exif.gps;
-					var eventTime = DateTime.ParseExact(gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-
-					if (eventTime.Year >= 1900)
-					{
-						var gpsTimeStamp = exif.gps.GPSTimeStamp;
-						var hour = getRationalValue(gpsTimeStamp[0]);
-						var min = getRationalValue(gpsTimeStamp[1]);
-						var sec = getRationalValue(gpsTimeStamp[2]);
-
-						return eventTime.AddHours((double)hour).AddMinutes((double)min).AddSeconds((double)sec);
-					}
-				}
-
-				if (exif.DateTimeOriginal != null)
-					return TimeHelper.ParseGeneralDateTime(exif.DateTimeOriginal);
-
-				if (exif.DateTimeDigitized != null)
-					return TimeHelper.ParseGeneralDateTime(exif.DateTimeDigitized);
-
-				if (exif.DateTime != null)
-					return TimeHelper.ParseGeneralDateTime(exif.DateTime);
-			}
-
-			return file_create_time;
+			return AttachmentUpload.EventTime.GuessFromExif(exif, file_create_time, timezone, file_path);
 		}
 	}
 
