@@ -244,7 +244,7 @@ namespace Wammer.Cloud
 				object_id,
 				webthumb_id,
 				System.Web.HttpUtility.UrlEncode(session_token),
-				CloudServer.APIKey);
+				apikey);
 
 			using (var agent = new DefaultWebClient())
 			{

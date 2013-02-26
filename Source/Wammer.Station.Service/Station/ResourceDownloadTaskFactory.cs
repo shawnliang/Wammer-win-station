@@ -72,7 +72,7 @@ namespace Wammer.Station
 		}
 
 
-		public static IResourceDownloadTask createWebThumbDownloadTask(Driver user, string object_id, long webthumb_id)
+		public static WebThumbDownloadTask createWebThumbDownloadTask(Driver user, string object_id, long webthumb_id)
 		{
 			return new WebThumbDownloadTask(user.user_id, object_id, webthumb_id);
 		}

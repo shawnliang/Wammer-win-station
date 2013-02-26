@@ -32,11 +32,24 @@ namespace Wammer.Station.Timeline
 			if (string.IsNullOrEmpty(user.session_token))
 				throw new Exception("unable to download webthumb because user session expired.");
 
+			RunOnce(user.session_token, CloudServer.APIKey);
+		}
+
+		public string RunOnce(string session_token, string apikey)
+		{
+			if (string.IsNullOrEmpty(apikey))
+				throw new ArgumentNullException("apikey");
+
+			if (string.IsNullOrEmpty(session_token))
+				throw new ArgumentNullException("session_token");
+
 			var saved_path = Path.Combine(FileStorage.GetCachePath(user_id), string.Format("{0}_webthumb_{1}.dat", object_id, webthumb_id));
 
-			AttachmentApi.DownloadWebThumb(user.session_token, CloudServer.APIKey, object_id, webthumb_id, saved_path);
+			AttachmentApi.DownloadWebThumb(session_token, apikey, object_id, webthumb_id, saved_path);
 
 			AttachmentCollection.Instance.UpdateWebThumbSavedFile(object_id, webthumb_id, saved_path);
+
+			return saved_path;
 		}
 
 		public override void ScheduleToRun()
