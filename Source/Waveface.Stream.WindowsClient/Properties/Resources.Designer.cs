@@ -984,7 +984,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove.
+        ///   Looks up a localized string similar to Unlink.
         /// </summary>
         internal static string REMOVE_ACCOUNT_BUTTON_TITLE {
             get {
@@ -993,7 +993,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove Account....
+        ///   Looks up a localized string similar to Unlinking....
         /// </summary>
         internal static string REMOVE_ACCOUNT_MESSAGE {
             get {
