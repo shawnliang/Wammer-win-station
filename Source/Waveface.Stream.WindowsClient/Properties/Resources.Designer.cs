@@ -1176,16 +1176,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap software_update_available {
-            get {
-                object obj = ResourceManager.GetObject("software_update_available", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to AOStream service is not completely started. Please wait for a while and try again, or ensure the running status of AOStream service..
         /// </summary>
         internal static string STATION_SERVICE_DOWN {
@@ -1217,9 +1207,9 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap streamfotocollector_icon_128 {
+        internal static System.Drawing.Bitmap streamUpdate_icon_512 {
             get {
-                object obj = ResourceManager.GetObject("streamfotocollector_icon_128", resourceCulture);
+                object obj = ResourceManager.GetObject("streamUpdate_icon_512", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1393,16 +1383,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string UNKNOW_SIGNUP_ERROR {
             get {
                 return ResourceManager.GetString("UNKNOW_SIGNUP_ERROR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon UpdateAvailable {
-            get {
-                object obj = ResourceManager.GetObject("UpdateAvailable", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         

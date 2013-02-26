@@ -153,15 +153,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.zh-tw.Designer.cs">
-      <DependentUpon>Resources.zh-tw.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.zh-tw.Designer.cs">
+      <DependentUpon>Resources.zh-tw.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -502,8 +502,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Src\Control\AboutControl.resx">
       <DependentUpon>AboutControl.cs</DependentUpon>
@@ -722,11 +722,10 @@
     <Content Include="Resources\P3.png" />
     <Content Include="Resources\qr_waveface_site.png" />
     <Content Include="Resources\software-update-available.png" />
-    <Content Include="Resources\streamfotocollector_icon_128.png" />
+    <None Include="Resources\streamUpdate_icon_512.png" />
     <Content Include="Resources\stream_appstore_qr.png" />
     <Content Include="Resources\stream_googleplay_qr.png" />
     <None Include="Resources\twitter.png" />
-    <Content Include="Resources\UpdateAvailable.ico" />
     <Content Include="Resources\usbflashcardwithcardreader2.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
