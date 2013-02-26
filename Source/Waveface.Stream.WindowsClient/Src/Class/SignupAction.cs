@@ -33,7 +33,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private static string prepareUserFolderPath()
 		{
-			var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "AOStream");
+			var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "aostream");
 			if (!Directory.Exists(userFolder))
 				Directory.CreateDirectory(userFolder);
 			return userFolder;

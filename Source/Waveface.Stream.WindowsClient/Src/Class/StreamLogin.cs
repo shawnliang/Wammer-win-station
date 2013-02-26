@@ -98,7 +98,7 @@ namespace Waveface.Stream.WindowsClient
 				Driver driver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 				if (driver == null)
 				{
-					var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "AOStream");
+					var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "aostream");
 					if (!Directory.Exists(userFolder))
 						Directory.CreateDirectory(userFolder);
 
@@ -117,7 +117,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "AOStream");
+				var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "aostream");
 				if (!Directory.Exists(userFolder))
 					Directory.CreateDirectory(userFolder);
 

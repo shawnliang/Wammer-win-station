@@ -186,6 +186,7 @@
     <Compile Include="Src\Class\ImportTranscation.cs" />
     <Compile Include="Src\Class\KonamiSequence.cs" />
     <Compile Include="Src\Class\MongoDBNotReadyException.cs" />
+    <Compile Include="Src\Class\ResourceFolder.cs" />
     <Compile Include="Src\Class\SendMessageHelper.cs" />
     <Compile Include="Src\Class\SignupAction.cs" />
     <Compile Include="Src\Class\StationServiceProxy.cs" />
