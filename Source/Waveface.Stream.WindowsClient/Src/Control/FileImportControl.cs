@@ -101,7 +101,7 @@ namespace Waveface.Stream.WindowsClient
 			if (!selectedPaths.Any())
 				return;
 
-			_photoSearch.ImportToStationAsync(selectedPaths, session_token, radioCopy.Checked);
+			_photoSearch.ImportToStationAsync(selectedPaths, session_token, !indexOnlyOption.Checked);
 		}
 
 		#region Public Method
@@ -265,6 +265,11 @@ namespace Waveface.Stream.WindowsClient
 				StreamClient.Instance.LoginedUser.SessionToken,
 				(newFolder) => { txtStoreLocation.Text = newFolder; }
 			);
+		}
+
+		private void FileImportControl_DoubleClick(object sender, EventArgs e)
+		{
+			indexOnlyOption.Visible = !indexOnlyOption.Visible;
 		}
 	}
 
