@@ -42,7 +42,7 @@ namespace Waveface.Stream.WindowsClient
 			buttonPrev.Visible = selectedTab != tabIntro1 && selectedTab != tabConnectCloudServices;
 			buttonNext.Visible = selectedTab != tabSignup;
 
-			buttonNext.Text = m_TabControl.IsLastPage ? Resources.CLOSE_BUTTON_TEXT : Resources.NEXT_BUTTON_TEXT;
+			//buttonNext.Text = m_TabControl.IsLastPage ? Resources.CLOSE_BUTTON_TEXT : Resources.NEXT_BUTTON_TEXT;
 
 			panel1.Visible = selectedTab != tabSignup;
 		}

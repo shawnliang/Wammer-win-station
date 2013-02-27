@@ -42,7 +42,7 @@ namespace Waveface.Stream.WindowsClient
 			button1.Visible = selectedTab != tabSignIn && selectedTab != tabPlan;
 			button2.Visible = selectedTab != tabSignIn;
 
-			button2.Text = m_TabControl.IsLastPage ? Resources.CLOSE_BUTTON_TEXT : Resources.NEXT_BUTTON_TEXT;
+			//button2.Text = m_TabControl.IsLastPage ? Resources.CLOSE_BUTTON_TEXT : Resources.NEXT_BUTTON_TEXT;
 		}
 		#endregion
 
