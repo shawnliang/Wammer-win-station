@@ -98,6 +98,7 @@ namespace Waveface.Stream.WindowsClient
 
 			this.Disposed += PreferencesDialog_Disposed;
 
+			pbxDevice.Hide();
 			lblSyncStatus.Text = string.Empty;
 			lblSyncTransferStatus.Text = string.Empty;
 			lblDeviceConnectStatus.Text = string.Empty;
@@ -275,6 +276,8 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateDeviceSyncStatus()
 		{
+			pbxDevice.Show();
+
 			var device = cmbDevice.SelectedItem as Device;
 			lblDeviceName.Text = device.Name;
 
@@ -480,8 +483,6 @@ namespace Waveface.Stream.WindowsClient
 		{
 			cmbDevice.Enabled = ConnectionStatus.Instance.Devices.Any();
 
-			if (!cmbDevice.Enabled)
-				return;
 
 			cmbDevice.BeginUpdate();
 			cmbDevice.DisplayMember = "Name";
@@ -615,6 +616,7 @@ namespace Waveface.Stream.WindowsClient
 
 			if (cmbDevice.Items.Count == 0 || cmbDevice.SelectedItem == null)
 			{
+				pbxDevice.Hide();
 				lblDeviceName.Text = string.Empty;
 				lblDeviceConnectStatus.Text = string.Empty;
 				label2.Text = string.Empty;

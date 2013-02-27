@@ -1479,6 +1479,16 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap winControl2 {
+            get {
+                object obj = ResourceManager.GetObject("winControl2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap windows_en_1 {
             get {
                 object obj = ResourceManager.GetObject("windows_en_1", resourceCulture);
