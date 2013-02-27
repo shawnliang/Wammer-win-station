@@ -7007,7 +7007,7 @@
     <value>3, -18</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>AOStream Station</value>
+    <value>aostream Station</value>
   </data>
   <data name="checkBox2.IconPadding" type="System.Int32, mscorlib">
     <value>0</value>

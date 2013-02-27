@@ -139,7 +139,7 @@
     <value>連接 Facebook</value>
   </data>
   <data name="STATION_SERVICE_DOWN" xml:space="preserve">
-    <value>AOStream 服務未完全啟動，請稍候一會再登入，或確認 AOStream 服務啟動狀態。</value>
+    <value>aostream 服務未完全啟動，請稍候一會再登入，或確認 aostream 服務啟動狀態。</value>
   </data>
   <data name="CHECK_FOR_UPDATE" xml:space="preserve">
     <value>檢查更新</value>
@@ -148,16 +148,16 @@
     <value>註冊錯誤</value>
   </data>
   <data name="NEED_UPGRADE" xml:space="preserve">
-    <value>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。在還未升級前將無法繼續使用AOStream。</value>
+    <value>目前已有新版本上架，請點擊 ”確定” 按鈕，開始下載與安裝最新程式。在還未升級前將無法繼續使用aostream。</value>
   </data>
   <data name="ALL_DATA_SYNCED" xml:space="preserve">
     <value>同步完成</value>
   </data>
   <data name="SERVICE_STARTING" xml:space="preserve">
-    <value>正在啟動 AOStream...</value>
+    <value>正在啟動 aostream...</value>
   </data>
   <data name="CONNECT_CLOUD_ERROR" xml:space="preserve">
-    <value>無法連線至 AOStream 伺服器</value>
+    <value>無法連線至 aostream 伺服器</value>
   </data>
   <data name="UPLOAD_INDICATOR" xml:space="preserve">
     <value>上傳</value>
@@ -184,13 +184,13 @@
     <value>帳號或密碼錯誤，請再試一次。</value>
   </data>
   <data name="OPEN_STREAM_MENU_ITEM" xml:space="preserve">
-    <value>開啟 AOStream</value>
+    <value>開啟 aostream</value>
   </data>
   <data name="CLOSE_BUTTON_TEXT" xml:space="preserve">
     <value>關閉</value>
   </data>
   <data name="SERVICE_START_FAIL" xml:space="preserve">
-    <value>無法連線至 AOStream 伺服器</value>
+    <value>無法連線至 aostream 伺服器</value>
   </data>
   <data name="MOVE_FOLDER_UNSUCCESS" xml:space="preserve">
     <value>無法搬移</value>
@@ -199,7 +199,7 @@
     <value>移除</value>
   </data>
   <data name="ALREAD_UPDATED" xml:space="preserve">
-    <value>您的AOStream已經是最新的版本</value>
+    <value>您的aostream已經是最新的版本</value>
   </data>
   <data name="LOGOUT_MENU_ITEM" xml:space="preserve">
     <value>登出...</value>
@@ -214,7 +214,7 @@
     <value>正在暫停同步...</value>
   </data>
   <data name="SIGNUP_PAGE_TITLE" xml:space="preserve">
-    <value>註冊 - AOStream</value>
+    <value>註冊 - aostream</value>
   </data>
   <data name="FILL_ALL_FIELDS" xml:space="preserve">
     <value>請填寫所有欄位.</value>

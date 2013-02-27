@@ -169,7 +169,7 @@
     <value>An unexpected error has occurred. Setup cannot continue.</value>
   </data>
   <data name="lblTitle.Text" xml:space="preserve">
-    <value>AOStream installation error</value>
+    <value>aostream installation error</value>
   </data>
   <data name="lblInstruction.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 10, 10, 10</value>

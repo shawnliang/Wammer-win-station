@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblWelcome.Text" xml:space="preserve">
-    <value>歡迎使用 AOStream</value>
+    <value>歡迎使用 aostream</value>
   </data>
   <data name="lblMode.Text" xml:space="preserve">
     <value>(see resources.resx)</value>

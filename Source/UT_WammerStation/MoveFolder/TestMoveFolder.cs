@@ -11,8 +11,8 @@ namespace UT_WammerStation.MoveFolder
 		[TestMethod]
 		public void testUseMoveIfOnSameDrive()
 		{
-			var src = @"c:\users\shawn\AOStream";
-			var dest = @"c:\users\shawn\AOStream2";
+			var src = @"c:\users\shawn\aostream";
+			var dest = @"c:\users\shawn\aostream2";
 
 			var util = new Mock<IFolderUtility>();
 
@@ -28,8 +28,8 @@ namespace UT_WammerStation.MoveFolder
 		[TestMethod]
 		public void testCopyIfOnDiffDrive()
 		{
-			var src = @"c:\users\shawn\AOStream";
-			var dest = @"c:\users\shawn\AOStream2";
+			var src = @"c:\users\shawn\aostream";
+			var dest = @"c:\users\shawn\aostream2";
 
 			var util = new Mock<IFolderUtility>();
 
@@ -47,8 +47,8 @@ namespace UT_WammerStation.MoveFolder
 		[TestMethod]
 		public void deletingSrcFailureIsOK()
 		{
-			var src = @"c:\users\shawn\AOStream";
-			var dest = @"c:\users\shawn\AOStream2";
+			var src = @"c:\users\shawn\aostream";
+			var dest = @"c:\users\shawn\aostream2";
 
 			var util = new Mock<IFolderUtility>();
 
@@ -67,8 +67,8 @@ namespace UT_WammerStation.MoveFolder
 		[ExpectedException(typeof(DestinationExistException))]
 		public void testSubDirExist()
 		{
-			var src = @"c:\users\shawn\AOStream";
-			var dest = @"c:\users\shawn\AOStream2";
+			var src = @"c:\users\shawn\aostream";
+			var dest = @"c:\users\shawn\aostream2";
 
 			var util = new Mock<IFolderUtility>();
 

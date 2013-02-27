@@ -38,7 +38,7 @@ namespace Wammer.Station.Service
 		{
 			XmlConfigurator.Configure();
 			InitializeComponent();
-			ServiceName = "AOStream service (Not used anymore)";
+			ServiceName = "aostream service (Not used anymore)";
 			HttpWebRequest.DefaultMaximumErrorResponseLength = 10 * 1024; // in KB => 10 * 1024 * K => 10 MB
 			ServicePointManager.DefaultConnectionLimit = 200;
 

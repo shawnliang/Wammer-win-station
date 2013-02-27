@@ -197,7 +197,7 @@
     <value>Last synced with Facebook: {0}</value>
   </data>
   <data name="CONNECT_CLOUD_ERROR" xml:space="preserve">
-    <value>Unable to connect to AOStream server</value>
+    <value>Unable to connect to aostream server</value>
   </data>
   <data name="_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\11.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -206,7 +206,7 @@
     <value>Pause sync</value>
   </data>
   <data name="SERVICE_STARTING" xml:space="preserve">
-    <value>Starting AOStream...</value>
+    <value>Starting aostream...</value>
   </data>
   <data name="button_appstore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\button.appstore.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -221,7 +221,7 @@
     <value>..\Resources\f_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="STATION_SERVICE_DOWN" xml:space="preserve">
-    <value>AOStream service is not completely started. Please wait for a while and try again, or ensure the running status of AOStream service.</value>
+    <value>aostream service is not completely started. Please wait for a while and try again, or ensure the running status of aostream service.</value>
   </data>
   <data name="_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\13.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -251,7 +251,7 @@
     <value>Unable to move</value>
   </data>
   <data name="OPEN_STREAM_MENU_ITEM" xml:space="preserve">
-    <value>Open AOStream</value>
+    <value>Open aostream</value>
   </data>
   <data name="CONTACT_US_MENU_ITEM" xml:space="preserve">
     <value>Contact us</value>
@@ -260,7 +260,7 @@
     <value>Import folders...</value>
   </data>
   <data name="ALREAD_UPDATED" xml:space="preserve">
-    <value>You already have the latest version of AOStream.</value>
+    <value>You already have the latest version of aostream.</value>
   </data>
   <data name="icon_16x16Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_16x16Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -308,7 +308,7 @@
     <value>..\Resources\windows_zh-tw_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FB_CONNECT_FAILED" xml:space="preserve">
-    <value>The account does not match the one used to create your AOStream account. Please try again with another account.</value>
+    <value>The account does not match the one used to create your aostream account. Please try again with another account.</value>
   </data>
   <data name="_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\10.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -410,7 +410,7 @@
     <value>Check-ins, photos, photos of you, shared webpages.</value>
   </data>
   <data name="SIGNUP_PAGE_TITLE" xml:space="preserve">
-    <value>Signup - AOStream</value>
+    <value>Signup - aostream</value>
   </data>
   <data name="NEED_UPGRADE" xml:space="preserve">
     <value>This version is out of date. Click ‘OK’ to download and install the latest version.</value>
@@ -536,7 +536,7 @@
     <value>Delete Account</value>
   </data>
   <data name="SERVICE_START_FAIL" xml:space="preserve">
-    <value>Unable to connect to AOStream server</value>
+    <value>Unable to connect to aostream server</value>
   </data>
   <data name="DISCONNECTING" xml:space="preserve">
     <value>Disconnecting</value>

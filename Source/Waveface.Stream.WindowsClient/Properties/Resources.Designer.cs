@@ -214,7 +214,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You already have the latest version of AOStream..
+        ///   Looks up a localized string similar to You already have the latest version of aostream..
         /// </summary>
         internal static string ALREAD_UPDATED {
             get {
@@ -306,7 +306,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to connect to AOStream server.
+        ///   Looks up a localized string similar to Unable to connect to aostream server.
         /// </summary>
         internal static string CONNECT_CLOUD_ERROR {
             get {
@@ -454,7 +454,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The account does not match the one used to create your AOStream account. Please try again with another account..
+        ///   Looks up a localized string similar to The account does not match the one used to create your aostream account. Please try again with another account..
         /// </summary>
         internal static string FB_CONNECT_FAILED {
             get {
@@ -986,7 +986,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open AOStream.
+        ///   Looks up a localized string similar to Open aostream.
         /// </summary>
         internal static string OPEN_STREAM_MENU_ITEM {
             get {
@@ -1194,7 +1194,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to connect to AOStream server.
+        ///   Looks up a localized string similar to Unable to connect to aostream server.
         /// </summary>
         internal static string SERVICE_START_FAIL {
             get {
@@ -1203,7 +1203,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Starting AOStream....
+        ///   Looks up a localized string similar to Starting aostream....
         /// </summary>
         internal static string SERVICE_STARTING {
             get {
@@ -1230,7 +1230,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signup - AOStream.
+        ///   Looks up a localized string similar to Signup - aostream.
         /// </summary>
         internal static string SIGNUP_PAGE_TITLE {
             get {
@@ -1248,7 +1248,7 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AOStream service is not completely started. Please wait for a while and try again, or ensure the running status of AOStream service..
+        ///   Looks up a localized string similar to aostream service is not completely started. Please wait for a while and try again, or ensure the running status of aostream service..
         /// </summary>
         internal static string STATION_SERVICE_DOWN {
             get {
