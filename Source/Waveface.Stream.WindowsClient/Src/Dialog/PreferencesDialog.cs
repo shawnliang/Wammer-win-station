@@ -320,13 +320,23 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
-				if (!CheckEmailFormat())
-					return false;
+				if (tbxEmail.Text.Length == 0)
+				{
+					var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+					tbxEmail.Text = userInfo.Email;
+				}
 
 				var user = StreamClient.Instance.LoginedUser;
 
 				if (tbxEmail.Text.Equals(user.EMail, StringComparison.CurrentCultureIgnoreCase))
+				{
+					errorProvider1.SetError(tbxEmail, string.Empty);
 					return true;
+				}
+
+				if (!CheckEmailFormat())
+					return false;
+
 
 				StationAPI.UpdateUser(user.SessionToken, user.UserID, email: tbxEmail.Text);
 				errorProvider1.SetError(tbxEmail, string.Empty);
@@ -354,17 +364,25 @@ namespace Waveface.Stream.WindowsClient
 		{
 			try
 			{
+				var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+				if (tbxName.Text.Length == 0)
+				{
+					tbxName.Text = userInfo.NickName;
+				}
+
+				if (tbxName.Text.Equals(userInfo.NickName, StringComparison.CurrentCultureIgnoreCase))
+				{
+					errorProvider1.SetError(tbxName, string.Empty);
+					return true;
+				}
+
 				if (!CheckNickNameFormat())
 					return false;
 
 				var user = StreamClient.Instance.LoginedUser;
-				var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
-
-				if (tbxName.Text.Equals(userInfo.NickName, StringComparison.CurrentCultureIgnoreCase))
-					return true;
 
 				StationAPI.UpdateUser(user.SessionToken, user.UserID, nickName: tbxName.Text);
-				errorProvider1.SetError(tbxEmail, string.Empty);
+				errorProvider1.SetError(tbxName, string.Empty);
 
 				return true;
 			}
