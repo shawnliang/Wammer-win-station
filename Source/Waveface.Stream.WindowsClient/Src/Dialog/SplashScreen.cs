@@ -22,28 +22,41 @@ namespace Waveface.Stream.WindowsClient
 				{
 					_processThread = new Thread(() =>
 					{
-						while (true)
+						var result = System.Windows.Forms.DialogResult.OK;
+
+						try
 						{
-							if (processes.Count == 0)
-								break;
-
-							var process = processes.Dequeue();
-
-							if (this.Visible)
+							while (true)
 							{
-								this.Invoke(new MethodInvoker(() =>
+								if (processes.Count == 0)
+									break;
+
+								var process = processes.Dequeue();
+
+								if (this.Visible)
 								{
-									this.progressText.Text = process.Key;
-								}));
+									this.Invoke(new MethodInvoker(() =>
+									{
+										this.progressText.Text = process.Key;
+									}));
+								}
+
+								process.Value();
 							}
-
-							process.Value();
 						}
-
-						this.Invoke(new MethodInvoker(() =>
+						catch (Exception e)
 						{
-							this.Dispose();
-						}));
+							MessageBox.Show(e.GetDisplayDescription(), "Ooops....", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+							result = System.Windows.Forms.DialogResult.Abort;
+						}
+						finally
+						{
+							this.Invoke(new MethodInvoker(() =>
+							{
+								this.DialogResult = result;
+							    this.Dispose();
+							}));
+						}
 					});
 					_processThread.IsBackground = true;
 				}

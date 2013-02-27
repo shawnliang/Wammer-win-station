@@ -160,7 +160,7 @@ namespace Waveface.Stream.WindowsClient
 
 			var splashScreen = new SplashScreen();
 
-			splashScreen
+			var dependencyResult = splashScreen
 				.AppendProcess("Waiting database service...", waitUntilMongodbReady)
 				.AppendProcess("Starting AOStream...", () =>
 				{
@@ -170,6 +170,8 @@ namespace Waveface.Stream.WindowsClient
 				})
 				.ShowDialog();
 
+			if (dependencyResult != DialogResult.OK)
+				return;
 
 			if (options.Imports != null && options.Imports.Any())
 			{
@@ -222,7 +224,7 @@ namespace Waveface.Stream.WindowsClient
 				var dur = (DateTime.Now - begin).TotalSeconds;
 
 				if (dur > 30.0)
-					throw new StationServiceNotReadyException("Station not ready in 30 seconds");
+					throw new StationServiceNotReadyException(Resources.STATION_NOT_READY);
 			}
 		}
 
@@ -235,7 +237,7 @@ namespace Waveface.Stream.WindowsClient
 				var dur = (DateTime.Now - begin).TotalSeconds;
 
 				if (dur > 30.0)
-					throw new MongoDBNotReadyException("MongoDB is not ready in 30 secs");
+					throw new MongoDBNotReadyException(Resources.MONGO_DB_NOT_READY);
 			}
 		}
 
