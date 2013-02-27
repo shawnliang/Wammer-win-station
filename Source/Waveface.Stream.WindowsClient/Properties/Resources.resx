@@ -493,7 +493,7 @@
   <data name="TASK_QUEUED_PATTERN" xml:space="preserve">
     <value>"{0} tasks are queued."</value>
   </data>
-  <data name="InvalidPassword" xml:space="preserve">
+  <data name="INVALID_PASSWORD" xml:space="preserve">
     <value>Password is not valid. Password must contain 6-16 characters with no spaces.</value>
   </data>
   <data name="SERVICE_PAUSING" xml:space="preserve">
@@ -544,9 +544,6 @@
   <data name="CHECK_FOR_UPDATE" xml:space="preserve">
     <value>Check for Updates</value>
   </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value>Please enter a valid email address.</value>
-  </data>
   <data name="SYNCING_WITH_CLOUD" xml:space="preserve">
     <value>Syncing with cloud</value>
   </data>
@@ -576,6 +573,9 @@
   </data>
   <data name="MONGO_DB_NOT_READY" xml:space="preserve">
     <value>A dependent windows service MongoDBForWaveface is not responsive. Please restart aostream and try again.</value>
+  </data>
+  <data name="INVALID_NICKNAME" xml:space="preserve">
+    <value>invalid nickname</value>
   </data>
   <data name="STATION_NOT_READY" xml:space="preserve">
     <value>aostream station is not responsive. Please restart aostream and try again.</value>

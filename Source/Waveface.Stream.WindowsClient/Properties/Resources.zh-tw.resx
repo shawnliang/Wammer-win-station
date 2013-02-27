@@ -336,10 +336,7 @@
   <data name="SVC_FOURSQUARE_DESC" xml:space="preserve">
     <value>打卡位置</value>
   </data>
-  <data name="InvalidEmail" xml:space="preserve">
-    <value>請輸入正確的電子郵件</value>
-  </data>
-  <data name="InvalidPassword" xml:space="preserve">
+  <data name="INVALID_PASSWORD" xml:space="preserve">
     <value>不合法的密碼。密碼需有6~16字元，且不可包含空白</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -414,5 +411,8 @@
   </data>
   <data name="FREE_PLAN_ICON_HEADER" xml:space="preserve">
     <value>免費</value>
+  </data>
+  <data name="INVALID_NICKNAME" xml:space="preserve">
+    <value>不正確的名稱</value>
   </data>
 </root>

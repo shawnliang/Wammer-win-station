@@ -777,20 +777,20 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter a valid email address..
+        ///   Looks up a localized string similar to invalid nickname.
         /// </summary>
-        internal static string InvalidEmail {
+        internal static string INVALID_NICKNAME {
             get {
-                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+                return ResourceManager.GetString("INVALID_NICKNAME", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Password is not valid. Password must contain 6-16 characters with no spaces..
         /// </summary>
-        internal static string InvalidPassword {
+        internal static string INVALID_PASSWORD {
             get {
-                return ResourceManager.GetString("InvalidPassword", resourceCulture);
+                return ResourceManager.GetString("INVALID_PASSWORD", resourceCulture);
             }
         }
         

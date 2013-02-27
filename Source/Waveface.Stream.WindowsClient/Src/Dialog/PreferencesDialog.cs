@@ -293,7 +293,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (!IsValidEmailFormat())
 			{
-				errorProvider1.SetError(tbxEmail, "invalid email address");
+				errorProvider1.SetError(tbxEmail, Resources.INVALID_EMAIL);
 				return false;
 			}
 			errorProvider1.SetError(tbxEmail, string.Empty);
@@ -309,7 +309,7 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (!IsValidNickNameFormat())
 			{
-				errorProvider1.SetError(tbxName, "invalid nickname");
+				errorProvider1.SetError(tbxName, Resources.INVALID_NICKNAME);
 				return false;
 			}
 			errorProvider1.SetError(tbxName, string.Empty);
