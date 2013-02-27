@@ -120,9 +120,6 @@
   <data name="INDEXING_FILE_PATTERN" xml:space="preserve">
     <value>Indexing {0}/{1} files</value>
   </data>
-  <data name="SYNC_LAST_SEEN" xml:space="preserve">
-    <value>Last seen at {0}</value>
-  </data>
   <data name="IMPORT_DESC_FOLDERS" xml:space="preserve">
     <value>{0} folders</value>
   </data>
@@ -132,21 +129,30 @@
   <data name="MOVING_RESOURCE_FOLDER" xml:space="preserve">
     <value>Moving...</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MoveFolderSameFolder" xml:space="preserve">
+    <value>Target folder is your current aostream!</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="fb_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fb_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="REMOVE_ACCOUNT_MESSAGE" xml:space="preserve">
     <value>Unlinking...</value>
   </data>
+  <data name="MoveFolderError" xml:space="preserve">
+    <value>Unable to move aostream folder</value>
+  </data>
   <data name="icon_16x16Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_16x16Error.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FB_CONNECT_PAGE_TITLE" xml:space="preserve">
+    <value>Connect with facebook</value>
   </data>
   <data name="Foursquare" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Foursquare.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
-    <value>Signup is unsuccessful</value>
+  <data name="icon_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RECEVING_FILES_PATTERN" xml:space="preserve">
     <value>receiving {0} files</value>
@@ -157,11 +163,11 @@
   <data name="INVALID_EMAIL" xml:space="preserve">
     <value>Invalid email</value>
   </data>
+  <data name="MoveFolderSelectError" xml:space="preserve">
+    <value>Error with selected folder</value>
+  </data>
   <data name="UNKNOW_REMOVEACCOUNT_ERROR" xml:space="preserve">
     <value>Error with unlinking this PC</value>
-  </data>
-  <data name="INDICATOR_PATTERN" xml:space="preserve">
-    <value>{0}{1}{2} {3} MB, {4:0.##} {5}</value>
   </data>
   <data name="PLAN1_HEADER" xml:space="preserve">
     <value>$9.99/month</value>
@@ -172,11 +178,17 @@
   <data name="WinLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WinLogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MoveFolderConfirmMsg" xml:space="preserve">
+    <value>This will move aostream folder and all the files inside from its current location {0} to {1}.</value>
+  </data>
   <data name="DEVICE_CONNECTED_PATTERN" xml:space="preserve">
     <value>{0} device(s) connected</value>
   </data>
   <data name="SERVICE_PAUSE_MENU_ITEM" xml:space="preserve">
     <value>Pause Syncing</value>
+  </data>
+  <data name="MoveFolderConfirmTitle" xml:space="preserve">
+    <value>Are you sure?</value>
   </data>
   <data name="SVC_GOOGLE_DESC" xml:space="preserve">
     <value>Starred RSS items</value>
@@ -193,17 +205,11 @@
   <data name="FREE_PLAN_HEADER" xml:space="preserve">
     <value>Free</value>
   </data>
-  <data name="FB_IMPORT_CLAST_SYNC_PATTERN" xml:space="preserve">
-    <value>Last synced with Facebook: {0}</value>
-  </data>
   <data name="CONNECT_CLOUD_ERROR" xml:space="preserve">
     <value>Unable to connect to aostream server</value>
   </data>
   <data name="_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\11.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SERVICE_PAUSE" xml:space="preserve">
-    <value>Pause sync</value>
   </data>
   <data name="SERVICE_STARTING" xml:space="preserve">
     <value>Starting aostream...</value>
@@ -216,6 +222,9 @@
   </data>
   <data name="IMPORT_DESC_IN_PROGRESS_HAS_PENDING" xml:space="preserve">
     <value>Processing {0}, {1} task(s) queued.</value>
+  </data>
+  <data name="INVALID_NICKNAME" xml:space="preserve">
+    <value>invalid nickname</value>
   </data>
   <data name="f_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\f_logo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -265,6 +274,9 @@
   <data name="icon_16x16Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_16x16Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MONGO_DB_NOT_READY" xml:space="preserve">
+    <value>A dependent windows service MongoDBForWaveface is not responsive. Please restart aostream and try again.</value>
+  </data>
   <data name="Plan1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Plan1.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
   </data>
@@ -274,8 +286,8 @@
   <data name="NEXT_BUTTON_TEXT" xml:space="preserve">
     <value>Next</value>
   </data>
-  <data name="FB_CONNECT_PAGE_TITLE" xml:space="preserve">
-    <value>Connect with facebook</value>
+  <data name="INVALID_PASSWORD" xml:space="preserve">
+    <value>Password is not valid. Password must contain 6-16 characters with no spaces.</value>
   </data>
   <data name="_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -286,11 +298,14 @@
   <data name="MovingResourceFolder" xml:space="preserve">
     <value>Moving...</value>
   </data>
+  <data name="FREE_PLAN_ICON_HEADER" xml:space="preserve">
+    <value>Free</value>
+  </data>
   <data name="FB_RECONNECT_MESSAGE" xml:space="preserve">
     <value>Your Facebook connection has been disabled. Do you want to reconnect with Facebook.</value>
   </data>
-  <data name="icon_16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_16x16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FB_IMPORT_CLAST_SYNC_PATTERN" xml:space="preserve">
+    <value>Last synced with Facebook: {0}</value>
   </data>
   <data name="LOGOUT_MENU_ITEM" xml:space="preserve">
     <value>Logout...</value>
@@ -303,6 +318,9 @@
   </data>
   <data name="CONNECTED" xml:space="preserve">
     <value>Connected</value>
+  </data>
+  <data name="UNKNOW_SIGNUP_ERROR" xml:space="preserve">
+    <value>Signup is unsuccessful</value>
   </data>
   <data name="windows_zh_tw_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\windows_zh-tw_2.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -340,8 +358,14 @@
   <data name="SERVICE_STOP" xml:space="preserve">
     <value>Sync paused</value>
   </data>
+  <data name="GBGsmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GBGsmall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="FB_IMPRORT_PROGRESSING" xml:space="preserve">
     <value>We’re currently importing your Facebook posts. You can chart the progress by refreshing your browser.</value>
+  </data>
+  <data name="SERVICE_START_FAIL" xml:space="preserve">
+    <value>Unable to connect to aostream server</value>
   </data>
   <data name="GET_APPS_MENU_ITEM" xml:space="preserve">
     <value>Get our apps!</value>
@@ -352,6 +376,9 @@
   <data name="_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="streamUpdate_icon_512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\streamUpdate_icon_512.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="IMPORT_DESC_IN_PROGRESS_NO_PENDING" xml:space="preserve">
     <value>Processing {0}</value>
   </data>
@@ -361,8 +388,14 @@
   <data name="IMPORT_DESC_WAITING" xml:space="preserve">
     <value>Preparing to import next folder(s), {0} task(s) euqued.</value>
   </data>
+  <data name="STATION_NOT_READY" xml:space="preserve">
+    <value>aostream station is not responsive. Please restart aostream and try again.</value>
+  </data>
   <data name="CONNECTING" xml:space="preserve">
     <value>Connecting</value>
+  </data>
+  <data name="SYNC_LAST_SEEN" xml:space="preserve">
+    <value>Last seen at {0}</value>
   </data>
   <data name="SERVICE_RESUMING" xml:space="preserve">
     <value>Resuming sync...</value>
@@ -418,9 +451,6 @@
   <data name="CONTROL_PREFERENCES_MENU_ITEM" xml:space="preserve">
     <value>Preferences...</value>
   </data>
-  <data name="FreePlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FreePlan.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
-  </data>
   <data name="COLLECTING_LOGS" xml:space="preserve">
     <value>CollectingLogs</value>
   </data>
@@ -448,14 +478,11 @@
   <data name="CHROME_EXTENSION_MENU_ITEM" xml:space="preserve">
     <value>Install Chrome extension</value>
   </data>
-  <data name="IMPORT_DESC_DONE" xml:space="preserve">
-    <value>Import completed.</value>
-  </data>
   <data name="DELETE_ACCOUNT_MESSAGE" xml:space="preserve">
     <value>Clicking "Yes" to receive an email with the instruction to delete your accounts (it's easy). Proceed?</value>
   </data>
-  <data name="icon_16x16offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_16x16offline.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SERVICE_PAUSING" xml:space="preserve">
+    <value>Pausing sync...</value>
   </data>
   <data name="TURNED_ON" xml:space="preserve">
     <value>Turned On</value>
@@ -481,9 +508,6 @@
   <data name="input_box_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\input_box-2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="stream_appstore_qr" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stream_appstore_qr.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SERVICE_RESUME_MENU_ITEM" xml:space="preserve">
     <value>Resume Syncing</value>
   </data>
@@ -493,11 +517,11 @@
   <data name="TASK_QUEUED_PATTERN" xml:space="preserve">
     <value>"{0} tasks are queued."</value>
   </data>
-  <data name="INVALID_PASSWORD" xml:space="preserve">
-    <value>Password is not valid. Password must contain 6-16 characters with no spaces.</value>
+  <data name="stream_appstore_qr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stream_appstore_qr.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SERVICE_PAUSING" xml:space="preserve">
-    <value>Pausing sync...</value>
+  <data name="IMPORT_DESC_DONE" xml:space="preserve">
+    <value>Import completed.</value>
   </data>
   <data name="twitter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\twitter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -523,11 +547,17 @@
   <data name="NETWORK_EXCEPTION" xml:space="preserve">
     <value>Internet connection error</value>
   </data>
+  <data name="icon_16x16offline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_16x16offline.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Plan2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Plan2.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
   </data>
   <data name="WAITING_IMPORT" xml:space="preserve">
     <value>Waiting to import... {0} tasks queued</value>
+  </data>
+  <data name="CHECK_FOR_UPDATE" xml:space="preserve">
+    <value>Check for Updates</value>
   </data>
   <data name="login_btn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\login_btn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -535,14 +565,17 @@
   <data name="DELETE_ACCOUNT_TITLE" xml:space="preserve">
     <value>Delete Account</value>
   </data>
-  <data name="SERVICE_START_FAIL" xml:space="preserve">
-    <value>Unable to connect to aostream server</value>
+  <data name="SERVICE_PAUSE" xml:space="preserve">
+    <value>Pause sync</value>
   </data>
   <data name="DISCONNECTING" xml:space="preserve">
     <value>Disconnecting</value>
   </data>
-  <data name="CHECK_FOR_UPDATE" xml:space="preserve">
-    <value>Check for Updates</value>
+  <data name="FreePlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FreePlan.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
+  </data>
+  <data name="INDICATOR_PATTERN" xml:space="preserve">
+    <value>{0}{1}{2} {3} MB, {4:0.##} {5}</value>
   </data>
   <data name="SYNCING_WITH_CLOUD" xml:space="preserve">
     <value>Syncing with cloud</value>
@@ -550,37 +583,8 @@
   <data name="GENERATING_PREVIEW_PATTERN" xml:space="preserve">
     <value>Generating previews of {0}/{1} files</value>
   </data>
-  <data name="GBGsmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GBGsmall.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="streamUpdate_icon_512" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\streamUpdate_icon_512.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MoveFolderConfirmMsg" xml:space="preserve">
-    <value>This will move aostream folder and all the files inside from its current location {0} to {1}.</value>
-  </data>
-  <data name="MoveFolderConfirmTitle" xml:space="preserve">
-    <value>Are you sure?</value>
-  </data>
-  <data name="MoveFolderError" xml:space="preserve">
-    <value>Unable to move aostream folder</value>
-  </data>
-  <data name="MoveFolderSameFolder" xml:space="preserve">
-    <value>Target folder is your current aostream!</value>
-  </data>
-  <data name="MoveFolderSelectError" xml:space="preserve">
-    <value>Error with selected folder</value>
-  </data>
-  <data name="MONGO_DB_NOT_READY" xml:space="preserve">
-    <value>A dependent windows service MongoDBForWaveface is not responsive. Please restart aostream and try again.</value>
-  </data>
-  <data name="INVALID_NICKNAME" xml:space="preserve">
-    <value>invalid nickname</value>
-  </data>
-  <data name="STATION_NOT_READY" xml:space="preserve">
-    <value>aostream station is not responsive. Please restart aostream and try again.</value>
-  </data>
-  <data name="FREE_PLAN_ICON_HEADER" xml:space="preserve">
-    <value>Free</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="winControl2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\winControl2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

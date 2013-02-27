@@ -729,6 +729,7 @@
     <Content Include="Resources\stream_googleplay_qr.png" />
     <None Include="Resources\twitter.png" />
     <Content Include="Resources\usbflashcardwithcardreader2.png" />
+    <None Include="Resources\winControl2.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
     <Content Include="Resources\windows_zh-tw_1.jpg" />
