@@ -5,6 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Windows.Forms;
 using Waveface.Stream.ClientFramework;
 using Waveface.Stream.Core;
+using Waveface.Stream.WindowsClient.Properties;
 
 
 namespace Waveface.Stream.WindowsClient
@@ -95,8 +96,7 @@ namespace Waveface.Stream.WindowsClient
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "[TBD] Unable to " +
-					(e.TurnedOn ? "connect with " : "disconnect with ") + service.Name);
+                MessageBox.Show(ex.Message, string.Format((e.TurnedOn ? Resources.CONNECT_SERVICE_FAILED_PATTERN : Resources.DISCONNECT_SERVICE_FAILED_PATTERN), service.Name));
 
 				e.Cancel = true;
 			}
