@@ -714,10 +714,11 @@ namespace Waveface.Stream.WindowsClient
 
 		static void Instance_Logined(object sender, ClientFramework.LoginedEventArgs e)
 		{
+			RecentDocumentWatcher.Instance.FileTouched -= recentDocWatcher_FileTouched;
+			RecentDocumentWatcher.Instance.FileTouched += recentDocWatcher_FileTouched;
+
 			if (Settings.Default.ImportOpenedDoc)
 			{
-				RecentDocumentWatcher.Instance.FileTouched -= recentDocWatcher_FileTouched;
-				RecentDocumentWatcher.Instance.FileTouched += recentDocWatcher_FileTouched;
 				RecentDocumentWatcher.Instance.Start();
 			}
 
