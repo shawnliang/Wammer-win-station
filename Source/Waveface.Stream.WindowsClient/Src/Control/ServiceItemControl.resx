@@ -157,7 +157,7 @@
     <value>3, 3</value>
   </data>
   <data name="serviceIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 37</value>
+    <value>40, 40</value>
   </data>
   <data name="serviceIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -184,10 +184,10 @@
     <value>Button</value>
   </data>
   <data name="connectCheckbox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>317, 10</value>
+    <value>317, 11</value>
   </data>
   <data name="connectCheckbox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 28</value>
+    <value>75, 30</value>
   </data>
   <data name="connectCheckbox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -213,11 +213,14 @@
   <data name="description.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="description.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="description.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 18</value>
+    <value>49, 20</value>
   </data>
   <data name="description.Size" type="System.Drawing.Size, System.Drawing">
-    <value>262, 42</value>
+    <value>262, 37</value>
   </data>
   <data name="description.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -241,10 +244,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
+    <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>398, 61</value>
+    <value>398, 66</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ServiceItemControl</value>
