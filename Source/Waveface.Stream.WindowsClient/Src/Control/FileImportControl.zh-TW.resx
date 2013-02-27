@@ -117,8 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="changeButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>392, 342</value>
+  </data>
   <data name="changeButton.Text" xml:space="preserve">
     <value>更改...</value>
+  </data>
+  <data name="txtStoreLocation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 343</value>
   </data>
   <data name="button2.Text" xml:space="preserve">
     <value>匯入Picasa資料庫</value>
@@ -135,17 +142,25 @@
   <data name="addButton.Text" xml:space="preserve">
     <value>選擇資料夾...</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lblWelcome.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 12</value>
+    <value>247, 13</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
     <value>匯入以下資料夾的所有照片，包含子資料夾：</value>
   </data>
-  <data name="radioCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 16</value>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 327</value>
   </data>
-  <data name="radioCopy.Text" xml:space="preserve">
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 13</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
     <value>選擇AOStream原始檔案保存位置：</value>
+  </data>
+  <data name="indexOnlyOption.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 17</value>
+  </data>
+  <data name="indexOnlyOption.Text" xml:space="preserve">
+    <value>不要匯入檔案，僅建立索引與預覽</value>
   </data>
 </root>

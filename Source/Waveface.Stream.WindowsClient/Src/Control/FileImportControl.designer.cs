@@ -42,8 +42,8 @@
 			this.folderColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.addButton = new System.Windows.Forms.Button();
 			this.lblWelcome = new System.Windows.Forms.Label();
-			this.radioIndexOnly = new System.Windows.Forms.RadioButton();
-			this.radioCopy = new System.Windows.Forms.RadioButton();
+			this.label1 = new System.Windows.Forms.Label();
+			this.indexOnlyOption = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -81,10 +81,10 @@
 			// 
 			// dataGridView1
 			// 
+			resources.ApplyResources(this.dataGridView1, "dataGridView1");
 			this.dataGridView1.AllowUserToAddRows = false;
 			this.dataGridView1.AllowUserToDeleteRows = false;
 			this.dataGridView1.AllowUserToResizeRows = false;
-			resources.ApplyResources(this.dataGridView1, "dataGridView1");
 			this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -146,24 +146,22 @@
 			resources.ApplyResources(this.lblWelcome, "lblWelcome");
 			this.lblWelcome.Name = "lblWelcome";
 			// 
-			// radioIndexOnly
+			// label1
 			// 
-			resources.ApplyResources(this.radioIndexOnly, "radioIndexOnly");
-			this.radioIndexOnly.Name = "radioIndexOnly";
-			this.radioIndexOnly.UseVisualStyleBackColor = true;
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.Name = "label1";
 			// 
-			// radioCopy
+			// indexOnlyOption
 			// 
-			resources.ApplyResources(this.radioCopy, "radioCopy");
-			this.radioCopy.Checked = true;
-			this.radioCopy.Name = "radioCopy";
-			this.radioCopy.TabStop = true;
-			this.radioCopy.UseVisualStyleBackColor = true;
+			resources.ApplyResources(this.indexOnlyOption, "indexOnlyOption");
+			this.indexOnlyOption.Name = "indexOnlyOption";
+			this.indexOnlyOption.UseVisualStyleBackColor = true;
 			// 
 			// FileImportControl
 			// 
-			this.Controls.Add(this.radioCopy);
-			this.Controls.Add(this.radioIndexOnly);
+			resources.ApplyResources(this, "$this");
+			this.Controls.Add(this.indexOnlyOption);
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.changeButton);
 			this.Controls.Add(this.txtStoreLocation);
 			this.Controls.Add(this.label2);
@@ -173,8 +171,8 @@
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "FileImportControl";
-			resources.ApplyResources(this, "$this");
 			this.Load += new System.EventHandler(this.FileImportControl_Load);
+			this.DoubleClick += new System.EventHandler(this.FileImportControl_DoubleClick);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -191,11 +189,11 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox txtStoreLocation;
 		private System.Windows.Forms.Button changeButton;
-		private System.Windows.Forms.RadioButton radioIndexOnly;
-		private System.Windows.Forms.RadioButton radioCopy;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn chkBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn folderColumn;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.CheckBox indexOnlyOption;
 
 
 
