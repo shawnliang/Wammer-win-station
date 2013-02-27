@@ -125,8 +125,9 @@ namespace Wammer.Station
 				else
 				{
 
-					if (meta == ImageMeta.Origin && !driver.isPaidUser)
-						throw new WammerStationException("Access to original attachment from non-paid user is not allowed.",
+					if (metaData.type.Equals("image", StringComparison.InvariantCultureIgnoreCase) &&
+						meta == ImageMeta.Origin && !driver.isPaidUser)
+						throw new WammerStationException("Access to original photos from non-paid user is not allowed.",
 							(int)StationLocalApiError.AccessDenied);
 
 					var downloadTask = ResourceDownloadTaskFactory.createDownloadTask(driver, meta, metaData);
