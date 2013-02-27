@@ -37,8 +37,8 @@
           <File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Newtonsoft.Json.dll" />
         </Component>
         <Component Id="Station.Service.exe" Guid="*">
-          <fire:FirewallException Id="WFFWX1" Name="AOStream REST" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
-          <fire:FirewallException Id="WFFWX2" Name="AOStream WebSocket" Port="9983" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
+          <fire:FirewallException Id="WFFWX1" Name="aostream REST" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
+          <fire:FirewallException Id="WFFWX2" Name="aostream WebSocket" Port="9983" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
           <File Id="Station.Service.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Service.exe">
             <netfx:NativeImage Id="ngen_Station.Service.exe" Platform="32bit" Priority="0"/>
           </File>
@@ -79,7 +79,7 @@
           <File Id="WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WeifenLuo.WinFormsUI.Docking.XmlSerializers.dll" />
         </Component>
         <Component Id="WindowsClient.exe" Guid="*">
-          <fire:FirewallException Id="WFFWX3" Name="AOStream Client Websocket" Port="1337" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
+          <fire:FirewallException Id="WFFWX3" Name="aostream Client Websocket" Port="1337" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
           <File Id="WindowsClient.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe">
             <netfx:NativeImage Id="ngen_WindowsClient.exe" Platform="32bit" Priority="0"/>
           </File>

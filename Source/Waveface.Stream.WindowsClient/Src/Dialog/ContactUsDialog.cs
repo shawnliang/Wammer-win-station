@@ -265,7 +265,7 @@ namespace Waveface.Stream.WindowsClient
 		void logCollecBgWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			var appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			var streamDir = Path.Combine(appdata, @"waveface\AOStream");
+			var streamDir = Path.Combine(appdata, @"waveface\aostream");
 			var supportDir = Path.Combine(streamDir, "support");
 			var installDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			var stationLogDir = Path.Combine(installDir, "log");

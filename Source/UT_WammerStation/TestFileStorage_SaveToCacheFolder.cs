@@ -26,7 +26,7 @@ namespace UT_WammerStation
 		{
 			var result = FileStorage.GetCachePath("user_id1");
 
-			Assert.AreEqual(Path.Combine(wfFolder, @"AOStream\cache\user_id1"), result);
+			Assert.AreEqual(Path.Combine(wfFolder, @"aostream\cache\user_id1"), result);
 		}
 
 		[TestMethod]

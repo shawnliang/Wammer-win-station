@@ -3,7 +3,7 @@
      xmlns:util='http://schemas.microsoft.com/wix/UtilExtension'
      xmlns:fire='http://schemas.microsoft.com/wix/FirewallExtension'
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <?define AppCode = "AOStream" ?>
+  <?define AppCode = "aostream" ?>
   <?define AppProductCode = "{D7103CDC-3557-48BC-B831-4E7D33A33031}" ?>
   <?define AppVersionMajor = "3" ?>
   <?define AppVersionMinor = "0" ?>
@@ -181,24 +181,24 @@
 
       <Component Id="AddToStreamExplorerMenu">
         <RegistryKey Root="HKLM" Key="Software\Classes\SystemFileAssociations">
-          <RegistryKey Key=".jpeg\shell\AOStream">
-            <RegistryValue Type="string" Value="Add to AOStream" KeyPath="yes"/>
+          <RegistryKey Key=".jpeg\shell\aostream">
+            <RegistryValue Type="string" Value="Add to aostream" KeyPath="yes"/>
 
             <RegistryKey Key="command">
               <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
             </RegistryKey>
           </RegistryKey>
 
-          <RegistryKey Key=".jpg\shell\AOStream">
-            <RegistryValue Type="string" Value="Add to AOStream"/>
+          <RegistryKey Key=".jpg\shell\aostream">
+            <RegistryValue Type="string" Value="Add to aostream"/>
 
             <RegistryKey Key="command">
               <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
             </RegistryKey>
           </RegistryKey>
 
-          <RegistryKey Key=".png\shell\AOStream">
-            <RegistryValue Type="string" Value="Add to AOStream"/>
+          <RegistryKey Key=".png\shell\aostream">
+            <RegistryValue Type="string" Value="Add to aostream"/>
 
             <RegistryKey Key="command">
               <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
@@ -206,8 +206,8 @@
           </RegistryKey>
         </RegistryKey>
         
-        <RegistryKey Root="HKCR" Key="Folder\shell\AOStream">
-          <RegistryValue Type="string" Value="Add to AOStream"/>
+        <RegistryKey Root="HKCR" Key="Folder\shell\aostream">
+          <RegistryValue Type="string" Value="Add to aostream"/>
 
           <RegistryKey Key="command">
             <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>

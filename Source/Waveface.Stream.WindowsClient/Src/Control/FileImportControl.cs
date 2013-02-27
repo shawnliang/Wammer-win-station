@@ -131,12 +131,12 @@ namespace Waveface.Stream.WindowsClient
 
 					if (arg.Error != null)
 					{
-						MessageBox.Show(arg.Error.GetDisplayDescription(), "Unable to change AOStream folder location");
+						MessageBox.Show(arg.Error.GetDisplayDescription(), "Unable to change aostream folder location");
 					}
 				};
 				bgworker.RunWorkerAsync();
 
-				progressing.Text = "Moving AOStream folder...";
+				progressing.Text = "Moving aostream folder...";
 				progressing.StartPosition = FormStartPosition.CenterParent;
 				progressing.ProgressStyle = ProgressBarStyle.Marquee;
 				progressing.ShowDialog();

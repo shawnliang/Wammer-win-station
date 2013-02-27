@@ -61,7 +61,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard has detected that newer version of AOStream is already installed on your computer. Setup cannot continue..
+        ///   Looks up a localized string similar to The wizard has detected that newer version of aostream is already installed on your computer. Setup cannot continue..
         /// </summary>
         internal static string DowngradeNotSupported {
             get {
@@ -96,7 +96,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will install AOStream on your computer..
+        ///   Looks up a localized string similar to The wizard will install aostream on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingInstall {
             get {
@@ -105,7 +105,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will modify AOStream on your computer..
+        ///   Looks up a localized string similar to The wizard will modify aostream on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingModify {
             get {
@@ -114,7 +114,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will reinstall AOStream on your computer..
+        ///   Looks up a localized string similar to The wizard will reinstall aostream on your computer..
         /// </summary>
         internal static string WelcomeStepGreetingReinstall {
             get {
@@ -123,7 +123,7 @@ namespace Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The wizard will uninstall AOStream from your computer..
+        ///   Looks up a localized string similar to The wizard will uninstall aostream from your computer..
         /// </summary>
         internal static string WelcomeStepGreetingUninstall {
             get {

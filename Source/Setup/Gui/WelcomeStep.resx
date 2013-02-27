@@ -151,7 +151,7 @@
     <value>2</value>
   </data>
   <data name="lblWelcome.Text" xml:space="preserve">
-    <value>Welcome to AOStream</value>
+    <value>Welcome to aostream</value>
   </data>
   <data name="&gt;&gt;lblWelcome.Name" xml:space="preserve">
     <value>lblWelcome</value>

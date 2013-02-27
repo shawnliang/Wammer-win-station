@@ -29,7 +29,7 @@ namespace Gui
 			@"
 <log4net>
   <appender name='RollingFile' type='log4net.Appender.RollingFileAppender'>
-	<file value='${APPDATA}\Waveface\AOStream\Upgrade.log' />
+	<file value='${APPDATA}\Waveface\aostream\Upgrade.log' />
 	<appendToFile value='true' />
 	<maximumFileSize value='100KB' />
 	<maxSizeRollBackups value='2' />

@@ -122,7 +122,7 @@
     <value>155, 12</value>
   </data>
   <data name="lblDescription.Text" xml:space="preserve">
-    <value>AOStream 將會安裝至此路徑:</value>
+    <value>aostream 將會安裝至此路徑:</value>
   </data>
   <data name="$this.Subtitle" xml:space="preserve">
     <value>請選擇指定的安裝路徑。</value>

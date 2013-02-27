@@ -270,7 +270,7 @@
     <value>518, 363</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>AOStream mobile apps will automatically sync with AOStream Windows Station under the same WiFi network.</value>
+    <value>aostream mobile apps will automatically sync with aostream Windows Station under the same WiFi network.</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
