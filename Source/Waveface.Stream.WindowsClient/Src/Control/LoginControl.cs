@@ -85,6 +85,27 @@ namespace Waveface.Stream.WindowsClient
 				Cursor.Current = Cursors.Default;
 			}
 		}
+
+		private void Login()
+		{
+			var email = loginInputBox1.Email;
+			var pwd = loginInputBox1.Password;
+
+			if (!Regex.IsMatch(email, EMAIL_VALIDATE_MATCH_PATTERN, RegexOptions.IgnoreCase))
+			{
+				MessageBox.Show(Resources.INVALID_EMAIL);
+				return;
+			}
+
+			Func<UserSession> func = () => { return login.Login(email, pwd); };
+			loginAndHandleError(func);
+		}
+
+		private void LoginWithFB()
+		{
+			Func<UserSession> func = () => { return login.LoginWithFacebook(); };
+			loginAndHandleError(func);
+		}
 		#endregion
 
 
@@ -99,23 +120,12 @@ namespace Waveface.Stream.WindowsClient
 		#region Event Process
 		private void fbLoginButton1_Click(object sender, EventArgs e)
 		{
-			Func<UserSession> func = () => { return login.LoginWithFacebook(); };
-			loginAndHandleError(func);
+			LoginWithFB();
 		}
 
 		private void loginButton1_Click(object sender, EventArgs e)
 		{
-			var email = loginInputBox1.Email;
-			var pwd = loginInputBox1.Password;
-
-			if (!Regex.IsMatch(email, EMAIL_VALIDATE_MATCH_PATTERN, RegexOptions.IgnoreCase))
-			{
-				MessageBox.Show(Resources.INVALID_EMAIL);
-				return;
-			}
-
-			Func<UserSession> func = () => { return login.Login(email, pwd); };
-			loginAndHandleError(func);
+			Login();
 		}
 
 		private void forgotPwdLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -136,7 +146,11 @@ namespace Waveface.Stream.WindowsClient
 				loginButton1_Click(this, e);
 			}
 		}
-		#endregion
 
+		private void loginInputBox1_InputDone(object sender, EventArgs e)
+		{
+			loginButton.PerformClick();
+		}
+		#endregion
 	}
 }

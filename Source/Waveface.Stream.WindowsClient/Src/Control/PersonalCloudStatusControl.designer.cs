@@ -93,7 +93,6 @@
 			// 
 			// PersonalCloudStatusControl2
 			// 
-			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.btnInstallChromeExtension);
@@ -101,6 +100,7 @@
 			this.Controls.Add(this.listView1);
 			this.Controls.Add(this.label1);
 			this.Name = "PersonalCloudStatusControl2";
+			resources.ApplyResources(this, "$this");
 			this.Load += new System.EventHandler(this.PersonalCloudStatusControl2_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

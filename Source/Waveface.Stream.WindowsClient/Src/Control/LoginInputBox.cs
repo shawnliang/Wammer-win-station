@@ -53,6 +53,10 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 
+		#region Event
+		public event EventHandler InputDone;
+		#endregion
+
 		#region Constructor
 		public LoginInputBox()
 		{
@@ -83,6 +87,25 @@ namespace Waveface.Stream.WindowsClient
 		{
 			AdjustLayout();
 		}
+		#endregion
+
+		#region Protected Method
+		protected void OnInputDone(EventArgs e)
+		{
+			if (InputDone == null)
+				return;
+			InputDone(this, e);
+		}
+		#endregion
+
+		#region Event Process
+		private void tbxPassword_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyData != Keys.Enter)
+				return;
+
+			OnInputDone(EventArgs.Empty);
+		} 
 		#endregion
 	}
 }

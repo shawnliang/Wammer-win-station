@@ -8,7 +8,7 @@ namespace Waveface.Stream.WindowsClient
 	public partial class SignupControl : UserControl
 	{
 		private ISignupAction signup = new StreamSignup();
-		const string EMAIL_VERIFY_PATTERN = @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b";
+		const string EMAIL_VERIFY_PATTERN = @"\b([A-Z0-9._%+-]+)@[A-Z0-9.-]+\.[A-Z]{2,4}\b";
 
 
 		public event EventHandler SignUpSuccess;
@@ -46,7 +46,7 @@ namespace Waveface.Stream.WindowsClient
 				if (string.IsNullOrEmpty(emailBox.Text) || string.IsNullOrEmpty(passwordBox.Text) || string.IsNullOrEmpty(nameBox.Text))
 					throw new Exception(Resources.FILL_ALL_FIELDS);
 
-				if (!Regex.IsMatch(emailBox.Text, EMAIL_VERIFY_PATTERN))
+				if (!Regex.IsMatch(emailBox.Text, EMAIL_VERIFY_PATTERN, RegexOptions.IgnoreCase))
 				{
 					emailBox.Focus();
 					throw new Exception(Resources.INVALID_EMAIL);
@@ -77,6 +77,17 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (e.KeyChar == '\r' || e.KeyChar == '\n')
 				nativeSignupButton_Click(sender, e);
+		}
+
+		private void emailBox_Leave(object sender, EventArgs e)
+		{
+			var m = Regex.Match(emailBox.Text, EMAIL_VERIFY_PATTERN, RegexOptions.IgnoreCase);
+			if (!m.Success)
+			{
+				return;
+			}
+
+			nameBox.Text = m.Groups[1].Value;
 		}
 	}
 

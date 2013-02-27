@@ -31,10 +31,10 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginControl));
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.fbLoginButton1 = new Waveface.Stream.WindowsClient.FBLoginButton();
 			this.forgotPwdLabel = new System.Windows.Forms.LinkLabel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.loginButton = new System.Windows.Forms.Button();
+			this.fbLoginButton1 = new Waveface.Stream.WindowsClient.FBLoginButton();
 			this.loginInputBox1 = new Waveface.Stream.WindowsClient.LoginInputBox();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -56,12 +56,6 @@
 			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
 			// 
-			// fbLoginButton1
-			// 
-			resources.ApplyResources(this.fbLoginButton1, "fbLoginButton1");
-			this.fbLoginButton1.Name = "fbLoginButton1";
-			this.fbLoginButton1.Click += new System.EventHandler(this.fbLoginButton1_Click);
-			// 
 			// forgotPwdLabel
 			// 
 			resources.ApplyResources(this.forgotPwdLabel, "forgotPwdLabel");
@@ -81,11 +75,18 @@
 			this.loginButton.UseVisualStyleBackColor = true;
 			this.loginButton.Click += new System.EventHandler(this.loginButton1_Click);
 			// 
+			// fbLoginButton1
+			// 
+			resources.ApplyResources(this.fbLoginButton1, "fbLoginButton1");
+			this.fbLoginButton1.Name = "fbLoginButton1";
+			this.fbLoginButton1.Click += new System.EventHandler(this.fbLoginButton1_Click);
+			// 
 			// loginInputBox1
 			// 
 			resources.ApplyResources(this.loginInputBox1, "loginInputBox1");
 			this.loginInputBox1.EnableDropDown = false;
 			this.loginInputBox1.Name = "loginInputBox1";
+			this.loginInputBox1.InputDone += new System.EventHandler(this.loginInputBox1_InputDone);
 			// 
 			// LoginControl
 			// 

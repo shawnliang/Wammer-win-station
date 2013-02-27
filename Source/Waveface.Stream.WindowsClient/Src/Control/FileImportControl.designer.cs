@@ -81,10 +81,10 @@
 			// 
 			// dataGridView1
 			// 
-			resources.ApplyResources(this.dataGridView1, "dataGridView1");
 			this.dataGridView1.AllowUserToAddRows = false;
 			this.dataGridView1.AllowUserToDeleteRows = false;
 			this.dataGridView1.AllowUserToResizeRows = false;
+			resources.ApplyResources(this.dataGridView1, "dataGridView1");
 			this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -159,7 +159,6 @@
 			// 
 			// FileImportControl
 			// 
-			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.indexOnlyOption);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.changeButton);
@@ -171,6 +170,7 @@
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.lblWelcome);
 			this.Name = "FileImportControl";
+			resources.ApplyResources(this, "$this");
 			this.Load += new System.EventHandler(this.FileImportControl_Load);
 			this.DoubleClick += new System.EventHandler(this.FileImportControl_DoubleClick);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
