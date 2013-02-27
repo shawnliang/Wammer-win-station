@@ -8,7 +8,8 @@ namespace Waveface.Stream.WindowsClient
 	public partial class SignupControl : UserControl
 	{
 		private ISignupAction signup = new StreamSignup();
-		private const string EMAIL_VERIFY_PATTERN = @"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$";
+		const string EMAIL_VERIFY_PATTERN = @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b";
+
 
 		public event EventHandler SignUpSuccess;
 
@@ -48,14 +49,14 @@ namespace Waveface.Stream.WindowsClient
 				if (!Regex.IsMatch(emailBox.Text, EMAIL_VERIFY_PATTERN))
 				{
 					emailBox.Focus();
-					throw new Exception(Resources.InvalidEmail);
+					throw new Exception(Resources.INVALID_EMAIL);
 				}
 
 				if (passwordBox.Text.Length < 6 || 16 < passwordBox.Text.Length || passwordBox.Text.Contains(" "))
 				{
 					passwordBox.Text = "";
 					passwordBox.Focus();
-					throw new Exception(Resources.InvalidPassword);
+					throw new Exception(Resources.INVALID_PASSWORD);
 				}
 
 				Cursor.Current = Cursors.WaitCursor;

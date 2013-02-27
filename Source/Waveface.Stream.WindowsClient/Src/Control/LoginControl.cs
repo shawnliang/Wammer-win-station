@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Waveface.Stream.Model;
 using Waveface.Stream.WindowsClient.Properties;
@@ -7,6 +8,10 @@ namespace Waveface.Stream.WindowsClient
 {
 	public partial class LoginControl : UserControl
 	{
+		#region Const
+		const string EMAIL_VALIDATE_MATCH_PATTERN = @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b";
+		#endregion
+
 		#region Var
 		private IStreamLoginable login;
 		private UserSession session;
@@ -102,6 +107,12 @@ namespace Waveface.Stream.WindowsClient
 		{
 			var email = loginInputBox1.Email;
 			var pwd = loginInputBox1.Password;
+
+			if (!Regex.IsMatch(email, EMAIL_VALIDATE_MATCH_PATTERN, RegexOptions.IgnoreCase))
+			{
+				MessageBox.Show(Resources.INVALID_EMAIL);
+				return;
+			}
 
 			Func<UserSession> func = () => { return login.Login(email, pwd); };
 			loginAndHandleError(func);
