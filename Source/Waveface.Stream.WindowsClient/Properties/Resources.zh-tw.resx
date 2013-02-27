@@ -412,4 +412,7 @@
   <data name="WAITING_IMPORT" xml:space="preserve">
     <value>等待匯入... {0} 任務被佇列</value>
   </data>
+  <data name="FREE_PLAN_ICON_HEADER" xml:space="preserve">
+    <value>免費</value>
+  </data>
 </root>

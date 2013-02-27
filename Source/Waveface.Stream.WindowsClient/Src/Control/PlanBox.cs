@@ -80,7 +80,7 @@ namespace Waveface.Stream.WindowsClient
 			switch (this.Type)
 			{
 				case PlanType.Free:
-					m_PlanControl.HeaderIconText = "Free";
+					m_PlanControl.HeaderIconText = Resources.FREE_PLAN_ICON_HEADER;
 					m_PlanControl.HeaderText = Resources.FREE_PLAN_HEADER;
 					m_PlanControl.RTFDescription = Resources.FreePlan;
 					break;
