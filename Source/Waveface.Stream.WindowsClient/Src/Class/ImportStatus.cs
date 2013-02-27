@@ -160,7 +160,7 @@ namespace Waveface.Stream.WindowsClient
 				//else
 				//	toUploadStr = toUpload.ToString();
 
-				//return string.Format("Syncing to AOStream Cloud ({0}/{1}MB)", task.UploadedSize/1024/1024, toUploadStr);
+				//return string.Format("Syncing to aostream Cloud ({0}/{1}MB)", task.UploadedSize/1024/1024, toUploadStr);
 				return string.Empty;
 			}
 			else if (task.IsCompleteSuccessfully())

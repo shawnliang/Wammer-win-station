@@ -48,7 +48,7 @@
 			this.lblWelcome.Name = "lblWelcome";
 			this.lblWelcome.Size = new System.Drawing.Size(304, 18);
 			this.lblWelcome.TabIndex = 4;
-			this.lblWelcome.Text = "Import your existing documents to AOStream";
+			this.lblWelcome.Text = "Import your existing documents to aostream";
 			// 
 			// addButton
 			// 

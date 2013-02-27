@@ -313,7 +313,7 @@
     <value>button2</value>
   </data>
   <data name="tabSignIn.Text" xml:space="preserve">
-    <value>AOStream</value>
+    <value>aostream</value>
   </data>
   <data name="&gt;&gt;tabSignIn.Name" xml:space="preserve">
     <value>tabSignIn</value>

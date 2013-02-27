@@ -3,11 +3,11 @@
   <!-- This is translation to English (United States) -->
   <String Id="LANGUAGE">1033</String>
   <String Id="CULTURE">en-US</String>
-  <String Id="APPNAME">AOStream</String>
-  <String Id="SHORTCUT.UNINSTALLER.NAME">Uninstall AOStream</String>
-  <String Id="MONGO_SVC_DESC">MongoDB for AOStream </String>
+  <String Id="APPNAME">aostream</String>
+  <String Id="SHORTCUT.UNINSTALLER.NAME">Uninstall aostream</String>
+  <String Id="MONGO_SVC_DESC">MongoDB for aostream </String>
   <String Id="DOWNGRADE.ERROR">A later version of [ProductName] is already installed. Setup will now exit.</String>
-  <String Id="SIGNOFF.STATION.DESC">Signing off AOStream</String>
+  <String Id="SIGNOFF.STATION.DESC">Signing off aostream</String>
   <String Id="CLEAN.STATION.INFO.DESC">Cleaning station registry and database</String>
   <String Id="CLEAN.APP.DATA.DESC">Cleaning application data</String>
   <String Id="KILL.PROCESS.DESC">Close running process</String>

@@ -187,12 +187,12 @@ namespace Waveface.Stream.WindowsClient
 
 		private void btnGetApp_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Todo: open AOStream download web page");
+			MessageBox.Show("Todo: open aostream download web page");
 		}
 
 		private void btnInstallChromeExtension_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Todo: open AOStream chrome extension page on Chrome Web Store");
+			MessageBox.Show("Todo: open aostream chrome extension page on Chrome Web Store");
 		}
 	}
 }

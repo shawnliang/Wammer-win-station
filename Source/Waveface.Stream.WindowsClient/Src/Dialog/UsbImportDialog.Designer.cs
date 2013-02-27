@@ -52,7 +52,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "UsbImportDialog";
-			this.Text = "Import to AOStream";
+			this.Text = "Import to aostream";
 			this.Load += new System.EventHandler(this.UsbImportDialog_Load);
 			this.Shown += new System.EventHandler(this.UsbImportDialog_Shown);
 			this.ResumeLayout(false);

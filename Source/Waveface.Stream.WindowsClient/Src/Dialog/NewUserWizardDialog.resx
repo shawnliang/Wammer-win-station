@@ -128,7 +128,7 @@
     <value>3, 3</value>
   </data>
   <data name="tabIntro3.Text" xml:space="preserve">
-    <value>Introducting AOStream</value>
+    <value>Introducting aostream</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
@@ -232,7 +232,7 @@
     <value>706, 400</value>
   </data>
   <data name="tabIntro2.Text" xml:space="preserve">
-    <value>Introducting AOStream</value>
+    <value>Introducting aostream</value>
   </data>
   <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -520,7 +520,7 @@
     <value>fileImportControl1</value>
   </data>
   <data name="tabIntro1.Text" xml:space="preserve">
-    <value>Introducting AOStream</value>
+    <value>Introducting aostream</value>
   </data>
   <data name="&gt;&gt;nativeSignupControl1.Type" xml:space="preserve">
     <value>Waveface.Stream.WindowsClient.SignupControl, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>

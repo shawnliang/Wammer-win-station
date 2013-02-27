@@ -162,7 +162,7 @@ namespace Waveface.Stream.WindowsClient
 
 			var dependencyResult = splashScreen
 				.AppendProcess("Waiting database service...", waitUntilMongodbReady)
-				.AppendProcess("Starting AOStream...", () =>
+				.AppendProcess("Starting aostream...", () =>
 				{
 					StationServiceProxy.Instance.StartService();
 
