@@ -61,6 +61,7 @@
 			resources.ApplyResources(this.tbxPassword, "tbxPassword");
 			this.tbxPassword.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.tbxPassword.Name = "tbxPassword";
+			this.tbxPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbxPassword_KeyDown);
 			// 
 			// tbxEMail
 			// 

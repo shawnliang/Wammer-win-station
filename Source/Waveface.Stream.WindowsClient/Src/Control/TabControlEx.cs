@@ -116,6 +116,32 @@ namespace Waveface.Stream.WindowsClient
 		#endregion
 
 
+		#region Protected Method
+		/// <summary>
+		/// Processes a command key.
+		/// </summary>
+		/// <param name="msg">A <see cref="T:System.Windows.Forms.Message" />, passed by reference, that represents the window message to process.</param>
+		/// <param name="keyData">One of the <see cref="T:System.Windows.Forms.Keys" /> values that represents the key to process.</param>
+		/// <returns>
+		/// true if the character was processed by the control; otherwise, false.
+		/// </returns>
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (HideTabs)
+			{
+				if (keyData == (Keys.Control | Keys.Tab))
+				{
+					return true;
+				}
+				if (keyData == (Keys.Control | Keys.Shift | Keys.Tab))
+				{
+					return true;
+				}
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+		#endregion
+
 		#region Public Method
 		/// <summary>
 		/// Firsts the page.

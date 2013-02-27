@@ -286,7 +286,7 @@
     <value>4</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 35</value>
+    <value>75, 35</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>405, 299</value>

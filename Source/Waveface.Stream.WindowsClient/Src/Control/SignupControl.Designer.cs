@@ -46,6 +46,7 @@
 			// 
 			resources.ApplyResources(this.emailBox, "emailBox");
 			this.emailBox.Name = "emailBox";
+			this.emailBox.Leave += new System.EventHandler(this.emailBox_Leave);
 			// 
 			// passwordBox
 			// 
