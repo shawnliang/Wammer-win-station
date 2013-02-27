@@ -328,8 +328,8 @@ namespace Wammer.Station.Timeline
 
 				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Set("sync_range.download_error", err));
 
-
 				string msg = string.Format("Unabel to download attachment {0} meta {1}: {2}", evtargs.attachment.object_id, meta, e.ToString());
+				this.LogWarnMsg(msg);
 
 				if (e is WammerCloudException)
 					throw new Exception(msg + (e as WammerCloudException).response, e);
