@@ -710,7 +710,6 @@
     <None Include="Resources\13.png" />
     <Content Include="Resources\button.appstore.png" />
     <Content Include="Resources\button.googleplay.png" />
-    <Content Include="Resources\cloud-connected-devices.png" />
     <None Include="Resources\Default-Landscape.png" />
     <None Include="Resources\Facebook.png" />
     <Content Include="Resources\fb_btn.png" />
@@ -740,7 +739,6 @@
     <Content Include="Resources\stream_appstore_qr.png" />
     <Content Include="Resources\stream_googleplay_qr.png" />
     <None Include="Resources\twitter.png" />
-    <Content Include="Resources\usbflashcardwithcardreader2.png" />
     <None Include="Resources\winControl2.png" />
     <Content Include="Resources\windows_en_1.jpg" />
     <Content Include="Resources\windows_en_2.jpg" />
