@@ -38,10 +38,8 @@ namespace Waveface.Stream.WindowsClient
 			try
 			{
 				if (Waveface.Stream.ClientFramework.UserInfo.Instance.SNS1 != null)
-					return Waveface.Stream.ClientFramework.UserInfo.Instance.SNS1.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
-
-				else if (Waveface.Stream.ClientFramework.UserInfo.Instance.SNS2 != null)
-					return Waveface.Stream.ClientFramework.UserInfo.Instance.SNS2.Any(x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase));
+					return Waveface.Stream.ClientFramework.UserInfo.Instance.SNS1.Any(
+						x => x.type.Equals(svcType, StringComparison.InvariantCultureIgnoreCase) && x.enabled);
 				else
 					return false;
 			}

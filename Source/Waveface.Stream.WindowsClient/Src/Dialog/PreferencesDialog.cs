@@ -527,10 +527,31 @@ namespace Waveface.Stream.WindowsClient
 			tabControl1.SelectedIndexChanged += InitAccountPage;
 
 			(tabDevices.Controls[0] as PersonalCloudStatusControl2).RefreshInterval = refreshStatusTimer.Interval * 3;
+
+
+			refreshUserInfoAsync();
+		}
+
+		private static void refreshUserInfoAsync()
+		{
+			// force update user's info to refresh all information
+			var refreshBgWorker = new BackgroundWorker();
+			refreshBgWorker.DoWork += (sendr, arg) =>
+			{
+				Waveface.Stream.ClientFramework.UserInfo.Instance.Update();
+			};
+
+			refreshBgWorker.RunWorkerAsync();
 		}
 
 		void Instance_UserInfoUpdated(object sender, EventArgs e)
 		{
+			if (InvokeRequired)
+			{
+				Invoke(new MethodInvoker(() => { Instance_UserInfoUpdated(sender, e); }));
+				return;
+			}
+
 			if (tabControl1.SelectedTab == tabGeneral)
 				UpdateGeneralPage();
 			else
@@ -586,12 +607,15 @@ namespace Waveface.Stream.WindowsClient
 
 		static void Instance_UserInfoUpdateFail(object sender, ExceptionEventArgs e)
 		{
-			using (var sr = new StreamReader((e.Exception as WebException).Response.GetResponseStream()))
+			if (e.Exception is WebException)
 			{
-				var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
-				if (cloudResponse.status == 401)
+				using (var sr = new StreamReader((e.Exception as WebException).Response.GetResponseStream()))
 				{
-					StreamClient.Instance.Logout();
+					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
+					if (cloudResponse.status == 401)
+					{
+						StreamClient.Instance.Logout();
+					}
 				}
 			}
 		}
