@@ -98,11 +98,12 @@ namespace Waveface.Stream.WindowsClient
 
 			this.Disposed += PreferencesDialog_Disposed;
 
-			pbxDevice.Hide();
+			//pbxDevice.Hide();
+			devNameCtl.Hide();
 			lblSyncStatus.Text = string.Empty;
 			lblSyncTransferStatus.Text = string.Empty;
 			lblDeviceConnectStatus.Text = string.Empty;
-			lblDeviceName.Text = string.Empty;
+			//lblDeviceName.Text = string.Empty;
 			label2.Text = string.Empty;
 
 			ConnectionStatus.Instance.DeviceAdded += Instance_DeviceAdded;
@@ -276,10 +277,12 @@ namespace Waveface.Stream.WindowsClient
 
 		private void UpdateDeviceSyncStatus()
 		{
-			pbxDevice.Show();
+			//pbxDevice.Show();
 
 			var device = cmbDevice.SelectedItem as Device;
-			lblDeviceName.Text = device.Name;
+			//lblDeviceName.Text = device.Name;
+			devNameCtl.Show();
+			devNameCtl.DeviceName = device.Name;
 
 			if (device.RemainingBackUpCount > 0)
 				label2.Text = string.Format(Resources.RECEVING_FILES_PATTERN, device.RemainingBackUpCount.ToString());
@@ -640,8 +643,9 @@ namespace Waveface.Stream.WindowsClient
 
 			if (cmbDevice.Items.Count == 0 || cmbDevice.SelectedItem == null)
 			{
-				pbxDevice.Hide();
-				lblDeviceName.Text = string.Empty;
+				//pbxDevice.Hide();
+				//lblDeviceName.Text = string.Empty;
+				devNameCtl.Hide();
 				lblDeviceConnectStatus.Text = string.Empty;
 				label2.Text = string.Empty;
 				return;

@@ -57,7 +57,6 @@
 			this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
 			this.button3 = new System.Windows.Forms.Button();
 			this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-			this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
 			this.btnChangeResourceFolder = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.linkLabel3 = new System.Windows.Forms.LinkLabel();
@@ -76,7 +75,6 @@
 			this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-			this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
 			this.button2 = new System.Windows.Forms.Button();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.linkLabel2 = new System.Windows.Forms.LinkLabel();
@@ -97,17 +95,12 @@
 			this.tableLayoutPanel9.SuspendLayout();
 			this.tableLayoutPanel8.SuspendLayout();
 			this.tableLayoutPanel4.SuspendLayout();
-			this.tableLayoutPanel5.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
-			this.tableLayoutPanel26.SuspendLayout();
-			this.tableLayoutPanel25.SuspendLayout();
-			this.tableLayoutPanel24.SuspendLayout();
 			this.tableLayoutPanel13.SuspendLayout();
 			this.tableLayoutPanel12.SuspendLayout();
 			this.tableLayoutPanel11.SuspendLayout();
 			this.tableLayoutPanel3.SuspendLayout();
-			this.tableLayoutPanel6.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -284,15 +277,9 @@
 			// tableLayoutPanel4
 			// 
 			resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
-			this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 1, 0);
+			this.tableLayoutPanel4.Controls.Add(this.btnChangeResourceFolder, 0, 1);
 			this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 0);
 			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-			// 
-			// tableLayoutPanel5
-			// 
-			resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
-			this.tableLayoutPanel5.Controls.Add(this.btnChangeResourceFolder, 1, 1);
-			this.tableLayoutPanel5.Name = "tableLayoutPanel5";
 			// 
 			// btnChangeResourceFolder
 			// 
@@ -338,7 +325,6 @@
 			// tableLayoutPanel26
 			// 
 			resources.ApplyResources(this.tableLayoutPanel26, "tableLayoutPanel26");
-			this.tableLayoutPanel26.Controls.Add(this.lblTotalDocument, 0, 1);
 			this.tableLayoutPanel26.Name = "tableLayoutPanel26";
 			// 
 			// lblTotalDocument
@@ -349,7 +335,6 @@
 			// tableLayoutPanel25
 			// 
 			resources.ApplyResources(this.tableLayoutPanel25, "tableLayoutPanel25");
-			this.tableLayoutPanel25.Controls.Add(this.lblTotalWeb, 0, 1);
 			this.tableLayoutPanel25.Name = "tableLayoutPanel25";
 			// 
 			// lblTotalWeb
@@ -360,7 +345,6 @@
 			// tableLayoutPanel24
 			// 
 			resources.ApplyResources(this.tableLayoutPanel24, "tableLayoutPanel24");
-			this.tableLayoutPanel24.Controls.Add(this.lblTotalPhoto, 0, 1);
 			this.tableLayoutPanel24.Name = "tableLayoutPanel24";
 			// 
 			// lblTotalPhoto
@@ -371,6 +355,7 @@
 			// tableLayoutPanel13
 			// 
 			resources.ApplyResources(this.tableLayoutPanel13, "tableLayoutPanel13");
+			this.tableLayoutPanel13.Controls.Add(this.lblTotalWeb, 0, 2);
 			this.tableLayoutPanel13.Controls.Add(this.label8, 0, 1);
 			this.tableLayoutPanel13.Name = "tableLayoutPanel13";
 			// 
@@ -382,6 +367,7 @@
 			// tableLayoutPanel12
 			// 
 			resources.ApplyResources(this.tableLayoutPanel12, "tableLayoutPanel12");
+			this.tableLayoutPanel12.Controls.Add(this.lblTotalDocument, 0, 2);
 			this.tableLayoutPanel12.Controls.Add(this.label7, 0, 1);
 			this.tableLayoutPanel12.Name = "tableLayoutPanel12";
 			// 
@@ -394,6 +380,7 @@
 			// 
 			resources.ApplyResources(this.tableLayoutPanel11, "tableLayoutPanel11");
 			this.tableLayoutPanel11.Controls.Add(this.label6, 0, 1);
+			this.tableLayoutPanel11.Controls.Add(this.lblTotalPhoto, 0, 2);
 			this.tableLayoutPanel11.Name = "tableLayoutPanel11";
 			// 
 			// label6
@@ -404,15 +391,9 @@
 			// tableLayoutPanel3
 			// 
 			resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-			this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel6, 1, 0);
+			this.tableLayoutPanel3.Controls.Add(this.button2, 0, 1);
 			this.tableLayoutPanel3.Controls.Add(this.panel2, 0, 0);
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-			// 
-			// tableLayoutPanel6
-			// 
-			resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
-			this.tableLayoutPanel6.Controls.Add(this.button2, 1, 1);
-			this.tableLayoutPanel6.Name = "tableLayoutPanel6";
 			// 
 			// button2
 			// 
@@ -475,18 +456,10 @@
 			this.tableLayoutPanel8.PerformLayout();
 			this.tableLayoutPanel4.ResumeLayout(false);
 			this.tableLayoutPanel4.PerformLayout();
-			this.tableLayoutPanel5.ResumeLayout(false);
-			this.tableLayoutPanel5.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
-			this.tableLayoutPanel26.ResumeLayout(false);
-			this.tableLayoutPanel26.PerformLayout();
-			this.tableLayoutPanel25.ResumeLayout(false);
-			this.tableLayoutPanel25.PerformLayout();
-			this.tableLayoutPanel24.ResumeLayout(false);
-			this.tableLayoutPanel24.PerformLayout();
 			this.tableLayoutPanel13.ResumeLayout(false);
 			this.tableLayoutPanel13.PerformLayout();
 			this.tableLayoutPanel12.ResumeLayout(false);
@@ -495,8 +468,6 @@
 			this.tableLayoutPanel11.PerformLayout();
 			this.tableLayoutPanel3.ResumeLayout(false);
 			this.tableLayoutPanel3.PerformLayout();
-			this.tableLayoutPanel6.ResumeLayout(false);
-			this.tableLayoutPanel6.PerformLayout();
 			this.panel2.ResumeLayout(false);
 			this.panel2.PerformLayout();
 			this.ResumeLayout(false);
@@ -508,11 +479,9 @@
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
 		private System.Windows.Forms.Button btnChangeResourceFolder;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.Label lblCloudTotalUsage;

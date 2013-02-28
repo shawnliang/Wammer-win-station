@@ -6439,6 +6439,9 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Preferences</value>
   </data>
@@ -6463,86 +6466,29 @@
   <data name="splitContainer1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>TopLeft</value>
   </data>
-  <data name="splitContainer1.IsSplitterFixed" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 13</value>
   </data>
-  <data name="lblDeviceName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <data name="devNameCtl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 232</value>
   </data>
-  <data name="lblDeviceName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
+  <data name="devNameCtl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 32</value>
   </data>
-  <data name="lblDeviceName.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
-    <value>TopLeft</value>
+  <data name="devNameCtl.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
-  <data name="lblDeviceName.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+  <data name="&gt;&gt;devNameCtl.Name" xml:space="preserve">
+    <value>devNameCtl</value>
   </data>
-  <data name="lblDeviceName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;devNameCtl.Type" xml:space="preserve">
+    <value>Waveface.Stream.WindowsClient.Src.Control.DeviceNameControl, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="lblDeviceName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 238</value>
-  </data>
-  <data name="lblDeviceName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 25</value>
-  </data>
-  <data name="lblDeviceName.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="lblDeviceName.Text" xml:space="preserve">
-    <value>[Device Name]</value>
-  </data>
-  <data name="lblDeviceName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;lblDeviceName.Name" xml:space="preserve">
-    <value>lblDeviceName</value>
-  </data>
-  <data name="&gt;&gt;lblDeviceName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblDeviceName.Parent" xml:space="preserve">
+  <data name="&gt;&gt;devNameCtl.Parent" xml:space="preserve">
     <value>panelEx1</value>
   </data>
-  <data name="&gt;&gt;lblDeviceName.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;devNameCtl.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="pbxDevice.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
-    <value>TopLeft</value>
-  </data>
-  <data name="pbxDevice.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="pbxDevice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 237</value>
-  </data>
-  <data name="pbxDevice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 27</value>
-  </data>
-  <data name="pbxDevice.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>AutoSize</value>
-  </data>
-  <data name="pbxDevice.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="pbxDevice.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pbxDevice.Name" xml:space="preserve">
-    <value>pbxDevice</value>
-  </data>
-  <data name="&gt;&gt;pbxDevice.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pbxDevice.Parent" xml:space="preserve">
-    <value>panelEx1</value>
-  </data>
-  <data name="&gt;&gt;pbxDevice.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -6557,7 +6503,7 @@
     <value>16, 267</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 37</value>
+    <value>154, 37</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -6578,7 +6524,7 @@
     <value>panelEx1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="lblDeviceConnectStatus.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -6593,7 +6539,7 @@
     <value>14, 333</value>
   </data>
   <data name="lblDeviceConnectStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 15</value>
+    <value>156, 15</value>
   </data>
   <data name="lblDeviceConnectStatus.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -6614,7 +6560,7 @@
     <value>panelEx1</value>
   </data>
   <data name="&gt;&gt;lblDeviceConnectStatus.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="cmbDevice.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -6626,7 +6572,7 @@
     <value>16, 308</value>
   </data>
   <data name="cmbDevice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 21</value>
+    <value>154, 21</value>
   </data>
   <data name="cmbDevice.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -6641,7 +6587,7 @@
     <value>panelEx1</value>
   </data>
   <data name="&gt;&gt;cmbDevice.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -6659,7 +6605,7 @@
     <value>4, 108</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 25</value>
+    <value>181, 25</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -6680,7 +6626,7 @@
     <value>panelEx1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="pbxLogo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -6695,7 +6641,7 @@
     <value>21, 13</value>
   </data>
   <data name="pbxLogo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 89</value>
+    <value>149, 89</value>
   </data>
   <data name="pbxLogo.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -6713,7 +6659,7 @@
     <value>panelEx1</value>
   </data>
   <data name="&gt;&gt;pbxLogo.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="lblSyncTransferStatus.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -6728,13 +6674,16 @@
     <value>14, 166</value>
   </data>
   <data name="lblSyncTransferStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 62</value>
+    <value>156, 62</value>
   </data>
   <data name="lblSyncTransferStatus.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="lblSyncTransferStatus.Text" xml:space="preserve">
     <value>[Sync Transfer Status]</value>
+  </data>
+  <data name="lblSyncTransferStatus.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
   </data>
   <data name="&gt;&gt;lblSyncTransferStatus.Name" xml:space="preserve">
     <value>lblSyncTransferStatus</value>
@@ -6746,7 +6695,7 @@
     <value>panelEx1</value>
   </data>
   <data name="&gt;&gt;lblSyncTransferStatus.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="lblSyncStatus.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -6761,7 +6710,7 @@
     <value>0, 135</value>
   </data>
   <data name="lblSyncStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 30</value>
+    <value>187, 30</value>
   </data>
   <data name="lblSyncStatus.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -6782,7 +6731,7 @@
     <value>panelEx1</value>
   </data>
   <data name="&gt;&gt;lblSyncStatus.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="panelEx1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -6794,7 +6743,7 @@
     <value>0, 0</value>
   </data>
   <data name="panelEx1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>138, 352</value>
+    <value>187, 352</value>
   </data>
   <data name="panelEx1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -6836,7 +6785,7 @@
     <value>4, 7</value>
   </data>
   <data name="usageDetailControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>507, 219</value>
+    <value>458, 219</value>
   </data>
   <data name="usageDetailControl1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -6929,7 +6878,7 @@
     <value>3, 234</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 89</value>
+    <value>462, 89</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -6959,7 +6908,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabGeneral.Size" type="System.Drawing.Size, System.Drawing">
-    <value>517, 326</value>
+    <value>468, 326</value>
   </data>
   <data name="tabGeneral.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -6989,7 +6938,7 @@
     <value>3, 3</value>
   </data>
   <data name="personalCloudStatusControl21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 320</value>
+    <value>462, 320</value>
   </data>
   <data name="personalCloudStatusControl21.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -7016,7 +6965,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabDevices.Size" type="System.Drawing.Size, System.Drawing">
-    <value>517, 326</value>
+    <value>468, 326</value>
   </data>
   <data name="tabDevices.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -7046,7 +6995,7 @@
     <value>3, 16</value>
   </data>
   <data name="planBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 150</value>
+    <value>456, 150</value>
   </data>
   <data name="planBox1.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -7076,7 +7025,7 @@
     <value>NoControl</value>
   </data>
   <data name="button3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>392, 3</value>
+    <value>343, 3</value>
   </data>
   <data name="button3.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 25</value>
@@ -7109,7 +7058,7 @@
     <value>3, 166</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 34</value>
+    <value>456, 34</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -7136,7 +7085,7 @@
     <value>3, 120</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 203</value>
+    <value>462, 203</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -7156,6 +7105,9 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="button2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
   <data name="button2.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>TopLeft</value>
   </data>
@@ -7163,7 +7115,7 @@
     <value>NoControl</value>
   </data>
   <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>380, 3</value>
+    <value>343, 6</value>
   </data>
   <data name="button2.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 25</value>
@@ -7186,6 +7138,9 @@
   <data name="&gt;&gt;button2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="btnUnLink.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Right</value>
+  </data>
   <data name="btnUnLink.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>TopLeft</value>
   </data>
@@ -7193,7 +7148,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnUnLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>226, 3</value>
+    <value>189, 6</value>
   </data>
   <data name="btnUnLink.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 25</value>
@@ -7226,7 +7181,7 @@
     <value>3, 80</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 34</value>
+    <value>456, 34</value>
   </data>
   <data name="panel2.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -7367,7 +7322,7 @@
     <value>3, 3</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 117</value>
+    <value>462, 117</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -7397,7 +7352,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabAccount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>517, 326</value>
+    <value>468, 326</value>
   </data>
   <data name="tabAccount.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -7427,7 +7382,7 @@
     <value>3, 3</value>
   </data>
   <data name="serviceImportControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 320</value>
+    <value>462, 320</value>
   </data>
   <data name="serviceImportControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -7454,7 +7409,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabConnections.Size" type="System.Drawing.Size, System.Drawing">
-    <value>517, 326</value>
+    <value>468, 326</value>
   </data>
   <data name="tabConnections.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -7484,7 +7439,7 @@
     <value>3, 3</value>
   </data>
   <data name="aboutControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>511, 320</value>
+    <value>462, 320</value>
   </data>
   <data name="aboutControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -7511,7 +7466,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>517, 326</value>
+    <value>468, 326</value>
   </data>
   <data name="tabAbout.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -7541,7 +7496,7 @@
     <value>0, 0</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>525, 352</value>
+    <value>476, 352</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -7577,7 +7532,7 @@
     <value>667, 352</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>138</value>
+    <value>187</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
