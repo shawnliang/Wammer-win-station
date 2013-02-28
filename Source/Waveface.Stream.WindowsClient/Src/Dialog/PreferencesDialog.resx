@@ -6473,7 +6473,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="lblDeviceName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>PMingLiU, 9.75pt, style=Bold</value>
+    <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
   </data>
   <data name="lblDeviceName.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>TopLeft</value>
@@ -6485,7 +6485,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblDeviceName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 242</value>
+    <value>21, 238</value>
   </data>
   <data name="lblDeviceName.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 25</value>
@@ -6647,7 +6647,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>PMingLiU, 9.75pt, style=Bold</value>
+    <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
   </data>
   <data name="label1.IconAlignment" type="System.Windows.Forms.ErrorIconAlignment, System.Windows.Forms">
     <value>TopLeft</value>
