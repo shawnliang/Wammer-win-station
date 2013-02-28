@@ -400,6 +400,13 @@ namespace Waveface.Stream.WindowsClient.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Facebook {
+            get {
+                object obj = ResourceManager.GetObject("Facebook", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap fb_btn {
             get {
                 object obj = ResourceManager.GetObject("fb_btn", resourceCulture);

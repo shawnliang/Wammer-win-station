@@ -217,9 +217,6 @@
   <data name="button_appstore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\button.appstore.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Google" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Google.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="IMPORT_DESC_IN_PROGRESS_HAS_PENDING" xml:space="preserve">
     <value>Processing {0}, {1} task(s) queued.</value>
   </data>
@@ -591,5 +588,12 @@
   </data>
   <data name="DISCONNECT_SERVICE_FAILED_PATTERN" xml:space="preserve">
     <value>Unable to disconnect with {0}</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Facebook" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Facebook.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Google" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Google.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

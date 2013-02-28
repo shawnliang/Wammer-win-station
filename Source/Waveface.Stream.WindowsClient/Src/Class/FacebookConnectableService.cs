@@ -13,7 +13,7 @@ namespace Waveface.Stream.WindowsClient
 
 		public override System.Drawing.Image Icon
 		{
-			get { return Properties.Resources.f_logo; }
+			get { return Properties.Resources.Facebook; }
 		}
 	}
 }
