@@ -197,6 +197,7 @@
             </RegistryKey>
           </RegistryKey>
 
+          <!--
           <RegistryKey Key=".png\shell\aostream">
             <RegistryValue Type="string" Value="Add to aostream"/>
 
@@ -204,6 +205,7 @@
               <RegistryValue Type="string" Value="[INSTALLLOCATION]WindowsClient.exe -i %1"/>
             </RegistryKey>
           </RegistryKey>
+          -->
         </RegistryKey>
         
         <RegistryKey Root="HKCR" Key="Folder\shell\aostream">
