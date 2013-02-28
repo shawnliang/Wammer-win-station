@@ -22,6 +22,7 @@ namespace Waveface.Stream.WindowsClient
 		public const int WM_COPYDATA = 0x004A;
 
 		#region Private Static Var
+        private static AutoUpdate _updator;
 		private static MessageReceiver _messageReceiver;
 		private static NotifyIcon _notifyIcon;
 		private static ContextMenuStrip _contextMenuStrip;
@@ -103,6 +104,19 @@ namespace Waveface.Stream.WindowsClient
 		{
 			get { return _timer ?? (_timer = new System.Windows.Forms.Timer()); }
 		}
+
+
+        /// <summary>
+        /// Gets the m_ updator.
+        /// </summary>
+        /// <value>The m_ updator.</value>
+        private static AutoUpdate m_Updator
+        {
+            get
+            {
+                return _updator ?? (_updator = new AutoUpdate(false));
+            }
+        }
 		#endregion
 
 
@@ -172,6 +186,8 @@ namespace Waveface.Stream.WindowsClient
 
 			if (dependencyResult != DialogResult.OK)
 				return;
+
+            m_Updator.StartLoop();
 
 			if (options.Imports != null && options.Imports.Any())
 			{
