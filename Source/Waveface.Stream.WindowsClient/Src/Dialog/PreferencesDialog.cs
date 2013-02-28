@@ -694,5 +694,10 @@ namespace Waveface.Stream.WindowsClient
 			CheckNickNameFormat();
 		}
 		#endregion
+
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			GoToWeb.OpenInBrowser("/");
+		}
 	}
 }

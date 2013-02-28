@@ -187,7 +187,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void btnGetApp_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Todo: open aostream download web page");
+			GoToWeb.OpenInBrowser("/");
 		}
 
 		private void btnInstallChromeExtension_Click(object sender, EventArgs e)

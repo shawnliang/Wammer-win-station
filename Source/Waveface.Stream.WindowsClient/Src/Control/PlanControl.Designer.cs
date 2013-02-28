@@ -47,7 +47,7 @@
 			this.btnPlanHeaderIcon.ForeColor = System.Drawing.SystemColors.ControlLightLight;
 			this.btnPlanHeaderIcon.Location = new System.Drawing.Point(3, 3);
 			this.btnPlanHeaderIcon.Name = "btnPlanHeaderIcon";
-			this.btnPlanHeaderIcon.Size = new System.Drawing.Size(84, 42);
+			this.btnPlanHeaderIcon.Size = new System.Drawing.Size(84, 46);
 			this.btnPlanHeaderIcon.TabIndex = 9;
 			this.btnPlanHeaderIcon.Text = "[Plan Header Icon]";
 			this.btnPlanHeaderIcon.UseVisualStyleBackColor = false;
@@ -64,7 +64,7 @@
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(266, 66);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(266, 72);
 			this.tableLayoutPanel1.TabIndex = 12;
 			// 
 			// panel1
@@ -74,7 +74,7 @@
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(93, 3);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(170, 60);
+			this.panel1.Size = new System.Drawing.Size(170, 66);
 			this.panel1.TabIndex = 10;
 			// 
 			// rtbxPlanDescription
@@ -82,11 +82,11 @@
 			this.rtbxPlanDescription.BackColor = System.Drawing.SystemColors.Control;
 			this.rtbxPlanDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.rtbxPlanDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtbxPlanDescription.Location = new System.Drawing.Point(0, 16);
+			this.rtbxPlanDescription.Location = new System.Drawing.Point(0, 17);
 			this.rtbxPlanDescription.Name = "rtbxPlanDescription";
 			this.rtbxPlanDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
 			this.rtbxPlanDescription.ShortcutsEnabled = false;
-			this.rtbxPlanDescription.Size = new System.Drawing.Size(170, 44);
+			this.rtbxPlanDescription.Size = new System.Drawing.Size(170, 49);
 			this.rtbxPlanDescription.TabIndex = 17;
 			this.rtbxPlanDescription.Text = "[Plan Description]";
 			// 
@@ -96,17 +96,17 @@
 			this.lblPlanHeader.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblPlanHeader.Location = new System.Drawing.Point(0, 0);
 			this.lblPlanHeader.Name = "lblPlanHeader";
-			this.lblPlanHeader.Size = new System.Drawing.Size(170, 16);
+			this.lblPlanHeader.Size = new System.Drawing.Size(170, 17);
 			this.lblPlanHeader.TabIndex = 16;
 			this.lblPlanHeader.Text = "[Plan Header]";
 			// 
-			// PlanBox
+			// PlanControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tableLayoutPanel1);
-			this.Name = "PlanBox";
-			this.Size = new System.Drawing.Size(266, 66);
+			this.Name = "PlanControl";
+			this.Size = new System.Drawing.Size(266, 72);
 			this.BackColorChanged += new System.EventHandler(this.PlanBox_BackColorChanged);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);

@@ -96,6 +96,7 @@
 			this.errorProvider1.SetIconAlignment(this.linkLabel1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("linkLabel1.IconAlignment"))));
 			this.linkLabel1.Name = "linkLabel1";
 			this.linkLabel1.TabStop = true;
+			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
 			// 
 			// btnOK
 			// 

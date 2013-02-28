@@ -22,7 +22,7 @@ namespace Waveface.Stream.WindowsClient
 		public const int WM_COPYDATA = 0x004A;
 
 		#region Private Static Var
-        private static AutoUpdate _updator;
+		private static AutoUpdate _updator;
 		private static MessageReceiver _messageReceiver;
 		private static NotifyIcon _notifyIcon;
 		private static ContextMenuStrip _contextMenuStrip;
@@ -106,17 +106,17 @@ namespace Waveface.Stream.WindowsClient
 		}
 
 
-        /// <summary>
-        /// Gets the m_ updator.
-        /// </summary>
-        /// <value>The m_ updator.</value>
-        private static AutoUpdate m_Updator
-        {
-            get
-            {
-                return _updator ?? (_updator = new AutoUpdate(false));
-            }
-        }
+		/// <summary>
+		/// Gets the m_ updator.
+		/// </summary>
+		/// <value>The m_ updator.</value>
+		private static AutoUpdate m_Updator
+		{
+			get
+			{
+				return _updator ?? (_updator = new AutoUpdate(false));
+			}
+		}
 		#endregion
 
 
@@ -187,7 +187,7 @@ namespace Waveface.Stream.WindowsClient
 			if (dependencyResult != DialogResult.OK)
 				return;
 
-            m_Updator.StartLoop();
+			m_Updator.StartLoop();
 
 			if (options.Imports != null && options.Imports.Any())
 			{
@@ -530,9 +530,10 @@ namespace Waveface.Stream.WindowsClient
 
 			m_ContextMenuStrip.Items.Add("-", null);
 
-			m_ContextMenuStrip.Items.Add(Resources.HELP_CENTER_MENU_ITEM, null);
-			m_ContextMenuStrip.Items.Add(Resources.GET_APPS_MENU_ITEM, null);
-			m_ContextMenuStrip.Items.Add(Resources.CHROME_EXTENSION_MENU_ITEM, null);
+			 
+			//m_ContextMenuStrip.Items.Add(Resources.HELP_CENTER_MENU_ITEM, null);
+			m_ContextMenuStrip.Items.Add(Resources.GET_APPS_MENU_ITEM, m_ContextMenuStrip_GetApp_Click);
+			//m_ContextMenuStrip.Items.Add(Resources.CHROME_EXTENSION_MENU_ITEM, null);
 			m_ContextMenuStrip.Items.Add(Resources.CONTACT_US_MENU_ITEM, m_ContextMenuStrip_ContactUs_Click);
 			m_ContextMenuStrip.Items.Add("-", null);
 
@@ -658,6 +659,13 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 
 			ShowContactUsDialog();
+		}
+
+		private static void m_ContextMenuStrip_GetApp_Click(object sender, EventArgs e)
+		{
+			DebugInfo.ShowMethod();
+
+			GoToWeb.OpenInBrowser("/");
 		}
 
 		/// <summary>

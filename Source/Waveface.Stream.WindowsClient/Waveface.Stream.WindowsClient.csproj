@@ -171,6 +171,7 @@
     <Compile Include="Src\Class\AutoUpdate.cs" />
     <Compile Include="Src\Class\CommandLineCommand.cs" />
     <Compile Include="Src\Class\ConnectionStatus.cs" />
+    <Compile Include="Src\Class\GoToWeb.cs" />
     <Compile Include="Src\Control\DeviceNameControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
