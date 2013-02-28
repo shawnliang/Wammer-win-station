@@ -136,7 +136,7 @@
     <value>不正確的電子郵件</value>
   </data>
   <data name="FB_CONNECT_PAGE_TITLE" xml:space="preserve">
-    <value>連接 Facebook</value>
+    <value>連接 {0}</value>
   </data>
   <data name="STATION_SERVICE_DOWN" xml:space="preserve">
     <value>aostream 服務未完全啟動，請稍候一會再登入，或確認 aostream 服務啟動狀態。</value>
