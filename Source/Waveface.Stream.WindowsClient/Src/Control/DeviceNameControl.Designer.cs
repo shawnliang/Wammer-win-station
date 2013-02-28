@@ -35,9 +35,9 @@
 			// 
 			// deviceNameLabel
 			// 
-			this.deviceNameLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.deviceNameLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.deviceNameLabel.AutoSize = true;
-			this.deviceNameLabel.Location = new System.Drawing.Point(41, 19);
+			this.deviceNameLabel.Location = new System.Drawing.Point(39, 12);
 			this.deviceNameLabel.Name = "deviceNameLabel";
 			this.deviceNameLabel.Size = new System.Drawing.Size(75, 13);
 			this.deviceNameLabel.TabIndex = 0;
@@ -45,9 +45,9 @@
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.pictureBox1.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.winControl2;
-			this.pictureBox1.Location = new System.Drawing.Point(12, 11);
+			this.pictureBox1.Location = new System.Drawing.Point(10, 4);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(23, 27);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -61,7 +61,7 @@
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.deviceNameLabel);
 			this.Name = "DeviceNameControl";
-			this.Size = new System.Drawing.Size(129, 49);
+			this.Size = new System.Drawing.Size(124, 39);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
