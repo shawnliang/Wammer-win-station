@@ -52,7 +52,7 @@ namespace Waveface.Stream.WindowsClient
 
 			var dialog = new SignUpDialog()
 			{
-				Text = Resources.FB_CONNECT_PAGE_TITLE,
+				Text = string.Format(Properties.Resources.SVC_CONNECT_PAGE_TITLE, "Facebook"),
 				StartPosition = FormStartPosition.CenterParent
 			};
 			var browser = dialog.Browser;

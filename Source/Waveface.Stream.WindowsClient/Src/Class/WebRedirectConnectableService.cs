@@ -89,7 +89,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				Width = 750,
 				Height = 600,
-				Text = string.Format(Properties.Resources.FB_CONNECT_PAGE_TITLE, Name),
+				Text = string.Format(Properties.Resources.SVC_CONNECT_PAGE_TITLE, Name),
 				StartPosition = FormStartPosition.CenterParent,
 				Icon = Properties.Resources.Icon
 			};
