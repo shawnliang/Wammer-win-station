@@ -124,6 +124,12 @@
   <data name="label1.Text" xml:space="preserve">
     <value>您的個人雲裝置列表</value>
   </data>
+  <data name="nameColumn.Text" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="profileCol.Text" xml:space="preserve">
+    <value>狀態</value>
+  </data>
   <data name="listView1.Groups" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
@@ -143,12 +149,6 @@
         AwAAAAboo53nva4F/P///yhTeXN0ZW0uV2luZG93cy5Gb3Jtcy5Ib3Jpem9udGFsQWxpZ25tZW50AQAA
         AAd2YWx1ZV9fAAgCAAAAAAAAAAoGBQAAAAdkZXZpY2VzCw==
 </value>
-  </data>
-  <data name="nameColumn.Text" xml:space="preserve">
-    <value>名稱</value>
-  </data>
-  <data name="profileCol.Text" xml:space="preserve">
-    <value>狀態</value>
   </data>
   <data name="btnGetApp.Text" xml:space="preserve">
     <value>下載App...</value>
