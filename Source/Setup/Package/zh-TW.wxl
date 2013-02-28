@@ -4,7 +4,7 @@
   <String Id="LANGUAGE">1028</String>
   <String Id="CULTURE">zh-TW</String>
   <String Id="APPNAME">aostream</String>
-  <String Id="SHORTCUT.UNINSTALLER.NAME">解除安裝</String>
+  <String Id="SHORTCUT.UNINSTALLER.NAME">解除安裝 aostream</String>
   <String Id="MONGO_SVC_DESC">aostream 的 MongoDB</String>
   <String Id="SHORTCUT.AddUser.NAME">增加一個使用者</String>
   <String Id="SHORTCUT.STARTWAVEFACE.NAME">aostream</String>
