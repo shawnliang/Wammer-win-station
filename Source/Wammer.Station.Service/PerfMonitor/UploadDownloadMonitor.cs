@@ -83,8 +83,6 @@ namespace Wammer.PerfMonitor
 				UpstreamNumCounter.Increment();
 
 				var uploadBytes = getUploadSize(arg);
-
-				this.LogInfoMsg("[upload] " + ((Wammer.Station.AttachmentUpload.UpstreamTask)arg.task).object_id + "   " + uploadBytes.ToString());
 				bytesToUploadCounter.IncrementBy(uploadBytes);
 			}
 		}
