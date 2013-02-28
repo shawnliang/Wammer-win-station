@@ -315,6 +315,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to connect with {0}.
+        /// </summary>
+        internal static string CONNECT_SERVICE_FAILED_PATTERN {
+            get {
+                return ResourceManager.GetString("CONNECT_SERVICE_FAILED_PATTERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected.
         /// </summary>
         internal static string CONNECTED {
@@ -393,6 +402,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string DEVICE_CONNECTED_PATTERN {
             get {
                 return ResourceManager.GetString("DEVICE_CONNECTED_PATTERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to disconnect with {0}.
+        /// </summary>
+        internal static string DISCONNECT_SERVICE_FAILED_PATTERN {
+            get {
+                return ResourceManager.GetString("DISCONNECT_SERVICE_FAILED_PATTERN", resourceCulture);
             }
         }
         
