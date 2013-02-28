@@ -213,14 +213,11 @@
   <data name="description.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="description.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="description.Location" type="System.Drawing.Point, System.Drawing">
     <value>49, 20</value>
   </data>
   <data name="description.Size" type="System.Drawing.Size, System.Drawing">
-    <value>262, 37</value>
+    <value>262, 30</value>
   </data>
   <data name="description.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -247,7 +244,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>398, 66</value>
+    <value>398, 55</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ServiceItemControl</value>
