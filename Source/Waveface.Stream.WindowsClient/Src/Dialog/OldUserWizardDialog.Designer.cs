@@ -48,10 +48,10 @@
 			// 
 			// panel1
 			// 
-			resources.ApplyResources(this.panel1, "panel1");
-			this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.panel1.Controls.Add(this.button2);
 			this.panel1.Controls.Add(this.button1);
+			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
 			// 
 			// button2
@@ -70,10 +70,10 @@
 			// 
 			// tabControl1
 			// 
-			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.Controls.Add(this.tabSignIn);
 			this.tabControl1.Controls.Add(this.tabPlan);
 			this.tabControl1.Controls.Add(this.tabImport);
+			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.HideTabs = true;
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
@@ -83,21 +83,22 @@
 			// 
 			// tabSignIn
 			// 
-			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabSignIn.Controls.Add(this.loginControl1);
+			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
 			// 
 			// loginControl1
 			// 
+			this.loginControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			resources.ApplyResources(this.loginControl1, "loginControl1");
 			this.loginControl1.Name = "loginControl1";
 			// 
 			// tabPlan
 			// 
-			resources.ApplyResources(this.tabPlan, "tabPlan");
-			this.tabPlan.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabPlan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabPlan.Controls.Add(this.choosePlanControl1);
+			resources.ApplyResources(this.tabPlan, "tabPlan");
 			this.tabPlan.Name = "tabPlan";
 			// 
 			// choosePlanControl1
@@ -107,9 +108,9 @@
 			// 
 			// tabImport
 			// 
-			resources.ApplyResources(this.tabImport, "tabImport");
-			this.tabImport.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabImport.Controls.Add(this.fileImportControl1);
+			resources.ApplyResources(this.tabImport, "tabImport");
 			this.tabImport.Name = "tabImport";
 			// 
 			// fileImportControl1
@@ -121,6 +122,7 @@
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.panel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

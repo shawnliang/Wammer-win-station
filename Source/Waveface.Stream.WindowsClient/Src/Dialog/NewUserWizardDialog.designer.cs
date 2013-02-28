@@ -34,11 +34,15 @@
 			this.buttonPrev = new System.Windows.Forms.Button();
 			this.tabControl1 = new Waveface.Stream.WindowsClient.TabControlEx();
 			this.tabIntro1 = new System.Windows.Forms.TabPage();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.tabIntro2 = new System.Windows.Forms.TabPage();
+			this.label4 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
-			this.tabIntro3 = new System.Windows.Forms.TabPage();
-			this.pictureBox3 = new System.Windows.Forms.PictureBox();
 			this.tabChoosePlan = new System.Windows.Forms.TabPage();
 			this.choosePlanControl1 = new Waveface.Stream.WindowsClient.ChoosePlanControl();
 			this.tabSignup = new System.Windows.Forms.TabPage();
@@ -53,8 +57,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.tabIntro2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-			this.tabIntro3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
 			this.tabChoosePlan.SuspendLayout();
 			this.tabSignup.SuspendLayout();
 			this.tabConnectCloudServices.SuspendLayout();
@@ -63,10 +65,10 @@
 			// 
 			// panel1
 			// 
-			resources.ApplyResources(this.panel1, "panel1");
-			this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.panel1.Controls.Add(this.buttonNext);
 			this.panel1.Controls.Add(this.buttonPrev);
+			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
 			// 
 			// buttonNext
@@ -85,68 +87,95 @@
 			// 
 			// tabControl1
 			// 
-			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.Controls.Add(this.tabIntro1);
 			this.tabControl1.Controls.Add(this.tabIntro2);
-			this.tabControl1.Controls.Add(this.tabIntro3);
 			this.tabControl1.Controls.Add(this.tabChoosePlan);
 			this.tabControl1.Controls.Add(this.tabSignup);
 			this.tabControl1.Controls.Add(this.tabConnectCloudServices);
 			this.tabControl1.Controls.Add(this.tabImportPhoto);
+			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.HideTabs = true;
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.PageIndex = 1;
+			this.tabControl1.PageIndex = 3;
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
 			// tabIntro1
 			// 
-			resources.ApplyResources(this.tabIntro1, "tabIntro1");
+			this.tabIntro1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+			this.tabIntro1.Controls.Add(this.label3);
+			this.tabIntro1.Controls.Add(this.label2);
+			this.tabIntro1.Controls.Add(this.label1);
 			this.tabIntro1.Controls.Add(this.pictureBox1);
+			resources.ApplyResources(this.tabIntro1, "tabIntro1");
 			this.tabIntro1.Name = "tabIntro1";
-			this.tabIntro1.UseVisualStyleBackColor = true;
+			// 
+			// label3
+			// 
+			resources.ApplyResources(this.label3, "label3");
+			this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(168)))), ((int)(((byte)(168)))), ((int)(((byte)(169)))));
+			this.label3.Name = "label3";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(111)))), ((int)(((byte)(110)))));
+			this.label2.Name = "label2";
+			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(111)))), ((int)(((byte)(90)))));
+			this.label1.Name = "label1";
 			// 
 			// pictureBox1
 			// 
 			resources.ApplyResources(this.pictureBox1, "pictureBox1");
-			this.pictureBox1.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.P1;
+			this.pictureBox1.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.PCIntro1;
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.TabStop = false;
 			// 
 			// tabIntro2
 			// 
-			resources.ApplyResources(this.tabIntro2, "tabIntro2");
+			this.tabIntro2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+			this.tabIntro2.Controls.Add(this.label4);
+			this.tabIntro2.Controls.Add(this.label5);
+			this.tabIntro2.Controls.Add(this.label6);
 			this.tabIntro2.Controls.Add(this.pictureBox2);
+			resources.ApplyResources(this.tabIntro2, "tabIntro2");
 			this.tabIntro2.Name = "tabIntro2";
-			this.tabIntro2.UseVisualStyleBackColor = true;
+			// 
+			// label4
+			// 
+			resources.ApplyResources(this.label4, "label4");
+			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(168)))), ((int)(((byte)(168)))), ((int)(((byte)(169)))));
+			this.label4.Name = "label4";
+			// 
+			// label5
+			// 
+			resources.ApplyResources(this.label5, "label5");
+			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(111)))), ((int)(((byte)(110)))));
+			this.label5.Name = "label5";
+			// 
+			// label6
+			// 
+			resources.ApplyResources(this.label6, "label6");
+			this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(228)))), ((int)(((byte)(111)))), ((int)(((byte)(90)))));
+			this.label6.Name = "label6";
 			// 
 			// pictureBox2
 			// 
+			this.pictureBox2.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.PCIntro2;
 			resources.ApplyResources(this.pictureBox2, "pictureBox2");
-			this.pictureBox2.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.P2;
 			this.pictureBox2.Name = "pictureBox2";
 			this.pictureBox2.TabStop = false;
 			// 
-			// tabIntro3
-			// 
-			resources.ApplyResources(this.tabIntro3, "tabIntro3");
-			this.tabIntro3.Controls.Add(this.pictureBox3);
-			this.tabIntro3.Name = "tabIntro3";
-			this.tabIntro3.UseVisualStyleBackColor = true;
-			// 
-			// pictureBox3
-			// 
-			resources.ApplyResources(this.pictureBox3, "pictureBox3");
-			this.pictureBox3.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.P3;
-			this.pictureBox3.Name = "pictureBox3";
-			this.pictureBox3.TabStop = false;
-			// 
 			// tabChoosePlan
 			// 
-			resources.ApplyResources(this.tabChoosePlan, "tabChoosePlan");
-			this.tabChoosePlan.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabChoosePlan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabChoosePlan.Controls.Add(this.choosePlanControl1);
+			resources.ApplyResources(this.tabChoosePlan, "tabChoosePlan");
 			this.tabChoosePlan.Name = "tabChoosePlan";
 			// 
 			// choosePlanControl1
@@ -156,9 +185,9 @@
 			// 
 			// tabSignup
 			// 
-			resources.ApplyResources(this.tabSignup, "tabSignup");
-			this.tabSignup.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabSignup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabSignup.Controls.Add(this.nativeSignupControl1);
+			resources.ApplyResources(this.tabSignup, "tabSignup");
 			this.tabSignup.Name = "tabSignup";
 			// 
 			// nativeSignupControl1
@@ -169,9 +198,9 @@
 			// 
 			// tabConnectCloudServices
 			// 
-			resources.ApplyResources(this.tabConnectCloudServices, "tabConnectCloudServices");
-			this.tabConnectCloudServices.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabConnectCloudServices.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabConnectCloudServices.Controls.Add(this.serviceImportControl1);
+			resources.ApplyResources(this.tabConnectCloudServices, "tabConnectCloudServices");
 			this.tabConnectCloudServices.Name = "tabConnectCloudServices";
 			// 
 			// serviceImportControl1
@@ -181,9 +210,9 @@
 			// 
 			// tabImportPhoto
 			// 
-			resources.ApplyResources(this.tabImportPhoto, "tabImportPhoto");
-			this.tabImportPhoto.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.tabImportPhoto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabImportPhoto.Controls.Add(this.fileImportControl1);
+			resources.ApplyResources(this.tabImportPhoto, "tabImportPhoto");
 			this.tabImportPhoto.Name = "tabImportPhoto";
 			// 
 			// fileImportControl1
@@ -208,8 +237,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.tabIntro2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-			this.tabIntro3.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
 			this.tabChoosePlan.ResumeLayout(false);
 			this.tabSignup.ResumeLayout(false);
 			this.tabConnectCloudServices.ResumeLayout(false);
@@ -235,8 +262,12 @@
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.TabPage tabIntro2;
 		private System.Windows.Forms.PictureBox pictureBox2;
-		private System.Windows.Forms.TabPage tabIntro3;
-		private System.Windows.Forms.PictureBox pictureBox3;
 		private SignupControl nativeSignupControl1;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label6;
 	}
 }

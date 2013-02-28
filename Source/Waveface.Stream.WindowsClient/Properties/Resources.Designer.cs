@@ -935,6 +935,20 @@ namespace Waveface.Stream.WindowsClient.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap PCIntro1 {
+            get {
+                object obj = ResourceManager.GetObject("PCIntro1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PCIntro2 {
+            get {
+                object obj = ResourceManager.GetObject("PCIntro2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg950\deff0\nouicompat\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset136 Arial;}}
         ///{\*\generator Riched20 6.2.9200}\viewkind4\uc1 

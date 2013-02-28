@@ -733,6 +733,8 @@
     <Content Include="Resources\P1.png" />
     <Content Include="Resources\P2.png" />
     <Content Include="Resources\P3.png" />
+    <None Include="Resources\PCIntro1.png" />
+    <None Include="Resources\PCIntro2.png" />
     <Content Include="Resources\qr_waveface_site.png" />
     <Content Include="Resources\software-update-available.png" />
     <None Include="Resources\streamUpdate_icon_512.png" />
