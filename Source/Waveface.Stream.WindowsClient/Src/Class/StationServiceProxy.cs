@@ -25,7 +25,7 @@ namespace Waveface.Stream.WindowsClient
 		private StationServiceProxy()
 		{
 			var stationProcess = Process.GetProcessesByName("Station.Service");
-			Array.ForEach(stationProcess, (proc) => proc.Kill());
+			Array.ForEach(stationProcess, (proc) => killProcess(proc));
 		}
 
 		public void StartService()
