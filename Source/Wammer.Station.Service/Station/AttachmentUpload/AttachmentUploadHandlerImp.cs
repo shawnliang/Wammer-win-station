@@ -121,7 +121,7 @@ namespace Wammer.Station.AttachmentUpload
 		/// </summary>
 		/// <param name="imageData"></param>
 		/// <returns>exif data; null is returned if no exif is embeded or error</returns>
-		exif extract(ArraySegment<byte> imageData);
+		exif extract(ArraySegment<byte> imageData, string file_name);
 	}
 
 
@@ -256,7 +256,7 @@ namespace Wammer.Station.AttachmentUpload
 		private exif extractExifFromOriginImage(UploadData uploadData)
 		{
 			if (uploadData.imageMeta == ImageMeta.Origin)
-				return exifExtractor.extract(uploadData.raw_data);
+				return exifExtractor.extract(uploadData.raw_data, uploadData.file_name);
 			else
 				return null;
 		}

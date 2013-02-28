@@ -8,7 +8,7 @@ namespace Wammer.Station.AttachmentUpload
 {
 	public class ExifExtractor : IExifExtractor
 	{
-		public exif extract(ArraySegment<byte> rawImage)
+		public exif extract(ArraySegment<byte> rawImage, string file_name)
 		{
 			DebugInfo.ShowMethod();
 			try
@@ -20,7 +20,7 @@ namespace Wammer.Station.AttachmentUpload
 			}
 			catch (Exception e)
 			{
-				this.LogWarnMsg("Cannot extract exif information", e);
+				this.LogWarnMsg("Cannot extract exif information from " + file_name, e);
 				return null;
 			}
 		}
