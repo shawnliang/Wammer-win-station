@@ -125,11 +125,11 @@ namespace Wammer.Station.AttachmentUpload
 
 		#endregion
 
-		public object GetCount()
+		public int GetCount()
 		{
 			lock (csLock)
 			{
-				return (highQueue.Count + mediumQueue.Count + lowQueue.Count).ToString();
+				return highQueue.Count + mediumQueue.Count + lowQueue.Count;
 			}
 		}
 	}
