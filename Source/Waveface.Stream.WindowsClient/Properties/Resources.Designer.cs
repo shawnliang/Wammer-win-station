@@ -371,13 +371,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Default_Landscape {
-            get {
-                object obj = ResourceManager.GetObject("Default_Landscape", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         /// <summary>
         ///   Looks up a localized string similar to Clicking &quot;Yes&quot; to receive an email with the instruction to delete your accounts (it&apos;s easy). Proceed?.
         /// </summary>
@@ -1026,36 +1019,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap P1 {
-            get {
-                object obj = ResourceManager.GetObject("P1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap P2 {
-            get {
-                object obj = ResourceManager.GetObject("P2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap P3 {
-            get {
-                object obj = ResourceManager.GetObject("P3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap PCIntro1 {
             get {
                 object obj = ResourceManager.GetObject("PCIntro1", resourceCulture);
@@ -1530,46 +1493,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static System.Drawing.Bitmap winControl2 {
             get {
                 object obj = ResourceManager.GetObject("winControl2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap windows_en_1 {
-            get {
-                object obj = ResourceManager.GetObject("windows_en_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap windows_en_2 {
-            get {
-                object obj = ResourceManager.GetObject("windows_en_2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap windows_zh_tw_1 {
-            get {
-                object obj = ResourceManager.GetObject("windows_zh_tw_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap windows_zh_tw_2 {
-            get {
-                object obj = ResourceManager.GetObject("windows_zh_tw_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

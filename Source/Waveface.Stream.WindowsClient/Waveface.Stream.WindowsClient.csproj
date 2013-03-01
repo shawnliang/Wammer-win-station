@@ -710,7 +710,6 @@
     <None Include="Resources\13.png" />
     <Content Include="Resources\button.appstore.png" />
     <Content Include="Resources\button.googleplay.png" />
-    <None Include="Resources\Default-Landscape.png" />
     <None Include="Resources\Facebook.png" />
     <Content Include="Resources\fb_btn.png" />
     <Content Include="Resources\fb_btn_press.png" />
@@ -731,9 +730,6 @@
     <Content Include="Resources\login_btn.png" />
     <Content Include="Resources\login_btn_press.png" />
     <None Include="Resources\or.png" />
-    <Content Include="Resources\P1.png" />
-    <Content Include="Resources\P2.png" />
-    <Content Include="Resources\P3.png" />
     <None Include="Resources\PCIntro1.png" />
     <None Include="Resources\PCIntro2.png" />
     <Content Include="Resources\qr_waveface_site.png" />
@@ -743,10 +739,6 @@
     <Content Include="Resources\stream_googleplay_qr.png" />
     <None Include="Resources\twitter.png" />
     <None Include="Resources\winControl2.png" />
-    <Content Include="Resources\windows_en_1.jpg" />
-    <Content Include="Resources\windows_en_2.jpg" />
-    <Content Include="Resources\windows_zh-tw_1.jpg" />
-    <Content Include="Resources\windows_zh-tw_2.jpg" />
     <None Include="Resources\WinLogo.png" />
     <Content Include="Web\images\colorbox\border.png" />
     <Content Include="Web\images\colorbox\controls.png" />
