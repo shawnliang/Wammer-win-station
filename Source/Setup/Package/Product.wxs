@@ -80,8 +80,8 @@
       <Custom Action="RemovePerfCounters" Before="RemoveFiles">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
-      <Custom Action="RemoveUrlAcl" Before="InstallFinalize">Installed</Custom>
-      <Custom Action="RemoveUrlAcl2" Before="InstallFinalize">Installed</Custom>
+      <Custom Action="RemoveUrlAcl" Before="InstallFinalize"><![CDATA[Installed AND VersionNT >= 601]]></Custom>
+      <Custom Action="RemoveUrlAcl2" Before="InstallFinalize"><![CDATA[Installed AND VersionNT >= 601]]></Custom>
       <Custom Action="CleanRemainingFiles" After="InstallFinalize">
         (&amp;MainFeature = 2) AND (!MainFeature = 3)
       </Custom>
@@ -92,8 +92,8 @@
       <Custom Action="AddPerfCounters" After="InstallFiles">
         (&amp;MainFeature = 3) AND NOT (!MainFeature = 3)
       </Custom>
-      <Custom Action="AddUrlAcl" Before="InstallFinalize">NOT Installed</Custom>
-      <Custom Action="AddUrlAcl2" Before="InstallFinalize">NOT Installed</Custom>
+      <Custom Action="AddUrlAcl" Before="InstallFinalize"><![CDATA[NOT Installed AND VersionNT >= 601]]></Custom>
+      <Custom Action="AddUrlAcl2" Before="InstallFinalize"><![CDATA[NOT Installed AND VersionNT >= 601]]></Custom>
       <Custom Action="StartAndWaitMongoDbReady" After="InstallFinalize">
         (&amp;MainFeature = 3)
       </Custom>
