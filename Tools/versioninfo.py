@@ -42,7 +42,7 @@ if __name__ == "__main__":
     # development
     dev_link = "http://develop.waveface.com:4343/extensions/windowsUpdate/versioninfo.xml"
     dev_title = "Version {0}".format(version)
-    dev_rnote = "http://develop.waveface.com:4343/extensions/windowsUpdate/rnotes-{0}.html".format(version)
+    dev_rnote = "http://develop.waveface.com:4343/extensions/windowsUpdate/rnotes.html"
     dev_binfile = "development-WavefaceSetup-{0}.exe".format(version)
     dev_binurl = "http://develop.waveface.com:4343/extensions/windowsUpdate/{0}".format(dev_binfile)
     dev_binlen = os.path.getsize(os.path.join(solution_dir, dev_binfile))
