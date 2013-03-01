@@ -282,7 +282,7 @@ namespace Wammer.Station.Timeline
 
 				if (evtargs.IsOriginalAttachment() && user.ReachOriginSizeLimit())
 				{
-					logger.DebugFormat("origin size limit {} is reached. Skip", user.origin_limit);
+					logger.DebugFormat("origin size limit {} is reached. Skip", user.origin_limit.ToString());
 					return;
 				}
 

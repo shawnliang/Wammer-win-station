@@ -129,7 +129,7 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			lock (csLock)
 			{
-				return highQueue.Count + mediumQueue.Count + lowQueue.Count;
+				return (highQueue.Count + mediumQueue.Count + lowQueue.Count).ToString();
 			}
 		}
 	}

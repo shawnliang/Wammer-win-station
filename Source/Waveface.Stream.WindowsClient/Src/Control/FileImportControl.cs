@@ -253,7 +253,7 @@ namespace Waveface.Stream.WindowsClient
 				bool origValue = (bool)dataGridView1[e.ColumnIndex, e.RowIndex].Value;
 
 				dataGridView1[e.ColumnIndex, e.RowIndex].Value = !origValue;
-
+				
 				dataGridView1.EndEdit();
 			}
 		}

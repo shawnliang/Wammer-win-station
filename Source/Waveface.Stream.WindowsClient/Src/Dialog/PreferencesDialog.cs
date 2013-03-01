@@ -175,7 +175,7 @@ namespace Waveface.Stream.WindowsClient
 			GetSizeAndUnit(quota, ref size, ref unit);
 
 			var usagePercent = (int)(((double)userInfo.TotalUsage) / userInfo.TotalQuota * 100);
-			usageDetailControl1.CloudTotalUsage = string.Format("{0}% of {1}{2}", usagePercent, size, unit);
+			usageDetailControl1.CloudTotalUsage = string.Format("{0}% of {1}{2}", usagePercent.ToString(), size.ToString(), unit);
 		}
 
 

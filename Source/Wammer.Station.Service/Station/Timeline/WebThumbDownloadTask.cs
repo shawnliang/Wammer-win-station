@@ -40,7 +40,7 @@ namespace Wammer.Station.Timeline
 			if (string.IsNullOrEmpty(session_token))
 				throw new ArgumentNullException("session_token");
 
-			var saved_path = Path.Combine(FileStorage.GetCachePath(user_id), string.Format("{0}_webthumb_{1}.dat", object_id, webthumb_id));
+			var saved_path = Path.Combine(FileStorage.GetCachePath(user_id), string.Format("{0}_webthumb_{1}.dat", object_id, webthumb_id.ToString()));
 
 			AttachmentApi.DownloadWebThumb(session_token, apikey, object_id, webthumb_id, saved_path);
 
@@ -56,7 +56,7 @@ namespace Wammer.Station.Timeline
 
 		public string Name
 		{
-			get { return string.Format("{0}_webthumb_{1}", object_id, webthumb_id); }
+			get { return string.Format("{0}_webthumb_{1}", object_id, webthumb_id.ToString()); }
 		}
 
 		public string UserId

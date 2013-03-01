@@ -210,7 +210,7 @@ namespace Wammer.Station
 				throw new ArgumentNullException("handler");
 
 			string absPath = null;
-			string urlPrefix = "http://+:" + m_Port;
+			string urlPrefix = "http://+:" + m_Port.ToString();
 
 			if (path.StartsWith("/"))
 			{

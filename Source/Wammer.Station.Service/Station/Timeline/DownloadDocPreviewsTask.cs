@@ -43,10 +43,11 @@ namespace Wammer.Station.Timeline
 			{
 				var downloadIndex = nPreviewsDownloaded + 1;
 
+				//TODO: StringBuffer?!
 				var url = CloudServer.BaseUrl + "attachments/view?" +
 					"object_id=" + HttpUtility.UrlEncode(doc_id) + "&" +
 					"target=preview&" +
-					"page=" + downloadIndex + "&" +
+					"page=" + downloadIndex.ToString() + "&" +
 					"session_token=" + HttpUtility.UrlEncode(user.session_token) + "&" +
 					"apikey=" + CloudServer.APIKey;
 

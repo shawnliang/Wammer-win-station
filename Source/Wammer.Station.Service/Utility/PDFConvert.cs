@@ -472,9 +472,9 @@ namespace Wammer.Utility
 			args.Add("-dNOPAUSE");
 			args.Add("-dBATCH");
 			if (_iFirstPageToConvert > 0)
-				args.Add(string.Format("-dFirstPage={0}", _iFirstPageToConvert));
+				args.Add(string.Format("-dFirstPage={0}", _iFirstPageToConvert.ToString()));
 			if ((_iLastPageToConvert > 0) && (_iLastPageToConvert >= _iFirstPageToConvert))
-				args.Add(string.Format("-dLastPage={0}", _iLastPageToConvert));
+				args.Add(string.Format("-dLastPage={0}", _iLastPageToConvert.ToString()));
 			args.Add(printParametersFile);
 			args.Add(inputFile);
 			bool result = false;
@@ -649,10 +649,10 @@ namespace Wammer.Utility
 				//Ok now check argument per argument and compile them
 				//If i want a jpeg i can set also quality
 				if (_sDeviceFormat == "jpeg" && _iJPEGQuality > 0 && _iJPEGQuality < 101)
-					lstExtraArgs.Add(string.Format(GS_JpegQualityFormat, _iJPEGQuality));
+					lstExtraArgs.Add(string.Format(GS_JpegQualityFormat, _iJPEGQuality.ToString()));
 				//if i provide size it will override the paper size
 				if (_iWidth > 0 && _iHeight > 0)
-					lstExtraArgs.Add(string.Format(GS_PageSizeFormat, _iWidth, _iHeight));
+					lstExtraArgs.Add(string.Format(GS_PageSizeFormat, _iWidth.ToString(), _iHeight.ToString()));
 				else//otherwise if aviable use the papersize
 				{
 					if (!string.IsNullOrEmpty(_sDefaultPageSize))
@@ -668,28 +668,28 @@ namespace Wammer.Utility
 				if (_iGraphicsAlphaBit > 0)
 					lstExtraArgs.Add(string.Format(GS_GraphicsAlphaBits, _iGraphicsAlphaBit));
 				if (_iTextAlphaBit > 0)
-					lstExtraArgs.Add(string.Format(GS_TextAlphaBits, _iTextAlphaBit));
+					lstExtraArgs.Add(string.Format(GS_TextAlphaBits, _iTextAlphaBit.ToString()));
 				//Should i try to fit?
 				if (_bFitPage) lstExtraArgs.Add(GS_FitPage);
 				//Do i have a forced resolution?
 				if (_iResolutionX > 0)
 				{
 					if (_iResolutionY > 0)
-						lstExtraArgs.Add(String.Format(GS_ResolutionXYFormat, _iResolutionX, _iResolutionY));
+						lstExtraArgs.Add(String.Format(GS_ResolutionXYFormat, _iResolutionX.ToString(), _iResolutionY.ToString()));
 					else
-						lstExtraArgs.Add(String.Format(GS_ResolutionXFormat, _iResolutionX));
+						lstExtraArgs.Add(String.Format(GS_ResolutionXFormat, _iResolutionX.ToString()));
 				}
 				if (_iFirstPageToConvert > 0)
-					lstExtraArgs.Add(String.Format(GS_FirstPageFormat, _iFirstPageToConvert));
+					lstExtraArgs.Add(String.Format(GS_FirstPageFormat, _iFirstPageToConvert.ToString()));
 				if (_iLastPageToConvert > 0)
 				{
 					if ((_iFirstPageToConvert > 0) && (_iFirstPageToConvert > _iLastPageToConvert))
-						throw new ArgumentOutOfRangeException(string.Format("The 1st page to convert ({0}) can't be after then the last one ({1})", _iFirstPageToConvert, _iLastPageToConvert));
-					lstExtraArgs.Add(String.Format(GS_LastPageFormat, _iLastPageToConvert));
+						throw new ArgumentOutOfRangeException(string.Format("The 1st page to convert ({0}) can't be after then the last one ({1})", _iFirstPageToConvert.ToString(), _iLastPageToConvert.ToString()));
+					lstExtraArgs.Add(String.Format(GS_LastPageFormat, _iLastPageToConvert.ToString()));
 				}
 				//Set in how many threads i want to do the work
 				if (_iRenderingThreads > 0)
-					lstExtraArgs.Add(String.Format(GS_RenderingThreads, _iRenderingThreads));
+					lstExtraArgs.Add(String.Format(GS_RenderingThreads, _iRenderingThreads.ToString()));
 
 				//If i want to redirect write it to the standard output!
 				if (_bRedirectIO)
@@ -838,7 +838,7 @@ namespace Wammer.Utility
 			string str = "";
 			for (int i = 0; i < intBytes; i++)
 			{
-				str += (char)aByte[i];
+				str += aByte[i].ToString();
 			}
 			// Finally we output the message
 			//Console.Write(str);

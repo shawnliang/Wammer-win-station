@@ -27,7 +27,7 @@ namespace Wammer.Cloud
 			                 	};
 
 			if (since_seq_num >= 0)
-				parameters.Add("since_seq_num", since_seq_num);
+				parameters.Add("since_seq_num", since_seq_num.ToString());
 
 			return CloudServer.request<ChangeLogResponse>(CloudServer.BaseUrl + "changelogs/get", parameters, false);
 		}

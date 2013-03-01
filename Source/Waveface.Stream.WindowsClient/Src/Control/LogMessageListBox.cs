@@ -44,7 +44,7 @@ namespace Waveface.Stream.WindowsClient
 					return;
 				}
 
-				m_ListBox.Items.Add(string.Format("{0}\t{1}", DateTime.Now, message));
+				m_ListBox.Items.Add(string.Format("{0}\t{1}", DateTime.Now.ToString(), message));
 			}
 		}
 
