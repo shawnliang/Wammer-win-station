@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -170,6 +171,16 @@ namespace Waveface.Stream.WindowsClient
 					}
 				}
 				return;
+			}
+
+			var cultureName = (string)StationRegistry.GetValue("Culture", null);
+			if (!string.IsNullOrEmpty(cultureName))
+			{
+				var cultureInfo = new CultureInfo(cultureName);
+				var currentThread = Thread.CurrentThread;
+
+				currentThread.CurrentCulture = cultureInfo;
+				currentThread.CurrentUICulture = cultureInfo;
 			}
 
 			var splashScreen = new SplashScreen();
