@@ -110,9 +110,13 @@
 	-->
   <Import Condition="" Project="$(SharpSetupTargetsPath)\SharpSetup.WixTranslation.targets" />
   <PropertyGroup>
-    <PreBuildEvent>%40echo "$(SolutionDir)..\Tools\packWeb.bat"</PreBuildEvent>
+    <PostBuildEvent>%40echo if exist ..\WebFiles.zip del ..\WebFiles.zip</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>%40echo if exist ..\WebFiles.zip del ..\WebFiles.zip</PostBuildEvent>
+    <PreBuildEvent>%40echo "$(SolutionDir)..\Tools\packWeb.bat"
+
+if exist "$(SolutionDir)..\Bin\$(ConfigurationName)\pdb" rmdir /s /q "$(SolutionDir)..\Bin\$(ConfigurationName)\pdb"
+mkdir "$(SolutionDir)..\Bin\$(ConfigurationName)\pdb"
+copy "$(SolutionDir)..\Bin\$(ConfigurationName)\"%2a.pdb "$(SolutionDir)..\Bin\$(ConfigurationName)\pdb"</PreBuildEvent>
   </PropertyGroup>
 </Project>
