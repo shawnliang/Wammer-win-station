@@ -16,8 +16,8 @@ namespace Waveface.Stream.WindowsClient
 
 		private Bitmap GetIcon()
 		{
-			var width = 64;
-			var height = 64;
+			var width = 48;
+			var height = 48;
 
 			Bitmap result = new Bitmap(width, height);
 			using (Graphics g = Graphics.FromImage(result))
