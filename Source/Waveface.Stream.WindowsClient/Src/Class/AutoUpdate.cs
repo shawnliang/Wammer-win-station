@@ -14,11 +14,25 @@ namespace Waveface.Stream.WindowsClient
 		private NetSparkleAppCastItem versionInfo;
 		private bool forceUpgrade;
 
+		private Bitmap GetIcon()
+		{
+			var width = 64;
+			var height = 64;
+
+			Bitmap result = new Bitmap(width, height);
+			using (Graphics g = Graphics.FromImage(result))
+				g.DrawImage(Resources.streamUpdate_icon_512, 0, 0, width, height);
+			return result;
+		}
+
+
 		public AutoUpdate(bool forceUpgrade)
 		{
 			m_autoUpdator = new Sparkle(UpdateURL);
-			m_autoUpdator.ApplicationIcon = Resources.streamUpdate_icon_512;
-			m_autoUpdator.ApplicationWindowIcon = Icon.FromHandle(Resources.streamUpdate_icon_512.GetHicon());
+
+			var icon = GetIcon();
+			m_autoUpdator.ApplicationIcon = icon;
+			m_autoUpdator.ApplicationWindowIcon = Icon.FromHandle(icon.GetHicon());
 
 			this.forceUpgrade = forceUpgrade;
 		}
