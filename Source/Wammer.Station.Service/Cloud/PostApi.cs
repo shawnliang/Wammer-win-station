@@ -141,8 +141,8 @@ namespace Wammer.Cloud
 				{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
 				{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 				{CloudServer.PARAM_API_KEY, CloudServer.APIKey},
-				{CloudServer.PARAM_DATUM, seq_num},
-				{CloudServer.PARAM_LIMIT, limit},
+				{CloudServer.PARAM_DATUM, seq_num.ToString()},
+				{CloudServer.PARAM_LIMIT, limit.ToString()},
 				{CloudServer.PARAM_COMPONENT_OPTIONS, "[\"comment\",\"preview\",\"soul\",\"content\"]"}
 			};
 
@@ -170,7 +170,7 @@ namespace Wammer.Cloud
 		{
 			var parameters = new Dictionary<object, object>
 			                 	{
-			                 		{CloudServer.PARAM_LIMIT, limit},
+			                 		{CloudServer.PARAM_LIMIT, limit.ToString()},
 			                 		{CloudServer.PARAM_GROUP_ID, driver.groups[0].group_id},
 			                 		{CloudServer.PARAM_SESSION_TOKEN, driver.session_token},
 			                 		{CloudServer.PARAM_API_KEY, CloudServer.APIKey},

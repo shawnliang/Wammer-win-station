@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 
 public static class ControlExtension
@@ -13,15 +14,15 @@ public static class ControlExtension
 	{
 		//Taxes: Remote Desktop Connection and painting
 		//http://blogs.msdn.com/oldnewthing/archive/2006/01/03/508694.aspx
-		if (System.Windows.Forms.SystemInformation.TerminalServerSession)
+		if (SystemInformation.TerminalServerSession)
 			return;
 
-		System.Reflection.PropertyInfo aProp =
-			  typeof(System.Windows.Forms.Control).GetProperty(
+		PropertyInfo prop =
+			  typeof(Control).GetProperty(
 					"DoubleBuffered",
-					System.Reflection.BindingFlags.NonPublic |
-					System.Reflection.BindingFlags.Instance);
+					BindingFlags.NonPublic |
+					BindingFlags.Instance);
 
-		aProp.SetValue(control, true, null);
+		prop.SetValue(control, true, null);
 	}
 }

@@ -111,7 +111,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				if (string.IsNullOrEmpty(taskStatus.Error))
 				{
-					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Copied);
+					dataGridView1.Rows.Add(deviceCombobox.SelectedItem, taskStatus.Copied.ToString());
 				}
 				else
 				{
@@ -120,7 +120,7 @@ namespace Waveface.Stream.WindowsClient
 
 				progressBar.Maximum = taskStatus.Total;
 				progressBar.Value = taskStatus.Total;
-				progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.Copied, taskStatus.CopyFailed.Count, taskStatus.Skipped);
+				progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.Copied.ToString(), taskStatus.CopyFailed.Count.ToString(), taskStatus.Skipped.ToString());
 				timer.Stop();
 				importButton.Enabled = true;
 			}
@@ -128,7 +128,7 @@ namespace Waveface.Stream.WindowsClient
 			{
 				progressBar.Maximum = taskStatus.Total;
 				progressBar.Value = taskStatus.Skipped + taskStatus.Copied;
-				progressText.Text = string.Format("{0} files processed", taskStatus.Copied + taskStatus.CopyFailed.Count + taskStatus.Skipped);
+				progressText.Text = string.Format("{0} files processed", (taskStatus.Copied + taskStatus.CopyFailed.Count + taskStatus.Skipped).ToString());
 			}
 		}
 

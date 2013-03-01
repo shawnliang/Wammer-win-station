@@ -210,7 +210,7 @@ namespace Wammer.Station.AttachmentView
 			}
 			catch
 			{
-				throw new FileNotFoundException("attachment " + dbDoc.object_id + " " + meta + "is not found");
+				throw new FileNotFoundException("attachment " + dbDoc.object_id + " " + meta.ToString() + "is not found");
 			}
 		}
 

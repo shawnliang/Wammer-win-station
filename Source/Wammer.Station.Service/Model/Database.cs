@@ -10,7 +10,7 @@ namespace Wammer.Model
 	{
 		#region Const
 		private const string MONGODB_URL = "mongodb://127.0.0.1:{0}/?safe=true;connectTimeoutMS=10000";
-		private const int DEFAULT_MONGODB_PORT = 10319;
+		private const string DEFAULT_MONGODB_PORT = "10319";
 		#endregion
 
 		#region Static Var

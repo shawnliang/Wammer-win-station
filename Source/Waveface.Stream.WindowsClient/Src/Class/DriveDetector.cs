@@ -267,7 +267,7 @@ namespace Dolinay
 				throw new ArgumentException("Drive path must be supplied to register for Query remove.");
 
 			if (fileOnDrive.Length == 2 && fileOnDrive[1] == ':')
-				fileOnDrive += '\\';        // append "\\" if only drive letter with ":" was passed in.
+				fileOnDrive += "\\";        // append "\\" if only drive letter with ":" was passed in.
 
 			if (mDeviceNotifyHandle != IntPtr.Zero)
 			{
@@ -352,7 +352,7 @@ namespace Dolinay
 							if (tempDeviceArrived != null)
 							{
 								DriveDetectorEventArgs e = new DriveDetectorEventArgs();
-								e.Drive = c + ":\\";
+								e.Drive = c.ToString() + ":\\";
 								tempDeviceArrived(this, e);
 
 								// Register for query remove if requested
@@ -364,7 +364,7 @@ namespace Dolinay
 										RegisterForDeviceChange(false, null);
 									}
 
-									RegisterQuery(c + ":\\");
+									RegisterQuery(c.ToString() + ":\\");
 								}
 							}     // if  has event handler
 
@@ -444,7 +444,7 @@ namespace Dolinay
 								if (tempDeviceRemoved != null)
 								{
 									DriveDetectorEventArgs e = new DriveDetectorEventArgs();
-									e.Drive = c + ":\\";
+									e.Drive = c.ToString() + ":\\";
 									tempDeviceRemoved(this, e);
 								}
 

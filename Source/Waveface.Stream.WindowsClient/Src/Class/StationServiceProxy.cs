@@ -60,13 +60,13 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			var dur = (DateTime.Now - begin).TotalMilliseconds;
-			LogManager.GetLogger(typeof(StationServiceProxy)).InfoFormat("Close station process successfully. {0} ms.", dur);
+			LogManager.GetLogger(typeof(StationServiceProxy)).InfoFormat("Close station process successfully. {0} ms.", dur.ToString());
 		}
 
 		private void stationProc_Exited(object sender, EventArgs e)
 		{
 			//TODO: pass this event to other handler? or ??
-			LogManager.GetLogger(typeof(StationServiceProxy)).ErrorFormat("Station process is closed. Exit code : {0}", stationProc.ExitCode);
+			LogManager.GetLogger(typeof(StationServiceProxy)).ErrorFormat("Station process is closed. Exit code : {0}", stationProc.ExitCode.ToString());
 		}
 
 

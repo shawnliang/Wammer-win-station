@@ -141,15 +141,15 @@ namespace Waveface.Stream.WindowsClient
 			}
 			else if (task.IsIndexing())
 			{
-				return string.Format(Resources.INDEXING_FILE_PATTERN, task.Indexed + task.Skipped, task.Total);
+				return string.Format(Resources.INDEXING_FILE_PATTERN, (task.Indexed + task.Skipped).ToString(), task.Total.ToString());
 			}
 			else if (task.IsCopying())
 			{
-				return string.Format(Resources.COPYING_FILE_PATTERN, task.Copied, task.Indexed);
+				return string.Format(Resources.COPYING_FILE_PATTERN, task.Copied.ToString(), task.Indexed.ToString());
 			}
 			else if (task.IsThumbnailing())
 			{
-				return string.Format(Resources.GENERATING_PREVIEW_PATTERN, task.Thumbnailed, task.Indexed);
+				return string.Format(Resources.GENERATING_PREVIEW_PATTERN, task.Thumbnailed.ToString(), task.Indexed.ToString());
 			}
 			else if (task.IsUploading())
 			{

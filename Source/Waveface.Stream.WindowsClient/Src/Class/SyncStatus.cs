@@ -188,7 +188,7 @@ namespace Waveface.Stream.WindowsClient
 										 Resources.UPLOAD_INDICATOR,
 					//(upRemainedCount > 999) ? "999+" : upRemainedCount.ToString(),
 										 mbToUpload,
-										 upSpeed,
+										 upSpeed.ToString(),
 										 upSpeedUnit);
 			}
 
@@ -202,7 +202,7 @@ namespace Waveface.Stream.WindowsClient
 										 Resources.DOWNLOAD_INDICATOR,
 					//(downloadRemainedCount > 999) ? "999+" : downloadRemainedCount.ToString(),
 										 mbToDownload,
-										 downloadSpeed,
+										 downloadSpeed.ToString(),
 										 downloadSpeedUnit);
 			}
 
