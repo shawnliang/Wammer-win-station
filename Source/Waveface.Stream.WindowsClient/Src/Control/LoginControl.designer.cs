@@ -48,12 +48,12 @@
 			// 
 			// panel1
 			// 
-			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Controls.Add(this.fbLoginButton1);
 			this.panel1.Controls.Add(this.forgotPwdLabel);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.loginButton);
 			this.panel1.Controls.Add(this.loginInputBox1);
+			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
 			// 
 			// fbLoginButton1
@@ -91,9 +91,9 @@
 			// 
 			// LoginControl
 			// 
-			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "LoginControl";
+			resources.ApplyResources(this, "$this");
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();

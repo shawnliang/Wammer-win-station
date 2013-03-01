@@ -32,14 +32,13 @@
 			this.emailBox = new Waveface.Stream.WindowsClient.CueTextBox();
 			this.passwordBox = new Waveface.Stream.WindowsClient.CueTextBox();
 			this.nameBox = new Waveface.Stream.WindowsClient.CueTextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.nativeSignupButton = new System.Windows.Forms.Button();
 			this.fbButton = new Waveface.Stream.WindowsClient.FBLoginButton();
+			this.label1 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// emailBox
@@ -58,16 +57,6 @@
 			resources.ApplyResources(this.nameBox, "nameBox");
 			this.nameBox.Name = "nameBox";
 			this.nameBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nameBox_KeyPress);
-			// 
-			// label1
-			// 
-			resources.ApplyResources(this.label1, "label1");
-			this.label1.Name = "label1";
-			// 
-			// label2
-			// 
-			resources.ApplyResources(this.label2, "label2");
-			this.label2.Name = "label2";
 			// 
 			// label3
 			// 
@@ -103,17 +92,21 @@
 			this.fbButton.Name = "fbButton";
 			this.fbButton.Click += new System.EventHandler(this.fbButton_Click);
 			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.Name = "label1";
+			// 
 			// SignupControl
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.nativeSignupButton);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.nameBox);
 			this.Controls.Add(this.passwordBox);
 			this.Controls.Add(this.emailBox);
@@ -130,12 +123,11 @@
 		private CueTextBox emailBox;
 		private CueTextBox passwordBox;
 		private CueTextBox nameBox;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Button nativeSignupButton;
+		private System.Windows.Forms.Label label1;
 	}
 }

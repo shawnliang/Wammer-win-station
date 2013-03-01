@@ -65,10 +65,10 @@
 			// 
 			// panel1
 			// 
-			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.panel1.Controls.Add(this.buttonNext);
 			this.panel1.Controls.Add(this.buttonPrev);
+			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
 			// 
 			// buttonNext
@@ -87,13 +87,13 @@
 			// 
 			// tabControl1
 			// 
-			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.Controls.Add(this.tabIntro1);
 			this.tabControl1.Controls.Add(this.tabIntro2);
 			this.tabControl1.Controls.Add(this.tabChoosePlan);
 			this.tabControl1.Controls.Add(this.tabSignup);
 			this.tabControl1.Controls.Add(this.tabConnectCloudServices);
 			this.tabControl1.Controls.Add(this.tabImportPhoto);
+			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.HideTabs = true;
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
@@ -103,12 +103,12 @@
 			// 
 			// tabIntro1
 			// 
-			resources.ApplyResources(this.tabIntro1, "tabIntro1");
 			this.tabIntro1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabIntro1.Controls.Add(this.label3);
 			this.tabIntro1.Controls.Add(this.label2);
 			this.tabIntro1.Controls.Add(this.label1);
 			this.tabIntro1.Controls.Add(this.pictureBox1);
+			resources.ApplyResources(this.tabIntro1, "tabIntro1");
 			this.tabIntro1.Name = "tabIntro1";
 			// 
 			// label3
@@ -138,12 +138,12 @@
 			// 
 			// tabIntro2
 			// 
-			resources.ApplyResources(this.tabIntro2, "tabIntro2");
 			this.tabIntro2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabIntro2.Controls.Add(this.label4);
 			this.tabIntro2.Controls.Add(this.label5);
 			this.tabIntro2.Controls.Add(this.label6);
 			this.tabIntro2.Controls.Add(this.pictureBox2);
+			resources.ApplyResources(this.tabIntro2, "tabIntro2");
 			this.tabIntro2.Name = "tabIntro2";
 			// 
 			// label4
@@ -173,9 +173,9 @@
 			// 
 			// tabChoosePlan
 			// 
-			resources.ApplyResources(this.tabChoosePlan, "tabChoosePlan");
 			this.tabChoosePlan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabChoosePlan.Controls.Add(this.choosePlanControl1);
+			resources.ApplyResources(this.tabChoosePlan, "tabChoosePlan");
 			this.tabChoosePlan.Name = "tabChoosePlan";
 			// 
 			// choosePlanControl1
@@ -185,9 +185,9 @@
 			// 
 			// tabSignup
 			// 
-			resources.ApplyResources(this.tabSignup, "tabSignup");
 			this.tabSignup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabSignup.Controls.Add(this.nativeSignupControl1);
+			resources.ApplyResources(this.tabSignup, "tabSignup");
 			this.tabSignup.Name = "tabSignup";
 			// 
 			// nativeSignupControl1
@@ -198,9 +198,9 @@
 			// 
 			// tabConnectCloudServices
 			// 
-			resources.ApplyResources(this.tabConnectCloudServices, "tabConnectCloudServices");
 			this.tabConnectCloudServices.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabConnectCloudServices.Controls.Add(this.serviceImportControl1);
+			resources.ApplyResources(this.tabConnectCloudServices, "tabConnectCloudServices");
 			this.tabConnectCloudServices.Name = "tabConnectCloudServices";
 			// 
 			// serviceImportControl1
@@ -210,9 +210,9 @@
 			// 
 			// tabImportPhoto
 			// 
-			resources.ApplyResources(this.tabImportPhoto, "tabImportPhoto");
 			this.tabImportPhoto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabImportPhoto.Controls.Add(this.fileImportControl1);
+			resources.ApplyResources(this.tabImportPhoto, "tabImportPhoto");
 			this.tabImportPhoto.Name = "tabImportPhoto";
 			// 
 			// fileImportControl1
