@@ -730,6 +730,7 @@
     <Content Include="Resources\input_box-2.png" />
     <Content Include="Resources\login_btn.png" />
     <Content Include="Resources\login_btn_press.png" />
+    <None Include="Resources\or.png" />
     <Content Include="Resources\P1.png" />
     <Content Include="Resources\P2.png" />
     <Content Include="Resources\P3.png" />

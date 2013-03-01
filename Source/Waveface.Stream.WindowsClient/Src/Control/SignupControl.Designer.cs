@@ -39,6 +39,8 @@
 			this.nativeSignupButton = new System.Windows.Forms.Button();
 			this.fbButton = new Waveface.Stream.WindowsClient.FBLoginButton();
 			this.label1 = new System.Windows.Forms.Label();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// emailBox
@@ -95,12 +97,22 @@
 			// label1
 			// 
 			resources.ApplyResources(this.label1, "label1");
+			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label1.Name = "label1";
+			// 
+			// pictureBox1
+			// 
+			this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+			this.pictureBox1.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.or;
+			resources.ApplyResources(this.pictureBox1, "pictureBox1");
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.TabStop = false;
 			// 
 			// SignupControl
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.nativeSignupButton);
 			this.Controls.Add(this.label6);
@@ -112,6 +124,7 @@
 			this.Controls.Add(this.emailBox);
 			this.Controls.Add(this.fbButton);
 			this.Name = "SignupControl";
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -129,5 +142,6 @@
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Button nativeSignupButton;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.PictureBox pictureBox1;
 	}
 }
