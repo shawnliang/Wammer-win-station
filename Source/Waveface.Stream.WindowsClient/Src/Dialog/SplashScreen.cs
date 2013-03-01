@@ -70,8 +70,6 @@ namespace Waveface.Stream.WindowsClient
 		{
 			InitializeComponent();
 
-			this.ClientSize = BackgroundImage.Size;
-
 			this.Load += SplashScreen_Load;
 		}
 		#endregion
