@@ -3,7 +3,7 @@ import sys
 import os
 import datetime
 
-solution_dir = os.path.dirname(os.path.abspath(__file__))
+solution_dir = sys.argv[2]
 
 
 def genxml(link, title, rnote, pubdate, binfile, binurl, binlen, binver, xmlfile):
@@ -11,7 +11,7 @@ def genxml(link, title, rnote, pubdate, binfile, binurl, binlen, binver, xmlfile
 
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
     <channel>
-        <title>Waveface Windows Program</title>
+        <title>aostream station for Windows</title>
         <link>{0}</link>
         <description></description>
         <language>all</language>
@@ -30,7 +30,7 @@ def genxml(link, title, rnote, pubdate, binfile, binurl, binlen, binver, xmlfile
 </rss>
 """.format(link, title, rnote, pubdate, binurl, binlen, binver)
 
-    with open(os.path.join(os.path.dirname(solution_dir), xmlfile), "w") as f:
+    with open(os.path.join(solution_dir, xmlfile), "w") as f:
         f.write(xml)
 
 
@@ -45,16 +45,16 @@ if __name__ == "__main__":
     dev_rnote = "http://develop.waveface.com:4343/extensions/windowsUpdate/rnotes-{0}.html".format(version)
     dev_binfile = "development-WavefaceSetup-{0}.exe".format(version)
     dev_binurl = "http://develop.waveface.com:4343/extensions/windowsUpdate/{0}".format(dev_binfile)
-    dev_binlen = os.path.getsize(os.path.join(os.path.dirname(solution_dir), dev_binfile))
+    dev_binlen = os.path.getsize(os.path.join(solution_dir, dev_binfile))
     dev_binver = version
     genxml(dev_link, dev_title, dev_rnote, pubdate, dev_binfile, dev_binurl, dev_binlen, dev_binver, "versioninfo_dev.xml")
 
     # production
     link = "https://waveface.com/extensions/windowsUpdate/versioninfo.xml"
     title = "Version {0}".format(version)
-    rnote = "https://waveface.com/extensions/windowsUpdate/rnotes-{0}.html".format(version)
+    rnote = "https://waveface.com/release/windows.en.html"
     binfile = "production-WavefaceSetup-{0}.exe".format(version)
     binurl = "https://waveface.com/extensions/windowsUpdate/{0}".format(binfile)
-    binlen = os.path.getsize(os.path.join(os.path.dirname(solution_dir), binfile))
+    binlen = os.path.getsize(os.path.join(solution_dir, binfile))
     binver = version
     genxml(link, title, rnote, pubdate, binfile, binurl, binlen, binver, "versioninfo.xml")

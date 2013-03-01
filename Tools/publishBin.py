@@ -5,12 +5,12 @@ import shutil
 from ftplib import FTP
 
 solution_dir = sys.argv[2]
-Wammer_release_dir = os.path.join(solution_dir, "Bin/Release")
+pdb_dir = os.path.join(solution_dir, "Bin/Release/pdb")
 
 if __name__ == "__main__":
     version = sys.argv[1]
     os.mkdir(version)
-    for pdb in glob.glob("{0}/*.pdb".format(Wammer_release_dir)):
+    for pdb in glob.glob("{0}/*.pdb".format(pdb_dir)):
         shutil.copy2(pdb, version)
 
 	shutil.copy2('{0}/development-WavefaceSetup-{1}.exe'.format(solution_dir, version), version)
