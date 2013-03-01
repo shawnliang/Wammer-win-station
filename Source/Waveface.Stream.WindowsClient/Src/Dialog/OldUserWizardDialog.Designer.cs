@@ -34,11 +34,11 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.tabControl1 = new Waveface.Stream.WindowsClient.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
-			this.loginControl1 = new Waveface.Stream.WindowsClient.LoginControl();
 			this.tabPlan = new System.Windows.Forms.TabPage();
 			this.choosePlanControl1 = new Waveface.Stream.WindowsClient.ChoosePlanControl();
 			this.tabImport = new System.Windows.Forms.TabPage();
 			this.fileImportControl1 = new Waveface.Stream.WindowsClient.FileImportControl();
+			this.loginControl1 = new Waveface.Stream.WindowsClient.LoginControl();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
@@ -83,16 +83,9 @@
 			// 
 			// tabSignIn
 			// 
-			this.tabSignIn.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.tabSignIn.Controls.Add(this.loginControl1);
 			resources.ApplyResources(this.tabSignIn, "tabSignIn");
 			this.tabSignIn.Name = "tabSignIn";
-			// 
-			// loginControl1
-			// 
-			this.loginControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-			resources.ApplyResources(this.loginControl1, "loginControl1");
-			this.loginControl1.Name = "loginControl1";
 			// 
 			// tabPlan
 			// 
@@ -117,6 +110,12 @@
 			// 
 			resources.ApplyResources(this.fileImportControl1, "fileImportControl1");
 			this.fileImportControl1.Name = "fileImportControl1";
+			// 
+			// loginControl1
+			// 
+			this.loginControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+			resources.ApplyResources(this.loginControl1, "loginControl1");
+			this.loginControl1.Name = "loginControl1";
 			// 
 			// OldUserWizardDialog
 			// 
@@ -147,9 +146,9 @@
 		private System.Windows.Forms.TabPage tabPlan;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button1;
-		private LoginControl loginControl1;
 		private ChoosePlanControl choosePlanControl1;
 		private System.Windows.Forms.TabPage tabImport;
 		private FileImportControl fileImportControl1;
+		private LoginControl loginControl1;
 	}
 }
