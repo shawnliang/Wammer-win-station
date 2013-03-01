@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # production
     link = "https://waveface.com/extensions/windowsUpdate/versioninfo.xml"
     title = "Version {0}".format(version)
-    rnote = "https://waveface.com/extensions/windowsUpdate/rnotes-{0}.html".format(version)
+    rnote = "https://waveface.com/release/windows.en.html"
     binfile = "production-WavefaceSetup-{0}.exe".format(version)
     binurl = "https://waveface.com/extensions/windowsUpdate/{0}".format(binfile)
     binlen = os.path.getsize(os.path.join(solution_dir, binfile))
