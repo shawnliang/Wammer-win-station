@@ -1016,6 +1016,16 @@ namespace Waveface.Stream.WindowsClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap or {
+            get {
+                object obj = ResourceManager.GetObject("or", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap P1 {
             get {
                 object obj = ResourceManager.GetObject("P1", resourceCulture);
