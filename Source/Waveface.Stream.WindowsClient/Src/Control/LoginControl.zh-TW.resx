@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="forgotPwdLabel.Text" xml:space="preserve">
-    <value>忘記密碼?</value>
-  </data>
-  <data name="txtPassword.CueText" xml:space="preserve">
-    <value>密碼</value>
-  </data>
-  <data name="tbxEMail.CueText" xml:space="preserve">
-    <value>電子郵件</value>
-  </data>
   <data name="fbLoginButton1.DisplayText" xml:space="preserve">
     <value>Facebook 登入</value>
+  </data>
+  <data name="forgotPwdLabel.Text" xml:space="preserve">
+    <value>忘記密碼?</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>或</value>
