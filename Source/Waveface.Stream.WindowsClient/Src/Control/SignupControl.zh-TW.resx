@@ -126,12 +126,6 @@
   <data name="nameBox.CueText" xml:space="preserve">
     <value>姓名</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>使用 Facebook 帳號登入 aostream</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>由電子郵件註冊使用 aostream</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 18</value>
@@ -162,5 +156,8 @@
   </data>
   <data name="fbButton.DisplayText" xml:space="preserve">
     <value>使用Facebook登入</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>或</value>
   </data>
 </root>

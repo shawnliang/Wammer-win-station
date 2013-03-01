@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using Waveface.Stream.Model.Properties;
 
 namespace Waveface.Stream.Model
 {
@@ -133,9 +134,19 @@ namespace Waveface.Stream.Model
 			else
 			{
 				var res = fastJSON.JSON.Instance.ToObject<CloudResponse>(response);
-				return res.api_ret_message;
+				return GetErrorMessage(res.api_ret_code) ?? res.api_ret_message;
 			}
+		}
 
+
+		private static string GetErrorMessage(int status)
+		{
+			switch (status)
+			{
+				case 4098:
+					return Resources.EMAIL_REGISTERED;
+			}
+			return null;
 		}
 	}
 }
