@@ -83,7 +83,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\LoginController.cs" />
     <Compile Include="Src\Class\LoginedUser.cs" />
     <Compile Include="Src\Class\StreamClient.cs" />

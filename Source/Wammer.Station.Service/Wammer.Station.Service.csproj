@@ -169,7 +169,6 @@
     <Compile Include="Station\AttachmentView\AttachmentViewStorage.cs" />
     <Compile Include="Station\AutoMapperSetting.cs" />
     <Compile Include="Station\CreatePhotoFolderCollectionTask.cs" />
-    <Compile Include="Station\DebugInfo.cs" />
     <Compile Include="Station\Doc\CheckDocumentChangeTimer.cs" />
     <Compile Include="Station\Doc\DocumentChangeMonitor.cs" />
     <Compile Include="Station\Doc\DocumentChangeMonitorDB.cs" />
