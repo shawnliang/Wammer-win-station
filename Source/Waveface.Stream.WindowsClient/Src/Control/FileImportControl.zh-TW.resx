@@ -119,7 +119,7 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="changeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>392, 342</value>
+    <value>442, 340</value>
   </data>
   <data name="changeButton.Text" xml:space="preserve">
     <value>更改...</value>
@@ -152,7 +152,7 @@
     <value>13, 327</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 13</value>
+    <value>182, 13</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>選擇aostream原始檔案保存位置：</value>

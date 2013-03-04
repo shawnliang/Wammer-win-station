@@ -117,113 +117,206 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 11pt, style=Bold</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 21</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>583, 48</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Choose a plan that best suit your needs</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="radioFree.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="radioButton1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 285</value>
+  </data>
+  <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioFree.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 72</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="radioButton1.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="planBox1.Text" xml:space="preserve">
+    <value>planBox1</value>
+  </data>
+  <data name="&gt;&gt;planBox1.Type" xml:space="preserve">
+    <value>Waveface.Stream.WindowsClient.PlanBox, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;planBox1.Name" xml:space="preserve">
+    <value>planBox1</value>
+  </data>
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 19</value>
+  </data>
+  <data name="planBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>57, 56</value>
+  </data>
+  <data name="radioButton1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 11pt, style=Bold</value>
+  </data>
+  <data name="planBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>7</value>
+  <data name="&gt;&gt;radioButton1.Name" xml:space="preserve">
+    <value>radioButton1</value>
   </data>
-  <data name="radioFree.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;planBox4.Name" xml:space="preserve">
+    <value>planBox4</value>
   </data>
-  <data name="radioFree.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 82</value>
+  <data name="radioButton1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="radioFree.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
+  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
+    <value>linkLabel1</value>
   </data>
-  <data name="radioFree.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="planBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 79</value>
   </data>
-  <data name="&gt;&gt;radioFree.Name" xml:space="preserve">
-    <value>radioFree</value>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;radioFree.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="planBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
-  <data name="&gt;&gt;radioFree.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="planBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>57, 167</value>
   </data>
-  <data name="&gt;&gt;radioFree.ZOrder" xml:space="preserve">
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>583, 48</value>
+  </data>
+  <data name="planBox2.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="radio250.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="radio250.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="radio250.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 198</value>
-  </data>
-  <data name="radio250.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="radioFree.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
   </data>
-  <data name="radio250.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="radioButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;radio250.Name" xml:space="preserve">
-    <value>radio250</value>
+  <data name="radio250.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;planBox2.Name" xml:space="preserve">
+    <value>planBox2</value>
+  </data>
+  <data name="&gt;&gt;planBox4.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="&gt;&gt;radio250.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;radio250.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;radio250.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="linkLabel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
-  <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;radio250.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="linkLabel1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
+  <data name="planBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 91</value>
   </data>
-  <data name="linkLabel1.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
-    <value>0, 10</value>
+  <data name="&gt;&gt;planBox1.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 351</value>
+  <data name="radio250.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
   </data>
-  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 19</value>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;radioFree.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;planBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ChoosePlanControl</value>
+  </data>
+  <data name="radioFree.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Learn more about our plans</value>
+  <data name="&gt;&gt;planBox4.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
-    <value>linkLabel1</value>
+  <data name="radio250.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>704, 389</value>
+  </data>
+  <data name="radio250.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="linkLabel1.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
+    <value>0, 10</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="radioButton1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;radioFree.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioFree.Name" xml:space="preserve">
+    <value>radioFree</value>
+  </data>
+  <data name="planBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 82</value>
+  </data>
+  <data name="planBox2.Text" xml:space="preserve">
+    <value>planBox2</value>
+  </data>
+  <data name="&gt;&gt;radio250.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 351</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 21</value>
+  </data>
+  <data name="planBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>57, 269</value>
+  </data>
+  <data name="linkLabel1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="&gt;&gt;planBox2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="radio250.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 184</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -231,118 +324,40 @@
   <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;radio250.Name" xml:space="preserve">
+    <value>radio250</value>
   </data>
-  <data name="radioButton1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="radioButton1.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="radioButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 287</value>
-  </data>
-  <data name="radioButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
-  </data>
-  <data name="radioButton1.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;radioButton1.Name" xml:space="preserve">
-    <value>radioButton1</value>
-  </data>
-  <data name="&gt;&gt;radioButton1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButton1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;radioButton1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="planBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>57, 269</value>
-  </data>
-  <data name="planBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>602, 82</value>
-  </data>
-  <data name="planBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="planBox2.Text" xml:space="preserve">
-    <value>planBox2</value>
-  </data>
-  <data name="&gt;&gt;planBox2.Name" xml:space="preserve">
-    <value>planBox2</value>
-  </data>
-  <data name="&gt;&gt;planBox2.Type" xml:space="preserve">
-    <value>Waveface.Stream.WindowsClient.PlanBox, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;planBox2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;planBox2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="planBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>57, 181</value>
-  </data>
-  <data name="planBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>602, 82</value>
-  </data>
-  <data name="planBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="planBox1.Text" xml:space="preserve">
-    <value>planBox1</value>
-  </data>
-  <data name="&gt;&gt;planBox1.Name" xml:space="preserve">
-    <value>planBox1</value>
-  </data>
-  <data name="&gt;&gt;planBox1.Type" xml:space="preserve">
+  <data name="&gt;&gt;planBox4.Type" xml:space="preserve">
     <value>Waveface.Stream.WindowsClient.PlanBox, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;planBox1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;planBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;radioFree.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
-  <data name="planBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>57, 66</value>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Learn more about our plans</value>
   </data>
-  <data name="planBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>602, 109</value>
-  </data>
-  <data name="planBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="planBox4.Text" xml:space="preserve">
-    <value>planBox4</value>
-  </data>
-  <data name="&gt;&gt;planBox4.Name" xml:space="preserve">
-    <value>planBox4</value>
-  </data>
-  <data name="&gt;&gt;planBox4.Type" xml:space="preserve">
+  <data name="&gt;&gt;planBox2.Type" xml:space="preserve">
     <value>Waveface.Stream.WindowsClient.PlanBox, WindowsClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;planBox4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;planBox4.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>704, 389</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ChoosePlanControl</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="radioFree.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="planBox4.Text" xml:space="preserve">
+    <value>planBox4</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

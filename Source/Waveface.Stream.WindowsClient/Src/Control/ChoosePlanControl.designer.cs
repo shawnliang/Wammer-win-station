@@ -74,27 +74,29 @@
 			// 
 			// planBox2
 			// 
-			this.planBox2.HeaderVisibile = true;
 			resources.ApplyResources(this.planBox2, "planBox2");
+			this.planBox2.HeaderVisibile = true;
 			this.planBox2.Name = "planBox2";
 			this.planBox2.Type = Waveface.Stream.WindowsClient.PlanBox.PlanType.Plan2;
 			// 
 			// planBox1
 			// 
-			this.planBox1.HeaderVisibile = true;
 			resources.ApplyResources(this.planBox1, "planBox1");
+			this.planBox1.HeaderVisibile = true;
 			this.planBox1.Name = "planBox1";
 			this.planBox1.Type = Waveface.Stream.WindowsClient.PlanBox.PlanType.Plan1;
 			// 
 			// planBox4
 			// 
-			this.planBox4.HeaderVisibile = true;
 			resources.ApplyResources(this.planBox4, "planBox4");
+			this.planBox4.HeaderVisibile = true;
 			this.planBox4.Name = "planBox4";
 			this.planBox4.Type = Waveface.Stream.WindowsClient.PlanBox.PlanType.Free;
+			this.planBox4.Click += new System.EventHandler(this.planBox4_Click);
 			// 
 			// ChoosePlanControl
 			// 
+			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.radioButton1);
 			this.Controls.Add(this.planBox2);
 			this.Controls.Add(this.planBox1);
@@ -104,7 +106,6 @@
 			this.Controls.Add(this.radioFree);
 			this.Controls.Add(this.label1);
 			this.Name = "ChoosePlanControl";
-			resources.ApplyResources(this, "$this");
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

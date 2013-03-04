@@ -14,5 +14,10 @@ namespace Waveface.Stream.WindowsClient
 		{
 			GoToWeb.OpenInBrowser("/");
 		}
+
+		private void planBox4_Click(object sender, System.EventArgs e)
+		{
+
+		}
 	}
 }
