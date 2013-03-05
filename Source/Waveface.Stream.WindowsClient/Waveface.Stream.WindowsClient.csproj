@@ -179,7 +179,6 @@
       <DependentUpon>DeviceNameControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Src\Struct\CopyDataStruct.cs" />
-    <Compile Include="Src\Class\DebugInfo.cs" />
     <Compile Include="Src\Class\Device.cs" />
     <Compile Include="Src\Class\DriveDetector.cs">
       <SubType>Form</SubType>

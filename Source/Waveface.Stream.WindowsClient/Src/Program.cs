@@ -336,7 +336,7 @@ namespace Waveface.Stream.WindowsClient
 				var upRemainedCount = SyncStatus.UploadRemainedCount;
 				var downloadRemainedCount = SyncStatus.DownloadRemainedCount;
 
-				SyncRange syncRange = getSyncRange();
+				SyncRange syncRange = SyncStatus.GetSyncRange();
 
 				if (upRemainedCount > 0 || downloadRemainedCount > 0)
 				{
@@ -389,30 +389,6 @@ namespace Waveface.Stream.WindowsClient
 			}
 		}
 
-		private static SyncRange getSyncRange()
-		{
-			try
-			{
-				SyncRange syncRange = null;
-
-				if (StreamClient.Instance.IsLogined)
-				{
-					var user = DriverCollection.Instance.FindOneById(StreamClient.Instance.LoginedUser.UserID);
-					if (user != null)
-						syncRange = user.sync_range;
-				}
-
-				if (syncRange == null)
-					syncRange = new SyncRange();
-
-
-				return syncRange;
-			}
-			catch
-			{
-				return new SyncRange();
-			}
-		}
 
 		private static DialogResult ShowMainWindow()
 		{

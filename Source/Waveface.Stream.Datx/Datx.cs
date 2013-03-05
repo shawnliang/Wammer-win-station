@@ -71,6 +71,32 @@ public sealed class Datx
 	#endregion
 
 
+	#region Private Static Method
+	/// <summary>
+	/// Checks the parameter.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="obj">The obj.</param>
+	/// <param name="filePath">The file path.</param>
+	/// <param name="relativeFilePath">The relative file path.</param>
+	/// <exception cref="System.ArgumentNullException">filePath</exception>
+	private static void CheckParameter<T>(T obj, string filePath, string relativeFilePath)
+	{
+		if (string.IsNullOrEmpty(filePath))
+		{
+			throw new ArgumentNullException("filePath");
+		}
+		if (obj == null)
+		{
+			throw new ArgumentNullException("obj");
+		}
+		if (string.IsNullOrEmpty(relativeFilePath))
+		{
+			throw new ArgumentNullException("relativeFilePath");
+		}
+	}
+	#endregion
+
 
 	#region "Public Shared Method"
 
@@ -157,18 +183,7 @@ public sealed class Datx
 		//Author: Larry Nung   Date:2008/3/20
 		//Memo: 參數檢查
 		//-------------------------------
-		if (string.IsNullOrEmpty(filePath))
-		{
-			throw new ArgumentNullException("filePath");
-		}
-		if (obj == null)
-		{
-			throw new ArgumentNullException("obj");
-		}
-		if (string.IsNullOrEmpty(relativeFilePath))
-		{
-			throw new ArgumentNullException("relativeFilePath");
-		}
+		CheckParameter<T>(obj, filePath, relativeFilePath);
 
 
 		using (MemoryStream ms = new MemoryStream(DEFAULT_BUFFER_SIZE))
@@ -183,10 +198,11 @@ public sealed class Datx
 			//Author: Larry Nung   Date:2008/4/21
 			//Memo: 插入壓縮檔
 			//-------------------------------
-			Zip.InsertFile(filePath, ms, relativeFilePath, passWord);
+			Zip.InsertFile(ms, filePath, relativeFilePath, passWord);
 		}
 
 	}
+
 
 
 	public static void Write<T>(T obj, string filePath, string relativeFilePath, SecureString passWord)
@@ -228,18 +244,8 @@ public sealed class Datx
 		//Author: Larry Nung   Date:2008/3/20
 		//Memo: 參數檢查
 		//-------------------------------
-		if (string.IsNullOrEmpty(filePath))
-		{
-			throw new ArgumentNullException("filePath");
-		}
-		if (obj == null)
-		{
-			throw new ArgumentNullException("obj");
-		}
-		if (string.IsNullOrEmpty(relativeFilePath))
-		{
-			throw new ArgumentNullException("relativeFilePath");
-		}
+		CheckParameter<T>(obj, filePath, relativeFilePath);
+
 
 
 		using (MemoryStream ms = new MemoryStream(DEFAULT_BUFFER_SIZE))

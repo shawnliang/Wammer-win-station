@@ -5,7 +5,7 @@ using Waveface.Properties;
 
 namespace Waveface.Common
 {
-	public class AutoUpdate
+	public class AutoUpdate		
 	{
 		public const string DEF_BASE_URL = "https://api.waveface.com/v3/";
 
@@ -26,6 +26,7 @@ namespace Waveface.Common
 		{
 			m_autoUpdator.StartLoop(true, TimeSpan.FromHours(5.0));
 		}
+
 		public bool IsUpdateRequired()
 		{
 			var honorSkippedVersion = !forceUpgrade;
@@ -70,8 +71,5 @@ namespace Waveface.Common
 					return "https://waveface.com/extensions/windowsUpdate/versioninfo.xml";
 			}
 		}
-
-
-
 	}
 }

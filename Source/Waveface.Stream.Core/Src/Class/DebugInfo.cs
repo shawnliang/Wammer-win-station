@@ -24,7 +24,7 @@ using System.Windows.Forms;
 /// 
 /// </summary>
 /// <remarks></remarks>
-internal sealed class DebugInfo
+public sealed class DebugInfo
 {
 	#region "Const"
 	private const string METHOD_NAME_PATTERN = "{0}.{1}";

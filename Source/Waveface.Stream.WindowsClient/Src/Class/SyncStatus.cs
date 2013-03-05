@@ -98,9 +98,8 @@ namespace Waveface.Stream.WindowsClient
 		}
 		#endregion
 
-
-		#region Private Static Method
-		private static SyncRange getSyncRange()
+		#region Public Static Method
+		public static SyncRange GetSyncRange()
 		{
 			try
 			{
@@ -124,10 +123,7 @@ namespace Waveface.Stream.WindowsClient
 				return new SyncRange();
 			}
 		}
-		#endregion
 
-
-		#region Public Static Method
 		public static void GetSpeedAndUnit(float value, ref float speed, ref string unit)
 		{
 			var units = new string[] { "B/s", "KB/s", "MB/s" };
@@ -158,7 +154,7 @@ namespace Waveface.Stream.WindowsClient
 			if ((!IsServiceRunning) || (upRemainedCount <= 0 && downloadRemainedCount <= 0))
 				return string.Empty;
 
-			SyncRange syncRange = getSyncRange();
+			SyncRange syncRange = GetSyncRange();
 			if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
 			{
 				return Resources.SYNC_ERROR + syncRange.GetUploadDownloadError();
@@ -230,7 +226,7 @@ namespace Waveface.Stream.WindowsClient
 
 		public static string GetSyncStatus()
 		{
-			SyncRange syncRange = getSyncRange();
+			SyncRange syncRange = GetSyncRange();
 
 			if (!string.IsNullOrEmpty(syncRange.download_index_error))
 			{

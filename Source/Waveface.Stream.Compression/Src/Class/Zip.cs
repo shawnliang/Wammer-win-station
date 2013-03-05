@@ -55,6 +55,34 @@ public sealed class Zip
 
 	#region "Shared Privated Method"
 
+	/// <summary>
+	/// Checks the parameter.
+	/// </summary>
+	/// <param name="inputStream">The input stream.</param>
+	/// <param name="zipFilePath">The zip file path.</param>
+	/// <param name="relativeFilePath">The relative file path.</param>
+	/// <exception cref="System.ArgumentNullException">inputStream</exception>
+	/// <exception cref="System.ArgumentException">Input stream must can read;inputStream</exception>
+	private static void CheckParameter(Stream inputStream, string zipFilePath, string relativeFilePath)
+	{
+		if (inputStream == null)
+		{
+			throw new ArgumentNullException("inputStream");
+		}
+		if (string.IsNullOrEmpty(zipFilePath))
+		{
+			throw new ArgumentNullException("zipFilePath");
+		}
+		if (string.IsNullOrEmpty(relativeFilePath))
+		{
+			throw new ArgumentNullException("relativeFilePath");
+		}
+		if (!inputStream.CanRead)
+		{
+			throw new ArgumentException("Input stream must can read", "inputStream");
+		}
+	}
+
 	//***************************************************************************
 	//Author: Larry Nung
 	//Date: 2008/4/18
@@ -331,22 +359,7 @@ public sealed class Zip
 		//Author: Larry Nung   Date:2008/4/15
 		//Memo: 參數檢查
 		//-------------------------------
-		if (inputStream == null)
-		{
-			throw new ArgumentNullException("inputStream");
-		}
-		if (string.IsNullOrEmpty(zipFilePath))
-		{
-			throw new ArgumentNullException("zipFilePath");
-		}
-		if (string.IsNullOrEmpty(relativeFilePath))
-		{
-			throw new ArgumentNullException("relativeFilePath");
-		}
-		if (!inputStream.CanRead)
-		{
-			throw new ArgumentException("Input stream must can read", "inputStream");
-		}
+		CheckParameter(inputStream, zipFilePath, relativeFilePath);
 
 		string path = Path.GetDirectoryName(zipFilePath);
 
@@ -361,6 +374,8 @@ public sealed class Zip
 
 
 	}
+
+
 
 
 
@@ -1210,7 +1225,7 @@ public sealed class Zip
 			DeCompressFile(zipFilePath, oldRelativeFilePath, ms, passWord);
 			ms.Seek(0, SeekOrigin.Begin);
 			DeleteFile(zipFilePath, oldRelativeFilePath);
-			InsertFile(zipFilePath, ms, newRelativeFilePath, passWord);
+			InsertFile(ms, zipFilePath, newRelativeFilePath, passWord);
 		}
 	}
 
@@ -1282,7 +1297,7 @@ public sealed class Zip
 
 	public static void InsertFile(string zipFilePath, Stream inputStream, string relativeFilePath, SecureString password)
 	{
-		InsertFile(zipFilePath, inputStream, relativeFilePath, Marshal.PtrToStringBSTR(Marshal.SecureStringToBSTR(password)));
+		InsertFile(inputStream, zipFilePath, relativeFilePath, Marshal.PtrToStringBSTR(Marshal.SecureStringToBSTR(password)));
 	}
 
 
@@ -1295,8 +1310,8 @@ public sealed class Zip
 	/// <summary>
 	/// 插入檔案到壓縮檔
 	/// </summary>
-	/// <param name="zipFilePath">壓縮檔完整路徑</param>
 	/// <param name="inputStream">欲插入的檔案資料流</param>
+	/// <param name="zipFilePath">壓縮檔完整路徑</param>
 	/// <param name="relativeFilePath">欲存放到壓縮檔內的相對路徑</param>
 	/// <param name="password">壓縮檔密碼</param>
 	/// <exception cref=" System.ArgumentNullException ">
@@ -1306,28 +1321,14 @@ public sealed class Zip
 	/// Throw when <paramref name=" inputStream " /> can't read.
 	/// </exception>
 	/// <remarks></remarks>
-	public static void InsertFile(string zipFilePath, Stream inputStream, string relativeFilePath, string password = "")
+	public static void InsertFile(Stream inputStream, string zipFilePath, string relativeFilePath, string password = "")
 	{
 		//-------------------------------
 		//Author: Larry Nung   Date:2008/4/15
 		//Memo: 參數檢查
 		//-------------------------------
-		if (inputStream == null)
-		{
-			throw new ArgumentNullException("inputStream");
-		}
-		if (string.IsNullOrEmpty(zipFilePath))
-		{
-			throw new ArgumentNullException("zipFilePath");
-		}
-		if (string.IsNullOrEmpty(relativeFilePath))
-		{
-			throw new ArgumentNullException("relativeFilePath");
-		}
-		if (!inputStream.CanRead)
-		{
-			throw new ArgumentException("Input stream must can read", "inputStream");
-		}
+		CheckParameter(inputStream, zipFilePath, relativeFilePath);
+
 
 		//-------------------------------
 		//Author: Larry Nung   Date:2008/6/17
@@ -1419,7 +1420,7 @@ public sealed class Zip
 		//-------------------------------
 		using (FileStream fs = File.OpenRead(inputFile))
 		{
-			InsertFile(zipFilePath, fs, relativeFilePath, password);
+			InsertFile(fs, zipFilePath, relativeFilePath, password);
 		}
 
 	}
