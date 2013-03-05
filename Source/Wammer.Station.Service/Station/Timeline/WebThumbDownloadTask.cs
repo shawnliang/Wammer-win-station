@@ -8,9 +8,9 @@ namespace Wammer.Station.Timeline
 {
 	class WebThumbDownloadTask : DelayedRetryTask, IResourceDownloadTask
 	{
-		string user_id;
-		string object_id;
-		long webthumb_id;
+		public string user_id { get; set; }
+		public string object_id { get; set; }
+		public long webthumb_id { get; set; }
 
 		public WebThumbDownloadTask(string user_id, string object_id, long webthumb_id)
 			: base(TaskPriority.Medium)

@@ -54,7 +54,7 @@ if __name__ == "__main__":
     title = "Version {0}".format(version)
     rnote = "https://waveface.com/release/windows.en.html"
     binfile = "production-WavefaceSetup-{0}.exe".format(version)
-    binurl = "https://waveface.com/extensions/windowsUpdate/{0}".format(binfile)
+    binurl = "http://cdn.waveface.com/WindowsStation/aostream-win-{0}.exe".format(version)
     binlen = os.path.getsize(os.path.join(solution_dir, binfile))
     binver = version
     genxml(link, title, rnote, pubdate, binfile, binurl, binlen, binver, "versioninfo.xml")
