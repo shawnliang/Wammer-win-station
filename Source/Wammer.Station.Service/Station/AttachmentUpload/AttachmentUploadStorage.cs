@@ -45,7 +45,24 @@ namespace Wammer.Station.AttachmentUpload
 					Query.EQ("_id", user.user_id),
 					Update.Inc("cur_origin_size", data.raw_data.Count));
 
+				if (data.fromLocal)
+				{
+					updateFileModifyTime(data, Path.Combine(storage.basePath, relativeFile));
+				}
+
 				return new AttachmentSaveResult(storage.basePath, relativeFile);
+			}
+		}
+
+		private static void updateFileModifyTime(UploadData data, string savedFile)
+		{
+			try
+			{
+				var lastWriteTime = File.GetLastWriteTime(data.file_path);
+				File.SetLastWriteTime(savedFile, lastWriteTime);
+			}
+			catch
+			{
 			}
 		}
 
