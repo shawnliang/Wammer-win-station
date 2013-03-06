@@ -34,11 +34,11 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.tabControl1 = new Waveface.Stream.WindowsClient.TabControlEx();
 			this.tabSignIn = new System.Windows.Forms.TabPage();
+			this.loginControl1 = new Waveface.Stream.WindowsClient.LoginControl();
 			this.tabPlan = new System.Windows.Forms.TabPage();
 			this.choosePlanControl1 = new Waveface.Stream.WindowsClient.ChoosePlanControl();
 			this.tabImport = new System.Windows.Forms.TabPage();
 			this.fileImportControl1 = new Waveface.Stream.WindowsClient.FileImportControl();
-			this.loginControl1 = new Waveface.Stream.WindowsClient.LoginControl();
 			this.panel1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabSignIn.SuspendLayout();
@@ -48,10 +48,10 @@
 			// 
 			// panel1
 			// 
+			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.panel1.Controls.Add(this.button2);
 			this.panel1.Controls.Add(this.button1);
-			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
 			// 
 			// button2
@@ -70,10 +70,10 @@
 			// 
 			// tabControl1
 			// 
+			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.Controls.Add(this.tabSignIn);
 			this.tabControl1.Controls.Add(this.tabPlan);
 			this.tabControl1.Controls.Add(this.tabImport);
-			resources.ApplyResources(this.tabControl1, "tabControl1");
 			this.tabControl1.HideTabs = true;
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
@@ -83,15 +83,21 @@
 			// 
 			// tabSignIn
 			// 
-			this.tabSignIn.Controls.Add(this.loginControl1);
 			resources.ApplyResources(this.tabSignIn, "tabSignIn");
+			this.tabSignIn.Controls.Add(this.loginControl1);
 			this.tabSignIn.Name = "tabSignIn";
+			// 
+			// loginControl1
+			// 
+			resources.ApplyResources(this.loginControl1, "loginControl1");
+			this.loginControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+			this.loginControl1.Name = "loginControl1";
 			// 
 			// tabPlan
 			// 
+			resources.ApplyResources(this.tabPlan, "tabPlan");
 			this.tabPlan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabPlan.Controls.Add(this.choosePlanControl1);
-			resources.ApplyResources(this.tabPlan, "tabPlan");
 			this.tabPlan.Name = "tabPlan";
 			// 
 			// choosePlanControl1
@@ -101,21 +107,15 @@
 			// 
 			// tabImport
 			// 
+			resources.ApplyResources(this.tabImport, "tabImport");
 			this.tabImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
 			this.tabImport.Controls.Add(this.fileImportControl1);
-			resources.ApplyResources(this.tabImport, "tabImport");
 			this.tabImport.Name = "tabImport";
 			// 
 			// fileImportControl1
 			// 
 			resources.ApplyResources(this.fileImportControl1, "fileImportControl1");
 			this.fileImportControl1.Name = "fileImportControl1";
-			// 
-			// loginControl1
-			// 
-			this.loginControl1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
-			resources.ApplyResources(this.loginControl1, "loginControl1");
-			this.loginControl1.Name = "loginControl1";
 			// 
 			// OldUserWizardDialog
 			// 
