@@ -638,6 +638,9 @@
     <EmbeddedResource Include="Src\Dialog\PlanChangeDialog.resx">
       <DependentUpon>PlanChangeDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Src\Dialog\PlanChangeDialog.zh-TW.resx">
+      <DependentUpon>PlanChangeDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Src\Dialog\PreferencesDialog.resx">
       <DependentUpon>PreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
