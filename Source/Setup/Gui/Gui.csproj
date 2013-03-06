@@ -36,8 +36,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\install_package512.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -226,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ResourceFiles\InstallationStep.png" />
+    <Content Include="Resources\install_package512.ico" />
     <None Include="Resources\install_package512.png" />
   </ItemGroup>
   <ItemGroup>
