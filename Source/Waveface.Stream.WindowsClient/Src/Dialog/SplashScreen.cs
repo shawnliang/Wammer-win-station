@@ -46,8 +46,11 @@ namespace Waveface.Stream.WindowsClient
 						}
 						catch (Exception e)
 						{
-							MessageBox.Show(e.GetDisplayDescription(), "Ooops....", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-							result = DialogResult.Abort;
+							this.Invoke(new MethodInvoker(() =>
+							{
+								MessageBox.Show(this, e.GetDisplayDescription(), "Ooops....", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+								result = DialogResult.Abort;
+							}));
 						}
 						finally
 						{
