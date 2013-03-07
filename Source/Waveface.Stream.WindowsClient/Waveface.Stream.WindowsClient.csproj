@@ -130,6 +130,7 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -178,6 +179,7 @@
     <Compile Include="Src\Control\DeviceNameControl.Designer.cs">
       <DependentUpon>DeviceNameControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Src\Extension\ProcessExtension.cs" />
     <Compile Include="Src\Struct\CopyDataStruct.cs" />
     <Compile Include="Src\Class\Device.cs" />
     <Compile Include="Src\Class\DriveDetector.cs">

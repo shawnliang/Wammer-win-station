@@ -47,7 +47,7 @@ namespace Waveface.Stream.WindowsClient
 						catch (Exception e)
 						{
 							MessageBox.Show(e.GetDisplayDescription(), "Ooops....", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-							result = System.Windows.Forms.DialogResult.Abort;
+							result = DialogResult.Abort;
 						}
 						finally
 						{
