@@ -678,7 +678,13 @@ namespace Waveface.Stream.WindowsClient
 
 			Settings.Default.Save();
 
-			StationServiceProxy.Instance.StopService();
+			try
+			{
+				StationServiceProxy.Instance.StopService();
+			}
+			catch (Exception)
+			{
+			}
 
 			m_ContextMenuStrip.Dispose();
 			m_NotifyIcon.Dispose();

@@ -369,9 +369,6 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        /// <summary>
         ///   Looks up a localized string similar to Clicking &quot;Yes&quot; to receive an email with the instruction to delete your accounts (it&apos;s easy). Proceed?.
         /// </summary>
         internal static string DELETE_ACCOUNT_MESSAGE {
@@ -576,13 +573,13 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg950\deff0\nouicompat\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset136 Arial;}}
-        ///{\*\generator Riched20 6.2.9200}\viewkind4\uc1 
-        ///\pard 
-        ///{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
-        ///\fi-284\li284\sa200\sl276\slmult1\f0\fs18\lang1028 All photos in the cloud forever, with reduced size.\par
+        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset136 Arial;}}
+        ///{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+        ///\fi-284\li284\sl276\slmult1\lang1028\f0\fs18 All photos in the cloud forever, with reduced size.\par
         ///{\pntext\f0 2.\tab}Original photos are pushed and organized in 1 computer when on the same Wi-Fi.\par
-        ///{\pntext\f0 3.\tab}Store up to 500MB of documents in the clo [rest of string was truncated]&quot;;.
+        ///{\pntext\f0 3.\tab}Store up to 500MB of documents in the cloud.\par
+        ///}
+        ///.
         /// </summary>
         internal static string FreePlan {
             get {
@@ -1037,11 +1034,9 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg950\deff0\nouicompat\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset136 Arial;}}
-        ///{\*\generator Riched20 6.2.9200}\viewkind4\uc1 
-        ///\pard 
-        ///{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
-        ///\fi-284\li284\sa200\sl276\slmult1\f0\fs18\lang1028 Store up to 500GB of uncompressed photos and doocuments in the cloud\par
+        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset136 Arial;}}
+        ///{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+        ///\fi-284\li284\sl276\slmult1\lang1028\f0\fs18 Store up to 500GB of uncompressed photos and doocuments in the cloud\par
         ///{\pntext\f0 2.\tab}Sync up multiple PC Stations in different locations\par
         ///}
         ///.
@@ -1062,11 +1057,9 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg950\deff0\nouicompat\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset136 Arial;}}
-        ///{\*\generator Riched20 6.2.9200}\viewkind4\uc1 
-        ///\pard 
-        ///{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
-        ///\fi-284\li284\sa200\sl276\slmult1\f0\fs18\lang1028 Store up to 500GB of uncompressed photos and doocuments in the cloud\par
+        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg950\deff0\deflang1033\deflangfe1028{\fonttbl{\f0\fnil\fcharset136 Arial;}}
+        ///{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+        ///\fi-284\li284\sl276\slmult1\lang1028\f0\fs18 Store up to 500GB of uncompressed photos and doocuments in the cloud\par
         ///{\pntext\f0 2.\tab}Sync up multiple PC Stations in different locations\par
         ///}
         ///.
@@ -1129,6 +1122,15 @@ namespace Waveface.Stream.WindowsClient.Properties {
         internal static string REMOVE_ACCOUNT_MESSAGE {
             get {
                 return ResourceManager.GetString("REMOVE_ACCOUNT_MESSAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System failed to start aostream because another user, {0}, has started aostream in the background. Please logout that user and try again..
+        /// </summary>
+        internal static string SERVICE_ALREADY_USED_PATTERN {
+            get {
+                return ResourceManager.GetString("SERVICE_ALREADY_USED_PATTERN", resourceCulture);
             }
         }
         

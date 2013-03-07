@@ -2,7 +2,9 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Management;
 using System.Reflection;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -24,12 +26,12 @@ namespace Waveface.Stream.WindowsClient
 
 		private StationServiceProxy()
 		{
-			var stationProcess = Process.GetProcessesByName("Station.Service");
-			Array.ForEach(stationProcess, (proc) => killProcess(proc));
 		}
 
 		public void StartService()
 		{
+			StopService();
+
 			var installDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			var stationPath = Path.Combine(installDir, "station.service.exe");
 
@@ -50,41 +52,25 @@ namespace Waveface.Stream.WindowsClient
 
 		public void StopService()
 		{
-			var begin = DateTime.Now;
-			stationProc.Exited -= stationProc_Exited;
+			var stationProcess = Process.GetProcessesByName("Station.Service");
+			Array.ForEach(stationProcess, (proc) =>
+				{
+					var processOwner = proc.GetProcessOwner();
 
-			if (stationProc != null)
-			{
-				while (!stationProc.HasExited)
-					killProcess(stationProc);
-			}
+					if (!processOwner.Equals(string.Format(@"{0}\{1}", Environment.UserDomainName, Environment.UserName), StringComparison.CurrentCultureIgnoreCase))
+						throw new Exception(string.Format(Resources.SERVICE_ALREADY_USED_PATTERN, processOwner));
 
-			var dur = (DateTime.Now - begin).TotalMilliseconds;
-			LogManager.GetLogger(typeof(StationServiceProxy)).InfoFormat("Close station process successfully. {0} ms.", dur.ToString());
+					proc.SafeClose(500);
+				});
 		}
 
 		private void stationProc_Exited(object sender, EventArgs e)
 		{
+			stationProc.Exited -= stationProc_Exited;
 			//TODO: pass this event to other handler? or ??
 			LogManager.GetLogger(typeof(StationServiceProxy)).ErrorFormat("Station process is closed. Exit code : {0}", stationProc.ExitCode.ToString());
-		}
 
-
-
-		private bool killProcess(Process proc)
-		{
-			try
-			{
-				proc.Kill();
-				proc.WaitForExit(1000);
-			}
-			catch (Exception e)
-			{
-				if (!proc.HasExited)
-					LogManager.GetLogger(typeof(StationServiceProxy)).Warn("Kill process exception: " + proc.ToString(), e);
-			}
-
-			return proc.HasExited;
+			stationProc = null;
 		}
 	}
 }
