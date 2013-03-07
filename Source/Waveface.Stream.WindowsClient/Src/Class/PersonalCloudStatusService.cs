@@ -67,9 +67,12 @@ namespace Waveface.Stream.WindowsClient
 						item.Type = NodeType.Phone;
 						break;
 
-					default:
+					case "Windows":
 						item.Type = NodeType.Station;
 						break;
+
+					default:
+						continue;
 				}
 
 
