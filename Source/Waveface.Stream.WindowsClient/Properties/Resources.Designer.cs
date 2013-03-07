@@ -1126,11 +1126,11 @@ namespace Waveface.Stream.WindowsClient.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to System failed to start aostream because another user, {0}, has started aostream in the background. Please logout that user and try again..
+        ///   Looks up a localized string similar to System failed to start aostream because another user has started aostream in the background. Please logout that user and try again..
         /// </summary>
-        internal static string SERVICE_ALREADY_USED_PATTERN {
+        internal static string SERVICE_ALREADY_USED {
             get {
-                return ResourceManager.GetString("SERVICE_ALREADY_USED_PATTERN", resourceCulture);
+                return ResourceManager.GetString("SERVICE_ALREADY_USED", resourceCulture);
             }
         }
         

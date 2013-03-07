@@ -57,8 +57,8 @@ namespace Waveface.Stream.WindowsClient
 				{
 					var processOwner = proc.GetProcessOwner();
 
-					if (!processOwner.Equals(string.Format(@"{0}\{1}", Environment.UserDomainName, Environment.UserName), StringComparison.CurrentCultureIgnoreCase))
-						throw new Exception(string.Format(Resources.SERVICE_ALREADY_USED_PATTERN, processOwner));
+					if (processOwner == null || !processOwner.Equals(string.Format(@"{0}\{1}", Environment.UserDomainName, Environment.UserName), StringComparison.CurrentCultureIgnoreCase))
+						throw new Exception(Resources.SERVICE_ALREADY_USED);
 
 					proc.SafeClose(500);
 				});

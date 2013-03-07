@@ -22,22 +22,21 @@ public static class ProcessExtension
 
 	public static string GetProcessOwner(this Process process)
 	{
-		string query = "Select * From Win32_Process Where ProcessID = " + process.Id;
-		ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-		ManagementObjectCollection processList = searcher.Get();
+		var query = "Select * From Win32_Process Where ProcessID = " + process.Id;
+		var searcher = new ManagementObjectSearcher(query);
+		var processList = searcher.Get().OfType<ManagementObject>();
 
-		foreach (ManagementObject obj in processList)
+		foreach (var obj in processList)
 		{
-			string[] argList = new string[] { string.Empty, string.Empty };
+			var argList = new string[2];
 			int returnVal = Convert.ToInt32(obj.InvokeMethod("GetOwner", argList));
 			if (returnVal == 0)
 			{
-				// return DOMAIN\user
-				return argList[1] + "\\" + argList[0];
+				return string.Join(@"\", argList.Reverse().ToArray());
 			}
 		}
 
-		return "NO OWNER";
+		return null;
 	}
 
 	public static void SafeClose(this Process process, int wait)

@@ -415,7 +415,7 @@
   <data name="INVALID_NICKNAME" xml:space="preserve">
     <value>不正確的名稱</value>
   </data>
-  <data name="SERVICE_ALREADY_USED_PATTERN" xml:space="preserve">
-    <value>啟用aostream 失敗，因另一個使用者 {0} 已在背景啟用aostream，請登出該使用者後再試一次。</value>
+  <data name="SERVICE_ALREADY_USED" xml:space="preserve">
+    <value>啟用aostream 失敗，因另一個使用者已在背景啟用aostream，請登出該使用者後再試一次。</value>
   </data>
 </root>
