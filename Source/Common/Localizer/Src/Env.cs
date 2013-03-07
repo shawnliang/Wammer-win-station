@@ -21,5 +21,12 @@ namespace Waveface
 				isWinVistaOrLater = false;
 			return isWinVistaOrLater;
 		}
+
+
+		public static bool IsWin8OrLater()
+		{
+			var os = Environment.OSVersion;
+			return os.Platform == PlatformID.Win32NT && os.Version.CompareTo(new Version(6, 2)) >= 0;
+		}
 	}
 }

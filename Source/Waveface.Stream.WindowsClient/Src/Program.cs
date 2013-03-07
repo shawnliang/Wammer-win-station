@@ -29,6 +29,7 @@ namespace Waveface.Stream.WindowsClient
 		private static ContextMenuStrip _contextMenuStrip;
 		private static StreamClient _client;
 		private static System.Windows.Forms.Timer _timer;
+		private static System.Windows.Forms.Timer _metroLoopbackTimer;
 
 		private static int syncingIconIndex;
 		private static Icon[] syncingIcons = new Icon[] 
@@ -106,6 +107,11 @@ namespace Waveface.Stream.WindowsClient
 			get { return _timer ?? (_timer = new System.Windows.Forms.Timer()); }
 		}
 
+		private static System.Windows.Forms.Timer m_MetroLoopbackTimer
+		{
+			get { return _metroLoopbackTimer ?? (_metroLoopbackTimer = new System.Windows.Forms.Timer());
+			}
+		}
 
 		/// <summary>
 		/// Gets the m_ updator.
@@ -228,6 +234,14 @@ namespace Waveface.Stream.WindowsClient
 			m_Timer.Tick += (sender, e) => RefreshSyncingStatus();
 			m_Timer.Start();
 
+			if (Waveface.Env.IsWin8OrLater())
+			{
+				EnableMetroLoopback();
+
+				m_MetroLoopbackTimer.Interval = 5 * 60 * 1000;
+				m_MetroLoopbackTimer.Tick += (sender, e) => EnableMetroLoopback();
+				m_MetroLoopbackTimer.Start();
+			}
 
 			if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 			{
@@ -238,6 +252,28 @@ namespace Waveface.Stream.WindowsClient
 			}
 
 			Application.Run();
+		}
+
+		private static void EnableMetroLoopback()
+		{
+			try
+			{
+				var proc = Process.Start(new ProcessStartInfo
+				{
+					CreateNoWindow = true,
+					WindowStyle = ProcessWindowStyle.Hidden,
+					FileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MetroLoopback.exe"),
+					Arguments = "Waveface Stream Metro",
+				});
+
+				proc.WaitForExit(5 * 1000);
+				proc.Close();
+			}
+			catch (Exception e)
+			{
+				var logger = log4net.LogManager.GetLogger(typeof(Program));
+				logger.Warn("Failed to enable Metro loopback", e);
+			}
 		}
 
 		private static void waitUntilStationAPIReady()
