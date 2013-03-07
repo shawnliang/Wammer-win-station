@@ -113,6 +113,11 @@
             <netfx:NativeImage Id="ngen_Waveface.Stream.Core.dll" Platform="32bit" Priority="0"/>
           </File>
         </Component>
+
+        <Component Id="MetroLoopback.exe" Guid="*">
+          <File Id="MetroLoopback.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\MetroLoopback.exe">
+          </File>
+        </Component>
         
         <Directory Id="zh_TW" Name="zh-TW">
           <Component Id="AppLimit.NetSparkle.resources.dll" Guid="*">
@@ -157,6 +162,7 @@
         <ComponentRef Id="Waveface.Stream.Serializer.dll" />
         <ComponentRef Id="gsdll32.dll" />
         <ComponentRef Id="CommandLine.dll" />
+        <ComponentRef Id="MetroLoopback.exe" />
       </ComponentGroup>
 
 </Include>
