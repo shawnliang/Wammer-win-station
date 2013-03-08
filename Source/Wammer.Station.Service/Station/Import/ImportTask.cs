@@ -102,7 +102,7 @@ namespace Wammer.Station
 
 				var photoCrawler = new PhotoCrawler();
 				var inputFiles = Paths.Where(file => Path.GetExtension(file).Length > 0);
-				var allFiles = photoCrawler.FindPhotos(Paths, photoCrawlerError).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
+				var allFiles = photoCrawler.FindPhotos(Paths, photoCrawlerError, SearchOption.TopDirectoryOnly).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
 
 				raiseFilesEnumeratedEvent(allFiles.Count);
 

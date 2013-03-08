@@ -78,7 +78,7 @@ public static class DirectoryInfoExtension
 		FindClose(hFind);
 	}
 
-	private static void searchFiles(string path, string[] patterns, PathCallback fileCB, PathPruneCallback shouldProceThisDir, PathErrorCallback errorCB, out bool prune)
+	private static void searchFiles(string path, string[] patterns, PathCallback fileCB, PathPruneCallback shouldProceThisDir, PathErrorCallback errorCB, out bool prune, SearchOption searchOption = SearchOption.AllDirectories)
 	{
 		prune = false;
 
@@ -99,24 +99,26 @@ public static class DirectoryInfoExtension
 			}
 		}
 
-
-		var subdirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
-
-		if (subdirs == null)
-			return;
-
-		foreach (var subdir in subdirs)
+		if (searchOption == SearchOption.AllDirectories)
 		{
-			try
+			var subdirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
+
+			if (subdirs == null)
+				return;
+
+			foreach (var subdir in subdirs)
 			{
-				searchFiles(subdir, patterns, fileCB, shouldProceThisDir, errorCB, out prune);
-				if (prune)
-					return;
-			}
-			catch (Exception e)
-			{
-				if (errorCB != null)
-					errorCB(subdir, e);
+				try
+				{
+					searchFiles(subdir, patterns, fileCB, shouldProceThisDir, errorCB, out prune);
+					if (prune)
+						return;
+				}
+				catch (Exception e)
+				{
+					if (errorCB != null)
+						errorCB(subdir, e);
+				}
 			}
 		}
 	}
@@ -125,7 +127,7 @@ public static class DirectoryInfoExtension
 
 
 	#region Public Method
-	public static void SearchFiles(this DirectoryInfo dir, string[] patterns, PathCallback fileCB, PathPruneCallback shouldProcessThisDir = null, PathErrorCallback errorCB = null)
+	public static void SearchFiles(this DirectoryInfo dir, string[] patterns, PathCallback fileCB, PathPruneCallback shouldProcessThisDir = null, PathErrorCallback errorCB = null, SearchOption searchOption = SearchOption.AllDirectories)
 	{
 		if (fileCB == null)
 			throw new ArgumentNullException("fileCB");
@@ -133,7 +135,7 @@ public static class DirectoryInfoExtension
 			throw new ArgumentNullException("patterns");
 
 		bool prune;
-		searchFiles(dir.FullName, patterns, fileCB, shouldProcessThisDir, errorCB, out prune);
+		searchFiles(dir.FullName, patterns, fileCB, shouldProcessThisDir, errorCB, out prune, searchOption);
 	}
 
 

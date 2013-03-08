@@ -67,16 +67,16 @@ namespace Waveface.Stream.Core
 		}
 
 
-		public IEnumerable<string> FindPhotos(IEnumerable<string> fromPaths, Action<string, Exception> errorCB = null)
+		public IEnumerable<string> FindPhotos(IEnumerable<string> fromPaths, Action<string, Exception> errorCB = null, SearchOption searchOption = SearchOption.AllDirectories)
 		{
 			List<string> photoPaths = new List<string>();
 
-			findPhotos(fromPaths, (folder) => { return true; }, (file) => { photoPaths.Add(file); }, errorCB);
+			findPhotos(fromPaths, (folder) => { return true; }, (file) => { photoPaths.Add(file); }, errorCB, searchOption);
 
 			return photoPaths;
 		}
 
-		private void findPhotos(IEnumerable<string> fromPaths, Func<string, bool> folderCallback, Action<string> fileAction, Action<string, Exception> errorAction)
+		private void findPhotos(IEnumerable<string> fromPaths, Func<string, bool> folderCallback, Action<string> fileAction, Action<string, Exception> errorAction, SearchOption searchOption = SearchOption.AllDirectories)
 		{
 			var state = new CrawState(folderCallback);
 
@@ -105,7 +105,8 @@ namespace Waveface.Stream.Core
 						(errorPath, error) =>
 						{
 							errorAction(errorPath, error);
-						}
+						},
+						searchOption
 						);
 				}
 				else if (File.Exists(path))
