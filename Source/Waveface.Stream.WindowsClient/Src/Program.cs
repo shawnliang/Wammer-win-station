@@ -263,7 +263,7 @@ namespace Waveface.Stream.WindowsClient
 					CreateNoWindow = true,
 					WindowStyle = ProcessWindowStyle.Hidden,
 					FileName = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "MetroLoopback.exe"),
-					Arguments = "\"Waveface Stream Metro\"",
+					Arguments = "aostream",
 				});
 
 				proc.WaitForExit(5 * 1000);
