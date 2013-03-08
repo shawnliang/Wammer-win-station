@@ -119,18 +119,9 @@ namespace Wammer.Station
 
 				if (m_CopyToStation)
 				{
-					// copy file to stream
-					int nProc = 0;
-					do
-					{
-						var batch = allMeta.Skip(nProc).Take(50);
-						var saved = submitBatch(importTime, batch, ref allFailedFiles);
+					copyFilesToAostream(importTime, allMeta);
 
-						allSavedFiles.AddRange(saved);
-
-						nProc += batch.Count();
-
-					} while (nProc < allMeta.Count);
+					handleCopyFailedFiles(allFailedFiles, user);
 				}
 				else
 				{
@@ -191,6 +182,34 @@ namespace Wammer.Station
 			{
 				raiseImportDoneEvent(error);
 			}
+		}
+
+		private void handleCopyFailedFiles(List<ObjectIdAndPath> allFailedFiles, Driver user)
+		{
+			if (allFailedFiles.Count > 0)
+			{
+				enqueueDeleteAttachmentTask(allFailedFiles, user);
+
+				foreach (var file in allFailedFiles)
+				{
+					AttachmentCollection.Instance.Remove(Query.EQ("_id", file.object_id));
+				}
+			}
+		}
+
+		private void copyFilesToAostream(DateTime importTime, List<FileMetadata> allMeta)
+		{
+			int nProc = 0;
+			do
+			{
+				var batch = allMeta.Skip(nProc).Take(50);
+				var saved = submitBatch(importTime, batch, ref allFailedFiles);
+
+				allSavedFiles.AddRange(saved);
+
+				nProc += batch.Count();
+
+			} while (nProc < allMeta.Count);
 		}
 
 		private List<FileMetadata> indexFiles(List<ObjectIdAndPath> allFiles, Driver user)
