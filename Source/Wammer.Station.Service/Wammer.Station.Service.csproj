@@ -161,6 +161,7 @@
     <Compile Include="Station\AttachmentUpload\AttachmentUploadStorage.cs" />
     <Compile Include="Station\AttachmentUpload\EventTime.cs" />
     <Compile Include="Station\AttachmentUpload\ExifExtractor.cs" />
+    <Compile Include="Station\AttachmentUpload\HideAttachmentTask.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
     <Compile Include="Station\AttachmentUpload\UploadMetadataTask.cs" />
