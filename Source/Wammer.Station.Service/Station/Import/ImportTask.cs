@@ -98,6 +98,8 @@ namespace Wammer.Station
 			{
 				raiseTaskStartedEvent();
 
+				var user = DriverCollection.Instance.FindDriverByGroupId(m_GroupID);
+
 				var importTime = DateTime.Now;
 
 				var photoCrawler = new PhotoCrawler();
@@ -107,24 +109,7 @@ namespace Wammer.Station
 				raiseFilesEnumeratedEvent(allFiles.Count);
 
 				// index files, generate metadata
-				var allIndexed = new HashSet<FileMetadata>();
-				var nIndexed = 0;
-				do
-				{
-					var batch = allFiles.Skip(nIndexed).Take(50);
-					var metadata = extractMetadata(batch, allIndexed);
-
-					enqueueUploadMetadataTask(metadata);
-					nIndexed += batch.Count();
-
-				} while (nIndexed < allFiles.Count);
-
-
-				if (allIndexed.Count == 0)
-					throw new Exception("No file needs to import");
-
-				var allMeta = allIndexed.ToList();
-				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
+				var allMeta = indexFiles(allFiles, user);
 
 
 				// build collections
@@ -134,23 +119,12 @@ namespace Wammer.Station
 
 				if (m_CopyToStation)
 				{
-					// copy file to stream
-					int nProc = 0;
-					do
-					{
-						var batch = allMeta.Skip(nProc).Take(50);
-						var saved = submitBatch(importTime, batch, ref allFailedFiles);
+					copyFilesToAostream(importTime, allMeta);
 
-						allSavedFiles.AddRange(saved);
-
-						nProc += batch.Count();
-
-					} while (nProc < allMeta.Count);
+					handleCopyFailedFiles(allFailedFiles, user);
 				}
 				else
 				{
-					var user = DriverCollection.Instance.FindDriverByGroupId(m_GroupID);
-
 					foreach (var file in allMeta)
 					{
 						var attDoc = new Attachment
@@ -208,6 +182,74 @@ namespace Wammer.Station
 			{
 				raiseImportDoneEvent(error);
 			}
+		}
+
+		private void handleCopyFailedFiles(List<ObjectIdAndPath> allFailedFiles, Driver user)
+		{
+			if (allFailedFiles.Count > 0)
+			{
+				enqueueDeleteAttachmentTask(allFailedFiles, user);
+
+				foreach (var file in allFailedFiles)
+				{
+					AttachmentCollection.Instance.Remove(Query.EQ("_id", file.object_id));
+				}
+			}
+		}
+
+		private void copyFilesToAostream(DateTime importTime, List<FileMetadata> allMeta)
+		{
+			int nProc = 0;
+			do
+			{
+				var batch = allMeta.Skip(nProc).Take(50);
+				var saved = submitBatch(importTime, batch, ref allFailedFiles);
+
+				allSavedFiles.AddRange(saved);
+
+				nProc += batch.Count();
+
+			} while (nProc < allMeta.Count);
+		}
+
+		private List<FileMetadata> indexFiles(List<ObjectIdAndPath> allFiles, Driver user)
+		{
+			var metadataSubmitted = new List<ObjectIdAndPath>();
+
+			try
+			{
+				var allIndexed = new HashSet<FileMetadata>();
+				var nIndexed = 0;
+				do
+				{
+					var batch = allFiles.Skip(nIndexed).Take(50);
+					var metadata = extractMetadata(batch, allIndexed);
+
+					enqueueUploadMetadataTask(metadata);
+					metadataSubmitted.AddRange(batch);
+					nIndexed += batch.Count();
+
+				} while (nIndexed < allFiles.Count);
+
+
+				if (allIndexed.Count == 0)
+					throw new Exception("No file needs to import");
+
+				var allMeta = allIndexed.ToList();
+				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
+				return allMeta;
+			}
+			catch
+			{
+				enqueueDeleteAttachmentTask(metadataSubmitted, user);
+				throw;
+			}
+		}
+
+		private void enqueueDeleteAttachmentTask(List<ObjectIdAndPath> metadataSubmitted, Driver user)
+		{
+			var task = new HideAttachmentTask(metadataSubmitted.Select(x => x.object_id).ToList(), user.user_id);
+			AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 		}
 
 

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Linq;
 using Wammer.Station;
 using Wammer.Utility;
 using Waveface.Stream.Model;
@@ -249,8 +250,33 @@ namespace Wammer.Cloud
 				agent.DownloadFile(url, save_path);
 			}
 		}
+
+		public static AttachmentHideResult Hide(string session_token, string apikey, List<string> object_ids)
+		{
+			var parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_OBJECT_IDS, "["+string.Join(",", object_ids.Select(x=>"\""+x+"\"").ToArray())+"]"},
+				{CloudServer.PARAM_SESSION_TOKEN, session_token},
+				{CloudServer.PARAM_API_KEY, apikey}
+			};
+
+			return CloudServer.requestPath<AttachmentHideResult>("attachments/hide", parameters, false);
+		}
 	}
 
+
+	public class AttachmentHideResult
+	{
+		public AttachmentHideResult()
+		{
+			failure_ids = new List<string>();
+			success_ids = new List<string>();
+		}
+
+		public int total_count { get; set; }
+		public List<string> failure_ids { get; set; }
+		public List<string> success_ids { get; set; }
+	}
 
 	public class AttachmentSearchResult
 	{
