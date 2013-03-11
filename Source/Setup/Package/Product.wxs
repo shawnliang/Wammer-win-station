@@ -7,7 +7,7 @@
   <?define AppProductCode = "{D7103CDC-3557-48BC-B831-4E7D33A33031}" ?>
   <?define AppVersionMajor = "3" ?>
   <?define AppVersionMinor = "0" ?>
-  <?define AppVersionPatch = "0" ?>
+  <?define AppVersionPatch = "1" ?>
   <?define AppVersionBuild = "0" ?>
   <?define AppVersion = "$(var.AppVersionMajor).$(var.AppVersionMinor).$(var.AppVersionPatch).$(var.AppVersionBuild)" ?>
   <?define AppManufacturer = "Waveface" ?>
