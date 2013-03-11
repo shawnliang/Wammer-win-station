@@ -99,6 +99,10 @@ namespace Wammer.Station.APIHandler
 			data.import_time = getCloudTimeFromParameters("import_time");
 			data.file_create_time = getCloudTimeFromParameters("file_create_time");
 
+			if (data.type != AttachmentType.webthumb && data.file_create_time == null)
+				throw new WammerStationException("Invalid 'file_create_time' parameter.", (int)AttachmentApiError.InvalidFileCreateTime);
+
+
 			try
 			{
 				data.type = (AttachmentType)Enum.Parse(typeof(AttachmentType),
