@@ -69,8 +69,8 @@ namespace Wammer.Station.AttachmentUpload
 				var gps = exif.gps;
 				var eventTime = DateTime.ParseExact(gps.GPSDateStamp, "yyyy:MM:dd", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
 
-				if (eventTime.Year < 1900)
-					throw new Exception("GPS datestamp should be 1900 years latter.");
+				if (eventTime.Year < 1970)
+					throw new Exception("GPS datestamp should be 1970 years latter.");
 
 				var gpsTimeStamp = gps.GPSTimeStamp;
 				var hour = getRationalValue(gpsTimeStamp[0]);
