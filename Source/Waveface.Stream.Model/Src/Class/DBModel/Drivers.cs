@@ -212,6 +212,11 @@ namespace Waveface.Stream.Model
 		[BsonIgnoreIfNull]
 		public string download_error { get; set; }
 
+		public SyncRange()
+		{
+			obj_next_time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		}
+
 
 		public string GetUploadDownloadError()
 		{
