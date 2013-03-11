@@ -110,6 +110,7 @@
 		InvalidMetaType = Base + 13,
 		FileExisted = Base + 14,
 		InvalidObjectId = Base + 15,
-		InvalidPostId = Base + 16
+		InvalidPostId = Base + 16,
+		InvalidFileCreateTime = Base + 29
 	}
 }
