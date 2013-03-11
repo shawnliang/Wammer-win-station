@@ -33,7 +33,7 @@ namespace MyEnableMetroLoopBack
 				{
 					Console.WriteLine(i + ": " + _appContainers[i].Description); // _appContainers[i].PackageFullName
 
-					if (_appContainers[i].Description == args[1])
+					if (_appContainers[i].Description == args[0])
 					{
 						_index = i;
 					}
