@@ -28,9 +28,8 @@ namespace Wammer.Station.Service
 		#endregion
 
 		private static readonly ILog logger = LogManager.GetLogger("StationService");
-		private HttpServer functionServer;
 		private HttpServer managementServer;
-		private AttachmentViewHandler viewHandler;
+		private AttachmentViewHandler viewHandler = new AttachmentViewHandler(Station.Instance.StationID);
 		private PingHandler funcPingHandler = new PingHandler();
 		private MongoDBMonitor mongoMonitor;
 
@@ -133,10 +132,6 @@ namespace Wammer.Station.Service
 
 				Station.Instance.UserLogined += loginHandler_UserLogined;
 
-				functionServer = new HttpServer(9981); // TODO: remove hard code
-
-				functionServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
-
 
 				var attachmentHandler = new AttachmentUploadHandler();
 
@@ -151,11 +146,10 @@ namespace Wammer.Station.Service
 
 				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl, Station.Instance.StationID);
 				InitCloudForwarder(cloudForwarder);
-				InitFunctionServerHandlers(attachmentHandler, cloudForwarder);
+				Station.Instance.InitFunctionServerHandlers(attachmentHandler, cloudForwarder, viewHandler, funcPingHandler);
 
 
 				logger.Info("Start function server");
-				functionServer.Start();
 
 				logger.Info("Add handlers to management server");
 				managementServer = new HttpServer(9989);
@@ -306,44 +300,7 @@ namespace Wammer.Station.Service
 			}
 		}
 
-		private void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder)
-		{
-			logger.Info("Add cloud forwarders to function server");
-			functionServer.AddDefaultHandler(cloudForwarder);
 
-			logger.Info("Add handlers to function server");
-
-			functionServer.AddHandler("/", new DummyHandler());
-
-			functionServer.AddHandler(GetDefaultBathPath("/attachments/upload/"),
-									  attachmentHandler);
-
-			// TO BE REMOVED
-			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/get/"),
-									  new ResouceDirGetHandler(""));
-
-			functionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/set/"),
-									  new ResouceDirSetHandler());
-
-			functionServer.AddHandler(GetDefaultBathPath("/attachments/get/"),
-									  new AttachmentGetHandler());
-
-			functionServer.AddHandler(GetDefaultBathPath("/availability/ping/"),
-									  funcPingHandler);
-
-			functionServer.AddHandler(GetDefaultBathPath("/reachability/ping/"),
-									  funcPingHandler);
-
-			var loginHandler = new UserLoginHandler();
-			functionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
-									  loginHandler);
-
-			functionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
-									  new UserLogoutHandler());
-
-			viewHandler = new AttachmentViewHandler(Station.Instance.StationID);
-			functionServer.AddHandler(GetDefaultBathPath("/attachments/view/"), viewHandler);
-		}
 
 		private void loginHandler_UserLogined(object sender, UserLoginEventArgs e)
 		{
@@ -377,9 +334,6 @@ namespace Wammer.Station.Service
 		protected override void OnStop()
 		{
 			Station.Instance.Stop();
-
-			functionServer.Stop();
-			functionServer.Close();
 
 			managementServer.Stop();
 			managementServer.Close();

@@ -26,7 +26,7 @@ namespace Wammer.Station.APIHandler
 
 			var move = new FolderMover(new FolderUtility());
 
-			Station.Instance.SuspendSyncByUser();
+			Station.Instance.Stop();
 
 			try
 			{
@@ -42,7 +42,7 @@ namespace Wammer.Station.APIHandler
 			}
 			finally
 			{
-				Station.Instance.ResumeSyncByUser();
+				Station.Instance.Start();
 			}
 		}
 	}

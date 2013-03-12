@@ -4,7 +4,7 @@ using Waveface.Stream.Model;
 namespace Wammer.Station
 {
 	[APIHandlerInfo(APIHandlerType.FunctionAPI | APIHandlerType.ManagementAPI, "/availability/ping/")]
-	internal class PingHandler : HttpHandler
+	public class PingHandler : HttpHandler
 	{
 		private static volatile bool syncEnabled = true;
 

@@ -1,3 +1,4 @@
+using log4net;
 using Microsoft.Win32;
 using MongoDB.Driver.Builders;
 using System;
@@ -5,9 +6,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using Wammer.Cloud;
+using Wammer.PerfMonitor;
 using Wammer.PostUpload;
+using Wammer.Station.APIHandler;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Import;
+using Wammer.Station.Notify;
+using Wammer.Station.Service;
 using Wammer.Station.Timeline;
 using Waveface.Stream.Model;
 
@@ -29,6 +34,7 @@ namespace Wammer.Station
 
 
 		#region Var
+		private readonly ILog _logger = LogManager.GetLogger("Station");
 		private PostUploadTaskRunner _postUploadRunner;
 		private StationTimer _stationTimer;
 		private string _stationID;
@@ -44,9 +50,11 @@ namespace Wammer.Station
 		private bool isSyncing = false;
 		private object synclock = new object();
 
-		private Notify.WebSocketNotifyChannels wsChannelServer = new Notify.WebSocketNotifyChannels(9983);
-		private Notify.PostUpsertNotifier postUpsertNotifier;
-		private Notify.ConnectionUpdator connectionUpdator = new Wammer.Station.Notify.ConnectionUpdator();
+		private WebSocketNotifyChannels wsChannelServer = new WebSocketNotifyChannels(9983);
+		private PostUpsertNotifier postUpsertNotifier;
+		private ConnectionUpdator connectionUpdator = new ConnectionUpdator();
+
+		private HttpServer _functionServer;
 		#endregion
 
 
@@ -146,6 +154,23 @@ namespace Wammer.Station
 		{
 			get { return _driverAgent ?? (_driverAgent = new DriverController()); }
 		}
+
+		private HttpServer m_FunctionServer 
+		{
+			get
+			{
+				if (_functionServer == null)
+				{
+					_functionServer = new HttpServer(9981);
+					_functionServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
+				}
+				return _functionServer;
+			}
+			set
+			{
+				_functionServer = value;
+			}
+		}
 		#endregion
 
 
@@ -224,6 +249,29 @@ namespace Wammer.Station
 		#endregion
 
 		#region Private Method
+		private void suspendSync()
+		{
+			m_StationTimer.Stop();
+
+			threadsExit.GoExit = true;
+
+			// stop ws notify channel
+			wsChannelServer.Stop();
+
+			// Signal to stop runners
+			m_PostUploadRunner.StopAsync();
+			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.StopAsync());
+			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.StopAsync());
+			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.StopAsync());
+
+			// Wait runners to stop
+			m_PostUploadRunner.JoinOrKill();
+			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.JoinOrKill());
+			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.JoinOrKill());
+			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.JoinOrKill());
+
+			this.LogDebugMsg("Stop synchronization successfully");
+		}
 
 
 		private void CheckAndUpdateDriver(LoginedSession loginInfo, string sessionToken, string userID)
@@ -274,6 +322,10 @@ namespace Wammer.Station
 			m_DriverAgent.AddDriver(driver.folder, StationID, email, password, deviceID, deviceName);
 		}
 
+		private static string GetDefaultBathPath(string relativedPath)
+		{
+			return "/" + CloudServer.DEF_BASE_PATH + relativedPath;
+		}
 		#endregion
 
 
@@ -300,6 +352,7 @@ namespace Wammer.Station
 		/// </summary>
 		public void Start()
 		{
+			m_FunctionServer.Start();
 			ResumeSyncByUser();
 		}
 
@@ -308,6 +361,7 @@ namespace Wammer.Station
 		/// </summary>
 		public void Stop()
 		{
+			m_FunctionServer.Stop();
 			SuspendSyncByUser();
 			wsChannelServer.Stop();
 		}
@@ -315,7 +369,7 @@ namespace Wammer.Station
 		/// <summary>
 		/// Suspends the sync.
 		/// </summary>
-		public void SuspendSyncByUser()
+		private void SuspendSyncByUser()
 		{
 			userWantsSyncing = false;
 
@@ -323,34 +377,10 @@ namespace Wammer.Station
 				suspendSync();
 		}
 
-		private void suspendSync()
-		{
-			m_StationTimer.Stop();
-
-			threadsExit.GoExit = true;
-
-			// stop ws notify channel
-			wsChannelServer.Stop();
-
-			// Signal to stop runners
-			m_PostUploadRunner.StopAsync();
-			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.StopAsync());
-			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.StopAsync());
-			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.StopAsync());
-
-			// Wait runners to stop
-			m_PostUploadRunner.JoinOrKill();
-			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.JoinOrKill());
-			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.JoinOrKill());
-			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.JoinOrKill());
-
-			this.LogDebugMsg("Stop synchronization successfully");
-		}
-
 		/// <summary>
 		/// Resumes the sync.
 		/// </summary>
-		public void ResumeSyncByUser()
+		private void ResumeSyncByUser()
 		{
 			userWantsSyncing = true;
 
@@ -424,6 +454,45 @@ namespace Wammer.Station
 
 			if (loginedSession != null)
 				LoginedSessionCollection.Instance.Remove(Query.EQ("user.email", loginedSession.user.email));
+		}
+
+
+		public void InitFunctionServerHandlers(AttachmentUploadHandler attachmentHandler, BypassHttpHandler cloudForwarder, AttachmentViewHandler viewHandler, PingHandler funcPingHandler)
+		{
+			_logger.Info("Add cloud forwarders to function server");
+			m_FunctionServer.AddDefaultHandler(cloudForwarder);
+
+			_logger.Info("Add handlers to function server");
+
+			m_FunctionServer.AddHandler("/", new DummyHandler());
+
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/attachments/upload/"),
+									  attachmentHandler);
+
+			// TO BE REMOVED
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/get/"),
+									  new ResouceDirGetHandler(""));
+
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/station/resourceDir/set/"),
+									  new ResouceDirSetHandler());
+
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/attachments/get/"),
+									  new AttachmentGetHandler());
+
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/availability/ping/"),
+									  funcPingHandler);
+
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/reachability/ping/"),
+									  funcPingHandler);
+
+			var loginHandler = new UserLoginHandler();
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/auth/login/"),
+									  loginHandler);
+
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/auth/logout/"),
+									  new UserLogoutHandler());
+
+			m_FunctionServer.AddHandler(GetDefaultBathPath("/attachments/view/"), viewHandler);
 		}
 		#endregion
 
