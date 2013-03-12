@@ -152,6 +152,8 @@ namespace Waveface.Stream.WindowsClient
 
 			bool isFirstCreated;
 
+			var logger = log4net.LogManager.GetLogger(typeof(Program));
+
 			//Create a new mutex using specific mutex name
 			m_Mutex = new Mutex(true, "StreamWindowsClient", out isFirstCreated);
 
@@ -165,14 +167,22 @@ namespace Waveface.Stream.WindowsClient
 					var handle = NativeMethods.FindWindow("StreamClientMessageReceiver", null);
 
 					if (handle == IntPtr.Zero)
+					{
+						logger.Warn("Old process handle not found");
 						return;
+					}
 
+					logger.InfoFormat("Find old process handle: {0}", handle.ToString());
+
+
+					logger.InfoFormat("Send message 0x401 to old process ({0})", handle.ToString());
 					NativeMethods.SendMessage(handle, 0x401, IntPtr.Zero, IntPtr.Zero);
 
 					if (options.Imports != null && options.Imports.Any())
 					{
 						var msg = new ImportMsg { files = options.Imports.ToList() };
 
+						logger.InfoFormat("Send message 0x402 to old process ({0}):{1}{2}", handle.ToString(), Environment.NewLine, msg.ToFastJSON());
 						(new SendMessageHelper()).SendMessage("StreamClientMessageReceiver", null, 0x402, msg.ToFastJSON(), true);
 					}
 				}
@@ -319,6 +329,9 @@ namespace Waveface.Stream.WindowsClient
 			{
 				case 0x401:
 					{
+						var logger = log4net.LogManager.GetLogger(typeof(Program));
+						logger.Info("Received msg 0x401");
+
 						if (StreamClient.Instance.IsLogined || ShowLoginDialog() == DialogResult.OK)
 						{
 							if (!MainForm.Instance.IsDebugMode)
@@ -334,11 +347,16 @@ namespace Waveface.Stream.WindowsClient
 						switch ((int)e.wParam)
 						{
 							case 0x402:
+								var logger = log4net.LogManager.GetLogger(typeof(Program));
+								logger.Info("Received CopyData 0x402");
+
 								if (!StreamClient.Instance.IsLogined)
 									return;
 								var cd = (CopyDataStruct)Marshal.PtrToStructure(e.lParam, typeof(CopyDataStruct));
 
 								var jsonstr = Marshal.PtrToStringAuto(cd.lpData, cd.cbData / 2);
+
+								logger.InfoFormat("CopyData msg:{0}", Environment.NewLine, jsonstr);
 								ImportFileAndFolders(fastJSON.JSON.Instance.ToObject<ImportMsg>(jsonstr).files);
 								break;
 						}

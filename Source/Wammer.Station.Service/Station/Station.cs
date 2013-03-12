@@ -326,6 +326,41 @@ namespace Wammer.Station
 		{
 			return "/" + CloudServer.DEF_BASE_PATH + relativedPath;
 		}
+
+		/// <summary>
+		/// Suspends the sync.
+		/// </summary>
+		private void SuspendSyncByUser()
+		{
+			userWantsSyncing = false;
+
+			if (!isSyncing)
+				suspendSync();
+		}
+
+		/// <summary>
+		/// Resumes the sync.
+		/// </summary>
+		private void ResumeSyncByUser()
+		{
+			userWantsSyncing = true;
+
+			if (!isSyncing)
+				resumeSync();
+		}
+
+		private void resumeSync()
+		{
+			threadsExit.GoExit = false;
+			m_PostUploadRunner.Start();
+			m_StationTimer.Start();
+			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Start());
+			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Start());
+			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.Start());
+			wsChannelServer.Start();
+
+			this.LogDebugMsg("Start synchronization successfully");
+		}
 		#endregion
 
 
@@ -364,41 +399,6 @@ namespace Wammer.Station
 			m_FunctionServer.Stop();
 			SuspendSyncByUser();
 			wsChannelServer.Stop();
-		}
-
-		/// <summary>
-		/// Suspends the sync.
-		/// </summary>
-		private void SuspendSyncByUser()
-		{
-			userWantsSyncing = false;
-
-			if (!isSyncing)
-				suspendSync();
-		}
-
-		/// <summary>
-		/// Resumes the sync.
-		/// </summary>
-		private void ResumeSyncByUser()
-		{
-			userWantsSyncing = true;
-
-			if (!isSyncing)
-				resumeSync();
-		}
-
-		private void resumeSync()
-		{
-			threadsExit.GoExit = false;
-			m_PostUploadRunner.Start();
-			m_StationTimer.Start();
-			Array.ForEach(m_BodySyncRunners, taskRunner => taskRunner.Start());
-			Array.ForEach(m_UpstreamTaskRunner, taskRunner => taskRunner.Start());
-			Array.ForEach(m_ImportTaskRunner, taskRunner => taskRunner.Start());
-			wsChannelServer.Start();
-
-			this.LogDebugMsg("Start synchronization successfully");
 		}
 
 		public LoginedSession Login(string apikey, string sessionToken, string userID)
