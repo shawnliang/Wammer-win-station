@@ -35,28 +35,15 @@
 			this.refreshStatusTimer = new System.Windows.Forms.Timer(this.components);
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-			this.systemIconControl1 = new Waveface.Stream.WindowsClient.SystemIconControl();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.panelEx1 = new Waveface.Stream.WindowsClient.PanelEx();
-			this.devNameCtl = new Waveface.Stream.WindowsClient.Src.Control.DeviceNameControl();
-			this.label2 = new System.Windows.Forms.Label();
-			this.lblDeviceConnectStatus = new System.Windows.Forms.Label();
-			this.cmbDevice = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.pbxLogo = new System.Windows.Forms.PictureBox();
-			this.lblSyncTransferStatus = new System.Windows.Forms.Label();
-			this.lblSyncStatus = new System.Windows.Forms.Label();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabGeneral = new System.Windows.Forms.TabPage();
-			this.usageDetailControl1 = new Waveface.Stream.WindowsClient.Src.Control.UsageDetailControl();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tabDevices = new System.Windows.Forms.TabPage();
-			this.personalCloudStatusControl21 = new Waveface.Stream.WindowsClient.PersonalCloudStatusControl2();
 			this.tabAccount = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.planBox1 = new Waveface.Stream.WindowsClient.PlanBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.button3 = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -68,15 +55,26 @@
 			this.tbxEmail = new System.Windows.Forms.TextBox();
 			this.tbxName = new System.Windows.Forms.TextBox();
 			this.tabConnections = new System.Windows.Forms.TabPage();
-			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
 			this.tabAbout = new System.Windows.Forms.TabPage();
+			this.systemIconControl1 = new Waveface.Stream.WindowsClient.SystemIconControl();
+			this.panelEx1 = new Waveface.Stream.WindowsClient.PanelEx();
+			this.devNameCtl = new Waveface.Stream.WindowsClient.Src.Control.DeviceNameControl();
+			this.label2 = new System.Windows.Forms.Label();
+			this.lblDeviceConnectStatus = new System.Windows.Forms.Label();
+			this.cmbDevice = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.pbxLogo = new System.Windows.Forms.PictureBox();
+			this.lblSyncTransferStatus = new System.Windows.Forms.Label();
+			this.lblSyncStatus = new System.Windows.Forms.Label();
+			this.usageDetailControl1 = new Waveface.Stream.WindowsClient.Src.Control.UsageDetailControl();
+			this.personalCloudStatusControl21 = new Waveface.Stream.WindowsClient.PersonalCloudStatusControl2();
+			this.planBox1 = new Waveface.Stream.WindowsClient.PlanBox();
+			this.serviceImportControl1 = new Waveface.Stream.WindowsClient.ServiceImportControl();
 			this.aboutControl1 = new Waveface.Stream.WindowsClient.Src.Control.AboutControl();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
-			this.panelEx1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
 			this.tabControl1.SuspendLayout();
 			this.tabGeneral.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -88,6 +86,8 @@
 			this.panel2.SuspendLayout();
 			this.tabConnections.SuspendLayout();
 			this.tabAbout.SuspendLayout();
+			this.panelEx1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// linkLabel1
@@ -123,13 +123,6 @@
 			// 
 			this.errorProvider1.ContainerControl = this;
 			// 
-			// systemIconControl1
-			// 
-			resources.ApplyResources(this.systemIconControl1, "systemIconControl1");
-			this.errorProvider1.SetIconAlignment(this.systemIconControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("systemIconControl1.IconAlignment"))));
-			this.systemIconControl1.IconType = Waveface.Stream.WindowsClient.SystemIconControl.SystemIconType.Question;
-			this.systemIconControl1.Name = "systemIconControl1";
-			// 
 			// splitContainer1
 			// 
 			resources.ApplyResources(this.splitContainer1, "splitContainer1");
@@ -146,82 +139,6 @@
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
 			this.errorProvider1.SetIconAlignment(this.splitContainer1.Panel2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("splitContainer1.Panel2.IconAlignment"))));
-			// 
-			// panelEx1
-			// 
-			this.panelEx1.Controls.Add(this.devNameCtl);
-			this.panelEx1.Controls.Add(this.label2);
-			this.panelEx1.Controls.Add(this.lblDeviceConnectStatus);
-			this.panelEx1.Controls.Add(this.cmbDevice);
-			this.panelEx1.Controls.Add(this.label1);
-			this.panelEx1.Controls.Add(this.pbxLogo);
-			this.panelEx1.Controls.Add(this.lblSyncTransferStatus);
-			this.panelEx1.Controls.Add(this.lblSyncStatus);
-			resources.ApplyResources(this.panelEx1, "panelEx1");
-			this.panelEx1.EnableLinearGradientBackground = true;
-			this.errorProvider1.SetIconAlignment(this.panelEx1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panelEx1.IconAlignment"))));
-			this.panelEx1.LinearGradientEndColor = System.Drawing.Color.White;
-			this.panelEx1.LinearGradientStartColor = System.Drawing.Color.SlateGray;
-			this.panelEx1.Name = "panelEx1";
-			// 
-			// devNameCtl
-			// 
-			this.devNameCtl.BackColor = System.Drawing.Color.Transparent;
-			this.devNameCtl.DeviceName = "[DeviceName]";
-			resources.ApplyResources(this.devNameCtl, "devNameCtl");
-			this.devNameCtl.Name = "devNameCtl";
-			// 
-			// label2
-			// 
-			resources.ApplyResources(this.label2, "label2");
-			this.label2.BackColor = System.Drawing.Color.Transparent;
-			this.errorProvider1.SetIconAlignment(this.label2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label2.IconAlignment"))));
-			this.label2.Name = "label2";
-			// 
-			// lblDeviceConnectStatus
-			// 
-			resources.ApplyResources(this.lblDeviceConnectStatus, "lblDeviceConnectStatus");
-			this.lblDeviceConnectStatus.BackColor = System.Drawing.Color.Transparent;
-			this.errorProvider1.SetIconAlignment(this.lblDeviceConnectStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblDeviceConnectStatus.IconAlignment"))));
-			this.lblDeviceConnectStatus.Name = "lblDeviceConnectStatus";
-			// 
-			// cmbDevice
-			// 
-			resources.ApplyResources(this.cmbDevice, "cmbDevice");
-			this.cmbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cmbDevice.FormattingEnabled = true;
-			this.errorProvider1.SetIconAlignment(this.cmbDevice, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("cmbDevice.IconAlignment"))));
-			this.cmbDevice.Name = "cmbDevice";
-			this.cmbDevice.TextChanged += new System.EventHandler(this.cmbDevice_TextChanged);
-			// 
-			// label1
-			// 
-			resources.ApplyResources(this.label1, "label1");
-			this.label1.BackColor = System.Drawing.Color.Transparent;
-			this.errorProvider1.SetIconAlignment(this.label1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label1.IconAlignment"))));
-			this.label1.Name = "label1";
-			// 
-			// pbxLogo
-			// 
-			resources.ApplyResources(this.pbxLogo, "pbxLogo");
-			this.pbxLogo.BackColor = System.Drawing.Color.Transparent;
-			this.errorProvider1.SetIconAlignment(this.pbxLogo, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("pbxLogo.IconAlignment"))));
-			this.pbxLogo.Name = "pbxLogo";
-			this.pbxLogo.TabStop = false;
-			// 
-			// lblSyncTransferStatus
-			// 
-			resources.ApplyResources(this.lblSyncTransferStatus, "lblSyncTransferStatus");
-			this.lblSyncTransferStatus.BackColor = System.Drawing.Color.Transparent;
-			this.errorProvider1.SetIconAlignment(this.lblSyncTransferStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblSyncTransferStatus.IconAlignment"))));
-			this.lblSyncTransferStatus.Name = "lblSyncTransferStatus";
-			// 
-			// lblSyncStatus
-			// 
-			resources.ApplyResources(this.lblSyncStatus, "lblSyncStatus");
-			this.lblSyncStatus.BackColor = System.Drawing.Color.Transparent;
-			this.errorProvider1.SetIconAlignment(this.lblSyncStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblSyncStatus.IconAlignment"))));
-			this.lblSyncStatus.Name = "lblSyncStatus";
 			// 
 			// tabControl1
 			// 
@@ -244,21 +161,6 @@
 			resources.ApplyResources(this.tabGeneral, "tabGeneral");
 			this.tabGeneral.Name = "tabGeneral";
 			this.tabGeneral.UseVisualStyleBackColor = true;
-			// 
-			// usageDetailControl1
-			// 
-			resources.ApplyResources(this.usageDetailControl1, "usageDetailControl1");
-			this.usageDetailControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.usageDetailControl1.CloudTotalUsage = "[Cloud Total Usage]";
-			this.errorProvider1.SetIconAlignment(this.usageDetailControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("usageDetailControl1.IconAlignment"))));
-			this.usageDetailControl1.LocalDocument = "---";
-			this.usageDetailControl1.LocalPhoto = "---";
-			this.usageDetailControl1.Name = "usageDetailControl1";
-			this.usageDetailControl1.ResourcePath = "[Resource Folder]";
-			this.usageDetailControl1.TotalDocument = ((long)(500));
-			this.usageDetailControl1.TotalPhoto = ((long)(500));
-			this.usageDetailControl1.TotalWeb = ((long)(500));
-			this.usageDetailControl1.ChangeResourcePathButtonClick += new System.EventHandler(this.usageDetailControl1_ChangeResourcePathButtonClick);
 			// 
 			// groupBox3
 			// 
@@ -291,15 +193,6 @@
 			this.tabDevices.Name = "tabDevices";
 			this.tabDevices.UseVisualStyleBackColor = true;
 			// 
-			// personalCloudStatusControl21
-			// 
-			this.personalCloudStatusControl21.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			resources.ApplyResources(this.personalCloudStatusControl21, "personalCloudStatusControl21");
-			this.personalCloudStatusControl21.EnableAutoRefreshStatus = false;
-			this.errorProvider1.SetIconAlignment(this.personalCloudStatusControl21, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("personalCloudStatusControl21.IconAlignment"))));
-			this.personalCloudStatusControl21.Name = "personalCloudStatusControl21";
-			this.personalCloudStatusControl21.RefreshInterval = 15000;
-			// 
 			// tabAccount
 			// 
 			this.tabAccount.Controls.Add(this.groupBox2);
@@ -317,15 +210,6 @@
 			this.errorProvider1.SetIconAlignment(this.groupBox2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("groupBox2.IconAlignment"))));
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
-			// 
-			// planBox1
-			// 
-			this.planBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			resources.ApplyResources(this.planBox1, "planBox1");
-			this.planBox1.HeaderVisibile = false;
-			this.errorProvider1.SetIconAlignment(this.planBox1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("planBox1.IconAlignment"))));
-			this.planBox1.Name = "planBox1";
-			this.planBox1.Type = Waveface.Stream.WindowsClient.PlanBox.PlanType.Free;
 			// 
 			// panel1
 			// 
@@ -412,13 +296,6 @@
 			this.tabConnections.Name = "tabConnections";
 			this.tabConnections.UseVisualStyleBackColor = true;
 			// 
-			// serviceImportControl1
-			// 
-			this.serviceImportControl1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			resources.ApplyResources(this.serviceImportControl1, "serviceImportControl1");
-			this.errorProvider1.SetIconAlignment(this.serviceImportControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("serviceImportControl1.IconAlignment"))));
-			this.serviceImportControl1.Name = "serviceImportControl1";
-			// 
 			// tabAbout
 			// 
 			this.tabAbout.Controls.Add(this.aboutControl1);
@@ -426,6 +303,129 @@
 			resources.ApplyResources(this.tabAbout, "tabAbout");
 			this.tabAbout.Name = "tabAbout";
 			this.tabAbout.UseVisualStyleBackColor = true;
+			// 
+			// systemIconControl1
+			// 
+			resources.ApplyResources(this.systemIconControl1, "systemIconControl1");
+			this.errorProvider1.SetIconAlignment(this.systemIconControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("systemIconControl1.IconAlignment"))));
+			this.systemIconControl1.IconType = Waveface.Stream.WindowsClient.SystemIconControl.SystemIconType.Question;
+			this.systemIconControl1.Name = "systemIconControl1";
+			// 
+			// panelEx1
+			// 
+			this.panelEx1.Controls.Add(this.devNameCtl);
+			this.panelEx1.Controls.Add(this.label2);
+			this.panelEx1.Controls.Add(this.lblDeviceConnectStatus);
+			this.panelEx1.Controls.Add(this.cmbDevice);
+			this.panelEx1.Controls.Add(this.label1);
+			this.panelEx1.Controls.Add(this.pbxLogo);
+			this.panelEx1.Controls.Add(this.lblSyncTransferStatus);
+			this.panelEx1.Controls.Add(this.lblSyncStatus);
+			resources.ApplyResources(this.panelEx1, "panelEx1");
+			this.panelEx1.EnableLinearGradientBackground = true;
+			this.errorProvider1.SetIconAlignment(this.panelEx1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("panelEx1.IconAlignment"))));
+			this.panelEx1.LinearGradientEndColor = System.Drawing.Color.White;
+			this.panelEx1.LinearGradientStartColor = System.Drawing.Color.SlateGray;
+			this.panelEx1.Name = "panelEx1";
+			// 
+			// devNameCtl
+			// 
+			resources.ApplyResources(this.devNameCtl, "devNameCtl");
+			this.devNameCtl.BackColor = System.Drawing.Color.Transparent;
+			this.devNameCtl.DeviceName = "[DeviceName]";
+			this.devNameCtl.Name = "devNameCtl";
+			// 
+			// label2
+			// 
+			resources.ApplyResources(this.label2, "label2");
+			this.label2.BackColor = System.Drawing.Color.Transparent;
+			this.errorProvider1.SetIconAlignment(this.label2, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label2.IconAlignment"))));
+			this.label2.Name = "label2";
+			// 
+			// lblDeviceConnectStatus
+			// 
+			resources.ApplyResources(this.lblDeviceConnectStatus, "lblDeviceConnectStatus");
+			this.lblDeviceConnectStatus.BackColor = System.Drawing.Color.Transparent;
+			this.errorProvider1.SetIconAlignment(this.lblDeviceConnectStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblDeviceConnectStatus.IconAlignment"))));
+			this.lblDeviceConnectStatus.Name = "lblDeviceConnectStatus";
+			// 
+			// cmbDevice
+			// 
+			resources.ApplyResources(this.cmbDevice, "cmbDevice");
+			this.cmbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbDevice.FormattingEnabled = true;
+			this.errorProvider1.SetIconAlignment(this.cmbDevice, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("cmbDevice.IconAlignment"))));
+			this.cmbDevice.Name = "cmbDevice";
+			this.cmbDevice.TextChanged += new System.EventHandler(this.cmbDevice_TextChanged);
+			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.BackColor = System.Drawing.Color.Transparent;
+			this.errorProvider1.SetIconAlignment(this.label1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("label1.IconAlignment"))));
+			this.label1.Name = "label1";
+			// 
+			// pbxLogo
+			// 
+			resources.ApplyResources(this.pbxLogo, "pbxLogo");
+			this.pbxLogo.BackColor = System.Drawing.Color.Transparent;
+			this.errorProvider1.SetIconAlignment(this.pbxLogo, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("pbxLogo.IconAlignment"))));
+			this.pbxLogo.Name = "pbxLogo";
+			this.pbxLogo.TabStop = false;
+			// 
+			// lblSyncTransferStatus
+			// 
+			resources.ApplyResources(this.lblSyncTransferStatus, "lblSyncTransferStatus");
+			this.lblSyncTransferStatus.BackColor = System.Drawing.Color.Transparent;
+			this.errorProvider1.SetIconAlignment(this.lblSyncTransferStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblSyncTransferStatus.IconAlignment"))));
+			this.lblSyncTransferStatus.Name = "lblSyncTransferStatus";
+			// 
+			// lblSyncStatus
+			// 
+			resources.ApplyResources(this.lblSyncStatus, "lblSyncStatus");
+			this.lblSyncStatus.BackColor = System.Drawing.Color.Transparent;
+			this.errorProvider1.SetIconAlignment(this.lblSyncStatus, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("lblSyncStatus.IconAlignment"))));
+			this.lblSyncStatus.Name = "lblSyncStatus";
+			// 
+			// usageDetailControl1
+			// 
+			resources.ApplyResources(this.usageDetailControl1, "usageDetailControl1");
+			this.usageDetailControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.usageDetailControl1.CloudTotalUsage = "[Cloud Total Usage]";
+			this.errorProvider1.SetIconAlignment(this.usageDetailControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("usageDetailControl1.IconAlignment"))));
+			this.usageDetailControl1.LocalDocument = "---";
+			this.usageDetailControl1.LocalPhoto = "---";
+			this.usageDetailControl1.Name = "usageDetailControl1";
+			this.usageDetailControl1.ResourcePath = "[Resource Folder]";
+			this.usageDetailControl1.TotalDocument = ((long)(500));
+			this.usageDetailControl1.TotalPhoto = ((long)(500));
+			this.usageDetailControl1.TotalWeb = ((long)(500));
+			this.usageDetailControl1.ChangeResourcePathButtonClick += new System.EventHandler(this.usageDetailControl1_ChangeResourcePathButtonClick);
+			// 
+			// personalCloudStatusControl21
+			// 
+			this.personalCloudStatusControl21.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			resources.ApplyResources(this.personalCloudStatusControl21, "personalCloudStatusControl21");
+			this.personalCloudStatusControl21.EnableAutoRefreshStatus = false;
+			this.errorProvider1.SetIconAlignment(this.personalCloudStatusControl21, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("personalCloudStatusControl21.IconAlignment"))));
+			this.personalCloudStatusControl21.Name = "personalCloudStatusControl21";
+			this.personalCloudStatusControl21.RefreshInterval = 15000;
+			// 
+			// planBox1
+			// 
+			this.planBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			resources.ApplyResources(this.planBox1, "planBox1");
+			this.planBox1.HeaderVisibile = false;
+			this.errorProvider1.SetIconAlignment(this.planBox1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("planBox1.IconAlignment"))));
+			this.planBox1.Name = "planBox1";
+			this.planBox1.Type = Waveface.Stream.WindowsClient.PlanBox.PlanType.Free;
+			// 
+			// serviceImportControl1
+			// 
+			this.serviceImportControl1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			resources.ApplyResources(this.serviceImportControl1, "serviceImportControl1");
+			this.errorProvider1.SetIconAlignment(this.serviceImportControl1, ((System.Windows.Forms.ErrorIconAlignment)(resources.GetObject("serviceImportControl1.IconAlignment"))));
+			this.serviceImportControl1.Name = "serviceImportControl1";
 			// 
 			// aboutControl1
 			// 
@@ -451,8 +451,6 @@
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.ResumeLayout(false);
-			this.panelEx1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
 			this.tabControl1.ResumeLayout(false);
 			this.tabGeneral.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
@@ -466,6 +464,8 @@
 			this.panel2.ResumeLayout(false);
 			this.tabConnections.ResumeLayout(false);
 			this.tabAbout.ResumeLayout(false);
+			this.panelEx1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

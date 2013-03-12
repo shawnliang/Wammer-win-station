@@ -35,19 +35,17 @@
 			// 
 			// deviceNameLabel
 			// 
-			this.deviceNameLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.deviceNameLabel.AutoSize = true;
-			this.deviceNameLabel.Location = new System.Drawing.Point(39, 12);
+			this.deviceNameLabel.Location = new System.Drawing.Point(36, 11);
 			this.deviceNameLabel.Name = "deviceNameLabel";
-			this.deviceNameLabel.Size = new System.Drawing.Size(75, 13);
+			this.deviceNameLabel.Size = new System.Drawing.Size(72, 12);
 			this.deviceNameLabel.TabIndex = 0;
 			this.deviceNameLabel.Text = "[DeviceName]";
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.pictureBox1.Image = global::Waveface.Stream.WindowsClient.Properties.Resources.winControl2;
-			this.pictureBox1.Location = new System.Drawing.Point(10, 4);
+			this.pictureBox1.Location = new System.Drawing.Point(7, 4);
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.Size = new System.Drawing.Size(23, 27);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -56,12 +54,12 @@
 			// 
 			// DeviceNameControl
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.deviceNameLabel);
 			this.Name = "DeviceNameControl";
-			this.Size = new System.Drawing.Size(124, 39);
+			this.Size = new System.Drawing.Size(119, 36);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

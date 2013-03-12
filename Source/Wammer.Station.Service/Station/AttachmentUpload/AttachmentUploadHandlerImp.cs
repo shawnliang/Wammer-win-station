@@ -195,7 +195,8 @@ namespace Wammer.Station.AttachmentUpload
 								event_time = eventTime,
 								timezone = uploadData.timezone,
 								fromLocal = uploadData.fromLocal,
-								device_id = StationRegistry.StationId
+								device_id = StationRegistry.StationId,
+								file_create_time = uploadData.file_create_time
 							};
 
 			if (uploadData.imageMeta == ImageMeta.Origin || uploadData.imageMeta == ImageMeta.None)
@@ -207,7 +208,6 @@ namespace Wammer.Station.AttachmentUpload
 				dbDoc.MD5 = MD5Helper.ComputeMD5(uploadData.raw_data.Array, uploadData.raw_data.Offset, uploadData.raw_data.Count);
 				dbDoc.image_meta.width = imageSize.Width;
 				dbDoc.image_meta.height = imageSize.Height;
-				dbDoc.file_create_time = uploadData.file_create_time;
 			}
 			else
 			{
