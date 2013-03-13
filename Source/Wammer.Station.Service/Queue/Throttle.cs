@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wammer.Station;
 
@@ -66,7 +67,7 @@ namespace Wammer.Queue
 		}
 	}
 
-
+	[Serializable]
 	internal class ThrottleTask : ITask
 	{
 		private ITask task;
