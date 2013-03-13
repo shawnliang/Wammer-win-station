@@ -8,9 +8,9 @@ from shutil import move
 from os import remove, close
 
 CURRENT_COPYRIGHT = '"Copyright © 2011-2012 Waveface Inc."'
-PRODUCT_NAME = 'AssemblyProduct("Waveface Stream")'
+PRODUCT_NAME = 'AssemblyProduct("Waveface aostream")'
 
-VER_PATTERN = re.compile('"3\.0\.0\.0"')
+VER_PATTERN = re.compile('"1\.0\.0\.0"')
 COPYRIGHT_PATTERN = re.compile('"Copyright.*Waveface.*"')
 PRODUCT_PATTERN = re.compile('AssemblyProduct\(.*?\)')
 
