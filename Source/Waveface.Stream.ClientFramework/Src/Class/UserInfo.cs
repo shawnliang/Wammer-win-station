@@ -218,6 +218,23 @@ namespace Waveface.Stream.ClientFramework
 				return m_ResponseObj.usage.doc.objects;
 			}
 		}
+
+
+		public Boolean Paid
+		{
+			get
+			{
+				return m_ResponseObj.billing.type.Equals("paid", StringComparison.CurrentCultureIgnoreCase);
+			}
+		}
+
+		public string Plan
+		{
+			get
+			{
+				return m_ResponseObj.billing.plan;
+			}
+		}
 		#endregion
 
 
@@ -436,10 +453,18 @@ namespace Waveface.Stream.ClientFramework
 		public UsageItem webthumb { get; set; }
 	}
 
+	public class Billing
+	{
+		public string type { get; set; }
+		public string plan { get; set; }
+		public int cycle { get; set; }
+	}
+
 	public class MR_users_get : General_R
 	{
 		public User user { get; set; }
 		public List<Group> groups { get; set; }
+		public Billing billing { get; set; }
 		public List<Station> stations { get; set; }
 		public List<SNS1> sns { get; set; }
 		public Quota quota { get; set; }

@@ -535,7 +535,7 @@ namespace Waveface.Stream.WindowsClient
 			refreshUserInfoAsync();
 		}
 
-		private static void refreshUserInfoAsync()
+		private void refreshUserInfoAsync()
 		{
 			// force update user's info to refresh all information
 			var refreshBgWorker = new BackgroundWorker();
@@ -543,6 +543,12 @@ namespace Waveface.Stream.WindowsClient
 			{
 				Waveface.Stream.ClientFramework.UserInfo.Instance.Update();
 			};
+
+			refreshBgWorker.RunWorkerCompleted += (sender, e) =>
+				{
+					var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+					planBox1.Type = userInfo.Plan.Equals("250g", StringComparison.CurrentCultureIgnoreCase) ? PlanBox.PlanType.Plan1 : (userInfo.Plan.Equals("500g", StringComparison.CurrentCultureIgnoreCase) ? PlanBox.PlanType.Plan2 : PlanBox.PlanType.Free);
+				};
 
 			refreshBgWorker.RunWorkerAsync();
 		}
