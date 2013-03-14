@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient.Src.Control
@@ -123,7 +124,14 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 
 		private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			Process.Start(linkLabel3.Text);
+			try
+			{
+				Directory.CreateDirectory(linkLabel3.Text);
+				Process.Start(linkLabel3.Text);
+			}
+			catch (Exception)
+			{
+			}
 		}
 		#endregion
 	}
