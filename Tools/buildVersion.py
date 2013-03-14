@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -7,12 +7,12 @@ from tempfile import mkstemp
 from shutil import move
 from os import remove, close
 
-CURRENT_COPYRIGHT = '"Copyright © 2011-2012 Waveface Inc."'
-PRODUCT_NAME = 'AssemblyProduct("Waveface aostream")'
+CURRENT_COPYRIGHT = 'Copyright © 2011-2012 Waveface Inc.'
+PRODUCT_NAME = 'Waveface aostream'
 
-VER_PATTERN = re.compile('"1\.0\.0\.0"')
-COPYRIGHT_PATTERN = re.compile('"Copyright.*Waveface.*"')
-PRODUCT_PATTERN = re.compile('AssemblyProduct\(.*?\)')
+VER_PATTERN = re.compile('(?<=\[.*Assembly.*Version\(").*?(?="\)\])')
+COPYRIGHT_PATTERN = re.compile('(?<=\[.*AssemblyCopyright\(").*?(?="\)\])')
+PRODUCT_PATTERN = re.compile('(?<=\[.*AssemblyProduct\(").*?(?="\)\])')
 
 def find_and_replace(target, version, pattern):
 
@@ -35,7 +35,7 @@ def dir_traverse(dest, version):
         for filename in filenames:
             if (filename == 'AssemblyInfo.cs'):
                 target = os.path.join(dirname, filename)
-                find_and_replace(target, '"' + version + '"', VER_PATTERN)
+                find_and_replace(target, version, VER_PATTERN)
                 find_and_replace(target, CURRENT_COPYRIGHT, COPYRIGHT_PATTERN)
                 find_and_replace(target, PRODUCT_NAME, PRODUCT_PATTERN)
 
