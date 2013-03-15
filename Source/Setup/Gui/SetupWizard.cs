@@ -41,12 +41,16 @@ namespace Gui
 				//uncomment this line if you want to support MSI property passthrough
 				//SetupHelper.ApplyMsiProperties();
 				var modes = GetInstallationModes(MsiConnection.Instance.Mode);
+
+                if (modes.Contains(InstallationMode.Reinstall))
+                    modes.Remove(InstallationMode.Reinstall);
+
 				if (modes.Contains(InstallationMode.Downgrade))
 					AddStep(new FatalErrorStep(Gui.Properties.Resources.DowngradeNotSupported));
-				else if (modes.Count > 1)
-					AddStep(new InstallationModeStep(modes));
-				else if (modes.Count == 1)
+				else if (modes.Count == 1 && modes.Contains(InstallationMode.Install))
 					AddStep(new WelcomeStep(modes[0]));
+                else
+                    AddStep(new InstallationModeStep(modes));
 			}
 			else if (type == LifecycleActionType.ModeSelected)
 			{

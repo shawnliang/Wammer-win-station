@@ -67,7 +67,9 @@
     <ResourceOverride Include="en-US\SharpSetup.UI.Controls.FeatureTree.resx" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceOverride Include="en-US\SharpSetup.UI.Controls.InstallationModeSelector.resx" />
+    <ResourceOverride Include="en-US\SharpSetup.UI.Controls.InstallationModeSelector.resx">
+      <SubType>Designer</SubType>
+    </ResourceOverride>
   </ItemGroup>
   <ItemGroup>
     <ResourceOverride Include="en-US\SharpSetup.UI.Controls.InstallationProgress.resx" />
@@ -102,7 +104,9 @@
     <ResourceOverride Include="zh-TW\SharpSetup.UI.Controls.FeatureTree.resx" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceOverride Include="zh-TW\SharpSetup.UI.Controls.InstallationModeSelector.resx" />
+    <ResourceOverride Include="zh-TW\SharpSetup.UI.Controls.InstallationModeSelector.resx">
+      <SubType>Designer</SubType>
+    </ResourceOverride>
   </ItemGroup>
   <ItemGroup>
     <ResourceOverride Include="zh-TW\SharpSetup.UI.Controls.InstallationProgress.resx" />
