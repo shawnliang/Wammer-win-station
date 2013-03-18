@@ -185,6 +185,8 @@ namespace Waveface.Stream.Model
 		/// </summary>
 		public int post_next_seq { get; set; }
 
+		public int change_log_next_seq { get; set; }
+
 		/// <summary>
 		/// Used as modified_time_since when calling attachments/search to sync attachments 
 		/// </summary>

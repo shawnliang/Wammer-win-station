@@ -80,8 +80,8 @@ namespace Wammer.Station.Service
 
 		private void RunStation()
 		{
-			try
-			{
+			//try
+			//{
 				logger.Warn("============== Starting Stream Station =================");
 
 				while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
@@ -233,12 +233,12 @@ namespace Wammer.Station.Service
 				};
 
 				WebClientControlServer.Instance.Start();
-			}
-			catch (Exception ex)
-			{
-				logger.Error("Unknown exception", ex);
-				throw;
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	logger.Error("Unknown exception", ex);
+			//	throw;
+			//}
 		}
 
 		private void initializeDatabase()

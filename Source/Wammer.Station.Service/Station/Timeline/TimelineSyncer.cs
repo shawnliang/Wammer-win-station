@@ -46,6 +46,7 @@ namespace Wammer.Station.Timeline
 
 		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
 		public event EventHandler<AttachmentModifiedEventArgs> AttachmentModified;
+		public event EventHandler<AttachmentHideEventArgs> AttachmentHided;
 
 		public TimelineSyncer()
 		{
@@ -65,6 +66,50 @@ namespace Wammer.Station.Timeline
 			pullNewAttachments(user, out hasNewAttachments, syncRange);
 
 			return hasNewEvents || hasNewAttachments;
+		}
+
+		private void PullChangeLog(Driver user, out bool hasNewChangeLog, SyncRange syncRange)
+		{
+			hasNewChangeLog = false;
+			syncRange = new SyncRange();
+
+			if (user.sync_range != null)
+				syncRange = user.sync_range;
+
+			var next_seq = syncRange.change_log_next_seq;
+			var has_more = false;
+			do
+			{
+				var result = ChangeLogProvider.GetChangeHistory(user, next_seq);
+
+				has_more = result.remaining_count > 0;
+				next_seq = result.next_seq_num;
+
+				if (result.changelog_list != null && result.changelog_list.Count > 0)
+				{
+					foreach (var change in result.changelog_list)
+					{
+						if (change.target_type == "attachment")
+						{
+							foreach (var action in change.actions)
+							{
+								if (action.action == "delete")
+								{
+									OnAttachmentHided(new AttachmentHideEventArgs() { attachmentIDs = action.target_id_list, user_id = user.user_id});
+									hasNewChangeLog = true;
+								}
+							}
+						}
+					}
+				}
+
+			} while (has_more);
+
+			if (hasNewChangeLog)
+			{
+				syncRange.change_log_next_seq = next_seq;
+				DB.UpdateDriverSyncRange(user.user_id, syncRange);
+			}
 		}
 
 		private void pullNewAttachments(Driver user, out bool hasNewAttachments, SyncRange syncRange)
@@ -141,6 +186,13 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
+		private void OnAttachmentHided(AttachmentHideEventArgs e)
+		{
+			if (AttachmentHided == null)
+				return;
+			AttachmentHided(this, e);
+		}
+
 		private void OnAttachmentModified(Driver user, List<AttachmentInfo> atts)
 		{
 			EventHandler<AttachmentModifiedEventArgs> handler = AttachmentModified;
@@ -173,6 +225,12 @@ namespace Wammer.Station.Timeline
 	public class AttachmentModifiedEventArgs : EventArgs
 	{
 		public List<AttachmentInfo> attachments { get; set; }
+		public string user_id { get; set; }
+	}
+
+	public class AttachmentHideEventArgs : EventArgs
+	{
+		public IEnumerable<string> attachmentIDs { get; set; }
 		public string user_id { get; set; }
 	}
 }

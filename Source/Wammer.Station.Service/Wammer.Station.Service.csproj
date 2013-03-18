@@ -159,6 +159,7 @@
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadStorage.cs" />
+    <Compile Include="Station\AttachmentUpload\DeleteAttachmentTask.cs" />
     <Compile Include="Station\AttachmentUpload\EventTime.cs" />
     <Compile Include="Station\AttachmentUpload\ExifExtractor.cs" />
     <Compile Include="Station\AttachmentUpload\HideAttachmentTask.cs" />
