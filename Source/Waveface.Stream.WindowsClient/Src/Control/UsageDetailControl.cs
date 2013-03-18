@@ -68,6 +68,30 @@ namespace Waveface.Stream.WindowsClient.Src.Control
 			}
 		}
 
+		public string CloudPhoto
+		{
+			get
+			{
+				return lblCloudPhoto.Text;
+			}
+			set
+			{
+				lblCloudPhoto.Text = value;
+			}
+		}
+
+		public string CloudDocument
+		{
+			get
+			{
+				return lblCloudDocument.Text;
+			}
+			set
+			{
+				lblCloudDocument.Text = value;
+			}
+		}
+
 
 		public long TotalWeb
 		{

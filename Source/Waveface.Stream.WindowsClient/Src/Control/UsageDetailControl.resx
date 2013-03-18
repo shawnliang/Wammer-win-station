@@ -136,10 +136,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="button8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 15</value>
+    <value>2, 13</value>
   </data>
   <data name="button8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 25</value>
+    <value>41, 23</value>
   </data>
   <data name="button8.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -166,13 +166,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel23.Location" type="System.Drawing.Point, System.Drawing">
-    <value>171, 64</value>
+    <value>171, 59</value>
   </data>
   <data name="tableLayoutPanel23.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 55</value>
+    <value>45, 50</value>
   </data>
   <data name="tableLayoutPanel23.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -199,10 +199,10 @@
     <value>True</value>
   </data>
   <data name="button7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 15</value>
+    <value>2, 13</value>
   </data>
   <data name="button7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 25</value>
+    <value>41, 23</value>
   </data>
   <data name="button7.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -229,13 +229,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel22.Location" type="System.Drawing.Point, System.Drawing">
-    <value>171, 125</value>
+    <value>171, 115</value>
   </data>
   <data name="tableLayoutPanel22.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 55</value>
+    <value>45, 50</value>
   </data>
   <data name="tableLayoutPanel22.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -262,10 +262,10 @@
     <value>True</value>
   </data>
   <data name="button6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 15</value>
+    <value>2, 13</value>
   </data>
   <data name="button6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 25</value>
+    <value>41, 23</value>
   </data>
   <data name="button6.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -298,7 +298,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 55</value>
+    <value>45, 50</value>
   </data>
   <data name="tableLayoutPanel21.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -321,44 +321,44 @@
   <data name="tableLayoutPanel18.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblCloudWeb.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 21</value>
+  <data name="lblCloudWeb.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
   </data>
-  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 13</value>
+  <data name="lblCloudWeb.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 12</value>
   </data>
-  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblCloudWeb.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label12.Text" xml:space="preserve">
+  <data name="lblCloudWeb.Text" xml:space="preserve">
     <value>---</value>
   </data>
-  <data name="&gt;&gt;label12.Name" xml:space="preserve">
-    <value>label12</value>
+  <data name="&gt;&gt;lblCloudWeb.Name" xml:space="preserve">
+    <value>lblCloudWeb</value>
   </data>
-  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudWeb.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudWeb.Parent" xml:space="preserve">
     <value>tableLayoutPanel18</value>
   </data>
-  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudWeb.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="tableLayoutPanel18.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 64</value>
+    <value>3, 59</value>
   </data>
   <data name="tableLayoutPanel18.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 55</value>
+    <value>162, 50</value>
   </data>
   <data name="tableLayoutPanel18.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -376,49 +376,49 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel18.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label12" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50" /&gt;&lt;Rows Styles="Percent,50,AutoSize,0,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblCloudWeb" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50" /&gt;&lt;Rows Styles="Percent,50,AutoSize,0,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel19.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblCloudDocument.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 21</value>
+  <data name="lblCloudDocument.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
   </data>
-  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 13</value>
+  <data name="lblCloudDocument.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 12</value>
   </data>
-  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblCloudDocument.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label13.Text" xml:space="preserve">
+  <data name="lblCloudDocument.Text" xml:space="preserve">
     <value>---</value>
   </data>
-  <data name="&gt;&gt;label13.Name" xml:space="preserve">
-    <value>label13</value>
+  <data name="&gt;&gt;lblCloudDocument.Name" xml:space="preserve">
+    <value>lblCloudDocument</value>
   </data>
-  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudDocument.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudDocument.Parent" xml:space="preserve">
     <value>tableLayoutPanel19</value>
   </data>
-  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudDocument.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="tableLayoutPanel19.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 125</value>
+    <value>3, 115</value>
   </data>
   <data name="tableLayoutPanel19.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 55</value>
+    <value>162, 50</value>
   </data>
   <data name="tableLayoutPanel19.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -436,36 +436,36 @@
     <value>4</value>
   </data>
   <data name="tableLayoutPanel19.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label13" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50" /&gt;&lt;Rows Styles="Percent,50,AutoSize,0,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblCloudDocument" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50" /&gt;&lt;Rows Styles="Percent,50,AutoSize,0,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel20.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label14.AutoSize" type="System.Boolean, mscorlib">
+  <data name="lblCloudPhoto.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 21</value>
+  <data name="lblCloudPhoto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
   </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 13</value>
+  <data name="lblCloudPhoto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 12</value>
   </data>
-  <data name="label14.TabIndex" type="System.Int32, mscorlib">
+  <data name="lblCloudPhoto.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="label14.Text" xml:space="preserve">
+  <data name="lblCloudPhoto.Text" xml:space="preserve">
     <value>---</value>
   </data>
-  <data name="&gt;&gt;label14.Name" xml:space="preserve">
-    <value>label14</value>
+  <data name="&gt;&gt;lblCloudPhoto.Name" xml:space="preserve">
+    <value>lblCloudPhoto</value>
   </data>
-  <data name="&gt;&gt;label14.Type" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudPhoto.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudPhoto.Parent" xml:space="preserve">
     <value>tableLayoutPanel20</value>
   </data>
-  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblCloudPhoto.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="tableLayoutPanel20.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -478,7 +478,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>162, 55</value>
+    <value>162, 50</value>
   </data>
   <data name="tableLayoutPanel20.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -496,19 +496,19 @@
     <value>5</value>
   </data>
   <data name="tableLayoutPanel20.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label14" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50" /&gt;&lt;Rows Styles="Percent,50,AutoSize,0,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblCloudPhoto" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50" /&gt;&lt;Rows Styles="Percent,50,AutoSize,0,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel17.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel17.Location" type="System.Drawing.Point, System.Drawing">
-    <value>342, 86</value>
+    <value>342, 80</value>
   </data>
   <data name="tableLayoutPanel17.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 183</value>
+    <value>219, 168</value>
   </data>
   <data name="tableLayoutPanel17.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -526,7 +526,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel17.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel23" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel22" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel21" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel18" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel19" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel20" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333,Absolute,22" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel23" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel22" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel21" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel18" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel19" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel20" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel7.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
@@ -538,10 +538,10 @@
     <value>True</value>
   </data>
   <data name="lblLocalDocument.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 21</value>
+    <value>3, 19</value>
   </data>
   <data name="lblLocalDocument.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 13</value>
+    <value>17, 12</value>
   </data>
   <data name="lblLocalDocument.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -565,13 +565,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 125</value>
+    <value>3, 115</value>
   </data>
   <data name="tableLayoutPanel16.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 55</value>
+    <value>161, 50</value>
   </data>
   <data name="tableLayoutPanel16.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -598,10 +598,10 @@
     <value>True</value>
   </data>
   <data name="lblLocalWeb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 21</value>
+    <value>3, 19</value>
   </data>
   <data name="lblLocalWeb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 13</value>
+    <value>17, 12</value>
   </data>
   <data name="lblLocalWeb.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -625,13 +625,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 64</value>
+    <value>3, 59</value>
   </data>
   <data name="tableLayoutPanel15.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 55</value>
+    <value>161, 50</value>
   </data>
   <data name="tableLayoutPanel15.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -658,10 +658,10 @@
     <value>True</value>
   </data>
   <data name="lblLocalPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 21</value>
+    <value>3, 19</value>
   </data>
   <data name="lblLocalPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 13</value>
+    <value>17, 12</value>
   </data>
   <data name="lblLocalPhoto.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -691,7 +691,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 55</value>
+    <value>161, 50</value>
   </data>
   <data name="tableLayoutPanel14.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -718,10 +718,10 @@
     <value>True</value>
   </data>
   <data name="button5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 15</value>
+    <value>2, 13</value>
   </data>
   <data name="button5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 25</value>
+    <value>41, 23</value>
   </data>
   <data name="button5.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -748,13 +748,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>170, 125</value>
+    <value>170, 115</value>
   </data>
   <data name="tableLayoutPanel10.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 55</value>
+    <value>45, 50</value>
   </data>
   <data name="tableLayoutPanel10.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -781,10 +781,10 @@
     <value>True</value>
   </data>
   <data name="button4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 15</value>
+    <value>2, 13</value>
   </data>
   <data name="button4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 25</value>
+    <value>41, 23</value>
   </data>
   <data name="button4.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -811,13 +811,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>170, 64</value>
+    <value>170, 59</value>
   </data>
   <data name="tableLayoutPanel9.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 55</value>
+    <value>45, 50</value>
   </data>
   <data name="tableLayoutPanel9.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -844,10 +844,10 @@
     <value>True</value>
   </data>
   <data name="button3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 15</value>
+    <value>2, 13</value>
   </data>
   <data name="button3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 25</value>
+    <value>41, 23</value>
   </data>
   <data name="button3.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -880,7 +880,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 55</value>
+    <value>45, 50</value>
   </data>
   <data name="tableLayoutPanel8.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -904,13 +904,13 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>117, 86</value>
+    <value>117, 80</value>
   </data>
   <data name="tableLayoutPanel7.RowCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="tableLayoutPanel7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 183</value>
+    <value>218, 168</value>
   </data>
   <data name="tableLayoutPanel7.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -928,7 +928,7 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel7.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel16" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel15" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel14" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel10" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel9" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel8" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333,Absolute,22" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel16" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel15" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel14" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel10" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel9" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel8" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0" /&gt;&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel4.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
@@ -940,10 +940,10 @@
     <value>NoControl</value>
   </data>
   <data name="btnChangeResourceFolder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 55</value>
+    <value>3, 50</value>
   </data>
   <data name="btnChangeResourceFolder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 23</value>
+    <value>63, 22</value>
   </data>
   <data name="btnChangeResourceFolder.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -967,10 +967,10 @@
     <value>True</value>
   </data>
   <data name="linkLabel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 18</value>
+    <value>1, 17</value>
   </data>
   <data name="linkLabel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 13</value>
+    <value>89, 12</value>
   </data>
   <data name="linkLabel3.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1000,7 +1000,7 @@
     <value>3, 4</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 16</value>
+    <value>215, 15</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1030,7 +1030,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 52</value>
+    <value>224, 47</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1060,7 +1060,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 81</value>
+    <value>224, 75</value>
   </data>
   <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1093,7 +1093,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel26.Location" type="System.Drawing.Point, System.Drawing">
-    <value>112, 126</value>
+    <value>112, 116</value>
   </data>
   <data name="tableLayoutPanel26.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1102,7 +1102,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1, 63</value>
+    <value>1, 58</value>
   </data>
   <data name="tableLayoutPanel26.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -1132,7 +1132,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel25.Location" type="System.Drawing.Point, System.Drawing">
-    <value>112, 63</value>
+    <value>112, 58</value>
   </data>
   <data name="tableLayoutPanel25.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1141,7 +1141,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1, 63</value>
+    <value>1, 58</value>
   </data>
   <data name="tableLayoutPanel25.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -1180,7 +1180,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1, 63</value>
+    <value>1, 58</value>
   </data>
   <data name="tableLayoutPanel24.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -1207,10 +1207,10 @@
     <value>True</value>
   </data>
   <data name="lblTotalWeb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 38</value>
+    <value>3, 35</value>
   </data>
   <data name="lblTotalWeb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>11, 12</value>
   </data>
   <data name="lblTotalWeb.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1234,10 +1234,10 @@
     <value>True</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 25</value>
+    <value>3, 23</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 13</value>
+    <value>53, 12</value>
   </data>
   <data name="label8.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1261,7 +1261,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 63</value>
+    <value>0, 58</value>
   </data>
   <data name="tableLayoutPanel13.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1270,7 +1270,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 63</value>
+    <value>112, 58</value>
   </data>
   <data name="tableLayoutPanel13.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -1297,10 +1297,10 @@
     <value>True</value>
   </data>
   <data name="lblTotalDocument.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 38</value>
+    <value>3, 35</value>
   </data>
   <data name="lblTotalDocument.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>11, 12</value>
   </data>
   <data name="lblTotalDocument.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1324,10 +1324,10 @@
     <value>True</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 25</value>
+    <value>3, 23</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 13</value>
+    <value>57, 12</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1351,7 +1351,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 126</value>
+    <value>0, 116</value>
   </data>
   <data name="tableLayoutPanel12.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1360,7 +1360,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 63</value>
+    <value>112, 58</value>
   </data>
   <data name="tableLayoutPanel12.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -1387,10 +1387,10 @@
     <value>True</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 25</value>
+    <value>3, 23</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 13</value>
+    <value>41, 12</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1414,10 +1414,10 @@
     <value>True</value>
   </data>
   <data name="lblTotalPhoto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 38</value>
+    <value>3, 35</value>
   </data>
   <data name="lblTotalPhoto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
+    <value>11, 12</value>
   </data>
   <data name="lblTotalPhoto.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1450,7 +1450,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 63</value>
+    <value>112, 58</value>
   </data>
   <data name="tableLayoutPanel11.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -1474,7 +1474,7 @@
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 83</value>
+    <value>1, 77</value>
   </data>
   <data name="tableLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1483,7 +1483,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>112, 189</value>
+    <value>112, 174</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -1513,10 +1513,10 @@
     <value>False</value>
   </data>
   <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 55</value>
+    <value>3, 50</value>
   </data>
   <data name="button2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 23</value>
+    <value>58, 22</value>
   </data>
   <data name="button2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1546,7 +1546,7 @@
     <value>3, 4</value>
   </data>
   <data name="linkLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 16</value>
+    <value>219, 15</value>
   </data>
   <data name="linkLabel2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1573,7 +1573,7 @@
     <value>PMingLiU, 8.25pt</value>
   </data>
   <data name="lblCloudTotalUsage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 21</value>
+    <value>3, 19</value>
   </data>
   <data name="lblCloudTotalUsage.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 11</value>
@@ -1606,7 +1606,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 52</value>
+    <value>225, 47</value>
   </data>
   <data name="panel2.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1636,7 +1636,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 81</value>
+    <value>225, 75</value>
   </data>
   <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1666,7 +1666,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>565, 273</value>
+    <value>565, 252</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1690,10 +1690,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>6, 12</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>565, 273</value>
+    <value>565, 252</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>UsageDetailControl</value>
