@@ -734,7 +734,6 @@
     <None Include="Resources\PCIntro1.png" />
     <None Include="Resources\PCIntro2.png" />
     <Content Include="Resources\qr_waveface_site.png" />
-    <Content Include="Resources\software-update-available.png" />
     <None Include="Resources\streamUpdate_icon_512.png" />
     <Content Include="Resources\stream_appstore_qr.png" />
     <Content Include="Resources\stream_googleplay_qr.png" />
