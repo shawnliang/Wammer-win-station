@@ -219,6 +219,23 @@ namespace Waveface.Stream.ClientFramework
 			}
 		}
 
+		public long PhotoOriginFileCount
+		{
+			get
+			{
+				return m_ResponseObj.usage.image.origin_files;
+			}
+		}
+
+		public long DocumentOriginFileCount
+		{
+			get
+			{
+				return m_ResponseObj.usage.doc.origin_files;
+			}
+		}
+
+
 
 		public Boolean Paid
 		{

@@ -38,11 +38,11 @@
 			this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
 			this.button6 = new System.Windows.Forms.Button();
 			this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
-			this.label12 = new System.Windows.Forms.Label();
+			this.lblCloudWeb = new System.Windows.Forms.Label();
 			this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
-			this.label13 = new System.Windows.Forms.Label();
+			this.lblCloudDocument = new System.Windows.Forms.Label();
 			this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
-			this.label14 = new System.Windows.Forms.Label();
+			this.lblCloudPhoto = new System.Windows.Forms.Label();
 			this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
 			this.lblLocalDocument = new System.Windows.Forms.Label();
@@ -63,17 +63,17 @@
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel26 = new System.Windows.Forms.TableLayoutPanel();
-			this.lblTotalDocument = new System.Windows.Forms.Label();
 			this.tableLayoutPanel25 = new System.Windows.Forms.TableLayoutPanel();
-			this.lblTotalWeb = new System.Windows.Forms.Label();
 			this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
-			this.lblTotalPhoto = new System.Windows.Forms.Label();
 			this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
+			this.lblTotalWeb = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
+			this.lblTotalDocument = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
 			this.label6 = new System.Windows.Forms.Label();
+			this.lblTotalPhoto = new System.Windows.Forms.Label();
 			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
 			this.button2 = new System.Windows.Forms.Button();
 			this.panel2 = new System.Windows.Forms.Panel();
@@ -164,35 +164,35 @@
 			// tableLayoutPanel18
 			// 
 			resources.ApplyResources(this.tableLayoutPanel18, "tableLayoutPanel18");
-			this.tableLayoutPanel18.Controls.Add(this.label12, 0, 1);
+			this.tableLayoutPanel18.Controls.Add(this.lblCloudWeb, 0, 1);
 			this.tableLayoutPanel18.Name = "tableLayoutPanel18";
 			// 
-			// label12
+			// lblCloudWeb
 			// 
-			resources.ApplyResources(this.label12, "label12");
-			this.label12.Name = "label12";
+			resources.ApplyResources(this.lblCloudWeb, "lblCloudWeb");
+			this.lblCloudWeb.Name = "lblCloudWeb";
 			// 
 			// tableLayoutPanel19
 			// 
 			resources.ApplyResources(this.tableLayoutPanel19, "tableLayoutPanel19");
-			this.tableLayoutPanel19.Controls.Add(this.label13, 0, 1);
+			this.tableLayoutPanel19.Controls.Add(this.lblCloudDocument, 0, 1);
 			this.tableLayoutPanel19.Name = "tableLayoutPanel19";
 			// 
-			// label13
+			// lblCloudDocument
 			// 
-			resources.ApplyResources(this.label13, "label13");
-			this.label13.Name = "label13";
+			resources.ApplyResources(this.lblCloudDocument, "lblCloudDocument");
+			this.lblCloudDocument.Name = "lblCloudDocument";
 			// 
 			// tableLayoutPanel20
 			// 
 			resources.ApplyResources(this.tableLayoutPanel20, "tableLayoutPanel20");
-			this.tableLayoutPanel20.Controls.Add(this.label14, 0, 1);
+			this.tableLayoutPanel20.Controls.Add(this.lblCloudPhoto, 0, 1);
 			this.tableLayoutPanel20.Name = "tableLayoutPanel20";
 			// 
-			// label14
+			// lblCloudPhoto
 			// 
-			resources.ApplyResources(this.label14, "label14");
-			this.label14.Name = "label14";
+			resources.ApplyResources(this.lblCloudPhoto, "lblCloudPhoto");
+			this.lblCloudPhoto.Name = "lblCloudPhoto";
 			// 
 			// tableLayoutPanel7
 			// 
@@ -327,30 +327,15 @@
 			resources.ApplyResources(this.tableLayoutPanel26, "tableLayoutPanel26");
 			this.tableLayoutPanel26.Name = "tableLayoutPanel26";
 			// 
-			// lblTotalDocument
-			// 
-			resources.ApplyResources(this.lblTotalDocument, "lblTotalDocument");
-			this.lblTotalDocument.Name = "lblTotalDocument";
-			// 
 			// tableLayoutPanel25
 			// 
 			resources.ApplyResources(this.tableLayoutPanel25, "tableLayoutPanel25");
 			this.tableLayoutPanel25.Name = "tableLayoutPanel25";
 			// 
-			// lblTotalWeb
-			// 
-			resources.ApplyResources(this.lblTotalWeb, "lblTotalWeb");
-			this.lblTotalWeb.Name = "lblTotalWeb";
-			// 
 			// tableLayoutPanel24
 			// 
 			resources.ApplyResources(this.tableLayoutPanel24, "tableLayoutPanel24");
 			this.tableLayoutPanel24.Name = "tableLayoutPanel24";
-			// 
-			// lblTotalPhoto
-			// 
-			resources.ApplyResources(this.lblTotalPhoto, "lblTotalPhoto");
-			this.lblTotalPhoto.Name = "lblTotalPhoto";
 			// 
 			// tableLayoutPanel13
 			// 
@@ -358,6 +343,11 @@
 			this.tableLayoutPanel13.Controls.Add(this.lblTotalWeb, 0, 2);
 			this.tableLayoutPanel13.Controls.Add(this.label8, 0, 1);
 			this.tableLayoutPanel13.Name = "tableLayoutPanel13";
+			// 
+			// lblTotalWeb
+			// 
+			resources.ApplyResources(this.lblTotalWeb, "lblTotalWeb");
+			this.lblTotalWeb.Name = "lblTotalWeb";
 			// 
 			// label8
 			// 
@@ -370,6 +360,11 @@
 			this.tableLayoutPanel12.Controls.Add(this.lblTotalDocument, 0, 2);
 			this.tableLayoutPanel12.Controls.Add(this.label7, 0, 1);
 			this.tableLayoutPanel12.Name = "tableLayoutPanel12";
+			// 
+			// lblTotalDocument
+			// 
+			resources.ApplyResources(this.lblTotalDocument, "lblTotalDocument");
+			this.lblTotalDocument.Name = "lblTotalDocument";
 			// 
 			// label7
 			// 
@@ -387,6 +382,11 @@
 			// 
 			resources.ApplyResources(this.label6, "label6");
 			this.label6.Name = "label6";
+			// 
+			// lblTotalPhoto
+			// 
+			resources.ApplyResources(this.lblTotalPhoto, "lblTotalPhoto");
+			this.lblTotalPhoto.Name = "lblTotalPhoto";
 			// 
 			// tableLayoutPanel3
 			// 
@@ -494,11 +494,11 @@
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel17;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel18;
-		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.Label lblCloudWeb;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel19;
-		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.Label lblCloudDocument;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel20;
-		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.Label lblCloudPhoto;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel16;
 		private System.Windows.Forms.Label lblLocalDocument;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
