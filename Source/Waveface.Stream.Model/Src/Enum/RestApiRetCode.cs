@@ -111,6 +111,7 @@
 		FileExisted = Base + 14,
 		InvalidObjectId = Base + 15,
 		InvalidPostId = Base + 16,
-		InvalidFileCreateTime = Base + 29
+		InvalidFileCreateTime = Base + 29,
+		AttachmentHasBeenDeleted = Base + 77
 	}
 }

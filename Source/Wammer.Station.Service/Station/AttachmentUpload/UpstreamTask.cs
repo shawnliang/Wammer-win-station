@@ -103,7 +103,8 @@ namespace Wammer.Station.AttachmentUpload
 				if (e.WammerError == (int)AttachmentApiError.FileExisted ||
 					e.WammerError == (int)AttachmentApiError.InvalidObjectId ||
 					e.WammerError == (int)AttachmentApiError.InvalidPostId ||
-					e.WammerError == (int)AttachmentApiError.InvalidImage)
+					e.WammerError == (int)AttachmentApiError.InvalidImage ||
+					e.WammerError == (int)AttachmentApiError.AttachmentHasBeenDeleted)
 				{
 					this.LogWarnMsg("attachment " + object_id + " is rejected by Cloud. Drop this task.");
 					updateImportTaskIfNeeded(0);
