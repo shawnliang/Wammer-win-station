@@ -83,7 +83,7 @@ namespace Wammer.Station.AttachmentUpload
 
 			imgProc.UpdateThumbnailInfoToDB(object_id, thumbnail_type, thumbnail);
 
-			OnThumbnailGenerated(this, new ThumbnailEventArgs(object_id, attachment.post_id, attachment.group_id, thumbnail_type));
+			OnThumbnailGenerated(this, new ThumbnailEventArgs(object_id, attachment.group_id, thumbnail_type));
 
 			if (ImageMeta.Medium == thumbnail_type)
 				mediumThumbnailCounter.Increment();

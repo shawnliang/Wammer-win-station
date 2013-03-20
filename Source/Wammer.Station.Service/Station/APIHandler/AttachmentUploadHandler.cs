@@ -84,7 +84,6 @@ namespace Wammer.Station.APIHandler
 
 			data.api_key = Parameters["apikey"];
 			data.session_token = Parameters["session_token"];
-			data.post_id = Parameters["post_id"];
 			data.file_path = Parameters["file_path"];
 			data.exif = Parameters["exif"];
 

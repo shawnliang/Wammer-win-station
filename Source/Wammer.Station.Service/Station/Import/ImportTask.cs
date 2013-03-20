@@ -114,12 +114,17 @@ namespace Wammer.Station
 
 				// build collections
 				var folderCollections = FolderCollection.Build(allMeta.Where(meta => !inputFiles.Contains(meta.file_path)).Cast<ObjectIdAndPath>());
-				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_GroupID), TaskPriority.High);
+				(new CreateFolderCollectionTask(folderCollections, m_GroupID)).Execute();
 
+				var coverObjectIDs = folderCollections.Values.Select(item => item.Objects.FirstOrDefault());
 
 				if (m_CopyToStation)
 				{
-					copyFilesToAostream(importTime, allMeta);
+					var coverMetas = allMeta.Where(meta => coverObjectIDs.Contains(meta.object_id)).ToList();
+					var nonCoverMetas = allMeta.Except(coverMetas).ToList();
+
+					copyFilesToAostream(importTime, coverMetas);
+					copyFilesToAostream(importTime, nonCoverMetas);
 
 					handleCopyFailedFiles(allFailedFiles, user);
 				}
@@ -345,7 +350,6 @@ namespace Wammer.Station
 				group_id = m_GroupID,
 				api_key = m_APIKey,
 				session_token = m_SessionToken,
-				post_id = postID,
 				file_path = file.file_path,
 				import_time = importTime,
 				file_create_time = file.file_create_time,

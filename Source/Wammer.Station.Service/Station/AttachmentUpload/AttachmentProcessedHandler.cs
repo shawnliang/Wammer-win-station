@@ -39,10 +39,14 @@ namespace Wammer.Station.AttachmentUpload
 		private void ProcessForFastAndSmoothClients(AttachmentEventArgs args, Attachment attachment, Driver user)
 		{
 			bool isCoverImage = false;
-			if (!string.IsNullOrEmpty(attachment.post_id))
+
+			var post = PostDBDataCollection.Instance.FindOne(Query.EQ("cover_attachment_id", attachment.object_id));
+			isCoverImage = post != null;
+
+			if (!isCoverImage)
 			{
-				var postInfo = PostDBDataCollection.Instance.FindOne(Query.EQ("_id", attachment.post_id));
-				isCoverImage = (postInfo != null && postInfo.CoverAttachmentID == attachment.object_id);
+				var collection = CollectionCollection.Instance.FindOne(Query.EQ("cover", attachment.object_id));
+				isCoverImage = collection != null;
 			}
 
 			if (args.ImgMeta == ImageMeta.Medium)

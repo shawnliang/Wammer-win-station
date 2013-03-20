@@ -80,7 +80,6 @@ namespace Wammer.Station.AttachmentUpload
 
 		public string api_key { get; set; }
 		public string session_token { get; set; }
-		public string post_id { get; set; }
 		public string file_path { get; set; }
 		public DateTime? import_time { get; set; }
 		public DateTime? file_create_time { get; set; }
@@ -188,7 +187,6 @@ namespace Wammer.Station.AttachmentUpload
 								title = uploadData.title,
 								description = uploadData.description,
 								modify_time = DateTime.UtcNow,
-								post_id = uploadData.post_id,
 								file_path = uploadData.file_path,
 								import_time = uploadData.import_time,
 								image_meta = new ImageProperty { exif = exif },
@@ -234,7 +232,6 @@ namespace Wammer.Station.AttachmentUpload
 					uploadData.imageMeta,
 					uploadData.session_token,
 					uploadData.api_key,
-					uploadData.post_id,
 					uploadData.group_id
 				)
 			);

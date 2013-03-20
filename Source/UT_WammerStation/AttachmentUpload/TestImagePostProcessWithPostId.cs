@@ -28,7 +28,6 @@ namespace UT_WammerStation.AttachmentUpload
 				group_id = "group1",
 				saved_file_name = "save_file_name",
 				title = "title",
-				post_id = "post1",
 
 				image_meta = new ImageProperty
 				{
