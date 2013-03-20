@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
 using Waveface.Stream.Model;
+using Waveface.Stream.Core;
 
 namespace Wammer.Station.APIHandler
 {
@@ -33,7 +34,7 @@ namespace Wammer.Station.APIHandler
 				move.MoveFolder(user.folder, folder);
 
 				DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Set("folder", folder));
-
+				StorageRegistry.Save(user_id, folder);
 				RespondSuccess();
 			}
 			catch (Exception e)

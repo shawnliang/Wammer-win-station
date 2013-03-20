@@ -8,6 +8,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
 using Waveface.Stream.Model;
+using Waveface.Stream.Core;
 
 namespace Wammer.Station
 {
@@ -120,13 +121,11 @@ namespace Wammer.Station
 								isPaidUser = PlanChecker.IsPaidUser(user.user_id, res.session_token)
 							};
 
-			CreateUserFolder(driver);
-
 			var beforeAddArgs = new BeforeDriverSavedEvtArgs(driver);
 			OnBeforeDriverSaved(beforeAddArgs);
 
 			DriverCollection.Instance.Save(driver);
-
+			StorageRegistry.Save(user.user_id, resourceBasePath);
 			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeAddArgs.UserData));
 
 			return new AddUserResponse
@@ -137,11 +136,6 @@ namespace Wammer.Station
 					};
 		}
 
-		private static void CreateUserFolder(Driver driver)
-		{
-			// FileStorage constructor creates user's folder.
-			new FileStorage(driver);
-		}
 
 		/// <summary>
 		/// Adds the driver.
@@ -216,13 +210,12 @@ namespace Wammer.Station
 								isPaidUser = PlanChecker.IsPaidUser(res.user.user_id, res.session_token)
 							};
 
-			CreateUserFolder(driver);
 
 			var beforeSaveArgs = new BeforeDriverSavedEvtArgs(driver);
 			OnBeforeDriverSaved(beforeSaveArgs);
 
 			DriverCollection.Instance.Save(driver);
-
+			StorageRegistry.Save(res.user.user_id, resourceBasePath);
 
 			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeSaveArgs.UserData));
 
@@ -312,6 +305,7 @@ namespace Wammer.Station
 
 			//Remove the user from db, and stop service this user
 			DriverCollection.Instance.Remove(Query.EQ("_id", userID));
+			StorageRegistry.Remove(userID);
 
 			//Remove login session if existed
 			if (!string.IsNullOrEmpty(existingDriver.session_token))

@@ -75,6 +75,7 @@
     <Compile Include="Src\Class\FileHelper.cs" />
     <Compile Include="Src\Class\PhotoCrawler.cs" />
     <Compile Include="Src\Class\StationAPI.cs" />
+    <Compile Include="Src\Class\StorageRegistry.cs" />
     <Compile Include="Src\Class\SynchronizationContextHelper.cs" />
     <Compile Include="Src\Class\WebClientControlServer.cs" />
     <Compile Include="Src\Class\WebClientControlService.cs" />
