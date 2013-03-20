@@ -55,63 +55,73 @@ namespace Wammer.Station.Timeline
 			DB = new TimelineSyncerDB();
 		}
 
-		public bool PullTimeline(Driver user)
+		public bool PullTimeline(Driver user, Boolean firstSync = false)
 		{
-			bool hasNewEvents;
-			bool hasNewAttachments;
-			bool hasNewChangeLog;
+			bool hasNewEvents = false;
+			bool hasNewAttachments = false;
 			SyncRange syncRange;
 
 			pullNewEvents(user, out hasNewEvents, out syncRange);
 
 			pullNewAttachments(user, out hasNewAttachments, syncRange);
 
-			PullChangeLog(user, out hasNewChangeLog, syncRange);
+			if (firstSync)
+			{
+				syncRange.change_log_next_seq = syncRange.post_next_seq;
+				DB.UpdateDriverSyncRange(user.user_id, syncRange);
+			}
+			PullChangeLog(user, syncRange);
 
-			return hasNewEvents || hasNewAttachments || hasNewChangeLog;
+			return hasNewEvents || hasNewAttachments;
 		}
 
-		private void PullChangeLog(Driver user, out bool hasNewChangeLog, SyncRange syncRange)
+		private void PullChangeLog(Driver user, SyncRange syncRange)
 		{
-			hasNewChangeLog = false;
-			syncRange = new SyncRange();
-
-			if (user.sync_range != null)
-				syncRange = user.sync_range;
-
-			var next_seq = syncRange.change_log_next_seq;
-			var has_more = false;
-			do
+			try
 			{
-				var result = ChangeLogProvider.GetChangeHistory(user, next_seq);
+				var hasNewChangeLog = false;
+				syncRange = new SyncRange();
 
-				has_more = result.remaining_count > 0;
-				next_seq = result.next_seq_num;
+				if (user.sync_range != null)
+					syncRange = user.sync_range;
 
-				if (result.changelog_list != null && result.changelog_list.Count > 0)
+				var next_seq = syncRange.change_log_next_seq;
+				var has_more = false;
+				do
 				{
-					foreach (var change in result.changelog_list)
+					var result = ChangeLogProvider.GetChangeHistory(user, next_seq);
+
+					has_more = result.remaining_count > 0;
+					next_seq = result.next_seq_num;
+
+					if (result.changelog_list != null && result.changelog_list.Count > 0)
 					{
-						if (change.target_type == "attachment")
+						foreach (var change in result.changelog_list)
 						{
-							foreach (var action in change.actions)
+							if (change.target_type == "attachment")
 							{
-								if (action.action == "delete")
+								foreach (var action in change.actions)
 								{
-									OnAttachmentDelete(new AttachmentDeleteEventArgs() { attachmentIDs = action.target_id_list, user_id = user.user_id });
-									hasNewChangeLog = true;
+									if (action.action == "delete")
+									{
+										OnAttachmentDelete(new AttachmentDeleteEventArgs() { attachmentIDs = action.target_id_list, user_id = user.user_id });
+									}
 								}
 							}
 						}
+						hasNewChangeLog = true;
 					}
+
+				} while (has_more);
+
+				if (hasNewChangeLog)
+				{
+					syncRange.change_log_next_seq = next_seq;
+					DB.UpdateDriverSyncRange(user.user_id, syncRange);
 				}
-
-			} while (has_more);
-
-			if (hasNewChangeLog)
+			}
+			catch (Exception)
 			{
-				syncRange.change_log_next_seq = next_seq;
-				DB.UpdateDriverSyncRange(user.user_id, syncRange);
 			}
 		}
 

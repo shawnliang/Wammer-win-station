@@ -79,11 +79,11 @@ namespace Wammer.Station
 			}
 		}
 
-		public bool SyncTimeline(Driver user)
+		public bool SyncTimeline(Driver user, Boolean firstSync = false)
 		{
 			try
 			{
-				bool changed = syncer.PullTimeline(user);
+				bool changed = syncer.PullTimeline(user, firstSync);
 
 				DriverCollection.Instance.Update(Query.EQ("_id", user.user_id),
 						Update.Set("sync_range.syncing", false).Unset("sync_range.download_index_error"));
