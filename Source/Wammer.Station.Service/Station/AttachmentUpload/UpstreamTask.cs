@@ -77,7 +77,6 @@ namespace Wammer.Station.AttachmentUpload
 									  user.session_token,
 									  65535,
 									  UpstreamProgressChanged,
-									  attachment.post_id,
 									  attachment.file_path,
 									  (attachment.image_meta == null) ? null : attachment.image_meta.exif,
 									  attachment.import_time,
@@ -85,7 +84,7 @@ namespace Wammer.Station.AttachmentUpload
 									  attachment.file_create_time,
 									  attachment.doc_meta);
 
-					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.post_id, attachment.group_id, this.meta));
+					OnAttachmentUpstreamed(this, new ThumbnailEventArgs(this.object_id, attachment.group_id, this.meta));
 					uploadedSize = fileStream.Length;
 				}
 

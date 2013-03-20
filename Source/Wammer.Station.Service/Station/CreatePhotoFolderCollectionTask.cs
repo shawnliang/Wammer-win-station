@@ -44,13 +44,15 @@ namespace Wammer.Station
 
 				if (hasBeenImported(folderCollection, user.user_id))
 				{
-
 					folderCollection.FolderName += "_" + DateTime.Now.ToString("yyyyMMddHHmm");
 				}
 
+				var attachmentIDs = folderCollection.Objects;
+				var coverAttachmentID = attachmentIDs.FirstOrDefault();
+
 				CollectionApi.CreateCollection(
-					user.session_token, CloudServer.APIKey, folderCollection.FolderName, folderCollection.Objects, collectionId,
-					null, null, null, folderCollection.FolderPath);
+					user.session_token, CloudServer.APIKey, folderCollection.FolderName, attachmentIDs, collectionId,
+					coverAttachmentID, null, null, folderCollection.FolderPath);
 
 				collections.Remove(key);
 
@@ -58,11 +60,12 @@ namespace Wammer.Station
 				CollectionCollection.Instance.Save(
 					new Waveface.Stream.Model.Collection
 					{
-						attachment_id_array = folderCollection.Objects,
+						attachment_id_array = attachmentIDs,
 						collection_id = collectionId,
 						import_folder = folderCollection.FolderPath,
 						name = folderCollection.FolderName,
 						creator_id = user.user_id,
+						cover = coverAttachmentID
 					});
 			}
 		}

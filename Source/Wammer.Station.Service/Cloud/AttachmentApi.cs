@@ -129,14 +129,14 @@ namespace Wammer.Cloud
 												  ImageMeta meta, AttachmentType type, string apiKey,
 												  string token, int bufferSize = 1024,
 												  Action<object, ProgressChangedEventArgs> progressChangedCallBack = null,
-												  string post_id = null, string file_path = null, exif exif = null, DateTime? import_time = null, int? timezone = null, DateTime? file_create_time = null, DocProperty doc_meta = null)
+			string file_path = null, exif exif = null, DateTime? import_time = null, int? timezone = null, DateTime? file_create_time = null, DocProperty doc_meta = null)
 		{
 			try
 			{
 				if (token == null)
 					throw new WammerCloudException("session token is null", WebExceptionStatus.ProtocolError, (int)GeneralApiError.SessionNotExist);
 
-				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, post_id, file_path, exif, import_time, timezone, file_create_time, doc_meta);
+				Dictionary<string, object> pars = GetAdditionalParams(groupId, objectId, meta, type, apiKey, token, file_path, exif, import_time, timezone, file_create_time, doc_meta);
 				HttpWebResponse _webResponse = Waveface.MultipartFormDataPostHelper.MultipartFormDataPost(
 					CloudServer.BaseUrl + "attachments/upload",
 					"Mozilla 4.0+",
@@ -158,7 +158,7 @@ namespace Wammer.Cloud
 		}
 
 		private static Dictionary<string, object> GetAdditionalParams(string groupId, string objectId, ImageMeta meta,
-			AttachmentType type, string apiKey, string token, string post_id = null, string file_path = null, exif exif = null, DateTime? import_time = null, int? timezone = null,
+			AttachmentType type, string apiKey, string token, string file_path = null, exif exif = null, DateTime? import_time = null, int? timezone = null,
 			DateTime? file_create_time = null, DocProperty doc_meta = null)
 		{
 			var pars = new Dictionary<string, object>();
@@ -175,9 +175,6 @@ namespace Wammer.Cloud
 				pars["object_id"] = objectId;
 
 			pars["group_id"] = groupId;
-
-			if (!string.IsNullOrEmpty(post_id))
-				pars["post_id"] = post_id;
 
 			if (!string.IsNullOrEmpty(file_path))
 				pars["file_path"] = file_path;

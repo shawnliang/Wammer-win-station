@@ -398,9 +398,6 @@ namespace Waveface.Stream.Model
 		public string creator_id { get; set; }
 
 		[BsonIgnoreIfNull]
-		public string post_id { get; set; }
-
-		[BsonIgnoreIfNull]
 		public string file_path { get; set; }
 
 		[BsonIgnoreIfNull]
