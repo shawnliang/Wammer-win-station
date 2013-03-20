@@ -15,7 +15,7 @@ namespace Waveface.Stream.WindowsClient
 
 			StationAPI.UserSignup(email, password, name, device_id, device_name);
 
-			var userFolder = prepareUserFolderPath();
+			var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "aostream");
 
 			StationAPI.AddUser(email, password, device_id, device_name, userFolder);
 			StreamClient.Instance.Login(email, password);
@@ -26,14 +26,5 @@ namespace Waveface.Stream.WindowsClient
 			var fbLogin = new StreamLogin();
 			fbLogin.LoginWithFacebook();
 		}
-
-		private static string prepareUserFolderPath()
-		{
-			var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "aostream");
-			if (!Directory.Exists(userFolder))
-				Directory.CreateDirectory(userFolder);
-			return userFolder;
-		}
-
 	}
 }
