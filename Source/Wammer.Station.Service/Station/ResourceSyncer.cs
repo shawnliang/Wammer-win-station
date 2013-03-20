@@ -18,7 +18,7 @@ namespace Wammer.Station
 		{
 			syncer.AttachmentModified += new EventHandler<AttachmentModifiedEventArgs>(syncer_AttachmentModified);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
-			syncer.AttachmentHided += syncer_AttachmentHided;
+			syncer.AttachmentDelete += syncer_AttachmentDelete;
 		}
 
 
@@ -43,9 +43,9 @@ namespace Wammer.Station
 			}
 		}
 
-		void syncer_AttachmentHided(object sender, AttachmentHideEventArgs e)
+		void syncer_AttachmentDelete(object sender, AttachmentDeleteEventArgs e)
 		{
-			var task = new HideAttachmentTask(e.attachmentIDs.ToList(), e.user_id);
+			var task = new AttachmentDeleteTask(e.attachmentIDs.ToList(), e.user_id);
 			AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 		}
 

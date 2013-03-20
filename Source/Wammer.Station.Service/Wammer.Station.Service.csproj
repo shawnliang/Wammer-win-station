@@ -159,10 +159,9 @@
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueue.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadQueueHelper.cs" />
     <Compile Include="Station\AttachmentUpload\AttachmentUploadStorage.cs" />
-    <Compile Include="Station\AttachmentUpload\DeleteAttachmentTask.cs" />
     <Compile Include="Station\AttachmentUpload\EventTime.cs" />
     <Compile Include="Station\AttachmentUpload\ExifExtractor.cs" />
-    <Compile Include="Station\AttachmentUpload\HideAttachmentTask.cs" />
+    <Compile Include="Station\AttachmentUpload\AttachmentDeleteTask.cs" />
     <Compile Include="Station\AttachmentUpload\MakeThumbnailAndUpstreamTask.cs" />
     <Compile Include="Station\AttachmentUpload\NullTask.cs" />
     <Compile Include="Station\AttachmentUpload\UploadMetadataTask.cs" />
@@ -215,7 +214,6 @@
     <Compile Include="Cloud\Response\StorageResponse.cs" />
     <Compile Include="Cloud\User.cs" />
     <Compile Include="Cloud\Response\UserLogInResponse.cs" />
-    <Compile Include="Cloud\UserTracksApi.cs" />
     <Compile Include="Cloud\Response\UserTracksResponse.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Event\TaskQueueEventArgs.cs" />

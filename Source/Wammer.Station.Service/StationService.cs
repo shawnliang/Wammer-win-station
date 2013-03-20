@@ -73,7 +73,7 @@ namespace Wammer.Station.Service
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<FirstTimelineSyncTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NullNamedTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<WebThumbDownloadTask>();
-			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<HideAttachmentTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<AttachmentDeleteTask>();
 
 			mongoMonitor = new MongoDBMonitor(RunStation);
 		}

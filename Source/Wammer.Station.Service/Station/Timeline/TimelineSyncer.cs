@@ -46,7 +46,7 @@ namespace Wammer.Station.Timeline
 
 		public event EventHandler<TimelineSyncEventArgs> PostsRetrieved;
 		public event EventHandler<AttachmentModifiedEventArgs> AttachmentModified;
-		public event EventHandler<AttachmentHideEventArgs> AttachmentHided;
+		public event EventHandler<AttachmentDeleteEventArgs> AttachmentDelete;
 
 		public TimelineSyncer()
 		{
@@ -59,13 +59,16 @@ namespace Wammer.Station.Timeline
 		{
 			bool hasNewEvents;
 			bool hasNewAttachments;
+			bool hasNewChangeLog;
 			SyncRange syncRange;
 
 			pullNewEvents(user, out hasNewEvents, out syncRange);
 
 			pullNewAttachments(user, out hasNewAttachments, syncRange);
 
-			return hasNewEvents || hasNewAttachments;
+			PullChangeLog(user, out hasNewChangeLog, syncRange);
+
+			return hasNewEvents || hasNewAttachments || hasNewChangeLog;
 		}
 
 		private void PullChangeLog(Driver user, out bool hasNewChangeLog, SyncRange syncRange)
@@ -95,7 +98,7 @@ namespace Wammer.Station.Timeline
 							{
 								if (action.action == "delete")
 								{
-									OnAttachmentHided(new AttachmentHideEventArgs() { attachmentIDs = action.target_id_list, user_id = user.user_id});
+									OnAttachmentDelete(new AttachmentDeleteEventArgs() { attachmentIDs = action.target_id_list, user_id = user.user_id });
 									hasNewChangeLog = true;
 								}
 							}
@@ -186,11 +189,11 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		private void OnAttachmentHided(AttachmentHideEventArgs e)
+		private void OnAttachmentDelete(AttachmentDeleteEventArgs e)
 		{
-			if (AttachmentHided == null)
+			if (AttachmentDelete == null)
 				return;
-			AttachmentHided(this, e);
+			AttachmentDelete(this, e);
 		}
 
 		private void OnAttachmentModified(Driver user, List<AttachmentInfo> atts)
@@ -228,7 +231,7 @@ namespace Wammer.Station.Timeline
 		public string user_id { get; set; }
 	}
 
-	public class AttachmentHideEventArgs : EventArgs
+	public class AttachmentDeleteEventArgs : EventArgs
 	{
 		public IEnumerable<string> attachmentIDs { get; set; }
 		public string user_id { get; set; }

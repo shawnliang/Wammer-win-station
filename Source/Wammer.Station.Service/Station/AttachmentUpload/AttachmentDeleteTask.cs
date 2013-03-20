@@ -5,17 +5,19 @@ using System.Text;
 using Wammer.Station.Retry;
 using Wammer.Cloud;
 using Waveface.Stream.Model;
+using System.IO;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.AttachmentUpload
 {
-	class DeleteAttachmentTask : DelayedRetryTask, INamedTask
+	class AttachmentDeleteTask : DelayedRetryTask, INamedTask
 	{
 		public string Name { get; set; }
 		public List<string> object_ids { get; set; }
 		public string user_id { get; set; }
 		public int retry_count { get; set; }
 
-		public DeleteAttachmentTask(List<string> attachments, string user_id)
+		public AttachmentDeleteTask(List<string> attachments, string user_id)
 			:base(TaskPriority.High)
 		{
 			Name = Guid.NewGuid().ToString();
@@ -36,6 +38,29 @@ namespace Wammer.Station.AttachmentUpload
 
 			foreach (var success_id in result.success_ids)
 			{
+				var attachment = AttachmentCollection.Instance.FindOneById(success_id);
+
+				if (attachment != null)
+				{
+					var saveFileName = attachment.saved_file_name;
+
+					AttachmentCollection.Instance.Remove(Query.EQ("_id", success_id));
+
+					var fs = new FileStorage(user);
+					var originFile = fs.GetResourceFilePath(saveFileName);
+
+					if (File.Exists(originFile))
+					{
+						try
+						{
+							File.Delete(originFile);
+						}
+						catch (Exception)
+						{
+						}
+					}
+				}
+
 				object_ids.Remove(success_id);
 			}
 
