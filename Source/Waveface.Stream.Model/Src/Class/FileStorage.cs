@@ -87,16 +87,16 @@ namespace Waveface.Stream.Model
 
 		/// <summary>
 		/// Tries to save file as the given filename. If there is already a file exist, 
-		/// append the file name with (1)/(2)/...
+		/// append the file name with object_id
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <param name="data"></param>
 		/// <returns>actuall filename</returns>
-		public string TrySaveFile(string filename, ArraySegment<byte> data)
+		public string TrySaveFile(string filename, ArraySegment<byte> data, string object_id)
 		{
 			createDirsInFileName(filename);
 
-			string filePath = Path.Combine(basePath, filename);
+			string savePath = Path.Combine(basePath, filename);
 			string tempFile = Path.Combine(basePath, Guid.NewGuid().ToString());
 
 			using (FileStream stream = File.Open(tempFile, FileMode.Create))
@@ -104,28 +104,30 @@ namespace Waveface.Stream.Model
 				stream.Write(data.Array, data.Offset, data.Count);
 			}
 
-			int num = 1;
+			try
+			{
+				File.Move(tempFile, savePath);
+			}
+			catch (IOException)
+			{
+				savePath = insertObjectIdToFileName(object_id, savePath);
+
+				if (File.Exists(savePath))
+					File.Delete(savePath);
+
+				File.Move(tempFile, savePath);
+			}
+
+			return savePath.Substring(basePath.Length + 1); // + 1 for "\"
+		}
+
+		private static string insertObjectIdToFileName(string object_id, string filePath)
+		{
 			var dir = Path.GetDirectoryName(filePath);
 			var filenameNoExt = Path.GetFileNameWithoutExtension(filePath);
 			var ext = Path.GetExtension(filePath);
 
-			bool success = false;
-
-			while (!success)
-			{
-				try
-				{
-					File.Move(tempFile, filePath);
-					success = true;
-				}
-				catch (IOException)
-				{
-					filePath = Path.Combine(dir, filenameNoExt) + " (" + num + ")" + ext;
-					++num;
-				}
-			}
-
-			return filePath.Substring(basePath.Length + 1); // + 1 for "\"
+			return Path.Combine(dir, filenameNoExt) + "." + object_id + ext;
 		}
 
 		private void createDirsInFileName(string filename)
@@ -246,21 +248,6 @@ namespace Waveface.Stream.Model
 		public long GetUsedSize()
 		{
 			return FileStorageHelper.GetUsedSize(basePath);
-		}
-
-		public string CopyToStorage(string file_path)
-		{
-			DateTime fileTime = File.GetLastWriteTime(file_path);
-
-			var savePath = string.Format(@"{0}\{1}\{2}\{3}",
-				fileTime.Year.ToString("d4"), fileTime.Month.ToString("d2"), fileTime.Day.ToString("d2"),
-				Path.GetFileName(file_path));
-
-			savePath = TrySaveFile(savePath, new ArraySegment<byte>(File.ReadAllBytes(file_path)));
-			File.SetLastWriteTime(Path.Combine(basePath, savePath), fileTime);
-			File.SetAttributes(Path.Combine(basePath, savePath), FileAttributes.ReadOnly);
-
-			return savePath;
 		}
 	}
 }

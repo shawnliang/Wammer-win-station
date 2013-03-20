@@ -39,7 +39,7 @@ namespace Wammer.Station.AttachmentUpload
 			else
 			{
 				var relativeFile = GetAttachmentRelativeFile(data.file_name, takenTime, data.file_create_time);
-				relativeFile = storage.TrySaveFile(relativeFile, data.raw_data);
+				relativeFile = storage.TrySaveFile(relativeFile, data.raw_data, data.object_id);
 
 				DriverCollection.Instance.Update(
 					Query.EQ("_id", user.user_id),
