@@ -675,25 +675,6 @@ namespace Wammer.Station
 		[CustomAction]
 		public static ActionResult WriteProductInfo(Session session)
 		{
-			ProductInfo oldProduct = ProductInfoCollection.Instance.FindOne();
-			ProductInfo newProduct = ProductInfo.GetCurrentVersion();
-
-			if (oldProduct != null)
-				newProduct.id = oldProduct.id;
-
-			ProductInfoCollection.Instance.Save(newProduct);
-
-
-			string installDir = session["INSTALLLOCATION"];
-			//using (var zip = new ZipFile(Path.Combine(installDir, "WebFiles.zip")))
-			//{
-			//    foreach(ZipEntry entry in zip)
-			//    {
-			//        if (entry.IsFile)
-			//            extractFile(zip.GetInputStream(entry), entry, installDir);
-			//    }
-			//}
-
 			return ActionResult.Success;
 		}
 
