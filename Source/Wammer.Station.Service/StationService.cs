@@ -73,15 +73,15 @@ namespace Wammer.Station.Service
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<FirstTimelineSyncTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NullNamedTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<WebThumbDownloadTask>();
-			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<HideAttachmentTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<AttachmentDeleteTask>();
 
 			mongoMonitor = new MongoDBMonitor(RunStation);
 		}
 
 		private void RunStation()
 		{
-			try
-			{
+			//try
+			//{
 				logger.Warn("============== Starting Stream Station =================");
 
 				while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
@@ -233,12 +233,12 @@ namespace Wammer.Station.Service
 				};
 
 				WebClientControlServer.Instance.Start();
-			}
-			catch (Exception ex)
-			{
-				logger.Error("Unknown exception", ex);
-				throw;
-			}
+			//}
+			//catch (Exception ex)
+			//{
+			//	logger.Error("Unknown exception", ex);
+			//	throw;
+			//}
 		}
 
 		private void initializeDatabase()

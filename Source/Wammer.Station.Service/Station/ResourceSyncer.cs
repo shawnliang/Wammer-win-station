@@ -1,6 +1,9 @@
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using System;
+using System.Linq;
+using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Timeline;
 using Waveface.Stream.Model;
 
@@ -15,7 +18,9 @@ namespace Wammer.Station
 		{
 			syncer.AttachmentModified += new EventHandler<AttachmentModifiedEventArgs>(syncer_AttachmentModified);
 			syncer.PostsRetrieved += new EventHandler<TimelineSyncEventArgs>(syncer_PostsRetrieved);
+			syncer.AttachmentDelete += syncer_AttachmentDelete;
 		}
+
 
 		void syncer_PostsRetrieved(object sender, TimelineSyncEventArgs e)
 		{
@@ -36,6 +41,12 @@ namespace Wammer.Station
 				var check = new QueryIfDownstreamNeededTask(e.user_id, item.object_id) { cloudDoc = item };
 				check.Execute();
 			}
+		}
+
+		void syncer_AttachmentDelete(object sender, AttachmentDeleteEventArgs e)
+		{
+			var task = new AttachmentDeleteTask(e.attachmentIDs.ToList(), e.user_id);
+			AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 		}
 
 		protected override void ExecuteOnTimedUp(object state)

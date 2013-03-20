@@ -253,7 +253,7 @@ namespace Wammer.Station
 
 		private void enqueueDeleteAttachmentTask(List<ObjectIdAndPath> metadataSubmitted, Driver user)
 		{
-			var task = new HideAttachmentTask(metadataSubmitted.Select(x => x.object_id).ToList(), user.user_id);
+			var task = new AttachmentDeleteTask(metadataSubmitted.Select(x => x.object_id).ToList(), user.user_id);
 			AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 		}
 

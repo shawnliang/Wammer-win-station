@@ -48,17 +48,17 @@
 		AlreadyConnectToOtherSNSAccount = Base + 4
 	}
 
-	public enum UserTrackApiError
-	{
-		Base = 0x0000B000,
-		PermissionDenied = Base + 1,
-		InvalidParamIncludeEntities = Base + 2,
-		InvalidParamSinceSeqNum = Base + 3,
-		SeqNumPurged = Base + 4,
-		NoData = Base + 5,
-		InvalidParamSince = Base + 6,
-		TooManyRecord = Base + 7
-	}
+	//public enum UserTrackApiError
+	//{
+	//	Base = 0x0000B000,
+	//	PermissionDenied = Base + 1,
+	//	InvalidParamIncludeEntities = Base + 2,
+	//	InvalidParamSinceSeqNum = Base + 3,
+	//	SeqNumPurged = Base + 4,
+	//	NoData = Base + 5,
+	//	InvalidParamSince = Base + 6,
+	//	TooManyRecord = Base + 7
+	//}
 
 	public enum PostApiError
 	{
@@ -111,6 +111,7 @@
 		FileExisted = Base + 14,
 		InvalidObjectId = Base + 15,
 		InvalidPostId = Base + 16,
-		InvalidFileCreateTime = Base + 29
+		InvalidFileCreateTime = Base + 29,
+		AttachmentHasBeenDeleted = Base + 77
 	}
 }

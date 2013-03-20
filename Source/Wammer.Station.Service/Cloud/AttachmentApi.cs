@@ -248,7 +248,7 @@ namespace Wammer.Cloud
 			}
 		}
 
-		public static AttachmentHideResult Hide(string session_token, string apikey, List<string> object_ids)
+		public static AttachmentHideResult Hide(string session_token, string apikey, IEnumerable<string> object_ids)
 		{
 			var parameters = new Dictionary<object, object>
 			{
@@ -259,6 +259,30 @@ namespace Wammer.Cloud
 
 			return CloudServer.requestPath<AttachmentHideResult>("attachments/hide", parameters, false);
 		}
+
+
+		public static AttachmentDeleteResult Delete(string session_token, string apikey, IEnumerable<string> object_ids)
+		{
+			var parameters = new Dictionary<object, object>
+			{
+				{CloudServer.PARAM_OBJECT_IDS, "["+string.Join(",", object_ids.Select(x=>"\""+x+"\"").ToArray())+"]"},
+				{CloudServer.PARAM_SESSION_TOKEN, session_token},
+				{CloudServer.PARAM_API_KEY, apikey}
+			};
+
+			return CloudServer.requestPath<AttachmentDeleteResult>("attachments/delete", parameters, false);
+		}
+	}
+
+	public class AttachmentDeleteResult
+	{
+		public AttachmentDeleteResult()
+		{
+			failure_ids = new List<string>();
+			success_ids = new List<string>();
+		}
+		public List<string> failure_ids { get; set; }
+		public List<string> success_ids { get; set; }
 	}
 
 

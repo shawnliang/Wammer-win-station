@@ -19,12 +19,12 @@ namespace Wammer.Cloud
 														 string apikey, string group_id, int since_seq_num, bool include_entities = true)
 		{
 			var parameters = new Dictionary<object, object>
-			                 	{
-			                 		{"apikey", apikey},
-			                 		{"session_token", session_token},
-			                 		{"group_id", group_id},
+								{
+									{"apikey", apikey},
+									{"session_token", session_token},
+									{"group_id", group_id},
 									{"include_entities", include_entities ? "true" : "false"},
-			                 	};
+								};
 
 			if (since_seq_num >= 0)
 				parameters.Add("since_seq_num", since_seq_num.ToString());

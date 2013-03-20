@@ -121,30 +121,6 @@ namespace UT_WammerStation.AttachmentUpload
 			Assert.AreEqual("application/octet-stream", savedAttachment.mime_type);
 		}
 
-		// todo : to be moved to new class
-		//[TestMethod]
-		//public void UploadNewOriginImg_SavedFileNameHasNoSuffixIfInputFileNameHasNoSuffix()
-		//{
-		//    Attachment savedAttachment = null;
-
-		//    Mock<IAttachmentUploadHandlerDB> db = new Mock<IAttachmentUploadHandlerDB>();
-		//    db.Setup(x => x.InsertOrMergeToExistingDoc(It.IsAny<Attachment>())).Callback(
-		//        (Attachment doc) => { savedAttachment = doc; }).Returns(UpsertResult.Insert).Verifiable();
-		//    db.Setup(x => x.GetUserByGroupId(uploadData.group_id)).Returns(new Driver { folder = "" }).Verifiable();
-		//    db.Setup(x => x.FindSession(uploadData.session_token, uploadData.api_key)).Returns(new LoginedSession()).Verifiable();
-
-		//    AttachmentUploadHandlerImp handler = new AttachmentUploadHandlerImp(db.Object);
-
-		//    uploadData.file_name = "no_suffix";
-		//    handler.Process(uploadData);
-
-		//    // verify all
-		//    db.VerifyAll();
-
-		//    // verify saved data
-		//    Assert.AreEqual(savedAttachment.object_id, savedAttachment.saved_file_name);
-		//    Assert.AreEqual(uploadData.file_name, savedAttachment.file_name);
-		//}
 
 		[TestMethod]
 		public void UploadNewOriginImg_EventIsEmitted()
