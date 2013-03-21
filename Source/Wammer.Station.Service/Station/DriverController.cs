@@ -8,6 +8,7 @@ using Wammer.Cloud;
 using Wammer.Model;
 using Wammer.Utility;
 using Waveface.Stream.Model;
+using Waveface.Stream.Core;
 
 namespace Wammer.Station
 {
@@ -72,12 +73,12 @@ namespace Wammer.Station
 		/// <summary>
 		/// Adds the driver.
 		/// </summary>
-		/// <param name="resourceBasePath">The resource base path.</param>
+		/// <param name="preferredFolderPath">The resource base path.</param>
 		/// <param name="stationId">The station id.</param>
 		/// <param name="userID">The user ID.</param>
 		/// <param name="sessionToken">The session token.</param>
 		/// <returns></returns>
-		public AddUserResponse AddDriver(string resourceBasePath, string stationId, string userID, string sessionToken)
+		public AddUserResponse AddDriver(string preferredFolderPath, string stationId, string userID, string sessionToken)
 		{
 			var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("_id", userID));
 			if (existingDriver != null)
@@ -105,12 +106,14 @@ namespace Wammer.Station
 			//Remove residual driver
 			DriverCollection.Instance.Remove(Query.EQ("email", user.email));
 
+			var actualFolderPath = chooseFolderPath(user.user_id, preferredFolderPath);
+
 			var driver = new Driver
 							{
 								user_id = user.user_id,
 								email = user.email,
 								groups = res.groups,
-								folder = resourceBasePath,
+								folder = actualFolderPath,
 								session_token = res.session_token,
 								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
 								ref_count = 1,
@@ -120,13 +123,11 @@ namespace Wammer.Station
 								isPaidUser = PlanChecker.IsPaidUser(user.user_id, res.session_token)
 							};
 
-			CreateUserFolder(driver);
-
 			var beforeAddArgs = new BeforeDriverSavedEvtArgs(driver);
 			OnBeforeDriverSaved(beforeAddArgs);
 
 			DriverCollection.Instance.Save(driver);
-
+			StorageRegistry.Save(user.user_id, actualFolderPath);
 			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeAddArgs.UserData));
 
 			return new AddUserResponse
@@ -137,23 +138,30 @@ namespace Wammer.Station
 					};
 		}
 
-		private static void CreateUserFolder(Driver driver)
+		private string chooseFolderPath(string user_id, string preferredFolderPath)
 		{
-			// FileStorage constructor creates user's folder.
-			new FileStorage(driver);
+			var oldFolder = StorageRegistry.QueryStorageLocation(user_id);
+			if (!string.IsNullOrEmpty(oldFolder) && Directory.Exists(oldFolder))
+				return oldFolder;
+
+			if (!Directory.Exists(preferredFolderPath))
+				Directory.CreateDirectory(preferredFolderPath);
+
+			return preferredFolderPath;
 		}
+
 
 		/// <summary>
 		/// Adds the driver.
 		/// </summary>
-		/// <param name="resourceBasePath">The resource base path.</param>
+		/// <param name="preferredFolderPath">The resource base path.</param>
 		/// <param name="stationId">The station id.</param>
 		/// <param name="email">The email.</param>
 		/// <param name="password">The password.</param>
 		/// <param name="deviceID">The device ID.</param>
 		/// <param name="deviceName">Name of the device.</param>
 		/// <returns></returns>
-		public AddUserResponse AddDriver(string resourceBasePath, string stationId, string email, string password, string deviceID, string deviceName)
+		public AddUserResponse AddDriver(string preferredFolderPath, string stationId, string email, string password, string deviceID, string deviceName)
 		{
 			var existingDriver = DriverCollection.Instance.FindOne(Query.EQ("email", email));
 
@@ -201,11 +209,13 @@ namespace Wammer.Station
 				UpdateFlags.Upsert
 				);
 
+			var actualFolderPath = chooseFolderPath(res.user.user_id, preferredFolderPath);
+
 			var driver = new Driver
 							{
 								user_id = res.user.user_id,
 								email = email,
-								folder = resourceBasePath,
+								folder = actualFolderPath,
 								groups = res.groups,
 								session_token = res.session_token,
 								isPrimaryStation = IsThisPrimaryStation(stationId, res.stations),
@@ -216,13 +226,12 @@ namespace Wammer.Station
 								isPaidUser = PlanChecker.IsPaidUser(res.user.user_id, res.session_token)
 							};
 
-			CreateUserFolder(driver);
 
 			var beforeSaveArgs = new BeforeDriverSavedEvtArgs(driver);
 			OnBeforeDriverSaved(beforeSaveArgs);
 
 			DriverCollection.Instance.Save(driver);
-
+			StorageRegistry.Save(res.user.user_id, actualFolderPath);
 
 			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeSaveArgs.UserData));
 
@@ -312,6 +321,7 @@ namespace Wammer.Station
 
 			//Remove the user from db, and stop service this user
 			DriverCollection.Instance.Remove(Query.EQ("_id", userID));
+			StorageRegistry.Remove(userID);
 
 			//Remove login session if existed
 			if (!string.IsNullOrEmpty(existingDriver.session_token))

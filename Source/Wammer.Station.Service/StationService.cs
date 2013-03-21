@@ -82,6 +82,8 @@ namespace Wammer.Station.Service
 		{
 			//try
 			//{
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
 				logger.Warn("============== Starting Stream Station =================");
 
 				while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
@@ -114,8 +116,7 @@ namespace Wammer.Station.Service
 				ConfigThreadPool();
 
 
-				AppDomain.CurrentDomain.UnhandledException +=
-					CurrentDomain_UnhandledException;
+
 
 				Environment.CurrentDirectory = Path.GetDirectoryName(
 					Assembly.GetExecutingAssembly().Location);

@@ -99,8 +99,6 @@ namespace Waveface.Stream.WindowsClient
 				if (driver == null)
 				{
 					var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "aostream");
-					if (!Directory.Exists(userFolder))
-						Directory.CreateDirectory(userFolder);
 
 					AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(userID, sessionToken, userFolder));
 				}
@@ -118,9 +116,6 @@ namespace Waveface.Stream.WindowsClient
 			try
 			{
 				var userFolder = Path.Combine(Environment.GetEnvironmentVariable("USERPROFILE"), "aostream");
-				if (!Directory.Exists(userFolder))
-					Directory.CreateDirectory(userFolder);
-
 
 				AddUserResponse res = JsonConvert.DeserializeObject<AddUserResponse>(StationAPI.AddUser(email.ToLower(), password,
 					StationRegistry.StationId, Environment.MachineName, userFolder));

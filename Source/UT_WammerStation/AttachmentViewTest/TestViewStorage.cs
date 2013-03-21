@@ -27,7 +27,7 @@ namespace UT_WammerStation.AttachmentViewTest
 				Directory.CreateDirectory(user.folder);
 
 			var storage = new FileStorage(user);
-			storage.TrySaveFile("file1.jpg", bytes);
+			storage.TrySaveFile("file1.jpg", bytes, "unused_object_id_in_this_test");
 		}
 
 		[TestCleanup]
