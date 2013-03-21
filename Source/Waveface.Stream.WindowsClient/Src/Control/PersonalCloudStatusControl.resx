@@ -150,18 +150,6 @@
   <data name="listView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="nameColumn.Text" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="nameColumn.Width" type="System.Int32, mscorlib">
-    <value>173</value>
-  </data>
-  <data name="profileCol.Text" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="profileCol.Width" type="System.Int32, mscorlib">
-    <value>324</value>
-  </data>
   <data name="listView1.Groups" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0yLjAuMC4w
@@ -204,6 +192,18 @@
   </data>
   <data name="&gt;&gt;listView1.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="nameColumn.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="nameColumn.Width" type="System.Int32, mscorlib">
+    <value>173</value>
+  </data>
+  <data name="profileCol.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="profileCol.Width" type="System.Int32, mscorlib">
+    <value>324</value>
   </data>
   <data name="btnGetApp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
