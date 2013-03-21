@@ -40,7 +40,7 @@
           <fire:FirewallException Id="WFFWX1" Name="aostream REST" Port="9981" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
           <fire:FirewallException Id="WFFWX2" Name="aostream WebSocket" Port="9983" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
           <File Id="Station.Service.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Station.Service.exe">
-            <netfx:NativeImage Id="ngen_Station.Service.exe" Platform="32bit" Priority="0"/>
+            <netfx:NativeImage Id="ngen_Station.Service.exe" Platform="32bit" Priority="3"/>
           </File>
         </Component>
         <Component Id="Station.Service.exe.config" Guid="*">
@@ -54,12 +54,12 @@
         </Component>
         <Component Id="Waveface.Stream.ClientFramework.dll" Guid="*">
           <File Id="Waveface.Stream.ClientFramework.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.ClientFramework.dll">
-            <netfx:NativeImage Id="ngen_Waveface.Stream.ClientFramework.dll" Platform="32bit" Priority="0"/>
+            <netfx:NativeImage Id="ngen_Waveface.Stream.ClientFramework.dll" Platform="32bit" Priority="3"/>
           </File>
         </Component>
         <Component Id="Waveface.Stream.Model.dll" Guid="*">
           <File Id="Waveface.Stream.Model.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Model.dll">
-            <netfx:NativeImage Id="ngen_Waveface.Stream.Model.dll" Platform="32bit" Priority="0"/>
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Model.dll" Platform="32bit" Priority="3"/>
           </File>
         </Component>
         <Component Id="websocket_sharp.dll" Guid="*">
@@ -81,7 +81,7 @@
         <Component Id="WindowsClient.exe" Guid="*">
           <fire:FirewallException Id="WFFWX3" Name="aostream Client Websocket" Port="1337" Protocol="tcp" Scope="any" IgnoreFailure="yes" />
           <File Id="WindowsClient.exe" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\WindowsClient.exe">
-            <netfx:NativeImage Id="ngen_WindowsClient.exe" Platform="32bit" Priority="0"/>
+            <netfx:NativeImage Id="ngen_WindowsClient.exe" Platform="32bit" Priority="3"/>
           </File>
         </Component>
         <Component Id="WindowsClient.exe.config" Guid="*">
@@ -95,22 +95,22 @@
         </Component>
         <Component Id="Waveface.Stream.Compression.dll" Guid="*">
           <File Id="Waveface.Stream.Compression.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Compression.dll">
-            <netfx:NativeImage Id="ngen_Waveface.Stream.Compression.dll" Platform="32bit" Priority="0"/>
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Compression.dll" Platform="32bit" Priority="3"/>
           </File>
         </Component>
         <Component Id="Waveface.Stream.Datx.dll" Guid="*">
           <File Id="Waveface.Stream.Datx.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Datx.dll">
-            <netfx:NativeImage Id="ngen_Waveface.Stream.Datx.dll" Platform="32bit" Priority="0"/>
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Datx.dll" Platform="32bit" Priority="3"/>
           </File>
         </Component>
         <Component Id="Waveface.Stream.Serializer.dll" Guid="*">
           <File Id="Waveface.Stream.Serializer.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Serializer.dll">
-            <netfx:NativeImage Id="ngen_Waveface.Stream.Serializer.dll" Platform="32bit" Priority="0"/>
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Serializer.dll" Platform="32bit" Priority="3"/>
           </File>
         </Component>
         <Component Id="Waveface.Stream.Core.dll" Guid="*">
           <File Id="Waveface.Stream.Core.dll" KeyPath="yes" Source="$(var.SolutionDir)..\Bin\$(var.Wammer.Station.Service.Configuration)\Waveface.Stream.Core.dll">
-            <netfx:NativeImage Id="ngen_Waveface.Stream.Core.dll" Platform="32bit" Priority="0"/>
+            <netfx:NativeImage Id="ngen_Waveface.Stream.Core.dll" Platform="32bit" Priority="3"/>
           </File>
         </Component>
 
