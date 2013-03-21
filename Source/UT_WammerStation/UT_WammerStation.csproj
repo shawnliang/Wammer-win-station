@@ -111,6 +111,7 @@
     <Compile Include="TestPhotoCrawler.cs" />
     <Compile Include="TestSerializable.cs" />
     <Compile Include="TestPostUploadTaskQueue.cs" />
+    <Compile Include="TestStorageRegistry.cs" />
     <Compile Include="TestUpdateEntireCollection.cs" />
     <Compile Include="TestUserLogin.cs" />
     <Compile Include="EventTest.cs" />

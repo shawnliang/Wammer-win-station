@@ -2,6 +2,7 @@
 using System.Linq;
 using Wammer.Cloud;
 using Waveface.Stream.Model;
+using System.IO;
 
 namespace Wammer.Station.Timeline
 {
@@ -49,6 +50,17 @@ namespace Wammer.Station.Timeline
 					BodySyncQueue.Instance.Enqueue(task, task.Priority);
 				}
 
+				var recoveredOriginFile = findExistingOriginalFilePath(user);
+
+				if (localHasNoOrigin(localDoc) && !string.IsNullOrEmpty(recoveredOriginFile))
+				{
+					ResourceDownloadTask.SaveToAttachmentDB(ImageMeta.Origin,
+						recoveredOriginFile.Substring(user.folder.Length + 1),
+						getCloudDoc(user),
+						new FileInfo(recoveredOriginFile).Length);
+				}
+
+
 				bool scheduledToDownloadOrigDoc = false;
 				if (localHasNoOrigin(localDoc) && cloudHasOrigin(getCloudDoc(user)) && !user.ReachOriginSizeLimit())
 				{
@@ -94,6 +106,23 @@ namespace Wammer.Station.Timeline
 				else
 					throw;
 			}
+		}
+
+		private string findExistingOriginalFilePath(Driver user)
+		{
+			var d = getCloudDoc(user);
+
+			var dir = AttachmentUpload.AttachmentUploadStorage.GetAttachmentRelativeFolder(d.event_time.ToUTCISO8601ShortString(), TimeHelper.ISO8601ToDateTime(d.file_create_time));
+			var fullDir = Path.Combine(user.folder, dir);
+			var filePathWithId = Path.Combine(fullDir, Path.GetFileNameWithoutExtension(d.file_name)) + "." + d.object_id + Path.GetExtension(d.file_name);
+			var filePathWithoutId = Path.Combine(fullDir, d.file_name);
+
+			if (File.Exists(filePathWithId))
+				return filePathWithId;
+			else if (File.Exists(filePathWithoutId))
+				return filePathWithoutId;
+			else
+				return null;
 		}
 
 		private bool cloudHasPreview(Driver user)

@@ -128,11 +128,9 @@ namespace UT_WammerStation.AttachmentUpload
 		{
 			// prepare env
 			var store = new FileStorage(user);
-			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
-			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
-			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data);
-
-
+			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data, "guid1");
+			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data, "guid2");
+			store.TrySaveFile(@"1999\09\08\file1.jpg", raw_data, "guid3");
 
 			Mock<IAttachmentUploadStorageDB> db = new Mock<IAttachmentUploadStorageDB>(MockBehavior.Strict);
 			db.Setup(x => x.GetUserByGroupId("group1")).Returns(user);
@@ -150,9 +148,9 @@ namespace UT_WammerStation.AttachmentUpload
 				},
 				new DateTime(1999, 9, 7, 23, 30, 40, DateTimeKind.Utc).ToUTCISO8601ShortString());
 
-			Assert.AreEqual(@"1999\09\08\file1 (3).jpg", result.RelativePath);
+			Assert.AreEqual(@"1999\09\08\file1.obj1.jpg", result.RelativePath);
 			Assert.IsTrue(result.StorageBasePath.EndsWith(@"user1"));
-			Assert.IsTrue(result.FullPath.EndsWith(@"user1\1999\09\08\file1 (3).jpg"));
+			Assert.IsTrue(result.FullPath.EndsWith(@"user1\1999\09\08\file1.obj1.jpg"));
 
 			using (var r = new StreamReader(result.FullPath))
 			{
