@@ -11,6 +11,7 @@ using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Retry;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
+using Wammer.Utility;
 
 namespace Wammer.Station.Timeline
 {
@@ -149,7 +150,7 @@ namespace Wammer.Station.Timeline
 				attachmentAttributes.type.Equals("webthumb", StringComparison.InvariantCultureIgnoreCase))
 			{
 				var update = Update.Set("url", "/v3/attachments/view/?object_id=" + attachmentAttributes.object_id)
-								.Set("mime_type", attachmentAttributes.mime_type)
+								.Set("mime_type", !string.IsNullOrEmpty(attachmentAttributes.mime_type) ? attachmentAttributes.mime_type : MimeTypeHelper.GetMIMEType(attachmentAttributes.file_name))
 								.Set("file_size", length)
 								.Set("modify_time", DateTime.UtcNow)
 								.Set("type", (int)(AttachmentType)Enum.Parse(typeof(AttachmentType), attachmentAttributes.type, true))
