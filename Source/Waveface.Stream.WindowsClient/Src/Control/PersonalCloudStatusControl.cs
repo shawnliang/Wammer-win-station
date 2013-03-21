@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -192,7 +193,7 @@ namespace Waveface.Stream.WindowsClient
 
 		private void btnInstallChromeExtension_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Todo: open aostream chrome extension page on Chrome Web Store");
+			Process.Start("https://chrome.google.com/webstore/detail/aostream-clipper-beta/ligkhjjphbibbeainpbihnjngfekidhh");
 		}
 	}
 }
