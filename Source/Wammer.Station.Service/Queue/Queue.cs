@@ -79,7 +79,13 @@ namespace Wammer.Queue
 				if (!popMsgs.Remove(msg.Id))
 					throw new KeyNotFoundException("Msg " + msg.Id.ToString() + " is never popped before");
 
-				if (msg.IsPersistent)
+
+				// [DIRTY HERE]
+				//
+				// the actual task of a throttle task could be persistent task but
+				// throttle task itself must be be non-persistent. So here we always try to delete
+				// the actual task from persistent storage.
+				if (msg.IsPersistent || msg.Data is ThrottleTask)
 					persistentStorage.Remove(msg);
 			}
 		}

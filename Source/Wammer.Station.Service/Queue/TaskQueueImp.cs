@@ -152,10 +152,10 @@ namespace Wammer.Queue
 			}
 		}
 
-		public void NoThrottleEnqueue(ThrottleTask task, TaskPriority priority)
+		public void NoThrottleEnqueue(WMSMessage msg, TaskPriority priority)
 		{
 			var que = getQueue(priority);
-			noThrottleEnqueue(priority, que, task, false);
+			noThrottleEnqueue(priority, que, msg);
 		}
 
 		private void enqueue(TaskPriority priority, WMSQueue queue, ITask task, bool persistent)
