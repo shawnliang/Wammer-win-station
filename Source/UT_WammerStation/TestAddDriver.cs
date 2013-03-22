@@ -9,6 +9,7 @@ using Wammer.Cloud;
 using Wammer.PerfMonitor;
 using Wammer.Station;
 using Waveface.Stream.Model;
+using Waveface.Stream.Core;
 
 namespace UT_WammerStation
 {
@@ -47,6 +48,8 @@ namespace UT_WammerStation
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
+
+			StorageRegistry.ClearAll();
 		}
 
 		[TestCleanup]
@@ -56,6 +59,8 @@ namespace UT_WammerStation
 
 			mongodb.GetDatabase("wammer").GetCollection<Driver>("drivers").RemoveAll();
 			mongodb.GetDatabase("wammer").GetCollection("station").RemoveAll();
+
+			StorageRegistry.ClearAll();
 		}
 
 		[TestMethod]
@@ -201,7 +206,7 @@ namespace UT_WammerStation
 						new Dictionary<object, object>{ 
 							{ "email", "user1@gmail.com"}, 
 							{ "password", "12345"},
- 							{ "device_id", "deviceId"},
+							{ "device_id", "deviceId"},
 							{ "device_name", "deviceName"}
 						});
 				}
