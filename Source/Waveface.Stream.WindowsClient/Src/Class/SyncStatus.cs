@@ -141,7 +141,7 @@ namespace Waveface.Stream.WindowsClient
 				return;
 			}
 
-			speed = value;
+			speed = (float)Math.Round(value, 2);
 			unit = units[index];
 		}
 
