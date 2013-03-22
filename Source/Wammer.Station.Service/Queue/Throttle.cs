@@ -33,8 +33,7 @@ namespace Wammer.Queue
 			{
 				if (running < maxValue)
 				{
-					msg.Data = new ThrottleTask((ITask)msg.Data, this);
-					Dest.NoThrottleEnqueue(msg, pri);
+					Dest.NoThrottleEnqueue(new ThrottleTask((ITask)msg.Data, this), pri);
 					running++;
 				}
 				else
@@ -61,14 +60,13 @@ namespace Wammer.Queue
 
 			if (msg != null)
 			{
-				msg.Data = new ThrottleTask((ITask)msg.Data, this);
-				Dest.NoThrottleEnqueue(msg, TaskPriority.Medium);
+				Dest.NoThrottleEnqueue(new ThrottleTask((ITask)msg.Data, this), TaskPriority.Medium);
 			}
 		}
 	}
 
 	[Serializable]
-	internal class ThrottleTask : ITask
+	public class ThrottleTask : ITask
 	{
 		private ITask task;
 		private Throttle throttle;
