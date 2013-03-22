@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
-using System.Windows.Forms;
-using Waveface.Stream.WindowsClient.Properties;
+﻿using System.Windows.Forms;
 
 namespace Waveface.Stream.WindowsClient
 {

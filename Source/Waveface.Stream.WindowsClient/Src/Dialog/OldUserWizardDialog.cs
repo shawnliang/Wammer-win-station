@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {

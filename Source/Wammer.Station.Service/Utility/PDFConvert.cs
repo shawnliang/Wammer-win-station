@@ -21,8 +21,6 @@ namespace Wammer.Utility
 		#region Static
 		/// <summary>The name of the DLL i'm using to work</summary>
 		public const string GhostScriptDLLName = "gsdll32.dll";
-		/// <summary>Use to check for default transformation</summary>
-		private static bool useSimpleAnsiConversion = true;
 		/// <summary>Thanks to 	tchu_2000 to remind that u should never hardcode strings! :)</summary>
 		private const string GS_OutputFileFormat = "-sOutputFile={0}";
 		private const string GS_DeviceFormat = "-sDEVICE={0}";
@@ -153,9 +151,9 @@ namespace Wammer.Utility
 			}
 		}
 		private bool _bFitPage;
-		private bool _bThrowOnlyException = false;
-		private bool _bRedirectIO = false;
-		private bool _bForcePageSize = false;
+		private bool _bThrowOnlyException;
+		private bool _bRedirectIO;
+		private bool _bForcePageSize;
 		/// <summary>The pagesize of the output</summary>
 		private string _sDefaultPageSize;
 		private IntPtr _objHandle;
@@ -496,7 +494,7 @@ namespace Wammer.Utility
 			object[] aAnsiArgs;
 			IntPtr[] aPtrArgs;
 			GCHandle[] aGCHandle;
-			IntPtr callerHandle, intptrArgs;
+			IntPtr intptrArgs;
 			GCHandle gchandleArgs;
 			#endregion
 			#region Convert Unicode strings to null terminated ANSI byte arrays
@@ -528,7 +526,7 @@ namespace Wammer.Utility
 					throw new ApplicationException("I can't create a new istance of Ghostscript please verify no other istance are running!");
 				}
 			}
-			catch (BadImageFormatException formatException)//99.9% of time i'm just loading a 32bit dll in a 64bit enviroment!
+			catch (BadImageFormatException)//99.9% of time i'm just loading a 32bit dll in a 64bit enviroment!
 			{
 				ClearParameters(ref aGCHandle, ref gchandleArgs);
 				//Check if i'm in a 64bit enviroment or a 32bit
@@ -543,14 +541,13 @@ namespace Wammer.Utility
 					"Please download any version above version 8.64 from the original website in the 32bit or x86 or i386 version!"));
 				}
 			}
-			catch (DllNotFoundException ex)//in this case the dll we r using isn't the dll we expect
+			catch (DllNotFoundException)//in this case the dll we r using isn't the dll we expect
 			{
 				ClearParameters(ref aGCHandle, ref gchandleArgs);
 				throw new ApplicationException("The gsdll32.dll wasn't found in default dlls search path" +
 					"or is not in correct version (doesn't expose the required methods). Please download " +
 					"at least the version 8.64 from the original website");
 			}
-			callerHandle = IntPtr.Zero;//remove unwanter handler
 			#endregion
 			#region Capture the I/O
 			//Not working
@@ -862,12 +859,11 @@ namespace Wammer.Utility
 		public GhostScriptRevision GetRevision()
 		{
 			// Check revision number of Ghostscript
-			int intReturn;
 			GS_Revision udtGSRevInfo = new GS_Revision();
 			GhostScriptRevision output;
 			GCHandle gcRevision;
 			gcRevision = GCHandle.Alloc(udtGSRevInfo, GCHandleType.Pinned);
-			intReturn = gsapi_revision(ref udtGSRevInfo, 16);
+			gsapi_revision(ref udtGSRevInfo, 16);
 			output.intRevision = udtGSRevInfo.intRevision;
 			output.intRevisionDate = udtGSRevInfo.intRevisionDate;
 			output.ProductInformation = AnsiZtoString(udtGSRevInfo.strProduct);

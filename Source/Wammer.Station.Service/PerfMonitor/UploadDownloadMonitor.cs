@@ -21,17 +21,11 @@ namespace Wammer.PerfMonitor
 		private readonly IPerfCounter DownstreamNumCounter;
 		private readonly IPerfCounter DownstreamRateCounter;
 		private readonly IPerfCounter UpstreamNumCounter;
-		private readonly IPerfCounter UpstreamRateCounter;
 		private readonly IPerfCounter attachmentUploadCounter;
 		private readonly IPerfCounter bytesToDownloadCounter;
 		private readonly IPerfCounter bytesToUploadCounter;
 
-		private static UploadDownloadMonitor instance;
-
-		static UploadDownloadMonitor()
-		{
-			instance = new UploadDownloadMonitor();
-		}
+		private static UploadDownloadMonitor instance = new UploadDownloadMonitor();
 
 		private UploadDownloadMonitor()
 		{
@@ -42,7 +36,6 @@ namespace Wammer.PerfMonitor
 			DownstreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
 
 			UpstreamNumCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
-			UpstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
 
 			attachmentUploadCounter = PerfCounter.GetCounter(PerfCounter.ATTACHMENT_UPLOAD_COUNT);
 

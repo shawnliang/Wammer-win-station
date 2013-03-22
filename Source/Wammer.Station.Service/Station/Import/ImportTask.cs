@@ -552,13 +552,12 @@ namespace Wammer.Station
 			if (obj == null)
 				return false;
 
-			if (obj is FileMetadata)
-			{
-				var rhs = (FileMetadata)obj;
-				return file_size == rhs.file_size && file_name.Equals(rhs.file_name);
-			}
-			else
+			var meta = obj as FileMetadata;
+
+			if(meta ==null)
 				return false;
+
+			return file_size == meta.file_size && file_name.Equals(meta.file_name);
 		}
 
 		private DateTime computeEventTime()

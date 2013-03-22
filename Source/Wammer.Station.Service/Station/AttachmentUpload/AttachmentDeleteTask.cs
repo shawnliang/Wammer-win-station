@@ -1,12 +1,10 @@
-﻿using System;
+﻿using MongoDB.Driver.Builders;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wammer.Station.Retry;
-using Wammer.Cloud;
-using Waveface.Stream.Model;
 using System.IO;
-using MongoDB.Driver.Builders;
+using Wammer.Cloud;
+using Wammer.Station.Retry;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -18,7 +16,7 @@ namespace Wammer.Station.AttachmentUpload
 		public int retry_count { get; set; }
 
 		public AttachmentDeleteTask(List<string> attachments, string user_id)
-			:base(TaskPriority.High)
+			: base(TaskPriority.High)
 		{
 			Name = Guid.NewGuid().ToString();
 			this.object_ids = attachments;

@@ -7,7 +7,7 @@ namespace Wammer.Station.Timeline
 	public class BodySyncQueue : AbstractTaskEnDequeueNotifier, ITaskEnqueuable<IResourceDownloadTask>, ITaskDequeuable<IResourceDownloadTask>
 	{
 		#region Var
-		private static BodySyncQueue _instance;
+		private static BodySyncQueue _instance = new BodySyncQueue();
 		#endregion
 
 		#region Property
@@ -29,11 +29,6 @@ namespace Wammer.Station.Timeline
 		#region Constructor
 		private BodySyncQueue()
 		{
-		}
-
-		static BodySyncQueue()
-		{
-			_instance = new BodySyncQueue();
 		}
 		#endregion
 

@@ -105,7 +105,7 @@ namespace Waveface.Stream.WindowsClient
 				return;
 
 			OnInputDone(EventArgs.Empty);
-		} 
+		}
 		#endregion
 	}
 }

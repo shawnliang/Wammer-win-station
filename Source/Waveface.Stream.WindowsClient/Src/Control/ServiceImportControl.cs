@@ -96,7 +96,7 @@ namespace Waveface.Stream.WindowsClient
 			}
 			catch (Exception ex)
 			{
-                MessageBox.Show(ex.Message, string.Format((e.TurnedOn ? Resources.CONNECT_SERVICE_FAILED_PATTERN : Resources.DISCONNECT_SERVICE_FAILED_PATTERN), service.Name));
+				MessageBox.Show(ex.Message, string.Format((e.TurnedOn ? Resources.CONNECT_SERVICE_FAILED_PATTERN : Resources.DISCONNECT_SERVICE_FAILED_PATTERN), service.Name));
 
 				e.Cancel = true;
 			}

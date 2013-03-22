@@ -5,7 +5,7 @@ using Waveface.Properties;
 
 namespace Waveface.Common
 {
-	public class AutoUpdate		
+	public class AutoUpdate
 	{
 		public const string DEF_BASE_URL = "https://api.waveface.com/v3/";
 

@@ -21,12 +21,7 @@ namespace Wammer.Model
 
 	public class ServiceCollection : Collection<Service>
 	{
-		private static readonly ServiceCollection instance;
-
-		static ServiceCollection()
-		{
-			instance = new ServiceCollection();
-		}
+		private static readonly ServiceCollection instance = new ServiceCollection();
 
 		private ServiceCollection()
 			: base("service")

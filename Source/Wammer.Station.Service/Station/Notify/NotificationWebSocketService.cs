@@ -43,9 +43,8 @@ namespace Wammer.Station.Notify
 							Query.EQ("_id", session),
 							Update.Set("files_to_backup", cmd.sync_status.files_to_backup));
 					}
-					catch (Exception err)
+					catch (Exception)
 					{
-
 					}
 				}
 			}

@@ -10,13 +10,7 @@ namespace Wammer.Station.Import
 		private Semaphore sem = new Semaphore(0, int.MaxValue);
 
 
-		private static ImportTaskQueue instance;
-
-
-		static ImportTaskQueue()
-		{
-			instance = new ImportTaskQueue();
-		}
+		private static ImportTaskQueue instance = new ImportTaskQueue();
 
 		private ImportTaskQueue()
 		{

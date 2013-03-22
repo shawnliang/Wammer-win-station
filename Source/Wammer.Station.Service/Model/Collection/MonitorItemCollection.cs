@@ -3,17 +3,11 @@ namespace Wammer.Model
 {
 	public class MonitorItemCollection : Collection<MonitorItem>
 	{
-		private static MonitorItemCollection instance;
+		private static MonitorItemCollection instance = new MonitorItemCollection();
 
 		private MonitorItemCollection()
 			: base("monitor_items")
 		{
-
-		}
-
-		static MonitorItemCollection()
-		{
-			instance = new MonitorItemCollection();
 		}
 
 		public static MonitorItemCollection Instance

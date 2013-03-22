@@ -84,156 +84,156 @@ namespace Wammer.Station.Service
 			//{
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-				logger.Warn("============== Starting Stream Station =================");
+			logger.Warn("============== Starting Stream Station =================");
 
-				while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
+			while (!Waveface.Common.MongoDbHelper.IsMongoDBReady("127.0.0.1", 10319))
+			{
+				System.Threading.Thread.Sleep(1000);
+				logger.Info("Waiting mongo db...");
+			}
+
+			InitResourceFolder();
+			TaskQueue.Init();
+
+			// retry queue
+			Retry.RetryQueueHelper.Instance.LoadSavedTasks(item =>
+			{
+				UploadDownloadMonitor.Instance.OnTaskEnqueued(Retry.RetryQueueHelper.Instance, new TaskEventArgs(item.Task));
+			});
+			Retry.RetryQueueHelper.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
+			Retry.RetryQueueHelper.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
+
+			// upload queue
+			AttachmentUploadQueueHelper.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
+			AttachmentUploadQueueHelper.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
+			AttachmentUploadQueueHelper.Instance.Init(); // TaskEnqueued and TaskDequeued event handler should be set in prior to Init() is called
+			// so that performance counter value will be correct.
+
+			// download queue
+			BodySyncQueue.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
+			BodySyncQueue.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
+			BodySyncQueue.Instance.Init();
+			ConfigThreadPool();
+
+
+
+
+			Environment.CurrentDirectory = Path.GetDirectoryName(
+				Assembly.GetExecutingAssembly().Location);
+
+
+			logger.Info("Initialize Stream Service");
+
+			Station.Instance.Start();
+
+			JSON.Instance.UseUTCDateTime = true;
+
+			initializeDatabase();
+
+
+			Station.Instance.UserLogined += loginHandler_UserLogined;
+
+
+			var attachmentHandler = new AttachmentUploadHandler();
+
+			attachmentHandler.AttachmentProcessed += new AttachmentProcessedHandler(new AttachmentUtility()).OnProcessed;
+			attachmentHandler.AttachmentProcessed += (s, e) =>
+			{
+				SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(e.AttachmentId);
+			};
+
+			attachmentHandler.ProcessSucceeded += UploadDownloadMonitor.Instance.OnAttachmentProcessed;
+
+
+			var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl, Station.Instance.StationID);
+			InitCloudForwarder(cloudForwarder);
+			Station.Instance.InitFunctionServerHandlers(attachmentHandler, cloudForwarder, viewHandler, funcPingHandler);
+
+
+			logger.Info("Start function server");
+
+			logger.Info("Add handlers to management server");
+			managementServer = new HttpServer(9989);
+			managementServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
+
+			InitManagementServerHandler();
+
+			logger.Info("Start management server");
+			managementServer.Start();
+
+
+			(new Task(() =>
+			{
+				while (true)
 				{
-					System.Threading.Thread.Sleep(1000);
-					logger.Info("Waiting mongo db...");
-				}
-
-				InitResourceFolder();
-				TaskQueue.Init();
-
-				// retry queue
-				Retry.RetryQueueHelper.Instance.LoadSavedTasks(item =>
-				{
-					UploadDownloadMonitor.Instance.OnTaskEnqueued(Retry.RetryQueueHelper.Instance, new TaskEventArgs(item.Task));
-				});
-				Retry.RetryQueueHelper.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
-				Retry.RetryQueueHelper.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
-
-				// upload queue
-				AttachmentUploadQueueHelper.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
-				AttachmentUploadQueueHelper.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
-				AttachmentUploadQueueHelper.Instance.Init(); // TaskEnqueued and TaskDequeued event handler should be set in prior to Init() is called
-				// so that performance counter value will be correct.
-
-				// download queue
-				BodySyncQueue.Instance.TaskEnqueued += UploadDownloadMonitor.Instance.OnTaskEnqueued;
-				BodySyncQueue.Instance.TaskDequeued += UploadDownloadMonitor.Instance.OnTaskDequeued;
-				BodySyncQueue.Instance.Init();
-				ConfigThreadPool();
-
-
-
-
-				Environment.CurrentDirectory = Path.GetDirectoryName(
-					Assembly.GetExecutingAssembly().Location);
-
-
-				logger.Info("Initialize Stream Service");
-
-				Station.Instance.Start();
-
-				JSON.Instance.UseUTCDateTime = true;
-
-				initializeDatabase();
-
-
-				Station.Instance.UserLogined += loginHandler_UserLogined;
-
-
-				var attachmentHandler = new AttachmentUploadHandler();
-
-				attachmentHandler.AttachmentProcessed += new AttachmentProcessedHandler(new AttachmentUtility()).OnProcessed;
-				attachmentHandler.AttachmentProcessed += (s, e) =>
-				{
-					SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(e.AttachmentId);
-				};
-
-				attachmentHandler.ProcessSucceeded += UploadDownloadMonitor.Instance.OnAttachmentProcessed;
-
-
-				var cloudForwarder = new BypassHttpHandler(CloudServer.BaseUrl, Station.Instance.StationID);
-				InitCloudForwarder(cloudForwarder);
-				Station.Instance.InitFunctionServerHandlers(attachmentHandler, cloudForwarder, viewHandler, funcPingHandler);
-
-
-				logger.Info("Start function server");
-
-				logger.Info("Add handlers to management server");
-				managementServer = new HttpServer(9989);
-				managementServer.TaskEnqueue += HttpRequestMonitor.Instance.OnTaskEnqueue;
-
-				InitManagementServerHandler();
-
-				logger.Info("Start management server");
-				managementServer.Start();
-
-
-				(new Task(() =>
-				{
-					while (true)
+					foreach (var user in DriverCollection.Instance.FindAll())
 					{
-						foreach (var user in DriverCollection.Instance.FindAll())
+						try
 						{
-							try
+							if (string.IsNullOrEmpty(user.session_token))
+								continue;
+							var collectionsResponse = CollectionApi.GetAllCollections(user.session_token, CloudServer.APIKey);
+
+
+							foreach (var responseCollection in collectionsResponse.collections)
 							{
-								if (string.IsNullOrEmpty(user.session_token))
-									continue;
-								var collectionsResponse = CollectionApi.GetAllCollections(user.session_token, CloudServer.APIKey);
+								var collection = CollectionCollection.Instance.FindOne(Query.EQ("_id", responseCollection.collection_id));
 
+								var needSaveToDB = ((collection == null) || (!responseCollection.modify_time.Equals(collection.modify_time, StringComparison.CurrentCultureIgnoreCase)));
 
-								foreach (var responseCollection in collectionsResponse.collections)
+								if (needSaveToDB)
 								{
-									var collection = CollectionCollection.Instance.FindOne(Query.EQ("_id", responseCollection.collection_id));
-
-									var needSaveToDB = ((collection == null) || (!responseCollection.modify_time.Equals(collection.modify_time, StringComparison.CurrentCultureIgnoreCase)));
-
-									if (needSaveToDB)
-									{
-										collection = Mapper.Map<Cloud.Collection, Waveface.Stream.Model.Collection>(responseCollection);
-										CollectionCollection.Instance.Save(collection);
-									}
+									collection = Mapper.Map<Cloud.Collection, Waveface.Stream.Model.Collection>(responseCollection);
+									CollectionCollection.Instance.Save(collection);
 								}
 							}
-							catch
-							{
-							}
 						}
-
-						Thread.Sleep(10000);
-						Application.DoEvents();
+						catch
+						{
+						}
 					}
-				})).Start();
 
-				logger.Warn("Stream station is started");
+					Thread.Sleep(10000);
+					Application.DoEvents();
+				}
+			})).Start();
 
-				Waveface.Stream.Core.AutoMapperSetting.IniteMap();
+			logger.Warn("Stream station is started");
 
-				var eventSubscriber = SystemEventSubscriber.Instance;
-				PostDBDataCollection.Instance.Saved += (s, e) =>
-				{
-					eventSubscriber.TriggerPostAddedEvent(e.ID);
-				};
+			Waveface.Stream.Core.AutoMapperSetting.IniteMap();
 
-				PostDBDataCollection.Instance.Updated += (s, e) =>
-				{
-					eventSubscriber.TriggerPostUpdatedEvent(e.ID);
-				};
+			var eventSubscriber = SystemEventSubscriber.Instance;
+			PostDBDataCollection.Instance.Saved += (s, e) =>
+			{
+				eventSubscriber.TriggerPostAddedEvent(e.ID);
+			};
 
-				AttachmentCollection.Instance.Saved += (s, e) =>
-				{
-					eventSubscriber.TriggerAttachmentAddedEvent(e.ID);
-				};
+			PostDBDataCollection.Instance.Updated += (s, e) =>
+			{
+				eventSubscriber.TriggerPostUpdatedEvent(e.ID);
+			};
 
-				AttachmentCollection.Instance.Updated += (s, e) =>
-				{
-					eventSubscriber.TriggerAttachmentUpdatedEvent(e.ID);
-				};
+			AttachmentCollection.Instance.Saved += (s, e) =>
+			{
+				eventSubscriber.TriggerAttachmentAddedEvent(e.ID);
+			};
 
-				CollectionCollection.Instance.Saved += (s, e) =>
-				{
-					eventSubscriber.TriggerCollectionAddedEvent(e.ID);
-				};
+			AttachmentCollection.Instance.Updated += (s, e) =>
+			{
+				eventSubscriber.TriggerAttachmentUpdatedEvent(e.ID);
+			};
 
-				CollectionCollection.Instance.Updated += (s, e) =>
-				{
-					eventSubscriber.TriggerCollectionUpdatedEvent(e.ID);
-				};
+			CollectionCollection.Instance.Saved += (s, e) =>
+			{
+				eventSubscriber.TriggerCollectionAddedEvent(e.ID);
+			};
 
-				WebClientControlServer.Instance.Start();
+			CollectionCollection.Instance.Updated += (s, e) =>
+			{
+				eventSubscriber.TriggerCollectionUpdatedEvent(e.ID);
+			};
+
+			WebClientControlServer.Instance.Start();
 			//}
 			//catch (Exception ex)
 			//{

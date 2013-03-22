@@ -14,7 +14,7 @@ namespace Wammer.Station.AttachmentUpload
 		public const string QNAME_LOW = "attUpl_low";
 
 		private readonly object csLock = new object();
-		bool isInited = false;
+		bool isInited;
 		private Semaphore hasItem;
 		private Queue<DequeuedTask<INamedTask>> highQueue;
 		private Queue<DequeuedTask<INamedTask>> lowQueue;
