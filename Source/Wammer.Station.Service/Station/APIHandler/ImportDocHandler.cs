@@ -18,8 +18,6 @@ namespace Wammer.Station.APIHandler
 			if (userSession == null)
 				throw new WammerStationException("session does not exist", -1);
 
-			var group_id = userSession.groups[0].group_id;
-
 			var paths = Parameters["paths"].Split(',');
 
 			TaskQueue.Enqueue(new ImportDocTask(userSession, paths), TaskPriority.VeryLow);

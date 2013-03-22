@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Linq;
+using System.Net;
 using Wammer.Station;
 using Wammer.Utility;
 using Waveface.Stream.Model;
@@ -27,8 +27,6 @@ namespace Wammer.Cloud
 		}
 
 		#endregion
-
-		private static readonly ILog logger = LogManager.GetLogger("AttachmentApi");
 
 		public AttachmentApi(Driver driver)
 		{

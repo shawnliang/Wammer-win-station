@@ -115,7 +115,7 @@ namespace Wammer.Station.Doc
 					{ CloudServer.PARAM_GROUP_ID, user.groups[0].group_id},
 				});
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				if (previewResult != null)
 				{

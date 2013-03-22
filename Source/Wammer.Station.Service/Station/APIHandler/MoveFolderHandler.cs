@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
-using Waveface.Stream.Model;
 using Waveface.Stream.Core;
+using Waveface.Stream.Model;
 
 namespace Wammer.Station.APIHandler
 {

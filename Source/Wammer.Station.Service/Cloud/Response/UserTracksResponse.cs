@@ -1,7 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using Waveface.Stream.Model;
 
 namespace Wammer.Cloud
 {

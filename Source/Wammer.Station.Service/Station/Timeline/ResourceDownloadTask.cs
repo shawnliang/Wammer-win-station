@@ -9,9 +9,9 @@ using System.IO;
 using Wammer.Cloud;
 using Wammer.Station.AttachmentUpload;
 using Wammer.Station.Retry;
+using Wammer.Utility;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
-using Wammer.Utility;
 
 namespace Wammer.Station.Timeline
 {
@@ -28,7 +28,6 @@ namespace Wammer.Station.Timeline
 	{
 		private static readonly IPerfCounter downloadCount = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
 		private static readonly ILog logger = LogManager.GetLogger(typeof(ResourceDownloadTask));
-		private static readonly AttachmentUpload.AttachmentUploadStorage resStorage = new AttachmentUpload.AttachmentUploadStorage(new AttachmentUpload.AttachmentUploadStorageDB());
 		private static AttachmentUpload.AttachmentUploadStorage storage = new AttachmentUpload.AttachmentUploadStorage(new AttachmentUpload.AttachmentUploadStorageDB());
 
 		public ResourceDownloadEventArgs evtargs { get; set; }
@@ -332,10 +331,12 @@ namespace Wammer.Station.Timeline
 				string msg = string.Format("Unabel to download attachment {0} meta {1}: {2}", evtargs.attachment.object_id, meta, e.ToString());
 				this.LogWarnMsg(msg);
 
-				if (e is WammerCloudException)
-					throw new Exception(msg + (e as WammerCloudException).response, e);
-				else
+				var cloudException = e as WammerCloudException;
+
+				if (cloudException == null)
 					throw new Exception(msg, e);
+
+				throw new Exception(msg + cloudException.response, e);
 			}
 			finally
 			{

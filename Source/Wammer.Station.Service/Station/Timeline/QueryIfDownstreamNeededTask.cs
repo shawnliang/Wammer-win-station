@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Wammer.Cloud;
 using Waveface.Stream.Model;
-using System.IO;
 
 namespace Wammer.Station.Timeline
 {

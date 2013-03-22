@@ -15,12 +15,7 @@ namespace Wammer.Station
 
 	internal static class TaskQueue
 	{
-		static TaskQueueImp queue;
-
-		static TaskQueue()
-		{
-			queue = new TaskQueueImp(new ThreadPoolAdapter(), 20);
-		}
+		static TaskQueueImp queue = new TaskQueueImp(new ThreadPoolAdapter(), 20);
 
 		public static void Init()
 		{

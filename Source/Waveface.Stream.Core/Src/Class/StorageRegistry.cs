@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
+using System;
 
 namespace Waveface.Stream.Core
 {

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Waveface.Stream.Model;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Waveface.Stream.Model;
 
 namespace Waveface.Stream.WindowsClient
 {

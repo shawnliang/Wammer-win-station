@@ -10,7 +10,7 @@ namespace Wammer.Queue
 		private Queue<WMSMessage> _msgs;
 
 		private int maxValue;
-		private int running = 0;
+		private int running;
 		private object cs = new object();
 
 		public IThrottleDest Dest { get; set; }

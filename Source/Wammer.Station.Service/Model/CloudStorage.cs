@@ -23,12 +23,7 @@ namespace Wammer.Model
 
 	public class CloudStorageCollection : Collection<CloudStorage>
 	{
-		private static readonly CloudStorageCollection instance;
-
-		static CloudStorageCollection()
-		{
-			instance = new CloudStorageCollection();
-		}
+		private static readonly CloudStorageCollection instance = new CloudStorageCollection();
 
 		private CloudStorageCollection()
 			: base("cloudstorage")

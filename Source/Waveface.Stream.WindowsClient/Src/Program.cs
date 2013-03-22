@@ -109,7 +109,9 @@ namespace Waveface.Stream.WindowsClient
 
 		private static System.Windows.Forms.Timer m_MetroLoopbackTimer
 		{
-			get { return _metroLoopbackTimer ?? (_metroLoopbackTimer = new System.Windows.Forms.Timer());
+			get
+			{
+				return _metroLoopbackTimer ?? (_metroLoopbackTimer = new System.Windows.Forms.Timer());
 			}
 		}
 
@@ -571,7 +573,7 @@ namespace Waveface.Stream.WindowsClient
 
 			m_ContextMenuStrip.Items.Add("-", null);
 
-			 
+
 			//m_ContextMenuStrip.Items.Add(Resources.HELP_CENTER_MENU_ITEM, null);
 			m_ContextMenuStrip.Items.Add(Resources.GET_APPS_MENU_ITEM, m_ContextMenuStrip_GetApp_Click);
 			//m_ContextMenuStrip.Items.Add(Resources.CHROME_EXTENSION_MENU_ITEM, null);

@@ -47,7 +47,7 @@ namespace Wammer.Station
 		private Exit threadsExit = new Exit();
 
 		private bool userWantsSyncing = true;
-		private bool isSyncing = false;
+		private bool isSyncing;
 		private object synclock = new object();
 
 		private WebSocketNotifyChannels wsChannelServer = new WebSocketNotifyChannels(9983);
@@ -155,7 +155,7 @@ namespace Wammer.Station
 			get { return _driverAgent ?? (_driverAgent = new DriverController()); }
 		}
 
-		private HttpServer m_FunctionServer 
+		private HttpServer m_FunctionServer
 		{
 			get
 			{

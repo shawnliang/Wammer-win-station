@@ -1,6 +1,7 @@
 ﻿using ExifLibrary;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using Waveface.Stream.Model;
 
@@ -158,16 +159,16 @@ namespace Wammer.Station.AttachmentUpload
 						exif.Make = item.Value.ToString();
 						break;
 					case ExifTag.ExposureTime:
-						exif.ExposureTime = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+						exif.ExposureTime = GetExifURationalValue(item).ToList();
 						break;
 					case ExifTag.FNumber:
-						exif.FNumber = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+						exif.FNumber = GetExifURationalValue(item).ToList();
 						break;
 					case ExifTag.ApertureValue:
-						exif.ApertureValue = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+						exif.ApertureValue = GetExifURationalValue(item).ToList();
 						break;
 					case ExifTag.FocalLength:
-						exif.FocalLength = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+						exif.FocalLength = GetExifURationalValue(item).ToList();
 						break;
 					case ExifTag.Flash:
 						exif.Flash = (int)((Flash)item.Value);
@@ -183,14 +184,14 @@ namespace Wammer.Station.AttachmentUpload
 						break;
 
 					case ExifTag.YResolution:
-						exif.YResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+						exif.YResolution = GetExifURationalValue(item).ToList();
 						break;
 
 					case ExifTag.MeteringMode:
 						exif.MeteringMode = (int)((MeteringMode)item.Value);
 						break;
 					case ExifTag.XResolution:
-						exif.XResolution = new List<int>() { (int)((ExifURational)item).Value.Numerator, (int)((ExifURational)item).Value.Denominator };
+						exif.XResolution = GetExifURationalValue(item).ToList();
 						break;
 					case ExifTag.ExposureProgram:
 						exif.ExposureProgram = (int)((ExposureMode)item.Value);
@@ -216,6 +217,13 @@ namespace Wammer.Station.AttachmentUpload
 			{
 				this.LogWarnMsg("Failed to extract exif property: " + item.ToString(), e);
 			}
+		}
+
+		private static int[] GetExifURationalValue(ExifProperty item)
+		{
+			var uRational = item as ExifURational;
+			var value = uRational.Value;
+			return new int[] { (int)value.Numerator, (int)value.Denominator };
 		}
 	}
 }

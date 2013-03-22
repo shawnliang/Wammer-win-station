@@ -57,7 +57,7 @@ namespace Waveface.Stream.WindowsClient
 							this.Invoke(new MethodInvoker(() =>
 							{
 								this.DialogResult = result;
-							    this.Dispose();
+								this.Dispose();
 							}));
 						}
 					});
