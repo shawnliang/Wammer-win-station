@@ -399,12 +399,6 @@ namespace Waveface.Stream.WindowsClient
 					if (SyncStatus.IsServiceRunning)
 					{
 						m_NotifyIcon.Icon = syncingIcons[syncingIconIndex++ % syncingIcons.Length];
-
-						if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
-						{
-							m_NotifyIcon.Icon = iconWarning;
-						}
-
 					}
 					else
 					{
@@ -415,11 +409,7 @@ namespace Waveface.Stream.WindowsClient
 				{
 					m_NotifyIcon.Icon = (SyncStatus.IsServiceRunning) ? iconWorking : iconPaused;
 
-					if (!string.IsNullOrEmpty(syncRange.download_index_error))
-					{
-						m_NotifyIcon.Icon = iconWarning;
-					}
-					else if (syncRange.syncing)
+					if (syncRange.syncing)
 					{
 						m_NotifyIcon.Icon = syncingIcons[syncingIconIndex++ % syncingIcons.Length];
 					}
@@ -431,6 +421,11 @@ namespace Waveface.Stream.WindowsClient
 				if (string.IsNullOrEmpty(syncStatus))
 					syncStatus = SyncStatus.GetSyncDescription();
 
+				if (syncRange.HasAnySyncError())
+				{
+					syncStatus = syncRange.GetError();
+					m_NotifyIcon.Icon = iconWarning;
+				}
 
 				var iconText = string.Format("{0}{1}{2}",
 					Application.ProductName,

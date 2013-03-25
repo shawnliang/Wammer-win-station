@@ -149,10 +149,6 @@ namespace Waveface.Stream.WindowsClient
 		public static string GetSyncTransferStatus()
 		{
 			SyncRange syncRange = GetSyncRange();
-			if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
-			{
-				return Resources.SYNC_ERROR + syncRange.GetUploadDownloadError();
-			}
 
 			var upRemainedCount = SyncStatus.UploadRemainedCount;
 			var downloadRemainedCount = SyncStatus.DownloadRemainedCount;
@@ -228,9 +224,9 @@ namespace Waveface.Stream.WindowsClient
 		{
 			SyncRange syncRange = GetSyncRange();
 
-			if (!string.IsNullOrEmpty(syncRange.download_index_error))
+			if (syncRange.HasAnySyncError())
 			{
-				return Resources.SYNC_ERROR + syncRange.download_index_error;
+				return Resources.SYNC_ERROR + syncRange.GetError();
 			}
 
 			var upRemainedCount = SyncStatus.UploadRemainedCount;

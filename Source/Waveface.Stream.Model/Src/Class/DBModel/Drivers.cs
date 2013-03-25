@@ -219,9 +219,16 @@ namespace Waveface.Stream.Model
 			obj_next_time = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 		}
 
-
-		public string GetUploadDownloadError()
+		public bool HasAnySyncError()
 		{
+			return !string.IsNullOrEmpty(GetError());
+		}
+
+		public string GetError()
+		{
+			if (!string.IsNullOrEmpty(download_index_error))
+				return download_index_error;
+
 			if (!string.IsNullOrEmpty(upload_error))
 				return upload_error;
 
