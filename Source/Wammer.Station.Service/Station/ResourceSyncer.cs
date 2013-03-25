@@ -38,7 +38,15 @@ namespace Wammer.Station
 			foreach (var item in e.attachments)
 			{
 				var check = new QueryIfDownstreamNeededTask(e.user_id, item.object_id) { cloudDoc = item };
-				check.Execute();
+
+				try
+				{
+					check.Execute();
+				}
+				catch (Exception err)
+				{
+					this.LogWarnMsg("Failed to query if download is needed. Retry later", err);
+				}
 			}
 		}
 

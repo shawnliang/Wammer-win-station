@@ -128,6 +128,7 @@ namespace Wammer.Station
 
 			DriverCollection.Instance.Save(driver);
 			StorageRegistry.Save(user.user_id, actualFolderPath);
+			FileStorage.CreateUserCacheFolder(driver.user_id);
 			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeAddArgs.UserData));
 
 			return new AddUserResponse
@@ -232,6 +233,7 @@ namespace Wammer.Station
 
 			DriverCollection.Instance.Save(driver);
 			StorageRegistry.Save(res.user.user_id, actualFolderPath);
+			FileStorage.CreateUserCacheFolder(driver.user_id);
 
 			OnDriverAdded(new DriverAddedEvtArgs(driver, beforeSaveArgs.UserData));
 

@@ -249,5 +249,14 @@ namespace Waveface.Stream.Model
 		{
 			return FileStorageHelper.GetUsedSize(basePath);
 		}
+
+		public static void CreateUserCacheFolder(string user_id)
+		{
+			var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			var cacheDir = Path.Combine(localAppData, @"Waveface\aostream\cache\" + user_id);
+
+			if (!Directory.Exists(cacheDir))
+				Directory.CreateDirectory(cacheDir);
+		}
 	}
 }
