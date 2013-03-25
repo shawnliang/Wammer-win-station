@@ -11,7 +11,9 @@ namespace Wammer.Station.Timeline
 
 	public interface ITimelineSyncerDB
 	{
-		void UpdateDriverSyncRange(string userId, SyncRange syncRange);
+		void UpdateUserPostNextSeq(string userId, int postNextSeq);
+		void UpdateUserObjectNextTime(string userId, DateTime nextObjTime);
+		void UpdateUserChangeLogNextSeq(string userId, int nextSeq);
 	}
 
 	public class TimelineSyncerDB : ITimelineSyncerDB
@@ -21,6 +23,27 @@ namespace Wammer.Station.Timeline
 			DriverCollection.Instance.Update(
 				Query.EQ("_id", userId),
 				Update.Set("sync_range", syncRange.ToBsonDocument()));
+		}
+
+		public void UpdateUserPostNextSeq(string userId, int postNextSeq)
+		{
+			DriverCollection.Instance.Update(
+				Query.EQ("_id", userId),
+				Update.Set("sync_range.post_next_seq", postNextSeq));
+		}
+
+		public void UpdateUserObjectNextTime(string userId, DateTime nextObjTime)
+		{
+			DriverCollection.Instance.Update(
+				Query.EQ("_id", userId),
+				Update.Set("sync_range.obj_next_time", nextObjTime));
+		}
+
+		public void UpdateUserChangeLogNextSeq(string userId, int nextSeq)
+		{
+			DriverCollection.Instance.Update(
+				Query.EQ("_id", userId),
+				Update.Set("sync_range.change_log_next_seq", nextSeq));
 		}
 	}
 
@@ -59,34 +82,33 @@ namespace Wammer.Station.Timeline
 		{
 			bool hasNewEvents = false;
 			bool hasNewAttachments = false;
-			SyncRange syncRange;
+			SyncRange syncRange = user.sync_range != null ? user.sync_range : new SyncRange();
 
-			pullNewEvents(user, out hasNewEvents, out syncRange);
 
-			pullNewAttachments(user, out hasNewAttachments, syncRange);
+			int postNextSeq;
+			pullNewEvents(user, out hasNewEvents, out postNextSeq);
+			syncRange.post_next_seq = postNextSeq;
+
+			pullNewAttachments(user, out hasNewAttachments, syncRange.obj_next_time);
 
 			if (firstSync)
 			{
 				syncRange.change_log_next_seq = syncRange.post_next_seq;
-				DB.UpdateDriverSyncRange(user.user_id, syncRange);
+				DB.UpdateUserChangeLogNextSeq(user.user_id, syncRange.post_next_seq);
 			}
-			PullChangeLog(user, syncRange);
+			PullChangeLog(user, syncRange.change_log_next_seq);
 
 			return hasNewEvents || hasNewAttachments;
 		}
 
-		private void PullChangeLog(Driver user, SyncRange syncRange)
+		private void PullChangeLog(Driver user, int changeLogNextSeq)
 		{
 			try
 			{
 				var hasNewChangeLog = false;
-				syncRange = new SyncRange();
-
-				if (user.sync_range != null)
-					syncRange = user.sync_range;
-
-				var next_seq = syncRange.change_log_next_seq;
+				var next_seq = changeLogNextSeq;
 				var has_more = false;
+
 				do
 				{
 					var result = ChangeLogProvider.GetChangeHistory(user, next_seq);
@@ -116,8 +138,7 @@ namespace Wammer.Station.Timeline
 
 				if (hasNewChangeLog)
 				{
-					syncRange.change_log_next_seq = next_seq;
-					DB.UpdateDriverSyncRange(user.user_id, syncRange);
+					DB.UpdateUserChangeLogNextSeq(user.user_id, next_seq);
 				}
 			}
 			catch (Exception)
@@ -125,14 +146,11 @@ namespace Wammer.Station.Timeline
 			}
 		}
 
-		private void pullNewAttachments(Driver user, out bool hasNewAttachments, SyncRange syncRange)
+		private void pullNewAttachments(Driver user, out bool hasNewAttachments, DateTime objNextTime)
 		{
 			hasNewAttachments = false;
 
-			if (syncRange == null)
-				syncRange = new SyncRange();
-
-			var since = syncRange.obj_next_time;
+			var since = objNextTime;
 			var until = DateTime.Now.TrimToSec();
 			var start = 0;
 			var count = 100;
@@ -162,20 +180,18 @@ namespace Wammer.Station.Timeline
 
 			if (hasNewAttachments)
 			{
-				syncRange.obj_next_time = until;
-				DB.UpdateDriverSyncRange(user.user_id, syncRange);
+				DB.UpdateUserObjectNextTime(user.user_id, until);
 			}
 		}
 
-		private void pullNewEvents(Driver user, out bool hasNewEvents, out SyncRange syncRange)
+		private void pullNewEvents(Driver user, out bool hasNewEvents, out int postNextSeq)
 		{
 			hasNewEvents = false;
-			syncRange = new SyncRange();
+			var next_seq = 0;
 
 			if (user.sync_range != null)
-				syncRange = user.sync_range;
+				next_seq = user.sync_range.post_next_seq;
 
-			var next_seq = syncRange.post_next_seq;
 			var has_more = false;
 			do
 			{
@@ -194,9 +210,10 @@ namespace Wammer.Station.Timeline
 
 			if (hasNewEvents)
 			{
-				syncRange.post_next_seq = next_seq;
-				DB.UpdateDriverSyncRange(user.user_id, syncRange);
+				DB.UpdateUserPostNextSeq(user.user_id, next_seq);
 			}
+
+			postNextSeq = next_seq;
 		}
 
 		private void OnAttachmentDelete(AttachmentDeleteEventArgs e)

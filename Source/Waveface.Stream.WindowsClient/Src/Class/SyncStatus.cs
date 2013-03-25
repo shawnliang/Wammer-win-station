@@ -148,17 +148,17 @@ namespace Waveface.Stream.WindowsClient
 
 		public static string GetSyncTransferStatus()
 		{
-			var upRemainedCount = SyncStatus.UploadRemainedCount;
-			var downloadRemainedCount = SyncStatus.DownloadRemainedCount;
-
-			if ((!IsServiceRunning) || (upRemainedCount <= 0 && downloadRemainedCount <= 0))
-				return string.Empty;
-
 			SyncRange syncRange = GetSyncRange();
 			if (!string.IsNullOrEmpty(syncRange.GetUploadDownloadError()))
 			{
 				return Resources.SYNC_ERROR + syncRange.GetUploadDownloadError();
 			}
+
+			var upRemainedCount = SyncStatus.UploadRemainedCount;
+			var downloadRemainedCount = SyncStatus.DownloadRemainedCount;
+
+			if ((!IsServiceRunning) || (upRemainedCount <= 0 && downloadRemainedCount <= 0))
+				return string.Empty;
 
 			var transferStatus = string.Empty;
 			var upSpeed = SyncStatus.UploadSpeed;

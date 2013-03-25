@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Wammer.Cloud;
 using Waveface.Stream.Model;
+using MongoDB.Driver.Builders;
 
 namespace Wammer.Station.Timeline
 {
@@ -27,6 +28,8 @@ namespace Wammer.Station.Timeline
 
 		protected override void Run()
 		{
+			Exception error = null;
+
 			try
 			{
 				var user = DriverCollection.Instance.FindOneById(user_id);
@@ -104,7 +107,22 @@ namespace Wammer.Station.Timeline
 				if (e.WammerError == (int)AttachmentApiError.AttachmentNotExist)
 					return;
 				else
+				{
+					error = e;
 					throw;
+				}
+			}
+			catch (Exception e)
+			{
+				error = e;
+				throw;
+			}
+			finally
+			{
+				if (error == null)
+					DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Unset("sync_range.download_error"));
+				else
+					DriverCollection.Instance.Update(Query.EQ("_id", user_id), Update.Set("sync_range.download_error", error.GetDisplayDescription()));
 			}
 		}
 
