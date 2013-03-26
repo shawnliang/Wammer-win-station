@@ -63,7 +63,7 @@ namespace Wammer.Station.AttachmentUpload
 				IAttachmentInfo info = attachment.GetInfoByMeta(meta);
 				if (info == null)
 				{
-					this.LogErrorMsg("Abort upstream attachment " + object_id + " due to attachment info of " + meta +
+					this.LogErrorMsg("Abort upstream attachment " + object_id + " due to attachment info of " + meta.GetCustomAttribute<DescriptionAttribute>().Description +
 									 " is empty. Logic Error?");
 					return;
 				}

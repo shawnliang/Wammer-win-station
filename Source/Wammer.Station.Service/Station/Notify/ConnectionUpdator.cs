@@ -30,10 +30,5 @@ namespace Wammer.Station.Notify
 				this.LogWarnMsg("Unable to remove connection info", e);
 			}
 		}
-
-		public void ClearAll()
-		{
-			ConnectionCollection.Instance.RemoveAll();
-		}
 	}
 }

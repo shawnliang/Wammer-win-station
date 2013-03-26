@@ -106,7 +106,7 @@ namespace Wammer
 															});
 					break;
 				default:
-					this.LogWarnMsg("Post upload action type " + actionType.ToString() + " is not supported.");
+					this.LogWarnMsg("Post upload action type " + Enum.GetName(typeof(PostUploadActionType), actionType) + " is not supported.");
 					break;
 			}
 		}

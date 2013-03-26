@@ -30,7 +30,6 @@ namespace Wammer.Station
 		public static int MaxConcurrentTaskCount
 		{
 			set { queue.MaxConcurrentTaskCount = value; }
-			get { return queue.MaxConcurrentTaskCount; }
 		}
 
 		public static void Enqueue(ITask task, TaskPriority priority, bool persistent = false)
