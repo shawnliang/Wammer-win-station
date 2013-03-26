@@ -5,6 +5,7 @@ using System.IO;
 using Wammer.Cloud;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Wammer.Station.AttachmentUpload
 {
@@ -51,7 +52,7 @@ namespace Wammer.Station.AttachmentUpload
 					{
 						try
 						{
-							File.Delete(originFile);
+							FileSystem.DeleteFile(originFile, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
 						}
 						catch (Exception)
 						{
