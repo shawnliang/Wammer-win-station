@@ -51,7 +51,6 @@ namespace Wammer.Station
 		/// <value>The m_ API key.</value>
 		private String m_APIKey { get; set; }
 
-		private List<string> m_IgnorePath { get; set; }
 
 		private int timezoneDiff;
 		private List<ObjectIdAndPath> allSavedFiles = new List<ObjectIdAndPath>();
@@ -322,7 +321,7 @@ namespace Wammer.Station
 					{CloudServer.PARAM_TIMESTAMP, importTime.ToUTCISO8601ShortString()},
 					{CloudServer.PARAM_GROUP_ID, m_GroupID},
 					{CloudServer.PARAM_ATTACHMENT_ID_ARRAY, string.Format("[{0}]",string.Join(",", objectIDs.Select((x)=> "\""+x+"\"").ToArray()))},
-					{CloudServer.PARAM_CONTENT, string.Format("Import {0} files", objectIDs.Count())},
+					{CloudServer.PARAM_CONTENT, string.Format("Import {0} files", objectIDs.Count().ToString())},
 					{CloudServer.PARAM_COVER_ATTACH, objectIDs.FirstOrDefault()},
 				};
 			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
@@ -508,12 +507,6 @@ namespace Wammer.Station
 		public DateTime file_create_time { get; set; }
 		public int timezone { get; set; }
 		public exif exif { get; set; }
-
-		private uint getRationalValue(object[] rational)
-		{
-			var value = Convert.ToUInt32(rational[0]) / Convert.ToUInt32(rational[1]);
-			return value;
-		}
 
 		private DateTime? _event_time;
 		private long _file_size = -1;

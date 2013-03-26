@@ -72,7 +72,7 @@ namespace Wammer.Queue
 					queue = mqVeryLowPriority;
 					break;
 				default:
-					throw new ArgumentOutOfRangeException("unknown priority: " + priority.ToString());
+					throw new ArgumentOutOfRangeException("unknown priority: " + Enum.GetName(typeof(TaskPriority), priority));
 			}
 			return queue;
 		}

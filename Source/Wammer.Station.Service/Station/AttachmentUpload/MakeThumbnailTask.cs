@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver.Builders;
 using System;
+using System.ComponentModel;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
 
@@ -37,7 +38,7 @@ namespace Wammer.Station.AttachmentUpload
 		{
 			if (++retry_count > 30)
 			{
-				this.LogWarnMsg("Retry making " + thumbnail_type + " of attachment " + object_id + " too many times, abort");
+				this.LogWarnMsg("Retry making " + thumbnail_type.GetCustomAttribute<DescriptionAttribute>().Description + " of attachment " + object_id + " too many times, abort");
 				return;
 			}
 

@@ -59,7 +59,7 @@ namespace Wammer.Station.Timeline
 				alreadyExist = AttachmentCollection.Instance.FindOne(
 					Query.And(
 						Query.EQ("_id", evtargs.attachment.object_id),
-						Query.Exists("image_meta." + evtargs.imagemeta.ToString().ToLower() + ".saved_file_name"))) != null;
+						Query.Exists("image_meta." + evtargs.imagemeta.GetCustomAttribute<DescriptionAttribute>().Description + ".saved_file_name"))) != null;
 
 			return alreadyExist;
 		}
@@ -258,7 +258,7 @@ namespace Wammer.Station.Timeline
 
 		private void run(out bool noNeedToDownload, out AttachmentSaveResult saveResult, bool forceDownload)
 		{
-			string meta = evtargs.imagemeta.ToString();
+			string meta = evtargs.imagemeta.GetCustomAttribute<DescriptionAttribute>().Description;
 			string user_id = null;
 			string oldFile = evtargs.filepath;
 			noNeedToDownload = true;
@@ -355,7 +355,7 @@ namespace Wammer.Station.Timeline
 		{
 			get
 			{
-				return evtargs.attachment.object_id + evtargs.imagemeta;
+				return evtargs.attachment.object_id + evtargs.imagemeta.GetCustomAttribute<DescriptionAttribute>().Description;
 			}
 		}
 

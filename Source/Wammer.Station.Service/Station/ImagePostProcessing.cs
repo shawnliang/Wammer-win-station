@@ -51,13 +51,13 @@ namespace Wammer.Station
 							mime_type = savedThumbnail.MimeType,
 							modify_time = DateTime.UtcNow,
 							url = "/v3/attachments/view/?object_id=" + attachmentId +
-								  "&image_meta=" + meta.ToString().ToLower(),
+								  "&image_meta=" + meta.GetCustomAttribute<DescriptionAttribute>().Description,
 						};
 			}
 			finally
 			{
 #if DEBUG
-				logger.DebugFormat("Make {0} {1} thumbnail take {2} ms", origFileName, meta.ToString(), sw.ElapsedMilliseconds.ToString());
+				logger.DebugFormat("Make {0} {1} thumbnail take {2} ms", origFileName, meta.GetCustomAttribute<DescriptionAttribute>().Description, sw.ElapsedMilliseconds.ToString());
 #endif
 			}
 		}

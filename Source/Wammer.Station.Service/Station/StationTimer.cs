@@ -58,14 +58,6 @@ namespace Wammer.Station
 				timer.Stop();
 			}
 		}
-
-		public void Close()
-		{
-			foreach (IStationTimer timer in timers)
-			{
-				timer.Close();
-			}
-		}
 	}
 
 	public abstract class NonReentrantTimer : IStationTimer, IDisposable

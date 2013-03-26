@@ -158,7 +158,7 @@ namespace Wammer.Utility
 		private string _sDefaultPageSize;
 		private IntPtr _objHandle;
 		/// <summary>If true i will try to output everypage to a different file!</summary>
-		private bool _didOutputToMultipleFile = false;
+		private bool _didOutputToMultipleFile;
 
 		private System.Diagnostics.Process myProcess;
 		public StringBuilder output;
@@ -167,13 +167,13 @@ namespace Wammer.Utility
 		//public string error;
 		#region Fonts related variables thanks to devalv
 		private List<string> _sFontPath = new List<string>();
-		private bool _bDisablePlatformFonts = false;
-		private bool _bDisableFontMap = false;
+		private bool _bDisablePlatformFonts;
+		private bool _bDisableFontMap;
 		private List<string> _sFontMap = new List<string>();
 		private string _sSubstitutionFont;
 		private string _sFCOFontFile;
 		private string _sFAPIFontMap;
-		private bool _bDisablePrecompiledFonts = false;
+		private bool _bDisablePrecompiledFonts;
 		#endregion
 		#endregion
 		#region Proprieties
