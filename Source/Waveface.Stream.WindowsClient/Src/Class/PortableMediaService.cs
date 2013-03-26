@@ -35,7 +35,7 @@ namespace Waveface.Stream.WindowsClient
 		public string ImportAsync(string drive_path)
 		{
 			var user = StreamClient.Instance.LoginedUser;
-			return StationAPI.ImportPhoto(user.SessionToken, user.GroupID, new string[] { drive_path }, true).task_id;
+			return StationAPI.ImportPhoto(user.SessionToken, user.GroupID, new string[] { drive_path }, true, true).task_id;
 		}
 
 		public ImportTaskStaus QueryTaskStatus(string taskId)

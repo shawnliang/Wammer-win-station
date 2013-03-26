@@ -114,7 +114,7 @@ namespace Waveface.Stream.Core
 					});
 		}
 
-		public static ImportResponse ImportPhoto(string sessionToken, string groupID, IEnumerable<string> paths, bool copyToStation)
+		public static ImportResponse ImportPhoto(string sessionToken, string groupID, IEnumerable<string> paths, bool copyToStation, bool recursive = false)
 		{
 			DebugInfo.ShowMethod();
 
@@ -129,7 +129,8 @@ namespace Waveface.Stream.Core
 					{"session_token", sessionToken},
 					{"group_id", groupID},
 					{"paths", pathStr},
-					{"copy", copyToStation?"true":"false"}
+					{"copy", copyToStation?"true":"false"},
+					{"recursive", recursive?"true":"false"}
 				};
 
 			var response = Post(url, parameters);

@@ -51,8 +51,9 @@ namespace Wammer.Station
 		/// <value>The m_ API key.</value>
 		private String m_APIKey { get; set; }
 
-		private List<string> m_IgnorePath { get; set; }
+		private SearchOption m_searchOption { get; set; }
 
+		private List<string> m_IgnorePath { get; set; }
 		private int timezoneDiff;
 		private List<ObjectIdAndPath> allSavedFiles = new List<ObjectIdAndPath>();
 		private List<ObjectIdAndPath> allFailedFiles = new List<ObjectIdAndPath>();
@@ -63,13 +64,14 @@ namespace Wammer.Station
 		#endregion
 
 		#region Constructor
-		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths, bool copyToStation)
+		public ImportTask(string apiKey, string sessionToken, string groupID, IEnumerable<string> paths, bool copyToStation, SearchOption searchOption = SearchOption.TopDirectoryOnly)
 			: this()
 		{
 			m_APIKey = apiKey;
 			m_SessionToken = sessionToken;
 			m_GroupID = groupID;
 			m_CopyToStation = copyToStation;
+			m_searchOption = searchOption;
 			Paths = paths.Where((file) => file.Length > 0);
 		}
 
@@ -104,7 +106,7 @@ namespace Wammer.Station
 
 				var photoCrawler = new PhotoCrawler();
 				var inputFiles = Paths.Where(file => Path.GetExtension(file).Length > 0);
-				var allFiles = photoCrawler.FindPhotos(Paths, photoCrawlerError, SearchOption.TopDirectoryOnly).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
+				var allFiles = photoCrawler.FindPhotos(Paths, photoCrawlerError, m_searchOption).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
 
 				raiseFilesEnumeratedEvent(allFiles.Count);
 

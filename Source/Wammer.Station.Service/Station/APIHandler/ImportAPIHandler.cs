@@ -4,25 +4,29 @@ using System;
 using System.Linq;
 using Wammer.Station.Import;
 using Waveface.Stream.Model;
+using System.IO;
 
 namespace Wammer.Station
 {
 	[APIHandlerInfo(APIHandlerType.ManagementAPI, "/station/Import")]
 	public class ImportAPIHandler : HttpHandler
 	{
+		const string PATHS_KEY = "paths";
+		const string RECURSIVE = "recursive";
+
 		#region Public Method
 		/// <summary>
 		/// Handles the request.
 		/// </summary>
 		public override void HandleRequest()
 		{
-			const string PATHS_KEY = "paths";
 			CheckParameter(PATHS_KEY, CloudServer.PARAM_GROUP_ID);
 
 			var apiKey = Parameters[CloudServer.PARAM_API_KEY];
 			var sessionToken = Parameters[CloudServer.PARAM_SESSION_TOKEN];
 			var groupID = Parameters[CloudServer.PARAM_GROUP_ID];
 			var paths = Parameters[PATHS_KEY];
+			var recursive = "true".Equals(Parameters[RECURSIVE], StringComparison.InvariantCultureIgnoreCase);
 			var copyToStation = "true".Equals(Parameters["copy"], StringComparison.InvariantCultureIgnoreCase);
 
 			var user = DriverCollection.Instance.FindDriverByGroupId(groupID);
@@ -31,7 +35,7 @@ namespace Wammer.Station
 
 			var pathParam = fastJSON.JSON.Instance.ToObject<ImportMsg>(paths);
 
-			var task = new ImportTask(apiKey, sessionToken, groupID, pathParam.files, copyToStation);
+			var task = new ImportTask(apiKey, sessionToken, groupID, pathParam.files, copyToStation, recursive? SearchOption.AllDirectories: SearchOption.TopDirectoryOnly);
 			task.TaskStarted += new EventHandler<TaskStartedEventArgs>(task_TaskStarted);
 			task.FilesEnumerated += new System.EventHandler<FilesEnumeratedArgs>(task_FilesEnumerated);
 			task.FileIndexed += new EventHandler<FileImportEventArgs>(task_FileIndexed);
