@@ -124,11 +124,17 @@ namespace Waveface.Stream.WindowsClient
 				timer.Stop();
 				importButton.Enabled = true;
 			}
-			else
+			else if (taskStatus.IsIndexing())
 			{
 				progressBar.Maximum = taskStatus.Total;
-				progressBar.Value = taskStatus.Skipped + taskStatus.Copied;
-				progressText.Text = string.Format("{0} files processed", (taskStatus.Copied + taskStatus.CopyFailed.Count + taskStatus.Skipped).ToString());
+				progressBar.Value = taskStatus.Indexed + taskStatus.Skipped;
+				progressText.Text = string.Format("Indexing... {0}/{1}", progressBar.Value, progressBar.Maximum);
+			}
+			else if (taskStatus.IsCopying())
+			{
+				progressBar.Maximum = taskStatus.Indexed;
+				progressBar.Value = taskStatus.CopyFailed.Count + taskStatus.Copied;
+				progressText.Text = string.Format("Copying files to aostream... {0}/{1}", progressBar.Value, progressBar.Maximum);
 			}
 		}
 
