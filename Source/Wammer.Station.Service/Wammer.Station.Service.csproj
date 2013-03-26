@@ -182,6 +182,7 @@
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\FolderMover.cs" />
     <Compile Include="Station\FolderUtility.cs" />
+    <Compile Include="Station\Import\FileDedupItem.cs" />
     <Compile Include="Station\Import\ImportDocTask.cs" />
     <Compile Include="Station\Import\ImportTask.cs" />
     <Compile Include="Station\Import\ImportTaskQueue.cs" />

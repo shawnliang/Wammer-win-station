@@ -10,6 +10,7 @@ using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
+using Wammer.Station.Import;
 namespace Wammer.Station
 {
 	public class ImportTask : ITask
@@ -103,11 +104,17 @@ namespace Wammer.Station
 
 				var importTime = DateTime.Now;
 
+
+				// Scan all photo
 				var photoCrawler = new PhotoCrawler();
 				var inputFiles = Paths.Where(file => Path.GetExtension(file).Length > 0);
 				var allFiles = photoCrawler.FindPhotos(Paths, photoCrawlerError, m_searchOption).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
-
 				raiseFilesEnumeratedEvent(allFiles.Count);
+
+
+				// de-dup
+				allFiles = dedup(allFiles);
+
 
 				// index files, generate metadata
 				var allMeta = indexFiles(allFiles, user);
@@ -142,7 +149,7 @@ namespace Wammer.Station
 							file_modify_time = File.GetLastWriteTime(file.file_path),
 							file_name = file.file_name,
 							file_path = file.file_path,
-							file_size = file.file_size,
+							file_size = new FileInfo(file.file_path).Length,
 							fromLocal = true,
 							group_id = m_GroupID,
 							image_meta = new ImageProperty { exif = file.exif },
@@ -188,6 +195,23 @@ namespace Wammer.Station
 			{
 				raiseImportDoneEvent(error);
 			}
+		}
+
+		private List<ObjectIdAndPath> dedup(List<ObjectIdAndPath> allFiles)
+		{
+			var dedupResult = new HashSet<FileDedupItem>();
+
+			foreach (var file in allFiles)
+			{
+				var item = new FileDedupItem(file);
+
+				if (hasDupItemInDB(file) || dedupResult.Contains(item))
+					raiseFileSkippedEvent(file);
+				else
+					dedupResult.Add(item);
+			}
+
+			return dedupResult.Select(x => x.file).ToList();
 		}
 
 		private void handleCopyFailedFiles(List<ObjectIdAndPath> allFailedFiles, Driver user)
@@ -259,7 +283,7 @@ namespace Wammer.Station
 		}
 
 
-		private bool hasDupItemInDB(FileMetadata item)
+		private bool hasDupItemInDB(ObjectIdAndPath item)
 		{
 			var sameSizeFiles = AttachmentCollection.Instance.Find(
 							Query.And(
@@ -269,7 +293,8 @@ namespace Wammer.Station
 			bool hasDup = false;
 			foreach (var sameSizeFile in sameSizeFiles)
 			{
-				if (sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
+				if (!string.IsNullOrEmpty(sameSizeFile.file_name) &&
+					sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
 				{
 					hasDup = true;
 					break;
@@ -391,14 +416,9 @@ namespace Wammer.Station
 					exif = exifExtractor.extract(file.file_path)
 				};
 
-				if (hasDupItemInDB(meta) || indexedFiles.Contains(meta))
-					raiseFileSkippedEvent(file);
-				else
-				{
-					indexedFiles.Add(meta);
-					batch.Add(meta);
-					raiseFileIndexedEvent(file);
-				}
+				indexedFiles.Add(meta);
+				batch.Add(meta);
+				raiseFileIndexedEvent(file);
 			}
 
 			return batch;
@@ -511,19 +531,6 @@ namespace Wammer.Station
 		public exif exif { get; set; }
 
 		private DateTime? _event_time;
-		private long _file_size = -1;
-
-		[JsonIgnore]
-		public long file_size
-		{
-			get
-			{
-				if (_file_size < 0)
-					_file_size = new FileInfo(file_path).Length;
-
-				return _file_size;
-			}
-		}
 
 		[JsonIgnore]
 		public DateTime EventTime
@@ -535,24 +542,6 @@ namespace Wammer.Station
 
 				return _event_time.Value;
 			}
-		}
-
-		public override int GetHashCode()
-		{
-			return file_name.GetHashCode() + (int)file_size;
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (obj == null)
-				return false;
-
-			var meta = obj as FileMetadata;
-
-			if(meta ==null)
-				return false;
-
-			return file_size == meta.file_size && file_name.Equals(meta.file_name);
 		}
 
 		private DateTime computeEventTime()
