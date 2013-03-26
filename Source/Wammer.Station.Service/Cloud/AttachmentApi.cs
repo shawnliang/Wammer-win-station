@@ -49,7 +49,7 @@ namespace Wammer.Cloud
 
 			if (evtargs.attachment.type.Equals("image") && !evtargs.IsOriginalAttachment())
 			{
-				parameters.Add(CloudServer.PARAM_IMAGE_META, evtargs.imagemeta.ToString().ToLower());
+				parameters.Add(CloudServer.PARAM_IMAGE_META, evtargs.imagemeta.GetCustomAttribute<DescriptionAttribute>().Description);
 			}
 
 			CloudServer.requestDownload("attachments/view", parameters, evtargs.filepath);
@@ -68,7 +68,7 @@ namespace Wammer.Cloud
 			                 	};
 
 			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
-				parameters.Add("image_meta", meta.ToString().ToLower());
+				parameters.Add("image_meta", meta.GetCustomAttribute<DescriptionAttribute>().Description);
 
 			return CloudServer.requestPath<AttachmentRedirectInfo>("attachments/view", parameters, true, false);
 		}
@@ -161,10 +161,10 @@ namespace Wammer.Cloud
 		{
 			var pars = new Dictionary<string, object>();
 
-			pars["type"] = type.ToString();
+			pars["type"] = Enum.GetName(typeof(AttachmentType), type);
 
 			if (meta != ImageMeta.None)
-				pars["image_meta"] = meta.ToString().ToLower();
+				pars["image_meta"] = meta.GetCustomAttribute<DescriptionAttribute>().Description;
 
 			pars["session_token"] = token;
 			pars["apikey"] = apiKey;
@@ -184,7 +184,7 @@ namespace Wammer.Cloud
 				pars["exif"] = JsonConvert.SerializeObject(exif, Formatting.Indented);
 
 			if (timezone.HasValue)
-				pars["timezone"] = timezone.Value;
+				pars["timezone"] = timezone.Value.ToString();
 
 			if (file_create_time.HasValue && file_create_time.Value > DateTime.MinValue)
 				pars["file_create_time"] = file_create_time.Value.ToUTCISO8601ShortString();
@@ -221,8 +221,8 @@ namespace Wammer.Cloud
 			{
 				{"modify_time_since", since.ToUTCISO8601ShortString()},
 				{"modify_time_until", until.ToUTCISO8601ShortString()},
-				{"start", start},
-				{"count", count},
+				{"start", start.ToString()},
+				{"count", count.ToString()},
 				{"views", "all"},
 				{CloudServer.PARAM_SESSION_TOKEN, session},
 				{CloudServer.PARAM_API_KEY, apikey}
@@ -236,7 +236,7 @@ namespace Wammer.Cloud
 			var url = string.Format("{0}attachments/view/?object_id={1}&target=preview&id={2}&session_token={3}&apikey={4}",
 				CloudServer.BaseUrl,
 				object_id,
-				webthumb_id,
+				webthumb_id.ToString(),
 				System.Web.HttpUtility.UrlEncode(session_token),
 				apikey);
 

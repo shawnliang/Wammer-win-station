@@ -166,10 +166,6 @@ namespace Wammer.Station
 				}
 				return _functionServer;
 			}
-			set
-			{
-				_functionServer = value;
-			}
 		}
 		#endregion
 
@@ -505,7 +501,7 @@ namespace Wammer.Station
 		/// <param name="e">The <see cref="Microsoft.Win32.PowerModeChangedEventArgs"/> instance containing the event data.</param>
 		void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
 		{
-			this.LogDebugMsg("Power mode => " + e.Mode.ToString());
+			this.LogDebugMsg("Power mode => " + Enum.GetName(typeof(PowerModes), e.Mode));
 		}
 
 		/// <summary>
@@ -523,18 +519,6 @@ namespace Wammer.Station
 					suspendSync();
 				else if (userWantsSyncing)
 					resumeSync();
-			}
-		}
-
-		void m_PostUploadRunner_PostUpserted(object sender, PostUpsertEventArgs e)
-		{
-			try
-			{
-				wsChannelServer.NotifyToUserChannels(e.UserId, e.SessionToken);
-			}
-			catch (Exception ex)
-			{
-				this.LogWarnMsg("Unable to notify post changed event to devices. user: " + e.UserId, ex);
 			}
 		}
 		#endregion

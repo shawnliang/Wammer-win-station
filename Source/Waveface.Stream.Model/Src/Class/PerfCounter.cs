@@ -147,7 +147,7 @@ namespace Waveface.Stream.Model
 			catch (Exception e)
 			{
 				//log4net.LogManager.GetLogger("PerfCounter").Error("Unable to create perf counter: " + counterName, e);
-				return new NullPerfCounter();
+				return NullPerfCounter.Instance;
 			}
 		}
 		#endregion

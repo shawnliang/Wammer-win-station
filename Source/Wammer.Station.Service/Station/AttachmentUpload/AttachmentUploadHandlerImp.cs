@@ -287,27 +287,5 @@ namespace Wammer.Station.AttachmentUpload
 
 			return buf.ToString();
 		}
-
-		private static string GetSavedFileName(UploadData data)
-		{
-			DebugInfo.ShowMethod();
-
-			var buf = new StringBuilder();
-			buf.Append(data.object_id);
-
-			var imageMeta = data.imageMeta;
-			if (ImageMeta.Square <= imageMeta && imageMeta <= ImageMeta.Large)
-			{
-				buf.Append("_").
-					Append(imageMeta.GetCustomAttribute<DescriptionAttribute>().Description).
-					Append(".dat");
-			}
-			else
-			{
-				buf.Append(Path.GetExtension(data.file_name));
-			}
-
-			return buf.ToString();
-		}
 	}
 }

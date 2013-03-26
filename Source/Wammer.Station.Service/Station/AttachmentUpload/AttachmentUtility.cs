@@ -10,8 +10,6 @@ namespace Wammer.Station.AttachmentUpload
 	[Serializable]
 	internal class AttachmentUtility : IAttachmentUtil
 	{
-		private static readonly IPerfCounter upstreamRateCounter = PerfCounter.GetCounter(PerfCounter.UPSTREAM_RATE);
-
 		private Guid? importTaskId;
 
 		public AttachmentUtility(Guid? importTaskId = null)
@@ -54,7 +52,7 @@ namespace Wammer.Station.AttachmentUpload
 			AttachmentCollection.Instance.Update(
 				Query.EQ("_id", object_id),
 				Update.Set(
-					"image_meta." + thumbnailType.ToString().ToLower(),
+					"image_meta." + thumbnailType.GetCustomAttribute<DescriptionAttribute>().Description,
 					Info.ToBsonDocument()));
 		}
 
@@ -101,10 +99,5 @@ namespace Wammer.Station.AttachmentUpload
 			TaskQueue.Enqueue(new MakeThumbnailAndUpstreamTask(object_id, thumbnailType, priority, importTaskId), priority, true);
 		}
 		#endregion
-
-		private void UpstreamProgressChanged(object sender, ProgressChangedEventArgs evt)
-		{
-			upstreamRateCounter.IncrementBy(Convert.ToInt32(evt.UserState));
-		}
 	}
 }

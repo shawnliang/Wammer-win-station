@@ -64,7 +64,7 @@ namespace Wammer.Model
 				}
 				catch (Exception e)
 				{
-					logger.WarnFormat("Unable to connect to mongodb server, retry={0}, exception={1}", retryTimes--, e.Message);
+					logger.WarnFormat("Unable to connect to mongodb server, retry={0}, exception={1}", (retryTimes--).ToString(), e.Message);
 				}
 			}
 			return false;

@@ -157,42 +157,18 @@ namespace Wammer.Station
 			catch (WebException e)
 			{
 				throw new WammerCloudException(
-					"AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e);
+					"AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta.GetCustomAttribute<DescriptionAttribute>().Description, e);
 			}
 			catch (WammerCloudException e)
 			{
 				throw new WammerCloudException(
-					"AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta, e.response, e.InnerException);
+					"AttachmentViewHandler cannot download object: " + Parameters["object_id"] + " image meta: " + meta.GetCustomAttribute<DescriptionAttribute>().Description, e.response, e.InnerException);
 			}
 			finally
 			{
 				OnFileDownloadFinished();
 			}
 		}
-
-		private static string GetSavedFile(string objectID, string uri, ImageMeta meta)
-		{
-			var fileName = objectID;
-
-			if (meta != ImageMeta.Origin && meta != ImageMeta.None)
-			{
-				var metaStr = meta.GetCustomAttribute<DescriptionAttribute>().Description;
-				fileName += "_" + metaStr;
-			}
-
-			if (uri.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
-				uri = new Uri(uri).AbsolutePath;
-
-			var extension = Path.GetExtension(uri);
-
-			if (meta == ImageMeta.Small || meta == ImageMeta.Medium || meta == ImageMeta.Large || meta == ImageMeta.Square)
-				fileName += ".dat";
-			else if (!string.IsNullOrEmpty(extension))
-				fileName += extension;
-
-			return fileName;
-		}
-
 
 		private void CopyComplete(IAsyncResult ar)
 		{
@@ -235,14 +211,6 @@ namespace Wammer.Station
 
 			if (handler != null)
 				handler(this, EventArgs.Empty);
-		}
-
-		private void OnFileDownloadInProgress(ProgressChangedEventArgs evt)
-		{
-			ProgressChangedEventHandler handler = FileDownloadInProgress;
-
-			if (handler != null)
-				handler(this, evt);
 		}
 	}
 

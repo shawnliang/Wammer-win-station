@@ -6,20 +6,9 @@ namespace Wammer.PerfMonitor
 {
 	internal class UploadDownloadMonitor
 	{
-		#region Property
-
-#if DEBUG
-		private int TotalNeedToDownload { get; set; }
-		private int TotalDownloadCount { get; set; }
-#endif
-
-		#endregion
-
-
 		private readonly IPerfCounter avgTime;
 		private readonly IPerfCounter avgTimeBase;
 		private readonly IPerfCounter DownstreamNumCounter;
-		private readonly IPerfCounter DownstreamRateCounter;
 		private readonly IPerfCounter UpstreamNumCounter;
 		private readonly IPerfCounter attachmentUploadCounter;
 		private readonly IPerfCounter bytesToDownloadCounter;
@@ -33,7 +22,6 @@ namespace Wammer.PerfMonitor
 			avgTimeBase = PerfCounter.GetCounter(PerfCounter.AVG_TIME_PER_ATTACHMENT_UPLOAD_BASE);
 
 			DownstreamNumCounter = PerfCounter.GetCounter(PerfCounter.DW_REMAINED_COUNT);
-			DownstreamRateCounter = PerfCounter.GetCounter(PerfCounter.DWSTREAM_RATE);
 
 			UpstreamNumCounter = PerfCounter.GetCounter(PerfCounter.UP_REMAINED_COUNT);
 
@@ -95,11 +83,6 @@ namespace Wammer.PerfMonitor
 				var uploadBytes = getUploadSize(arg);
 				bytesToUploadCounter.IncrementBy(-uploadBytes);
 			}
-		}
-
-		public void OnDownstreamTaskInProgress(object sender, ProgressChangedEventArgs arg)
-		{
-			DownstreamRateCounter.IncrementBy(Convert.ToInt64(arg.UserState));
 		}
 
 		private static long getDownloadSize(Wammer.Station.TaskEventArgs arg)
