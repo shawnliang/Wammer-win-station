@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Waveface.Stream.Model;
+using Waveface.Stream.WindowsClient.Properties;
 
 namespace Waveface.Stream.WindowsClient
 {
@@ -89,7 +90,7 @@ namespace Waveface.Stream.WindowsClient
 
 			progressBar.Visible = progressText.Visible = true;
 			progressBar.Value = 0;
-			progressText.Text = "Scanning photos...";
+			progressText.Text = Resources.AUTO_IMPORT_SCANNING;
 			canceled = false;
 			importButton.Enabled = false;
 
@@ -120,7 +121,7 @@ namespace Waveface.Stream.WindowsClient
 
 				progressBar.Maximum = taskStatus.Total;
 				progressBar.Value = taskStatus.Total;
-				progressText.Text = string.Format("{0} imported. {1} failed. {2} already imported.", taskStatus.Copied.ToString(), taskStatus.CopyFailed.Count.ToString(), taskStatus.Skipped.ToString());
+				progressText.Text = string.Format(Resources.AUTO_IMPORT_COPY_DONE_TEXT, taskStatus.Copied.ToString(), taskStatus.CopyFailed.Count.ToString(), taskStatus.Skipped.ToString());
 				timer.Stop();
 				importButton.Enabled = true;
 			}
@@ -128,13 +129,13 @@ namespace Waveface.Stream.WindowsClient
 			{
 				progressBar.Maximum = taskStatus.Total;
 				progressBar.Value = taskStatus.Indexed + taskStatus.Skipped;
-				progressText.Text = string.Format("Indexing... {0}/{1}", progressBar.Value, progressBar.Maximum);
+				progressText.Text = string.Format(Resources.AUTO_IMPORT_INDEXING_TEXT, progressBar.Value, progressBar.Maximum);
 			}
 			else if (taskStatus.IsCopying())
 			{
 				progressBar.Maximum = taskStatus.Indexed;
 				progressBar.Value = taskStatus.CopyFailed.Count + taskStatus.Copied;
-				progressText.Text = string.Format("Copying files to aostream... {0}/{1}", progressBar.Value, progressBar.Maximum);
+				progressText.Text = string.Format(Resources.AUTO_IMPORT_COPYING_TEXT, progressBar.Value, progressBar.Maximum);
 			}
 		}
 

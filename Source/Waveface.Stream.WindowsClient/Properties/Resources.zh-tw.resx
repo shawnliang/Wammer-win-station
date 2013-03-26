@@ -339,7 +339,7 @@
   <data name="INVALID_PASSWORD" xml:space="preserve">
     <value>不合法的密碼。密碼需有6~16字元，且不可包含空白</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="FreePlan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FreePlan.zh-tw.rtf;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;big5</value>
   </data>
@@ -417,5 +417,17 @@
   </data>
   <data name="SERVICE_ALREADY_USED" xml:space="preserve">
     <value>啟用aostream 失敗，因另一個使用者已在背景啟用aostream，請登出該使用者後再試一次。</value>
+  </data>
+  <data name="AUTO_IMPORT_COPYING_TEXT" xml:space="preserve">
+    <value>複製到aostream... {0}/{1}</value>
+  </data>
+  <data name="AUTO_IMPORT_COPY_DONE_TEXT" xml:space="preserve">
+    <value>{0} 張照片匯入成功、{1} 張照片匯入失敗、{2} 張照片被略過</value>
+  </data>
+  <data name="AUTO_IMPORT_INDEXING_TEXT" xml:space="preserve">
+    <value>索引中... {0}/{1}</value>
+  </data>
+  <data name="AUTO_IMPORT_SCANNING" xml:space="preserve">
+    <value>掃瞄照片中...</value>
   </data>
 </root>
