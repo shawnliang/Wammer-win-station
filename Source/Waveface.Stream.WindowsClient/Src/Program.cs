@@ -140,6 +140,10 @@ namespace Waveface.Stream.WindowsClient
 			DebugInfo.ShowMethod();
 			DebugInfo.ShowBugReportOnError();
 
+			#if !DEBUG
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+			#endif
+
 			var options = new Options();
 			ICommandLineParser parser = new CommandLineParser();
 			if (!parser.ParseArguments(args, options))
@@ -265,6 +269,7 @@ namespace Waveface.Stream.WindowsClient
 
 			Application.Run();
 		}
+
 
 		private static void EnableMetroLoopback()
 		{
@@ -645,6 +650,20 @@ namespace Waveface.Stream.WindowsClient
 
 
 		#region Event Process
+		static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			var logger = log4net.LogManager.GetLogger(typeof(Program));
+			if (e.IsTerminating)
+			{
+				logger.Fatal("Unhandled exception. Program terminates");
+				logger.Fatal(e.ExceptionObject);
+			}
+			else
+			{
+				logger.Fatal("Unhandled exception: " + e.ExceptionObject);
+			}
+		}
+
 		private static void m_ContextMenuStrip_Resume_Click(object sender, EventArgs e)
 		{
 			RunningService();
