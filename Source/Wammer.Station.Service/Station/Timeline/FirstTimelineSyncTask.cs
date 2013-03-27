@@ -18,7 +18,7 @@ namespace Wammer.Station.Timeline
 				return;
 
 			var resSyncer = new ResourceSyncer(0, BodySyncQueue.Instance);
-			resSyncer.SyncTimeline(user, true);
+			resSyncer.SyncTimeline(user);
 
 			ResourceSyncer.EnablePeriodicalSync(user.user_id);
 		}

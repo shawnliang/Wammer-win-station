@@ -52,7 +52,7 @@ namespace Wammer.Station
 
 		void syncer_AttachmentDelete(object sender, AttachmentDeleteEventArgs e)
 		{
-			var task = new AttachmentDeleteTask(e.attachmentIDs.ToList(), e.user_id);
+			var task = new AttachmentDeleteTask(e.attachmentIDs.ToList(), e.user_id, false);
 			AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 		}
 
@@ -86,11 +86,11 @@ namespace Wammer.Station
 			}
 		}
 
-		public bool SyncTimeline(Driver user, Boolean firstSync = false)
+		public bool SyncTimeline(Driver user)
 		{
 			try
 			{
-				bool changed = syncer.PullTimeline(user, firstSync);
+				bool changed = syncer.PullTimeline(user);
 
 				DriverCollection.Instance.Update(Query.EQ("_id", user.user_id),
 						Update.Set("sync_range.syncing", false).Unset("sync_range.download_index_error"));

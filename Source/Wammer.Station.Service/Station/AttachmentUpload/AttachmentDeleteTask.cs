@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Wammer.Cloud;
 using Wammer.Station.Retry;
 using Waveface.Stream.Model;
@@ -15,13 +16,15 @@ namespace Wammer.Station.AttachmentUpload
 		public List<string> object_ids { get; set; }
 		public string user_id { get; set; }
 		public int retry_count { get; set; }
+		public Boolean m_NeedNotifyCloud { get; set; }
 
-		public AttachmentDeleteTask(List<string> attachments, string user_id)
+		public AttachmentDeleteTask(List<string> attachments, string user_id, Boolean needNotifyCloud)
 			: base(TaskPriority.High)
 		{
 			Name = Guid.NewGuid().ToString();
 			this.object_ids = attachments;
 			this.user_id = user_id;
+			m_NeedNotifyCloud = needNotifyCloud;
 		}
 
 		protected override void Run()
@@ -33,17 +36,25 @@ namespace Wammer.Station.AttachmentUpload
 			if (string.IsNullOrEmpty(user.session_token))
 				throw new Exception("user session expired");
 
-			var result = AttachmentApi.Delete(user.session_token, CloudServer.APIKey, object_ids);
+			var attachmentIDs = default(IEnumerable<string>);
 
-			foreach (var success_id in result.success_ids)
+			if (m_NeedNotifyCloud)
 			{
-				var attachment = AttachmentCollection.Instance.FindOneById(success_id);
+				var result = AttachmentApi.Delete(user.session_token, CloudServer.APIKey, object_ids);
+				attachmentIDs = result.success_ids;
+			}
+			else
+				attachmentIDs = this.object_ids.ToList();
+
+			foreach (var attachmentID in attachmentIDs)
+			{
+				var attachment = AttachmentCollection.Instance.FindOneById(attachmentID);
 
 				if (attachment != null)
 				{
 					var saveFileName = attachment.saved_file_name;
 
-					AttachmentCollection.Instance.Remove(Query.EQ("_id", success_id));
+					AttachmentCollection.Instance.Remove(Query.EQ("_id", attachmentID));
 
 					var fs = new FileStorage(user);
 					var originFile = fs.GetResourceFilePath(saveFileName);
@@ -60,7 +71,7 @@ namespace Wammer.Station.AttachmentUpload
 					}
 				}
 
-				object_ids.Remove(success_id);
+				object_ids.Remove(attachmentID);
 			}
 
 			if (object_ids.Count > 0)

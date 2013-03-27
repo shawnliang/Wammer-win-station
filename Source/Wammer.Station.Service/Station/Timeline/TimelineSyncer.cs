@@ -78,7 +78,7 @@ namespace Wammer.Station.Timeline
 			DB = new TimelineSyncerDB();
 		}
 
-		public bool PullTimeline(Driver user, Boolean firstSync = false)
+		public bool PullTimeline(Driver user)
 		{
 			bool hasNewEvents = false;
 			bool hasNewAttachments = false;
@@ -91,10 +91,10 @@ namespace Wammer.Station.Timeline
 
 			pullNewAttachments(user, out hasNewAttachments, syncRange.obj_next_time);
 
-			if (firstSync)
+			if (syncRange.change_log_next_seq == 0)
 			{
 				syncRange.change_log_next_seq = syncRange.post_next_seq;
-				DB.UpdateUserChangeLogNextSeq(user.user_id, syncRange.post_next_seq);
+				DB.UpdateUserChangeLogNextSeq(user.user_id, syncRange.change_log_next_seq);
 			}
 			PullChangeLog(user, syncRange.change_log_next_seq);
 
@@ -126,7 +126,7 @@ namespace Wammer.Station.Timeline
 								{
 									if (action.action == "delete")
 									{
-										OnAttachmentDelete(new AttachmentDeleteEventArgs() { attachmentIDs = action.target_id_list, user_id = user.user_id });
+										OnAttachmentDelete(new AttachmentDeleteEventArgs() { attachmentIDs = new string[] { change.target_id }, user_id = user.user_id });
 									}
 								}
 							}
