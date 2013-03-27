@@ -83,6 +83,7 @@
     <Compile Include="Src\Class\WebSocketCommandExecuter.cs" />
     <Compile Include="Src\Class\WebSocketCommand\AddCollectionAttachmentsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\Base\WebSocketCommandBase.cs" />
+    <Compile Include="Src\Class\WebSocketCommand\DeleteAttachmentsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\CreateCollectionCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetAttachmentsCommand.cs" />
     <Compile Include="Src\Class\WebSocketCommand\GetCalendarEntries.cs" />
