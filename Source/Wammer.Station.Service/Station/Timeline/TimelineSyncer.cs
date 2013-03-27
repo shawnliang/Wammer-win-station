@@ -78,7 +78,7 @@ namespace Wammer.Station.Timeline
 			DB = new TimelineSyncerDB();
 		}
 
-		public bool PullTimeline(Driver user, Boolean firstSync = false)
+		public bool PullTimeline(Driver user)
 		{
 			bool hasNewEvents = false;
 			bool hasNewAttachments = false;
