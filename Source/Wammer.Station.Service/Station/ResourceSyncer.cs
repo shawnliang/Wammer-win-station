@@ -52,7 +52,7 @@ namespace Wammer.Station
 
 		void syncer_AttachmentDelete(object sender, AttachmentDeleteEventArgs e)
 		{
-			var task = new AttachmentDeleteTask(e.attachmentIDs.ToList(), e.user_id);
+			var task = new AttachmentDeleteTask(e.attachmentIDs.ToList(), e.user_id, false);
 			AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
 		}
 

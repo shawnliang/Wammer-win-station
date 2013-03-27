@@ -126,7 +126,7 @@ namespace Wammer.Station.Timeline
 								{
 									if (action.action == "delete")
 									{
-										OnAttachmentDelete(new AttachmentDeleteEventArgs() { attachmentIDs = action.target_id_list, user_id = user.user_id });
+										OnAttachmentDelete(new AttachmentDeleteEventArgs() { attachmentIDs = new string[] { change.target_id }, user_id = user.user_id });
 									}
 								}
 							}
