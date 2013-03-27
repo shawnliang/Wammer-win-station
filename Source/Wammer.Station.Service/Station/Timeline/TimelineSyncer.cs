@@ -91,10 +91,10 @@ namespace Wammer.Station.Timeline
 
 			pullNewAttachments(user, out hasNewAttachments, syncRange.obj_next_time);
 
-			if (firstSync && syncRange.change_log_next_seq == 0)
+			if (syncRange.change_log_next_seq == 0)
 			{
 				syncRange.change_log_next_seq = syncRange.post_next_seq;
-				DB.UpdateUserChangeLogNextSeq(user.user_id, syncRange.post_next_seq);
+				DB.UpdateUserChangeLogNextSeq(user.user_id, syncRange.change_log_next_seq);
 			}
 			PullChangeLog(user, syncRange.change_log_next_seq);
 
