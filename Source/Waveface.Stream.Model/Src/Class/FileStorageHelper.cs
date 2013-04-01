@@ -29,6 +29,8 @@ namespace Waveface.Stream.Model
 		/// <returns></returns>
 		private static long DirSize(DirectoryInfo d)
 		{
+			if (!Directory.Exists(d.FullName))
+				return 0;
 			Type tp = Type.GetTypeFromProgID("Scripting.FileSystemObject");
 			object fso = Activator.CreateInstance(tp);
 			object fd = tp.InvokeMember("GetFolder", BindingFlags.InvokeMethod, null, fso, new object[] { d.FullName });
