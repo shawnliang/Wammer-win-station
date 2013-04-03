@@ -74,6 +74,7 @@ namespace Wammer.Station.Service
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<NullNamedTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<WebThumbDownloadTask>();
 			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<AttachmentDeleteTask>();
+			MongoDB.Bson.Serialization.BsonClassMap.RegisterClassMap<Wammer.Station.Import.CopyPhotoTask>();
 
 			mongoMonitor = new MongoDBMonitor(RunStation);
 		}

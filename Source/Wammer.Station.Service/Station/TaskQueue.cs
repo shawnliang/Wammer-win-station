@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Wammer.Queue;
+using Wammer.Station.Import;
 
 namespace Wammer.Station
 {
@@ -24,6 +25,7 @@ namespace Wammer.Station
 				concurrency = 1;
 
 			queue.AddThrottle(new ThumbnailThrottle(concurrency));
+			queue.AddThrottle(new CopyPhotoThrottle(1));
 			queue.Init();
 		}
 

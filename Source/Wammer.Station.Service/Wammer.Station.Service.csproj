@@ -182,10 +182,13 @@
     <Compile Include="Station\DriverController.cs" />
     <Compile Include="Station\FolderMover.cs" />
     <Compile Include="Station\FolderUtility.cs" />
+    <Compile Include="Station\Import\CopyPhotoTask.cs" />
+    <Compile Include="Station\Import\CopyPhotoThrottle.cs" />
     <Compile Include="Station\Import\FileDedupItem.cs" />
     <Compile Include="Station\Import\ImportDocTask.cs" />
     <Compile Include="Station\Import\ImportTask.cs" />
     <Compile Include="Station\Import\ImportTaskQueue.cs" />
+    <Compile Include="Station\Import\IndexPhotoOnlyTask.cs" />
     <Compile Include="Station\INamedTask.cs" />
     <Compile Include="Station\MetadataUploadEventArgs.cs" />
     <Compile Include="Station\Notify\ConnectionUpdator.cs" />
