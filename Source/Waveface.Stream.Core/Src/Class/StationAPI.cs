@@ -358,6 +358,19 @@ namespace Waveface.Stream.Core
 					});
 		}
 
+		public static string DeleteAttachments(string sessionToken, IEnumerable<string> object_ids)
+		{
+			DebugInfo.ShowMethod();
+
+			var uri = STATION_FUNC_URLBASE + @"/attachments/delete";
+
+			return Post(uri, new NameValueCollection(){
+						{ "apikey", API_KEY},
+						{ "session_token", sessionToken},
+						{ "object_ids", "["+string.Join(",", object_ids.Select(x=>"\""+x+"\"").ToArray())+"]"}
+					});
+		}
+
 		public static string CreateCollection(string sessionToken, string name, IEnumerable<string> attachmentIDs, string id = null, string coverAttachID = null, bool? isManualCreated = null, DateTime? timeStamp = null)
 		{
 			DebugInfo.ShowMethod();
