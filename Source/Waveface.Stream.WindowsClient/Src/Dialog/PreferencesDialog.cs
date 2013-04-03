@@ -358,7 +358,7 @@ namespace Waveface.Stream.WindowsClient
 				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
 				{
 					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
-					if (cloudResponse.status == 401)
+					if (cloudResponse.status == 401 || cloudResponse.api_ret_code == 8193)
 					{
 						StreamClient.Instance.Logout();
 						return false;
@@ -401,7 +401,7 @@ namespace Waveface.Stream.WindowsClient
 				using (var sr = new StreamReader(ex.Response.GetResponseStream()))
 				{
 					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
-					if (cloudResponse.status == 401)
+					if (cloudResponse.status == 401 || cloudResponse.api_ret_code == 8193)
 					{
 						StreamClient.Instance.Logout();
 						return false;
@@ -502,41 +502,47 @@ namespace Waveface.Stream.WindowsClient
 		{
 			if (this.IsDesignMode())
 				return;
+			try
+			{
 
-			pbxLogo.Image = new Icon(this.Icon, 64, 64).ToBitmap();
+				pbxLogo.Image = new Icon(this.Icon, 64, 64).ToBitmap();
 
-			tabControl1.SelectedTab = tabGeneral;
+				tabControl1.SelectedTab = tabGeneral;
 
-			errorProvider1.SetError(tbxEmail, string.Empty);
-			errorProvider1.SetError(tbxName, string.Empty);
-
-
-			checkBox1.Checked = UsbImportController.Instance.Enabled;
-			checkBox2.Checked = RecentDocumentWatcher.Instance.Enabled;
+				errorProvider1.SetError(tbxEmail, string.Empty);
+				errorProvider1.SetError(tbxName, string.Empty);
 
 
-			UpdateGeneralPage();
-			UpdateLeftPanel();
-			UpdateDeviceComboBox();
-
-			refreshStatusTimer.Start();
-
-			this.tabConnections.Controls.Clear();
-			this.tabConnections.Controls.Add(new ServiceImportControl() { Dock = DockStyle.Fill });
-
-			this.tabDevices.Controls.Clear();
-			this.tabDevices.Controls.Add(new PersonalCloudStatusControl2() { Dock = DockStyle.Fill });
-
-			Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdated += Instance_UserInfoUpdated;
-			Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdateFail += Instance_UserInfoUpdateFail;
-
-			tabControl1.SelectedIndexChanged -= InitAccountPage;
-			tabControl1.SelectedIndexChanged += InitAccountPage;
-
-			(tabDevices.Controls[0] as PersonalCloudStatusControl2).RefreshInterval = refreshStatusTimer.Interval * 3;
+				checkBox1.Checked = UsbImportController.Instance.Enabled;
+				checkBox2.Checked = RecentDocumentWatcher.Instance.Enabled;
 
 
-			refreshUserInfoAsync();
+				UpdateGeneralPage();
+				UpdateLeftPanel();
+				UpdateDeviceComboBox();
+
+				refreshStatusTimer.Start();
+
+				this.tabConnections.Controls.Clear();
+				this.tabConnections.Controls.Add(new ServiceImportControl() { Dock = DockStyle.Fill });
+
+				this.tabDevices.Controls.Clear();
+				this.tabDevices.Controls.Add(new PersonalCloudStatusControl2() { Dock = DockStyle.Fill });
+
+				Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdated += Instance_UserInfoUpdated;
+				Waveface.Stream.ClientFramework.UserInfo.Instance.UserInfoUpdateFail += Instance_UserInfoUpdateFail;
+
+				tabControl1.SelectedIndexChanged -= InitAccountPage;
+				tabControl1.SelectedIndexChanged += InitAccountPage;
+
+				(tabDevices.Controls[0] as PersonalCloudStatusControl2).RefreshInterval = refreshStatusTimer.Interval * 3;
+
+
+				refreshUserInfoAsync();
+			}
+			catch (Exception)
+			{
+			}
 		}
 
 		private void refreshUserInfoAsync()
@@ -550,8 +556,14 @@ namespace Waveface.Stream.WindowsClient
 
 			refreshBgWorker.RunWorkerCompleted += (sender, e) =>
 				{
-					var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
-					planBox1.Type = userInfo.Plan.Equals("250g", StringComparison.CurrentCultureIgnoreCase) ? PlanBox.PlanType.Plan1 : (userInfo.Plan.Equals("500g", StringComparison.CurrentCultureIgnoreCase) ? PlanBox.PlanType.Plan2 : PlanBox.PlanType.Free);
+					try
+					{
+						var userInfo = Waveface.Stream.ClientFramework.UserInfo.Instance;
+						planBox1.Type = userInfo.Plan.Equals("250g", StringComparison.CurrentCultureIgnoreCase) ? PlanBox.PlanType.Plan1 : (userInfo.Plan.Equals("500g", StringComparison.CurrentCultureIgnoreCase) ? PlanBox.PlanType.Plan2 : PlanBox.PlanType.Free);
+					}
+					catch (Exception)
+					{
+					}
 				};
 
 			refreshBgWorker.RunWorkerAsync();
@@ -625,7 +637,7 @@ namespace Waveface.Stream.WindowsClient
 				using (var sr = new StreamReader((e.Exception as WebException).Response.GetResponseStream()))
 				{
 					var cloudResponse = JSON.Instance.ToObject<CloudResponse>(sr.ReadToEnd());
-					if (cloudResponse.status == 401)
+					if (cloudResponse.status == 401 || cloudResponse.api_ret_code == 8193)
 					{
 						StreamClient.Instance.Logout();
 					}
