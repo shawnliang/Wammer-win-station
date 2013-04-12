@@ -178,5 +178,23 @@ namespace Wammer.Utility
 					(int)AttachmentApiError.InvalidImage, e);
 			}
 		}
+
+		public static Size GetImageSize(Stream imageStream)
+		{
+			DebugInfo.ShowMethod();
+
+			try
+			{
+					var decoder = BitmapDecoder.Create(imageStream, BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
+					var frame = decoder.Frames[0];
+
+					return new Size(frame.PixelWidth, frame.PixelHeight);
+			}
+			catch (Exception e)
+			{
+				throw new Wammer.Station.WammerStationException("Seems the attachment is not a valid image",
+					(int)AttachmentApiError.InvalidImage, e);
+			}
+		}
 	}
 }

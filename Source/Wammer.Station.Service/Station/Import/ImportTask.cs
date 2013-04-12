@@ -10,6 +10,7 @@ using Wammer.Station.AttachmentUpload;
 using Wammer.Utility;
 using Waveface.Stream.Core;
 using Waveface.Stream.Model;
+using Wammer.Station.Import;
 namespace Wammer.Station
 {
 	public class ImportTask : ITask
@@ -54,7 +55,6 @@ namespace Wammer.Station
 		private SearchOption m_searchOption { get; set; }
 
 		private int timezoneDiff;
-		private List<ObjectIdAndPath> allSavedFiles = new List<ObjectIdAndPath>();
 		private List<ObjectIdAndPath> allFailedFiles = new List<ObjectIdAndPath>();
 		#endregion
 
@@ -103,81 +103,59 @@ namespace Wammer.Station
 
 				var importTime = DateTime.Now;
 
+
+				// Scan all photo
 				var photoCrawler = new PhotoCrawler();
 				var inputFiles = Paths.Where(file => Path.GetExtension(file).Length > 0);
 				var allFiles = photoCrawler.FindPhotos(Paths, photoCrawlerError, m_searchOption).Select(file => new ObjectIdAndPath { file_path = file, object_id = Guid.NewGuid().ToString() }).ToList();
-
 				raiseFilesEnumeratedEvent(allFiles.Count);
 
-				// index files, generate metadata
-				var allMeta = indexFiles(allFiles, user);
+
+				// de-dup
+				allFiles = dedup(allFiles);
+				allFiles.Sort((x, y) => { return File.GetLastWriteTime(y.file_path).CompareTo(File.GetLastWriteTime(x.file_path)); });
+
+
+				// extract metadata, send to cloud by batch
+				var unsentMeta = new List<FileMetadata>();
+				var allMeta = new List<FileMetadata>();
+				foreach (var file in allFiles)
+				{
+					var fileMeta = extractMetadata(file);
+
+					if (m_CopyToStation)
+						enqueueCopyPhotoTask(fileMeta, user);
+					else
+						enqueueIndexPhotoOnlyTask(fileMeta, user);
+
+
+					unsentMeta.Add(fileMeta);
+					allMeta.Add(fileMeta);
+					if (unsentMeta.Count == 50)
+					{
+						enqueueUploadMetadataTask(unsentMeta);
+						createPostContainer(importTime, Guid.NewGuid().ToString(), unsentMeta.Select(x => x.object_id));
+
+						unsentMeta.Clear();
+					}
+				}
+
+
+				if (unsentMeta.Count > 0)
+				{
+					enqueueUploadMetadataTask(unsentMeta);
+					createPostContainer(importTime, Guid.NewGuid().ToString(), unsentMeta.Select(x => x.object_id));
+				}
 
 
 				// build collections
 				var folderCollections = FolderCollection.Build(allMeta.Where(meta => !inputFiles.Contains(meta.file_path)).Cast<ObjectIdAndPath>());
-				(new CreateFolderCollectionTask(folderCollections, m_GroupID)).Execute();
-
-				var coverObjectIDs = folderCollections.Values.Select(item => item.Objects.FirstOrDefault());
-
-				if (m_CopyToStation)
-				{
-					var coverMetas = allMeta.Where(meta => coverObjectIDs.Contains(meta.object_id)).ToList();
-					var nonCoverMetas = allMeta.Except(coverMetas).ToList();
-
-					copyFilesToAostream(importTime, coverMetas);
-					copyFilesToAostream(importTime, nonCoverMetas);
-
-					handleCopyFailedFiles(allFailedFiles, user);
-				}
-				else
-				{
-					foreach (var file in allMeta)
-					{
-						var attDoc = new Attachment
-						{
-							creator_id = user.user_id,
-							device_id = StationRegistry.StationId,
-							event_time = file.EventTime,
-							file_create_time = file.file_create_time,
-							file_modify_time = File.GetLastWriteTime(file.file_path),
-							file_name = file.file_name,
-							file_path = file.file_path,
-							file_size = file.file_size,
-							fromLocal = true,
-							group_id = m_GroupID,
-							image_meta = new ImageProperty { exif = file.exif },
-							mime_type = MimeTypeHelper.GetMIMEType(file.file_name),
-							MD5 = MD5Helper.ComputeMD5(File.ReadAllBytes(file.file_path)),
-							modify_time = DateTime.Now,
-							object_id = file.object_id,
-							timezone = file.timezone,
-							type = AttachmentType.image,
-							IndexOnly = true
-						};
-						AttachmentCollection.Instance.Save(attDoc);
-
-						raiseFileImportedEvent(file);
-
-						if (user.isPaidUser)
-						{
-							var backupTask = new UpstreamTask(file.object_id, ImageMeta.Origin, TaskPriority.VeryLow, TaskId);
-							AttachmentUpload.AttachmentUploadQueueHelper.Instance.Enqueue(backupTask, TaskPriority.VeryLow);
-
-							var medium = new MakeThumbnailTask(file.object_id, ImageMeta.Medium, TaskPriority.Medium, TaskId);
-							TaskQueue.Enqueue(medium, medium.Priority, true);
-						}
-						else
-						{
-							var medium = new MakeThumbnailAndUpstreamTask(file.object_id, ImageMeta.Medium, TaskPriority.Medium, TaskId);
-							TaskQueue.Enqueue(medium, medium.Priority, true);
-						}
+				TaskQueue.Enqueue(new CreateFolderCollectionTask(folderCollections, m_GroupID), TaskPriority.Medium, true);
 
 
-						var small = new MakeThumbnailTask(file.object_id, ImageMeta.Small, TaskPriority.Medium, TaskId);
-						TaskQueue.Enqueue(small, small.Priority, true);
-
-					}
-				}
+				// escalate cover photos to high priority upload queue
+				var coverPhotos = folderCollections.Values.Select(col => col.Objects.FirstOrDefault());
+				// TODO: escalate...
 			}
 			catch (Exception e)
 			{
@@ -190,76 +168,36 @@ namespace Wammer.Station
 			}
 		}
 
-		private void handleCopyFailedFiles(List<ObjectIdAndPath> allFailedFiles, Driver user)
+		private void enqueueIndexPhotoOnlyTask(FileMetadata fileMeta, Driver user)
 		{
-			if (allFailedFiles.Count > 0)
-			{
-				enqueueDeleteAttachmentTask(allFailedFiles, user);
+			var task = new IndexPhotoOnlyTask(fileMeta, user.user_id, TaskId);
+			TaskQueue.Enqueue(task, TaskPriority.Medium, true);
+		}
 
-				foreach (var file in allFailedFiles)
-				{
-					AttachmentCollection.Instance.Remove(Query.EQ("_id", file.object_id));
-				}
+		private void enqueueCopyPhotoTask(FileMetadata fileMeta, Driver user)
+		{
+			var task = new CopyPhotoTask(fileMeta, user.user_id, TaskId);
+			TaskQueue.Enqueue(task, TaskPriority.Medium, true);
+		}
+
+		private List<ObjectIdAndPath> dedup(List<ObjectIdAndPath> allFiles)
+		{
+			var dedupResult = new HashSet<FileDedupItem>();
+
+			foreach (var file in allFiles)
+			{
+				var item = new FileDedupItem(file);
+
+				if (hasDupItemInDB(file) || dedupResult.Contains(item))
+					raiseFileSkippedEvent(file);
+				else
+					dedupResult.Add(item);
 			}
+
+			return dedupResult.Select(x => x.file).ToList();
 		}
 
-		private void copyFilesToAostream(DateTime importTime, List<FileMetadata> allMeta)
-		{
-			int nProc = 0;
-			do
-			{
-				var batch = allMeta.Skip(nProc).Take(50);
-				var saved = submitBatch(importTime, batch, ref allFailedFiles);
-
-				allSavedFiles.AddRange(saved);
-
-				nProc += batch.Count();
-
-			} while (nProc < allMeta.Count);
-		}
-
-		private List<FileMetadata> indexFiles(List<ObjectIdAndPath> allFiles, Driver user)
-		{
-			var metadataSubmitted = new List<ObjectIdAndPath>();
-
-			try
-			{
-				var allIndexed = new HashSet<FileMetadata>();
-				var nIndexed = 0;
-				do
-				{
-					var batch = allFiles.Skip(nIndexed).Take(50);
-					var metadata = extractMetadata(batch, allIndexed);
-
-					enqueueUploadMetadataTask(metadata);
-					metadataSubmitted.AddRange(batch);
-					nIndexed += batch.Count();
-
-				} while (nIndexed < allFiles.Count);
-
-
-				if (allIndexed.Count == 0)
-					throw new Exception("No file needs to import");
-
-				var allMeta = allIndexed.ToList();
-				allMeta.Sort((x, y) => y.EventTime.CompareTo(x.EventTime));
-				return allMeta;
-			}
-			catch
-			{
-				enqueueDeleteAttachmentTask(metadataSubmitted, user);
-				throw;
-			}
-		}
-
-		private void enqueueDeleteAttachmentTask(List<ObjectIdAndPath> metadataSubmitted, Driver user)
-		{
-			var task = new AttachmentDeleteTask(metadataSubmitted.Select(x => x.object_id).ToList(), user.user_id, true);
-			AttachmentUploadQueueHelper.Instance.Enqueue(task, TaskPriority.High);
-		}
-
-
-		private bool hasDupItemInDB(FileMetadata item)
+		private bool hasDupItemInDB(ObjectIdAndPath item)
 		{
 			var sameSizeFiles = AttachmentCollection.Instance.Find(
 							Query.And(
@@ -269,7 +207,8 @@ namespace Wammer.Station
 			bool hasDup = false;
 			foreach (var sameSizeFile in sameSizeFiles)
 			{
-				if (sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
+				if (!string.IsNullOrEmpty(sameSizeFile.file_name) &&
+					sameSizeFile.file_name.Equals(Path.GetFileName(item.file_path), StringComparison.InvariantCultureIgnoreCase))
 				{
 					hasDup = true;
 					break;
@@ -278,31 +217,6 @@ namespace Wammer.Station
 			return hasDup;
 		}
 
-		private List<ObjectIdAndPath> submitBatch(DateTime importTime, IEnumerable<FileMetadata> batch, ref List<ObjectIdAndPath> failed)
-		{
-			List<ObjectIdAndPath> saved = new List<ObjectIdAndPath>();
-
-			var post_id = Guid.NewGuid().ToString();
-			foreach (var file in batch)
-			{
-				try
-				{
-					saveToStream(importTime, post_id, file);
-					saved.Add(file);
-				}
-				catch (Exception e)
-				{
-					file.Error = e.Message;
-					failed.Add(file);
-					raiseFileImportFailedEvent(file);
-				}
-			}
-
-			var objectIDs = saved.Select(x => x.object_id);
-			createPostContainer(importTime, post_id, objectIDs);
-
-			return saved;
-		}
 		#endregion
 
 		#region Private Method
@@ -329,79 +243,22 @@ namespace Wammer.Station
 			PostUploadTaskController.Instance.AddPostUploadAction(postID, PostUploadActionType.NewPost, parameters, importTime, importTime);
 		}
 
-		private void saveToStream(DateTime importTime, string postID, FileMetadata file)
-		{
-			long begin = Stopwatch.GetTimestamp();
-
-			var imp = new AttachmentUploadHandlerImp(
-				new AttachmentUploadHandlerDB(),
-				new AttachmentUploadStorage(new AttachmentUploadStorageDB()));
-
-			var postProcess = new AttachmentProcessedHandler(new AttachmentUtility(TaskId));
-
-			imp.AttachmentProcessed += postProcess.OnProcessed;
-
-
-			var uploadData = new UploadData()
-			{
-				object_id = file.object_id,
-				raw_data = new ArraySegment<byte>(File.ReadAllBytes(file.file_path)),
-				file_name = Path.GetFileName(file.file_path),
-				mime_type = MimeTypeHelper.GetMIMEType(file.file_path),
-				group_id = m_GroupID,
-				api_key = m_APIKey,
-				session_token = m_SessionToken,
-				file_path = file.file_path,
-				import_time = importTime,
-				file_create_time = file.file_create_time,
-				type = AttachmentType.image,
-				imageMeta = ImageMeta.Origin,
-				fromLocal = true,
-				timezone = timezoneDiff,
-				exif = file.exif.ToFastJSON()
-			};
-			imp.Process(uploadData);
-
-			SystemEventSubscriber.Instance.TriggerAttachmentArrivedEvent(file.object_id);
-
-			long end = Stopwatch.GetTimestamp();
-			long duration = end - begin;
-			if (duration < 0)
-				duration += long.MaxValue;
-
-			Wammer.PerfMonitor.UploadDownloadMonitor.Instance.OnAttachmentProcessed(this, new HttpHandlerEventArgs(duration));
-			raiseFileImportedEvent(file);
-		}
-
-		private List<FileMetadata> extractMetadata(IEnumerable<ObjectIdAndPath> files, HashSet<FileMetadata> indexedFiles)
+		private FileMetadata extractMetadata(ObjectIdAndPath file)
 		{
 			var exifExtractor = new ExifExtractor();
-			var batch = new List<FileMetadata>();
-
-			foreach (var file in files)
+			var meta = new FileMetadata
 			{
-				var meta = new FileMetadata
-				{
-					object_id = file.object_id,
-					type = "image",
-					file_path = file.file_path,
-					file_name = Path.GetFileName(file.file_path),
-					file_create_time = file.CreateTime,
-					timezone = timezoneDiff,
-					exif = exifExtractor.extract(file.file_path)
-				};
+				object_id = file.object_id,
+				type = "image",
+				file_path = file.file_path,
+				file_name = Path.GetFileName(file.file_path),
+				file_create_time = file.CreateTime,
+				timezone = timezoneDiff,
+				exif = exifExtractor.extract(file.file_path)
+			};
 
-				if (hasDupItemInDB(meta) || indexedFiles.Contains(meta))
-					raiseFileSkippedEvent(file);
-				else
-				{
-					indexedFiles.Add(meta);
-					batch.Add(meta);
-					raiseFileIndexedEvent(file);
-				}
-			}
-
-			return batch;
+			raiseFileIndexedEvent(file);
+			return meta;
 		}
 
 		private void enqueueUploadMetadataTask(IEnumerable<FileMetadata> batch)
@@ -418,13 +275,6 @@ namespace Wammer.Station
 			{
 				this.LogWarnMsg("metadata upload failed", e);
 			}
-		}
-
-		private void raiseFileImportedEvent(ObjectIdAndPath file)
-		{
-			var handler = FileImported;
-			if (handler != null)
-				handler(this, new FileImportEventArgs { file = file, TaskId = TaskId });
 		}
 
 		private void raiseImportDoneEvent(Exception e)
@@ -445,13 +295,6 @@ namespace Wammer.Station
 			EventHandler<FilesEnumeratedArgs> handler = FilesEnumerated;
 			if (handler != null)
 				handler(this, new FilesEnumeratedArgs { TotalCount = count, TaskId = TaskId });
-		}
-
-		private void raiseFileImportFailedEvent(ObjectIdAndPath file)
-		{
-			EventHandler<FileImportEventArgs> handler = FileImportFailed;
-			if (handler != null)
-				handler(this, new FileImportEventArgs { file = file, TaskId = TaskId });
 		}
 
 		private void raiseFileIndexedEvent(ObjectIdAndPath file)
@@ -511,19 +354,6 @@ namespace Wammer.Station
 		public exif exif { get; set; }
 
 		private DateTime? _event_time;
-		private long _file_size = -1;
-
-		[JsonIgnore]
-		public long file_size
-		{
-			get
-			{
-				if (_file_size < 0)
-					_file_size = new FileInfo(file_path).Length;
-
-				return _file_size;
-			}
-		}
 
 		[JsonIgnore]
 		public DateTime EventTime
@@ -535,24 +365,6 @@ namespace Wammer.Station
 
 				return _event_time.Value;
 			}
-		}
-
-		public override int GetHashCode()
-		{
-			return file_name.GetHashCode() + (int)file_size;
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (obj == null)
-				return false;
-
-			var meta = obj as FileMetadata;
-
-			if(meta ==null)
-				return false;
-
-			return file_size == meta.file_size && file_name.Equals(meta.file_name);
 		}
 
 		private DateTime computeEventTime()

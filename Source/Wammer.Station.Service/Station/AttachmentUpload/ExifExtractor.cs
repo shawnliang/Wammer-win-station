@@ -36,17 +36,17 @@ namespace Wammer.Station.AttachmentUpload
 				!extension.Equals(".jpeg", StringComparison.InvariantCultureIgnoreCase))
 				return null;
 
-			try
+			using (var m = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 			{
-				using (var m = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+				try
 				{
 					return extract(m);
 				}
-			}
-			catch (Exception e)
-			{
-				this.LogWarnMsg("Cannot extract exif information: " + file, e);
-				return null;
+				catch (Exception e)
+				{
+					this.LogWarnMsg("Cannot extract exif information: " + file, e);
+					return null;
+				}
 			}
 		}
 
